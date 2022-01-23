@@ -1,0 +1,33 @@
+package org.toxsoft.tsgui.m5_3.model;
+
+import org.toxsoft.tsgui.m5_3.IM5FieldDef;
+import org.toxsoft.tslib.av.EAtomicType;
+import org.toxsoft.tslib.av.IAtomicValue;
+import org.toxsoft.tslib.av.metainfo.IDataType;
+
+/**
+ * Attribute field definition.
+ * <p>
+ * Attribute is simply a field with value type {@link IAtomicValue}.
+ *
+ * @author hazard157
+ * @param <T> - modelled entity type
+ */
+public interface IM5AttributeFieldDef<T>
+    extends IM5FieldDef<T, IAtomicValue>, IDataType {
+
+  /**
+   * Returns the atomic type of the attribute.
+   *
+   * @return {@link EAtomicType} - atomic type
+   */
+  @Override
+  EAtomicType atomicType();
+
+  /**
+   * For attribute fields never returns <code>null</code>, but {@link IAtomicValue#NULL} instead.
+   */
+  @Override
+  IAtomicValue defaultValue();
+
+}

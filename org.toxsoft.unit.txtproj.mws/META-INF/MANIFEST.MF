@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: TS Unit: Txtproj - MWS module
+Bundle-SymbolicName: org.toxsoft.unit.txtproj.mws
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.toxsoft.unit.txtproj.mws.Activator
+Bundle-Vendor: toxsoft.org
+Require-Bundle: javax.annotation,
+ javax.inject,
+ org.eclipse.core.runtime,
+ org.eclipse.ui,
+ org.eclipse.e4.core.contexts,
+ org.eclipse.e4.core.di,
+ org.eclipse.e4.ui.model.workbench,
+ org.eclipse.e4.ui.workbench,
+ org.eclipse.pde.ds.lib,
+ org.toxsoft.tslib,
+ org.toxsoft.singlesrc.rcp,
+ org.toxsoft.tsgui,
+ org.toxsoft.tsgui.mws,
+ org.toxsoft.unit.txtproj.core,
+ org.toxsoft.unit.txtproj.gui
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Automatic-Module-Name: org.toxsoft.unit.txtproj.mws
+Bundle-ActivationPolicy: lazy
+Export-Package: org.toxsoft.unit.txtproj.mws

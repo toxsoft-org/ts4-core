@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: TS Unit: Txtproj - textual project file core library
+Bundle-SymbolicName: org.toxsoft.unit.txtproj.core
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: toxsoft.org
+Require-Bundle: javax.annotation,
+ javax.inject,
+ org.eclipse.core.runtime,
+ org.toxsoft.tslib
+Automatic-Module-Name: org.toxsoft.unit.txtproj.core
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Export-Package: org.toxsoft.unit.txtproj.core,
+ org.toxsoft.unit.txtproj.core.bound,
+ org.toxsoft.unit.txtproj.core.categs,
+ org.toxsoft.unit.txtproj.core.categs.impl,
+ org.toxsoft.unit.txtproj.core.categs.pdu,
+ org.toxsoft.unit.txtproj.core.impl,
+ org.toxsoft.unit.txtproj.core.sinent,
+ org.toxsoft.unit.txtproj.core.storage,
+ org.toxsoft.unit.txtproj.core.stripar,
+ org.toxsoft.unit.txtproj.core.tdfile
