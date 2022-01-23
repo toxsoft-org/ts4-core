@@ -72,18 +72,14 @@ public class AvUtils {
   /**
    * External comparator using {@link IAtomicValue#compareTo(IAtomicValue)} comparison.
    */
-  public static final Comparator<IAtomicValue> DEFAULT_AV_COMPARATOR = new Comparator<>() {
-
-    @Override
-    public int compare( IAtomicValue aO1, IAtomicValue aO2 ) {
-      if( aO1 == null || aO2 == null ) {
-        throw new NullPointerException();
-      }
-      if( aO1 == aO2 ) {
-        return 0;
-      }
-      return aO1.compareTo( aO2 );
+  public static final Comparator<IAtomicValue> DEFAULT_AV_COMPARATOR = ( aO1, aO2 ) -> {
+    if( aO1 == null || aO2 == null ) {
+      throw new NullPointerException();
     }
+    if( aO1 == aO2 ) {
+      return 0;
+    }
+    return aO1.compareTo( aO2 );
   };
 
   // ------------------------------------------------------------------------------------
@@ -375,7 +371,7 @@ public class AvUtils {
   }
 
   /**
-   * Returns atomic value of type {@link EAtomicType#STRING}.
+   * Returns atomic value of type {@link EAtomicType#VALOBJ}.
    * <p>
    * For <code>null</code> returns constant {@link #AV_VALOBJ_NULL}.
    *
@@ -388,6 +384,28 @@ public class AvUtils {
       return AV_VALOBJ_NULL;
     }
     return new AvValobjImpl( aValobj );
+  }
+
+  /**
+   * Creates {@link IAtomicValue} of {@link EAtomicType#VALOBJ}.
+   * <p>
+   * This method may be used when keeper is not registered yet. For example, when initializing defult values of
+   * <code>static final</code> constants before keeper registration.
+   *
+   * @param <T> - type of value-object
+   * @param aValobj &lt;T&gt; - value-object, must not be <code>null</code>
+   * @param aKeeper {@link IEntityKeeper}&lt;T&gt; - the keeper
+   * @param aKeeperId String - the keeper ID
+   * @return {@link IAtomicValue} - atomic value holding argument value
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static <T> IAtomicValue avValobj( T aValobj, IEntityKeeper<T> aKeeper, String aKeeperId ) {
+    TsNullArgumentRtException.checkNulls( aValobj, aKeeper, aKeeperId );
+    String textInBrace = aKeeper.ent2str( aValobj );
+    if( !aKeeper.isEnclosed() ) {
+      textInBrace = '{' + textInBrace + '}';
+    }
+    return new AvValobjImpl( aKeeperId, textInBrace );
   }
 
   // ------------------------------------------------------------------------------------
