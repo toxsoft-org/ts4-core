@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+
+   <extension
+         id="org.toxsoft.unit.txtproj.mws.fragment"
+         point="org.eclipse.e4.workbench.model">
+      <fragment
+            uri="fragment.e4xmi"
+            apply="always">
+      </fragment>
+      <processor
+            apply="initial"
+            beforefragment="false"
+            class="org.toxsoft.unit.txtproj.mws.e4.processors.ProcessorUnitTxtprojMws">
+      </processor>
+   </extension>
+
+</plugin>

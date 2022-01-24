@@ -313,7 +313,7 @@ public abstract class AbstractOptionsGetter
 
   @Override
   public String getStr( IDataDef aOpId ) {
-    IAtomicValue av = internalFindAs( aOpId, EAtomicType.INTEGER );
+    IAtomicValue av = internalFindAs( aOpId, EAtomicType.STRING );
     if( av == null ) {
       return aOpId.defaultValue().asString();
     }

@@ -3,22 +3,23 @@ package org.toxsoft.unit.txtproj.mws;
 import static org.toxsoft.tslib.av.EAtomicType.*;
 import static org.toxsoft.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.tslib.av.metainfo.IAvMetaConstants.*;
-import static org.toxsoft.unit.txtproj.core.IUnitTxtprojCoreConstants.*;
-import static org.toxsoft.unit.txtproj.mws.ITsResources.*;
+import static org.toxsoft.unit.txtproj.mws.IUnitTxtprojMwsResources.*;
 
 import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.toxsoft.tsgui.graphics.icons.EIconSize;
 import org.toxsoft.tsgui.graphics.icons.ITsIconManager;
-import org.toxsoft.tsgui.graphics.image.EThumbSize;
+import org.toxsoft.tsgui.mws.osgi.IMwsOsgiService;
+import org.toxsoft.tslib.av.IAtomicValue;
+import org.toxsoft.tslib.av.impl.AvUtils;
 import org.toxsoft.tslib.av.impl.DataDef;
 import org.toxsoft.tslib.av.metainfo.IDataDef;
-import org.toxsoft.tslib.coll.IList;
-import org.toxsoft.tslib.coll.impl.ElemArrayList;
+import org.toxsoft.tslib.utils.progargs.ProgramArgs;
+import org.toxsoft.unit.txtproj.core.impl.TsProjectFileFormatInfo;
+import org.toxsoft.unit.txtproj.core.impl.TsProjectFileFormatInfoKeeper;
 
 /**
- * Константы GUI приложения.
+ * Plugin constants.
  *
- * @author goga
+ * @author hazard157
  */
 @SuppressWarnings( "javadoc" )
 public interface IUnitTxtprojMwsConstants {
@@ -26,9 +27,13 @@ public interface IUnitTxtprojMwsConstants {
   // ------------------------------------------------------------------------------------
   // e4
 
-  String TOOLBARID_TXTPROJ  = "org.toxsoft.unit.txtproj.toolbar.main";  //$NON-NLS-1$
-  String MENUID_TXTPROJ     = "org.toxsoft.unit.txtproj.menu.main";     //$NON-NLS-1$
-  String CMDCATEGID_TXTPROJ = "org.toxsoft.unit.txtproj.cmdcateg.main"; //$NON-NLS-1$
+  String TOOLBARID_TXTPROJ     = "org.toxsoft.unit.txtproj.toolbar";             //$NON-NLS-1$
+  String MENUID_TXTPROJ        = "org.toxsoft.unit.txtproj.menu";                //$NON-NLS-1$
+  String CMDCATEGID_TXTPROJ    = "org.toxsoft.unit.txtproj.cmdcateg";            //$NON-NLS-1$
+  String CMDID_PROJECT_NEW     = "org.toxsoft.unit.txtproj.cmd.project_new";     //$NON-NLS-1$
+  String CMDID_PROJECT_OPEN    = "org.toxsoft.unit.txtproj.cmd.project_open";    //$NON-NLS-1$
+  String CMDID_PROJECT_SAVE    = "org.toxsoft.unit.txtproj.cmd.project_save";    //$NON-NLS-1$
+  String CMDID_PROJECT_SAVE_AS = "org.toxsoft.unit.txtproj.cmd.project_save_as"; //$NON-NLS-1$
 
   // ------------------------------------------------------------------------------------
   // Icons
@@ -36,74 +41,102 @@ public interface IUnitTxtprojMwsConstants {
   // String ICON_WELCOME_01 = "welcome-01"; //$NON-NLS-1$
 
   // ------------------------------------------------------------------------------------
-  // Preferences
+  // Command line args
+  // Command line may be specified in application starting script or at manual start
 
-  String PREF_BUNDLE_ID_WELCOME = TXTPROJ_ID;
+  /**
+   * Command line argument to specify path to the project file to be loaded at application startup.<br>
+   * Argument follows simple command line rules as described in {@link ProgramArgs}.
+   */
+  String CMDLINE_ARG_PROJ_PATH = "tsproject"; //$NON-NLS-1$
 
-  String APPRMID_IS_BACKUPS_CREATED = "IsBackupsCreated"; //$NON-NLS-1$
-  String APPRMID_BACKUP_SUBDIR_NAME = "BackupSubdirName"; //$NON-NLS-1$
+  // ------------------------------------------------------------------------------------
+  // Unit config
+  // Unit config option values must be set as MWS context parameters in application EXE plugin's Activator.doStart()
 
-  String APPRMID_THUMB_SIZE_FILMS     = "FilmsThumbSize";    //$NON-NLS-1$
-  String APPRMID_THUMB_SIZE_PLEPS     = "PlepsThumbSize";    //$NON-NLS-1$
-  String APPRMID_ICON_SIZE_GAMES      = "GamesThumbSize";    //$NON-NLS-1$
-  String APPRMID_PLAY_FULL_SCREEN     = "PlayFullScreen";    //$NON-NLS-1$
-  String APPRMID_IS_STARTUP_GIF_SHOWN = "IsStartupGifShown"; //$NON-NLS-1$
+  /**
+   * Default project file format info.
+   */
+  TsProjectFileFormatInfo DEFAULT_PROJECT_FILE_FORMAT_INFO =
+      new TsProjectFileFormatInfo( "org.toxsoft.tsproject.generic", 1 ); //$NON-NLS-1$
 
-  IDataDef APPRM_THUMB_SIZE_EPISODES = DataDef.create( APPRMID_IS_BACKUPS_CREATED, VALOBJ, //
-      TSID_NAME, STR_N_THUMB_SIZE_EPISODES, //
-      TSID_DESCRIPTION, STR_D_THUMB_SIZE_EPISODES, //
-      TSID_KEEPER_ID, EThumbSize.KEEPER_ID, //
-      TSID_DEFAULT_VALUE, avValobj( EThumbSize.SZ128 ) //
+  /**
+   * Default project file format info as atomic value.
+   */
+  IAtomicValue DEFAULT_PROJECT_FILE_FORMAT_INFO_AV = AvUtils.avValobj( DEFAULT_PROJECT_FILE_FORMAT_INFO, //
+      TsProjectFileFormatInfoKeeper.KEEPER, TsProjectFileFormatInfoKeeper.KEEPER_ID );
+
+  /**
+   * Project file format info. <br>
+   * Default value: {@link #DEFAULT_PROJECT_FILE_FORMAT_INFO}<br>
+   * This is option for MWS context {@link IMwsOsgiService#mwsContext()} parameters.
+   */
+  IDataDef OPDEF_PROJECT_FILE_FORMAT_INFO = DataDef.create( "org.toxsoft.unit.txtproj.ProFileFormatInfo", VALOBJ, //$NON-NLS-1$
+      TSID_NAME, STR_N_PROJECT_FILE_FORMAT_INFO, //
+      TSID_DESCRIPTION, STR_D_PROJECT_FILE_FORMAT_INFO, //
+      TSID_DEFAULT_VALUE, DEFAULT_PROJECT_FILE_FORMAT_INFO_AV, //
+      TSID_KEEPER_ID, TsProjectFileFormatInfoKeeper.KEEPER_ID //
   );
 
-  IDataDef APPRM_THUMB_SIZE_FILMS = DataDef.create( APPRMID_THUMB_SIZE_FILMS, VALOBJ, //
-      TSID_NAME, STR_N_THUMB_SIZE_FILMS, //
-      TSID_DESCRIPTION, STR_D_THUMB_SIZE_FILMS, //
-      TSID_KEEPER_ID, EThumbSize.KEEPER_ID, //
-      TSID_DEFAULT_VALUE, avValobj( EThumbSize.SZ128 ) //
+  /**
+   * Show project commands (new, open, save, save as) in application main menu.<br>
+   * Default value: <code>true</code><br>
+   * This is option for MWS context {@link IMwsOsgiService#mwsContext()} parameters.
+   */
+  IDataDef OPDEF_SHOW_CMD_IN_MENU = DataDef.create( "org.toxsoft.unit.txtproj.ShowCmdInMenu", BOOLEAN, //$NON-NLS-1$
+      TSID_NAME, STR_N_SHOW_CMD_IN_MENU, //
+      TSID_DESCRIPTION, STR_D_SHOW_CMD_IN_MENU, //
+      TSID_DEFAULT_VALUE, AV_TRUE //
   );
 
-  IDataDef APPRM_THUMB_SIZE_PLEPS = DataDef.create( APPRMID_THUMB_SIZE_PLEPS, VALOBJ, //
-      TSID_NAME, STR_N_THUMB_SIZE_PLEPS, //
-      TSID_DESCRIPTION, STR_D_THUMB_SIZE_PLEPS, //
-      TSID_KEEPER_ID, EThumbSize.KEEPER_ID, //
-      TSID_DEFAULT_VALUE, avValobj( EThumbSize.SZ128 ) //
+  /**
+   * Show project commands (new, open, save, save as) in toolbar {@link #TOOLBARID_TXTPROJ}.<br>
+   * Default value: <code>true</code><br>
+   * This is option for MWS context {@link IMwsOsgiService#mwsContext()} parameters.
+   */
+  IDataDef OPDEF_SHOW_CMD_IN_TOOLBAR = DataDef.create( "org.toxsoft.unit.txtproj.ShowCmdInToolbar", BOOLEAN, //$NON-NLS-1$
+      TSID_NAME, STR_N_SHOW_CMD_IN_TOOLBAR, //
+      TSID_DESCRIPTION, STR_D_SHOW_CMD_IN_TOOLBAR, //
+      TSID_DEFAULT_VALUE, AV_TRUE //
   );
 
-  IDataDef APPRM_ICON_SIZE_GAMES = DataDef.create( APPRMID_ICON_SIZE_GAMES, VALOBJ, //
-      TSID_NAME, STR_N_ICON_SIZE_GAMES, //
-      TSID_DESCRIPTION, STR_D_ICON_SIZE_GAMES, //
-      TSID_KEEPER_ID, EIconSize.KEEPER_ID, //
-      TSID_DEFAULT_VALUE, avValobj( EIconSize.IS_64X64 ) //
+  /**
+   * Place project commands in "File" menu, not in separate menu {@link #MENUID_TXTPROJ}.<br>
+   * Default value: <code>true</code><br>
+   * This is option for MWS context {@link IMwsOsgiService#mwsContext()} parameters.
+   */
+  IDataDef OPDEF_ALWAYS_USE_FILE_MENU = DataDef.create( "org.toxsoft.unit.txtproj.AlwaysUseFileMenu", BOOLEAN, //$NON-NLS-1$
+      TSID_NAME, STR_N_ALWAYS_USE_FILE_MENU, //
+      TSID_DESCRIPTION, STR_D_ALWAYS_USE_FILE_MENU, //
+      TSID_DEFAULT_VALUE, AV_TRUE //
   );
 
-  IDataDef APPRM_PLAY_FULL_SCREEN = DataDef.create( APPRMID_PLAY_FULL_SCREEN, BOOLEAN, //
-      TSID_NAME, STR_N_PLAY_FULL_SCREEN, //
-      TSID_DESCRIPTION, STR_D_PLAY_FULL_SCREEN, //
+  /**
+   * Load project from file (if specified) when plugin intes, not after all plugins initialization. <br>
+   * Default value: <code>false</code><br>
+   * This is option for MWS context {@link IMwsOsgiService#mwsContext()} parameters.
+   */
+  IDataDef OPDEF_IMMEDIATE_LOAD_PROJ = DataDef.create( "org.toxsoft.unit.txtproj.ImmediateLoadProject", BOOLEAN, //$NON-NLS-1$
+      TSID_NAME, STR_N_IMMEDIATE_LOAD_PROJ, //
+      TSID_DESCRIPTION, STR_D_IMMEDIATE_LOAD_PROJ, //
       TSID_DEFAULT_VALUE, AV_FALSE //
   );
 
-  IDataDef APPRM_IS_STARTUP_GIF_SHOWN = DataDef.create( APPRMID_IS_STARTUP_GIF_SHOWN, //
-      BOOLEAN, //
-      TSID_DEFAULT_VALUE, AV_TRUE, //
-      TSID_NAME, STR_N_IS_STARTUP_GIF_SHOWN, //
-      TSID_DESCRIPTION, STR_D_IS_STARTUP_GIF_SHOWN //
-  );
-
-  IList<IDataDef> ALL_APPRMS = new ElemArrayList<>( //
-      APPRM_THUMB_SIZE_EPISODES, //
-      APPRM_THUMB_SIZE_FILMS, //
-      APPRM_THUMB_SIZE_PLEPS, //
-      APPRM_ICON_SIZE_GAMES, //
-      APPRM_PLAY_FULL_SCREEN, //
-      APPRM_IS_STARTUP_GIF_SHOWN //
+  /**
+   * Determines if windows title will containt loaded project file and application names. <br>
+   * Default value: <code>true</code><br>
+   * This is option for MWS context {@link IMwsOsgiService#mwsContext()} parameters.
+   */
+  IDataDef OPDEF_IS_WINDOWS_TITLE_BOUND = DataDef.create( "org.toxsoft.unit.txtproj.IsWindowsTitleBound", BOOLEAN, //$NON-NLS-1$
+      TSID_NAME, STR_N_IS_WINDOWS_TITLE_BOUND, //
+      TSID_DESCRIPTION, STR_D_IS_WINDOWS_TITLE_BOUND, //
+      TSID_DEFAULT_VALUE, AV_TRUE //
   );
 
   static void init( IEclipseContext aWinContext ) {
     // icons
     ITsIconManager iconManager = aWinContext.get( ITsIconManager.class );
     iconManager.registerStdIconByIds( Activator.PLUGIN_ID, IUnitTxtprojMwsConstants.class, PREFIX_OF_ICON_FIELD_NAME );
-    // FIXME app params
   }
 
 }

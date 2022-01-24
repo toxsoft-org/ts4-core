@@ -23,6 +23,7 @@ public interface IMwsCoreConstants {
   String MWSID_MENU_MAIN_FILE_EXIT             = "org.toxsoft.mws.menu.main.file.exit";             //$NON-NLS-1$
   String MWSID_MENU_MAIN_PERSPECIVES           = "org.toxsoft.mws.menu.main.perspectives";          //$NON-NLS-1$
   String MWSID_MENU_MAIN_REFBOOKS              = "org.toxsoft.mws.menu.main.refbooks";              //$NON-NLS-1$
+  String MWSID_TRIMBAR_TOP                     = "org.toxsoft.mws.main.trimbar.top";                //$NON-NLS-1$
   String MWSID_TOOLBAR_MAIN                    = "org.toxsoft.mws.toolbar.main";                    //$NON-NLS-1$
   String MWSID_TOOLBAR_PERSPECTIVES            = "org.toxsoft.mws.toolbar.perspectives";            //$NON-NLS-1$
 

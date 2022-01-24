@@ -11,22 +11,24 @@ import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.e4.ui.model.application.ui.MElementContainer;
 import org.eclipse.e4.ui.model.application.ui.basic.MTrimmedWindow;
+import org.eclipse.e4.ui.model.application.ui.menu.MHandledMenuItem;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.ElementMatcher;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.toxsoft.tsgui.Activator;
 import org.toxsoft.tsgui.graphics.icons.EIconSize;
+import org.toxsoft.tsgui.graphics.icons.ITsIconManager;
+import org.toxsoft.tsgui.graphics.icons.impl.TsIconManagerUtils;
 import org.toxsoft.tsgui.mws.IMwsCoreConstants;
 import org.toxsoft.tsgui.mws.osgi.IMwsOsgiService;
-import org.toxsoft.tslib.utils.errors.TsItemNotFoundRtException;
-import org.toxsoft.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.tslib.utils.errors.*;
 import org.toxsoft.tslib.utils.logs.impl.LoggerUtils;
 
 /**
- * Базовый класс для облегчения реализации процессоров E4-модели приложения.
+ * Base class for Eclipse e4 processors implementation.
  *
- * @author goga
+ * @author hazard157
  */
 public abstract class MwsAbstractProcessor {
 
@@ -60,67 +62,67 @@ public abstract class MwsAbstractProcessor {
   }
 
   // ------------------------------------------------------------------------------------
-  // Методы для наследника
+  // API for subclasses
   //
 
   /**
-   * Возвращает контекст приложения.
+   * Returns the application level context.
    *
-   * @return {@link IEclipseContext} - контекст приложения
+   * @return {@link IEclipseContext} - the application level context
    */
-  public IEclipseContext appContext() {
+  IEclipseContext eclipseContext() {
     return appContext;
   }
 
   /**
-   * Возвращает приложение (корень E4-модели приложения).
+   * Returns the e4 application.
    *
-   * @return {@link MApplication} - приложение
+   * @return {@link MApplication} - the e4 application
    */
   public MApplication application() {
     return application;
   }
 
   /**
-   * Возвращает службу дотспуа к E4-модели приложения.
+   * Returns the e4 model service.
    *
-   * @return {@link EModelService} - служба дотспуа к E4-модели приложения
+   * @return {@link EModelService} - the e4 model service
    */
   public EModelService modelService() {
     return modelService;
   }
 
   /**
-   * Возвращает главное окно модульного АРМ.
-   * <p>
-   * Возвращается модель окна с идентификатором {@link IMwsCoreConstants#MWSID_WINDOW_MAIN}.
+   * Returns MWS application main window.
    *
-   * @return {@link MTrimmedWindow} - главное окно приложения модельного АРМ
+   * @return {@link MTrimmedWindow} - MWS main window with ID {@link IMwsCoreConstants#MWSID_WINDOW_MAIN}.
    */
   public MTrimmedWindow mainWindow() {
     return mainWindow;
   }
 
   /**
-   * Возвращает OSGI службу {@link IMwsOsgiService}.
+   * Returns the {@link IMwsOsgiService}.
    *
-   * @return {@link IMwsOsgiService} - OSGI служба {@link IMwsOsgiService}
+   * @return {@link IMwsOsgiService} - OSGI service {@link IMwsOsgiService}
    */
   public IMwsOsgiService mwsService() {
     return mwsService;
   }
 
   /**
-   * Находит запрошенный элемент в E4-модели приложения.
+   * Finds specified element in e4 model of application.
    *
-   * @param <T> - тип (класс, интерфейс) искомого элемента
-   * @param aRoot {@link MElementContainer} - корневой элемент (eptk У4-модели приложения) поиска в поддереве
-   * @param aId String - идентификатор искомого элемента
-   * @param aClass {@link Class}&lt;T&gt; - тип (класс, интерфейс) искомого элемента
-   * @param aFlags int - призаки (флаги) поиска из {@link EModelService}<code>.XXX</code>
-   * @return &lt;T&gt; - найденный элемент или <code>null</code>
+   * @param <T> - the type of element being searched for
+   * @param aRoot {@link MElementContainer} - search root in e4 model of application
+   * @param aId String - the ID of element being searched for
+   * @param aClass {@link Class}&lt;T&gt; - the type of element being searched for
+   * @param aFlags int - search flags {@link EModelService}<code>.XXX</code>
+   * @return &lt;T&gt; - found element or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public <T> T findElement( MElementContainer<?> aRoot, String aId, Class<T> aClass, int aFlags ) {
+    TsNullArgumentRtException.checkNulls( aRoot, aId, aClass );
     ElementMatcher matcher = new ElementMatcher( aId, aClass, (String)null );
     List<T> elems = modelService.findElements( aRoot, aClass, aFlags, matcher );
     if( elems.isEmpty() ) {
@@ -130,15 +132,16 @@ public abstract class MwsAbstractProcessor {
   }
 
   /**
-   * Находит запрошенный элемент в E4-модели приложения.
+   * Returns specified element in e4 model of application.
    *
-   * @param <T> - тип (класс, интерфейс) искомого элемента
-   * @param aRoot {@link MElementContainer} - корневой элемент (eptk У4-модели приложения) поиска в поддереве
-   * @param aId String - идентификатор искомого элемента
-   * @param aClass {@link Class}&lt;T&gt; - тип (класс, интерфейс) искомого элемента
-   * @param aFlags int - призаки (флаги) поиска из {@link EModelService}<code>.XXX</code>
-   * @return &lt;T&gt; - найденный элемент или <code>null</code>
-   * @throws TsItemNotFoundRtException не найден искомый элемент
+   * @param <T> - the type of element being searched for
+   * @param aRoot {@link MElementContainer} - search root in e4 model of application
+   * @param aId String - the ID of element being searched for
+   * @param aClass {@link Class}&lt;T&gt; - the type of element being searched for
+   * @param aFlags int - search flags {@link EModelService}<code>.XXX</code>
+   * @return &lt;T&gt; - found element
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException element not found
    */
   public <T> T getElement( MElementContainer<?> aRoot, String aId, Class<T> aClass, int aFlags ) {
     T elem = findElement( aRoot, aId, aClass, aFlags );
@@ -149,12 +152,12 @@ public abstract class MwsAbstractProcessor {
   }
 
   /**
-   * Находит зарегистрированный в OSGi сервис по его типу.
+   * Fings an OSGi service by type.
    *
-   * @param <S> - тип (класс) сервиса
-   * @param aSeviceClass {@link Class}&lt;S&gt; - класс сервиса
-   * @return &lt;S&gt; - сервис или <code>null</code>
-   * @throws TsNullArgumentRtException любой аргумент = <code>null</code>
+   * @param <S> - the type of service being searched for
+   * @param aSeviceClass {@link Class}&lt;S&gt; - the type of service being searched for
+   * @return &lt;S&gt; - found service or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public <S> S findOsgiService( Class<S> aSeviceClass ) {
     TsNullArgumentRtException.checkNull( aSeviceClass );
@@ -167,12 +170,13 @@ public abstract class MwsAbstractProcessor {
   }
 
   /**
-   * Возвращает зарегистрированный в OSGi сервис по его типу.
+   * Returns an OSGi service by type.
    *
-   * @param <S> - тип (класс) сервиса
-   * @param aSeviceClass {@link Class}&lt;S&gt; - класс сервиса
-   * @return &lt;S&gt; - сервис или <code>null</code>
-   * @throws TsNullArgumentRtException любой аргумент = <code>null</code>
+   * @param <S> - the type of service being searched for
+   * @param aSeviceClass {@link Class}&lt;S&gt; - the type of service being searched for
+   * @return &lt;S&gt; - found service
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException service not found
    */
   public <S> S getOsgiService( Class<S> aSeviceClass ) {
     S service = findOsgiService( aSeviceClass );
@@ -183,48 +187,43 @@ public abstract class MwsAbstractProcessor {
   }
 
   /**
-   * Создает URI значка, который находится в заданном плагине.
+   * Constructs icon URI string.
    * <p>
-   * Расположение значка в плагине должен соответствовать соглашениям tsgui:
-   * <ul>
-   * <li>файл значка должен иметь раширение ".png" (в нижнем регистре);</li>
-   * <li>файл значка должен находится в плагине в подпапке "/icons/isNNxNN/", где "isNNxNN" - идентификатор одной из
-   * констант {@link EIconSize#id()};</li>
-   * <li>в папке "/icons" должны находится подпапки "/isNNxNN" для каждой константы {@link EIconSize}, и в каждом должен
-   * находится файл значка соответствующего размера.</li>
-   * </ul>
+   * Metho assumes that iconfiles are arranges as specified in
+   * {@link ITsIconManager#registerStdIconByIds(String, Class, String)}
    * <p>
-   * Полученный URI можно использовать для программного указания значка сущностьям E4-модели приложения.
+   * Returnes string may be used to set icons for e4 model entities like {@link MHandledMenuItem#setIconURI(String)}.
    *
-   * @param aPluginId String - идентификатор плагина
-   * @param aIconId String - название файла (без расширения) значка
-   * @param aIconSize {@link EIconSize} - размер значка
-   * @return String - идентификатор значка
+   * @param aPluginId String - the plugin ID
+   * @param aIconId String - icon ID
+   * @param aIconSize {@link EIconSize} - icon size
+   * @return String - URI to access icon resource in plugin
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException any argument is an empty string
    */
-  @SuppressWarnings( "nls" )
-  public String makePluginIconUri( String aPluginId, String aIconId, EIconSize aIconSize ) {
-    return "platform:/plugin/" + aPluginId + "/icons/" + aIconSize.id() + "/" + aIconId + ".png";
+  public static String makeStdIconUriString( String aPluginId, String aIconId, EIconSize aIconSize ) {
+    return TsIconManagerUtils.makeStdIconUriString( aPluginId, aIconId, aIconSize );
   }
 
   /**
-   * Создает URI встроенного в библиотеку (плагин) tsgui значка.
-   * <p>
-   * Полученный URI можно использовать для программного указания значка сущностьям E4-модели приложения.
+   * Constructs icon URI string for <code>tsgui</code> builtin icons.
    *
-   * @param aIconId String - название файла (без расширения) значка
-   * @param aIconSize {@link EIconSize} - размер значка
-   * @return String - идентификатор значка
+   * @param aIconId String - icon ID
+   * @param aIconSize {@link EIconSize} - icon size
+   * @return String - URI to access icon resource in plugin
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException any argument is an empty string
    */
   public String makeTsguiIconUri( String aIconId, EIconSize aIconSize ) {
-    return makePluginIconUri( Activator.PLUGIN_ID, aIconId, aIconSize );
+    return makeStdIconUriString( Activator.PLUGIN_ID, aIconId, aIconSize );
   }
 
   // ------------------------------------------------------------------------------------
-  // Абстрактные методы
+  // To implement
   //
 
   /**
-   * Наследник должен выполнить работу процессора в этом методе.
+   * Subclass may perform required processing here.
    */
   protected abstract void doProcess();
 

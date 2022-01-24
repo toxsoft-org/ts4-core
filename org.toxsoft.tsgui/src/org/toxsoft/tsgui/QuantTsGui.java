@@ -43,12 +43,12 @@ public class QuantTsGui
   protected void doInitApp( IEclipseContext aAppContext ) {
     // FIXME IAppGuiSettingsService agss = new AppGuiSettingsService( aAppContext );
     // aAppContext.set( IAppGuiSettingsService.class, agss );
+    aAppContext.set( ITsHdpiService.class, new TsHdpiService( aAppContext ) );
   }
 
   @Override
   protected void doInitWin( IEclipseContext aWinContext ) {
     Display display = aWinContext.get( Display.class );
-    aWinContext.set( ITsHdpiService.class, new TsHdpiService( aWinContext ) );
     aWinContext.set( ITsIconManager.class, new TsIconManager( aWinContext ) );
     aWinContext.set( ITsImageManager.class, new TsImageManager( aWinContext ) );
     aWinContext.set( ITsColorManager.class, new TsColorManager( display ) );

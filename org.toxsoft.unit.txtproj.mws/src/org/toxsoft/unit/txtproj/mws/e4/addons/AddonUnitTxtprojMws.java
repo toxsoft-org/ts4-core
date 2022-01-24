@@ -1,5 +1,8 @@
 package org.toxsoft.unit.txtproj.mws.e4.addons;
 
+import static org.toxsoft.unit.txtproj.mws.IUnitTxtprojMwsConstants.*;
+import static org.toxsoft.unit.txtproj.mws.IUnitTxtprojMwsResources.*;
+
 import java.io.File;
 
 import org.eclipse.e4.core.contexts.IEclipseContext;
@@ -7,20 +10,22 @@ import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.toxsoft.tsgui.dialogs.TsDialogUtils;
+import org.toxsoft.tsgui.mws.appinf.ITsApplicationInfo;
 import org.toxsoft.tsgui.mws.bases.MwsAbstractAddon;
 import org.toxsoft.tsgui.mws.osgi.IMwsOsgiService;
+import org.toxsoft.tsgui.mws.services.e4helper.ITsE4Helper;
+import org.toxsoft.tsgui.rcp.utils.TsRcpDialogUtils;
 import org.toxsoft.tslib.av.opset.IOptionSet;
-import org.toxsoft.tslib.bricks.ctx.ITsContext;
 import org.toxsoft.tslib.bricks.validator.ValidationResult;
 import org.toxsoft.tslib.utils.errors.TsInternalErrorRtException;
 import org.toxsoft.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.tslib.utils.files.TsFileUtils;
 import org.toxsoft.tslib.utils.logs.impl.LoggerUtils;
 import org.toxsoft.tslib.utils.progargs.ProgramArgs;
+import org.toxsoft.tslib.utils.valobj.TsValobjUtils;
 import org.toxsoft.unit.txtproj.core.ITsProject;
-import org.toxsoft.unit.txtproj.core.bound.ITsProjectFileBound;
-import org.toxsoft.unit.txtproj.core.bound.TsProjectFileBound;
-import org.toxsoft.unit.txtproj.core.impl.TsProject;
-import org.toxsoft.unit.txtproj.core.impl.TsProjectFileFormatInfo;
+import org.toxsoft.unit.txtproj.core.bound.*;
+import org.toxsoft.unit.txtproj.core.impl.*;
 import org.toxsoft.unit.txtproj.mws.Activator;
 
 /**
@@ -32,10 +37,25 @@ public class AddonUnitTxtprojMws
     extends MwsAbstractAddon {
 
   /**
+   * Main windows title format string when changes are NOT saved to the file.
+   * <p>
+   * Format arguemnts are: 1) project file path, 2) {@link ITsApplicationInfo#nmName()}
+   */
+  private static final String FMT_WIN_TITLE_UNSAVED = "(*) %s - %s"; //$NON-NLS-1$
+
+  /**
+   * Main windows title format string when changes are saved to the file.
+   * <p>
+   * Format arguemnts are: 1) project file path, 2) {@link ITsApplicationInfo#nmName()}
+   */
+  private static final String FMT_WIN_TITLE_SAVED = "%s - %s"; //$NON-NLS-1$
+
+  /**
    * Constructor.
    */
   public AddonUnitTxtprojMws() {
     super( Activator.PLUGIN_ID );
+    TsValobjUtils.registerKeeperIfNone( TsProjectFileFormatInfoKeeper.KEEPER_ID, TsProjectFileFormatInfoKeeper.KEEPER );
   }
 
   // ------------------------------------------------------------------------------------
@@ -44,18 +64,14 @@ public class AddonUnitTxtprojMws
 
   @Override
   protected void initApp( IEclipseContext aAppContext ) {
-    // TODO retrieve module settings (earlier set in application exe plugin's activator)
+    // retrieve module settings (earlier set in application exe plugin's activator)
     IMwsOsgiService mws = findOsgiService( IMwsOsgiService.class );
     TsInternalErrorRtException.checkNull( mws );
-    ITsContext mwsContext = mws.context();
-    TsProjectFileFormatInfo formatInfo = REF_PROJECT_FILE_FORMAT_INFO.getValue( mwsContext, null );
-    if( formatInfo == null ) {
-      formatInfo = PARAM_PROJECT_FILE_FORMAT_INFO.getValue( mwsContext.params(), DEFAULT_PROJECT_FILE_FORMAT_INFO );
-    }
+    IOptionSet params = mws.context().params();
+    TsProjectFileFormatInfo formatInfo = OPDEF_PROJECT_FILE_FORMAT_INFO.getValue( params ).asValobj();
     // create ITsProject and ITsProjectFileBound instances and set them to the context
     TsProject proj = new TsProject( formatInfo );
-    // FIXME get bound options from MWS context params
-    ITsProjectFileBound projHolder = new TsProjectFileBound( proj, IOptionSet.NULL );
+    ITsProjectFileBound projHolder = new TsProjectFileBound( proj, params );
     aAppContext.set( ITsProjectFileBound.class, projHolder );
     aAppContext.set( TsProject.class, proj );
     aAppContext.set( ITsProject.class, proj );
@@ -63,7 +79,31 @@ public class AddonUnitTxtprojMws
 
   @Override
   protected void initWin( IEclipseContext aWinContext ) {
-    openProjectIfSpecified();
+    openProjectIfSpecified( aWinContext );
+    // listen to the project file bound state change and update windows title if specified
+    IMwsOsgiService mws = findOsgiService( IMwsOsgiService.class );
+    TsInternalErrorRtException.checkNull( mws );
+    IOptionSet params = mws.context().params();
+    if( OPDEF_IS_WINDOWS_TITLE_BOUND.getValue( params ).asBool() ) {
+      ITsE4Helper helper = aWinContext.get( ITsE4Helper.class );
+      ITsProjectFileBound projHolder = aWinContext.get( ITsProjectFileBound.class );
+      projHolder.addTsProjectFileBoundListener( new ITsProjectFileBoundListener() {
+
+        @Override
+        public void onFileBindingChanged( ITsProjectFileBound aSource ) {
+          updateWindowsTitle( aWinContext );
+          helper.updateHandlersCanExecuteState();
+        }
+
+        @Override
+        public void onAlteredStateChanged( ITsProjectFileBound aSource ) {
+          updateWindowsTitle( aWinContext );
+          helper.updateHandlersCanExecuteState();
+        }
+
+      } );
+      updateWindowsTitle( aWinContext );
+    }
   }
 
   @Override
@@ -78,21 +118,28 @@ public class AddonUnitTxtprojMws
   // implementation
   //
 
-  void openProjectIfSpecified() {
-    ProgramArgs pa = appContext().get( ProgramArgs.class );
+  /**
+   * Load project if specified in command line by calling method {@link #loadProject(ITsProjectFileBound, File)}.
+   *
+   * @param aWinContext - the context
+   */
+  void openProjectIfSpecified( IEclipseContext aWinContext ) {
+    ProgramArgs pa = aWinContext.get( ProgramArgs.class );
     String dbPath = pa.getArgValue( CMDLINE_ARG_PROJ_PATH );
-    ITsProjectFileBound projHolder = appContext().get( ITsProjectFileBound.class );
+    ITsProjectFileBound projHolder = aWinContext.get( ITsProjectFileBound.class );
     if( !dbPath.isEmpty() ) {
+      // check project file is accessible
       File f = new File( dbPath );
-      ValidationResult vr = FileUtils.validateFileReadable( f );
+      ValidationResult vr = TsFileUtils.VALIDATOR_FILE_READABLE.validate( f );
       if( !vr.isError() ) {
-        boolean immediateProjectLoad = IMMEDIATE_LOAD_PROJ.getValue( mwsContext.params() ).asBool();
-        if( immediateProjectLoad ) {
+        IMwsOsgiService mws = aWinContext.get( IMwsOsgiService.class );
+        // load immediately
+        if( OPDEF_IMMEDIATE_LOAD_PROJ.getValue( mws.context().params() ).asBool() ) {
           loadProject( projHolder, f );
         }
         else {
-          // загрузим проект после окончания инициализации программы
-          Display display = appContext().get( Display.class );
+          // load project file after all plugins will be inited
+          Display display = aWinContext.get( Display.class );
           display.asyncExec( () -> loadProject( projHolder, f ) );
         }
       }
@@ -102,10 +149,16 @@ public class AddonUnitTxtprojMws
     }
   }
 
+  /**
+   * Performs project loading.
+   *
+   * @param aProjHolder {@link ITsProjectFileBound} - project file bound manager
+   * @param aFile {@link File} - project file
+   */
   void loadProject( ITsProjectFileBound aProjHolder, File aFile ) {
     try {
       aProjHolder.open( aFile );
-      LoggerUtils.defaultLogger().info( FMT_INFO_PROJECT_LOADED, aProjHolder.getFile().getAbsolutePath() );
+      LoggerUtils.defaultLogger().info( "Loaded project file %s", aProjHolder.getFile().getAbsolutePath() ); //$NON-NLS-1$
     }
     catch( Exception ex ) {
       LoggerUtils.errorLogger().error( ex.getMessage() );
@@ -114,46 +167,74 @@ public class AddonUnitTxtprojMws
   }
 
   /**
-   * Если есть изменения в проекте, запрашивает у пользователя и сохраняет его.
+   * Detects if there were changes in project content in memory, asks used and saves it to file.
    * <p>
-   * Если нет несохраненных изменений, то метод возвращает true, ничего не делая.
+   * If there were no changes then silently returns <code>true</code>.
    *
-   * @param aHolder {@link ITsProjectFileBound} - "Держатель" редактируемого проекта
-   * @param aShell {@link Shell} - родительское окно для диалога (может быть null)
+   * @param aProjHolder {@link ITsProjectFileBound} - project file bound manager
+   * @param aShell {@link Shell} - parent shell for query dialog
    * @return boolean - признак продолжения или отмены запрошенного действия <br>
    *         <b>true</b> - изменений не было, или пользователь сохранил или отменил изменения, выполнение запрошенного
    *         действия следует продолжить;<br>
    *         <b>false</b> - пользователь отаказался от продолжения запрошенного действия.
    * @throws TsNullArgumentRtException любой аргумент = null
    */
-  public static boolean askAndSaveEdits( ITsProjectFileBound aHolder, Shell aShell ) {
-    TsNullArgumentRtException.checkNulls( aHolder, aShell );
-    if( !aHolder.isAltered() ) {
-      return true; // нечего сохранять, продолжаем действие
+  public static boolean askAndSaveEdits( ITsProjectFileBound aProjHolder, Shell aShell ) {
+    TsNullArgumentRtException.checkNulls( aProjHolder, aShell );
+    if( !aProjHolder.isAltered() ) {
+      return true; // no changes in prject in-memory content
     }
-    // спросить о сохранении
+    // ask user for save
     switch( TsDialogUtils.askYesNoCancel( aShell, MSG_ASK_SAVE_CHANGES_DLG_MESSAGE ) ) {
       case NO:
-        return true; // отказ от сохранения, продолжаем игнорируя текущие правки
+        return true; // user does not want to save, changes will be lost
       case YES:
-        break; // продолжим с сохранением
+        break; // continue with saving
       // $CASES-OMITTED$
       default:
-        return false; // отказ от продолжения, прерываем действие
+        return false; // user cancels current action
     }
-    File saveFile;
-    if( aHolder.hasFileBound() ) {
-      saveFile = aHolder.getFile();
+    File saveFile; // file to save the project content
+    if( aProjHolder.hasFileBound() ) { // file is already specified (bound to project) in application
+      saveFile = aProjHolder.getFile();
     }
     else {
-      // запросить имя файла
-      saveFile = TsRcpDialogUtils.askFileSaveOrNull( aShell );
-      if( saveFile == null ) { // если отказ - то прерываем
+      // file was not bound to project, ask file name
+      saveFile = TsRcpDialogUtils.askFileSave( aShell );
+      if( saveFile == null ) { // user cancels current action
         return false;
       }
     }
-    aHolder.saveAs( saveFile );
+    // try to save the file
+    try {
+      aProjHolder.saveAs( saveFile );
+    }
+    catch( Exception ex ) {
+      LoggerUtils.errorLogger().error( ex );
+      TsDialogUtils.error( aShell, ex );
+      return false; // changes can't be saved, behave like action was cancelled
+    }
     return true;
+  }
+
+  /**
+   * Update main windows title reflecting project file bound and altered state.
+   *
+   * @param aWinContext {@link IEclipseContext} - windows leve context
+   */
+  void updateWindowsTitle( IEclipseContext aWinContext ) {
+    ITsProjectFileBound projHolder = aWinContext.get( ITsProjectFileBound.class );
+    MWindow window = aWinContext.get( MWindow.class );
+    IMwsOsgiService mws = findOsgiService( IMwsOsgiService.class );
+    File f = projHolder.getFile();
+    if( f != null ) {
+      String fmtStr = projHolder.isAltered() ? FMT_WIN_TITLE_UNSAVED : FMT_WIN_TITLE_SAVED;
+      String title = String.format( fmtStr, f.getPath(), mws.appInfo().nmName() );
+      window.setLabel( title );
+    }
+    else {
+      window.setLabel( mws.appInfo().nmName() );
+    }
   }
 
 }

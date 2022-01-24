@@ -1,5 +1,6 @@
 package org.toxsoft.unit.txtproj.core.bound;
 
+import static org.toxsoft.tslib.ITsHardConstants.*;
 import static org.toxsoft.tslib.av.EAtomicType.*;
 import static org.toxsoft.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.tslib.av.metainfo.IAvMetaConstants.*;
@@ -20,22 +21,22 @@ public interface ITsProjectFileBoundParams {
   /**
    * Идентификатор опции {@link #OPDEF_IS_AUTO_BACKUPS_ENABLED}.
    */
-  String OPID_IS_AUTO_BACKUPS_ENABLED = "ru.toxsoft.tsproject.param.IsAutoBackupsEnabled"; //$NON-NLS-1$
+  String OPID_IS_AUTO_BACKUPS_ENABLED = TS_FULL_ID + ".tsproject.param.IsAutoBackupsEnabled"; //$NON-NLS-1$
 
   /**
    * Идентификатор опции {@link #OPDEF_BACKUP_FILES_SUBDIR_NAME}.
    */
-  String OPID_BACKUP_FILES_SUBDIR_NAME = "ru.toxsoft.tsproject.param.BakupFilesSubdirName"; //$NON-NLS-1$
+  String OPID_BACKUP_FILES_SUBDIR_NAME = TS_FULL_ID + ".tsproject.param.BakupFilesSubdirName"; //$NON-NLS-1$
 
   /**
    * Идентификатор опции {@link #OPDEF_BACKUP_FILE_EXT}.
    */
-  String OPID_BACKUP_FILE_EXT = "ru.toxsoft.tsproject.param.BackupFileExt"; //$NON-NLS-1$
+  String OPID_BACKUP_FILE_EXT = TS_FULL_ID + ".tsproject.param.BackupFileExt"; //$NON-NLS-1$
 
   /**
    * Идентификатор опции {@link #OPDEF_IS_LISTENER_ERRORS_THROWN}.
    */
-  String OPID_IS_LISTENER_ERRORS_THROWN = "ru.toxsoft.tsproject.param.IsListenerErrorsThrown"; //$NON-NLS-1$
+  String OPID_IS_LISTENER_ERRORS_THROWN = TS_FULL_ID + ".tsproject.param.IsListenerErrorsThrown"; //$NON-NLS-1$
 
   /**
    * Признак разрешения автоматического создания резервных копии.

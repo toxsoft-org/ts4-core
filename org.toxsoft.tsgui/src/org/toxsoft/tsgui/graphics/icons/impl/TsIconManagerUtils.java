@@ -6,6 +6,7 @@ import static org.toxsoft.tslib.utils.errors.TsErrorUtils.*;
 import java.net.*;
 
 import org.eclipse.core.runtime.*;
+import org.eclipse.e4.ui.model.application.ui.menu.MHandledMenuItem;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
@@ -13,6 +14,8 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.toxsoft.tsgui.Activator;
 import org.toxsoft.tsgui.graphics.icons.*;
 import org.toxsoft.tslib.utils.errors.*;
+
+// TODO TRANSLATE
 
 /**
  * Вспомгательные методы работы со значками.
@@ -25,17 +28,19 @@ import org.toxsoft.tslib.utils.errors.*;
 public class TsIconManagerUtils {
 
   /**
-   * Возвращает строку URI знача со стандартным расположением в плагине.
+   * Constructs icon URI string.
    * <p>
-   * Возвращаемая строка может быть использована для указания значка e4 сущностьям, например
-   * <code>MHandledMenuItem.setIconURI()</code>.
+   * Metho assumes that iconfiles are arranges as specified in
+   * {@link ITsIconManager#registerStdIconByIds(String, Class, String)}
+   * <p>
+   * Returnes string may be used to set icons for e4 model entities like {@link MHandledMenuItem#setIconURI(String)}.
    *
-   * @param aPluginId String - идентификатор плагина
-   * @param aStdIconId String - идентификатор стандартного значка
-   * @param aIconSize {@link EIconSize} - размер значка
-   * @return String - строка URI доступа к значку
-   * @throws TsNullArgumentRtException любой аргумент = null
-   * @throws TsIllegalArgumentRtException любой аргумент пустая строка
+   * @param aPluginId String - the plugin ID
+   * @param aStdIconId String - icon ID
+   * @param aIconSize {@link EIconSize} - icon size
+   * @return String - URI to access icon reource in plugin
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException any argument is an empty string
    */
   public static String makeStdIconUriString( String aPluginId, String aStdIconId, EIconSize aIconSize ) {
     if( aPluginId == null || aStdIconId == null || aIconSize == null ) {
