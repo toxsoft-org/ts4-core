@@ -10,13 +10,13 @@ Require-Bundle: javax.annotation,
  org.toxsoft.tslib
 Automatic-Module-Name: org.toxsoft.unit.txtproj.core
 Bundle-RequiredExecutionEnvironment: JavaSE-17
-Export-Package: org.toxsoft.unit.txtproj.core,
- org.toxsoft.unit.txtproj.core.bound,
- org.toxsoft.unit.txtproj.core.categs,
- org.toxsoft.unit.txtproj.core.categs.impl,
- org.toxsoft.unit.txtproj.core.categs.pdu,
- org.toxsoft.unit.txtproj.core.impl,
- org.toxsoft.unit.txtproj.core.sinent,
- org.toxsoft.unit.txtproj.core.storage,
- org.toxsoft.unit.txtproj.core.stripar,
- org.toxsoft.unit.txtproj.core.tdfile
+Export-Package: org.toxsoft.core.unit.txtproj.lib,
+ org.toxsoft.core.unit.txtproj.lib.bound,
+ org.toxsoft.core.unit.txtproj.lib.categs,
+ org.toxsoft.core.unit.txtproj.lib.categs.impl,
+ org.toxsoft.core.unit.txtproj.lib.categs.pdu,
+ org.toxsoft.core.unit.txtproj.lib.impl,
+ org.toxsoft.core.unit.txtproj.lib.sinent,
+ org.toxsoft.core.unit.txtproj.lib.storage,
+ org.toxsoft.core.unit.txtproj.lib.stripar,
+ org.toxsoft.core.unit.txtproj.lib.tdfile

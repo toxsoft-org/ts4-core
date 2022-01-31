@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Rcp
-Bundle-SymbolicName: org.toxsoft.singlesrc.rcp
+Bundle-SymbolicName: org.toxsoft.core.singlesrc.rcp
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.toxsoft.singlesrc.rcp.Activator
 Require-Bundle: org.eclipse.core.runtime,

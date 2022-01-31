@@ -11,7 +11,7 @@
       <processor
             apply="initial"
             beforefragment="false"
-            class="org.toxsoft.unit.txtproj.mws.e4.processors.ProcessorUnitTxtprojMws">
+            class="org.toxsoft.core.unit.txtproj.mws.e4.processors.ProcessorUnitTxtprojMws">
       </processor>
    </extension>
 

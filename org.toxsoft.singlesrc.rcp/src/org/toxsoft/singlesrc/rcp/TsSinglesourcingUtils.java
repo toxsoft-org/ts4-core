@@ -4,9 +4,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.tslib.coll.IMapEdit;
-import org.toxsoft.tslib.coll.impl.ElemMap;
-import org.toxsoft.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.IMapEdit;
+import org.toxsoft.core.tslib.coll.impl.ElemMap;
+import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 
 /**
  * Вспомогательные методы для сокрытия различия реализации RCP и RAP.

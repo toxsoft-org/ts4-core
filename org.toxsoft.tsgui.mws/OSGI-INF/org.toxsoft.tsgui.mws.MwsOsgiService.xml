@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.toxsoft.tsgui.mws.MwsOsgiService">
-   <service>
-      <provide interface="org.toxsoft.tsgui.mws.osgi.IMwsOsgiService"/>
-   </service>
-   <implementation class="org.toxsoft.tsgui.mws.MwsOsgiService"/>
-</scr:component>

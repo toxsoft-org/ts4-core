@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: TsGUI RCP specific library
 Bundle-SymbolicName: org.toxsoft.tsgui.rcp
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.toxsoft.tsgui.rcp.Activator
+Bundle-Activator: org.toxsoft.core.tsgui.rcp.Activator
 Bundle-Vendor: toxsoft.org
 Require-Bundle: javax.inject,
  javax.annotation,
@@ -18,11 +18,11 @@ Require-Bundle: javax.inject,
  org.eclipse.e4.ui.workbench,
  org.eclipse.e4.ui.model.workbench,
  org.toxsoft.tslib,
- org.toxsoft.singlesrc.rcp,
+ org.toxsoft.core.singlesrc.rcp,
  org.toxsoft.tsgui
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: org.toxsoft.tsgui.rcp
 Bundle-ActivationPolicy: lazy
-Export-Package: org.toxsoft.tsgui.rcp,
- org.toxsoft.tsgui.rcp.utils,
- org.toxsoft.tsgui.rcp.valed
+Export-Package: org.toxsoft.core.tsgui.rcp,
+ org.toxsoft.core.tsgui.rcp.utils,
+ org.toxsoft.core.tsgui.rcp.valed
