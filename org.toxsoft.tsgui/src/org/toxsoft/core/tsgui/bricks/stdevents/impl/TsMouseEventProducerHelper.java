@@ -4,6 +4,8 @@ import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.toxsoft.core.singlesrc.rcp.ISingleSourcing_MouseWheelListener;
+import org.toxsoft.core.singlesrc.rcp.TsSinglesourcingUtils;
 import org.toxsoft.core.tsgui.bricks.stdevents.ITsMouseEventProducer;
 import org.toxsoft.core.tsgui.bricks.stdevents.ITsMouseListener;
 import org.toxsoft.core.tsgui.bricks.stdevents.ITsMouseListener.EMouseButton;
@@ -15,8 +17,6 @@ import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
 import org.toxsoft.core.tslib.coll.impl.ElemLinkedBundleList;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
-import org.toxsoft.singlesrc.rcp.ISingleSourcing_MouseWheelListener;
-import org.toxsoft.singlesrc.rcp.TsSinglesourcingUtils;
 
 /**
  * Вспомогтельный класс для облегчения реализации {@link ITsMouseEventProducer}.

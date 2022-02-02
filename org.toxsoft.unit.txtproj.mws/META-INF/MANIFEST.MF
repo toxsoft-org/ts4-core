@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: TS Unit: Txtproj - MWS module
-Bundle-SymbolicName: org.toxsoft.unit.txtproj.mws;singleton:=true
+Bundle-SymbolicName: org.toxsoft.core.unit.txtproj.mws;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.toxsoft.core.unit.txtproj.mws.Activator
 Bundle-Vendor: toxsoft.org
@@ -18,13 +18,13 @@ Require-Bundle: javax.annotation,
  org.eclipse.e4.ui.model.workbench,
  org.eclipse.e4.ui.workbench,
  org.eclipse.pde.ds.lib,
- org.toxsoft.tslib,
+ org.toxsoft.core.tslib,
  org.toxsoft.core.singlesrc.rcp,
- org.toxsoft.tsgui,
- org.toxsoft.tsgui.mws,
- org.toxsoft.tsgui.rcp,
- org.toxsoft.unit.txtproj.core,
- org.toxsoft.unit.txtproj.gui
+ org.toxsoft.core.tsgui,
+ org.toxsoft.core.tsgui.mws,
+ org.toxsoft.core.tsgui.rcp,
+ org.toxsoft.core.unit.txtproj.core,
+ org.toxsoft.core.unit.txtproj.gui
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: org.toxsoft.unit.txtproj.mws
 Bundle-ActivationPolicy: lazy

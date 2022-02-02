@@ -6,7 +6,7 @@ import org.eclipse.osgi.util.NLS;
 public class Messages
     extends NLS {
 
-  private static final String BUNDLE_NAME = "org.toxsoft.tsgui.panels.vecboard.impl.messages"; //$NON-NLS-1$
+  private static final String BUNDLE_NAME = Messages.class.getName().toLowerCase();
 
   public static String FMT_ERR_CONTROL_ALREADY_EXIST_AT_BORDER_PLACEMENT;
   public static String MSG_ERR_NO_BOADR_LAYOUT;

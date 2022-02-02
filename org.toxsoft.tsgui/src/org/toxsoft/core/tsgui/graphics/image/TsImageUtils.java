@@ -5,8 +5,7 @@ import java.io.*;
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.internal.image.FileFormat;
-import org.toxsoft.core.tslib.utils.errors.TsIoRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.files.TsFileUtils;
 
 /**
@@ -38,6 +37,7 @@ public class TsImageUtils {
   public static TsImage loadTsImage( File aImageFile, Device aDevice ) {
     TsFileUtils.checkFileReadable( aImageFile );
     TsNullArgumentRtException.checkNull( aDevice );
+    TsIllegalArgumentRtException.checkTrue( aDevice.isDisposed() );
     try( InputStream is = new FileInputStream( aImageFile ) ) {
       return loadTsImage( is, aDevice );
     }
@@ -56,6 +56,7 @@ public class TsImageUtils {
    */
   public static TsImage loadTsImage( InputStream aInputStream, Device aDevice ) {
     TsNullArgumentRtException.checkNulls( aInputStream, aDevice );
+    TsIllegalArgumentRtException.checkTrue( aDevice.isDisposed() );
     // 2021-07-26 GOGA --- в SWT версии 4.15 изменили способ загрузки. GIF-анимация стала грузится неправильно
     // временно, пока не исправят ошибку, сделаем загрузку старым способом - через FileFormat
     // ImageLoader imageLoader = new ImageLoader();

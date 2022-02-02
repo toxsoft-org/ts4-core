@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="ASCII"?>
 <application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_9V_7ULOCEeq_kr1I9pNBSg" elementId="org.toxsoft.mws.app.main">
-  <children xsi:type="basic:TrimmedWindow" xmi:id="_K30okLWnEeqX0d6MIcTCwA" elementId="org.toxsoft.mws.window.main" label="TS Application" iconURI="platform:/plugin/org.toxsoft.tsgui/icons/is48x48/ts-logo.png" x="400" y="150" width="800" height="600">
+  <children xsi:type="basic:TrimmedWindow" xmi:id="_K30okLWnEeqX0d6MIcTCwA" elementId="org.toxsoft.mws.window.main" label="TS Application" iconURI="platform:/plugin/org.toxsoft.core.tsgui/icons/is48x48/ts-logo.png" x="400" y="150" width="800" height="600">
     <children xsi:type="advanced:PerspectiveStack" xmi:id="__ArpMLWrEeqgaqrGNY8ePA" elementId="org.toxsoft.mws.perspectivestack.main">
       <children xsi:type="advanced:Perspective" xmi:id="_LpsgQMw2Eeq7LfJOTUsyfQ" elementId="org.toxsoft.mws.perspective.default" label="MWS Default" tooltip="Initial MWS prespective ">
         <children xsi:type="basic:PartStack" xmi:id="_TWqzoAGXEeuQYZnmcZNTqw" elementId="org.toxsoft.mws.partstack.default">
-          <children xsi:type="basic:Part" xmi:id="_6WdpEAGXEeuQYZnmcZNTqw" elementId="org.toxsoft.mws.part.foo" contributionURI="bundleclass://org.toxsoft.tsgui.mws/org.toxsoft.core.tsgui.mws.e4.uiparts.UipartFoo" label="Foo" iconURI="platform:/plugin/org.toxsoft.tsgui/icons/is24x24/ts-logo.png" tooltip="Foo part must not be viewed in real application"/>
+          <children xsi:type="basic:Part" xmi:id="_6WdpEAGXEeuQYZnmcZNTqw" elementId="org.toxsoft.mws.part.foo" contributionURI="bundleclass://org.toxsoft.core.tsgui.mws/org.toxsoft.core.tsgui.mws.e4.uiparts.UipartFoo" label="Foo" iconURI="platform:/plugin/org.toxsoft.core.tsgui/icons/is24x24/ts-logo.png" tooltip="Foo part must not be viewed in real application"/>
         </children>
       </children>
     </children>
-    <handlers xmi:id="_C6Z1YEKZEeuwVbNtM3lEeA" elementId="org.toxsoft.mws.framework.main.handler.1" contributionURI="bundleclass://org.toxsoft.tsgui/org.toxsoft.core.tsgui.mws.e4.handlers.CmdMwsSwitchPerpective" command="_YxMNYEKXEeuwVbNtM3lEeA"/>
+    <handlers xmi:id="_C6Z1YEKZEeuwVbNtM3lEeA" elementId="org.toxsoft.mws.framework.main.handler.1" contributionURI="bundleclass://org.toxsoft.core.tsgui/org.toxsoft.core.tsgui.mws.e4.handlers.CmdMwsSwitchPerpective" command="_YxMNYEKXEeuwVbNtM3lEeA"/>
     <mainMenu xmi:id="_7G7x0AGZEeuQYZnmcZNTqw" elementId="org.toxsoft.mws.menu.main">
       <children xsi:type="menu:Menu" xmi:id="_AV80YAGaEeuQYZnmcZNTqw" elementId="org.toxsoft.mws.menu.main.file" label="%MMenu_File" tooltip="%MMenu_File_D">
         <children xsi:type="menu:MenuSeparator" xmi:id="_shLz8AGaEeuQYZnmcZNTqw" elementId="org.toxsoft.mws.menu.main.separator.before_exit"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_1Ib9oAGaEeuQYZnmcZNTqw" elementId="org.toxsoft.mws.menu.main.file.exit" iconURI="platform:/plugin/org.toxsoft.tsgui/icons/is24x24/application-exit.png" command="_VM_fQAGbEeuQYZnmcZNTqw"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_1Ib9oAGaEeuQYZnmcZNTqw" elementId="org.toxsoft.mws.menu.main.file.exit" iconURI="platform:/plugin/org.toxsoft.core.tsgui/icons/is24x24/application-exit.png" command="_VM_fQAGbEeuQYZnmcZNTqw"/>
       </children>
       <children xsi:type="menu:Menu" xmi:id="_dBxK0AxqEeuB4IQ3ZHf3lQ" elementId="org.toxsoft.mws.menu.main.perspectives-" label="%MMenu_Perspectives" tooltip="%MMenu_Perspectives_D"/>
     </mainMenu>
     <trimBars xmi:id="_wex3gAMyEeuYn5dUsRX9jA" elementId="org.toxsoft.mws.main.trimbar.top">
       <children xsi:type="menu:ToolBar" xmi:id="_2sxDwAMyEeuYn5dUsRX9jA" elementId="org.toxsoft.mws.toolbar.main">
         <children xsi:type="menu:ToolBarSeparator" xmi:id="_XBHVcAOiEeuYn5dUsRX9jA" elementId="org.toxsoft.mws.toolbar.main.separator_before_exit"/>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_cF5d8AOiEeuYn5dUsRX9jA" elementId="org.toxsoft.mws.framework.main.handledtoolitem.0" iconURI="platform:/plugin/org.toxsoft.tsgui/icons/is24x24/application-exit.png" command="_VM_fQAGbEeuQYZnmcZNTqw"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_cF5d8AOiEeuYn5dUsRX9jA" elementId="org.toxsoft.mws.framework.main.handledtoolitem.0" iconURI="platform:/plugin/org.toxsoft.core.tsgui/icons/is24x24/application-exit.png" command="_VM_fQAGbEeuQYZnmcZNTqw"/>
         <children xsi:type="menu:ToolBarSeparator" xmi:id="_YwV3YAOiEeuYn5dUsRX9jA" elementId="org.toxsoft.mws.framework.main.toolbarseparator.0"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_KPyXcAMzEeuYn5dUsRX9jA" elementId="org.toxsoft.mws.toolbar.perspectives"/>
     </trimBars>
   </children>
-  <handlers xmi:id="_d3qtYAG8Eeu_AZkVHSYopg" elementId="org.toxsoft.mws.framework.main.handler.0" contributionURI="bundleclass://org.toxsoft.tsgui/org.toxsoft.core.tsgui.mws.e4.handlers.CmdMwsQuit" command="_VM_fQAGbEeuQYZnmcZNTqw"/>
+  <handlers xmi:id="_d3qtYAG8Eeu_AZkVHSYopg" elementId="org.toxsoft.mws.framework.main.handler.0" contributionURI="bundleclass://org.toxsoft.core.tsgui/org.toxsoft.core.tsgui.mws.e4.handlers.CmdMwsQuit" command="_VM_fQAGbEeuQYZnmcZNTqw"/>
   <bindingTables xmi:id="_BU_wMEN9EeuCHr1GrQO4VA" elementId="org.toxsoft.mws.framework.main.bindingtable.global" bindingContext="_88_OIEN8EeuCHr1GrQO4VA">
     <bindings xmi:id="_Dv8vsEN9EeuCHr1GrQO4VA" elementId="org.toxsoft.mws.framework.main.keybinding.quit" keySequence="CTRL+Q" command="_VM_fQAGbEeuQYZnmcZNTqw">
       <tags>type:user</tags>
@@ -43,6 +43,6 @@
   <addons xmi:id="_9V_7VbOCEeq_kr1I9pNBSg" elementId="org.eclipse.e4.ui.workbench.contexts.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.ContextProcessingAddon"/>
   <addons xmi:id="_9V_7VrOCEeq_kr1I9pNBSg" elementId="org.eclipse.e4.ui.workbench.bindings.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.swt/org.eclipse.e4.ui.workbench.swt.util.BindingProcessingAddon"/>
   <addons xmi:id="_9V_7V7OCEeq_kr1I9pNBSg" elementId="org.eclipse.e4.ui.workbench.handler.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.HandlerProcessingAddon"/>
-  <addons xmi:id="_RUFO0ObSEeqIM4Sp2AM2Lw" elementId="ru.toxsoft.mws.framework.main.addon.0" contributionURI="bundleclass://org.toxsoft.tsgui.mws/org.toxsoft.core.tsgui.mws.e4.addons.AddonMwsMain"/>
+  <addons xmi:id="_RUFO0ObSEeqIM4Sp2AM2Lw" elementId="ru.toxsoft.mws.framework.main.addon.0" contributionURI="bundleclass://org.toxsoft.core.tsgui.mws/org.toxsoft.core.tsgui.mws.e4.addons.AddonMwsMain"/>
   <categories xmi:id="_SFdGkAGbEeuQYZnmcZNTqw" elementId="org.toxsoft.mws.cmdcategory.global" name="Global" description="Global commands category"/>
 </application:Application>

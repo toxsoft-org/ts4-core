@@ -1,20 +1,25 @@
 package org.toxsoft.core.tsgui.graphics.image;
 
-import org.eclipse.osgi.util.NLS;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 @SuppressWarnings( "javadoc" )
-public class Messages
-    extends NLS {
+public class Messages {
 
-  private static final String BUNDLE_NAME = "org.toxsoft.tsgui.graphics.image.messages"; //$NON-NLS-1$
-  public static String        FMT_D_THUMB_SIZE;
-  public static String        FMT_N_THUMB_SIZE;
-  static {
-    // initialize resource bundle
-    NLS.initializeMessages( BUNDLE_NAME, Messages.class );
-  }
+  private static final String BUNDLE_NAME = Messages.class.getName().toLowerCase();
+
+  private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle( BUNDLE_NAME );
 
   private Messages() {
+  }
+
+  public static String getString( String key ) {
+    try {
+      return RESOURCE_BUNDLE.getString( key );
+    }
+    catch( @SuppressWarnings( "unused" ) MissingResourceException e ) {
+      return '!' + key + '!';
+    }
   }
 
 }

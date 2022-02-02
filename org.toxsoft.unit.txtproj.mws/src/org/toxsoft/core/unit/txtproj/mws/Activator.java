@@ -13,7 +13,7 @@ public class Activator
   /**
    * The plugin ID (for Java static imports).
    */
-  public static final String PLUGIN_ID = "org.toxsoft.unit.txtproj.mws"; //$NON-NLS-1$
+  public static final String PLUGIN_ID = "org.toxsoft.core.unit.txtproj.mws"; //$NON-NLS-1$
 
   private static Activator instance = null;
 

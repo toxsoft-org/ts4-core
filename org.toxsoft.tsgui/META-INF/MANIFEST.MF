@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: TsGUI core
-Bundle-SymbolicName: org.toxsoft.tsgui
+Bundle-SymbolicName: org.toxsoft.core.tsgui
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.toxsoft.core.tsgui.Activator
 Bundle-Vendor: toxsoft.org
@@ -17,7 +17,7 @@ Require-Bundle: javax.inject,
  org.eclipse.e4.core.services,
  org.eclipse.e4.ui.workbench,
  org.eclipse.e4.ui.model.workbench,
- org.toxsoft.tslib,
+ org.toxsoft.core.tslib,
  org.toxsoft.core.singlesrc.rcp
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: org.toxsoft.tsgui

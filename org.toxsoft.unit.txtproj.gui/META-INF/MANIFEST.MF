@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Gui
-Bundle-SymbolicName: org.toxsoft.unit.txtproj.gui
+Bundle-SymbolicName: org.toxsoft.core.unit.txtproj.gui
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.toxsoft.core.unit.txtproj.gui.Activator
 Bundle-RequiredExecutionEnvironment: JavaSE-17
@@ -17,10 +17,10 @@ Require-Bundle: javax.inject,
  org.eclipse.e4.core.services,
  org.eclipse.e4.ui.workbench,
  org.eclipse.e4.ui.model.workbench,
- org.toxsoft.tslib,
+ org.toxsoft.core.tslib,
  org.toxsoft.core.singlesrc.rcp,
- org.toxsoft.tsgui,
- org.toxsoft.unit.txtproj.core
+ org.toxsoft.core.tsgui,
+ org.toxsoft.core.unit.txtproj.core
 Automatic-Module-Name: org.toxsoft.unit.txtproj.gui
 Bundle-ActivationPolicy: lazy
 Export-Package: org.toxsoft.core.unit.txtproj.gui,

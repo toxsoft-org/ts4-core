@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 @SuppressWarnings( "javadoc" )
 public class Messages {
 
-  private static final String BUNDLE_NAME = "org.toxsoft.unit.txtproj.core.bound.messages"; //$NON-NLS-1$
+  private static final String BUNDLE_NAME = Messages.class.getName().toLowerCase();
 
   private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle( BUNDLE_NAME );
 
@@ -21,4 +21,5 @@ public class Messages {
       return '!' + key + '!';
     }
   }
+
 }

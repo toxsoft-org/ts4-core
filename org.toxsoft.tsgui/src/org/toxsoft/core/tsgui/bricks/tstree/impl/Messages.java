@@ -6,7 +6,7 @@ import org.eclipse.osgi.util.NLS;
 public class Messages
     extends NLS {
 
-  private static final String BUNDLE_NAME = "org.toxsoft.tsgui.bricks.tstree.impl.messages"; //$NON-NLS-1$
+  private static final String BUNDLE_NAME = Messages.class.getName().toLowerCase();
 
   public static String STR_D_IS_HEADER_SHOWN;
   public static String STR_N_IS_HEADER_SHOWN;

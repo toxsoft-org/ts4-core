@@ -5,14 +5,14 @@ import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.singlesrc.rcp.ISingleSourcing_MouseWheelListener;
+import org.toxsoft.core.singlesrc.rcp.TsSinglesourcingUtils;
 import org.toxsoft.core.tsgui.widgets.mpv.impl.VertTwoButtonsPane;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
 import org.toxsoft.core.tslib.coll.primtypes.IIntListEdit;
 import org.toxsoft.core.tslib.coll.primtypes.impl.IntArrayList;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.singlesrc.rcp.ISingleSourcing_MouseWheelListener;
-import org.toxsoft.singlesrc.rcp.TsSinglesourcingUtils;
 
 /**
  * {@link IMultiPartValue} editor, with "up" / "down" buttons on the right.

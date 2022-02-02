@@ -12,7 +12,7 @@ public class Activator
   /**
    * The plugin ID for Java static import.
    */
-  public static final String PLUGIN_ID = "org.toxsoft.tsgui"; //$NON-NLS-1$
+  public static final String PLUGIN_ID = "org.toxsoft.core.tsgui"; //$NON-NLS-1$
 
   // The shared instance
   private static Activator instance = null;
