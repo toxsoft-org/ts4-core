@@ -2,19 +2,17 @@ package org.toxsoft.core.tsgui.valed.impl;
 
 import static org.toxsoft.core.tsgui.valed.impl.ITsResources.*;
 
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.*;
 
-import org.toxsoft.core.tsgui.valed.api.IValedControlFactoriesRegistry;
-import org.toxsoft.core.tsgui.valed.api.IValedControlFactory;
+import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tsgui.valed.controls.av.*;
 import org.toxsoft.core.tsgui.valed.controls.basic.*;
-import org.toxsoft.core.tsgui.valed.controls.enums.ValedEnumCombo;
+import org.toxsoft.core.tsgui.valed.controls.enums.*;
 import org.toxsoft.core.tsgui.valed.controls.time.*;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMapEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
-import org.toxsoft.core.tslib.utils.errors.TsItemAlreadyExistsRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * {@link IValedControlFactoriesRegistry} implementation.
@@ -75,7 +73,7 @@ public class ValedControlFactoriesRegistry
   public void registerFactory( IValedControlFactory aFactory ) {
     TsNullArgumentRtException.checkNull( aFactory );
     TsItemAlreadyExistsRtException.checkTrue( factoriesMap.hasKey( aFactory.factoryName() ) );
-    factoriesMap.put( aFactory.getClass().getName(), aFactory );
+    factoriesMap.put( aFactory.factoryName(), aFactory );
   }
 
   @Override

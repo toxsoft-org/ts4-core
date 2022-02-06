@@ -4,14 +4,15 @@ import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContextRefDef;
-import org.toxsoft.core.tsgui.bricks.ctx.impl.TsGuiContextRefDef;
-import org.toxsoft.core.tsgui.graphics.EHorAlignment;
-import org.toxsoft.core.tsgui.valed.api.IValedControl;
-import org.toxsoft.core.tslib.ITsHardConstants;
-import org.toxsoft.core.tslib.av.impl.DataDef;
-import org.toxsoft.core.tslib.av.metainfo.IDataDef;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
+import org.toxsoft.core.tsgui.graphics.*;
+import org.toxsoft.core.tsgui.m5.model.impl.*;
+import org.toxsoft.core.tsgui.valed.api.*;
+import org.toxsoft.core.tslib.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
 
 /**
  * M6 GUI modelling framework constants.
@@ -71,17 +72,35 @@ public interface IM5Constants {
   String M5_OPID_COLUMN_ALIGN = M5_ID + ".hints.ColumnAlignment"; //$NON-NLS-1$
 
   /**
+   * ID of {@link #M5_OPDEF_FLAGS}.
+   */
+  String M5_OPID_FLAGS = M5_ID + ".hints.Flags"; //$NON-NLS-1$
+
+  /**
    * ID of {@link #M5_REFDEF_FIELD_DEF}.
    */
   String M5_REFID_FIELD_DEF = M5_ID + ".M5FieldDef"; //$NON-NLS-1$
 
   /**
    * Option to store column alignment hint.
+   * <p>
+   * This option is to be stored in {@link IM5FieldDef#params()} and then used by GUI framework.
    */
   IDataDef M5_OPDEF_COLUMN_ALIGN = DataDef.create( M5_OPID_COLUMN_ALIGN, VALOBJ, //
       TSID_KEEPER_ID, EHorAlignment.KEEPER_ID, //
       TSID_IS_MANDATORY, AV_FALSE, //
       TSID_DEFAULT_VALUE, avValobj( EHorAlignment.LEFT ) //
+  );
+
+  /**
+   * Option to store {@link IM5FieldDef#flags()} value.
+   * <p>
+   * This option is used in framework <b>before</b> {@link M5FieldDef} creation. After creation this option is ignored.
+   * This option allows to specify flags value in declarative manner, not by Java coding.
+   */
+  IDataDef M5_OPDEF_FLAGS = DataDef.create( M5_OPID_FLAGS, INTEGER, //
+      TSID_IS_MANDATORY, AV_FALSE, //
+      TSID_DEFAULT_VALUE, avInt( 0 ) //
   );
 
   /**

@@ -1,11 +1,10 @@
 package org.toxsoft.core.tsgui.bricks.actions;
 
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.graphics.icons.EIconSize;
-import org.toxsoft.core.tsgui.graphics.icons.ITsIconManager;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.eclipse.jface.action.*;
+import org.eclipse.jface.resource.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link ITsActionDef} base action.
@@ -19,16 +18,15 @@ public class TsAction
   private final ITsGuiContext ctx;
 
   /**
-   * Создает действие с указанием размера значка.
+   * Constructor.
    * <p>
-   * Если размер значка указан null, для загрузки значка используется {@link ITsIconManager#loadFreeIcon(String)}.
-   * <p>
-   * Долен вызываться только из основного GUI-потока выполнения.
+   * If icon size is <code>null</code>, then {@link ITsIconManager#loadFreeIcon(String)} will be used to load an icon,
+   * so {@link ITsActionDef#iconId()} will be considered as symbolic name of an icon.
    *
-   * @param aDef {@link ITsActionDef} - описание действия
-   * @param aIconSize {@link EIconSize} - размер значка или null для нестандартных значков
-   * @param aContext {@link ITsGuiContext} - контекст
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aDef {@link ITsActionDef} - action definition
+   * @param aIconSize {@link EIconSize} - the icon size or <code>null</code> for icon symbolic name
+   * @param aContext {@link ITsGuiContext} - the context
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public TsAction( ITsActionDef aDef, EIconSize aIconSize, ITsGuiContext aContext ) {
     super( TsNullArgumentRtException.checkNull( aDef ).nmName(), aDef.actionStyle() );

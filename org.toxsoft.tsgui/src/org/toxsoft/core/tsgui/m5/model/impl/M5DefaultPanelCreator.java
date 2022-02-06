@@ -210,7 +210,7 @@ public class M5DefaultPanelCreator<T>
    */
   protected IM5CollectionPanel<T> doCreateCollViewerPanel( ITsGuiContext aContext,
       IM5ItemsProvider<T> aItemsProvider ) {
-    MultiPaneComponentModown<T> mpc = MultiPaneComponentModown.createViewer( aContext, model, aItemsProvider );
+    MultiPaneComponentModown<T> mpc = new MultiPaneComponentModown<>( aContext, model, aItemsProvider );
     return new M5CollectionPanelMpcModownWrapper<>( mpc, true );
   }
 
@@ -228,7 +228,7 @@ public class M5DefaultPanelCreator<T>
   protected IM5CollectionPanel<T> doCreateCollEditPanel( ITsGuiContext aContext, IM5ItemsProvider<T> aItemsProvider,
       IM5LifecycleManager<T> aLifecycleManager ) {
     MultiPaneComponentModown<T> mpc =
-        MultiPaneComponentModown.createEditor( aContext, model, aItemsProvider, aLifecycleManager );
+        new MultiPaneComponentModown<>( aContext, model, aItemsProvider, aLifecycleManager );
     return new M5CollectionPanelMpcModownWrapper<>( mpc, false );
   }
 

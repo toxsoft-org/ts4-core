@@ -2,15 +2,14 @@ package org.toxsoft.core.tsgui.bricks.actions;
 
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import org.eclipse.jface.action.IAction;
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.av.opset.impl.OptionSetUtils;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridableParameterized;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.eclipse.jface.action.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Parttly editable implementation of {@link ITsActionDef}.
+ * Partly editable implementation of {@link ITsActionDef}.
  *
  * @author hazard157
  */
@@ -23,9 +22,9 @@ public class TsActionDef
   /**
    * Constructor.
    *
-   * @param aId String - action ID (Idpath)
-   * @param aActionStyle int - action stle, only one of the {@link IAction}<b>.AS_XXX</b> constant
-   * @param aParams {@link IOptionSet} - {@link #params()} initial values
+   * @param aId String - action ID (an IDpath)
+   * @param aActionStyle int - action style, only one of the {@link IAction}<b>.AS_XXX</b> constant
+   * @param aParams {@link IOptionSet} - {@link #params()} values
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException ID is not an IDpath
    * @throws TsIllegalArgumentRtException aActionStyle has invalid value
@@ -39,25 +38,44 @@ public class TsActionDef
   }
 
   /**
-   * Конструктор.
+   * Constructor.
    *
-   * @param aId String - идентификатор (ИД-путь) типа
-   * @param aActionStyle int - стиль действия
-   * @param aIdsAndValues Object[] - id / value pairs as for {@link OptionSetUtils#createOpSet(Object...)}
-   * @throws TsNullArgumentRtException любой аргумент = <code>null</code>
-   * @throws TsIllegalArgumentRtException идентификатор не ИД-путь
-   * @throws TsIllegalArgumentRtException aActionStyle имеет недопустимое значение
+   * @param aId String - action ID (an IDpath)
+   * @param aActionStyle int - action style, only one of the {@link IAction}<b>.AS_XXX</b> constant
+   * @param aIdsAndValues Object[] - {@link #params()} values as for {@link OptionSetUtils#createOpSet(Object...)}
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException ID is not an IDpath
+   * @throws TsIllegalArgumentRtException aActionStyle has invalid value
    */
   public TsActionDef( String aId, int aActionStyle, Object... aIdsAndValues ) {
     this( aId, aActionStyle, OptionSetUtils.createOpSet( aIdsAndValues ) );
   }
 
-  @SuppressWarnings( "javadoc" )
+  /**
+   * Create an action definition of style {@link IAction#AS_PUSH_BUTTON}.
+   *
+   * @param aId String - action ID (an IDpath)
+   * @param aIdsAndValues Object[] - {@link #params()} values as for {@link OptionSetUtils#createOpSet(Object...)}
+   * @return {@link TsActionDef} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException ID is not an IDpath
+   */
   public static TsActionDef ofPush1( String aId, Object... aIdsAndValues ) {
     return new TsActionDef( aId, IAction.AS_PUSH_BUTTON, aIdsAndValues );
   }
 
-  @SuppressWarnings( "javadoc" )
+  /**
+   * Create an action definition of style {@link IAction#AS_PUSH_BUTTON}.
+   *
+   * @param aId String - action ID (an IDpath)
+   * @param aName String - action name {@link ITsActionDef#nmName()}
+   * @param aDescription String - action decription {@link ITsActionDef#description()}
+   * @param aIconId String - icon ID {@link ITsActionDef#iconId()}, may be <code>null</code>
+   * @param aIdsAndValues Object[] - {@link #params()} values as for {@link OptionSetUtils#createOpSet(Object...)}
+   * @return {@link TsActionDef} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException ID is not an IDpath
+   */
   public static TsActionDef ofPush2( String aId, String aName, String aDescription, String aIconId,
       Object... aIdsAndValues ) {
     TsNullArgumentRtException.checkNulls( aName, aDescription );
@@ -69,12 +87,31 @@ public class TsActionDef
     return adef;
   }
 
-  @SuppressWarnings( "javadoc" )
+  /**
+   * Create an action definition of style {@link IAction#AS_CHECK_BOX}.
+   *
+   * @param aId String - action ID (an IDpath)
+   * @param aIdsAndValues Object[] - {@link #params()} values as for {@link OptionSetUtils#createOpSet(Object...)}
+   * @return {@link TsActionDef} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException ID is not an IDpath
+   */
   public static TsActionDef ofCheck1( String aId, Object... aIdsAndValues ) {
     return new TsActionDef( aId, IAction.AS_CHECK_BOX, aIdsAndValues );
   }
 
-  @SuppressWarnings( "javadoc" )
+  /**
+   * Create an action definition of style {@link IAction#AS_CHECK_BOX}.
+   *
+   * @param aId String - action ID (an IDpath)
+   * @param aName String - action name {@link ITsActionDef#nmName()}
+   * @param aDescription String - action decription {@link ITsActionDef#description()}
+   * @param aIconId String - icon ID {@link ITsActionDef#iconId()}, may be <code>null</code>
+   * @param aIdsAndValues Object[] - {@link #params()} values as for {@link OptionSetUtils#createOpSet(Object...)}
+   * @return {@link TsActionDef} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException ID is not an IDpath
+   */
   public static TsActionDef ofCheck2( String aId, String aName, String aDescription, String aIconId,
       Object... aIdsAndValues ) {
     TsNullArgumentRtException.checkNulls( aName, aDescription );
@@ -86,12 +123,31 @@ public class TsActionDef
     return adef;
   }
 
-  @SuppressWarnings( "javadoc" )
+  /**
+   * Create an action definition of style {@link IAction#AS_DROP_DOWN_MENU}.
+   *
+   * @param aId String - action ID (an IDpath)
+   * @param aIdsAndValues Object[] - {@link #params()} values as for {@link OptionSetUtils#createOpSet(Object...)}
+   * @return {@link TsActionDef} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException ID is not an IDpath
+   */
   public static TsActionDef ofMenu1( String aId, Object... aIdsAndValues ) {
     return new TsActionDef( aId, IAction.AS_DROP_DOWN_MENU, aIdsAndValues );
   }
 
-  @SuppressWarnings( "javadoc" )
+  /**
+   * Create an action definition of style {@link IAction#AS_DROP_DOWN_MENU}.
+   *
+   * @param aId String - action ID (an IDpath)
+   * @param aName String - action name {@link ITsActionDef#nmName()}
+   * @param aDescription String - action decription {@link ITsActionDef#description()}
+   * @param aIconId String - icon ID {@link ITsActionDef#iconId()}, may be <code>null</code>
+   * @param aIdsAndValues Object[] - {@link #params()} values as for {@link OptionSetUtils#createOpSet(Object...)}
+   * @return {@link TsActionDef} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException ID is not an IDpath
+   */
   public static TsActionDef ofMenu2( String aId, String aName, String aDescription, String aIconId,
       Object... aIdsAndValues ) {
     TsNullArgumentRtException.checkNulls( aName, aDescription );
@@ -103,12 +159,28 @@ public class TsActionDef
     return adef;
   }
 
-  @SuppressWarnings( "javadoc" )
+  /**
+   * Create an action definition of style {@link IAction#AS_RADIO_BUTTON}.
+   *
+   * @param aId String - action ID (an IDpath)
+   * @param aIdsAndValues Object[] - {@link #params()} values as for {@link OptionSetUtils#createOpSet(Object...)}
+   * @return {@link TsActionDef} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException ID is not an IDpath
+   */
   public static TsActionDef ofRadio1( String aId, Object... aIdsAndValues ) {
     return new TsActionDef( aId, IAction.AS_RADIO_BUTTON, aIdsAndValues );
   }
 
-  @SuppressWarnings( "javadoc" )
+  /**
+   * Create an action definition of style {@link IAction#AS_UNSPECIFIED}.
+   *
+   * @param aId String - action ID (an IDpath)
+   * @param aIdsAndValues Object[] - {@link #params()} values as for {@link OptionSetUtils#createOpSet(Object...)}
+   * @return {@link TsActionDef} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException ID is not an IDpath
+   */
   public static TsActionDef ofUnspec1( String aId, Object... aIdsAndValues ) {
     return new TsActionDef( aId, IAction.AS_UNSPECIFIED, aIdsAndValues );
   }

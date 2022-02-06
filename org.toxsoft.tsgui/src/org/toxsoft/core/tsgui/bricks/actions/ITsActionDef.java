@@ -1,11 +1,11 @@
 package org.toxsoft.core.tsgui.bricks.actions;
 
-import org.eclipse.jface.action.IAction;
-import org.toxsoft.core.tsgui.graphics.icons.ITsIconManager;
-import org.toxsoft.core.tslib.bricks.strid.IStridableParameterized;
+import org.eclipse.jface.action.*;
+import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
 
 /**
- * Описание действии в GUI.
+ * Defines the GUI action.
  *
  * @author hazard157
  */
@@ -13,17 +13,19 @@ public interface ITsActionDef
     extends IStridableParameterized {
 
   /**
-   * Возвращает стиль действия, одна из {@link IAction#AS_UNSPECIFIED}, {@link IAction#AS_CHECK_BOX},
-   * {@link IAction#AS_DROP_DOWN_MENU}, {@link IAction#AS_PUSH_BUTTON}, {@link IAction#AS_RADIO_BUTTON}.
+   * Returns the SWT style of action.
+   * <p>
+   * Returns one of {@link IAction#AS_UNSPECIFIED}, {@link IAction#AS_CHECK_BOX}, {@link IAction#AS_DROP_DOWN_MENU},
+   * {@link IAction#AS_PUSH_BUTTON}, {@link IAction#AS_RADIO_BUTTON}.
    *
-   * @return int - тип действия
+   * @return int - SWT style of this ation
    */
   int actionStyle();
 
   /**
-   * Возвращает идентификатор значка к для использования с {@link ITsIconManager}.
+   * Returns action icon ID for use with {@link ITsIconManager}.
    *
-   * @return String - имя значка действия или <code>null</code>, если у действия нет значка
+   * @return String - the icon ID or <code>null</code> for no icon
    */
   String iconId();
 

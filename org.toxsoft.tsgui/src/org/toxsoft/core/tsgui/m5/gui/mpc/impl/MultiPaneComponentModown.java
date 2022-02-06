@@ -1,7 +1,6 @@
 package org.toxsoft.core.tsgui.m5.gui.mpc.impl;
 
 import static org.toxsoft.core.tsgui.m5.gui.mpc.IMultiPaneComponentConstants.*;
-import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 
 import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
 import org.toxsoft.core.tsgui.bricks.ctx.impl.TsGuiContext;
@@ -16,6 +15,7 @@ import org.toxsoft.core.tsgui.m5.model.IM5ItemsProvider;
 import org.toxsoft.core.tsgui.m5.model.IM5LifecycleManager;
 import org.toxsoft.core.tsgui.m5.model.impl.M5BunchEdit;
 import org.toxsoft.core.tsgui.panels.lazy.ILazyControl;
+import org.toxsoft.core.tslib.av.impl.AvUtils;
 import org.toxsoft.core.tslib.coll.helpers.ECrudOp;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -47,41 +47,34 @@ public class MultiPaneComponentModown<T>
   /**
    * Creates instance to view entities, not to edit.
    *
-   * @param <T> - M5-modelled entity type
    * @param aContext {@link ITsGuiContext} - the context
    * @param aModel {@link IM5Model} - the model
    * @param aItemsProvider {@link IM5ItemsProvider} - the items provider or <code>null</code>
-   * @return {@link MultiPaneComponentModown} - created instance
    */
-  public static <T> MultiPaneComponentModown<T> createViewer( ITsGuiContext aContext, IM5Model<T> aModel,
-      IM5ItemsProvider<T> aItemsProvider ) {
-    ITsGuiContext ctx = new TsGuiContext( aContext );
-    OPDEF_IS_ACTIONS_CRUD.setValue( ctx.params(), AV_FALSE );
-    IM5TreeViewer<T> tree = new M5TreeViewer<>( ctx, aModel );
-    MultiPaneComponentModown<T> p = new MultiPaneComponentModown<>( tree );
-    p.setItemProvider( aItemsProvider );
-    return p;
+  public MultiPaneComponentModown( ITsGuiContext aContext, IM5Model<T> aModel, IM5ItemsProvider<T> aItemsProvider ) {
+    super( new M5TreeViewer<>( makeContext( aContext, false ), aModel ) );
+    setItemProvider( aItemsProvider );
   }
 
   /**
    * Creates instance to edit entities.
    *
-   * @param <T> - M5-modelled entity type
    * @param aContext {@link ITsGuiContext} - the context
    * @param aModel {@link IM5Model} - the model
    * @param aItemsProvider {@link IM5ItemsProvider} - the items provider or <code>null</code>
    * @param aLifecycleManager {@link IM5LifecycleManager} - the lifecycle manager or <code>null</code>
-   * @return {@link MultiPaneComponentModown} - created instance
    */
-  public static <T> MultiPaneComponentModown<T> createEditor( ITsGuiContext aContext, IM5Model<T> aModel,
-      IM5ItemsProvider<T> aItemsProvider, IM5LifecycleManager<T> aLifecycleManager ) {
+  public MultiPaneComponentModown( ITsGuiContext aContext, IM5Model<T> aModel, IM5ItemsProvider<T> aItemsProvider,
+      IM5LifecycleManager<T> aLifecycleManager ) {
+    super( new M5TreeViewer<>( makeContext( aContext, true ), aModel ) );
+    setItemProvider( aItemsProvider );
+    setLifecycleManager( aLifecycleManager );
+  }
+
+  private static ITsGuiContext makeContext( ITsGuiContext aContext, boolean aEditor ) {
     ITsGuiContext ctx = new TsGuiContext( aContext );
-    OPDEF_IS_ACTIONS_CRUD.setValue( ctx.params(), AV_TRUE );
-    IM5TreeViewer<T> tree = new M5TreeViewer<>( ctx, aModel );
-    MultiPaneComponentModown<T> p = new MultiPaneComponentModown<>( tree );
-    p.setItemProvider( aItemsProvider );
-    p.setLifecycleManager( aLifecycleManager );
-    return p;
+    OPDEF_IS_ACTIONS_CRUD.setValue( ctx.params(), AvUtils.avBool( aEditor ) );
+    return ctx;
   }
 
   // ------------------------------------------------------------------------------------

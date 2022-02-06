@@ -799,6 +799,17 @@ public class MultiPaneComponent<T>
     return filterPane;
   }
 
+  /**
+   * Returns the toolbar.
+   * <p>
+   * Even if unvisible, toolbar always exists with actions on it.
+   *
+   * @return {@link ITsToolBar} - the toolbar
+   */
+  public ITsToolBar toolbar() {
+    return toolbar;
+  }
+
   // ------------------------------------------------------------------------------------
   // To implement
   //

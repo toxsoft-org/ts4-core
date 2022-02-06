@@ -1,7 +1,8 @@
 package org.toxsoft.core.tsgui.panels.vecboard;
 
-import org.toxsoft.core.tsgui.graphics.icons.EIconSize;
-import org.toxsoft.core.tsgui.graphics.icons.ITsIconManager;
+import org.toxsoft.core.tsgui.graphics.icons.*;
+
+// TODO TRANSLATE
 
 /**
  * Параметры элементов в раскладке {@link IVecTabLayout}.

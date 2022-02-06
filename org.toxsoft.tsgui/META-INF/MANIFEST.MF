@@ -22,6 +22,7 @@ Require-Bundle: javax.inject,
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: org.toxsoft.tsgui
 Bundle-ActivationPolicy: lazy
+DynamicImport-Package: *
 Export-Package: org.toxsoft.core.tsgui,
  org.toxsoft.core.tsgui.bricks.actions,
  org.toxsoft.core.tsgui.bricks.ctx,
