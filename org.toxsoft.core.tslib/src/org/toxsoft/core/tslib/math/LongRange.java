@@ -2,20 +2,16 @@ package org.toxsoft.core.tslib.math;
 
 import static org.toxsoft.core.tslib.math.ITsResources.*;
 
-import java.io.Serializable;
+import java.io.*;
 
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.EEncloseMode;
-import org.toxsoft.core.tslib.bricks.strio.IStrioReader;
-import org.toxsoft.core.tslib.bricks.strio.IStrioWriter;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
-import org.toxsoft.core.tslib.bricks.validator.impl.TsValidationFailedRtException;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Min-max long values immutable representation.
@@ -64,27 +60,17 @@ public final class LongRange
         }
       };
 
-  private ITsValidator<Long> validatorLong = new ITsValidator<>() {
-
-    @Override
-    public ValidationResult validate( Long aValue ) {
-      TsNullArgumentRtException.checkNull( aValue );
-      return LongRange.this.validate( aValue.longValue() );
-    }
-
+  private ITsValidator<Long> validatorLong = aValue -> {
+    TsNullArgumentRtException.checkNull( aValue );
+    return this.validate( aValue.longValue() );
   };
 
-  private ITsValidator<IAtomicValue> validatorAv = new ITsValidator<>() {
-
-    @Override
-    public ValidationResult validate( IAtomicValue aValue ) {
-      TsNullArgumentRtException.checkNull( aValue );
-      if( aValue.atomicType() != EAtomicType.INTEGER ) {
-        return ValidationResult.error( FMT_ERR_AV_NOT_INTEGER, aValue.atomicType().id() );
-      }
-      return LongRange.this.validate( aValue.asLong() );
+  private ITsValidator<IAtomicValue> validatorAv = aValue -> {
+    TsNullArgumentRtException.checkNull( aValue );
+    if( aValue.atomicType() != EAtomicType.INTEGER ) {
+      return ValidationResult.error( FMT_ERR_AV_NOT_INTEGER, aValue.atomicType().id() );
     }
-
+    return this.validate( aValue.asLong() );
   };
 
   final long minValue;
@@ -141,6 +127,43 @@ public final class LongRange
       return maxValue;
     }
     return aValue;
+  }
+
+  /**
+   * Returns the range width.
+   * <p>
+   * Minimal width, when {@link #minValue()} == {@link #maxValue()} is 1. Note that method throws an exception if
+   * {@link #minValue()} == {@link Long#MIN_VALUE} and {@link #maxValue()} == {@link Long#MAX_VALUE}.
+   *
+   * @return int - the range width
+   * @throws TsUnsupportedFeatureRtException this range is max available {@link Long} range
+   */
+  public long width() {
+    TsUnsupportedFeatureRtException.checkTrue( minValue == Long.MIN_VALUE && maxValue == Long.MAX_VALUE );
+    return maxValue - minValue + 1;
+  }
+
+  /**
+   * Calculates distance between value ang range.
+   * <p>
+   * Method returns:
+   * <ul>
+   * <li>0 - value is in range;</li>
+   * <li><0 (negative number) - difference between <code>aValue</code> and {@link #minValue()};</li>
+   * <li>>0 (positivenumber) - difference between <code>aValue</code> and {@link #maxValue()};</li>
+   * </ul>
+   *
+   * @param aValue long - the value
+   * @return long - distance between the value and the range
+   */
+  public long distance( long aValue ) {
+    if( aValue > maxValue ) {
+      return aValue - maxValue;
+    }
+    if( aValue < minValue ) {
+      return aValue - minValue;
+    }
+    return 0;
   }
 
   /**
@@ -217,8 +240,7 @@ public final class LongRange
       return true;
     }
     // equality check will be performed on IntRange because tslib does not creates IntRange instances
-    if( aThat instanceof IntRange ) {
-      IntRange that = (IntRange)aThat;
+    if( aThat instanceof IntRange that ) {
       return this.minValue == that.minValue && this.maxValue == that.maxValue;
     }
     return false;

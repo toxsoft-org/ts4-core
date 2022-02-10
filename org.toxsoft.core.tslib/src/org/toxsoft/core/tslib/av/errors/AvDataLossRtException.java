@@ -2,18 +2,10 @@ package org.toxsoft.core.tslib.av.errors;
 
 import static org.toxsoft.core.tslib.av.errors.ITsResources.*;
 
-import org.toxsoft.core.tslib.utils.errors.TsRuntimeException;
-
-// TRANSLATE
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Потеря данных при преобразовании к типу с меньшей разрядностью.
- * <p>
- * Данная ошибка возникает при попытке получить значение какого нибуть типа как совместимый тип, но с меньшим диапазоном
- * допустимых значений, и при этом реальное значение выходит за допустимые пределы. В частности, при попытке получить
- * целое как int или long, если значение целого выходит за пределы 32-х или 64-х разрядных числе соответственно.
- * Аналогичные ситуации возможны с вещественными числами. Также возможна ситуация при попытке получить данные в буфер
- * (массив) меньшей длины, чем исходный.
+ * Loss of data when converting to a type with a lower bit depth.
  *
  * @author hazard157
  */
@@ -23,168 +15,157 @@ public class AvDataLossRtException
   private static final long serialVersionUID = 157157L;
 
   /**
-   * Создает трансилирующее исключение.
+   * Constructor for wrapper exception.
+   * <p>
+   * Message string is created useing {@link String#format(String, Object...)}.
    *
-   * @param aCause Throwable - ошибка, вызвавшее данное исключние
-   * @param aMessageFormat String - форматирующее сообщение о сути исключения
-   * @param aMsgArgs Object[] - аргументы форматированного сообщения
+   * @param aCause Throwable - cause, mey be <code>null</code>
+   * @param aMessageFormat String - message format string
+   * @param aMsgArgs Object[] - optional arguments for message string
    */
   public AvDataLossRtException( Throwable aCause, String aMessageFormat, Object... aMsgArgs ) {
     super( aCause, aMessageFormat, aMsgArgs );
   }
 
   /**
-   * Создает исключение ТоксСофт, происшедшее в коде.
+   * Constructor.
+   * <p>
+   * Message string is created useing {@link String#format(String, Object...)}.
    *
-   * @param aMessageFormat String - форматирующее сообщение о сути исключения
-   * @param aMsgArgs Object[] - аргументы форматированного сообщения
+   * @param aMessageFormat String - message format string
+   * @param aMsgArgs Object[] - optional arguments for message string
    */
   public AvDataLossRtException( String aMessageFormat, Object... aMsgArgs ) {
     super( aMessageFormat, aMsgArgs );
   }
 
   /**
-   * Создает трансилирующее исключение ТоксСофт, с предопределенным текстом сообщения.
+   * Constructor for wrapper exception with preset message.
    *
-   * @param aCause Throwable - ошибка, вызвавшее данное исключние
+   * @param aCause Throwable - cause, mey be <code>null</code>
    */
   public AvDataLossRtException( Throwable aCause ) {
     super( ERR_MSG_STD_DATA_LOSS, aCause );
   }
 
   /**
-   * Создает исключение ТоксСофт, с предопределенным текстом сообщения.
+   * Constructor with preset message.
    */
   public AvDataLossRtException() {
     super( ERR_MSG_STD_DATA_LOSS );
   }
 
+  // ------------------------------------------------------------------------------------
+  // Check & throw methods
+  //
+
   /**
-   * Проверяет выражение, и если оно не верно, выбрасывает исключение.
+   * Throws an exception if condition is <code>false</code>.
    *
-   * @param aExpression boolean - проверяемое выражение
-   * @param aMessageFormat String - форматирующее сообщение о сути исключения
-   * @param aMsgArgs Object[] - аргументы форматированного сообщения
-   * @throws AvDataLossRtException - если aExpression == false
+   * @param aCondition boolean - checked condition
+   * @param aMessageFormat String - message format string
+   * @param aMsgArgs Object[] - optional arguments for message string
+   * @throws AvDataLossRtException aCondition == <code>false</code>
    */
-  public static void checkFalse( boolean aExpression, String aMessageFormat, Object... aMsgArgs )
+  public static void checkFalse( boolean aCondition, String aMessageFormat, Object... aMsgArgs )
       throws AvDataLossRtException {
-    if( !aExpression ) {
+    if( !aCondition ) {
       throw new AvDataLossRtException( aMessageFormat, aMsgArgs );
     }
   }
 
   /**
-   * Проверяет выражение, и если оно не верно, выбрасывает исключение с предопределенным текстом сообщения.
+   * Throws an exception with preset message if condition is <code>false</code>.
    *
-   * @param aExpression boolean - проверяемое выражение
-   * @throws AvDataLossRtException - если aExpression == false
+   * @param aCondition boolean - checked condition
+   * @throws AvDataLossRtException aCondition == <code>false</code>
    */
-  public static void checkFalse( boolean aExpression )
+  public static void checkFalse( boolean aCondition )
       throws AvDataLossRtException {
-    if( !aExpression ) {
+    if( !aCondition ) {
       throw new AvDataLossRtException( ERR_MSG_STD_DATA_LOSS );
     }
   }
 
   /**
-   * Проверяет выражение, и если оно верно, выбрасывает исключение.
+   * Throws an exception if condition is <code>true</code>.
    *
-   * @param aExpression boolean - проверяемое выражение
-   * @param aMessageFormat String - форматирующее сообщение о сути исключения
-   * @param aMsgArgs Object[] - аргументы форматированного сообщения
-   * @throws AvDataLossRtException - если aExpression == true
+   * @param aCondition boolean - checked condition
+   * @param aMessageFormat String - message format string
+   * @param aMsgArgs Object[] - optional arguments for message string
+   * @throws AvDataLossRtException aCondition == <code>true</code>
    */
-  public static void checkTrue( boolean aExpression, String aMessageFormat, Object... aMsgArgs )
+  public static void checkTrue( boolean aCondition, String aMessageFormat, Object... aMsgArgs )
       throws AvDataLossRtException {
-    if( aExpression ) {
+    if( aCondition ) {
       throw new AvDataLossRtException( aMessageFormat, aMsgArgs );
     }
   }
 
   /**
-   * Проверяет выражение, и если оно верно, выбрасывает исключение с заданным текстом сообщения.
+   * Throws an exception with preset message if condition is <code>true</code>.
    *
-   * @param aExpression boolean - проверяемое выражение
-   * @throws AvDataLossRtException - если aExpression == true
+   * @param aCondition boolean - checked condition
+   * @throws AvDataLossRtException aCondition == <code>true</code>
    */
-  public static void checkTrue( boolean aExpression )
+  public static void checkTrue( boolean aCondition )
       throws AvDataLossRtException {
-    if( aExpression ) {
+    if( aCondition ) {
       throw new AvDataLossRtException( ERR_MSG_STD_DATA_LOSS );
     }
   }
 
   /**
-   * Проверяет ссылку, и если она не нулевая, выбрасывает исключение.<br>
-   * Для удобаства использования, возвращает переданную ссылку.
+   * Throws an exception if any reference is <code>null</code>.
    *
-   * @param <E> - необязательная типизация по переданной ссылке
-   * @param aReference Object - проверяемая ссылка
-   * @param aMessageFormat String - форматирующее сообщение о сути исключения
-   * @param aMsgArgs Object[] - аргументы форматированного сообщения
-   * @return E - переданная ссылка
-   * @throws AvDataLossRtException - проверяемая ссылка не равна null
+   * @param aRefs Object[] - checked references
+   * @throws AvDataLossRtException aRefs == {@link NullPointerException}
+   * @throws AvDataLossRtException any array element is <code>null</code>
    */
-  public static <E> E checkNoNull( E aReference, String aMessageFormat, Object... aMsgArgs )
+  public static void checkNulls( Object... aRefs )
       throws AvDataLossRtException {
-    if( aReference != null ) {
+    if( aRefs == null ) {
+      throw new AvDataLossRtException( ERR_MSG_STD_DATA_LOSS );
+    }
+    for( int i = aRefs.length - 1; i >= 0; i-- ) {
+      if( aRefs[i] == null ) {
+        throw new AvDataLossRtException( ERR_MSG_STD_DATA_LOSS );
+      }
+    }
+  }
+
+  /**
+   * Throws an exception if reference is <code>null</code>.
+   *
+   * @param <E> - reference type
+   * @param aRef &lt;E&gt; - checked reference
+   * @param aMessageFormat String - message format string
+   * @param aMsgArgs Object[] - optional arguments for message string
+   * @return &lt;E&gt; - always returns aRef
+   * @throws AvDataLossRtException aRef == <code>null</code>
+   */
+  public static <E> E checkNull( E aRef, String aMessageFormat, Object... aMsgArgs )
+      throws AvDataLossRtException {
+    if( aRef == null ) {
       throw new AvDataLossRtException( aMessageFormat, aMsgArgs );
     }
-    return aReference;
+    return aRef;
   }
 
   /**
-   * Проверяет ссылку, и если она не нулевая, выбрасывает исключение с заданным текстом сообщения.<br>
-   * Для удобаства использования, возвращает переданную ссылку.
+   * Throws an exception with preset message if reference is <code>null</code>.
    *
-   * @param <E> - необязательная типизация по переданной ссылке
-   * @param aReference Object - проверяемая ссылка
-   * @return E - переданная ссылка
-   * @throws AvDataLossRtException - проверяемая ссылка не равна null
+   * @param <E> - reference type
+   * @param aRef &lt;E&gt; - checked reference
+   * @return &lt;E&gt; - always returns aRef
+   * @throws AvDataLossRtException aRef == <code>null</code>
    */
-  public static <E> E checkNoNull( E aReference )
+  public static <E> E checkNull( E aRef )
       throws AvDataLossRtException {
-    if( aReference != null ) {
+    if( aRef == null ) {
       throw new AvDataLossRtException( ERR_MSG_STD_DATA_LOSS );
     }
-    return aReference;
-  }
-
-  /**
-   * Проверяет ссылку, и если она нулевая, выбрасывает исключение.<br>
-   * Для удобаства использования, возвращает переданную ссылку.
-   *
-   * @param <E> - необязательная типизация по переданной ссылке
-   * @param aReference Object - проверяемая ссылка
-   * @param aMessageFormat String - форматирующее сообщение о сути исключения
-   * @param aMsgArgs Object[] - аргументы форматированного сообщения
-   * @return E - переданная ссылка
-   * @throws AvDataLossRtException - проверяемая ссылка равна null
-   */
-  public static <E> E checkNull( E aReference, String aMessageFormat, Object... aMsgArgs )
-      throws AvDataLossRtException {
-    if( aReference == null ) {
-      throw new AvDataLossRtException( aMessageFormat, aMsgArgs );
-    }
-    return aReference;
-  }
-
-  /**
-   * Проверяет ссылку, и если она нулевая, выбрасывает исключение с заданным текстом сообщения.<br>
-   * Для удобаства использования, возвращает переданную ссылку.
-   *
-   * @param <E> - необязательная типизация по переданной ссылке
-   * @param aReference Object - проверяемая ссылка
-   * @return E - переданная ссылка
-   * @throws AvDataLossRtException - проверяемая ссылка равна null
-   */
-  public static <E> E checkNull( E aReference )
-      throws AvDataLossRtException {
-    if( aReference == null ) {
-      throw new AvDataLossRtException( ERR_MSG_STD_DATA_LOSS );
-    }
-    return aReference;
+    return aRef;
   }
 
 }

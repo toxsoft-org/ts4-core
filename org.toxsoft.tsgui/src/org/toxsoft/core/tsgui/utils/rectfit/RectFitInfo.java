@@ -2,14 +2,12 @@ package org.toxsoft.core.tsgui.utils.rectfit;
 
 import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 
-import org.toxsoft.core.tslib.bricks.geometry.ITsPoint;
-import org.toxsoft.core.tslib.bricks.geometry.impl.TsPoint;
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.EEncloseMode;
-import org.toxsoft.core.tslib.bricks.strio.IStrioReader;
-import org.toxsoft.core.tslib.bricks.strio.IStrioWriter;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
+import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.bricks.geometry.impl.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -37,7 +35,7 @@ public final class RectFitInfo {
   /**
    * The keeper ID.
    */
-  public static final String KEEPER_ID = "FitInfo"; //$NON-NLS-1$
+  public static final String KEEPER_ID = "RectFitInfo"; //$NON-NLS-1$
 
   /**
    * Convinience constant of no special fitting - display original object in vieweport.
@@ -53,7 +51,7 @@ public final class RectFitInfo {
         @Override
         protected void doWrite( IStrioWriter aSw, RectFitInfo aEntity ) {
           ERectFitMode.KEEPER.write( aSw, aEntity.fitMode );
-          if( aEntity.expandToFit != false ) {
+          if( aEntity.expandToFit ) {
             aSw.writeSeparatorChar();
             aSw.writeBoolean( aEntity.expandToFit );
           }
@@ -218,8 +216,7 @@ public final class RectFitInfo {
     if( aThat == this ) {
       return true;
     }
-    if( aThat instanceof RectFitInfo ) {
-      RectFitInfo that = (RectFitInfo)aThat;
+    if( aThat instanceof RectFitInfo that ) {
       return this.fitMode == that.fitMode && //
           (Double.compare( this.zoomFactor, that.zoomFactor ) == 0) && //
           this.expandToFit == that.expandToFit;

@@ -6,23 +6,19 @@ import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.*;
+import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.valed.api.IValedControl;
-import org.toxsoft.core.tsgui.valed.impl.AbstractValedControl;
-import org.toxsoft.core.tsgui.valed.impl.AbstractValedControlFactory;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.impl.DataDef;
-import org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants;
-import org.toxsoft.core.tslib.av.metainfo.IDataDef;
-import org.toxsoft.core.tslib.av.opset.IOptionSetEdit;
-import org.toxsoft.core.tslib.av.opset.impl.OptionSet;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContextRo;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.valed.api.*;
+import org.toxsoft.core.tsgui.valed.impl.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.bricks.ctx.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -117,7 +113,7 @@ public class ValedIntegerSpinner
   }
 
   // ------------------------------------------------------------------------------------
-  // Внутренные методы
+  // implementation
   //
 
   private void recreateWidgets() {
@@ -142,13 +138,9 @@ public class ValedIntegerSpinner
       if( isEditable() ) {
         spinner = new Spinner( backplane, SWT.BORDER );
         updateSpinnerLimits();
-        spinner.addModifyListener( new ModifyListener() {
-
-          @Override
-          public void modifyText( ModifyEvent aE ) {
-            value = Integer.valueOf( spinner.getSelection() );
-            fireModifyEvent( true );
-          }
+        spinner.addModifyListener( aE -> {
+          value = Integer.valueOf( spinner.getSelection() );
+          fireModifyEvent( true );
         } );
         spinner.addFocusListener( notifyEditFinishedOnFocusLostListener );
       }
@@ -217,7 +209,7 @@ public class ValedIntegerSpinner
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация методов AbstractDavControl
+  // AbstractValedControl
   //
 
   @Override
@@ -265,6 +257,8 @@ public class ValedIntegerSpinner
   // ------------------------------------------------------------------------------------
   // API класса
   //
+
+  // TODO TRANSLATE
 
   /**
    * Возвращает значение параметра {@link #OPDEF_STEP}.

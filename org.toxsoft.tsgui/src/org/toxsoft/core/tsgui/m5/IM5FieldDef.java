@@ -1,15 +1,13 @@
 package org.toxsoft.core.tsgui.m5;
 
-import java.util.Comparator;
+import java.util.*;
 
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContextable;
-import org.toxsoft.core.tsgui.valed.api.IValedControl;
-import org.toxsoft.core.tslib.bricks.strid.IStridableParameterized;
-import org.toxsoft.core.tslib.bricks.validator.ITsValidator;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMap;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalStateRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.valed.api.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Modelled entity field definition.
@@ -159,21 +157,21 @@ public interface IM5FieldDef<T, V>
   /**
    * Determines if {@link #flags()} has any bit from argument.
    *
-   * @param aHintFlag int - bits to be tested
+   * @param aFlag int - bits to be tested
    * @return boolean - if any non-zero bit of aHitFlag has value 1 in {@link #flags()}
    */
-  default boolean hasFlag( int aHintFlag ) {
-    return (flags() & aHintFlag) != 0;
+  default boolean hasFlag( int aFlag ) {
+    return (flags() & aFlag) != 0;
   }
 
   /**
    * Determines if {@link #flags()} has all bits from argument.
    *
-   * @param aHintFlag int - bits to be tested
+   * @param aFlag int - bits to be tested
    * @return boolean - if all non-zero bits of aHitFlag has value 1 in {@link #flags()}
    */
-  default boolean hasFlags( int aHintFlag ) {
-    return (flags() & aHintFlag) == aHintFlag;
+  default boolean hasFlags( int aFlag ) {
+    return (flags() & aFlag) == aFlag;
   }
 
 }

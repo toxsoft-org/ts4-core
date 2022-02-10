@@ -1,14 +1,12 @@
 package org.toxsoft.core.tsgui.m5.gui.panels.impl;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.toxsoft.core.tsgui.m5.gui.mpc.impl.MultiPaneComponentModown;
-import org.toxsoft.core.tsgui.m5.gui.panels.IM5CollectionPanel;
-import org.toxsoft.core.tsgui.m5.model.IM5ItemsProvider;
-import org.toxsoft.core.tsgui.m5.model.IM5LifecycleManager;
-import org.toxsoft.core.tsgui.utils.checkcoll.ITsCheckSupport;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.m5.gui.mpc.impl.*;
+import org.toxsoft.core.tsgui.m5.gui.panels.*;
+import org.toxsoft.core.tsgui.m5.model.*;
+import org.toxsoft.core.tsgui.utils.checkcoll.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link IM5CollectionPanel} implementation that wraps over {@link MultiPaneComponentModown}.
@@ -31,6 +29,8 @@ public class M5CollectionPanelMpcModownWrapper<T>
   public M5CollectionPanelMpcModownWrapper( MultiPaneComponentModown<T> aMpc, boolean aViewer ) {
     super( aMpc.tsContext(), aMpc.model(), aViewer );
     source = aMpc;
+    source.addTsDoubleClickListener( doubleClickEventHelper );
+    source.addTsSelectionListener( selectionChangeEventHelper );
   }
 
   @Override
