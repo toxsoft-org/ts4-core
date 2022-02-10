@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:commands="http://www.eclipse.org/ui/2010/UIModel/application/commands" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_mvc0gHx2Eey3MOwh9WF93Q">
+  <imports xsi:type="commands:BindingContext" xmi:id="_lntsMHx9Eeyr_MXkDXFwfA" elementId="org.toxsoft.mws.framework.main.bindingcontext.global"/>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_AnqWYHx8Eey3MOwh9WF93Q" featurename="addons" parentElementId="org.toxsoft.mws.app.main">
+    <elements xsi:type="application:Addon" xmi:id="_CIHcgHx8Eey3MOwh9WF93Q" elementId="org.toxsoft.unit.txtproj.mws.addon.0" contributionURI="bundleclass://org.toxsoft.core.unit.txtproj.mws/org.toxsoft.core.unit.txtproj.mws.e4.addons.AddonUnitTxtprojMws"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_feNz0Hx8Eeyr_MXkDXFwfA" featurename="categories" parentElementId="org.toxsoft.mws.app.main">
+    <elements xsi:type="commands:Category" xmi:id="_hNwe0Hx8Eeyr_MXkDXFwfA" elementId="org.toxsoft.unit.txtproj.cmdcateg" name="%CmdCateg_Project" description="%CmdCateg_Project_D"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_td9sMHx8Eeyr_MXkDXFwfA" featurename="commands" parentElementId="org.toxsoft.mws.app.main">
+    <elements xsi:type="commands:Command" xmi:id="_uiaLwHx8Eeyr_MXkDXFwfA" elementId="org.toxsoft.unit.txtproj.cmd.project_new" commandName="%Cmd_ProjectNew" description="%Cmd_ProjectNew_D" category="_hNwe0Hx8Eeyr_MXkDXFwfA"/>
+    <elements xsi:type="commands:Command" xmi:id="_u5OwUHx8Eeyr_MXkDXFwfA" elementId="org.toxsoft.unit.txtproj.cmd.project_open" commandName="%Cmd_ProjectOpen" description="%Cmd_ProjectOpen_D" category="_hNwe0Hx8Eeyr_MXkDXFwfA"/>
+    <elements xsi:type="commands:Command" xmi:id="_vJXeEHx8Eeyr_MXkDXFwfA" elementId="org.toxsoft.unit.txtproj.cmd.project_save" commandName="%Cmd_ProjectSave" description="%Cmd_ProjectSave_D" category="_hNwe0Hx8Eeyr_MXkDXFwfA"/>
+    <elements xsi:type="commands:Command" xmi:id="_vX0w0Hx8Eeyr_MXkDXFwfA" elementId="org.toxsoft.unit.txtproj.cmd.project_save_as" commandName="%Cmd_ProjectSaveAs" description="%Cmd_ProjectSaveAs_D" category="_hNwe0Hx8Eeyr_MXkDXFwfA"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_USP1MHx9Eeyr_MXkDXFwfA" featurename="handlers" parentElementId="org.toxsoft.mws.window.main">
+    <elements xsi:type="commands:Handler" xmi:id="_XeyCoHx9Eeyr_MXkDXFwfA" elementId="org.toxsoft.unit.txtproj.mws.handler.0" contributionURI="bundleclass://org.toxsoft.core.unit.txtproj.mws/org.toxsoft.core.unit.txtproj.mws.e4.handlers.CmdProjectNew" command="_uiaLwHx8Eeyr_MXkDXFwfA"/>
+    <elements xsi:type="commands:Handler" xmi:id="_XzzQYHx9Eeyr_MXkDXFwfA" elementId="org.toxsoft.unit.txtproj.mws.handler.1" contributionURI="bundleclass://org.toxsoft.core.unit.txtproj.mws/org.toxsoft.core.unit.txtproj.mws.e4.handlers.CmdProjectOpen" command="_u5OwUHx8Eeyr_MXkDXFwfA"/>
+    <elements xsi:type="commands:Handler" xmi:id="_X_eU4Hx9Eeyr_MXkDXFwfA" elementId="org.toxsoft.unit.txtproj.mws.handler.2" contributionURI="bundleclass://org.toxsoft.core.unit.txtproj.mws/org.toxsoft.core.unit.txtproj.mws.e4.handlers.CmdProjectSave" command="_vJXeEHx8Eeyr_MXkDXFwfA"/>
+    <elements xsi:type="commands:Handler" xmi:id="_YN81wHx9Eeyr_MXkDXFwfA" elementId="org.toxsoft.unit.txtproj.mws.handler.3" contributionURI="bundleclass://org.toxsoft.core.unit.txtproj.mws/org.toxsoft.core.unit.txtproj.mws.e4.handlers.CmdProjectSaveAs" command="_vX0w0Hx8Eeyr_MXkDXFwfA"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_f7KZEHx9Eeyr_MXkDXFwfA" featurename="bindingTables" parentElementId="org.toxsoft.mws.app.main">
+    <elements xsi:type="commands:BindingTable" xmi:id="_jjDs0Hx9Eeyr_MXkDXFwfA" elementId="org.toxsoft.unit.txtproj.mws.bindingtable.0" bindingContext="_lntsMHx9Eeyr_MXkDXFwfA">
+      <bindings xmi:id="_nvZKYHx9Eeyr_MXkDXFwfA" elementId="org.toxsoft.unit.txtproj.mws.keybinding.0" keySequence="CTRL+O" command="_u5OwUHx8Eeyr_MXkDXFwfA"/>
+      <bindings xmi:id="_oCxZYHx9Eeyr_MXkDXFwfA" elementId="org.toxsoft.unit.txtproj.mws.keybinding.1" keySequence="CTRL+S" command="_vJXeEHx8Eeyr_MXkDXFwfA"/>
+    </elements>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_F6XCQHyAEeyr_MXkDXFwfA" featurename="children" parentElementId="org.toxsoft.mws.menu.main" positionInList="after:org.toxsoft.mws.menu.main.file">
+    <elements xsi:type="menu:Menu" xmi:id="_OIrHgHyAEeyr_MXkDXFwfA" elementId="org.toxsoft.unit.txtproj.menu" label="%Menu_Project" tooltip="%Menu_Project_D"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_iVMEIHyAEeyr_MXkDXFwfA" featurename="children" parentElementId="org.toxsoft.mws.main.trimbar.top" positionInList="index:0">
+    <elements xsi:type="menu:ToolBar" xmi:id="_uD2DoHyAEeyr_MXkDXFwfA" elementId="org.toxsoft.unit.txtproj.toolbar">
+      <children xsi:type="menu:HandledToolItem" xmi:id="_1haocHyAEeyr_MXkDXFwfA" elementId="org.toxsoft.unit.txtproj.btn.project_new" iconURI="platform:/plugin/org.toxsoft.core.tsgui/icons/is24x24/document-new.png" command="_uiaLwHx8Eeyr_MXkDXFwfA"/>
+      <children xsi:type="menu:HandledToolItem" xmi:id="_3RNLEHyAEeyr_MXkDXFwfA" elementId="org.toxsoft.unit.txtproj.btn.project_open" iconURI="platform:/plugin/org.toxsoft.core.tsgui/icons/is24x24/document-open.png" command="_u5OwUHx8Eeyr_MXkDXFwfA"/>
+      <children xsi:type="menu:HandledToolItem" xmi:id="_3itx0HyAEeyr_MXkDXFwfA" elementId="org.toxsoft.unit.txtproj.btn.project_save" iconURI="platform:/plugin/org.toxsoft.core.tsgui/icons/is24x24/document-save.png" command="_vJXeEHx8Eeyr_MXkDXFwfA"/>
+      <children xsi:type="menu:HandledToolItem" xmi:id="_3zBesHyAEeyr_MXkDXFwfA" elementId="org.toxsoft.unit.txtproj.btn.project_save_as" iconURI="platform:/plugin/org.toxsoft.core.tsgui/icons/is24x24/document-save-as.png" command="_vX0w0Hx8Eeyr_MXkDXFwfA"/>
+    </elements>
+  </fragments>
+</fragment:ModelFragments>
