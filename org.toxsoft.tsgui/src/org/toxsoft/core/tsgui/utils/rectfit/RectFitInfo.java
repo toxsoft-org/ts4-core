@@ -38,9 +38,14 @@ public final class RectFitInfo {
   public static final String KEEPER_ID = "RectFitInfo"; //$NON-NLS-1$
 
   /**
-   * Convinience constant of no special fitting - display original object in vieweport.
+   * Convinience constant of no special fitting - display original object clipped in vieweport.
    */
   public static final RectFitInfo NONE = new RectFitInfo( ERectFitMode.NONE, false, DEFAULT_ZOOM );
+
+  /**
+   * Convinience constant best fitting - fit original object in vieweport but not increas if it's small.
+   */
+  public static final RectFitInfo BEST = new RectFitInfo( ERectFitMode.FIT_BOTH, false, DEFAULT_ZOOM );
 
   /**
    * Keeper singleton.

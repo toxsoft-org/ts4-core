@@ -1,21 +1,17 @@
 package org.toxsoft.core.tsgui.widgets.pdw;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.*;
+import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.toxsoft.core.tsgui.graphics.ETsFulcrum;
-import org.toxsoft.core.tsgui.graphics.image.EThumbSize;
-import org.toxsoft.core.tsgui.panels.lazy.ILazyControl;
-import org.toxsoft.core.tsgui.utils.rectfit.ERectFitMode;
-import org.toxsoft.core.tsgui.utils.rectfit.RectFitInfo;
-import org.toxsoft.core.tsgui.widgets.TsComposite;
-import org.toxsoft.core.tslib.bricks.geometry.ITsPoint;
-import org.toxsoft.core.tslib.bricks.geometry.impl.TsPoint;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.graphics.*;
+import org.toxsoft.core.tsgui.graphics.image.*;
+import org.toxsoft.core.tsgui.panels.lazy.*;
+import org.toxsoft.core.tsgui.utils.rectfit.*;
+import org.toxsoft.core.tsgui.widgets.*;
+import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.bricks.geometry.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 class ImageWidget
     implements ILazyControl<Control> {
@@ -25,19 +21,12 @@ class ImageWidget
 
     public ImageCanvas( Composite aParent, int aStyle ) {
       super( aParent, aStyle );
-      addPaintListener( new PaintListener() {
-
-        @Override
-        public void paintControl( PaintEvent aE ) {
-          doPaint( aE );
-        }
-
-      } );
+      addPaintListener( this::doPaint );
     }
 
     @Override
     public Point computeSize( int aWHint, int aHHint, boolean aChanged ) {
-      if( isSizeFixed ) {
+      if( isSizeFixed || image == null ) {
         return new Point( defaultSize.x(), defaultSize.y() );
       }
       // текущий размер изображения (он или реальный, или по умолчанию)
@@ -92,7 +81,7 @@ class ImageWidget
   ITsPoint    defaultSize  = new TsPoint( 256, 256 );
   ITsPoint    imageSize    = defaultSize;            // for image = null is equal to defaultSize
   ETsFulcrum  fulcrum      = ETsFulcrum.LEFT_TOP;
-  RectFitInfo fitInfo      = RectFitInfo.NONE;
+  RectFitInfo fitInfo      = RectFitInfo.BEST;
   ImageCanvas canvas       = null;
   boolean     needRelayout = false;
 

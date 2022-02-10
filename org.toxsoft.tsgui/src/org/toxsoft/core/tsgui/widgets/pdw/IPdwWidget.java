@@ -1,20 +1,21 @@
 package org.toxsoft.core.tsgui.widgets.pdw;
 
-import org.eclipse.swt.widgets.Control;
-import org.toxsoft.core.tsgui.graphics.ETsFulcrum;
-import org.toxsoft.core.tsgui.graphics.image.TsImage;
-import org.toxsoft.core.tsgui.panels.lazy.ILazyControl;
-import org.toxsoft.core.tsgui.utils.anim.IPausableAnimation;
-import org.toxsoft.core.tsgui.utils.rectfit.RectFitInfo;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContextable;
-import org.toxsoft.core.tslib.bricks.geometry.ITsPoint;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.graphics.*;
+import org.toxsoft.core.tsgui.graphics.image.*;
+import org.toxsoft.core.tsgui.panels.lazy.*;
+import org.toxsoft.core.tsgui.utils.anim.*;
+import org.toxsoft.core.tsgui.utils.rectfit.*;
+import org.toxsoft.core.tslib.bricks.ctx.*;
+import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link TsImage} drawing widget.
  * <p>
  * {@link IPausableAnimation} methods has no effect if no image is set or image is {@link TsImage#isSingleFrame()}.
+ * <p>
+ * TODO describe how widget size is managed depending on settings and image existance and size
  *
  * @author hazard157
  */
@@ -97,6 +98,20 @@ public interface IPdwWidget
    * @throws TsIllegalArgumentRtException width or height is 0 or negative
    */
   void setAreaPreferredSize( ITsPoint aSize );
+
+  /**
+   * Determines if preffered size of the widget is fixed.
+   *
+   * @return boolean - the flag that preffered size of the widget is fixed
+   */
+  boolean isPreferredSizeFixed();
+
+  /**
+   * Sets value of the {@link #isPreferredSizeFixed()}.
+   *
+   * @param aFixed boolean - the flag that preffered size of the widget is fixed
+   */
+  void setPreferredSizeFixed( boolean aFixed );
 
   /**
    * Refreshes and redraws.

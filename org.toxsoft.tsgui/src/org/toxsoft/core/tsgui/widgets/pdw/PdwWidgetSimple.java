@@ -1,15 +1,14 @@
 package org.toxsoft.core.tsgui.widgets.pdw;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.graphics.ETsFulcrum;
-import org.toxsoft.core.tsgui.graphics.image.TsImage;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.graphics.*;
+import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.utils.anim.*;
-import org.toxsoft.core.tsgui.utils.rectfit.RectFitInfo;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContext;
-import org.toxsoft.core.tslib.bricks.geometry.ITsPoint;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.utils.rectfit.*;
+import org.toxsoft.core.tslib.bricks.ctx.*;
+import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Простая (без полос прокрутки) реализация {@link IPdwWidget}.
@@ -175,6 +174,16 @@ public class PdwWidgetSimple
   @Override
   public void setAreaPreferredSize( ITsPoint aSize ) {
     imageWidget.setDefaultSize( aSize );
+  }
+
+  @Override
+  public boolean isPreferredSizeFixed() {
+    return imageWidget.isPreferredSizeFixed();
+  }
+
+  @Override
+  public void setPreferredSizeFixed( boolean aFixed ) {
+    imageWidget.setPreferredSizeFixed( aFixed );
   }
 
   @Override
