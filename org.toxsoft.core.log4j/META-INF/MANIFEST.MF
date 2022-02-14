@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: log4j support as plugin
+Bundle-SymbolicName: org.toxsoft.core.log4j
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: ToxSoft Ltd.
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Export-Package: org.toxsoft.core.log4j
+Bundle-ClassPath: .
+Automatic-Module-Name: org.toxsoft.core.log4j
+Require-Bundle: org.toxsoft.extlibs.log4j,
+ org.toxsoft.core.tslib

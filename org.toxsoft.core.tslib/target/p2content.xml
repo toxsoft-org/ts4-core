@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<units size='2'>
+  <unit id='org.toxsoft.core.tslib' version='1.0.0.202202141438' singleton='false' generation='2'>
+    <update id='org.toxsoft.core.tslib' range='[0.0.0,1.0.0.202202141438)' severity='0'/>
+    <properties size='5'>
+      <property name='org.eclipse.equinox.p2.name' value='TsLib core'/>
+      <property name='org.eclipse.equinox.p2.provider' value='toxsoft.org'/>
+      <property name='maven-groupId' value='org.toxsoft.core'/>
+      <property name='maven-artifactId' value='org.toxsoft.core.tslib'/>
+      <property name='maven-version' value='1.0.0-SNAPSHOT'/>
+    </properties>
+    <provides size='76'>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='org.toxsoft.core.tslib' version='1.0.0.202202141438'/>
+      <provided namespace='osgi.bundle' name='org.toxsoft.core.tslib' version='1.0.0.202202141438'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.av' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.av.errors' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.av.impl' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.av.list' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.av.math' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.av.metainfo' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.av.misc' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.av.opset' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.av.opset.impl' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.av.temporal' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.av.utils' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.av.validators' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.av.validators.defav' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks.apprefs' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks.apprefs.impl' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks.ctx' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks.ctx.impl' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks.events' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks.events.change' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks.events.msg' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks.filter' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks.filter.impl' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks.filter.std' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks.filter.std.paramed' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks.geometry' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks.geometry.impl' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks.keeper' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks.keeper.std' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks.strid' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks.strid.coll' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks.strid.coll.impl' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks.strid.coll.notifier' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks.strid.impl' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks.strid.more' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks.strio' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks.strio.chario' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks.strio.chario.impl' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks.strio.impl' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks.time' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks.time.impl' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks.validator' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks.validator.impl' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.bricks.validator.std' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.coll' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.coll.basis' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.coll.derivative' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.coll.helpers' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.coll.impl' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.coll.notifier' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.coll.notifier.basis' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.coll.notifier.impl' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.coll.primtypes' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.coll.primtypes.impl' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.coll.primtypes.wrappers' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.coll.synch' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.coll.wrappers' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.gw' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.gw.gwid' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.gw.skid' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.math' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.math.logicop' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.utils' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.utils.errors' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.utils.files' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.utils.logs' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.utils.logs.impl' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.utils.misc' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.utils.progargs' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.utils.txtmatch' version='0.0.0'/>
+      <provided namespace='java.package' name='org.toxsoft.core.tslib.utils.valobj' version='0.0.0'/>
+      <provided namespace='osgi.identity' name='org.toxsoft.core.tslib' version='1.0.0.202202141438'>
+        <properties size='1'>
+          <property name='type' value='osgi.bundle'/>
+        </properties>
+      </provided>
+      <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+    </provides>
+    <requires size='1'>
+      <requiredProperties namespace='osgi.ee' match='(&amp;(osgi.ee=JavaSE)(version=17))'>
+        <description>
+          org.toxsoft.core.tslib
+        </description>
+      </requiredProperties>
+    </requires>
+    <artifacts size='1'>
+      <artifact classifier='osgi.bundle' id='org.toxsoft.core.tslib' version='1.0.0.202202141438'/>
+    </artifacts>
+    <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+    <touchpointData size='1'>
+      <instructions size='1'>
+        <instruction key='manifest'>
+          Bundle-SymbolicName: org.toxsoft.core.tslib&#xA;Bundle-Version: 1.0.0.202202141438&#xA;
+        </instruction>
+      </instructions>
+    </touchpointData>
+  </unit>
+  <unit id='org.toxsoft.core.tslib.source' version='1.0.0.202202141438' singleton='false'>
+    <update id='org.toxsoft.core.tslib.source' range='[0.0.0,1.0.0.202202141438)' severity='0'/>
+    <properties size='9'>
+      <property name='df_LT.bundleVendor' value='toxsoft.org'/>
+      <property name='df_LT.bundleName' value='TsLib core Source'/>
+      <property name='org.eclipse.equinox.p2.name' value='%bundleName'/>
+      <property name='org.eclipse.equinox.p2.provider' value='%bundleVendor'/>
+      <property name='org.eclipse.equinox.p2.bundle.localization' value='OSGI-INF/l10n/bundle-src'/>
+      <property name='maven-groupId' value='org.toxsoft.core'/>
+      <property name='maven-artifactId' value='org.toxsoft.core.tslib'/>
+      <property name='maven-version' value='1.0.0-SNAPSHOT'/>
+      <property name='maven-classifier' value='sources'/>
+    </properties>
+    <provides size='5'>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='org.toxsoft.core.tslib.source' version='1.0.0.202202141438'/>
+      <provided namespace='osgi.bundle' name='org.toxsoft.core.tslib.source' version='1.0.0.202202141438'/>
+      <provided namespace='osgi.identity' name='org.toxsoft.core.tslib.source' version='1.0.0.202202141438'>
+        <properties size='1'>
+          <property name='type' value='osgi.bundle'/>
+        </properties>
+      </provided>
+      <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='source' version='1.0.0'/>
+      <provided namespace='org.eclipse.equinox.p2.localization' name='df_LT' version='1.0.0'/>
+    </provides>
+    <artifacts size='1'>
+      <artifact classifier='osgi.bundle' id='org.toxsoft.core.tslib.source' version='1.0.0.202202141438'/>
+    </artifacts>
+    <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+    <touchpointData size='1'>
+      <instructions size='1'>
+        <instruction key='manifest'>
+          Bundle-SymbolicName: org.toxsoft.core.tslib.source&#xA;Bundle-Version: 1.0.0.202202141438&#xA;
+        </instruction>
+      </instructions>
+    </touchpointData>
+  </unit>
+</units>

@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Pas
+Bundle-SymbolicName: org.toxsoft.core.pas
+Bundle-Vendor: ToxSoft LLC
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Require-Bundle: org.toxsoft.extlibs.log4j,
+ org.toxsoft.core.log4j,
+ org.toxsoft.core.tslib
+Automatic-Module-Name: org.toxsoft.core.pas
+Export-Package: org.toxsoft.core.pas.client,
+ org.toxsoft.core.pas.common,
+ org.toxsoft.core.pas.http,
+ org.toxsoft.core.pas.http.server,
+ org.toxsoft.core.pas.json,
+ org.toxsoft.core.pas.server,
+ org.toxsoft.core.pas.tj,
+ org.toxsoft.core.pas.tj.impl
