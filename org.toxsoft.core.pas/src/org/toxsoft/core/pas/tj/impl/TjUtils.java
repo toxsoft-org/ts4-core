@@ -62,8 +62,8 @@ public class TjUtils {
    */
   public static ITjObject str2obj( String aJsonString ) {
     ICharInputStream chIn = new CharInputStreamString( aJsonString );
-    IStrioReader reader = new StrioReader( chIn );
-    return loadObject( reader );
+    IStrioReader sr = new StrioReader( chIn );
+    return loadObject( sr );
   }
 
   // 2021-06-10 mvk
@@ -79,8 +79,8 @@ public class TjUtils {
   public static ITjObject loadObject( Reader aReader ) {
     TsNullArgumentRtException.checkNull( aReader );
     ICharInputStream chIn = new CharInputStreamReader( aReader );
-    IStrioReader reader = new StrioReader( chIn );
-    return loadObject( reader );
+    IStrioReader sr = new StrioReader( chIn );
+    return loadObject( sr );
   }
 
   // 2021-06-10 mvk
@@ -96,8 +96,8 @@ public class TjUtils {
   public static void saveObject( Writer aWriter, ITjObject aObject ) {
     TsNullArgumentRtException.checkNulls( aWriter, aObject );
     CharOutputStreamWriter chOut = new CharOutputStreamWriter( aWriter );
-    IStrioWriter writer = new StrioWriter( chOut );
-    saveObject( writer, aObject );
+    IStrioWriter sw = new StrioWriter( chOut );
+    saveObject( sw, aObject );
   }
 
   /**
@@ -111,35 +111,35 @@ public class TjUtils {
    */
   public static void saveObject( Appendable aOut, ITjObject aObject ) {
     ICharOutputStream chOut = new CharOutputStreamAppendable( aOut );
-    IStrioWriter writer = new StrioWriter( chOut );
-    saveObject( writer, aObject );
+    IStrioWriter sw = new StrioWriter( chOut );
+    saveObject( sw, aObject );
   }
 
   /**
    * Сохраняет объект в текстовый поток.
    *
-   * @param aWriter {@link IStrioWriter} - пистель в текстовы поток
+   * @param aSw {@link IStrioWriter} - пистель в текстовы поток
    * @param aObject {@link ITjObject} - сохраняемый объект
    * @throws TsNullArgumentRtException любой аргумент = null
    */
-  public static void saveObject( IStrioWriter aWriter, ITjObject aObject ) {
-    if( aWriter == null || aObject == null ) {
+  public static void saveObject( IStrioWriter aSw, ITjObject aObject ) {
+    if( aSw == null || aObject == null ) {
       throw new TsNullArgumentRtException();
     }
-    TsJsonObjectStorage.STORAGE.save( aWriter, aObject );
+    TsJsonObjectStorage.STORAGE.save( aSw, aObject );
   }
 
   /**
    * Загружает объект из JSON текстового представления.
    *
-   * @param aReader {@link IStrioReader} - читатель текстового представления
+   * @param aSr {@link IStrioReader} - читатель текстового представления
    * @return {@link ITjObject} - загруженный объект
    * @throws TsNullArgumentRtException любой аргумент = null
    * @throws StrioRtException неверный входной формат
    */
-  public static ITjObject loadObject( IStrioReader aReader ) {
-    TsNullArgumentRtException.checkNull( aReader );
-    return TsJsonObjectStorage.STORAGE.load( aReader );
+  public static ITjObject loadObject( IStrioReader aSr ) {
+    TsNullArgumentRtException.checkNull( aSr );
+    return TsJsonObjectStorage.STORAGE.load( aSr );
   }
 
   // ------------------------------------------------------------------------------------

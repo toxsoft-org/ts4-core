@@ -30,43 +30,43 @@ class TsJsonValueStorage {
     // nop
   }
 
-  static void saveArray( IStrioWriter aWriter, IList<ITjValue> aArray ) {
-    aWriter.writeChar( CHAR_ARRAY_BEGIN );
+  static void saveArray( IStrioWriter aSr, IList<ITjValue> aArray ) {
+    aSr.writeChar( CHAR_ARRAY_BEGIN );
     // запись пустого массива
     if( aArray.isEmpty() ) {
-      aWriter.writeChar( CHAR_ARRAY_END );
+      aSr.writeChar( CHAR_ARRAY_END );
       return;
     }
-    aWriter.incNewLine();
+    aSr.incNewLine();
     // запись элементов через запятую
     for( int i = 0, count = aArray.size(); i < count; i++ ) {
       ITjValue value = aArray.get( i );
-      STORAGE.save( aWriter, value );
+      STORAGE.save( aSr, value );
       if( i < count - 1 ) {
-        aWriter.writeSeparatorChar();
-        aWriter.writeEol();
+        aSr.writeSeparatorChar();
+        aSr.writeEol();
       }
     }
-    aWriter.decNewLine();
-    aWriter.writeChar( CHAR_ARRAY_END );
+    aSr.decNewLine();
+    aSr.writeChar( CHAR_ARRAY_END );
   }
 
-  static IListEdit<ITjValue> readArray( IStrioReader aReader ) {
+  static IListEdit<ITjValue> readArray( IStrioReader aSr ) {
     IListEdit<ITjValue> list = new ElemLinkedBundleList<>();
-    if( aReader.readArrayBegin() ) {
+    if( aSr.readArrayBegin() ) {
       do {
-        ITjValue value = STORAGE.load( aReader );
+        ITjValue value = STORAGE.load( aSr );
         list.add( value );
-      } while( aReader.readArrayNext() );
+      } while( aSr.readArrayNext() );
     }
     return list;
   }
 
-  static Number readNumber( IStrioReader aReader ) {
+  static Number readNumber( IStrioReader aSr ) {
     boolean isNegative = false;
-    char ch = aReader.peekChar( SKIP_NONE );
+    char ch = aSr.peekChar( SKIP_NONE );
     if( ch == '-' ) { // отрицательное число?
-      aReader.nextChar(); // считываем символ '-'
+      aSr.nextChar(); // считываем символ '-'
       isNegative = true;
     }
     // Читаем значение, думая, что оно целое.<br>
@@ -74,7 +74,7 @@ class TsJsonValueStorage {
     long longVal = 0;
     int count = -1; // кол-во считанных символов
     while( true ) {
-      ch = aReader.nextChar();
+      ch = aSr.nextChar();
       ++count;
       if( StrioUtils.isAsciiDigit( ch ) ) { // очередная цифра целого числа
         if( longVal >= Long.MAX_VALUE / 10 + 9 ) { // слишком большое число!
@@ -89,9 +89,9 @@ class TsJsonValueStorage {
           // вернем считанные символы. Буфер не переполнится, поскольку count небольшое),
           // из-за проверки выше - на выход за пределы Long.MAX_VALUE
           for( int i = 0; i <= count; i++ ) {
-            aReader.putCharBack();
+            aSr.putCharBack();
           }
-          String s = aReader.readUntilDelimiter();
+          String s = aSr.readUntilDelimiter();
           try {
             double dval = Double.parseDouble( s );
             if( isNegative ) {
@@ -104,10 +104,10 @@ class TsJsonValueStorage {
           }
         }
         // либо прочитали целое число, либо недопустимый символ
-        if( !aReader.isDelimiterChar( ch ) && ch != CHAR_EOF ) {
+        if( !aSr.isDelimiterChar( ch ) && ch != CHAR_EOF ) {
           throw new StrioRtException( MSG_ERR_INV_NUM_FORMAT );
         }
-        aReader.putCharBack();
+        aSr.putCharBack();
         break; // почитали целое число
       }
     }
@@ -124,30 +124,30 @@ class TsJsonValueStorage {
   // API
   //
 
-  public ITjValue load( IStrioReader aReader ) {
-    char ch = aReader.peekChar( SKIP_COMMENTS );
+  public ITjValue load( IStrioReader aSr ) {
+    char ch = aSr.peekChar( SKIP_COMMENTS );
     // объект ETjKind.OBJECT начинается с '{'
     if( ch == CHAR_SET_BEGIN ) {
-      ITjObject obj = TsJsonObjectStorage.STORAGE.load( aReader );
+      ITjObject obj = TsJsonObjectStorage.STORAGE.load( aSr );
       return TjUtils.createObject( obj );
     }
     // массив ETjKind.ARRAY начинается с '['
     if( ch == CHAR_ARRAY_BEGIN ) {
-      IList<ITjValue> array = readArray( aReader );
+      IList<ITjValue> array = readArray( aSr );
       return TjUtils.createArray( array );
     }
     // строка ETjKind.STRING начинается с '"'
     if( ch == CHAR_QUOTE ) {
-      String str = aReader.readQuotedString();
+      String str = aSr.readQuotedString();
       return TjUtils.createString( str );
     }
     // число начинается с '-' или '0-9'
     if( ch == '-' || StrioUtils.isAsciiDigit( ch ) ) {
-      Number number = readNumber( aReader );
+      Number number = readNumber( aSr );
       return TjUtils.createNumber( number );
     }
     // проверим, что это одно из KW_XXX
-    String s = aReader.readUntilDelimiter();
+    String s = aSr.readUntilDelimiter();
     switch( s ) {
       case KW_NULL:
         return TjUtils.NULL;
@@ -160,33 +160,33 @@ class TsJsonValueStorage {
     }
   }
 
-  public void save( IStrioWriter aWriter, ITjValue aValue ) {
+  public void save( IStrioWriter aSw, ITjValue aValue ) {
     switch( aValue.kind() ) {
       case NULL:
-        aWriter.writeAsIs( KW_NULL );
+        aSw.writeAsIs( KW_NULL );
         break;
       case TRUE:
-        aWriter.writeAsIs( KW_TRUE );
+        aSw.writeAsIs( KW_TRUE );
         break;
       case FALSE:
-        aWriter.writeAsIs( KW_FALSE );
+        aSw.writeAsIs( KW_FALSE );
         break;
       case STRING:
-        aWriter.writeQuotedString( aValue.asString() );
+        aSw.writeQuotedString( aValue.asString() );
         break;
       case ARRAY:
-        saveArray( aWriter, aValue.asArray() );
+        saveArray( aSw, aValue.asArray() );
         break;
       case NUMBER:
         if( aValue.isInteger() ) {
-          aWriter.writeLong( aValue.asNumber().longValue() );
+          aSw.writeLong( aValue.asNumber().longValue() );
         }
         else {
-          aWriter.writeDouble( aValue.asNumber().doubleValue() );
+          aSw.writeDouble( aValue.asNumber().doubleValue() );
         }
         break;
       case OBJECT:
-        TsJsonObjectStorage.STORAGE.save( aWriter, aValue.asObject() );
+        TsJsonObjectStorage.STORAGE.save( aSw, aValue.asObject() );
         break;
       default:
         throw new TsNotAllEnumsUsedRtException();

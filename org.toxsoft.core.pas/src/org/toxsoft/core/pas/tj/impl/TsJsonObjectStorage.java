@@ -24,42 +24,42 @@ class TsJsonObjectStorage {
   // API
   //
 
-  public ITjObject load( IStrioReader aReader ) {
+  public ITjObject load( IStrioReader aSr ) {
     ITjObject obj = new TjObject();
-    if( aReader.readArrayBegin() ) {
+    if( aSr.readArrayBegin() ) {
       do {
-        String fieldName = aReader.readQuotedString();
-        aReader.ensureChar( ':' );
-        ITjValue fieldValue = TsJsonValueStorage.STORAGE.load( aReader );
+        String fieldName = aSr.readQuotedString();
+        aSr.ensureChar( ':' );
+        ITjValue fieldValue = TsJsonValueStorage.STORAGE.load( aSr );
         obj.fields().put( fieldName, fieldValue );
-      } while( aReader.readArrayNext() );
+      } while( aSr.readArrayNext() );
     }
     return obj;
   }
 
-  public void save( IStrioWriter aWriter, ITjObject aObject ) {
-    aWriter.writeChar( CHAR_SET_BEGIN );
+  public void save( IStrioWriter aSw, ITjObject aObject ) {
+    aSw.writeChar( CHAR_SET_BEGIN );
     // запись пустого объекта
     if( aObject.fields().isEmpty() ) {
-      aWriter.writeChar( CHAR_SET_END );
+      aSw.writeChar( CHAR_SET_END );
       return;
     }
-    aWriter.incNewLine();
+    aSw.incNewLine();
     // записи "имя_поля": значение_поля,
     for( int i = 0, count = aObject.fields().size(); i < count; i++ ) {
       String fieldName = aObject.fields().keys().get( i );
       ITjValue fieldValue = aObject.fields().values().get( i );
-      aWriter.writeQuotedString( fieldName );
-      aWriter.writeChar( ':' );
-      aWriter.writeSpace();
-      TsJsonValueStorage.STORAGE.save( aWriter, fieldValue );
+      aSw.writeQuotedString( fieldName );
+      aSw.writeChar( ':' );
+      aSw.writeSpace();
+      TsJsonValueStorage.STORAGE.save( aSw, fieldValue );
       if( i < count - 1 ) {
-        aWriter.writeSeparatorChar();
-        aWriter.writeEol();
+        aSw.writeSeparatorChar();
+        aSw.writeEol();
       }
     }
-    aWriter.decNewLine();
-    aWriter.writeChar( CHAR_SET_END );
+    aSw.decNewLine();
+    aSw.writeChar( CHAR_SET_END );
   }
 
 }
