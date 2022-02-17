@@ -1,9 +1,9 @@
 package org.toxsoft.core.tsgui.valed.controls.enums;
 
-import org.toxsoft.core.tsgui.utils.ITsVisualsProvider;
+import org.toxsoft.core.tsgui.utils.*;
 
 /**
- * Локализуемые ресурсы.
+ * Localizable resources.
  *
  * @author hazard157
  */

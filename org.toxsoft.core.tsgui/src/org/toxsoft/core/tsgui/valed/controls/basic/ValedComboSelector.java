@@ -5,21 +5,17 @@ import static org.toxsoft.core.tsgui.valed.controls.basic.ITsResources.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Composite;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContextRefDef;
-import org.toxsoft.core.tsgui.bricks.ctx.impl.TsGuiContextRefDef;
-import org.toxsoft.core.tsgui.utils.ITsVisualsProvider;
-import org.toxsoft.core.tsgui.valed.api.IValedControl;
-import org.toxsoft.core.tsgui.valed.impl.AbstractValedControl;
-import org.toxsoft.core.tsgui.valed.impl.AbstractValedControlFactory;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
-import org.toxsoft.core.tslib.utils.ITsItemsProvider;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.eclipse.swt.*;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
+import org.toxsoft.core.tsgui.utils.*;
+import org.toxsoft.core.tsgui.valed.api.*;
+import org.toxsoft.core.tsgui.valed.impl.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Выпадающий список (ComboBox) выбора эелемента из заданного списка.
@@ -118,7 +114,7 @@ public class ValedComboSelector<V>
   }
 
   // ------------------------------------------------------------------------------------
-  // Внутренние методы
+  // implementation
   //
 
   void initComboItems() {

@@ -1,7 +1,7 @@
 package org.toxsoft.core.tsgui.valed.controls.time;
 
 /**
- * Локализуемые ресурсы.
+ * Localizable resources.
  *
  * @author hazard157
  */

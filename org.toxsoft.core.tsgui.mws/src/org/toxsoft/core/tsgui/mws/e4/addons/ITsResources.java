@@ -1,7 +1,7 @@
 package org.toxsoft.core.tsgui.mws.e4.addons;
 
 /**
- * Локализуемые ресурсы.
+ * Localizable resources.
  *
  * @author hazard157
  */

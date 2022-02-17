@@ -1,21 +1,17 @@
 package org.toxsoft.core.tsgui.valed.api;
 
-import java.io.File;
+import java.io.*;
 
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Text;
-import org.toxsoft.core.tsgui.panels.lazy.ILazyControl;
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.utils.IParameterizedEdit;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContextable;
-import org.toxsoft.core.tslib.bricks.events.ITsEventer;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.bricks.validator.impl.TsValidationFailedRtException;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalStateRtException;
-
-// TODO TRANSLATE
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.panels.lazy.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.utils.*;
+import org.toxsoft.core.tslib.bricks.ctx.*;
+import org.toxsoft.core.tslib.bricks.events.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * VALue EDitor control interface.
@@ -25,6 +21,8 @@ import org.toxsoft.core.tslib.utils.errors.TsIllegalStateRtException;
  */
 public interface IValedControl<V>
     extends ILazyControl<Control>, ITsContextable, IParameterizedEdit {
+
+  // TODO TRANSLATE
 
   /**
    * Возвращает текущее состояние разрешения редактирования значения (признак "редактируемости").

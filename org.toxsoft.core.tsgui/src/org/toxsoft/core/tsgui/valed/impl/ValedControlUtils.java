@@ -6,21 +6,17 @@ import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import java.time.*;
 
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.valed.api.IValedControlConstants;
-import org.toxsoft.core.tsgui.valed.api.IValedControlFactory;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tsgui.valed.controls.av.*;
-import org.toxsoft.core.tsgui.valed.controls.enums.IValedEnumConstants;
-import org.toxsoft.core.tsgui.valed.controls.enums.ValedEnumCombo;
+import org.toxsoft.core.tsgui.valed.controls.enums.*;
 import org.toxsoft.core.tsgui.valed.controls.time.*;
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.std.*;
-import org.toxsoft.core.tslib.utils.errors.TsNotAllEnumsUsedRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
  * Вспомгательные методы для работы с редакторами.
@@ -188,6 +184,7 @@ public class ValedControlUtils {
       IValedEnumConstants.REFDEF_ENUM_CLASS.setRef( aContext, aValueClass );
       return ValedEnumCombo.FACTORY;
     }
+
     // редакторы для временных классов
     if( aValueClass.equals( LocalTime.class ) ) {
       return ValedLocalTimeMpv.FACTORY;

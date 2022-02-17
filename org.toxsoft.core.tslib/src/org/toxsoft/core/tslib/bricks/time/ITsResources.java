@@ -1,9 +1,9 @@
 package org.toxsoft.core.tslib.bricks.time;
 
-import org.toxsoft.core.tslib.bricks.time.impl.TimeUtils;
+import org.toxsoft.core.tslib.bricks.time.impl.*;
 
 /**
- * Локализуемые ресурсы.
+ * Localizable resources.
  *
  * @author hazard157
  */

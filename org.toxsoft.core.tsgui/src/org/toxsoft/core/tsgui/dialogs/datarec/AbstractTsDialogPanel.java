@@ -2,20 +2,18 @@ package org.toxsoft.core.tsgui.dialogs.datarec;
 
 import static org.toxsoft.core.tsgui.dialogs.datarec.ITsDialogConstants.*;
 
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.swt.SWT;
+import org.eclipse.jface.viewers.*;
+import org.eclipse.swt.*;
 import org.eclipse.swt.events.*;
-import org.eclipse.swt.widgets.Composite;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContextable;
-import org.toxsoft.core.tsgui.utils.swt.SelectionListenerAdapter;
-import org.toxsoft.core.tsgui.valed.api.IValedControlValueChangeListener;
-import org.toxsoft.core.tsgui.widgets.TsComposite;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.utils.swt.*;
+import org.toxsoft.core.tsgui.valed.api.*;
+import org.toxsoft.core.tsgui.widgets.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
-import org.toxsoft.core.tslib.bricks.validator.EValidationResultType;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * Dialog content panel for data record view / edit.
@@ -84,7 +82,7 @@ abstract public class AbstractTsDialogPanel<T, E>
       ( src, fin ) -> fireContentChangeEvent();
 
   // ------------------------------------------------------------------------------------
-  // Создание экземпляров
+  // Constructors
   //
 
   // TODO TRANSLATE
@@ -256,7 +254,7 @@ abstract public class AbstractTsDialogPanel<T, E>
   }
 
   // ------------------------------------------------------------------------------------
-  // API класса
+  // API
   //
 
   /**
@@ -264,7 +262,7 @@ abstract public class AbstractTsDialogPanel<T, E>
    * <p>
    * Данные диалога запоминаются, и доступны наследникам методом {@link #dataRecordInput()}.
    *
-   * @param aData T - задаваемые данные, может быть null
+   * @param aData &lt;T&gt; - задаваемые данные, может быть null
    */
   final public void setDataRecord( T aData ) {
     dataInput = aData;

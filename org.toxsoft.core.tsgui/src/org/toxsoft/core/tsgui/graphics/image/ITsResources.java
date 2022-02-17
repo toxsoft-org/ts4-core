@@ -1,7 +1,7 @@
 package org.toxsoft.core.tsgui.graphics.image;
 
 /**
- * Локализуемые ресурсы компоненты просмотра изображения.
+ * Localizable resources.
  *
  * @author hazard157
  */

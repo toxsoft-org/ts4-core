@@ -1,7 +1,7 @@
 package org.toxsoft.core.tsgui.valed.controls.basic;
 
 /**
- * Локализуемые ресурсы.
+ * Localizable resources.
  *
  * @author hazard157
  */

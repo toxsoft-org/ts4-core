@@ -2,21 +2,17 @@ package org.toxsoft.core.tslib.av.metainfo;
 
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import java.util.Comparator;
+import java.util.*;
 
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.errors.AvTypeCastRtException;
-import org.toxsoft.core.tslib.av.impl.AvUtils;
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.av.opset.IOptionSetEdit;
-import org.toxsoft.core.tslib.av.utils.IStdParameterized;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.IStridableParameterized;
-import org.toxsoft.core.tslib.bricks.validator.ITsValidator;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.errors.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.utils.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Atomic data type information.
@@ -158,7 +154,8 @@ public interface IDataDef
   /**
    * Returns the value of the option with identifier {@link #id()}.
    * <p>
-   * If set does contains the value with identifier {@link #id()}, the {@link #defaultValue()} is returned.
+   * If set does contains the value with identifier {@link #id()} or the {@link IAtomicValue#NULL} is stored, the
+   * {@link #defaultValue()} is returned.
    *
    * @param aOps {@link IOptionSet} - option set
    * @return {@link IAtomicValue} - the value of the option

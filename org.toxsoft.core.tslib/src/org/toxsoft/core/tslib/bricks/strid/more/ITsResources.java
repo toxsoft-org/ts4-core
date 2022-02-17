@@ -1,7 +1,7 @@
 package org.toxsoft.core.tslib.bricks.strid.more;
 
 /**
- * Localiazable resources.
+ * Localizable resources.
  *
  * @author hazard157
  */

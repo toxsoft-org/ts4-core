@@ -1,7 +1,7 @@
 package org.toxsoft.core.tslib.bricks.time.impl;
 
 /**
- * Локализуемые ресурсы.
+ * Localizable resources.
  *
  * @author hazard157
  */

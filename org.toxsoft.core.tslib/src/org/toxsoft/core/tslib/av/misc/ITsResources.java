@@ -1,9 +1,9 @@
 package org.toxsoft.core.tslib.av.misc;
 
 /**
- * Локализуемые ресурсы.
+ * Localizable resources.
  *
- * @author goga
+ * @author hazard157
  */
 @SuppressWarnings( "nls" )
 interface ITsResources {

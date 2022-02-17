@@ -4,35 +4,26 @@ import static org.toxsoft.core.tsgui.m5.IM5Constants.*;
 import static org.toxsoft.core.tsgui.m5.gui.panels.impl.ITsResources.*;
 import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
 
-import java.time.*;
-
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.bricks.ctx.impl.TsGuiContext;
-import org.toxsoft.core.tsgui.graphics.EHorAlignment;
-import org.toxsoft.core.tsgui.graphics.EVerAlignment;
+import org.eclipse.swt.*;
+import org.eclipse.swt.custom.*;
+import org.eclipse.swt.layout.*;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
+import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.m5.*;
-import org.toxsoft.core.tsgui.m5.gui.panels.IM5EntityPanel;
-import org.toxsoft.core.tsgui.m5.model.IM5AttributeFieldDef;
+import org.toxsoft.core.tsgui.m5.gui.panels.*;
+import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.panels.vecboard.*;
 import org.toxsoft.core.tsgui.panels.vecboard.impl.*;
 import org.toxsoft.core.tsgui.valed.api.*;
-import org.toxsoft.core.tsgui.valed.controls.enums.IValedEnumConstants;
-import org.toxsoft.core.tsgui.valed.controls.enums.ValedEnumCombo;
-import org.toxsoft.core.tsgui.valed.controls.time.*;
-import org.toxsoft.core.tsgui.valed.impl.ValedControlUtils;
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.bricks.events.change.IGenericChangeListener;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMap;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMapEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
+import org.toxsoft.core.tsgui.valed.impl.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -166,7 +157,7 @@ public class M5EntityPanelWithValeds<T>
   @SuppressWarnings( { "rawtypes" } )
   private IValedControl<?> createEditor( IM5FieldDef<T, ?> aFieldDef ) {
     TsNullArgumentRtException.checkNull( aFieldDef );
-    // подготовим индивидуальный экземпляр крнтекста для создания редактора
+    // подготовим индивидуальный экземпляр контекста для создания редактора
     ITsGuiContext ctx = new TsGuiContext( tsContext() );
     ctx.params().addAll( aFieldDef.params() );
     if( ((aFieldDef.flags() & M5FF_READ_ONLY) != 0) || isViewer() ) {
@@ -199,37 +190,13 @@ public class M5EntityPanelWithValeds<T>
       editor.clearValue();
       return editor;
     }
-    // попробуем подобрать редактор для Enum-ов
-    if( Enum.class.isAssignableFrom( aFieldDef.valueClass() ) ) {
-      ctx.put( IValedEnumConstants.REFID_ENUM_CLASS, aFieldDef.valueClass() );
-      IValedControlFactory factory = ValedEnumCombo.FACTORY;
+    IValedControlFactory factory = ValedControlUtils.guessRawEditorFactory( aFieldDef.valueClass(), ctx );
+    if( factory != null ) {
       IValedControl editor = doCreateEditor( factory, aFieldDef, ctx );
       editor.clearValue();
       return editor;
     }
-    // editor for LocalTime
-    if( aFieldDef.valueClass().equals( LocalTime.class ) ) {
-      IValedControlFactory factory = ValedLocalTimeMpv.FACTORY;
-      IValedControl editor = doCreateEditor( factory, aFieldDef, ctx );
-      editor.clearValue();
-      return editor;
-    }
-    // editor for LocalDate
-    if( aFieldDef.valueClass().equals( LocalDate.class ) ) {
-      IValedControlFactory factory = ValedLocalDateMpv.FACTORY;
-      IValedControl editor = doCreateEditor( factory, aFieldDef, ctx );
-      editor.clearValue();
-      return editor;
-    }
-    // editor for LocalDateTime
-    if( aFieldDef.valueClass().equals( LocalDateTime.class ) ) {
-      IValedControlFactory factory = ValedLocalDateTimeMpv.FACTORY;
-      IValedControl editor = doCreateEditor( factory, aFieldDef, ctx );
-      editor.clearValue();
-      return editor;
-    }
-    // HERE другие эвристические правила создания редактора моделированных полей
-    // не смогли ничего подобрать, увы...
+    // эвристические правила создания редактора моделированных полей не смогли ничего подобрать, увы...
     throw new TsItemNotFoundRtException( FMT_ERR_NO_FACTORY_IN_PARAMS, aFieldDef.id() );
   }
 

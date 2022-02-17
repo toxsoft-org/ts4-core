@@ -3,7 +3,7 @@ package org.toxsoft.core.tslib.av.validators.defav;
 import static org.toxsoft.core.tslib.av.validators.defav.Messages.*;
 
 /**
- * Локадлизуемые ресрсы валидаторов.
+ * Localizable resources.
  *
  * @author hazard157
  */

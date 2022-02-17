@@ -1,7 +1,7 @@
 package org.toxsoft.core.tsgui.graphics.colors.impl;
 
 /**
- * Локализуемые ресурсы.
+ * Localizable resources.
  *
  * @author hazard157
  */

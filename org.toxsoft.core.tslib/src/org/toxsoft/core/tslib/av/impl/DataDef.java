@@ -4,28 +4,23 @@ import static org.toxsoft.core.tslib.av.impl.ITsResources.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Comparator;
+import java.lang.reflect.*;
+import java.util.*;
 
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.errors.AvTypeCastRtException;
-import org.toxsoft.core.tslib.av.list.AvList;
-import org.toxsoft.core.tslib.av.list.IAvListEdit;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.errors.*;
+import org.toxsoft.core.tslib.av.list.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.av.opset.IOptionSetEdit;
-import org.toxsoft.core.tslib.av.opset.impl.OptionSet;
-import org.toxsoft.core.tslib.av.opset.impl.OptionSetUtils;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
-import org.toxsoft.core.tslib.bricks.validator.ITsValidator;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
-import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
+import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
  * An immutable implementation of {@link IDataDef}.
@@ -352,7 +347,7 @@ public final class DataDef
   public IAtomicValue getValue( IOptionSet aOps ) {
     TsNullArgumentRtException.checkNull( aOps );
     IAtomicValue av = aOps.findValue( id() );
-    if( av == null ) {
+    if( av == null || av == IAtomicValue.NULL ) {
       return defaultValue();
     }
     return av;

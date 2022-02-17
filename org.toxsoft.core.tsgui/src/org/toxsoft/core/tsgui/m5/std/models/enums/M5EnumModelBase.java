@@ -1,7 +1,7 @@
 package org.toxsoft.core.tsgui.m5.std.models.enums;
 
 import static org.toxsoft.core.tsgui.m5.IM5Constants.*;
-import static org.toxsoft.core.tsgui.m5.std.models.enums.ITsResource.*;
+import static org.toxsoft.core.tsgui.m5.std.models.enums.ITsResources.*;
 import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 

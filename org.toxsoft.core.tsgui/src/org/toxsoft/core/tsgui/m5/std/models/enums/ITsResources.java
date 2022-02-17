@@ -5,7 +5,7 @@ package org.toxsoft.core.tsgui.m5.std.models.enums;
  *
  * @author hazard157
  */
-interface ITsResource {
+interface ITsResources {
 
   /**
    * {@link M5EnumModelBase}

@@ -1,7 +1,7 @@
 package org.toxsoft.core.tslib.bricks.validator.std;
 
 /**
- * Локадлизуемые ресрсы валидаторов.
+ * Localizable resources.
  *
  * @author hazard157
  */

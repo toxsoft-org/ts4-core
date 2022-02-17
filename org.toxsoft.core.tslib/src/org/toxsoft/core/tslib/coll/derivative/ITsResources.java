@@ -1,9 +1,9 @@
 package org.toxsoft.core.tslib.coll.derivative;
 
 /**
- * Ресурсы для работы с производными (не-соновными) коллекциями.
+ * Localizable resources.
  *
- * @author goga
+ * @author hazard157
  */
 interface ITsResources {
 

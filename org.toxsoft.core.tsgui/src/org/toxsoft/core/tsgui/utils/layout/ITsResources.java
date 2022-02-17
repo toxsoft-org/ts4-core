@@ -1,7 +1,7 @@
 package org.toxsoft.core.tsgui.utils.layout;
 
 /**
- * Локализуемые ресурсы раскладок.
+ * Localizable resources.
  *
  * @author hazard157
  */

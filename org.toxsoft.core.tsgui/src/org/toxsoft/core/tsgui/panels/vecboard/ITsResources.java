@@ -1,9 +1,9 @@
 package org.toxsoft.core.tsgui.panels.vecboard;
 
 /**
- * Локализуемые ресурсы панелей и раскладок.
+ * Localizable resources.
  *
- * @author goga
+ * @author hazard157
  */
 interface ITsResources {
 

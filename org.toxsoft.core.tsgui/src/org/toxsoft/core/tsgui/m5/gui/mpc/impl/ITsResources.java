@@ -1,9 +1,9 @@
 package org.toxsoft.core.tsgui.m5.gui.mpc.impl;
 
 /**
- * Локализуемые ресурсы.
+ * Localizable resources.
  *
- * @author goga
+ * @author hazard157
  */
 @SuppressWarnings( "nls" )
 interface ITsResources {

@@ -1,9 +1,9 @@
 package org.toxsoft.core.tsgui.graphics;
 
 /**
- * Локализуемые ресурсы графики (визуального отображения).
+ * Localizable resources.
  *
- * @author goga
+ * @author hazard157
  */
 @SuppressWarnings( "nls" )
 interface ITsResources {
