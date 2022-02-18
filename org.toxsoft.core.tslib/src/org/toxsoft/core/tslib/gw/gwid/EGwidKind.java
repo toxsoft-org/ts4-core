@@ -95,7 +95,7 @@ public enum EGwidKind
    *
    * @return {@link IStridablesList}&lt;{@link EGwidKind}&gt; - list of all constants
    */
-  public static IStridablesList<EGwidKind> list() {
+  public static IStridablesList<EGwidKind> asList() {
     if( list == null ) {
       list = new StridablesList<>( values() );
     }
@@ -115,7 +115,7 @@ public enum EGwidKind
    */
   public static EGwidKind findById( String aId ) {
     TsNullArgumentRtException.checkNull( aId );
-    for( EGwidKind item : list() ) {
+    for( EGwidKind item : asList() ) {
       if( item.id.equals( aId ) ) {
         return item;
       }

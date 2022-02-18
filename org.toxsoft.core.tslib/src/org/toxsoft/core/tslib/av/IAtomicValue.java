@@ -1,12 +1,10 @@
 package org.toxsoft.core.tslib.av;
 
-import java.io.ObjectStreamException;
-import java.io.Serializable;
+import java.io.*;
 
-import org.toxsoft.core.tslib.av.errors.AvTypeCastRtException;
-import org.toxsoft.core.tslib.av.errors.AvUnassignedValueRtException;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
+import org.toxsoft.core.tslib.av.errors.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * The value of the specified atomic type.
@@ -127,7 +125,7 @@ final class InternalNoneAtomicValue
    * Method correctly deserializes {@link IAtomicValue#NULL} value.
    *
    * @return {@link ObjectStreamException} - {@link IAtomicValue#NULL}
-   * @throws ObjectStreamException is declared but newer throw by this method
+   * @throws ObjectStreamException is declared but newer thrown by this method
    */
   @SuppressWarnings( { "static-method" } )
   private Object readResolve()

@@ -1,9 +1,8 @@
 package org.toxsoft.core.tslib.bricks.events;
 
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
-import org.toxsoft.core.tslib.utils.errors.TsInternalErrorRtException;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 //TRANSLATE
 
@@ -119,6 +118,17 @@ public abstract class AbstractTsEventer<L>
       }
     }
     return ll;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // API
+  //
+
+  /**
+   * Removes all listeners from the internal list.
+   */
+  public void clearListenersList() {
+    listeners.clear();
   }
 
   // ------------------------------------------------------------------------------------
