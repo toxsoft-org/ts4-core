@@ -1,7 +1,6 @@
 package org.toxsoft.core.tslib.bricks.ctx.impl;
 
-import org.toxsoft.core.tslib.bricks.ctx.ITsContext;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContextRo;
+import org.toxsoft.core.tslib.bricks.ctx.*;
 
 /**
  * Реализация {@link ITsContext}.
@@ -25,6 +24,15 @@ public class TsContext
    */
   public TsContext( ITsContextRo aParent ) {
     super( aParent );
+  }
+
+  /**
+   * Creates an empty context linked to the source to the parent references and options.
+   *
+   * @param aAskParent {@link IAskParent} - parent ops and refs retreival
+   */
+  protected TsContext( IAskParent aAskParent ) {
+    super( aAskParent );
   }
 
 }
