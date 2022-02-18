@@ -1,6 +1,8 @@
 package org.toxsoft.core.tslib.coll.basis;
 
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.concurrent.locks.*;
+
+import org.toxsoft.core.tslib.utils.*;
 
 /**
  * Mixin interface for collection wrapper implementations with thread-safe access.
@@ -20,7 +22,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * @author hazard157
  * @param <E> - the type of elements in this collection
  */
-public interface ITsSynchronizedCollectionTag<E> {
+public interface ITsSynchronizedCollectionTag<E>
+    extends ITsSynchronizedWrapper {
 
   /**
    * Returns object used for access lock.
