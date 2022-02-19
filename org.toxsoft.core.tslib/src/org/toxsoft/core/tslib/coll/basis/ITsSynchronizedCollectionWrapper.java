@@ -22,7 +22,7 @@ import org.toxsoft.core.tslib.utils.*;
  * @author hazard157
  * @param <E> - the type of elements in this collection
  */
-public interface ITsSynchronizedCollectionTag<E>
+public interface ITsSynchronizedCollectionWrapper<E>
     extends ITsSynchronizedWrapper {
 
   /**

@@ -31,7 +31,7 @@ public class TsContext
    *
    * @param aAskParent {@link IAskParent} - parent ops and refs retreival
    */
-  protected TsContext( IAskParent aAskParent ) {
+  public TsContext( IAskParent aAskParent ) {
     super( aAskParent );
   }
 

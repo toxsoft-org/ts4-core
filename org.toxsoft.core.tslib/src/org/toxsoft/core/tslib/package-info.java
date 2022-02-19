@@ -10,7 +10,7 @@
  * collections used instead of <code>java.util.*</code> collections. Primitive type collections like
  * {@link org.toxsoft.core.tslib.coll.primtypes.ILongList ILongList} or {@link org.toxsoft.core.tslib.coll.primtypes.IStringMap
  * IStringMap} are included. Some additional abilities like synchronized (thread-safe)
- * {@link org.toxsoft.core.tslib.coll.basis.ITsSynchronizedCollectionTag ITsSynchronizedCollectionTag} and MVC model
+ * {@link org.toxsoft.core.tslib.coll.basis.ITsSynchronizedCollectionWrapper ITsSynchronizedCollectionTag} and MVC model
  * supporting {@link org.toxsoft.core.tslib.coll.notifier.basis.ITsNotifierCollection ITsNotifierCollection} collections are
  * added. Take a look at {@link org.toxsoft.core.tslib.coll.helpers.IListReorderer IListReorderer} or
  * {@link org.toxsoft.core.tslib.coll.derivative.IQueue IQueue} also;</li>

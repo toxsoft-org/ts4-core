@@ -7,7 +7,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.toxsoft.core.tslib.coll.IList;
 import org.toxsoft.core.tslib.coll.IMapEdit;
 import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.coll.basis.ITsSynchronizedCollectionTag;
+import org.toxsoft.core.tslib.coll.basis.ITsSynchronizedCollectionWrapper;
 import org.toxsoft.core.tslib.coll.impl.TsCollectionsUtils;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
@@ -20,7 +20,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * @param <E> - тип хранимых элементов, значений в карте
  */
 public class SynchronizedStringMap<E>
-    implements IStringMapEdit<E>, ITsSynchronizedCollectionTag<E>, Serializable {
+    implements IStringMapEdit<E>, ITsSynchronizedCollectionWrapper<E>, Serializable {
 
   private static final long serialVersionUID = 157157L;
 

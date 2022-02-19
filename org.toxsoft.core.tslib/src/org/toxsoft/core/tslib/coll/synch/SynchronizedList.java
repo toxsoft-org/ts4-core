@@ -7,7 +7,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.toxsoft.core.tslib.coll.IList;
 import org.toxsoft.core.tslib.coll.IListBasicEdit;
 import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.coll.basis.ITsSynchronizedCollectionTag;
+import org.toxsoft.core.tslib.coll.basis.ITsSynchronizedCollectionWrapper;
 import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
 import org.toxsoft.core.tslib.coll.impl.TsCollectionsUtils;
 import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
@@ -21,7 +21,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * @param <L> - тип НЕредактируемого списка-источника
  */
 public class SynchronizedList<E, L extends IList<E>>
-    implements IList<E>, ITsSynchronizedCollectionTag<E>, Serializable {
+    implements IList<E>, ITsSynchronizedCollectionWrapper<E>, Serializable {
 
   private static final long serialVersionUID = 157157L;
 
