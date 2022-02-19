@@ -1,22 +1,20 @@
 package org.toxsoft.core.tslib.coll.synch;
 
-import java.io.Serializable;
-import java.util.Iterator;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.io.*;
+import java.util.*;
+import java.util.concurrent.locks.*;
 
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListBasicEdit;
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.coll.basis.ITsSynchronizedCollectionWrapper;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
-import org.toxsoft.core.tslib.coll.impl.TsCollectionsUtils;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+
+// TODO TRANSLATE
 
 /**
  * Класс потоко-безопасной оболочки над НЕредактируемым списком.
  *
  * @author goga
- * @version $id$
  * @param <E> - тип элементов списка
  * @param <L> - тип НЕредактируемого списка-источника
  */
@@ -29,21 +27,11 @@ public class SynchronizedList<E, L extends IList<E>>
   protected final L                      source;
 
   /**
-   * Создает оболочку над aSource с потоко-безопасным доступом.
+   * Constructor with all invariants.
    *
-   * @param aSource L - список - источник
-   * @throws TsNullArgumentRtException аргумент = null
-   */
-  public SynchronizedList( L aSource ) {
-    this( aSource, new ReentrantReadWriteLock() );
-  }
-
-  /**
-   * Создает оболочку над aSource с потоко-безопасным доступом с указанием блокировки.
-   *
-   * @param aSource L - список - источник
-   * @param aLock {@link ReentrantReadWriteLock} - блокировка списка
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aSource &lt;L&gt; - the source collection
+   * @param aLock {@link ReentrantReadWriteLock} - thread safety lock
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public SynchronizedList( L aSource, ReentrantReadWriteLock aLock ) {
     TsNullArgumentRtException.checkNulls( aSource, aLock );
@@ -51,8 +39,20 @@ public class SynchronizedList<E, L extends IList<E>>
     lock = aLock;
   }
 
+  /**
+   * Constructor.
+   * <p>
+   * Internally creates the new instance of {@link ReentrantReadWriteLock}.
+   *
+   * @param aSource &lt;L&gt; - the source collection
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public SynchronizedList( L aSource ) {
+    this( aSource, new ReentrantReadWriteLock() );
+  }
+
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IList<E>
+  // IList<E>
   //
 
   @Override
@@ -160,7 +160,7 @@ public class SynchronizedList<E, L extends IList<E>>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsSynchronizedCollectionTag
+  // ITsSynchronizedCollectionTag
   //
 
   @Override

@@ -1,57 +1,66 @@
 package org.toxsoft.core.tslib.coll.derivative;
 
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.basis.ITsClearable;
-import org.toxsoft.core.tslib.coll.basis.ITsSizeRestrictableCollection;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalStateRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Стек объектов.
+ * The stack - FILO (First In Last Out) collection.
  *
- * @author goga
- * @version $id$
- * @param <E> - тип хранимых элементов
+ * @author hazard157
+ * @param <E> - the type of elements in this collection
  */
 public interface IStack<E>
     extends IList<E>, ITsClearable, ITsSizeRestrictableCollection {
 
   /**
-   * Помещает в стек заданный элемент.
+   * Puts the element in the stack.
    *
-   * @param aElem E - элемент, помещаемый в стек
-   * @throws TsNullArgumentRtException аргумент = null
-   * @throws TsIllegalStateRtException (для стека с ограничением размера) стек уже полный
+   * @param aElem &lt;E&gt; - the element to be pushed into the stack
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalStateRtException stack is full
    */
   void push( E aElem );
 
   /**
-   * Выталкивает элемент с вершины стека.
+   * Removes and returns an element from the stack top.
+   * <p>
+   * Method {@link #popOrNull()} returns <code>null</code> if the stack empty while method {@link #pop()} throws an
+   * exception.
    *
-   * @return E - элемент с вершины стека
-   * @throws TsIllegalStateRtException стек пустой
+   * @return &lt;E&gt; - the element that was on top of the stack
+   * @throws TsIllegalStateRtException stack is empty
    */
   E pop();
 
   /**
-   * Выталкивает элемент с вершины стека или возвращает null.
+   * Removes and returns an element from the stack top.
+   * <p>
+   * Method {@link #popOrNull()} returns <code>null</code> if the stack empty while method {@link #pop()} throws an
+   * exception.
    *
-   * @return E - элемент с вершины стека или null, если стек пустой
+   * @return &lt;E&gt; - the element that was on top of the stack or <code>null</code> if stack is empty
    */
   E popOrNull();
 
   /**
-   * Возвращает элемент с вершины стека, не выталкивая его.
+   * Returns an element from the stack top but the element remains at top.
+   * <p>
+   * Method {@link #peekOrNull()} returns <code>null</code> if the stack empty while method {@link #peek()} throws an
+   * exception.
    *
-   * @return E - элемент с вершины стека
-   * @throws TsIllegalStateRtException стек пустой
+   * @return &lt;E&gt; - the element at the top of the stack
+   * @throws TsIllegalStateRtException stack is empty
    */
   E peek();
 
   /**
-   * Возвращает элемент (или null) с вершины стека, не выталкивая его.
+   * Returns an element from the stack top but the element remains at top.
+   * <p>
+   * Method {@link #peekOrNull()} returns <code>null</code> if the stack empty while method {@link #peek()} throws an
+   * exception.
    *
-   * @return E - элемент с вершины стека или null, если стек пустой
+   * @return &lt;E&gt; - the element at the top of the stack or <code>null</code> if stack is empty
    */
   E peekOrNull();
 

@@ -2,20 +2,18 @@ package org.toxsoft.core.tslib.coll.derivative;
 
 import static org.toxsoft.core.tslib.coll.derivative.ITsResources.*;
 
-import java.io.Serializable;
-import java.util.Iterator;
+import java.io.*;
+import java.util.*;
 
-import org.toxsoft.core.tslib.coll.IListBasicEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemLinkedList;
-import org.toxsoft.core.tslib.coll.impl.TsCollectionsUtils;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalStateRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Реализация очереди, как оболочки над редактируемым списком.
+ * {@link IQueue} implementation as the wrapper over an editable list.
  *
  * @author hazard157
- * @param <E> - тип хранимых элементов
+ * @param <E> - the type of elements in this collection
  */
 public class Queue<E>
     implements IQueue<E>, Serializable {
@@ -23,24 +21,21 @@ public class Queue<E>
   private static final long serialVersionUID = 157157L;
 
   /**
-   * Исходный список, содержащий элементы очереди.
+   * The wrapped source list.
    */
   private final IListBasicEdit<E> source;
 
   /**
-   * Максимальный размер очереди, -1 означает отсутствие ограничения на размер.
+   * Maximal size, maximal number of elements in collection or -1 if size is not restricted.
    */
   private final int maxSize;
 
   /**
-   * Основной конструктор - создает очередь как оболочку над редактируемым cписком.
-   * <p>
-   * Для того, чтобы создать очередь без ограничения размера, следует указать -1 в качестве значения максимального
-   * размера aMaxSize.
+   * Constructor with all invariants.
    *
-   * @param aSourceList IListBasicEdit&lt;E&gt; - исходный список
-   * @param aMaxSize int - максимальное количество элементов в очереди, или -1
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aSourceList {@link IListBasicEdit}&lt;E&gt; - the source list
+   * @param aMaxSize int - max number of elements or <0 for no size restriction
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public Queue( IListBasicEdit<E> aSourceList, int aMaxSize ) {
     source = TsNullArgumentRtException.checkNull( aSourceList );
@@ -53,10 +48,13 @@ public class Queue<E>
   }
 
   /**
-   * Creates unrestricted queue based on linked list.
+   * Creates unrestricted queue.
+   *
+   * @param aSourceList {@link IListBasicEdit}&lt;E&gt; - the source list
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public Queue() {
-    this( new ElemLinkedList<>(), -1 );
+  public Queue( IListBasicEdit<E> aSourceList ) {
+    this( aSourceList, -1 );
   }
 
   /**
@@ -66,6 +64,13 @@ public class Queue<E>
    */
   public Queue( int aMaxSize ) {
     this( new ElemLinkedList<>(), aMaxSize );
+  }
+
+  /**
+   * Creates unrestricted queue based on linked list.
+   */
+  public Queue() {
+    this( new ElemLinkedList<>(), -1 );
   }
 
   // --------------------------------------------------------------------------
@@ -194,7 +199,7 @@ public class Queue<E>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация методов класса Object
+  // Object
   //
 
   @Override

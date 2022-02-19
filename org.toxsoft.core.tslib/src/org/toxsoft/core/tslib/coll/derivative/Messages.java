@@ -1,7 +1,6 @@
 package org.toxsoft.core.tslib.coll.derivative;
 
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import java.util.*;
 
 @SuppressWarnings( "javadoc" )
 public class Messages {
@@ -21,4 +20,5 @@ public class Messages {
       return '!' + key + '!';
     }
   }
+
 }

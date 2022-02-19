@@ -2,49 +2,42 @@ package org.toxsoft.core.tslib.coll.derivative;
 
 import static org.toxsoft.core.tslib.coll.derivative.ITsResources.*;
 
-import java.io.Serializable;
-import java.util.Iterator;
+import java.io.*;
+import java.util.*;
 
-import org.toxsoft.core.tslib.coll.IListBasicEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemLinkedList;
-import org.toxsoft.core.tslib.coll.impl.TsCollectionsUtils;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalStateRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Реализация стека, как оболочки над редактируемым списком.
+ * {@link IStack} implementation as the wrapper over an editable list.
  * <p>
- * Самый первый (самый глубокий) элемент имеет индекс 0, а вершина стека - индекс {@link #size()}-1. Элементы по индексу
- * можно получить методом {@link #get(int)}.
+ * Deepest stack element has the index 0, stack top has index {@link #size()}-1.
  *
- * @author goga
- * @version $id$
- * @param <E> - тип хранимых элементов
+ * @author hazard157
+ * @param <E> - the type of elements in this collection
  */
-class Stack<E>
+public class Stack<E>
     implements IStack<E>, Serializable {
 
   private static final long serialVersionUID = 157157L;
 
   /**
-   * Исходный список, содержащий элементы стека.
+   * The wrapped source list.
    */
   private final IListBasicEdit<E> source;
 
   /**
-   * Максимальный размер стека, -1 означает отсутствие ограничения на размер.
+   * Maximal size, maximal number of elements in collection or -1 if size is not restricted.
    */
   private final int maxSize;
 
   /**
-   * Основной конструктор - создает стек как оболочку над редактируемым cписком.
-   * <p>
-   * Для того, чтобы создать стек без ограничения размера, следует указать -1 в качестве значения максимального размера
-   * aMaxSize.
+   * Constructor with all invariants.
    *
-   * @param aSourceList IListBasicEdit&lt;E&gt; - исходный список
-   * @param aMaxSize int - максимальное количество элементов в очереди, или -1
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aSourceList {@link IListBasicEdit}&lt;E&gt; - the source list
+   * @param aMaxSize int - max number of elements or <0 for no size restriction
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public Stack( IListBasicEdit<E> aSourceList, int aMaxSize ) {
     source = TsNullArgumentRtException.checkNull( aSourceList );
@@ -57,19 +50,29 @@ class Stack<E>
   }
 
   /**
-   * Creates unrestricted stack based on linked list.
+   * Creates unrestricted stack.
+   *
+   * @param aSourceList {@link IListBasicEdit}&lt;E&gt; - the source list
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public Stack() {
-    this( new ElemLinkedList<>(), -1 );
+  public Stack( IListBasicEdit<E> aSourceList ) {
+    this( aSourceList, -1 );
   }
 
   /**
    * Creates restricted stack based on linked list.
    *
-   * @param aMaxSize int - maximum number of elements in queue
+   * @param aMaxSize int - maximum number of elements in stack
    */
   public Stack( int aMaxSize ) {
     this( new ElemLinkedList<>(), aMaxSize );
+  }
+
+  /**
+   * Creates unrestricted stack based on linked list.
+   */
+  public Stack() {
+    this( new ElemLinkedList<>(), -1 );
   }
 
   // --------------------------------------------------------------------------
@@ -188,7 +191,7 @@ class Stack<E>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация методов класса Object
+  // Object
   //
 
   @Override

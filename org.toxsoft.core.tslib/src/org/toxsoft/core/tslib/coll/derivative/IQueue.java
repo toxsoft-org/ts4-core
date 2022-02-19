@@ -1,82 +1,82 @@
 package org.toxsoft.core.tslib.coll.derivative;
 
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.basis.ITsClearable;
-import org.toxsoft.core.tslib.coll.basis.ITsSizeRestrictableCollection;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalStateRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Очередь объектов.
+ * The queue - FIFO (First In First Out) collection.
  *
  * @author hazard157
- * @param <E> - тип хранимых элементов
+ * @param <E> - the type of elements in this collection
  */
 public interface IQueue<E>
     extends IList<E>, ITsClearable, ITsSizeRestrictableCollection {
 
   /**
-   * Добавляет элемент в хвост очереди.
+   * Adds the element to the tail of the queue.
    * <p>
-   * В отличие от {@link #offerTail(Object)}, если очередь полная, выбрасывает исключение
-   * {@link TsIllegalStateRtException}.
+   * Method {@link #offerTail(Object)} returns <code>false</code> if queue is full while method {@link #putTail(Object)}
+   * throws an exception.
    *
-   * @param aElem E - добавляемый элемент
-   * @return всегда <b>true</b>
-   * @throws TsNullArgumentRtException аргумент = null
-   * @throws TsIllegalStateRtException очередь переполнена
+   * @param aElem &lt;E&gt; - the element to add
+   * @return boolean - always <b>true</b>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalStateRtException queue is full
    */
   boolean putTail( E aElem );
 
   /**
-   * Добавляет элемент в хвост очереди.
+   * Adds the element to the tail of the queue.
    * <p>
-   * В отличие от {@link #putTail(Object)}, если очередь полная, просто возвращает <b>false</b>.
+   * Method {@link #offerTail(Object)} returns <code>false</code> if queue is full while method {@link #putTail(Object)}
+   * throws an exception.
    *
-   * @param aElem E - добавляемый элемент
-   * @return всегда <b>true</b>
-   * @throws TsNullArgumentRtException аргумент = null
-   * @throws TsIllegalStateRtException очередь переполнена
+   * @param aElem &lt;E&gt; - the element to add
+   * @return boolean - <b>true</b> if element was added and <code>false</code> is queue is full
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   boolean offerTail( E aElem );
 
   /**
-   * Забирает (удаляет из очереди и возвращает) элемент из головы очереди.
+   * Removes and returns the element from the head of the queue.
    * <p>
-   * В отличие от {@link #getHeadOrNull()}, если очередь пустая, выбрасывает исключение
-   * {@link TsIllegalStateRtException}.
+   * Method {@link #getHeadOrNull()} returns <code>null</code> is queue is empty while {@link #getHead()} throws an
+   * exception.
    *
-   * @return E - очередной элемент очереди
-   * @throws TsIllegalStateRtException очередь пуста
+   * @return &lt;E&gt; - next element from the queue
+   * @throws TsIllegalStateRtException the queue is empty
    */
   E getHead();
 
   /**
-   * Забирает (удаляет из очереди и возвращает) элемент из головы очереди.
+   * Removes and returns the element from the head of the queue.
    * <p>
-   * В отличие от {@link #getHead()}, если очередь пустая, возвращает null.
+   * Method {@link #getHeadOrNull()} returns <code>null</code> is queue is empty while {@link #getHead()} throws an
+   * exception.
    *
-   * @return E - очередной элемент очереди или null
+   * @return &lt;E&gt; - next element from the queue or <code>null</code> if queue is empty
    */
   E getHeadOrNull();
 
   /**
-   * Возвращает (не удаляя из очереди) элемент из головы очереди.
+   * Returns the element from the head of the queue but element remains in queue.
    * <p>
-   * В отличие от {@link #peekHeadOrNull()}, если очередь пустая, выбрасывает исключение
-   * {@link TsIllegalStateRtException}.
+   * Method {@link #peekHeadOrNull()} returns <code>null</code> is queue is empty while {@link #peekHead()} throws an
+   * exception.
    *
-   * @return E - очередной элемент очереди
-   * @throws TsIllegalStateRtException очередь пуста
+   * @return &lt;E&gt; - next element from the queue
+   * @throws TsIllegalStateRtException the queue is empty
    */
   E peekHead();
 
   /**
-   * Возвращает (не удаляя из очереди) элемент из головы очереди.
+   * Returns the element from the head of the queue but element remains in queue.
    * <p>
-   * В отличие от {@link #peekHead()}, если очередь пустая, возвращает null.
+   * Method {@link #peekHeadOrNull()} returns <code>null</code> is queue is empty while {@link #peekHead()} throws an
+   * exception.
    *
-   * @return E - очередной элемент очереди или null
+   * @return &lt;E&gt; - next element from the queue or <code>null</code> if queue is empty
    */
   E peekHeadOrNull();
 
