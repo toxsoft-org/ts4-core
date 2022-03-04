@@ -2,17 +2,31 @@ package org.toxsoft.core.tslib.coll.helpers;
 
 import static org.toxsoft.core.tslib.coll.helpers.ITsResources.*;
 
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.std.StridableEnumKeeper;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesListEdit;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.StridablesList;
-import org.toxsoft.core.tslib.coll.IList;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.std.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Typical movement when navigating through a collection.
+ * <p>
+ * The main method for navigating over collection is {@link #navigateTo(int, int, int, boolean, boolean)}, other methods
+ * <code>moveToXxx()</code>, <code>wrapToXxx()</code>, <code>findElemAtXxx()</code> call it.
+ * <p>
+ * Navigation means that there is some starting element (index) and after movement there will be ending element (index).
+ * Navigation has different modes determoned byt the flags:
+ * <ul>
+ * <li><b>wrapping</b> - in wrapping mode navigation continues when reaching collection boudaries like list is the
+ * circular buffer (navigation <i>wraps</i> over collection). In non-wrapping mode navigation stops at collection
+ * boundaries;</li>
+ * <li><b>NoneItem</b> - NoneItem is "virtual" item located before first element (at index -1) and is closly related to
+ * the consept of "selected item" in GUI lists. "Selecting" NoneItem means to select no elemat. Navigating with NoneItem
+ * (methods with siffix <b>Wni</b>) may end at NoneItem (return index -1). Note, that in wrapping mode NoneItem is
+ * located before first and after last element of the collection.</li>
+ * </ul>
  *
  * @author hazard157
  */
@@ -23,55 +37,98 @@ public enum ETsCollMove
   NONE("None", STR_N_TCM_NONE, STR_D_TCM_NONE ) { //$NON-NLS-1$
 
     @Override
-    protected int doMoveToIndex( int aStartIndex, int aCollSize, int aJumpDistance ) {
+    protected int doMoveToIndexWithNoneItem( int aStartIndex, int aCollSize, int aJumpDistance ) {
       return aStartIndex;
     }
 
     @Override
-    protected int doWrapToIndex( int aStartIndex, int aCollSize, int aJumpDistance ) {
+    protected int doWrapToIndexWithNoneItem( int aStartIndex, int aCollSize, int aJumpDistance ) {
       return aStartIndex;
     }
+
+    @Override
+    protected int doMoveToIndexOnlyColl( int aStartIndex, int aCollSize, int aJumpDistance ) {
+      return aStartIndex;
+    }
+
+    @Override
+    protected int doWrapToIndexOnlyColl( int aStartIndex, int aCollSize, int aJumpDistance ) {
+      return aStartIndex;
+    }
+
   },
 
   @SuppressWarnings( "javadoc" )
   FIRST("First", STR_N_TCM_FIRST, STR_D_TCM_FIRST ) { //$NON-NLS-1$
 
     @Override
-    protected int doMoveToIndex( int aStartIndex, int aCollSize, int aJumpDistance ) {
+    protected int doMoveToIndexWithNoneItem( int aStartIndex, int aCollSize, int aJumpDistance ) {
       return 0;
     }
 
     @Override
-    protected int doWrapToIndex( int aStartIndex, int aCollSize, int aJumpDistance ) {
-      return doMoveToIndex( aStartIndex, aCollSize, aJumpDistance );
+    protected int doWrapToIndexWithNoneItem( int aStartIndex, int aCollSize, int aJumpDistance ) {
+      return 0;
     }
+
+    @Override
+    protected int doMoveToIndexOnlyColl( int aStartIndex, int aCollSize, int aJumpDistance ) {
+      return 0;
+    }
+
+    @Override
+    protected int doWrapToIndexOnlyColl( int aStartIndex, int aCollSize, int aJumpDistance ) {
+      return 0;
+    }
+
   },
 
   @SuppressWarnings( "javadoc" )
   MIDDLE("Middle", STR_N_TCM_MIDDLE, STR_D_TCM_MIDDLE ) { //$NON-NLS-1$
 
     @Override
-    protected int doMoveToIndex( int aStartIndex, int aCollSize, int aJumpDistance ) {
+    protected int doMoveToIndexWithNoneItem( int aStartIndex, int aCollSize, int aJumpDistance ) {
       return aCollSize / 2;
     }
 
     @Override
-    protected int doWrapToIndex( int aStartIndex, int aCollSize, int aJumpDistance ) {
-      return doMoveToIndex( aStartIndex, aCollSize, aJumpDistance );
+    protected int doWrapToIndexWithNoneItem( int aStartIndex, int aCollSize, int aJumpDistance ) {
+      return aCollSize / 2;
     }
+
+    @Override
+    protected int doMoveToIndexOnlyColl( int aStartIndex, int aCollSize, int aJumpDistance ) {
+      return aCollSize / 2;
+    }
+
+    @Override
+    protected int doWrapToIndexOnlyColl( int aStartIndex, int aCollSize, int aJumpDistance ) {
+      return aCollSize / 2;
+    }
+
   },
 
   @SuppressWarnings( "javadoc" )
   LAST("Last", STR_N_TCM_LAST, STR_D_TCM_LAST ) { //$NON-NLS-1$
 
     @Override
-    protected int doMoveToIndex( int aStartIndex, int aCollSize, int aJumpDistance ) {
+    protected int doMoveToIndexWithNoneItem( int aStartIndex, int aCollSize, int aJumpDistance ) {
       return aCollSize - 1;
     }
 
     @Override
-    protected int doWrapToIndex( int aStartIndex, int aCollSize, int aJumpDistance ) {
-      return doMoveToIndex( aStartIndex, aCollSize, aJumpDistance );
+    protected int doWrapToIndexWithNoneItem( int aStartIndex, int aCollSize, int aJumpDistance ) {
+      return aCollSize - 1;
+    }
+
+    @Override
+    protected int doMoveToIndexOnlyColl( int aStartIndex, int aCollSize, int aJumpDistance ) {
+      return aCollSize - 1;
+    }
+
+    @Override
+    protected int doWrapToIndexOnlyColl( int aStartIndex, int aCollSize, int aJumpDistance ) {
+      return aCollSize - 1;
     }
   },
 
@@ -79,7 +136,24 @@ public enum ETsCollMove
   PREV("Prev", STR_N_TCM_PREV, STR_D_TCM_PREV ) { //$NON-NLS-1$
 
     @Override
-    protected int doMoveToIndex( int aStartIndex, int aCollSize, int aJumpDistance ) {
+    protected int doMoveToIndexWithNoneItem( int aStartIndex, int aCollSize, int aJumpDistance ) {
+      int newIndex = aStartIndex - 1;
+      if( newIndex < 0 ) {
+        newIndex = -1;
+      }
+      return newIndex;
+    }
+
+    @Override
+    protected int doWrapToIndexWithNoneItem( int aStartIndex, int aCollSize, int aJumpDistance ) {
+      if( aStartIndex == -1 ) {
+        return aCollSize - 1;
+      }
+      return aStartIndex - 1;
+    }
+
+    @Override
+    protected int doMoveToIndexOnlyColl( int aStartIndex, int aCollSize, int aJumpDistance ) {
       int newIndex = aStartIndex - 1;
       if( newIndex < 0 ) {
         newIndex = 0;
@@ -88,18 +162,21 @@ public enum ETsCollMove
     }
 
     @Override
-    protected int doWrapToIndex( int aStartIndex, int aCollSize, int aJumpDistance ) {
-      int newIndex = (aStartIndex + 1) + aJumpDistance;
-      newIndex = newIndex % (aCollSize + 1);
-      return newIndex - 1;
+    protected int doWrapToIndexOnlyColl( int aStartIndex, int aCollSize, int aJumpDistance ) {
+      int newIndex = aStartIndex - 1;
+      if( newIndex < 0 ) {
+        return aCollSize - 1;
+      }
+      return newIndex;
     }
+
   },
 
   @SuppressWarnings( "javadoc" )
   NEXT("Next", STR_N_TCM_NEXT, STR_D_TCM_NEXT ) { //$NON-NLS-1$
 
     @Override
-    protected int doMoveToIndex( int aStartIndex, int aCollSize, int aJumpDistance ) {
+    protected int doMoveToIndexWithNoneItem( int aStartIndex, int aCollSize, int aJumpDistance ) {
       int newIndex = aStartIndex + 1;
       if( newIndex >= aCollSize ) {
         newIndex = aCollSize - 1;
@@ -108,41 +185,16 @@ public enum ETsCollMove
     }
 
     @Override
-    protected int doWrapToIndex( int aStartIndex, int aCollSize, int aJumpDistance ) {
-      if( aStartIndex == -1 ) {
-        return aCollSize - 1;
+    protected int doWrapToIndexWithNoneItem( int aStartIndex, int aCollSize, int aJumpDistance ) {
+      if( aStartIndex >= aCollSize - 1 ) {
+        return -1;
       }
-      return aStartIndex - 1;
-    }
-  },
-
-  @SuppressWarnings( "javadoc" )
-  JUMP_PREV("JumpPrev", STR_N_TCM_JUMP_PREV, STR_D_TCM_JUMP_PREV ) { //$NON-NLS-1$
-
-    @Override
-    protected int doMoveToIndex( int aStartIndex, int aCollSize, int aJumpDistance ) {
-      int newIndex = aStartIndex - aJumpDistance;
-      if( newIndex < 0 ) {
-        newIndex = 0;
-      }
-      return newIndex;
+      return aStartIndex + 1;
     }
 
     @Override
-    protected int doWrapToIndex( int aStartIndex, int aCollSize, int aJumpDistance ) {
-      int jumpDist = aJumpDistance % (aCollSize + 1);
-      int newIndex = (aStartIndex + 1) - jumpDist + aCollSize + 1;
-      newIndex = newIndex % (aCollSize + 1);
-      return newIndex - 1;
-    }
-  },
-
-  @SuppressWarnings( "javadoc" )
-  JUMP_NEXT("JumpNext", STR_N_TCM_JUMP_NEXT, STR_D_TCM_JUMP_NEXT ) { //$NON-NLS-1$
-
-    @Override
-    protected int doMoveToIndex( int aStartIndex, int aCollSize, int aJumpDistance ) {
-      int newIndex = aStartIndex + aJumpDistance;
+    protected int doMoveToIndexOnlyColl( int aStartIndex, int aCollSize, int aJumpDistance ) {
+      int newIndex = aStartIndex + 1;
       if( newIndex >= aCollSize ) {
         newIndex = aCollSize - 1;
       }
@@ -150,12 +202,115 @@ public enum ETsCollMove
     }
 
     @Override
-    protected int doWrapToIndex( int aStartIndex, int aCollSize, int aJumpDistance ) {
-      int jumpDist = aJumpDistance % (aCollSize + 1);
-      int newIndex = (aStartIndex + 1) + jumpDist;
-      newIndex = newIndex % (aCollSize + 1);
-      return newIndex - 1;
+    protected int doWrapToIndexOnlyColl( int aStartIndex, int aCollSize, int aJumpDistance ) {
+      if( aStartIndex >= aCollSize - 1 ) {
+        return 0;
+      }
+      return aStartIndex + 1;
     }
+
+  },
+
+  @SuppressWarnings( "javadoc" )
+  JUMP_PREV("JumpPrev", STR_N_TCM_JUMP_PREV, STR_D_TCM_JUMP_PREV ) { //$NON-NLS-1$
+
+    @Override
+    protected int doMoveToIndexWithNoneItem( int aStartIndex, int aCollSize, int aJumpDistance ) {
+      int jumpDist = aJumpDistance % (aCollSize + 1);
+      // create "virtual" collection of size (aCollSize+1) with NoneItem at index 0
+      int startIndex = aStartIndex + 1;
+      int collSize = aCollSize + 1;
+      int newIndex = startIndex + jumpDist;
+      if( newIndex >= collSize ) {
+        newIndex = collSize - 1;
+      }
+      return newIndex - 1; // indexation back to the original collection
+    }
+
+    @Override
+    protected int doWrapToIndexWithNoneItem( int aStartIndex, int aCollSize, int aJumpDistance ) {
+      int jumpDist = aJumpDistance % (aCollSize + 1);
+      // create "virtual" collection of size (aCollSize+1) with NoneItem at index 0
+      int startIndex = aStartIndex + 1;
+      int collSize = aCollSize + 1;
+      int newIndex = startIndex + jumpDist;
+      if( newIndex >= collSize ) {
+        newIndex -= collSize;
+      }
+      return newIndex - 1; // indexation back to the original collection
+    }
+
+    @Override
+    protected int doMoveToIndexOnlyColl( int aStartIndex, int aCollSize, int aJumpDistance ) {
+      int jumpDist = aJumpDistance % aCollSize;
+      int newIndex = aStartIndex + jumpDist;
+      if( newIndex >= aCollSize ) {
+        newIndex -= aCollSize;
+      }
+      return newIndex;
+    }
+
+    @Override
+    protected int doWrapToIndexOnlyColl( int aStartIndex, int aCollSize, int aJumpDistance ) {
+      int jumpDist = aJumpDistance % aCollSize;
+      int newIndex = aStartIndex + jumpDist;
+      if( newIndex >= aCollSize ) {
+        newIndex -= aCollSize;
+      }
+      return newIndex;
+    }
+
+  },
+
+  @SuppressWarnings( "javadoc" )
+  JUMP_NEXT("JumpNext", STR_N_TCM_JUMP_NEXT, STR_D_TCM_JUMP_NEXT ) { //$NON-NLS-1$
+
+    @Override
+    protected int doMoveToIndexWithNoneItem( int aStartIndex, int aCollSize, int aJumpDistance ) {
+      // create "virtual" collection of size (aCollSize+1) with NoneItem at index 0
+      int collSize = aCollSize + 1;
+      int startIndex = aStartIndex + 1;
+      int jumpDist = aJumpDistance % collSize;
+      int newIndex = startIndex - jumpDist;
+      if( newIndex < 0 ) {
+        newIndex = 0;
+      }
+      return newIndex - 1; // indexation back to the original collection
+    }
+
+    @Override
+    protected int doWrapToIndexWithNoneItem( int aStartIndex, int aCollSize, int aJumpDistance ) {
+      // create "virtual" collection of size (aCollSize+1) with NoneItem at index 0
+      int collSize = aCollSize + 1;
+      int startIndex = aStartIndex + 1;
+      int jumpDist = aJumpDistance % collSize;
+      int newIndex = startIndex - jumpDist;
+      if( newIndex < 0 ) {
+        newIndex += collSize;
+      }
+      return newIndex - 1; // indexation back to the original collection
+    }
+
+    @Override
+    protected int doMoveToIndexOnlyColl( int aStartIndex, int aCollSize, int aJumpDistance ) {
+      int jumpDist = aJumpDistance % aCollSize;
+      int newIndex = aStartIndex - jumpDist;
+      if( newIndex < 0 ) {
+        newIndex = 0;
+      }
+      return newIndex;
+    }
+
+    @Override
+    protected int doWrapToIndexOnlyColl( int aStartIndex, int aCollSize, int aJumpDistance ) {
+      int jumpDist = aJumpDistance % aCollSize;
+      int newIndex = aStartIndex - jumpDist;
+      if( newIndex < 0 ) {
+        newIndex += aCollSize;
+      }
+      return newIndex;
+    }
+
   };
 
   /**
@@ -190,30 +345,58 @@ public enum ETsCollMove
   /**
    * Determines the index after moving by the value specified by this constant.
    * <p>
-   * The difference between the two methods is that the {@link #doMoveToIndex(int, int, int)} stops at collection
-   * boundaries, while {@link #doWrapToIndex(int, int, int)} wraps over collection. Note that index -1 is considered as
-   * part of the collection.
+   * The difference between the two methods is that the {@link #doMoveToIndexWithNoneItem(int, int, int)} stops at
+   * collection boundaries, while {@link #doWrapToIndexOnlyColl(int, int, int)} wraps over collection. Note that index
+   * -1 is considered as part of the collection.
    *
-   * @param aStartIndex int - index to start moving (always in range -1 .. aCollSize-1)
+   * @param aStartIndex int - index to start moving (always in range 0 .. aCollSize-1)
    * @param aCollSize int - size of the collection (always >= 0)
    * @param aJumpDistance - number of elements to bypass for JUMP_XXX (always >= 1)
-   * @return int - index of new position, must be in range -1 .. aCollSize-1
+   * @return int - index of new position, must be in range 0 .. aCollSize-1
    */
-  protected abstract int doMoveToIndex( int aStartIndex, int aCollSize, int aJumpDistance );
+  protected abstract int doMoveToIndexWithNoneItem( int aStartIndex, int aCollSize, int aJumpDistance );
 
   /**
    * Determines the index after moving by the value specified by this constant.
    * <p>
-   * The difference between the two methods is that the {@link #doMoveToIndex(int, int, int)} stops at collection
-   * boundaries, while {@link #doWrapToIndex(int, int, int)} wraps over collection. Note that index -1 is considered as
-   * part of the collection.
+   * The difference between the two methods is that the {@link #doMoveToIndexWithNoneItem(int, int, int)} stops at
+   * collection boundaries, while {@link #doWrapToIndexOnlyColl(int, int, int)} wraps over collection. Note that index
+   * -1 is considered as part of the collection.
    *
-   * @param aStartIndex int - index to start moving (always in range -1 .. aCollSize-1)
+   * @param aStartIndex int - index to start moving (always in range 0 .. aCollSize-1)
    * @param aCollSize int - size of the collection (always >= 0)
    * @param aJumpDistance - number of elements to bypass for JUMP_XXX (always >= 1)
-   * @return int - index of new position, must be in range -1 .. aCollSize-1
+   * @return int - index of new position, must be in range 0 .. aCollSize-1
    */
-  protected abstract int doWrapToIndex( int aStartIndex, int aCollSize, int aJumpDistance );
+  protected abstract int doMoveToIndexOnlyColl( int aStartIndex, int aCollSize, int aJumpDistance );
+
+  /**
+   * Determines the index after moving by the value specified by this constant.
+   * <p>
+   * The difference between the two methods is that the {@link #doMoveToIndexWithNoneItem(int, int, int)} stops at
+   * collection boundaries, while {@link #doWrapToIndexOnlyColl(int, int, int)} wraps over collection. Note that index
+   * -1 is considered as part of the collection.
+   *
+   * @param aStartIndex int - index to start moving (always in range 0 .. aCollSize-1)
+   * @param aCollSize int - size of the collection (always >= 0)
+   * @param aJumpDistance - number of elements to bypass for JUMP_XXX (always >= 1)
+   * @return int - index of new position, must be in range 0 .. aCollSize-1
+   */
+  protected abstract int doWrapToIndexWithNoneItem( int aStartIndex, int aCollSize, int aJumpDistance );
+
+  /**
+   * Determines the index after moving by the value specified by this constant.
+   * <p>
+   * The difference between the two methods is that the {@link #doMoveToIndexWithNoneItem(int, int, int)} stops at
+   * collection boundaries, while {@link #doWrapToIndexOnlyColl(int, int, int)} wraps over collection. Note that index
+   * -1 is considered as part of the collection.
+   *
+   * @param aStartIndex int - index to start moving (always in range 0 .. aCollSize-1)
+   * @param aCollSize int - size of the collection (always >= 0)
+   * @param aJumpDistance - number of elements to bypass for JUMP_XXX (always >= 1)
+   * @return int - index of new position, must be in range 0 .. aCollSize-1
+   */
+  protected abstract int doWrapToIndexOnlyColl( int aStartIndex, int aCollSize, int aJumpDistance );
 
   // --------------------------------------------------------------------------
   // IStridable
@@ -251,133 +434,69 @@ public enum ETsCollMove
   }
 
   /**
-   * Determines the index after moving (without wrapping) by the value specified by this constant.
+   * Returns index of item after navigatind at moveing at specified amount.
    *
-   * @param aStartIndex int - index to start moving (always in range -1 .. aCollSize-1)
-   * @param aCollSize int - the size of the collection
-   * @param aJumpDistance - number of elements to bypass for JUMP_XXX (always >= 1)
-   * @return int - index of new position, must be in range -1 .. aCollSize-1
-   * @throws TsIllegalArgumentRtException aCollSize < 0
-   * @throws TsIllegalArgumentRtException aStartIndex is out of range
-   * @throws TsIllegalArgumentRtException aJumpDistance < 1
+   * @param aStartIndex int - starting index of the movement (in range -1 .. aColSize-1)
+   * @param aCollSize int - number of elements in collection (must be >= 0)
+   * @param aJumpDistance int - number of bypassed elements for jummp movements (must be >=1)
+   * @param aWrap boolean - the flag to wrap around collection
+   * @param aNoneItem boolean - the flag for usage of the "NoneItem" at index of -1
+   * @return int - index of element after movement in range -1 .. aCollSize-1
+   * @throws TsIllegalArgumentRtException any argument is out of range
    */
-  public int moveToIndex( int aStartIndex, int aCollSize, int aJumpDistance ) {
+  public int navigateTo( int aStartIndex, int aCollSize, int aJumpDistance, boolean aWrap, boolean aNoneItem ) {
     TsIllegalArgumentRtException.checkTrue( aCollSize < 0 );
     if( aCollSize == 0 ) {
       return -1;
     }
     TsIllegalArgumentRtException.checkTrue( aStartIndex < -1 || aStartIndex >= aCollSize );
     TsIllegalArgumentRtException.checkTrue( aJumpDistance < 1 );
-    return doMoveToIndex( aStartIndex, aCollSize, aJumpDistance );
-  }
-
-  /**
-   * Determines the index after moving (with wrapping) by the value specified by this constant.
-   *
-   * @param aStartIndex int - index to start moving (always in range -1 .. aCollSize-1)
-   * @param aCollSize int - the size of the collection
-   * @param aJumpDistance - number of elements to bypass for JUMP_XXX (always >= 1)
-   * @return int - index of new position, must be in range -1 .. aCollSize-1
-   * @throws TsIllegalArgumentRtException aCollSize < 0
-   * @throws TsIllegalArgumentRtException aStartIndex is out of range
-   * @throws TsIllegalArgumentRtException aJumpDistance < 1
-   */
-  public int wrapToIndex( int aStartIndex, int aCollSize, int aJumpDistance ) {
-    TsIllegalArgumentRtException.checkTrue( aCollSize < 0 );
-    if( aCollSize == 0 ) {
-      return -1;
+    if( aNoneItem ) {
+      if( aWrap ) {
+        return doWrapToIndexWithNoneItem( aStartIndex, aCollSize, aJumpDistance );
+      }
+      return doMoveToIndexWithNoneItem( aStartIndex, aCollSize, aJumpDistance );
     }
-    TsIllegalArgumentRtException.checkTrue( aStartIndex < -1 || aStartIndex >= aCollSize );
-    TsIllegalArgumentRtException.checkTrue( aJumpDistance < 1 );
-    return doWrapToIndex( aStartIndex, aCollSize, aJumpDistance );
-  }
-
-  /**
-   * Returns element the index after moving by the value specified by this constant.
-   * <p>
-   * This method returns element at index returned by the method {@link #findNewPos(Object, IList, int, boolean)}.
-   * <p>
-   * If <code>aStartingItem</code> is <code>null</code> or not in collection, it is considered as starting index of -1.
-   *
-   * @param <E> - collection elements type
-   * @param aStartingItem &lt;E&gt; - element to start moving (always in range -1 .. aCollSize-1)
-   * @param aItems {@link IList} - the collection
-   * @param aJumpDistance - number of elements to bypass for JUMP_XXX (always >= 1)
-   * @param aWrap boolean - a flag indicates that the move should wrap around the collection
-   * @return int - index of new position, must be in range -1 .. aCollSize-1
-   */
-  public <E> E findItemAtNewPos( E aStartingItem, IList<E> aItems, int aJumpDistance, boolean aWrap ) {
-    int newIndex = findNewPos( aStartingItem, aItems, aJumpDistance, aWrap );
-    return newIndex >= 0 ? aItems.get( newIndex ) : null;
-  }
-
-  /**
-   * Determines the index after moving by the value specified by this constant.
-   * <p>
-   * This method returns the same value as the method {@link #findNewPos(Object, IList, int, boolean)}.
-   * <p>
-   * If <code>aStartingItem</code> is <code>null</code> or not in collection, it is considered as starting index of -1.
-   *
-   * @param <E> - collection elements type
-   * @param aStartingItem &lt;E&gt; - element to start moving (always in range -1 .. aCollSize-1)
-   * @param aItems {@link IList} - the collection
-   * @param aJumpDistance - number of elements to bypass for JUMP_XXX (always >= 1)
-   * @param aWrap boolean - a flag indicates that the move should wrap around the collection
-   * @return int - index of new position, must be in range -1 .. aCollSize-1
-   */
-  public <E> int findNewPos( E aStartingItem, IList<E> aItems, int aJumpDistance, boolean aWrap ) {
-    if( aItems == null ) {
-      return -1;
-    }
-    int currIndex = (aStartingItem != null) ? aItems.indexOf( aStartingItem ) : -1;
-    int newIndex;
     if( aWrap ) {
-      newIndex = wrapToIndex( currIndex, aItems.size(), aJumpDistance );
+      return doWrapToIndexOnlyColl( aStartIndex, aCollSize, aJumpDistance );
     }
-    else {
-      newIndex = moveToIndex( currIndex, aItems.size(), aJumpDistance );
-    }
-    return newIndex;
+    return doMoveToIndexOnlyColl( aStartIndex, aCollSize, aJumpDistance );
   }
 
-  /**
-   * Determines the index after moving by the value specified by this constant.
-   * <p>
-   * If argument <code>aItems</code> is null then method returns -1.
-   * <p>
-   * Depending on the value of the <code>aWrap</code> argument, moing either stops at collection boundaries
-   * (<code>aWrap=false</code>), or wraps over the collection (<code>aWrap=true</code>). Note that index -1 is
-   * considered as part of the collection.
-   * <p>
-   * Method does not throws an exception. Invalid argument values will be fitted to allowed ranges.
-   *
-   * @param <E> - collection elements type
-   * @param aStartIndex int - index to start moving (always in range -1 .. aCollSize-1)
-   * @param aItems {@link IList} - the collection
-   * @param aJumpDistance - number of elements to bypass for JUMP_XXX (always >= 1)
-   * @param aWrap boolean - a flag indicates that the move should wrap around the collection
-   * @return int - index of new position, must be in range -1 .. aCollSize-1
-   */
-  public <E> int findNewPos( int aStartIndex, IList<E> aItems, int aJumpDistance, boolean aWrap ) {
-    if( aItems == null ) {
-      return -1;
-    }
-    int jumpDistance = aJumpDistance;
-    if( jumpDistance < 1 ) {
-      jumpDistance = 1;
-    }
-    int startIndex = aStartIndex;
-    if( startIndex < -1 || startIndex >= aItems.size() ) {
-      startIndex = -1;
-    }
-    int newIndex;
-    if( aWrap ) {
-      newIndex = wrapToIndex( startIndex, aItems.size(), jumpDistance );
-    }
-    else {
-      newIndex = moveToIndex( startIndex, aItems.size(), jumpDistance );
-    }
-    return newIndex;
+  @SuppressWarnings( "javadoc" )
+  public int moveTo( int aStartIndex, int aCollSize, int aJumpDistance ) {
+    return navigateTo( aStartIndex, aCollSize, aJumpDistance, false, false );
+  }
+
+  @SuppressWarnings( "javadoc" )
+  public int wrapTo( int aStartIndex, int aCollSize, int aJumpDistance ) {
+    return navigateTo( aStartIndex, aCollSize, aJumpDistance, true, false );
+  }
+
+  @SuppressWarnings( "javadoc" )
+  public int moveToWni( int aStartIndex, int aCollSize, int aJumpDistance ) {
+    return navigateTo( aStartIndex, aCollSize, aJumpDistance, false, true );
+  }
+
+  @SuppressWarnings( "javadoc" )
+  public int wrapToWni( int aStartIndex, int aCollSize, int aJumpDistance ) {
+    return navigateTo( aStartIndex, aCollSize, aJumpDistance, true, true );
+  }
+
+  @SuppressWarnings( "javadoc" )
+  public <E> E findElemAt( E aCurrElem, IList<E> aColl, int aJumpDistance, boolean aWrap ) {
+    TsNullArgumentRtException.checkNull( aColl );
+    int startIndex = aCurrElem != null ? aColl.indexOf( aCurrElem ) : -1;
+    int index = navigateTo( startIndex, aColl.size(), aJumpDistance, aWrap, false );
+    return index >= 0 ? aColl.get( index ) : null;
+  }
+
+  @SuppressWarnings( "javadoc" )
+  public <E> E findElemAtWni( E aCurrElem, IList<E> aColl, int aJumpDistance, boolean aWrap ) {
+    TsNullArgumentRtException.checkNull( aColl );
+    int startIndex = aCurrElem != null ? aColl.indexOf( aCurrElem ) : -1;
+    int index = navigateTo( startIndex, aColl.size(), aJumpDistance, aWrap, true );
+    return index >= 0 ? aColl.get( index ) : null;
   }
 
   // ----------------------------------------------------------------------------------

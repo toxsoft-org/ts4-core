@@ -1,43 +1,37 @@
 package org.toxsoft.core.tsgui.bricks.stdevents.impl;
 
 import org.eclipse.swt.events.*;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
-import org.toxsoft.core.singlesrc.rcp.ISingleSourcing_MouseWheelListener;
-import org.toxsoft.core.singlesrc.rcp.TsSinglesourcingUtils;
-import org.toxsoft.core.tsgui.bricks.stdevents.ITsMouseEventProducer;
-import org.toxsoft.core.tsgui.bricks.stdevents.ITsMouseListener;
-import org.toxsoft.core.tsgui.bricks.stdevents.ITsMouseListener.EMouseButton;
-import org.toxsoft.core.tslib.bricks.geometry.ITsPoint;
-import org.toxsoft.core.tslib.bricks.geometry.impl.TsPoint;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
-import org.toxsoft.core.tslib.coll.impl.ElemLinkedBundleList;
+import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.singlesrc.rcp.*;
+import org.toxsoft.core.tsgui.bricks.stdevents.*;
+import org.toxsoft.core.tsgui.bricks.stdevents.ITsMouseListener.*;
+import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.bricks.geometry.impl.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * Вспомогтельный класс для облегчения реализации {@link ITsMouseEventProducer}.
  *
  * @author goga
- * @param <S> - тип источника сообщения
  */
-public class TsMouseEventProducerHelper<S>
-    implements ITsMouseEventProducer<S>, MouseListener, ISingleSourcing_MouseWheelListener {
+public class TsMouseEventProducerHelper
+    implements ITsMouseEventProducer, MouseListener, ISingleSourcing_MouseWheelListener {
 
-  final IListEdit<ITsMouseListener<S>> listeners   = new ElemLinkedBundleList<>();
-  private S                            source;
-  private Control                      bindControl = null;
+  final IListEdit<ITsMouseListener> listeners   = new ElemLinkedBundleList<>();
+  private Object                    source;
+  private Control                   bindControl = null;
 
   /**
    * Создает помощник с привязкой к источнику сообщении.
    *
-   * @param aSource &lt;S&gt; - истчоник сообщении
+   * @param aSource Object - истчоник сообщении
    * @throws TsNullArgumentRtException аргумент = null
    */
-  public TsMouseEventProducerHelper( S aSource ) {
+  public TsMouseEventProducerHelper( Object aSource ) {
     TsNullArgumentRtException.checkNull( aSource );
     source = aSource;
   }
@@ -74,9 +68,9 @@ public class TsMouseEventProducerHelper<S>
     if( listeners.isEmpty() ) {
       return;
     }
-    IList<ITsMouseListener<S>> ll = new ElemArrayList<>( listeners );
+    IList<ITsMouseListener> ll = new ElemArrayList<>( listeners );
     for( int i = 0, n = ll.size(); i < n; i++ ) {
-      ITsMouseListener<S> l = ll.get( i );
+      ITsMouseListener l = ll.get( i );
       try {
         l.onMouseDoubleClick( source, pointFromEvent( e ) );
       }
@@ -91,9 +85,9 @@ public class TsMouseEventProducerHelper<S>
     if( listeners.isEmpty() ) {
       return;
     }
-    IList<ITsMouseListener<S>> ll = new ElemArrayList<>( listeners );
+    IList<ITsMouseListener> ll = new ElemArrayList<>( listeners );
     for( int i = 0, n = ll.size(); i < n; i++ ) {
-      ITsMouseListener<S> l = ll.get( i );
+      ITsMouseListener l = ll.get( i );
       try {
         l.onMouseButtonDown( source, buttonFromEvent( e ), pointFromEvent( e ) );
       }
@@ -108,9 +102,9 @@ public class TsMouseEventProducerHelper<S>
     if( listeners.isEmpty() ) {
       return;
     }
-    IList<ITsMouseListener<S>> ll = new ElemArrayList<>( listeners );
+    IList<ITsMouseListener> ll = new ElemArrayList<>( listeners );
     for( int i = 0, n = ll.size(); i < n; i++ ) {
-      ITsMouseListener<S> l = ll.get( i );
+      ITsMouseListener l = ll.get( i );
       try {
         l.onMouseButtonUp( source, buttonFromEvent( e ), pointFromEvent( e ) );
       }
@@ -129,9 +123,9 @@ public class TsMouseEventProducerHelper<S>
     if( listeners.isEmpty() ) {
       return;
     }
-    IList<ITsMouseListener<S>> ll = new ElemArrayList<>( listeners );
+    IList<ITsMouseListener> ll = new ElemArrayList<>( listeners );
     for( int i = 0, n = ll.size(); i < n; i++ ) {
-      ITsMouseListener<S> l = ll.get( i );
+      ITsMouseListener l = ll.get( i );
       try {
         l.onMouseWheelEvent( source, e.count );
       }
@@ -146,12 +140,12 @@ public class TsMouseEventProducerHelper<S>
   //
 
   @Override
-  public void addTsMouseListener( ITsMouseListener<S> aListener ) {
+  public void addTsMouseListener( ITsMouseListener aListener ) {
     listeners.add( aListener );
   }
 
   @Override
-  public void removeTsMouseListener( ITsMouseListener<S> aListener ) {
+  public void removeTsMouseListener( ITsMouseListener aListener ) {
     listeners.remove( aListener );
   }
 
@@ -174,13 +168,7 @@ public class TsMouseEventProducerHelper<S>
     bindControl = aBindControl;
     bindControl.addMouseListener( this );
     TsSinglesourcingUtils.Control_addMouseWheelListener( bindControl, this );
-    bindControl.addDisposeListener( new DisposeListener() {
-
-      @Override
-      public void widgetDisposed( DisposeEvent e ) {
-        unbind();
-      }
-    } );
+    bindControl.addDisposeListener( e -> unbind() );
   }
 
   /**
@@ -201,10 +189,10 @@ public class TsMouseEventProducerHelper<S>
   /**
    * Меняет ссылку на источник сообщения.
    *
-   * @param aSource &lt;S&gt; - истчоник сообщении
+   * @param aSource Object - истчоник сообщении
    * @throws TsNullArgumentRtException аргумент = null
    */
-  public void setSource( S aSource ) {
+  public void setSource( Object aSource ) {
     source = TsNullArgumentRtException.checkNull( aSource );
   }
 

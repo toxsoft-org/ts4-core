@@ -2,14 +2,11 @@ package org.toxsoft.core.tsgui.utils;
 
 import static org.toxsoft.core.tslib.utils.files.EFsObjKind.*;
 
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
-import org.toxsoft.core.tslib.coll.primtypes.IStringListEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringArrayList;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringLinkedBundleList;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.files.TsFileFilter;
-import org.toxsoft.core.tslib.utils.files.TsFileUtils;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.files.*;
 
 /**
  * Константы, связанные с обработкой медия-файлов.
@@ -35,6 +32,11 @@ public interface IMediaFileConstants {
    * Перечень {@link #IMAGE_FILE_EXTENSIONS} в виде {@link IStringList}.
    */
   IStringList IMAGE_FILE_EXT_LIST = new StringArrayList( IMAGE_FILE_EXTENSIONS );
+
+  /**
+   * Image files (files with extension {@link #IMAGE_FILE_EXT_LIST}) filter.
+   */
+  TsFileFilter FF_IMAGES = new TsFileFilter( EFsObjKind.FILE, IMAGE_FILE_EXT_LIST );
 
   /**
    * Признак того, что соответствующее {@link #IMAGE_FILE_EXTENSIONS} является расширением анимрованного формата.

@@ -12,6 +12,6 @@ public interface IGenericMessageEventCapable {
    *
    * @return {@link IGenericMessageEventer} - the generic message eventer
    */
-  IGenericMessageEventer genericChangeEventer();
+  IGenericMessageEventer genericMessageEventer();
 
 }

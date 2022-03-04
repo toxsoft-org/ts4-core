@@ -1,7 +1,7 @@
 package org.toxsoft.core.tslib.bricks.events;
 
-import org.toxsoft.core.tslib.utils.ITsPausabeEventsProducer;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 //TRANSLATE
 
@@ -38,25 +38,22 @@ public interface ITsEventer<L>
   void removeListener( L aListener );
 
   /**
-   * Замораживает слушатель.
+   * Temorary truns off (mutes) notification of the specified listener.
    * <p>
-   * Замороженный слушатель перестает вызываться при генерации событий. Размораживание слушателя происходит методом
-   * {@link #unmuteListener(Object)}.
-   * <p>
-   * Если слушатель уже заморожен, метод ничего не делает.
+   * If listener is not registered or is already muted then method does nothing.
    *
-   * @param aListener &lt;L&gt; - слушатель
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aListener &lt;L&gt; - the listener
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void muteListener( L aListener );
 
   /**
-   * Размораживает слушатель, замороженный методом {@link #muteListener(Object)}.
+   * Truns off (unmutes) previously muted listener.
    * <p>
-   * Если слушатель не заморожен, метод ничего не делает.
+   * If listener is not registered or is not muted then method does nothing.
    *
-   * @param aListener &lt;L&gt; - слушатель
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aListener &lt;L&gt; - the listener
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void unmuteListener( L aListener );
 

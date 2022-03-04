@@ -1,18 +1,19 @@
 package org.toxsoft.core.tslib.bricks.events.msg;
 
-import java.io.*;
+import static org.toxsoft.core.tslib.ITsHardConstants.*;
 
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * The generic message class may be used for message queueing, storing, serializing, etc.
+ * {@link GenericMessage} extension with topic.
  * <p>
  * Genegic message had an ID {@link #messageId()} and arguments {@link #args()}.
  * <p>
@@ -20,95 +21,107 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public sealed class GenericMessage
-    implements Serializable permits GenericTopicMessage {
+public final class GenericTopicMessage
+    extends GenericMessage {
 
   private static final long serialVersionUID = -599836453604892829L;
 
   /**
+   * Topic ID for broadcast messages, delivered to any topic listeners.
+   */
+  public static final String TOPIC_ID_BROADCAST = TS_ID + ".Topic.Broadcast"; //$NON-NLS-1$
+
+  /**
    * No message singleton.
    */
-  public static final GenericMessage NONE = new GenericMessage( IStridable.NONE_ID );
+  @SuppressWarnings( "hiding" )
+  public static final GenericTopicMessage NONE = new GenericTopicMessage( IStridable.NONE_ID, IStridable.NONE_ID );
 
   /**
    * Keepr singleton.
    */
-  public static final IEntityKeeper<GenericMessage> KEEPER =
-      new AbstractEntityKeeper<>( GenericMessage.class, EEncloseMode.ENCLOSES_BASE_CLASS, NONE ) {
+  @SuppressWarnings( "hiding" )
+  public static final IEntityKeeper<GenericTopicMessage> KEEPER =
+      new AbstractEntityKeeper<>( GenericTopicMessage.class, EEncloseMode.ENCLOSES_BASE_CLASS, NONE ) {
 
         @Override
-        protected void doWrite( IStrioWriter aSw, GenericMessage aEntity ) {
+        protected void doWrite( IStrioWriter aSw, GenericTopicMessage aEntity ) {
+          aSw.writeAsIs( aEntity.topicId() );
+          aSw.writeSeparatorChar();
           aSw.writeAsIs( aEntity.messageId() );
           aSw.writeSeparatorChar();
           OptionSetKeeper.KEEPER.write( aSw, aEntity.args() );
         }
 
         @Override
-        protected GenericMessage doRead( IStrioReader aSr ) {
+        protected GenericTopicMessage doRead( IStrioReader aSr ) {
+          String topicId = aSr.readIdPath();
+          aSr.ensureSeparatorChar();
           String messageId = aSr.readIdPath();
           aSr.ensureSeparatorChar();
           IOptionSet args = OptionSetKeeper.KEEPER.read( aSr );
-          return new GenericMessage( messageId, args, 0 );
+          return new GenericTopicMessage( topicId, messageId, args, 0 );
         }
       };
 
-  private final String     messageId;
-  private final IOptionSet args;
+  private final String topicId;
 
   /**
    * Constructor.
    *
+   * @param aTopicId String - the topic ID (IDpath)
    * @param aMessageId String - the message ID
    * @param aArgs {@link IOptionSet} - arguments, will be copied to internal set
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIllegalArgumentRtException the ID is not an IDpath
+   * @throws TsIllegalArgumentRtException any ID is not an IDpath
    */
-  public GenericMessage( String aMessageId, IOptionSet aArgs ) {
-    messageId = aMessageId;
-    IOptionSetEdit tmp = new OptionSet();
-    tmp.addAll( aArgs );
-    args = tmp;
+  public GenericTopicMessage( String aTopicId, String aMessageId, IOptionSet aArgs ) {
+    super( aMessageId, aArgs );
+    topicId = StridUtils.checkValidIdPath( aTopicId );
   }
 
   /**
    * Constructor.
    *
+   * @param aTopicId String - the topic ID (IDpath)
    * @param aMessageId String - the message ID
    * @param aIdsAndValues Object[] - identifier / value pairs as for {@link OptionSetUtils#createOpSet(Object...)}
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIllegalArgumentRtException the ID is not an IDpath
+   * @throws TsIllegalArgumentRtException any ID is not an IDpath
    * @throws TsIllegalArgumentRtException number of elements in array is uneven
    * @throws ClassCastException argument types convention is violated
    */
-  public GenericMessage( String aMessageId, Object... aIdsAndValues ) {
-    messageId = aMessageId;
-    args = OptionSetUtils.createOpSet( aIdsAndValues );
+  public GenericTopicMessage( String aTopicId, String aMessageId, Object... aIdsAndValues ) {
+    super( aMessageId, aIdsAndValues );
+    topicId = StridUtils.checkValidIdPath( aTopicId );
   }
 
   /**
    * Constructor of message with an empty arguments.
    *
+   * @param aTopicId String - the topic ID (IDpath)
    * @param aMessageId String - the message ID
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIllegalArgumentRtException the ID is not an IDpath
+   * @throws TsIllegalArgumentRtException and ID is not an IDpath
    */
-  public GenericMessage( String aMessageId ) {
-    messageId = aMessageId;
-    args = IOptionSet.NULL;
+  public GenericTopicMessage( String aTopicId, String aMessageId ) {
+    super( aMessageId );
+    topicId = StridUtils.checkValidIdPath( aTopicId );
   }
 
   /**
    * Internal constructor for {@link #KEEPER}.
    *
+   * @param aTopicId String - the topic ID (IDpath)
    * @param aMessageId String - the message ID
    * @param aArgs {@link IOptionSet} - arguments, will be copied to internal set
    * @param aFoo int - unused argument for unique signature
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException the ID is not an IDpath
    */
-  protected GenericMessage( String aMessageId, IOptionSet aArgs, int aFoo ) {
-    messageId = aMessageId;
-    args = aArgs;
+  GenericTopicMessage( String aTopicId, String aMessageId, IOptionSet aArgs, int aFoo ) {
+    super( aMessageId, aArgs, aFoo );
+    topicId = aTopicId;
   }
 
   // ------------------------------------------------------------------------------------
@@ -116,21 +129,12 @@ public sealed class GenericMessage
   //
 
   /**
-   * Returns the message ID.
+   * Returns the topic ID.
    *
-   * @return String - the message ID, an IDpath
+   * @return String - the topic ID, an IDpath
    */
-  public String messageId() {
-    return messageId;
-  }
-
-  /**
-   * Returns the message arguments.
-   *
-   * @return {@link IOptionSet} - the message arguments
-   */
-  public IOptionSet args() {
-    return args;
+  public String topicId() {
+    return topicId;
   }
 
   // ------------------------------------------------------------------------------------
@@ -139,7 +143,7 @@ public sealed class GenericMessage
 
   @Override
   public String toString() {
-    return messageId + '-' + args.toString();
+    return topicId + " - " + super.toString(); //$NON-NLS-1$
   }
 
   @Override
@@ -147,8 +151,8 @@ public sealed class GenericMessage
     if( aThat == this ) {
       return true;
     }
-    if( aThat instanceof GenericMessage that ) {
-      return this.messageId.equals( that.messageId ) && this.args.equals( that.args );
+    if( aThat instanceof GenericTopicMessage that ) {
+      return this.topicId.equals( that.topicId ) && super.equals( that );
     }
     return false;
   }
@@ -156,8 +160,8 @@ public sealed class GenericMessage
   @Override
   public int hashCode() {
     int result = TsLibUtils.INITIAL_HASH_CODE;
-    result = TsLibUtils.PRIME * result + messageId.hashCode();
-    result = TsLibUtils.PRIME * result + args.hashCode();
+    result = TsLibUtils.PRIME * result + super.hashCode();
+    result = TsLibUtils.PRIME * result + topicId.hashCode();
     return result;
   }
 

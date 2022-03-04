@@ -5,43 +5,37 @@ import static org.toxsoft.core.tsgui.m5.IM5Constants.*;
 import static org.toxsoft.core.tsgui.m5.gui.mpc.IMultiPaneComponentConstants.*;
 import static org.toxsoft.core.tsgui.m5.gui.mpc.impl.ITsResources.*;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
-import org.toxsoft.core.tsgui.bricks.actions.ITsActionDef;
-import org.toxsoft.core.tsgui.bricks.actions.ITsStdActionDefs;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
+import org.eclipse.swt.*;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.actions.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.stdevents.*;
 import org.toxsoft.core.tsgui.bricks.stdevents.impl.*;
-import org.toxsoft.core.tsgui.bricks.tstree.ITsNode;
+import org.toxsoft.core.tsgui.bricks.tstree.*;
 import org.toxsoft.core.tsgui.bricks.tstree.tmm.*;
-import org.toxsoft.core.tsgui.dialogs.TsDialogUtils;
-import org.toxsoft.core.tsgui.graphics.EHorAlignment;
-import org.toxsoft.core.tsgui.graphics.icons.EIconSize;
+import org.toxsoft.core.tsgui.dialogs.*;
+import org.toxsoft.core.tsgui.graphics.*;
+import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.m5.*;
-import org.toxsoft.core.tsgui.m5.gui.mpc.IMultiPaneComponent;
-import org.toxsoft.core.tsgui.m5.gui.mpc.IMultiPaneComponentConstants;
+import org.toxsoft.core.tsgui.m5.gui.mpc.*;
 import org.toxsoft.core.tsgui.m5.gui.panels.*;
-import org.toxsoft.core.tsgui.m5.gui.viewers.IM5Column;
-import org.toxsoft.core.tsgui.m5.gui.viewers.IM5TreeViewer;
-import org.toxsoft.core.tsgui.m5.gui.viewers.impl.M5DefaultTreeMaker;
-import org.toxsoft.core.tsgui.m5.model.IM5ItemsProvider;
-import org.toxsoft.core.tsgui.panels.lazy.ILazyControl;
-import org.toxsoft.core.tsgui.panels.toolbar.ITsToolBar;
-import org.toxsoft.core.tsgui.panels.toolbar.TsToolBar;
-import org.toxsoft.core.tsgui.utils.checkcoll.ITsCheckSupport;
-import org.toxsoft.core.tsgui.utils.layout.BorderLayout;
-import org.toxsoft.core.tsgui.widgets.TsComposite;
-import org.toxsoft.core.tslib.bricks.events.change.IGenericChangeListener;
-import org.toxsoft.core.tslib.bricks.filter.ITsFilter;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.helpers.ETsCollMove;
-import org.toxsoft.core.tslib.coll.impl.ElemLinkedBundleList;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
+import org.toxsoft.core.tsgui.m5.gui.viewers.*;
+import org.toxsoft.core.tsgui.m5.gui.viewers.impl.*;
+import org.toxsoft.core.tsgui.m5.model.*;
+import org.toxsoft.core.tsgui.panels.lazy.*;
+import org.toxsoft.core.tsgui.panels.toolbar.*;
+import org.toxsoft.core.tsgui.utils.checkcoll.*;
+import org.toxsoft.core.tsgui.utils.layout.*;
+import org.toxsoft.core.tsgui.widgets.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
+import org.toxsoft.core.tslib.bricks.filter.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.helpers.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * {@link IMultiPaneComponent} base implementation.
@@ -295,7 +289,7 @@ public class MultiPaneComponent<T>
       case ACTID_VIEW_AS_TREE: {
         String nextModeId;
         if( tmm.isCurrentTreeMode() ) { // if in tree mode then select next grouping mode
-          nextModeId = ETsCollMove.NEXT.findItemAtNewPos( tmm.currModeId(), tmm.treeModeInfoes().keys(), 10, true );
+          nextModeId = ETsCollMove.NEXT.findElemAtWni( tmm.currModeId(), tmm.treeModeInfoes().keys(), 10, true );
         }
         else { // if in table mode select last tree grouping mode
           nextModeId = tmm.lastModeId();
@@ -351,22 +345,19 @@ public class MultiPaneComponent<T>
         break;
       case ACTID_HIDE_FILTER: {
         if( filterPane != null ) {
-          filterPane.getControl().setVisible( !filterPane.getControl().getVisible() );
-          board.layout( true, true );
+          setFilterPaneVisible( !filterPane.getControl().getVisible() );
         }
         break;
       }
       case ACTID_HIDE_DETAILS: {
         if( detailsPane != null ) {
-          detailsPane.getControl().setVisible( !detailsPane.getControl().getVisible() );
-          board.layout( true, true );
+          setDetailsPaneVisible( !detailsPane.getControl().getVisible() );
         }
         break;
       }
       case ACTID_HIDE_SUMMARY: {
         if( summaryPane != null ) {
-          summaryPane.getControl().setVisible( !summaryPane.getControl().getVisible() );
-          board.layout( true, true );
+          setSummaryPaneVisible( !summaryPane.getControl().getVisible() );
         }
         break;
       }
@@ -782,6 +773,18 @@ public class MultiPaneComponent<T>
   }
 
   /**
+   * Show/hides details pane if it exists.
+   *
+   * @param aVisible boolean - visibility flag
+   */
+  public void setDetailsPaneVisible( boolean aVisible ) {
+    if( detailsPane != null ) {
+      detailsPane.getControl().setVisible( aVisible );
+      board.layout( true, true );
+    }
+  }
+
+  /**
    * Returns the summary pane.
    *
    * @return {@link IMpcSummaryPane} - the summary pane or <code>null</code>
@@ -791,12 +794,36 @@ public class MultiPaneComponent<T>
   }
 
   /**
+   * Show/hides summary pane if it exists.
+   *
+   * @param aVisible boolean - visibility flag
+   */
+  public void setSummaryPaneVisible( boolean aVisible ) {
+    if( summaryPane != null ) {
+      summaryPane.getControl().setVisible( aVisible );
+      board.layout( true, true );
+    }
+  }
+
+  /**
    * Returns the filter pane.
    *
    * @return {@link IMpcDetailsPane} - the filter pane or <code>null</code>
    */
   public IMpcFilterPane<T> filterPane() {
     return filterPane;
+  }
+
+  /**
+   * Show/hides filter pane if it exists.
+   *
+   * @param aVisible boolean - visibility flag
+   */
+  public void setFilterPaneVisible( boolean aVisible ) {
+    if( filterPane != null ) {
+      filterPane.getControl().setVisible( aVisible );
+      board.layout( true, true );
+    }
   }
 
   /**

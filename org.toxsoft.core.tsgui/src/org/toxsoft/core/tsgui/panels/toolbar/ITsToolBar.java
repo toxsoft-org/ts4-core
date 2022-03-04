@@ -1,16 +1,14 @@
 package org.toxsoft.core.tsgui.panels.toolbar;
 
 import org.eclipse.jface.action.*;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.SWT;
+import org.eclipse.jface.resource.*;
+import org.eclipse.swt.*;
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tsgui.bricks.actions.ITsActionDef;
-import org.toxsoft.core.tsgui.bricks.actions.TsAction;
-import org.toxsoft.core.tsgui.graphics.icons.EIconSize;
-import org.toxsoft.core.tsgui.graphics.icons.IIconSizeable;
-import org.toxsoft.core.tsgui.panels.lazy.ILazyControl;
-import org.toxsoft.core.tsgui.utils.layout.BorderLayout;
-import org.toxsoft.core.tslib.coll.IList;
+import org.toxsoft.core.tsgui.bricks.actions.*;
+import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tsgui.panels.lazy.*;
+import org.toxsoft.core.tsgui.utils.layout.*;
+import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -261,6 +259,15 @@ public interface ITsToolBar
    * @throws TsItemAlreadyExistsRtException action with same ID already exists
    */
   void addActionDefs( IList<ITsActionDef> aActionDefs );
+
+  /**
+   * Adds the action definition based buttons to the end of the toolbar items.
+   *
+   * @param aActionDefs {@link ITsActionDef}[] - button action definitions
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemAlreadyExistsRtException action with same ID already exists
+   */
+  void addActionDefs( ITsActionDef... aActionDefs );
 
   /**
    * Adds the separator to the end of the toolbar items.

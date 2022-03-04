@@ -3,13 +3,12 @@ package org.toxsoft.core.tslib.utils;
 import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.concurrent.*;
 
-import org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants;
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
-import org.toxsoft.core.tslib.coll.primtypes.IStringListEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringLinkedBundleList;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -69,7 +68,7 @@ public class TsMiscUtils {
       }
       ProcessBuilder processBuilder = new ProcessBuilder( cmdarr );
       Process p = processBuilder.start();
-      p.wait( aTimeoutSecs * 1000L );
+      p.waitFor( aTimeoutSecs, TimeUnit.SECONDS );
     }
     catch( Exception ex ) {
       throw new TsIoRtException( ex, aProgramName );

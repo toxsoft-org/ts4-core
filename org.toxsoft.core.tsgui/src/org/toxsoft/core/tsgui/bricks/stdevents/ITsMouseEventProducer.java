@@ -1,14 +1,13 @@
 package org.toxsoft.core.tsgui.bricks.stdevents;
 
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Смешиваемый интерфейс классов, генерирующих сообщение {@link ITsMouseListener}.
  *
  * @author goga
- * @param <S> - тип источника сообщения
  */
-public interface ITsMouseEventProducer<S> {
+public interface ITsMouseEventProducer {
 
   /**
    * Добавляет слушатель.
@@ -18,7 +17,7 @@ public interface ITsMouseEventProducer<S> {
    * @param aListener {@link ITsMouseListener} - слушатель
    * @throws TsNullArgumentRtException аргумент = null
    */
-  void addTsMouseListener( ITsMouseListener<S> aListener );
+  void addTsMouseListener( ITsMouseListener aListener );
 
   /**
    * Удаляет слушатель.
@@ -28,6 +27,6 @@ public interface ITsMouseEventProducer<S> {
    * @param aListener {@link ITsMouseListener} - слушатель
    * @throws TsNullArgumentRtException аргумент = null
    */
-  void removeTsMouseListener( ITsMouseListener<S> aListener );
+  void removeTsMouseListener( ITsMouseListener aListener );
 
 }

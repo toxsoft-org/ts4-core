@@ -2,6 +2,8 @@ package org.toxsoft.core.tsgui.widgets.pdw;
 
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.bricks.stdevents.*;
+import org.toxsoft.core.tsgui.bricks.stdevents.impl.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.utils.anim.*;
@@ -37,6 +39,8 @@ public class PdwWidgetSimple
     }
   };
 
+  private final TsMouseEventProducerHelper mouseEventHelper;
+
   final ITsGuiContext     tsContext;
   final ImageWidget       imageWidget;
   final IAnimationSupport animationSupport;
@@ -55,6 +59,7 @@ public class PdwWidgetSimple
     tsContext = aContext;
     animationSupport = tsContext.get( IAnimationSupport.class );
     imageWidget = new ImageWidget();
+    mouseEventHelper = new TsMouseEventProducerHelper( this );
   }
 
   // ------------------------------------------------------------------------------------
@@ -64,6 +69,7 @@ public class PdwWidgetSimple
   @Override
   public Control createControl( Composite aParent ) {
     Control c = imageWidget.createControl( aParent );
+    mouseEventHelper.bindToControl( c );
     return c;
   }
 
@@ -189,6 +195,20 @@ public class PdwWidgetSimple
   @Override
   public void redraw() {
     imageWidget.redraw();
+  }
+
+  // ------------------------------------------------------------------------------------
+  // ITsMouseEventProducer
+  //
+
+  @Override
+  public void addTsMouseListener( ITsMouseListener aListener ) {
+    mouseEventHelper.addTsMouseListener( aListener );
+  }
+
+  @Override
+  public void removeTsMouseListener( ITsMouseListener aListener ) {
+    mouseEventHelper.removeTsMouseListener( aListener );
   }
 
 }

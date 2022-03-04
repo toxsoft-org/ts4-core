@@ -12,13 +12,7 @@ public interface IFileOperationProgressCallback {
   /**
    * "null" callback, does nothing.
    */
-  IFileOperationProgressCallback NULL = new IFileOperationProgressCallback() {
-
-    @Override
-    public boolean onFileCopyProgress( long aTotalSteps, long aCurrentStep ) {
-      return false;
-    }
-  };
+  IFileOperationProgressCallback NULL = ( aTotalSteps, aCurrentStep ) -> false;
 
   // TRANSLATE
 
