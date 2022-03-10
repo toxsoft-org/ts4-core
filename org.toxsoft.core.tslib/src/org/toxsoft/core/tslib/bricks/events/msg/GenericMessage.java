@@ -21,7 +21,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public sealed class GenericMessage
-    implements Serializable permits GenericTopicMessage {
+    implements Serializable permits GtMessage {
 
   private static final long serialVersionUID = -599836453604892829L;
 
