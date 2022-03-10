@@ -16,7 +16,7 @@ public interface ITsStdActionDefs {
   /**
    * Prefix of the standard action IDs.
    */
-  String STD_ACTION_DEF_PREFIX = ITsHardConstants.TS_ID + ".stdact"; //$NON-NLS-1$
+  String STD_ACTION_DEF_PREFIX = ITsHardConstants.TS_ID + ".tsgui.stdact"; //$NON-NLS-1$
 
   /**
    * Action ID: the separator in menus, toolbars, etc and this is not an action!

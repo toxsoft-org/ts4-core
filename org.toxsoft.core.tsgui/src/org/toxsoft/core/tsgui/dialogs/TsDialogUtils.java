@@ -3,16 +3,16 @@ package org.toxsoft.core.tsgui.dialogs;
 import static org.toxsoft.core.tsgui.dialogs.ETsDialogCode.*;
 import static org.toxsoft.core.tsgui.dialogs.ITsGuiDialogResources.*;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.e4.core.contexts.*;
+import org.eclipse.jface.dialogs.*;
+import org.eclipse.swt.*;
+import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.dialogs.datarec.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
-import org.toxsoft.core.tsgui.utils.TsGuiUtils;
-import org.toxsoft.core.tslib.bricks.time.ITimestampable;
-import org.toxsoft.core.tslib.bricks.validator.EValidationResultType;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
+import org.toxsoft.core.tsgui.utils.*;
+import org.toxsoft.core.tslib.bricks.time.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -161,6 +161,12 @@ public class TsDialogUtils {
       default:
         throw new TsNotAllEnumsUsedRtException();
     }
+  }
+
+  public static void showValResList( ITsDialogInfo aDialogInfo, IValResList aVrList ) {
+
+    // TODO TsDialogUtils.showValResList()
+
   }
 
   // ------------------------------------------------------------------------------------
