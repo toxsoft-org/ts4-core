@@ -23,7 +23,7 @@ import org.toxsoft.core.tslib.utils.logs.impl.*;
 import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
- * An immutable implementation of {@link IDataDef}.
+ * {@link IDataDef} implementation.
  *
  * @author hazard157
  */
@@ -86,8 +86,8 @@ public final class DataDef
    *
    * @param aId String - data identifier (IDpath)
    * @param aAtomicType {@link EAtomicType} - atomic type
-   * @param aValidator {@link ITsValidator} - the {@link #validator()}
-   * @param aComparator {@link Comparator} - the {@link #comparator()}
+   * @param aValidator {@link ITsValidator} - the {@link #validator()} or <code>null</code> for default
+   * @param aComparator {@link Comparator} - the {@link #comparator()} or <code>null</code> for default
    * @param aIdsAndValues Object[] - parameters as id / value pairs array
    * @return {@link DataDef} - new instance
    * @throws TsNullArgumentRtException any argument = <code>null</code>
@@ -96,9 +96,8 @@ public final class DataDef
    * @throws ClassCastException argument types convention is violated
    * @see OptionSetUtils#createOpSet(Object...)
    */
-  public static DataDef create( String aId, EAtomicType aAtomicType, ITsValidator<IAtomicValue> aValidator,
+  public static DataDef create2( String aId, EAtomicType aAtomicType, ITsValidator<IAtomicValue> aValidator,
       Comparator<IAtomicValue> aComparator, Object... aIdsAndValues ) {
-    TsNullArgumentRtException.checkNulls( aValidator, aComparator );
     IOptionSet p = OptionSetUtils.createOpSet( aIdsAndValues );
     DataDef dd = new DataDef( aId, aAtomicType, p );
     dd.validator = aValidator;

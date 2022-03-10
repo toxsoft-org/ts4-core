@@ -1,11 +1,9 @@
 package org.toxsoft.core.tslib.bricks.validator;
 
-import java.io.ObjectStreamException;
-import java.io.Serializable;
+import java.io.*;
 
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.errors.TsNotAllEnumsUsedRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Information about validation process result.
@@ -28,6 +26,14 @@ public final class ValidationResult
   private final EValidationResultType type;
   private final String                msg;
 
+  /**
+   * Constructor.
+   *
+   * @param aType {@link EValidationResultType} - reulst type
+   * @param aMessageFormat String - message format string
+   * @param aMsgArgs Object[] - optional arguments for message string
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
   private ValidationResult( EValidationResultType aType, String aMessageFormat, Object... aMsgArgs ) {
     TsNullArgumentRtException.checkNulls( aType, aMessageFormat, aMsgArgs );
     msg = String.format( aMessageFormat, aMsgArgs );
@@ -153,6 +159,23 @@ public final class ValidationResult
    */
   public static ValidationResult error( Throwable aError ) {
     return new ValidationResult( EValidationResultType.ERROR, aError.getLocalizedMessage() );
+  }
+
+  /**
+   * Static constructor, for {@link EValidationResultType#OK} always returns {@link #SUCCESS}.
+   *
+   * @param aType {@link EValidationResultType} - reulst type
+   * @param aMessageFormat String - message format string
+   * @param aMsgArgs Object[] - optional arguments for message string
+   * @return {@link ValidationResult} - instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static ValidationResult create( EValidationResultType aType, String aMessageFormat, Object... aMsgArgs ) {
+    TsNullArgumentRtException.checkNulls( aType, aMessageFormat, aMsgArgs );
+    if( aType == EValidationResultType.OK ) {
+      return SUCCESS;
+    }
+    return new ValidationResult( aType, aMessageFormat, aMsgArgs );
   }
 
   // ------------------------------------------------------------------------------------

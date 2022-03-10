@@ -1,12 +1,10 @@
 package org.toxsoft.core.tslib.utils.txtmatch;
 
-import java.io.Serializable;
-import java.util.regex.Pattern;
+import java.io.*;
+import java.util.regex.*;
 
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.TsMiscUtils;
-import org.toxsoft.core.tslib.utils.errors.TsNotAllEnumsUsedRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Вспомогательный класс для реализации алгоритмов сравнения {@link ETextMatchMode}.
@@ -14,7 +12,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * Созданный конструктором экземпляр готов к сравнению различных строк с заданной константной строкой в указанном
  * режиме. Сравнение производится методом {@link #match(String)}.
  *
- * @author goga
+ * @author hazard157
  */
 public final class TextMatcher
     implements Serializable {
@@ -70,7 +68,7 @@ public final class TextMatcher
   }
 
   // ------------------------------------------------------------------------------------
-  // API класса
+  // API
   //
 
   /**
@@ -155,8 +153,7 @@ public final class TextMatcher
     if( aThat == this ) {
       return true;
     }
-    if( aThat instanceof TextMatcher ) {
-      TextMatcher that = (TextMatcher)aThat;
+    if( aThat instanceof TextMatcher that ) {
       return matchMode.equals( that.matchMode ) //
           && constString.equals( that.constString ) //
           && isCaseSensitive == that.isCaseSensitive;

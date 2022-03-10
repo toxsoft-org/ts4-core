@@ -2,11 +2,9 @@ package org.toxsoft.core.tslib.av.validators;
 
 import static org.toxsoft.core.tslib.av.validators.ITsResources.*;
 
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.bricks.validator.ITsValidator;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Base class of all {@link ITsValidator} implemenations for values of type {@link IAtomicValue}.
@@ -14,7 +12,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * Checks argument of {@link #validate(IAtomicValue)} against expected atomic type. Also throws an
  * {@link TsNullArgumentRtException} if argument is <code>null</code>.
  * <p>
- * The {@link IAtomicValue#NULL} argument is always validated.
+ * The {@link IAtomicValue#NULL} argument is always passed to subclass in {@link #doValidate(IAtomicValue)}.
  *
  * @author hazard157
  */
