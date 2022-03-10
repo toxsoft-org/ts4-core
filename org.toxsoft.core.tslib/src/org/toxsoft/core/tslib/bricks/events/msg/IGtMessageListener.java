@@ -5,13 +5,13 @@ package org.toxsoft.core.tslib.bricks.events.msg;
  *
  * @author hazard157
  */
-public interface IGenericTopicMessageListener {
+public interface IGtMessageListener {
 
   /**
    * Method is called when generic topic message is received.
    *
-   * @param aMessage {@link GenericTopicMessage} - the message
+   * @param aMessage {@link GtMessage} - the message
    */
-  void onGenericTopicMessage( GenericTopicMessage aMessage );
+  void onGenericTopicMessage( GtMessage aMessage );
 
 }

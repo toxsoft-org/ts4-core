@@ -21,7 +21,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public final class GenericTopicMessage
+public final class GtMessage
     extends GenericMessage {
 
   private static final long serialVersionUID = -599836453604892829L;
@@ -35,17 +35,17 @@ public final class GenericTopicMessage
    * No message singleton.
    */
   @SuppressWarnings( "hiding" )
-  public static final GenericTopicMessage NONE = new GenericTopicMessage( IStridable.NONE_ID, IStridable.NONE_ID );
+  public static final GtMessage NONE = new GtMessage( IStridable.NONE_ID, IStridable.NONE_ID );
 
   /**
    * Keepr singleton.
    */
   @SuppressWarnings( "hiding" )
-  public static final IEntityKeeper<GenericTopicMessage> KEEPER =
-      new AbstractEntityKeeper<>( GenericTopicMessage.class, EEncloseMode.ENCLOSES_BASE_CLASS, NONE ) {
+  public static final IEntityKeeper<GtMessage> KEEPER =
+      new AbstractEntityKeeper<>( GtMessage.class, EEncloseMode.ENCLOSES_BASE_CLASS, NONE ) {
 
         @Override
-        protected void doWrite( IStrioWriter aSw, GenericTopicMessage aEntity ) {
+        protected void doWrite( IStrioWriter aSw, GtMessage aEntity ) {
           aSw.writeAsIs( aEntity.topicId() );
           aSw.writeSeparatorChar();
           aSw.writeAsIs( aEntity.messageId() );
@@ -54,13 +54,13 @@ public final class GenericTopicMessage
         }
 
         @Override
-        protected GenericTopicMessage doRead( IStrioReader aSr ) {
+        protected GtMessage doRead( IStrioReader aSr ) {
           String topicId = aSr.readIdPath();
           aSr.ensureSeparatorChar();
           String messageId = aSr.readIdPath();
           aSr.ensureSeparatorChar();
           IOptionSet args = OptionSetKeeper.KEEPER.read( aSr );
-          return new GenericTopicMessage( topicId, messageId, args, 0 );
+          return new GtMessage( topicId, messageId, args, 0 );
         }
       };
 
@@ -75,7 +75,7 @@ public final class GenericTopicMessage
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException any ID is not an IDpath
    */
-  public GenericTopicMessage( String aTopicId, String aMessageId, IOptionSet aArgs ) {
+  public GtMessage( String aTopicId, String aMessageId, IOptionSet aArgs ) {
     super( aMessageId, aArgs );
     topicId = StridUtils.checkValidIdPath( aTopicId );
   }
@@ -91,7 +91,7 @@ public final class GenericTopicMessage
    * @throws TsIllegalArgumentRtException number of elements in array is uneven
    * @throws ClassCastException argument types convention is violated
    */
-  public GenericTopicMessage( String aTopicId, String aMessageId, Object... aIdsAndValues ) {
+  public GtMessage( String aTopicId, String aMessageId, Object... aIdsAndValues ) {
     super( aMessageId, aIdsAndValues );
     topicId = StridUtils.checkValidIdPath( aTopicId );
   }
@@ -104,7 +104,7 @@ public final class GenericTopicMessage
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException and ID is not an IDpath
    */
-  public GenericTopicMessage( String aTopicId, String aMessageId ) {
+  public GtMessage( String aTopicId, String aMessageId ) {
     super( aMessageId );
     topicId = StridUtils.checkValidIdPath( aTopicId );
   }
@@ -119,7 +119,7 @@ public final class GenericTopicMessage
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException the ID is not an IDpath
    */
-  GenericTopicMessage( String aTopicId, String aMessageId, IOptionSet aArgs, int aFoo ) {
+  GtMessage( String aTopicId, String aMessageId, IOptionSet aArgs, int aFoo ) {
     super( aMessageId, aArgs, aFoo );
     topicId = aTopicId;
   }
@@ -151,7 +151,7 @@ public final class GenericTopicMessage
     if( aThat == this ) {
       return true;
     }
-    if( aThat instanceof GenericTopicMessage that ) {
+    if( aThat instanceof GtMessage that ) {
       return this.topicId.equals( that.topicId ) && super.equals( that );
     }
     return false;
