@@ -62,7 +62,7 @@ public class TsTestUtils {
   }
 
   /**
-   * To read input, outputs message and waits for ENTER press.
+   * To read input string, outputs message and waits for ENTER press.
    *
    * @param aMessageFormat String - message format string
    * @param aMsgArgs Object[] - optional arguments for message string
@@ -80,7 +80,7 @@ public class TsTestUtils {
   }
 
   /**
-   * Outputs predefined message and waits for ENTER press.
+   * To read input string, outputs predefined message and waits for ENTER press.
    *
    * @return String - entered string
    */
