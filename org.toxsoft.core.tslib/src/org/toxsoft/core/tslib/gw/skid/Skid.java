@@ -2,18 +2,14 @@ package org.toxsoft.core.tslib.gw.skid;
 
 import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
-import java.io.ObjectStreamException;
-import java.io.Serializable;
+import java.io.*;
 
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.EEncloseMode;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
-import org.toxsoft.core.tslib.bricks.strio.IStrioReader;
-import org.toxsoft.core.tslib.bricks.strio.IStrioWriter;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link Skid} immutable implementation.
@@ -107,6 +103,9 @@ public final class Skid
 
   @Override
   public String toString() {
+    if( this == NONE ) {
+      return "NONE"; //$NON-NLS-1$
+    }
     return classId + '[' + strid + ']';
   }
 
@@ -115,8 +114,7 @@ public final class Skid
     if( aThat == this ) {
       return true;
     }
-    if( aThat instanceof Skid ) {
-      Skid that = (Skid)aThat;
+    if( aThat instanceof Skid that ) {
       return this.classId.equals( that.classId ) && this.strid.equals( that.strid );
     }
     return false;

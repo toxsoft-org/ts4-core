@@ -3,24 +3,21 @@ package org.toxsoft.core.tslib.bricks.strio.impl;
 import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 import static org.toxsoft.core.tslib.bricks.strio.impl.ITsResources.*;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.IKeepableEntity;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
-import org.toxsoft.core.tslib.bricks.strio.chario.ICharInputStreamCloseable;
-import org.toxsoft.core.tslib.bricks.strio.chario.ICharOutputStreamCloseable;
-import org.toxsoft.core.tslib.bricks.strio.chario.impl.CharInputStreamFile;
-import org.toxsoft.core.tslib.bricks.strio.chario.impl.CharOutputStreamFile;
+import org.toxsoft.core.tslib.bricks.strio.chario.*;
+import org.toxsoft.core.tslib.bricks.strio.chario.impl.*;
 import org.toxsoft.core.tslib.coll.*;
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.coll.impl.ElemLinkedBundleList;
-import org.toxsoft.core.tslib.coll.impl.ElemMap;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
-import org.toxsoft.core.tslib.coll.primtypes.impl.IntMap;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -93,7 +90,7 @@ public class StrioUtils {
   // Conversions
   //
 
-  // TRANSLATE
+  // TODO TRANSLATE
 
   /**
    * Возвращает числовое значение 16-тиричного символа.
@@ -524,7 +521,7 @@ public class StrioUtils {
    * Возвращаемое значение можно безопасно приводить к {@link IStringMapEdit}.
    *
    * @param <E> - тип хранимых сущностей
-   * @param aDr {@link IStrioReader} - читатель из текстового прдставления
+   * @param aSr {@link IStrioReader} - читатель из текстового прдставления
    * @param aKeyword String - ключевое слово (ИД-путь), предваряющее коллекцию или пустая строка
    * @param aKeeper {@link IEntityKeeper} - хранитель элемсентов коллекции
    * @return {@link IStringMapEdit} - считанная карта
@@ -532,9 +529,9 @@ public class StrioUtils {
    * @throws TsIllegalArgumentRtException aKeyword не ИД-путь
    * @throws StrioRtException синтаксическая ошибка текстового представления
    */
-  public static <E> IStringMapEdit<E> readStringMap( IStrioReader aDr, String aKeyword, IEntityKeeper<E> aKeeper ) {
+  public static <E> IStringMapEdit<E> readStringMap( IStrioReader aSr, String aKeyword, IEntityKeeper<E> aKeeper ) {
     IStringMapEdit<E> map = new StringMap<>();
-    readStringMap( aDr, aKeyword, aKeeper, map );
+    readStringMap( aSr, aKeyword, aKeeper, map );
     return map;
   }
 
@@ -626,6 +623,36 @@ public class StrioUtils {
       return map;
     }
     return map;
+  }
+
+  public static <E extends IStridable> void writeStridablesList( IStrioWriter aSw, IStridablesList<E> aList,
+      IEntityKeeper<E> aKeeper, boolean aIndent ) {
+    TsNullArgumentRtException.checkNulls( aSw, aKeeper );
+    aKeeper.writeColl( aSw, aList, aIndent );
+  }
+
+  public static <E extends IStridable> IStridablesListEdit<E> readStridablesList( IStrioReader aSr,
+      IEntityKeeper<E> aKeeper ) {
+    TsNullArgumentRtException.checkNulls( aSr, aKeeper );
+    IStridablesListEdit<E> ll = new StridablesList<>();
+    if( aSr.readArrayBegin() ) {
+      do {
+        E item = aKeeper.read( aSr );
+        ll.add( item );
+      } while( aSr.readArrayNext() );
+    }
+    return ll;
+  }
+
+  public static <E extends IStridable> void readStridablesList( IStrioReader aSr, IStridablesListEdit<E> aList,
+      IEntityKeeper<E> aKeeper ) {
+    TsNullArgumentRtException.checkNulls( aSr, aList, aKeeper );
+    if( aSr.readArrayBegin() ) {
+      do {
+        E item = aKeeper.read( aSr );
+        aList.add( item );
+      } while( aSr.readArrayNext() );
+    }
   }
 
   // ------------------------------------------------------------------------------------

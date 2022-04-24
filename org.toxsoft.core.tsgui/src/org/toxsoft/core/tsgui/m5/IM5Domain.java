@@ -1,10 +1,9 @@
 package org.toxsoft.core.tsgui.m5;
 
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContextable;
-import org.toxsoft.core.tsgui.m5.model.impl.M5Model;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.m5.model.impl.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -68,7 +67,7 @@ public interface IM5Domain
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsItemAlreadyExistsRtException model with the same ID already exists in {@link #selfModels()}
    */
-  <T> IM5Model<T> addModel( M5Model<T> aModel );
+  <T> M5Model<T> addModel( M5Model<T> aModel );
 
   /**
    * Adds new or replaces existing model.
@@ -81,7 +80,7 @@ public interface IM5Domain
    * @return {@link IM5Model}&lt;T&gt; - always returns the argument
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  <T> IM5Model<T> replaceModel( M5Model<T> aModel );
+  <T> M5Model<T> replaceModel( M5Model<T> aModel );
 
   /**
    * Removes the model from {@link #selfModels()}.
@@ -92,6 +91,17 @@ public interface IM5Domain
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void removeModel( String aModelId );
+
+  /**
+   * Initializes the model but does not adds model to the list {@link #models()}.
+   *
+   * @param <T> - type of modelled entity
+   * @param aModel {@link M5Model}&lt;T&gt; - the model to add
+   * @return {@link IM5Model}&lt;T&gt; - always returns the argument
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException there is a model with same ID in {@link #models()}
+   */
+  <T> M5Model<T> initTemporaryModel( M5Model<T> aModel );
 
   /**
    * Return the parent domain,if any.

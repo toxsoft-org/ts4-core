@@ -155,7 +155,7 @@ public abstract class AbstractTsEventer<L>
    * Subclass must fire all pending events.
    * <p>
    * This method is called from {@link #resumeFiring(boolean) resumeFiring(<b>true</b>)} only if there is at least one
-   * pending event. There no need to excplicitly clear pending events queue, superclass will call
+   * pending event. There is no need to excplicitly clear pending events queue, superclass will call
    * {@link #doClearPendingEvents()} after this method.
    */
   protected abstract void doFirePendingEvents();

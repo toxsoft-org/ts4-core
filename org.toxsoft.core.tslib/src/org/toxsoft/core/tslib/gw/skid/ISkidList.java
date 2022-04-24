@@ -1,8 +1,10 @@
 package org.toxsoft.core.tslib.gw.skid;
 
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+
+// TODO TRANSLATE
 
 /**
  * Список идентификаторов объектов.
@@ -35,7 +37,7 @@ public interface ISkidList
    * @return {@link IList}&lt;{@link Skid}&gt; - список идентификаторов объектов указанного класса
    * @throws TsNullArgumentRtException любой аргумент = null
    */
-  IList<Skid> listObjSkidsOfClass( String aClassId );
+  IList<Skid> listSkidsOfClass( String aClassId );
 
   /**
    * Находит идентификатор, который встречается два или более раз в списке.

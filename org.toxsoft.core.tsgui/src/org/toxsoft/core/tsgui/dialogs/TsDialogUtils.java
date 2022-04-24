@@ -163,7 +163,17 @@ public class TsDialogUtils {
     }
   }
 
+  /**
+   * Displays list of validation results as table with some filtering/sorting controls.
+   * <p>
+   * If list is OK, that is {@link IValResList#isOk()} == <code>true</code> than displays info message.
+   *
+   * @param aDialogInfo {@link ITsDialogInfo} - information about dialog windows
+   * @param aVrList {@link IValResList} - the list to display
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
   public static void showValResList( ITsDialogInfo aDialogInfo, IValResList aVrList ) {
+    TsNullArgumentRtException.checkNulls( aDialogInfo, aVrList );
 
     // TODO TsDialogUtils.showValResList()
 
@@ -215,13 +225,20 @@ public class TsDialogUtils {
   // TODO TRANSLATE
 
   /**
-   * Интерактивно отрабатывает сообщение о результате валидации.
+   * Interactively handles message about validation result.
    * <p>
-   * В зависимости от типа результата валидации, ведет себя по разному:
+   * Behaviour depends on validation result type:
    * <ul>
-   * <li>успех {@link EValidationResultType#OK} - немедленно возвращает {@link ETsDialogCode#YES};</li>
-   * <li>ошибка {@link EValidationResultType#ERROR} - показывает диалог об ошибке
-   * {@link #error(Shell, String, Object...)}, и по закрытии возвращает {@link ETsDialogCode#NO};</li>
+   * <li>success {@link EValidationResultType#OK} - immediately returns {@link ETsDialogCode#YES};</li>
+   * <li>error {@link EValidationResultType#ERROR} - displays error message dialog
+   * {@link #error(Shell, String, Object...)}, and after {@link ETsDialogCode#NO};</li>
+   * <p>
+   * <p>
+   * <p>
+   * // TODO TRANSLATE
+   * <p>
+   * <p>
+   * <p>
    * <li>предупреждение {@link EValidationResultType#ERROR} - показывает диалог с кнопками Yes, No, Cancel и сообщением
    * {@link ValidationResult#message()}, дополненным вопросом aWarningQuestion. В зависимости от реакции пользователя,
    * возвращает одно из значении {@link ETsDialogCode#YES}, {@link ETsDialogCode#NO}, {@link ETsDialogCode#CANCEL},

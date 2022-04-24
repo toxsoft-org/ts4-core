@@ -1,6 +1,10 @@
 package org.toxsoft.core.tslib.utils.errors;
 
-import java.util.Collection;
+import static org.toxsoft.core.tslib.utils.errors.ITsResources.*;
+
+import java.util.*;
+
+import org.toxsoft.core.tslib.coll.*;
 
 /**
  * Error handling utility constants and methods.
@@ -113,6 +117,31 @@ public final class TsErrorUtils {
       throw new TsIllegalArgumentRtException();
     }
     return aString;
+  }
+
+  /**
+   * Checks that argument <code>aList</code> if of type {@link IList} and at list first item of type
+   * <code>aItemClass</code>.
+   *
+   * @param aList Object - probable list
+   * @param aItemClass {@link Class} - expected class of items
+   * @return {@link IList} - argument {@link IList} as raw {@link IList}
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws ClassCastException the type expectations are not met
+   */
+  @SuppressWarnings( "rawtypes" )
+  public static IList checkListOfTypes( Object aList, Class<?> aItemClass ) {
+    TsNullArgumentRtException.checkNulls( aList, aItemClass );
+    if( aList instanceof IList ll ) {
+      int count = ll.size();
+      if( count > 0 ) {
+        if( !aItemClass.isInstance( ll.first() ) ) {
+          throw new ClassCastException( String.format( FMT_ERR_LIST_HAS_INV_ITEM, aItemClass.getName() ) );
+        }
+      }
+      return ll;
+    }
+    throw new ClassCastException( String.format( FMT_ERR_ARG_IS_NOT_LIST, aList.toString() ) );
   }
 
   /**

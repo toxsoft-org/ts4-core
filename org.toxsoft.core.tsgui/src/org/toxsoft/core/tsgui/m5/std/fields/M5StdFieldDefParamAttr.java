@@ -2,16 +2,13 @@ package org.toxsoft.core.tsgui.m5.std.fields;
 
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import org.toxsoft.core.tsgui.m5.model.IM5AttributeFieldDef;
-import org.toxsoft.core.tsgui.m5.model.impl.M5AttributeFieldDef;
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.impl.AvUtils;
-import org.toxsoft.core.tslib.av.metainfo.IDataDef;
-import org.toxsoft.core.tslib.av.metainfo.IDataType;
-import org.toxsoft.core.tslib.av.utils.IParameterized;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.m5.model.*;
+import org.toxsoft.core.tsgui.m5.model.impl.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.av.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link IM5AttributeFieldDef} implementation for field values stored in {@link IParameterized#params()}.
@@ -68,11 +65,7 @@ public class M5StdFieldDefParamAttr<T extends IParameterized>
 
   @Override
   protected IAtomicValue doGetFieldValue( T aEntity ) {
-    IAtomicValue value = aEntity.params().findByKey( id() );
-    if( value == null ) {
-      value = defaultValue();
-    }
-    return value;
+    return aEntity.params().getValue( id(), defaultValue() );
   }
 
   @Override

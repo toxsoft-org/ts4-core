@@ -3,17 +3,14 @@ package org.toxsoft.core.tslib.bricks.strid.impl;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
-import org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants;
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.av.opset.IOptionSetEdit;
-import org.toxsoft.core.tslib.av.opset.impl.OptionSet;
-import org.toxsoft.core.tslib.av.utils.IParameterizedEdit;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.IStridableParameterized;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.av.utils.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link IStridableParameterized} base implementation.
@@ -69,6 +66,17 @@ public class StridableParameterized
    */
   public StridableParameterized( String aId ) {
     this( aId, IOptionSet.NULL );
+  }
+
+  /**
+   * Copy constructor.
+   *
+   * @param <E> - source object class
+   * @param aSrc {@link IStridable} {@link IParameterized} - the source
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public <E extends IStridable & IParameterized> StridableParameterized( E aSrc ) {
+    this( TsNullArgumentRtException.checkNull( aSrc ).id(), aSrc.params() );
   }
 
   /**

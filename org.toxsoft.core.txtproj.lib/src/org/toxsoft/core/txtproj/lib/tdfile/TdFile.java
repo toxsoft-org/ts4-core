@@ -2,21 +2,18 @@ package org.toxsoft.core.txtproj.lib.tdfile;
 
 import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 
-import org.toxsoft.core.tslib.bricks.events.change.GenericChangeEventer;
-import org.toxsoft.core.tslib.bricks.events.change.IGenericChangeEventer;
+import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
-import org.toxsoft.core.tslib.bricks.strio.impl.StrioUtils;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.coll.impl.ElemLinkedBundleList;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMap;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMapEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
-import org.toxsoft.core.tslib.utils.errors.TsItemAlreadyExistsRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.bricks.strio.impl.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Реализация {@link ITdFile}.
+ * {@link ITdFile} implemetation.
  *
  * @author hazard157
  */
@@ -34,11 +31,7 @@ public class TdFile
   }
 
   // ------------------------------------------------------------------------------------
-  // Внутренные методы
-  //
-
-  // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IKeepableEntity
+  // IKeepableEntity
   //
 
   @Override
@@ -73,7 +66,7 @@ public class TdFile
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITdFile
+  // ITdFile
   //
 
   @Override

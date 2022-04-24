@@ -1,13 +1,11 @@
 package org.toxsoft.core.tslib.bricks.apprefs.impl;
 
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.bricks.apprefs.IAppPreferences;
-import org.toxsoft.core.tslib.bricks.apprefs.IPrefBundle;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMapEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.bricks.apprefs.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Implementation of the {@link IAppPreferences}.
@@ -41,18 +39,20 @@ public class AppPreferences
   }
 
   @Override
-  public IPrefBundle defineBundle( String aBundleId, String aName, String aDescription ) {
-    TsNullArgumentRtException.checkNulls( aName, aDescription );
+  public IPrefBundle defineBundle( String aBundleId, IOptionSet aParams ) {
+    TsNullArgumentRtException.checkNull( aParams );
     PrefBundle bundle = findBundle( aBundleId );
     boolean needToSaveBundle = false;
     if( bundle == null ) {
-      bundle = new PrefBundle( aBundleId, IOptionSet.NULL, storage );
+      bundle = new PrefBundle( aBundleId, aParams, IOptionSet.NULL, storage );
       bundlesMap.put( aBundleId, bundle );
       needToSaveBundle = true;
     }
-    bundle.setNameAndDescription( aName, aDescription ); // обновляем даже у существующей связки
+    else {
+      bundle.params().setAll( aParams ); // update params of existing bundle
+    }
     if( needToSaveBundle ) {
-      storage.saveBundle( aBundleId, bundle.params );
+      storage.saveBundle( aBundleId, bundle.prefsValues );
     }
     return bundle;
   }
@@ -63,11 +63,11 @@ public class AppPreferences
     if( bundle != null ) {
       return bundle;
     }
-    IOptionSet params = storage.loadBundle( aBundleId );
-    if( params != null ) {
-      bundle = new PrefBundle( aBundleId, params, storage );
+    IOptionSet prefs = storage.loadBundle( aBundleId );
+    if( prefs != null ) {
+      bundle = new PrefBundle( aBundleId, IOptionSet.NULL, prefs, storage );
       bundlesMap.put( aBundleId, bundle );
-      storage.saveBundle( aBundleId, bundle.params );
+      storage.saveBundle( aBundleId, bundle.prefsValues );
       return bundle;
     }
     return null;
@@ -80,9 +80,9 @@ public class AppPreferences
       return bundle;
     }
     StridUtils.checkValidIdPath( aBundleId );
-    bundle = new PrefBundle( aBundleId, IOptionSet.NULL, storage );
+    bundle = new PrefBundle( aBundleId, IOptionSet.NULL, IOptionSet.NULL, storage );
     bundlesMap.put( aBundleId, bundle );
-    storage.saveBundle( aBundleId, bundle.params );
+    storage.saveBundle( aBundleId, bundle.prefsValues );
     return bundle;
   }
 

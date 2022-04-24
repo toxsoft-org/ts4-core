@@ -3,18 +3,15 @@ package org.toxsoft.core.tslib.bricks.keeper;
 import static org.toxsoft.core.tslib.bricks.strio.EStrioSkipMode.*;
 import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.bricks.strio.chario.*;
 import org.toxsoft.core.tslib.bricks.strio.chario.impl.*;
-import org.toxsoft.core.tslib.bricks.strio.impl.StrioReader;
-import org.toxsoft.core.tslib.bricks.strio.impl.StrioWriter;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.coll.basis.ITsCollectionEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemLinkedBundleList;
+import org.toxsoft.core.tslib.bricks.strio.impl.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -84,7 +81,7 @@ public abstract class AbstractEntityKeeper<E>
       return;
     }
     aSw.writeChar( CHAR_SET_BEGIN );
-    // none object will be written as emoty parentheses
+    // none object will be written as empty parentheses
     if( noneObject != null && aEntity == noneObject ) {
       aSw.writeChar( CHAR_SET_END );
       return;

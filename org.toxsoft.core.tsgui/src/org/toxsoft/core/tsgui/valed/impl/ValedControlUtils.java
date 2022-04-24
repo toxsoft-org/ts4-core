@@ -206,6 +206,12 @@ public class ValedControlUtils {
    * @return {@link IValedControlFactory} - найденная фабрика или <code>null</code>
    */
   private static IValedControlFactory findFactoryForValobjByKeeperId( String aKeeperId ) {
+
+    /**
+     * FIXME cretae providers for VALOBJ entity editing. <br>
+     * For example, it is needed to add some Skid or Gwid editors
+     */
+
     switch( aKeeperId ) {
       case LocalTimeKeeper.KEEPER_ID:
         return ValedAvValobjLocalTimeMpv.FACTORY;

@@ -1,15 +1,16 @@
 package org.toxsoft.core.tslib.av.impl;
 
-import java.io.Serializable;
+import java.io.*;
 
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.metainfo.IDataType;
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.av.opset.IOptionSetEdit;
-import org.toxsoft.core.tslib.av.opset.impl.OptionSet;
-import org.toxsoft.core.tslib.av.opset.impl.OptionSetUtils;
-import org.toxsoft.core.tslib.av.utils.IParameterizedEdit;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.av.utils.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Mutable implemetation of {@link IDataType}.
@@ -20,6 +21,33 @@ public class DataType
     implements IDataType, IParameterizedEdit, Serializable {
 
   private static final long serialVersionUID = -2236302618890319389L;
+
+  /**
+   * Registered keeper ID.
+   */
+  public static final String KEEPER_ID = "DataType"; //$NON-NLS-1$
+
+  /**
+   * Keeper singleton.
+   */
+  public static final IEntityKeeper<IDataType> KEEPER =
+      new AbstractEntityKeeper<>( IDataType.class, EEncloseMode.ENCLOSES_BASE_CLASS, null ) {
+
+        @Override
+        protected void doWrite( IStrioWriter aSw, IDataType aEntity ) {
+          EAtomicType.KEEPER.write( aSw, aEntity.atomicType() );
+          aSw.writeSeparatorChar();
+          OptionSetKeeper.KEEPER.write( aSw, aEntity.params() );
+        }
+
+        @Override
+        protected IDataType doRead( IStrioReader aSr ) {
+          EAtomicType atomicType = EAtomicType.KEEPER.read( aSr );
+          aSr.ensureSeparatorChar();
+          IOptionSet params = OptionSetKeeper.KEEPER.read( aSr );
+          return new DataType( atomicType, params );
+        }
+      };
 
   private EAtomicType          atomicType = EAtomicType.NONE;
   private final IOptionSetEdit params     = new OptionSet();

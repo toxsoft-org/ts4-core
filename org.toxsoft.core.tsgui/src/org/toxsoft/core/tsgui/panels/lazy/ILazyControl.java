@@ -1,9 +1,7 @@
 package org.toxsoft.core.tsgui.panels.lazy;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalStateRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Arbitrary {@link Control} on demand creation interface.
@@ -16,7 +14,7 @@ public interface ILazyControl<C extends Control> {
   /**
    * Creates the control.
    * <p>
-   * This method may be called once during inmstance lifecycle.
+   * This method may be called once during instance lifecycle.
    *
    * @param aParent {@link Composite} - parent composite
    * @return {@link Control} - created control, must not be <code>null</code>

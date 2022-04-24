@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.panels.opdefs;
+package org.toxsoft.core.tsgui.panels.opsedit.set;
 
 import static org.toxsoft.core.tslib.ITsHardConstants.*;
 import static org.toxsoft.core.tslib.av.EAtomicType.*;
@@ -37,8 +37,8 @@ public interface IPanelOptionSetConstants {
   /**
    * Param: the flag to exclude unknown options from the {@link IOptionSet}.<br>
    * Type: {@link EAtomicType#BOOLEAN}<br>
-   * Usage: if the flag is set, the options not listed in {@link IPanelOptionSet#listOpionDefs()} will be removeed from
-   * the IOptionSet (options will be <i>lost</i>). While when the flag is reset all unknown options will remain in
+   * Usage: if the flag is set, the options not listed in {@link IPanelOptionSetView#listOpionDefs()} will be removeed
+   * from the IOptionSet (options will be <i>lost</i>). While when the flag is reset all unknown options will remain in
    * option set but not displayed in the panel.<br>
    * This parameter is used only at the time of panel creation, subsequent changes to the parameter are ignored.<br>
    * Default value: <code>false</code>

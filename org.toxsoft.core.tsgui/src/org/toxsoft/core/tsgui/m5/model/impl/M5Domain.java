@@ -2,14 +2,11 @@ package org.toxsoft.core.tsgui.m5.model.impl;
 
 import static org.toxsoft.core.tsgui.m5.model.impl.ITsResources.*;
 
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.m5.IM5Domain;
-import org.toxsoft.core.tsgui.m5.IM5Model;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesListEdit;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.StridablesList;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
-import org.toxsoft.core.tslib.bricks.strid.impl.Stridable;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.m5.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -97,7 +94,7 @@ class M5Domain
   }
 
   @Override
-  public <T> IM5Model<T> addModel( M5Model<T> aModel ) {
+  public <T> M5Model<T> addModel( M5Model<T> aModel ) {
     TsNullArgumentRtException.checkNull( aModel );
     if( models.hasKey( aModel.id() ) ) {
       throw new TsItemAlreadyExistsRtException( FMT_ERR_MODEL_ID_ALREADY_IN_DOMAIN, id(), aModel.id() );
@@ -108,7 +105,7 @@ class M5Domain
   }
 
   @Override
-  public <T> IM5Model<T> replaceModel( M5Model<T> aModel ) {
+  public <T> M5Model<T> replaceModel( M5Model<T> aModel ) {
     models.put( aModel );
     aModel.papiSetDomain( this );
     return aModel;
@@ -117,6 +114,16 @@ class M5Domain
   @Override
   public void removeModel( String aModelId ) {
     models.removeByKey( aModelId );
+  }
+
+  @Override
+  public <T> M5Model<T> initTemporaryModel( M5Model<T> aModel ) {
+    TsNullArgumentRtException.checkNull( aModel );
+    if( models.hasKey( aModel.id() ) ) {
+      throw new TsItemAlreadyExistsRtException( FMT_ERR_MODEL_ID_ALREADY_IN_DOMAIN, id(), aModel.id() );
+    }
+    aModel.papiSetDomain( this );
+    return aModel;
   }
 
   @Override

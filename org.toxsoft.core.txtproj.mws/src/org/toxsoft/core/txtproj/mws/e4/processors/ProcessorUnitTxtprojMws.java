@@ -4,12 +4,13 @@ import static org.toxsoft.core.tsgui.graphics.icons.ITsStdIconIds.*;
 import static org.toxsoft.core.tsgui.mws.IMwsCoreConstants.*;
 import static org.toxsoft.core.txtproj.mws.IUnitTxtprojMwsConstants.*;
 
-import org.eclipse.e4.ui.model.application.commands.MCommand;
+import org.eclipse.e4.ui.model.application.commands.*;
 import org.eclipse.e4.ui.model.application.ui.menu.*;
-import org.eclipse.e4.ui.workbench.modeling.EModelService;
-import org.toxsoft.core.tsgui.graphics.icons.EIconSize;
-import org.toxsoft.core.tsgui.mws.bases.MwsAbstractProcessor;
-import org.toxsoft.core.txtproj.mws.IUnitTxtprojMwsConstants;
+import org.eclipse.e4.ui.workbench.modeling.*;
+import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tsgui.mws.bases.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.txtproj.mws.*;
 
 /**
  * Processor initializes GUI depending on unit config options from {@link IUnitTxtprojMwsConstants}.
@@ -34,7 +35,7 @@ public class ProcessorUnitTxtprojMws
 
   @Override
   protected void doProcess() {
-    // MENU: if needed, fille "File" or "Project" menu with project management commands
+    // MENU: if needed, fill "File" or "Project" menu with project management commands
     if( isShowCmdInMenu() ) {
       // choose which menu to use
       MMenu menu;
@@ -77,6 +78,11 @@ public class ProcessorUnitTxtprojMws
     // project save as
     mItem = modelService().createModelElement( MHandledMenuItem.class );
     cmd = findElement( application(), CMDID_PROJECT_SAVE_AS, MCommand.class, EModelService.ANYWHERE );
+
+    // DEBUG ---
+    TsTestUtils.pl( "Command %s is null !!!!!!", CMDID_PROJECT_SAVE_AS );
+    // ---
+
     mItem.setCommand( cmd );
     mItem.setIconURI( makeTsguiIconUri( ICONID_DOCUMENT_SAVE_AS, INITIAL_MENU_ICON_SIZE ) );
     aProjectMenu.getChildren().add( 0, mItem );

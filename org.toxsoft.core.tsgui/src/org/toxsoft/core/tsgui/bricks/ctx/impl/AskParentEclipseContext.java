@@ -1,9 +1,9 @@
 package org.toxsoft.core.tsgui.bricks.ctx.impl;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.bricks.ctx.impl.IAskParent;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.eclipse.e4.core.contexts.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.bricks.ctx.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link IAskParent} implementation for {@link IEclipseContext} parent.
@@ -31,8 +31,8 @@ class AskParentEclipseContext
   }
 
   @Override
-  public Object findRef( String aName ) {
-    return ecContext.get( aName );
+  public Object findRef( String aKey ) {
+    return ecContext.get( aKey );
   }
 
 }

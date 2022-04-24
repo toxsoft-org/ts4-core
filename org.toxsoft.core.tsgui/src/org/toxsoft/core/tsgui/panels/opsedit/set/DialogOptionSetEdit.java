@@ -1,13 +1,14 @@
-package org.toxsoft.core.tsgui.panels.opdefs;
+package org.toxsoft.core.tsgui.panels.opsedit.set;
 
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
+import org.toxsoft.core.tsgui.panels.opsedit.impl.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
-import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 // TODO TRANSLATE
@@ -80,21 +81,19 @@ public class DialogOptionSetEdit
   /**
    * Show modal dialog to edit options.
    *
-   * @param aDialogDef {@link ITsDialogInfo} - dialog window properties
-   * @param aContext {@link ITsGuiContext} - the context
+   * @param aDlgInfo {@link ITsDialogInfo} - dialog window properties
    * @param aValues {@link IOptionSet} - initial values may be <code>null</code>
-   * @param aDefs {@link IList}&lt;{@link IDataDef}&gt; - known (visble) options definitions
+   * @param aDefs {@link IStridablesList}&lt;{@link IDataDef}&gt; - known (visble) options definitions
    * @return {@link IOptionSet} - edited values or <code>null</code> if user cancelled editing
    */
-  public static final IOptionSet edit( ITsDialogInfo aDialogDef, ITsGuiContext aContext, IOptionSet aValues,
-      IList<IDataDef> aDefs ) {
-    TsNullArgumentRtException.checkNulls( aDialogDef, aContext, aDefs );
+  public static final IOptionSet edit( ITsDialogInfo aDlgInfo, IOptionSet aValues, IStridablesList<IDataDef> aDefs ) {
+    TsNullArgumentRtException.checkNulls( aDlgInfo, aDefs );
     IDialogPanelCreator<IOptionSet, ITsGuiContext> creator = ( aParent, aOwnerDialog ) -> {
       DialogOptionSetEdit d = new DialogOptionSetEdit( aParent, aOwnerDialog );
       d.panel.setOptionDefs( aDefs );
       return d;
     };
-    TsDialog<IOptionSet, ITsGuiContext> d = new TsDialog<>( aDialogDef, aValues, aContext, creator );
+    TsDialog<IOptionSet, ITsGuiContext> d = new TsDialog<>( aDlgInfo, aValues, aDlgInfo.tsContext(), creator );
     return d.execData();
   }
 

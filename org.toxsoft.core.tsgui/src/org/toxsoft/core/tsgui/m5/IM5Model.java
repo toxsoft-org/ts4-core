@@ -1,11 +1,11 @@
 package org.toxsoft.core.tsgui.m5;
 
-import org.toxsoft.core.tsgui.m5.gui.panels.IM5PanelCreator;
-import org.toxsoft.core.tsgui.m5.model.IM5LifecycleManager;
-import org.toxsoft.core.tsgui.utils.ITsVisualsProvider;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalStateRtException;
+import org.toxsoft.core.tsgui.m5.gui.panels.*;
+import org.toxsoft.core.tsgui.m5.model.*;
+import org.toxsoft.core.tsgui.utils.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * M5-model of entities of specified &lt;T&gt; type.
@@ -71,6 +71,7 @@ public interface IM5Model<T>
    *
    * @param aMaster {@link Object} - the master object or <code>null</code> for default LM
    * @return {@link IM5LifecycleManager}&lt;T&gt; - created instance of LM, never is <code>null</code>
+   * @throws ClassCastException may be thrown if master object is of invalid class
    * @throws TsIllegalStateRtException no lifecycle manager can be created (usually no code for LM creation)
    */
   IM5LifecycleManager<T> getLifecycleManager( Object aMaster );

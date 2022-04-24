@@ -11,10 +11,12 @@
     <handlers xmi:id="_C6Z1YEKZEeuwVbNtM3lEeA" elementId="org.toxsoft.mws.framework.main.handler.1" contributionURI="bundleclass://org.toxsoft.core.tsgui/org.toxsoft.core.tsgui.mws.e4.handlers.CmdMwsSwitchPerpective" command="_YxMNYEKXEeuwVbNtM3lEeA"/>
     <mainMenu xmi:id="_7G7x0AGZEeuQYZnmcZNTqw" elementId="org.toxsoft.mws.menu.main">
       <children xsi:type="menu:Menu" xmi:id="_AV80YAGaEeuQYZnmcZNTqw" elementId="org.toxsoft.mws.menu.main.file" label="%MMenu_File" tooltip="%MMenu_File_D">
+        <children xsi:type="menu:MenuSeparator" xmi:id="_uomeQKZIEeyxUJTl1Yw9HA" elementId="org.toxsoft.core.tsgui.mws.menuseparator.0"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_wUKoMKZIEeyxUJTl1Yw9HA" elementId="org.toxsoft.core.tsgui.mws.handledmenuitem.0" command="_0l8mcKZIEeyxUJTl1Yw9HA"/>
         <children xsi:type="menu:MenuSeparator" xmi:id="_shLz8AGaEeuQYZnmcZNTqw" elementId="org.toxsoft.mws.menu.main.separator.before_exit"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_1Ib9oAGaEeuQYZnmcZNTqw" elementId="org.toxsoft.mws.menu.main.file.exit" iconURI="platform:/plugin/org.toxsoft.core.tsgui/icons/is24x24/application-exit.png" command="_VM_fQAGbEeuQYZnmcZNTqw"/>
       </children>
-      <children xsi:type="menu:Menu" xmi:id="_dBxK0AxqEeuB4IQ3ZHf3lQ" elementId="org.toxsoft.mws.menu.main.perspectives-" label="%MMenu_Perspectives" tooltip="%MMenu_Perspectives_D"/>
+      <children xsi:type="menu:Menu" xmi:id="_dBxK0AxqEeuB4IQ3ZHf3lQ" elementId="org.toxsoft.mws.menu.main.perspectives" label="%MMenu_Perspectives" tooltip="%MMenu_Perspectives_D"/>
     </mainMenu>
     <trimBars xmi:id="_wex3gAMyEeuYn5dUsRX9jA" elementId="org.toxsoft.mws.main.trimbar.top">
       <children xsi:type="menu:ToolBar" xmi:id="_2sxDwAMyEeuYn5dUsRX9jA" elementId="org.toxsoft.mws.toolbar.main">
@@ -24,8 +26,10 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_KPyXcAMzEeuYn5dUsRX9jA" elementId="org.toxsoft.mws.toolbar.perspectives"/>
     </trimBars>
+    <trimBars xmi:id="_dxoEQKOOEeyEs7ds41r4JA" elementId="org.toxsoft.mws.main.trimbar.bottom" side="Bottom"/>
   </children>
   <handlers xmi:id="_d3qtYAG8Eeu_AZkVHSYopg" elementId="org.toxsoft.mws.framework.main.handler.0" contributionURI="bundleclass://org.toxsoft.core.tsgui/org.toxsoft.core.tsgui.mws.e4.handlers.CmdMwsQuit" command="_VM_fQAGbEeuQYZnmcZNTqw"/>
+  <handlers xmi:id="_ReqeMKZJEeyxUJTl1Yw9HA" elementId="org.toxsoft.core.tsgui.mws.handler.0" contributionURI="bundleclass://org.toxsoft.core.tsgui/org.toxsoft.core.tsgui.mws.e4.handlers.CmdMwsEditAppPrefs" command="_0l8mcKZIEeyxUJTl1Yw9HA"/>
   <bindingTables xmi:id="_BU_wMEN9EeuCHr1GrQO4VA" elementId="org.toxsoft.mws.framework.main.bindingtable.global" bindingContext="_88_OIEN8EeuCHr1GrQO4VA">
     <bindings xmi:id="_Dv8vsEN9EeuCHr1GrQO4VA" elementId="org.toxsoft.mws.framework.main.keybinding.quit" keySequence="CTRL+Q" command="_VM_fQAGbEeuQYZnmcZNTqw">
       <tags>type:user</tags>
@@ -35,6 +39,11 @@
   <commands xmi:id="_VM_fQAGbEeuQYZnmcZNTqw" elementId="org.toxsoft.mws.cmd.quit" commandName="%Cmd_Exit" description="%Cmd_Exit_D" category="_SFdGkAGbEeuQYZnmcZNTqw"/>
   <commands xmi:id="_YxMNYEKXEeuwVbNtM3lEeA" elementId="org.toxsoft.mws.cmd.switch_persp" commandName="%Cmd_SwitchPerspective" description="%Cmd_SwitchPerspective_D" category="_SFdGkAGbEeuQYZnmcZNTqw">
     <parameters xmi:id="_Cxu3AEKYEeuwVbNtM3lEeA" elementId="org.toxsoft.mws.cmd.switch_persp.arg.perspId" name="Perspective ID" optional="false"/>
+  </commands>
+  <commands xmi:id="_0l8mcKZIEeyxUJTl1Yw9HA" elementId="org.toxsoft.mws.cmd.edit_app_prefs" commandName="%Cmd_Preferences" description="%Cmd_Preferences_D" category="_SFdGkAGbEeuQYZnmcZNTqw">
+    <parameters xmi:id="_7zMQQKZIEeyxUJTl1Yw9HA" elementId="org.toxsoft.mws.cmd.edit_app_prefs.init_sect_id" name="Initially selected section ID"/>
+    <parameters xmi:id="_-DQOYKZIEeyxUJTl1Yw9HA" elementId="org.toxsoft.mws.cmd.edit_app_prefs.sect_ids" name="Show section IDs in keeper form like: [id.path1,id.path2, id.pathN]"/>
+    <parameters xmi:id="_JtuRcKZJEeyxUJTl1Yw9HA" elementId="org.toxsoft.mws.cmd.edit_app_prefs.hide_sects_list" name="Hide left list of sections, boolean in form of: true or false"/>
   </commands>
   <addons xmi:id="_9V_7UbOCEeq_kr1I9pNBSg" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_9V_7UrOCEeq_kr1I9pNBSg" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>

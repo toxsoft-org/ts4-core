@@ -7,11 +7,11 @@ import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import org.toxsoft.core.tsgui.graphics.icons.EIconSize;
-import org.toxsoft.core.tsgui.utils.layout.EBorderLayoutPlacement;
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.impl.DataDef;
-import org.toxsoft.core.tslib.av.metainfo.IDataDef;
+import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tsgui.utils.layout.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
 
 /**
  * Multi pane component configuration constants.
@@ -29,10 +29,19 @@ public interface IMultiPaneComponentConstants {
   IDataDef OPDEF_IS_FILTER_PANE = bdd( "IsFilterPane", false, //$NON-NLS-1$
       STR_N_IS_, STR_D_IS_ );
 
+  IDataDef OPDEF_IS_FILTER_PANE_HIDDEN = bdd( "IsFilterPaneHidden", false, //$NON-NLS-1$
+      STR_N_IS_, STR_D_IS_ );
+
   IDataDef OPDEF_IS_DETAILS_PANE = bdd( "IsDetailsPane", true, //$NON-NLS-1$
       STR_N_IS_, STR_D_IS_ );
 
+  IDataDef OPDEF_IS_DETAILS_PANE_HIDDEN = bdd( "IsDetailsPaneHidden", true, //$NON-NLS-1$
+      STR_N_IS_, STR_D_IS_ );
+
   IDataDef OPDEF_IS_SUMMARY_PANE = bdd( "IsSummaryPane", false, //$NON-NLS-1$
+      STR_N_IS_, STR_D_IS_ );
+
+  IDataDef OPDEF_IS_SUMMARY_PANE_HIDDEN = bdd( "IsSummaryPaneHidden", false, //$NON-NLS-1$
       STR_N_IS_, STR_D_IS_ );
 
   IDataDef OPDEF_IS_SUPPORTS_CHECKS = bdd( "IsSupportsChecks", false, //$NON-NLS-1$

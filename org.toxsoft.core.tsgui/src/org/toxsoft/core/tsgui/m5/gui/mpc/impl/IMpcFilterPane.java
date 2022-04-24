@@ -1,7 +1,7 @@
 package org.toxsoft.core.tsgui.m5.gui.mpc.impl;
 
-import org.toxsoft.core.tslib.bricks.events.change.IGenericChangeEventCapable;
-import org.toxsoft.core.tslib.bricks.filter.ITsFilter;
+import org.toxsoft.core.tslib.bricks.events.change.*;
+import org.toxsoft.core.tslib.bricks.filter.*;
 
 /**
  * Filter pane.
@@ -15,7 +15,7 @@ public interface IMpcFilterPane<T>
   /**
    * Determines if filtering is turned on.
    * <p>
-   * Usually ane contains checkbox to turn on/off the filtering. However some implementations may not the ability to
+   * Usually pane contains checkbox to turn on/off the filtering. However some implementations may not the ability to
    * change filtering flag. For such implementations method always returns <code>true</code> and
    * {@link #setFilterOn(boolean)} does not have any effect.
    *

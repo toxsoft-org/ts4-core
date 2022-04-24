@@ -1,15 +1,15 @@
 package org.toxsoft.core.tslib.bricks.apprefs;
 
-import java.util.prefs.Preferences;
+import java.util.prefs.*;
 
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Application preferences.
  * <p>
- * Application preferences are grouped in identifyed bundles {@link IPrefBundle}.
+ * Application preferences are grouped in identified bundles {@link IPrefBundle}.
  * <p>
  * Preferences may be stored using different backends: system registry ({@link Preferences}), text file
  * (<code>CONFIG.INI</code>), etc.
@@ -27,15 +27,16 @@ public interface IAppPreferences {
 
   /**
    * Creates unexisting or edits existing bundle.
+   * <p>
+   * When editing an existing bundle only it's {@link IPrefBundle#params()} are changed, preferences remain intact.
    *
    * @param aBundleId String - bundle ID
-   * @param aName String - bundle name {@link IPrefBundle#nmName()}
-   * @param aDescription String - bundle description {@link IPrefBundle#description()}
+   * @param aParams {@link IOptionSet} - values of bundle parameters
    * @return {@link IPrefBundle} - new or existing bundle
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException bundle ID is not a valid IDpath
    */
-  IPrefBundle defineBundle( String aBundleId, String aName, String aDescription );
+  IPrefBundle defineBundle( String aBundleId, IOptionSet aParams );
 
   /**
    * Returns an existing bundle or <code>null</code> if none exists.

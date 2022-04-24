@@ -1,7 +1,7 @@
-package org.toxsoft.core.tsgui.panels.opdefs;
+package org.toxsoft.core.tsgui.panels.opsedit.impl;
 
-import static org.toxsoft.core.tsgui.panels.opdefs.IPanelOptionSetConstants.*;
-import static org.toxsoft.core.tsgui.panels.opdefs.ITsResources.*;
+import static org.toxsoft.core.tsgui.panels.opsedit.impl.ITsResources.*;
+import static org.toxsoft.core.tsgui.panels.opsedit.set.IPanelOptionSetConstants.*;
 import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
 import static org.toxsoft.core.tslib.bricks.strid.impl.StridUtils.*;
 
@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.panels.lazy.*;
+import org.toxsoft.core.tsgui.panels.opsedit.set.*;
 import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tsgui.valed.impl.*;
 import org.toxsoft.core.tsgui.widgets.*;
@@ -20,6 +21,7 @@ import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.bricks.events.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
@@ -55,7 +57,7 @@ public class PanelOptionSetEdit
     @Override
     public void widgetSelected( SelectionEvent aE ) {
       processExcludeParamCheckboxToggle( info.id() );
-      fireChangeEvent();
+      genericChangeEventer.fireChangeEvent();
     }
 
   }
@@ -63,12 +65,13 @@ public class PanelOptionSetEdit
   /**
    * VALEDs listener, generates {@link IGenericChangeListener#onGenericChangeEvent(Object)} event.
    */
-  private final IValedControlValueChangeListener valedChangeListener = ( aSource, aEditFinished ) -> fireChangeEvent();
+  private final IValedControlValueChangeListener valedChangeListener = ( src, isFin ) -> fireChangeEvent( src );
 
   // ------------------------------------------------------------------------------------
   //
 
   private final GenericChangeEventer                        genericChangeEventer;
+  private final OptionValueChangeEventer                    optionValueChangeEventer;
   private final IStridablesListEdit<IDataDef>               defs          = new StridablesList<>();
   private final IStringMapEdit<IValedControl<IAtomicValue>> mapValeds     = new StringMap<>();
   private final IStringMapEdit<Label>                       mapLabels     = new StringMap<>();
@@ -96,6 +99,7 @@ public class PanelOptionSetEdit
   public PanelOptionSetEdit( ITsGuiContext aContext, boolean aViewer ) {
     super( aContext );
     genericChangeEventer = new GenericChangeEventer( this );
+    optionValueChangeEventer = new OptionValueChangeEventer( this );
     isLostOpsCheckboxes = OPDEF_IS_LOST_OPTION_CHECKBOXES.getValue( tsContext().params() ).asBool();
     isUnknownOpsLost = OPDEF_IS_UNKNOWN_OPTIONS_LOST.getValue( tsContext().params() ).asBool();
     isInitiallyViewer = aViewer;
@@ -300,8 +304,21 @@ public class PanelOptionSetEdit
 
   /**
    * Fires {@link #genericChangeEventer()} event.
+   *
+   * @param aSource {@link IValedControl} - contorl - the event source
    */
-  void fireChangeEvent() {
+  void fireChangeEvent( IValedControl<?> aSource ) {
+    // find ID of option
+    String opId = null;
+    for( String key : mapValeds.keys() ) {
+      IValedControl<?> c = mapValeds.getByKey( key );
+      if( c == aSource ) {
+        opId = key;
+        break;
+      }
+    }
+    TsInternalErrorRtException.checkNull( opId );
+    optionValueChangeEventer.fireEvent( opId );
     genericChangeEventer.fireChangeEvent();
   }
 
@@ -417,6 +434,11 @@ public class PanelOptionSetEdit
       }
     }
     return vr;
+  }
+
+  @Override
+  public ITsEventer<IOptionValueChangeListener> optionValueChangeEventer() {
+    return optionValueChangeEventer;
   }
 
 }

@@ -1,11 +1,10 @@
 package org.toxsoft.core.tslib.coll;
 
-import java.io.ObjectStreamException;
+import java.io.*;
 
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.coll.impl.ImmutableMap;
-import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * A collection that maps keys to values.
@@ -84,6 +83,28 @@ public interface IMap<K, E>
    * @return {@link IList}&lt;K&gt; - ordered list of all values
    */
   IList<E> values();
+
+  /**
+   * Copies this map content to the destionation map.
+   * <p>
+   * Elements from this map will be added to destination by method {@link IMapEdit#putAll(IMap)}.
+   * <p>
+   * If argument is <code>null</code>, then new instance of {@link ElemMap} will be created and returned.
+   *
+   * @param aDest {@link IMapEdit} - destination map or <code>null</code> for new map
+   * @return {@link IMapEdit} - returns the argument or new instance of {@link ElemMap}
+   */
+  default IMapEdit<K, E> copyTo( IMapEdit<K, E> aDest ) {
+    IMapEdit<K, E> dest = aDest;
+    if( dest == null ) {
+      int estOrder = TsCollectionsUtils.estimateOrder( size() );
+      int bucksCount = TsCollectionsUtils.getMapBucketsCount( estOrder );
+      int bindleCapacity = TsCollectionsUtils.getListInitialCapacity( estOrder );
+      dest = new ElemMap<>( bucksCount, bindleCapacity );
+    }
+    dest.putAll( this );
+    return dest;
+  }
 
 }
 

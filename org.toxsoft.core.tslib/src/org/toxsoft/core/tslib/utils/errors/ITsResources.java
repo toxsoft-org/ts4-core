@@ -2,6 +2,10 @@ package org.toxsoft.core.tslib.utils.errors;
 
 /**
  * Localizable resources.
+ * <p>
+ * Note: these error messages may be translated for differen locales however this is NOT recommended. These exceptions
+ * designate programming errors and must be processes by developer programmers. There is absolutely no guarantee that
+ * developers understand localisation language.
  *
  * @author hazard157
  */
@@ -23,5 +27,7 @@ interface ITsResources {
   String ERR_MSG_NOT_ALL_ENUMS_USED  = "Not all enumeratable constants were considered";
   String ERR_MSG_UNDER_DEVELOPMENT   = "This part of program in under development";
   String ERR_MSG_REMOTE              = "Error accessing remote (network) resource";
+  String FMT_ERR_ARG_IS_NOT_LIST     = "IList implementation was expected as object: %s";
+  String FMT_ERR_LIST_HAS_INV_ITEM   = "Only items of class %s were expected in the list";
 
 }

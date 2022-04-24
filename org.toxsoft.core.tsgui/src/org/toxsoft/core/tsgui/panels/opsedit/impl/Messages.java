@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.panels.opdefs;
+package org.toxsoft.core.tsgui.panels.opsedit.impl;
 
 import java.util.*;
 

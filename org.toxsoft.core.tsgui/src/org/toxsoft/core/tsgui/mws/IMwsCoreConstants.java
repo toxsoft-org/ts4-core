@@ -24,11 +24,18 @@ public interface IMwsCoreConstants {
   String MWSID_MENU_MAIN_PERSPECIVES           = "org.toxsoft.mws.menu.main.perspectives";          //$NON-NLS-1$
   String MWSID_MENU_MAIN_REFBOOKS              = "org.toxsoft.mws.menu.main.refbooks";              //$NON-NLS-1$
   String MWSID_TRIMBAR_TOP                     = "org.toxsoft.mws.main.trimbar.top";                //$NON-NLS-1$
+  String MWSID_TRIMBAR_BOTTOM                  = "org.toxsoft.mws.main.trimbar.bottom";             //$NON-NLS-1$
   String MWSID_TOOLBAR_MAIN                    = "org.toxsoft.mws.toolbar.main";                    //$NON-NLS-1$
   String MWSID_TOOLBAR_PERSPECTIVES            = "org.toxsoft.mws.toolbar.perspectives";            //$NON-NLS-1$
 
-  String MWSID_CMD_QUIT         = "org.toxsoft.mws.cmd.quit";                     //$NON-NLS-1$
-  String MWSID_CMD_SWITCH_PERSP = "org.toxsoft.mws.cmd.switch_persp";             //$NON-NLS-1$
-  String MWSID_CMDARG_PERSP_ID  = "org.toxsoft.mws.cmd.switch_persp.arg.perspId"; //$NON-NLS-1$
+  String MWSID_CMD_QUIT = "org.toxsoft.mws.cmd.quit"; //$NON-NLS-1$
+
+  String MWSID_CMD_SWITCH_PERSP   = "org.toxsoft.mws.cmd.switch_persp";             //$NON-NLS-1$
+  String MWSID_CMDARG_SP_PERSP_ID = "org.toxsoft.mws.cmd.switch_persp.arg.perspId"; //$NON-NLS-1$
+
+  String MWSID_CMD_EDIT_APP_PREFS         = "org.toxsoft.mws.cmd.edit_app_prefs";                 //$NON-NLS-1$
+  String MWSID_CMDARG_EAP_INIT_SECTID     = "org.toxsoft.mws.cmd.edit_app_prefs.init_sect_id";    //$NON-NLS-1$
+  String MWSID_CMDARG_EAP_SECTIDS         = "org.toxsoft.mws.cmd.edit_app_prefs.sect_ids";        //$NON-NLS-1$
+  String MWSID_CMDARG_EAP_HIDE_SECTS_LIST = "org.toxsoft.mws.cmd.edit_app_prefs.hide_sects_list"; //$NON-NLS-1$
 
 }

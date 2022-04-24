@@ -3,15 +3,14 @@ package org.toxsoft.core.pas.http.server;
 import static org.toxsoft.core.pas.http.server.ITsResources.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 
-import org.toxsoft.core.log4j.Logger;
-import org.toxsoft.core.pas.common.PasDoJob;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.bricks.ICooperativeMultiTaskable;
-import org.toxsoft.core.tslib.bricks.apprefs.IAppPreferences;
-import org.toxsoft.core.tslib.bricks.apprefs.IPrefBundle;
-import org.toxsoft.core.tslib.utils.ICloseable;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.logs.ILogger;
+import org.toxsoft.core.log4j.*;
+import org.toxsoft.core.pas.common.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.bricks.*;
+import org.toxsoft.core.tslib.bricks.apprefs.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.*;
 
 /**
  * Сервер обслуживания запросов от клиентов публичного API.
@@ -110,12 +109,12 @@ public class PasHttpServer
     try {
       // Попытка создать pas-сервер
       IPrefBundle httpBundle = appPrefs.getBundle( CFG_SECTION_HTTP );
-      String httpHost = httpBundle.params().getStr( CFG_HTTP_HOST, DEFAULT_HTTP_HOST );
-      int httpPort = Integer.parseInt( httpBundle.params().getStr( CFG_HTTP_PORT, DEFAULT_HTTP_PORT ) );
+      String httpHost = httpBundle.prefs().getStr( CFG_HTTP_HOST, DEFAULT_HTTP_HOST );
+      int httpPort = Integer.parseInt( httpBundle.prefs().getStr( CFG_HTTP_PORT, DEFAULT_HTTP_PORT ) );
       IPrefBundle pasBundle = appPrefs.getBundle( CFG_SECTION_PAS );
-      String pasHost = pasBundle.params().getStr( CFG_PAS_HOST, DEFAULT_PAS_HOST );
-      int pasPort = Integer.parseInt( pasBundle.params().getStr( CFG_PAS_PORT, DEFAULT_PAS_PORT ) );
-      int pasTimeout = Integer.parseInt( pasBundle.params().getStr( CFG_PAS_READ_TIMEOUT, DEFAULT_PAS_READ_TIMEOUT ) );
+      String pasHost = pasBundle.prefs().getStr( CFG_PAS_HOST, DEFAULT_PAS_HOST );
+      int pasPort = Integer.parseInt( pasBundle.prefs().getStr( CFG_PAS_PORT, DEFAULT_PAS_PORT ) );
+      int pasTimeout = Integer.parseInt( pasBundle.prefs().getStr( CFG_PAS_READ_TIMEOUT, DEFAULT_PAS_READ_TIMEOUT ) );
       httpServer = new PasHttpExecutor( httpHost, httpPort, pasHost, pasPort, pasTimeout );
     }
     catch( Throwable e ) {
@@ -133,8 +132,8 @@ public class PasHttpServer
   // public PasClient<PasClientChannel> createClientOrNull() {
   // try {
   // IPrefBundle pasBundle = appPrefs.getBundle( CFG_SECTION_PAS );
-  // String host = pasBundle.params().getStr( CFG_PAS_HOST, DEFAULT_PAS_HOST );
-  // int port = Integer.parseInt( pasBundle.params().getStr( CFG_PAS_PORT, DEFAULT_PAS_PORT ) );
+  // String host = pasBundle.prefs().getStr( CFG_PAS_HOST, DEFAULT_PAS_HOST );
+  // int port = Integer.parseInt( pasBundle.prefs().getStr( CFG_PAS_PORT, DEFAULT_PAS_PORT ) );
   //
   // ITsContext ctx = new TsContext();
   // // ctx.put( S5CallbackClient.class, aReader );

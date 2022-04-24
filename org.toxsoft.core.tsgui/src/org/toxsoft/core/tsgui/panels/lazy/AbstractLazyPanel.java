@@ -1,12 +1,9 @@
 package org.toxsoft.core.tsgui.panels.lazy;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContextable;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContextListener;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContextRo;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.bricks.ctx.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -42,7 +39,7 @@ public abstract class AbstractLazyPanel<C extends Control>
   /**
    * Constructor.
    * <p>
-   * Constructor hods reference to the argument.
+   * Constructos stores reference to the context, does not creates copy.
    *
    * @param aContext {@link ITsGuiContext} - контекст панели
    * @throws TsNullArgumentRtException аргумент = null

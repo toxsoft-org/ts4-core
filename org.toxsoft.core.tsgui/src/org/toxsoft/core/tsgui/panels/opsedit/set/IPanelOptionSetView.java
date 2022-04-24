@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.panels.opdefs;
+package org.toxsoft.core.tsgui.panels.opsedit.set;
 
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.panels.lazy.*;
@@ -17,7 +17,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public interface IPanelOptionSet
+public interface IPanelOptionSetView
     extends ILazyControl<Control> {
 
   /**

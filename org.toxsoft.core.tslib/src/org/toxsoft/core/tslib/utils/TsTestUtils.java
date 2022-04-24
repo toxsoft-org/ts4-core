@@ -2,10 +2,9 @@ package org.toxsoft.core.tslib.utils;
 
 import static org.toxsoft.core.tslib.utils.ITsResources.*;
 
-import java.util.Scanner;
+import java.util.*;
 
-import org.toxsoft.core.tslib.utils.errors.TsErrorUtils;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Helpers methods mainly to be used for testing and debugging purposes.
@@ -24,8 +23,7 @@ public class TsTestUtils {
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static void p( String aMessageFormat, Object... aMsgArgs ) {
-    TsNullArgumentRtException.checkNull( aMessageFormat );
-    TsErrorUtils.checkArrayArg( aMsgArgs );
+    TsNullArgumentRtException.checkNulls( aMessageFormat, aMsgArgs );
     String msg = String.format( aMessageFormat, aMsgArgs );
     System.out.print( msg );
   }
@@ -38,8 +36,7 @@ public class TsTestUtils {
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static void pl( String aMessageFormat, Object... aMsgArgs ) {
-    TsNullArgumentRtException.checkNull( aMessageFormat );
-    TsErrorUtils.checkArrayArg( aMsgArgs );
+    TsNullArgumentRtException.checkNulls( aMessageFormat, aMsgArgs );
     String msg = String.format( aMessageFormat, aMsgArgs );
     System.out.println( msg );
   }
@@ -52,8 +49,7 @@ public class TsTestUtils {
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static void errl( String aMessageFormat, Object... aMsgArgs ) {
-    TsNullArgumentRtException.checkNull( aMessageFormat );
-    TsErrorUtils.checkArrayArg( aMsgArgs );
+    TsNullArgumentRtException.checkNulls( aMessageFormat, aMsgArgs );
     String msg = String.format( MSG_ERROR_MSG_PREFIX + aMessageFormat + '\n', aMsgArgs );
     System.out.println( msg );
   }
@@ -66,7 +62,7 @@ public class TsTestUtils {
   }
 
   /**
-   * Outputs message and waits for ENTER press.
+   * To read input, outputs message and waits for ENTER press.
    *
    * @param aMessageFormat String - message format string
    * @param aMsgArgs Object[] - optional arguments for message string
@@ -85,10 +81,12 @@ public class TsTestUtils {
 
   /**
    * Outputs predefined message and waits for ENTER press.
+   *
+   * @return String - entered string
    */
-  public static void waitEnter() {
+  public static String waitEnter() {
     p( MSG_ENTER_TO_CONTINUE );
-    scanner.nextLine();
+    return scanner.nextLine();
   }
 
   /**

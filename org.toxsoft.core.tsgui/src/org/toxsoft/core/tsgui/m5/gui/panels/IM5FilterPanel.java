@@ -1,11 +1,11 @@
 package org.toxsoft.core.tsgui.m5.gui.panels;
 
-import org.eclipse.swt.widgets.Control;
-import org.toxsoft.core.tsgui.m5.model.IM5ModelRelated;
-import org.toxsoft.core.tsgui.panels.lazy.ILazyControl;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContextable;
-import org.toxsoft.core.tslib.bricks.events.change.IGenericChangeEventCapable;
-import org.toxsoft.core.tslib.bricks.filter.ITsFilter;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.m5.model.*;
+import org.toxsoft.core.tsgui.panels.lazy.*;
+import org.toxsoft.core.tslib.bricks.ctx.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
+import org.toxsoft.core.tslib.bricks.filter.*;
 
 /**
  * Panel to set filter parameters to filter out the collection of the modelled entities.
@@ -38,5 +38,16 @@ public interface IM5FilterPanel<T>
    * Resets content of the panel to the initial state.
    */
   void reset();
+
+  /**
+   * Determines if panel has built-in filter on/off and reset controls.
+   * <p>
+   * FIXME filter controls<br>
+   * Used in panel wrappers. If this panel does noh has controls, wrapper will add filter On/Off switch and reset
+   * buttons to the panel.
+   *
+   * @return boolean - panel has filter controls
+   */
+  // boolean hasFilterControls();
 
 }

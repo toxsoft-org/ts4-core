@@ -37,6 +37,8 @@ interface ITsResources {
   String STR_D_MAX_EXCLUSIVE         = "Maximal allowed value (exclusive)";
   String STR_N_MIN_EXCLUSIVE         = "MinExcl";
   String STR_D_MIN_EXCLUSIVE         = "Minimal allowed value (exclusive)";
+  String STR_N_ICON_ID               = "Icon";
+  String STR_D_ICON_ID               = "ID of the icon";
   String FMT_ERR_NO_MANDATORY_OPTION = "Mandatory option %s is not specified";
 
   String FMT_ERR_NO_REGISTERED_DATA_DEF    = "Data defnition with ID '%s': not found";

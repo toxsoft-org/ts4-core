@@ -2,17 +2,15 @@ package org.toxsoft.core.tsgui.m5.model.impl;
 
 import static org.toxsoft.core.tsgui.m5.model.impl.ITsResources.*;
 
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.m5.*;
-import org.toxsoft.core.tsgui.m5.model.IM5LifecycleManager;
-import org.toxsoft.core.tsgui.utils.ITsVisualsProvider;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContext;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContextable;
+import org.toxsoft.core.tsgui.m5.model.*;
+import org.toxsoft.core.tsgui.utils.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.StridablesList;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.StridablesListReorderer;
-import org.toxsoft.core.tslib.bricks.strid.impl.Stridable;
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.coll.helpers.IListReorderer;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.helpers.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -23,7 +21,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  */
 public class M5Model<T>
     extends Stridable
-    implements IM5Model<T>, ITsContextable {
+    implements IM5Model<T>, ITsGuiContextable {
 
   private final IStridablesListEdit<IM5FieldDef<T, ?>>      fieldDefs = new StridablesList<>();
   private final IStridablesListReorderer<IM5FieldDef<T, ?>> fieldsReorderer;
@@ -79,7 +77,7 @@ public class M5Model<T>
   //
 
   @Override
-  public ITsContext tsContext() {
+  public ITsGuiContext tsContext() {
     TsIllegalStateRtException.checkNull( domain );
     return domain.tsContext();
   }
@@ -282,8 +280,9 @@ public class M5Model<T>
    * <p>
    * In base class throws an exception, never call superclass method when overriding.
    *
-   * @param aMaster Object - the mster object, never is <code>null</code>
+   * @param aMaster Object - the master object, never is <code>null</code>
    * @return {@link IM5LifecycleManager}&lt;T&gt; - created instance of LM
+   * @throws ClassCastException may be thrown if master object is of invalid class
    */
   protected IM5LifecycleManager<T> doCreateLifecycleManager( Object aMaster ) {
     throw new TsUnsupportedFeatureRtException( FMT_ERR_NO_LM_CREATOR_CODE, id() );

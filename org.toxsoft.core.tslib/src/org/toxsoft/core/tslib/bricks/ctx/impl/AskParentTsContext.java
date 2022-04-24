@@ -1,8 +1,8 @@
 package org.toxsoft.core.tslib.bricks.ctx.impl;
 
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContextRo;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.bricks.ctx.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link IAskParent} implementation for {@link ITsContextRo} parent.
@@ -25,8 +25,8 @@ class AskParentTsContext
   }
 
   @Override
-  public Object findRef( String aName ) {
-    return parent.find( aName );
+  public Object findRef( String aKey ) {
+    return parent.find( aKey );
   }
 
 }

@@ -32,7 +32,7 @@ public final class DataDef
 
   private final String         id;
   private final EAtomicType    atomicType;
-  private final IOptionSetEdit params = new OptionSet();
+  private final IOptionSetEdit params;
 
   /**
    * The validator. <br>
@@ -60,7 +60,24 @@ public final class DataDef
   public DataDef( String aId, EAtomicType aAtomicType, IOptionSet aParams ) {
     id = StridUtils.checkValidIdPath( aId );
     atomicType = TsNullArgumentRtException.checkNull( aAtomicType );
-    params.addAll( aParams );
+    params = new OptionSet( aParams );
+  }
+
+  /**
+   * Package level constructor, stores <code>aParam</code> reference without creating defensive copy.
+   *
+   * @param aFoo int - foo argument for unique constructor signature
+   * @param aId String - data identifier (IDpath)
+   * @param aAtomicType {@link EAtomicType} - atomic type
+   * @param aParams {@link IOptionSetEdit} - reference to be stored as {@link #params()}
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException identifier is not an IDpath
+   */
+  DataDef( int aFoo, String aId, EAtomicType aAtomicType, IOptionSetEdit aParams ) {
+    id = StridUtils.checkValidIdPath( aId );
+    TsNullArgumentRtException.checkNulls( aAtomicType, aParams );
+    atomicType = aAtomicType;
+    params = aParams;
   }
 
   /**

@@ -1,13 +1,12 @@
 package org.toxsoft.core.tslib.coll.impl;
 
-import java.util.Iterator;
+import java.util.*;
 
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IMap;
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Utility constants and methods for collections implementation.
@@ -361,6 +360,70 @@ public final class TsCollectionsUtils {
       }
     }
     return true;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Misc
+  //
+
+  /**
+   * Finds element in list te be selected when selected element will be removed.
+   * <p>
+   * Useful for GUI. When selected item is removed from GUI lists, next item must be selected. If last item is removed
+   * than previous item mujst became selected one. If the only item is removed, or if there is no selection (that is
+   * <code>aSelToRemove</code> = <code>null</code>), than <code>null</code> will be returned. <code>null</code> means no
+   * selecion in GUI.
+   * <p>
+   * If <code>aSelToRemove</code> is not in list then <code>null</code> will be returned.
+   *
+   * @param <E> - the type of elements in list
+   * @param aList {@link IList} - the list
+   * @param aSelToRemove &lt;E&gt; - selected element to be removed, may be <code>null</code>
+   * @return &lt;E&gt; - element to be selected after remove or <code>null</code>
+   * @throws TsNullArgumentRtException <code>aList</code> = <code>null</code>
+   */
+  public static <E> E findSelAfterRemove( IList<E> aList, E aSelToRemove ) {
+    TsNullArgumentRtException.checkNull( aList );
+    if( aSelToRemove == null || aList.isEmpty() ) {
+      return null;
+    }
+    int index = aList.indexOf( aSelToRemove );
+    if( index < 0 || aList.size() == 1 ) {
+      return null;
+    }
+    // here: list has at least 2 items
+    if( index == aList.size() - 1 ) {
+      return aList.get( index - 1 );
+    }
+    return aList.get( index + 1 );
+  }
+
+  /**
+   * Finds element index in list te be selected when selected element will be removed.
+   * <p>
+   * This is the same emthod as {@link #findSelAfterRemove(IList, Object)}, where indexes are used instead of references
+   * to the elemnts. Index -1 is equivalent of the <code>null</code> reference.
+   * <p>
+   * Invalid indexes is considered as -1.
+   * <p>
+   * Please note that method returned value is considered to be the index <b>after</b> element removal.
+   *
+   * @param aList {@link IList} - the list
+   * @param aSelIndex int - index of the selected element to be removed or -1
+   * @return int - index of the element to be selected after remove or -1
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static int findSelIndexAfterRemove( IList<?> aList, int aSelIndex ) {
+    TsNullArgumentRtException.checkNull( aList );
+    if( aSelIndex < 0 || aSelIndex >= aList.size() || aList.size() <= 1 ) {
+      return -1;
+    }
+    // here: list has at least 2 items
+    if( aSelIndex == aList.size() - 1 ) {
+      return aSelIndex - 1;
+    }
+    return aSelIndex;
+
   }
 
   // ------------------------------------------------------------------------------------

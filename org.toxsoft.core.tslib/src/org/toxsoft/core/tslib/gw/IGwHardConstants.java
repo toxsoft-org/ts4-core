@@ -48,8 +48,18 @@ public interface IGwHardConstants {
   String GW_KEYWORD_CMD = "cmd"; //$NON-NLS-1$
 
   /**
+   * Keyword: command argument.
+   */
+  String GW_KEYWORD_CMD_ARG = "arg"; //$NON-NLS-1$
+
+  /**
    * Keyword: event.
    */
   String GW_KEYWORD_EVENT = "event"; //$NON-NLS-1$
+
+  /**
+   * Keyword: event parameter.
+   */
+  String GW_KEYWORD_EVENT_PARAM = "prm"; //$NON-NLS-1$
 
 }

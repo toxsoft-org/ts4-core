@@ -6,12 +6,12 @@ import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.impl.DataDef.*;
 import static org.toxsoft.core.tslib.av.metainfo.ITsResources.*;
 
-import org.toxsoft.core.tslib.av.IAtomicValue;
+import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.validators.*;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.StridablesList;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 
 /**
  * Miscallenous meta information constants.
@@ -163,6 +163,13 @@ public interface IAvMetaConstants {
       TSID_DEFAULT_VALUE, AV_FALSE //
   );
 
+  IDataDef DDEF_ICON_ID = create( TSID_ICON_ID, STRING, //
+      TSID_NAME, STR_N_ICON_ID, //
+      TSID_DESCRIPTION, STR_N_ICON_ID, //
+      TSID_IS_NULL_ALLOWED, AV_TRUE, //
+      TSID_DEFAULT_VALUE, DEFAULT_ID_AV //
+  );
+
   IStridablesList<IDataDef> ALL_DDEFS = new StridablesList<>( //
       DDEF_NONE, //
       DDEF_BOOLEAN, //
@@ -176,7 +183,8 @@ public interface IAvMetaConstants {
       DDEF_DEFAULT_VALUE, //
       DDEF_IDNAME, //
       DDEF_IDPATH, //
-      DDEF_TS_BOOL //
+      DDEF_TS_BOOL, //
+      DDEF_ICON_ID //
   );
 
 }

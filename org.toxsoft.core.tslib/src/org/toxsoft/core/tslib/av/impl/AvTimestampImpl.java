@@ -2,8 +2,7 @@ package org.toxsoft.core.tslib.av.impl;
 
 import java.time.*;
 
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
+import org.toxsoft.core.tslib.av.*;
 
 /**
  * Atomic value of type {@link EAtomicType#TIMESTAMP}.
@@ -23,7 +22,7 @@ class AvTimestampImpl
 
   @Override
   public EAtomicType atomicType() {
-    return EAtomicType.INTEGER;
+    return EAtomicType.TIMESTAMP;
   }
 
   @Override

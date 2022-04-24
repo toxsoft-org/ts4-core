@@ -2,12 +2,12 @@ package org.toxsoft.core.tsgui.bricks.quant;
 
 import static org.toxsoft.core.tsgui.bricks.quant.ITsResources.*;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemLinkedBundleList;
+import org.eclipse.e4.core.contexts.*;
+import org.eclipse.e4.ui.model.application.ui.basic.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * Abstract implementation of the {@link IQuant}.
@@ -62,8 +62,7 @@ public abstract class AbstractQuant
   private static boolean getInitFlag( IEclipseContext aContext, String aFlagName ) {
     TsNullArgumentRtException.checkNulls( aContext, aFlagName );
     Object ref = aContext.get( aFlagName );
-    if( ref instanceof Boolean ) {
-      Boolean b = (Boolean)ref;
+    if( ref instanceof Boolean b ) {
       return b == Boolean.TRUE;
     }
     return false;
@@ -122,6 +121,23 @@ public abstract class AbstractQuant
   @Override
   public String toString() {
     return "Quant '" + name + "'"; //$NON-NLS-1$ //$NON-NLS-2$
+  }
+
+  @Override
+  public boolean equals( Object aThat ) {
+    if( aThat == this ) {
+      return true;
+    }
+    // quant equality check is just name equality check
+    if( aThat instanceof AbstractQuant that ) {
+      return this.name.equals( that.name );
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return name.hashCode();
   }
 
   // ------------------------------------------------------------------------------------

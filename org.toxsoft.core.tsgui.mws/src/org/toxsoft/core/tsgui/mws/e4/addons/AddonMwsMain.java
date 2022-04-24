@@ -1,24 +1,22 @@
 package org.toxsoft.core.tsgui.mws.e4.addons;
 
 import static org.toxsoft.core.tsgui.mws.e4.addons.ITsResources.*;
+import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
+import javax.annotation.*;
+import javax.inject.*;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
-import org.toxsoft.core.tsgui.QuantTsGui;
-import org.toxsoft.core.tsgui.bricks.quant.IQuant;
-import org.toxsoft.core.tsgui.bricks.quant.QuantBase;
-import org.toxsoft.core.tsgui.mws.bases.IMainWindowLifeCylceListener;
-import org.toxsoft.core.tsgui.mws.bases.MwsMainWindowStaff;
-import org.toxsoft.core.tsgui.mws.osgi.IMwsOsgiService;
-import org.toxsoft.core.tsgui.mws.services.e4helper.ITsE4Helper;
-import org.toxsoft.core.tsgui.mws.services.e4helper.TsE4Helper;
-import org.toxsoft.core.tslib.bricks.apprefs.IAppPreferences;
-import org.toxsoft.core.tslib.bricks.apprefs.IPrefBundle;
+import org.eclipse.e4.core.contexts.*;
+import org.eclipse.e4.ui.model.application.ui.basic.*;
+import org.toxsoft.core.tsgui.*;
+import org.toxsoft.core.tsgui.bricks.quant.*;
+import org.toxsoft.core.tsgui.mws.bases.*;
+import org.toxsoft.core.tsgui.mws.osgi.*;
+import org.toxsoft.core.tsgui.mws.services.e4helper.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.bricks.apprefs.*;
 import org.toxsoft.core.tslib.bricks.apprefs.impl.*;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * Main addon of MWS based application.
@@ -121,8 +119,10 @@ public class AddonMwsMain
     }
     aAppContext.set( IAppPreferences.class, appPrefs );
     // create default prefs bundle
-    IPrefBundle defBundle =
-        appPrefs.defineBundle( mwsService.appInfo().id(), STR_N_DEF_APP_PREFS_BUNDLE, STR_D_DEF_APP_PREFS_BUNDLE );
+    IPrefBundle defBundle = appPrefs.defineBundle( mwsService.appInfo().id(), OptionSetUtils.createOpSet( //
+        TSID_NAME, STR_N_DEF_APP_PREFS_BUNDLE, //
+        TSID_DESCRIPTION, STR_D_DEF_APP_PREFS_BUNDLE//
+    ) );
     aAppContext.set( IPrefBundle.class, defBundle );
   }
 

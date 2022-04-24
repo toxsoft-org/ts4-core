@@ -2,19 +2,20 @@ package org.toxsoft.core.tslib.utils.valobj;
 
 import static org.toxsoft.core.tslib.utils.valobj.ITsResources.*;
 
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.concurrent.locks.*;
 
-import org.toxsoft.core.tslib.av.impl.AtomicValueKeeper;
-import org.toxsoft.core.tslib.av.list.AvList;
-import org.toxsoft.core.tslib.av.opset.impl.OptionSetKeeper;
-import org.toxsoft.core.tslib.av.temporal.TemporalAtomicValueKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.list.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.av.temporal.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.std.*;
-import org.toxsoft.core.tslib.coll.IMapEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemMap;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMap;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMapEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.gw.gwid.*;
+import org.toxsoft.core.tslib.gw.skid.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -52,6 +53,7 @@ public class TsValobjUtils {
     // registerKeeper( LegacyStringListKeeper.KEEPER_ID, LegacyStringListKeeper.KEEPER );
     registerKeeper( StringListKeeper.KEEPER_ID, StringListKeeper.KEEPER );
     registerKeeper( AtomicValueKeeper.KEEPER_ID, AtomicValueKeeper.KEEPER );
+    registerKeeper( DataType.KEEPER_ID, DataType.KEEPER );
     registerKeeper( AvList.KEEPER_ID, AvList.KEEPER );
     registerKeeper( TemporalAtomicValueKeeper.KEEPER_ID, TemporalAtomicValueKeeper.KEEPER );
     registerKeeper( TsVersion.KEEPER_ID, TsVersion.KEEPER );
@@ -61,6 +63,12 @@ public class TsValobjUtils {
     registerKeeper( LocalTimeKeeper.KEEPER_ID, LocalTimeKeeper.KEEPER );
     registerKeeper( LocalDateTimeKeeper.KEEPER_ID, LocalDateTimeKeeper.KEEPER );
     registerKeeper( ELockState.KEEPER_ID, ELockState.KEEPER );
+    registerKeeper( DataDefKeeper.KEEPER_ID, DataDefKeeper.KEEPER );
+    registerKeeper( Skid.KEEPER_ID, Skid.KEEPER );
+    registerKeeper( SkidListKeeper.KEEPER_ID, SkidListKeeper.KEEPER );
+    registerKeeper( Gwid.KEEPER_ID, Gwid.KEEPER );
+    registerKeeper( GwidList.KEEPER_ID, GwidList.KEEPER );
+    registerKeeper( MappedSkids.KEEPER_ID, MappedSkids.KEEPER );
   }
 
   // ------------------------------------------------------------------------------------

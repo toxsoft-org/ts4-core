@@ -1,10 +1,10 @@
 package org.toxsoft.core.tslib.gw.skid;
 
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.strio.IStrioReader;
-import org.toxsoft.core.tslib.bricks.strio.IStrioWriter;
-import org.toxsoft.core.tslib.coll.IListEdit;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.coll.*;
+
+// TODO TRANSLATE
 
 /**
  * Хранитель объектов типа {@link ISkidList}.

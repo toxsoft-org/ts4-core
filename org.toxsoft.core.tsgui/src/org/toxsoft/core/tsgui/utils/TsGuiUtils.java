@@ -1,16 +1,15 @@
 package org.toxsoft.core.tsgui.utils;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
+import org.eclipse.e4.core.contexts.*;
 import org.toxsoft.core.tsgui.graphics.*;
-import org.toxsoft.core.tsgui.graphics.fonts.impl.FontInfo;
-import org.toxsoft.core.tsgui.graphics.image.EThumbSize;
-import org.toxsoft.core.tsgui.utils.layout.EBorderLayoutPlacement;
-import org.toxsoft.core.tsgui.utils.rectfit.ERectFitMode;
+import org.toxsoft.core.tsgui.graphics.fonts.impl.*;
+import org.toxsoft.core.tsgui.graphics.image.*;
+import org.toxsoft.core.tsgui.utils.layout.*;
+import org.toxsoft.core.tsgui.utils.rectfit.*;
 import org.toxsoft.core.tsgui.utils.swt.*;
-import org.toxsoft.core.tsgui.widgets.mpv.EMpvTimeLen;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalStateRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
+import org.toxsoft.core.tsgui.widgets.mpv.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
  * General purpose utility constants and methods.

@@ -1,10 +1,13 @@
 package org.toxsoft.core.tsgui.mws.e4.handlers;
 
-import org.eclipse.e4.core.di.annotations.Execute;
-import org.toxsoft.core.tsgui.mws.services.e4helper.ITsE4Helper;
+import org.eclipse.e4.core.di.annotations.*;
+import org.toxsoft.core.tsgui.mws.*;
+import org.toxsoft.core.tsgui.mws.services.e4helper.*;
 
 /**
- * Команда "Выход".
+ * E4 command handler: quit an application.
+ * <p>
+ * Command ID: {@link IMwsCoreConstants#MWSID_CMD_SWITCH_PERSP}.
  *
  * @author hazard157
  */

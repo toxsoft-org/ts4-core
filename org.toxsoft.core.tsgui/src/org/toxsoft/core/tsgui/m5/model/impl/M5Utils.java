@@ -2,14 +2,12 @@ package org.toxsoft.core.tsgui.m5.model.impl;
 
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.bricks.ctx.impl.TsGuiContext;
-import org.toxsoft.core.tsgui.m5.IM5Constants;
-import org.toxsoft.core.tsgui.m5.IM5Domain;
-import org.toxsoft.core.tsgui.m5.std.models.misc.FileM5Model;
-import org.toxsoft.core.tslib.utils.errors.TsInternalErrorRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.eclipse.e4.core.contexts.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
+import org.toxsoft.core.tsgui.m5.*;
+import org.toxsoft.core.tsgui.m5.std.models.misc.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * M5 utility methods.
@@ -57,6 +55,7 @@ public class M5Utils {
 
   public static void initBuiltinModels( IM5Domain aDomain ) {
     aDomain.addModel( new FileM5Model() );
+    // aDomain.addModel( new SectionDefM5Model() );
     // TODO aDomain.addModel( new LongM5Model() );
     // TODO aDomain.addModel( new StringM5Model() );
     // TODO aDomain.addModel( new TsVersionM5Model() );

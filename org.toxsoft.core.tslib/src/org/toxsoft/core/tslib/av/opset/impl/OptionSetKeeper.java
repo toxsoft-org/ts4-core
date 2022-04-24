@@ -2,19 +2,18 @@ package org.toxsoft.core.tslib.av.opset.impl;
 
 import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.impl.AtomicValueKeeper;
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.av.opset.IOptionSetEdit;
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.strio.IStrioReader;
-import org.toxsoft.core.tslib.bricks.strio.IStrioWriter;
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
-import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
  * Keeper of the {@link IOptionSet} interface instances.
+ * <p>
+ * Values returned by <code>read()</code> methods may be safely casted to editable {@link IOptionSetEdit}.
  *
  * @author hazard157
  */
@@ -37,11 +36,6 @@ public class OptionSetKeeper
   public static final IEntityKeeper<IOptionSet> KEEPER_INDENTED = new OptionSetKeeper( true );
 
   /**
-   * Keeper singleton reads new instances of {@link IOptionSetEdit}.
-   */
-  public static final IEntityKeeper<IOptionSet> KEEPER_READ_NEW_INSTANCES = new OptionSetKeeper( 0 );
-
-  /**
    * An empty {@link IOptionSet} keeped text representation.
    */
   public static final String STR_EMPTY_OPSET_REPRESENTATION = KEEPER.ent2str( IOptionSet.NULL );
@@ -49,13 +43,8 @@ public class OptionSetKeeper
   private final boolean indented;
 
   private OptionSetKeeper( boolean aIndented ) {
-    super( IOptionSet.class, EEncloseMode.ENCLOSES_KEEPER_IMPLEMENTATION, IOptionSet.NULL );
-    indented = aIndented;
-  }
-
-  private OptionSetKeeper( @SuppressWarnings( "unused" ) int aFoo ) {
     super( IOptionSet.class, EEncloseMode.ENCLOSES_KEEPER_IMPLEMENTATION, null );
-    indented = false;
+    indented = aIndented;
   }
 
   @Override

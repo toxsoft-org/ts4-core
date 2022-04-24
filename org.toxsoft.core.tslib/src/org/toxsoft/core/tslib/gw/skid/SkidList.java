@@ -1,21 +1,15 @@
 package org.toxsoft.core.tslib.gw.skid;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.Iterator;
+import java.io.*;
+import java.util.*;
 
-import org.toxsoft.core.tslib.bricks.keeper.IKeepableEntity;
-import org.toxsoft.core.tslib.bricks.strio.IStrioReader;
-import org.toxsoft.core.tslib.bricks.strio.IStrioWriter;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.coll.basis.ITsFastIndexListTag;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.coll.impl.*;
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
-import org.toxsoft.core.tslib.coll.primtypes.IStringListBasicEdit;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Реализация {@link ISkidList}.
@@ -98,7 +92,7 @@ public class SkidList
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IList
+  // IList
   //
 
   @Override
@@ -142,7 +136,7 @@ public class SkidList
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IListEdit
+  // IListEdit
   //
 
   @Override
@@ -245,7 +239,7 @@ public class SkidList
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ISkidList
+  // ISkidList
   //
 
   @Override
@@ -258,7 +252,7 @@ public class SkidList
   }
 
   @Override
-  public IList<Skid> listObjSkidsOfClass( String aClassId ) {
+  public IList<Skid> listSkidsOfClass( String aClassId ) {
     TsNullArgumentRtException.checkNull( aClassId );
     IListEdit<Skid> ll = new ElemLinkedBundleList<>();
     for( Skid skid : list ) {
@@ -286,7 +280,7 @@ public class SkidList
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IKeepableEntity
+  // IKeepableEntity
   //
 
   @Override

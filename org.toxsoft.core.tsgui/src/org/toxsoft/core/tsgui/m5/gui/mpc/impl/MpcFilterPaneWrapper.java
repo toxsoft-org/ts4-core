@@ -3,23 +3,18 @@ package org.toxsoft.core.tsgui.m5.gui.mpc.impl;
 import static org.toxsoft.core.tsgui.graphics.icons.ITsStdIconIds.*;
 import static org.toxsoft.core.tsgui.m5.gui.mpc.impl.ITsResources.*;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.*;
+import org.eclipse.swt.events.*;
+import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tsgui.graphics.icons.EIconSize;
-import org.toxsoft.core.tsgui.graphics.icons.ITsIconManager;
-import org.toxsoft.core.tsgui.m5.gui.panels.IM5FilterPanel;
-import org.toxsoft.core.tsgui.panels.lazy.ILazyControl;
-import org.toxsoft.core.tsgui.widgets.TsComposite;
-import org.toxsoft.core.tslib.bricks.events.change.GenericChangeEventer;
-import org.toxsoft.core.tslib.bricks.events.change.IGenericChangeEventer;
-import org.toxsoft.core.tslib.bricks.filter.ITsFilter;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tsgui.m5.gui.panels.*;
+import org.toxsoft.core.tsgui.panels.lazy.*;
+import org.toxsoft.core.tsgui.widgets.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
+import org.toxsoft.core.tslib.bricks.filter.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link IMpcFilterPane} implementation that wraps over {@link IM5FilterPanel}.
@@ -35,9 +30,9 @@ public class MpcFilterPaneWrapper<T>
 
   private final IM5FilterPanel<T> panel;
 
-  boolean filterOn  = false; // filter on/off state flag, needed to work before widgets are created
-  Button  btnFilter = null;  // filter on/off switch button
-  Button  btnClear  = null;  // filter reset push button
+  boolean filterOn  = true; // filter on/off state flag, needed to work before widgets are created
+  Button  btnFilter = null; // filter on/off switch button
+  Button  btnClear  = null; // filter reset push button
 
   /**
    * Constructor.

@@ -1,12 +1,12 @@
 package org.toxsoft.core.tsgui.dialogs.datarec;
 
-import org.eclipse.jface.dialogs.TitleAreaDialog;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Shell;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.widgets.TsComposite;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContext;
-import org.toxsoft.core.tslib.bricks.geometry.ITsPoint;
+import org.eclipse.jface.dialogs.*;
+import org.eclipse.swt.*;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.widgets.*;
+import org.toxsoft.core.tslib.bricks.ctx.*;
+import org.toxsoft.core.tslib.bricks.geometry.*;
 
 // TODO TRANSLATE
 
@@ -37,7 +37,7 @@ public interface ITsDialogInfo {
   /**
    * Возвращает флаги диалогового окна.
    * <p>
-   * Флагами диалогового окна являются собранные по ИЛИ биты {@link TsDialog}<b>.DF_XXX</b>.
+   * Флагами диалогового окна являются собранные по ИЛИ биты {@link ITsDialogConstants}<b>.DF_XXX</b>.
    *
    * @return int - флаги диалогового окна собранные по ИЛИ
    */

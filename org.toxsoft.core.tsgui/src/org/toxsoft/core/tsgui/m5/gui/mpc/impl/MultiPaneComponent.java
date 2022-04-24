@@ -632,6 +632,18 @@ public class MultiPaneComponent<T>
     if( filterPane != null ) {
       filterPane.genericChangeEventer().addListener( filterPaneChangeListener );
     }
+    // set panels hide/show initial state
+    if( detailsPane != null ) {
+      detailsPane.getControl().setVisible( !OPDEF_IS_DETAILS_PANE_HIDDEN.getValue( tsContext().params() ).asBool() );
+    }
+     if( filterPane != null ) {
+     filterPane.getControl().setVisible( !OPDEF_IS_FILTER_PANE_HIDDEN
+         .getValue( tsContext().params() ).asBool() );
+     }
+    if( summaryPane != null ) {
+      summaryPane.getControl().setVisible( !OPDEF_IS_SUMMARY_PANE_HIDDEN.getValue( tsContext().params() ).asBool() );
+    }
+    // TODO MultiPaneComponent.createControl()
     doAfterCreateControls();
     board.getParent().layout( true, true );
     refresh();

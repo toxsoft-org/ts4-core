@@ -1,6 +1,6 @@
 package org.toxsoft.core.tslib.bricks.ctx.impl;
 
-import org.toxsoft.core.tslib.av.IAtomicValue;
+import org.toxsoft.core.tslib.av.*;
 
 /**
  * {@link IAskParent} implementation for no parent.
@@ -25,7 +25,7 @@ class AskParentNone
   }
 
   @Override
-  public Object findRef( String aName ) {
+  public Object findRef( String aKey ) {
     return null;
   }
 

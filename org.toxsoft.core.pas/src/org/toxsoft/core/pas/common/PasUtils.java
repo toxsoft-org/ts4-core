@@ -3,26 +3,22 @@ package org.toxsoft.core.pas.common;
 import static org.toxsoft.core.pas.common.ITsResources.*;
 import static org.toxsoft.core.tslib.utils.TsTestUtils.*;
 
-import java.io.File;
-import java.io.OutputStreamWriter;
+import java.io.*;
 
-import org.toxsoft.core.pas.tj.ITjObject;
-import org.toxsoft.core.pas.tj.impl.TjUtils;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.impl.AtomicValueKeeper;
-import org.toxsoft.core.tslib.av.impl.AvUtils;
-import org.toxsoft.core.tslib.av.metainfo.IDataDef;
-import org.toxsoft.core.tslib.bricks.apprefs.IAppPreferences;
-import org.toxsoft.core.tslib.bricks.apprefs.IPrefBundle;
+import org.toxsoft.core.pas.tj.*;
+import org.toxsoft.core.pas.tj.impl.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.bricks.apprefs.*;
 import org.toxsoft.core.tslib.bricks.apprefs.impl.*;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContext;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContextRo;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
+import org.toxsoft.core.tslib.bricks.ctx.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.files.TsFileUtils;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
-import org.toxsoft.core.tslib.utils.progargs.ProgramArgs;
+import org.toxsoft.core.tslib.utils.files.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
+import org.toxsoft.core.tslib.utils.progargs.*;
 
 /**
  * Вспомогательные методы для ввода/вывода.
@@ -79,7 +75,7 @@ public class PasUtils {
     IAppPreferences appPreferences = new AppPreferences( apStorage );
     for( String pbId : appPreferences.listPrefBundleIds() ) {
       IPrefBundle pb = appPreferences.getBundle( pbId );
-      aContext.params().addAll( pb.params() );
+      aContext.params().addAll( pb.prefs() );
     }
     // аргументы командной строки имеют высший приоритет
     for( String argId : aArgs.argValues().keys() ) {

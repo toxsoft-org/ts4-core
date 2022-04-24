@@ -1,6 +1,6 @@
 package org.toxsoft.core.tslib.bricks.ctx.impl;
 
-import org.toxsoft.core.tslib.av.IAtomicValue;
+import org.toxsoft.core.tslib.av.*;
 
 /**
  * Internal interface to search parent references and options.
@@ -19,11 +19,11 @@ public interface IAskParent {
   IAtomicValue findOp( String aId );
 
   /**
-   * Returns reference from parent by name.
+   * Returns reference from parent by key.
    *
-   * @param aName String - the name of the reference
+   * @param aKey String - the keyof the reference
    * @return {@link Object} - found reference of <code>null</code>
    */
-  Object findRef( String aName );
+  Object findRef( String aKey );
 
 }

@@ -4,17 +4,16 @@ import static org.toxsoft.core.tslib.gw.IGwHardConstants.*;
 import static org.toxsoft.core.tslib.gw.gwid.EGwidKind.*;
 
 import java.io.*;
-import java.util.Objects;
+import java.util.*;
 
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.EEncloseMode;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
-import org.toxsoft.core.tslib.bricks.strio.chario.ICharInputStream;
-import org.toxsoft.core.tslib.bricks.strio.chario.impl.CharInputStreamString;
-import org.toxsoft.core.tslib.bricks.strio.impl.StrioReader;
-import org.toxsoft.core.tslib.gw.skid.Skid;
+import org.toxsoft.core.tslib.bricks.strio.chario.*;
+import org.toxsoft.core.tslib.bricks.strio.chario.impl.*;
+import org.toxsoft.core.tslib.bricks.strio.impl.*;
+import org.toxsoft.core.tslib.gw.skid.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -93,16 +92,19 @@ public final class Gwid
   // (de)serialize only canonicalString - other fields will be restored in readObject(ObjectInputStream)
   private final String canonicalString;
 
-  private transient EGwidKind kind       = null;
-  private transient String    classId    = null;
-  private transient String    strid      = null;
-  private transient Skid      skid       = null;
-  private transient String    propSectId = null;
-  private transient String    propId     = null;
+  private transient EGwidKind kind          = null;
+  private transient String    classId       = null;
+  private transient String    strid         = null;
+  private transient Skid      skid          = null;
+  private transient String    propSectId    = null;
+  private transient String    propId        = null;
+  private transient String    subPropSectId = null;
+  private transient String    subPropId     = null;
 
-  private Gwid( String aClassId, String aStrid, String aPropSectId, String aPropId ) {
+  private Gwid( String aClassId, String aStrid, String aPropSectId, String aPropId, String aSubPropSectId,
+      String aSubPropId ) {
     classId = StridUtils.checkValidIdPath( aClassId );
-    strid = checkValidIdPathNullMulti( aStrid );
+    strid = checkValidIdPathMulti( aStrid, false, true );
     if( strid != null && !strid.equals( STR_MULTI_ID ) ) {
       skid = new Skid( classId, strid );
     }
@@ -124,16 +126,27 @@ public final class Gwid
       }
       kind = EGwidKind.findById( aPropSectId );
       propSectId = aPropSectId;
-      propId = checkValidIdPathMulti( aPropId );
+      propId = checkValidIdPathMulti( aPropId, false, false );
+      subPropSectId = checkValidIdPath( aSubPropSectId, false, true );
+      if( subPropSectId != null ) {
+        subPropId = checkValidIdPathMulti( aSubPropId, false, false );
+      }
+      else {
+        throw new TsIllegalArgumentRtException();
+      }
     }
     else {
       kind = GW_CLASS;
       propSectId = null;
       propId = null;
     }
+    kind = determineKind();
     canonicalString = makeCanonicalString();
     // ensure validity
     if( !kind.hasProp() && isProp() ) {
+      throw new TsIllegalArgumentRtException();
+    }
+    if( !kind.hasSubProp() && isSubProp() ) {
       throw new TsIllegalArgumentRtException();
     }
   }
@@ -142,88 +155,94 @@ public final class Gwid
   // Static constructors
   //
 
-  /**
-   * Creates the {@link Gwid}.
-   *
-   * @param aClassId String - class identifier must be IDpath
-   * @param aStrid Strid - object identifier must be IDpath or <code>null</code> or {@link #STR_MULTI_ID}
-   * @param aPropSectId String - property section name msut be "attr", "rtdata", "link", "cmd", "event" or other IDpath
-   * @param aPropId String - property identifier must be IDpath or <code>null</code> or {@link #STR_MULTI_ID}
-   * @return {@link Gwid} - created instance
-   * @throws TsNullArgumentRtException aClassId == <code>null</code>
-   * @throws TsIllegalArgumentRtException invalid argument(s)
-   */
-  public static Gwid create( String aClassId, String aStrid, String aPropSectId, String aPropId ) {
-    return new Gwid( aClassId, aStrid, aPropSectId, aPropId );
+  public static Gwid create( String aClassId, String aStrid, String aPropSectId, String aPropId, String aSubPropSectId,
+      String aSubPropId ) {
+    return new Gwid( aClassId, aStrid, aPropSectId, aPropId, aSubPropSectId, aSubPropId );
   }
 
   public static Gwid createClass( String aClassId ) {
-    return new Gwid( aClassId, null, null, null );
+    return new Gwid( aClassId, null, null, null, null, null );
   }
 
   public static Gwid createObj( String aClassId, String aStrid ) {
-    return new Gwid( aClassId, aStrid, null, null );
+    return new Gwid( aClassId, aStrid, null, null, null, null );
   }
 
   public static Gwid createObj( Skid aSkid ) {
     TsNullArgumentRtException.checkNull( aSkid );
-    return new Gwid( aSkid.classId(), aSkid.strid(), null, null );
+    return new Gwid( aSkid.classId(), aSkid.strid(), null, null, null, null );
   }
 
   public static Gwid createAttr( String aClassId, String aAttrId ) {
-    return new Gwid( aClassId, null, GW_KEYWORD_ATTR, aAttrId );
+    return new Gwid( aClassId, null, GW_KEYWORD_ATTR, aAttrId, null, null );
   }
 
   public static Gwid createAttr( String aClassId, String aStrid, String aAttrId ) {
-    return new Gwid( aClassId, aStrid, GW_KEYWORD_ATTR, aAttrId );
+    return new Gwid( aClassId, aStrid, GW_KEYWORD_ATTR, aAttrId, null, null );
   }
 
   public static Gwid createRtdata( String aClassId, String aRtdataId ) {
-    return new Gwid( aClassId, null, GW_KEYWORD_RTDATA, aRtdataId );
+    return new Gwid( aClassId, null, GW_KEYWORD_RTDATA, aRtdataId, null, null );
   }
 
   public static Gwid createRtdata( String aClassId, String aStrid, String aRtdataId ) {
-    return new Gwid( aClassId, aStrid, GW_KEYWORD_RTDATA, aRtdataId );
+    return new Gwid( aClassId, aStrid, GW_KEYWORD_RTDATA, aRtdataId, null, null );
   }
 
   public static Gwid createLink( String aClassId, String aLinkId ) {
-    return new Gwid( aClassId, null, GW_KEYWORD_LINK, aLinkId );
+    return new Gwid( aClassId, null, GW_KEYWORD_LINK, aLinkId, null, null );
   }
 
   public static Gwid createLink( String aClassId, String aStrid, String aLinkId ) {
-    return new Gwid( aClassId, aStrid, GW_KEYWORD_LINK, aLinkId );
+    return new Gwid( aClassId, aStrid, GW_KEYWORD_LINK, aLinkId, null, null );
   }
 
   public static Gwid createRivet( String aClassId, String aRivetId ) {
-    return new Gwid( aClassId, null, GW_KEYWORD_RIVET, aRivetId );
+    return new Gwid( aClassId, null, GW_KEYWORD_RIVET, aRivetId, null, null );
   }
 
   public static Gwid createRivet( String aClassId, String aStrid, String aRivetId ) {
-    return new Gwid( aClassId, aStrid, GW_KEYWORD_RIVET, aRivetId );
+    return new Gwid( aClassId, aStrid, GW_KEYWORD_RIVET, aRivetId, null, null );
   }
 
   public static Gwid createCmd( String aClassId, String aCmdId ) {
-    return new Gwid( aClassId, null, GW_KEYWORD_CMD, aCmdId );
+    return new Gwid( aClassId, null, GW_KEYWORD_CMD, aCmdId, null, null );
   }
 
   public static Gwid createCmd( String aClassId, String aStrid, String aCmdId ) {
-    return new Gwid( aClassId, aStrid, GW_KEYWORD_CMD, aCmdId );
+    return new Gwid( aClassId, aStrid, GW_KEYWORD_CMD, aCmdId, null, null );
+  }
+
+  public static Gwid createCmdArg( String aClassId, String aCmdId, String aCmdArgId ) {
+    return new Gwid( aClassId, null, GW_KEYWORD_CMD, aCmdId, GW_KEYWORD_CMD_ARG, aCmdArgId );
+  }
+
+  public static Gwid createCmdArg( String aClassId, String aStrid, String aCmdId, String aCmdArgId ) {
+    return new Gwid( aClassId, aStrid, GW_KEYWORD_CMD, aCmdId, GW_KEYWORD_CMD_ARG, aCmdArgId );
   }
 
   public static Gwid createEvent( String aClassId, String aEventId ) {
-    return new Gwid( aClassId, null, GW_KEYWORD_EVENT, aEventId );
+    return new Gwid( aClassId, null, GW_KEYWORD_EVENT, aEventId, null, null );
   }
 
   public static Gwid createEvent( String aClassId, String aStrid, String aEventId ) {
-    return new Gwid( aClassId, aStrid, GW_KEYWORD_EVENT, aEventId );
+    return new Gwid( aClassId, aStrid, GW_KEYWORD_EVENT, aEventId, null, null );
+  }
+
+  public static Gwid createEventParam( String aClassId, String aEventId, String aEventParamId ) {
+    return new Gwid( aClassId, null, GW_KEYWORD_EVENT, aEventId, GW_KEYWORD_EVENT_PARAM, aEventParamId );
+  }
+
+  public static Gwid createEventParam( String aClassId, String aStrid, String aEventId, String aEventParamId ) {
+    return new Gwid( aClassId, aStrid, GW_KEYWORD_EVENT, aEventId, GW_KEYWORD_EVENT_PARAM, aEventParamId );
   }
 
   public static Gwid createClob( String aClassId, String aClobId ) {
-    return new Gwid( aClassId, null, GW_KEYWORD_CLOB, aClobId );
+    return new Gwid( aClassId, null, GW_KEYWORD_CLOB, aClobId, null, null );
   }
 
   public static Gwid createClob( String aClassId, String aStrid, String aClobId ) {
-    return new Gwid( aClassId, aStrid, GW_KEYWORD_CLOB, aClobId );
+    return new Gwid( aClassId, aStrid, GW_KEYWORD_CLOB, aClobId, null, null );
   }
 
   public static Gwid of( String aCanonicalString ) {
@@ -256,7 +275,7 @@ public final class Gwid
     ch = aSr.peekChar( EStrioSkipMode.SKIP_NONE );
     // no next part? - interpret as GW_CLASS
     if( ch != KEYCH_PART_DELIM ) {
-      return create( classId, strid, null, null );
+      return create( classId, strid, null, null, null, null );
     }
     // property
     aSr.ensureChar( KEYCH_PART_DELIM );
@@ -264,7 +283,18 @@ public final class Gwid
     aSr.ensureChar( KEYCH_PRID_LEFT );
     String propId = readIdPathOrMulti( aSr );
     aSr.ensureChar( KEYCH_PRID_RIGHT );
-    return create( classId, strid, propSectId, propId );
+    ch = aSr.peekChar( EStrioSkipMode.SKIP_NONE );
+    // no next part? - interpret as GW_CLASS
+    if( ch != KEYCH_PART_DELIM ) {
+      return new Gwid( classId, strid, propSectId, propId, null, null );
+    }
+    // sub-property
+    aSr.ensureChar( KEYCH_PART_DELIM );
+    String subPropSectId = aSr.readIdPath();
+    aSr.ensureChar( KEYCH_PRID_LEFT );
+    String subPropId = readIdPathOrMulti( aSr );
+    aSr.ensureChar( KEYCH_PRID_RIGHT );
+    return new Gwid( classId, strid, propSectId, propId, subPropSectId, subPropId );
   }
 
   // ------------------------------------------------------------------------------------
@@ -287,6 +317,14 @@ public final class Gwid
       sb.append( KEYCH_PRID_LEFT );
       sb.append( propId );
       sb.append( KEYCH_PRID_RIGHT );
+      // sub-property
+      if( subPropSectId != null ) {
+        sb.append( KEYCH_PART_DELIM );
+        sb.append( subPropSectId );
+        sb.append( KEYCH_PRID_LEFT );
+        sb.append( subPropId );
+        sb.append( KEYCH_PRID_RIGHT );
+      }
     }
     return sb.toString();
   }
@@ -295,7 +333,7 @@ public final class Gwid
       throws IOException,
       ClassNotFoundException {
     aIns.defaultReadObject(); // only canonicalString is read
-    // сейчас разберем строку canonicalString, исходя из того, что ошибок в нем не может быть
+    // сейчас разберем строку canonicalString, исходя из того, чо оибок в нем не может быть
     int lp = 0, plp = 0, len = canonicalString.length();
     char ch;
     // считываем classId
@@ -338,6 +376,25 @@ public final class Gwid
       ++lp; // здесь не может быть конца строки
     }
     propId = canonicalString.substring( plp, lp );
+    ++lp; // пропустим KEYCH_PRID_RIGHT
+    ++lp; // пропустим KEYCH_PART_DELIM
+    plp = lp;
+    if( lp > len ) {
+      kind = determineKind();
+      return;
+    }
+    // считаем пару "subPropSectId(subPropId)"
+    while( StridUtils.isIdPathPart( ch = canonicalString.charAt( lp ) ) ) {
+      ++lp; // здесь не может быть конца строки
+    }
+    subPropSectId = canonicalString.substring( plp, lp );
+    ++lp; // пропустим KEYCH_PRID_LEFT
+    plp = lp;
+    while( StridUtils.isIdPathPart( ch = canonicalString.charAt( lp ) ) || (ch == KEYCH_MULTI_ID && plp == lp) ) {
+      ++lp; // здесь не может быть конца строки
+    }
+    subPropId = canonicalString.substring( plp, lp );
+    // ++lp; // пропустим KEYCH_PRID_RIGHT
     kind = determineKind();
   }
 
@@ -355,31 +412,53 @@ public final class Gwid
         case GW_KEYWORD_CLOB -> GW_CLOB;
         default -> throw new TsInternalErrorRtException();
       };
+      // sub-property?
+      if( subPropSectId != null ) {
+        k = switch( subPropSectId ) {
+          case GW_KEYWORD_CMD_ARG -> {
+            TsIllegalArgumentRtException.checkTrue( k != GW_CMD );
+            yield GW_CMD_ARG;
+          }
+          case GW_KEYWORD_EVENT_PARAM -> {
+            TsIllegalArgumentRtException.checkTrue( k != GW_EVENT );
+            yield GW_EVENT_PARAM;
+          }
+          default -> throw new TsInternalErrorRtException();
+        };
+      }
     }
     return k;
   }
 
-  private static String checkValidIdPathNullMulti( String aId ) {
-    // check for null
-    if( aId != null ) {
-      // check for multi
-      if( aId.equals( STR_MULTI_ID ) ) {
-        return aId;
-      }
-      // check is IDpath
-      return StridUtils.checkValidIdPath( aId );
-    }
-    return null;
-  }
-
-  private static String checkValidIdPathMulti( String aId ) {
+  private static String checkValidIdPathMulti( String aId, boolean aMustBeNull, boolean aCanBeNull ) {
     // check for null
     if( aId == null ) {
+      if( aCanBeNull ) {
+        return null;
+      }
       throw new TsNullArgumentRtException();
+    }
+    if( aMustBeNull ) {
+      throw new TsIllegalArgumentRtException();
     }
     // check for multi
     if( aId.equals( STR_MULTI_ID ) ) {
       return aId;
+    }
+    // check is IDpath
+    return StridUtils.checkValidIdPath( aId );
+  }
+
+  private static String checkValidIdPath( String aId, boolean aMustBeNull, boolean aCanBeNull ) {
+    // check for null
+    if( aId == null ) {
+      if( aCanBeNull ) {
+        return null;
+      }
+      throw new TsNullArgumentRtException();
+    }
+    if( aMustBeNull ) {
+      throw new TsIllegalArgumentRtException();
     }
     // check is IDpath
     return StridUtils.checkValidIdPath( aId );
@@ -521,6 +600,45 @@ public final class Gwid
    */
   public String propId() {
     return propId;
+  }
+
+  /**
+   * Determines if there is the sub-propery part in this GWID.
+   * <p>
+   * When this method return <code>false</code> the following methods return <code>null</code>:
+   * {@link #subPropSectId()}, {@link #subPropId()}.
+   *
+   * @return boolean - <code>true</code> if GWID has sub-property part
+   */
+  public boolean isSubProp() {
+    return subPropId != null;
+  }
+
+  /**
+   * Determines if sub-property refers to multi (all) sub-properties.
+   *
+   * @return boolean - <code>true</code> only if {@link #subPropId()} equals to {@link #STR_MULTI_ID}
+   */
+  public boolean isSubPropMulti() {
+    return Objects.equals( subPropId, STR_MULTI_ID );
+  }
+
+  /**
+   * Returns the sub-property section name.
+   *
+   * @return String - the sub-property section name IDpath or <code>null</code>
+   */
+  public String subPropSectId() {
+    return subPropSectId;
+  }
+
+  /**
+   * Returns the sub-propery identifier.
+   *
+   * @return String - the sub-propery identifier IDpath or <code>null</code> or {@link #STR_MULTI_ID}
+   */
+  public String subPropId() {
+    return subPropId;
   }
 
   // ------------------------------------------------------------------------------------

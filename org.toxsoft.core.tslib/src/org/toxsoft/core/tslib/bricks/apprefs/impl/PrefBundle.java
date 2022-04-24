@@ -2,37 +2,36 @@ package org.toxsoft.core.tslib.bricks.apprefs.impl;
 
 import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
-import org.toxsoft.core.tslib.av.metainfo.IDataDef;
-import org.toxsoft.core.tslib.av.opset.INotifierOptionSetEdit;
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.av.opset.impl.NotifierOptionSetEditWrapper;
-import org.toxsoft.core.tslib.av.opset.impl.OptionSet;
-import org.toxsoft.core.tslib.bricks.apprefs.IPrefBundle;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesListEdit;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.StridablesList;
-import org.toxsoft.core.tslib.coll.helpers.ECrudOp;
-import org.toxsoft.core.tslib.coll.notifier.basis.ITsCollectionChangeListener;
-import org.toxsoft.core.tslib.utils.errors.TsItemAlreadyExistsRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.av.utils.*;
+import org.toxsoft.core.tslib.bricks.apprefs.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.coll.helpers.*;
+import org.toxsoft.core.tslib.coll.notifier.basis.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Implementation of the {@link IPrefBundle}.
  *
  * @author hazard157
  */
-public class PrefBundle
-    implements IPrefBundle {
+class PrefBundle
+    implements IPrefBundle, IStridableParameterized, IParameterizedEdit {
 
   private final ITsCollectionChangeListener paramsChangeListener = new ITsCollectionChangeListener() {
 
     @Override
     public void onCollectionChanged( Object aSource, ECrudOp aOp, Object aItem ) {
-      storage.saveBundle( bundleId, params );
+      storage.saveBundle( bundleId, prefsValues );
     }
   };
 
-  final INotifierOptionSetEdit        params      = new NotifierOptionSetEditWrapper( new OptionSet() );
+  final INotifierOptionSetEdit        prefsValues = new NotifierOptionSetEditWrapper( new OptionSet() );
+  final IOptionSetEdit                params      = new OptionSet();
   final IStridablesListEdit<IDataDef> knownParams = new StridablesList<>();
   final AbstractAppPreferencesStorage storage;
 
@@ -40,11 +39,12 @@ public class PrefBundle
   private String name        = EMPTY_STRING;
   private String description = EMPTY_STRING;
 
-  PrefBundle( String aBundleId, IOptionSet aParams, AbstractAppPreferencesStorage aStorage ) {
+  PrefBundle( String aBundleId, IOptionSet aPrefs, IOptionSet aParams, AbstractAppPreferencesStorage aStorage ) {
     bundleId = aBundleId;
     storage = aStorage;
-    params.addAll( aParams );
-    params.addCollectionChangeListener( paramsChangeListener );
+    params.setAll( aParams );
+    prefsValues.addAll( aParams );
+    prefsValues.addCollectionChangeListener( paramsChangeListener );
   }
 
   // ------------------------------------------------------------------------------------
@@ -67,8 +67,19 @@ public class PrefBundle
   }
 
   // ------------------------------------------------------------------------------------
+  // IParameterizedEdit
+  //
+
+  @Override
+  public IOptionSetEdit params() {
+    return params;
+  }
+
+  // ------------------------------------------------------------------------------------
   // API
   //
+
+  // TODO TRANSLATE
 
   /**
    * Задает имя и описание.
@@ -88,17 +99,17 @@ public class PrefBundle
   //
 
   @Override
-  public INotifierOptionSetEdit params() {
-    return params;
+  public INotifierOptionSetEdit prefs() {
+    return prefsValues;
   }
 
   @Override
-  public IStridablesList<IDataDef> knownParams() {
+  public IStridablesList<IDataDef> listKnownOptions() {
     return knownParams;
   }
 
   @Override
-  public void defineParam( IDataDef aParamInfo ) {
+  public void defineOption( IDataDef aParamInfo ) {
     TsNullArgumentRtException.checkNull( aParamInfo );
     if( knownParams.hasKey( aParamInfo.id() ) ) {
       throw new TsItemAlreadyExistsRtException();
@@ -107,7 +118,7 @@ public class PrefBundle
   }
 
   @Override
-  public void undefineParam( String aParamInfoId ) {
+  public void undefineOption( String aParamInfoId ) {
     knownParams.removeById( aParamInfoId );
   }
 

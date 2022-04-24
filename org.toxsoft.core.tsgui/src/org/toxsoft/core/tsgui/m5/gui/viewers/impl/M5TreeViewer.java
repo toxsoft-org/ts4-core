@@ -2,24 +2,23 @@ package org.toxsoft.core.tsgui.m5.gui.viewers.impl;
 
 import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
-import java.util.Objects;
+import java.util.*;
 
 import org.eclipse.jface.viewers.*;
-import org.eclipse.swt.SWT;
+import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.tstree.*;
 import org.toxsoft.core.tsgui.bricks.tstree.impl.*;
-import org.toxsoft.core.tsgui.bricks.tstree.tmm.ITsTreeMaker;
+import org.toxsoft.core.tsgui.bricks.tstree.tmm.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.gui.viewers.*;
-import org.toxsoft.core.tsgui.utils.jface.ViewerPaintHelper;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemLinkedBundleList;
-import org.toxsoft.core.tslib.coll.notifier.INotifierListEdit;
-import org.toxsoft.core.tslib.coll.notifier.impl.NotifierListEditWrapper;
+import org.toxsoft.core.tsgui.utils.jface.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.notifier.*;
+import org.toxsoft.core.tslib.coll.notifier.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -437,7 +436,9 @@ public class M5TreeViewer<T>
     doRefreshAll();
     if( getControl() != null ) {
       setSelectedItem( sel );
-      columnManager().columns().values().get( 0 ).pack();
+      if( !columnManager().columns().isEmpty() ) {
+        columnManager().columns().values().get( 0 ).pack();
+      }
     }
   }
 

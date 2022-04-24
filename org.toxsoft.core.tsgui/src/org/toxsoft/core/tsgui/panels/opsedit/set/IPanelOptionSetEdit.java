@@ -1,20 +1,29 @@
-package org.toxsoft.core.tsgui.panels.opdefs;
+package org.toxsoft.core.tsgui.panels.opsedit.set;
 
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.bricks.events.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
 
 /**
- * An editable extension to {@link IPanelOptionSet}.
+ * An editable extension to {@link IPanelOptionSetView}.
  * <p>
  * Allows to edit values of the options but not the list of the options.
+ * <p>
+ * On each edit generates two events:
+ * <ul>
+ * <li>first it generates {@link IOptionValueChangeListener#onOptionValueChange(Object, String)};</li>
+ * <li>then {@link IGenericChangeListener#onGenericChangeEvent(Object)}.</li>
+ * </ul>
+ * When exclude option checkboxes are enabled, checkbox state change generates only generic event
+ * {@link IGenericChangeListener#onGenericChangeEvent(Object)}.
  *
  * @author hazard157
  */
 public interface IPanelOptionSetEdit
-    extends IPanelOptionSet, IGenericChangeEventCapable {
+    extends IPanelOptionSetView, IGenericChangeEventCapable {
 
   /**
    * Determines if panel is in editable state now.
@@ -52,10 +61,21 @@ public interface IPanelOptionSetEdit
    * Checks the validity of the values in the editors.
    * <p>
    * Method checks editors one by one and returns first error (if any). If no error was encountered remembers and
-   * returns first warning. {@link ValidationResult#SUCCESS} is returned when everythin is OK.
+   * returns first warning. {@link ValidationResult#SUCCESS} is returned when everything is OK.
    *
    * @return {@link ValidationResult} - validation result
    */
   ValidationResult validateValues();
+
+  /**
+   * Returns option values change eventer.
+   * <p>
+   * Option value change events are fired each time user changes values in option VALEDs. As notes in
+   * {@link #getValues()} some changes may lead to the invalid option value so {@link #validateValues()} fail and
+   * {@link #getValues()} may throw an exception.
+   *
+   * @return {@link ITsEventer}&lt;{@link IOptionValueChangeListener}&gt; - the eventer
+   */
+  ITsEventer<IOptionValueChangeListener> optionValueChangeEventer();
 
 }

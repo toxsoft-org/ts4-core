@@ -1,24 +1,22 @@
 package org.toxsoft.core.tsgui;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.eclipse.swt.widgets.Display;
-import org.toxsoft.core.tsgui.bricks.quant.AbstractQuant;
-import org.toxsoft.core.tsgui.graphics.colors.ITsColorManager;
-import org.toxsoft.core.tsgui.graphics.colors.impl.TsColorManager;
-import org.toxsoft.core.tsgui.graphics.fonts.ITsFontManager;
-import org.toxsoft.core.tsgui.graphics.fonts.impl.TsFontManager;
-import org.toxsoft.core.tsgui.graphics.icons.ITsIconManager;
-import org.toxsoft.core.tsgui.graphics.icons.impl.TsIconManager;
-import org.toxsoft.core.tsgui.graphics.image.ITsImageManager;
-import org.toxsoft.core.tsgui.graphics.image.impl.TsImageManager;
-import org.toxsoft.core.tsgui.m5.QuantM5;
-import org.toxsoft.core.tsgui.mws.quants.progargs.QuantProgramArgs;
-import org.toxsoft.core.tsgui.mws.services.hdpi.ITsHdpiService;
-import org.toxsoft.core.tsgui.mws.services.hdpi.TsHdpiService;
-import org.toxsoft.core.tsgui.utils.TsGuiUtils;
-import org.toxsoft.core.tsgui.utils.anim.AnimationSupport;
-import org.toxsoft.core.tsgui.utils.anim.IAnimationSupport;
-import org.toxsoft.core.tsgui.valed.QuantValed;
+import org.eclipse.e4.core.contexts.*;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.quant.*;
+import org.toxsoft.core.tsgui.graphics.colors.*;
+import org.toxsoft.core.tsgui.graphics.colors.impl.*;
+import org.toxsoft.core.tsgui.graphics.fonts.*;
+import org.toxsoft.core.tsgui.graphics.fonts.impl.*;
+import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tsgui.graphics.icons.impl.*;
+import org.toxsoft.core.tsgui.graphics.image.*;
+import org.toxsoft.core.tsgui.graphics.image.impl.*;
+import org.toxsoft.core.tsgui.m5.*;
+import org.toxsoft.core.tsgui.mws.quants.progargs.*;
+import org.toxsoft.core.tsgui.mws.services.hdpi.*;
+import org.toxsoft.core.tsgui.utils.*;
+import org.toxsoft.core.tsgui.utils.anim.*;
+import org.toxsoft.core.tsgui.valed.*;
 
 /**
  * Library initialization quant.

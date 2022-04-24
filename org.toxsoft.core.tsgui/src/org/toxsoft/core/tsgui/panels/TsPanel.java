@@ -1,17 +1,14 @@
 package org.toxsoft.core.tsgui.panels;
 
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.widgets.Composite;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContextable;
-import org.toxsoft.core.tsgui.widgets.TsComposite;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.widgets.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Базовый класс панели в приложениях с контекстом {@link ITsGuiContext}.
+ * Base class for composites implementing {@link ITsGuiContextable}.
  *
- * @author goga
+ * @author hazard157
  */
 public class TsPanel
     extends TsComposite
@@ -20,24 +17,18 @@ public class TsPanel
   private final ITsGuiContext tsContext;
 
   /**
-   * Конструктор панели.
+   * Constructor.
    * <p>
-   * Конструктор просто запоминает ссылку на контекст, без создания копии.
+   * Constructos stores reference to the context, does not creates copy.
    *
-   * @param aParent {@link Composite} - родительская панель
-   * @param aContext {@link ITsGuiContext} - контекст панели
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aParent {@link Composite} - parent component
+   * @param aContext {@link ITsGuiContext} - the context
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public TsPanel( Composite aParent, ITsGuiContext aContext ) {
     super( aParent );
     tsContext = TsNullArgumentRtException.checkNull( aContext );
-    addDisposeListener( new DisposeListener() {
-
-      @Override
-      public void widgetDisposed( DisposeEvent aE ) {
-        doDispose();
-      }
-    } );
+    addDisposeListener( aE -> doDispose() );
   }
 
   // ------------------------------------------------------------------------------------
@@ -50,13 +41,13 @@ public class TsPanel
   }
 
   // ------------------------------------------------------------------------------------
-  // Методы для переопределения наследниками
+  // To override
   //
 
   /**
-   * Вызывается при уничтожении компоненты, наследники могут освободить занятые ресурсы.
+   * Subclass may perform clean-up including release of the resources.
    * <p>
-   * В базовом классе {@link TsPanel} ничего не делает.
+   * Does nothing in base class.
    */
   protected void doDispose() {
     // nop

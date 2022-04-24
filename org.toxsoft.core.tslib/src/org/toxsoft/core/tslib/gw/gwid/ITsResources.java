@@ -8,6 +8,8 @@ package org.toxsoft.core.tslib.gw.gwid;
 @SuppressWarnings( "nls" )
 interface ITsResources {
 
+  // FIXME texts
+
   /**
    * {@link EGwidKind}.
    */

@@ -1,56 +1,57 @@
 package org.toxsoft.core.tslib.bricks.apprefs;
 
-import org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants;
-import org.toxsoft.core.tslib.av.metainfo.IDataDef;
-import org.toxsoft.core.tslib.av.opset.INotifierOptionSetEdit;
-import org.toxsoft.core.tslib.av.utils.IParameterizedEdit;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
-import org.toxsoft.core.tslib.utils.errors.TsItemAlreadyExistsRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * The bundle of related parameters used as application preferences.
  * <p>
- * Реализует интерфейс {@link IStridable}, {@link #nmName()} и {@link #description()} возвращают значения параметров
- * {@link #params()}, {@link IAvMetaConstants#TSID_NAME} и {@link IAvMetaConstants#TSID_DESCRIPTION} соответственно. При
- * этом, если {@link IAvMetaConstants#TSID_NAME} не задан, или она пустая строка, {@link #nmName()} возвращает
- * {@link #id()}.
+ * Preference values {@link #prefs()} are saved in persistent storage.
+ * <p>
+ * Parameters {@link #params()} are defined at creation {@link IAppPreferences#defineBundle(String, IOptionSet)} and are
+ * <b>not</b> stored. Parameters are used by GUI editing tools and does not affect on the preferences.
  *
  * @author hazard157
  */
 public interface IPrefBundle
-    extends IStridable, IParameterizedEdit {
-
-  @Override
-  INotifierOptionSetEdit params();
+    extends IStridableParameterized {
 
   /**
-   * Return all known definition of the parameters.
+   * Returns the editable preferences stored in this bundle.
+   *
+   * @return {@link INotifierOptionSetEdit} - preference options values
+   */
+  INotifierOptionSetEdit prefs();
+
+  /**
+   * Return all known definition of the preference options.
    * <p>
    * Note that parameter definitions is <b>not</b> stored by the storage backend.
    *
    * @return {@link IStridablesList}&lt;{@link IDataDef}&gt; - list of known definitions
    */
-  IStridablesList<IDataDef> knownParams();
+  IStridablesList<IDataDef> listKnownOptions();
 
   /**
-   * Defines parameter.
+   * Defines the preference option as a known one.
    *
-   * @param aParamInfo {@link IDataDef} - parameter definition
+   * @param aOptionInfo {@link IDataDef} - option definition
    * @throws TsNullArgumentRtException argument = <code>null</code>
    * @throws TsItemAlreadyExistsRtException definition with the same {@link IDataDef#id()} already exists
    */
-  void defineParam( IDataDef aParamInfo );
+  void defineOption( IDataDef aOptionInfo );
 
   /**
-   * Removes parameter definition.
+   * Removes option definition.
    * <p>
-   * If there is no parameter with specified ID, then method does nothing.
+   * If there is no option with specified ID, then method does nothing.
    *
-   * @param aParamInfoId String - parameter ID
+   * @param aOptionId String - the option ID
    * @throws TsNullArgumentRtException argument = <code>null</code>
    */
-  void undefineParam( String aParamInfoId );
+  void undefineOption( String aOptionId );
 
 }
