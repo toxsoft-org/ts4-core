@@ -27,6 +27,8 @@ interface ITsResources {
   String FMT_ERR_NO_SUITABLE_CONSTRUCTORS  = "No suitable constructors to create instance of class %s";
   String FMT_ERR_INV_EMPTY_CONSTRUCTOR     = "Error invoking constructor with no arguments on class %s";
 
+  String FMT_ERR_NO_MANDATORY_OP = "Set does not has mandatory option with ID %s";
+
   // ------------------------------------------------------------------------------------
   // ru.RU
   //

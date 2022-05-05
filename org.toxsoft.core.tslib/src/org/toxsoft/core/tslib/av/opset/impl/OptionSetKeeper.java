@@ -13,7 +13,8 @@ import org.toxsoft.core.tslib.utils.valobj.*;
 /**
  * Keeper of the {@link IOptionSet} interface instances.
  * <p>
- * Values returned by <code>read()</code> methods may be safely casted to editable {@link IOptionSetEdit}.
+ * Values returned by <code>read()</code> methods may be safely casted to editable {@link IOptionSetEdit} and evenn more
+ * - to the class {@link OptionSet}.
  *
  * @author hazard157
  */

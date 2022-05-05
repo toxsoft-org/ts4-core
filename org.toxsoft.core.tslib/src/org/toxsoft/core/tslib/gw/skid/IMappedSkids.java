@@ -23,7 +23,7 @@ public interface IMappedSkids {
    *
    * @return {@link IStringMap}&lt;{@link ISkidList}&gt; - the map of the SKIDs lists
    */
-  IStringMap<ISkidList> skidsMap();
+  IStringMap<ISkidList> map();
 
 }
 

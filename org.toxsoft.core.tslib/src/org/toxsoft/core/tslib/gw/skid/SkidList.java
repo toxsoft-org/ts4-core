@@ -91,6 +91,22 @@ public class SkidList
     return new SkidList( aList, false );
   }
 
+  /**
+   * Creates non-empty {@link SkidList} with specified number of {@link Skid#NONE} elements.
+   *
+   * @param aCount int - number of elements
+   * @return {@link SkidList} - the created instance
+   * @throws TsIllegalArgumentRtException argument is 0 or negative number
+   */
+  public static SkidList createNones( int aCount ) {
+    TsIllegalArgumentRtException.checkTrue( aCount < 1 );
+    SkidList sl = new SkidList();
+    for( int i = 0; i < aCount; i++ ) {
+      sl.add( Skid.NONE );
+    }
+    return sl;
+  }
+
   // ------------------------------------------------------------------------------------
   // IList
   //

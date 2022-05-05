@@ -1,16 +1,15 @@
 package org.toxsoft.core.tsgui.bricks.ctx;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.eclipse.swt.widgets.Shell;
-import org.toxsoft.core.tsgui.graphics.colors.ITsColorManager;
-import org.toxsoft.core.tsgui.graphics.fonts.ITsFontManager;
-import org.toxsoft.core.tsgui.graphics.icons.ITsIconManager;
-import org.toxsoft.core.tsgui.graphics.image.ITsImageManager;
-import org.toxsoft.core.tsgui.m5.IM5Domain;
-import org.toxsoft.core.tsgui.mws.services.e4helper.ITsE4Helper;
-import org.toxsoft.core.tsgui.mws.services.hdpi.ITsHdpiService;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContext;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContextable;
+import org.eclipse.e4.core.contexts.*;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.graphics.colors.*;
+import org.toxsoft.core.tsgui.graphics.fonts.*;
+import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tsgui.graphics.image.*;
+import org.toxsoft.core.tsgui.m5.*;
+import org.toxsoft.core.tsgui.mws.services.e4helper.*;
+import org.toxsoft.core.tsgui.mws.services.hdpi.*;
+import org.toxsoft.core.tslib.bricks.ctx.*;
 
 /**
  * Mixin interface of entities with context {@link ITsGuiContext}.
@@ -39,6 +38,10 @@ public interface ITsGuiContextable
 
   default Shell getShell() {
     return tsContext().get( Shell.class );
+  }
+
+  default Display getDisplay() {
+    return tsContext().get( Display.class );
   }
 
   default ITsE4Helper e4Helper() {

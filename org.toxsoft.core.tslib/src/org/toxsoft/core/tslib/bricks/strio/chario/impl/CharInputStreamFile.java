@@ -1,15 +1,15 @@
 package org.toxsoft.core.tslib.bricks.strio.chario.impl;
 
 import java.io.*;
+import java.nio.charset.*;
 
-import org.toxsoft.core.tslib.bricks.strio.chario.ICharInputStreamCloseable;
-import org.toxsoft.core.tslib.utils.errors.TsIoRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.files.TsFileUtils;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.toxsoft.core.tslib.bricks.strio.chario.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.files.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
- * Text file reader charachter input stream.
+ * Text file reader charachter input stream in {@link StandardCharsets#UTF_8}.
  * <p>
  * This interface extends {@link Closeable}, so it is required to {@link #close()} instance after creation.
  * Try-with-resources construction may be used for this.
@@ -35,9 +35,9 @@ public final class CharInputStreamFile
   public CharInputStreamFile( File aInFile ) {
     super( TsFileUtils.checkFileReadable( aInFile ).getPath() );
     try {
-      reader = new FileReader( aInFile );
+      reader = new FileReader( aInFile, StandardCharsets.UTF_8 );
     }
-    catch( FileNotFoundException ex ) {
+    catch( IOException ex ) {
       throw new TsIoRtException( ex );
     }
   }

@@ -31,19 +31,21 @@ public class MappedSkids
 
   /**
    * The keeper singleton.
+   * <p>
+   * Values returned by <code>read()</code> methods may be safely casted to the {@link MappedSkids}.
    */
   public static final IEntityKeeper<IMappedSkids> KEEPER =
       new AbstractEntityKeeper<>( IMappedSkids.class, EEncloseMode.ENCLOSES_KEEPER_IMPLEMENTATION, null ) {
 
         @Override
         protected void doWrite( IStrioWriter aSw, IMappedSkids aEntity ) {
-          StrioUtils.writeStringMap( aSw, EMPTY_STRING, aEntity.skidsMap(), SkidListKeeper.KEEPER, isEnclosed() );
+          StrioUtils.writeStringMap( aSw, EMPTY_STRING, aEntity.map(), SkidListKeeper.KEEPER, false );
         }
 
         @Override
         protected IMappedSkids doRead( IStrioReader aSr ) {
           MappedSkids ms = new MappedSkids();
-          StrioUtils.readStringMap( aSr, EMPTY_STRING, SkidListKeeper.KEEPER, ms.skidsMap() );
+          StrioUtils.readStringMap( aSr, EMPTY_STRING, SkidListKeeper.KEEPER, ms.map() );
           return ms;
         }
       };
@@ -63,7 +65,7 @@ public class MappedSkids
 
   @SuppressWarnings( { "rawtypes", "unchecked" } )
   @Override
-  public IStringMapEdit<ISkidList> skidsMap() {
+  public IStringMapEdit<ISkidList> map() {
     return (IStringMapEdit)skidsMap;
   }
 
@@ -71,14 +73,37 @@ public class MappedSkids
   // API
   //
 
+  /**
+   * Finds the SKIDs list under specified key.
+   *
+   * @param aKey String - the key
+   * @return {@link SkidList} - an editable list or <code>null</code> if not found
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
   public SkidList findSkidList( String aKey ) {
     return skidsMap.findByKey( aKey );
   }
 
+  /**
+   * Returns the SKIDs list under specified key.
+   *
+   * @param aKey String - the key
+   * @return {@link SkidList} - an editable list
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException no entry under the specified key
+   */
   public SkidList getSkidList( String aKey ) {
     return skidsMap.getByKey( aKey );
   }
 
+  /**
+   * Returns existing or created empty instance of the editable SKIDs list under the specified key.
+   *
+   * @param aKey String - the key (an IDpath)
+   * @return {@link SkidList} - an existing or created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException the key is not an IDpath
+   */
   public SkidList ensureSkidList( String aKey ) {
     SkidList sl = skidsMap.findByKey( aKey );
     if( sl == null ) {
@@ -89,16 +114,27 @@ public class MappedSkids
     return sl;
   }
 
+  /**
+   * Returns existing or created instance of the editable SKIDs list under the specified key.
+   *
+   * @param aKey String - the key (an IDpath)
+   * @param aSource {@link IList}&lt;{@link Skid}&gt; - the content of the returned list
+   * @return {@link SkidList} - an existing or created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException the key is not an IDpath
+   */
   public SkidList ensureSkidList( String aKey, IList<Skid> aSource ) {
-    SkidList sl = skidsMap.findByKey( aKey );
-    if( sl == null ) {
-      StridUtils.checkValidIdPath( aKey );
-      sl = new SkidList( aSource );
-      skidsMap.put( aKey, sl );
-    }
+    SkidList sl = ensureSkidList( aKey );
+    sl.setAll( aSource );
     return sl;
   }
 
+  /**
+   * Replaces {@link #map()} content with the source content.
+   *
+   * @param aSource {@link IStringMap}&lt;{@link ISkidList}&gt; - the source
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
   public void setAll( IStringMap<ISkidList> aSource ) {
     TsNullArgumentRtException.checkNull( aSource );
     skidsMap.clear();

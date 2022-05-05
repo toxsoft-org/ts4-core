@@ -43,7 +43,7 @@ public final class RectFitInfo {
   public static final RectFitInfo NONE = new RectFitInfo( ERectFitMode.NONE, false, DEFAULT_ZOOM );
 
   /**
-   * Convinience constant best fitting - fit original object in vieweport but not increas if it's small.
+   * Convinience constant best fitting - fit original object in vieweport but not increase if it's small.
    */
   public static final RectFitInfo BEST = new RectFitInfo( ERectFitMode.FIT_BOTH, false, DEFAULT_ZOOM );
 

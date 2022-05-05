@@ -3,13 +3,12 @@ package org.toxsoft.core.tslib.coll.impl;
 import static org.toxsoft.core.tslib.coll.impl.TsCollectionsUtils.*;
 
 import java.io.*;
-import java.lang.reflect.Array;
+import java.lang.reflect.*;
 import java.util.*;
 
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -322,9 +321,7 @@ public class ElemLinkedBundleList<E>
       firstBundle.next = null;
       lastBundle = firstBundle;
       firstBundle.count = 0;
-      for( int i = 0, n = firstBundle.elems.length; i < n; i++ ) {
-        firstBundle.elems[i] = null; // clearing unused references
-      }
+      Arrays.fill( firstBundle.elems, null );
       size = 0;
       ++changeCount;
     }
@@ -452,6 +449,9 @@ public class ElemLinkedBundleList<E>
   public E set( int aIndex, E aElem ) {
     TsIllegalArgumentRtException.checkTrue( aIndex < 0 || aIndex >= size );
     TsNullArgumentRtException.checkNull( aElem );
+
+    // FIXME check for duplicates
+
     Bundle b = firstBundle;
     int index = aIndex;
     do {
@@ -475,6 +475,9 @@ public class ElemLinkedBundleList<E>
       add( aElem );
       return;
     }
+
+    // FIXME check for duplicates
+
     Bundle b = firstBundle;
     int index = aIndex;
     do {

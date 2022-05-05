@@ -363,6 +363,9 @@ public final class DataDef
   public IAtomicValue getValue( IOptionSet aOps ) {
     TsNullArgumentRtException.checkNull( aOps );
     IAtomicValue av = aOps.findValue( id() );
+    if( av == null && isMandatory() ) {
+      throw new TsItemNotFoundRtException( FMT_ERR_NO_MANDATORY_OP, id() );
+    }
     if( av == null || av == IAtomicValue.NULL ) {
       return defaultValue();
     }

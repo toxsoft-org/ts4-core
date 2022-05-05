@@ -1,15 +1,15 @@
 package org.toxsoft.core.tslib.bricks.strio.chario.impl;
 
 import java.io.*;
+import java.nio.charset.*;
 
-import org.toxsoft.core.tslib.bricks.strio.chario.ICharOutputStreamCloseable;
-import org.toxsoft.core.tslib.utils.errors.TsIoRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.files.TsFileUtils;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.toxsoft.core.tslib.bricks.strio.chario.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.files.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
- * Character output stream to {@link Writer} receiver.
+ * Character output stream (encodesd as {@link StandardCharsets#UTF_8}) to the {@link File} receiver.
  *
  * @author hazard157
  */
@@ -29,7 +29,7 @@ public class CharOutputStreamFile
   public CharOutputStreamFile( File aDestination ) {
     TsFileUtils.checkFileAppendable( aDestination );
     try {
-      writer = new FileWriter( aDestination );
+      writer = new FileWriter( aDestination, StandardCharsets.UTF_8 );
     }
     catch( IOException ex ) {
       throw new TsIoRtException( ex );
