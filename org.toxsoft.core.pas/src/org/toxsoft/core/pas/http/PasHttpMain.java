@@ -4,7 +4,7 @@ import static org.toxsoft.core.pas.http.ITsResources.*;
 
 import java.io.File;
 
-import org.toxsoft.core.log4j.Logger;
+import org.toxsoft.core.log4j.LoggerWrapper;
 import org.toxsoft.core.pas.http.server.PasHttpServer;
 import org.toxsoft.core.tslib.bricks.apprefs.IAppPreferences;
 import org.toxsoft.core.tslib.bricks.apprefs.impl.*;
@@ -30,7 +30,7 @@ public class PasHttpMain {
   private static final int RETCODE_CANT_START    = 1;
   private static final int RETCODE_RUNTIME_ERROR = 1;
 
-  private static ILogger logger = Logger.getLogger( PasHttpMain.class );
+  private static ILogger logger = LoggerWrapper.getLogger( PasHttpMain.class );
 
   /**
    * Начало работы программы

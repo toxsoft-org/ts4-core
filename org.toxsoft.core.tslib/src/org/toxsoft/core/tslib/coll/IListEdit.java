@@ -1,10 +1,9 @@
 package org.toxsoft.core.tslib.coll;
 
-import java.util.Collection;
+import java.util.*;
 
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.coll.basis.ITsFastIndexListTag;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -71,7 +70,7 @@ public interface IListEdit<E>
    * @throws TsNullArgumentRtException aColl = <code>null</code>
    */
   default void insertAll( int aIndex, ITsCollection<E> aColl ) {
-    TsIllegalArgumentRtException.checkTrue( aIndex < 0 || aIndex >= size() );
+    TsIllegalArgumentRtException.checkTrue( aIndex < 0 || aIndex > size() );
     TsNullArgumentRtException.checkNull( aColl );
     if( aColl.isEmpty() ) {
       return;

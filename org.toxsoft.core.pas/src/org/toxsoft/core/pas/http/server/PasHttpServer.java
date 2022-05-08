@@ -86,7 +86,7 @@ public class PasHttpServer
   /**
    * Журнал работы
    */
-  private static final ILogger logger = Logger.getLogger( PasHttpServer.class );
+  private static final ILogger logger = LoggerWrapper.getLogger( PasHttpServer.class );
 
   /**
    * Конструктор.
@@ -149,7 +149,7 @@ public class PasHttpServer
   // IPasParams.OP_PAS_FAILURE_TIMEOUT.setValue( ctx.params(), avInt( PAS_FAILURE_TIMEOUT ) );
   // // aExternalDoJobCall = false: создавать внутренний поток для doJob
   // PasClient<PasClientChannel> retValue =
-  // new PasClient<>( ctx, PasClientChannel.CREATOR, false, Logger.getLogger( "PAS" ) ); //$NON-NLS-1$
+  // new PasClient<>( ctx, PasClientChannel.CREATOR, false, LoggerWrapper.getLogger( "PAS" ) ); //$NON-NLS-1$
   //
   // // Запуск потока
   // Thread thread = new Thread( retValue );

@@ -6,7 +6,7 @@ import java.net.Socket;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-import org.toxsoft.core.log4j.Logger;
+import org.toxsoft.core.log4j.LoggerWrapper;
 import org.toxsoft.core.tslib.utils.ICloseable;
 import org.toxsoft.core.tslib.utils.TsLibUtils;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -50,7 +50,7 @@ class PasHttpExecutor
 
   private int     requestCount;
   private int     errorCount;
-  private ILogger logger = Logger.getLogger( getClass() );
+  private ILogger logger = LoggerWrapper.getLogger( getClass() );
 
   /**
    * Конструктор

@@ -2,14 +2,13 @@ package org.toxsoft.core.tslib.coll.helpers;
 
 import static org.toxsoft.core.tslib.coll.helpers.ITsResources.*;
 
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.std.StridableEnumKeeper;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.StridablesList;
-import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.std.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
  * Kind of operations over the collection of the elements.
@@ -47,7 +46,7 @@ public enum ECrudOp
   /**
    * Value-object registration identifier for {@link TsValobjUtils}.
    */
-  public static final String VALOBJ_ID = "ECrudOp"; //$NON-NLS-1$
+  public static final String KEEPER_ID = "ECrudOp"; //$NON-NLS-1$
 
   /**
    * Keeper singleton.

@@ -2,22 +2,16 @@ package org.toxsoft.core.tslib.bricks.strid.coll.impl;
 
 import static org.toxsoft.core.tslib.bricks.strid.coll.impl.ITsResources.*;
 
-import java.io.Serializable;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.io.*;
+import java.util.*;
 
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesListBasicEdit;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemLinkedBundleList;
-import org.toxsoft.core.tslib.coll.impl.TsCollectionsUtils;
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
-import org.toxsoft.core.tslib.coll.primtypes.IStringListBasicEdit;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Parent class for {@link IStridablesList} implementations.
@@ -39,10 +33,11 @@ public abstract class AbstractStridablesList<E extends IStridable, L extends ISt
   /**
    * List of elements.
    */
-  protected final IListEdit<E> values = new ElemLinkedBundleList<>();
+  protected final IListEdit<E> values;
 
-  protected AbstractStridablesList( L aIdList ) {
+  protected AbstractStridablesList( L aIdList, IListEdit<E> aValList ) {
     ids = aIdList;
+    values = aValList;
   }
 
   // --------------------------------------------------------------------------

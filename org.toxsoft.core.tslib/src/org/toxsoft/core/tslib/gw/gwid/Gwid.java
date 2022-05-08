@@ -103,6 +103,7 @@ public final class Gwid
 
   private Gwid( String aClassId, String aStrid, String aPropSectId, String aPropId, String aSubPropSectId,
       String aSubPropId ) {
+
     classId = StridUtils.checkValidIdPath( aClassId );
     strid = checkValidIdPathMulti( aStrid, false, true );
     if( strid != null && !strid.equals( STR_MULTI_ID ) ) {
@@ -111,35 +112,12 @@ public final class Gwid
     else {
       skid = null;
     }
-    if( aPropSectId != null ) {
-      switch( aPropSectId ) {
-        case GW_KEYWORD_ATTR:
-        case GW_KEYWORD_RIVET:
-        case GW_KEYWORD_CLOB:
-        case GW_KEYWORD_RTDATA:
-        case GW_KEYWORD_LINK:
-        case GW_KEYWORD_CMD:
-        case GW_KEYWORD_EVENT:
-          break;
-        default:
-          throw new TsIllegalArgumentRtException();
-      }
-      kind = EGwidKind.findById( aPropSectId );
-      propSectId = aPropSectId;
-      propId = checkValidIdPathMulti( aPropId, false, false );
-      subPropSectId = checkValidIdPath( aSubPropSectId, false, true );
-      if( subPropSectId != null ) {
-        subPropId = checkValidIdPathMulti( aSubPropId, false, false );
-      }
-      else {
-        throw new TsIllegalArgumentRtException();
-      }
-    }
-    else {
-      kind = GW_CLASS;
-      propSectId = null;
-      propId = null;
-    }
+    propSectId = checkValidIdPath( aPropSectId, false, true );
+    boolean hasProp = propSectId != null;
+    propId = checkValidIdPathMulti( aPropId, !hasProp, !hasProp );
+    subPropSectId = checkValidIdPath( aSubPropSectId, !hasProp, true );
+    boolean hasSubProp = subPropSectId != null;
+    subPropId = checkValidIdPathMulti( aSubPropId, !hasProp || !hasSubProp, !hasSubProp );
     kind = determineKind();
     canonicalString = makeCanonicalString();
     // ensure validity
@@ -149,6 +127,55 @@ public final class Gwid
     if( !kind.hasSubProp() && isSubProp() ) {
       throw new TsIllegalArgumentRtException();
     }
+    //
+    //
+    // classId = StridUtils.checkValidIdPath( aClassId );
+    // // process abstract/concrete GWID (determine if there is a SKID specofoed)
+    // strid = checkValidIdPathMulti( aStrid, false, true );
+    // if( strid != null && !strid.equals( STR_MULTI_ID ) ) {
+    // skid = new Skid( classId, strid );
+    // }
+    // else {
+    // skid = null;
+    // }
+    // // process property
+    // if( aPropSectId != null ) {
+    // switch( aPropSectId ) {
+    // case GW_KEYWORD_ATTR:
+    // case GW_KEYWORD_RIVET:
+    // case GW_KEYWORD_CLOB:
+    // case GW_KEYWORD_RTDATA:
+    // case GW_KEYWORD_LINK:
+    // case GW_KEYWORD_CMD:
+    // case GW_KEYWORD_EVENT:
+    // break;
+    // default: // invalid property section ID
+    // throw new TsIllegalArgumentRtException();
+    // }
+    // propSectId = aPropSectId;
+    // propId = checkValidIdPathMulti( aPropId, false, false );
+    // subPropSectId = checkValidIdPath( aSubPropSectId, false, true );
+    // if( subPropSectId != null ) {
+    // subPropId = checkValidIdPathMulti( aSubPropId, false, false );
+    // }
+    // else {
+    // throw new TsIllegalArgumentRtException();
+    // }
+    // }
+    // else {
+    // kind = GW_CLASS;
+    // propSectId = null;
+    // propId = null;
+    // }
+    // kind = determineKind();
+    // canonicalString = makeCanonicalString();
+    // // ensure validity
+    // if( !kind.hasProp() && isProp() ) {
+    // throw new TsIllegalArgumentRtException();
+    // }
+    // if( !kind.hasSubProp() && isSubProp() ) {
+    // throw new TsIllegalArgumentRtException();
+    // }
   }
 
   // ------------------------------------------------------------------------------------

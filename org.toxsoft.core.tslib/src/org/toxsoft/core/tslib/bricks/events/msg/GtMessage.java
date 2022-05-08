@@ -13,9 +13,9 @@ import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * {@link GenericMessage} extension with topic.
+ * {@link GenericMessage} extension with the topic.
  * <p>
- * Genegic message had an ID {@link #messageId()} and arguments {@link #args()}.
+ * {@link GtMessage} in addition to the {@link GenericMessage} fields has a topic ID {@link #topicId()}.
  * <p>
  * This is immutable class.
  *
@@ -38,7 +38,7 @@ public final class GtMessage
   public static final GtMessage NONE = new GtMessage( IStridable.NONE_ID, IStridable.NONE_ID );
 
   /**
-   * Keepr singleton.
+   * Keeper singleton.
    */
   @SuppressWarnings( "hiding" )
   public static final IEntityKeeper<GtMessage> KEEPER =

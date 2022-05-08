@@ -1,10 +1,12 @@
 package org.toxsoft.core.tslib.coll.impl;
 
+import java.io.*;
 import java.util.*;
 
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -298,6 +300,39 @@ public final class TsCollectionsUtils {
   //
 
   /**
+   * Determines if two lists intersect.
+   * <p>
+   * Two lists intersect if they have at least one common element. Elements are compared using
+   * {@link ObjectStreamException#equals(Object)} method. If any list is empty then method returns <code>false</code>.
+   *
+   * @param aL1 {@link IList} - one list
+   * @param aL2 {@link IList} - another list
+   * @return boolean <b>true</b> - lists intersect, they have at list one common element;<br>
+   *         <b>false</b> - lists are totally different.
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  @SuppressWarnings( { "unchecked", "rawtypes" } )
+  public static boolean intersects( IList<?> aL1, IList<?> aL2 ) {
+    TsNullArgumentRtException.checkNulls( aL1, aL2 );
+    if( aL1.size() == 0 || aL2.size() == 0 ) {
+      return false;
+    }
+    IList l1 = aL1, l2 = aL2;
+    // make sure that l2 is shorter, and l1 is a longer list
+    if( aL1.size() < aL2.size() ) {
+      l2 = aL1;
+      l1 = aL2;
+    }
+    // check if l2 has any of the l1 element
+    for( int i = 0, n = l2.size(); i < n; i++ ) {
+      if( l1.hasElem( l2.get( i ) ) ) { // hasElem() is faster on the sorted list
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
    * Determines if two string lists intersect.
    * <p>
    * Two lists intersect if they have at least one common element. If any list is empty then method returns
@@ -310,9 +345,7 @@ public final class TsCollectionsUtils {
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static boolean intersects( IStringList aL1, IStringList aL2 ) {
-    if( aL1 == null || aL2 == null ) {
-      throw new TsNullArgumentRtException();
-    }
+    TsNullArgumentRtException.checkNulls( aL1, aL2 );
     if( aL1.size() == 0 || aL2.size() == 0 ) {
       return false;
     }
@@ -344,9 +377,7 @@ public final class TsCollectionsUtils {
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static boolean contains( IStringList aL1, IStringList aL2 ) {
-    if( aL1 == null || aL2 == null ) {
-      throw new TsNullArgumentRtException();
-    }
+    TsNullArgumentRtException.checkNulls( aL1, aL2 );
     if( aL1.size() < aL2.size() ) {
       return false;
     }
@@ -363,6 +394,69 @@ public final class TsCollectionsUtils {
   }
 
   // ------------------------------------------------------------------------------------
+  // collection math operations
+  //
+
+  /**
+   * Creates the union of the lists without duplicate elements.
+   * <p>
+   * Even if any argument has duplicate elements, duplicates will be removed from the resulting list.
+   * <p>
+   * Always returns new instance of the editable list.
+   *
+   * @param <E> - element type of the collection
+   * @param aL1 {@link IList}&lt;E&gt; - one list
+   * @param aL2 {@link IList}&lt;E&gt; - other list
+   * @return {@link IListEdit}&lt;E&gt; - an editable list with all different elements from both lists
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static <E> IListEdit<E> union( IList<E> aL1, IList<E> aL2 ) {
+    TsNullArgumentRtException.checkNulls( aL1, aL2 );
+    int order = estimateOrder( aL1.size() + aL2.size() );
+    IListEdit<E> ll = new ElemLinkedBundleList<>( getListInitialCapacity( order ), true );
+    for( E e : aL1 ) {
+      if( ll.hasElem( e ) ) {
+        ll.add( e );
+      }
+    }
+    for( E e : aL2 ) {
+      if( ll.hasElem( e ) ) {
+        ll.add( e );
+      }
+    }
+    return ll;
+  }
+
+  /**
+   * Creates the union of the string lists without duplicate elements.
+   * <p>
+   * Even if any argument has duplicate elements, duplicates will be removed from the resulting list.
+   * <p>
+   * Always returns new instance of the editable list.
+   *
+   * @param aL1 {@link IStringList} - one list
+   * @param aL2 {@link IStringList} - other list
+   * @return {@link IStringListEdit} - an editable list with all different elements from both lists
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static IStringListEdit union( IStringList aL1, IStringList aL2 ) {
+    TsNullArgumentRtException.checkNulls( aL1, aL2 );
+    int order = estimateOrder( aL1.size() + aL2.size() );
+    IStringListEdit ll = new StringLinkedBundleList( getListInitialCapacity( order ), true );
+    for( String e : aL1 ) {
+      if( ll.hasElem( e ) ) {
+        ll.add( e );
+      }
+    }
+    for( String e : aL2 ) {
+      if( ll.hasElem( e ) ) {
+        ll.add( e );
+      }
+    }
+    return ll;
+  }
+
+  // ------------------------------------------------------------------------------------
   // Misc
   //
 
@@ -370,7 +464,7 @@ public final class TsCollectionsUtils {
    * Finds element in list te be selected when selected element will be removed.
    * <p>
    * Useful for GUI. When selected item is removed from GUI lists, next item must be selected. If last item is removed
-   * than previous item mujst became selected one. If the only item is removed, or if there is no selection (that is
+   * than previous item must became selected one. If the only item is removed, or if there is no selection (that is
    * <code>aSelToRemove</code> = <code>null</code>), than <code>null</code> will be returned. <code>null</code> means no
    * selecion in GUI.
    * <p>
@@ -468,7 +562,7 @@ public final class TsCollectionsUtils {
   }
 
   /**
-   * Dtermines if specified numer is prime.
+   * Detrmines if specified numer is prime.
    *
    * @param aNum int - specified number in range from 4 to {@link Integer#MAX_VALUE}
    * @return boolean - <code>true</code> if argument is prime number

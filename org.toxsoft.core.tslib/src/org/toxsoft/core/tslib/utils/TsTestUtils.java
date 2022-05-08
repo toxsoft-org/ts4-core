@@ -7,7 +7,7 @@ import java.util.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Helpers methods mainly to be used for testing and debugging purposes.
+ * Helper methods mainly to be used for testing and debugging purposes.
  *
  * @author hazard157
  */

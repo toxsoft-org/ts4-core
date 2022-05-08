@@ -87,6 +87,8 @@ public class ElemLinkedBundleList<E>
 
   /**
    * Creates list with all invariant properties.
+   * <p>
+   * Note that lists with denied duplicates are slower that lists with duplictes allowed.
    *
    * @param aBundleCapacity int - number of elements in bundle
    * @param aAllowDuplicates <b>true</b> - duplicate elements are allowed in list;<br>

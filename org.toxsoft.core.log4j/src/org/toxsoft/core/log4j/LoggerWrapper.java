@@ -1,28 +1,24 @@
 package org.toxsoft.core.log4j;
 
-import java.io.File;
+import java.io.*;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.PropertyConfigurator;
-import org.apache.log4j.xml.DOMConfigurator;
-import org.toxsoft.core.tslib.bricks.validator.IValResList;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.errors.TsNotAllEnumsUsedRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.logs.ELogSeverity;
-import org.toxsoft.core.tslib.utils.logs.ILogger;
-import org.toxsoft.core.tslib.utils.logs.impl.AbstractBasicLogger;
+import org.apache.log4j.*;
+import org.apache.log4j.xml.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * Оболочка над log4j-логером {@link Logger}, реализующий ТоксСофт-овский интерфейс {@link ILogger}.
  *
  * @author mvk
  */
-public class Logger
+public class LoggerWrapper
     extends AbstractBasicLogger {
 
-  private final org.apache.log4j.Logger source;
+  private final Logger source;
 
   /**
    * Создает оболочку над указанным log4j-логером.
@@ -32,7 +28,7 @@ public class Logger
    * @throws TsNullArgumentRtException аргумент = null
    */
   public static ILogger getLogger( org.apache.log4j.Logger aSource ) {
-    return new Logger( aSource );
+    return new LoggerWrapper( aSource );
   }
 
   /**
@@ -43,7 +39,7 @@ public class Logger
    * @throws TsNullArgumentRtException аргумент = null
    */
   public static ILogger getLogger( String aName ) {
-    return new Logger( aName );
+    return new LoggerWrapper( aName );
   }
 
   /**
@@ -54,7 +50,7 @@ public class Logger
    * @throws TsNullArgumentRtException аргумент = null
    */
   public static ILogger getLogger( Class<?> aClass ) {
-    return new Logger( aClass );
+    return new LoggerWrapper( aClass );
   }
 
   /**
@@ -107,7 +103,7 @@ public class Logger
    * @param aSource {@link org.apache.log4j.Logger} - log4j-логер
    * @throws TsNullArgumentRtException аргумент = null
    */
-  private Logger( org.apache.log4j.Logger aSource ) {
+  private LoggerWrapper( org.apache.log4j.Logger aSource ) {
     source = TsNullArgumentRtException.checkNull( aSource );
   }
 
@@ -117,7 +113,7 @@ public class Logger
    * @param aName String - имя категории
    * @throws TsNullArgumentRtException аргумент = null
    */
-  private Logger( String aName ) {
+  private LoggerWrapper( String aName ) {
     source = org.apache.log4j.Logger.getLogger( TsNullArgumentRtException.checkNull( aName ) );
   }
 
@@ -127,7 +123,7 @@ public class Logger
    * @param aClass Class - класс
    * @throws TsNullArgumentRtException аргумент = null
    */
-  private Logger( Class<?> aClass ) {
+  private LoggerWrapper( Class<?> aClass ) {
     source = org.apache.log4j.Logger.getLogger( TsNullArgumentRtException.checkNull( aClass ) );
   }
 
@@ -191,7 +187,7 @@ public class Logger
     String log4jfilename = System.getProperty( "log4j.configuration" ); //$NON-NLS-1$
     if( log4jfilename == null ) {
       System.err.println(
-          "Logger.setScanPropertiesTimeout(): в системных свойствах (JVM) не установлен параметр : -Dlog4j.configuration" ); //$NON-NLS-1$
+          "LoggerWrapper.setScanPropertiesTimeout(): в системных свойствах (JVM) не установлен параметр : -Dlog4j.configuration" ); //$NON-NLS-1$
       return;
     }
     log4jfilename = log4jfilename.substring( 5 );
@@ -204,11 +200,11 @@ public class Logger
         DOMConfigurator.configureAndWatch( log4jfilename, aDelay );
         return;
       }
-      System.err.println( "Logger.setScanPropertiesTimeout(): недопустимое расширение файла для настроек log4j: " //$NON-NLS-1$
+      System.err.println( "LoggerWrapper.setScanPropertiesTimeout(): недопустимое расширение файла для настроек log4j: " //$NON-NLS-1$
           + log4jfilename );
     }
     System.err.println(
-        "Logger.setScanPropertiesTimeout(): не найден файл свойств указанный через параметр : -Dlog4j.configuration. filename = " //$NON-NLS-1$
+        "LoggerWrapper.setScanPropertiesTimeout(): не найден файл свойств указанный через параметр : -Dlog4j.configuration. filename = " //$NON-NLS-1$
             + log4jfilename );
   }
 

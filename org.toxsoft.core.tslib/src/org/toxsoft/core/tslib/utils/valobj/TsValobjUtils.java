@@ -11,6 +11,7 @@ import org.toxsoft.core.tslib.av.temporal.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.std.*;
 import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.helpers.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
@@ -18,6 +19,7 @@ import org.toxsoft.core.tslib.gw.gwid.*;
 import org.toxsoft.core.tslib.gw.skid.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.*;
 
 /**
  * Value objects support in tslib.
@@ -69,6 +71,8 @@ public class TsValobjUtils {
     registerKeeper( Gwid.KEEPER_ID, Gwid.KEEPER );
     registerKeeper( GwidList.KEEPER_ID, GwidList.KEEPER );
     registerKeeper( MappedSkids.KEEPER_ID, MappedSkids.KEEPER );
+    registerKeeper( ELogSeverity.KEEPER_ID, ELogSeverity.KEEPER );
+    registerKeeper( ECrudOp.KEEPER_ID, ECrudOp.KEEPER );
   }
 
   // ------------------------------------------------------------------------------------

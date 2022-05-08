@@ -94,6 +94,8 @@ public interface IDataDef
    *
    * @param aOps {@link IOptionSet} - option set
    * @return {@link IAtomicValue} - the value of the option
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException for mandatory option there is no entry in option set under key {@link #id()}
    */
   IAtomicValue getValue( IOptionSet aOps );
 

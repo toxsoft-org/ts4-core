@@ -2,7 +2,9 @@ package org.toxsoft.core.tslib.utils.diff;
 
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -18,23 +20,68 @@ public class DiffUtils {
    * <p>
    * <code>null</code> argument of left/right collection is considered as an empty collection.
    *
-   * @param <E> - elents type in lists
+   * @param <E> - element type of the collection
    * @param aLeft {@link IList} - the left list of comparison, may be <code>null</code>
    * @param aRight {@link IList} - the right list of comparison, may be <code>null</code>
-   * @return {@link IMap}&lt;{@link EDiffNature},{@link IList}&gt; - result of comparison
+   * @return {@link IMapEdit}&lt;{@link EDiffNature},{@link IListEdit}&gt; - an editable result of comparison
    */
-  public static <E> IMap<EDiffNature, IList<E>> compareLists( IList<E> aLeft, IList<E> aRight ) {
+  public static <E> IMapEdit<EDiffNature, IListEdit<E>> compareLists( IList<E> aLeft, IList<E> aRight ) {
     IList<E> left = aLeft != null ? aLeft : IList.EMPTY;
     IList<E> right = aRight != null ? aRight : IList.EMPTY;
-
-    // TODO реализовать DiffUtils.compareLists()
-    throw new TsUnderDevelopmentRtException( "DiffUtils.compareLists()" );
+    // prepare for big collection
+    int order = TsCollectionsUtils.estimateOrder( left.size() + right.size() );
+    int initialCapacity = TsCollectionsUtils.getListInitialCapacity( order );
+    int bucketsCount = TsCollectionsUtils.getMapBucketsCount( order );
+    // initialize resulting map
+    IMapEdit<EDiffNature, IListEdit<E>> map = new ElemMap<>( bucketsCount, initialCapacity );
+    for( EDiffNature dn : EDiffNature.asList() ) {
+      IListEdit<E> ll = new ElemLinkedBundleList<>( initialCapacity, true );
+      map.put( dn, ll );
+    }
+    // calculate differences for each element of the both lists
+    IList<E> allElems = TsCollectionsUtils.union( left, right );
+    for( E e : allElems ) {
+      E elemLeft = left.hasElem( e ) ? e : null;
+      E elemRight = right.hasElem( e ) ? e : null;
+      EDiffNature dn = EDiffNature.diff( elemLeft, elemRight );
+      map.getByKey( dn ).add( e );
+    }
+    return map;
   }
 
-  public static <E extends IStridable> IMap<EDiffNature, IStridablesList<E>> compareStridablesLists(
+  /**
+   * Compares two lists and returns difference.
+   * <p>
+   * <code>null</code> argument of left/right collection is considered as an empty collection.
+   *
+   * @param <E> - element type of the collection
+   * @param aLeft {@link IStridablesList} - the left list of comparison, may be <code>null</code>
+   * @param aRight {@link IStridablesList} - the right list of comparison, may be <code>null</code>
+   * @return {@link IMapEdit}&lt;{@link EDiffNature},{@link IStridablesListEdit}&gt; - an editable result of comparison
+   */
+  public static <E extends IStridable> IMapEdit<EDiffNature, IStridablesListEdit<E>> compareStridablesLists(
       IStridablesList<E> aLeft, IStridablesList<E> aRight ) {
-    // TODO реализовать DiffUtils.compareStridablesLists()
-    throw new TsUnderDevelopmentRtException( "DiffUtils.compareStridablesLists()" );
+    IStridablesList<E> left = aLeft != null ? aLeft : IStridablesList.EMPTY;
+    IStridablesList<E> right = aRight != null ? aRight : IStridablesList.EMPTY;
+    // prepare for big collection
+    int order = TsCollectionsUtils.estimateOrder( left.size() + right.size() );
+    int initialCapacity = TsCollectionsUtils.getListInitialCapacity( order );
+    int bucketsCount = TsCollectionsUtils.getMapBucketsCount( order );
+    // initialize resulting map
+    IMapEdit<EDiffNature, IStridablesListEdit<E>> map = new ElemMap<>( bucketsCount, initialCapacity );
+    for( EDiffNature dn : EDiffNature.asList() ) {
+      IStridablesListEdit<E> ll = new StridablesList<>( initialCapacity );
+      map.put( dn, ll );
+    }
+    // calculate differences for each key of the both lists
+    IList<E> allElems = TsCollectionsUtils.union( left, right );
+    for( E e : allElems ) {
+      E elemLeft = left.hasElem( e ) ? e : null;
+      E elemRight = right.hasElem( e ) ? e : null;
+      EDiffNature dn = EDiffNature.diff( elemLeft, elemRight );
+      map.getByKey( dn ).add( e );
+    }
+    return map;
   }
 
   public static <K, V> IMap<EDiffNature, IList<K>> compareMaps( IMap<K, V> aLeft, IMap<K, V> aRight ) {

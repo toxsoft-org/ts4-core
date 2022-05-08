@@ -1,13 +1,14 @@
 package org.toxsoft.core.tslib.bricks.strid.coll.impl;
 
 import static org.toxsoft.core.tslib.bricks.strid.coll.impl.ITsResources.*;
+import static org.toxsoft.core.tslib.coll.impl.TsCollectionsUtils.*;
 
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesListEdit;
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.coll.primtypes.IStringListEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringLinkedBundleList;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -24,9 +25,19 @@ public class StridablesList<E extends IStridable>
 
   /**
    * Constructor.
+   *
+   * @param aBundleCapacity int - number of elements in bundle
+   * @throws TsIllegalArgumentRtException aBundleCapacity is out of range
+   */
+  public StridablesList( int aBundleCapacity ) {
+    super( new StringLinkedBundleList( aBundleCapacity, true ), new ElemLinkedBundleList<>( aBundleCapacity, true ) );
+  }
+
+  /**
+   * Constructor.
    */
   public StridablesList() {
-    super( new StringLinkedBundleList() );
+    this( DEFAULT_BUNDLE_CAPACITY );
   }
 
   /**
@@ -36,8 +47,7 @@ public class StridablesList<E extends IStridable>
    * @throws TsNullArgumentRtException argument = <code>null</code>
    */
   public StridablesList( ITsCollection<E> aColl ) {
-    this();
-    TsNullArgumentRtException.checkNull( aColl );
+    this( getListInitialCapacity( estimateOrder( TsNullArgumentRtException.checkNull( aColl ).size() ) ) );
     addAll( aColl );
   }
 
@@ -49,8 +59,7 @@ public class StridablesList<E extends IStridable>
    */
   @SafeVarargs
   public StridablesList( E... aElems ) {
-    this();
-    TsErrorUtils.checkArrayArg( aElems );
+    this( getListInitialCapacity( estimateOrder( TsErrorUtils.checkArrayArg( aElems ).length ) ) );
     addAll( aElems );
   }
 

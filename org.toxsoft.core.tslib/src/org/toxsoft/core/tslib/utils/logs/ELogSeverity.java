@@ -2,42 +2,52 @@ package org.toxsoft.core.tslib.utils.logs;
 
 import static org.toxsoft.core.tslib.utils.logs.ITsResources.*;
 
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.StridablesList;
-import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.std.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Predefined severity levels of the {@link ILogger} log messages.
+ * <p>
+ * Constants in this <code>enum</code> are ordered by the severiry increase.
  *
  * @author hazard157
  */
-@SuppressWarnings( "nls" )
 public enum ELogSeverity
     implements IStridable {
 
   /**
-   * Info - A recoverable problem occured, note that it may lead to errors.
+   * Debug - Message for developers must not be present in final code.
    */
-  INFO( "INFO", STR_N_LOG_SEVERITY_INFO, STR_D_LOG_SEVERITY_INFO ),
+  DEBUG( "DEBUG", STR_N_LOG_SEVERITY_DEBUG, STR_D_LOG_SEVERITY_DEBUG ), //$NON-NLS-1$
+
+  /**
+   * Info - information about program execution.
+   */
+  INFO( "INFO", STR_N_LOG_SEVERITY_INFO, STR_D_LOG_SEVERITY_INFO ), //$NON-NLS-1$
 
   /**
    * Warning - A recoverable problem occured, note that it may lead to errors.
    */
-  WARNING( "WARNING", STR_N_LOG_SEVERITY_WARNING, STR_D_LOG_SEVERITY_WARNING ),
+  WARNING( "WARNING", STR_N_LOG_SEVERITY_WARNING, STR_D_LOG_SEVERITY_WARNING ), //$NON-NLS-1$
 
   /**
    * Error - Error occured, program may not work partially or crash completely.
    */
-  ERROR( "ERROR", STR_N_LOG_SEVERITY_ERROR, STR_D_LOG_SEVERITY_ERROR ),
+  ERROR( "ERROR", STR_N_LOG_SEVERITY_ERROR, STR_D_LOG_SEVERITY_ERROR ); //$NON-NLS-1$
 
   /**
-   * Debug - Message for developers must not be present in fincal code.
+   * Registered keepr ID.
    */
-  DEBUG( "DEBUG", STR_N_LOG_SEVERITY_DEBUG, STR_D_LOG_SEVERITY_DEBUG ),
+  public static final String KEEPER_ID = "ELogSeverity"; //$NON-NLS-1$
 
-  ;
+  /**
+   * The keeper singleton.
+   */
+  public static final IEntityKeeper<ELogSeverity> KEEPER = new StridableEnumKeeper<>( ELogSeverity.class );
 
   private static IStridablesList<ELogSeverity> list = null;
 
