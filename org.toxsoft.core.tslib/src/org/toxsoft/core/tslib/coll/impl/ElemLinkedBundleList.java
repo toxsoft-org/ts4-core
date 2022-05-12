@@ -18,7 +18,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @param <E> - the type of elements in this collection
  */
 public class ElemLinkedBundleList<E>
-    implements IListEdit<E>, Serializable {
+    implements IListEdit<E>, ITsFastIndexListTag<E>, Serializable {
 
   // FIXME serialize as array
 

@@ -68,22 +68,26 @@ public class DataType
    * Constructor.
    *
    * @param aAtomicType {@link EAtomicType} - atomic type
-   * @param aIdsAndValues {@link IOptionSet} - initial params values as in {@link OptionSetUtils#createOpSet(Object...)}
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   */
-  public DataType( EAtomicType aAtomicType, Object... aIdsAndValues ) {
-    atomicType = TsNullArgumentRtException.checkNull( aAtomicType );
-    params.addAll( OptionSetUtils.createOpSet( aIdsAndValues ) );
-  }
-
-  /**
-   * Constructor.
-   *
-   * @param aAtomicType {@link EAtomicType} - atomic type
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public DataType( EAtomicType aAtomicType ) {
     this( aAtomicType, IOptionSet.NULL );
+  }
+
+  /**
+   * Static onstructor.
+   *
+   * @param aAtomicType {@link EAtomicType} - atomic type
+   * @param aIdsAndValues {@link IOptionSet} - initial params values as in {@link OptionSetUtils#createOpSet(Object...)}
+   * @return {@link DataType} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException number of elements in array is uneven
+   * @throws ClassCastException argument types convention is violated
+   */
+  public static DataType create( EAtomicType aAtomicType, Object... aIdsAndValues ) {
+    TsNullArgumentRtException.checkNull( aAtomicType );
+    IOptionSet params = OptionSetUtils.createOpSet( aIdsAndValues );
+    return new DataType( aAtomicType, params );
   }
 
   // ------------------------------------------------------------------------------------
