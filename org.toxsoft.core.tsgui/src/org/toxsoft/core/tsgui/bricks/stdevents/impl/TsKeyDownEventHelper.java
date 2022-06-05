@@ -15,7 +15,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Вспомогтельный класс для облегчения реализации {@link ITsKeyEventListener}.
  *
- * @author goga
+ * @author hazard157
  */
 public class TsKeyDownEventHelper
     implements ITsKeyDownEventProducer, ITsKeyEventListener, Listener {

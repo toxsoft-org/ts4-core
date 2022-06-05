@@ -10,7 +10,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * {@link IMpvTimestamp} implementation in form "YYYY-MM-DD HH:MM:SS.mmm".
  *
- * @author goga
+ * @author hazard157
  */
 public class MpvTimestampMillisecs
     extends AbstractMpvTimestamp {

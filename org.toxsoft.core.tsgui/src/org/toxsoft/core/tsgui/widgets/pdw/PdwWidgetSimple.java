@@ -15,7 +15,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Простая (без полос прокрутки) реализация {@link IPdwWidget}.
  *
- * @author goga
+ * @author hazard157
  */
 public class PdwWidgetSimple
     implements IPdwWidget {

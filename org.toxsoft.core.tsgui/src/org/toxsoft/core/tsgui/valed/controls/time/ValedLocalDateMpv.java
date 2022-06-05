@@ -22,7 +22,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * Edits {@link LocalDate} value as YYYY-MM-DD.
  *
- * @author goga
+ * @author hazard157
  */
 public class ValedLocalDateMpv
     extends AbstractValedControl<LocalDate, MultiPartValueWidget> {

@@ -12,7 +12,7 @@ import org.toxsoft.core.tslib.av.metainfo.IDataDef;
 /**
  * Известные параметры, используемые сервером {@link PasServer}.
  *
- * @author goga
+ * @author hazard157
  */
 public interface IPasServerParams
     extends IPasParams {

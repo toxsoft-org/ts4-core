@@ -101,13 +101,31 @@ public class TsNullArgumentRtException
    * @param aRef2 Object - checked reference
    * @param aRef3 Object - checked reference
    * @param aRef4 Object - checked reference
+   * @throws TsNullArgumentRtException aRefs == {@link NullPointerException}
+   * @throws TsNullArgumentRtException any array element is <code>null</code>
+   */
+  public static void checkNulls( Object aRef1, Object aRef2, Object aRef3, Object aRef4 )
+      throws TsNullArgumentRtException {
+    if( aRef1 == null || aRef2 == null || aRef3 == null || aRef4 == null ) {
+      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+    }
+  }
+
+  /**
+   * Throws exception if any reference is <code>null</code>.
+   *
+   * @param aRef1 Object - checked reference
+   * @param aRef2 Object - checked reference
+   * @param aRef3 Object - checked reference
+   * @param aRef4 Object - checked reference
+   * @param aRef5 Object - checked reference
    * @param aRefs Object[] - checked references
    * @throws TsNullArgumentRtException aRefs == {@link NullPointerException}
    * @throws TsNullArgumentRtException any array element is <code>null</code>
    */
-  public static void checkNulls( Object aRef1, Object aRef2, Object aRef3, Object aRef4, Object... aRefs )
+  public static void checkNulls( Object aRef1, Object aRef2, Object aRef3, Object aRef4, Object aRef5, Object... aRefs )
       throws TsNullArgumentRtException {
-    if( aRef1 == null || aRef2 == null || aRef3 == null || aRef4 == null ) {
+    if( aRef1 == null || aRef2 == null || aRef3 == null || aRef4 == null || aRef5 == null ) {
       throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
     }
     for( int i = aRefs.length - 1; i >= 0; i-- ) {

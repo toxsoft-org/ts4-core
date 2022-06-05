@@ -10,7 +10,7 @@ import org.toxsoft.core.tslib.bricks.strio.IStrioWriter;
 /**
  * Загрузка/сохранение сущностей {@link ITjObject} в JSON представление.
  *
- * @author goga
+ * @author hazard157
  */
 class TsJsonObjectStorage {
 

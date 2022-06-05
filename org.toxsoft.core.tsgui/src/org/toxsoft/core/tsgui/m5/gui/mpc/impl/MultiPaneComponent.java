@@ -164,6 +164,7 @@ public class MultiPaneComponent<T>
     IListEdit<ITsActionDef> actDefs = new ElemLinkedBundleList<>();
     boolean hasEditActions = OPDEF_IS_ACTIONS_CRUD.getValue( tsContext().params() ).asBool();
     boolean hasReordererActions = OPDEF_IS_ACTIONS_REORDER.getValue( tsContext().params() ).asBool();
+    boolean hasRefreshActions = OPDEF_IS_ACTIONS_REFRESH.getValue( tsContext().params() ).asBool();
     boolean hasCheckSupport = OPDEF_IS_SUPPORTS_CHECKS.getValue( tsContext().params() ).asBool();
     boolean hasTreeSupport = OPDEF_IS_SUPPORTS_TREE.getValue( tsContext().params() ).asBool();
     // CRUD buttons
@@ -171,6 +172,10 @@ public class MultiPaneComponent<T>
       actDefs.add( ACDEF_ADD );
       actDefs.add( ACDEF_EDIT );
       actDefs.add( ACDEF_REMOVE );
+    }
+    // refresh buttin
+    if( hasRefreshActions ) {
+      actDefs.add( ACDEF_REFRESH );
     }
     // tree mode buttons
     if( hasTreeSupport ) {
@@ -275,7 +280,9 @@ public class MultiPaneComponent<T>
         break;
       }
       case ACTID_REFRESH: {
-        refresh();
+        if( OPDEF_IS_ACTIONS_REFRESH.getValue( tsContext().params() ).asBool() ) {
+          refresh();
+        }
         break;
       }
       case ACTID_EXPAND_ALL: {
@@ -407,7 +414,8 @@ public class MultiPaneComponent<T>
     toolbar.setActionEnabled( ACTID_ADD, editable && isCreationAllowed );
     toolbar.setActionEnabled( ACTID_EDIT, editable && isEditingAllowed );
     toolbar.setActionEnabled( ACTID_REMOVE, editable && isRemovalAllowed );
-    toolbar.setActionEnabled( ACTID_REFRESH, isAlive );
+    toolbar.setActionEnabled( ACTID_REFRESH,
+        isAlive && OPDEF_IS_ACTIONS_REFRESH.getValue( tsContext().params() ).asBool() );
     toolbar.setActionEnabled( ACTID_VIEW_AS_TREE, tmm.hasTreeMode() );
     toolbar.setActionEnabled( ACTID_VIEW_AS_LIST, tmm.hasTreeMode() );
     toolbar.setActionEnabled( ACTID_EXPAND_ALL, tmm.isCurrentTreeMode() );
@@ -482,7 +490,7 @@ public class MultiPaneComponent<T>
    * @return boolean - a flag that keyboard key was handled
    */
   boolean handleKeyDownEvent( Event aEvent ) {
-    String actionId;
+    String actionId = TsLibUtils.EMPTY_STRING;
     switch( aEvent.keyCode ) {
       case SWT.DEL:
         actionId = ACTID_REMOVE;
@@ -495,7 +503,9 @@ public class MultiPaneComponent<T>
         actionId = OPDEF_DBLCLICK_ACTION_ID.getValue( tsContext().params() ).asString();
         break;
       case SWT.F5:
-        actionId = ACTID_REFRESH;
+        if( OPDEF_IS_ACTIONS_REFRESH.getValue( tsContext().params() ).asBool() ) {
+          actionId = ACTID_REFRESH;
+        }
         break;
       case SWT.F6:
         actionId = ACTID_HIDE_DETAILS;
@@ -506,7 +516,9 @@ public class MultiPaneComponent<T>
       default:
         return false;
     }
-    processAction( actionId );
+    if( StridUtils.isValidIdPath( actionId ) ) {
+      processAction( actionId );
+    }
     return true;
   }
 
@@ -636,10 +648,9 @@ public class MultiPaneComponent<T>
     if( detailsPane != null ) {
       detailsPane.getControl().setVisible( !OPDEF_IS_DETAILS_PANE_HIDDEN.getValue( tsContext().params() ).asBool() );
     }
-     if( filterPane != null ) {
-     filterPane.getControl().setVisible( !OPDEF_IS_FILTER_PANE_HIDDEN
-         .getValue( tsContext().params() ).asBool() );
-     }
+    if( filterPane != null ) {
+      filterPane.getControl().setVisible( !OPDEF_IS_FILTER_PANE_HIDDEN.getValue( tsContext().params() ).asBool() );
+    }
     if( summaryPane != null ) {
       summaryPane.getControl().setVisible( !OPDEF_IS_SUMMARY_PANE_HIDDEN.getValue( tsContext().params() ).asBool() );
     }

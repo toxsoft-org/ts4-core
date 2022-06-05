@@ -5,7 +5,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Смешиваемый интерфейс классов, генерирующих сообщение {@link ITsMouseListener}.
  *
- * @author goga
+ * @author hazard157
  */
 public interface ITsMouseEventProducer {
 

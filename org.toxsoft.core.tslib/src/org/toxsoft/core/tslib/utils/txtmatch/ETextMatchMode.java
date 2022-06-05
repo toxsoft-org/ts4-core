@@ -11,7 +11,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * Режим сравнения текстового исходного значения и текстовой константной строки.
  *
- * @author goga
+ * @author hazard157
  */
 @SuppressWarnings( "nls" )
 public enum ETextMatchMode

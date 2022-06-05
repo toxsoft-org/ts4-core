@@ -14,7 +14,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Класс потоко-безопасной оболочки над НЕредактируемым списком.
  *
- * @author goga
+ * @author hazard157
  * @param <E> - тип элементов списка
  * @param <L> - тип НЕредактируемого списка-источника
  */

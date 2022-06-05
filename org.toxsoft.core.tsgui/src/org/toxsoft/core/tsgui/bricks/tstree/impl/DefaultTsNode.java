@@ -10,7 +10,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Реализация узла по умолчанию - добавляет к {@link AbstractTsNode} возможность задачь дочерные узлы извне.
  *
- * @author goga
+ * @author hazard157
  * @param <T> - конкретный тип содержимого узла
  */
 public class DefaultTsNode<T>

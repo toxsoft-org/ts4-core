@@ -15,7 +15,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * Реализация раскладки {@link IVecBorderLayout}.
  *
- * @author goga
+ * @author hazard157
  */
 public class VecBorderLayout
     extends AbstractVecLayout<EBorderLayoutPlacement>

@@ -11,7 +11,7 @@ import org.toxsoft.core.tslib.utils.files.*;
 /**
  * Константы, связанные с обработкой медия-файлов.
  *
- * @author goga
+ * @author hazard157
  */
 @SuppressWarnings( "nls" )
 public interface IMediaFileConstants {

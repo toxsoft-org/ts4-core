@@ -14,7 +14,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * <p>
  * От слова Fulcrum - точка опоры рычага.
  *
- * @author goga
+ * @author hazard157
  */
 @SuppressWarnings( { "nls", "javadoc" } )
 public enum ETsFulcrum

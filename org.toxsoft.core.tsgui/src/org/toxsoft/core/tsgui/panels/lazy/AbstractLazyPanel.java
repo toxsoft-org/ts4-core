@@ -9,7 +9,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * {@link ILazyControl} base implementation.
  *
- * @author goga
+ * @author hazard157
  * @param <C> - конкретный тип (класс) подложки панели
  */
 public abstract class AbstractLazyPanel<C extends Control>

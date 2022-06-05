@@ -14,7 +14,7 @@ import org.toxsoft.core.tslib.utils.files.TsFileUtils;
  * <p>
  * Методы не "достойны" войти в API {@link ITsImageManager}, но могут быть полезны для некторых применений.
  *
- * @author goga
+ * @author hazard157
  */
 public class TsImageManagerUtils {
 

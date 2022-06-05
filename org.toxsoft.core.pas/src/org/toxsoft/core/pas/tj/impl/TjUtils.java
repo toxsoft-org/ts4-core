@@ -16,7 +16,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * Точка входа в подистсему работы со структурами TsJson данных.
  *
- * @author goga
+ * @author hazard157
  */
 public class TjUtils {
 

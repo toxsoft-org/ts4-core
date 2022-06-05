@@ -7,7 +7,9 @@ import static org.toxsoft.core.tslib.av.impl.DataDef.*;
 import static org.toxsoft.core.tslib.av.metainfo.ITsResources.*;
 
 import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.validators.*;
+import org.toxsoft.core.tslib.bricks.keeper.std.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
@@ -185,6 +187,28 @@ public interface IAvMetaConstants {
       DDEF_IDPATH, //
       DDEF_TS_BOOL, //
       DDEF_ICON_ID //
+  );
+
+  // ------------------------------------------------------------------------------------
+  // Built-in data types
+  //
+
+  IDataType DT_LOCAL_DATE = DataType.create( VALOBJ, //
+      TSID_NAME, STR_N_LOCAL_DATE, //
+      TSID_DESCRIPTION, STR_N_LOCAL_DATE, //
+      TSID_KEEPER_ID, LocalDateKeeper.KEEPER_ID //
+  );
+
+  IDataType DT_LOCAL_TIME = DataType.create( VALOBJ, //
+      TSID_NAME, STR_N_LOCAL_TIME, //
+      TSID_DESCRIPTION, STR_N_LOCAL_TIME, //
+      TSID_KEEPER_ID, LocalTimeKeeper.KEEPER_ID //
+  );
+
+  IDataType DT_LOCAL_DATE_TIME = DataType.create( VALOBJ, //
+      TSID_NAME, STR_N_LOCAL_DATE_TIME, //
+      TSID_DESCRIPTION, STR_N_LOCAL_DATE_TIME, //
+      TSID_KEEPER_ID, LocalDateTimeKeeper.KEEPER_ID //
   );
 
 }

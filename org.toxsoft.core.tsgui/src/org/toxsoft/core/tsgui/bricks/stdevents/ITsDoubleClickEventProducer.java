@@ -5,7 +5,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * Смешиваемый интерфейс классов, генерирующих сообщение {@link ITsDoubleClickListener#onTsDoubleClick(Object, Object)}.
  *
- * @author goga
+ * @author hazard157
  * @param <E> - конкретный тип элементов
  */
 public interface ITsDoubleClickEventProducer<E> {

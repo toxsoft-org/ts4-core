@@ -3,7 +3,7 @@ package org.toxsoft.core.tsgui.utils.anim;
 /**
  * Общий интерфейс аниматоров, предусматривающий возможность приостановления анимирования.
  *
- * @author goga
+ * @author hazard157
  */
 public interface IPausableAnimation {
 

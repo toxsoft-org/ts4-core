@@ -11,7 +11,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * Неизменяемая реализация {@link IVecGroupBoxInfo}.
  *
- * @author goga
+ * @author hazard157
  */
 public class VecGroupBoxInfo
     implements IVecGroupBoxInfo {

@@ -6,7 +6,7 @@ import org.eclipse.jface.viewers.Viewer;
 /**
  * Адаптер для удобства над {@link IStructuredContentProvider} с типизацией.
  *
- * @author goga
+ * @author hazard157
  * @param <T> - тип элементов поставляемого содержимого
  */
 public abstract class StructuredContentProviderAdapter<T>

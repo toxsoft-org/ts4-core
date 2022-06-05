@@ -3,7 +3,7 @@ package org.toxsoft.core.tsgui.mws.services.currentity;
 /**
  * Слушатель изменения текущего элемента.
  *
- * @author goga
+ * @author hazard157
  * @param <E> - тип этого "текущего чего-то"
  */
 public interface ICurrentEntityChangeListener<E> {

@@ -5,7 +5,7 @@ import org.toxsoft.core.tsgui.graphics.image.TsImage;
 /**
  * Зарегистрованный в {@link AnimationSupport} анимированное (или обычное) изображение.
  *
- * @author goga
+ * @author hazard157
  */
 public interface IImageAnimator
     extends IPausableAnimation {

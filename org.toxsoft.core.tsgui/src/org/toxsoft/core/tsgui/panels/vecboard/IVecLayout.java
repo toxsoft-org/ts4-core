@@ -11,7 +11,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * контролями, а только <b>описанием</b> того, как создавать визуальные компоненты во время конструирования родительской
  * панели.
  *
- * @author goga
+ * @author hazard157
  * @param <D> - конкретный тип параметров раскладки (layout Data)
  */
 public interface IVecLayout<D> {

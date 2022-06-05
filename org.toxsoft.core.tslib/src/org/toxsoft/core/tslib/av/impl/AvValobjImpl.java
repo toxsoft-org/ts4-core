@@ -4,15 +4,13 @@ import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 
 import java.io.*;
 
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.strio.IStrioWriter;
-import org.toxsoft.core.tslib.bricks.strio.chario.impl.CharOutputStreamAppendable;
-import org.toxsoft.core.tslib.bricks.strio.impl.StrioReader;
-import org.toxsoft.core.tslib.bricks.strio.impl.StrioWriter;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.bricks.strio.chario.impl.*;
+import org.toxsoft.core.tslib.bricks.strio.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
+import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
  * Atomic value of type {@link EAtomicType#VALOBJ} implementation.
@@ -180,10 +178,53 @@ class AvValobjImpl
     return "@ " + valobj.toString(); //$NON-NLS-1$
   }
 
+  /**
+   * Extract valoue-object from atomic value as {@link Comparable} if possible.
+   *
+   * @param aValue {@link IAtomicValue} - atomic value of {@link EAtomicType#VALOBJ} type
+   * @return {@link Comparable} - comparable value-object or null
+   */
+  @SuppressWarnings( "rawtypes" )
+  private static Comparable extractAsComparable( IAtomicValue aValue ) {
+    // AvValobjImpl - returns non-null if valobj exists or may be created and it is Comparable
+    if( aValue instanceof AvValobjImpl value ) {
+      Object vo = value.valobj;
+      if( vo == null && value.keeperId != null ) {
+        if( TsValobjUtils.findKeeperById( value.keeperId ) != null ) {
+          vo = aValue.asValobj();
+        }
+      }
+      if( vo instanceof Comparable cvo ) {
+        return cvo;
+      }
+      return null;
+    }
+    // AvValobjNullImpl impelemtation - always null
+    if( aValue instanceof AvValobjNullImpl ) {
+      return null;
+    }
+    // this may happen when other than AvValobjImpl or AvValobjNullImpl implementation will appear
+    throw new TsInternalErrorRtException();
+  }
+
+  @SuppressWarnings( "unchecked" )
   @Override
   protected int internalCompareValue( IAtomicValue aThat ) {
-    // TODO is it possible to sort VALOBJs? how to do it?
-    return 0;
+    Comparable o1 = extractAsComparable( this );
+    Comparable o2 = extractAsComparable( aThat );
+    if( o1 != null && o2 != null ) {
+      if( o1.getClass().equals( o2.getClass() ) ) {
+        return o1.compareTo( o2 );
+      }
+      // valobjs of different classes are considered as equals (as uncomparable values)
+      return 0;
+    }
+    // both nulls are considered as equals (includes uncomparable values)
+    if( o1 == null && o2 == null ) {
+      return 0;
+    }
+    // null is considered less than any non-null valobj
+    return (o1 == null) ? -1 : 1;
   }
 
   @Override

@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * {@link ITsDialogInfo} implementation.
  *
- * @author goga
+ * @author hazard157
  */
 public class TsDialogInfo
     implements ITsDialogInfo, ITsGuiContextable {

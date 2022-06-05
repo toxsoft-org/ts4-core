@@ -11,7 +11,7 @@ import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
 /**
  * Реализация раскладки {@link IVecSashLayout}.
  *
- * @author goga
+ * @author hazard157
  */
 public class VecSashLayout
     extends AbstractVecLayout<Integer>

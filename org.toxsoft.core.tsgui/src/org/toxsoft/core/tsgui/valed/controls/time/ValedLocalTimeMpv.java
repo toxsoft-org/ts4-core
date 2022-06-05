@@ -27,7 +27,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * Edits {@link LocalTime} value as HH:MM:SS or HH:MM:SS.mmm.
  *
- * @author goga
+ * @author hazard157
  */
 public class ValedLocalTimeMpv
     extends AbstractValedControl<LocalTime, MultiPartValueWidget> {

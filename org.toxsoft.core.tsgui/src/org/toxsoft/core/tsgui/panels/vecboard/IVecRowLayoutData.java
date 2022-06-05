@@ -11,7 +11,7 @@ import org.toxsoft.core.tsgui.panels.vecboard.impl.VecRowLayoutData;
  * Соответствующая размерность может быть {@link SWT#DEFAULT}, чтобы его определяла метод
  * {@link Control#computeSize(int, int, boolean)}.
  *
- * @author goga
+ * @author hazard157
  */
 public interface IVecRowLayoutData {
 

@@ -29,7 +29,7 @@ public final class TsCollectionsUtils {
    * <p>
    * Index of element is scale value - 1.
    */
-  static final int[] ORDER_BUCKETS_COUNT = { //
+  public static final int[] ORDER_BUCKETS_COUNT = { //
       3, 17, 157, 1009, 9973, 74923 //
   };
 
@@ -38,7 +38,7 @@ public final class TsCollectionsUtils {
    * <p>
    * Index of element is scale value - 1.
    */
-  static final int[] ORDER_LIST_CAPACITY = { //
+  public static final int[] ORDER_LIST_CAPACITY = { //
       16, 64, 512, 4096, 16384, 65536 //
   };
 

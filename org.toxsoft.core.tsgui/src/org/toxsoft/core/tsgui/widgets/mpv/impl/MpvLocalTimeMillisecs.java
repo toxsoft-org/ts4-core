@@ -10,7 +10,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * {@link IMpvLocalTime} implementation in form "HH:MM:SS.mmm".
  *
- * @author goga
+ * @author hazard157
  */
 public class MpvLocalTimeMillisecs
     extends AbstractMpvLocalTime {

@@ -16,7 +16,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNotAllEnumsUsedRtException;
 /**
  * Загрузка/сохранение сущностей {@link ITjValue} в JSON представление.
  *
- * @author goga
+ * @author hazard157
  */
 class TsJsonValueStorage {
 

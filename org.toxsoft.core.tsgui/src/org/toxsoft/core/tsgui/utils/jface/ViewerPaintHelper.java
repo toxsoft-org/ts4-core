@@ -29,7 +29,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * Обратите внимание,что ниже в комментариях для иллюстрации пояснений используется класс {@link TableItem}, но все
  * также применимо к {@link TreeItem}.
  *
- * @author goga
+ * @author hazard157
  * @param <T> - конкретный тип {@link Table} или {@link Tree}
  */
 public class ViewerPaintHelper<T extends Composite> {

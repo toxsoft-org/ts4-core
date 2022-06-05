@@ -20,7 +20,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Выпадающий список (ComboBox) выбора эелемента из заданного списка.
  *
- * @author goga
+ * @author hazard157
  * @param <V> - конкретный тип (класс) элементов списка выбора
  */
 public class ValedComboSelector<V>

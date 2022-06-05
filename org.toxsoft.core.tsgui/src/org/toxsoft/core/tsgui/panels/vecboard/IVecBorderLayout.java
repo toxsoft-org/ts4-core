@@ -12,7 +12,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * Раскладка может иметь до пяти элементов, расположенных вдоль границ или по центру (согласно перечислению
  * {@link EBorderLayoutPlacement}).
  *
- * @author goga
+ * @author hazard157
  */
 public interface IVecBorderLayout
     extends IVecLayout<EBorderLayoutPlacement> {

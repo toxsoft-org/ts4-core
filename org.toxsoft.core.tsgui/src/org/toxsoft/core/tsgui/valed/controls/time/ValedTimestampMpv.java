@@ -24,7 +24,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * Edits {@link Long} value as moment of time in millisecons from epoch start.
  *
- * @author goga
+ * @author hazard157
  */
 public class ValedTimestampMpv
     extends AbstractValedControl<Long, MultiPartValueWidget> {

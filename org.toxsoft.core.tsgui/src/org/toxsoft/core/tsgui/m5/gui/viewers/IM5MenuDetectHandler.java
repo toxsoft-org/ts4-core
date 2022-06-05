@@ -26,7 +26,7 @@ import org.toxsoft.core.tsgui.bricks.tstree.ITsNode;
  * <li>можно запрещать показ меню возвратом значения false из методов onXxxMenu().</li>
  * </ul>
  *
- * @author goga
+ * @author hazard157
  * @param <T> - тип моделированного объекта
  */
 public interface IM5MenuDetectHandler<T> {

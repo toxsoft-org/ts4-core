@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * Облегчает реализацию панелью интерфейсов {@link ITsSelectionChangeEventProducer} и
  * {@link ITsDoubleClickEventProducer}.
  *
- * @author goga
+ * @author hazard157
  * @param <E> - тип объектов в наборе
  */
 public abstract class TsStdEventsProducerPanel<E>

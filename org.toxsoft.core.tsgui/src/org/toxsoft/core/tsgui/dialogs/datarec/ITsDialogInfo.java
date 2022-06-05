@@ -16,7 +16,7 @@ import org.toxsoft.core.tslib.bricks.geometry.*;
  * Эти параметры являются собранным в один класс аргументами, используемые при создании экземпляров класса
  * {@link TitleAreaDialog}, в частности, диалога {@link TsDialog}.
  *
- * @author goga
+ * @author hazard157
  */
 public interface ITsDialogInfo {
 

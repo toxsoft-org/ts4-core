@@ -3,7 +3,7 @@ package org.toxsoft.core.tsgui.utils.anim;
 /**
  * Обратный вызов зарегистрированного аниматора {@link IGeneralAnimator}.
  *
- * @author goga
+ * @author hazard157
  * @param <T> - тип пользовательских данных
  */
 public interface IGeneralAnimationCallback<T> {

@@ -18,7 +18,7 @@ public class VertTwoButtonsPane
   /**
    * Положение точки относительно этого контроля для метода {@link VertTwoButtonsPane#whereIsPoint(int, int)}.
    *
-   * @author goga
+   * @author hazard157
    */
   public enum EPointLocation {
     /**

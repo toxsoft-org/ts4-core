@@ -29,7 +29,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * аниматором миганния, только аргумент aState можно игнорировать, а перебор состояния огранизовать в самом рисуемом
  * объекте.
  *
- * @author goga
+ * @author hazard157
  */
 public interface IAnimationSupport
     extends IPausableAnimation {

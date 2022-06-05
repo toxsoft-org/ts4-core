@@ -20,7 +20,7 @@ import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
  * {@link IStrioWriter#writeTimestamp(long)}, в виде "YYYY-MM-DD_HH:MM:SS.UUU".</li>
  * </ul>
  *
- * @author goga
+ * @author hazard157
  */
 public class LocalDateTimeKeeper
     extends AbstractEntityKeeper<LocalDateTime> {

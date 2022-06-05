@@ -9,14 +9,14 @@ import org.toxsoft.core.tslib.bricks.geometry.*;
  * Обратите внимание, что все координаты мыши в этом интерфейсе передаются относительно дисплея. Если нужно пересчитать
  * относительно какой-либо контроли, используйте методв {@link Display#map(Control, Control, int, int)}.
  *
- * @author goga
+ * @author hazard157
  */
 public interface ITsMouseListener {
 
   /**
    * Идентификация кнопки мыши.
    *
-   * @author goga
+   * @author hazard157
    */
   public enum EMouseButton {
     /**

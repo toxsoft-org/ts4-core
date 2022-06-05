@@ -12,7 +12,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * Класс потоко-безопасной оболочки над НЕредактируемым списком строк.
  *
- * @author goga
+ * @author hazard157
  * @version $id$
  * @param <L> - тип НЕредактируемого списка-источника
  */

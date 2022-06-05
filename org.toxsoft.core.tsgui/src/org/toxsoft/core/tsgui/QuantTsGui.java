@@ -17,6 +17,7 @@ import org.toxsoft.core.tsgui.mws.services.hdpi.*;
 import org.toxsoft.core.tsgui.utils.*;
 import org.toxsoft.core.tsgui.utils.anim.*;
 import org.toxsoft.core.tsgui.valed.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Library initialization quant.
@@ -25,6 +26,8 @@ import org.toxsoft.core.tsgui.valed.*;
  */
 public class QuantTsGui
     extends AbstractQuant {
+
+  private ITsImageManager imageManager = null;
 
   /**
    * Constructor.
@@ -46,14 +49,24 @@ public class QuantTsGui
 
   @Override
   protected void doInitWin( IEclipseContext aWinContext ) {
+    TsInternalErrorRtException.checkNoNull( imageManager );
     Display display = aWinContext.get( Display.class );
     aWinContext.set( ITsIconManager.class, new TsIconManager( aWinContext ) );
-    aWinContext.set( ITsImageManager.class, new TsImageManager( aWinContext ) );
+    imageManager = new TsImageManager( aWinContext );
+    aWinContext.set( ITsImageManager.class, imageManager );
     aWinContext.set( ITsColorManager.class, new TsColorManager( display ) );
     aWinContext.set( ITsFontManager.class, new TsFontManager( display ) );
     IAnimationSupport as = new AnimationSupport( display );
     aWinContext.set( IAnimationSupport.class, as );
     as.resume();
+  }
+
+  @Override
+  protected void doClose() {
+    if( imageManager != null ) {
+      imageManager.clearCache();
+      imageManager = null;
+    }
   }
 
 }

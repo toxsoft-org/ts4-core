@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
 /**
  * Тип выравнивания по горизонтали (влево, по центру, вправо).
  *
- * @author goga
+ * @author hazard157
  */
 public enum EHorAlignment
     implements IStridable {

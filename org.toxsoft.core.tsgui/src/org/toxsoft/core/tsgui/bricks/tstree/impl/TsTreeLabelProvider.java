@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * Поставщик ожидает, что все элементы дерева имеют тип {@link ITsNode}. Без перелпределения
  * {@link #doGetColumnText(ITsNode, int)}, для всех столбцов возвращает {@link ITsNode#name()}.
  *
- * @author goga
+ * @author hazard157
  */
 public class TsTreeLabelProvider
     extends TableLabelProviderAdapter

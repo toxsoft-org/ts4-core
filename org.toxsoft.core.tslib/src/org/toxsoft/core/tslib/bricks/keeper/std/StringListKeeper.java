@@ -2,14 +2,14 @@ package org.toxsoft.core.tslib.bricks.keeper.std;
 
 import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
-import org.toxsoft.core.tslib.coll.primtypes.IStringListEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringLinkedBundleList;
-import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
  * {@link IStringList} keeper.
@@ -35,6 +35,11 @@ public class StringListKeeper
    * Keeper singleton (does indents text representation).
    */
   public static final IEntityKeeper<IStringList> KEEPER_INDENTED = new StringListKeeper( true );
+
+  /**
+   * {@link IAtomicValue} with {@link IStringList#EMPTY}.
+   */
+  public static final IAtomicValue AV_EMPTY_STRING_LIST = AvUtils.avValobj( IStringList.EMPTY, KEEPER, KEEPER_ID );
 
   /**
    * Keeper compatibility mode singleton (does not indents text representation).

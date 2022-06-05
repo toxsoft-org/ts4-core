@@ -14,7 +14,7 @@ import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
  * Хранит {@link Locale} в виде только треех компонент {@link Locale#getLanguage()}, {@link Locale#getCountry()} и
  * {@link Locale#getVariant()}.
  *
- * @author goga
+ * @author hazard157
  */
 public class LocaleKeeper
     extends AbstractEntityKeeper<Locale> {

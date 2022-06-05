@@ -6,7 +6,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * Упорядоченный список сущностей с метками времени.
  *
- * @author goga
+ * @author hazard157
  * @param <T> - конкретный тип сущности с меткой времени
  */
 public interface ITimedList<T extends ITimestampable>

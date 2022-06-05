@@ -6,7 +6,7 @@ import org.eclipse.swt.widgets.*;
 /**
  * Базовый класс столбцов дерева {@link Table}.
  *
- * @author goga
+ * @author hazard157
  */
 public abstract class AbstractTsTableColumn
     extends AbstractTsColumn {

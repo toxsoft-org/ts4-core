@@ -8,7 +8,7 @@ import org.toxsoft.core.tslib.utils.TsLibUtils;
 /**
  * Параметры расположения элементов в раскладке {@link IVecLadderLayout}.
  *
- * @author goga
+ * @author hazard157
  */
 public interface IVecLadderLayoutData {
 

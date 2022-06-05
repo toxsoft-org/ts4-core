@@ -16,7 +16,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * Базовый интерфейс дерева из узлов типа {@link ITsNode}.
  *
- * @author goga
+ * @author hazard157
  */
 public interface ITsBasicTreeViewer
     extends ITsSelectionProvider<ITsNode>, ITsDoubleClickEventProducer<ITsNode>, ITsKeyDownEventProducer, ITsNode,

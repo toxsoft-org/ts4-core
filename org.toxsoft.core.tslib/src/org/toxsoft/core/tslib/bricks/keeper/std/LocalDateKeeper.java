@@ -15,7 +15,7 @@ import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
  * <p>
  * Хранит {@link LocalDate} в совместимом с {@link IStrioWriter#writeDate(long)} формате, в виде "YYYY-MM-DD".
  *
- * @author goga
+ * @author hazard157
  */
 public class LocalDateKeeper
     extends AbstractEntityKeeper<LocalDate> {

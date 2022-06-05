@@ -33,7 +33,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Реализация {@link ITsTreeViewer}.
  *
- * @author goga
+ * @author hazard157
  */
 public class TsTreeViewer
     implements ITsTreeViewer {
@@ -55,7 +55,7 @@ public class TsTreeViewer
   /**
    * Столбец дерева.
    *
-   * @author goga
+   * @author hazard157
    */
   class Column
       extends AbstractTsTreeColumn {

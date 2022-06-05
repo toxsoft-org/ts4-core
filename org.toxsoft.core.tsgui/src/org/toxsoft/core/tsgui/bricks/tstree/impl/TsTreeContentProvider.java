@@ -10,7 +10,7 @@ import org.toxsoft.core.tslib.utils.TsLibUtils;
  * <p>
  * В качестве как входного элемента, так и всех узлов ожидается {@link ITsNode}.
  *
- * @author goga
+ * @author hazard157
  */
 public class TsTreeContentProvider
     implements ITreeContentProvider {

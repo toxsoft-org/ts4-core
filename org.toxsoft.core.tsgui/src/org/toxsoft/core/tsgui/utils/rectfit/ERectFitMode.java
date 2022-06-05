@@ -14,7 +14,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * Modes to fit an object into the rectangle.
  *
- * @author goga
+ * @author hazard157
  */
 public enum ERectFitMode
     implements IStridable {

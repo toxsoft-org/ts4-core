@@ -5,7 +5,7 @@ import org.toxsoft.core.tsgui.dialogs.ETsDialogCode;
 /**
  * Package internal intarface to handle dialog button press.
  *
- * @author goga
+ * @author hazard157
  */
 interface IButtonPressCallback {
 

@@ -247,7 +247,7 @@ public class M5TreeViewer<T>
   /**
    * Дерево-специфичный сортировщик, реализация {@link IM5SortManager}.
    *
-   * @author goga
+   * @author hazard157
    */
   class InternalTreeSortManager
       extends InternalSortManager {

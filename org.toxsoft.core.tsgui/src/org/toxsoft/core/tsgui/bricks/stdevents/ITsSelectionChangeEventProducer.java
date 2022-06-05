@@ -6,7 +6,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * Смешиваемый интерфейс классов, генерирующих сообщение
  * {@link ITsSelectionChangeListener#onTsSelectionChanged(Object, Object)}.
  *
- * @author goga
+ * @author hazard157
  * @param <E> - конкретный тип элементов
  */
 public interface ITsSelectionChangeEventProducer<E> {

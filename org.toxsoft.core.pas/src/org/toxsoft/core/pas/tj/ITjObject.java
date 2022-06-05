@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullObjectErrorRtException;
  * <p>
  * Точкой входа в подсистему является класс {@link TjUtils}.
  *
- * @author goga
+ * @author hazard157
  */
 public interface ITjObject {
 

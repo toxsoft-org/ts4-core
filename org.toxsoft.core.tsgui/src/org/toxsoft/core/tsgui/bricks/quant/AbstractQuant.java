@@ -96,12 +96,6 @@ public abstract class AbstractQuant
       IQuant q = quants.removeByIndex( quants.size() - 1 );
       q.close();
     }
-    try {
-      doClose();
-    }
-    catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
-    }
     // finalizing this qunat
     LoggerUtils.defaultLogger().info( FMT_INFO_QUANT_CLOSE, name );
     try {

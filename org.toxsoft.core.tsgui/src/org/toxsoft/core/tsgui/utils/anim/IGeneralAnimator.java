@@ -3,7 +3,7 @@ package org.toxsoft.core.tsgui.utils.anim;
 /**
  * Аниматор общего назначения.
  *
- * @author goga
+ * @author hazard157
  * @param <T> - тип пользовательских данных
  */
 public interface IGeneralAnimator<T>

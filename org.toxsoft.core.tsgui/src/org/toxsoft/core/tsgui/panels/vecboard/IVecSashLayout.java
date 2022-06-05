@@ -16,7 +16,7 @@ import org.eclipse.swt.custom.SashForm;
  * что контроли разделяются перемещаемыми планками. Параметром размещения элемента является число {@link Integer}. Число
  * определяет относительную ширину контрля в родителе как в методе {@link SashForm#setWeights(int[])}.
  *
- * @author goga
+ * @author hazard157
  */
 public interface IVecSashLayout
     extends IVecLayout<Integer> {

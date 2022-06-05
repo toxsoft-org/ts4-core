@@ -10,7 +10,7 @@ import org.toxsoft.core.tsgui.utils.TsGuiUtils;
 /**
  * Реализация раскладки {@link IVecTabLayout}.
  *
- * @author goga
+ * @author hazard157
  */
 public class VecTabLayout
     extends AbstractVecLayout<IVecTabLayoutData>

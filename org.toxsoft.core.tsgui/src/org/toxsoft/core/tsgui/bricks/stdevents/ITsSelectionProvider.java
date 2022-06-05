@@ -5,7 +5,7 @@ package org.toxsoft.core.tsgui.bricks.stdevents;
 /**
  * Интерфейс классов имеющих понятие "текущий выбранный элемент".
  *
- * @author goga
+ * @author hazard157
  * @param <E> - тип элементов
  */
 public interface ITsSelectionProvider<E>

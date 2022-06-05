@@ -18,7 +18,7 @@ import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
 /**
  * Реализация {@link ITsImageManager}.
  *
- * @author goga
+ * @author hazard157
  */
 public class TsImageManager
     implements ITsImageManager {

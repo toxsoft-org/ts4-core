@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
 /**
  * Поддержка использования анимированных изображения (GIF, MNG).
  *
- * @author goga
+ * @author hazard157
  */
 public class AnimationSupport
     implements IAnimationSupport, Runnable {

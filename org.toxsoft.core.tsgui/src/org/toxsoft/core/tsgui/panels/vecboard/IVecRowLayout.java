@@ -9,7 +9,7 @@ import org.toxsoft.core.tsgui.graphics.ETsOrientation;
  * Аналогичен раскладке SWT {@link RowLayout}, и параметры раскладки (и их значения по умолчанию) соответствуют
  * параметрам и значениям в классе {@link RowLayout}.
  *
- * @author goga
+ * @author hazard157
  */
 public interface IVecRowLayout
     extends IVecLayout<IVecRowLayoutData> {

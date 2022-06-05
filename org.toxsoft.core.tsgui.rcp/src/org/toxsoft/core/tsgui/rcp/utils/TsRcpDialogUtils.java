@@ -24,7 +24,7 @@ import org.toxsoft.core.tslib.utils.files.TsFileUtils;
  * Остальные методы являются общими для сред RCP и RAP и находятся в файле TsDialogUtils проекта
  * ru.toxsoft.tsgui.common.
  *
- * @author goga
+ * @author hazard157
  */
 public final class TsRcpDialogUtils {
 

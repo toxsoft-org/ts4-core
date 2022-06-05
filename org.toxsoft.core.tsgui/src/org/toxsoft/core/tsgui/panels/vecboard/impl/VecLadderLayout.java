@@ -12,7 +12,7 @@ import org.toxsoft.core.tsgui.utils.layout.BorderLayout;
 /**
  * Реализация раскладки {@link IVecLadderLayout}.
  *
- * @author goga
+ * @author hazard157
  */
 public class VecLadderLayout
     extends AbstractVecLayout<IVecLadderLayoutData>

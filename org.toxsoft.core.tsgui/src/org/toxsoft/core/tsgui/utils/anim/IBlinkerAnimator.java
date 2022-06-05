@@ -3,7 +3,7 @@ package org.toxsoft.core.tsgui.utils.anim;
 /**
  * Обратный вызов аниматором {@link AnimationSupport} для перерисовки очередного состояния мигания.
  * 
- * @author goga
+ * @author hazard157
  */
 public interface IBlinkerAnimator
     extends IPausableAnimation {

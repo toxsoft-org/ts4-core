@@ -32,7 +32,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * constraints of type {@link LocalDateTime}, but <b>ignores</b> {@link IAvMetaConstants#TSID_MIN_EXCLUSIVE} and
  * {@link IAvMetaConstants#TSID_MAX_EXCLUSIVE} constraints.
  *
- * @author goga
+ * @author hazard157
  */
 public class ValedLocalDateTimeMpv
     extends AbstractValedControl<LocalDateTime, MultiPartValueWidget> {

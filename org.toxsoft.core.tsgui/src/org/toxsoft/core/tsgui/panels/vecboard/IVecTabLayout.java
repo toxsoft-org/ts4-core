@@ -11,7 +11,7 @@ package org.toxsoft.core.tsgui.panels.vecboard;
  * </ul>
  * Каждый контроль в раскладку добавляется в виде отдельной вкладки.
  *
- * @author goga
+ * @author hazard157
  */
 public interface IVecTabLayout
     extends IVecLayout<IVecTabLayoutData> {

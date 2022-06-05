@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
 /**
  * Вид прямоугольной границы, обрамляющий некоторую облесть на экране.
  *
- * @author goga
+ * @author hazard157
  */
 @SuppressWarnings( "nls" )
 public enum EBorderType

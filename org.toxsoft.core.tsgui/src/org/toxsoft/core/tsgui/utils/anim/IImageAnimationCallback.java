@@ -5,7 +5,7 @@ import org.toxsoft.core.tsgui.graphics.image.TsImage;
 /**
  * Обратный вызов аниматором {@link AnimationSupport} для перерисовки очередного кадра анимации.
  *
- * @author goga
+ * @author hazard157
  */
 public interface IImageAnimationCallback {
 

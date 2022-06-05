@@ -24,7 +24,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * {@link Integer} editor with {@link Spinner} widget.
  *
- * @author goga
+ * @author hazard157
  */
 public class ValedIntegerSpinner
     extends AbstractValedControl<Integer, Composite> {

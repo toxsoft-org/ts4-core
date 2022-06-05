@@ -21,7 +21,7 @@ import org.toxsoft.core.tslib.utils.valobj.*;
 /**
  * Вспомгательные методы для работы с редакторами.
  *
- * @author goga
+ * @author hazard157
  */
 public class ValedControlUtils {
 

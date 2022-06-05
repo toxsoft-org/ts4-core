@@ -7,7 +7,7 @@ package org.toxsoft.core.tsgui.utils.swt;
  * отсюда надо убирать эти константы.
  *
  * @author vs
- * @author goga
+ * @author hazard157
  */
 public interface ISwt {
 

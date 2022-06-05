@@ -10,7 +10,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * Абстрактный класс реализации {@link ITsViewerColumn}.
  *
- * @author goga
+ * @author hazard157
  */
 abstract class AbstractTsColumn
     implements ITsViewerColumn {

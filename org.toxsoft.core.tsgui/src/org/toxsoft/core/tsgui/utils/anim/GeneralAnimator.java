@@ -6,7 +6,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * Реализация {@link IGeneralAnimator}.
  *
- * @author goga
+ * @author hazard157
  * @param <T> - тип пользовательских данных
  */
 class GeneralAnimator<T>

@@ -14,7 +14,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * Time field negth - the accuracy of time editing using sume {@link IMultiPartValue} subclasses.
  *
- * @author goga
+ * @author hazard157
  */
 public enum EMpvTimeLen
     implements IStridable {

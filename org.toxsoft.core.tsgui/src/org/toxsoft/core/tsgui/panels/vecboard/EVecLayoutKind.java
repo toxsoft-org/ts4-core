@@ -9,7 +9,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * Виды раскладок контролей {@link IVecLayout}.
  *
- * @author goga
+ * @author hazard157
  */
 @SuppressWarnings( "nls" )
 public enum EVecLayoutKind

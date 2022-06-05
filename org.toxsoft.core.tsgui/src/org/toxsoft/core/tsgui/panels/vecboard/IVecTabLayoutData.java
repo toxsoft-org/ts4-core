@@ -9,7 +9,7 @@ import org.toxsoft.core.tsgui.graphics.icons.*;
  * <p>
  * Каждый элемент в {@link IVecTabLayout} - это отдельная вкладка, и параметры задают отображаемые параметры вкладки.
  *
- * @author goga
+ * @author hazard157
  */
 public interface IVecTabLayoutData {
 

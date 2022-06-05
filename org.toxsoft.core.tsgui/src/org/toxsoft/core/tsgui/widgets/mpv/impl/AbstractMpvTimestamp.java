@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * {@link IMpvTimestamp} implementation in form "YYYY-MM-DD HH:MM:SS.uuu".
  *
- * @author goga
+ * @author hazard157
  */
 public abstract class AbstractMpvTimestamp
     extends MultiPartValueBase

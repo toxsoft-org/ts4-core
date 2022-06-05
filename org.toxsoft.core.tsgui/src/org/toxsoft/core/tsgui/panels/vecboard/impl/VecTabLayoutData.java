@@ -8,7 +8,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * Неизменяемая реализация {@link IVecTabLayoutData}.
  *
- * @author goga
+ * @author hazard157
  */
 public class VecTabLayoutData
     implements IVecTabLayoutData {

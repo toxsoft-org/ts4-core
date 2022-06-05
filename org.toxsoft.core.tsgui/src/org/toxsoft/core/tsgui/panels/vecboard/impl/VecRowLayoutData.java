@@ -6,7 +6,7 @@ import org.toxsoft.core.tsgui.panels.vecboard.IVecRowLayoutData;
 /**
  * Неизменяемая реализация {@link IVecRowLayoutData}.
  *
- * @author goga
+ * @author hazard157
  */
 public class VecRowLayoutData
     implements IVecRowLayoutData {

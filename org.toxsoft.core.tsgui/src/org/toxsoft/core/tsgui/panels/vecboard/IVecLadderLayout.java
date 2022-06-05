@@ -12,7 +12,7 @@ package org.toxsoft.core.tsgui.panels.vecboard;
  * <p>
  * Добавление контролей происходит сверху вниз по лестнице.
  *
- * @author goga
+ * @author hazard157
  */
 public interface IVecLadderLayout
     extends IVecLayout<IVecLadderLayoutData> {

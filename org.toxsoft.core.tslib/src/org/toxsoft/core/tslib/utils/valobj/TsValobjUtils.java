@@ -72,6 +72,7 @@ public class TsValobjUtils {
     registerKeeper( GwidList.KEEPER_ID, GwidList.KEEPER );
     registerKeeper( MappedSkids.KEEPER_ID, MappedSkids.KEEPER );
     registerKeeper( ELogSeverity.KEEPER_ID, ELogSeverity.KEEPER );
+    registerKeeper( CollConstraint.KEEPER_ID, CollConstraint.KEEPER );
     registerKeeper( ECrudOp.KEEPER_ID, ECrudOp.KEEPER );
   }
 

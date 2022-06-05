@@ -8,7 +8,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * Потоко-безопасная оболочка над базовым редактируемым списком {@link IListBasicEdit}.
  *
- * @author goga
+ * @author hazard157
  * @version $id$
  * @param <E> - тип элементов списка
  */

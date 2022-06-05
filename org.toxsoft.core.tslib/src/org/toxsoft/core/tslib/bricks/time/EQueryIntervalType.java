@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * Такое возможно, только если в запрашиваемых данных нет хотя бы одного данного с метко времени точно равной одной из
  * границ интервала.
  *
- * @author goga
+ * @author hazard157
  */
 @SuppressWarnings( "nls" )
 public enum EQueryIntervalType

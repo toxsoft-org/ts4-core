@@ -15,7 +15,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Базовый класс всех раскладок, реализующих {@link IVecLayout}.
  *
- * @author goga
+ * @author hazard157
  * @param <D> - конкретный тип параметров
  */
 abstract class AbstractVecLayout<D>

@@ -6,7 +6,7 @@ import org.toxsoft.core.tsgui.graphics.EBorderType;
 /**
  * Свойства оформления (обрамления) панели {@link IVecBoard} как группы контролей {@link Group}.
  *
- * @author goga
+ * @author hazard157
  */
 public interface IVecGroupBoxInfo {
 

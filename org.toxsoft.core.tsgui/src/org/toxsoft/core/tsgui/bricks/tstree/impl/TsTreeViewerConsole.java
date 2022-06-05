@@ -15,7 +15,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Реализация {@link ITsTreeViewerConsole} по умолчанию.
  *
- * @author goga
+ * @author hazard157
  */
 public class TsTreeViewerConsole
     implements ITsTreeViewerConsole {

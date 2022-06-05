@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
 /**
  * Ориентация визуальных компонент - горизонтаьная или вертикальная.
  *
- * @author goga
+ * @author hazard157
  */
 public enum ETsOrientation
     implements IStridable {

@@ -2,23 +2,17 @@ package org.toxsoft.core.tslib.coll.helpers;
 
 import static org.toxsoft.core.tslib.coll.helpers.ITsResources.*;
 
-import java.io.Serializable;
+import java.io.*;
 
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.EEncloseMode;
-import org.toxsoft.core.tslib.bricks.strio.IStrioReader;
-import org.toxsoft.core.tslib.bricks.strio.IStrioWriter;
-import org.toxsoft.core.tslib.bricks.validator.EValidationResultType;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.coll.basis.ITsFastIndexListTag;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Constraints on any collection content.
@@ -36,14 +30,14 @@ public final class CollConstraint
   public static final CollConstraint NONE = new CollConstraint( 0, 0 );
 
   /**
-   * Идентификатор регистрации хранителя {@link #KEEPER} в реестре {@link TsValobjUtils}.
+   * Registered keeper ID.
    */
   public static final String KEEPER_ID = "CollConstraint"; //$NON-NLS-1$
 
   /**
    * Keeper singleton.
    */
-  public static IEntityKeeper<CollConstraint> KEEPER =
+  public static final IEntityKeeper<CollConstraint> KEEPER =
       new AbstractEntityKeeper<>( CollConstraint.class, EEncloseMode.ENCLOSES_BASE_CLASS, null ) {
 
         @Override
@@ -196,8 +190,7 @@ public final class CollConstraint
     if( aThat == this ) {
       return true;
     }
-    if( aThat instanceof CollConstraint ) {
-      CollConstraint that = (CollConstraint)aThat;
+    if( aThat instanceof CollConstraint that ) {
       return maxCount == that.maxCount && flags == that.flags;
     }
     return false;

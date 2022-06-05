@@ -18,7 +18,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * <p>
  * Wraps over {@link ValedFile}.
  *
- * @author goga
+ * @author hazard157
  */
 public class ValedAvValobjFile
     extends AbstractAvValobjWrapperValedControl<File> {

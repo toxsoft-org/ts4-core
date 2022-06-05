@@ -3,7 +3,7 @@ package org.toxsoft.core.pas.tj;
 /**
  * Локализуемые ресурсы.
  *
- * @author goga
+ * @author hazard157
  */
 interface ITsResources {
 

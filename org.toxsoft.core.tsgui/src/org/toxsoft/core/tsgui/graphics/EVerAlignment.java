@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
 /**
  * Тип выравнивания по вертикали (по верху, по центру, по низу).
  *
- * @author goga
+ * @author hazard157
  */
 public enum EVerAlignment
     implements IStridable {

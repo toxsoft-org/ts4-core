@@ -15,7 +15,7 @@ import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
  * Внимание: время хранится с точностью до миллисекунд, соответственно, после сохранения/загрузки теряеются микро- и
  * нано- секунды. Следовательно, загруженное значение может быть не равно сохраненному.
  *
- * @author goga
+ * @author hazard157
  */
 public class LocalTimeKeeper
     extends AbstractEntityKeeper<LocalTime> {

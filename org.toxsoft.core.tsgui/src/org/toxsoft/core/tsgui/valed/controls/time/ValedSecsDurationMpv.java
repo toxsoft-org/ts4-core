@@ -25,7 +25,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * Edits {@link Integer} value of duration seconds using {@link IMpvSecsDuration} as "HH:MM:SS".
  *
- * @author goga
+ * @author hazard157
  */
 public class ValedSecsDurationMpv
     extends AbstractValedControl<Integer, MultiPartValueWidget> {

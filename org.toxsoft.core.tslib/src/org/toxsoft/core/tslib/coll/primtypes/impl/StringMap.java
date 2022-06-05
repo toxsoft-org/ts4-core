@@ -2,14 +2,14 @@ package org.toxsoft.core.tslib.coll.primtypes.impl;
 
 import static org.toxsoft.core.tslib.coll.impl.TsCollectionsUtils.*;
 
-import java.io.Serializable;
-import java.util.Iterator;
+import java.io.*;
+import java.util.*;
 
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemLinkedBundleList;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Implementation of the {@link IStringMap}.
@@ -36,9 +36,7 @@ public class StringMap<E>
   public StringMap( int aBucketsCount ) {
     int bucketsCount = calculateNextPrimeNumber( aBucketsCount );
     buckets = new IIntListEdit[bucketsCount];
-    for( int i = 0; i < buckets.length; i++ ) {
-      buckets[i] = null;
-    }
+    Arrays.fill( buckets, null );
   }
 
   /**
@@ -255,6 +253,49 @@ public class StringMap<E>
       }
     }
     return null;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Реализация методов Object
+  //
+
+  @Override
+  public String toString() {
+    return TsCollectionsUtils.countableCollectionToString( this );
+  }
+
+  @Override
+  public boolean equals( Object obj ) {
+    if( obj == this ) {
+      return true;
+    }
+    if( !(obj instanceof IStringMap) ) {
+      return false;
+    }
+    IStringMap<?> map = (IStringMap<?>)obj;
+    int sz = map.size();
+    if( sz != size() ) {
+      return false;
+    }
+    for( int i = 0; i < sz; i++ ) {
+      if( !map.keys().get( i ).equals( this.keys().get( i ) ) ) {
+        return false;
+      }
+      if( !map.values().get( i ).equals( this.values().get( i ) ) ) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = TsLibUtils.INITIAL_HASH_CODE;
+    for( int i = 0, n = size(); i < n; i++ ) {
+      result = TsLibUtils.PRIME * result + keys().get( i ).hashCode();
+      result = TsLibUtils.PRIME * result + values().get( i ).hashCode();
+    }
+    return result;
   }
 
 }

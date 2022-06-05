@@ -2,18 +2,18 @@ package org.toxsoft.core.tslib.bricks.time.impl;
 
 import static org.toxsoft.core.tslib.coll.impl.TsCollectionsUtils.*;
 
-import java.io.Serializable;
-import java.util.Comparator;
+import java.io.*;
+import java.util.*;
 
 import org.toxsoft.core.tslib.bricks.time.*;
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.coll.impl.SortedElemLinkedBundleListEx;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Реализация {@link ITimedListEdit}.
  *
- * @author goga
+ * @author hazard157
  * @param <T> - конкретный тип сущности с меткой времени
  */
 public class TimedList<T extends ITimestampable>
@@ -50,75 +50,55 @@ public class TimedList<T extends ITimestampable>
   //
 
   /**
-   * Конструктор со всеми инвариантами.
+   * Constructor with all invariants.
    *
-   * @param aBundleCapacity int - размер "связки" по умолчанию
-   * @param aAlloweDuplicates boolean <b>true</b> - разрешено хранить совпадающие элементы в список;<br>
-   *          <b>false</b> - нельзя хранить совпадающие элементы (то есть, фактически это набор, Set).
+   * @param aBundleCapacity int - number of elements in bundle
+   * @param aAllowDuplicates <b>true</b> - duplicate elements are allowed in list;<br>
+   *          <b>false</b> - list will not contain duplicate elements.
+   * @throws TsIllegalArgumentRtException aBundleCapacity is out of range
    */
   @SuppressWarnings( "unchecked" )
-  public TimedList( int aBundleCapacity, boolean aAlloweDuplicates ) {
-    super( (Comparator<T>)COMPARATOR, aBundleCapacity, aAlloweDuplicates );
+  public TimedList( int aBundleCapacity, boolean aAllowDuplicates ) {
+    super( (Comparator<T>)COMPARATOR, aBundleCapacity, aAllowDuplicates );
   }
 
   /**
-   * Создает пустой список.
+   * Constructor.
    * <p>
-   * Созданный список может хранить совпадающие элементы.
+   * Created list may contain duplicates.
    *
-   * @param aBundleCapacity int - размер "связки" по умолчанию
-   * @throws TsIllegalArgumentRtException aBundleCapacity выходит за допустимые пределы
+   * @param aBundleCapacity int - number of elements in bundle
+   * @throws TsIllegalArgumentRtException aBundleCapacity is out of range
    */
   public TimedList( int aBundleCapacity ) {
     this( aBundleCapacity, true );
   }
 
   /**
-   * Создает пустой список.
-   *
-   * @param aAlloweDuplicates boolean <b>true</b> - разрешено хранить совпадающие элементы в список;<br>
-   *          <b>false</b> - нельзя хранить совпадающие элементы (то есть, фактически это набор, Set).
-   */
-  public TimedList( boolean aAlloweDuplicates ) {
-    this( DEFAULT_BUNDLE_CAPACITY, aAlloweDuplicates );
-  }
-
-  /**
-   * Создает пустой список.
+   * Constructor.
+   * <p>
+   * Created list may contain duplicates.
    */
   public TimedList() {
     this( DEFAULT_BUNDLE_CAPACITY, true );
   }
 
   /**
-   * Конструктор копирования.
+   * Copy constructor.
    *
    * @param aSource {@link ITsCollection}&lt;T&gt; - исходная коллекция
    * @throws TsNullArgumentRtException аргумент = null
    */
   public TimedList( ITsCollection<T> aSource ) {
-    this();
+    this( getListInitialCapacity( estimateOrder( TsNullArgumentRtException.checkNull( aSource ).size() ) ), true );
     setAll( aSource );
   }
 
   /**
-   * Конструктор копирования с инвариантами.
+   * Constructor with initialization by array.
    *
-   * @param aSource {@link ITsCollection}&lt;T&gt; - исходная коллекция
-   * @param aBundleCapacity int - размер "связки" по умолчанию
-   * @param aAlloweDuplicates boolean <b>true</b> - разрешено хранить совпадающие элементы в список;<br>
-   *          <b>false</b> - нельзя хранить совпадающие элементы (то есть, фактически это набор, Set).
-   * @throws TsNullArgumentRtException аргумент = null
-   */
-  public TimedList( ITsCollection<T> aSource, int aBundleCapacity, boolean aAlloweDuplicates ) {
-    this( aBundleCapacity, aAlloweDuplicates );
-    setAll( aSource );
-  }
-
-  /**
-   * Конструктор с массивомэлементов.
-   *
-   * @param aElems &lt;T&gt;[] - массив значений
+   * @param aElems &lt;E&gt;[] - specified array
+   * @throws TsNullArgumentRtException argument or any it's element = <code>null</code>
    */
   @SuppressWarnings( "unchecked" )
   public TimedList( T... aElems ) {
@@ -127,7 +107,7 @@ public class TimedList<T extends ITimestampable>
   }
 
   // ------------------------------------------------------------------------------------
-  // Внутренные методы
+  // implementation
   //
 
   /**

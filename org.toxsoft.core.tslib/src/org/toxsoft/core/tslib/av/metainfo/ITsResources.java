@@ -39,6 +39,12 @@ interface ITsResources {
   String STR_D_MIN_EXCLUSIVE         = "Minimal allowed value (exclusive)";
   String STR_N_ICON_ID               = "Icon";
   String STR_D_ICON_ID               = "ID of the icon";
+  String STR_N_LOCAL_DATE            = "Date";
+  String STR_D_LOCAL_DATE            = "Calendar date without zone info";
+  String STR_N_LOCAL_TIME            = "Time";
+  String STR_D_LOCAL_TIME            = "Time of daty without zone info";
+  String STR_N_LOCAL_DATE_TIME       = "Instant";
+  String STR_D_LOCAL_DATE_TIME       = "Moment in time without zone info";
   String FMT_ERR_NO_MANDATORY_OPTION = "Mandatory option %s is not specified";
 
   String FMT_ERR_NO_REGISTERED_DATA_DEF    = "Data defnition with ID '%s': not found";

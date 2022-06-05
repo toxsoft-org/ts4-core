@@ -16,7 +16,7 @@ import org.toxsoft.core.tslib.utils.logs.impl.*;
 /**
  * Вспомогтельный класс для облегчения реализации {@link ITsMouseEventProducer}.
  *
- * @author goga
+ * @author hazard157
  */
 public class TsMouseEventProducerHelper
     implements ITsMouseEventProducer, MouseListener, ISingleSourcing_MouseWheelListener {

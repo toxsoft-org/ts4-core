@@ -7,7 +7,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * Смешиваемый интерфейс классов, генерирующих сообщение {@link ITsKeyEventListener#onTsKeyEvent(Object, Event)} по
  * отжатию клавиш клавиатуры.
  *
- * @author goga
+ * @author hazard157
  */
 public interface ITsKeyUpEventProducer {
 

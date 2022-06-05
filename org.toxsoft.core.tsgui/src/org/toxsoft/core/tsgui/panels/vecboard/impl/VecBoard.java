@@ -12,7 +12,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * Реализация {@link IVecBoard}.
  *
- * @author goga
+ * @author hazard157
  */
 public class VecBoard
     implements IVecBoard {

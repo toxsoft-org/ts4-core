@@ -9,7 +9,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * Внимание: эта реализация не владеет ресурсом {@link TsImage} - то есть, она не освобождает ресурсы и не вызывает
  * {@link TsImage#dispose()}.
  *
- * @author goga
+ * @author hazard157
  */
 class ImageAnimator
     implements IImageAnimator {

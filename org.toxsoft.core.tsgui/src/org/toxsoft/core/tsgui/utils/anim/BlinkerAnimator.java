@@ -6,7 +6,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * Простая реализация {@link IBlinkerAnimator}.
  *
- * @author goga
+ * @author hazard157
  */
 class BlinkerAnimator
     implements IBlinkerAnimator {

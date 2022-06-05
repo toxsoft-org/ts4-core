@@ -3,7 +3,7 @@ package org.toxsoft.core.tsgui.bricks.stdevents;
 /**
  * Слушатель двойного щелчка мышью в какой-либо визуальной компоненте, содержащей однотипные элементы.
  *
- * @author goga
+ * @author hazard157
  * @param <E> - конкретный тип элементов
  */
 public interface ITsDoubleClickListener<E> {

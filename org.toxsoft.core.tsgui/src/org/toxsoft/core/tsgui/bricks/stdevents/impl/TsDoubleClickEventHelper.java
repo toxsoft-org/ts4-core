@@ -14,7 +14,7 @@ import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
 /**
  * Вспомогтельный класс для облегчения реализации {@link ITsDoubleClickEventProducer}.
  *
- * @author goga
+ * @author hazard157
  * @param <E> - конкретный тип элементов
  */
 public class TsDoubleClickEventHelper<E>

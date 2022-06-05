@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.Event;
  * Для кажого типа события ({@link SWT#KeyDown}, {@link SWT#KeyUp}) нужно иметь совю подписку (то есть, свой регистратор
  * слушателя addKeyXxxEvent()).
  *
- * @author goga
+ * @author hazard157
  */
 public interface ITsKeyEventListener {
 

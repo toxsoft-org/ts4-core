@@ -14,7 +14,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * <p>
  * К базовому интерфейсу {@link ITsBasicTreeViewer} добавляет возможность задавать корневые узлы и создавать столбцы.
  *
- * @author goga
+ * @author hazard157
  */
 public interface ITsTreeViewer
     extends ITsBasicTreeViewer {

@@ -3,7 +3,7 @@ package org.toxsoft.core.tslib.bricks.events.change;
 /**
  * Mixin interface for entities having {@link IGenericChangeEventer} eventer.
  *
- * @author goga
+ * @author hazard157
  */
 public interface IGenericChangeEventCapable {
 

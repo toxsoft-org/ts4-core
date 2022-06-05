@@ -5,7 +5,7 @@ import org.eclipse.swt.widgets.Menu;
 /**
  * Менеджер локальных меню в просмотрщиках {@link IM5CollectionViewer}.
  *
- * @author goga
+ * @author hazard157
  * @param <T> - тип моделированного объекта
  */
 public interface IM5MenuManager<T> {

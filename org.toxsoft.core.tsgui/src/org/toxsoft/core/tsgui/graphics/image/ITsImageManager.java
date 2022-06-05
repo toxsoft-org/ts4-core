@@ -29,7 +29,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Внимание: для работы функционала создания файлового кеша миниатюр в системе должна быть установлена программа <a
  * href=http://www.graphicsmagick.org>graphicsmagic</a>.
  *
- * @author goga
+ * @author hazard157
  */
 public interface ITsImageManager {
 

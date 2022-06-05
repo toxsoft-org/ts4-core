@@ -15,7 +15,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * Потоко-безопасная оболочка над редактируемой картой отображения {@link IMapEdit}.
  *
- * @author goga
+ * @author hazard157
  * @version $id$
  * @param <E> - тип хранимых элементов, значений в карте
  */

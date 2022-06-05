@@ -24,7 +24,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * <p>
  * State of the generator includes only prefix string.
  *
- * @author goga
+ * @author hazard157
  */
 public class UuidStridGenerator
     implements IStridGenerator {

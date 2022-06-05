@@ -11,7 +11,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * Реализация раскладки {@link IVecRowLayout}.
  *
- * @author goga
+ * @author hazard157
  */
 public class VecRowLayout
     extends AbstractVecLayout<IVecRowLayoutData>

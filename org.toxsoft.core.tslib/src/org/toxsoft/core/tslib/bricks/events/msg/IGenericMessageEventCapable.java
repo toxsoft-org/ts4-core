@@ -3,7 +3,7 @@ package org.toxsoft.core.tslib.bricks.events.msg;
 /**
  * Mixin interface for entities having {@link IGenericMessageEventer} eventer.
  *
- * @author goga
+ * @author hazard157
  */
 public interface IGenericMessageEventCapable {
 

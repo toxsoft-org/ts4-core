@@ -9,7 +9,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * Неизменяемая реализация {@link IVecLadderLayoutData}.
  *
- * @author goga
+ * @author hazard157
  */
 public class VecLadderLayoutData
     implements IVecLadderLayoutData {

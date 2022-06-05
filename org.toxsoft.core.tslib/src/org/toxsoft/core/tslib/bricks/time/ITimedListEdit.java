@@ -5,7 +5,7 @@ import org.toxsoft.core.tslib.coll.IListBasicEdit;
 /**
  * Редатируемое расширение {@link ITimedList}.
  *
- * @author goga
+ * @author hazard157
  * @param <T> - конкретный тип сущности с меткой времени
  */
 public interface ITimedListEdit<T extends ITimestampable>

@@ -11,7 +11,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * {@link Canvas} extension with {@link ITsGuiContextable}.
  *
- * @author goga
+ * @author hazard157
  */
 public abstract class TsAbstractCanvas
     extends Canvas

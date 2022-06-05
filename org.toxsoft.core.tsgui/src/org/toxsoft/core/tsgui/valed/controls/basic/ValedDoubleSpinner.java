@@ -29,7 +29,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * <p>
  * В режиме {@link #isEditable()} = <code>false</code> виджет переключается в нередактируемый {@link Text}.
  *
- * @author goga
+ * @author hazard157
  */
 @SuppressWarnings( "nls" )
 public class ValedDoubleSpinner

@@ -10,7 +10,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * {@link IMpvLocalDate} implementation in form "YYYY-MM-DD".
  *
- * @author goga
+ * @author hazard157
  */
 public class MpvLocatDate
     extends MultiPartValueBase

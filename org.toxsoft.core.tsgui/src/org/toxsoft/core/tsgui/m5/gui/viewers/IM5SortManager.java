@@ -8,7 +8,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Управление сотрировкой в таблице {@link IM5CollectionViewer}.
  *
- * @author goga
+ * @author hazard157
  */
 public interface IM5SortManager {
 

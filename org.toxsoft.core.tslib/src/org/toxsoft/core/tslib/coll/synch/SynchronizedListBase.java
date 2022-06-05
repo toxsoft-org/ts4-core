@@ -11,7 +11,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 /**
  * Служебный базовый класс потоко-безопасной оболочки над редактируемым списком.
  *
- * @author goga
+ * @author hazard157
  * @param <E> - тип элементов списка
  * @param <L> - (служебный) тип редактируемого списка-источника
  */

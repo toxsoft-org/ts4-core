@@ -34,6 +34,8 @@ public class Stack<E>
 
   /**
    * Constructor with all invariants.
+   * <p>
+   * Source list will be cleared.
    *
    * @param aSourceList {@link IListBasicEdit}&lt;E&gt; - the source list
    * @param aMaxSize int - max number of elements or <0 for no size restriction
@@ -47,6 +49,7 @@ public class Stack<E>
     else {
       maxSize = aMaxSize;
     }
+    source.clear();
   }
 
   /**
