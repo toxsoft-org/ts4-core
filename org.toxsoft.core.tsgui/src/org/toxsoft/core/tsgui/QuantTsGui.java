@@ -16,7 +16,8 @@ import org.toxsoft.core.tsgui.mws.quants.progargs.*;
 import org.toxsoft.core.tsgui.mws.services.hdpi.*;
 import org.toxsoft.core.tsgui.utils.*;
 import org.toxsoft.core.tsgui.utils.anim.*;
-import org.toxsoft.core.tsgui.valed.*;
+import org.toxsoft.core.tsgui.valed.api.*;
+import org.toxsoft.core.tsgui.valed.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -36,15 +37,16 @@ public class QuantTsGui
     super( QuantTsGui.class.getSimpleName() );
     TsGuiUtils.initializeTsGuiCore();
     registerQuant( new QuantProgramArgs() );
-    registerQuant( new QuantValed() );
     registerQuant( new QuantM5() );
   }
 
   @Override
   protected void doInitApp( IEclipseContext aAppContext ) {
-    // FIXME IAppGuiSettingsService agss = new AppGuiSettingsService( aAppContext );
-    // aAppContext.set( IAppGuiSettingsService.class, agss );
     aAppContext.set( ITsHdpiService.class, new TsHdpiService( aAppContext ) );
+    //
+    ValedControlFactoriesRegistry registry = new ValedControlFactoriesRegistry();
+    aAppContext.set( IValedControlFactoriesRegistry.class, registry );
+    aAppContext.set( ValedControlFactoriesRegistry.class, registry );
   }
 
   @Override

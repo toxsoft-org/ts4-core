@@ -3,26 +3,21 @@ package org.toxsoft.core.tsgui.valed.impl;
 import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
 import static org.toxsoft.core.tsgui.valed.impl.ITsResources.*;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.e4.core.contexts.*;
+import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContextable;
-import org.toxsoft.core.tsgui.bricks.ctx.impl.TsGuiContext;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.valed.api.*;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.opset.IOptionSetEdit;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContextListener;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContextRo;
-import org.toxsoft.core.tslib.bricks.events.AbstractTsEventer;
-import org.toxsoft.core.tslib.bricks.events.ITsEventer;
-import org.toxsoft.core.tslib.bricks.events.change.IGenericChangeListener;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.validator.EValidationResultType;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.bricks.validator.impl.TsValidationFailedRtException;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.bricks.ctx.*;
+import org.toxsoft.core.tslib.bricks.events.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -124,13 +119,7 @@ public abstract class AbstractValedControl<V, C extends Control>
    * Этот слушатель типа {@link ISelectionChangedListener} нужно ставить тем просмотрщикам в панели, с которыми работает
    * пользователь для внесения изменений в отображаемой структуре данных T.
    */
-  protected ISelectionChangedListener notificationSelectionChangedListener = new ISelectionChangedListener() {
-
-    @Override
-    public void selectionChanged( SelectionChangedEvent event ) {
-      fireModifyEvent( true );
-    }
-  };
+  protected ISelectionChangedListener notificationSelectionChangedListener = event -> fireModifyEvent( true );
 
   /**
    * Слушатель изменений в виджетах, извещающий диалог о правках пользовтеля.
@@ -138,13 +127,7 @@ public abstract class AbstractValedControl<V, C extends Control>
    * Этот слушатель типа {@link ModifyListener} нужно ставить тем виджетам в панели, с которыми работает пользователь
    * для внесения изменений в отображаемой структуре данных T.
    */
-  protected ModifyListener notificationModifyListener = new ModifyListener() {
-
-    @Override
-    public void modifyText( ModifyEvent e ) {
-      fireModifyEvent( false );
-    }
-  };
+  protected ModifyListener notificationModifyListener = e -> fireModifyEvent( false );
 
   /**
    * Слушатель изменений в виджетах, извещающий диалог о правках пользовтеля.
@@ -152,14 +135,7 @@ public abstract class AbstractValedControl<V, C extends Control>
    * Этот слушатель типа {@link IGenericChangeListener} нужно ставить тем виджетам в панели, с которыми работает
    * пользователь для внесения изменений в отображаемой структуре данных T.
    */
-  protected IGenericChangeListener widgetValueChangeListener = new IGenericChangeListener() {
-
-    @Override
-    public void onGenericChangeEvent( Object aSource ) {
-      fireModifyEvent( true );
-    }
-
-  };
+  protected IGenericChangeListener widgetValueChangeListener = aSource -> fireModifyEvent( true );
 
   // ------------------------------------------------------------------------------------
   // Другие поля экземпляра класса
@@ -218,10 +194,6 @@ public abstract class AbstractValedControl<V, C extends Control>
    */
   private final Eventer eventer = new Eventer();
 
-  // ------------------------------------------------------------------------------------
-  // Скрытый конструктор
-  //
-
   /**
    * Constructor for subclasses.
    *
@@ -258,13 +230,9 @@ public abstract class AbstractValedControl<V, C extends Control>
     }
     TsInternalErrorRtException.checkNull( c );
     control = c;
-    control.addDisposeListener( new DisposeListener() {
-
-      @Override
-      public void widgetDisposed( DisposeEvent e ) {
-        tsContext().removeContextListener( AbstractValedControl.this );
-        onDispose();
-      }
+    control.addDisposeListener( e -> {
+      tsContext().removeContextListener( AbstractValedControl.this );
+      onDispose();
     } );
     String tooltipText = getTooltipText();
     control.setToolTipText( tooltipText );
@@ -394,9 +362,7 @@ public abstract class AbstractValedControl<V, C extends Control>
    */
   public final void setParamIfNull( String aParamId, IAtomicValue aValue ) {
     TsNullArgumentRtException.checkNulls( aParamId, aValue );
-    if( !params().getValue( aParamId, IAtomicValue.NULL ).isAssigned() ) {
-      params().setValue( aParamId, aValue );
-    }
+    params().setValueIfNull( aParamId, aValue );
   }
 
   /**
@@ -408,7 +374,7 @@ public abstract class AbstractValedControl<V, C extends Control>
    */
   public final void setParamIfNull( IStridable aParamId, IAtomicValue aValue ) {
     TsNullArgumentRtException.checkNulls( aParamId, aValue );
-    setParamIfNull( aParamId.id(), aValue );
+    params().setValueIfNull( aParamId.id(), aValue );
   }
 
   // ------------------------------------------------------------------------------------
@@ -626,12 +592,12 @@ public abstract class AbstractValedControl<V, C extends Control>
   abstract protected V doGetUnvalidatedValue();
 
   /**
-   * Вызывается из {@link #setValue(Object)} после проверки аргумента на <code>null</code>.
+   * Subclass must the value to editor widget(s).
    * <p>
-   * Этот метод вызывается только когда существует виджет, то есть, когда {@link #getControl()} != null.
+   * This method is called only when SWT widgets are created.
    *
-   * @param aValue V - новое значение, не бывает <code>null</code>
-   * @throws TsIllegalArgumentRtException значение имеет несовместимый с редактором тип
+   * @param aValue &lt;V&gt; - new value, never is <code>null</code>
+   * @throws TsIllegalArgumentRtException value has uncompatibe type
    */
   abstract protected void doSetUnvalidatedValue( V aValue );
 

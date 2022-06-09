@@ -76,6 +76,7 @@ public class CmdMwsEditAppPrefs {
     // DialogOptionSetGroupEdit.edit( dlgInfo, sectDefs, IOptionValueChangeListener.NONE );
 
     // TODO CmdMwsEditAppPrefs.exec()
+    TsDialogUtils.underDevelopment( shell );
   }
 
   // ------------------------------------------------------------------------------------

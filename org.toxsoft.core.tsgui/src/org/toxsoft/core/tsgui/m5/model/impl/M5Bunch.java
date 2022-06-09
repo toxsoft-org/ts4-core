@@ -1,8 +1,7 @@
 package org.toxsoft.core.tsgui.m5.model.impl;
 
 import org.toxsoft.core.tsgui.m5.*;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link IM5Bunch} implementation.

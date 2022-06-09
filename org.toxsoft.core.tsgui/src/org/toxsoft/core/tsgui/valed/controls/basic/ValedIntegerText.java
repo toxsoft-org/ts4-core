@@ -4,7 +4,6 @@ import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 
 import org.eclipse.swt.*;
-import org.eclipse.swt.events.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.valed.api.*;
@@ -15,7 +14,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * {@link Integer} editor with support of an empty value.
  *
- * @author hazard157 
+ * @author hazard157
  */
 public class ValedIntegerText
     extends AbstractValedControl<Integer, Text> {

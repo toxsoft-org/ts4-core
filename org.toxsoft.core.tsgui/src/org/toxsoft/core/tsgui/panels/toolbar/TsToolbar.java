@@ -25,11 +25,11 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public class TsToolBar
+public class TsToolbar
     extends AbstractLazyPanel<Control>
     implements ITsToolBar {
 
-  private final IListEdit<ITsToolBarListener> listeners = new ElemArrayList<>();
+  private final IListEdit<ITsToolbarListener> listeners = new ElemArrayList<>();
 
   private final IListEdit<ITsActionDef>  allActionDefs = new ElemArrayList<>();
   private final IListEdit<ITsActionDef>  buttonActDefs = new ElemArrayList<>();
@@ -58,7 +58,7 @@ public class TsToolBar
    * @param aContext {@link ITsGuiContext} - контекст панели
    * @throws TsNullArgumentRtException аргумент = null
    */
-  public TsToolBar( ITsGuiContext aContext ) {
+  public TsToolbar( ITsGuiContext aContext ) {
     super( aContext );
   }
 
@@ -67,16 +67,16 @@ public class TsToolBar
    *
    * @param aParent {@link Composite} - parent composite
    * @param aContext {@link ITsGuiContext} - the context
-   * @param aName String - toolbar name, may be null
+   * @param aName String - toolbar name, may be <code>null</code>
    * @param aIconSize {@link EIconSize} - icons size or <code>null</code> for default size
    * @param aActionDefs {@link ITsActionDef} - action buttons on toolbar
-   * @return {@link TsToolBar} - created instance
+   * @return {@link TsToolbar} - created instance
    */
-  public static TsToolBar create( Composite aParent, ITsGuiContext aContext, String aName, EIconSize aIconSize,
+  public static TsToolbar create( Composite aParent, ITsGuiContext aContext, String aName, EIconSize aIconSize,
       ITsActionDef... aActionDefs ) {
-    TsNullArgumentRtException.checkNulls( aParent, aContext, aName, aIconSize );
+    TsNullArgumentRtException.checkNulls( aParent, aContext, aIconSize );
     TsErrorUtils.checkArrayArg( aActionDefs );
-    TsToolBar toolBar = new TsToolBar( aContext );
+    TsToolbar toolBar = new TsToolbar( aContext );
     for( ITsActionDef actDef : aActionDefs ) {
       toolBar.addActionDef( actDef );
     }
@@ -99,10 +99,11 @@ public class TsToolBar
    * @param aParent {@link Composite} - parent composite
    * @param aContext {@link ITsGuiContext} - the context
    * @param aIconSize {@link EIconSize} - icons size or <code>null</code> for default size
-   * @param aActionDefs {@link ITsActionDef} - action buttons on toolbar
-   * @return {@link TsToolBar} - created instance
+   * @param aActionDefs {@link ITsActionDef}[] - action buttons on toolbar
+   * @return {@link TsToolbar} - created instance
    */
-  public TsToolBar create( Composite aParent, ITsGuiContext aContext, EIconSize aIconSize, ITsActionDef aActionDefs ) {
+  public static TsToolbar create( Composite aParent, ITsGuiContext aContext, EIconSize aIconSize,
+      ITsActionDef... aActionDefs ) {
     return create( aParent, aContext, null, aIconSize, aActionDefs );
   }
 
@@ -111,10 +112,10 @@ public class TsToolBar
    *
    * @param aParent {@link Composite} - parent composite
    * @param aContext {@link ITsGuiContext} - the context
-   * @param aActionDefs {@link ITsActionDef} - action buttons on toolbar
-   * @return {@link TsToolBar} - created instance
+   * @param aActionDefs {@link ITsActionDef}[] - action buttons on toolbar
+   * @return {@link TsToolbar} - created instance
    */
-  public TsToolBar create( Composite aParent, ITsGuiContext aContext, ITsActionDef aActionDefs ) {
+  public static TsToolbar create( Composite aParent, ITsGuiContext aContext, ITsActionDef... aActionDefs ) {
     return create( aParent, aContext, null, null, aActionDefs );
   }
 
@@ -124,7 +125,7 @@ public class TsToolBar
 
   private void fireToolButtonPressed( String aActionId ) {
     if( !listeners.isEmpty() ) {
-      for( ITsToolBarListener l : listeners ) {
+      for( ITsToolbarListener l : listeners ) {
         l.onToolButtonPressed( aActionId );
       }
     }
@@ -374,14 +375,14 @@ public class TsToolBar
   }
 
   @Override
-  public void addListener( ITsToolBarListener aListener ) {
+  public void addListener( ITsToolbarListener aListener ) {
     if( !listeners.hasElem( aListener ) ) {
       listeners.add( aListener );
     }
   }
 
   @Override
-  public void removeListener( ITsToolBarListener aListener ) {
+  public void removeListener( ITsToolbarListener aListener ) {
     listeners.remove( aListener );
   }
 

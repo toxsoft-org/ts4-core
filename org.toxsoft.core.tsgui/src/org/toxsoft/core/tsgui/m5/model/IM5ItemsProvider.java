@@ -1,9 +1,9 @@
 package org.toxsoft.core.tsgui.m5.model;
 
 import org.toxsoft.core.tslib.bricks.events.change.*;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.helpers.IListReorderer;
-import org.toxsoft.core.tslib.utils.ITsItemsProvider;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.helpers.*;
+import org.toxsoft.core.tslib.utils.*;
 
 /**
  * Items provider for M5 GUI components.
@@ -39,6 +39,11 @@ public interface IM5ItemsProvider<T>
    */
   default IListReorderer<T> reorderer() {
     return null;
+  }
+
+  @Override
+  default IGenericChangeEventer genericChangeEventer() {
+    return NoneGenericChangeEventer.INSTANCE;
   }
 
 }

@@ -46,7 +46,7 @@ public class KeepablesStorageInDir
   public KeepablesStorageInDir( File aDir, String aSectionFileExtension ) {
     dir = TsNullArgumentRtException.checkNull( aDir );
     fileExt = TsErrorUtils.checkNonBlank( aSectionFileExtension );
-    fileFilter = TsFileFilter.ofExtFile( fileExt );
+    fileFilter = TsFileFilter.ofFileExt( fileExt );
   }
 
   // ------------------------------------------------------------------------------------

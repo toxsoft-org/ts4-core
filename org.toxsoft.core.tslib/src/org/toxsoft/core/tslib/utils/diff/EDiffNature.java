@@ -12,7 +12,7 @@ import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Possible differences between elements of comared containers.
+ * Possible differences between elements of compared containers.
  *
  * @author hazard157
  */

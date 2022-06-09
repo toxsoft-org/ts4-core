@@ -234,7 +234,7 @@ public interface ITsToolBar
   /**
    * Add an action to the end of the toolbar items.
    * <p>
-   * Please note that for actions added with this method no {@link ITsToolBarListener#onToolButtonPressed(String)} is
+   * Please note that for actions added with this method no {@link ITsToolbarListener#onToolButtonPressed(String)} is
    * called. Action must have implrmrnted method {@link Action#run()} or {@link Action#runWithEvent(Event)}.
    *
    * @param aAction {@link TsAction} - the action
@@ -294,19 +294,19 @@ public interface ITsToolBar
    * <p>
    * Note: for actions added with {@link #addAction(TsAction)} no listener is called!
    *
-   * @param aListener {@link ITsToolBarListener} - the listener
+   * @param aListener {@link ITsToolbarListener} - the listener
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  void addListener( ITsToolBarListener aListener );
+  void addListener( ITsToolbarListener aListener );
 
   /**
    * Removes the listener.
    * <p>
    * If listener was not added then method does nothing.
    *
-   * @param aListener {@link ITsToolBarListener} - the listener
+   * @param aListener {@link ITsToolbarListener} - the listener
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  void removeListener( ITsToolBarListener aListener );
+  void removeListener( ITsToolbarListener aListener );
 
 }

@@ -1,9 +1,8 @@
 package org.toxsoft.core.tsgui.m5.model;
 
-import org.toxsoft.core.tsgui.m5.IM5FieldDef;
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.metainfo.IDataType;
+import org.toxsoft.core.tsgui.m5.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
 
 /**
  * Attribute field definition.

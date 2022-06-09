@@ -138,18 +138,39 @@ public class M5FieldDef<T, V>
     internalGetter.setUserGetter( aGetter );
   }
 
+  /**
+   * Constructor with default getter.
+   *
+   * @param aId String - field ID (IDpath)
+   * @param aValueClass {@link Class}&lt;V&gt; - value type
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException ID is not an IDpath
+   */
+  public M5FieldDef( String aId, Class<V> aValueClass ) {
+    this( aId, aValueClass, null );
+  }
+
+  /**
+   * Constructor for descendants not specifying value class.
+   *
+   * @param aId String - field ID (IDpath)
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException ID is not an IDpath
+   */
+  public M5FieldDef( String aId ) {
+    super( aId );
+    internalGetter = new InternalGetter();
+  }
+
   // ------------------------------------------------------------------------------------
   // Implementation
   //
 
-  private void internalSetValueClass( Class<V> aValueClass ) {
+  private final void internalSetValueClass( Class<V> aValueClass ) {
     TsNullArgumentRtException.checkNull( aValueClass );
     TsIllegalStateRtException.checkNoNull( valueClass );
     valueClass = aValueClass;
-    // if comparator is not set from outside, initialize it with natural comparison
-    if( comparator != null && Comparable.class.isAssignableFrom( valueClass ) ) {
-      comparator = ( aO1, aO2 ) -> Comparable.class.cast( aO1 ).compareTo( aO2 );
-    }
+    comparator = TsLibUtils.makeNaturalComparator( valueClass );
   }
 
   // ------------------------------------------------------------------------------------
@@ -190,7 +211,7 @@ public class M5FieldDef<T, V>
 
   @Override
   public ITsGuiContext tsContext() {
-    TsIllegalStateRtException.checkNoNull( ownerModel );
+    TsIllegalStateRtException.checkNull( ownerModel );
     return ownerModel.domain().tsContext();
   }
 
@@ -199,7 +220,7 @@ public class M5FieldDef<T, V>
   //
 
   @Override
-  final public Class<V> valueClass() {
+  public Class<V> valueClass() {
     return valueClass;
   }
 
@@ -251,6 +272,15 @@ public class M5FieldDef<T, V>
   public void setComparator( Comparator<V> aComparator ) {
     TsNullArgumentRtException.checkNull( aComparator );
     comparator = aComparator;
+  }
+
+  /**
+   * Sets field value getter and visualizer.
+   *
+   * @param aGetter {@link IM5Getter} - getter or <code>null</code> for default behaviour
+   */
+  public void setGetter( IM5Getter<T, V> aGetter ) {
+    internalGetter.setUserGetter( aGetter );
   }
 
   /**
@@ -321,13 +351,13 @@ public class M5FieldDef<T, V>
   /**
    * Sets field editor {@link IValedControl}.
    *
-   * @param aEditorName String - the valed editor factory name
+   * @param aFactoryName String - the valed editor factory name
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException argument is a blank string
    */
-  public void setValedEditor( String aEditorName ) {
-    TsErrorUtils.checkNonBlank( aEditorName );
-    params().setStr( IValedControlConstants.OPID_EDITOR_FACTORY_NAME, aEditorName );
+  public void setValedEditor( String aFactoryName ) {
+    TsErrorUtils.checkNonBlank( aFactoryName );
+    params().setStr( IValedControlConstants.OPID_EDITOR_FACTORY_NAME, aFactoryName );
   }
 
   // ------------------------------------------------------------------------------------

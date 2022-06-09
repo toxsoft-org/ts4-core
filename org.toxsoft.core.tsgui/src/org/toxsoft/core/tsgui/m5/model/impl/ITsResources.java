@@ -42,8 +42,17 @@ interface ITsResources {
   /**
    * {@link M5Model}
    */
-  String FMT_ERR_MODEL_ALREADY_INITED    = Messages.getString( "FMT_ERR_MODEL_ALREADY_INITED" );    //$NON-NLS-1$
-  String FMT_ERR_NO_DEF_MANAGER_FOR_NULL = Messages.getString( "FMT_ERR_NO_DEF_MANAGER_FOR_NULL" ); //$NON-NLS-1$
-  String FMT_ERR_NO_LM_CREATOR_CODE      = Messages.getString( "FMT_ERR_NO_LM_CREATOR_CODE" );      //$NON-NLS-1$
+  String FMT_ERR_MODEL_ALREADY_INITED = Messages.getString( "FMT_ERR_MODEL_ALREADY_INITED" ); //$NON-NLS-1$
+  String FMT_ERR_NO_LM_CREATOR_CODE   = Messages.getString( "FMT_ERR_NO_LM_CREATOR_CODE" );   //$NON-NLS-1$
+
+  /**
+   * {@link M5MultiLinkFieldDefBase}
+   */
+  String FMT_ERR_CANT_FIND_LINK_MODEL = Messages.getString( "FMT_ERR_CANT_FIND_LINK_MODEL" ); //$NON-NLS-1$
+
+  /**
+   * {@link M5MultiLookupFieldDef}
+   */
+  String FMT_ERR_NO_LOOKUP_PROVIDER = Messages.getString( "FMT_ERR_NO_LOOKUP_PROVIDER" ); //$NON-NLS-1$
 
 }

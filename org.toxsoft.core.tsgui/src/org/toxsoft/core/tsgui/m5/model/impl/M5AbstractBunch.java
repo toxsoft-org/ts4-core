@@ -3,9 +3,9 @@ package org.toxsoft.core.tsgui.m5.model.impl;
 import static org.toxsoft.core.tsgui.m5.model.impl.ITsResources.*;
 
 import org.toxsoft.core.tsgui.m5.*;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMapEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**

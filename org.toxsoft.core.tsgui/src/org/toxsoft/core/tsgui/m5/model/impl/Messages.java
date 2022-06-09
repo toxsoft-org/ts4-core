@@ -1,7 +1,6 @@
 package org.toxsoft.core.tsgui.m5.model.impl;
 
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import java.util.*;
 
 @SuppressWarnings( "javadoc" )
 public class Messages {

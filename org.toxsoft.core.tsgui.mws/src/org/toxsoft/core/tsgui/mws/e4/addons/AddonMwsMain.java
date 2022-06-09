@@ -10,6 +10,7 @@ import org.eclipse.e4.core.contexts.*;
 import org.eclipse.e4.ui.model.application.ui.basic.*;
 import org.toxsoft.core.tsgui.*;
 import org.toxsoft.core.tsgui.bricks.quant.*;
+import org.toxsoft.core.tsgui.mws.appinf.*;
 import org.toxsoft.core.tsgui.mws.bases.*;
 import org.toxsoft.core.tsgui.mws.osgi.*;
 import org.toxsoft.core.tsgui.mws.services.e4helper.*;
@@ -72,6 +73,10 @@ public class AddonMwsMain
   final public void beforeMainWindowOpen( IEclipseContext aWinContext, MWindow aWindow ) {
     try {
       LoggerUtils.defaultLogger().info( FMT_INFO_APP_MAIN_ADDON_INIT_WIN, nameForLog );
+      // set window name to application name
+      ITsApplicationInfo appInfo = mwsService.appInfo();
+      aWindow.setLabel( appInfo.nmName() );
+      // init E4 helper and all quants after
       ITsE4Helper e4Helper = new TsE4Helper( aWinContext );
       aWinContext.set( ITsE4Helper.class, e4Helper );
       quantManager.initWin( aWinContext );

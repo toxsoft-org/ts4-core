@@ -32,7 +32,12 @@ public class TsActionDef
   public TsActionDef( String aId, int aActionStyle, IOptionSet aParams ) {
     super( aId, aParams );
     actionStyle = switch( aActionStyle ) {
-      case IAction.AS_CHECK_BOX, IAction.AS_DROP_DOWN_MENU, IAction.AS_PUSH_BUTTON, IAction.AS_RADIO_BUTTON, IAction.AS_UNSPECIFIED -> aActionStyle;
+      case //
+      IAction.AS_CHECK_BOX, //
+      IAction.AS_DROP_DOWN_MENU, //
+      IAction.AS_PUSH_BUTTON, //
+      IAction.AS_RADIO_BUTTON, //
+      IAction.AS_UNSPECIFIED -> aActionStyle;
       default -> throw new TsIllegalArgumentRtException();
     };
   }
@@ -49,6 +54,17 @@ public class TsActionDef
    */
   public TsActionDef( String aId, int aActionStyle, Object... aIdsAndValues ) {
     this( aId, aActionStyle, OptionSetUtils.createOpSet( aIdsAndValues ) );
+  }
+
+  /**
+   * Copy constructor.
+   *
+   * @param aSource {@link ITsActionDef} - the source
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public TsActionDef( ITsActionDef aSource ) {
+    super( TsNullArgumentRtException.checkNull( aSource ).id(), aSource.params() );
+    actionStyle = aSource.actionStyle();
   }
 
   /**

@@ -4,18 +4,15 @@ import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import org.toxsoft.core.tsgui.bricks.ctx.*;
-import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.m5.model.impl.*;
-import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tslib.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 
 /**
- * M6 GUI modelling framework constants.
+ * M5 GUI modelling framework constants.
  *
  * @author hazard157
  */
@@ -77,11 +74,6 @@ public interface IM5Constants {
   String M5_OPID_FLAGS = M5_ID + ".hints.Flags"; //$NON-NLS-1$
 
   /**
-   * ID of {@link #M5_REFDEF_FIELD_DEF}.
-   */
-  String M5_REFID_FIELD_DEF = M5_ID + ".M5FieldDef"; //$NON-NLS-1$
-
-  /**
    * Option to store column alignment hint.
    * <p>
    * This option is to be stored in {@link IM5FieldDef#params()} and then used by GUI framework.
@@ -101,15 +93,6 @@ public interface IM5Constants {
   IDataDef M5_OPDEF_FLAGS = DataDef.create( M5_OPID_FLAGS, INTEGER, //
       TSID_IS_MANDATORY, AV_FALSE, //
       TSID_DEFAULT_VALUE, avInt( 0 ) //
-  );
-
-  /**
-   * Context reference to store {@link IM5FieldDef} for {@link IValedControl} field editor.
-   */
-  @SuppressWarnings( "rawtypes" )
-  ITsGuiContextRefDef<IM5FieldDef> M5_REFDEF_FIELD_DEF = TsGuiContextRefDef.create( M5_REFID_FIELD_DEF, //
-      IM5FieldDef.class, //
-      TSID_IS_MANDATORY, AV_FALSE //
   );
 
 }

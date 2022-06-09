@@ -1,6 +1,6 @@
 package org.toxsoft.core.tslib.bricks.ctx;
 
-import org.toxsoft.core.tslib.av.IAtomicValue;
+import org.toxsoft.core.tslib.av.*;
 
 /**
  * Listener to the changes in TS context.
@@ -13,6 +13,10 @@ import org.toxsoft.core.tslib.av.IAtomicValue;
  * @author hazard157
  */
 public interface ITsContextListener {
+
+  /**
+   * FIXME what happens when refs are added or removed?
+   */
 
   /**
    * Informs about context reference change.

@@ -7,7 +7,6 @@ import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.bricks.apprefs.*;
-import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.coll.helpers.*;
@@ -20,7 +19,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 class PrefBundle
-    implements IPrefBundle, IStridableParameterized, IParameterizedEdit {
+    implements IPrefBundle, IParameterizedEdit {
 
   private final ITsCollectionChangeListener paramsChangeListener = new ITsCollectionChangeListener() {
 
@@ -43,7 +42,7 @@ class PrefBundle
     bundleId = aBundleId;
     storage = aStorage;
     params.setAll( aParams );
-    prefsValues.addAll( aParams );
+    prefsValues.addAll( aPrefs );
     prefsValues.addCollectionChangeListener( paramsChangeListener );
   }
 

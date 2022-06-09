@@ -3,11 +3,11 @@ package org.toxsoft.core.tsgui.panels.toolbar;
 import org.toxsoft.core.tsgui.bricks.actions.ITsActionDef;
 
 /**
- * Listener for {@link TsToolBar} buttons click.
+ * Listener for {@link TsToolbar} buttons click.
  *
  * @author hazard157
  */
-public interface ITsToolBarListener {
+public interface ITsToolbarListener {
 
   /**
    * Called when button is pressed on toolbar.

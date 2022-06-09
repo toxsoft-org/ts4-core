@@ -93,7 +93,7 @@ public class TsFileFilter
    * @param aExt String - an extension without dot
    * @return {@link TsFileFilter} - cretaed instance
    */
-  public static TsFileFilter ofExtFile( String aExt ) {
+  public static TsFileFilter ofFileExt( String aExt ) {
     return new TsFileFilter( FILE, new SingleStringList( aExt ), false, false );
   }
 

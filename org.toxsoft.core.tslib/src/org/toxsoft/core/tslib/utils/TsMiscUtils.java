@@ -167,7 +167,7 @@ public class TsMiscUtils {
    * {@link IStrioHardConstants#CHAR_QUOTE} are stored "as is". This two characters are preceeded (escaped) by the
    * {@link IStrioHardConstants#CHAR_ESCAPE} character. New line and line feed are replaced by "\n" and "\r" strings. So
    * argument string is always represented by the single-line text placed between quotes
-   * ({@link IStrioHardConstants#CHAR_QUOTE} characters).
+   * ({@link IStrioHardConstants#CHAR_QUOTE} characters). No UTF compelxity is considered...
    *
    * @param aString String - исходная строка
    * @return String - содержимое строки-в-кавычках

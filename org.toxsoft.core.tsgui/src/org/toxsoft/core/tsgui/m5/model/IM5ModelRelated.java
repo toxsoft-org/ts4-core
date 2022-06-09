@@ -1,6 +1,6 @@
 package org.toxsoft.core.tsgui.m5.model;
 
-import org.toxsoft.core.tsgui.m5.IM5Model;
+import org.toxsoft.core.tsgui.m5.*;
 
 /**
  * Mixin interface indicates that class is bind (related) to the specified M5-model.

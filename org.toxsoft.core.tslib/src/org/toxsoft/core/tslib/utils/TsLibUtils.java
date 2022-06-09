@@ -1,6 +1,9 @@
 package org.toxsoft.core.tslib.utils;
 
-import org.toxsoft.core.tslib.av.IAtomicValue;
+import java.util.*;
+
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * General purpose utility constants and methods.
@@ -105,6 +108,41 @@ public final class TsLibUtils {
       return -1;
     }
     return 0;
+  }
+
+  /**
+   * If <code>aClass</code> is {@link Comparable} then creates natural comparator.
+   * <p>
+   * Natural comparator compares objects using {@link Comparable#compareTo(Object)} method. Any <code>null</code> in
+   * {@link Comparator#compare(Object, Object)} argumens is "less" than non-<code>null</code>, both <code>null</code>s
+   * are equal.
+   *
+   * @param <T> - class of objects to compare
+   * @param aClass {@link Class}&lt;T&gt; - class of objects to compare
+   * @return {@link Comparator}&lt;T&gt; - the natural comparator or <code>null</code> for non {@link Comparable} class
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  @SuppressWarnings( { "unchecked", "rawtypes" } )
+  public static <T> Comparator<T> makeNaturalComparator( Class<T> aClass ) {
+    TsNullArgumentRtException.checkNull( aClass );
+    if( !Comparable.class.isAssignableFrom( aClass ) ) {
+      return null;
+    }
+    return ( aO1, aO2 ) -> {
+      if( aClass.isInstance( aO1 ) && aClass.isInstance( aO2 ) ) {
+        return ((Comparable)aO1).compareTo( aO2 );
+      }
+      // any null is "less" than non-null, both nulls are equal
+      if( aO1 == null || aO2 == null ) {
+        if( aO1 == null ) {
+          return (aO2 == null) ? 0 : -1;
+        }
+        return 1;
+      }
+      // incomparable objects
+      return 0;
+    };
+
   }
 
   /**

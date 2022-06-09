@@ -1,7 +1,7 @@
 package org.toxsoft.core.tsgui.graphics.icons;
 
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.graphics.Image;
+import org.eclipse.jface.resource.*;
+import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -60,14 +60,12 @@ public interface ITsIconManager {
   /**
    * Загружает ранее зарегистрированный стандартный значок в виде дескриптора.
    * <p>
-   * Если нет изображения для значка (например, идентификатор не был зарегистрирован), возвращает изображение значка
-   * {@link ITsStdIconIds#ICONID_UNKNOWN_ICON_ID} соответствующего размера.
+   * If no such icon was registered returns descriptor of {@link ITsStdIconIds#ICONID_UNKNOWN_ICON_ID}.
    *
    * @param aStdIconId String - идентификатор значка
    * @param aSize {@link EIconSize} - размер значка
    * @return {@link ImageDescriptor} - дескриптор значка указанного размера
    * @throws TsNullArgumentRtException любой аргумент = null
-   * @throws TsItemNotFoundRtException такой значок не был зарегистрирован
    */
   ImageDescriptor loadStdDescriptor( String aStdIconId, EIconSize aSize );
 

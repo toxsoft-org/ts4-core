@@ -2,6 +2,8 @@ package org.toxsoft.core.tsgui.m5.model.impl;
 
 import static org.toxsoft.core.tsgui.m5.model.impl.ITsResources.*;
 
+import java.util.*;
+
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.model.*;
@@ -11,6 +13,7 @@ import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.coll.helpers.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -27,6 +30,8 @@ public class M5Model<T>
   private final IStridablesListReorderer<IM5FieldDef<T, ?>> fieldsReorderer;
 
   private final Class<T> entityClass;
+
+  private Comparator<T> comparator = null;
 
   private IM5LifecycleManager<T> defaultLifecycleManager = null;
 
@@ -53,6 +58,7 @@ public class M5Model<T>
     entityClass = TsNullArgumentRtException.checkNull( aEntityClass );
     cache = new M5DefaultValuesCache<>( this );
     fieldsReorderer = new StridablesListReorderer<>( fieldDefs );
+    comparator = TsLibUtils.makeNaturalComparator( entityClass );
   }
 
   // ------------------------------------------------------------------------------------
@@ -118,24 +124,24 @@ public class M5Model<T>
   }
 
   @Override
-  public IM5LifecycleManager<T> getLifecycleManager( Object aMaster ) {
+  public IM5LifecycleManager<T> findLifecycleManager( Object aMaster ) {
     if( aMaster == null ) {
       if( defaultLifecycleManager == null ) {
         defaultLifecycleManager = doCreateDefaultLifecycleManager();
-        if( defaultLifecycleManager == null ) {
-          throw new TsIllegalStateRtException( FMT_ERR_NO_DEF_MANAGER_FOR_NULL, id() );
-        }
       }
       return defaultLifecycleManager;
     }
-    IM5LifecycleManager<T> lm = doCreateLifecycleManager( aMaster );
-    TsInternalErrorRtException.checkNull( lm );
-    return lm;
+    return doCreateLifecycleManager( aMaster );
   }
 
   @Override
   public ITsVisualsProvider<T> visualsProvider() {
     return visualsProvider;
+  }
+
+  @Override
+  public Comparator<T> comparator() {
+    return comparator;
   }
 
   @Override
@@ -243,6 +249,15 @@ public class M5Model<T>
     TsNullArgumentRtException.checkNull( aCreator );
     panelCreator = aCreator;
     aCreator.papiSetOwnerModel( this );
+  }
+
+  /**
+   * Sets the {@link #comparator()}.
+   *
+   * @param aComparator {@link Comparator}&lt;T&gt; - the comparator may be <code>null</code> for no comparison
+   */
+  public void setComparator( Comparator<T> aComparator ) {
+    comparator = aComparator;
   }
 
   // ------------------------------------------------------------------------------------

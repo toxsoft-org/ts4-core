@@ -3,24 +3,20 @@ package org.toxsoft.core.tsgui.dialogs.datarec;
 import static org.toxsoft.core.tsgui.dialogs.datarec.ITsDialogConstants.*;
 import static org.toxsoft.core.tsgui.graphics.icons.ITsStdIconIds.*;
 
-import org.eclipse.jface.dialogs.IMessageProvider;
-import org.eclipse.jface.dialogs.TitleAreaDialog;
-import org.eclipse.jface.util.Geometry;
-import org.eclipse.swt.SWT;
+import org.eclipse.jface.dialogs.*;
+import org.eclipse.jface.util.*;
+import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.*;
-import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContextable;
-import org.toxsoft.core.tsgui.dialogs.ETsDialogCode;
-import org.toxsoft.core.tsgui.dialogs.TsDialogUtils;
-import org.toxsoft.core.tsgui.graphics.icons.EIconSize;
-import org.toxsoft.core.tsgui.utils.layout.BorderLayout;
-import org.toxsoft.core.tslib.bricks.events.change.IGenericChangeListener;
-import org.toxsoft.core.tslib.bricks.validator.EValidationResultType;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.coll.IMapEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemMap;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.dialogs.*;
+import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tsgui.utils.layout.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -53,6 +49,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
  */
 public class TsDialog<T, E>
     implements ITsGuiContextable {
+
+  // TODO TRANSLATE
 
   /**
    * Window windget implementation.
@@ -374,16 +372,15 @@ public class TsDialog<T, E>
   /**
    * Constructor.
    *
-   * @param aDialogInfo {@link ITsDialogInfo} - аргументы для создания диалогового окна
-   * @param aData T - данные для передачи в панель соджержимого
-   * @param aContext E - контекст диалога
-   * @param aPanelCreator {@link IDialogPanelCreator} - фабрика панели содержимого
-   * @throws TsNullArgumentRtException любой аргумент (кроме aData) = null
+   * @param aDialogInfo {@link ITsDialogInfo} - diwlog window parameters
+   * @param aData &lt;T&gt; - data passed to dialog may be <code>null</code>
+   * @param aEnviron E - TS dialog environment may be <code>null</code>
+   * @param aPanelCreator {@link IDialogPanelCreator} - content panel factory
    */
-  public TsDialog( ITsDialogInfo aDialogInfo, T aData, E aContext, IDialogPanelCreator<T, E> aPanelCreator ) {
+  public TsDialog( ITsDialogInfo aDialogInfo, T aData, E aEnviron, IDialogPanelCreator<T, E> aPanelCreator ) {
     TsNullArgumentRtException.checkNulls( aDialogInfo, aPanelCreator );
     dialogData = aData;
-    environment = aContext;
+    environment = aEnviron;
     dialogInfo = aDialogInfo;
     panelCreator = aPanelCreator;
     for( ETsDialogCode dc : ETsDialogCode.values() ) {
@@ -393,7 +390,7 @@ public class TsDialog<T, E>
   }
 
   // ------------------------------------------------------------------------------------
-  // Внутренные методы
+  // implementation
   //
 
   /**

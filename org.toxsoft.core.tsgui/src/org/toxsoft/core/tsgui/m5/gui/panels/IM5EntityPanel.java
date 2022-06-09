@@ -1,14 +1,12 @@
 package org.toxsoft.core.tsgui.m5.gui.panels;
 
-import org.toxsoft.core.tsgui.m5.IM5Bunch;
-import org.toxsoft.core.tsgui.m5.IM5Model;
-import org.toxsoft.core.tsgui.m5.model.IM5LifecycleManager;
-import org.toxsoft.core.tsgui.panels.generic.IGenericEntityPanel;
-import org.toxsoft.core.tslib.bricks.events.change.IGenericChangeEventCapable;
-import org.toxsoft.core.tslib.bricks.validator.EValidationResultType;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.bricks.validator.impl.TsValidationFailedRtException;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
+import org.toxsoft.core.tsgui.m5.*;
+import org.toxsoft.core.tsgui.m5.model.*;
+import org.toxsoft.core.tsgui.panels.generic.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * One entity viewer / editor panel.
@@ -75,7 +73,7 @@ public interface IM5EntityPanel<T>
    * <li>initial values set by {@link #setValues(IM5Bunch)} or {@link #setEntity(Object)};</li>
    * <li>currently edited values in the panel widgets.</li>
    * </ul>
-   * The first one is returned by this method, the second one - by <{@link #getValues()}.
+   * The first one is returned by this method, the second one - by {@link #getValues()}.
    *
    * @return {@link IM5Bunch} - заданные значения полей, может быть <code>null</code>
    */

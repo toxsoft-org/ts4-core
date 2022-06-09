@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.m5;
 
+import java.util.*;
+
 import org.toxsoft.core.tsgui.m5.gui.panels.*;
 import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.utils.*;
@@ -67,14 +69,29 @@ public interface IM5Model<T>
   IM5Bunch<T> valuesOf( T aObj );
 
   /**
+   * Creates and returns the new instance of the LM with specified master object if possible.
+   *
+   * @param aMaster {@link Object} - the master object or <code>null</code> for default LM
+   * @return {@link IM5LifecycleManager}&lt;T&gt; - created instance of LM or <code>null</code>
+   * @throws ClassCastException may be thrown if master object is of invalid class
+   * @throws TsIllegalStateRtException lifecycle manager cann't be created (usually no code for LM creation)
+   */
+  IM5LifecycleManager<T> findLifecycleManager( Object aMaster );
+
+  /**
    * Creates and returns the new instance of the LM with specified master object.
    *
    * @param aMaster {@link Object} - the master object or <code>null</code> for default LM
    * @return {@link IM5LifecycleManager}&lt;T&gt; - created instance of LM, never is <code>null</code>
    * @throws ClassCastException may be thrown if master object is of invalid class
    * @throws TsIllegalStateRtException no lifecycle manager can be created (usually no code for LM creation)
+   * @throws TsItemNotFoundRtException lifecycle manager not created (is <code>null</code>)
    */
-  IM5LifecycleManager<T> getLifecycleManager( Object aMaster );
+  default IM5LifecycleManager<T> getLifecycleManager( Object aMaster ) {
+    IM5LifecycleManager<T> lm = findLifecycleManager( aMaster );
+    TsItemNotFoundRtException.checkNull( lm );
+    return lm;
+  }
 
   /**
    * Return the visualization provider for modeled entity as whole.
@@ -82,6 +99,13 @@ public interface IM5Model<T>
    * @return {@link ITsVisualsProvider}&lt;T&gt; - modelled entity visuals provider
    */
   ITsVisualsProvider<T> visualsProvider();
+
+  /**
+   * Returns the comparator of the entities if any.
+   *
+   * @return {@link Comparator}&lt;T&gt; - the comparator or <code>null</code> if entities are not comparable
+   */
+  Comparator<T> comparator();
 
   /**
    * Returns the GUI panels creator.

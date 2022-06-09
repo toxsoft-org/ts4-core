@@ -4,17 +4,16 @@ import static org.toxsoft.core.tsgui.graphics.icons.ITsStdIconIds.*;
 import static org.toxsoft.core.tsgui.graphics.icons.impl.ITsResources.*;
 import static org.toxsoft.core.tslib.utils.errors.TsErrorUtils.*;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Display;
-import org.toxsoft.core.tsgui.Activator;
+import org.eclipse.e4.core.contexts.*;
+import org.eclipse.jface.resource.*;
+import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMapEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -58,13 +57,7 @@ public class TsIconManager
     TsItemNotFoundRtException.checkNull( display );
     registerStdIconByIds( Activator.PLUGIN_ID, ITsStdIconIds.class, ITsStdIconIds.PREFIX_OF_ICON_IDS );
     // запланируем освобождение ресурсов
-    display.disposeExec( new Runnable() {
-
-      @Override
-      public void run() {
-        releaseResources();
-      }
-    } );
+    display.disposeExec( () -> releaseResources() );
   }
   // ------------------------------------------------------------------------------------
   // Внутренные методы
@@ -125,7 +118,13 @@ public class TsIconManager
   @Override
   public ImageDescriptor loadStdDescriptor( String aStdIconId, EIconSize aSize ) {
     String symName = makeSymbolicName( aStdIconId, aSize );
-    return idescrMap.getByKey( symName );
+    ImageDescriptor imgDes = idescrMap.findByKey( symName );
+    if( imgDes == null ) {
+      symName = makeSymbolicName( ICONID_UNKNOWN_ICON_ID, aSize );
+      imgDes = idescrMap.findByKey( symName );
+      TsInternalErrorRtException.checkNull( imgDes );
+    }
+    return imgDes;
   }
 
   @Override

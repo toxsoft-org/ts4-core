@@ -1,13 +1,12 @@
 package org.toxsoft.core.tsgui.m5.model;
 
-import java.io.File;
+import java.io.*;
 
-import org.toxsoft.core.tsgui.m5.IM5Bunch;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.bricks.validator.impl.TsValidationFailedRtException;
-import org.toxsoft.core.tslib.coll.helpers.ECrudOp;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsUnsupportedFeatureRtException;
+import org.toxsoft.core.tsgui.m5.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.coll.helpers.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * M5-modelled entities lifecycle manager.

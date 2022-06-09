@@ -2,19 +2,19 @@ package org.toxsoft.core.tsgui.m5.gui;
 
 import static org.toxsoft.core.tsgui.m5.gui.ITsResources.*;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Shell;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.dialogs.ETsDialogCode;
-import org.toxsoft.core.tsgui.dialogs.TsDialogUtils;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
+import org.toxsoft.core.tsgui.dialogs.*;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
-import org.toxsoft.core.tsgui.m5.IM5Bunch;
-import org.toxsoft.core.tsgui.m5.IM5Model;
-import org.toxsoft.core.tsgui.m5.gui.panels.IM5EntityPanel;
-import org.toxsoft.core.tsgui.m5.model.IM5LifecycleManager;
-import org.toxsoft.core.tsgui.utils.layout.BorderLayout;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.m5.*;
+import org.toxsoft.core.tsgui.m5.gui.mpc.*;
+import org.toxsoft.core.tsgui.m5.gui.panels.*;
+import org.toxsoft.core.tsgui.m5.model.*;
+import org.toxsoft.core.tsgui.m5.model.impl.*;
+import org.toxsoft.core.tsgui.utils.layout.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * M5 GUI utility methods.
@@ -27,7 +27,7 @@ public class M5GuiUtils {
    * Internal class to implement {@link M5GuiUtils}.askXxx() methods.
    *
    * @author hazard157
-   * @param <T> - M5-modelled entity type
+   * @param <T> - modelled entity type
    */
   static class AskDialogContentPanel<T>
       extends AbstractTsDialogPanel<IM5Bunch<T>, ITsGuiContext> {
@@ -71,6 +71,103 @@ public class M5GuiUtils {
         }
       }
       return vr;
+    }
+
+  }
+
+  /**
+   * Item selection panel from the list provided by {@link IM5ItemsProvider}.
+   * <p>
+   * Used by {@link M5GuiUtils#askSelectItem(ITsDialogInfo, IM5Model, Object, IM5ItemsProvider, IM5LifecycleManager)}.
+   *
+   * @author hazard157
+   * @param <T> - modelled entity type
+   */
+  static class SelectItemDialogContentPanel<T>
+      extends AbstractTsDialogPanel<T, Object> {
+
+    final IM5CollectionPanel<T> panel;
+
+    protected SelectItemDialogContentPanel( Composite aParent, TsDialog<T, Object> aOwnerDialog,
+        IM5CollectionPanel<T> aPanel ) {
+      super( aParent, aOwnerDialog );
+      this.setLayout( new BorderLayout() );
+      panel = aPanel;
+      panel.createControl( this );
+      panel.getControl().setLayoutData( BorderLayout.CENTER );
+      panel.addTsDoubleClickListener( ( aSource, aSelectedItem ) -> {
+        fireContentChangeEvent();
+        ownerDialog().closeDialog( ETsDialogCode.OK );
+      } );
+      panel.addTsSelectionListener( ( aSource, aSelectedItem ) -> fireContentChangeEvent() );
+    }
+
+    @Override
+    protected ValidationResult validateData() {
+      if( panel.selectedItem() != null ) {
+        return ValidationResult.SUCCESS;
+      }
+      return ValidationResult.error( MSG_ERR_NO_SELECTED_ITEM );
+    }
+
+    @Override
+    protected void doSetDataRecord( T aData ) {
+      panel.setSelectedItem( aData );
+    }
+
+    @Override
+    protected T doGetDataRecord() {
+      return panel.selectedItem();
+    }
+
+  }
+
+  /**
+   * Item selection panel from the list provided by {@link IM5LookupProvider}.
+   * <p>
+   * Used by {@link M5GuiUtils#askSelectLookupItem(ITsDialogInfo, IM5Model, Object, IM5LookupProvider)}.
+   *
+   * @author hazard157
+   * @param <T> - modelled entity type
+   */
+  static class SelectLookupItemDialogContentPanel<T>
+      extends AbstractTsDialogPanel<T, Object> {
+
+    final IM5CollectionPanel<T> panel;
+
+    protected SelectLookupItemDialogContentPanel( Composite aParent, TsDialog<T, Object> aOwnerDialog,
+        IM5Model<T> aModel, IM5LookupProvider<T> aLookupProvider ) {
+      super( aParent, aOwnerDialog );
+      this.setLayout( new BorderLayout() );
+      IM5ItemsProvider<T> itemsProvider = new M5ItemsFromLookupProvider<>( aLookupProvider );
+      ITsGuiContext ctx = new TsGuiContext( tsContext() );
+      ctx.params().setBool( IMultiPaneComponentConstants.OPDEF_IS_ACTIONS_CRUD, false );
+      panel = aModel.panelCreator().createCollViewerPanel( ctx, itemsProvider );
+      panel.createControl( this );
+      panel.getControl().setLayoutData( BorderLayout.CENTER );
+      panel.addTsDoubleClickListener( ( aSource, aSelectedItem ) -> {
+        fireContentChangeEvent();
+        ownerDialog().closeDialog( ETsDialogCode.OK );
+      } );
+      panel.addTsSelectionListener( ( aSource, aSelectedItem ) -> fireContentChangeEvent() );
+    }
+
+    @Override
+    protected ValidationResult validateData() {
+      if( panel.selectedItem() != null ) {
+        return ValidationResult.SUCCESS;
+      }
+      return ValidationResult.error( MSG_ERR_NO_SELECTED_ITEM );
+    }
+
+    @Override
+    protected void doSetDataRecord( T aData ) {
+      panel.setSelectedItem( aData );
+    }
+
+    @Override
+    protected T doGetDataRecord() {
+      return panel.selectedItem();
     }
 
   }
@@ -169,6 +266,62 @@ public class M5GuiUtils {
     }
     aLifecycleManager.remove( aRemovedObject );
     return true;
+  }
+
+  /**
+   * Shows provided items list and allows to select one.
+   * <p>
+   * If lifecycle manager is specified the dialog will contain editable panel creted by
+   * {@link IM5PanelCreator#createCollEditPanel(ITsGuiContext, IM5ItemsProvider, IM5LifecycleManager)}, othewise viewer
+   * panel be created by
+   * {@link IM5PanelCreator#createCollEditPanel(ITsGuiContext, IM5ItemsProvider, IM5LifecycleManager)}.
+   *
+   * @param <T> - provided items class
+   * @param aDialogInfo {@link ITsDialogInfo} - dialog window parameters
+   * @param aModel {@link IM5Model} - lookup items model
+   * @param aInitialSelected &lt;T&gt; - inititlly selected item or <code>null</code>
+   * @param aItemsProvider {@link IM5ItemsProvider} - items provider
+   * @param aLifecycleManager {@link IM5LifecycleManager} - lifecycle manager or <code>null</code>
+   * @return &lt;T&gt; - выбранный элемент или <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static <T> T askSelectItem( ITsDialogInfo aDialogInfo, IM5Model<T> aModel, T aInitialSelected,
+      IM5ItemsProvider<T> aItemsProvider, IM5LifecycleManager<T> aLifecycleManager ) {
+    TsNullArgumentRtException.checkNulls( aDialogInfo, aModel, aItemsProvider );
+    IDialogPanelCreator<T, Object> creator = ( aParent, aOwnerDlg ) -> {
+      IM5CollectionPanel<T> panel;
+      if( aLifecycleManager == null ) {
+        panel = aModel.panelCreator().createCollViewerPanel( aOwnerDlg.tsContext(), aItemsProvider );
+      }
+      else {
+        panel = aModel.panelCreator().createCollEditPanel( aOwnerDlg.tsContext(), aItemsProvider, aLifecycleManager );
+      }
+      return new SelectItemDialogContentPanel<>( aParent, aOwnerDlg, panel );
+    };
+    TsDialog<T, Object> d = new TsDialog<>( aDialogInfo, aInitialSelected, null, creator );
+    return d.execData();
+  }
+
+  /**
+   * Shows lookup items list and allows to select one.
+   * <p>
+   * Dialog does not allows to edit lookup items in the list.
+   *
+   * @param <T> - lookup items class
+   * @param aDialogInfo {@link ITsDialogInfo} - dialog window parameters
+   * @param aModel {@link IM5Model} - lookup items model
+   * @param aInitialSelected &lt;T&gt; - inititlly selected item or <code>null</code>
+   * @param aLookupProvider {@link IM5LookupProvider} - lookup items provider
+   * @return &lt;T&gt; - selected item or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static <T> T askSelectLookupItem( ITsDialogInfo aDialogInfo, IM5Model<T> aModel, T aInitialSelected,
+      IM5LookupProvider<T> aLookupProvider ) {
+    TsNullArgumentRtException.checkNulls( aDialogInfo, aModel, aLookupProvider );
+    IDialogPanelCreator<T, Object> creator = ( aParent,
+        aOwnerDialog ) -> new SelectLookupItemDialogContentPanel<>( aParent, aOwnerDialog, aModel, aLookupProvider );
+    TsDialog<T, Object> d = new TsDialog<>( aDialogInfo, aInitialSelected, null, creator );
+    return d.execData();
   }
 
   /**

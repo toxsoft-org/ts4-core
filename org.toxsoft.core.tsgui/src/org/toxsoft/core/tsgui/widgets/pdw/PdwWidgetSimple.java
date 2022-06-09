@@ -12,8 +12,10 @@ import org.toxsoft.core.tslib.bricks.ctx.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
+// TRANSLATE
+
 /**
- * Простая (без полос прокрутки) реализация {@link IPdwWidget}.
+ * {@link IPdwWidget} simple implementation without scrollbars, toolbar, etc.
  *
  * @author hazard157
  */
@@ -49,9 +51,9 @@ public class PdwWidgetSimple
   TsImage                  tsImage  = null;
 
   /**
-   * Конструктор.
+   * Constructor.
    *
-   * @param aContext {@link ITsGuiContext} - контекст
+   * @param aContext {@link ITsGuiContext} - the context
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public PdwWidgetSimple( ITsGuiContext aContext ) {

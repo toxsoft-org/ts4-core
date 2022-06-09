@@ -14,6 +14,7 @@ import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.gui.panels.*;
 import org.toxsoft.core.tsgui.m5.model.*;
+import org.toxsoft.core.tsgui.m5.valeds.*;
 import org.toxsoft.core.tsgui.panels.vecboard.*;
 import org.toxsoft.core.tsgui.panels.vecboard.impl.*;
 import org.toxsoft.core.tsgui.valed.api.*;
@@ -163,7 +164,7 @@ public class M5EntityPanelWithValeds<T>
     if( ((aFieldDef.flags() & M5FF_READ_ONLY) != 0) || isViewer() ) {
       ctx.params().setBool( OPDEF_CREATE_UNEDITABLE, true );
     }
-    M5_REFDEF_FIELD_DEF.setRef( ctx, aFieldDef );
+    IM5ValedConstants.M5_VALED_REFDEF_FIELD_DEF.setRef( ctx, aFieldDef );
     // если редактор задан явно, то используем его
     IAtomicValue avEdName = aFieldDef.params().findValue( OPDEF_EDITOR_FACTORY_NAME );
     if( avEdName != null && avEdName != IAtomicValue.NULL ) {
@@ -359,9 +360,9 @@ public class M5EntityPanelWithValeds<T>
    * При переопределении в этом методе можно создать как редакторы, так и задать раскладку.
    */
   protected void doInitEditors() {
-    // создает редакторы всех полей без признака M5FF_HIDDEN
+    // create editors for unhidden (not M5FF_HIDDEN) fields
     for( IM5FieldDef<T, ?> fDef : model().fieldDefs() ) {
-      if( (fDef.flags() & M5FF_HIDDEN) == 0 ) {
+      if( !fDef.hasFlag( M5FF_HIDDEN ) ) {
         addField( fDef.id() );
       }
     }

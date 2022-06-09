@@ -16,6 +16,11 @@ import org.toxsoft.core.tslib.utils.errors.*;
 class ImageWidget
     implements ILazyControl<Control> {
 
+  /**
+   * Canvas to draw an {@link ImageWidget#image} on.
+   *
+   * @author hazard157
+   */
   class ImageCanvas
       extends TsComposite {
 
@@ -29,21 +34,21 @@ class ImageWidget
       if( isSizeFixed || image == null ) {
         return new Point( defaultSize.x(), defaultSize.y() );
       }
-      // текущий размер изображения (он или реальный, или по умолчанию)
+      // current image size (either reeal image size or default size)
       int w = imageSize.x();
       int h = imageSize.y();
-      // какие размеры нужно считать?
+      // which dimension (X or Y or both) we need to cumpute?
       boolean calcW = aHHint != SWT.DEFAULT;
       boolean calcH = aWHint != SWT.DEFAULT;
-      // запрошены оба размера по умолчанию - возвращаем текущий размер изображения
+      // asked both dimension's default size - return current image size
       if( !calcW && !calcH ) {
         return new Point( w, h );
       }
-      // заданы оба размера в аргументах - возвращаем заданные размеры,будем вписываться
+      // both dimensions are fixed in arguments - return them, we'll fit in specified bounds
       if( calcW && calcH ) {
         return new Point( aWHint, aHHint );
       }
-      // задан один размер, вычислим другой исходя сохранения соотношения сторон в режимах адаптивного масштабирования
+      // one dimansion is asked while another is specified - copmute asked one based on image aspect ratio and fit mode
       double aspect = ((double)w) / ((double)h);
       ERectFitMode fitMode = fitInfo.fitMode();
       if( calcW ) {
@@ -58,6 +63,20 @@ class ImageWidget
       return new Point( aWHint, h );
     }
 
+    /**
+     * Scaled draws {@link ImageWidget#image} in current {@link #getBounds()}.
+     * <p>
+     * Following parameters are respected when drawing image:
+     * <ul>
+     * <li>{@link ImageWidget#image} - the image to draw (may be <code>null</code>);</li>
+     * <li>{@link ImageWidget#imageSize} - either real image or defult dimensions if image is <code>null</code>;</li>
+     * <li>{@link ImageWidget#fitInfo} - determines how to fit image in canvas bounds;</li>
+     * <li>{@link ImageWidget#fulcrum} - determines how to place image in canvas.</li>
+     * <li>zzz.</li>
+     * </ul>
+     *
+     * @param aEvent {@link PaintEvent} - drawing surface in event
+     */
     void doPaint( PaintEvent aEvent ) {
       if( image == null || image.isDisposed() || imageSize == ITsPoint.ZERO ) {
         return;

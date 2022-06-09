@@ -877,7 +877,7 @@ public class MultiPaneComponent<T>
    */
   protected ITsToolBar doCreateToolbar( ITsGuiContext aContext, String aName, EIconSize aIconSize,
       IListEdit<ITsActionDef> aActs ) {
-    ITsToolBar tb = new TsToolBar( aContext );
+    ITsToolBar tb = new TsToolbar( aContext );
     tb.setIconSize( aIconSize );
     tb.setNameLabelText( aName );
     tb.addActionDefs( aActs );

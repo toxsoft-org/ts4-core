@@ -23,7 +23,7 @@ import org.toxsoft.core.tslib.utils.logs.impl.*;
  * TODO describe how to subclass, incl. CREATOR
  *
  * @author hazard157
- * @param <T> - data transfet object type passed to/from dialog
+ * @param <T> - data transfer object type passed to/from dialog
  * @param <E> - client specified optional environment type
  */
 abstract public class AbstractTsDialogPanel<T, E>

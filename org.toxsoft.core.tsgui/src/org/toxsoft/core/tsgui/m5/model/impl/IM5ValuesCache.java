@@ -1,7 +1,7 @@
 package org.toxsoft.core.tsgui.m5.model.impl;
 
-import org.toxsoft.core.tsgui.m5.IM5Bunch;
-import org.toxsoft.core.tslib.coll.basis.ITsClearable;
+import org.toxsoft.core.tsgui.m5.*;
+import org.toxsoft.core.tslib.coll.basis.*;
 
 /**
  * {@link IM5Bunch} caching starategy for {@link M5Model}.

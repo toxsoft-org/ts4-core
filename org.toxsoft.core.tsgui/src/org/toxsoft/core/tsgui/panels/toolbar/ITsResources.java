@@ -9,7 +9,7 @@ package org.toxsoft.core.tsgui.panels.toolbar;
 interface ITsResources {
 
   /**
-   * {@link TsToolBar}
+   * {@link TsToolbar}
    */
   String FMT_ERR_DUP_ACT_ID = "Действие с идентификатором %s уже есть в панели инструментов";
 

@@ -1,12 +1,11 @@
 package org.toxsoft.core.tsgui.m5.model.impl;
 
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.m5.IM5Model;
-import org.toxsoft.core.tsgui.m5.gui.mpc.impl.MultiPaneComponentModown;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.m5.*;
+import org.toxsoft.core.tsgui.m5.gui.mpc.impl.*;
 import org.toxsoft.core.tsgui.m5.gui.panels.*;
 import org.toxsoft.core.tsgui.m5.gui.panels.impl.*;
-import org.toxsoft.core.tsgui.m5.model.IM5ItemsProvider;
-import org.toxsoft.core.tsgui.m5.model.IM5LifecycleManager;
+import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -230,6 +229,12 @@ public class M5DefaultPanelCreator<T>
     MultiPaneComponentModown<T> mpc =
         new MultiPaneComponentModown<>( aContext, model, aItemsProvider, aLifecycleManager );
     return new M5CollectionPanelMpcModownWrapper<>( mpc, false );
+  }
+
+  @Override
+  public IM5MultiLookupPanel<T> createMultiLookupPanel( ITsGuiContext aContext, IM5LookupProvider<T> aLookupProvider ) {
+    // TODO реализовать M5DefaultPanelCreator.createMultiLookupPanel()
+    throw new TsUnderDevelopmentRtException( "M5DefaultPanelCreator.createMultiLookupPanel()" );
   }
 
 }

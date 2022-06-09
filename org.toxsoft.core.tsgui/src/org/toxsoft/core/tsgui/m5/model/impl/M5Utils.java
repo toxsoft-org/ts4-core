@@ -55,9 +55,9 @@ public class M5Utils {
 
   public static void initBuiltinModels( IM5Domain aDomain ) {
     aDomain.addModel( new FileM5Model() );
+    aDomain.addModel( new StringM5Model() );
     // aDomain.addModel( new SectionDefM5Model() );
     // TODO aDomain.addModel( new LongM5Model() );
-    // TODO aDomain.addModel( new StringM5Model() );
     // TODO aDomain.addModel( new TsVersionM5Model() );
     // TODO aDomain.addModel( new ValidationResultTypeM5Model() );
     // TODO aDomain.addModel( new AtomicTypeM5Model() );

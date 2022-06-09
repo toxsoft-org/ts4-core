@@ -207,7 +207,7 @@ class AvValobjImpl
     throw new TsInternalErrorRtException();
   }
 
-  @SuppressWarnings( "unchecked" )
+  @SuppressWarnings( { "unchecked", "rawtypes" } )
   @Override
   protected int internalCompareValue( IAtomicValue aThat ) {
     Comparable o1 = extractAsComparable( this );

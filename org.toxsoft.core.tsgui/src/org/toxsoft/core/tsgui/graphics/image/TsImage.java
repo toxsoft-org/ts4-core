@@ -1,17 +1,16 @@
 package org.toxsoft.core.tsgui.graphics.image;
 
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.ImageData;
-import org.toxsoft.core.tslib.bricks.geometry.ITsPoint;
-import org.toxsoft.core.tslib.bricks.geometry.impl.TsPoint;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
-import org.toxsoft.core.tslib.coll.primtypes.ILongList;
-import org.toxsoft.core.tslib.coll.primtypes.impl.LongArrayList;
-import org.toxsoft.core.tslib.coll.primtypes.wrappers.LongArrayWrapper;
-import org.toxsoft.core.tslib.coll.wrappers.ElemArrayWrapper;
+import org.eclipse.swt.graphics.*;
+import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.bricks.geometry.impl.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.wrappers.*;
+import org.toxsoft.core.tslib.coll.wrappers.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * Изображение, в общем случае состояшее из нескольких кадров наимации.
@@ -104,85 +103,68 @@ public final class TsImage {
     evenAnimation = isEven && frames.size() > 1;
   }
 
-  // /**
-  // * Создает {@link TsImage}.
-  // *
-  // * @param aFrames {@link IList}&lt;{@link Image}&gt; - упорядовенный список кадров
-  // * @param aDelays {@link ILongList} - список межкадровых задержек в миллисекундах
-  // * @param aImageIndex int - индекс выделенного кадра {@link #image()}
-  // * @return {@link TsImage} - созданный экземпляр
-  // * @throws TsNullArgumentRtException любой аргумент = null
-  // * @throws TsIllegalArgumentRtException аргумент содержит уничтноженное (disposed) изображение
-  // * @throws TsIllegalArgumentRtException любой список - пустой
-  // * @throws TsIllegalArgumentRtException списки кадров и задержек имеют разнюю длину
-  // * @throws TsIllegalArgumentRtException индекс выделенного кадра выходит за заданные пределы
-  // */
-  // public static TsImage create( IList<Image> aFrames, ILongList aDelays, int aImageIndex ) {
-  // return new TsImage( aFrames, aDelays, aImageIndex );
-  // }
-  //
-  // /**
-  // * Создает {@link TsImage} с равномерной анимацией.
-  // *
-  // * @param aFrames {@link IList}&lt;{@link Image}&gt; - упорядовенный список кадров
-  // * @param aDelay long - межкадровая задержка в миллисекундах
-  // * @param aImageIndex int - индекс выделенного кдра {@link #image()}
-  // * @return {@link TsImage} - созданный экземпляр
-  // * @throws TsNullArgumentRtException любой аргумент = null
-  // * @throws TsIllegalArgumentRtException аргумент содержит уничтноженное (disposed) изображение
-  // * @throws TsIllegalArgumentRtException список - пустой
-  // * @throws TsIllegalArgumentRtException индекс выделенного кадра выходит за заданные пределы
-  // */
-  // public static TsImage create( IList<Image> aFrames, long aDelay, int aImageIndex ) {
-  // TsNullArgumentRtException.checkNull( aFrames );
-  // TsIllegalArgumentRtException.checkTrue( aFrames.isEmpty() );
-  // LongArrayList delays = new LongArrayList();
-  // for( int i = 0; i < aFrames.size(); i++ ) {
-  // delays.add( aDelay );
-  // }
-  // return new TsImage( aFrames, delays, aImageIndex );
-  // }
-  //
-  // /**
-  // * Создает {@link TsImage} с первым выделенным кадром.
-  // *
-  // * @param aFrames {@link IList}&lt;{@link Image}&gt; - упорядовенный список кадров
-  // * @param aDelays {@link ILongList} - список межкадровых задержек в миллисекундах
-  // * @return {@link TsImage} - созданный экземпляр
-  // * @throws TsNullArgumentRtException любой аргумент = null
-  // * @throws TsIllegalArgumentRtException аргумент содержит уничтноженное (disposed) изображение
-  // * @throws TsIllegalArgumentRtException любой список - пустой
-  // * @throws TsIllegalArgumentRtException списки кадров и задержек имеют разнюю длину
-  // */
-  // public static TsImage create( IList<Image> aFrames, ILongList aDelays ) {
-  // return create( aFrames, aDelays, 0 );
-  // }
-  //
-  // /**
-  // * Создает {@link TsImage} с равномерной анимацией с первым выделенным кадром.
-  // *
-  // * @param aFrames {@link IList}&lt;{@link Image}&gt; - упорядовенный список кадров
-  // * @param aDelay long - межкадровая задержка в миллисекундах
-  // * @return {@link TsImage} - созданный экземпляр
-  // * @throws TsNullArgumentRtException любой аргумент = null
-  // * @throws TsIllegalArgumentRtException аргумент содержит уничтноженное (disposed) изображение
-  // * @throws TsIllegalArgumentRtException список - пустой
-  // */
-  // public static TsImage create( IList<Image> aFrames, long aDelay ) {
-  // return create( aFrames, aDelay, 0 );
-  // }
-  //
-  // /**
-  // * Создает неанимированное {@link TsImage}.
-  // *
-  // * @param aImage {@link Image} - единственный кадр
-  // * @return {@link TsImage} - созданный экземпляр
-  // * @throws TsNullArgumentRtException любой аргумент = null
-  // * @throws TsIllegalArgumentRtException аргумент содержит уничтноженное (disposed) изображение
-  // */
-  // public static TsImage create( Image aImage ) {
-  // return create( new SingleItemList<>( aImage ), 0L, 0 );
-  // }
+  /**
+   * Создает {@link TsImage} с равномерной анимацией.
+   *
+   * @param aFrames {@link IList}&lt;{@link Image}&gt; - упорядовенный список кадров
+   * @param aDelay long - межкадровая задержка в миллисекундах
+   * @param aImageIndex int - индекс выделенного кдра {@link #image()}
+   * @return {@link TsImage} - созданный экземпляр
+   * @throws TsNullArgumentRtException любой аргумент = null
+   * @throws TsIllegalArgumentRtException аргумент содержит уничтноженное (disposed) изображение
+   * @throws TsIllegalArgumentRtException список - пустой
+   * @throws TsIllegalArgumentRtException индекс выделенного кадра выходит за заданные пределы
+   */
+  public static TsImage create( IList<Image> aFrames, long aDelay, int aImageIndex ) {
+    TsNullArgumentRtException.checkNull( aFrames );
+    TsIllegalArgumentRtException.checkTrue( aFrames.isEmpty() );
+    LongArrayList delays = new LongArrayList();
+    for( int i = 0; i < aFrames.size(); i++ ) {
+      delays.add( aDelay );
+    }
+    return new TsImage( aFrames, delays, aImageIndex );
+  }
+
+  /**
+   * Создает {@link TsImage} с первым выделенным кадром.
+   *
+   * @param aFrames {@link IList}&lt;{@link Image}&gt; - упорядовенный список кадров
+   * @param aDelays {@link ILongList} - список межкадровых задержек в миллисекундах
+   * @return {@link TsImage} - созданный экземпляр
+   * @throws TsNullArgumentRtException любой аргумент = null
+   * @throws TsIllegalArgumentRtException аргумент содержит уничтноженное (disposed) изображение
+   * @throws TsIllegalArgumentRtException любой список - пустой
+   * @throws TsIllegalArgumentRtException списки кадров и задержек имеют разнюю длину
+   */
+  public static TsImage create( IList<Image> aFrames, ILongList aDelays ) {
+    return new TsImage( aFrames, aDelays, 0 );
+  }
+
+  /**
+   * Создает {@link TsImage} с равномерной анимацией с первым выделенным кадром.
+   *
+   * @param aFrames {@link IList}&lt;{@link Image}&gt; - упорядовенный список кадров
+   * @param aDelay long - межкадровая задержка в миллисекундах
+   * @return {@link TsImage} - созданный экземпляр
+   * @throws TsNullArgumentRtException любой аргумент = null
+   * @throws TsIllegalArgumentRtException аргумент содержит уничтноженное (disposed) изображение
+   * @throws TsIllegalArgumentRtException список - пустой
+   */
+  public static TsImage create( IList<Image> aFrames, long aDelay ) {
+    return create( aFrames, aDelay, 0 );
+  }
+
+  /**
+   * Создает неанимированное {@link TsImage}.
+   *
+   * @param aImage {@link Image} - единственный кадр
+   * @return {@link TsImage} - созданный экземпляр
+   * @throws TsNullArgumentRtException любой аргумент = null
+   * @throws TsIllegalArgumentRtException аргумент содержит уничтноженное (disposed) изображение
+   */
+  public static TsImage create( Image aImage ) {
+    return create( new SingleItemList<>( aImage ), 0L, 0 );
+  }
 
   // ------------------------------------------------------------------------------------
   // API

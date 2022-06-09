@@ -1,11 +1,10 @@
 package org.toxsoft.core.tsgui.m5.gui.panels;
 
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.m5.gui.panels.impl.*;
-import org.toxsoft.core.tsgui.m5.model.IM5ItemsProvider;
-import org.toxsoft.core.tsgui.m5.model.IM5LifecycleManager;
-import org.toxsoft.core.tsgui.m5.model.impl.M5DefaultPanelCreator;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.m5.model.*;
+import org.toxsoft.core.tsgui.m5.model.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Creates GUI panels for modelled entities view and editing.
@@ -123,5 +122,15 @@ public interface IM5PanelCreator<T> {
    */
   IM5CollectionPanel<T> createCollEditPanel( ITsGuiContext aContext, IM5ItemsProvider<T> aItemsProvider,
       IM5LifecycleManager<T> aLifecycleManager );
+
+  /**
+   * Creates the several lookup items selection panel.
+   *
+   * @param aContext {@link ITsGuiContext} - panel creation context and parameters
+   * @param aLookupProvider {@link IM5LookupProvider} - the lookup items provider
+   * @return {@link IM5CollectionPanel} - new instance of the panel
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  IM5MultiLookupPanel<T> createMultiLookupPanel( ITsGuiContext aContext, IM5LookupProvider<T> aLookupProvider );
 
 }

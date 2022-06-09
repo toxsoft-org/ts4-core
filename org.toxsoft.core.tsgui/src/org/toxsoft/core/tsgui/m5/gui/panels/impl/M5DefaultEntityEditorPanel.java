@@ -1,12 +1,10 @@
 package org.toxsoft.core.tsgui.m5.gui.panels.impl;
 
-import static org.toxsoft.core.tsgui.m5.IM5Constants.*;
-
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.m5.*;
-import org.toxsoft.core.tsgui.m5.gui.panels.IM5EntityPanel;
-import org.toxsoft.core.tsgui.m5.model.IM5LifecycleManager;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.m5.gui.panels.*;
+import org.toxsoft.core.tsgui.m5.model.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link IM5EntityPanel} default implementation to show specified entity field values.
@@ -33,16 +31,6 @@ public class M5DefaultEntityEditorPanel<T>
       IM5LifecycleManager<T> aLifecycleManager ) {
     super( aContext, aModel, false );
     setLifecycleManager( aLifecycleManager );
-  }
-
-  @Override
-  protected void doInitEditors() {
-    // create editors for unhidden (not M5FF_HIDDEN) fields
-    for( IM5FieldDef<T, ?> fDef : model().fieldDefs() ) {
-      if( !fDef.hasFlag( M5FF_HIDDEN ) ) {
-        addField( fDef.id() );
-      }
-    }
   }
 
 }
