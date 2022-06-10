@@ -99,8 +99,7 @@ public class MultiPaneComponent<T>
   private IMpcSummaryPane<T> summaryPane = null;
   private IMpcFilterPane<T>  filterPane  = null;
 
-  private boolean editable       = true;
-  private boolean isInternalEdit = false;
+  private boolean editable = true;
 
   /**
    * Constructor.
@@ -125,10 +124,12 @@ public class MultiPaneComponent<T>
 
       @Override
       protected boolean beforeDoubleClickEventFired( T aItem ) {
-        String actId = OPDEF_DBLCLICK_ACTION_ID.getValue( tsContext().params() ).asString();
-        if( StridUtils.isValidIdPath( actId ) ) {
-          processAction( actId );
-          return true;
+        if( OPDEF_IS_ACTIONS_CRUD.getValue( tsContext().params() ).asBool() ) {
+          String actId = OPDEF_DBLCLICK_ACTION_ID.getValue( tsContext().params() ).asString();
+          if( StridUtils.isValidIdPath( actId ) ) {
+            processAction( actId );
+            return true;
+          }
         }
         return false;
       }
@@ -738,7 +739,7 @@ public class MultiPaneComponent<T>
 
   @Override
   public void fillViewer( T aToSelect ) {
-    if( board == null || isInternalEdit ) {
+    if( board == null ) {
       return;
     }
     doFillTree();
@@ -776,9 +777,8 @@ public class MultiPaneComponent<T>
 
   @Override
   public void setItemProvider( IM5ItemsProvider<T> aItemsProvider ) {
-    TsNullArgumentRtException.checkNull( aItemsProvider );
     itemsProvider.genericChangeEventer().removeListener( itemsChangeListener );
-    itemsProvider = aItemsProvider;
+    itemsProvider = (aItemsProvider != null) ? aItemsProvider : IM5ItemsProvider.EMPTY;
     itemsProvider.genericChangeEventer().addListener( itemsChangeListener );
   }
 

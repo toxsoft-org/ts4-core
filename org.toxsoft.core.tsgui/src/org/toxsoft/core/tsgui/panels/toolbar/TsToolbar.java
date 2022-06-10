@@ -163,7 +163,7 @@ public class TsToolbar
       nameLabel.setLayoutData( BorderLayout.NORTH );
     }
     else {
-      nameLabel.setLayoutData( BorderLayout.EAST );
+      nameLabel.setLayoutData( BorderLayout.WEST );
     }
     nameLabel.setText( nameLabelText );
     nameLabel.setToolTipText( tooltipText );

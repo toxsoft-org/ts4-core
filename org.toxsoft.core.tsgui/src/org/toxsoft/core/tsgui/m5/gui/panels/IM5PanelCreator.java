@@ -4,6 +4,7 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.m5.gui.panels.impl.*;
 import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.m5.model.impl.*;
+import org.toxsoft.core.tsgui.utils.checkcoll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -132,5 +133,21 @@ public interface IM5PanelCreator<T> {
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   IM5MultiLookupPanel<T> createMultiLookupPanel( ITsGuiContext aContext, IM5LookupProvider<T> aLookupProvider );
+
+  /**
+   * Creates panel to select several items from the list of entities.
+   * <p>
+   * To get selected items check marks supplier {@link IM5CollectionPanel#checkSupport()}, namely with method
+   * {@link ITsCheckSupport#listCheckedItems(boolean)}.
+   * <p>
+   * If specified provider is <code>null</code> it must be set to non-<code>null</code> value by
+   * {@link IM5CollectionPanel#setItemsProvider(IM5ItemsProvider)} before actual use of the panel.
+   *
+   * @param aContext {@link ITsGuiContext} - panel creation context and parameters
+   * @param aItemsProvider {@link IM5ItemsProvider} - the viewed items provider, may be <code>null</code>
+   * @return {@link IM5CollectionPanel} - new instance of the panel
+   * @throws TsNullArgumentRtException aContext = <code>null</code>
+   */
+  IM5CollectionPanel<T> createCollChecksPanel( ITsGuiContext aContext, IM5ItemsProvider<T> aItemsProvider );
 
 }

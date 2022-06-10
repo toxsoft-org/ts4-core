@@ -1,8 +1,13 @@
 package org.toxsoft.core.tsgui.m5;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.toxsoft.core.tsgui.bricks.quant.AbstractQuant;
-import org.toxsoft.core.tsgui.m5.model.impl.M5Utils;
+import org.eclipse.e4.core.contexts.*;
+import org.toxsoft.core.tsgui.bricks.quant.*;
+import org.toxsoft.core.tsgui.m5.model.impl.*;
+import org.toxsoft.core.tsgui.m5.valeds.multilookup.*;
+import org.toxsoft.core.tsgui.m5.valeds.multimodown.*;
+import org.toxsoft.core.tsgui.m5.valeds.singlelookup.*;
+import org.toxsoft.core.tsgui.m5.valeds.singlemodown.*;
+import org.toxsoft.core.tsgui.valed.api.*;
 
 /**
  * Library initialization quant.
@@ -27,6 +32,12 @@ public class QuantM5
   @Override
   protected void doInitWin( IEclipseContext aWinContext ) {
     M5Utils.initWinContext( aWinContext );
+    //
+    IValedControlFactoriesRegistry vcr = aWinContext.get( IValedControlFactoriesRegistry.class );
+    vcr.registerFactory( ValedMultiModownEditor.FACTORY );
+    vcr.registerFactory( ValedMultiLookupEditor.FACTORY );
+    vcr.registerFactory( ValedSingleLookupEditor.FACTORY );
+    vcr.registerFactory( ValedSingleModownEditor.FACTORY );
   }
 
 }

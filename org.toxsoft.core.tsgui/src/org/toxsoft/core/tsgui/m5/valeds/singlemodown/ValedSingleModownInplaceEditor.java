@@ -162,7 +162,9 @@ public class ValedSingleModownInplaceEditor<V>
 
   @Override
   protected void doClearValue() {
-    checkboxIsNull.setSelection( true );
+    if( checkboxIsNull != null ) {
+      checkboxIsNull.setSelection( true );
+    }
     panel.setValues( null );
   }
 

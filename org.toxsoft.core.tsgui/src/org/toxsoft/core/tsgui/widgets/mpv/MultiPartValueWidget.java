@@ -1,17 +1,15 @@
 package org.toxsoft.core.tsgui.widgets.mpv;
 
-import org.eclipse.swt.SWT;
+import org.eclipse.swt.*;
 import org.eclipse.swt.events.*;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.singlesrc.rcp.ISingleSourcing_MouseWheelListener;
-import org.toxsoft.core.singlesrc.rcp.TsSinglesourcingUtils;
-import org.toxsoft.core.tsgui.widgets.mpv.impl.VertTwoButtonsPane;
+import org.toxsoft.core.singlesrc.rcp.*;
+import org.toxsoft.core.tsgui.widgets.mpv.impl.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.coll.primtypes.IIntListEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.IntArrayList;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -167,23 +165,13 @@ public class MultiPartValueWidget
   /**
    * Handling text changes by any means (copy/paste, user keyboard input, etc).
    */
-  private final Listener verifyListener = new Listener() {
-
-    @Override
-    public void handleEvent( Event aEvent ) {
-      if( !isVerifyIgnored || isEditable() ) {
-        handleVerify( aEvent );
-      }
+  private final Listener verifyListener = aEvent -> {
+    if( !this.isVerifyIgnored && isEditable() ) {
+      handleVerify( aEvent );
     }
   };
 
-  private final IGenericChangeListener valueChangeListener = new IGenericChangeListener() {
-
-    @Override
-    public void onGenericChangeEvent( Object aSource ) {
-      updateOnMpvValueChange();
-    }
-  };
+  private final IGenericChangeListener valueChangeListener = aSource -> updateOnMpvValueChange();
 
   private final GenericChangeEventer genericChangeEventer;
   private final IMultiPartValue      mpv;
@@ -349,7 +337,7 @@ public class MultiPartValueWidget
     String newText = aEvent.text;
     int length = newText.length();
     // теперь сфоримруем отредактированный текст, и посмотрим, правильный ли он
-    StringBuffer sb = new StringBuffer( text.getText() );
+    StringBuilder sb = new StringBuilder( text.getText() );
     int end = aEvent.start + length;
     sb.replace( aEvent.start, end, newText );
     ValidationResult vr = mpv.canSetValueString( sb.toString() );

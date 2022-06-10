@@ -1,20 +1,16 @@
 package org.toxsoft.core.tsgui.m5.gui.panels.impl;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.dialogs.TsDialogUtils;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.dialogs.*;
 import org.toxsoft.core.tsgui.m5.*;
-import org.toxsoft.core.tsgui.m5.gui.panels.IM5EntityPanel;
-import org.toxsoft.core.tsgui.m5.model.IM5LifecycleManager;
-import org.toxsoft.core.tsgui.m5.model.impl.M5Bunch;
-import org.toxsoft.core.tsgui.m5.model.impl.M5BunchEdit;
-import org.toxsoft.core.tslib.bricks.validator.EValidationResultType;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.bricks.validator.impl.TsValidationFailedRtException;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.toxsoft.core.tsgui.m5.gui.panels.*;
+import org.toxsoft.core.tsgui.m5.model.*;
+import org.toxsoft.core.tsgui.m5.model.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * {@link IM5EntityPanel} base implementation.
@@ -77,15 +73,7 @@ public abstract class M5AbstractEntityPanel<T>
     if( aEntity != null ) {
       TsIllegalArgumentRtException.checkFalse( model().isModelledObject( aEntity ) );
     }
-
-    // TODO что задать при aEntity = null ???
-
-    if( aEntity != null ) {
-      setValues( model().valuesOf( aEntity ) );
-    }
-    else {
-      setValues( getValues() );
-    }
+    setValues( model().valuesOf( aEntity ) ); // null entity is allowed
   }
 
   @Override

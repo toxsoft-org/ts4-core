@@ -27,7 +27,7 @@ public class ValedMultiModownTableEditor<V>
   // правильно все работает, только если мастер = null
 
   /**
-   * Original items lifecycle manager wrapper edits items in {@link ValedMultiModownTableEditor#itemsHolder}.
+   * Original items lifecycle manager wrapper edits items in {@link ValedMultiModownTableEditor#itemsContainer}.
    *
    * @author hazard157
    */
@@ -70,7 +70,7 @@ public class ValedMultiModownTableEditor<V>
     public V create( IM5Bunch<V> aValues ) {
       V v = lm.create( aValues );
       if( v != null ) {
-        itemsHolder.items().add( v );
+        itemsContainer.items().add( v );
       }
       return v;
     }
@@ -84,8 +84,8 @@ public class ValedMultiModownTableEditor<V>
     public V edit( IM5Bunch<V> aValues ) {
       V v = lm.edit( aValues );
       if( v != null ) {
-        int index = itemsHolder.items().indexOf( aValues.originalEntity() );
-        itemsHolder.items().set( index, v );
+        int index = itemsContainer.items().indexOf( aValues.originalEntity() );
+        itemsContainer.items().set( index, v );
       }
       return v;
     }
@@ -98,12 +98,12 @@ public class ValedMultiModownTableEditor<V>
     @Override
     public void remove( V aEntity ) {
       lm.remove( aEntity );
-      itemsHolder.items().remove( aEntity );
+      itemsContainer.items().remove( aEntity );
     }
 
   }
 
-  final M5DefaultItemsProvider<V> itemsHolder = new M5DefaultItemsProvider<>();
+  final M5DefaultItemsProvider<V> itemsContainer = new M5DefaultItemsProvider<>();
 
   IM5CollectionPanel<V> panel = null;
 
@@ -118,12 +118,12 @@ public class ValedMultiModownTableEditor<V>
     setParamIfNull( OPDEF_IS_WIDTH_FIXED, AV_FALSE );
     setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_FALSE );
     setParamIfNull( OPDEF_VERTICAL_SPAN, avInt( 15 ) );
-    itemsHolder.genericChangeEventer().addListener( aSource -> {
+    itemsContainer.genericChangeEventer().addListener( aSource -> {
       if( panel != null ) {
         panel.refresh();
       }
     } );
-    itemsHolder.genericChangeEventer().addListener( widgetValueChangeListener );
+    itemsContainer.genericChangeEventer().addListener( widgetValueChangeListener );
   }
 
   // ------------------------------------------------------------------------------------
@@ -153,7 +153,7 @@ public class ValedMultiModownTableEditor<V>
     IM5Model<V> model = fieldDef().itemModel();
     IM5LifecycleManager<V> lm =
         new LifecycleManagerWrapper( fieldDef().itemModel().getLifecycleManager( findMasterObject() ) );
-    panel = model.panelCreator().createCollEditPanel( tsContext(), itemsHolder, lm );
+    panel = model.panelCreator().createCollEditPanel( tsContext(), itemsContainer, lm );
     updateOnMasterObject();
     panel.createControl( aParent );
     return panel.getControl();
@@ -181,16 +181,16 @@ public class ValedMultiModownTableEditor<V>
   @Override
   protected void doSetUnvalidatedValue( IList<V> aValue ) {
     if( aValue == null ) {
-      itemsHolder.items().clear();
+      itemsContainer.items().clear();
     }
     else {
-      itemsHolder.items().setAll( aValue );
+      itemsContainer.items().setAll( aValue );
     }
   }
 
   @Override
   protected void doClearValue() {
-    itemsHolder.items().clear();
+    itemsContainer.items().clear();
   }
 
 }

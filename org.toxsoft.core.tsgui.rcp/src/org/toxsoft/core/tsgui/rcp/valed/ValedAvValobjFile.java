@@ -2,16 +2,14 @@ package org.toxsoft.core.tsgui.rcp.valed;
 
 import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
 
-import java.io.File;
+import java.io.*;
 
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.valed.api.IValedControl;
-import org.toxsoft.core.tsgui.valed.controls.av.AbstractAvValobjWrapperValedControl;
-import org.toxsoft.core.tsgui.valed.controls.av.ValedAvValobjLocalDateMpv;
-import org.toxsoft.core.tsgui.valed.impl.AbstractValedControlFactory;
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.valed.api.*;
+import org.toxsoft.core.tsgui.valed.controls.av.*;
+import org.toxsoft.core.tsgui.valed.impl.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link EAtomicType#VALOBJ} of type {@link File} editor.
@@ -43,7 +41,7 @@ public class ValedAvValobjFile
     @SuppressWarnings( "unchecked" )
     @Override
     protected IValedControl<IAtomicValue> doCreateEditor( ITsGuiContext aContext ) {
-      return new ValedAvValobjLocalDateMpv( aContext );
+      return new ValedAvValobjFile( aContext );
     }
 
   }

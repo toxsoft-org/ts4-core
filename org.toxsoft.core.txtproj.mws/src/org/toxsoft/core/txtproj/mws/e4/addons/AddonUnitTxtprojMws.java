@@ -3,30 +3,28 @@ package org.toxsoft.core.txtproj.mws.e4.addons;
 import static org.toxsoft.core.txtproj.mws.IUnitTxtprojMwsConstants.*;
 import static org.toxsoft.core.txtproj.mws.IUnitTxtprojMwsResources.*;
 
-import java.io.File;
+import java.io.*;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-import org.toxsoft.core.tsgui.dialogs.TsDialogUtils;
-import org.toxsoft.core.tsgui.mws.appinf.ITsApplicationInfo;
-import org.toxsoft.core.tsgui.mws.bases.MwsAbstractAddon;
-import org.toxsoft.core.tsgui.mws.osgi.IMwsOsgiService;
-import org.toxsoft.core.tsgui.mws.services.e4helper.ITsE4Helper;
-import org.toxsoft.core.tsgui.rcp.utils.TsRcpDialogUtils;
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.utils.errors.TsInternalErrorRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.files.TsFileUtils;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
-import org.toxsoft.core.tslib.utils.progargs.ProgramArgs;
-import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
-import org.toxsoft.core.txtproj.lib.ITsProject;
+import org.eclipse.e4.core.contexts.*;
+import org.eclipse.e4.ui.model.application.ui.basic.*;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.dialogs.*;
+import org.toxsoft.core.tsgui.mws.appinf.*;
+import org.toxsoft.core.tsgui.mws.bases.*;
+import org.toxsoft.core.tsgui.mws.osgi.*;
+import org.toxsoft.core.tsgui.mws.services.e4helper.*;
+import org.toxsoft.core.tsgui.rcp.utils.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.files.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
+import org.toxsoft.core.tslib.utils.progargs.*;
+import org.toxsoft.core.tslib.utils.valobj.*;
+import org.toxsoft.core.txtproj.lib.*;
 import org.toxsoft.core.txtproj.lib.bound.*;
 import org.toxsoft.core.txtproj.lib.impl.*;
-import org.toxsoft.core.txtproj.mws.Activator;
+import org.toxsoft.core.txtproj.mws.*;
 
 /**
  * Plugin addon.
@@ -71,8 +69,8 @@ public class AddonUnitTxtprojMws
     TsProjectFileFormatInfo formatInfo = OPDEF_PROJECT_FILE_FORMAT_INFO.getValue( params ).asValobj();
     // create ITsProject and ITsProjectFileBound instances and set them to the context
     TsProject proj = new TsProject( formatInfo );
-    ITsProjectFileBound projHolder = new TsProjectFileBound( proj, params );
-    aAppContext.set( ITsProjectFileBound.class, projHolder );
+    ITsProjectFileBound bound = new TsProjectFileBound( proj, params );
+    aAppContext.set( ITsProjectFileBound.class, bound );
     aAppContext.set( TsProject.class, proj );
     aAppContext.set( ITsProject.class, proj );
   }

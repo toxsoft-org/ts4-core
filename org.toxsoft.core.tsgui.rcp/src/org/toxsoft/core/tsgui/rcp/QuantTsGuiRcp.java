@@ -1,9 +1,9 @@
 package org.toxsoft.core.tsgui.rcp;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.toxsoft.core.tsgui.bricks.quant.AbstractQuant;
-import org.toxsoft.core.tsgui.rcp.valed.ValedFile;
-import org.toxsoft.core.tsgui.valed.api.IValedControlFactoriesRegistry;
+import org.eclipse.e4.core.contexts.*;
+import org.toxsoft.core.tsgui.bricks.quant.*;
+import org.toxsoft.core.tsgui.rcp.valed.*;
+import org.toxsoft.core.tsgui.valed.api.*;
 
 /**
  * Library initialization quant.
@@ -25,6 +25,8 @@ public class QuantTsGuiRcp
   protected void doInitApp( IEclipseContext aAppContext ) {
     IValedControlFactoriesRegistry vcfReg = aAppContext.get( IValedControlFactoriesRegistry.class );
     vcfReg.registerFactory( ValedFile.FACTORY );
+    vcfReg.registerFactory( ValedAvStringFile.FACTORY );
+    vcfReg.registerFactory( ValedAvValobjFile.FACTORY );
   }
 
   @Override

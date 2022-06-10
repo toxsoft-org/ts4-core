@@ -45,7 +45,7 @@ public class M5EntityPanelWithValeds<T>
     // сначала пусть обработает наследник, и если он разрешил обработку по умолчанию...
     IM5FieldDef<T, ?> fDef = findEditorFieldDef( aSource );
     if( doProcessEditorValueChange( aSource, fDef, aEditFinished ) ) {
-      // известим всех об изменениях
+      // известим всех об измененияхz
       fireChangeEvent();
     }
     // TODO этот метод вызывается для обновления состояния редакторов, но может это

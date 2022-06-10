@@ -1,10 +1,9 @@
 package org.toxsoft.core.tsgui.m5.gui.panels.impl;
 
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContextable;
-import org.toxsoft.core.tsgui.m5.IM5Model;
-import org.toxsoft.core.tsgui.m5.gui.panels.IM5PanelBase;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.m5.*;
+import org.toxsoft.core.tsgui.m5.gui.panels.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -141,7 +140,7 @@ public abstract class M5PanelBase<T>
   /**
    * Генерирует сообщения интерфейса {@link IGenericChangeListener#onGenericChangeEvent(Object)}.
    */
-  public void fireChangeEvent() {
+  protected void fireChangeEvent() {
     eventer.fireChangeEvent();
   }
 

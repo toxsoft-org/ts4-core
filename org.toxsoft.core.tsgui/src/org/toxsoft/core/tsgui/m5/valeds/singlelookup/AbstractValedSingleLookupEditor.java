@@ -39,7 +39,7 @@ public abstract class AbstractValedSingleLookupEditor<V>
 
   @Override
   final protected void doSetUnvalidatedValue( V aValue ) {
-    if( lookupProvider().listItems().hasElem( aValue ) ) {
+    if( aValue != null && lookupProvider().listItems().hasElem( aValue ) ) {
       doDoSetUnvalidatedValue( aValue );
       return;
     }

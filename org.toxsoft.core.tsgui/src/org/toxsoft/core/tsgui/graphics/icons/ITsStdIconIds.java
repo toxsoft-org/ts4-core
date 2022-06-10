@@ -47,31 +47,31 @@ public interface ITsStdIconIds {
   // ------------------------------------------------------------------------------------
   // General editing actions
 
-  String ICONID_EDIT_CLEAR          = "edit-clear";
-  String ICONID_EDIT_COPY           = "edit-copy";
-  String ICONID_EDIT_CUT            = "edit-cut";
-  String ICONID_EDIT_DELETE         = "edit-delete";
-  String ICONID_EDIT_FIND           = "edit-find";
-  String ICONID_EDIT_FIND_REPLACE   = "edit-find-replace";
-  String ICONID_EDIT_PASTE          = "edit-paste";
-  String ICONID_EDIT_REDO           = "edit-redo";
-  String ICONID_EDIT_SELECT_ALL     = "edit-select-all";
-  String ICONID_EDIT_UNDO           = "edit-undo";
-  String ICONID_LIST_ADD            = "list-add";
-  String ICONID_LIST_ADD_COPY       = "list-add-copy";
-  String ICONID_LIST_ADD_ALL        = "list-add-all";
-  String ICONID_LIST_REMOVE         = "list-remove";
-  String ICONID_ITEMS_CHECK_ALL     = "items_check_all";
-  String ICONID_ITEMS_UNCHECK_ALL   = "items_uncheck_all";
-  String ICONID_ITEMS_CHECK_GROUP   = "items_check";
-  String ICONID_ITEMS_UNCHECK_GROUP = "items_uncheck";
-  String ICONID_ITEMS_INVERT_CHECK  = "items_invert_check";
-  String ICONID_TREE_ADD_ROOT       = "tree-add-root";
-  String ICONID_TREE_ADD_CHILD      = "tree-add-child";
-  // String ICONID_FORMAT_JUSTIFY_CENTER = "format-justify-center";
-  // String ICONID_FORMAT_JUSTIFY_FILL = "format-justify-fill";
-  // String ICONID_FORMAT_JUSTIFY_LEFT = "format-justify-left";
-  // String ICONID_FORMAT_JUSTIFY_RIGHT = "format-justify-right";
+  String ICONID_EDIT_CLEAR            = "edit-clear";
+  String ICONID_EDIT_COPY             = "edit-copy";
+  String ICONID_EDIT_CUT              = "edit-cut";
+  String ICONID_EDIT_DELETE           = "edit-delete";
+  String ICONID_EDIT_FIND             = "edit-find";
+  String ICONID_EDIT_FIND_REPLACE     = "edit-find-replace";
+  String ICONID_EDIT_PASTE            = "edit-paste";
+  String ICONID_EDIT_REDO             = "edit-redo";
+  String ICONID_EDIT_SELECT_ALL       = "edit-select-all";
+  String ICONID_EDIT_UNDO             = "edit-undo";
+  String ICONID_LIST_ADD              = "list-add";
+  String ICONID_LIST_ADD_COPY         = "list-add-copy";
+  String ICONID_LIST_ADD_ALL          = "list-add-all";
+  String ICONID_LIST_REMOVE           = "list-remove";
+  String ICONID_ITEMS_CHECK_ALL       = "items_check_all";
+  String ICONID_ITEMS_UNCHECK_ALL     = "items_uncheck_all";
+  String ICONID_ITEMS_CHECK_GROUP     = "items_check";
+  String ICONID_ITEMS_UNCHECK_GROUP   = "items_uncheck";
+  String ICONID_ITEMS_INVERT_CHECK    = "items_invert_check";
+  String ICONID_TREE_ADD_ROOT         = "tree-add-root";
+  String ICONID_TREE_ADD_CHILD        = "tree-add-child";
+  String ICONID_FORMAT_JUSTIFY_CENTER = "format-justify-center";
+  String ICONID_FORMAT_JUSTIFY_FILL   = "format-justify-fill";
+  String ICONID_FORMAT_JUSTIFY_LEFT   = "format-justify-left";
+  String ICONID_FORMAT_JUSTIFY_RIGHT  = "format-justify-right";
 
   // ------------------------------------------------------------------------------------
   // Dialog window icons

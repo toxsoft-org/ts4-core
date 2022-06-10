@@ -19,7 +19,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public abstract class AbstractValedMultiLookupEditor<V>
     extends AbstractValedM5FieldEditor<IList<V>> {
 
-  private IM5LookupProvider<V> lookupProvider = null;
+  private IM5LookupProvider<V> lookupProvider = IM5LookupProvider.EMPTY;
 
   /**
    * Constructor for subclasses.
@@ -83,12 +83,10 @@ public abstract class AbstractValedMultiLookupEditor<V>
   /**
    * Sets the lookup items provider.
    *
-   * @param aLookupProvider {@link IM5LookupProvider} - the lookup items provider
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @param aLookupProvider {@link IM5LookupProvider} - the lookup items provider or <code>null</code> for empty
    */
   final public void setLookupProvider( IM5LookupProvider<V> aLookupProvider ) {
-    TsNullArgumentRtException.checkNull( aLookupProvider );
-    lookupProvider = aLookupProvider;
+    lookupProvider = aLookupProvider != null ? aLookupProvider : IM5LookupProvider.EMPTY;
     doRefreshOnLookupProviderChange();
   }
 

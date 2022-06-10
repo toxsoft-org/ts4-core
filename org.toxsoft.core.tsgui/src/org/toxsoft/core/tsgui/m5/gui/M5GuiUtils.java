@@ -204,6 +204,37 @@ public class M5GuiUtils {
   }
 
   /**
+   * Shows modelled entity creation dialog and creates new instance.
+   *
+   * @param <T> - M5-modelled entity type
+   * @param aContext {@link ITsGuiContext} - the context
+   * @param aPanel {@link IM5EntityPanel}&lt;T&gt - entity editor panel
+   * @param aValues {@link IM5Bunch} - initial field values for entity creation
+   * @param aDialogInfo {@link ITsDialogInfo} - dialog window properties
+   * @return &lt;T&gt; - created entity or <code>null</code> if user cancelled operation
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException panel does not have lifecycle manager specified
+   */
+  public static <T> T askCreate( ITsGuiContext aContext, IM5EntityPanel<T> aPanel, IM5Bunch<T> aValues,
+      ITsDialogInfo aDialogInfo ) {
+    TsNullArgumentRtException.checkNulls( aContext, aPanel, aDialogInfo );
+    TsIllegalArgumentRtException.checkTrue( aPanel.lifecycleManager() == null );
+    IDialogPanelCreator<IM5Bunch<T>, ITsGuiContext> creator =
+        ( aParent, aOwnerDialog ) -> new AskDialogContentPanel<>( aParent, aOwnerDialog, aPanel, true );
+    IM5Bunch<T> initVals = aValues;
+    if( initVals == null ) {
+      initVals = aPanel.model().valuesOf( null );
+    }
+    ITsGuiContext ctx = new TsGuiContext( aContext );
+    TsDialog<IM5Bunch<T>, ITsGuiContext> d = new TsDialog<>( aDialogInfo, initVals, ctx, creator );
+    IM5Bunch<T> vals = d.execData();
+    if( vals == null ) {
+      return null;
+    }
+    return aPanel.lifecycleManager().create( vals );
+  }
+
+  /**
    * Shows modelled entity edit dialog and then edits the entity.
    *
    * @param <T> - M5-modelled entity type
@@ -229,6 +260,34 @@ public class M5GuiUtils {
       return null;
     }
     return aLifecycleManager.edit( vals );
+  }
+
+  /**
+   * Shows modelled entity edit dialog and then edits the entity.
+   *
+   * @param <T> - M5-modelled entity type
+   * @param aContext {@link ITsGuiContext} - the context
+   * @param aPanel {@link IM5EntityPanel}&lt;T&gt - entity editor panel
+   * @param aEntity &lt;T&gt - the entity to edit
+   * @param aDialogInfo {@link ITsDialogInfo} - dialog window properties
+   * @return &lt;T&gt; - edited entity or <code>null</code> if user cancelled operation
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException panel does not have lifecycle manager specified
+   */
+  public static <T> T askEdit( ITsGuiContext aContext, IM5EntityPanel<T> aPanel, T aEntity,
+      ITsDialogInfo aDialogInfo ) {
+    TsNullArgumentRtException.checkNulls( aContext, aDialogInfo, aEntity, aPanel );
+    TsIllegalArgumentRtException.checkTrue( aPanel.lifecycleManager() == null );
+    IDialogPanelCreator<IM5Bunch<T>, ITsGuiContext> creator =
+        ( aParent, aOwnerDialog ) -> new AskDialogContentPanel<>( aParent, aOwnerDialog, aPanel, false );
+    ITsGuiContext ctx = new TsGuiContext( aContext );
+    TsDialog<IM5Bunch<T>, ITsGuiContext> d =
+        new TsDialog<>( aDialogInfo, aPanel.model().valuesOf( aEntity ), ctx, creator );
+    IM5Bunch<T> vals = d.execData();
+    if( vals == null ) {
+      return null;
+    }
+    return aPanel.lifecycleManager().edit( vals );
   }
 
   /**

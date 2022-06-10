@@ -2,21 +2,19 @@ package org.toxsoft.core.tsgui.m5.gui.mpc.impl;
 
 import static org.toxsoft.core.tsgui.m5.gui.mpc.IMultiPaneComponentConstants.*;
 
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.bricks.ctx.impl.TsGuiContext;
-import org.toxsoft.core.tsgui.dialogs.datarec.ITsDialogInfo;
-import org.toxsoft.core.tsgui.dialogs.datarec.TsDialogInfo;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
+import org.toxsoft.core.tsgui.dialogs.datarec.*;
 import org.toxsoft.core.tsgui.m5.*;
-import org.toxsoft.core.tsgui.m5.gui.M5GuiUtils;
-import org.toxsoft.core.tsgui.m5.gui.mpc.IMultiPaneComponent;
-import org.toxsoft.core.tsgui.m5.gui.viewers.IM5TreeViewer;
-import org.toxsoft.core.tsgui.m5.gui.viewers.impl.M5TreeViewer;
-import org.toxsoft.core.tsgui.m5.model.IM5ItemsProvider;
-import org.toxsoft.core.tsgui.m5.model.IM5LifecycleManager;
-import org.toxsoft.core.tsgui.m5.model.impl.M5BunchEdit;
-import org.toxsoft.core.tsgui.panels.lazy.ILazyControl;
-import org.toxsoft.core.tslib.av.impl.AvUtils;
-import org.toxsoft.core.tslib.coll.helpers.ECrudOp;
+import org.toxsoft.core.tsgui.m5.gui.*;
+import org.toxsoft.core.tsgui.m5.gui.mpc.*;
+import org.toxsoft.core.tsgui.m5.gui.viewers.*;
+import org.toxsoft.core.tsgui.m5.gui.viewers.impl.*;
+import org.toxsoft.core.tsgui.m5.model.*;
+import org.toxsoft.core.tsgui.m5.model.impl.*;
+import org.toxsoft.core.tsgui.panels.lazy.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.coll.helpers.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -82,7 +80,9 @@ public class MultiPaneComponentModown<T>
   //
 
   private IM5LifecycleManager<T> getNonNullLM() {
-    TsIllegalStateRtException.checkNull( lifecycleManager );
+    if( lifecycleManager == null ) {
+      throw new TsIllegalStateRtException();
+    }
     return lifecycleManager;
   }
 

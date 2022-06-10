@@ -1,14 +1,12 @@
 package org.toxsoft.core.tsgui.m5.gui.mpc;
 
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContextable;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.stdevents.*;
-import org.toxsoft.core.tsgui.bricks.tstree.tmm.ITreeModeManager;
-import org.toxsoft.core.tsgui.m5.gui.viewers.IM5TreeViewer;
-import org.toxsoft.core.tsgui.m5.model.IM5ItemsProvider;
-import org.toxsoft.core.tsgui.m5.model.IM5ModelRelated;
-import org.toxsoft.core.tsgui.panels.lazy.ILazyControl;
-import org.toxsoft.core.tsgui.widgets.TsComposite;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.bricks.tstree.tmm.*;
+import org.toxsoft.core.tsgui.m5.gui.viewers.*;
+import org.toxsoft.core.tsgui.m5.model.*;
+import org.toxsoft.core.tsgui.panels.lazy.*;
+import org.toxsoft.core.tsgui.widgets.*;
 
 /**
  * Multi-pane composite (MPC) - displays M5-modelled items with supplementary information and actions.
@@ -88,10 +86,11 @@ public interface IMultiPaneComponent<T>
   /**
    * Sets the items provider.
    * <p>
+   * Argument <code>null</code> is considered as {@link IM5ItemsProvider#EMPTY}.
+   * <p>
    * Note: changing items provider does not leads to the tree update - {@link #refresh()} must be called.
    *
    * @param aItemsProvider {@link IM5ItemsProvider} - the items provider
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void setItemProvider( IM5ItemsProvider<T> aItemsProvider );
 

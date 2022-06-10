@@ -51,6 +51,13 @@ public interface IM5MultiLookupPanel<T>
   IM5LookupProvider<T> lookupProvider();
 
   /**
+   * Sets the lookup items provider.
+   *
+   * @param aLookupProvider {@link IM5LookupProvider} - the lookup items provider or <code>null</code> for empty one
+   */
+  void setLookupProvider( IM5LookupProvider<T> aLookupProvider );
+
+  /**
    * Clears selected items list.
    */
   default void deselectAll() {

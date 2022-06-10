@@ -1,19 +1,15 @@
 package org.toxsoft.core.tsgui.valed.controls.av;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.valed.api.*;
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.errors.AvTypeCastRtException;
-import org.toxsoft.core.tslib.av.opset.IOptionSetEdit;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContext;
-import org.toxsoft.core.tslib.bricks.events.AbstractTsEventer;
-import org.toxsoft.core.tslib.bricks.events.ITsEventer;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.utils.errors.TsInternalErrorRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.errors.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.bricks.ctx.*;
+import org.toxsoft.core.tslib.bricks.events.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * The wrapper converts value of some type &lt;T&gt; from underlying valed to the {@link IAtomicValue}.
@@ -156,9 +152,7 @@ public abstract class AbstractAvWrapperValedControl<T>
       clearValue();
       return;
     }
-    if( !AvTypeCastRtException.canAssign( atomicType, aValue.atomicType() ) ) {
-      throw new TsInternalErrorRtException();
-    }
+    AvTypeCastRtException.checkCanAssign( atomicType, aValue.atomicType() );
     T tv = av2tv( aValue );
     TsInternalErrorRtException.checkNull( tv );
     source.setValue( tv );

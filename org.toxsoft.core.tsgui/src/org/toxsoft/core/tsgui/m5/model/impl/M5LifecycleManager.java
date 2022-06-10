@@ -124,7 +124,7 @@ public class M5LifecycleManager<T, M>
 
   @Override
   public IM5ItemsProvider<T> itemsProvider() {
-    if( !isCreationSupported ) {
+    if( !isListingSupported ) {
       throw new TsUnsupportedFeatureRtException( FMT_ERR_MODEL_CANT_LIST_OBJS, model.id() );
     }
     return itemsProvider;

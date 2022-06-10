@@ -118,6 +118,22 @@ public class M5DefaultPanelCreator<T>
     return p;
   }
 
+  @Override
+  public IM5MultiLookupPanel<T> createMultiLookupPanel( ITsGuiContext aContext, IM5LookupProvider<T> aLookupProvider ) {
+    TsNullArgumentRtException.checkNulls( aContext, aLookupProvider );
+    IM5MultiLookupPanel<T> p = doCreateMultiLookupPanel( aContext, aLookupProvider );
+    TsInternalErrorRtException.checkNull( p );
+    return p;
+  }
+
+  @Override
+  public IM5CollectionPanel<T> createCollChecksPanel( ITsGuiContext aContext, IM5ItemsProvider<T> aItemsProvider ) {
+    TsNullArgumentRtException.checkNull( aContext );
+    IM5CollectionPanel<T> p = doCreateCollChecksPanel( aContext, aItemsProvider );
+    TsInternalErrorRtException.checkNull( p );
+    return p;
+  }
+
   // ------------------------------------------------------------------------------------
   // To override
   //
@@ -231,10 +247,16 @@ public class M5DefaultPanelCreator<T>
     return new M5CollectionPanelMpcModownWrapper<>( mpc, false );
   }
 
-  @Override
-  public IM5MultiLookupPanel<T> createMultiLookupPanel( ITsGuiContext aContext, IM5LookupProvider<T> aLookupProvider ) {
-    // TODO реализовать M5DefaultPanelCreator.createMultiLookupPanel()
-    throw new TsUnderDevelopmentRtException( "M5DefaultPanelCreator.createMultiLookupPanel()" );
+  protected IM5MultiLookupPanel<T> doCreateMultiLookupPanel( ITsGuiContext aContext,
+      IM5LookupProvider<T> aLookupProvider ) {
+    MultiPaneComponentLookup<T> mpc = new MultiPaneComponentLookup<>( aContext, model, aLookupProvider );
+    return new M5MultiLookupPanelMpcLookupWrapper<>( mpc, false );
+  }
+
+  protected IM5CollectionPanel<T> doCreateCollChecksPanel( ITsGuiContext aContext,
+      IM5ItemsProvider<T> aItemsProvider ) {
+    // TODO реализовать M5DefaultPanelCreator.doCreateCollChecksPanel()
+    throw new TsUnderDevelopmentRtException( "M5DefaultPanelCreator.doCreateCollChecksPanel()" );
   }
 
 }

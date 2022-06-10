@@ -115,7 +115,7 @@ public class CmdMwsEditAppPrefs {
   // static API
   //
 
-  // TODO ???
+  // // TODO ???
   public static IStringMap<IOptionSet> invokeCommand1() {
     // TODO реализовать CmdMwsEditAppPrefs.invokeCommand1()
     throw new TsUnderDevelopmentRtException( "CmdMwsEditAppPrefs.invokeCommand1()" );

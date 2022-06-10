@@ -37,6 +37,7 @@ public class ValedMultiLookupTableEditor<V>
     setParamIfNull( OPDEF_IS_WIDTH_FIXED, AV_FALSE );
     setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_FALSE );
     setParamIfNull( OPDEF_VERTICAL_SPAN, avInt( 15 ) );
+    setLookupProvider( fieldDef().lookupProvider() );
   }
 
   // ------------------------------------------------------------------------------------
@@ -50,6 +51,7 @@ public class ValedMultiLookupTableEditor<V>
     panel.createControl( aParent );
     panel.setEditable( true );
     panel.refresh();
+    panel.genericChangeEventer().addListener( widgetValueChangeListener );
     return panel.getControl();
   }
 
@@ -89,7 +91,9 @@ public class ValedMultiLookupTableEditor<V>
 
   @Override
   protected void doRefreshOnLookupProviderChange() {
-    doSetUnvalidatedValue( panel.items() );
+    if( panel != null ) {
+      doSetUnvalidatedValue( panel.items() );
+    }
   }
 
 }

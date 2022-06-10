@@ -36,11 +36,11 @@ public class ValedSingleLookupEditor {
     @Override
     protected AbstractValedControl doCreateEditor( ITsGuiContext aContext ) {
       switch( M5_VALED_OPDEF_WIDGET_TYPE_ID.getValue( aContext.params() ).asString() ) {
-        case M5VWTID_TEXT:
-        default:
-          return new ValedSingleLookupTextEditor<>( aContext );
         case M5VWTID_COMBO:
+        default:
           return new ValedSingleLookupComboEditor<>( aContext );
+        case M5VWTID_TEXT:
+          return new ValedSingleLookupTextEditor<>( aContext );
       }
     }
 

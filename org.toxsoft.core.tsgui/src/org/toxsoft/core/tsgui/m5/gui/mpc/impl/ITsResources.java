@@ -27,4 +27,9 @@ interface ITsResources {
   String FMT_MSG_ITEMS_COUNT          = "Total count: %d";
   String FMT_MSG_ITEMS_FILTERED_COUNT = "Total count: %d (shown: %d)";
 
+  /**
+   * MultiPaneComponentLookup
+   */
+  String FMT_ASK_REMOVE_ITEM = "Really remove an item %s ?";
+
 }
