@@ -541,11 +541,13 @@ public final class Gwid
    * @return boolean - <code>true</code> if {@link #isStridMulti()} or {@link #isPropMulti()} returns <code>true</code>:
    */
   public boolean isMulti() {
-    return isPropMulti() | isStridMulti();
+    return isStridMulti() || isPropMulti() || isSubPropMulti();
   }
 
   /**
    * Determines if this GWID refers to concrete object (or all objects) of class {@link #classId()}.
+   * <p>
+   * By definition multi object GWIDs {@link #isStridMulti()}=<code>true</code> are considered concrete.
    * <p>
    * When this method return <code>false</code> the following method return <code>null</code>: {@link #strid()},
    * {@link #skid()}.
@@ -683,43 +685,6 @@ public final class Gwid
       return 2;
     }
     return 1;
-  }
-
-  /**
-   * Determines if this gwid "covers" that one.
-   * <p>
-   * More general GWID covers more specific one. More genral means that expanding GWIDs in any system rsulting this
-   * GWIDs set will contain all of the GWIDs of <code>aThat</code> GWID expanded.
-   *
-   * @param aThat {@link Gwid} - that one
-   * @return boolean - true if this GWID is more general than <code>aThat</code> GWID
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   */
-  public boolean coversThat( Gwid aThat ) {
-    TsNullArgumentRtException.checkNull( aThat );
-    if( this.level() > aThat.level() ) {
-      return false;
-    }
-    switch( this.level() ) {
-      case 1: {
-
-        break;
-      }
-      case 2: {
-
-        break;
-      }
-      case 3: {
-
-        break;
-      }
-      default:
-        throw new TsNotAllEnumsUsedRtException();
-    }
-
-    // TODO реализовать Gwid.toString()
-    throw new TsUnderDevelopmentRtException( "Gwid.toString()" );
-
   }
 
   // ------------------------------------------------------------------------------------

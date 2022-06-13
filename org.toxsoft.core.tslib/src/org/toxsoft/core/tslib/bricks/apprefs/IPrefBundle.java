@@ -17,7 +17,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public interface IPrefBundle
-    extends IStridableParameterized {
+    // extends IStridableParameterized {
+    extends IStridable {
 
   /**
    * Returns the editable preferences stored in this bundle.
