@@ -13,10 +13,10 @@ public interface ITsStdIconIds {
   // ------------------------------------------------------------------------------------
   // TsGUI specific icons
 
-  String ICONID_TOXSOFT_LOGO       = "ts-logo";           // the ToxSoft logo
-  String ICONID_TSAPP_WINDOWS_ICON = ICONID_TOXSOFT_LOGO; // the application icon (to be overriden)
-  String ICONID_UNKNOWN_ICON_ID    = "unknown-icon-id";   // image used for unknown icons
-  String ICONID_TRANSPARENT        = "transparent-icon";  // tranparent image
+  String ICONID_TSAPP_WINDOWS_ICON = "app-icon";         // the application icon
+  String ICONID_TOXSOFT_LOGO       = "ts-logo";          // the ToxSoft logo
+  String ICONID_UNKNOWN_ICON_ID    = "unknown-icon-id";  // image used for unknown icons
+  String ICONID_TRANSPARENT        = "transparent-icon"; // tranparent image
 
   // ------------------------------------------------------------------------------------
   // General purpose icons

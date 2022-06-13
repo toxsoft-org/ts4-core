@@ -103,7 +103,7 @@ public class CmdMwsEditAppPrefs {
         IPrefBundle pb = aAprefs.getBundle( pbId );
         // dont show bundles with no known options to display
         if( !pb.listKnownOptions().isEmpty() ) {
-          ISectionDef sdef = new SectionDef( pbId, pb.params() );
+          ISectionDef sdef = new SectionDef( pbId, pb.prefs() );
           ll.add( sdef );
         }
       }
