@@ -1,11 +1,10 @@
 package org.toxsoft.core.tsgui.bricks.tstree.impl;
 
 import org.eclipse.swt.graphics.*;
-import org.eclipse.swt.widgets.Control;
-import org.toxsoft.core.tsgui.bricks.tstree.ITsViewerColumn;
-import org.toxsoft.core.tsgui.graphics.EHorAlignment;
-import org.toxsoft.core.tslib.utils.errors.TsNotAllEnumsUsedRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.tstree.*;
+import org.toxsoft.core.tsgui.graphics.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Абстрактный класс реализации {@link ITsViewerColumn}.
@@ -18,9 +17,11 @@ abstract class AbstractTsColumn
   /**
    * Строка, добавляемая к образцу, для вычисления ширины колонки в {@link AbstractTsColumn#adjustWidth(String)}.
    */
-  private static final String COLUMN_WIDTH_ADJUST = "ww";  //$NON-NLS-1$
-  private int                 lastVisibleWidth    = -1;    // ширина колонки (для восстановления после скрытия)
-  private boolean             hidden              = false; // признак скрытой колонки (т.е. колонки с нулевой шириной)
+  private static final String COLUMN_WIDTH_ADJUST = "ww"; //$NON-NLS-1$
+
+  private int     lastVisibleWidth = -1;    // ширина колонки (для восстановления после скрытия)
+  private boolean hidden           = false; // признак скрытой колонки (т.е. колонки с нулевой шириной)
+  private boolean useThumb         = false;
 
   protected AbstractTsColumn() {
     // nop
@@ -38,19 +39,11 @@ abstract class AbstractTsColumn
   @Override
   public void setAlignment( EHorAlignment aAlignment ) {
     TsNullArgumentRtException.checkNull( aAlignment );
-    EHorAlignment alignment;
-    switch( aAlignment ) {
-      case CENTER:
-      case LEFT:
-      case RIGHT:
-        alignment = aAlignment;
-        break;
-      case FILL:
-        alignment = EHorAlignment.CENTER;
-        break;
-      default:
-        throw new TsNotAllEnumsUsedRtException();
-    }
+    EHorAlignment alignment = switch( aAlignment ) {
+      case CENTER, LEFT, RIGHT -> aAlignment;
+      case FILL -> EHorAlignment.CENTER;
+      default -> throw new TsNotAllEnumsUsedRtException();
+    };
     doSetJfaceColumnAlignment( alignment.swtStyle() );
   }
 
@@ -150,6 +143,16 @@ abstract class AbstractTsColumn
     }
     doSetJfaceColumnResizable( !aHidden );
     hidden = aHidden;
+  }
+
+  @Override
+  public boolean isUseThumb() {
+    return useThumb;
+  }
+
+  @Override
+  public void setUseThumb( boolean aUseThumb ) {
+    useThumb = aUseThumb;
   }
 
   // ------------------------------------------------------------------------------------

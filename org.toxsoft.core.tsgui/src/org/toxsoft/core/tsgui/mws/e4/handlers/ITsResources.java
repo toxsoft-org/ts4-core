@@ -7,10 +7,15 @@ import org.toxsoft.core.tsgui.mws.services.e4helper.*;
  *
  * @author hazard157
  */
-@SuppressWarnings( "nls" )
 interface ITsResources {
 
-  String MSG_LOG_ERR_NO_E4_HELPER = "No context reference to " + ITsE4Helper.class.getSimpleName();
+  String MSG_LOG_ERR_NO_E4_HELPER = "No context reference to " + ITsE4Helper.class.getSimpleName(); //$NON-NLS-1$
+
+  /**
+   * {@link CmdMwsAbout}
+   */
+  String DLG_C_ABOUT = Messages.getString( "DLG_C_ABOUT" ); //$NON-NLS-1$ ;
+  String DLG_T_ABOUT = Messages.getString( "DLG_T_ABOUT" ); //$NON-NLS-1$ ;
 
   /**
    * {@link CmdMwsEditAppPrefs}

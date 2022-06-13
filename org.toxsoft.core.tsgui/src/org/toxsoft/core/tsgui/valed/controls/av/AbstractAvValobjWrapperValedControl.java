@@ -1,11 +1,10 @@
 package org.toxsoft.core.tsgui.valed.controls.av;
 
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.valed.api.IValedControlFactory;
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.impl.AvUtils;
-import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.valed.api.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
  * The wrapper over valed of any &lt;T&gt; type to be edited as {@link EAtomicType#VALOBJ}.
@@ -25,7 +24,7 @@ public class AbstractAvValobjWrapperValedControl<T>
   @SuppressWarnings( "unchecked" )
   @Override
   protected T av2tv( IAtomicValue aValue ) {
-    return (T)AvUtils.avValobj( aValue );
+    return (T)aValue.asValobj();
   }
 
   @Override

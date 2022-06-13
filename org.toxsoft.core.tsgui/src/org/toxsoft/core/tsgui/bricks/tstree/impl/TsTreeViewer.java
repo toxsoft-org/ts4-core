@@ -5,29 +5,29 @@ import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.eclipse.jface.viewers.*;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.*;
+import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.stdevents.*;
 import org.toxsoft.core.tsgui.bricks.stdevents.impl.*;
 import org.toxsoft.core.tsgui.bricks.tstree.*;
-import org.toxsoft.core.tsgui.graphics.EHorAlignment;
-import org.toxsoft.core.tsgui.graphics.icons.EIconSize;
-import org.toxsoft.core.tsgui.utils.ITsVisualsProvider;
-import org.toxsoft.core.tsgui.utils.jface.ViewerPaintHelper;
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.impl.DataDef;
-import org.toxsoft.core.tslib.av.metainfo.IDataDef;
-import org.toxsoft.core.tslib.av.opset.IOptionSetEdit;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.coll.impl.ElemLinkedBundleList;
-import org.toxsoft.core.tslib.coll.primtypes.IIntList;
-import org.toxsoft.core.tslib.coll.primtypes.IIntListEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.IntArrayList;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
+import org.toxsoft.core.tsgui.graphics.*;
+import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tsgui.graphics.image.*;
+import org.toxsoft.core.tsgui.utils.*;
+import org.toxsoft.core.tsgui.utils.jface.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -57,7 +57,7 @@ public class TsTreeViewer
    *
    * @author hazard157
    */
-  class Column
+  static class Column
       extends AbstractTsTreeColumn {
 
     // private static final int MAX_RC = 100;
@@ -71,24 +71,6 @@ public class TsTreeViewer
       tvColumn = aTvColumn;
       nameProvider = aNameProvider;
     }
-
-    // @Override
-    // IStringList doGetCellTexts( int aRowsCount ) {
-    // int rowsCount = aRowsCount;
-    // if( aRowsCount <= 0 || aRowsCount > MAX_RC ) {
-    // rowsCount = MAX_RC;
-    // }
-    // rowsCount = Math.min( rowsCount, treeViewer.getTree().getItemCount() );
-    // if( rowsCount == 0 ) {
-    // return IStringList.EMPTY;
-    // }
-    // IStringListEdit texts = new StringArrayList( rowsCount );
-    // for( int i = 0; i < rowsCount; i++ ) {
-    // TreeItem treeItem = treeViewer.getTree().getItem( i );
-    // texts.add( treeItem.getText( columnIndex ) );
-    // }
-    // return texts;
-    // }
 
     TreeViewerColumn getTreeViewerColumn() {
       return tvColumn;
@@ -122,6 +104,13 @@ public class TsTreeViewer
         return null;
       }
       ITsViewerColumn c = columns().get( aColumnIndex );
+      if( c.isUseThumb() ) {
+        TsImage thumb = ((Column)c).nameProvider().getThumb( aNode, labelProvider.thumbSize() );
+        if( thumb != null ) {
+          return thumb.image();
+        }
+        return null;
+      }
       return ((Column)c).nameProvider().getIcon( aNode, labelProvider.iconSize() );
     }
 
@@ -155,12 +144,16 @@ public class TsTreeViewer
   final TsSelectionChangeEventHelper<ITsNode> selectionChangeEventHelper;
   final TsDoubleClickEventHelper<ITsNode>     doubleClickEventHelper;
   final TsKeyDownEventHelper                  keyDownEventHelper;
-  final InternalLabelProvider                 labelProvider   = new InternalLabelProvider();
-  private final ITsGuiContext                 context;
-  private final TsTreeContentProvider         contentProvider = new TsTreeContentProvider();
-  private final IListEdit<ITsNode>            rootNodes       = new ElemLinkedBundleList<>();
-  private final IListEdit<ITsViewerColumn>    columns         = new ElemLinkedBundleList<>();
-  private ViewerPaintHelper<Tree>             paintHelper     = null;
+  final InternalLabelProvider                 labelProvider = new InternalLabelProvider();
+
+  private final GenericChangeEventer iconSizeEventer;
+  private final GenericChangeEventer thumbSizeEventer;
+
+  private final ITsGuiContext              context;
+  private final TsTreeContentProvider      contentProvider = new TsTreeContentProvider();
+  private final IListEdit<ITsNode>         rootNodes       = new ElemLinkedBundleList<>();
+  private final IListEdit<ITsViewerColumn> columns         = new ElemLinkedBundleList<>();
+  private ViewerPaintHelper<Tree>          paintHelper     = null;
 
   TreeViewer                   treeViewer = null;
   private ITsTreeViewerConsole console    = null;
@@ -177,10 +170,12 @@ public class TsTreeViewer
     selectionChangeEventHelper = new TsSelectionChangeEventHelper<>( this );
     doubleClickEventHelper = new TsDoubleClickEventHelper<>( this );
     keyDownEventHelper = new TsKeyDownEventHelper( this );
+    iconSizeEventer = new GenericChangeEventer( this );
+    thumbSizeEventer = new GenericChangeEventer( this );
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ILazyControl
+  // ILazyControl
   //
 
   @Override
@@ -216,7 +211,7 @@ public class TsTreeViewer
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsSelectionProvider
+  // ITsSelectionProvider
   //
 
   @Override
@@ -248,7 +243,7 @@ public class TsTreeViewer
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsDoubleClickEventProducer
+  // ITsDoubleClickEventProducer
   //
 
   @Override
@@ -262,7 +257,7 @@ public class TsTreeViewer
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsKeyEventProducer
+  // ITsKeyEventProducer
   //
 
   @Override
@@ -276,7 +271,7 @@ public class TsTreeViewer
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IParameterizedEdit
+  // IParameterizedEdit
   //
 
   @Override
@@ -285,7 +280,7 @@ public class TsTreeViewer
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsNode
+  // ITsNode
   //
 
   @Override
@@ -315,7 +310,7 @@ public class TsTreeViewer
   // }
 
   @Override
-  public Image getImage( EIconSize aIconSize ) {
+  public Image getIcon( EIconSize aIconSize ) {
     return null;
   }
 
@@ -352,7 +347,7 @@ public class TsTreeViewer
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsTreeViewer
+  // ITsTreeViewer
   //
 
   @Override
@@ -513,14 +508,60 @@ public class TsTreeViewer
     treeViewer.setLabelProvider( labelProvider );
   }
 
+  // ------------------------------------------------------------------------------------
+  // IIconSizeableEx
+  //
+
   @Override
   public EIconSize iconSize() {
     return labelProvider.iconSize();
   }
 
   @Override
+  public EIconSize defaultIconSize() {
+    return labelProvider.defaultIconSize();
+  }
+
+  @Override
   public void setIconSize( EIconSize aIconSize ) {
-    labelProvider.setIconSize( aIconSize );
+    TsNullArgumentRtException.checkNull( aIconSize );
+    if( iconSize() != aIconSize ) {
+      labelProvider.setIconSize( aIconSize );
+      iconSizeEventer.fireChangeEvent();
+    }
+  }
+
+  @Override
+  public IGenericChangeEventer iconSizeChangeEventer() {
+    return iconSizeEventer;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // IThumbSizeableEx
+  //
+
+  @Override
+  public EThumbSize thumbSize() {
+    return labelProvider.thumbSize();
+  }
+
+  @Override
+  public EThumbSize defaultThumbSize() {
+    return labelProvider.defaultThumbSize();
+  }
+
+  @Override
+  public void setThumbSize( EThumbSize aThumbSize ) {
+    TsNullArgumentRtException.checkNull( aThumbSize );
+    if( thumbSize() != aThumbSize ) {
+      labelProvider.setThumbSize( aThumbSize );
+      thumbSizeEventer.fireChangeEvent();
+    }
+  }
+
+  @Override
+  public IGenericChangeEventer thumbSizeEventer() {
+    return thumbSizeEventer;
   }
 
   // ------------------------------------------------------------------------------------

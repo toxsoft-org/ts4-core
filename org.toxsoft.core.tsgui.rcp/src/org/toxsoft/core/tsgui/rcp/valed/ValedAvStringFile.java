@@ -42,7 +42,7 @@ public class ValedAvStringFile
     @SuppressWarnings( "unchecked" )
     @Override
     protected IValedControl<IAtomicValue> doCreateEditor( ITsGuiContext aContext ) {
-      return new ValedAvValobjLocalDateMpv( aContext );
+      return new ValedAvStringFile( aContext );
     }
 
   }

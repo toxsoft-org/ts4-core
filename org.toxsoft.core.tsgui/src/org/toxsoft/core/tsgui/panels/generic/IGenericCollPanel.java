@@ -1,13 +1,10 @@
 package org.toxsoft.core.tsgui.panels.generic;
 
-import org.eclipse.swt.widgets.Control;
-import org.toxsoft.core.tsgui.bricks.stdevents.ITsDoubleClickEventProducer;
-import org.toxsoft.core.tsgui.bricks.stdevents.ITsSelectionProvider;
-import org.toxsoft.core.tsgui.panels.lazy.ILazyControl;
-import org.toxsoft.core.tsgui.utils.checkcoll.ITsCheckSupport;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContextable;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.utils.ITsItemsProvider;
+import org.toxsoft.core.tsgui.bricks.stdevents.*;
+import org.toxsoft.core.tsgui.utils.checkcoll.*;
+import org.toxsoft.core.tslib.bricks.ctx.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.utils.*;
 
 /**
  * Generic items collection viewer/ editor panel.
@@ -16,7 +13,7 @@ import org.toxsoft.core.tslib.utils.ITsItemsProvider;
  * @param <T> - the entity type
  */
 public interface IGenericCollPanel<T>
-    extends ILazyControl<Control>, ITsSelectionProvider<T>, ITsDoubleClickEventProducer<T>, ITsContextable {
+    extends ITsSelectionProvider<T>, ITsDoubleClickEventProducer<T>, ITsContextable {
 
   /**
    * Returns the list of items to display.

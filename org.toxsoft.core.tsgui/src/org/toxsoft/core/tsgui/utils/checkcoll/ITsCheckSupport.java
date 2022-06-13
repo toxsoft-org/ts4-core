@@ -1,7 +1,7 @@
 package org.toxsoft.core.tsgui.utils.checkcoll;
 
-import org.toxsoft.core.tslib.bricks.events.change.IGenericChangeEventer;
-import org.toxsoft.core.tslib.coll.IList;
+import org.toxsoft.core.tslib.bricks.events.change.*;
+import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -15,6 +15,12 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @param <T> - type of elements in collection viewer
  */
 public interface ITsCheckSupport<T> {
+
+  /**
+   * No check supporting singleton.
+   */
+  @SuppressWarnings( "rawtypes" )
+  ITsCheckSupport NONE = new InternalNoneCheckSupport();
 
   /**
    * Определяет, поддерживается ли состояние отмеченности компонентой.
@@ -92,5 +98,45 @@ public interface ITsCheckSupport<T> {
    * @return {@link IGenericChangeEventer} - the eventer
    */
   IGenericChangeEventer checksChangeEventer();
+
+}
+
+class InternalNoneCheckSupport
+    implements ITsCheckSupport<Object> {
+
+  @Override
+  public boolean isChecksSupported() {
+    return false;
+  }
+
+  @Override
+  public boolean getItemCheckState( Object aItem ) {
+    throw new TsNullObjectErrorRtException();
+  }
+
+  @Override
+  public IList<Object> listCheckedItems( boolean aCheckState ) {
+    throw new TsNullObjectErrorRtException();
+  }
+
+  @Override
+  public void setItemCheckState( Object aItem, boolean aCheckState ) {
+    throw new TsNullObjectErrorRtException();
+  }
+
+  @Override
+  public void setItemsCheckState( IList<Object> aItems, boolean aCheckState ) {
+    throw new TsNullObjectErrorRtException();
+  }
+
+  @Override
+  public void setAllItemsCheckState( boolean aCheckState ) {
+    throw new TsNullObjectErrorRtException();
+  }
+
+  @Override
+  public IGenericChangeEventer checksChangeEventer() {
+    throw new TsNullObjectErrorRtException();
+  }
 
 }

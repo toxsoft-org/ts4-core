@@ -161,6 +161,9 @@ public class M5EntityPanelWithValeds<T>
     // подготовим индивидуальный экземпляр контекста для создания редактора
     ITsGuiContext ctx = new TsGuiContext( tsContext() );
     ctx.params().addAll( aFieldDef.params() );
+    for( String refId : aFieldDef.valedRefs().keys() ) {
+      ctx.put( refId, aFieldDef.valedRefs().getByKey( refId ) );
+    }
     if( ((aFieldDef.flags() & M5FF_READ_ONLY) != 0) || isViewer() ) {
       ctx.params().setBool( OPDEF_CREATE_UNEDITABLE, true );
     }

@@ -216,7 +216,7 @@ public abstract class AbstractTsNode<T>
   }
 
   @Override
-  public Image getImage( EIconSize aIconSize ) {
+  public Image getIcon( EIconSize aIconSize ) {
     TsNullArgumentRtException.checkNull( aIconSize );
     Image image = doGetImage( aIconSize );
     if( image != null ) {

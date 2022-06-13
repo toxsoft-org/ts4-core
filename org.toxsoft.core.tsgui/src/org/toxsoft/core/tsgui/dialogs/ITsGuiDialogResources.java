@@ -8,6 +8,11 @@ package org.toxsoft.core.tsgui.dialogs;
 @SuppressWarnings( "javadoc" )
 public interface ITsGuiDialogResources {
 
+  /**
+   * {@link DialogItemsList}.
+   */
+  String MSG_ERR_MUST_SELECT_ELEM_IN_LIST = Messages.getString( "MSG_ERR_MUST_SELECT_ELEM_IN_LIST" ); //$NON-NLS-1$
+
   String DLG_KIND_INFORMATION  = Messages.getString( "DLG_KIND_INFORMATION" );  //$NON-NLS-1$
   String DLG_KIND_ERROR        = Messages.getString( "DLG_KIND_ERROR" );        //$NON-NLS-1$
   String DLG_KIND_CONFIRMATION = Messages.getString( "DLG_KIND_CONFIRMATION" ); //$NON-NLS-1$

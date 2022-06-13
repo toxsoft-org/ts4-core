@@ -1,18 +1,14 @@
 package org.toxsoft.core.tsgui.m5.gui.viewers.impl;
 
-import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.TreeViewerColumn;
+import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tsgui.graphics.EHorAlignment;
-import org.toxsoft.core.tsgui.graphics.icons.EIconSize;
-import org.toxsoft.core.tsgui.graphics.image.EThumbSize;
-import org.toxsoft.core.tsgui.graphics.image.TsImage;
-import org.toxsoft.core.tsgui.m5.IM5FieldDef;
-import org.toxsoft.core.tsgui.m5.IM5Getter;
-import org.toxsoft.core.tsgui.m5.gui.viewers.IM5Column;
-import org.toxsoft.core.tslib.utils.errors.TsNotAllEnumsUsedRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.graphics.*;
+import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tsgui.graphics.image.*;
+import org.toxsoft.core.tsgui.m5.*;
+import org.toxsoft.core.tsgui.m5.gui.viewers.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link IM5Column} abstract implementation.
@@ -34,8 +30,10 @@ abstract class M5AbstractColumn<T>
 
   private final IM5FieldDef<T, ?> fieldDef;
   private final IM5Getter<T, ?>   getter;
-  private int                     lastVisibleWidth; // column width in pixels (to restore after hiding)
-  private boolean                 hidden = false;   // hidden column flag (that is column temporary has width = 0)
+
+  private int     lastVisibleWidth; // column width in pixels (to restore after hiding)
+  private boolean hidden   = false; // hidden column flag (that is column temporary has width = 0)
+  private boolean useThumb = false;
 
   /**
    * This column owner viewer.
@@ -196,6 +194,16 @@ abstract class M5AbstractColumn<T>
     }
     doSetJfaceColumnResizable( !aHidden );
     hidden = aHidden;
+  }
+
+  @Override
+  public boolean isUseThumb() {
+    return useThumb;
+  }
+
+  @Override
+  public void setUseThumb( boolean aUseThumb ) {
+    useThumb = aUseThumb;
   }
 
   @Override

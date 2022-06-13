@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.rcp.valed;
+package org.toxsoft.core.txtproj.lib.stripar;
 
 import java.util.*;
 

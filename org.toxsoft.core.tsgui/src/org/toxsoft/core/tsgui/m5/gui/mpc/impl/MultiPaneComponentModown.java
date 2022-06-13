@@ -50,7 +50,8 @@ public class MultiPaneComponentModown<T>
    * @param aItemsProvider {@link IM5ItemsProvider} - the items provider or <code>null</code>
    */
   public MultiPaneComponentModown( ITsGuiContext aContext, IM5Model<T> aModel, IM5ItemsProvider<T> aItemsProvider ) {
-    super( new M5TreeViewer<>( makeContext( aContext, false ), aModel ) );
+    super( new M5TreeViewer<>( makeContext( aContext, false ), aModel, //
+        OPDEF_IS_SUPPORTS_CHECKS.getValue( aContext.params() ).asBool() ) );
     setItemProvider( aItemsProvider );
   }
 
@@ -64,7 +65,8 @@ public class MultiPaneComponentModown<T>
    */
   public MultiPaneComponentModown( ITsGuiContext aContext, IM5Model<T> aModel, IM5ItemsProvider<T> aItemsProvider,
       IM5LifecycleManager<T> aLifecycleManager ) {
-    super( new M5TreeViewer<>( makeContext( aContext, true ), aModel ) );
+    super( new M5TreeViewer<>( makeContext( aContext, true ), aModel, //
+        OPDEF_IS_SUPPORTS_CHECKS.getValue( aContext.params() ).asBool() ) );
     setItemProvider( aItemsProvider );
     setLifecycleManager( aLifecycleManager );
   }

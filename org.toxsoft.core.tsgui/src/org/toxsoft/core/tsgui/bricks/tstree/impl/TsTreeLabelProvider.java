@@ -2,10 +2,11 @@ package org.toxsoft.core.tsgui.bricks.tstree.impl;
 
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.graphics.*;
-import org.toxsoft.core.tsgui.bricks.tstree.ITsNode;
-import org.toxsoft.core.tsgui.graphics.icons.EIconSize;
-import org.toxsoft.core.tsgui.utils.jface.TableLabelProviderAdapter;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.bricks.tstree.*;
+import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tsgui.graphics.image.*;
+import org.toxsoft.core.tsgui.utils.jface.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Поставщик текста ячеек для дерева узлов {@link ITsNode}.
@@ -18,8 +19,12 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 public class TsTreeLabelProvider
     extends TableLabelProviderAdapter
     implements ITableFontProvider, ITableColorProvider, // эти интерфейсы для таблицы
-    IColorProvider, IFontProvider // а эти - для дерева
+    IColorProvider, IFontProvider, // а эти - для дерева
+    IIconSizeable, IThumbSizeable //
 {
+
+  private static final EIconSize  DEFAULT_ICON_SIZE  = EIconSize.IS_16X16;
+  private static final EThumbSize DEFAULT_THUMB_SIZE = EThumbSize.SZ64;
 
   /**
    * Поставщик шрифта для отображения ячейки таблицы.
@@ -37,9 +42,14 @@ public class TsTreeLabelProvider
   ITableColorProvider colorProvider = null;
 
   /**
-   * Размер запрашиваемых у узлов значков.
+   * Icon size asked to the cells.
    */
-  private EIconSize iconSize = EIconSize.IS_16X16;
+  private EIconSize iconSize = DEFAULT_ICON_SIZE;
+
+  /**
+   * Thuimb size asked to the cells.
+   */
+  private EThumbSize thumbSize = DEFAULT_THUMB_SIZE;
 
   /**
    * Пустой конструктор.
@@ -54,8 +64,7 @@ public class TsTreeLabelProvider
 
   @Override
   public String getColumnText( Object aElement, int aColumnIndex ) {
-    if( aElement instanceof ITsNode ) {
-      ITsNode node = (ITsNode)aElement;
+    if( aElement instanceof ITsNode node ) {
       String s = doGetColumnText( node, aColumnIndex );
       if( s != null ) {
         return s;
@@ -72,14 +81,13 @@ public class TsTreeLabelProvider
 
   @Override
   public Image getColumnImage( Object aElement, int aColumnIndex ) {
-    if( aElement instanceof ITsNode ) {
-      ITsNode node = (ITsNode)aElement;
+    if( aElement instanceof ITsNode node ) {
       Image img = doGetColumnImage( node, aColumnIndex, iconSize );
       if( img != null ) {
         return img;
       }
       if( aColumnIndex == 0 ) { // для первого столбца вернем изображение элемента, если есть
-        return node.getImage( iconSize );
+        return node.getIcon( iconSize );
       }
     }
     return null;
@@ -122,7 +130,7 @@ public class TsTreeLabelProvider
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITableColorProvider
+  // ITableColorProvider
   //
 
   @Override
@@ -142,7 +150,7 @@ public class TsTreeLabelProvider
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IColorProvider
+  // IColorProvider
   //
 
   @Override
@@ -156,7 +164,7 @@ public class TsTreeLabelProvider
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITableFontProvider
+  // ITableFontProvider
   //
 
   @Override
@@ -168,7 +176,7 @@ public class TsTreeLabelProvider
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IFontProvider
+  // IFontProvider
   //
 
   @Override
@@ -177,30 +185,48 @@ public class TsTreeLabelProvider
   }
 
   // ------------------------------------------------------------------------------------
-  // API
+  // IIconSizeable
   //
 
-  /**
-   * Возвращает размер запрашиваемых у узлов значков.
-   *
-   * @return {@link EIconSize} - размер запрашиваемых у узлов значков
-   */
+  @Override
   public EIconSize iconSize() {
     return iconSize;
   }
 
-  /**
-   * Задает размер запрашиваемых у узлов значков.
-   * <p>
-   * Метод не приводит к обновлнеию чего-либо.
-   *
-   * @param aIconSize {@link EIconSize} - размер запрашиваемых у узлов значков
-   * @throws TsNullArgumentRtException аргумент = null
-   */
+  @Override
+  public EIconSize defaultIconSize() {
+    return DEFAULT_ICON_SIZE;
+  }
+
+  @Override
   public void setIconSize( EIconSize aIconSize ) {
     TsNullArgumentRtException.checkNull( aIconSize );
     iconSize = aIconSize;
   }
+
+  // ------------------------------------------------------------------------------------
+  // IThumbSizeable
+  //
+
+  @Override
+  public EThumbSize thumbSize() {
+    return thumbSize;
+  }
+
+  @Override
+  public EThumbSize defaultThumbSize() {
+    return DEFAULT_THUMB_SIZE;
+  }
+
+  @Override
+  public void setThumbSize( EThumbSize aThumbSize ) {
+    TsNullArgumentRtException.checkNull( aThumbSize );
+    thumbSize = aThumbSize;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // API
+  //
 
   /**
    * Задает поставщика шрифта для ячеек таблицы или null, если используются только шрифты по умолчанию.

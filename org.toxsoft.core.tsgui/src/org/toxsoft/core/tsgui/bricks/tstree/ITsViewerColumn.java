@@ -1,10 +1,9 @@
 package org.toxsoft.core.tsgui.bricks.tstree;
 
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TreeColumn;
-import org.toxsoft.core.tsgui.graphics.EHorAlignment;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.graphics.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 // TODO TRANSLATE
 
@@ -154,5 +153,19 @@ public interface ITsViewerColumn {
    *          <b>false</b> - колонка будет видна.
    */
   void setHidden( boolean aHidden );
+
+  /**
+   * Determines if in column cells the thumb (not icon) images will be drawn.
+   *
+   * @return boolean - <code>true</code> if thumbs will drawn, <code>false</code> - icons
+   */
+  boolean isUseThumb();
+
+  /**
+   * Sets if in column cells the thumb (not icon) images will be drawn.
+   *
+   * @param aUseThumb boolean - thibs instead of icons flag
+   */
+  void setUseThumb( boolean aUseThumb );
 
 }

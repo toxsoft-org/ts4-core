@@ -9,6 +9,12 @@ package org.toxsoft.core.tsgui.valed.controls.basic;
 interface ITsResources {
 
   /**
+   * {@link ValedBooleanCheck}
+   */
+  String STR_D_CHECKBOX_TEXT = "Текст";
+  String STR_N_CHECKBOX_TEXT = "Подписаь на флажке";
+
+  /**
    * {@link ValedComboSelector}
    */
   String STR_N_ITEMS_PROVIDER = "Элементы";

@@ -8,6 +8,7 @@ import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
@@ -35,7 +36,7 @@ public interface IMultiPaneComponentConstants {
   IDataDef OPDEF_IS_DETAILS_PANE = bdd( "IsDetailsPane", true, //$NON-NLS-1$
       STR_N_IS_, STR_D_IS_ );
 
-  IDataDef OPDEF_IS_DETAILS_PANE_HIDDEN = bdd( "IsDetailsPaneHidden", true, //$NON-NLS-1$
+  IDataDef OPDEF_IS_DETAILS_PANE_HIDDEN = bdd( "IsDetailsPaneHidden", false, //$NON-NLS-1$
       STR_N_IS_, STR_D_IS_ );
 
   IDataDef OPDEF_IS_SUMMARY_PANE = bdd( "IsSummaryPane", false, //$NON-NLS-1$
@@ -73,6 +74,13 @@ public interface IMultiPaneComponentConstants {
       TSID_DESCRIPTION, STR_D_NODE_ICON_SIZE, //
       TSID_KEEPER_ID, EIconSize.KEEPER_ID, //
       TSID_DEFAULT_VALUE, avValobj( EIconSize.IS_16X16 ) //
+  );
+
+  IDataDef OPDEF_NODE_THUMB_SIZE = DataDef.create( MPC_OP_ID + ".NodeThumbSize", VALOBJ, //$NON-NLS-1$
+      TSID_NAME, STR_N_NODE_THUMB_SIZE, //
+      TSID_DESCRIPTION, STR_D_NODE_THUMB_SIZE, //
+      TSID_KEEPER_ID, EThumbSize.KEEPER_ID, //
+      TSID_DEFAULT_VALUE, avValobj( EThumbSize.SZ96 ) //
   );
 
   IDataDef OPDEF_DBLCLICK_ACTION_ID = DataDef.create( MPC_OP_ID + ".DblclickActionId", STRING, //$NON-NLS-1$

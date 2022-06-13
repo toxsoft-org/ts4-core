@@ -1,14 +1,13 @@
 package org.toxsoft.core.tslib.utils;
 
-import java.io.Serializable;
+import java.io.*;
+import java.time.*;
 
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.EEncloseMode;
-import org.toxsoft.core.tslib.bricks.strio.IStrioReader;
-import org.toxsoft.core.tslib.bricks.strio.IStrioWriter;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.valobj.*;
 
 // TODO TRANSLATE
 
@@ -81,6 +80,26 @@ public final class TsVersion
    */
   public TsVersion( int aMajor, int aMinor, long aVerDate ) {
     this( (short)aMajor, (short)aMinor, aVerDate );
+  }
+
+  /**
+   * Constructor.
+   *
+   * @param aMajor int - major version
+   * @param aMinor int minor version
+   * @param aYear int - year
+   * @param aMonth {@link Month} - month
+   * @param aDayOfMonth int day of month (1..31)
+   */
+  public TsVersion( int aMajor, int aMinor, int aYear, Month aMonth, int aDayOfMonth ) {
+    this( (short)aMajor, (short)aMinor, makeTimestamp( aYear, aMonth, aDayOfMonth ) );
+  }
+
+  static long makeTimestamp( int aYear, Month aMonth, int aDayOfMonth ) {
+    LocalDate ld = LocalDate.of( aYear, aMonth, aDayOfMonth );
+    ZonedDateTime zdt = ZonedDateTime.of( ld, LocalTime.NOON, ZoneOffset.UTC );
+    Instant inst = zdt.toInstant();
+    return inst.toEpochMilli();
   }
 
   /**

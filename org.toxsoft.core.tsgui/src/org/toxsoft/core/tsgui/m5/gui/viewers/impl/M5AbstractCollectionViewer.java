@@ -1,36 +1,30 @@
 package org.toxsoft.core.tsgui.m5.gui.viewers.impl;
 
-import java.util.Comparator;
-import java.util.Objects;
+import java.util.*;
 
 import org.eclipse.jface.viewers.*;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.MenuDetectEvent;
-import org.eclipse.swt.events.MenuDetectListener;
+import org.eclipse.swt.*;
+import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.stdevents.*;
 import org.toxsoft.core.tsgui.bricks.stdevents.impl.*;
-import org.toxsoft.core.tsgui.bricks.tstree.ITsNode;
-import org.toxsoft.core.tsgui.graphics.icons.EIconSize;
-import org.toxsoft.core.tsgui.graphics.image.EThumbSize;
-import org.toxsoft.core.tsgui.m5.IM5FieldDef;
-import org.toxsoft.core.tsgui.m5.IM5Model;
+import org.toxsoft.core.tsgui.bricks.tstree.*;
+import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tsgui.graphics.image.*;
+import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.gui.viewers.*;
-import org.toxsoft.core.tsgui.utils.checkcoll.ITsCheckSupport;
-import org.toxsoft.core.tsgui.utils.jface.TableLabelProviderAdapter;
-import org.toxsoft.core.tslib.bricks.events.change.GenericChangeEventer;
-import org.toxsoft.core.tslib.bricks.events.change.IGenericChangeEventer;
-import org.toxsoft.core.tslib.bricks.filter.ITsFilter;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.helpers.ECrudOp;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
-import org.toxsoft.core.tslib.coll.impl.ElemLinkedBundleList;
-import org.toxsoft.core.tslib.coll.notifier.INotifierListEdit;
-import org.toxsoft.core.tslib.coll.notifier.basis.ITsCollectionChangeListener;
-import org.toxsoft.core.tslib.utils.ESortOrder;
+import org.toxsoft.core.tsgui.utils.checkcoll.*;
+import org.toxsoft.core.tsgui.utils.jface.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
+import org.toxsoft.core.tslib.bricks.filter.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.helpers.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.notifier.*;
+import org.toxsoft.core.tslib.coll.notifier.basis.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -629,8 +623,8 @@ public abstract class M5AbstractCollectionViewer<T>
   private final InternalFilterManager filterManager;
   protected final InternalMenuManager menuManager;
   final InternalChecksImplementation  checks;
-  private EThumbSize                  thumbSize           = EThumbSize.SZ16;
   private EIconSize                   iconSize            = EIconSize.IS_16X16;
+  private EThumbSize                  thumbSize           = EThumbSize.SZ64;
   private boolean                     columnHeaderVisible = true;
 
   protected InternalSortManager           sortManager     = null; // инициализируется в конструкторе наследника

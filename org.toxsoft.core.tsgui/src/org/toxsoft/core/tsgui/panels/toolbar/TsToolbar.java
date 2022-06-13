@@ -21,13 +21,13 @@ import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * {@link ITsToolBar} implementation.
+ * {@link ITsToolbar} implementation.
  *
  * @author hazard157
  */
 public class TsToolbar
     extends AbstractLazyPanel<Control>
-    implements ITsToolBar {
+    implements ITsToolbar {
 
   private final IListEdit<ITsToolbarListener> listeners = new ElemArrayList<>();
 

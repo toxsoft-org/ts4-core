@@ -20,6 +20,7 @@ import org.toxsoft.core.tslib.gw.skid.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.logs.*;
+import org.toxsoft.core.tslib.utils.txtmatch.*;
 
 /**
  * Value objects support in tslib.
@@ -74,6 +75,7 @@ public class TsValobjUtils {
     registerKeeper( ELogSeverity.KEEPER_ID, ELogSeverity.KEEPER );
     registerKeeper( CollConstraint.KEEPER_ID, CollConstraint.KEEPER );
     registerKeeper( ECrudOp.KEEPER_ID, ECrudOp.KEEPER );
+    registerKeeper( ETextMatchMode.KEEPER_ID, ETextMatchMode.KEEPER );
   }
 
   // ------------------------------------------------------------------------------------

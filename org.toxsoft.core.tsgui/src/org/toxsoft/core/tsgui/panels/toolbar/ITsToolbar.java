@@ -16,7 +16,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public interface ITsToolBar
+public interface ITsToolbar
     extends ILazyControl<Control>, IIconSizeable {
 
   // ------------------------------------------------------------------------------------

@@ -2,23 +2,21 @@ package org.toxsoft.core.tsgui.graphics.icons.impl;
 
 import static org.toxsoft.core.tsgui.bricks.actions.ITsStdActionDefs.*;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.e4.core.contexts.*;
+import org.eclipse.swt.*;
+import org.eclipse.swt.events.*;
+import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
-import org.toxsoft.core.tsgui.utils.swt.AbstractMenuCreator;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.utils.swt.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Создатель выпадающего меню управления размерами значков {@link IIconSizeableEx} сущностей.
+ * Создатель выпадающего меню управления размерами значков {@link IIconSizeable} сущностей.
  *
  * @author hazard157
- * @param <T> - кокрентый класс {@link IIconSizeableEx} сущности
+ * @param <T> - кокрентый класс {@link IIconSizeable} сущности
  */
-public class IconSizeableZoomDropDownMenuCreator<T extends IIconSizeableEx>
+public class IconSizeableZoomDropDownMenuCreator<T extends IIconSizeable>
     extends AbstractMenuCreator {
 
   final T              subject;
@@ -109,10 +107,10 @@ public class IconSizeableZoomDropDownMenuCreator<T extends IIconSizeableEx>
   /**
    * Осуществляет сброс масштаба.
    * <p>
-   * Метод не вызывается, если текущий размер {@link IIconSizeableEx#iconSize()} равен
-   * {@link IIconSizeableEx#defaultIconSize()}.
+   * Метод не вызывается, если текущий размер {@link IIconSizeable#iconSize()} равен
+   * {@link IIconSizeable#defaultIconSize()}.
    * <p>
-   * В базовом классе устанавливает начальный размер {@link IIconSizeableEx#defaultIconSize()} управляемой сущности.
+   * В базовом классе устанавливает начальный размер {@link IIconSizeable#defaultIconSize()} управляемой сущности.
    * Вызывать ли ролительский метод при переопределении - зависит от логики использования.
    *
    * @param aSubject &lt;T&gt; - управляемая сущность, не бывает <code>null</code>
@@ -124,28 +122,28 @@ public class IconSizeableZoomDropDownMenuCreator<T extends IIconSizeableEx>
   /**
    * Осуществляет уменьшение масштаба.
    * <p>
-   * Метод не вызывается, если текущий размер {@link IIconSizeableEx#iconSize()} равен {@link EIconSize#minSize()}.
+   * Метод не вызывается, если текущий размер {@link IIconSizeable#iconSize()} равен {@link EIconSize#minSize()}.
    * <p>
    * В базовом классе устанавливает предыдущий размер {@link EIconSize#prevSize()} управляемой сущности. Вызывать ли
    * ролительский метод при переопределении - зависит от логики использования.
    *
    * @param aSubject &lt;T&gt; - управляемая сущность, не бывает <code>null</code>
    */
-  public void doZoomOut( IIconSizeableEx aSubject ) {
+  public void doZoomOut( IIconSizeable aSubject ) {
     aSubject.setIconSize( subject.iconSize().prevSize() );
   }
 
   /**
    * Осуществляет увеличение масштаба.
    * <p>
-   * Метод не вызывается, если текущий размер {@link IIconSizeableEx#iconSize()} равен {@link EIconSize#maxSize()}.
+   * Метод не вызывается, если текущий размер {@link IIconSizeable#iconSize()} равен {@link EIconSize#maxSize()}.
    * <p>
    * В базовом классе устанавливает следующий размер {@link EIconSize#nextSize()} управляемой сущности. Вызывать ли
    * ролительский метод при переопределении - зависит от логики использования.
    *
    * @param aSubject &lt;T&gt; - управляемая сущность, не бывает <code>null</code>
    */
-  public void doZoomIn( IIconSizeableEx aSubject ) {
+  public void doZoomIn( IIconSizeable aSubject ) {
     aSubject.setIconSize( subject.iconSize().nextSize() );
   }
 

@@ -12,6 +12,7 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.tstree.*;
 import org.toxsoft.core.tsgui.bricks.tstree.impl.*;
 import org.toxsoft.core.tsgui.bricks.tstree.tmm.*;
+import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.gui.viewers.*;
 import org.toxsoft.core.tsgui.utils.jface.*;
@@ -201,7 +202,7 @@ public class M5TreeViewer<T>
     @Override
     public Image getImage( Object aElement ) {
       if( aElement instanceof ITsNode node ) {
-        return node.getImage( iconSize() );
+        return node.getIcon( iconSize() );
       }
       return null;
     }
@@ -231,11 +232,18 @@ public class M5TreeViewer<T>
       // for nodes that contains modelled entities each cell may have icon
       if( treeMaker.isItemNode( node ) ) {
         IM5Column<T> col = columnManager().columns().values().get( aColumnIndex );
+        if( col.isUseThumb() ) {
+          TsImage thumb = col.getCellThumb( (T)node.entity(), thumbSize() );
+          if( thumb != null ) {
+            return thumb.image();
+          }
+          return null;
+        }
         return col.getCellIcon( (T)node.entity(), iconSize() );
       }
       // node icon (not a cell icon!) will be displayed only in first column
       if( aColumnIndex == 0 ) {
-        return node.getImage( iconSize() );
+        return node.getIcon( iconSize() );
       }
       return null;
     }
@@ -288,16 +296,13 @@ public class M5TreeViewer<T>
 
   /**
    * Конструктор.
-   * <p>
-   * Этот конструктор не создает копию списка-аргумента, а просто хзапоминает ссылку на него.
    *
    * @param aContext {@link ITsGuiContext} - контекст просмотрщика (включает контекст приложения и параметры)
    * @param aObjModel {@link IM5Model} - модель отображаемых объектов
-   * @param aItems {@link INotifierListEdit}&lt;T&gt; - список элементов
    * @throws TsNullArgumentRtException любой аргумент = null
    */
-  public M5TreeViewer( ITsGuiContext aContext, IM5Model<T> aObjModel, INotifierListEdit<T> aItems ) {
-    this( aContext, aObjModel, aItems, false );
+  public M5TreeViewer( ITsGuiContext aContext, IM5Model<T> aObjModel ) {
+    this( aContext, aObjModel, new NotifierListEditWrapper<>( new ElemLinkedBundleList<T>() ), false );
   }
 
   /**
@@ -305,10 +310,11 @@ public class M5TreeViewer<T>
    *
    * @param aContext {@link ITsGuiContext} - контекст просмотрщика (включает контекст приложения и параметры)
    * @param aObjModel {@link IM5Model} - модель отображаемых объектов
+   * @param aIsChecksSupported boolean - признак, что наследник поддерживает состояние отмеченности элементов
    * @throws TsNullArgumentRtException любой аргумент = null
    */
-  public M5TreeViewer( ITsGuiContext aContext, IM5Model<T> aObjModel ) {
-    this( aContext, aObjModel, new NotifierListEditWrapper<>( new ElemLinkedBundleList<T>() ) );
+  public M5TreeViewer( ITsGuiContext aContext, IM5Model<T> aObjModel, boolean aIsChecksSupported ) {
+    this( aContext, aObjModel, new NotifierListEditWrapper<>( new ElemLinkedBundleList<T>() ), aIsChecksSupported );
   }
 
   /**

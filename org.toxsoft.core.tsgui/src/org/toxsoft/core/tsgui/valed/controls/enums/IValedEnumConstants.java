@@ -5,13 +5,14 @@ import static org.toxsoft.core.tsgui.valed.controls.enums.ITsResources.*;
 import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContextRefDef;
-import org.toxsoft.core.tsgui.bricks.ctx.impl.TsGuiContextRefDef;
-import org.toxsoft.core.tslib.av.impl.DataDef;
-import org.toxsoft.core.tslib.av.metainfo.IDataDef;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
  * Constants of Valeds working with {@link Enum} values.
@@ -53,27 +54,40 @@ public interface IValedEnumConstants {
    * @throws TsIllegalArgumentRtException java {@link Class} not found
    * @throws TsIllegalArgumentRtException java {@link Class} does not corresponds to <code>enum</code>
    */
-  @SuppressWarnings( "unchecked" )
+  @SuppressWarnings( { "unchecked", "rawtypes" } )
   static <E extends Enum<E>> Class<E> getEnumClassFromContext( ITsGuiContext aContext ) {
-    // ищем класс перечисления по ссылке
-    Class<E> enumClass = REFDEF_ENUM_CLASS.getRef( aContext );
-    if( enumClass == null ) {
-      // ищем класс перечисления из параметра
+    // search by reference in context
+    Class<?> rawClass = REFDEF_ENUM_CLASS.getRef( aContext );
+    if( rawClass == null ) {
+      // search by option in context
       String enumClassName = OPDEF_ENUM_CLASS_NAME.getValue( aContext.params() ).asString();
-      if( enumClassName.isBlank() ) {
+      if( !enumClassName.isBlank() ) {
+        try {
+          rawClass = Class.forName( enumClassName );
+        }
+        catch( ClassNotFoundException ex ) {
+          throw new TsIllegalArgumentRtException( ex, FMT_ERR_ENUM_CLASS_NOT_FOUND, enumClassName );
+        }
+      }
+      // search by keeper ID if any
+      String keeperId = aContext.params().getStr( TSID_KEEPER_ID, null );
+      if( keeperId != null ) {
+        IEntityKeeper<?> keeper = TsValobjUtils.findKeeperById( keeperId );
+        if( keeper != null ) {
+          rawClass = keeper.entityClass();
+        }
+        else {
+          throw new TsIllegalArgumentRtException( FMT_ERR_KEEPER_CLASS_NOT_FOUND, keeperId );
+        }
+      }
+      else {
         throw new TsIllegalArgumentRtException( MSG_ERR_ENUM_CLASS_NOT_SPECIFIED );
       }
-      try {
-        enumClass = (Class<E>)Class.forName( enumClassName );
-      }
-      catch( ClassNotFoundException ex ) {
-        throw new TsIllegalArgumentRtException( ex, FMT_ERR_ENUM_CLASS_NOT_FOUND, enumClassName );
-      }
     }
-    if( !Enum.class.isAssignableFrom( enumClass ) ) {
-      throw new TsIllegalArgumentRtException( FMT_ERR_CLASS_NOT_ENUM, enumClass.getName() );
+    if( !Enum.class.isAssignableFrom( rawClass ) ) {
+      throw new TsIllegalArgumentRtException( FMT_ERR_CLASS_NOT_ENUM, rawClass.getName() );
     }
-    return enumClass;
+    return (Class)rawClass;
   }
 
 }

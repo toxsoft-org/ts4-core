@@ -1,13 +1,13 @@
 package org.toxsoft.core.tsgui.bricks.tstree;
 
 import org.eclipse.jface.viewers.*;
-import org.toxsoft.core.tsgui.graphics.EHorAlignment;
-import org.toxsoft.core.tsgui.graphics.icons.EIconSize;
-import org.toxsoft.core.tsgui.utils.ITsVisualsProvider;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.graphics.*;
+import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tsgui.graphics.image.*;
+import org.toxsoft.core.tsgui.utils.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Просмотрщик дерева из узлов типа {@link ITsNode}.
@@ -17,7 +17,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * @author hazard157
  */
 public interface ITsTreeViewer
-    extends ITsBasicTreeViewer {
+    extends ITsBasicTreeViewer, IIconSizeableEx, IThumbSizeableEx {
 
   /**
    * Задает список узлов, отображаемых как корневые.
@@ -74,22 +74,5 @@ public interface ITsTreeViewer
    * @param aColorProvider {@link ITableColorProvider} - поставщик цветов ячеек или null
    */
   void setColorProvider( ITableColorProvider aColorProvider );
-
-  /**
-   * Возвращает размер запрашиваемых у узлов значков.
-   *
-   * @return {@link EIconSize} - размер запрашиваемых у узлов значков
-   */
-  EIconSize iconSize();
-
-  /**
-   * Задает размер запрашиваемых у узлов значков.
-   * <p>
-   * Метод не приводит к обновлнеию чего-либо.
-   *
-   * @param aIconSize {@link EIconSize} - размер запрашиваемых у узлов значков
-   * @throws TsNullArgumentRtException аргумент = null
-   */
-  void setIconSize( EIconSize aIconSize );
 
 }

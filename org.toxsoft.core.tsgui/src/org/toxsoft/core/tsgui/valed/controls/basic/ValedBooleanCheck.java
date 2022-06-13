@@ -1,17 +1,19 @@
 package org.toxsoft.core.tsgui.valed.controls.basic;
 
 import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
+import static org.toxsoft.core.tsgui.valed.controls.basic.ITsResources.*;
+import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
+import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.valed.api.IValedControl;
-import org.toxsoft.core.tsgui.valed.impl.AbstractValedControl;
-import org.toxsoft.core.tsgui.valed.impl.AbstractValedControlFactory;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.eclipse.swt.*;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.valed.api.*;
+import org.toxsoft.core.tsgui.valed.impl.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link Boolean} value editor as check box.
@@ -20,6 +22,20 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  */
 public class ValedBooleanCheck
     extends AbstractValedControl<Boolean, Button> {
+
+  /**
+   * ID of context reference {@link #OPDEF_TEXT}.
+   */
+  public static final String OPID_TEXT = VALED_OPID_PREFIX + ".CheckboxText"; //$NON-NLS-1$
+
+  /**
+   * The text to be shown on widget.<br>
+   */
+  public static final IDataDef OPDEF_TEXT = DataDef.create( OPID_TEXT, STRING, //
+      TSID_NAME, STR_N_CHECKBOX_TEXT, //
+      TSID_DESCRIPTION, STR_D_CHECKBOX_TEXT, //
+      TSID_DEFAULT_VALUE, AV_STR_EMPTY //
+  );
 
   /**
    * The factory name.
@@ -75,6 +91,7 @@ public class ValedBooleanCheck
   protected Button doCreateControl( Composite aParent ) {
     checkBox = new Button( aParent, SWT.CHECK );
     checkBox.addSelectionListener( notificationSelectionListener );
+    checkBox.setText( OPDEF_TEXT.getValue( params() ).asString() );
     checkBox.setEnabled( isEditable() );
     return checkBox;
   }

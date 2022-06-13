@@ -6,12 +6,12 @@ import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import org.eclipse.swt.widgets.FileDialog;
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.impl.DataDef;
-import org.toxsoft.core.tslib.av.metainfo.IDataDef;
-import org.toxsoft.core.tslib.bricks.keeper.std.StringListKeeper;
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.bricks.keeper.std.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
 
 /**
  * Filesystem objects editing valeds constants.
@@ -93,5 +93,45 @@ public interface IValedFileConstants {
       TSID_DESCRIPTION, STR_N_FILE_EXTENSIONS, //
       TSID_KEEPER_ID, StringListKeeper.KEEPER_ID, //
       TSID_DEFAULT_VALUE, avValobj( IStringList.EMPTY ) );
+
+  // ------------------------------------------------------------------------------------
+  // Data types for file related attributes
+  //
+
+  /**
+   * Data type {@link EAtomicType#STRING}: path to the existing file to open.
+   */
+  IDataType DT_FILE_OPEN_NAME = DataType.create( STRING, //
+      TSID_DEFAULT_VALUE, AV_STR_EMPTY, //
+      TSID_IS_NULL_ALLOWED, AV_TRUE, //
+      OPID_EDITOR_FACTORY_NAME, ValedAvStringFile.FACTORY_NAME, //
+      OPID_IS_OPEN_DIALOG, AV_TRUE, //
+      OPID_MUST_EXIST, AV_FALSE, //
+      OPID_IS_DIRECTORY, AV_FALSE //
+  );
+
+  /**
+   * Data type {@link EAtomicType#STRING}: path to the file to save to.
+   */
+  IDataType DT_FILE_SAVE_NAME = DataType.create( STRING, //
+      TSID_DEFAULT_VALUE, AV_STR_EMPTY, //
+      TSID_IS_NULL_ALLOWED, AV_TRUE, //
+      OPID_EDITOR_FACTORY_NAME, ValedAvStringFile.FACTORY_NAME, //
+      OPID_IS_OPEN_DIALOG, AV_FALSE, //
+      OPID_MUST_EXIST, AV_FALSE, //
+      OPID_IS_DIRECTORY, AV_FALSE //
+  );
+
+  /**
+   * Data type {@link EAtomicType#STRING}: path to the directory.
+   */
+  IDataType DT_DIRECTORY_NAME = DataType.create( STRING, //
+      TSID_DEFAULT_VALUE, AV_STR_EMPTY, //
+      TSID_IS_NULL_ALLOWED, AV_TRUE, //
+      OPID_EDITOR_FACTORY_NAME, ValedAvStringFile.FACTORY_NAME, //
+      OPID_IS_OPEN_DIALOG, AV_FALSE, //
+      OPID_MUST_EXIST, AV_FALSE, //
+      OPID_IS_DIRECTORY, AV_TRUE //
+  );
 
 }

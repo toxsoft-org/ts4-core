@@ -2,12 +2,18 @@ package org.toxsoft.core.tsgui.utils;
 
 import org.eclipse.e4.core.contexts.*;
 import org.toxsoft.core.tsgui.graphics.*;
+import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.fonts.impl.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tsgui.utils.rectfit.*;
 import org.toxsoft.core.tsgui.utils.swt.*;
+import org.toxsoft.core.tsgui.valed.api.*;
+import org.toxsoft.core.tsgui.valed.controls.av.*;
+import org.toxsoft.core.tsgui.valed.controls.basic.*;
 import org.toxsoft.core.tsgui.widgets.mpv.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.valobj.*;
 
@@ -40,6 +46,14 @@ public class TsGuiUtils {
     TsValobjUtils.registerKeeper( ERectFitMode.KEEPER_ID, ERectFitMode.KEEPER );
     TsValobjUtils.registerKeeper( ETsFulcrum.KEEPER_ID, ETsFulcrum.KEEPER );
     TsValobjUtils.registerKeeper( ETsOrientation.KEEPER_ID, ETsOrientation.KEEPER );
+    TsValobjUtils.registerKeeper( ETsColor.KEEPER_ID, ETsColor.KEEPER );
+
+    // following this is some hacking!
+    DataDef dd = (DataDef)IAvMetaConstants.DDEF_DESCRIPTION;
+    dd.params().setInt( IValedControlConstants.OPDEF_VERTICAL_SPAN, 3 );
+    dd.params().setStr( IValedControlConstants.OPDEF_EDITOR_FACTORY_NAME, ValedAvStringText.FACTORY_NAME );
+    dd.params().setBool( ValedStringText.OPDEF_IS_MULTI_LINE, true );
+
   }
 
   /**

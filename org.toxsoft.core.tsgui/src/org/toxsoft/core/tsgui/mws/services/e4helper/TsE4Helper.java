@@ -1,16 +1,19 @@
 package org.toxsoft.core.tsgui.mws.services.e4helper;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.eclipse.e4.core.services.events.IEventBroker;
-import org.eclipse.e4.ui.model.application.ui.advanced.MPerspective;
-import org.eclipse.e4.ui.model.application.ui.basic.MPart;
-import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
-import org.eclipse.e4.ui.workbench.IWorkbench;
-import org.eclipse.e4.ui.workbench.UIEvents;
-import org.eclipse.e4.ui.workbench.modeling.EModelService;
-import org.eclipse.e4.ui.workbench.modeling.EPartService;
-import org.toxsoft.core.tsgui.mws.bases.MwsMainWindowStaff;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import static org.toxsoft.core.tsgui.mws.services.e4helper.ITsResources.*;
+
+import org.eclipse.core.commands.*;
+import org.eclipse.core.commands.common.*;
+import org.eclipse.e4.core.commands.*;
+import org.eclipse.e4.core.contexts.*;
+import org.eclipse.e4.core.services.events.*;
+import org.eclipse.e4.ui.model.application.ui.advanced.*;
+import org.eclipse.e4.ui.model.application.ui.basic.*;
+import org.eclipse.e4.ui.workbench.*;
+import org.eclipse.e4.ui.workbench.modeling.*;
+import org.toxsoft.core.tsgui.mws.bases.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Реализация {@link ITsE4Helper}.
@@ -108,6 +111,49 @@ public class TsE4Helper
       // TODO надо решить вопрос - закрывается одно окно, какого хера завершать всё приложение?
       // это работает если в приложении одно главное окно, а если несколько?
       workbench.close();
+    }
+  }
+
+  @Override
+  public void execCmd( String aCmdId ) {
+    TsNullArgumentRtException.checkNull( aCmdId );
+    ECommandService commandService = windowContext.get( ECommandService.class );
+    Command cmd = commandService.getCommand( aCmdId );
+    EHandlerService handlerService = windowContext.get( EHandlerService.class );
+    ParameterizedCommand pCmd = new ParameterizedCommand( cmd, null );
+    if( handlerService.canExecute( pCmd ) ) {
+      handlerService.executeHandler( pCmd );
+    }
+  }
+
+  @Override
+  public void execCmd( String aCmdId, IStringMap<String> aArgValues ) {
+    TsNullArgumentRtException.checkNulls( aCmdId, aArgValues );
+    ECommandService commandService = windowContext.get( ECommandService.class );
+    Command cmd = commandService.getCommand( aCmdId );
+    Parameterization[] params = null;
+    // prepare command params (args)
+    if( !aArgValues.isEmpty() ) {
+      params = new Parameterization[aArgValues.size()];
+      int index = 0;
+      for( String argId : aArgValues.keys() ) {
+        IParameter par = null;
+        try {
+          par = cmd.getParameter( argId );
+        }
+        catch( @SuppressWarnings( "unused" ) NotDefinedException ex ) {
+          // exception will be thrown below
+        }
+        if( par == null ) {
+          throw new TsItemNotFoundRtException( FMT_ERR_NO_SUCH_ARG_OF_E4_CMD, aCmdId, argId );
+        }
+        params[index++] = new Parameterization( par, aArgValues.getByKey( argId ) );
+      }
+    }
+    EHandlerService handlerService = windowContext.get( EHandlerService.class );
+    ParameterizedCommand pCmd = new ParameterizedCommand( cmd, params );
+    if( handlerService.canExecute( pCmd ) ) {
+      handlerService.executeHandler( pCmd );
     }
   }
 

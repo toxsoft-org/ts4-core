@@ -21,6 +21,7 @@ interface ITsResources {
   String FMT_ERR_CLASS_NOT_ENUM           = "Класс %s не является enum-перечислением";
   String MSG_ERR_ENUM_CLASS_NOT_SPECIFIED = "Не задан класс enum-константы";
   String FMT_ERR_ENUM_CLASS_NOT_FOUND     = "Невозможно найти класс enum-константы %s";
+  String FMT_ERR_KEEPER_CLASS_NOT_FOUND   = "Невозможно найти класс по киперу %s";
   String FMT_ERR_EMPTY_ENUM               = "enum-перечисление %s не содержит ни одной константы";
 
 }

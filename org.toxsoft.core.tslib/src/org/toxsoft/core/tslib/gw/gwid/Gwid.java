@@ -668,6 +668,60 @@ public final class Gwid
     return subPropId;
   }
 
+  /**
+   * Returns the levels in this GWID.
+   * <p>
+   * Level 1 is GWID of {@link EGwidKind#GW_CLASS}, level 2 - GWIDs with props, level 3 - with bith props and subprops.
+   *
+   * @return int - GWID level in range 1..3
+   */
+  public int level() {
+    if( isSubProp() ) {
+      return 3;
+    }
+    if( isProp() ) {
+      return 2;
+    }
+    return 1;
+  }
+
+  /**
+   * Determines if this gwid "covers" that one.
+   * <p>
+   * More general GWID covers more specific one. More genral means that expanding GWIDs in any system rsulting this
+   * GWIDs set will contain all of the GWIDs of <code>aThat</code> GWID expanded.
+   *
+   * @param aThat {@link Gwid} - that one
+   * @return boolean - true if this GWID is more general than <code>aThat</code> GWID
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public boolean coversThat( Gwid aThat ) {
+    TsNullArgumentRtException.checkNull( aThat );
+    if( this.level() > aThat.level() ) {
+      return false;
+    }
+    switch( this.level() ) {
+      case 1: {
+
+        break;
+      }
+      case 2: {
+
+        break;
+      }
+      case 3: {
+
+        break;
+      }
+      default:
+        throw new TsNotAllEnumsUsedRtException();
+    }
+
+    // TODO реализовать Gwid.toString()
+    throw new TsUnderDevelopmentRtException( "Gwid.toString()" );
+
+  }
+
   // ------------------------------------------------------------------------------------
   // Object
   //

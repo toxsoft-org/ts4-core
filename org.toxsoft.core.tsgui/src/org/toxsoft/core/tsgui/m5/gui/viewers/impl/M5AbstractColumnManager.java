@@ -3,15 +3,14 @@ package org.toxsoft.core.tsgui.m5.gui.viewers.impl;
 import static org.toxsoft.core.tsgui.m5.IM5Constants.*;
 
 import org.eclipse.swt.events.*;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Widget;
-import org.toxsoft.core.tsgui.m5.IM5FieldDef;
-import org.toxsoft.core.tsgui.m5.IM5Getter;
+import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.gui.viewers.*;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMapEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
-import org.toxsoft.core.tslib.utils.ESortOrder;
-import org.toxsoft.core.tslib.utils.errors.TsInternalErrorRtException;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link IM5ColumnManager} base implementation.
@@ -74,6 +73,7 @@ abstract class M5AbstractColumnManager<T>
     col.setTooltip( fDef.description() );
     col.setWidth( INITIAL_DEFAULT_COLUMN_WIDTH );
     col.setAlignment( M5_OPDEF_COLUMN_ALIGN.getValue( fDef.params() ).asValobj() );
+    col.setUseThumb( M5_OPDEF_COLUMN_USE_THUMB.getValue( fDef.params() ).asBool() );
     owner.refresh();
     return col;
   }

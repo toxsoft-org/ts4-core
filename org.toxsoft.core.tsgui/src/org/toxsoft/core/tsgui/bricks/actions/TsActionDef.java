@@ -189,6 +189,29 @@ public class TsActionDef
   }
 
   /**
+   * Create an action definition of style {@link IAction#AS_RADIO_BUTTON}.
+   *
+   * @param aId String - action ID (an IDpath)
+   * @param aName String - action name {@link ITsActionDef#nmName()}
+   * @param aDescription String - action decription {@link ITsActionDef#description()}
+   * @param aIconId String - icon ID {@link ITsActionDef#iconId()}, may be <code>null</code>
+   * @param aIdsAndValues Object[] - {@link #params()} values as for {@link OptionSetUtils#createOpSet(Object...)}
+   * @return {@link TsActionDef} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException ID is not an IDpath
+   */
+  public static TsActionDef ofRadio2( String aId, String aName, String aDescription, String aIconId,
+      Object... aIdsAndValues ) {
+    TsNullArgumentRtException.checkNulls( aName, aDescription );
+    TsActionDef adef = ofRadio1( aId, aIdsAndValues );
+    adef.setNameAndDescription( aName, aDescription );
+    if( aIconId != null && !aIconId.isBlank() ) {
+      adef.params().setStr( TSID_ICON_ID, aIconId );
+    }
+    return adef;
+  }
+
+  /**
    * Create an action definition of style {@link IAction#AS_UNSPECIFIED}.
    *
    * @param aId String - action ID (an IDpath)

@@ -224,7 +224,11 @@ public class AvUtils {
           String ssFmt = aFormatString != null ? aFormatString : StridUtils.FORMAT_NAME;
           return StridUtils.printf( ssFmt, ss );
         }
-        return String.format( aFormatString, o != null ? o.toString() : TsLibUtils.EMPTY_STRING );
+        String objStr = o != null ? o.toString() : TsLibUtils.EMPTY_STRING;
+        if( aFormatString == null ) {
+          return objStr;
+        }
+        return String.format( aFormatString, objStr );
       }
       default:
         throw new TsNotAllEnumsUsedRtException();

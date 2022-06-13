@@ -14,7 +14,6 @@ import org.toxsoft.core.tsgui.bricks.stdevents.impl.*;
 import org.toxsoft.core.tsgui.bricks.tstree.*;
 import org.toxsoft.core.tsgui.bricks.tstree.tmm.*;
 import org.toxsoft.core.tsgui.dialogs.*;
-import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.gui.mpc.*;
@@ -94,7 +93,7 @@ public class MultiPaneComponent<T>
   private IM5ItemsProvider<T> itemsProvider = IM5ItemsProvider.EMPTY;
 
   private TsComposite        board       = null;
-  private ITsToolBar         toolbar     = null;
+  private ITsToolbar         toolbar     = null;
   private IMpcDetailsPane<T> detailsPane = null;
   private IMpcSummaryPane<T> summaryPane = null;
   private IMpcFilterPane<T>  filterPane  = null;
@@ -158,9 +157,9 @@ public class MultiPaneComponent<T>
    * <p>
    * Must be called after {@link #detailsPane}, {@link #summaryPane} and {@link #filterPane} were initialized.
    *
-   * @return {@link ITsToolBar} - cvreated toolbar, never is <code>null</code>
+   * @return {@link ITsToolbar} - cvreated toolbar, never is <code>null</code>
    */
-  private ITsToolBar createToolBar() {
+  private ITsToolbar createToolBar() {
     // actions/buttons on toolbar
     IListEdit<ITsActionDef> actDefs = new ElemLinkedBundleList<>();
     boolean hasEditActions = OPDEF_IS_ACTIONS_CRUD.getValue( tsContext().params() ).asBool();
@@ -233,7 +232,7 @@ public class MultiPaneComponent<T>
     // icon size
     EIconSize iconSize = hdpiService().getToolbarIconsSize();
     // toolbar creation
-    ITsToolBar tb = doCreateToolbar( tsContext(), name, iconSize, actDefs );
+    ITsToolbar tb = doCreateToolbar( tsContext(), name, iconSize, actDefs );
     TsInternalErrorRtException.checkNull( tb );
     return tb;
   }
@@ -624,15 +623,18 @@ public class MultiPaneComponent<T>
       TsComposite board3 = new TsComposite( board2 );
       board3.setLayout( new BorderLayout() );
       board3.setLayoutData( BorderLayout.CENTER );
-      tree.createControl( board3 );
       detailsPane.createControl( board3 );
-      detailsPane.getControl().setLayoutData( OPDEF_DETAILS_PANE_PLACE.getValue( tsContext().params() ).asValobj() );
+      Object ld = OPDEF_DETAILS_PANE_PLACE.getValue( tsContext().params() ).asValobj();
+      detailsPane.getControl().setLayoutData( ld );
+      tree.createControl( board3 );
+      tree.getControl().setLayoutData( BorderLayout.CENTER );
     }
     else { // no detailsPane
       tree.createControl( board2 );
     }
     tree.getControl().setLayoutData( BorderLayout.CENTER );
     tree.setIconSize( OPDEF_NODE_ICON_SIZE.getValue( tsContext().params() ).asValobj() );
+    tree.setThumbSize( OPDEF_NODE_THUMB_SIZE.getValue( tsContext().params() ).asValobj() );
     tree.addTsSelectionListener( selectionChangeEventHelper );
     tree.addTsDoubleClickListener( doubleClickEventHelper );
     // setup
@@ -854,9 +856,9 @@ public class MultiPaneComponent<T>
    * <p>
    * Even if unvisible, toolbar always exists with actions on it.
    *
-   * @return {@link ITsToolBar} - the toolbar
+   * @return {@link ITsToolbar} - the toolbar
    */
-  public ITsToolBar toolbar() {
+  public ITsToolbar toolbar() {
     return toolbar;
   }
 
@@ -873,11 +875,11 @@ public class MultiPaneComponent<T>
    * @param aName String - name of the toolbar
    * @param aIconSize {@link EIconSize} - toolbar icons size
    * @param aActs IList&lt;{@link ITsActionDef}&gt; - actions for buttons creation
-   * @return {@link ITsToolBar} - created toolbar, must not be <code>null</code>
+   * @return {@link ITsToolbar} - created toolbar, must not be <code>null</code>
    */
-  protected ITsToolBar doCreateToolbar( ITsGuiContext aContext, String aName, EIconSize aIconSize,
+  protected ITsToolbar doCreateToolbar( ITsGuiContext aContext, String aName, EIconSize aIconSize,
       IListEdit<ITsActionDef> aActs ) {
-    ITsToolBar tb = new TsToolbar( aContext );
+    ITsToolbar tb = new TsToolbar( aContext );
     tb.setIconSize( aIconSize );
     tb.setNameLabelText( aName );
     tb.addActionDefs( aActs );
@@ -962,9 +964,7 @@ public class MultiPaneComponent<T>
   protected void doCreateTreeColumns() {
     for( IM5FieldDef<T, ?> fdef : model().fieldDefs() ) {
       if( (fdef.flags() & M5FF_COLUMN) != 0 ) {
-        IM5Column<T> col = tree().columnManager().add( fdef.id() );
-        EHorAlignment ha = M5_OPDEF_COLUMN_ALIGN.getValue( fdef.params() ).asValobj();
-        col.setAlignment( ha );
+        tree().columnManager().add( fdef.id() );
       }
     }
     // mvk WORKAROUND single column has narrow width in MS Windows

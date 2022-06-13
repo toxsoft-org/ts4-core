@@ -1,11 +1,10 @@
 package org.toxsoft.core.tsgui.panels;
 
-import org.eclipse.swt.widgets.Composite;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.stdevents.*;
-import org.toxsoft.core.tsgui.bricks.stdevents.impl.TsDoubleClickEventHelper;
-import org.toxsoft.core.tsgui.bricks.stdevents.impl.TsSelectionChangeEventHelper;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.bricks.stdevents.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Абстрактный класс панелей просмотра / редактирования набора объектов.
@@ -24,13 +23,13 @@ public abstract class TsStdEventsProducerPanel<E>
   protected final TsDoubleClickEventHelper<E>     doubleClickEventHelper;
 
   /**
-   * Конструктор панели.
+   * Constructor.
    * <p>
-   * Конструктор просто запоминает ссылку на контекст, без создания копии.
+   * Constructos stores reference to the context, does not creates copy.
    *
-   * @param aParent {@link Composite} - родительская панель
-   * @param aContext {@link ITsGuiContext} - контекст панели
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aParent {@link Composite} - parent component
+   * @param aContext {@link ITsGuiContext} - the context
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public TsStdEventsProducerPanel( Composite aParent, ITsGuiContext aContext ) {
     super( aParent, aContext );

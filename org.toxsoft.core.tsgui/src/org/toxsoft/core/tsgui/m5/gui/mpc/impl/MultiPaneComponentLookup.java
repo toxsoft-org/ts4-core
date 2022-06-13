@@ -46,7 +46,7 @@ public class MultiPaneComponentLookup<T>
    * @param aLookupProvider {@link IM5LookupProvider} - the lookup provider or <code>null</code>
    */
   public MultiPaneComponentLookup( ITsGuiContext aContext, IM5Model<T> aModel, IM5LookupProvider<T> aLookupProvider ) {
-    super( new M5TreeViewer<>( makeContext( aContext, true ), aModel ) );
+    super( new M5TreeViewer<>( makeContext( aContext, true ), aModel, false ) );
     eventer = new GenericChangeEventer( this );
     setLookupProvider( aLookupProvider );
     super.setItemProvider( containedItemsProvider );

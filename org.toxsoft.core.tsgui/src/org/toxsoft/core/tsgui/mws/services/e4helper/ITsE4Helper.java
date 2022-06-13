@@ -1,8 +1,9 @@
 package org.toxsoft.core.tsgui.mws.services.e4helper;
 
-import org.eclipse.e4.core.di.annotations.CanExecute;
-import org.eclipse.e4.ui.model.application.ui.basic.MPart;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.eclipse.e4.core.di.annotations.*;
+import org.eclipse.e4.ui.model.application.ui.basic.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Служба, набор методов для облегчения выполнения типичных задач GUI в приложении на базе E4.
@@ -47,5 +48,23 @@ public interface ITsE4Helper {
    * Завершает работу приложения.
    */
   void quitApplication();
+
+  /**
+   * Runs E4 command without parameters.
+   *
+   * @param aCmdId String - E4 command ID
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  void execCmd( String aCmdId );
+
+  /**
+   * Runs E4 command with parameters.
+   *
+   * @param aCmdId String - E4 command ID
+   * @param aArgValues {@link IStringMap}&lt;String&gt; - copmmand params as map "param ID" - "value"
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException aArgValues contains unknown parameter
+   */
+  void execCmd( String aCmdId, IStringMap<String> aArgValues );
 
 }

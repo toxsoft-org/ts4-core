@@ -1,14 +1,13 @@
 package org.toxsoft.core.tsgui.bricks.tstree;
 
-import java.util.Objects;
+import java.util.*;
 
-import org.eclipse.swt.graphics.Image;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.graphics.icons.EIconSize;
-import org.toxsoft.core.tslib.av.utils.IParameterizedEdit;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
+import org.eclipse.swt.graphics.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tslib.av.utils.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 
 // TODO NODE
 
@@ -61,12 +60,12 @@ public interface ITsNode
   String name();
 
   /**
-   * Возвращает отображаемое изображение для узла.
+   * Возвращает значок для узла.
    *
    * @param aIconSize {@link EIconSize} - запрошенный размер значка
    * @return {@link Image} - изображение или <code>null</code>
    */
-  Image getImage( EIconSize aIconSize );
+  Image getIcon( EIconSize aIconSize );
 
   /**
    * Возвращает ту сущность, которому соответствует узел.

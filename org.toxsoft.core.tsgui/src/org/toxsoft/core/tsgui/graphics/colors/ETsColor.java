@@ -2,11 +2,12 @@ package org.toxsoft.core.tsgui.graphics.colors;
 
 import static org.toxsoft.core.tsgui.graphics.colors.ITsResources.*;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.RGB;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.eclipse.swt.*;
+import org.eclipse.swt.graphics.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.std.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Константы предопределенных цветов.
@@ -105,6 +106,16 @@ public enum ETsColor
   WHITE( "White", STR_N_WHITE, STR_D_WHITE, new RGB( 0xFF, 0xFF, 0xFF ), SWT.COLOR_WHITE ),
 
   ;
+
+  /**
+   * Registered keeper ID.
+   */
+  public static final String KEEPER_ID = "TsColor"; //$NON-NLS-1$
+
+  /**
+   * Keeper singleton.
+   */
+  public static IEntityKeeper<ETsColor> KEEPER = new StridableEnumKeeper<>( ETsColor.class );
 
   private final String id;
   private final String description;

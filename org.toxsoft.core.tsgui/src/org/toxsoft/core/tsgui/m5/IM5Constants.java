@@ -69,6 +69,11 @@ public interface IM5Constants {
   String M5_OPID_COLUMN_ALIGN = M5_ID + ".hints.ColumnAlignment"; //$NON-NLS-1$
 
   /**
+   * ID of {@link #M5_OPDEF_COLUMN_USE_THUMB }.
+   */
+  String M5_OPID_COLUMN_USE_THUMB = M5_ID + ".hints.ColumnUseThumb"; //$NON-NLS-1$
+
+  /**
    * ID of {@link #M5_OPDEF_FLAGS}.
    */
   String M5_OPID_FLAGS = M5_ID + ".hints.Flags"; //$NON-NLS-1$
@@ -82,6 +87,16 @@ public interface IM5Constants {
       TSID_KEEPER_ID, EHorAlignment.KEEPER_ID, //
       TSID_IS_MANDATORY, AV_FALSE, //
       TSID_DEFAULT_VALUE, avValobj( EHorAlignment.LEFT ) //
+  );
+
+  /**
+   * Option to store column hint to use thumb instead of icon.
+   * <p>
+   * This option is to be stored in {@link IM5FieldDef#params()} and then used by GUI framework.
+   */
+  IDataDef M5_OPDEF_COLUMN_USE_THUMB = DataDef.create( M5_OPID_COLUMN_USE_THUMB, BOOLEAN, //
+      TSID_IS_MANDATORY, AV_FALSE, //
+      TSID_DEFAULT_VALUE, AV_FALSE //
   );
 
   /**
