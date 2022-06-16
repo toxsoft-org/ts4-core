@@ -625,12 +625,31 @@ public class StrioUtils {
     return map;
   }
 
+  /**
+   * Writes stridables list to the STRIO output stream.
+   *
+   * @param <E> - type of items to write
+   * @param aSw {@link IStrioWriter} - the output stream
+   * @param aList {@link IStridablesList}&lt;E&gt; - collection to write
+   * @param aKeeper {@link IEntityKeeper}&lt;E&gt; - items keeper
+   * @param aIndent boolean - flags that each items will be written on new line
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
   public static <E extends IStridable> void writeStridablesList( IStrioWriter aSw, IStridablesList<E> aList,
       IEntityKeeper<E> aKeeper, boolean aIndent ) {
     TsNullArgumentRtException.checkNulls( aSw, aKeeper );
     aKeeper.writeColl( aSw, aList, aIndent );
   }
 
+  /**
+   * Reads stridables list from STRIO input stream.
+   *
+   * @param <E> - type of items to read
+   * @param aSr {@link IStrioReader} - input stream
+   * @param aKeeper {@link IEntityKeeper}&lt;E&gt; - items keeper
+   * @return {@link IStridablesListEdit}&lt;E&gt; - read list
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
   public static <E extends IStridable> IStridablesListEdit<E> readStridablesList( IStrioReader aSr,
       IEntityKeeper<E> aKeeper ) {
     TsNullArgumentRtException.checkNulls( aSr, aKeeper );
@@ -644,6 +663,15 @@ public class StrioUtils {
     return ll;
   }
 
+  /**
+   * Reads stridables list.
+   *
+   * @param <E> - type of items to read
+   * @param aSr {@link IStrioReader} - input stream
+   * @param aList {@link IStridablesListEdit}&lt;E&gt; - collection to red items into
+   * @param aKeeper {@link IEntityKeeper}&lt;E&gt; - items keeper
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
   public static <E extends IStridable> void readStridablesList( IStrioReader aSr, IStridablesListEdit<E> aList,
       IEntityKeeper<E> aKeeper ) {
     TsNullArgumentRtException.checkNulls( aSr, aList, aKeeper );
