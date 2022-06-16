@@ -1,14 +1,12 @@
 package org.toxsoft.core.tsgui.bricks.tstree.tmm;
 
-import java.util.Objects;
+import java.util.*;
 
-import org.toxsoft.core.tsgui.graphics.icons.EIconSize;
-import org.toxsoft.core.tsgui.graphics.icons.ITsIconManager;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
-import org.toxsoft.core.tslib.bricks.strid.impl.Stridable;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tslib.av.utils.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 // TODO TRANSLATE
 
@@ -21,7 +19,8 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * @param <T> - displayed M5-modelled entity type
  */
 public final class TreeModeInfo<T>
-    extends Stridable {
+    extends Stridable
+    implements IIconIdable {
 
   private final String          iconId;
   private final ITsTreeMaker<T> treeMaker;
@@ -55,6 +54,7 @@ public final class TreeModeInfo<T>
    *
    * @return String - идентификатор значка или <code>null</code
    */
+  @Override
   public String iconId() {
     return iconId;
   }

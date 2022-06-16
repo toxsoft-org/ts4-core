@@ -1,7 +1,7 @@
 package org.toxsoft.core.tsgui.bricks.actions;
 
 import org.eclipse.jface.action.*;
-import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 
 /**
@@ -10,7 +10,7 @@ import org.toxsoft.core.tslib.bricks.strid.*;
  * @author hazard157
  */
 public interface ITsActionDef
-    extends IStridableParameterized {
+    extends IStridableParameterized, IIconIdable {
 
   /**
    * Returns the SWT style of action.
@@ -21,12 +21,5 @@ public interface ITsActionDef
    * @return int - SWT style of this ation
    */
   int actionStyle();
-
-  /**
-   * Returns action icon ID for use with {@link ITsIconManager}.
-   *
-   * @return String - the icon ID or <code>null</code> for no icon
-   */
-  String iconId();
 
 }

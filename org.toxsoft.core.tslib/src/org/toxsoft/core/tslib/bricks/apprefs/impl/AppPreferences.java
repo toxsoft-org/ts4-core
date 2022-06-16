@@ -44,7 +44,7 @@ public class AppPreferences
     PrefBundle bundle = findBundle( aBundleId );
     boolean needToSaveBundle = false;
     if( bundle == null ) {
-      bundle = new PrefBundle( aBundleId, aParams, IOptionSet.NULL, storage );
+      bundle = new PrefBundle( aBundleId, IOptionSet.NULL, aParams, storage );
       bundlesMap.put( aBundleId, bundle );
       needToSaveBundle = true;
     }
@@ -65,7 +65,7 @@ public class AppPreferences
     }
     IOptionSet prefs = storage.loadBundle( aBundleId );
     if( prefs != null ) {
-      bundle = new PrefBundle( aBundleId, IOptionSet.NULL, prefs, storage );
+      bundle = new PrefBundle( aBundleId, prefs, IOptionSet.NULL, storage );
       bundlesMap.put( aBundleId, bundle );
       storage.saveBundle( aBundleId, bundle.prefsValues );
       return bundle;

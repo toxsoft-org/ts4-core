@@ -216,6 +216,9 @@ public class TsTreeViewer
 
   @Override
   public ITsNode selectedItem() {
+    if( getControl() == null ) {
+      return null;
+    }
     IStructuredSelection ss = (IStructuredSelection)treeViewer.getSelection();
     if( ss.isEmpty() ) {
       return null;
@@ -225,11 +228,13 @@ public class TsTreeViewer
 
   @Override
   public void setSelectedItem( ITsNode aItem ) {
-    IStructuredSelection selection = StructuredSelection.EMPTY;
-    if( aItem != null ) {
-      selection = new StructuredSelection( aItem );
+    if( getControl() != null ) {
+      IStructuredSelection selection = StructuredSelection.EMPTY;
+      if( aItem != null ) {
+        selection = new StructuredSelection( aItem );
+      }
+      treeViewer.setSelection( selection, true );
     }
-    treeViewer.setSelection( selection, true );
   }
 
   @Override
@@ -302,12 +307,6 @@ public class TsTreeViewer
   public String name() {
     return TsLibUtils.EMPTY_STRING;
   }
-
-  // GOGA157
-  // @Override
-  // public Image image() {
-  // return null;
-  // }
 
   @Override
   public Image getIcon( EIconSize aIconSize ) {

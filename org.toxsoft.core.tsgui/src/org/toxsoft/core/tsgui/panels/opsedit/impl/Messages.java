@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.panels.opsedit.impl;
 
-import java.util.*;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 @SuppressWarnings( "javadoc" )
 public class Messages {
@@ -12,12 +13,12 @@ public class Messages {
   private Messages() {
   }
 
-  public static String getString( String aKey ) {
+  public static String getString( String key ) {
     try {
-      return RESOURCE_BUNDLE.getString( aKey );
+      return RESOURCE_BUNDLE.getString( key );
     }
     catch( @SuppressWarnings( "unused" ) MissingResourceException e ) {
-      return '!' + aKey + '!';
+      return '!' + key + '!';
     }
   }
 

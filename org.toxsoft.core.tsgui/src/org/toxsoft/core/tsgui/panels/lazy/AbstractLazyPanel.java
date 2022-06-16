@@ -107,7 +107,9 @@ public abstract class AbstractLazyPanel<C extends Control>
    */
   public void setControl( C aControl ) {
     TsNullArgumentRtException.checkNull( aControl );
-    TsIllegalStateRtException.checkTrue( control != aControl );
+    if( control != null ) {
+      TsIllegalStateRtException.checkTrue( control != aControl );
+    }
     control = aControl;
   }
 

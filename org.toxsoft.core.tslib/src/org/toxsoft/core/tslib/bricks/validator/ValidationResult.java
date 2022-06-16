@@ -4,6 +4,7 @@ import java.io.*;
 
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.*;
 
 /**
  * Information about validation process result.
@@ -103,6 +104,63 @@ public final class ValidationResult
    */
   public boolean isError() {
     return type == EValidationResultType.ERROR;
+  }
+
+  /**
+   * Logs this result to the specified logger.
+   * <p>
+   * Note: success messages of type {@link EValidationResultType#OK} are <b>not</b> logged.
+   *
+   * @param aLogger {@link ILogger} - the logger
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public void logTo( ILogger aLogger ) {
+    TsNullArgumentRtException.checkNull( aLogger );
+    switch( type ) {
+      case OK: {
+        // nop
+        break;
+      }
+      case WARNING: {
+        aLogger.warning( msg );
+        break;
+      }
+      case ERROR: {
+        aLogger.error( msg );
+        break;
+      }
+      default:
+        throw new TsNotAllEnumsUsedRtException( type.id() );
+    }
+  }
+
+  /**
+   * Logs this result to the specified logger.
+   * <p>
+   * Note: success messages of type {@link EValidationResultType#OK} are logged as
+   * {@link ILogger#info(String, Object...)}.
+   *
+   * @param aLogger {@link ILogger} - the logger
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public void logAll( ILogger aLogger ) {
+    TsNullArgumentRtException.checkNull( aLogger );
+    switch( type ) {
+      case OK: {
+        aLogger.info( msg );
+        break;
+      }
+      case WARNING: {
+        aLogger.warning( msg );
+        break;
+      }
+      case ERROR: {
+        aLogger.error( msg );
+        break;
+      }
+      default:
+        throw new TsNotAllEnumsUsedRtException( type.id() );
+    }
   }
 
   // ------------------------------------------------------------------------------------

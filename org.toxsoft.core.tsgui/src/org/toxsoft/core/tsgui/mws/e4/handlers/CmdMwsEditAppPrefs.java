@@ -13,9 +13,9 @@ import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.dialogs.*;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
 import org.toxsoft.core.tsgui.mws.*;
-import org.toxsoft.core.tsgui.panels.opsedit.group.*;
+import org.toxsoft.core.tsgui.mws.services.e4helper.*;
+import org.toxsoft.core.tsgui.panels.opsedit.*;
 import org.toxsoft.core.tsgui.panels.opsedit.impl.*;
-import org.toxsoft.core.tsgui.panels.opsedit.set.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.apprefs.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
@@ -23,6 +23,7 @@ import org.toxsoft.core.tslib.bricks.keeper.std.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.logs.impl.*;
 
@@ -33,23 +34,20 @@ import org.toxsoft.core.tslib.utils.logs.impl.*;
  * Arguments (E4 command parameters):<br>
  * <ul>
  * <li>{@link IMwsCoreConstants#MWSID_CMDARG_EAP_INIT_SECTID} - (optional arg) ID of the section selected initially
- * (must be an IDpath);</li>
- * <li>{@link IMwsCoreConstants#MWSID_CMDARG_EAP_HIDE_SECTS_LIST} - (optional arg) hide left list of sections in dialog.
- * <b>Warning:</b> must be a string retpersentation of <code>boolean</code> value as in
- * {@link Boolean#parseBoolean(String)};</li>
+ * (must be an IDpath). If this arguement is not set current perspective ID is used;</li>
  * <li>{@link IMwsCoreConstants#MWSID_CMDARG_EAP_SECTIDS} - (optional arg) IDs list of sections to show. <b>Warning:</b>
  * must be a string created by {@link IEntityKeeper#ent2str(Object) StringListKeeper.KEEPER.ent2str(IStringList)}</li>
  * </ul>
  * <p>
  * Command with no argumenmts (as it is called from application main menu "File" -"Preferences") displays
- * {@link DialogOptionSetEdit} with sections, corresponding to preference bundles
- * {@link IAppPreferences#listPrefBundleIds()}. Bundles with no known params, that is with an empty list
- * {@link IPrefBundle#listKnownOptions()}, are not shown.
+ * {@link DialogOptionsEdit#editKit(ITsDialogInfo, IStridablesList, IStringMap, String)} with sections, corresponding to
+ * preference bundles {@link IAppPreferences#listPrefBundleIds()}. Bundles with no known params, that is with an empty
+ * list {@link IPrefBundle#listKnownOptions()}, are not shown.
  * <p>
- * Arguments usage aloows developer to use this command as common way to configure parts of the program in similar way.
+ * Arguments usage allows developer to use this command as common way to configure parts of the program in similar way.
  * Command with arguments may by run either by menu/toolbar items created in E4 model editor or directly from java code.
- * Static helper methods {@link #invokeCommand1()} and {@link #invokeCommand2()} makes it easy to invoke preferences
- * edit dialog from source code.
+ * Static helper methods <code>invokeXxx()</code> are provided.
+ * <p>
  *
  * @author hazard157
  */
@@ -57,26 +55,46 @@ public class CmdMwsEditAppPrefs {
 
   @Execute
   void execute( IAppPreferences aAprefs, IEclipseContext aEclipseContext, //
+      ITsE4Helper aE4Helper, //
       @Named( MWSID_CMDARG_EAP_INIT_SECTID ) @Optional String aInitSectId, //
-      @Named( MWSID_CMDARG_EAP_HIDE_SECTS_LIST ) @Optional String aStrEntHideSectsList, //
       @Named( MWSID_CMDARG_EAP_SECTIDS ) @Optional String aStrEntSectIds //
   ) {
+    // determine section ID to be used as initially selected in preferences dialog
     String initSectId = aInitSectId;
-    boolean hideSectsList = Boolean.parseBoolean( aStrEntHideSectsList );
+    if( initSectId == null ) { // assume perspective ID if not set
+      initSectId = aE4Helper.currentPerspId();
+    }
+    // determine sections to shown
     IStringList shownSectIds = slFromArg( aStrEntSectIds );
-    IStridablesList<ISectionDef> sectDefs = PrepareSectionDefs( aAprefs, shownSectIds );
+    IStridablesList<IOpsetsKitItemDef> sectDefs = prepareSectionDefs( aAprefs, shownSectIds );
     Shell shell = aEclipseContext.get( Shell.class );
     if( sectDefs.isEmpty() ) {
       TsDialogUtils.info( shell, MSG_WARN_NO_KNOWN_PREF );
       return;
     }
-
+    // make initial values map
+    IStringMapEdit<IOptionSet> initVals = new StringMap<>();
+    for( String id : aAprefs.listPrefBundleIds() ) {
+      initVals.put( id, aAprefs.getBundle( id ).prefs() );
+    }
+    // invoke dialog
     ITsGuiContext ctx = new TsGuiContext( aEclipseContext );
     ITsDialogInfo dlgInfo = new TsDialogInfo( ctx, shell, DLG_C_APP_PREFS, DLG_T_APP_PREFS, 0 );
-    // DialogOptionSetGroupEdit.edit( dlgInfo, sectDefs, IOptionValueChangeListener.NONE );
-
-    // TODO CmdMwsEditAppPrefs.exec()
-    TsDialogUtils.underDevelopment( shell );
+    IStringMap<IOptionSet> vals = DialogOptionsEdit.editKit( dlgInfo, sectDefs, initVals, initSectId );
+    // update changed prefs bundles
+    if( vals != null ) {
+      for( String id : aAprefs.listPrefBundleIds() ) {
+        IOptionSet newOpset = vals.findByKey( id );
+        // consider only bundlesthat were displayed
+        if( newOpset != null ) {
+          IPrefBundle pb = aAprefs.getBundle( id );
+          IOptionSet oldOpset = pb.prefs();
+          if( !newOpset.equals( oldOpset ) ) {
+            pb.prefs().setAll( newOpset );
+          }
+        }
+      }
+    }
   }
 
   // ------------------------------------------------------------------------------------
@@ -95,15 +113,17 @@ public class CmdMwsEditAppPrefs {
     return IStringList.EMPTY;
   }
 
-  private static IStridablesList<ISectionDef> PrepareSectionDefs( IAppPreferences aAprefs, IStringList aShownSectIds ) {
-    IStridablesListEdit<ISectionDef> ll = new StridablesList<>();
+  private static IStridablesList<IOpsetsKitItemDef> prepareSectionDefs( IAppPreferences aAprefs,
+      IStringList aShownSectIds ) {
+    IStridablesListEdit<IOpsetsKitItemDef> ll = new StridablesList<>();
     for( String pbId : aAprefs.listPrefBundleIds() ) {
       // include only allowed sections (or all sections)
       if( aShownSectIds.isEmpty() || aShownSectIds.hasElem( pbId ) ) {
         IPrefBundle pb = aAprefs.getBundle( pbId );
         // dont show bundles with no known options to display
         if( !pb.listKnownOptions().isEmpty() ) {
-          ISectionDef sdef = new SectionDef( pbId, pb.prefs() );
+          OpsetsKitItemDef sdef = OpsetsKitItemDef.create( pbId, pb.nmName(), pb.description(), pb.iconId() );
+          sdef.optionDefs().addAll( pb.listKnownOptions() );
           ll.add( sdef );
         }
       }
@@ -115,15 +135,51 @@ public class CmdMwsEditAppPrefs {
   // static API
   //
 
-  // // TODO ???
-  public static IStringMap<IOptionSet> invokeCommand1() {
-    // TODO реализовать CmdMwsEditAppPrefs.invokeCommand1()
-    throw new TsUnderDevelopmentRtException( "CmdMwsEditAppPrefs.invokeCommand1()" );
+  /**
+   * Invokes application preferences editor for with a single section.
+   *
+   * @param aE4Helper {@link ITsE4Helper} - E4 helper
+   * @param aSectionId String - edited section ID
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException <code>aSectionId</code> is a blank string
+   */
+  public static void invokeSingleBundleEditCommand( ITsE4Helper aE4Helper, String aSectionId ) {
+    TsNullArgumentRtException.checkNull( aE4Helper );
+    TsErrorUtils.checkNonBlank( aSectionId );
+    invokeAppPrefsEditCommand( aE4Helper, aSectionId, new SingleStringList( aSectionId ) );
   }
 
-  public static void invokeCommand2() {
-    // TODO реализовать CmdMwsEditAppPrefs.invokeCommand1()
-    throw new TsUnderDevelopmentRtException( "CmdMwsEditAppPrefs.invokeCommand1()" );
+  /**
+   * Invokes application preferences editor with all sections listed.
+   *
+   * @param aE4Helper {@link ITsE4Helper} - E4 helper
+   * @param aInitialSecId String - initially selected section ID or <code>null</code>
+   * @throws TsNullArgumentRtException <code>aE4Helper</code> = <code>null</code>
+   * @throws TsNullArgumentRtException <code>aE4Helper</code> = <code>null</code>
+   */
+  public static void invokeAppPrefsEditCommand( ITsE4Helper aE4Helper, String aInitialSecId ) {
+    invokeAppPrefsEditCommand( aE4Helper, aInitialSecId, null );
+  }
+
+  /**
+   * Invokes application preferences editor.
+   *
+   * @param aE4Helper {@link ITsE4Helper} - E4 helper
+   * @param aInitialSecId String - initially selected section ID or <code>null</code>
+   * @param aShownSectionIds {@link IStringList} - listed section IDs or <code>null</code>
+   * @throws TsNullArgumentRtException <code>aE4Helper</code> = <code>null</code>
+   */
+  public static void invokeAppPrefsEditCommand( ITsE4Helper aE4Helper, String aInitialSecId,
+      IStringList aShownSectionIds ) {
+    IStringMapEdit<String> args = new StringMap<>();
+    if( aInitialSecId != null ) {
+      args.put( MWSID_CMDARG_EAP_INIT_SECTID, aInitialSecId );
+    }
+    if( aShownSectionIds != null ) {
+      String sval = StringListKeeper.KEEPER.ent2str( aShownSectionIds );
+      args.put( MWSID_CMDARG_EAP_SECTIDS, sval );
+    }
+    aE4Helper.execCmd( MWSID_CMD_EDIT_APP_PREFS, args );
   }
 
 }

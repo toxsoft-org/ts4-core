@@ -3,7 +3,6 @@ package org.toxsoft.core.tsgui.m5.gui.mpc.impl;
 import static org.toxsoft.core.tsgui.m5.gui.mpc.IMultiPaneComponentConstants.*;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
-import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.gui.*;
@@ -13,7 +12,6 @@ import org.toxsoft.core.tsgui.m5.gui.viewers.impl.*;
 import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.m5.model.impl.*;
 import org.toxsoft.core.tsgui.panels.lazy.*;
-import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.coll.helpers.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -50,7 +48,7 @@ public class MultiPaneComponentModown<T>
    * @param aItemsProvider {@link IM5ItemsProvider} - the items provider or <code>null</code>
    */
   public MultiPaneComponentModown( ITsGuiContext aContext, IM5Model<T> aModel, IM5ItemsProvider<T> aItemsProvider ) {
-    super( new M5TreeViewer<>( makeContext( aContext, false ), aModel, //
+    super( new M5TreeViewer<>( aContext, aModel, //
         OPDEF_IS_SUPPORTS_CHECKS.getValue( aContext.params() ).asBool() ) );
     setItemProvider( aItemsProvider );
   }
@@ -65,16 +63,9 @@ public class MultiPaneComponentModown<T>
    */
   public MultiPaneComponentModown( ITsGuiContext aContext, IM5Model<T> aModel, IM5ItemsProvider<T> aItemsProvider,
       IM5LifecycleManager<T> aLifecycleManager ) {
-    super( new M5TreeViewer<>( makeContext( aContext, true ), aModel, //
-        OPDEF_IS_SUPPORTS_CHECKS.getValue( aContext.params() ).asBool() ) );
+    super( new M5TreeViewer<>( aContext, aModel, OPDEF_IS_SUPPORTS_CHECKS.getValue( aContext.params() ).asBool() ) );
     setItemProvider( aItemsProvider );
     setLifecycleManager( aLifecycleManager );
-  }
-
-  private static ITsGuiContext makeContext( ITsGuiContext aContext, boolean aEditor ) {
-    ITsGuiContext ctx = new TsGuiContext( aContext );
-    OPDEF_IS_ACTIONS_CRUD.setValue( ctx.params(), AvUtils.avBool( aEditor ) );
-    return ctx;
   }
 
   // ------------------------------------------------------------------------------------

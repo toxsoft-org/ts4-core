@@ -2,6 +2,7 @@ package org.toxsoft.core.tslib.bricks.apprefs;
 
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -11,14 +12,13 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * <p>
  * Preference values {@link #prefs()} are saved in persistent storage.
  * <p>
- * Parameters {@link #params()} are defined at creation {@link IAppPreferences#defineBundle(String, IOptionSet)} and are
- * <b>not</b> stored. Parameters are used by GUI editing tools and does not affect on the preferences.
+ * Parameters are defined at creation {@link IAppPreferences#defineBundle(String, IOptionSet)} and are <b>not</b>
+ * stored. Parameters are used by GUI editing tools and does not affect on the preferences.
  *
  * @author hazard157
  */
 public interface IPrefBundle
-    // extends IStridableParameterized {
-    extends IStridable {
+    extends IStridable, IIconIdable {
 
   /**
    * Returns the editable preferences stored in this bundle.

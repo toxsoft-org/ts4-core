@@ -2,7 +2,7 @@ package org.toxsoft.core.tslib.av.utils;
 
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants;
+import org.toxsoft.core.tslib.av.metainfo.*;
 
 /**
  * {@link IParameterized} extension with tslib standard options from {@link IAvMetaConstants}.
@@ -10,7 +10,7 @@ import org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants;
  * @author hazard157
  */
 public interface IStdParameterized
-    extends IParameterized {
+    extends IParameterized, IIconIdable {
 
   /**
    * Returns the short human-readable visual name.
@@ -41,6 +41,7 @@ public interface IStdParameterized
    *
    * @return String - icon identifier or <code>null</code> if no parameter specified
    */
+  @Override
   default String iconId() {
     return params().getStr( TSID_ICON_ID, null );
   }

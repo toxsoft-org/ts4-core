@@ -389,7 +389,7 @@ public final class DataDef
 
   @Override
   public String toString() {
-    return atomicType.id();
+    return id() + '(' + atomicType.id() + ')';
   }
 
   @Override

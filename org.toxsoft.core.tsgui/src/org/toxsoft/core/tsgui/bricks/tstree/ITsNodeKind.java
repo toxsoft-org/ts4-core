@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.bricks.tstree;
 
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
+import org.toxsoft.core.tslib.av.utils.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
 
 /**
  * Kind definition for the node {@link ITsNode}.
@@ -9,7 +10,7 @@ import org.toxsoft.core.tslib.bricks.strid.IStridable;
  * @param <T> - node entity type
  */
 public interface ITsNodeKind<T>
-    extends IStridable {
+    extends IStridable, IIconIdable {
 
   // TODO TRANSLATE
 
@@ -29,13 +30,6 @@ public interface ITsNodeKind<T>
    * @return boolean - признак, что узел может иметь дочерние узлы
    */
   boolean canHaveChilds();
-
-  /**
-   * Возвращает идентификатор значка, если таковой определен для вида узла.
-   *
-   * @return String - идентификатор значка или <code>null</code>
-   */
-  String iconId();
 
   /**
    * Возвращает имя сущности (которая содержится в узле {@link ITsNode#entity()}.

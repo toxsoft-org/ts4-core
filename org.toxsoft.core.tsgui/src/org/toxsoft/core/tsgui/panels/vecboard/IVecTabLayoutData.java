@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.panels.vecboard;
 
 import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tslib.av.utils.*;
 
 // TODO TRANSLATE
 
@@ -11,7 +12,8 @@ import org.toxsoft.core.tsgui.graphics.icons.*;
  *
  * @author hazard157
  */
-public interface IVecTabLayoutData {
+public interface IVecTabLayoutData
+    extends IIconIdable {
 
   /**
    * Возвращает название, отображаемое на ярлыке вкладки.
@@ -26,17 +28,6 @@ public interface IVecTabLayoutData {
    * @return String - всплывающая подсказка вкладки
    */
   String tooltipText();
-
-  /**
-   * Возвращает идентификатор (имя) значка вкладки.
-   * <p>
-   * Значок вкладки загружается методом {@link ITsIconManager#loadStdIcon(String, EIconSize)}. Таким образом, можно
-   * использовать встроенные в tsgui значки любых размеров, или собственные значки, предварительно зарегистрировав их в
-   * {@link ITsIconManager}.
-   *
-   * @return String - имя значка или пустая строка, при отсутствии значка у вкладки
-   */
-  String iconId();
 
   /**
    * Возвращает размер значка, отображаемого у вкладки.

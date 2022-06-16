@@ -267,6 +267,9 @@ public class TsDialog<T, E>
           new Rectangle( aPreferredSize.x, aPreferredSize.y, aPreferredSize.width, aPreferredSize.height );
       // monitor size
       Monitor mon = getClosestMonitor( getShell().getDisplay(), Geometry.centerPoint( newBounds ) );
+
+      // FIXME adjst vertical size at least to monitor screen ratio
+
       Rectangle monBounds = mon.getClientArea();
       // apply dialog window size constraints
       int minW = getAdjustedWidth( monBounds, dialogInfo.minSize().x() );

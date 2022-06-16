@@ -21,7 +21,7 @@ import org.toxsoft.core.tslib.coll.impl.*;
  * @author hazard157
  */
 public interface ITsNode
-    extends IParameterizedEdit {
+    extends IParameterizedEdit, IIconIdable {
 
   /**
    * Возращает контекст и параметры дерева.
@@ -73,13 +73,6 @@ public interface ITsNode
    * @return &lt;T&gt; - сущность, которому соответствует узел, может быть null
    */
   Object entity();
-
-  /**
-   * Returns node icon ID.
-   *
-   * @return String - the icon ID or <code>null</code>
-   */
-  String iconId();
 
   // ------------------------------------------------------------------------------------
   // Работа с иерархией узлов

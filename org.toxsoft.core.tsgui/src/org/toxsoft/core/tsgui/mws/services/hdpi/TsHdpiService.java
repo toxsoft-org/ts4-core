@@ -2,17 +2,15 @@ package org.toxsoft.core.tsgui.mws.services.hdpi;
 
 import static org.toxsoft.core.tsgui.mws.services.hdpi.ITsHdpiServiceConstants.*;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-import org.toxsoft.core.tsgui.graphics.icons.EIconSize;
-import org.toxsoft.core.tslib.bricks.events.AbstractTsEventer;
-import org.toxsoft.core.tslib.bricks.events.ITsEventer;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMapEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
+import org.eclipse.e4.core.contexts.*;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tslib.bricks.events.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * An {@link ITsHdpiService} implementation.
@@ -101,10 +99,11 @@ public final class TsHdpiService
     appContext = TsNullArgumentRtException.checkNull( aAppContext );
     defaultIconSize = determineDefaultIconSize( getScreenWidth() );
     // register builtin categories
-    defineIconCategory( ICON_CATEG_ID_TOOLBAR, 0 );
+    defineIconCategory( ICON_CATEG_ID_TOOLBAR, -1 );
     defineIconCategory( ICON_CATEG_ID_MENU, 0 );
     defineIconCategory( ICON_CATEG_ID_JFACE_CELL, 0 );
     defineIconCategory( ICON_CATEG_ID_UIPART_TAB, 1 );
+    defineIconCategory( ICON_CATEG_PREFS_KIT_ITEM, 2 );
     // calc initial icon sizes
     recalcIconSizesAfterDefaultSizeDetermined();
   }

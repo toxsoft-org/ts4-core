@@ -1,6 +1,6 @@
 package org.toxsoft.core.tslib.bricks.apprefs.impl;
 
-import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
+import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
@@ -34,9 +34,7 @@ class PrefBundle
   final IStridablesListEdit<IDataDef> knownParams = new StridablesList<>();
   final AbstractAppPreferencesStorage storage;
 
-  final String   bundleId;
-  private String name        = EMPTY_STRING;
-  private String description = EMPTY_STRING;
+  final String bundleId;
 
   PrefBundle( String aBundleId, IOptionSet aPrefs, IOptionSet aParams, AbstractAppPreferencesStorage aStorage ) {
     bundleId = aBundleId;
@@ -57,12 +55,12 @@ class PrefBundle
 
   @Override
   public String nmName() {
-    return name;
+    return DDEF_NAME.getValue( params() ).asString();
   }
 
   @Override
   public String description() {
-    return description;
+    return DDEF_DESCRIPTION.getValue( params() ).asString();
   }
 
   // ------------------------------------------------------------------------------------
@@ -75,22 +73,12 @@ class PrefBundle
   }
 
   // ------------------------------------------------------------------------------------
-  // API
+  // IIconIdable
   //
 
-  // TODO TRANSLATE
-
-  /**
-   * Задает имя и описание.
-   *
-   * @param aName String - имя
-   * @param aDescription String - описание
-   * @throws TsNullArgumentRtException любой аргумент = null
-   */
-  protected void setNameAndDescription( String aName, String aDescription ) {
-    TsNullArgumentRtException.checkNulls( aName, aDescription );
-    name = aName;
-    description = aDescription;
+  @Override
+  public String iconId() {
+    return params().getStr( TSID_ICON_ID, null );
   }
 
   // ------------------------------------------------------------------------------------
@@ -119,6 +107,15 @@ class PrefBundle
   @Override
   public void undefineOption( String aParamInfoId ) {
     knownParams.removeById( aParamInfoId );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Object
+  //
+
+  @Override
+  public String toString() {
+    return id() + " - " + nmName(); //$NON-NLS-1$
   }
 
 }

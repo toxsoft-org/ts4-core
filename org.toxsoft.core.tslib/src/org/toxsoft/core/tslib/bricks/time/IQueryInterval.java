@@ -1,11 +1,9 @@
 package org.toxsoft.core.tslib.bricks.time;
 
-// TODO TRANSLATE
-
 /**
- * Интервал времени, используемый при запросе различных данных.
+ * The time interval used to query time-related data.
  * <p>
- * Интерфейс используется при запросе расположенных "разряженных" по времени данных.
+ * This is {@link ITimeInterval} expanded with the rules how to process data at interval boundaries.
  *
  * @author mvk
  */
@@ -13,9 +11,9 @@ public interface IQueryInterval
     extends ITimeInterval {
 
   /**
-   * Возвращает тип интервала, определяющий возврат данных, выходящих за границы интервала.
+   * Returns the query type determining the rules how to process data at interval boundaries.
    *
-   * @return {@link EQueryIntervalType} - тип интервала
+   * @return {@link EQueryIntervalType} - the query interval type
    */
   EQueryIntervalType type();
 

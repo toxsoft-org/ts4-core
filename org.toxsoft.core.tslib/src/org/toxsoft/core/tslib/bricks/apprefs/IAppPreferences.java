@@ -28,7 +28,7 @@ public interface IAppPreferences {
   /**
    * Creates unexisting or edits existing bundle.
    * <p>
-   * When editing an existing bundle only it's {@link IPrefBundle#params()} are changed, preferences remain intact.
+   * When editing an existing bundle only it's parameters are changed, preferences remain intact.
    *
    * @param aBundleId String - bundle ID
    * @param aParams {@link IOptionSet} - values of bundle parameters

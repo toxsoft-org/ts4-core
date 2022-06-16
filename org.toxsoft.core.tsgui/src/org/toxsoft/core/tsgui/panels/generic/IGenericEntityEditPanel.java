@@ -1,9 +1,8 @@
 package org.toxsoft.core.tsgui.panels.generic;
 
-import org.toxsoft.core.tslib.bricks.validator.EValidationResultType;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.bricks.validator.impl.TsValidationFailedRtException;
-import org.toxsoft.core.tslib.utils.errors.TsRuntimeException;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Generci panel to view some entity.

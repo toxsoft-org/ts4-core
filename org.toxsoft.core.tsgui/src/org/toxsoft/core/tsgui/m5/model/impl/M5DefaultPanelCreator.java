@@ -1,5 +1,8 @@
 package org.toxsoft.core.tsgui.m5.model.impl;
 
+import static org.toxsoft.core.tsgui.m5.gui.mpc.IMultiPaneComponentConstants.*;
+import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
+
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.gui.mpc.impl.*;
@@ -225,6 +228,7 @@ public class M5DefaultPanelCreator<T>
    */
   protected IM5CollectionPanel<T> doCreateCollViewerPanel( ITsGuiContext aContext,
       IM5ItemsProvider<T> aItemsProvider ) {
+    OPDEF_IS_ACTIONS_CRUD.setValue( aContext.params(), AV_FALSE );
     MultiPaneComponentModown<T> mpc = new MultiPaneComponentModown<>( aContext, model, aItemsProvider );
     return new M5CollectionPanelMpcModownWrapper<>( mpc, true );
   }
@@ -242,6 +246,7 @@ public class M5DefaultPanelCreator<T>
    */
   protected IM5CollectionPanel<T> doCreateCollEditPanel( ITsGuiContext aContext, IM5ItemsProvider<T> aItemsProvider,
       IM5LifecycleManager<T> aLifecycleManager ) {
+    OPDEF_IS_ACTIONS_CRUD.setValue( aContext.params(), AV_TRUE );
     MultiPaneComponentModown<T> mpc =
         new MultiPaneComponentModown<>( aContext, model, aItemsProvider, aLifecycleManager );
     return new M5CollectionPanelMpcModownWrapper<>( mpc, false );
