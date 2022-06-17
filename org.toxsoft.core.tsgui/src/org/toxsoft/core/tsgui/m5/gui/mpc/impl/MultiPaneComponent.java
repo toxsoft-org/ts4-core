@@ -976,7 +976,7 @@ public class MultiPaneComponent<T>
   /**
    * Subclass may release resources allocated at control creation.
    * <p>
-   * Warning: if widget wa snot cvreated then this method will not be called.
+   * Warning: if widget was not created then this method will not be called.
    * <p>
    * Does nothing in base class, there is no need to call superclass method when overriding.
    */

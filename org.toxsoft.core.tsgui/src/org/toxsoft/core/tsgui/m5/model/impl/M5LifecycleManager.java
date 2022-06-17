@@ -312,6 +312,8 @@ public class M5LifecycleManager<T, M>
    * If enumeration is supported subclass may allow items reordering.
    * <p>
    * In base class returns <code>null</code>, there is no need to call superclass method when overriding.
+   * <p>
+   * This method is called every time when user asks for {@link IM5ItemsProvider#reorderer()}.
    *
    * @return {@link IListReorderer}&lt;T&gt; - optional {@link IM5ItemsProvider#listItems()} reordering means
    */

@@ -8,6 +8,7 @@ import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tsgui.valed.controls.av.*;
 import org.toxsoft.core.tsgui.valed.controls.basic.*;
 import org.toxsoft.core.tsgui.valed.controls.enums.*;
+import org.toxsoft.core.tsgui.valed.controls.graphics.*;
 import org.toxsoft.core.tsgui.valed.controls.time.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
@@ -45,6 +46,8 @@ public class ValedControlFactoriesRegistry
     registerFactory( ValedLocalDateTimeMpv.FACTORY );
     registerFactory( ValedSecsDurationMpv.FACTORY );
     registerFactory( ValedComboSelector.FACTORY );
+    registerFactory( ValedSimpleFontInfo.FACTORY );
+    registerFactory( ValedSimpleRgb.FACTORY );
     // av
     registerFactory( ValedAvBooleanCheck.FACTORY );
     registerFactory( ValedAvIntegerSpinner.FACTORY );
@@ -58,6 +61,8 @@ public class ValedControlFactoriesRegistry
     registerFactory( ValedAvValobjLocalTimeMpv.FACTORY );
     registerFactory( ValedAvValobjLocalDateMpv.FACTORY );
     registerFactory( ValedAvValobjLocalDateTimeMpv.FACTORY );
+    registerFactory( ValedAvValobjSimpleFontInfo.FACTORY );
+    registerFactory( ValedAvValobjSimpleRgb.FACTORY );
   }
 
   // ------------------------------------------------------------------------------------

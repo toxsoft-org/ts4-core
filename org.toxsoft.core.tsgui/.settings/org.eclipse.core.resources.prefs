@@ -22,3 +22,5 @@ encoding//src/org/toxsoft/core/tsgui/mws/e4/handlers/messages_ka_GE.properties=U
 encoding//src/org/toxsoft/core/tsgui/mws/e4/handlers/messages_ru_RU.properties=UTF-8
 encoding//src/org/toxsoft/core/tsgui/panels/opsedit/impl/messages_ka_GE.properties=UTF-8
 encoding//src/org/toxsoft/core/tsgui/panels/opsedit/impl/messages_ru_RU.properties=UTF-8
+encoding//src/org/toxsoft/core/tsgui/valed/controls/graphics/messages_ge.properties=UTF-8
+encoding//src/org/toxsoft/core/tsgui/valed/controls/graphics/messages_ru.properties=UTF-8

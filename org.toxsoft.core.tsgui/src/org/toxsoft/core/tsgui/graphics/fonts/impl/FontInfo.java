@@ -1,17 +1,16 @@
 package org.toxsoft.core.tsgui.graphics.fonts.impl;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
-import org.toxsoft.core.tsgui.graphics.fonts.IFontInfo;
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.EEncloseMode;
-import org.toxsoft.core.tslib.bricks.strio.IStrioReader;
-import org.toxsoft.core.tslib.bricks.strio.IStrioWriter;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
+import org.eclipse.swt.*;
+import org.eclipse.swt.graphics.*;
+import org.toxsoft.core.tsgui.graphics.fonts.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
+import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
  * Неизменяемая реализация описания шрифта {@link IFontInfo}.
@@ -55,6 +54,11 @@ public class FontInfo
           return new FontInfo( fontNname, size, isBold, isItalic );
         }
       };
+
+  /**
+   * Default keeped atomic value of {@link IFontInfo#NULL}.
+   */
+  public static final IAtomicValue AV_FONT_INFO_NULL = AvUtils.avValobj( IFontInfo.NULL, KEEPER, KEEPER_ID );
 
   private final String  fontName;
   private final int     fontSize;
@@ -180,8 +184,7 @@ public class FontInfo
 
   @Override
   public boolean equals( Object aObj ) {
-    if( aObj instanceof IFontInfo ) {
-      IFontInfo that = (IFontInfo)aObj;
+    if( aObj instanceof IFontInfo that ) {
       return hashCode == that.hashCode() && that.fontName().equals( fontName ) && (that.fontSize() == fontSize)
           && (that.isBold() == bold) && (that.isItalic() == italic);
     }

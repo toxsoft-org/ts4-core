@@ -6,10 +6,15 @@ import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import java.time.*;
 
+import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.graphics.fonts.*;
+import org.toxsoft.core.tsgui.graphics.fonts.impl.*;
+import org.toxsoft.core.tsgui.utils.swt.*;
 import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tsgui.valed.controls.av.*;
 import org.toxsoft.core.tsgui.valed.controls.enums.*;
+import org.toxsoft.core.tsgui.valed.controls.graphics.*;
 import org.toxsoft.core.tsgui.valed.controls.time.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
@@ -195,6 +200,12 @@ public class ValedControlUtils {
     if( aValueClass.equals( LocalDateTime.class ) ) {
       return ValedLocalDateTimeMpv.FACTORY;
     }
+    if( aValueClass.equals( IFontInfo.class ) ) {
+      return ValedSimpleFontInfo.FACTORY;
+    }
+    if( aValueClass.equals( RGB.class ) ) {
+      return ValedSimpleRgb.FACTORY;
+    }
     // nothing can be done...
     return null;
   }
@@ -219,6 +230,10 @@ public class ValedControlUtils {
         return ValedAvValobjLocalDateMpv.FACTORY;
       case LocalDateTimeKeeper.KEEPER_ID:
         return ValedAvValobjLocalDateTimeMpv.FACTORY;
+      case FontInfo.KEEPER_ID:
+        return ValedAvValobjSimpleFontInfo.FACTORY;
+      case RGBKeeper.KEEPER_ID:
+        return ValedAvValobjSimpleRgb.FACTORY;
       default:
         return null;
     }

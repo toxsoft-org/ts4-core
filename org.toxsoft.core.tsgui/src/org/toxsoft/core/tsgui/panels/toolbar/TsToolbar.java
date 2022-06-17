@@ -209,6 +209,7 @@ public class TsToolbar
     nameLabelText = aText;
     if( isControlValid() ) {
       nameLabel.setText( nameLabelText );
+      panel.layout( true, true );
     }
   }
 
@@ -222,7 +223,7 @@ public class TsToolbar
     TsNullArgumentRtException.checkNull( aTooltip );
     tooltipText = aTooltip;
     if( isControlValid() ) {
-      nameLabel.setText( tooltipText );
+      nameLabel.setToolTipText( tooltipText );
       panel.setToolTipText( tooltipText );
       tbControl.setToolTipText( tooltipText );
     }

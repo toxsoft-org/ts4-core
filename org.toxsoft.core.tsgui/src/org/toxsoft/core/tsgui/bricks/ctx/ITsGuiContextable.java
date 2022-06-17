@@ -9,7 +9,11 @@ import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.mws.services.e4helper.*;
 import org.toxsoft.core.tsgui.mws.services.hdpi.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.bricks.apprefs.*;
 import org.toxsoft.core.tslib.bricks.ctx.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
 
 /**
  * Mixin interface of entities with context {@link ITsGuiContext}.
@@ -68,8 +72,27 @@ public interface ITsGuiContextable
     return tsContext().get( ITsImageManager.class );
   }
 
+  default IAppPreferences appPrefs() {
+    return tsContext().get( IAppPreferences.class );
+  }
+
   default IM5Domain m5() {
     return tsContext().get( IM5Domain.class );
+  }
+
+  default IAtomicValue getAppPrefsValue( String aPrefBundleId, IDataDef aPrmId ) {
+    IPrefBundle pb = appPrefs().findBundle( aPrefBundleId );
+    if( pb != null ) {
+      return pb.prefs().getValue( aPrmId.id(), aPrmId.defaultValue() );
+    }
+    return IAtomicValue.NULL;
+  }
+
+  default void setAppPrefsValue( String aPrefBundleId, IStridable aPrmId, IAtomicValue aValue ) {
+    IPrefBundle pb = appPrefs().findBundle( aPrefBundleId );
+    if( pb != null ) {
+      pb.prefs().setValue( aPrmId.id(), aValue );
+    }
   }
 
 }
