@@ -47,6 +47,11 @@ class AvTimestampImpl
   //
 
   @Override
+  protected boolean internalEqualsValue( IAtomicValue aThat ) {
+    return value == aThat.asLong();
+  }
+
+  @Override
   protected int internalCompareValue( IAtomicValue aThat ) {
     return Long.compare( value, aThat.asLong() );
   }

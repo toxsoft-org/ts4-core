@@ -3,6 +3,7 @@ package org.toxsoft.core.tslib.av.impl;
 import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 
 import java.io.*;
+import java.util.*;
 
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
@@ -205,6 +206,45 @@ class AvValobjImpl
     }
     // this may happen when other than AvValobjImpl or AvValobjNullImpl implementation will appear
     throw new TsInternalErrorRtException();
+  }
+
+  /**
+   * {@inheritDoc} Two VALOBJs equality check is kind of problem. If both values has {@link #ktor} or {@link #valobj}
+   * initialized - that's easy. In other case we need to convert ethoer {@link #ktor} to {@link #valobj} or vise versa.
+   * However such conversion need the appropriate keeper to be registered. In environments such as server this may not
+   * be the case. TODO ???
+   */
+  @Override
+  protected boolean internalEqualsValue( IAtomicValue aThat ) {
+    if( aThat instanceof AvValobjImpl that ) {
+      // same kind of data in both objects, equality check is simple
+      if( this.ktor != null && that.ktor != null ) {
+        return this.ktor.equals( that.ktor );
+      }
+      if( this.valobj != null && that.valobj != null ) {
+        return this.valobj.equals( that.valobj );
+      }
+      // different data, first, let's determine keeperIds
+      String thisKeeperId = this.keeperId;
+      if( thisKeeperId == null ) {
+        this.keeperId = TsValobjUtils.findKeeperIdByClass( this.valobj.getClass() );
+      }
+      String thatKeeperId = that.keeperId;
+      if( thatKeeperId == null ) {
+        that.keeperId = TsValobjUtils.findKeeperIdByClass( that.valobj.getClass() );
+      }
+      // we don't knw about keepers - assume different
+      if( thisKeeperId == null && thatKeeperId == null ) {
+        return false;
+      }
+      // different keepers - objects are not equal
+      if( !Objects.equals( thisKeeperId, thatKeeperId ) ) {
+        return false;
+      }
+      // same keepers - we prefer to write ktor rather than build valobj
+      return Objects.equals( this.getKtor(), that.getKtor() );
+    }
+    return false;
   }
 
   @SuppressWarnings( { "unchecked", "rawtypes" } )

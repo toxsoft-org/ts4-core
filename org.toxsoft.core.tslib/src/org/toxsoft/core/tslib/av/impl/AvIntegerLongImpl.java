@@ -1,8 +1,7 @@
 package org.toxsoft.core.tslib.av.impl;
 
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.errors.AvDataLossRtException;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.errors.*;
 
 /**
  * Atomic value of type {@link EAtomicType#INTEGER} implemented as <code>long</code> value.
@@ -69,6 +68,11 @@ class AvIntegerLongImpl
   // ------------------------------------------------------------------------------------
   // abstract methods implementation
   //
+
+  @Override
+  protected boolean internalEqualsValue( IAtomicValue aThat ) {
+    return value == aThat.asLong();
+  }
 
   @Override
   protected int internalCompareValue( IAtomicValue aThat ) {

@@ -1,8 +1,7 @@
 package org.toxsoft.core.tslib.av.impl;
 
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Atomic value of type {@link EAtomicType#STRING}.
@@ -40,6 +39,11 @@ class AvStringImpl
   // ------------------------------------------------------------------------------------
   // abstract methods implementation
   //
+
+  @Override
+  protected boolean internalEqualsValue( IAtomicValue aThat ) {
+    return value.equals( aThat.asString() );
+  }
 
   @Override
   protected int internalCompareValue( IAtomicValue aThat ) {

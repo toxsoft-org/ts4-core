@@ -1,7 +1,6 @@
 package org.toxsoft.core.tslib.av.impl;
 
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
+import org.toxsoft.core.tslib.av.*;
 
 /**
  * {@link IAtomicValue} implementationn for {@link EAtomicType#BOOLEAN}.
@@ -36,6 +35,11 @@ class AvBooleanTrueImpl
   @Override
   public Boolean asValobj() {
     return Boolean.TRUE;
+  }
+
+  @Override
+  protected boolean internalEqualsValue( IAtomicValue aThat ) {
+    return aThat.asBool();
   }
 
   @Override

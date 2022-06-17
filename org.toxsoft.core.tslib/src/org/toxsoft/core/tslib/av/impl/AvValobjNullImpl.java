@@ -2,10 +2,9 @@ package org.toxsoft.core.tslib.av.impl;
 
 import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 
-import java.io.ObjectStreamException;
+import java.io.*;
 
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
+import org.toxsoft.core.tslib.av.*;
 
 /**
  * Atomic value of type {@link EAtomicType#VALOBJ} implemented as <code>null</code> reference holder.
@@ -61,6 +60,11 @@ public class AvValobjNullImpl
   @Override
   public <T> T asValobj() {
     return null;
+  }
+
+  @Override
+  protected boolean internalEqualsValue( IAtomicValue aThat ) {
+    return aThat.asValobj() == null;
   }
 
   @Override

@@ -123,6 +123,26 @@ public final class DataDef
   }
 
   /**
+   * Static constructor from {@link IDataType}.
+   *
+   * @param aId String - data identifier (IDpath)
+   * @param aDataType {@link IDataType} - data type
+   * @param aIdsAndValues Object[] - overriding and additional parameters as id / value pairs array
+   * @return {@link DataDef} - new instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException identifier is not an IDpath
+   * @throws TsIllegalArgumentRtException number of elements in array is uneven
+   * @see OptionSetUtils#createOpSet(Object...)
+   */
+  public static DataDef create3( String aId, IDataType aDataType, Object... aIdsAndValues ) {
+    TsNullArgumentRtException.checkNulls( aDataType );
+    DataDef dd = new DataDef( aId, aDataType.atomicType(), aDataType.params() );
+    IOptionSetEdit p = OptionSetUtils.createOpSet( aIdsAndValues );
+    dd.params().addAll( p );
+    return dd;
+  }
+
+  /**
    * Creates template based instance.
    *
    * @param aId String - data identifier (IDpath)

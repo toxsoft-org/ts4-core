@@ -1,18 +1,17 @@
 package org.toxsoft.core.tslib.av.impl;
 
-import java.io.Serializable;
+import java.io.*;
 
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.errors.AvTypeCastRtException;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.errors.*;
+import org.toxsoft.core.tslib.utils.*;
 
 /**
  * Basic implementation of the {@link IAtomicValue}.
  *
  * @author hazard157
  */
-public abstract  class AbstractAtomicValue
+public abstract class AbstractAtomicValue
     implements IAtomicValue, Serializable {
 
   private static final long serialVersionUID = 158158L;
@@ -79,7 +78,7 @@ public abstract  class AbstractAtomicValue
     // equality check will be performed on IAtomicValue because tslib does not creates IAtomicValue instances
     if( aThat instanceof IAtomicValue that ) {
       if( atomicType() == that.atomicType() ) {
-        return internalCompareValue( that ) == 0;
+        return internalEqualsValue( that );
       }
     }
     return false;
@@ -116,6 +115,14 @@ public abstract  class AbstractAtomicValue
   // ------------------------------------------------------------------------------------
   // abstract methods
   //
+
+  /**
+   * Descendant must tdetermine if this and <code>aThat</code> values are equal.
+   *
+   * @param aThat {@link IAtomicValue} - the object to be compared, has the same atomic type as this object
+   * @return boolean - <code>true</code> if values are equal
+   */
+  protected abstract boolean internalEqualsValue( IAtomicValue aThat );
 
   /**
    * Descendant must compare this and <code>aThat</code> objects values.
