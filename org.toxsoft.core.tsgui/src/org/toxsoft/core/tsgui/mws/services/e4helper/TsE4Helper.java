@@ -2,26 +2,87 @@ package org.toxsoft.core.tsgui.mws.services.e4helper;
 
 import static org.toxsoft.core.tsgui.mws.services.e4helper.ITsResources.*;
 
+import java.util.*;
+
 import org.eclipse.core.commands.*;
 import org.eclipse.core.commands.common.*;
 import org.eclipse.e4.core.commands.*;
 import org.eclipse.e4.core.contexts.*;
 import org.eclipse.e4.core.services.events.*;
+import org.eclipse.e4.ui.model.application.ui.*;
 import org.eclipse.e4.ui.model.application.ui.advanced.*;
 import org.eclipse.e4.ui.model.application.ui.basic.*;
 import org.eclipse.e4.ui.workbench.*;
 import org.eclipse.e4.ui.workbench.modeling.*;
 import org.toxsoft.core.tsgui.mws.bases.*;
+import org.toxsoft.core.tslib.bricks.events.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
- * Реализация {@link ITsE4Helper}.
+ * {@link ITsE4Helper} implementation.
+ * <p>
+ * TODO list:
+ * <ul>
+ * <li>Listen to the E4 events and fire {@link ITsE4PerspectiveSwitchListener} events.</li>
+ * </ul>
  *
  * @author hazard157
  */
 public class TsE4Helper
     implements ITsE4Helper {
+
+  /**
+   * {@link ITsE4Helper#perspectiveEventer()} implementation.
+   *
+   * @author hazard157
+   */
+  class PerspectiveEventer
+      extends AbstractTsEventer<ITsE4PerspectiveSwitchListener> {
+
+    private String  perspectiveId = null;
+    private boolean wasChange     = false;
+
+    private void reallyFire( String aPerspectiveId ) {
+      for( ITsE4PerspectiveSwitchListener l : listeners() ) {
+        try {
+          l.onPerspectiveChanged( TsE4Helper.this, aPerspectiveId );
+        }
+        catch( Exception ex ) {
+          LoggerUtils.errorLogger().error( ex );
+        }
+      }
+    }
+
+    @Override
+    protected boolean doIsPendingEvents() {
+      return wasChange;
+    }
+
+    @Override
+    protected void doFirePendingEvents() {
+      reallyFire( perspectiveId );
+    }
+
+    @Override
+    protected void doClearPendingEvents() {
+      wasChange = false;
+      perspectiveId = null;
+    }
+
+    void fireEvent( String aPerspectiveId ) {
+      if( isFiringPaused() ) {
+        perspectiveId = aPerspectiveId;
+        wasChange = true;
+        return;
+      }
+      reallyFire( aPerspectiveId );
+    }
+
+  }
+
+  private final PerspectiveEventer perspectiveEventer = new PerspectiveEventer();
 
   private final IEclipseContext windowContext;
 
@@ -78,6 +139,8 @@ public class TsE4Helper
           partService.activate( part, true );
         }
       }
+      // fire perspective event
+      perspectiveEventer.fireEvent( aPerspectiveId );
     }
     updateHandlersCanExecuteState();
     return part;
@@ -155,6 +218,34 @@ public class TsE4Helper
     if( handlerService.canExecute( pCmd ) ) {
       handlerService.executeHandler( pCmd );
     }
+  }
+
+  /**
+   * Finds specified element in e4 model of application.
+   *
+   * @param <T> - the type of element being searched for
+   * @param aRoot {@link MElementContainer} - search root in e4 model of application
+   * @param aId String - the ID of element being searched for
+   * @param aClass {@link Class}&lt;T&gt; - the type of element being searched for
+   * @param aFlags int - search flags {@link EModelService}<code>.XXX</code>
+   * @return &lt;T&gt; - found element or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  @Override
+  public <T> T findElement( MElementContainer<?> aRoot, String aId, Class<T> aClass, int aFlags ) {
+    TsNullArgumentRtException.checkNulls( aRoot, aId, aClass );
+    ElementMatcher matcher = new ElementMatcher( aId, aClass, (String)null );
+    EModelService modelService = windowContext.get( EModelService.class );
+    List<T> elems = modelService.findElements( aRoot, aClass, aFlags, matcher );
+    if( elems.isEmpty() ) {
+      return null;
+    }
+    return elems.get( 0 );
+  }
+
+  @Override
+  public ITsEventer<ITsE4PerspectiveSwitchListener> perspectiveEventer() {
+    return perspectiveEventer;
   }
 
 }

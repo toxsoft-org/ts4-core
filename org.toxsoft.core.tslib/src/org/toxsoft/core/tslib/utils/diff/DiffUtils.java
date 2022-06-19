@@ -13,6 +13,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
+@SuppressWarnings( { "javadoc", "unused", "nls" } )
 public class DiffUtils {
 
   /**

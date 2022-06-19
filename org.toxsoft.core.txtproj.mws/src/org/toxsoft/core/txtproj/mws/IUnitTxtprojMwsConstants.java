@@ -5,16 +5,14 @@ import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import static org.toxsoft.core.txtproj.mws.IUnitTxtprojMwsResources.*;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.toxsoft.core.tsgui.graphics.icons.ITsIconManager;
-import org.toxsoft.core.tsgui.mws.osgi.IMwsOsgiService;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.impl.AvUtils;
-import org.toxsoft.core.tslib.av.impl.DataDef;
-import org.toxsoft.core.tslib.av.metainfo.IDataDef;
-import org.toxsoft.core.tslib.utils.progargs.ProgramArgs;
-import org.toxsoft.core.txtproj.lib.impl.TsProjectFileFormatInfo;
-import org.toxsoft.core.txtproj.lib.impl.TsProjectFileFormatInfoKeeper;
+import org.eclipse.e4.core.contexts.*;
+import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tsgui.mws.osgi.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.utils.progargs.*;
+import org.toxsoft.core.txtproj.lib.impl.*;
 
 /**
  * Plugin constants.
@@ -27,17 +25,17 @@ public interface IUnitTxtprojMwsConstants {
   // ------------------------------------------------------------------------------------
   // e4
 
-  String TOOLBARID_TXTPROJ     = "org.toxsoft.unit.txtproj.toolbar";             //$NON-NLS-1$
-  String MENUID_TXTPROJ        = "org.toxsoft.unit.txtproj.menu";                //$NON-NLS-1$
-  String CMDCATEGID_TXTPROJ    = "org.toxsoft.unit.txtproj.cmdcateg";            //$NON-NLS-1$
-  String CMDID_PROJECT_NEW     = "org.toxsoft.unit.txtproj.cmd.project_new";     //$NON-NLS-1$
-  String CMDID_PROJECT_OPEN    = "org.toxsoft.unit.txtproj.cmd.project_open";    //$NON-NLS-1$
-  String CMDID_PROJECT_SAVE    = "org.toxsoft.unit.txtproj.cmd.project_save";    //$NON-NLS-1$
-  String CMDID_PROJECT_SAVE_AS = "org.toxsoft.unit.txtproj.cmd.project_save_as"; //$NON-NLS-1$
-  String BTNID_PROJECT_NEW     = "org.toxsoft.unit.txtproj.btn.project_new";     //$NON-NLS-1$
-  String BTNID_PROJECT_OPEN    = "org.toxsoft.unit.txtproj.btn.project_open";    //$NON-NLS-1$
-  String BTNID_PROJECT_SAVE    = "org.toxsoft.unit.txtproj.btn.project_save";    //$NON-NLS-1$
-  String BTNID_PROJECT_SAVE_AS = "org.toxsoft.unit.txtproj.btn.project_save_as"; //$NON-NLS-1$
+  String TOOLBARID_TXTPROJ     = "org.toxsoft.core.txtproj.toolbar";             //$NON-NLS-1$
+  String MENUID_TXTPROJ        = "org.toxsoft.core.txtproj.menu";                //$NON-NLS-1$
+  String CMDCATEGID_TXTPROJ    = "org.toxsoft.core.txtproj.cmdcateg";            //$NON-NLS-1$
+  String CMDID_PROJECT_NEW     = "org.toxsoft.core.txtproj.cmd.project_new";     //$NON-NLS-1$
+  String CMDID_PROJECT_OPEN    = "org.toxsoft.core.txtproj.cmd.project_open";    //$NON-NLS-1$
+  String CMDID_PROJECT_SAVE    = "org.toxsoft.core.txtproj.cmd.project_save";    //$NON-NLS-1$
+  String CMDID_PROJECT_SAVE_AS = "org.toxsoft.core.txtproj.cmd.project_save_as"; //$NON-NLS-1$
+  String BTNID_PROJECT_NEW     = "org.toxsoft.core.txtproj.btn.project_new";     //$NON-NLS-1$
+  String BTNID_PROJECT_OPEN    = "org.toxsoft.core.txtproj.btn.project_open";    //$NON-NLS-1$
+  String BTNID_PROJECT_SAVE    = "org.toxsoft.core.txtproj.btn.project_save";    //$NON-NLS-1$
+  String BTNID_PROJECT_SAVE_AS = "org.toxsoft.core.txtproj.btn.project_save_as"; //$NON-NLS-1$
 
   // ------------------------------------------------------------------------------------
   // Icons

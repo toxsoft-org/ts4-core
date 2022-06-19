@@ -9,16 +9,17 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.valed.controls.helpers.*;
+import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Базовый редактор {@link RGB} в виде нередактируемой строки текста с кнопкой вызова диалога выбора.
+ * Simple eidot of {@link RGB} as uneditable text field with edit button at right.
  * <p>
- * Значение получаемое и задаваемое методами {@link #getRgb()} и {@link #setRgb(RGB)} может быть <code>null</code>.
+ * Thisd class is generic because may edit both {@link RGB} and {@link IAtomicValue}.
  *
- * @author goga
- * @author dima // доработка для отображения квадрата цвета
- * @param <V> - конкретный тип (класс) редактируемого значения
+ * @author hazard157
+ * @author dima
+ * @param <V> - the edited value type
  */
 public abstract class AbstractValedSimpleRgb<V>
     extends AbstractValedLabelAndButton<V> {
@@ -29,17 +30,17 @@ public abstract class AbstractValedSimpleRgb<V>
   private Image            colorImage   = null;
 
   /**
-   * Конструкторe.
+   * Constructor for subclasses.
    *
-   * @param aContext {@link ITsGuiContext} - контекст редактора
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aTsContext {@link ITsGuiContext} - the valed context
+   * @throws TsNullArgumentRtException аргумент = null
    */
-  AbstractValedSimpleRgb( ITsGuiContext aContext ) {
-    super( aContext );
+  protected AbstractValedSimpleRgb( ITsGuiContext aTsContext ) {
+    super( aTsContext );
   }
 
   // ------------------------------------------------------------------------------------
-  // Внутренные методы
+  // implementation
   //
 
   /**
@@ -78,7 +79,7 @@ public abstract class AbstractValedSimpleRgb<V>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация методов базового класса
+  // AbstractValedTextAndButton
   //
 
   @Override
@@ -110,7 +111,7 @@ public abstract class AbstractValedSimpleRgb<V>
   }
 
   // ------------------------------------------------------------------------------------
-  // Методя для наследников
+  // For subclasses
   //
 
   protected RGB getRgb() {

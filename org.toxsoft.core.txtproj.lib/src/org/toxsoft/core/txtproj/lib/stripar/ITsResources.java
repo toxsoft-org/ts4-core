@@ -3,7 +3,7 @@ package org.toxsoft.core.txtproj.lib.stripar;
 /**
  * Localizable resources.
  *
- * @author goga
+ * @author hazard157
  */
 interface ITsResources {
 

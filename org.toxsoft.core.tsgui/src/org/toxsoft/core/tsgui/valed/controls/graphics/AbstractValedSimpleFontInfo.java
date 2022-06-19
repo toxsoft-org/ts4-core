@@ -9,13 +9,16 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.graphics.fonts.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.valed.controls.helpers.*;
+import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Базовый редактор {@link IFontInfo} в виде нередактируемой строки текста с кнопкой вызова диалога выбора.
+ * Simple eidot of {@link IFontInfo} as uneditable text field with edit button at right.
+ * <p>
+ * Thisd class is generic because may edit both {@link IFontInfo} and {@link IAtomicValue}.
  *
- * @author goga
- * @param <V> - конкретный тип (класс) редактируемого значения
+ * @author hazard157
+ * @param <V> - the edited value type
  */
 public abstract class AbstractValedSimpleFontInfo<V>
     extends AbstractValedTextAndButton<V> {
@@ -23,17 +26,17 @@ public abstract class AbstractValedSimpleFontInfo<V>
   private IFontInfo fontInfo = IFontInfo.NULL;
 
   /**
-   * Конструкторe.
+   * Constructor for subclasses.
    *
-   * @param aContext {@link ITsGuiContext} - контекст редактора
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aTsContext {@link ITsGuiContext} - the valed context
+   * @throws TsNullArgumentRtException аргумент = null
    */
-  AbstractValedSimpleFontInfo( ITsGuiContext aContext ) {
-    super( aContext );
+  protected AbstractValedSimpleFontInfo( ITsGuiContext aTsContext ) {
+    super( aTsContext );
   }
 
   // ------------------------------------------------------------------------------------
-  // Внутренные методы
+  // implementation
   //
 
   private void updateTextControl() {
@@ -46,7 +49,7 @@ public abstract class AbstractValedSimpleFontInfo<V>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация методов базового класса
+  // AbstractValedTextAndButton
   //
 
   @Override
@@ -76,7 +79,7 @@ public abstract class AbstractValedSimpleFontInfo<V>
   }
 
   // ------------------------------------------------------------------------------------
-  // Методя для наследников
+  // For subclasses
   //
 
   protected IFontInfo getFontInfo() {

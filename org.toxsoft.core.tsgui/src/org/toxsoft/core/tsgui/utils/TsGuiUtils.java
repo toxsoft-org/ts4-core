@@ -4,6 +4,7 @@ import org.eclipse.e4.core.contexts.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.fonts.impl.*;
+import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tsgui.utils.rectfit.*;
@@ -39,6 +40,7 @@ public class TsGuiUtils {
     TsValobjUtils.registerKeeper( RGBAKeeper.KEEPER_ID, RGBAKeeper.KEEPER );
     TsValobjUtils.registerKeeper( EBorderLayoutPlacement.KEEPER_ID, EBorderLayoutPlacement.KEEPER );
     TsValobjUtils.registerKeeper( EThumbSize.KEEPER_ID, EThumbSize.KEEPER );
+    TsValobjUtils.registerKeeper( EIconSize.KEEPER_ID, EIconSize.KEEPER );
     TsValobjUtils.registerKeeper( EBorderType.KEEPER_ID, EBorderType.KEEPER );
     TsValobjUtils.registerKeeper( EHorAlignment.KEEPER_ID, EHorAlignment.KEEPER );
     TsValobjUtils.registerKeeper( EVerAlignment.KEEPER_ID, EVerAlignment.KEEPER );
