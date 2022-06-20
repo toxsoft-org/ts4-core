@@ -5,6 +5,7 @@ import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.quant.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.colors.impl.*;
+import org.toxsoft.core.tsgui.graphics.cursors.*;
 import org.toxsoft.core.tsgui.graphics.fonts.*;
 import org.toxsoft.core.tsgui.graphics.fonts.impl.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
@@ -58,6 +59,7 @@ public class QuantTsGui
     aWinContext.set( ITsImageManager.class, imageManager );
     aWinContext.set( ITsColorManager.class, new TsColorManager( display ) );
     aWinContext.set( ITsFontManager.class, new TsFontManager( display ) );
+    aWinContext.set( ITsCursorManager.class, new TsCursorManager( aWinContext ) );
     IAnimationSupport as = new AnimationSupport( display );
     aWinContext.set( IAnimationSupport.class, as );
     as.resume();
