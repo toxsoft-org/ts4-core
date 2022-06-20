@@ -1,3 +1,6 @@
 eclipse.preferences.version=1
+encoding//src/org/toxsoft/core/tslib/bricks/filebound/messages.properties=UTF-8
+encoding//src/org/toxsoft/core/tslib/bricks/filebound/messages_ka_GE.properties=UTF-8
+encoding//src/org/toxsoft/core/tslib/bricks/filebound/messages_ru_RU.properties=UTF-8
 encoding//src/org/toxsoft/core/tslib/coll/derivative/messages_ka_GE.properties=UTF-8
 encoding//src/org/toxsoft/core/tslib/coll/derivative/messages_ru_RU.properties=UTF-8

@@ -1,17 +1,15 @@
 package org.toxsoft.core.txtproj.lib;
 
-import org.toxsoft.core.tslib.av.opset.IOptionSetEdit;
-import org.toxsoft.core.tslib.bricks.events.change.IGenericChangeEventer;
-import org.toxsoft.core.tslib.bricks.events.change.IGenericChangeListener;
-import org.toxsoft.core.tslib.bricks.keeper.IKeepableEntity;
-import org.toxsoft.core.tslib.bricks.validator.ITsValidator;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.coll.basis.ITsClearable;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMap;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.txtproj.lib.bound.ITsProjectFileBound;
-import org.toxsoft.core.txtproj.lib.impl.TsProjectFileFormatInfo;
-import org.toxsoft.core.txtproj.lib.tdfile.ITdFile;
+import org.toxsoft.core.txtproj.lib.bound.*;
+import org.toxsoft.core.txtproj.lib.impl.*;
+import org.toxsoft.core.txtproj.lib.tdfile.*;
 
 // TODO TRANSLATE
 
@@ -35,6 +33,7 @@ public interface ITsProject
     extends //
     IKeepableEntity, // для сохранения/загрузки в текстовом формате
     ITsProjectContentChangeProducer, // генерирует сообщения, специфичные для проекта
+    IGenericChangeEventCapable, //
     ITsClearable // поддержка понятия "создать новый проект"
 {
 
@@ -149,6 +148,7 @@ public interface ITsProject
    *
    * @return {@link IGenericChangeEventer} - the change eventer
    */
+  @Override
   IGenericChangeEventer genericChangeEventer();
 
 }
