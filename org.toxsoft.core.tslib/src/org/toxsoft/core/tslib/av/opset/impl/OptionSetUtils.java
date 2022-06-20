@@ -2,14 +2,12 @@ package org.toxsoft.core.tslib.av.opset.impl;
 
 import static org.toxsoft.core.tslib.av.opset.impl.ITsResources.*;
 
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.impl.AvUtils;
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.av.opset.IOptionSetEdit;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
-import org.toxsoft.core.tslib.utils.TsTestUtils;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -55,30 +53,46 @@ public class OptionSetUtils {
   }
 
   /**
-   * Outputs {@link IOptionSet} using {@link TsTestUtils}.
+   * Makes the human readable multi-line string with option set values.
    *
    * @param aOpSet {@link IOptionSet} - option set to be shown
+   * @return String - human readable representation
    * @throws TsNullArgumentRtException argument = <code>null</code>
    */
   @SuppressWarnings( "nls" )
-  public static void printOptionSet( IOptionSet aOpSet ) {
+  public static String humanReadable( IOptionSet aOpSet ) {
     TsNullArgumentRtException.checkNull( aOpSet );
-    TsTestUtils.p( " = {" );
+    StringBuilder sb = new StringBuilder();
+    sb.append( "{" );
     IStringList keys = aOpSet.keys();
     if( !keys.isEmpty() ) {
       TsTestUtils.nl();
       for( int i = 0, n = keys.size(); i < n; i++ ) {
         String s = keys.get( i );
         IAtomicValue val = aOpSet.getValue( s );
+        String line;
         if( val.atomicType() == EAtomicType.STRING ) {
-          TsTestUtils.pl( "  %s = \"%s\"", s, val.asString() );
+          line = String.format( "  %s = \"%s\"\n", s, val.asString() );
         }
         else {
-          TsTestUtils.pl( "  %s = %s", s, val.asString() );
+          line = String.format( "  %s = %s\n", s, val.asString() );
         }
+        sb.append( line );
       }
     }
-    TsTestUtils.pl( "}" );
+    sb.append( "}" );
+    return sb.toString();
+  }
+
+  /**
+   * Outputs {@link #humanReadable(IOptionSet)} using {@link TsTestUtils}.
+   *
+   * @param aOpSet {@link IOptionSet} - option set to be shown
+   * @throws TsNullArgumentRtException argument = <code>null</code>
+   */
+  public static void printOptionSet( IOptionSet aOpSet ) {
+    TsNullArgumentRtException.checkNull( aOpSet );
+    TsTestUtils.pl( " = " + humanReadable( aOpSet ) ); //$NON-NLS-1$
   }
 
   // ------------------------------------------------------------------------------------

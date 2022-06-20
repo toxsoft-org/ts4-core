@@ -12,10 +12,8 @@ import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
-import org.toxsoft.core.tslib.bricks.strio.*;
-import org.toxsoft.core.tslib.bricks.strio.chario.impl.*;
-import org.toxsoft.core.tslib.bricks.strio.impl.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
@@ -366,17 +364,7 @@ public class M5FieldDef<T, V>
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
-    IStrioWriter sw = new StrioWriter( new CharOutputStreamAppendable( sb ) );
-    sw.pl( id() );
-    if( !params().isEmpty() ) {
-      sw.pl( "params = {" ); //$NON-NLS-1$
-      for( String s : params().keys() ) {
-        sw.pl( "  %s = %s", s, params().getValue( s ).asString() ); //$NON-NLS-1$
-      }
-      sw.pl( "}" ); //$NON-NLS-1$
-    }
-    return sb.toString();
+    return "params = " + OptionSetUtils.humanReadable( params() ); //$NON-NLS-1$
   }
 
   // ------------------------------------------------------------------------------------
