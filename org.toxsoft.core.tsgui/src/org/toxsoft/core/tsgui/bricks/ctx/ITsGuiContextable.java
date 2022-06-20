@@ -3,6 +3,7 @@ package org.toxsoft.core.tsgui.bricks.ctx;
 import org.eclipse.e4.core.contexts.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
+import org.toxsoft.core.tsgui.graphics.cursors.*;
 import org.toxsoft.core.tsgui.graphics.fonts.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
@@ -70,6 +71,10 @@ public interface ITsGuiContextable
 
   default ITsImageManager imageManager() {
     return tsContext().get( ITsImageManager.class );
+  }
+
+  default ITsCursorManager cursorManager() {
+    return tsContext().get( ITsCursorManager.class );
   }
 
   default IAppPreferences appPrefs() {
