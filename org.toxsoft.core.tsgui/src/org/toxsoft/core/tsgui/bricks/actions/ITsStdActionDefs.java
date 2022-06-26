@@ -3,8 +3,7 @@ package org.toxsoft.core.tsgui.bricks.actions;
 import static org.toxsoft.core.tsgui.bricks.actions.ITsResources.*;
 import static org.toxsoft.core.tsgui.bricks.actions.TsActionDef.*;
 import static org.toxsoft.core.tsgui.graphics.icons.ITsStdIconIds.*;
-
-import org.toxsoft.core.tslib.*;
+import static org.toxsoft.core.tslib.ITsHardConstants.*;
 
 /**
  * Standatrd actions.
@@ -16,7 +15,7 @@ public interface ITsStdActionDefs {
   /**
    * Prefix of the standard action IDs.
    */
-  String STD_ACTION_DEF_PREFIX = ITsHardConstants.TS_ID + ".tsgui.stdact"; //$NON-NLS-1$
+  String STD_ACTION_DEF_PREFIX = TS_FULL_ID + ".tsgui.stdact"; //$NON-NLS-1$
 
   /**
    * Action ID: the separator in menus, toolbars, etc and this is not an action!

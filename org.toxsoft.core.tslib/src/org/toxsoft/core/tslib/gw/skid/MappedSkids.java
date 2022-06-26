@@ -19,8 +19,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public class MappedSkids
-    implements IMappedSkids, Serializable {
+public sealed class MappedSkids
+    implements IMappedSkids, Serializable permits InternalEmptyMappedSkids {
 
   private static final long serialVersionUID = 157157L;
 
@@ -57,6 +57,16 @@ public class MappedSkids
    */
   public MappedSkids() {
     // nop
+  }
+
+  /**
+   * Copy constructor.
+   *
+   * @param aSource {@link IStringMap}&lt;{@link ISkidList}&gt; - the source
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public MappedSkids( IStringMap<ISkidList> aSource ) {
+    setAll( aSource );
   }
 
   // ------------------------------------------------------------------------------------

@@ -32,7 +32,7 @@ public interface IMappedSkids {
  *
  * @author hazard157
  */
-class InternalEmptyMappedSkids
+final class InternalEmptyMappedSkids
     extends MappedSkids {
 
   private static final long serialVersionUID = 157157L;
@@ -54,17 +54,17 @@ class InternalEmptyMappedSkids
   //
 
   @Override
-  final public String toString() {
+  public String toString() {
     return getClass().getSimpleName();
   }
 
   @Override
-  final public boolean equals( Object obj ) {
+  public boolean equals( Object obj ) {
     return obj == this;
   }
 
   @Override
-  final public int hashCode() {
+  public int hashCode() {
     return getClass().getSimpleName().hashCode();
   }
 

@@ -1,24 +1,17 @@
 package org.toxsoft.core.tslib.gw.gwid;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.Iterator;
+import java.io.*;
+import java.util.*;
 
 import org.toxsoft.core.tslib.bricks.keeper.*;
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.EEncloseMode;
-import org.toxsoft.core.tslib.bricks.strio.IStrioReader;
-import org.toxsoft.core.tslib.bricks.strio.IStrioWriter;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.coll.basis.ITsFastIndexListTag;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
-import org.toxsoft.core.tslib.coll.impl.SortedStringLinkedBundleList;
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
-import org.toxsoft.core.tslib.coll.primtypes.IStringListBasicEdit;
-import org.toxsoft.core.tslib.gw.skid.ISkidList;
-import org.toxsoft.core.tslib.gw.skid.SkidList;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.gw.skid.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Реализация {@link IGwidList}.
@@ -29,12 +22,12 @@ public class GwidList
     implements IGwidList, IListEdit<Gwid>, IKeepableEntity, Serializable {
 
   /**
-   * Keeper ID.
+   * Registered keeper ID.
    */
   public static final String KEEPER_ID = "GwidList"; //$NON-NLS-1$
 
   /**
-   * Keeper singleton (indenting keeeper).
+   * The keeper singleton (indenting keeeper).
    */
   public static final IEntityKeeper<IGwidList> KEEPER_INDENTED =
       new AbstractEntityKeeper<>( IGwidList.class, EEncloseMode.ENCLOSES_KEEPER_IMPLEMENTATION, IGwidList.EMPTY ) {
@@ -53,7 +46,7 @@ public class GwidList
       };
 
   /**
-   * Keeper singleton (non-indenting keeeper).
+   * The keeper singleton (non-indenting keeeper).
    */
   public static final IEntityKeeper<IGwidList> KEEPER =
       new AbstractEntityKeeper<>( IGwidList.class, EEncloseMode.ENCLOSES_KEEPER_IMPLEMENTATION, IGwidList.EMPTY ) {
