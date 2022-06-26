@@ -701,17 +701,11 @@ public class StrioUtils {
    */
   public static String readInterbaceContent( IStrioReader aSr ) {
     TsNullArgumentRtException.checkNull( aSr );
-    char chStart, chEnd;
     char ch = aSr.peekChar( EStrioSkipMode.SKIP_COMMENTS );
-    chEnd = switch( ch ) {
-      case CHAR_ARRAY_BEGIN -> {
-        chStart = CHAR_ARRAY_BEGIN;
-        yield CHAR_ARRAY_END;
-      }
-      case CHAR_SET_BEGIN -> {
-        chStart = CHAR_SET_BEGIN;
-        yield CHAR_SET_END;
-      }
+    char chStart = ch;
+    char chEnd = switch( ch ) {
+      case CHAR_ARRAY_BEGIN -> CHAR_ARRAY_BEGIN;
+      case CHAR_SET_BEGIN -> CHAR_SET_BEGIN;
       default -> throw new StrioRtException( FMT_ERR_LEFT_BRACKET_EXPECTED, Character.valueOf( ch ) );
     };
     aSr.nextChar(); // skipping left (first) bracket already read

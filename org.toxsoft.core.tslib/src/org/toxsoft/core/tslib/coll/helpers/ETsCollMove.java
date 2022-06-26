@@ -483,7 +483,6 @@ public enum ETsCollMove
     return navigateTo( aStartIndex, aCollSize, aJumpDistance, true, true );
   }
 
-  @SuppressWarnings( "javadoc" )
   public <E> E findElemAt( E aCurrElem, IList<E> aColl, int aJumpDistance, boolean aWrap ) {
     TsNullArgumentRtException.checkNull( aColl );
     int startIndex = aCurrElem != null ? aColl.indexOf( aCurrElem ) : -1;
@@ -491,7 +490,6 @@ public enum ETsCollMove
     return index >= 0 ? aColl.get( index ) : null;
   }
 
-  @SuppressWarnings( "javadoc" )
   public <E> E findElemAtWni( E aCurrElem, IList<E> aColl, int aJumpDistance, boolean aWrap ) {
     TsNullArgumentRtException.checkNull( aColl );
     int startIndex = aCurrElem != null ? aColl.indexOf( aCurrElem ) : -1;
