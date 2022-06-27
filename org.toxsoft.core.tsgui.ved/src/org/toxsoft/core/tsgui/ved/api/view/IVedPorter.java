@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.ved.api.view;
 
+import org.toxsoft.core.tsgui.ved.incub.geom.*;
+
 /**
  * The means to manipulate components geometrical visualization properties.
  * <p>
@@ -52,20 +54,22 @@ public interface IVedPorter {
   /**
    * Rotates the component.
    * <p>
-   * This method requres the component to support rotation amount propperty.
+   * This method requres the component to support rotation amount propperty and optionally rotaion center property.
+   * <p>
+   * Rotation center is measured statring from shapes X,Y coordinates or <code>null</code> value is used to specify
+   * rotation around bounding rectanges center point.
    *
+   * @param aRotationCenter {@link ID2Point} - rotation center point coordinates or <code>null</code>
    * @param aDegrees double - angle to rotate in degrees (<0 - clockwise, >0 - counterclockwise)
    */
-  void rotate( double aDegrees );
+  void rotate( ID2Point aRotationCenter, double aDegrees );
 
   // TODO API
 
-  void flip( /* ??? */ );
+  void flipHor( boolean aFlip );
 
-  void zoom( /* ??? */ );
+  void flipVer( boolean aFlip );
 
-  void shear( /* ??? */ );
-
-  void transform( /* ??? */ );
+  void zoom( double aZoomFactorX, double aZoomFactorY );
 
 }

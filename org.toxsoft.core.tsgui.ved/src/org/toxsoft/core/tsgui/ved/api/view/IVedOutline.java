@@ -23,6 +23,13 @@ public interface IVedOutline {
   ID2Rectangle bounds();
 
   /**
+   * Returns the center point of the {@link #bounds()} rectangle.
+   *
+   * @return {@link ID2Point} - center of bounds rectangle
+   */
+  ID2Point boundsCenter();
+
+  /**
    * Determines is the specified point is inside or on outline of this shape.
    *
    * @param aX double - X virtual coordinate of the point
@@ -50,6 +57,14 @@ public interface IVedOutline {
   double distanceTo( double aX, double aY );
 
   /**
+   * TODO ???
+   *
+   * @param aPercent
+   * @return
+   */
+  ID2Point outlinePoint( double aPercent );
+
+  /**
    * Determines if outline path information is supported by this component.
    *
    * @return boolean - flags that {@link #outlinePath()} is supported
@@ -63,8 +78,5 @@ public interface IVedOutline {
    * @throws TsUnderDevelopmentRtException path is not supported
    */
   Path outlinePath();
-
-  // FIXME WTF is this?
-  ID2Point center();
 
 }
