@@ -7,7 +7,7 @@ package org.toxsoft.core.tsgui.ved.incub.geom;
  *
  * @author hazard157
  */
-public interface ID2Rectangle {
+public sealed interface ID2Rectangle permits D2Rectangle {
 
   /**
    * Returns the top-left corner X coordinate.

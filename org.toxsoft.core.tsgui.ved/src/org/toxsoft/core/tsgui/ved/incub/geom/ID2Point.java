@@ -5,7 +5,7 @@ package org.toxsoft.core.tsgui.ved.incub.geom;
  *
  * @author hazard157
  */
-public interface ID2Point {
+public sealed interface ID2Point permits D2Point {
 
   /**
    * Returns the X coordinate.

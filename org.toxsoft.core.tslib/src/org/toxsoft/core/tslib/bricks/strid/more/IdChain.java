@@ -1,17 +1,14 @@
 package org.toxsoft.core.tslib.bricks.strid.more;
 
-import java.io.ObjectStreamException;
-import java.io.Serializable;
+import java.io.*;
 
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.EEncloseMode;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
-import org.toxsoft.core.tslib.coll.primtypes.IStringListEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringArrayList;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -205,6 +202,24 @@ public final class IdChain
   }
 
   /**
+   * Returns the first branch of chain.
+   *
+   * @return String - last branch (an IDpath)
+   */
+  public String first() {
+    return branches.first();
+  }
+
+  /**
+   * Returns the first of chain.
+   *
+   * @return String - last branch (an IDpath)
+   */
+  public String last() {
+    return branches.last();
+  }
+
+  /**
    * TODO IDChain static API:<br>
    * IdChain add(IdChain1,IdChain2), IdChain getParent(IdChain), boolean isChild() ...
    */
@@ -223,8 +238,7 @@ public final class IdChain
     if( aThat == this ) {
       return true;
     }
-    if( aThat instanceof IdChain ) {
-      IdChain that = (IdChain)aThat;
+    if( aThat instanceof IdChain that ) {
       return this.branches.equals( that.branches );
     }
     return false;
