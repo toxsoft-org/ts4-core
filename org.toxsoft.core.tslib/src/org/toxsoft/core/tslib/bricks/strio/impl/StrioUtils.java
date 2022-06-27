@@ -704,8 +704,8 @@ public class StrioUtils {
     char ch = aSr.peekChar( EStrioSkipMode.SKIP_COMMENTS );
     char chStart = ch;
     char chEnd = switch( ch ) {
-      case CHAR_ARRAY_BEGIN -> CHAR_ARRAY_BEGIN;
-      case CHAR_SET_BEGIN -> CHAR_SET_BEGIN;
+      case CHAR_ARRAY_BEGIN -> CHAR_ARRAY_END;
+      case CHAR_SET_BEGIN -> CHAR_SET_END;
       default -> throw new StrioRtException( FMT_ERR_LEFT_BRACKET_EXPECTED, Character.valueOf( ch ) );
     };
     aSr.nextChar(); // skipping left (first) bracket already read

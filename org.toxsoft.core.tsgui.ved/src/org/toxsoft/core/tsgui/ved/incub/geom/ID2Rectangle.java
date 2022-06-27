@@ -38,6 +38,20 @@ public sealed interface ID2Rectangle permits D2Rectangle {
   double y2();
 
   /**
+   * Returns the top-left corner coordinates.
+   *
+   * @return {@link ID2Point} - the top-left corner coordinates
+   */
+  ID2Point a();
+
+  /**
+   * Returns the bottom-right corner coordinates.
+   *
+   * @return {@link ID2Point} - the bottom-right corner coordinates
+   */
+  ID2Point b();
+
+  /**
    * Returns the width of the rectangle.
    *
    * @return double - the width
@@ -50,5 +64,12 @@ public sealed interface ID2Rectangle permits D2Rectangle {
    * @return double - the height
    */
   double height();
+
+  /**
+   * returns the size of rectangle.
+   *
+   * @return {@link ID2Point} - size ({@link ID2Point#x()} is witdh, {@link ID2Point#y() - height})
+   */
+  ID2Point size();
 
 }

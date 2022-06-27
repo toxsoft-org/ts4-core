@@ -76,32 +76,32 @@ public final class D2Rectangle
   }
 
   @Override
-  public int x1() {
+  public double x1() {
     return a.x();
   }
 
   @Override
-  public int y1() {
+  public double y1() {
     return a.y();
   }
 
   @Override
-  public int x2() {
+  public double x2() {
     return b.x();
   }
 
   @Override
-  public int y2() {
+  public double y2() {
     return b.y();
   }
 
   @Override
-  public int width() {
+  public double width() {
     return size.x();
   }
 
   @Override
-  public int height() {
+  public double height() {
     return size.y();
   }
 
@@ -134,32 +134,26 @@ public final class D2Rectangle
   @Override
   public int hashCode() {
     int result = TsLibUtils.INITIAL_HASH_CODE;
-    // внимание: у редактируемого прямоугольника должен быть такой же алгоритм подсчета!
-    result = TsLibUtils.PRIME * result + x1();
-    result = TsLibUtils.PRIME * result + x2();
-    result = TsLibUtils.PRIME * result + y1();
-    result = TsLibUtils.PRIME * result + y2();
+    result = TsLibUtils.PRIME * result + a.hashCode();
+    result = TsLibUtils.PRIME * result + b.hashCode();
     return result;
   }
 
   // ------------------------------------------------------------------------------------
-  // API класса
+  // API
   //
 
   /**
    * Перемещает прямоугольник в заданное место.
    *
-   * @param aNewX int - новая X координата левого верхнего угла.
-   * @param aNewY int - новая Y координата левого верхнего угла.
+   * @param aNewX double - новая X координата левого верхнего угла.
+   * @param aNewY double - новая Y координата левого верхнего угла.
    * @throws TsNullArgumentRtException аргумент = null
-   * @throws TsIllegalArgumentRtException правая нижняя точка выходат за {@link Integer#MAX_VALUE} значения
    */
-  public void moveTo( int aNewX, int aNewY ) {
-    TsIllegalArgumentRtException.checkTrue( Integer.MAX_VALUE < size.x() + aNewX );
-    TsIllegalArgumentRtException.checkTrue( Integer.MAX_VALUE < size.y() + aNewY );
+  public void moveTo( double aNewX, double aNewY ) {
     a.setPoint( aNewX, aNewY );
-    b.setX( a.x() + size.x() - 1 );
-    b.setY( a.y() + size.y() - 1 );
+    b.setX( a.x() + size.x() );
+    b.setY( a.y() + size.y() );
   }
 
   /**
@@ -177,31 +171,29 @@ public final class D2Rectangle
   /**
    * Смещает прямоугольник на заданное расстояние.
    *
-   * @param aDeltaX int - изменение X координаты левого верхнего угла.
-   * @param aDeltaY int - изменение Y координаты левого верхнего угла.
+   * @param aDeltaX double - изменение X координаты левого верхнего угла.
+   * @param aDeltaY double - изменение Y координаты левого верхнего угла.
    * @throws TsNullArgumentRtException аргумент = null
    * @throws TsIllegalArgumentRtException правая нижняя точка выходат за {@link Integer#MAX_VALUE} значения
    */
-  public void shiftOn( int aDeltaX, int aDeltaY ) {
-    int newX = a.x() + aDeltaX;
-    int newY = a.y() + aDeltaY;
+  public void shiftOn( double aDeltaX, double aDeltaY ) {
+    double newX = a.x() + aDeltaX;
+    double newY = a.y() + aDeltaY;
     moveTo( newX, newY );
   }
 
   /**
    * Изменяет размеры прямугольника.
    *
-   * @param aWidth int - ширина прямогуольника
-   * @param aHeight int - высота прямогуольника
+   * @param aWidth double - ширина прямогуольника
+   * @param aHeight double - высота прямогуольника
    * @throws TsNullArgumentRtException аргумент = null
-   * @throws TsIllegalArgumentRtException ширина < 1
-   * @throws TsIllegalArgumentRtException высота < 1
+   * @throws TsIllegalArgumentRtException ширина < 0.0
+   * @throws TsIllegalArgumentRtException высота < 0.0
    * @throws TsIllegalArgumentRtException правая нижняя точка выходат за {@link Integer#MAX_VALUE} значения
    */
-  public void setSize( int aWidth, int aHeight ) {
-    TsIllegalArgumentRtException.checkTrue( aWidth < 1 || aHeight < 1 );
-    TsIllegalArgumentRtException.checkTrue( Integer.MAX_VALUE < aWidth + a.x() );
-    TsIllegalArgumentRtException.checkTrue( Integer.MAX_VALUE < aHeight + a.y() );
+  public void setSize( double aWidth, double aHeight ) {
+    TsIllegalArgumentRtException.checkTrue( aWidth < 0.0 || aHeight < 0.0 );
     size.setPoint( a );
     b.setX( a.x() + aWidth - 1 );
     b.setY( a.y() + aHeight - 1 );
@@ -224,33 +216,30 @@ public final class D2Rectangle
   /**
    * Изменяет размер прямоугольника на указанную величину.
    *
-   * @param aDeltaW int - изменение ширины
-   * @param aDeltaH int - изменение высоты
+   * @param aDeltaW double - изменение ширины
+   * @param aDeltaH double - изменение высоты
    * @throws TsIllegalArgumentRtException новая ширина < 1
    * @throws TsIllegalArgumentRtException новая высота < 1
    * @throws TsIllegalArgumentRtException правая нижняя точка выходат за {@link Integer#MAX_VALUE} значения
    */
-  public void changeSize( int aDeltaW, int aDeltaH ) {
-    int newWidth = size.x() + aDeltaW;
-    int mewHeight = size.y() + aDeltaH;
+  public void changeSize( double aDeltaW, double aDeltaH ) {
+    double newWidth = size.x() + aDeltaW;
+    double mewHeight = size.y() + aDeltaH;
     setSize( newWidth, mewHeight );
   }
 
   /**
    * Задает размеры прямоугольника из координаты левого верхнего углая и размеров.
    *
-   * @param aX int - X координата левого верхнего угла
-   * @param aY int - Y координата левого верхнего угла
-   * @param aWidth int - ширина прямогуольника
-   * @param aHeight int - высота прямогуольника
-   * @throws TsIllegalArgumentRtException ширина < 1
-   * @throws TsIllegalArgumentRtException высота < 1
-   * @throws TsIllegalArgumentRtException правая нижняя точка выходат за {@link Integer#MAX_VALUE} значения
+   * @param aX double - X координата левого верхнего угла
+   * @param aY double - Y координата левого верхнего угла
+   * @param aWidth double - ширина прямогуольника
+   * @param aHeight double - высота прямогуольника
+   * @throws TsIllegalArgumentRtException ширина < 0.0
+   * @throws TsIllegalArgumentRtException высота < 0.0
    */
-  public void setRect( int aX, int aY, int aWidth, int aHeight ) {
-    TsIllegalArgumentRtException.checkTrue( aWidth < 1 || aHeight < 1 );
-    TsIllegalArgumentRtException.checkTrue( Integer.MAX_VALUE < aWidth + aX );
-    TsIllegalArgumentRtException.checkTrue( Integer.MAX_VALUE < aHeight + aY );
+  public void setRect( double aX, double aY, double aWidth, double aHeight ) {
+    TsIllegalArgumentRtException.checkTrue( aWidth < 0.0 || aHeight < 0.0 );
     a.setPoint( aX, aY );
     b.setPoint( aX + aWidth - 1, aY + aHeight - 1 );
     size.setPoint( aWidth, aHeight );
@@ -274,8 +263,8 @@ public final class D2Rectangle
     a.setY( Math.min( aP1.y(), aP2.y() ) );
     b.setX( Math.max( aP1.x(), aP2.x() ) );
     b.setY( Math.max( aP1.y(), aP2.y() ) );
-    size.setX( b.x() - a.x() + 1 );
-    size.setY( b.y() - a.y() + 1 );
+    size.setX( b.x() - a.x() );
+    size.setY( b.y() - a.y() );
   }
 
   /**
