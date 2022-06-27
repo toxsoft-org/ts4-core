@@ -10,16 +10,16 @@ import java.awt.geom.*;
  */
 public class D2LineSegment {
 
-  double x1;
-  double y1;
-  double x2;
-  double y2;
+  private double x1;
+  private double y1;
+  private double x2;
+  private double y2;
 
-  double a;
-  double b;
-  double c;
+  private double a;
+  private double b;
+  private double c;
 
-  double angle = 0;
+  private double angle = 0;
 
   /**
    * Конструктор.<br>
