@@ -10,7 +10,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public class VedLibraryManager
+class VedLibraryManager
     implements IVedLibraryManager {
 
   private final IStridablesListEdit<IVedLibrary> libs = new StridablesList<>();
@@ -32,6 +32,16 @@ public class VedLibraryManager
     TsNullArgumentRtException.checkNull( aLibrary );
     TsItemAlreadyExistsRtException.checkTrue( libs.hasKey( aLibrary.id() ) );
     libs.add( aLibrary );
+  }
+
+  @Override
+  public IVedComponentProvider findProvider( String aLibraryId, String aComponentKindId ) {
+    TsNullArgumentRtException.checkNulls( aLibraryId, aComponentKindId );
+    IVedLibrary vl = libs.findByKey( aLibraryId );
+    if( vl != null ) {
+      return vl.componentProviders().findByKey( aComponentKindId );
+    }
+    return null;
   }
 
 }

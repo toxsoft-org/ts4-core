@@ -28,4 +28,14 @@ public interface IVedLibraryManager {
    */
   void registerLibrary( IVedLibrary aLibrary );
 
+  /**
+   * Finds the component provider.
+   *
+   * @param aLibraryId String - the ID of library to search the component in
+   * @param aComponentKindId STring - compoenent kind ID
+   * @return {@link IVedComponentProvider} - the component provider or <code>null</code> if none found
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  IVedComponentProvider findProvider( String aLibraryId, String aComponentKindId );
+
 }

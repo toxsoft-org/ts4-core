@@ -1,9 +1,9 @@
 package org.toxsoft.core.tslib.bricks.geometry.impl;
 
-import java.io.Serializable;
+import java.io.*;
 
-import org.toxsoft.core.tslib.bricks.geometry.ITsPoint;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Редактируемая реализация {@link ITsPoint}.
@@ -22,7 +22,7 @@ public final class TsPointEdit
    * Создает точку со всеми координатами.
    *
    * @param aX int - x координата
-   * @param aY int - н координата
+   * @param aY int - y координата
    */
   public TsPointEdit( int aX, int aY ) {
     x = aX;
@@ -50,10 +50,9 @@ public final class TsPointEdit
     if( object == this ) {
       return true;
     }
-    if( !(object instanceof ITsPoint) ) {
+    if( !(object instanceof ITsPoint p) ) {
       return false;
     }
-    ITsPoint p = (ITsPoint)object;
     return (p.x() == this.x) && (p.y() == this.y);
   }
 
