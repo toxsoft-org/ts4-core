@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.ved.impl;
 
+import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
+
 import org.toxsoft.core.tsgui.ved.api.library.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
@@ -26,6 +28,15 @@ public class VedLibrary
    */
   public VedLibrary( String aId, IOptionSet aParams ) {
     // nop
+  }
+
+  // ------------------------------------------------------------------------------------
+  // IIconIdable
+  //
+
+  @Override
+  public String iconId() {
+    return params().getStr( TSID_ICON_ID, null );
   }
 
   // ------------------------------------------------------------------------------------

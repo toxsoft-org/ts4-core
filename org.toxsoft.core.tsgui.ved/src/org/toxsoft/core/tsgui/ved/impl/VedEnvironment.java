@@ -3,6 +3,7 @@ package org.toxsoft.core.tsgui.ved.impl;
 import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.library.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link IVedEnvironment} implementation.
@@ -13,6 +14,7 @@ class VedEnvironment
     implements IVedEnvironment {
 
   private final IVedLibraryManager libraryManager = new VedLibraryManager();
+  private final IVedDataModel      dataModel      = new VedDataModel();
 
   /**
    * Constructor.
@@ -27,14 +29,13 @@ class VedEnvironment
 
   @Override
   public IVedDataModel dataModel() {
-    // TODO Auto-generated method stub
-    return null;
+    return dataModel;
   }
 
   @Override
   public IVedScreenManager screenManager() {
-    // TODO Auto-generated method stub
-    return null;
+    // TODO реализовать VedEnvironment.screenManager()
+    throw new TsUnderDevelopmentRtException( "VedEnvironment.screenManager()" );
   }
 
   @Override

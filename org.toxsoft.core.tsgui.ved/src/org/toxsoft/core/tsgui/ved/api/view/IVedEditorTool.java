@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.ved.api.view;
 
+import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 
 /**
@@ -8,7 +9,7 @@ import org.toxsoft.core.tslib.bricks.strid.*;
  * @author hazard157
  */
 public interface IVedEditorTool
-    extends IStridableParameterized {
+    extends IStridableParameterized, IIconIdable {
 
   // FIXME API ???
 

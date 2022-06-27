@@ -12,6 +12,6 @@ public interface IVedEditorToolProvider
     extends IStridableParameterized {
 
   // FIXME API
-  IVedEditorTool createToole( /* arguments??? */ );
+  IVedEditorTool createTool( /* arguments??? */ );
 
 }

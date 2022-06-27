@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.ved.api.library;
 
+import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 
@@ -9,7 +10,7 @@ import org.toxsoft.core.tslib.bricks.strid.coll.*;
  * @author hazard157
  */
 public interface IVedLibrary
-    extends IStridableParameterized {
+    extends IStridableParameterized, IIconIdable {
 
   /**
    * Returns the compnents providers conatained in this library.

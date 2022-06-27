@@ -3,6 +3,7 @@ package org.toxsoft.core.tsgui.ved.api.library;
 import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -13,7 +14,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public interface IVedComponentProvider
-    extends IStridableParameterized {
+    extends IStridableParameterized, IIconIdable {
 
   /**
    * Returns the information about properties.

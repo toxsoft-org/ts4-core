@@ -12,7 +12,7 @@ import org.toxsoft.core.tslib.bricks.strid.coll.notifier.*;
  *
  * @author hazard157
  */
-public class VedDataModel
+class VedDataModel
     implements IVedDataModel {
 
   private final GenericChangeEventer genericEventer;
