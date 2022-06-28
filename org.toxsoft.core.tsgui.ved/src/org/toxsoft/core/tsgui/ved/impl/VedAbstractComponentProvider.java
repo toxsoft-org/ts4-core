@@ -73,7 +73,7 @@ public abstract class VedAbstractComponentProvider
       IDataDef pdef = propDefs.findByKey( pid );
       if( pdef != null ) {
         IAtomicValue av = aProps.getByKey( pid );
-        if( AvTypeCastRtException.canAssign( pdef.atomicType(), av.atomicType() ) ) {
+        if( !AvTypeCastRtException.canAssign( pdef.atomicType(), av.atomicType() ) ) {
           throw new AvTypeCastRtException( FMT_ERR_INV_PROP_TYPE, pid, pdef.atomicType().id(), av.atomicType().id() );
         }
         propVals.put( pid, av );
