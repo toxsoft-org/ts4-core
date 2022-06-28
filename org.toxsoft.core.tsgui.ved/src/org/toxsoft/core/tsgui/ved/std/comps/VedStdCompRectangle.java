@@ -99,6 +99,7 @@ public class VedStdCompRectangle
       aGc.setForeground( fgColor );
       aGc.setBackground( bgColor );
       aGc.fillRectangle( visRect );
+      aGc.drawRectangle( visRect );
     }
 
     @Override
@@ -121,6 +122,8 @@ public class VedStdCompRectangle
 
     @Override
     public void locate( double aX, double aY ) {
+      owner().props().setDouble( PDEF_X, aX );
+      owner().props().setDouble( PDEF_Y, aY );
       double width = outline.width();
       double height = outline.height();
       outline = new D2RectOutline( aX, aY, width, height );
@@ -131,6 +134,8 @@ public class VedStdCompRectangle
     public void shiftOn( double aDx, double aDy ) {
       double x = outline.x() + aDx;
       double y = outline.x() + aDy;
+      owner().props().setDouble( PDEF_X, x );
+      owner().props().setDouble( PDEF_Y, y );
       double width = outline.width();
       double height = outline.height();
       outline = new D2RectOutline( x, y, width, height );
@@ -139,6 +144,8 @@ public class VedStdCompRectangle
 
     @Override
     public void setSize( double aWidth, double aHeight ) {
+      owner().props().setDouble( PDEF_WIDTH, aWidth );
+      owner().props().setDouble( PDEF_HEIGHT, aHeight );
       double x = outline.x();
       double y = outline.x();
       outline = new D2RectOutline( x, y, aWidth, aHeight );
@@ -147,6 +154,10 @@ public class VedStdCompRectangle
 
     @Override
     public void setBounds( double aX, double aY, double aWidth, double aHeight ) {
+      owner().props().setDouble( PDEF_X, aX );
+      owner().props().setDouble( PDEF_Y, aY );
+      owner().props().setDouble( PDEF_WIDTH, aWidth );
+      owner().props().setDouble( PDEF_HEIGHT, aHeight );
       outline = new D2RectOutline( aX, aY, aWidth, aHeight );
       updateVisRect();
     }
