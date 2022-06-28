@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.ved.glib.comps;
+package org.toxsoft.core.tsgui.ved.utils;
 
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;

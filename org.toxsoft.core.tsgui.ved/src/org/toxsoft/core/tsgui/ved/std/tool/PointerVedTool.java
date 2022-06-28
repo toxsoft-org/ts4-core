@@ -1,8 +1,9 @@
-package org.toxsoft.core.tsgui.ved.impl;
+package org.toxsoft.core.tsgui.ved.std.tool;
 
 import static org.toxsoft.core.tsgui.ved.impl.IVedResources.*;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.ved.impl.*;
 
 /**
  * Инструмент "Указатель".
