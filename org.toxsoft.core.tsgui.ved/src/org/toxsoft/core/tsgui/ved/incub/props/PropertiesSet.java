@@ -14,7 +14,6 @@ import org.toxsoft.core.tslib.bricks.events.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
-import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -121,8 +120,6 @@ public class PropertiesSet
 
   private final IStridablesListEdit<IDataDef> propDefs = new StridablesList<>();
 
-  private final IStringMapEdit<IAtomicValue> valuesMap = new StringMap<>();
-
   /**
    * Flag to temporary disable single change event in {@link #doAfterSet(String, IAtomicValue, IAtomicValue)}.
    * <p>
@@ -140,7 +137,7 @@ public class PropertiesSet
     propDefs.setAll( aPropsDefs );
     // initialize default values
     for( IDataDef dd : propDefs ) {
-      valuesMap.put( dd.id(), dd.defaultValue() );
+      setValue( dd.id(), dd.defaultValue() );
     }
   }
 
@@ -149,7 +146,7 @@ public class PropertiesSet
   //
 
   private static void checkPropertyValueIsCompatibleToDefinition( IDataDef aPropDef, IAtomicValue aNewValue ) {
-    if( AvTypeCastRtException.canAssign( aPropDef.atomicType(), aNewValue.atomicType() ) ) {
+    if( !AvTypeCastRtException.canAssign( aPropDef.atomicType(), aNewValue.atomicType() ) ) {
       throw new AvTypeCastRtException( FMT_ERR_INV_PROP_TYPE, aPropDef.id(), aPropDef.atomicType().id(),
           aNewValue.atomicType().id() );
     }
@@ -181,23 +178,13 @@ public class PropertiesSet
     }
   }
 
-  @Override
-  protected IAtomicValue doInternalFind( String aId ) {
-    return valuesMap.findByKey( aId );
-  }
-
-  @Override
-  protected void doInternalSet( String aId, IAtomicValue aValue ) {
-    valuesMap.put( aId, aValue );
-  }
-
   // ------------------------------------------------------------------------------------
   // IPropertiesSetRo
   //
 
   @Override
   public IStringList ids() {
-    return valuesMap.keys();
+    return keys();
   }
 
   @Override
@@ -226,7 +213,7 @@ public class PropertiesSet
       }
       IOptionSetEdit oldValues = new OptionSet( this );
       // really set values
-      valuesMap.putAll( newValues );
+      putAll( newValues );
       // fire events
       eventer.fireSinglePropChange( null, null, null );
       eventer.fireSeveralPropsChanged( oldValues, newValues );
