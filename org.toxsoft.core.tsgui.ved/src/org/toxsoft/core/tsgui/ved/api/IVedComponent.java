@@ -41,9 +41,9 @@ public interface IVedComponent
   /**
    * Returns the values of the external data.
    *
-   * @return {@link IOptionSet} - the external data
+   * @return {@link IOptionSetEdit} - the external data
    */
-  IOptionSet extdata();
+  IOptionSetEdit extdata();
 
   /**
    * Creates component viewer on the specified screen.

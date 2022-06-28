@@ -120,7 +120,7 @@ public class VedAbstractComponent
   }
 
   @Override
-  public IOptionSet extdata() {
+  public IOptionSetEdit extdata() {
     return extdata;
   }
 
