@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.ved.impl;
 
+import static org.toxsoft.core.tsgui.ved.impl.ITsResources.*;
+
 import java.io.*;
 
 import org.toxsoft.core.tsgui.ved.api.*;
@@ -12,6 +14,7 @@ import org.toxsoft.core.tslib.bricks.strio.chario.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.files.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * Visual EDitor framework helper methods and entry point.
@@ -81,14 +84,14 @@ public class VedUtils {
       dm.canvasConfig().setAll( lpd.panelCfg() );
       // create and add the components
       for( ILpdComponentInfo cinf : lpd.componentConfigs() ) {
-        IVedComponentProvider p =
-            aVedEnv.libraryManager().findProvider( cinf.namespace().first(), cinf.componentKindId() );
+        String libId = cinf.namespace().first();
+        IVedComponentProvider p = aVedEnv.libraryManager().findProvider( libId, cinf.componentKindId() );
         if( p != null ) {
           IVedComponent c = p.createComponent( aVedEnv, cinf.propValues(), cinf.extdata() );
           dm.comps().add( c );
         }
         else {
-          // TODO log warning
+          LoggerUtils.errorLogger().warning( FMT_LOG_WARN_NO_COMP_PROVIDER, libId, cinf.componentKindId() );
         }
       }
     }
