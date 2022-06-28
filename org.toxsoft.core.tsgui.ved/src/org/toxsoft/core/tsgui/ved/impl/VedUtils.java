@@ -4,6 +4,7 @@ import static org.toxsoft.core.tsgui.ved.impl.ITsResources.*;
 
 import java.io.*;
 
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.library.*;
 import org.toxsoft.core.tsgui.ved.incub.lpd.*;
@@ -13,7 +14,6 @@ import org.toxsoft.core.tslib.bricks.strio.chario.*;
 import org.toxsoft.core.tslib.bricks.strio.chario.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.files.*;
 import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
@@ -26,23 +26,23 @@ public class VedUtils {
   /**
    * Creates and return new {@link IVedEnvironment}.
    *
+   * @param aContext {@link ITsGuiContext} - the context
    * @return {@link IVedEnvironment} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public static IVedEnvironment createEnvironment() {
-    return new VedEnvironment();
+  public static IVedEnvironment createEnvironment( ITsGuiContext aContext ) {
+    return new VedEnvironment( aContext );
   }
 
   /**
    * Saves VED data to the file.
    *
    * @param aVedEnv {@link IVedEnvironment} - environment, containing the data to be saved
-   * @param aFile {@link File} - the file to write to
+   * @param aSw {@link IStrioWriter} - output stream
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIoRtException error accessing and writing to the file
    */
-  public static void saveToFile( IVedEnvironment aVedEnv, File aFile ) {
-    TsNullArgumentRtException.checkNull( aVedEnv );
-    TsFileUtils.checkFileAppendable( aFile );
+  public static void saveToStream( IVedEnvironment aVedEnv, IStrioWriter aSw ) {
+    TsNullArgumentRtException.checkNulls( aVedEnv, aSw );
     IVedDataModel dm = aVedEnv.dataModel();
     ILpdContainer lpd = new LpdContainer();
     lpd.panelCfg().setAll( dm.canvasConfig() );
@@ -51,29 +51,21 @@ public class VedUtils {
       ILpdComponentInfo cinf = new LpdComponentInfo( namespace, c.componentKindId(), c.props(), c.extdata() );
       lpd.componentConfigs().add( cinf );
     }
-    try( ICharOutputStreamCloseable chOut = new CharOutputStreamFile( aFile ) ) {
-      IStrioWriter sw = new StrioWriter( chOut );
-      lpd.write( sw );
-    }
+    lpd.write( aSw );
   }
 
   /**
-   * loads VED data from the file.
+   * loads VED data from the stream.
    *
    * @param aVedEnv {@link IVedEnvironment} - environment, containing data to be updated from the file
-   * @param aFile {@link File} - the file to read from
+   * @param aSr {@link IStrioReader} - input stream
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIoRtException error accessing and reading from the file
-   * @throws StrioRtException file format error
+   * @throws StrioRtException format error
    */
-  public static void loadFromFile( IVedEnvironment aVedEnv, File aFile ) {
-    TsNullArgumentRtException.checkNull( aVedEnv );
-    TsFileUtils.checkFileReadable( aFile );
+  public static void loadFromStream( IVedEnvironment aVedEnv, IStrioReader aSr ) {
+    TsNullArgumentRtException.checkNulls( aVedEnv, aSr );
     ILpdContainer lpd = new LpdContainer();
-    try( ICharInputStreamCloseable chIn = new CharInputStreamFile( aFile ) ) {
-      IStrioReader sr = new StrioReader( chIn );
-      lpd.read( sr );
-    }
+    lpd.read( aSr );
     // update model data
     IVedDataModel dm = aVedEnv.dataModel();
     dm.genericChangeEventer().pauseFiring();
@@ -99,6 +91,39 @@ public class VedUtils {
       dm.canvasConfig().resumeFiring( true );
       dm.comps().resumeFiring( true );
       dm.genericChangeEventer().resumeFiring( true );
+    }
+  }
+
+  /**
+   * Saves VED data to the file.
+   *
+   * @param aVedEnv {@link IVedEnvironment} - environment, containing the data to be saved
+   * @param aFile {@link File} - the file to write to
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIoRtException error accessing and writing to the file
+   */
+  public static void saveToFile( IVedEnvironment aVedEnv, File aFile ) {
+    TsNullArgumentRtException.checkNull( aVedEnv );
+    try( ICharOutputStreamCloseable chOut = new CharOutputStreamFile( aFile ) ) {
+      IStrioWriter sw = new StrioWriter( chOut );
+      saveToStream( aVedEnv, sw );
+    }
+  }
+
+  /**
+   * loads VED data from the file.
+   *
+   * @param aVedEnv {@link IVedEnvironment} - environment, containing data to be updated from the file
+   * @param aFile {@link File} - the file to read from
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIoRtException error accessing and reading from the file
+   * @throws StrioRtException file format error
+   */
+  public static void loadFromFile( IVedEnvironment aVedEnv, File aFile ) {
+    TsNullArgumentRtException.checkNull( aVedEnv );
+    try( ICharInputStreamCloseable chIn = new CharInputStreamFile( aFile ) ) {
+      IStrioReader sr = new StrioReader( chIn );
+      loadFromStream( aVedEnv, sr );
     }
   }
 

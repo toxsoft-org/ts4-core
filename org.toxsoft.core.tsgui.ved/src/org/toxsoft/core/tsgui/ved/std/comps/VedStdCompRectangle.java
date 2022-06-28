@@ -210,10 +210,10 @@ public class VedStdCompRectangle
    * Конструктор.<br>
    *
    * @param aId String - идентификатор
-   * @param aProvider VedAbstractComponentProvider - поставщик компонент
+   * @param aVedEnv {@link IVedEnvironment} -
    */
-  public VedStdCompRectangle( String aId, VedAbstractComponentProvider aProvider ) {
-    super( aProvider, aId );
+  public VedStdCompRectangle( String aId, IVedEnvironment aVedEnv ) {
+    super( PROVIDER, aVedEnv, aId );
     // TODO Auto-generated constructor stub
   }
 

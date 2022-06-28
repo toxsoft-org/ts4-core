@@ -43,6 +43,7 @@ public abstract class VedAbstractComponentProvider
   public VedAbstractComponentProvider( String aLibraryId, String aId, IOptionSet aParams, IDataDef... aPropDefs ) {
     super( aId, aParams );
     libraryId = StridUtils.checkValidIdPath( aLibraryId );
+    propDefs.addAll( aPropDefs );
   }
 
   // ------------------------------------------------------------------------------------
