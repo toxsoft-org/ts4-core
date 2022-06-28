@@ -7,6 +7,7 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.incub.props.*;
+import org.toxsoft.core.tsgui.ved.utils.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
@@ -20,7 +21,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public class VedAbstractComponent
-    implements IVedComponent, ITsGuiContextable {
+    implements IVedComponent, IVedContextable {
 
   private final VedAbstractComponentProvider creator;
 

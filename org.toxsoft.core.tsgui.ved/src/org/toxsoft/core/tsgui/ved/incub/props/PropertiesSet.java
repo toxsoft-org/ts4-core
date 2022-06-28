@@ -38,31 +38,36 @@ public class PropertiesSet
 
     private IOptionSetEdit oldValues = new OptionSet();
     private IOptionSetEdit newValues = new OptionSet();
-    private String         aPropId   = null;
+    private String         propId    = null;
     private IAtomicValue   oldValue  = null;
     private IAtomicValue   newValue  = null;
 
-    private boolean singleOnly = false;
-    private boolean wasChanges = false;
+    private boolean wasSingle = false;
+    private boolean wasMulti  = false;
 
     @Override
     protected boolean doIsPendingEvents() {
-      return wasChanges;
+      return wasMulti || wasSingle;
     }
 
     @Override
     protected void doFirePendingEvents() {
-      // TODO Auto-generated method stub
+      // single event will be fire anyway, for multi changes with null arguments
+      reallyFireSingleEvent( propId, oldValue, newValue );
+      if( wasMulti ) {
+        reallyFireSeveralPropsEvent( oldValues, newValues );
+      }
     }
 
     @Override
     protected void doClearPendingEvents() {
-      wasChanges = false;
+      wasSingle = false;
+      wasMulti = false;
       oldValues.clear();
       newValues.clear();
-      String aPropId = null;
-      IAtomicValue oldValue = null;
-      IAtomicValue newValue = null;
+      propId = null;
+      oldValue = null;
+      newValue = null;
     }
 
     @Override
@@ -84,8 +89,17 @@ public class PropertiesSet
 
     void fireSinglePropChange( String aPropId, IAtomicValue aOld, IAtomicValue aNew ) {
       if( isFiringPaused() ) {
-        // TODO PropertiesSet.Eventer.fireSinglePropChange()
-        wasChanges = true;
+        if( !wasMulti ) {
+          propId = aPropId;
+          oldValue = aOld;
+          newValue = aNew;
+        }
+        else {
+          propId = null;
+          oldValue = null;
+          newValue = null;
+        }
+        wasMulti = true;
         return;
       }
       reallyFireSingleEvent( aPropId, aOld, aNew );
@@ -95,7 +109,7 @@ public class PropertiesSet
       if( isFiringPaused() ) {
         // old values were already saved in doStartEventsAccrual()
         newValues.addAll( aNewValues );
-        wasChanges = true;
+        wasMulti = true;
         return;
       }
       reallyFireSeveralPropsEvent( aOldValues, aNewValues );
