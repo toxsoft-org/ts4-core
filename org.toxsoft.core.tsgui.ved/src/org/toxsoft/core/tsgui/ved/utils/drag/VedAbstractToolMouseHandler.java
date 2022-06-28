@@ -5,15 +5,17 @@ import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.impl.*;
 import org.toxsoft.core.tsgui.ved.incub.geom.*;
+import org.toxsoft.core.tsgui.ved.std.tool.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.test.ved.exe.imed.api.*;
-import org.toxsoft.test.ved.exe.imed.api.drag.*;
-import org.toxsoft.test.ved.exe.imed.api.tools.*;
-import org.toxsoft.test.ved.exe.imed.common.AbstractToolMouseHandler.*;
-import org.toxsoft.test.ved.exe.imed.geom.*;
 
+/**
+ * Базовый класс обработчиков мыши инструментов редатора.
+ * <p>
+ *
+ * @author vs
+ */
 public abstract class VedAbstractToolMouseHandler
     implements IVedMouseHandler {
 
@@ -187,7 +189,7 @@ public abstract class VedAbstractToolMouseHandler
   /**
    * "Инструмент" редактора
    */
-  protected final IEditorTool tool;
+  protected final VedAbstractEditorTool tool;
 
   /**
    * Обработчик событий перетаскивания
@@ -199,16 +201,13 @@ public abstract class VedAbstractToolMouseHandler
    */
   Point cursorPos = new Point( 0, 0 );
 
-  // IStridablesList<IShape2dView> shapes;
-
   /**
    * Конструктор.<br>
    *
-   * @param aTool IEditorTool - "инструмент" редактора
+   * @param aTool VedAbstractEditorTool - "инструмент" редактора
    */
-  public VedAbstractToolMouseHandler( IEditorTool aTool ) {
+  public VedAbstractToolMouseHandler( VedAbstractEditorTool aTool ) {
     tool = aTool;
-    // shapes = aShapes;
   }
 
   // ------------------------------------------------------------------------------------
@@ -216,12 +215,12 @@ public abstract class VedAbstractToolMouseHandler
   //
 
   @Override
-  public void addDragListener( IDragListener aListener ) {
+  public void addDragListener( IVedDragListener aListener ) {
     throw new TsUnsupportedFeatureRtException(); // не допускается добавление слушателей "перетаскивания"
   }
 
   @Override
-  public void removeDragListener( IDragListener aListener ) {
+  public void removeDragListener( IVedDragListener aListener ) {
     throw new TsUnsupportedFeatureRtException(); // не допускается удаление слушателей "перетаскивания"
   }
 
@@ -231,14 +230,14 @@ public abstract class VedAbstractToolMouseHandler
 
   @Override
   public final ID2Point cursorPosition() {
-    return new GeomPoint( cursorPos );
+    return new D2Point( cursorPos.x, cursorPos.y );
   }
 
   @Override
   public IVedComponentView objectAt( int aX, int aY ) {
     IVedComponentView result = null;
-    for( IVedComponentView shape : tool.listShapes() ) {
-      if( shape.hasPoint( aX, aY ) ) {
+    for( IVedComponentView shape : tool.listViews() ) {
+      if( shape.outline().contains( aX, aY ) ) {
         result = shape;
       }
     }
@@ -248,7 +247,7 @@ public abstract class VedAbstractToolMouseHandler
   @Override
   public IStridablesList<IVedComponentView> objectsAt( int aX, int aY ) {
     IStridablesListEdit<IVedComponentView> result = new StridablesList<>();
-    for( IVedComponentView obj : tool.listShapes() ) {
+    for( IVedComponentView obj : tool.listViews() ) {
       if( obj.outline().contains( aX, aY ) ) {
         result.add( obj );
       }
@@ -282,40 +281,12 @@ public abstract class VedAbstractToolMouseHandler
   // API
   //
 
-  // /**
-  // * Возвращает текущий "хранитель" фигур.<br>
-  // *
-  // * @return IShapes2dHolder - "хранитель" фигур
-  // */
-  // public IShapes2dHolder shapesHolder() {
-  // return shapesHolder;
-  // }
-  //
-  // /**
-  // * Устанавливает "хранитель" фигур.<br>
-  // *
-  // * @param aShapesHolder IShapes2dHolder - "хранитель" фигур
-  // */
-  // public void setShapesHolder( IShapes2dHolder aShapesHolder ) {
-  // hoveredObject = null;
-  // shapesHolder = aShapesHolder;
-  // }
-
-  // /**
-  // * Задает список фигур доступных обработчику
-  // *
-  // * @param aShapes IStridablesList&lt;IShapes2dView> - список объектов доступных обработчику
-  // */
-  // public void setAcceptableObjects( IStridablesList<IShape2dView> aShapes ) {
-  // shapes = aShapes;
-  // }
-
   /**
    * Вызывается в момент активации обработчика.<br>
    *
    * @param aCanvas IEditingCanvas - холст рисования
    */
-  public void activate( IEditingCanvas aCanvas ) {
+  public void activate( VedScreen aCanvas ) {
     hoveredObject = null;
     canvas = aCanvas;
     onActivate();
@@ -334,9 +305,9 @@ public abstract class VedAbstractToolMouseHandler
     clearInternalState();
   }
 
-  public IEditingCanvas canvas() {
-    return canvas;
-  }
+  // public IEditingCanvas canvas() {
+  // return canvas;
+  // }
 
   // ------------------------------------------------------------------------------------
   // Методы для переопределения в наследниках

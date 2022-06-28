@@ -3,7 +3,9 @@ package org.toxsoft.core.tsgui.ved.std.tool;
 import static org.toxsoft.core.tsgui.ved.std.tool.ITsResources.*;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
-import org.toxsoft.core.tsgui.ved.impl.*;
+import org.toxsoft.core.tsgui.ved.api.view.*;
+import org.toxsoft.core.tsgui.ved.std.comps.*;
+import org.toxsoft.core.tsgui.ved.utils.drag.*;
 
 /**
  * Инструмент "Указатель".
@@ -13,17 +15,23 @@ import org.toxsoft.core.tsgui.ved.impl.*;
  * @author vs
  */
 public class VedPointerTool
-    extends AbstractVedTool {
+    extends VedAbstractEditorTool {
 
-  protected VedPointerTool( ITsGuiContext aContext ) {
+  VedPointerToolMouseHandler mouseHandler;
+
+  public VedPointerTool( ITsGuiContext aContext ) {
     super( "pointerTool", STR_N_TOOL_POINTER, STR_D_TOOL_POINTER, "", aContext ); //$NON-NLS-1$
-    // TODO Auto-generated constructor stub
+    mouseHandler = new VedPointerToolMouseHandler( this, aContext.eclipseContext() );
   }
 
   @Override
-  public IMouseHandler mouseHandler() {
-    // TODO Auto-generated method stub
-    return null;
+  public IVedMouseHandler mouseHandler() {
+    return mouseHandler;
+  }
+
+  @Override
+  public boolean accept( IVedComponentView aView ) {
+    return aView.owner() instanceof VedStdCompRectangle;
   }
 
 }

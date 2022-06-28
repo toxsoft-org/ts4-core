@@ -133,7 +133,7 @@ public class VedStdCompRectangle
     @Override
     public void shiftOn( double aDx, double aDy ) {
       double x = outline.x() + aDx;
-      double y = outline.x() + aDy;
+      double y = outline.y() + aDy;
       owner().props().setDouble( PDEF_X, x );
       owner().props().setDouble( PDEF_Y, y );
       double width = outline.width();
