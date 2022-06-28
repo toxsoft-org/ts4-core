@@ -27,7 +27,7 @@ public class VedLibrary
    * @param aParams {@link IOptionSet} - {@link #params()} value
    */
   public VedLibrary( String aId, IOptionSet aParams ) {
-    // nop
+    super( aId, aParams );
   }
 
   // ------------------------------------------------------------------------------------

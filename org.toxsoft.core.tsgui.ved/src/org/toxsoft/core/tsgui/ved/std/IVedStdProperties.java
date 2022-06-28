@@ -135,7 +135,7 @@ public interface IVedStdProperties {
   String PID_BG_COLOR = "bgColor"; //$NON-NLS-1$
 
   /**
-   * Property: components foreground color.
+   * Property: components background color.
    */
   IDataDef PDEF_BG_COLOR = DataDef.create( PID_BG_COLOR, VALOBJ, //
       TSID_NAME, STR_N_BG_COLOR, //
