@@ -91,7 +91,7 @@ public class RawSectionedDataContainer
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public String getContent( String aSectionId, String aDefaultContent ) {
-    TsNullArgumentRtException.checkNulls( aSectionId, aDefaultContent );
+    TsNullArgumentRtException.checkNull( aSectionId );
     for( RawSectionData sd : sectionsList ) {
       if( sd.sectionId().equals( aSectionId ) ) {
         return sd.sectionContent();

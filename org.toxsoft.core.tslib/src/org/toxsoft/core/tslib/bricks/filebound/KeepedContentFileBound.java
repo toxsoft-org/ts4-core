@@ -269,12 +269,12 @@ public class KeepedContentFileBound
     TsFileUtils.checkFileAppendable( aFile );
     TsValidationFailedRtException.checkError( validationSupport.canSaveAs( this, aFile ) );
     createBackupIfNeeded();
-    try( ICharOutputStreamCloseable chOut = new CharOutputStreamFile( file ) ) {
+    try( ICharOutputStreamCloseable chOut = new CharOutputStreamFile( aFile ) ) {
       IStrioWriter sw = new StrioWriter( chOut );
       content.genericChangeEventer().muteListener( contentsChangeListener );
-      doBeforeSaveAs( file );
+      doBeforeSaveAs( aFile );
       content.write( sw );
-      doAfterSaveAs( file );
+      doAfterSaveAs( aFile );
       file = aFile;
       eventer.fireChangeEvent();
     }
