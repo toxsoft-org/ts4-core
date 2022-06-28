@@ -5,6 +5,8 @@ import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
+import org.toxsoft.core.tsgui.graphics.colors.*;
+import org.toxsoft.core.tsgui.utils.swt.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 
@@ -106,6 +108,40 @@ public interface IVedStdProperties {
       TSID_NAME, STR_N_HEIGHT, //
       TSID_DESCRIPTION, STR_D_HEIGHT, //
       TSID_DEFAULT_VALUE, avFloat( 10.0 ) //
+  );
+
+  // ------------------------------------------------------------------------------------
+  // Component colors
+  //
+
+  /**
+   * ID of property {@link #PDEF_FG_COLOR}.
+   */
+  String PID_FG_COLOR = "fgColor"; //$NON-NLS-1$
+
+  /**
+   * Property: components foreground color.
+   */
+  IDataDef PDEF_FG_COLOR = DataDef.create( PID_FG_COLOR, VALOBJ, //
+      TSID_NAME, STR_N_FG_COLOR, //
+      TSID_DESCRIPTION, STR_D_FG_COLOR, //
+      TSID_KEEPER_ID, RGBKeeper.KEEPER_ID, //
+      TSID_DEFAULT_VALUE, avValobj( ETsColor.BLACK.rgb() ) //
+  );
+
+  /**
+   * ID of property {@link #PDEF_BG_COLOR}.
+   */
+  String PID_BG_COLOR = "bgColor"; //$NON-NLS-1$
+
+  /**
+   * Property: components foreground color.
+   */
+  IDataDef PDEF_BG_COLOR = DataDef.create( PID_BG_COLOR, VALOBJ, //
+      TSID_NAME, STR_N_BG_COLOR, //
+      TSID_DESCRIPTION, STR_D_BG_COLOR, //
+      TSID_KEEPER_ID, RGBKeeper.KEEPER_ID, //
+      TSID_DEFAULT_VALUE, avValobj( ETsColor.WHITE.rgb() ) //
   );
 
   // ------------------------------------------------------------------------------------
