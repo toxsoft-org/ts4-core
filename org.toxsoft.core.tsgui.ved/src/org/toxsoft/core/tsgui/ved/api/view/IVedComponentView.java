@@ -2,6 +2,7 @@ package org.toxsoft.core.tsgui.ved.api.view;
 
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.ved.api.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
 
 /**
  * VED component view to be displayed on {@link IVedScreen}.
@@ -11,7 +12,7 @@ import org.toxsoft.core.tsgui.ved.api.*;
  * @author hazard157
  */
 public interface IVedComponentView
-    extends IVedDisposable {
+    extends IStridable, IVedDisposable {
 
   /**
    * Returns the means to draw the view on the SWT {@link Canvas}.
