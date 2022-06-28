@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.ved.api;
 
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.ved.api.library.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
 
@@ -8,7 +9,8 @@ import org.toxsoft.core.tsgui.ved.api.view.*;
  *
  * @author hazard157
  */
-public interface IVedEnvironment {
+public interface IVedEnvironment
+    extends ITsGuiContextable {
 
   /**
    * Returns VED data model to be edited.

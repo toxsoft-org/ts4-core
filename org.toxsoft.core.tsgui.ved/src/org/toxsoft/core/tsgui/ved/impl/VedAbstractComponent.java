@@ -24,6 +24,7 @@ public class VedAbstractComponent
     implements IVedComponent, IVedContextable {
 
   private final VedAbstractComponentProvider creator;
+  private final IVedEnvironment              vedEnv;
 
   private final IOptionSetEdit capabilities = new OptionSet();
   private final IOptionSetEdit extdata      = new OptionSet();
@@ -36,13 +37,16 @@ public class VedAbstractComponent
    * Contsructor.
    *
    * @param aProvider {@link VedAbstractComponentProvider} - the creator
+   * @param aVedEnv {@link IVedEnvironment} - environment for component creation
    * @param aId String - conmonent ID
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException ID is not an IDpath
    */
-  public VedAbstractComponent( VedAbstractComponentProvider aProvider, String aId ) {
-    creator = TsNullArgumentRtException.checkNull( aProvider );
+  public VedAbstractComponent( VedAbstractComponentProvider aProvider, IVedEnvironment aVedEnv, String aId ) {
+    TsNullArgumentRtException.checkNulls( aProvider, aVedEnv );
     id = StridUtils.checkValidIdPath( aId );
+    creator = aProvider;
+    vedEnv = aVedEnv;
     props = new PropertiesSet( creator.propDefs() );
   }
 
@@ -84,8 +88,7 @@ public class VedAbstractComponent
 
   @Override
   public ITsGuiContext tsContext() {
-    // TODO реализовать VedAbstractComponent.tsContext()
-    throw new TsUnderDevelopmentRtException( "VedAbstractComponent.tsContext()" );
+    return vedEnv.tsContext();
   }
 
   // ------------------------------------------------------------------------------------

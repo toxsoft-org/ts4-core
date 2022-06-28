@@ -1,6 +1,8 @@
 package org.toxsoft.core.tsgui.ved;
 
 import org.eclipse.e4.core.contexts.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.bricks.quant.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.ved.api.*;
@@ -32,7 +34,8 @@ public class QuantTsguiVed
   protected void doInitWin( IEclipseContext aWinContext ) {
     ITsguiVedConstants.init( aWinContext );
     // initialize VED
-    IVedEnvironment vedEnv = VedUtils.createEnvironment();
+    ITsGuiContext ctx = new TsGuiContext( aWinContext );
+    IVedEnvironment vedEnv = VedUtils.createEnvironment( ctx );
     aWinContext.set( IVedEnvironment.class, vedEnv );
     vedEnv.libraryManager().registerLibrary( new VedStdLibraryShapes() );
     // M5

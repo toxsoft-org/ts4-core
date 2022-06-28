@@ -4,6 +4,7 @@ import static org.toxsoft.core.tsgui.ved.impl.ITsResources.*;
 
 import java.io.*;
 
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.library.*;
 import org.toxsoft.core.tsgui.ved.incub.lpd.*;
@@ -25,10 +26,12 @@ public class VedUtils {
   /**
    * Creates and return new {@link IVedEnvironment}.
    *
+   * @param aContext {@link ITsGuiContext} - the context
    * @return {@link IVedEnvironment} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public static IVedEnvironment createEnvironment() {
-    return new VedEnvironment();
+  public static IVedEnvironment createEnvironment( ITsGuiContext aContext ) {
+    return new VedEnvironment( aContext );
   }
 
   /**
