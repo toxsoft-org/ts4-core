@@ -45,9 +45,10 @@ public class VedStdCompRectangle
         @Override
         protected IVedComponent doCreateComponent( IVedEnvironment aEnvironment, IOptionSet aProps,
             IOptionSet aExtdata ) {
+          return new VedStdCompRectangle( "rect", this );
           // TODO реализовать VedStdCompRectangle.PROVIDER.new VedAbstractComponentProvider() {...}.doCreateComponent()
-          throw new TsUnderDevelopmentRtException(
-              "VedStdCompRectangle.PROVIDER.new VedAbstractComponentProvider() {...}.doCreateComponent()" );
+          // throw new TsUnderDevelopmentRtException(
+          // "VedStdCompRectangle.PROVIDER.new VedAbstractComponentProvider() {...}.doCreateComponent()" );
         }
       };
 
@@ -66,6 +67,7 @@ public class VedStdCompRectangle
 
     StdRectView( VedStdCompRectangle aOwner ) {
       super( aOwner );
+      update();
     }
 
     @Override
@@ -217,8 +219,7 @@ public class VedStdCompRectangle
 
   @Override
   public IVedComponentView createView( IVedScreen aScreen ) {
-    // TODO Auto-generated method stub
-    return super.createView( aScreen );
+    return new StdRectView( this );
   }
 
 }

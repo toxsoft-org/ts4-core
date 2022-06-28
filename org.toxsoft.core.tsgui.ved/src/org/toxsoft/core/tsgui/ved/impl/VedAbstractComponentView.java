@@ -7,7 +7,7 @@ import org.toxsoft.core.tsgui.ved.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Базовый класс для реализации всех "представлений" клмпонент.
+ * Базовый класс для реализации всех "представлений" компонент.
  * <p>
  *
  * @author vs

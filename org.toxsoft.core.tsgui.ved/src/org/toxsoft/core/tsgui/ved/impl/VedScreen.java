@@ -38,10 +38,10 @@ public class VedScreen
     addPaintListener( this::paint );
 
     dataModel = aContext.eclipseContext().get( IVedEnvironment.class ).dataModel();
-    dataModel.genericChangeEventer().addListener( aSource -> {
+    dataModel.comps().addCollectionChangeListener( ( aSource, aOp, aItem ) -> {
       views.clear();
       for( IVedComponent comp : dataModel.comps() ) {
-        views.add( comp.createView( this ) );
+        views.add( comp.createView( VedScreen.this ) );
       }
       redraw();
     } );
