@@ -2,6 +2,7 @@ package org.toxsoft.core.tsgui.ved.impl;
 
 import org.eclipse.swt.events.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
+import org.toxsoft.core.tsgui.ved.utils.drag.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -66,7 +67,7 @@ public class VedScreenMouseDelegator
   /**
    * Обработчик мыши.
    */
-  private IMouseHandler mouseHandler = IMouseHandler.NULL;
+  private IVedMouseHandler mouseHandler = IVedMouseHandler.NULL;
 
   /**
    * Конструктор.<br>
@@ -112,7 +113,7 @@ public class VedScreenMouseDelegator
    *
    * @return IMouseHandler - обработчик мыши
    */
-  IMouseHandler mouseHandler() {
+  IVedMouseHandler mouseHandler() {
     return mouseHandler;
   }
 
@@ -122,7 +123,7 @@ public class VedScreenMouseDelegator
    * @param aMouseHandler IMouseHandler - обработчик мыши м.б. {@link IMouseHandler#NULL}
    * @throws TsNullArgumentRtException - если аргумент null
    */
-  public void setMouseHandler( IMouseHandler aMouseHandler ) {
+  public void setMouseHandler( IVedMouseHandler aMouseHandler ) {
     mouseHandler = TsNullArgumentRtException.checkNull( aMouseHandler );
   }
 
