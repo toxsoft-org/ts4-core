@@ -1,12 +1,18 @@
 package org.toxsoft.core.tsgui.ved.std.comps;
 
+import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
 import static org.toxsoft.core.tsgui.ved.std.IVedStdProperties.*;
+import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.eclipse.swt.graphics.*;
+import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.impl.*;
 import org.toxsoft.core.tsgui.ved.incub.geom.*;
+import org.toxsoft.core.tsgui.ved.std.library.*;
 import org.toxsoft.core.tsgui.ved.utils.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -16,6 +22,34 @@ import org.toxsoft.core.tslib.utils.errors.*;
  */
 public class VedStdCompRectangle
     extends VedAbstractComponent {
+
+  /**
+   * Component kind ID.
+   */
+  public static final String KIND_ID = "rectangle"; //$NON-NLS-1$
+
+  public static final VedAbstractComponentProvider PROVIDER =
+      new VedAbstractComponentProvider( VedStdLibraryShapes.LIBRARY_ID, KIND_ID, OptionSetUtils.createOpSet( //
+          TSID_NAME, "Rectangle", //
+          TSID_DESCRIPTION, "Filled rectangle", //
+          TSID_ICON_ID, ICONID_RECTANGLE_SHAPE //
+      ), //
+          PDEF_X, //
+          PDEF_Y, //
+          PDEF_WIDTH, //
+          PDEF_HEIGHT, //
+          PDEF_FG_COLOR, //
+          PDEF_BG_COLOR //
+      ) {
+
+        @Override
+        protected IVedComponent doCreateComponent( IVedEnvironment aEnvironment, IOptionSet aProps,
+            IOptionSet aExtdata ) {
+          // TODO реализовать VedStdCompRectangle.PROVIDER.new VedAbstractComponentProvider() {...}.doCreateComponent()
+          throw new TsUnderDevelopmentRtException(
+              "VedStdCompRectangle.PROVIDER.new VedAbstractComponentProvider() {...}.doCreateComponent()" );
+        }
+      };
 
   static class StdRectView
       extends VedAbstractComponentView

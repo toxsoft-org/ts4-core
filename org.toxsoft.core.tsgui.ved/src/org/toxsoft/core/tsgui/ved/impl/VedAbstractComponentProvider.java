@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.ved.impl;
 
 import static org.toxsoft.core.tsgui.ved.impl.ITsResources.*;
+import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.library.*;
@@ -42,6 +43,15 @@ public abstract class VedAbstractComponentProvider
   public VedAbstractComponentProvider( String aLibraryId, String aId, IOptionSet aParams, IDataDef... aPropDefs ) {
     super( aId, aParams );
     libraryId = StridUtils.checkValidIdPath( aLibraryId );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // IIconIdable
+  //
+
+  @Override
+  public String iconId() {
+    return params().getStr( TSID_ICON_ID, null );
   }
 
   // ------------------------------------------------------------------------------------
