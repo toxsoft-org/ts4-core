@@ -1,7 +1,7 @@
 package org.toxsoft.core.tsgui.graphics.colors;
 
 import org.eclipse.swt.graphics.*;
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -161,11 +161,11 @@ public interface ITsColorManager {
    * @param aRgba {@link RGBA} - цвет в формате SWT
    * @return int - целое число, в котором содержатся значения красной, зеленой, синей и альфа компоненты цвета
    */
-  static int rgba2int( RGB aRgba ) {
-    int r = aRgba.red;
-    int g = aRgba.green << 8;
-    int b = aRgba.blue << 16;
-    int a = aRgba.blue << 24;
+  static int rgba2int( RGBA aRgba ) {
+    int r = aRgba.rgb.red;
+    int g = aRgba.rgb.green << 8;
+    int b = aRgba.rgb.blue << 16;
+    int a = aRgba.alpha << 24;
     return r | g | b | a;
   }
 

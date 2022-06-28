@@ -115,7 +115,7 @@ public interface IVedStdProperties {
   /**
    * ID of property {@link #PDEF_ROTATION_ANGLE}.
    */
-  String PID_ROTATION_ANGLE = "height"; //$NON-NLS-1$
+  String PID_ROTATION_ANGLE = "rotationAngle"; //$NON-NLS-1$
 
   /**
    * Property: component rotation angle.

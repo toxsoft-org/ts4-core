@@ -1,5 +1,9 @@
 package org.toxsoft.core.tsgui.ved.impl;
 
+import static org.toxsoft.core.tsgui.ved.std.IVedStdProperties.*;
+import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
+
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.incub.props.*;
@@ -16,12 +20,14 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public class VedAbstractComponent
-    implements IVedComponent {
+    implements IVedComponent, ITsGuiContextable {
 
   private final VedAbstractComponentProvider creator;
 
   private final IOptionSetEdit capabilities = new OptionSet();
   private final IOptionSetEdit extdata      = new OptionSet();
+
+  private final PropertiesSet props;
 
   private String id;
 
@@ -36,6 +42,7 @@ public class VedAbstractComponent
   public VedAbstractComponent( VedAbstractComponentProvider aProvider, String aId ) {
     creator = TsNullArgumentRtException.checkNull( aProvider );
     id = StridUtils.checkValidIdPath( aId );
+    props = new PropertiesSet( creator.propDefs() );
   }
 
   // ------------------------------------------------------------------------------------
@@ -62,14 +69,22 @@ public class VedAbstractComponent
 
   @Override
   public String nmName() {
-    if( propDefs().hasElem() ) {
-
-    }
+    return props().getStr( PID_NAME, EMPTY_STRING );
   }
 
   @Override
   public String description() {
-    // TODO Auto-generated method stub
+    return props().getStr( PID_DESCRIPTION, EMPTY_STRING );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // ITsGuiContextable
+  //
+
+  @Override
+  public ITsGuiContext tsContext() {
+    // TODO реализовать VedAbstractComponent.tsContext()
+    throw new TsUnderDevelopmentRtException( "VedAbstractComponent.tsContext()" );
   }
 
   // ------------------------------------------------------------------------------------
@@ -78,8 +93,7 @@ public class VedAbstractComponent
 
   @Override
   public IPropertiesSet props() {
-    // TODO Auto-generated method stub
-    return null;
+    return props;
   }
 
   // ------------------------------------------------------------------------------------

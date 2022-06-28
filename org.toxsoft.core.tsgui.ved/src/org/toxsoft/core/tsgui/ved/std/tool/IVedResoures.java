@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.ved.glib.comps;
+package org.toxsoft.core.tsgui.ved.std.tool;
 
 /**
  * Локализуемые реурсы.

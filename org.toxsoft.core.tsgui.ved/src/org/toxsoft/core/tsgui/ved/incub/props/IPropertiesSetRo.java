@@ -2,6 +2,7 @@ package org.toxsoft.core.tsgui.ved.incub.props;
 
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.events.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
 
 /**
  * The read-only set of identifiable properties.
@@ -14,6 +15,13 @@ import org.toxsoft.core.tslib.bricks.events.*;
  */
 public interface IPropertiesSetRo
     extends IOptionSet {
+
+  /**
+   * Returns list if property identifiers.
+   *
+   * @return {@link IStringList} - property IDs list
+   */
+  IStringList ids();
 
   /***
    * Returns the properties values change eventer.

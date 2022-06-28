@@ -3,12 +3,11 @@ package org.toxsoft.core.tslib.av.opset.impl;
 import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.metainfo.IDataDef;
-import org.toxsoft.core.tslib.av.opset.IOpsGetter;
-import org.toxsoft.core.tslib.av.opset.IOpsSetter;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Implementation of both {@link IOpsGetter} and {@link IOpsSetter}
@@ -24,35 +23,6 @@ public abstract class AbstractOptionsSetter
    */
   public AbstractOptionsSetter() {
     // nop
-  }
-
-  /**
-   * Implementation must write value with specified identifier.
-   * <p>
-   * Value for existing identifier must be overwritten.
-   *
-   * @param aId String - always is an valid IDpath
-   * @param aValue {@link IAtomicValue} - value, never is <code>null</code>
-   */
-  protected abstract void doInternalSet( String aId, IAtomicValue aValue );
-
-  // ------------------------------------------------------------------------------------
-  // Implementation
-  //
-
-  final protected void internalSet( String aId, IAtomicValue aValue ) {
-    StridUtils.checkValidIdPath( aId );
-    if( aValue == null ) {
-      throw new TsNullArgumentRtException();
-    }
-    doInternalSet( aId, aValue );
-  }
-
-  final protected void internalSet( IDataDef aOpId, IAtomicValue aValue ) {
-    if( aOpId == null || aValue == null ) {
-      throw new TsNullArgumentRtException();
-    }
-    doInternalSet( StridUtils.checkValidIdPath( aOpId.id() ), aValue );
   }
 
   // ------------------------------------------------------------------------------------
@@ -215,5 +185,75 @@ public abstract class AbstractOptionsSetter
     internalFindAs( aOpId, VALOBJ );
     internalSet( aOpId, avValobj( aValue ) );
   }
+
+  // ------------------------------------------------------------------------------------
+  // Implementation
+  //
+
+  final protected void internalSet( String aId, IAtomicValue aValue ) {
+    StridUtils.checkValidIdPath( aId );
+    if( aValue == null ) {
+      throw new TsNullArgumentRtException();
+    }
+    IAtomicValue oldValue = internalFind( aId );
+    doBeforeSet( aId, oldValue, aValue );
+    doInternalSet( aId, aValue );
+    doAfterSet( aId, oldValue, aValue );
+  }
+
+  final protected void internalSet( IDataDef aOpId, IAtomicValue aValue ) {
+    if( aOpId == null || aValue == null ) {
+      throw new TsNullArgumentRtException();
+    }
+    String id = StridUtils.checkValidIdPath( aOpId.id() );
+    IAtomicValue oldValue = internalFind( id );
+    doBeforeSet( id, oldValue, aValue );
+    doInternalSet( id, aValue );
+    doBeforeSet( id, oldValue, aValue );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // To override
+  //
+
+  /**
+   * Subclass may perform additional action just before value optionis set.
+   * <p>
+   * Does nothing in base class there, is not no need to call superclass method when overriding.
+   *
+   * @param aId String - option ID
+   * @param aOldValue {@link IAtomicValue} - old value or <code>null</code> if there was no option with such ID
+   * @param aNewValue {@link IAtomicValue} - new value, never is <code>null</code>
+   */
+  protected void doBeforeSet( String aId, IAtomicValue aOldValue, IAtomicValue aNewValue ) {
+    // nop
+  }
+
+  /**
+   * Subclass may perform additional action immediately after option value is set.
+   * <p>
+   * Does nothing in base class there, is not no need to call superclass method when overriding.
+   *
+   * @param aId String - option ID
+   * @param aOldValue {@link IAtomicValue} - old value or <code>null</code> if there was no option with such ID
+   * @param aNewValue {@link IAtomicValue} - new value, never is <code>null</code>
+   */
+  protected void doAfterSet( String aId, IAtomicValue aOldValue, IAtomicValue aNewValue ) {
+    // nop
+  }
+
+  // ------------------------------------------------------------------------------------
+  // To implement
+  //
+
+  /**
+   * Implementation must write value with specified identifier.
+   * <p>
+   * Value for existing identifier must be overwritten.
+   *
+   * @param aId String - always is an valid IDpath
+   * @param aValue {@link IAtomicValue} - value, never is <code>null</code>
+   */
+  protected abstract void doInternalSet( String aId, IAtomicValue aValue );
 
 }
