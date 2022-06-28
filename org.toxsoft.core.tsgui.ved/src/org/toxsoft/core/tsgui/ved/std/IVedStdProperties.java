@@ -71,7 +71,7 @@ public interface IVedStdProperties {
   /**
    * ID of property {@link #PDEF_Y}.
    */
-  String PID_Y = "x"; //$NON-NLS-1$
+  String PID_Y = "y"; //$NON-NLS-1$
 
   /**
    * Property: components Y coordinate.
