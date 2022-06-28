@@ -27,6 +27,18 @@ public class D2RectOutline
     bounds = new D2Rectangle( aRect );
   }
 
+  /**
+   * Конструктор.
+   *
+   * @param aX double - x координата левого верхнего угла
+   * @param aY double - y координата левого верхнего угла
+   * @param aWidth double - ширина прямоугольника
+   * @param aHeight double - высота прямоугольника
+   */
+  public D2RectOutline( double aX, double aY, double aWidth, double aHeight ) {
+    bounds = new D2Rectangle( aX, aY, aWidth, aHeight );
+  }
+
   // ------------------------------------------------------------------------------------
   // Реализация интерфейса {@link IVedOutline}
   //
@@ -142,6 +154,46 @@ public class D2RectOutline
   @Override
   public Path outlinePath() {
     return null;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // API
+  //
+
+  /**
+   * Возвращает x координату левого верхнего угла
+   *
+   * @return double - x координата левого верхнего угла
+   */
+  public double x() {
+    return bounds.x1();
+  }
+
+  /**
+   * Возвращает y координату левого верхнего угла
+   *
+   * @return double - y координата левого верхнего угла
+   */
+  public double y() {
+    return bounds.y1();
+  }
+
+  /**
+   * Возвращает ширину прямоугольника
+   *
+   * @return double - ширина прямоугольника
+   */
+  public double width() {
+    return bounds.width();
+  }
+
+  /**
+   * Возвращает высоту прямоугольника
+   *
+   * @return double - высота прямоугольника
+   */
+  public double height() {
+    return bounds.height();
   }
 
   // ------------------------------------------------------------------------------------

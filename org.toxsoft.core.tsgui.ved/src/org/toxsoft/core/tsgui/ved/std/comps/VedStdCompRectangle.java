@@ -1,16 +1,13 @@
 package org.toxsoft.core.tsgui.ved.std.comps;
 
-import static org.toxsoft.core.tsgui.ved.std.comps.ITsResources.*;
-import static org.toxsoft.core.tslib.av.EAtomicType.*;
-import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
-import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
+import static org.toxsoft.core.tsgui.ved.std.IVedStdProperties.*;
 
 import org.eclipse.swt.graphics.*;
-import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.impl.*;
-import org.toxsoft.core.tslib.av.impl.*;
-import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tsgui.ved.incub.geom.*;
+import org.toxsoft.core.tsgui.ved.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * VED staandard component: filled rectangle.
@@ -20,39 +17,18 @@ import org.toxsoft.core.tslib.av.metainfo.*;
 public class VedStdCompRectangle
     extends VedAbstractComponent {
 
-  /**
-   * ID of property {@link #PDEF_FG_COLOR}.
-   */
-  String PID_FG_COLOR = "fgColor"; //$NON-NLS-1$
-
-  /**
-   * Property: components X coordinate.
-   */
-  IDataDef PDEF_FG_COLOR = DataDef.create( PID_FG_COLOR, VALOBJ, //
-      TSID_NAME, STR_N_FG_COLOR, //
-      TSID_DESCRIPTION, STR_D_FG_COLOR, //
-      TSID_DEFAULT_VALUE, AV_F_0 //
-  );
-
-  /**
-   * ID of property {@link #PDEF_BG_COLOR}.
-   */
-  String PID_BG_COLOR = "bgColor"; //$NON-NLS-1$
-
-  /**
-   * Property: components X coordinate.
-   */
-  IDataDef PDEF_BG_COLOR = DataDef.create( PID_BG_COLOR, VALOBJ, //
-      TSID_NAME, STR_N_BG_COLOR, //
-      TSID_DESCRIPTION, STR_D_BG_COLOR, //
-      TSID_DEFAULT_VALUE, AV_F_0 //
-  );
-
   static class StdRectView
-      extends VedAbstractComponentView {
+      extends VedAbstractComponentView
+      implements IVedPainter, IVedPorter {
 
-    Color bkColor;
     Color fgColor;
+    Color bgColor;
+
+    private final Rectangle visRect = new Rectangle( 0, 0, 0, 0 );
+
+    private double zoomFactor = 1.0;
+
+    private D2RectOutline outline;
 
     StdRectView( VedStdCompRectangle aOwner ) {
       super( aOwner );
@@ -60,20 +36,17 @@ public class VedStdCompRectangle
 
     @Override
     public IVedPainter painter() {
-      // TODO Auto-generated method stub
-      return null;
+      return this;
     }
 
     @Override
     public IVedPorter porter() {
-      // TODO Auto-generated method stub
-      return null;
+      return this;
     }
 
     @Override
     public IVedOutline outline() {
-      // TODO Auto-generated method stub
-      return null;
+      return outline;
     }
 
     @Override
@@ -81,8 +54,118 @@ public class VedStdCompRectangle
       // TODO Auto-generated method stub
     }
 
+    // ------------------------------------------------------------------------------------
+    // {@link IVedPaintable}
+    //
+
+    @Override
+    public void paint( GC aGc ) {
+      aGc.setForeground( fgColor );
+      aGc.setBackground( bgColor );
+      aGc.fillRectangle( visRect );
+    }
+
+    @Override
+    public double zoomFactor() {
+      return zoomFactor;
+    }
+
+    @Override
+    public void setZoomFactor( double aZoomFactor ) {
+      if( Double.compare( zoomFactor, aZoomFactor ) != 0 ) {
+        zoomFactor = aZoomFactor;
+        updateVisRect();
+      }
+
+    }
+
+    // ------------------------------------------------------------------------------------
+    // {@link IVedPorter}
+    //
+
+    @Override
+    public void locate( double aX, double aY ) {
+      double width = outline.width();
+      double height = outline.height();
+      outline = new D2RectOutline( aX, aY, width, height );
+      updateVisRect();
+    }
+
+    @Override
+    public void shiftOn( double aDx, double aDy ) {
+      double x = outline.x() + aDx;
+      double y = outline.x() + aDy;
+      double width = outline.width();
+      double height = outline.height();
+      outline = new D2RectOutline( x, y, width, height );
+      updateVisRect();
+    }
+
+    @Override
+    public void setSize( double aWidth, double aHeight ) {
+      double x = outline.x();
+      double y = outline.x();
+      outline = new D2RectOutline( x, y, aWidth, aHeight );
+      updateVisRect();
+    }
+
+    @Override
+    public void setBounds( double aX, double aY, double aWidth, double aHeight ) {
+      outline = new D2RectOutline( aX, aY, aWidth, aHeight );
+      updateVisRect();
+    }
+
+    @Override
+    public void rotate( ID2Point aRotationCenter, double aDegrees ) {
+      throw new TsUnderDevelopmentRtException();
+    }
+
+    @Override
+    public void flipHor( boolean aFlip ) {
+      throw new TsUnderDevelopmentRtException();
+    }
+
+    @Override
+    public void flipVer( boolean aFlip ) {
+      throw new TsUnderDevelopmentRtException();
+    }
+
+    @Override
+    public void zoom( double aZoomFactorX, double aZoomFactorY ) {
+      double x = outline.x() * aZoomFactorX;
+      double y = outline.x() * aZoomFactorY;
+      double width = outline.width() * aZoomFactorX;
+      double height = outline.height() * aZoomFactorX;
+      outline = new D2RectOutline( x, y, width, height );
+      updateVisRect();
+    }
+
+    // ------------------------------------------------------------------------------------
+    // Внутренняя реалиизация
+    //
+
     private void update() {
-      fgColor =  owner().props()
+      RGB rgb = owner().props().getValobj( PID_FG_COLOR );
+      fgColor = colorManager().getColor( rgb );
+      rgb = owner().props().getValobj( PID_BG_COLOR );
+      bgColor = colorManager().getColor( rgb );
+      updateOutline();
+      updateVisRect();
+    }
+
+    private void updateVisRect() {
+      visRect.x = (int)Math.round( outline.x() );
+      visRect.y = (int)Math.round( outline.y() );
+      visRect.width = (int)Math.round( outline.width() );
+      visRect.height = (int)Math.round( outline.height() );
+    }
+
+    private void updateOutline() {
+      double x = owner().props().getDouble( PID_X );
+      double y = owner().props().getDouble( PID_Y );
+      double width = owner().props().getDouble( PID_WIDTH );
+      double height = owner().props().getDouble( PID_HEIGHT );
+      outline = new D2RectOutline( x, y, width, height );
     }
 
   }
