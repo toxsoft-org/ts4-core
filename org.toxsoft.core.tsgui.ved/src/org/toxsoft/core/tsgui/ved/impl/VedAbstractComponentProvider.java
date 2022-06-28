@@ -60,6 +60,11 @@ public abstract class VedAbstractComponentProvider
   //
 
   @Override
+  public String libraryId() {
+    return libraryId;
+  }
+
+  @Override
   public IStridablesListEdit<IDataDef> propDefs() {
     return propDefs;
   }
@@ -84,19 +89,6 @@ public abstract class VedAbstractComponentProvider
     TsInternalErrorRtException.checkNull( c );
     TsInternalErrorRtException.checkTrue( c.provider() != this );
     return c;
-  }
-
-  // ------------------------------------------------------------------------------------
-  // For subclasses
-  //
-
-  /**
-   * Returns the owner library ID.
-   *
-   * @return String - the owner library ID (an IDpath)
-   */
-  public String libraryId() {
-    return libraryId;
   }
 
   // ------------------------------------------------------------------------------------

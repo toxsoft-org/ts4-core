@@ -47,8 +47,8 @@ public class VedUtils {
     ILpdContainer lpd = new LpdContainer();
     lpd.panelCfg().setAll( dm.canvasConfig() );
     for( IVedComponent c : dm.comps() ) {
-      IdChain namespace = new IdChain( c.libraryId() );
-      ILpdComponentInfo cinf = new LpdComponentInfo( namespace, c.componentKindId(), c.props(), c.extdata() );
+      IdChain namespace = new IdChain( c.provider().libraryId() );
+      ILpdComponentInfo cinf = new LpdComponentInfo( namespace, c.provider().id(), c.props(), c.extdata() );
       lpd.componentConfigs().add( cinf );
     }
     lpd.write( aSw );

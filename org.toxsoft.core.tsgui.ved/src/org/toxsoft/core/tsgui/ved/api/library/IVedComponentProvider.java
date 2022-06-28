@@ -18,6 +18,13 @@ public interface IVedComponentProvider
     extends IStridableParameterized, IIconIdable {
 
   /**
+   * Returns the owner library ID.
+   *
+   * @return String - the owner library ID (an IDpath)
+   */
+  String libraryId();
+
+  /**
    * Returns the information about properties.
    *
    * @return {@link IStridablesList}&lt;{@link IDataDef}&gt; - properties definitions
