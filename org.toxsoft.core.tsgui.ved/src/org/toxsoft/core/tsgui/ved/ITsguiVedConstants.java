@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.ved;
 
+import static org.toxsoft.core.tslib.ITsHardConstants.*;
+
 import org.eclipse.e4.core.contexts.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 
@@ -10,6 +12,11 @@ import org.toxsoft.core.tsgui.graphics.icons.*;
  */
 @SuppressWarnings( "javadoc" )
 public interface ITsguiVedConstants {
+
+  /**
+   * VED specific IDs prefix.
+   */
+  String VED_ID = TS_ID + ".gui.ved"; //$NON-NLS-1$
 
   // ------------------------------------------------------------------------------------
   // Icons

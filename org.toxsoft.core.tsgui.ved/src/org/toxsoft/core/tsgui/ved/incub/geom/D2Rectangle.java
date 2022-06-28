@@ -39,15 +39,15 @@ public final class D2Rectangle
    * Точки могут иметь любые координаты - метод разберется и правильно определит коорднаты точка {@link #a()} и
    * {@link #b()}.
    *
-   * @param aX int - X координата левого верхнего угла
-   * @param aY int - Y координата левого верхнего угла
-   * @param aWidth int - ширина прямогуольника
-   * @param aHeight int - высота прямогуольника
+   * @param aX double - X координата левого верхнего угла
+   * @param aY double - Y координата левого верхнего угла
+   * @param aWidth double - ширина прямогуольника
+   * @param aHeight double - высота прямогуольника
    * @throws TsIllegalArgumentRtException aWidth < 1
    * @throws TsIllegalArgumentRtException aHeight < 1
    * @throws TsIllegalArgumentRtException правая нижняя точка выходат за {@link Integer#MAX_VALUE} значения
    */
-  public D2Rectangle( int aX, int aY, int aWidth, int aHeight ) {
+  public D2Rectangle( double aX, double aY, double aWidth, double aHeight ) {
     setRect( aX, aY, aWidth, aHeight );
   }
 
