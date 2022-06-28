@@ -45,7 +45,7 @@ public class VedStdCompRectangle
         @Override
         protected IVedComponent doCreateComponent( IVedEnvironment aEnvironment, IOptionSet aProps,
             IOptionSet aExtdata ) {
-          return new VedStdCompRectangle( "rect", this );
+          return new VedStdCompRectangle( "rect", aEnvironment );
           // TODO реализовать VedStdCompRectangle.PROVIDER.new VedAbstractComponentProvider() {...}.doCreateComponent()
           // throw new TsUnderDevelopmentRtException(
           // "VedStdCompRectangle.PROVIDER.new VedAbstractComponentProvider() {...}.doCreateComponent()" );
