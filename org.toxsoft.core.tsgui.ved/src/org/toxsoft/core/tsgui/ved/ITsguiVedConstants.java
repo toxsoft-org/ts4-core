@@ -26,6 +26,13 @@ public interface ITsguiVedConstants {
   String ICONID_STD_LIB_SHAPES     = "std-lib-shapes";  //$NON-NLS-1$
   String ICONID_RECTANGLE_SHAPE    = "rectangle-shape"; //$NON-NLS-1$
 
+  // ------------------------------------------------------------------------------------
+  // App prefs
+  //
+
+  // FIXMEconvert to app preference
+  EIconSize LIST_ICON_SIZE = EIconSize.IS_32X32;
+
   /**
    * Constants registration.
    *

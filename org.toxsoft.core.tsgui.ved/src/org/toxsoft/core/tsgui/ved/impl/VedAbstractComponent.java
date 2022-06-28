@@ -5,6 +5,7 @@ import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.ved.api.*;
+import org.toxsoft.core.tsgui.ved.api.library.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.incub.props.*;
 import org.toxsoft.core.tsgui.ved.utils.*;
@@ -105,13 +106,8 @@ public class VedAbstractComponent
   //
 
   @Override
-  final public String libraryId() {
-    return creator.libraryId();
-  }
-
-  @Override
-  final public String componentKindId() {
-    return creator.id();
+  public IVedComponentProvider provider() {
+    return creator;
   }
 
   @Override

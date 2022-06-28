@@ -6,6 +6,7 @@ import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.bricks.quant.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.ved.api.*;
+import org.toxsoft.core.tsgui.ved.glib.content.*;
 import org.toxsoft.core.tsgui.ved.glib.library.*;
 import org.toxsoft.core.tsgui.ved.impl.*;
 import org.toxsoft.core.tsgui.ved.std.library.*;
@@ -42,6 +43,7 @@ public class QuantTsguiVed
     IM5Domain m5 = aWinContext.get( IM5Domain.class );
     m5.addModel( new VedLibraryM5Model() );
     m5.addModel( new VedComponentProviderM5Model() );
+    m5.addModel( new VedComponentM5Model() );
   }
 
 }

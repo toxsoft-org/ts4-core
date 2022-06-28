@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.ved.api;
 
+import org.toxsoft.core.tsgui.ved.api.library.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.incub.props.*;
 import org.toxsoft.core.tslib.av.opset.*;
@@ -16,20 +17,11 @@ public interface IVedComponent
     extends IStridable, IPropertable {
 
   /**
-   * Returns library ID that provided component factory.
+   * Returns the provider that created this component.
    *
-   * @return String - the library ID (an IDpath)
+   * @return {@link IVedComponentProvider} - creator
    */
-  String libraryId();
-
-  /**
-   * Returns component kind ID.
-   * <p>
-   * Kind ID identifies the component provider in the library.
-   *
-   * @return String - the factory ID (an IDpath)
-   */
-  String componentKindId();
+  IVedComponentProvider provider();
 
   /**
    * Returns the capbilites constants.

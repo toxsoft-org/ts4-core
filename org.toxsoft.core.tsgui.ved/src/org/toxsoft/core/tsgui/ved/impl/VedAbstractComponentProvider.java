@@ -82,8 +82,7 @@ public abstract class VedAbstractComponentProvider
     // create component
     IVedComponent c = doCreateComponent( aEnvironment, propVals, aExtdata );
     TsInternalErrorRtException.checkNull( c );
-    TsInternalErrorRtException.checkFalse( libraryId.equals( c.libraryId() ) );
-    TsInternalErrorRtException.checkFalse( id().equals( c.componentKindId() ) );
+    TsInternalErrorRtException.checkTrue( c.provider() != this );
     return c;
   }
 

@@ -1,13 +1,13 @@
 package org.toxsoft.core.tsgui.ved.glib.library;
 
 import static org.toxsoft.core.tsgui.m5.gui.mpc.IMultiPaneComponentConstants.*;
+import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
 
 import org.eclipse.swt.*;
 import org.eclipse.swt.custom.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
-import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.gui.panels.*;
 import org.toxsoft.core.tsgui.m5.model.*;
@@ -26,8 +26,6 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class VedLibraryManagerViewer
     extends TsPanel
     implements IVedContextable {
-
-  private static final EIconSize LIST_ICON_SIZE = EIconSize.IS_32X32;
 
   private final IM5CollectionPanel<IVedLibrary>           libsPanel;
   private final IM5CollectionPanel<IVedComponentProvider> compsPanel;
