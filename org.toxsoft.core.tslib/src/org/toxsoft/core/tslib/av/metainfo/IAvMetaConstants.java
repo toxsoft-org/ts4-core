@@ -120,11 +120,10 @@ public interface IAvMetaConstants {
       TSID_DEFAULT_VALUE, VALOBJ.defaultValue() //
   );
 
-  IDataDef DDEF_NAME = create( TSID_NAME, STRING, //
+  IDataDef DDEF_NAME = create2( TSID_NAME, STRING, NameStringAvValidator.VALIDATOR, null, //
       TSID_NAME, STR_N_NAME, //
       TSID_DESCRIPTION, STR_D_NAME, //
       TSID_IS_NULL_ALLOWED, AV_TRUE, //
-      TSID_VALIDATOR_CLASS, NameStringAvValidator.class.getName(), //
       TSID_DEFAULT_VALUE, DEFAULT_NAME_AV //
   );
 
@@ -142,18 +141,16 @@ public interface IAvMetaConstants {
       TSID_DEFAULT_VALUE, IAtomicValue.NULL //
   );
 
-  IDataDef DDEF_IDNAME = create( DDID_IDNAME, STRING, //
+  IDataDef DDEF_IDNAME = create2( DDID_IDNAME, STRING, IdNameStringAvValidator.IDNAME_VALIDATOR, null, //
       TSID_NAME, STR_N_IDNAME, //
       TSID_DESCRIPTION, STR_D_IDNAME, //
       TSID_IS_NULL_ALLOWED, AV_FALSE, //
-      TSID_VALIDATOR_CLASS, IdNameStringAvValidator.class.getName(), //
       TSID_DEFAULT_VALUE, DEFAULT_ID_AV //
   );
 
-  IDataDef DDEF_IDPATH = create( DDID_IDPATH, STRING, //
+  IDataDef DDEF_IDPATH = create2( DDID_IDPATH, STRING, IdPathStringAvValidator.IDPATH_VALIDATOR, null, //
       TSID_NAME, STR_N_IDPATH, //
       TSID_DESCRIPTION, STR_D_IDPATH, //
-      TSID_VALIDATOR_CLASS, IdPathStringAvValidator.class.getName(), //
       TSID_IS_NULL_ALLOWED, AV_FALSE, //
       TSID_DEFAULT_VALUE, DEFAULT_ID_AV //
   );

@@ -1,9 +1,20 @@
 package org.toxsoft.core.tsgui.ved.glib.library;
 
+import static org.toxsoft.core.tsgui.m5.gui.mpc.IMultiPaneComponentConstants.*;
+
+import org.eclipse.swt.*;
+import org.eclipse.swt.custom.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
+import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tsgui.m5.*;
+import org.toxsoft.core.tsgui.m5.gui.panels.*;
+import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.panels.*;
+import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tsgui.ved.api.*;
+import org.toxsoft.core.tsgui.ved.api.library.*;
 import org.toxsoft.core.tsgui.ved.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -16,6 +27,11 @@ public class VedLibraryManagerViewer
     extends TsPanel
     implements IVedContextable {
 
+  private static final EIconSize LIST_ICON_SIZE = EIconSize.IS_32X32;
+
+  private final IM5CollectionPanel<IVedLibrary>           libsPanel;
+  private final IM5CollectionPanel<IVedComponentProvider> compsPanel;
+
   /**
    * Constructor.
    * <p>
@@ -27,6 +43,40 @@ public class VedLibraryManagerViewer
    */
   public VedLibraryManagerViewer( Composite aParent, ITsGuiContext aContext ) {
     super( aParent, aContext );
+    this.setLayout( new BorderLayout() );
+    SashForm sfMain = new SashForm( this, SWT.VERTICAL );
+    sfMain.setLayoutData( BorderLayout.CENTER );
+    // libsPanel
+    IM5Model<IVedLibrary> libsModel = m5().getModel( VedLibraryM5Model.MODEL_ID, IVedLibrary.class );
+    IVedLibraryManager libMan = vedEnv().libraryManager();
+    IM5LifecycleManager<IVedLibrary> libsLm = libsModel.getLifecycleManager( libMan );
+    ITsGuiContext ctx = new TsGuiContext( tsContext() );
+    ctx.params().setBool( OPDEF_IS_TOOLBAR.id(), false );
+    ctx.params().setValobj( OPDEF_NODE_ICON_SIZE.id(), LIST_ICON_SIZE );
+    libsPanel = libsModel.panelCreator().createCollViewerPanel( ctx, libsLm.itemsProvider() );
+    libsPanel.createControl( sfMain );
+    libsPanel.addTsSelectionListener( ( src, sel ) -> whenLibsSelectionChanged( sel ) );
+    // compsPanel
+    IM5Model<IVedComponentProvider> compsModel =
+        m5().getModel( VedComponentProviderM5Model.MODEL_ID, IVedComponentProvider.class );
+    ctx = new TsGuiContext( tsContext() );
+    ctx.params().setBool( OPDEF_IS_TOOLBAR.id(), false );
+    ctx.params().setValobj( OPDEF_NODE_ICON_SIZE.id(), LIST_ICON_SIZE );
+    compsPanel = compsModel.panelCreator().createCollViewerPanel( ctx, null );
+    compsPanel.createControl( sfMain );
+    whenLibsSelectionChanged( null );
+  }
+
+  private void whenLibsSelectionChanged( IVedLibrary aSel ) {
+    IM5ItemsProvider<IVedComponentProvider> ip = null;
+    if( aSel != null ) {
+      IM5Model<IVedComponentProvider> compsModel =
+          m5().getModel( VedComponentProviderM5Model.MODEL_ID, IVedComponentProvider.class );
+      IM5LifecycleManager<IVedComponentProvider> lm = compsModel.getLifecycleManager( aSel );
+      ip = lm.itemsProvider();
+    }
+    compsPanel.setItemsProvider( ip );
+    compsPanel.refresh();
   }
 
 }

@@ -27,8 +27,8 @@ public interface IPropertyChangeListener {
   /**
    * Called when more than one properties values changes at once.
    * <p>
-   * Arguments <code>aOldValues</code> and <code>aNewValues</code> have the same keys and contain only changed
-   * properties.
+   * Argument <code>aNewValues</code> contain only changed properties while <code>aOldValues</code> is not limited to
+   * contain only changed values.
    * <p>
    * This method is called after {@link #onPropertyChanged(IPropertiesSetRo, String, IAtomicValue, IAtomicValue)} with
    * <code>null</code> arguments.

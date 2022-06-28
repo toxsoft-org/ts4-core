@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.ved.api.library;
 
 import org.toxsoft.core.tsgui.ved.api.*;
+import org.toxsoft.core.tslib.av.errors.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.utils.*;
@@ -31,6 +32,7 @@ public interface IVedComponentProvider
    * @param aExtdata {@link IOptionSet} - external data initial values
    * @return {@link IVedComponent} - created component
    * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws AvTypeCastRtException any property value is not compatible to the property definition
    */
   IVedComponent createComponent( IVedEnvironment aEnvironment, IOptionSet aProps, IOptionSet aExtdata );
 

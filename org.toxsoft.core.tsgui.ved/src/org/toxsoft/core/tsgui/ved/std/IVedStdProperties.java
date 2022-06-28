@@ -1,10 +1,10 @@
 package org.toxsoft.core.tsgui.ved.std;
 
 import static org.toxsoft.core.tsgui.ved.std.ITsResources.*;
+import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 
@@ -19,6 +19,36 @@ import org.toxsoft.core.tslib.av.metainfo.*;
 public interface IVedStdProperties {
 
   // ------------------------------------------------------------------------------------
+  // Identification
+  //
+
+  /**
+   * ID of property {@link #PDEF_NAME}.
+   */
+  String PID_NAME = "name"; //$NON-NLS-1$
+
+  /**
+   * Property: human-readable short name.
+   */
+  IDataDef PDEF_NAME = DataDef.createOverride2( PID_NAME, DDEF_NAME, //
+      TSID_NAME, STR_N_NAME, //
+      TSID_DESCRIPTION, STR_D_NAME //
+  );
+
+  /**
+   * ID of property {@link #PDEF_DESCRIPTION}.
+   */
+  String PID_DESCRIPTION = "description"; //$NON-NLS-1$
+
+  /**
+   * Property: optional description.
+   */
+  IDataDef PDEF_DESCRIPTION = DataDef.createOverride2( PID_DESCRIPTION, DDEF_DESCRIPTION, //
+      TSID_NAME, STR_N_DESCRIPTION, //
+      TSID_DESCRIPTION, STR_D_DESCRIPTION //
+  );
+
+  // ------------------------------------------------------------------------------------
   // Component bounds
   //
 
@@ -30,7 +60,7 @@ public interface IVedStdProperties {
   /**
    * Property: components X coordinate.
    */
-  IDataDef PDEF_X = DataDef.create( PID_X, EAtomicType.FLOATING, //
+  IDataDef PDEF_X = DataDef.create( PID_X, FLOATING, //
       TSID_NAME, STR_N_X, //
       TSID_DESCRIPTION, STR_D_X, //
       TSID_DEFAULT_VALUE, AV_F_0 //
@@ -44,7 +74,7 @@ public interface IVedStdProperties {
   /**
    * Property: components Y coordinate.
    */
-  IDataDef PDEF_Y = DataDef.create( PID_Y, EAtomicType.FLOATING, //
+  IDataDef PDEF_Y = DataDef.create( PID_Y, FLOATING, //
       TSID_NAME, STR_N_Y, //
       TSID_DESCRIPTION, STR_D_Y, //
       TSID_DEFAULT_VALUE, AV_F_0 //
@@ -58,7 +88,7 @@ public interface IVedStdProperties {
   /**
    * Property: component Y width.
    */
-  IDataDef PDEF_WIDTH = DataDef.create( PID_WIDTH, EAtomicType.FLOATING, //
+  IDataDef PDEF_WIDTH = DataDef.create( PID_WIDTH, FLOATING, //
       TSID_NAME, STR_N_WIDTH, //
       TSID_DESCRIPTION, STR_D_WIDTH, //
       TSID_DEFAULT_VALUE, avFloat( 10.0 ) //
@@ -72,7 +102,7 @@ public interface IVedStdProperties {
   /**
    * Property: component Y width.
    */
-  IDataDef PDEF_HEIGHT = DataDef.create( PID_HEIGHT, EAtomicType.FLOATING, //
+  IDataDef PDEF_HEIGHT = DataDef.create( PID_HEIGHT, FLOATING, //
       TSID_NAME, STR_N_HEIGHT, //
       TSID_DESCRIPTION, STR_D_HEIGHT, //
       TSID_DEFAULT_VALUE, avFloat( 10.0 ) //
@@ -90,7 +120,7 @@ public interface IVedStdProperties {
   /**
    * Property: component rotation angle.
    */
-  IDataDef PDEF_ROTATION_ANGLE = DataDef.create( PID_ROTATION_ANGLE, EAtomicType.FLOATING, //
+  IDataDef PDEF_ROTATION_ANGLE = DataDef.create( PID_ROTATION_ANGLE, FLOATING, //
       TSID_NAME, STR_N_ROTATION_ANGLE, //
       TSID_DESCRIPTION, STR_D_ROTATION_ANGLE, //
       TSID_DEFAULT_VALUE, avFloat( 10.0 ) //
