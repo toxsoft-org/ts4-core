@@ -117,7 +117,12 @@ class VedSelectedComponentManager
   void screenSetSelectedComponent( IVedComponent aComp ) {
     eventer.muteListener( listenerForScreen );
     try {
-      setSelectedComponent( aComp );
+      if( aComp == null ) {
+        setSelectedComponents( IStridablesList.EMPTY );
+      }
+      else {
+        setSelectedComponent( aComp );
+      }
     }
     finally {
       eventer.unmuteListener( listenerForScreen );
