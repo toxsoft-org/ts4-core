@@ -71,6 +71,7 @@ public class VedUtils {
     dm.genericChangeEventer().pauseFiring();
     dm.comps().pauseFiring();
     dm.canvasConfig().pauseFiring();
+    dm.clear();
     try {
       // canvas config
       dm.canvasConfig().setAll( lpd.panelCfg() );
