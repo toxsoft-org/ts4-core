@@ -70,7 +70,9 @@ public abstract class VedAbstractComponentProvider
   }
 
   @Override
-  public IVedComponent createComponent( IVedEnvironment aEnvironment, IOptionSet aProps, IOptionSet aExtdata ) {
+  public IVedComponent createComponent( String aCompId, IVedEnvironment aEnvironment, IOptionSet aProps,
+      IOptionSet aExtdata ) {
+    StridUtils.checkValidIdPath( aCompId );
     TsNullArgumentRtException.checkNulls( aEnvironment, aProps, aExtdata );
     // check props and prepare argument only for defined properties
     IOptionSetEdit propVals = new OptionSet();
@@ -85,7 +87,7 @@ public abstract class VedAbstractComponentProvider
       }
     }
     // create component
-    IVedComponent c = doCreateComponent( aEnvironment, propVals, aExtdata );
+    IVedComponent c = doCreateComponent( aCompId, aEnvironment, propVals, aExtdata );
     TsInternalErrorRtException.checkNull( c );
     TsInternalErrorRtException.checkTrue( c.provider() != this );
     return c;
@@ -98,12 +100,13 @@ public abstract class VedAbstractComponentProvider
   /**
    * Implementation must create the component.
    *
+   * @param aCompId String - the ID of component to be created
    * @param aEnvironment {@link IVedEnvironment} - the target environment
    * @param aProps {@link IOptionSet} - values of the properties (may contain not all defined properties values)
    * @param aExtdata {@link IOptionSet} - extra data
    * @return {@link IVedComponent} - created component
    */
-  protected abstract IVedComponent doCreateComponent( IVedEnvironment aEnvironment, IOptionSet aProps,
+  protected abstract IVedComponent doCreateComponent( String aCompId, IVedEnvironment aEnvironment, IOptionSet aProps,
       IOptionSet aExtdata );
 
 }

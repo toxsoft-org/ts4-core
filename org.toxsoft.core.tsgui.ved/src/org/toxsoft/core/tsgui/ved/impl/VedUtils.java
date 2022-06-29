@@ -48,7 +48,7 @@ public class VedUtils {
     lpd.panelCfg().setAll( dm.canvasConfig() );
     for( IVedComponent c : dm.comps() ) {
       IdChain namespace = new IdChain( c.provider().libraryId() );
-      ILpdComponentInfo cinf = new LpdComponentInfo( namespace, c.provider().id(), c.props(), c.extdata() );
+      ILpdComponentInfo cinf = new LpdComponentInfo( namespace, c.provider().id(), c.id(), c.props(), c.extdata() );
       lpd.componentConfigs().add( cinf );
     }
     lpd.write( aSw );
@@ -80,7 +80,7 @@ public class VedUtils {
         String libId = cinf.namespace().first();
         IVedComponentProvider p = aVedEnv.libraryManager().findProvider( libId, cinf.componentKindId() );
         if( p != null ) {
-          IVedComponent c = p.createComponent( aVedEnv, cinf.propValues(), cinf.extdata() );
+          IVedComponent c = p.createComponent( cinf.componentId(), aVedEnv, cinf.propValues(), cinf.extdata() );
           dm.addComponent( c );
         }
         else {

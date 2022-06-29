@@ -27,6 +27,13 @@ public interface ILpdComponentInfo {
   String componentKindId();
 
   /**
+   * Returns the component ID.
+   *
+   * @return String - the component ID
+   */
+  String componentId();
+
+  /**
    * Returns the values of the component properties.
    *
    * @return {@link IOptionSet} - the properies values

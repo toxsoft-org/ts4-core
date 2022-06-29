@@ -34,6 +34,7 @@ public interface IVedComponentProvider
   /**
    * Creates the component.
    *
+   * @param aCompId String - the ID of component to be created
    * @param aEnvironment {@link IVedEnvironment} the VED environment
    * @param aProps {@link IOptionSet} - propeties initial values
    * @param aExtdata {@link IOptionSet} - external data initial values
@@ -41,6 +42,6 @@ public interface IVedComponentProvider
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws AvTypeCastRtException any property value is not compatible to the property definition
    */
-  IVedComponent createComponent( IVedEnvironment aEnvironment, IOptionSet aProps, IOptionSet aExtdata );
+  IVedComponent createComponent( String aCompId, IVedEnvironment aEnvironment, IOptionSet aProps, IOptionSet aExtdata );
 
 }

@@ -29,6 +29,8 @@ public class LpdComponentInfo
           aSw.writeSeparatorChar();
           aSw.writeAsIs( aEntity.componentKindId() );
           aSw.writeSeparatorChar();
+          aSw.writeAsIs( aEntity.componentId() );
+          aSw.writeSeparatorChar();
           OptionSetKeeper.KEEPER.write( aSw, aEntity.propValues() );
           aSw.writeSeparatorChar();
           OptionSetKeeper.KEEPER.write( aSw, aEntity.extdata() );
@@ -40,15 +42,18 @@ public class LpdComponentInfo
           aSr.ensureSeparatorChar();
           String kindId = aSr.readIdPath();
           aSr.ensureSeparatorChar();
+          String compId = aSr.readIdPath();
+          aSr.ensureSeparatorChar();
           IOptionSet props = OptionSetKeeper.KEEPER.read( aSr );
           aSr.ensureSeparatorChar();
           IOptionSet extdata = OptionSetKeeper.KEEPER.read( aSr );
-          return new LpdComponentInfo( namespace, kindId, props, extdata );
+          return new LpdComponentInfo( namespace, kindId, compId, props, extdata );
         }
       };
 
   private final IdChain        namespace;
   private final String         kindId;
+  private final String         compId;
   private final IOptionSetEdit props   = new OptionSet();
   private final IOptionSetEdit extdata = new OptionSet();
 
@@ -57,12 +62,15 @@ public class LpdComponentInfo
    *
    * @param aNamespace {@link IdChain} - the libarary ID (an IDpath)
    * @param aKindId String - the component kind ID (an IDpath)
+   * @param aCompId String - the component ID (an IDpath)
    * @param aProps {@link IOptionSet} - {@link #propValues()} values
    * @param aExtdata {@link IOptionSet} - {@link #extdata()} values
    */
-  public LpdComponentInfo( IdChain aNamespace, String aKindId, IOptionSet aProps, IOptionSet aExtdata ) {
+  public LpdComponentInfo( IdChain aNamespace, String aKindId, String aCompId, IOptionSet aProps,
+      IOptionSet aExtdata ) {
     namespace = TsNullArgumentRtException.checkNull( aNamespace );
     kindId = StridUtils.checkValidIdPath( aKindId );
+    compId = StridUtils.checkValidIdPath( aCompId );
     props.addAll( aProps );
     extdata.addAll( aExtdata );
   }
@@ -75,6 +83,11 @@ public class LpdComponentInfo
   @Override
   public String componentKindId() {
     return kindId;
+  }
+
+  @Override
+  public String componentId() {
+    return compId;
   }
 
   @Override
