@@ -2,6 +2,7 @@ package org.toxsoft.core.tsgui.ved.impl;
 
 import org.eclipse.swt.events.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
+import org.toxsoft.core.tsgui.ved.utils.drag.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -115,9 +116,10 @@ public interface IMouseHandler
    * Если в момент отпускания кнопки мыши зафиксирован "щелчок", то вместо {@linkplain #onMouseUp(MouseEvent)}
    * вызывается данный метод.
    *
-   * @param aShape IVedComponentView - объект на котором произошел щелчок или null если щелчок был на пустом месте
+   * @param aShape IScreenObject - объект на котором произошел щелчок или null если щелчок был на пустом месте
+   * @param aEvent MouseEvent - информация о состоянии кнопок мыши, клавиатуры и т.д.
    */
-  default void onClick( IVedComponentView aShape ) {
+  default void onClick( IScreenObject aShape, MouseEvent aEvent ) {
     // nop
   }
 

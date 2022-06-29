@@ -117,7 +117,14 @@ public class VedPointerToolMouseHandler
   }
 
   @Override
-  public void onClick( IScreenObject aObj ) {
+  public void onClick( IScreenObject aObj, MouseEvent aEvent ) {
+    // if( aObj != null && vertexSet == null ) { // клик на объекте при отсутствии активной границы
+    // // if( aEvent ) {
+    // //
+    // // }
+    // IVedComponentView view = aObj.entity();
+    // }
+
     if( aObj != null ) {
       IStridablesListEdit<IScreenObject> scrObjs = new StridablesList<>();
       slaveShape = aObj.entity();
