@@ -32,7 +32,7 @@ public interface IListEdit<E>
   /**
    * Inserts the element at the specified position in this list.
    *
-   * @param aIndex int - index of the element to replace (in range 0..{@link #size()}-1)
+   * @param aIndex int - index of the element to insert (in range 0..{@link #size()})
    * @param aElem &lt;E&gt; - element to be stored at the specified position
    * @throws TsIllegalArgumentRtException index is out of range
    * @throws TsNullArgumentRtException aElem = null

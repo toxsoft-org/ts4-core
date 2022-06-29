@@ -4,6 +4,7 @@ import org.toxsoft.core.tsgui.ved.api.library.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.incub.props.*;
 import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 
 /**
@@ -14,7 +15,7 @@ import org.toxsoft.core.tslib.bricks.strid.*;
  * @author hazard157
  */
 public interface IVedComponent
-    extends IStridable, IPropertable {
+    extends IStridable, IPropertable, IGenericChangeEventCapable {
 
   /**
    * Returns the provider that created this component.
@@ -33,9 +34,9 @@ public interface IVedComponent
   /**
    * Returns the values of the external data.
    *
-   * @return {@link IOptionSetEdit} - the external data
+   * @return {@link INotifierOptionSetEdit} - the external data
    */
-  IOptionSetEdit extdata();
+  INotifierOptionSetEdit extdata();
 
   /**
    * Creates component viewer on the specified screen.

@@ -80,7 +80,7 @@ public class VedUtils {
         IVedComponentProvider p = aVedEnv.libraryManager().findProvider( libId, cinf.componentKindId() );
         if( p != null ) {
           IVedComponent c = p.createComponent( aVedEnv, cinf.propValues(), cinf.extdata() );
-          dm.comps().add( c );
+          dm.addComponent( c );
         }
         else {
           LoggerUtils.errorLogger().warning( FMT_LOG_WARN_NO_COMP_PROVIDER, libId, cinf.componentKindId() );

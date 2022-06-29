@@ -209,7 +209,7 @@ public abstract class AbstractOptionsSetter
     IAtomicValue oldValue = internalFind( id );
     doBeforeSet( id, oldValue, aValue );
     doInternalSet( id, aValue );
-    doBeforeSet( id, oldValue, aValue );
+    doAfterSet( id, oldValue, aValue );
   }
 
   // ------------------------------------------------------------------------------------

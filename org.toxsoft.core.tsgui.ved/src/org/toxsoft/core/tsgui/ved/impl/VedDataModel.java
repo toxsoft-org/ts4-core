@@ -1,11 +1,16 @@
 package org.toxsoft.core.tsgui.ved.impl;
 
+import static org.toxsoft.core.tsgui.ved.impl.ITsResources.*;
+
 import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.notifier.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.helpers.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link IVedDataModel} implementation.
@@ -15,12 +20,21 @@ import org.toxsoft.core.tslib.bricks.strid.coll.notifier.*;
 class VedDataModel
     implements IVedDataModel {
 
-  private final GenericChangeEventer genericEventer;
+  /**
+   * Component change listener forces {@link #compsList} to fire {@link ECrudOp#EDIT} event.
+   */
+  private final IGenericChangeListener componentChangeListener = aSource -> {
+    IVedComponent c = (IVedComponent)aSource;
+    this.compsList.fireItemByKeyChangeEvent( c.id() );
+  };
 
-  private final INotifierOptionSetEdit canvasConfig = new NotifierOptionSetEditWrapper( new OptionSet() );
-
-  private final INotifierStridablesListEdit<IVedComponent> compsList =
+  private final INotifierStridablesListEdit<IVedComponent> compsList      =
       new NotifierStridablesListEditWrapper<>( new StridablesList<>() );
+  private final IListReorderer<IVedComponent>              compsReorderer =
+      new ListReorderer<IVedComponent, IListEdit<IVedComponent>>( compsList );
+
+  private final GenericChangeEventer   genericEventer;
+  private final INotifierOptionSetEdit canvasConfig = new NotifierOptionSetEditWrapper( new OptionSet() );
 
   /**
    * Constructor.
@@ -70,8 +84,43 @@ class VedDataModel
   }
 
   @Override
-  public INotifierStridablesListEdit<IVedComponent> comps() {
+  public INotifierStridablesList<IVedComponent> comps() {
     return compsList;
+  }
+
+  @Override
+  public void addComponent( IVedComponent aComponent ) {
+    TsNullArgumentRtException.checkNull( aComponent );
+    if( compsList.hasKey( aComponent.id() ) ) {
+      throw new TsItemAlreadyExistsRtException( FMT_ERR_DUP_COMP_ID, aComponent.id() );
+    }
+    aComponent.genericChangeEventer().addListener( componentChangeListener );
+    compsList.add( aComponent );
+  }
+
+  @Override
+  public void insertComponent( int aIndex, IVedComponent aComponent ) {
+    TsNullArgumentRtException.checkNull( aComponent );
+    if( compsList.hasKey( aComponent.id() ) ) {
+      throw new TsItemAlreadyExistsRtException( FMT_ERR_DUP_COMP_ID, aComponent.id() );
+    }
+    aComponent.genericChangeEventer().addListener( componentChangeListener );
+    compsList.insert( aIndex, aComponent );
+  }
+
+  @Override
+  public void removeComponent( String aComponentId ) {
+    TsNullArgumentRtException.checkNull( aComponentId );
+    IVedComponent c = compsList.removeById( aComponentId );
+    if( c != null ) {
+      // FIXME ensure viewes are removed from screens and are disposed
+      c.genericChangeEventer().removeListener( componentChangeListener );
+    }
+  }
+
+  @Override
+  public IListReorderer<IVedComponent> compsReorderer() {
+    return compsReorderer;
   }
 
 }

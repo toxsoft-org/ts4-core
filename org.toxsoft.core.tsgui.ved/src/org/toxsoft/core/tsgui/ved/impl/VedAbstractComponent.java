@@ -12,6 +12,7 @@ import org.toxsoft.core.tsgui.ved.utils.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -24,11 +25,13 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class VedAbstractComponent
     implements IVedComponent, IVedContextable {
 
+  private final GenericChangeEventer eventer;
+
   private final VedAbstractComponentProvider creator;
   private final IVedEnvironment              vedEnv;
 
-  private final IOptionSetEdit capabilities = new OptionSet();
-  private final IOptionSetEdit extdata      = new OptionSet();
+  private final IOptionSetEdit         capabilities = new OptionSet();
+  private final INotifierOptionSetEdit extdata      = new NotifierOptionSetEditWrapper( new OptionSet() );
 
   private final PropertiesSet props;
 
@@ -46,9 +49,12 @@ public class VedAbstractComponent
   public VedAbstractComponent( VedAbstractComponentProvider aProvider, IVedEnvironment aVedEnv, String aId ) {
     TsNullArgumentRtException.checkNulls( aProvider, aVedEnv );
     id = StridUtils.checkValidIdPath( aId );
+    eventer = new GenericChangeEventer( this );
     creator = aProvider;
     vedEnv = aVedEnv;
     props = new PropertiesSet( creator.propDefs() );
+    props.propsEventer().addListener( ( s, p, o, n ) -> eventer.fireChangeEvent() );
+    extdata.addCollectionChangeListener( eventer );
   }
 
   // ------------------------------------------------------------------------------------
@@ -102,6 +108,15 @@ public class VedAbstractComponent
   }
 
   // ------------------------------------------------------------------------------------
+  // IGenericChangeEventCapable
+  //
+
+  @Override
+  public IGenericChangeEventer genericChangeEventer() {
+    return eventer;
+  }
+
+  // ------------------------------------------------------------------------------------
   // IVedComponent
   //
 
@@ -116,7 +131,7 @@ public class VedAbstractComponent
   }
 
   @Override
-  public IOptionSetEdit extdata() {
+  public INotifierOptionSetEdit extdata() {
     return extdata;
   }
 

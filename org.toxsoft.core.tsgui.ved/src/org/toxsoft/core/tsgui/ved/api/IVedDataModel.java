@@ -4,6 +4,8 @@ import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.notifier.*;
 import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.helpers.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Data model edited by the VED framework.
@@ -25,8 +27,44 @@ public interface IVedDataModel
   /**
    * Returns the components.
    *
-   * @return {@link INotifierStridablesListEdit}&lt;{@link IVedComponent}&gt; - editable components data model
+   * @return {@link INotifierStridablesListEdit}&lt;{@link IVedComponent}&gt; - components data model
    */
-  INotifierStridablesListEdit<IVedComponent> comps();
+  INotifierStridablesList<IVedComponent> comps();
+
+  /**
+   * Adds new component to the end of list {@link #comps()}.
+   *
+   * @param aComponent {@link IVedComponent} - component to add
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemAlreadyExistsRtException component with such ID already exists
+   */
+  void addComponent( IVedComponent aComponent );
+
+  /**
+   * Adds the component to the specified position in list {@link #comps()}.
+   *
+   * @param aIndex int - index of the element to insert (in range 0..list size)
+   * @param aComponent {@link IVedComponent} - component to add
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemAlreadyExistsRtException component with such ID already exists
+   */
+  void insertComponent( int aIndex, IVedComponent aComponent );
+
+  /**
+   * Removes the specified component.
+   * <p>
+   * Unexistant ID is ignored
+   *
+   * @param aComponentId String - component ID
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  void removeComponent( String aComponentId );
+
+  /**
+   * Returns components list {@link #comps()} reorderer.
+   *
+   * @return {@link IListReorderer}&lt;{@link IVedComponent}&gt; - compnents list reorderer
+   */
+  IListReorderer<IVedComponent> compsReorderer();
 
 }

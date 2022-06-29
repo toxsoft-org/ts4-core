@@ -397,7 +397,9 @@ public abstract class AbstractValedControl<V, C extends Control>
    */
   protected void setControl( C aControl ) {
     TsNullArgumentRtException.checkNull( aControl );
-    TsIllegalStateRtException.checkNoNull( control );
+    if( aControl != control ) {
+      TsIllegalStateRtException.checkNoNull( control );
+    }
     control = aControl;
   }
 

@@ -66,7 +66,6 @@ public abstract class AbstractValedLabelAndButton<V>
     // setup
     button.setEnabled( isEditable() && !isCreatedUneditable() );
     button.setText( STR_ELLIPSIS );
-    setControl( board );
     doAfterControlCreated();
     return board;
   }
