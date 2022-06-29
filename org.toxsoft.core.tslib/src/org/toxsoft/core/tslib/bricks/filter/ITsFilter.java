@@ -1,10 +1,8 @@
 package org.toxsoft.core.tslib.bricks.filter;
 
-import java.io.ObjectStreamException;
-import java.io.Serializable;
+import java.io.*;
 
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullObjectErrorRtException;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * General purpose filer - accepts or declines objects.

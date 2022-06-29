@@ -15,20 +15,20 @@ public interface IVedDragCompViewsEventProducer {
    * <p>
    * Если слушатель уже зарегистрирован, метод ничего не делает.
    *
-   * @param aListener {@link IVedDragCompViewsListener} - слушатель
+   * @param aListener {@link IVedDragObjectsListener} - слушатель
    * @throws TsNullArgumentRtException аргумент = null
    */
-  void addVedDragCompViewsEventListener( IVedDragCompViewsListener aListener );
+  void addVedDragCompViewsEventListener( IVedDragObjectsListener aListener );
 
   /**
    * Удаляет слушатель изменения.
    * <p>
    * Если слушатель не зарегистрирован, метод ничего не делает.
    *
-   * @param aListener {@link IVedDragCompViewsListener} - слушатель
+   * @param aListener {@link IVedDragObjectsListener} - слушатель
    * @throws TsNullArgumentRtException аргумент = null
    */
-  void removeVedDragCompViewsEventListener( IVedDragCompViewsListener aListener );
+  void removeVedDragCompViewsEventListener( IVedDragObjectsListener aListener );
 
   /**
    * Приостанавливает генерацию сообщений.

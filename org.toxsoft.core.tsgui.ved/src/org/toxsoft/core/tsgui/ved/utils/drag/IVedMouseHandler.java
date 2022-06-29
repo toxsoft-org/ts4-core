@@ -116,27 +116,27 @@ public interface IVedMouseHandler
    * Если в момент отпускания кнопки мыши зафиксирован "щелчок", то вместо {@linkplain #onMouseUp(MouseEvent)}
    * вызывается данный метод.
    *
-   * @param aShape IVedComponentView - объект на котором произошел щелчок или null если щелчок был на пустом месте
+   * @param aShape IScreenObject - объект на котором произошел щелчок или null если щелчок был на пустом месте
    */
-  default void onClick( IVedComponentView aShape ) {
+  default void onClick( IScreenObject aShape ) {
     // nop
   }
 
   /**
-   * Вызывается в момент появления курсора в области объекта {@link IVedComponentView}
+   * Вызывается в момент появления курсора в области объекта {@link IScreenObject}
    *
-   * @param aShape IVedComponentView - объект в области которого появился курсор
+   * @param aShape IScreenObject - объект в области которого появился курсор
    */
-  default void onObjectIn( IVedComponentView aShape ) {
+  default void onObjectIn( IScreenObject aShape ) {
     // nop
   }
 
   /**
-   * Вызывается в момент когда курсор покидает область объекта {@link IVedComponentView}
+   * Вызывается в момент когда курсор покидает область объекта {@link IScreenObject}
    *
-   * @param aShape IVedComponentView - объект в область которого покинул курсор
+   * @param aShape IScreenObject - объект в область которого покинул курсор
    */
-  default void onObjectOut( IVedComponentView aShape ) {
+  default void onObjectOut( IScreenObject aShape ) {
     // nop
   }
 
@@ -153,9 +153,9 @@ public interface IVedMouseHandler
    * определить над каким объектом находится курсор в момент вызова. В случае если под курсором находятся несколько
    * объектов (накладывающиеся объекты), то возвращается первый в соотвествии с z-order.
    *
-   * @return IVedComponentView - объект под курсором мыши или null если под курсором нет ни одного объекта
+   * @return IScreenObject - объект под курсором мыши или null если под курсором нет ни одного объекта
    */
-  IVedComponentView hoveredObject();
+  IScreenObject hoveredObject();
 
   /**
    * Фигура содержащий указанную точку.<br>
@@ -164,18 +164,18 @@ public interface IVedMouseHandler
    *
    * @param aX int - x координата курсора в пикселях
    * @param aY int - y координата курсора в пикселях
-   * @return IVedComponentView - объект содержащий указанную точку или null
+   * @return IScreenObject - объект содержащий указанную точку или null
    */
-  IVedComponentView objectAt( int aX, int aY );
+  IScreenObject objectAt( int aX, int aY );
 
   /**
    * Список фигур содержащих указанную точку.<br>
    *
    * @param aX int - x координата курсора в пикселях
    * @param aY int - y координата курсора в пикселях
-   * @return IStridablesList&lt;IVedComponentView> - список объектов содержащих указанную точку
+   * @return IStridablesList&lt;IScreenObject> - список объектов содержащих указанную точку
    */
-  IStridablesList<IVedComponentView> objectsAt( int aX, int aY );
+  IStridablesList<IScreenObject> objectsAt( int aX, int aY );
 
 }
 
@@ -183,7 +183,7 @@ class NullMouseHandler
     implements IVedMouseHandler {
 
   @Override
-  public IVedComponentView hoveredObject() {
+  public IScreenObject hoveredObject() {
     return null;
   }
 
@@ -193,12 +193,12 @@ class NullMouseHandler
   }
 
   @Override
-  public IVedComponentView objectAt( int aX, int aY ) {
+  public IScreenObject objectAt( int aX, int aY ) {
     return null;
   }
 
   @Override
-  public IStridablesList<IVedComponentView> objectsAt( int aX, int aY ) {
+  public IStridablesList<IScreenObject> objectsAt( int aX, int aY ) {
     return IStridablesList.EMPTY;
   }
 

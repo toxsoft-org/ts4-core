@@ -21,60 +21,64 @@ public class VedPointerToolMouseHandler
 
   StdDragVedCompViewsListener stdDragListener = null;
 
-  Rectangle sssR;
-
-  IVedDragCompViewsListener moveListener = ( aDx, aDy, aShapes, aState ) -> {
-    // FIXME раскомментировать
-    // if( vertexSet != null ) {
-    // if( aShapes.size() > 0 ) {
-    // if( aState == ETsDragState.START ) {
-    // sssR = createRect( slaveShape.bounds() );
-    // }
-    //
-    // IVedComponentView view = aShapes.first();
-    //
-    // Rectangle r1 = vertexSet.bounds();
-    // r1 = new Rectangle( r1.x, r1.y, r1.width, r1.height );
-    // vertexSet.update( aDx, aDy, view.id() );
-    // Rectangle r2 = vertexSet.bounds();
-    // Rectangle rr = substract( r2, r1 );
-    // slaveShape.shiftOn( rr.x, rr.y );
-    // slaveShape.setSize( slaveShape.bounds().width + rr.width, slaveShape.bounds().height + rr.height );
-    // if( aState == ETsDragState.FINISH ) {
-    // slaveShape.onDragFinished();
-    // IUndoManager um = appContext.get( IImedService.class ).undoManager();
-    // Rectangle r = slaveShape.bounds();
-    // um.addUndoredoItem( new UndoSizeLocationChangePerformer( r.x - sssR.x, r.y - sssR.y, r.width - sssR.width,
-    // r.height - sssR.height, slaveShape ) );
-    // }
-    // }
-    // canvas.redraw();
-    // }
-    // else {
-    // if( aState == ETsDragState.START ) {
-    // sssR = createRect( aShapes.first().bounds() );
-    // }
-    // stdDragListener.onShapesDrag( aDx, aDy, aShapes, aState );
-    // if( aState == ETsDragState.FINISH ) {
-    // IUndoManager um = appContext.get( IImedService.class ).undoManager();
-    // Rectangle r = aShapes.first().bounds();
-    // um.addUndoredoItem( new UndoMoveShapesPerformer( r.x - sssR.x, r.y - sssR.y, aShapes ) );
-    // }
-    // }
-    stdDragListener.onShapesDrag( aDx, aDy, aShapes, aState );
-  };
-
-  VedMoveCompViewsDragExecutor moveExecutor;
-
-  private final IEclipseContext appContext;
-
-  // FIXME раскомментировать
-  // private RectVertexSetView vertexSet = null;
+  /**
+   * Набор вершин прямоугольника
+   */
+  private VedRectVertexSetView vertexSet = null;
 
   private IVedComponentView slaveShape = null;
 
+  // Rectangle sssR;
+
+  IVedDragObjectsListener moveListener = ( aDx, aDy, aShapes, aState ) -> {
+    if( vertexSet != null ) {
+      if( aShapes.size() > 0 ) {
+        // if( aState == ETsDragState.START ) {
+        // sssR = createRect( slaveShape.bounds() );
+        // }
+
+        IScreenObject view = aShapes.first();
+
+        Rectangle r1 = vertexSet.bounds();
+        r1 = new Rectangle( r1.x, r1.y, r1.width, r1.height );
+        vertexSet.update( aDx, aDy, view.id() );
+        Rectangle r2 = vertexSet.bounds();
+        Rectangle rr = substract( r2, r1 );
+        slaveShape.porter().shiftOn( rr.x, rr.y );
+        double w = slaveShape.outline().bounds().width() + rr.width * canvas.zoomFactor();
+        double h = slaveShape.outline().bounds().height() + rr.height * canvas.zoomFactor();
+        slaveShape.porter().setSize( w, h );
+        // if( aState == ETsDragState.FINISH ) {
+        // slaveShape.onDragFinished();
+        // IUndoManager um = appContext.get( IImedService.class ).undoManager();
+        // Rectangle r = slaveShape.bounds();
+        // um.addUndoredoItem( new UndoSizeLocationChangePerformer( r.x - sssR.x, r.y - sssR.y, r.width - sssR.width,
+        // r.height - sssR.height, slaveShape ) );
+        // }
+      }
+      canvas.redraw();
+    }
+    else {
+      // if( aState == ETsDragState.START ) {
+      // sssR = createRect( aShapes.first().bounds() );
+      // }
+      stdDragListener.onShapesDrag( aDx, aDy, aShapes, aState );
+      // if( aState == ETsDragState.FINISH ) {
+      // IUndoManager um = appContext.get( IImedService.class ).undoManager();
+      // Rectangle r = aShapes.first().bounds();
+      // um.addUndoredoItem( new UndoMoveShapesPerformer( r.x - sssR.x, r.y - sssR.y, aShapes ) );
+      // }
+    }
+    // stdDragListener.onShapesDrag( aDx, aDy, aShapes, aState );
+  };
+
+  VedMoveObjectsDragExecutor moveExecutor;
+
+  private final IEclipseContext appContext;
+
   public VedPointerToolMouseHandler( VedAbstractEditorTool aTool, IEclipseContext aAppContext ) {
-    super( aTool );
+    super();
+    // super( aTool );
     appContext = aAppContext;
     cursorManager = new TsCursorManager( aAppContext );
     cursorHand = cursorManager.getCursor( ECursorType.HAND );
@@ -91,17 +95,18 @@ public class VedPointerToolMouseHandler
   }
 
   @Override
-  protected IVedDragExecutor dragExecutor( IVedComponentView aHoveredObject ) {
+  protected IVedDragExecutor dragExecutor( IScreenObject aHoveredObject ) {
     if( aHoveredObject == null ) {
       return IVedDragExecutor.NULL;
     }
-    moveExecutor = new VedMoveCompViewsDragExecutor( new StridablesList<>( aHoveredObject ), appContext );
+
+    moveExecutor = new VedMoveObjectsDragExecutor( new StridablesList<>( aHoveredObject ), appContext );
     moveExecutor.addVedDragCompViewsEventListener( moveListener );
     return moveExecutor;
   }
 
   @Override
-  protected IStridablesList<IVedComponentView> objectsForDrag( IVedComponentView aHoveredObject, MouseEvent aEvent ) {
+  protected IStridablesList<IScreenObject> objectsForDrag( IScreenObject aHoveredObject, MouseEvent aEvent ) {
     // TODO Auto-generated method stub
     return null;
   }
@@ -112,37 +117,43 @@ public class VedPointerToolMouseHandler
   }
 
   @Override
-  public void onClick( IVedComponentView aShape ) {
-    // FIXME раскомментировать
-    // if( aShape != null ) {
-    // slaveShape = aShape;
-    // vertexSet = new RectVertexSetView( aShape.bounds(), appContext );
-    // canvas.add( vertexSet );
-    // for( IVedComponentView view : vertexSet.listShapes( IShape2dFilter.TRUE ) ) {
-    // canvas.add( view );
-    // }
-    // canvas.redraw();
-    // }
-    // else {
-    // if( vertexSet != null ) {
-    // clearVertexSet();
-    // }
-    // }
+  public void onClick( IScreenObject aObj ) {
+    if( aObj != null ) {
+      IStridablesListEdit<IScreenObject> scrObjs = new StridablesList<>();
+      slaveShape = aObj.entity();
+      vertexSet = new VedRectVertexSetView( aObj.bounds(), appContext );
+      canvas.addScreenObject( vertexSet );
+      for( IScreenObject vertex : vertexSet.listVertexes() ) {
+        canvas.addScreenObject( vertex );
+        scrObjs.add( vertex );
+      }
+      canvas.redraw();
+      setScreenObjects( scrObjs );
+    }
+    else {
+      if( vertexSet != null ) {
+        clearVertexSet();
+      }
+      IStridablesListEdit<IScreenObject> scrObjs = new StridablesList<>();
+      for( IVedComponentView view : canvas.listViews() ) {
+        IScreenObject obj = new VedComponentViewScreenObject( view );
+        scrObjs.add( obj );
+      }
+      setScreenObjects( scrObjs );
+    }
   }
 
   @Override
-  public void onObjectIn( IVedComponentView aShape ) {
-    // FIXME раскомментировать
-    // Cursor cursor = aShape.cursor();
-    // if( cursor == null ) {
-    // cursor = cursorHand;
-    // }
-    // canvas.setCursor( cursor );
-    canvas.setCursor( cursorHand );
+  public void onObjectIn( IScreenObject aObj ) {
+    Cursor cursor = cursorManager.findCursor( aObj.cursorType().id() );
+    if( cursor == null ) {
+      cursor = cursorHand;
+    }
+    canvas.setCursor( cursor );
   }
 
   @Override
-  public void onObjectOut( IVedComponentView aShape ) {
+  public void onObjectOut( IScreenObject aShape ) {
     canvas.setCursor( null );
   }
 
@@ -150,11 +161,10 @@ public class VedPointerToolMouseHandler
   // API пакета
   //
 
-  IStridablesList<IVedComponentView> listShapes() {
-    // FIXME раскомментировать
-    // if( vertexSet != null ) {
-    // return vertexSet.listShapes( IShape2dFilter.TRUE );
-    // }
+  IStridablesList<? extends IScreenObject> listShapes() {
+    if( vertexSet != null ) {
+      return vertexSet.listVertexes();
+    }
     // return canvas.listShapes( tool );
     return canvas.listViews( ITsFilter.ALL );
   }
@@ -165,33 +175,36 @@ public class VedPointerToolMouseHandler
 
   @Override
   protected void beforeDragStarted() {
-    // FIXME раскомментировать
-    // if( vertexSet != null ) {
-    // vertexSet.setVisible( false );
-    // }
+    if( vertexSet != null ) {
+      vertexSet.setVisible( false );
+      for( IVedVertex vertex : vertexSet.listVertexes() ) {
+        vertex.setVisible( false );
+      }
+    }
   }
 
   @Override
   protected void afterDragEnded() {
     super.afterDragEnded();
-    // FIXME раскомментировать
-    // if( vertexSet != null ) {
-    // vertexSet.setVisible( true );
-    // canvas.redraw();
-    // }
+    if( vertexSet != null ) {
+      vertexSet.setVisible( true );
+      for( IVedVertex vertex : vertexSet.listVertexes() ) {
+        vertex.setVisible( true );
+      }
+      canvas.redraw();
+    }
   }
 
   void clearVertexSet() {
-    // FIXME раскомментировать
-    // if( vertexSet != null ) {
-    // canvas.remove( vertexSet.id() );
-    // for( IShape2dView view : vertexSet.listShapes( IShape2dFilter.TRUE ) ) {
-    // canvas.remove( view.id() );
-    // }
-    // vertexSet = null;
-    // slaveShape = null;
-    // canvas.redraw();
-    // }
+    if( vertexSet != null ) {
+      canvas.removeScreenObject( vertexSet.id() );
+      for( IVedVertex vertex : vertexSet.listVertexes() ) {
+        canvas.removeScreenObject( vertex.id() );
+      }
+      vertexSet = null;
+      slaveShape = null;
+      canvas.redraw();
+    }
   }
 
   private static Rectangle createRect( Rectangle aRect ) {

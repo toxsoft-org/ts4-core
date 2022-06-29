@@ -147,7 +147,7 @@ public class VedStdCompRectangle
       owner().props().setDouble( PDEF_WIDTH, aWidth );
       owner().props().setDouble( PDEF_HEIGHT, aHeight );
       double x = outline.x();
-      double y = outline.x();
+      double y = outline.y();
       outline = new D2RectOutline( x, y, aWidth, aHeight );
       updateVisRect();
     }

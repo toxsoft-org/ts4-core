@@ -12,7 +12,7 @@ import org.toxsoft.core.tslib.bricks.strid.coll.*;
  * @author vs
  */
 public class StdDragVedCompViewsListener
-    implements IVedDragCompViewsListener {
+    implements IVedDragObjectsListener {
 
   /**
    * Холст рисования
@@ -33,7 +33,7 @@ public class StdDragVedCompViewsListener
   //
 
   @Override
-  public void onShapesDrag( double aDx, double aDy, IStridablesList<IVedComponentView> aShapes, ETsDragState aState ) {
+  public void onShapesDrag( double aDx, double aDy, IStridablesList<IScreenObject> aShapes, ETsDragState aState ) {
     if( aState != ETsDragState.START && aState != ETsDragState.FINISH ) {
       moveShapes( aDx, aDy, aShapes );
     }
@@ -43,9 +43,10 @@ public class StdDragVedCompViewsListener
   // Внутренняя реализация
   //
 
-  private void moveShapes( double aDx, double aDy, IStridablesList<IVedComponentView> aViews ) {
+  private void moveShapes( double aDx, double aDy, IStridablesList<IScreenObject> aObjects ) {
     Rectangle r = new Rectangle( 0, 0, 0, 0 );
-    for( IVedComponentView view : aViews ) {
+    for( IScreenObject obj : aObjects ) {
+      IVedComponentView view = (IVedComponentView)obj.entity();
       r = r.union( VedScreen.boundsToScreen( view ) );
       view.porter().shiftOn( aDx, aDy );
       r = r.union( VedScreen.boundsToScreen( view ) );

@@ -5,6 +5,7 @@ import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.impl.*;
 import org.toxsoft.core.tsgui.ved.utils.drag.*;
 import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.bricks.filter.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
@@ -69,7 +70,8 @@ public abstract class VedAbstractEditorTool
   public void activate( VedScreen aScreen ) {
     screen = aScreen;
     views.clear();
-    for( IVedComponentView view : screen.listViews() ) {
+    ITsFilter<IVedComponentView> f = ITsFilter.ALL;
+    for( IVedComponentView view : screen.listViews( f ) ) {
       if( accept( view ) ) {
         views.add( view );
       }

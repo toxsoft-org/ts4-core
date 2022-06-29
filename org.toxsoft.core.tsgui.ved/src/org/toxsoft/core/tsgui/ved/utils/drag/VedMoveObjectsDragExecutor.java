@@ -4,7 +4,6 @@ import org.eclipse.e4.core.contexts.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.graphics.cursors.*;
-import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
@@ -12,19 +11,19 @@ import org.toxsoft.core.tslib.coll.impl.*;
 /**
  * Обработчик событий перетаскивания.
  * <p>
- * Генерирует сообщения о перемещении представлений компонент.
+ * Генерирует сообщения о перемещении экранных объектов.
  *
  * @author vs
  */
-public class VedMoveCompViewsDragExecutor
+public class VedMoveObjectsDragExecutor
     implements IVedDragExecutor, IVedDragCompViewsEventProducer {
 
-  private final IListEdit<IVedDragCompViewsListener> listeners = new ElemLinkedBundleList<>();
+  private final IListEdit<IVedDragObjectsListener> listeners = new ElemLinkedBundleList<>();
 
   private boolean paused   = false;
   private boolean wasEvent = false;
 
-  IStridablesList<IVedComponentView> shapes;
+  IStridablesList<IScreenObject> shapes;
 
   int startX = -1;
   int startY = -1;
@@ -36,10 +35,10 @@ public class VedMoveCompViewsDragExecutor
   /**
    * Конструктор.<br>
    *
-   * @param aShapes IStridablesList&lt;IShape2dView> - список "перетаскиваемых" фигур
+   * @param aShapes IStridablesList&lt;IScreenObject> - список "перетаскиваемых" фигур
    * @param aAppContext IEclipseContext - контекст окна
    */
-  public VedMoveCompViewsDragExecutor( IStridablesList<IVedComponentView> aShapes, IEclipseContext aAppContext ) {
+  public VedMoveObjectsDragExecutor( IStridablesList<IScreenObject> aShapes, IEclipseContext aAppContext ) {
     shapes = aShapes;
     ITsCursorManager cursorManager = new TsCursorManager( aAppContext );
     handCursor = cursorManager.getCursor( ECursorType.HAND );
@@ -88,14 +87,14 @@ public class VedMoveCompViewsDragExecutor
   //
 
   @Override
-  public void addVedDragCompViewsEventListener( IVedDragCompViewsListener aListener ) {
+  public void addVedDragCompViewsEventListener( IVedDragObjectsListener aListener ) {
     if( !listeners.hasElem( aListener ) ) {
       listeners.add( aListener );
     }
   }
 
   @Override
-  public void removeVedDragCompViewsEventListener( IVedDragCompViewsListener aListener ) {
+  public void removeVedDragCompViewsEventListener( IVedDragObjectsListener aListener ) {
     listeners.remove( aListener );
   }
 
@@ -121,7 +120,7 @@ public class VedMoveCompViewsDragExecutor
 
   void fireShapesDragEvent( int aDx, int aDy, ETsDragState aDragState ) {
     if( !paused ) {
-      for( IVedDragCompViewsListener l : listeners ) {
+      for( IVedDragObjectsListener l : listeners ) {
         l.onShapesDrag( aDx, aDy, shapes, aDragState );
       }
     }
