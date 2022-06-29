@@ -2,14 +2,12 @@ package org.toxsoft.core.tslib.av.opset.impl;
 
 import static org.toxsoft.core.tslib.av.opset.impl.ITsResources.*;
 
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.errors.AvTypeCastRtException;
-import org.toxsoft.core.tslib.av.metainfo.IDataDef;
-import org.toxsoft.core.tslib.av.opset.IOpsGetter;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.errors.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Abstract implementation of {@link IOpsGetter}.
@@ -244,7 +242,7 @@ public abstract class AbstractOptionsGetter
 
   @Override
   public float getFloat( IDataDef aOpId ) {
-    IAtomicValue av = internalFindAs( aOpId, EAtomicType.INTEGER );
+    IAtomicValue av = internalFindAs( aOpId, EAtomicType.FLOATING );
     if( av == null ) {
       return aOpId.defaultValue().asFloat();
     }
@@ -267,7 +265,7 @@ public abstract class AbstractOptionsGetter
 
   @Override
   public double getDouble( IDataDef aOpId ) {
-    IAtomicValue av = internalFindAs( aOpId, EAtomicType.INTEGER );
+    IAtomicValue av = internalFindAs( aOpId, EAtomicType.FLOATING );
     if( av == null ) {
       return aOpId.defaultValue().asDouble();
     }
