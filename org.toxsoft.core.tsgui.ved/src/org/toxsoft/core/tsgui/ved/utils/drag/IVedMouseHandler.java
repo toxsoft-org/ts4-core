@@ -117,8 +117,9 @@ public interface IVedMouseHandler
    * вызывается данный метод.
    *
    * @param aShape IScreenObject - объект на котором произошел щелчок или null если щелчок был на пустом месте
+   * @param aEvent MouseEvent - инфрмация о состоянии кнопок мыши, клавиатуры и т.д.
    */
-  default void onClick( IScreenObject aShape ) {
+  default void onClick( IScreenObject aShape, MouseEvent aEvent ) {
     // nop
   }
 

@@ -87,7 +87,7 @@ public abstract class VedAbstractToolMouseHandler
       hoveredObject = objectAt( aEvent.x, aEvent.y );
       if( hoveredObject == mouseDownInfo.hoveredObject() && aEvent.button == mouseDownInfo.mouseEvent().button ) {
         clearInternalState();
-        onClick( hoveredObject );
+        onClick( hoveredObject, aEvent );
         return;
       }
     }
