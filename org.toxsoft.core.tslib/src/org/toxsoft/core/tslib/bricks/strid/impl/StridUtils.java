@@ -2,17 +2,14 @@ package org.toxsoft.core.tslib.bricks.strid.impl;
 
 import static org.toxsoft.core.tslib.bricks.strid.impl.ITsResources.*;
 
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.validator.EValidationResultType;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.bricks.validator.impl.TsValidationFailedRtException;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
-import org.toxsoft.core.tslib.coll.primtypes.IStringListEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringArrayList;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Methods to work with strids (IPnames and IDpaths).
@@ -619,7 +616,7 @@ public final class StridUtils {
   /**
    * Format string: "{@link IStridable#id()} - {@link IStridable#description()}"
    */
-  public static final String FORMAT_ID_DESCRITPTION = "%s - %s"; //$NON-NLS-1$
+  public static final String FORMAT_ID_DESCRITPTION = "%s - %3$s"; //$NON-NLS-1$
 
   /**
    * Format string: "{@link IStridable#description()} ({@link IStridable#id()})"

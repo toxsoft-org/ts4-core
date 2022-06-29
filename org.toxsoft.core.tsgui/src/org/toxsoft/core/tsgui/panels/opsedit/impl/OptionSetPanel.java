@@ -176,7 +176,7 @@ public class OptionSetPanel
         // Label - option name
         Label l = new Label( valedsGrid, SWT.LEFT );
         l.setText( dd.nmName() );
-        l.setToolTipText( printf( FORMAT_ID_DESCRITPTION, dd ) );
+        l.setToolTipText( printf( FORMAT_DESCRIPTION_ID, dd ) );
         // IValedControl - option value editor
         IValedControl<IAtomicValue> valed = createValedControl( valedsGrid, dd );
         valed.eventer().addListener( valedControlValueChangeListener );
