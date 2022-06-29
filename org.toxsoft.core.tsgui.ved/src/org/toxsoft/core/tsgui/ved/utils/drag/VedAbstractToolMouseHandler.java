@@ -2,10 +2,8 @@ package org.toxsoft.core.tsgui.ved.utils.drag;
 
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
-import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.impl.*;
 import org.toxsoft.core.tsgui.ved.incub.geom.*;
-import org.toxsoft.core.tsgui.ved.std.tool.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -29,7 +27,7 @@ public abstract class VedAbstractToolMouseHandler
     /**
      * Двух-мерный объект под курсором мыши в момент нажатия
      */
-    private final IVedComponentView hovObject;
+    private final IScreenObject hovObject;
 
     /**
      * Момент времени в ms когда была нажата кнопка мыши
@@ -38,7 +36,6 @@ public abstract class VedAbstractToolMouseHandler
 
     MouseDownInfo( MouseEvent aEvent ) {
       mouseEvent = aEvent;
-      // hovObject = AbstractToolMouseHandler.this.hoveredObject();
       hovObject = objectAt( aEvent.x, aEvent.y );
       time = System.currentTimeMillis();
     }
@@ -47,7 +44,7 @@ public abstract class VedAbstractToolMouseHandler
       return mouseEvent;
     }
 
-    IVedComponentView hoveredObject() {
+    IScreenObject hoveredObject() {
       return hovObject;
     }
 
@@ -60,9 +57,9 @@ public abstract class VedAbstractToolMouseHandler
 
     private final MouseEvent mouseEvent;
 
-    private final IStridablesList<IVedComponentView> draggingObjects;
+    private final IStridablesList<IScreenObject> draggingObjects;
 
-    StartDragInfo( MouseEvent aMouseEvent, IStridablesList<IVedComponentView> aDraggingObjects ) {
+    StartDragInfo( MouseEvent aMouseEvent, IStridablesList<IScreenObject> aDraggingObjects ) {
       mouseEvent = aMouseEvent;
       draggingObjects = aDraggingObjects;
     }
@@ -71,12 +68,10 @@ public abstract class VedAbstractToolMouseHandler
       return mouseEvent;
     }
 
-    IStridablesList<IVedComponentView> draggingObjects() {
+    IStridablesList<IScreenObject> draggingObjects() {
       return draggingObjects;
     }
   }
-
-  // MouseListener mouseListener = new MouseListener() {
 
   @Override
   public void onMouseUp( MouseEvent aEvent ) {
@@ -103,7 +98,7 @@ public abstract class VedAbstractToolMouseHandler
   @Override
   public void onMouseDown( MouseEvent aEvent ) {
     mouseDownInfo = new MouseDownInfo( aEvent );
-    IStridablesList<IVedComponentView> draggingObjects = objectsForDrag( hoveredObject, aEvent );
+    IStridablesList<IScreenObject> draggingObjects = objectsForDrag( hoveredObject, aEvent );
     dragExecutor = dragExecutor( hoveredObject );
     if( dragExecutor != IVedDragExecutor.NULL ) {
       readyForDrag = true;
@@ -119,9 +114,6 @@ public abstract class VedAbstractToolMouseHandler
     clearInternalState(); // очистим внутренние флаги и состояние
     doOnMouseDoubleClick( aEvent );
   }
-  // };
-
-  // MouseMoveListener mouseMoveListener = new MouseMoveListener() {
 
   @Override
   public void onMouseMove( MouseEvent aEvent ) {
@@ -141,7 +133,7 @@ public abstract class VedAbstractToolMouseHandler
       return;
     }
 
-    IVedComponentView hovObj = objectAt( aEvent.x, aEvent.y );
+    IScreenObject hovObj = objectAt( aEvent.x, aEvent.y );
     if( hovObj != hoveredObject ) {
       onObjectOut( hoveredObject );
       if( hovObj != null ) {
@@ -179,17 +171,17 @@ public abstract class VedAbstractToolMouseHandler
   /**
    * Объект над которым находится курсор мыши
    */
-  IVedComponentView hoveredObject = null;
+  IScreenObject hoveredObject = null;
 
   /**
    * Холст рисования
    */
   protected VedScreen canvas = null;
 
-  /**
-   * "Инструмент" редактора
-   */
-  protected final VedAbstractEditorTool tool;
+  // /**
+  // * "Инструмент" редактора
+  // */
+  // protected final VedAbstractEditorTool tool;
 
   /**
    * Обработчик событий перетаскивания
@@ -202,12 +194,23 @@ public abstract class VedAbstractToolMouseHandler
   Point cursorPos = new Point( 0, 0 );
 
   /**
-   * Конструктор.<br>
-   *
-   * @param aTool VedAbstractEditorTool - "инструмент" редактора
+   * Список экранных объектов доступных обработчику мыши
    */
-  public VedAbstractToolMouseHandler( VedAbstractEditorTool aTool ) {
-    tool = aTool;
+  IStridablesListEdit<IScreenObject> screenObjects = new StridablesList<>();
+
+  // /**
+  // * Конструктор.<br>
+  // *
+  // * @param aTool VedAbstractEditorTool - "инструмент" редактора
+  // */
+  // public VedAbstractToolMouseHandler( VedAbstractEditorTool aTool ) {
+  // tool = aTool;
+  // }
+
+  /**
+   * Конструктор.<br>
+   */
+  public VedAbstractToolMouseHandler() {
   }
 
   // ------------------------------------------------------------------------------------
@@ -234,29 +237,40 @@ public abstract class VedAbstractToolMouseHandler
   }
 
   @Override
-  public IVedComponentView objectAt( int aX, int aY ) {
-    IVedComponentView result = null;
-    for( IVedComponentView shape : tool.listViews() ) {
-      if( shape.outline().contains( aX, aY ) ) {
-        result = shape;
+  public IScreenObject objectAt( int aX, int aY ) {
+    for( IScreenObject obj : screenObjects ) {
+      if( obj.contains( canvas.screenToNorm( aX ), canvas.screenToNorm( aY ) ) ) {
+        return obj;
       }
     }
-    return result;
+    return null;
+    // IScreenObject result = null;
+    // for( IVedComponentView view : tool.listViews() ) {
+    // if( shape.outline().contains( aX, aY ) ) {
+    // result = shape;
+    // }
+    // }
+    // return result;
   }
 
   @Override
-  public IStridablesList<IVedComponentView> objectsAt( int aX, int aY ) {
-    IStridablesListEdit<IVedComponentView> result = new StridablesList<>();
-    for( IVedComponentView obj : tool.listViews() ) {
-      if( obj.outline().contains( aX, aY ) ) {
+  public IStridablesList<IScreenObject> objectsAt( int aX, int aY ) {
+    IStridablesListEdit<IScreenObject> result = new StridablesList<>();
+    for( IScreenObject obj : screenObjects ) {
+      if( obj.contains( canvas.screenToNorm( aX ), canvas.screenToNorm( aY ) ) ) {
         result.add( obj );
       }
     }
+    // for( IVedComponentView view : tool.listViews() ) {
+    // if( obj.outline().contains( aX, aY ) ) {
+    // result.add( obj );
+    // }
+    // }
     return result;
   }
 
   @Override
-  public final IVedComponentView hoveredObject() {
+  public final IScreenObject hoveredObject() {
     return hoveredObject;
   }
 
@@ -286,9 +300,11 @@ public abstract class VedAbstractToolMouseHandler
    *
    * @param aCanvas IEditingCanvas - холст рисования
    */
-  public void activate( VedScreen aCanvas ) {
+  public void activate( VedScreen aCanvas, IStridablesList<IScreenObject> aObjects ) {
     hoveredObject = null;
     canvas = aCanvas;
+    screenObjects.clear();
+    screenObjects.addAll( aObjects );
     onActivate();
   }
 
@@ -305,9 +321,10 @@ public abstract class VedAbstractToolMouseHandler
     clearInternalState();
   }
 
-  // public IEditingCanvas canvas() {
-  // return canvas;
-  // }
+  public void setScreenObjects( IStridablesList<IScreenObject> aObjects ) {
+    screenObjects.clear();
+    screenObjects.addAll( aObjects );
+  }
 
   // ------------------------------------------------------------------------------------
   // Методы для переопределения в наследниках
@@ -319,17 +336,16 @@ public abstract class VedAbstractToolMouseHandler
    * @param aHoveredObject IShape2dView - объект под курсором мыши
    * @return IDragExecutor - обработчик событий перетаскивания
    */
-  protected abstract IVedDragExecutor dragExecutor( IVedComponentView aHoveredObject );
+  protected abstract IVedDragExecutor dragExecutor( IScreenObject aHoveredObject );
 
   /**
    * Возвращает список объектов для "перетаскивания".<br>
    *
    * @param aHoveredObject IObject2d - объект под курсором мыши
    * @param aEvent MouseEvent - информация о положении курсора мыши и состоянии кнопок
-   * @return IStridablesList&lt;IVedComponentView> - список объектов для "перетаскивания" (м.б. пустным)
+   * @return IStridablesList&lt;IScreenObject> - список объектов для "перетаскивания" (м.б. пустным)
    */
-  protected abstract IStridablesList<IVedComponentView> objectsForDrag( IVedComponentView aHoveredObject,
-      MouseEvent aEvent );
+  protected abstract IStridablesList<IScreenObject> objectsForDrag( IScreenObject aHoveredObject, MouseEvent aEvent );
 
   /**
    * Освобождает все системные ресурсы

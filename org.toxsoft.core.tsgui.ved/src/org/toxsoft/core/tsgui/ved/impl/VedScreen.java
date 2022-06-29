@@ -10,6 +10,7 @@ import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.incub.geom.*;
 import org.toxsoft.core.tsgui.ved.std.tool.*;
 import org.toxsoft.core.tsgui.ved.utils.drag.*;
+import org.toxsoft.core.tslib.bricks.filter.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -30,6 +31,11 @@ public class VedScreen
    * Список представлений компонент
    */
   private final IStridablesListEdit<IVedComponentView> views = new StridablesList<>();
+
+  /**
+   * Список экранных объектов
+   */
+  private final IStridablesListEdit<IScreenObject> screenObjects = new StridablesList<>();
 
   private final IVedDataModel dataModel;
 
@@ -69,12 +75,16 @@ public class VedScreen
 
   @Override
   public void setActiveTool( IVedEditorTool aTool ) {
-    // activeTool = aTool;
-    // mouseDelegator.setMouseHandler( ((AbstractVedTool)aTool).mouseHandler() );
     activeTool = aTool;
     ((VedAbstractEditorTool)activeTool).activate( this );
     VedAbstractToolMouseHandler mh = (VedAbstractToolMouseHandler)((VedAbstractEditorTool)activeTool).mouseHandler();
-    mh.activate( this );
+
+    IStridablesListEdit<IScreenObject> screenObjects = new StridablesList<>();
+    for( IVedComponentView view : views ) {
+      screenObjects.add( new VedComponentViewScreenObject( view ) );
+    }
+
+    mh.activate( this, screenObjects );
     mouseDelegator.setMouseHandler( mh );
   }
 
@@ -134,15 +144,15 @@ public class VedScreen
    * @param aFilter ITsFilter&lt;IVedComponentView> - фильтр
    * @return IStridablesList&lt;IVedComponentView> - фильтрованный список "фигур"
    */
-  // public IStridablesList<IVedComponentView> listViews( ITsFilter<IVedComponentView> aFilter ) {
-  // IStridablesListEdit<IVedComponentView> result = new StridablesList<>();
-  // for( IVedComponentView view : views ) {
-  // if( aFilter.accept( view ) ) {
-  // result.add( view );
-  // }
-  // }
-  // return result;
-  // }
+  public IStridablesList<IVedComponentView> listViews( ITsFilter<IVedComponentView> aFilter ) {
+    IStridablesListEdit<IVedComponentView> result = new StridablesList<>();
+    for( IVedComponentView view : views ) {
+      if( aFilter.accept( view ) ) {
+        result.add( view );
+      }
+    }
+    return result;
+  }
 
   public IStridablesList<IVedComponentView> listViews() {
     return views;
@@ -163,6 +173,35 @@ public class VedScreen
     return new Rectangle( x, y, width, height );
   }
 
+  /**
+   * Преобразует экранную координату в нормализованную координату.<br>
+   *
+   * @param aCoord int - экранная координата
+   * @return double - нормализованная координата
+   */
+  public double screenToNorm( int aCoord ) {
+    return aCoord / zoomFactor;
+  }
+
+  /**
+   * Добавляет экранный объект.<br>
+   *
+   * @param aObject IScreenObject - экранный объект
+   */
+  public void addScreenObject( IScreenObject aObject ) {
+    screenObjects.add( aObject );
+  }
+
+  /**
+   * Удаляет экранный объект.<br>
+   * Если объект отсутствует, то ничего не делает.
+   *
+   * @param aId String - идентификатор экранного объекта
+   */
+  public void removeScreenObject( String aId ) {
+    screenObjects.removeById( aId );
+  }
+
   // ------------------------------------------------------------------------------------
   // Внутренняя реализация
   //
@@ -174,6 +213,10 @@ public class VedScreen
   void paint( PaintEvent aEvent ) {
     for( IVedComponentView view : views ) {
       view.painter().paint( aEvent.gc );
+    }
+
+    for( IScreenObject obj : screenObjects ) {
+      obj.paint( aEvent.gc );
     }
 
     // for( IShape2dView shape : shapes ) {
