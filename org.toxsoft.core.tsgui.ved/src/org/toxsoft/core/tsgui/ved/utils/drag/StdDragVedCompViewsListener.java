@@ -1,6 +1,5 @@
 package org.toxsoft.core.tsgui.ved.utils.drag;
 
-import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
@@ -44,14 +43,15 @@ public class StdDragVedCompViewsListener
   //
 
   private void moveShapes( double aDx, double aDy, IStridablesList<IScreenObject> aObjects ) {
-    Rectangle r = new Rectangle( 0, 0, 0, 0 );
+    // Rectangle r = new Rectangle( 0, 0, 0, 0 );
     for( IScreenObject obj : aObjects ) {
       IVedComponentView view = (IVedComponentView)obj.entity();
-      r = r.union( VedScreen.boundsToScreen( view ) );
+      // r = r.union( VedScreen.boundsToScreen( view ) );
       view.porter().shiftOn( aDx, aDy );
-      r = r.union( VedScreen.boundsToScreen( view ) );
+      // r = r.union( VedScreen.boundsToScreen( view ) );
     }
-    canvas.redraw( r.x, r.y, r.width + 1, r.height + 1, false );
+    // canvas.redraw( r.x, r.y, r.width + 1, r.height + 1, false );
+    canvas.redraw();
   }
 
 }
