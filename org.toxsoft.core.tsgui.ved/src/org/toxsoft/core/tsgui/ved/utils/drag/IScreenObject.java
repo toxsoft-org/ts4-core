@@ -40,14 +40,24 @@ public interface IScreenObject
   Rectangle bounds();
 
   /**
-   * Определяет, принадлежит ли точка экранному объекту.<br>
+   * Определяет, принадлежит ли точка в нормализованных координатах экранному объекту.<br>
    *
-   * @param aX double - x координата точки
-   * @param aY double - y координата точки
+   * @param aX double - нормализованная x координата точки
+   * @param aY double - нормализованная y координата точки
    * @return <b>true</b> - точка принадлежит объекту<br>
    *         <b>false</b> - точка находится вне объекта
    */
-  boolean contains( double aX, double aY );
+  boolean containsNormPoint( double aX, double aY );
+
+  /**
+   * Определяет, принадлежит ли точка в экранных координатах экранному объекту.<br>
+   *
+   * @param aX int - экранная x координата точки
+   * @param aY int - экранная y координата точки
+   * @return <b>true</b> - точка принадлежит объекту<br>
+   *         <b>false</b> - точка находится вне объекта
+   */
+  boolean containsScreenPoint( int aX, int aY );
 
   /**
    * Возвращает тип курсора мыши, когда он находится над объектом.<br>

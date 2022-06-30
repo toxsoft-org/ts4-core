@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.ved.std.tool;
 
 import org.eclipse.e4.core.contexts.*;
+import org.eclipse.swt.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.graphics.cursors.*;
@@ -44,9 +45,9 @@ public class VedPointerToolMouseHandler
         vertexSet.update( aDx, aDy, view.id() );
         Rectangle r2 = vertexSet.bounds();
         Rectangle rr = substract( r2, r1 );
-        slaveShape.porter().shiftOn( rr.x, rr.y );
-        double w = slaveShape.outline().bounds().width() + rr.width * canvas.zoomFactor();
-        double h = slaveShape.outline().bounds().height() + rr.height * canvas.zoomFactor();
+        slaveShape.porter().shiftOn( canvas.screenToNorm( rr.x ), canvas.screenToNorm( rr.y ) );
+        double w = slaveShape.outline().bounds().width() + rr.width / canvas.zoomFactor();
+        double h = slaveShape.outline().bounds().height() + rr.height / canvas.zoomFactor();
         slaveShape.porter().setSize( w, h );
         // if( aState == ETsDragState.FINISH ) {
         // slaveShape.onDragFinished();
@@ -55,14 +56,14 @@ public class VedPointerToolMouseHandler
         // um.addUndoredoItem( new UndoSizeLocationChangePerformer( r.x - sssR.x, r.y - sssR.y, r.width - sssR.width,
         // r.height - sssR.height, slaveShape ) );
         // }
+        canvas.redraw();
       }
-      canvas.redraw();
     }
     else {
       // if( aState == ETsDragState.START ) {
       // sssR = createRect( aShapes.first().bounds() );
       // }
-      stdDragListener.onShapesDrag( aDx, aDy, aShapes, aState );
+      stdDragListener.onShapesDrag( aDx / canvas.zoomFactor(), aDy / canvas.zoomFactor(), aShapes, aState );
       // if( aState == ETsDragState.FINISH ) {
       // IUndoManager um = appContext.get( IImedService.class ).undoManager();
       // Rectangle r = aShapes.first().bounds();
@@ -118,12 +119,16 @@ public class VedPointerToolMouseHandler
 
   @Override
   public void onClick( IScreenObject aObj, MouseEvent aEvent ) {
-    // if( aObj != null && vertexSet == null ) { // клик на объекте при отсутствии активной границы
-    // // if( aEvent ) {
-    // //
-    // // }
-    // IVedComponentView view = aObj.entity();
-    // }
+    if( aObj != null && vertexSet == null ) { // клик на объекте при отсутствии активной границы
+      if( (aEvent.stateMask & SWT.CTRL) != 0 ) {
+        IVedComponentView view = aObj.entity();
+        if( view != null ) {
+          canvas.selectionManager().toggleSelection( view.owner() );
+          // System.out.println( "Toggle selection reuqired!" );
+        }
+        return;
+      }
+    }
 
     if( aObj != null ) {
       IStridablesListEdit<IScreenObject> scrObjs = new StridablesList<>();

@@ -149,4 +149,24 @@ class VedSelectedComponentManager
     }
   }
 
+  @Override
+  public void setComponentSelection( IVedComponent aComp, boolean aSelection ) {
+    TsNullArgumentRtException.checkNull( aComp );
+    boolean selection = selComps.hasKey( aComp.id() );
+    if( !aSelection && !selection ) {
+      return;
+    }
+    if( aSelection && selection ) {
+      return;
+    }
+
+    if( !aSelection ) {
+      selComps.removeById( aComp.id() );
+    }
+    else {
+      selComps.add( aComp );
+    }
+    eventer.fireChangeEvent();
+  }
+
 }

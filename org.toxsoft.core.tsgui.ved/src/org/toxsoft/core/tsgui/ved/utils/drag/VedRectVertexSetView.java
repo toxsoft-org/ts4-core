@@ -97,7 +97,12 @@ public class VedRectVertexSetView
   }
 
   @Override
-  public boolean contains( double aX, double aY ) {
+  public boolean containsScreenPoint( int aX, int aY ) {
+    return false;
+  }
+
+  @Override
+  public boolean containsNormPoint( double aX, double aY ) {
     return false;
   }
 

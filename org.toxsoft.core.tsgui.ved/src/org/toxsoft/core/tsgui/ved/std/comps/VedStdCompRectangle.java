@@ -39,7 +39,8 @@ public class VedStdCompRectangle
           PDEF_WIDTH, //
           PDEF_HEIGHT, //
           PDEF_FG_COLOR, //
-          PDEF_BG_COLOR //
+          PDEF_BG_COLOR, //
+          PDEF_ROTATION_ANGLE //
       ) {
 
         @Override
@@ -68,6 +69,7 @@ public class VedStdCompRectangle
     StdRectView( VedStdCompRectangle aOwner ) {
       super( aOwner );
       update();
+      owner().props().propsEventer().pauseFiring();
     }
 
     @Override
@@ -98,8 +100,32 @@ public class VedStdCompRectangle
     public void paint( GC aGc ) {
       aGc.setForeground( fgColor );
       aGc.setBackground( bgColor );
-      aGc.fillRectangle( visRect );
-      aGc.drawRectangle( visRect );
+
+      Transform tr = null;
+      try {
+        double angle = owner().props().getDouble( PDEF_ROTATION_ANGLE );
+        angle = 0;
+        // angle = 45;
+        if( Double.compare( angle, 0.0 ) != 0 ) {
+          tr = new Transform( aGc.getDevice() );
+          ID2Point center = outline.boundsCenter();
+          int centerX = (int)Math.round( center.x() * zoomFactor );
+          int centerY = (int)Math.round( center.y() * zoomFactor );
+          tr.translate( centerX, centerY );
+          tr.rotate( (float)angle );
+          tr.translate( -centerX, -centerY );
+          aGc.setTransform( tr );
+        }
+        aGc.fillRectangle( visRect );
+        aGc.setLineWidth( 1 );
+        aGc.drawRectangle( visRect );
+      }
+      finally {
+        if( tr != null ) {
+          tr.dispose();
+          aGc.setTransform( null );
+        }
+      }
     }
 
     @Override
@@ -201,10 +227,10 @@ public class VedStdCompRectangle
     }
 
     private void updateVisRect() {
-      visRect.x = (int)Math.round( outline.x() );
-      visRect.y = (int)Math.round( outline.y() );
-      visRect.width = (int)Math.round( outline.width() );
-      visRect.height = (int)Math.round( outline.height() );
+      visRect.x = (int)Math.round( outline.x() * zoomFactor );
+      visRect.y = (int)Math.round( outline.y() * zoomFactor );
+      visRect.width = (int)Math.round( outline.width() * zoomFactor );
+      visRect.height = (int)Math.round( outline.height() * zoomFactor );
     }
 
     private void updateOutline() {

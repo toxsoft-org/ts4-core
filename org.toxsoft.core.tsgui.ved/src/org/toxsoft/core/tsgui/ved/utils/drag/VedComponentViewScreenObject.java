@@ -40,13 +40,18 @@ public class VedComponentViewScreenObject
   }
 
   @Override
-  public boolean contains( double aX, double aY ) {
+  public boolean containsScreenPoint( int aX, int aY ) {
+    return containsNormPoint( aX / view.painter().zoomFactor(), aY / view.painter().zoomFactor() );
+  }
+
+  @Override
+  public boolean containsNormPoint( double aX, double aY ) {
     return view.outline().contains( aX, aY );
   }
 
   @Override
   public ECursorType cursorType() {
-    return ECursorType.ARROW;
+    return ECursorType.HAND;
   }
 
   @Override

@@ -35,8 +35,13 @@ public class RectVertex
   }
 
   @Override
-  public boolean contains( double aX, double aY ) {
+  public boolean containsNormPoint( double aX, double aY ) {
     return rect.contains( (int)Math.round( aX * zoomFactor() ), (int)Math.round( aY * zoomFactor() ) );
+  }
+
+  @Override
+  public boolean containsScreenPoint( int aX, int aY ) {
+    return rect.contains( aX, aY );
   }
 
   @Override

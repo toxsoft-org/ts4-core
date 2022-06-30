@@ -4,20 +4,27 @@ import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.panels.*;
 import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.incub.geom.*;
 import org.toxsoft.core.tsgui.ved.std.tool.*;
 import org.toxsoft.core.tsgui.ved.utils.drag.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.filter.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.coll.helpers.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 public class VedScreen
     extends TsPanel
     implements IVedScreen {
+
+  IGenericChangeListener selectionListener = aSource -> {
+    redraw();
+  };
 
   private IVedEditorTool activeTool = null;
 
@@ -39,12 +46,21 @@ public class VedScreen
 
   private final IVedDataModel dataModel;
 
+  private VedSelectedComponentManager selectionManager;
+
   VedPointerTool pointerTool;
+
+  Color selectionColor;
 
   public VedScreen( Composite aParent, ITsGuiContext aContext ) {
     super( aParent, aContext );
 
     mouseDelegator = new VedScreenMouseDelegator( this );
+
+    selectionManager = new VedSelectedComponentManager( selectionListener );
+    selectionManager.genericChangeEventer().addListener( selectionListener );
+
+    selectionColor = colorManager().getColor( ETsColor.RED );
 
     addDisposeListener( aE -> onDispose() );
 
@@ -52,12 +68,14 @@ public class VedScreen
 
     dataModel = aContext.eclipseContext().get( IVedEnvironment.class ).dataModel();
     dataModel.comps().addCollectionChangeListener( ( aSource, aOp, aItem ) -> {
-      views.clear();
-      for( IVedComponent comp : dataModel.comps() ) {
-        views.add( comp.createView( VedScreen.this ) );
+      if( aOp == ECrudOp.CREATE ) {
+        views.clear();
+        for( IVedComponent comp : dataModel.comps() ) {
+          views.add( comp.createView( VedScreen.this ) );
+        }
+        setActiveTool( pointerTool );
+        redraw();
       }
-      setActiveTool( pointerTool );
-      redraw();
     } );
 
     pointerTool = new VedPointerTool( aContext );
@@ -95,7 +113,7 @@ public class VedScreen
 
   @Override
   public IVedSelectedComponentManager selectionManager() {
-    throw new TsUnderDevelopmentRtException();
+    return selectionManager;
   }
 
   // ------------------------------------------------------------------------------------
@@ -132,6 +150,7 @@ public class VedScreen
    */
   public void setZoomFactor( double aZoomFactor ) {
     if( Double.compare( zoomFactor, aZoomFactor ) != 0 ) {
+      zoomFactor = aZoomFactor;
       for( IVedComponentView view : views ) {
         view.painter().setZoomFactor( aZoomFactor );
       }
@@ -184,6 +203,16 @@ public class VedScreen
   }
 
   /**
+   * Преобразует нормализованную координату в экранную координату.<br>
+   *
+   * @param aCoord double - нормализованная координата
+   * @return int - экранная координата
+   */
+  public double normToScreen( double aCoord ) {
+    return aCoord / zoomFactor;
+  }
+
+  /**
    * Добавляет экранный объект.<br>
    *
    * @param aObject IScreenObject - экранный объект
@@ -217,6 +246,20 @@ public class VedScreen
 
     for( IScreenObject obj : screenObjects ) {
       obj.paint( aEvent.gc );
+    }
+
+    // отрисуем границы выделенных элементов
+    aEvent.gc.setForeground( selectionColor );
+    aEvent.gc.setLineWidth( 2 );
+    for( IVedComponentView view : views ) {
+      if( selectionManager.selectedComponents().hasKey( view.id() ) ) {
+        Rectangle r = boundsToScreen( view );
+        r.x -= 2;
+        r.y -= 2;
+        r.width += 4;
+        r.height += 4;
+        aEvent.gc.drawRectangle( r );
+      }
     }
 
     // for( IShape2dView shape : shapes ) {

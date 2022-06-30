@@ -69,10 +69,21 @@ public interface IVedSelectedComponentManager
   /**
    * Sets single component selection
    *
-   * @param aComp {@link IVedComponent} - the only component to be set as selcted
+   * @param aComp {@link IVedComponent} - the only component to be set as selected
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void setSelectedComponent( IVedComponent aComp );
+
+  /**
+   * Toogle component selection.<br>
+   * If selection is true and component is already selected do nothing, if selection is false and component is
+   * deselected do nothing otherwise toggle componetnt's selection.
+   *
+   * @param aComp {@link IVedComponent} - component whose selection should be toggled
+   * @param aSelection <b>true</b> - component will be selected<br>
+   *          <b>false</b> - component will be deselected
+   */
+  void setComponentSelection( IVedComponent aComp, boolean aSelection );
 
   /**
    * Sets selected components list.

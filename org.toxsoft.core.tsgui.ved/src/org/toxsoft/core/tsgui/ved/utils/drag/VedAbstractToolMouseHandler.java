@@ -239,33 +239,21 @@ public abstract class VedAbstractToolMouseHandler
   @Override
   public IScreenObject objectAt( int aX, int aY ) {
     for( IScreenObject obj : screenObjects ) {
-      if( obj.contains( canvas.screenToNorm( aX ), canvas.screenToNorm( aY ) ) ) {
+      if( obj.containsScreenPoint( aX, aY ) ) {
         return obj;
       }
     }
     return null;
-    // IScreenObject result = null;
-    // for( IVedComponentView view : tool.listViews() ) {
-    // if( shape.outline().contains( aX, aY ) ) {
-    // result = shape;
-    // }
-    // }
-    // return result;
   }
 
   @Override
   public IStridablesList<IScreenObject> objectsAt( int aX, int aY ) {
     IStridablesListEdit<IScreenObject> result = new StridablesList<>();
     for( IScreenObject obj : screenObjects ) {
-      if( obj.contains( canvas.screenToNorm( aX ), canvas.screenToNorm( aY ) ) ) {
+      if( obj.containsScreenPoint( aX, aY ) ) {
         result.add( obj );
       }
     }
-    // for( IVedComponentView view : tool.listViews() ) {
-    // if( obj.outline().contains( aX, aY ) ) {
-    // result.add( obj );
-    // }
-    // }
     return result;
   }
 
@@ -299,6 +287,7 @@ public abstract class VedAbstractToolMouseHandler
    * Вызывается в момент активации обработчика.<br>
    *
    * @param aCanvas IEditingCanvas - холст рисования
+   * @param aObjects IStridablesList&lt;IScreenObject> - список объектов доступных обработчику
    */
   public void activate( VedScreen aCanvas, IStridablesList<IScreenObject> aObjects ) {
     hoveredObject = null;
@@ -321,6 +310,11 @@ public abstract class VedAbstractToolMouseHandler
     clearInternalState();
   }
 
+  /**
+   * Устанавливает список объектов доступных обработчику.<br>
+   *
+   * @param aObjects IStridablesList&lt;IScreenObject> - список объектов доступных обработчику
+   */
   public void setScreenObjects( IStridablesList<IScreenObject> aObjects ) {
     screenObjects.clear();
     screenObjects.addAll( aObjects );
