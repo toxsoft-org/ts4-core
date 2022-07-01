@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.ved.incub.geom;
+package org.toxsoft.core.tslib.bricks.d2;
 
 /**
  * The rectangleon a plane with <code>double</code> coordinates.
@@ -7,7 +7,7 @@ package org.toxsoft.core.tsgui.ved.incub.geom;
  *
  * @author hazard157
  */
-public sealed interface ID2Rectangle permits D2Rectangle {
+public sealed interface ID2Rectangle permits D2Rectangle,D2RectangleEdit {
 
   /**
    * Returns the top-left corner X coordinate.

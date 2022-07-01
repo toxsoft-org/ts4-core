@@ -11,6 +11,7 @@ import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.incub.geom.*;
 import org.toxsoft.core.tsgui.ved.std.tool.*;
 import org.toxsoft.core.tsgui.ved.utils.drag.*;
+import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.filter.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
@@ -83,7 +84,7 @@ public class VedScreen
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса {@link IVedScreen}
+  // IVedScreen
   //
 
   @Override
@@ -97,12 +98,12 @@ public class VedScreen
     ((VedAbstractEditorTool)activeTool).activate( this );
     VedAbstractToolMouseHandler mh = (VedAbstractToolMouseHandler)((VedAbstractEditorTool)activeTool).mouseHandler();
 
-    IStridablesListEdit<IScreenObject> screenObjects = new StridablesList<>();
+    IStridablesListEdit<IScreenObject> scrObjs = new StridablesList<>();
     for( IVedComponentView view : views ) {
-      screenObjects.add( new VedComponentViewScreenObject( view ) );
+      scrObjs.add( new VedComponentViewScreenObject( view ) );
     }
 
-    mh.activate( this, screenObjects );
+    mh.activate( this, scrObjs );
     mouseDelegator.setMouseHandler( mh );
   }
 

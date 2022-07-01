@@ -2,6 +2,8 @@ package org.toxsoft.core.tsgui.ved.incub.geom;
 
 import java.awt.geom.*;
 
+import org.toxsoft.core.tslib.bricks.d2.*;
+
 /**
  * Геометрическое понятие - "Отрезок линии".
  * <p>

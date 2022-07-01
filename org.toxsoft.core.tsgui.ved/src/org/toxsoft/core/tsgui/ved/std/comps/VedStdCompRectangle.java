@@ -13,6 +13,7 @@ import org.toxsoft.core.tsgui.ved.std.library.*;
 import org.toxsoft.core.tsgui.ved.utils.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -69,7 +70,7 @@ public class VedStdCompRectangle
     StdRectView( VedStdCompRectangle aOwner ) {
       super( aOwner );
       update();
-      owner().props().propsEventer().pauseFiring();
+      // owner().props().propsEventer().pauseFiring();
     }
 
     @Override

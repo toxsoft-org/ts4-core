@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.ved.incub.geom;
+package org.toxsoft.core.tslib.bricks.d2;
 
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -8,17 +8,17 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public final class D2Rectangle
+public final class D2RectangleEdit
     implements ID2Rectangle {
 
-  private final D2Point a    = new D2Point( 0.0, 0.0 );
-  private final D2Point b    = new D2Point( 100.0, 100.0 );
-  private final D2Point size = new D2Point( 0.0, 0.0 );
+  private final D2PointEdit a    = new D2PointEdit( 0.0, 0.0 );
+  private final D2PointEdit b    = new D2PointEdit( 100.0, 100.0 );
+  private final D2PointEdit size = new D2PointEdit( 0.0, 0.0 );
 
   /**
    * Создает прямоугольник с левой верхней точкой в (0,0) и размерами (1,1).
    */
-  public D2Rectangle() {
+  public D2RectangleEdit() {
     // nop
   }
 
@@ -29,7 +29,7 @@ public final class D2Rectangle
    * @param aP2 {@link ID2Point} - вторая точка
    * @throws TsNullArgumentRtException любой аргумент = null
    */
-  public D2Rectangle( ID2Point aP1, ID2Point aP2 ) {
+  public D2RectangleEdit( ID2Point aP1, ID2Point aP2 ) {
     setRect( aP1, aP2 );
   }
 
@@ -47,7 +47,7 @@ public final class D2Rectangle
    * @throws TsIllegalArgumentRtException aHeight < 1
    * @throws TsIllegalArgumentRtException правая нижняя точка выходат за {@link Integer#MAX_VALUE} значения
    */
-  public D2Rectangle( double aX, double aY, double aWidth, double aHeight ) {
+  public D2RectangleEdit( double aX, double aY, double aWidth, double aHeight ) {
     setRect( aX, aY, aWidth, aHeight );
   }
 
@@ -57,7 +57,7 @@ public final class D2Rectangle
    * @param aSource {@link ID2Rectangle} - исходный прямоугольник
    * @throws TsNullArgumentRtException аргумент = null
    */
-  public D2Rectangle( ID2Rectangle aSource ) {
+  public D2RectangleEdit( ID2Rectangle aSource ) {
     TsNullArgumentRtException.checkNull( aSource );
   }
 
