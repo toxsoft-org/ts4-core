@@ -79,6 +79,13 @@ public abstract class VedAbstractEditorTool
   }
 
   /**
+   * Вызывается после изменения масштаба отображения экрана, с которым работает данный "инструмент".<br>
+   *
+   * @param aZoomFactor double - масштаб отображения
+   */
+  public abstract void onZoomFactorChanged( double aZoomFactor );
+
+  /**
    * Обработчик мыши, реализующий особенности обработки данного инструмента.
    * <p>
    *

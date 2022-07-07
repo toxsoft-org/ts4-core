@@ -32,6 +32,7 @@ public class VedStdLibraryShapes
     ) );
     // HERE add components
     componentProviders().add( VedStdCompRectangle.PROVIDER );
+    componentProviders().add( VedStdCompRoundRect.PROVIDER );
 
     // HERE add tools
   }

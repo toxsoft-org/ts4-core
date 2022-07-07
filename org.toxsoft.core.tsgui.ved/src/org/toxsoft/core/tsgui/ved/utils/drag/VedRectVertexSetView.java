@@ -111,9 +111,21 @@ public class VedRectVertexSetView
     return null;
   }
 
+  @Override
+  protected void onZoomFactorChanged() {
+    // updateVisRect();
+    // updateVertexes();
+    // System.out.println( "rect = " + rect.toString() );
+  }
+
   // ------------------------------------------------------------------------------------
   // API
   //
+
+  public void setRect( Rectangle aShapeBounds ) {
+    updateRect( rect, aShapeBounds, 2, 2 );
+    updateVertexes();
+  }
 
   /**
    * Обновляет положения всех вершин и внутренний прямоугольник, при изменении одной из вершин.<br>
@@ -237,35 +249,5 @@ public class VedRectVertexSetView
       vertex.setRect( new Rectangle( x - 4, y - 4, 8, 8 ) );
     }
   }
-
-  // /**
-  // * Возвращает курсор для точки опоры прямоугольника.<br>
-  // *
-  // * @param aFulcrum ETsFulcrum - точка опоры прямоугольника
-  // * @param aCursorManager ITsCursorManager - менеджер курсоров
-  // * @return Cursor - курсор мыши
-  // */
-  // public static Cursor cursor( ETsFulcrum aFulcrum, ITsCursorManager aCursorManager ) {
-  // switch( aFulcrum ) {
-  // case TOP_CENTER:
-  // case BOTTOM_CENTER:
-  // return aCursorManager.getCursor( ECursorType.SIZSTR_N_NORTH_SOUTH );
-  // case CENTER:
-  // return aCursorManager.getCursor( ECursorType.SIZSTR_N_ALL );
-  // case LEFT_CENTER:
-  // case RIGHT_CENTER:
-  // return aCursorManager.getCursor( ECursorType.SIZSTR_N_WEST_EAST );
-  // case LEFT_TOP:
-  // return aCursorManager.getCursor( ECursorType.SIZSTR_N_NORTH_WEST );
-  // case RIGHT_BOTTOM:
-  // return aCursorManager.getCursor( ECursorType.SIZSTR_N_SOUTH_EAST );
-  // case RIGHT_TOP:
-  // return aCursorManager.getCursor( ECursorType.SIZSTR_N_NORTH_EAST );
-  // case LEFT_BOTTOM:
-  // return aCursorManager.getCursor( ECursorType.SIZSTR_N_SOUTH_WEST );
-  // default:
-  // throw new TsNotAllEnumsUsedRtException();
-  // }
-  // }
 
 }

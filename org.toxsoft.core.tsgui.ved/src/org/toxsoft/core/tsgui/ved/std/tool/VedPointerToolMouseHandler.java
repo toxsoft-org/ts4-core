@@ -6,6 +6,7 @@ import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.graphics.cursors.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
+import org.toxsoft.core.tsgui.ved.incub.geom.*;
 import org.toxsoft.core.tsgui.ved.utils.drag.*;
 import org.toxsoft.core.tslib.bricks.filter.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
@@ -63,7 +64,9 @@ public class VedPointerToolMouseHandler
       // if( aState == ETsDragState.START ) {
       // sssR = createRect( aShapes.first().bounds() );
       // }
+
       stdDragListener.onShapesDrag( aDx / canvas.zoomFactor(), aDy / canvas.zoomFactor(), aShapes, aState );
+
       // if( aState == ETsDragState.FINISH ) {
       // IUndoManager um = appContext.get( IImedService.class ).undoManager();
       // Rectangle r = aShapes.first().bounds();
@@ -179,6 +182,18 @@ public class VedPointerToolMouseHandler
     }
     // return canvas.listShapes( tool );
     return canvas.listViews( ITsFilter.ALL );
+  }
+
+  public void onZoomFactorChanged( double aZoomFactor ) {
+    if( vertexSet != null ) {
+      ID2Rectangle d2r = slaveShape.outline().bounds();
+      int x = (int)Math.round( d2r.x1() * aZoomFactor );
+      int y = (int)Math.round( d2r.y1() * aZoomFactor );
+      int w = (int)Math.round( d2r.width() * aZoomFactor );
+      int h = (int)Math.round( d2r.height() * aZoomFactor );
+
+      vertexSet.setRect( new Rectangle( x, y, w, h ) );
+    }
   }
 
   // ------------------------------------------------------------------------------------

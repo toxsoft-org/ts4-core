@@ -81,4 +81,12 @@ public interface IScreenObject
    *          <b>false</b>
    */
   void setVisible( boolean aVisible );
+
+  /**
+   * Задает коеэффициент масштабирования.<br>
+   *
+   * @param aZoomFactor double - коеэффициент масштабирования
+   */
+  void setZoomFactor( double aZoomFactor );
+
 }

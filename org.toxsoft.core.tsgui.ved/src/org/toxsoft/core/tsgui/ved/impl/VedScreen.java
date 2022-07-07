@@ -10,6 +10,7 @@ import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.incub.geom.*;
 import org.toxsoft.core.tsgui.ved.std.tool.*;
+import org.toxsoft.core.tsgui.ved.utils.*;
 import org.toxsoft.core.tsgui.ved.utils.drag.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.filter.*;
@@ -20,13 +21,13 @@ import org.toxsoft.core.tslib.utils.errors.*;
 
 public class VedScreen
     extends TsPanel
-    implements IVedScreen {
+    implements IVedScreen, IVedContextable {
 
   IGenericChangeListener selectionListener = aSource -> {
     redraw();
   };
 
-  private IVedEditorTool activeTool = null;
+  private VedAbstractEditorTool activeTool = null;
 
   private final VedScreenMouseDelegator mouseDelegator;
 
@@ -54,6 +55,8 @@ public class VedScreen
 
   public VedScreen( Composite aParent, ITsGuiContext aContext ) {
     super( aParent, aContext );
+
+    setBackground( colorManager().getColor( ETsColor.WHITE ) );
 
     mouseDelegator = new VedScreenMouseDelegator( this );
 
@@ -93,9 +96,9 @@ public class VedScreen
 
   @Override
   public void setActiveTool( IVedEditorTool aTool ) {
-    activeTool = aTool;
-    ((VedAbstractEditorTool)activeTool).activate( this );
-    VedAbstractToolMouseHandler mh = (VedAbstractToolMouseHandler)((VedAbstractEditorTool)activeTool).mouseHandler();
+    activeTool = (VedAbstractEditorTool)aTool;
+    activeTool.activate( this );
+    VedAbstractToolMouseHandler mh = (VedAbstractToolMouseHandler)activeTool.mouseHandler();
 
     IStridablesListEdit<IScreenObject> screenObjects = new StridablesList<>();
     for( IVedComponentView view : views ) {
@@ -154,6 +157,11 @@ public class VedScreen
       for( IVedComponentView view : views ) {
         view.painter().setZoomFactor( aZoomFactor );
       }
+      // for( IScreenObject obj : screenObjects ) {
+      // obj.setZoomFactor( aZoomFactor );
+      // }
+      activeTool.onZoomFactorChanged( zoomFactor );
+      redraw();
     }
   }
 

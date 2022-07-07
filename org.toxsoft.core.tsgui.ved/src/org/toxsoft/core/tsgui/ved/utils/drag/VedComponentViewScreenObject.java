@@ -64,4 +64,8 @@ public class VedComponentViewScreenObject
     visible = aVisible;
   }
 
+  @Override
+  public void setZoomFactor( double aZoomFactor ) {
+    // TODO Auto-generated method stub
+  }
 }

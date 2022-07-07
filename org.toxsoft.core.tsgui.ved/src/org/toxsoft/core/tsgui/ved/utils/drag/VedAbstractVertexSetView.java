@@ -39,8 +39,11 @@ public abstract class VedAbstractVertexSetView
   }
 
   @Override
-  public void setZoomFactor( double aZoomFactor ) {
-    zoomFactor = aZoomFactor;
+  public final void setZoomFactor( double aZoomFactor ) {
+    if( Double.compare( zoomFactor, aZoomFactor ) != 0 ) {
+      zoomFactor = aZoomFactor;
+      onZoomFactorChanged();
+    }
   }
 
   @Override
@@ -52,5 +55,11 @@ public abstract class VedAbstractVertexSetView
   public void addVertex( IVedVertex aVertex ) {
     vertexes.add( aVertex );
   }
+
+  // ------------------------------------------------------------------------------------
+  // Методы для обязательного переопределения в наследниках
+  //
+
+  protected abstract void onZoomFactorChanged();
 
 }

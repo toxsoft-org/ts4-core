@@ -34,4 +34,8 @@ public class VedPointerTool
     return aView.owner() instanceof VedStdCompRectangle;
   }
 
+  @Override
+  public void onZoomFactorChanged( double aZoomFactor ) {
+    mouseHandler.onZoomFactorChanged( aZoomFactor );
+  }
 }
