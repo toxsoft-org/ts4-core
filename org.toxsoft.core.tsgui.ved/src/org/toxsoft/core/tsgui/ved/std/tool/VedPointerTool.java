@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.ved.std.tool;
 
+import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
 import static org.toxsoft.core.tsgui.ved.std.tool.ITsResources.*;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
@@ -20,7 +21,7 @@ public class VedPointerTool
   VedPointerToolMouseHandler mouseHandler;
 
   public VedPointerTool( ITsGuiContext aContext ) {
-    super( "pointerTool", STR_N_TOOL_POINTER, STR_D_TOOL_POINTER, "", aContext ); //$NON-NLS-1$
+    super( "pointerTool", STR_N_TOOL_POINTER, STR_D_TOOL_POINTER, ICONID_POINTER, aContext ); //$NON-NLS-1$
     mouseHandler = new VedPointerToolMouseHandler( this, aContext.eclipseContext() );
   }
 

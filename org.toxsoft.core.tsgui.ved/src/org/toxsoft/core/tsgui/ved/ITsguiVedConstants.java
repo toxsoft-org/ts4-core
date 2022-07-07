@@ -26,6 +26,8 @@ public interface ITsguiVedConstants {
   String ICONID_STD_LIB_SHAPES     = "std-lib-shapes";  //$NON-NLS-1$
   String ICONID_RECTANGLE_SHAPE    = "rectangle-shape"; //$NON-NLS-1$
 
+  String ICONID_POINTER = "pointer"; //$NON-NLS-1$
+
   // ------------------------------------------------------------------------------------
   // App prefs
   //
@@ -41,6 +43,8 @@ public interface ITsguiVedConstants {
   static void init( IEclipseContext aWinContext ) {
     ITsIconManager iconManager = aWinContext.get( ITsIconManager.class );
     iconManager.registerStdIconByIds( Activator.PLUGIN_ID, ITsguiVedConstants.class, PREFIX_OF_ICON_FIELD_NAME );
+
+    iconManager.registerFreeIcon( Activator.PLUGIN_ID, "icons/is32x32/pointer.png", ICONID_POINTER ); //$NON-NLS-1$
   }
 
 }
