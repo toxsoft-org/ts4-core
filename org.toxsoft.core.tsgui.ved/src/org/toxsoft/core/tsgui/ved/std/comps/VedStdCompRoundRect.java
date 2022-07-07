@@ -10,13 +10,13 @@ import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.impl.*;
-import org.toxsoft.core.tsgui.ved.incub.geom.*;
 import org.toxsoft.core.tsgui.ved.std.library.*;
 import org.toxsoft.core.tsgui.ved.utils.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
