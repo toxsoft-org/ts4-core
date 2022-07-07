@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.ved.api.view;
 
 import org.toxsoft.core.tsgui.ved.incub.geom.*;
+import org.toxsoft.core.tslib.bricks.d2.*;
 
 /**
  * The means to manipulate components geometrical visualization properties.

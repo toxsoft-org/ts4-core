@@ -20,6 +20,11 @@ public interface IVedScreen {
 
   IStridablesList<IVedEditorTool> tools();
 
+  /**
+   * Returns the means to manage selected components on this screen.
+   *
+   * @return {@link IVedSelectedComponentManager} - selection manager
+   */
   IVedSelectedComponentManager selectionManager();
 
 }

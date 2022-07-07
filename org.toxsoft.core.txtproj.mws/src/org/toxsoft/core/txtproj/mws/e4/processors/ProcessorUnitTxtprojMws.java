@@ -49,8 +49,11 @@ public class ProcessorUnitTxtprojMws
       }
     }
     // TOOLBAR: hide or show project commands toolbar
-    MToolBar tbProject = findElement( mainWindow(), MWSID_TOOLBAR_MAIN, MToolBar.class, EModelService.IN_TRIM );
+    MToolBar tbProject = findElement( mainWindow(), TOOLBARID_TXTPROJ, MToolBar.class, EModelService.IN_TRIM );
     if( tbProject != null ) {
+      /**
+       * TODO The line below does not hides toolbar. Is this an eclipse bug?
+       */
       tbProject.setVisible( isShowCmdInToolbar() );
       // reduce number of buttons if requested
       if( isReducedToolbarButtons() ) {

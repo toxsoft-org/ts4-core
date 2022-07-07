@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.ved.incub.geom;
+package org.toxsoft.core.tslib.bricks.d2;
 
 import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
@@ -7,7 +7,7 @@ import java.io.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * {@link ID2Point} editable implementation.
+ * {@link ID2Point} immutable implementation.
  *
  * @author hazard157
  */
@@ -16,8 +16,8 @@ public final class D2Point
 
   private static final long serialVersionUID = 157157L;
 
-  private double x = 0.0;
-  private double y = 0.0;
+  private final double x;
+  private final double y;
 
   /**
    * Constructor.
@@ -54,7 +54,7 @@ public final class D2Point
     if( object == this ) {
       return true;
     }
-    if( !(object instanceof D2Point p) ) {
+    if( !(object instanceof ID2Point p) ) {
       return false;
     }
     return (p.x() == this.x) && (p.y() == this.y);
@@ -87,51 +87,6 @@ public final class D2Point
   @Override
   public double y() {
     return y;
-  }
-
-  // ------------------------------------------------------------------------------------
-  // API
-  //
-
-  /**
-   * Sets X coordinate.
-   *
-   * @param aX double - X coordinate
-   */
-  public void setX( double aX ) {
-    x = aX;
-  }
-
-  /**
-   * Задает y координату.
-   *
-   * @param aY double - y координата
-   */
-  public void setY( double aY ) {
-    y = aY;
-  }
-
-  /**
-   * Задает координаты точки.
-   *
-   * @param aX double - x координата
-   * @param aY double - y координата
-   */
-  public void setPoint( double aX, double aY ) {
-    x = aX;
-    y = aY;
-  }
-
-  /**
-   * Задает координаты точки.
-   *
-   * @param aSource {@link ID2Point} - исходня точка
-   * @throws TsNullArgumentRtException аргумент = null
-   */
-  public void setPoint( ID2Point aSource ) {
-    TsNullArgumentRtException.checkNull( aSource );
-    x = aSource.x();
-    y = aSource.y();
   }
 
 }

@@ -1,11 +1,11 @@
-package org.toxsoft.core.tsgui.ved.incub.geom;
+package org.toxsoft.core.tslib.bricks.d2;
 
 /**
  * The point on a plane with <code>double</code> coordinates.
  *
  * @author hazard157
  */
-public sealed interface ID2Point permits D2Point {
+public sealed interface ID2Point permits D2Point,D2PointEdit {
 
   /**
    * Returns the X coordinate.
