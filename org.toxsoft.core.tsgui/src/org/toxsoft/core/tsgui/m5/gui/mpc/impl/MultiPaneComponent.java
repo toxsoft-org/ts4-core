@@ -123,13 +123,13 @@ public class MultiPaneComponent<T>
 
       @Override
       protected boolean beforeDoubleClickEventFired( T aItem ) {
-        if( OPDEF_IS_ACTIONS_CRUD.getValue( tsContext().params() ).asBool() ) {
-          String actId = OPDEF_DBLCLICK_ACTION_ID.getValue( tsContext().params() ).asString();
-          if( StridUtils.isValidIdPath( actId ) ) {
-            processAction( actId );
-            return true;
-          }
+        // if( OPDEF_IS_ACTIONS_CRUD.getValue( tsContext().params() ).asBool() ) {
+        String actId = OPDEF_DBLCLICK_ACTION_ID.getValue( tsContext().params() ).asString();
+        if( StridUtils.isValidIdPath( actId ) ) {
+          processAction( actId );
+          return true;
         }
+        // }
         return false;
       }
     };

@@ -3,6 +3,8 @@ package org.toxsoft.core.tslib.gw.gwid;
 import static org.toxsoft.core.tslib.gw.IGwHardConstants.*;
 import static org.toxsoft.core.tslib.gw.gwid.ITsResources.*;
 
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.std.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
@@ -38,6 +40,16 @@ public enum EGwidKind
   GW_CMD_ARG( GW_KEYWORD_CMD_ARG, STR_N_GK_CMD_ARG, STR_D_GK_CMD_ARG, true, true ),
 
   ;
+
+  /**
+   * Registered keeper ID.
+   */
+  public static final String KEEPER_ID = "GwidKind"; //$NON-NLS-1$
+
+  /**
+   * Keeper singleton.
+   */
+  public static final IEntityKeeper<EGwidKind> KEEPER = new StridableEnumKeeper<>( EGwidKind.class );
 
   private static IStridablesList<EGwidKind> list = null;
 

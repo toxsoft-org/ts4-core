@@ -53,6 +53,7 @@ public class TsValobjUtils {
     registerKeeper( OptionSetKeeper.KEEPER_ID, OptionSetKeeper.KEEPER );
     registerKeeper( FileKeeper.KEEPER_ID, FileKeeper.KEEPER );
     registerKeeper( StringKeeper.KEEPER_ID, StringKeeper.KEEPER );
+    registerKeeper( IntegerKeeper.KEEPER_ID, IntegerKeeper.KEEPER );
     // registerKeeper( LegacyStringListKeeper.KEEPER_ID, LegacyStringListKeeper.KEEPER );
     registerKeeper( StringListKeeper.KEEPER_ID, StringListKeeper.KEEPER );
     registerKeeper( AtomicValueKeeper.KEEPER_ID, AtomicValueKeeper.KEEPER );
@@ -69,6 +70,7 @@ public class TsValobjUtils {
     registerKeeper( DataDefKeeper.KEEPER_ID, DataDefKeeper.KEEPER );
     registerKeeper( Skid.KEEPER_ID, Skid.KEEPER );
     registerKeeper( SkidListKeeper.KEEPER_ID, SkidListKeeper.KEEPER );
+    registerKeeper( EGwidKind.KEEPER_ID, EGwidKind.KEEPER );
     registerKeeper( Gwid.KEEPER_ID, Gwid.KEEPER );
     registerKeeper( GwidList.KEEPER_ID, GwidList.KEEPER );
     registerKeeper( MappedSkids.KEEPER_ID, MappedSkids.KEEPER );

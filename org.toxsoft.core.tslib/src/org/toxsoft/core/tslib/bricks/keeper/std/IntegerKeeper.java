@@ -8,25 +8,25 @@ import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
- * {@link String} keeper.
+ * {@link Integer} keeper.
  *
  * @author hazard157
  */
-public class StringKeeper
-    extends AbstractEntityKeeper<String> {
+public class IntegerKeeper
+    extends AbstractEntityKeeper<Integer> {
 
   /**
    * Value-object registration identifier for {@link TsValobjUtils}.
    */
-  public static final String KEEPER_ID = "String"; //$NON-NLS-1$
+  public static final String KEEPER_ID = "Integer"; //$NON-NLS-1$
 
   /**
    * Keeper singleton.
    */
-  public static final StringKeeper KEEPER = new StringKeeper();
+  public static IntegerKeeper KEEPER = new IntegerKeeper();
 
-  private StringKeeper() {
-    super( String.class, EEncloseMode.NOT_IN_PARENTHESES, null );
+  private IntegerKeeper() {
+    super( Integer.class, EEncloseMode.NOT_IN_PARENTHESES, null );
   }
 
   // ------------------------------------------------------------------------------------
@@ -34,13 +34,13 @@ public class StringKeeper
   //
 
   @Override
-  protected void doWrite( IStrioWriter aSw, String aEntity ) {
-    aSw.writeQuotedString( aEntity );
+  protected void doWrite( IStrioWriter aSw, Integer aEntity ) {
+    aSw.writeInt( aEntity.intValue() );
   }
 
   @Override
-  protected String doRead( IStrioReader aSr ) {
-    return aSr.readQuotedString();
+  protected Integer doRead( IStrioReader aSr ) {
+    return Integer.valueOf( aSr.readInt() );
   }
 
   // ------------------------------------------------------------------------------------
@@ -48,16 +48,16 @@ public class StringKeeper
   //
 
   /**
-   * Reads items in {@link IStringListEdit}.
+   * Readsa items in {@link IIntListEdit}.
    *
    * @param aSr {@link IStrioReader} - читатель текстового представления
-   * @return {@link IStringListEdit} - редактируемый список считанных строк
+   * @return {@link IIntListEdit} - редактируемый список считанных строк
    * @throws TsNullArgumentRtException аргумент = null
    * @throws StrioRtException синтаксическая ошибка чтения
    */
-  public IStringListEdit readStringList( IStrioReader aSr ) {
+  public IIntListEdit readIntegerList( IStrioReader aSr ) {
     TsNullArgumentRtException.checkNull( aSr );
-    IStringListEdit list = new StringLinkedBundleList();
+    IIntListEdit list = new IntLinkedBundleList();
     if( aSr.readArrayBegin() ) {
       do {
         list.add( doRead( aSr ) );
