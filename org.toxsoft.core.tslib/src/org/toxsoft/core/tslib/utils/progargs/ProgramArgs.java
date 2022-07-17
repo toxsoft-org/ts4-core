@@ -2,19 +2,16 @@ package org.toxsoft.core.tslib.utils.progargs;
 
 import static org.toxsoft.core.tslib.utils.progargs.ITsResources.*;
 
-import org.toxsoft.core.tslib.coll.primtypes.IStringMap;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMapEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Class parses and incapsulates program simple command line arguments.
  * <p>
  * Simple command line must contains pairs of argument names followed with otional value: <br>
- * <code><b>progarm.exe -arg1name arg1val -arg2name arg2val -arg3name -arg4name -arg5name arg5val</code></br>
- * <br>
+ * <code><b>progarm.exe -arg1name arg1val -arg2name arg2val -arg3name -arg4name -arg5name arg5val</code></b> <br>
  * Note that arguments 3 and 4 has no values. Argument name is prepended with dash '-' character.
  * <p>
  * Command line arguments are represented as the map {@link #argValues()}. Keys are argument names (without dash). This

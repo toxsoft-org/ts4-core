@@ -26,7 +26,6 @@ public interface IUnitTxtprojMwsConstants {
   // e4
 
   String TOOLBARID_TXTPROJ     = "org.toxsoft.core.txtproj.toolbar";             //$NON-NLS-1$
-  String MENUID_TXTPROJ        = "org.toxsoft.core.txtproj.menu";                //$NON-NLS-1$
   String CMDCATEGID_TXTPROJ    = "org.toxsoft.core.txtproj.cmdcateg";            //$NON-NLS-1$
   String CMDID_PROJECT_NEW     = "org.toxsoft.core.txtproj.cmd.project_new";     //$NON-NLS-1$
   String CMDID_PROJECT_OPEN    = "org.toxsoft.core.txtproj.cmd.project_open";    //$NON-NLS-1$

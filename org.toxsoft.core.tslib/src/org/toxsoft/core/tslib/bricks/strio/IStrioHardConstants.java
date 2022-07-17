@@ -88,22 +88,22 @@ public interface IStrioHardConstants {
   //
 
   /**
-   * В метке времени разделитель между год-месяц-день.
+   * In the timestamp: delemiter char between YYYY-MM-DD parts.
    */
   char CHAR_TIMESTAMP_YMD_SEPARATOR = '-';
 
   /**
-   * В метке времени разделитель между датой и временем суток.
+   * In the timestamp: delimiter between date and time parts.
    */
   char CHAR_TIMESTAMP_DATETIME_SEPARATOR = '_';
 
   /**
-   * В метке времени разделитель между час:минуты:секунды.
+   * In the timestamp: delemiter char between HH:MM:SS parts.
    */
   char CHAR_TIMESTAMP_HMS_SEPARATOR = ':';
 
   /**
-   * В метке времени разделитель между секндами и миллисекундами.
+   * In the timestamp: delemiter char between time and millisonts parts.
    */
   char CHAR_TIMESTAMP_MILLISEC_SEPARATOR = '.';
 

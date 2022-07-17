@@ -1,11 +1,12 @@
 package org.toxsoft.core.tsgui.utils.swt;
 
-import org.eclipse.swt.graphics.RGB;
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.strio.IStrioReader;
-import org.toxsoft.core.tslib.bricks.strio.IStrioWriter;
-import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
+import org.eclipse.swt.graphics.*;
+import org.toxsoft.core.tsgui.graphics.colors.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
  * Хранитель объектов типа {@link RGB} в текстовое представление.
@@ -24,6 +25,11 @@ public class RGBKeeper
    * Экземпляр-синглтон хранителя.
    */
   public static final IEntityKeeper<RGB> KEEPER = new RGBKeeper();
+
+  /**
+   * Default keeped atomic value has black color.
+   */
+  public static final IAtomicValue AV_COLOR_BLACK = AvUtils.avValobj( ETsColor.BLACK.rgb(), KEEPER, KEEPER_ID );
 
   private RGBKeeper() {
     super( RGB.class, EEncloseMode.ENCLOSES_BASE_CLASS, null );

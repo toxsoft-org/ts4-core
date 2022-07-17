@@ -25,9 +25,6 @@
       <bindings xmi:id="_oCxZYHx9Eeyr_MXkDXFwfA" elementId="org.toxsoft.core.txtproj.mws.keybinding.1" keySequence="CTRL+S" command="_vJXeEHx8Eeyr_MXkDXFwfA"/>
     </elements>
   </fragments>
-  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_F6XCQHyAEeyr_MXkDXFwfA" featurename="children" parentElementId="org.toxsoft.mws.menu.main" positionInList="after:org.toxsoft.mws.menu.main.file">
-    <elements xsi:type="menu:Menu" xmi:id="_OIrHgHyAEeyr_MXkDXFwfA" elementId="org.toxsoft.core.txtproj.menu" label="%Menu_Project" tooltip="%Menu_Project_D"/>
-  </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_iVMEIHyAEeyr_MXkDXFwfA" featurename="children" parentElementId="org.toxsoft.mws.main.trimbar.top" positionInList="index:0">
     <elements xsi:type="menu:ToolBar" xmi:id="_uD2DoHyAEeyr_MXkDXFwfA" elementId="org.toxsoft.core.txtproj.toolbar">
       <children xsi:type="menu:HandledToolItem" xmi:id="_1haocHyAEeyr_MXkDXFwfA" elementId="org.toxsoft.core.txtproj.btn.project_new" iconURI="platform:/plugin/org.toxsoft.core.tsgui/icons/is24x24/document-new.png" command="_uiaLwHx8Eeyr_MXkDXFwfA"/>

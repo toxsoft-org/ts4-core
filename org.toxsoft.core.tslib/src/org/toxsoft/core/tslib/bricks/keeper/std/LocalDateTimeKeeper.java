@@ -2,12 +2,11 @@ package org.toxsoft.core.tslib.bricks.keeper.std;
 
 import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 
-import java.time.LocalDateTime;
+import java.time.*;
 
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
+import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
-import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
+import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
  * Хранитель объектов типа {@link LocalDateTime}.
@@ -67,9 +66,9 @@ public class LocalDateTimeKeeper
     int dom = aSr.readInt();
     aSr.ensureChar( CHAR_TIMESTAMP_DATETIME_SEPARATOR );
     int hh = aSr.readInt();
-    aSr.ensureSeparatorChar();
+    aSr.ensureChar( CHAR_TIMESTAMP_HMS_SEPARATOR );
     int mm = aSr.readInt();
-    aSr.ensureSeparatorChar();
+    aSr.ensureChar( CHAR_TIMESTAMP_HMS_SEPARATOR );
     int ss = aSr.readInt();
     int uuu = 0;
     if( aSr.peekChar( EStrioSkipMode.SKIP_NONE ) == CHAR_TIMESTAMP_MILLISEC_SEPARATOR ) {

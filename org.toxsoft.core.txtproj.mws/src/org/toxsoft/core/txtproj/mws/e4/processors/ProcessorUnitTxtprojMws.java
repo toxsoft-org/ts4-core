@@ -42,7 +42,7 @@ public class ProcessorUnitTxtprojMws
         menu = findElement( mainWindow(), MWSID_MENU_MAIN_FILE, MMenu.class, EModelService.IN_MAIN_MENU );
       }
       else {
-        menu = findElement( mainWindow(), MENUID_TXTPROJ, MMenu.class, EModelService.IN_MAIN_MENU );
+        menu = findElement( mainWindow(), MWSID_MENU_MAIN_PROJECT, MMenu.class, EModelService.IN_MAIN_MENU );
       }
       if( menu != null ) {
         fillMenuWithProjectCommands( menu );

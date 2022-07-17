@@ -3,31 +3,24 @@ package org.toxsoft.core.txtproj.lib.bound;
 import static org.toxsoft.core.txtproj.lib.bound.ITsProjectFileBoundParams.*;
 
 import java.io.*;
-import java.util.Calendar;
+import java.util.*;
 
-import org.toxsoft.core.tslib.av.metainfo.IDataDef;
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.av.opset.IOptionSetEdit;
-import org.toxsoft.core.tslib.av.opset.impl.OptionSet;
-import org.toxsoft.core.tslib.bricks.events.change.IGenericChangeListener;
-import org.toxsoft.core.tslib.bricks.strio.IStrioReader;
-import org.toxsoft.core.tslib.bricks.strio.IStrioWriter;
-import org.toxsoft.core.tslib.bricks.strio.chario.ICharInputStreamCloseable;
-import org.toxsoft.core.tslib.bricks.strio.chario.ICharOutputStream;
-import org.toxsoft.core.tslib.bricks.strio.chario.impl.CharInputStreamFile;
-import org.toxsoft.core.tslib.bricks.strio.chario.impl.CharOutputStreamWriter;
-import org.toxsoft.core.tslib.bricks.strio.impl.StrioReader;
-import org.toxsoft.core.tslib.bricks.strio.impl.StrioWriter;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.bricks.validator.impl.TsValidationFailedRtException;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.bricks.strio.chario.*;
+import org.toxsoft.core.tslib.bricks.strio.chario.impl.*;
+import org.toxsoft.core.tslib.bricks.strio.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.files.TsFileUtils;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
-import org.toxsoft.core.txtproj.lib.ITsProject;
-import org.toxsoft.core.txtproj.lib.ITsProjectContentChangeListener;
+import org.toxsoft.core.tslib.utils.files.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
+import org.toxsoft.core.txtproj.lib.*;
 
 /**
  * {@link ITsProjectFileBound} implementation.
@@ -37,10 +30,10 @@ import org.toxsoft.core.txtproj.lib.ITsProjectContentChangeListener;
 public class TsProjectFileBound
     implements ITsProjectFileBound {
 
-  // TODO TRANSLATE
-
   /**
-   * Слушаем изменения в содержимом проекта и вытсавим признак {@link #isAltered()}.
+   * Listen to the context change and set {@link #isAltered()} flag.
+   * <p>
+   * Fires {@link ITsProjectFileBoundListener#afterClear(ITsProjectFileBound)} if needed.
    */
   private final ITsProjectContentChangeListener projectContentsChangeListener = new ITsProjectContentChangeListener() {
 
@@ -52,6 +45,8 @@ public class TsProjectFileBound
       setWasAltered( true );
     }
   };
+
+  // TODO TRANSLATE
 
   /**
    * Выставление признака расхождение проекта с файлом при правке проекта пользователем.

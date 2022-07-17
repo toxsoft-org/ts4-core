@@ -44,6 +44,7 @@ public interface IAvMetaConstants {
   String TSID_KEEPER_ID        = TS_ID + ".KeeperId";
   String TSID_ICON_ID          = TS_ID + ".IconId";
   String TSID_IS_MANDATORY     = TS_ID + ".IsMandatory";
+  String TSID_IS_READ_ONLY     = TS_ID + ".IsReadOnly";      // hint: not human/GUI editable
   String TSID_ENUMERATION      = TS_ID + ".Enumeration";     // stores IAvList
   String TSID_VALIDATOR_CLASS  = TS_ID + ".ValidatorClass";  // stores ITsValidator implementing class name
   String TSID_COMPARATOR_CLASS = TS_ID + ".ComparatorClass"; // stores ITsComparator implementing class name

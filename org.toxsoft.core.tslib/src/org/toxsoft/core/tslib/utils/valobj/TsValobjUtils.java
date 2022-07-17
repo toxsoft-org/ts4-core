@@ -8,6 +8,7 @@ import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.list.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.av.temporal.*;
+import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.std.*;
 import org.toxsoft.core.tslib.coll.*;
@@ -78,6 +79,8 @@ public class TsValobjUtils {
     registerKeeper( CollConstraint.KEEPER_ID, CollConstraint.KEEPER );
     registerKeeper( ECrudOp.KEEPER_ID, ECrudOp.KEEPER );
     registerKeeper( ETextMatchMode.KEEPER_ID, ETextMatchMode.KEEPER );
+    registerKeeper( TsRectangleKeeper.KEEPER_ID, TsRectangleKeeper.KEEPER );
+    registerKeeper( TsPointKeeper.KEEPER_ID, TsPointKeeper.KEEPER );
   }
 
   // ------------------------------------------------------------------------------------

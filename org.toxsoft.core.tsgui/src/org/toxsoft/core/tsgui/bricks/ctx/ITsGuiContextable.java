@@ -10,6 +10,7 @@ import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.mws.services.e4helper.*;
 import org.toxsoft.core.tsgui.mws.services.hdpi.*;
+import org.toxsoft.core.tsgui.utils.anim.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.apprefs.*;
@@ -83,6 +84,10 @@ public interface ITsGuiContextable
 
   default IM5Domain m5() {
     return tsContext().get( IM5Domain.class );
+  }
+
+  default IAnimationSupport animSupport() {
+    return tsContext().get( IAnimationSupport.class );
   }
 
   default IAtomicValue getAppPrefsValue( String aPrefBundleId, IDataDef aPrmId ) {

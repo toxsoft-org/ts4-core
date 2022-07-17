@@ -2,6 +2,7 @@ package org.toxsoft.core.tsgui.panels.opsedit.impl;
 
 import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
+import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import static org.toxsoft.core.tslib.bricks.strid.impl.StridUtils.*;
 
 import org.eclipse.swt.*;
@@ -139,7 +140,8 @@ public class OptionSetPanel
     ITsGuiContext ctx = new TsGuiContext( tsContext() );
     ctx.params().addAll( aDef.params() );
     ctx.params().setValueIfNull( OPDEF_TOOLTIP_TEXT.id(), avStr( aDef.description() ) );
-    if( isViewer() ) {
+    boolean isReadOnly = ctx.params().getBool( TSID_IS_READ_ONLY, false );
+    if( isViewer() || isReadOnly ) {
       ctx.params().setBool( OPDEF_CREATE_UNEDITABLE.id(), true );
     }
     IValedControlFactory factory = ValedControlUtils.guessAvEditorFactory( aDef.atomicType(), ctx );

@@ -1,16 +1,16 @@
 package org.toxsoft.core.txtproj.lib.bound;
 
-import java.io.File;
+import java.io.*;
 
-import org.toxsoft.core.tslib.av.utils.IParameterizedEdit;
-import org.toxsoft.core.tslib.bricks.strio.StrioRtException;
-import org.toxsoft.core.tslib.bricks.validator.impl.TsValidationFailedRtException;
-import org.toxsoft.core.tslib.utils.ICloseable;
+import org.toxsoft.core.tslib.av.utils.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.txtproj.lib.ITsProject;
+import org.toxsoft.core.txtproj.lib.*;
 
 /**
- * "Держатель" связки проекта {@link #project()} с файлом {@link #getFile()}.
+ * "holds" binding of the {@link #project()} to the file {@link #getFile()}.
  *
  * @author hazard157
  */
@@ -18,11 +18,13 @@ public interface ITsProjectFileBound
     extends IParameterizedEdit, ICloseable {
 
   /**
-   * Возвращает проект, который связывается с файлом.
+   * Returns the project bound to the file.
    *
-   * @return {@link ITsProject} - проект
+   * @return {@link ITsProject} - the project
    */
   ITsProject project();
+
+  // TODO TANSLATE
 
   /**
    * Возвращает связанный с проектом файл или <code>null</code>, если привязка не установлена.

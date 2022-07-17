@@ -4,6 +4,7 @@ import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
 import org.toxsoft.core.tsgui.panels.opsedit.impl.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
@@ -16,6 +17,42 @@ import org.toxsoft.core.tslib.utils.errors.*;
  */
 public class DialogOptionsEdit {
 
+  /**
+   * Wraps {@link IOptionSetPanel} into {@link AbstractTsDialogPanel}.
+   *
+   * @author hazard157
+   */
+  static class OpsetEditPanel
+      extends AbstractTsDialogPanel<IOptionSet, IStridablesList<IDataDef>> {
+
+    final IOptionSetPanel panel;
+
+    protected OpsetEditPanel( Composite aParent, TsDialog<IOptionSet, IStridablesList<IDataDef>> aOwnerDialog ) {
+      super( aParent, aOwnerDialog );
+      this.setLayout( new BorderLayout() );
+      panel = new OptionSetPanel( tsContext(), false );
+      panel.createControl( this );
+      panel.getControl().setLayoutData( BorderLayout.CENTER );
+      panel.setOptionDefs( environ() );
+    }
+
+    @Override
+    protected void doSetDataRecord( IOptionSet aData ) {
+      panel.setEntity( aData );
+    }
+
+    @Override
+    protected IOptionSet doGetDataRecord() {
+      return panel.getEntity();
+    }
+
+  }
+
+  /**
+   * Wraps {@link IOpsetsKitPanel} into {@link AbstractTsDialogPanel}.
+   *
+   * @author hazard157
+   */
   static class KitEditPanel
       extends AbstractTsDialogPanel<IStringMap<IOptionSet>, IStridablesList<IOpsetsKitItemDef>> {
 
@@ -50,6 +87,23 @@ public class DialogOptionsEdit {
   }
 
   /**
+   * Invoked {@link IOptionSetPanel} in dialog window.
+   *
+   * @param aDialogInfo {@link ITsDialogInfo} - dialog window properties
+   * @param aOpDefs {@link IStridablesList}&lt;{@link IDataDef}&gt; - list of option definitions
+   * @param aInitialValues {@link IOptionSet} - initial values to be edited or <code>null</code>
+   * @return {@link IOptionSet} - edited values or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static final IOptionSet editOpset( ITsDialogInfo aDialogInfo, IStridablesList<IDataDef> aOpDefs,
+      IOptionSet aInitialValues ) {
+    TsNullArgumentRtException.checkNulls( aDialogInfo, aOpDefs );
+    IDialogPanelCreator<IOptionSet, IStridablesList<IDataDef>> creator = OpsetEditPanel::new;
+    TsDialog<IOptionSet, IStridablesList<IDataDef>> d = new TsDialog<>( aDialogInfo, aInitialValues, aOpDefs, creator );
+    return d.execData();
+  }
+
+  /**
    * Invokes {@link IOpsetsKitPanel} in dialog window.
    *
    * @param aDialogInfo {@link ITsDialogInfo} - dialog window properties
@@ -68,8 +122,6 @@ public class DialogOptionsEdit {
         new TsDialog<>( aDialogInfo, aInitialValues, aSectionDefs, creator );
     return d.execData();
   }
-
-  // TODO other dialogs invoke methods
 
   /**
    * No sublcassing.

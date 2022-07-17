@@ -26,7 +26,6 @@ public interface ITsStdIconIds {
   String ICONID_FOLDER = "folder";
   String ICONID_FONTS  = "fonts";
   String ICONID_COLORS = "colors";
-  // String ICONID_CLOCK = "apps/clock"; // KDE-name
 
   // ------------------------------------------------------------------------------------
   // Working with documents as whole
