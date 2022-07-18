@@ -59,10 +59,15 @@ public class VedToolsGroup
   }
 
   // ------------------------------------------------------------------------------------
-  // API пакета
+  // API
   //
 
-  void addTool( IVedEditorTool aTool ) {
+  /**
+   * Добавляет инструмент в группу
+   *
+   * @param aTool IVedEditorTool - добавляемый инструмент
+   */
+  public void addTool( IVedEditorTool aTool ) {
     toolsList.add( aTool );
     if( selectedTool == null ) {
       selectedTool = aTool;
