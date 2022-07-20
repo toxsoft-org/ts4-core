@@ -76,7 +76,7 @@ public class VedScreen
         for( IVedComponent comp : dataModel.comps() ) {
           views.add( comp.createView( VedScreen.this ) );
         }
-        setActiveTool( pointerTool );
+        // setActiveTool( pointerTool );
         redraw();
       }
     } );
@@ -122,6 +122,16 @@ public class VedScreen
   // ------------------------------------------------------------------------------------
   // API
   //
+
+  /**
+   * Возвращает найденное представление компоненты или <b>null</b>.<br>
+   *
+   * @param aId String - ИД компоненты
+   * @return IVedComponentView - найденное представление компоненты или <b>null</b>
+   */
+  public IVedComponentView findComponentView( String aId ) {
+    return views.findByKey( aId );
+  }
 
   public IVedDataModel dataModel() {
     return dataModel;

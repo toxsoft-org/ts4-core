@@ -45,8 +45,9 @@ public class VedRectToolMouseHandler
         );
 
         comp = compProvider.createComponent( id, canvas.vedEnv(), props, new OptionSet() );
-        compView = comp.createView( canvas );
+        // compView = comp.createView( canvas );
         canvas.dataModel().addComponent( comp );
+        compView = canvas.findComponentView( comp.id() );
         canvas.redraw();
       }
     }

@@ -29,7 +29,6 @@ public class VedRoundRectToolMouseHandler
 
   IGenericChangeListener changeListener = aSource -> {
     Rectangle r = ((VedCreateCompDragExecutor)aSource).currRect();
-    System.out.println( "Rectangle r = " + r );
     double zf = canvas.zoomFactor();
     if( this.comp == null ) {
       if( r.width > 0 && r.height > 0 ) {
@@ -45,8 +44,8 @@ public class VedRoundRectToolMouseHandler
         );
 
         comp = compProvider.createComponent( id, canvas.vedEnv(), props, new OptionSet() );
-        compView = comp.createView( canvas );
         canvas.dataModel().addComponent( comp );
+        compView = canvas.findComponentView( comp.id() );
         canvas.redraw();
       }
     }
@@ -70,7 +69,6 @@ public class VedRoundRectToolMouseHandler
 
   @Override
   protected IVedDragExecutor dragExecutor( IScreenObject aHoveredObject ) {
-    System.out.println( "Drag executor !!!!!" );
     if( aHoveredObject == null ) { // drag на пустом месте
       if( createCompExector == null ) {
         createCompExector = new VedCreateCompDragExecutor();
