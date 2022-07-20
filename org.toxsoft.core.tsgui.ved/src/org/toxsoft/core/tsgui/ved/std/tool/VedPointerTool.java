@@ -26,7 +26,7 @@ public class VedPointerTool
    * @param aContext ITsGuiContext - контекст
    */
   public VedPointerTool( ITsGuiContext aContext ) {
-    super( "pointerTool", STR_N_TOOL_POINTER, STR_D_TOOL_POINTER, ICONID_POINTER, aContext ); //$NON-NLS-1$
+    super( "pointerTool", STR_N_TOOL_POINTER, STR_D_TOOL_POINTER, ICONID_POINTER, null, aContext ); //$NON-NLS-1$
     mouseHandler = new VedPointerToolMouseHandler( this, aContext.eclipseContext() );
   }
 

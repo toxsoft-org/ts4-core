@@ -4,7 +4,9 @@ import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
 import static org.toxsoft.core.tsgui.ved.std.tool.ITsResources.*;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.ved.api.library.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
+import org.toxsoft.core.tsgui.ved.std.comps.*;
 import org.toxsoft.core.tsgui.ved.utils.drag.*;
 
 /**
@@ -17,14 +19,17 @@ import org.toxsoft.core.tsgui.ved.utils.drag.*;
 public class VedRectTool
     extends VedAbstractEditorTool {
 
+  private final VedAbstractToolMouseHandler mouseHandler;
+
   /**
    * Конструктор.<br>
    *
+   * @param aCompProvider IVedComponentProvider - поставщик компонент
    * @param aContext ITsGuiContext - контекст
    */
-  public VedRectTool( ITsGuiContext aContext ) {
-    super( "rectTool", STR_D_TOOL_RECT, STR_N_TOOL_RECT, ICONID_RECT, aContext ); //$NON-NLS-1$
-    // TODO Auto-generated constructor stub
+  public VedRectTool( IVedComponentProvider aCompProvider, ITsGuiContext aContext ) {
+    super( "rectTool", STR_D_TOOL_RECT, STR_N_TOOL_RECT, ICONID_RECT, aCompProvider, aContext ); //$NON-NLS-1$
+    mouseHandler = new VedRectToolMouseHandler( aCompProvider );
   }
 
   // ------------------------------------------------------------------------------------
@@ -39,14 +44,12 @@ public class VedRectTool
 
   @Override
   public IVedMouseHandler mouseHandler() {
-    // TODO Auto-generated method stub
-    return null;
+    return mouseHandler;
   }
 
   @Override
   public boolean accept( IVedComponentView aView ) {
-    // TODO Auto-generated method stub
-    return false;
+    return aView instanceof VedStdCompRectangle;
   }
 
 }

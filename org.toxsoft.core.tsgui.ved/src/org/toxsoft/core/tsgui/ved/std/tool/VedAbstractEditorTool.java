@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.ved.std.tool;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.ved.api.library.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.impl.*;
 import org.toxsoft.core.tsgui.ved.utils.drag.*;
@@ -20,6 +21,8 @@ public abstract class VedAbstractEditorTool
 
   private final IStridablesListEdit<IVedComponentView> views = new StridablesList<>();
 
+  private final IVedComponentProvider compProvider;
+
   VedScreen screen;
 
   /**
@@ -29,11 +32,14 @@ public abstract class VedAbstractEditorTool
    * @param aDescr String - описание "инструмента"
    * @param aName String - название "инструмента"
    * @param aIconId String - идентификатор значка
+   * @param aCompProvider IVedComponentProvider - поставщик компонент
    * @param aContext ITsGuiContext - контекст компоненты
    */
-  protected VedAbstractEditorTool( String aId, String aDescr, String aName, String aIconId, ITsGuiContext aContext ) {
+  protected VedAbstractEditorTool( String aId, String aDescr, String aName, String aIconId,
+      IVedComponentProvider aCompProvider, ITsGuiContext aContext ) {
     super( aId, aName, aDescr );
     iconId = aIconId;
+    compProvider = aCompProvider;
     tsContext = aContext;
   }
 
@@ -76,6 +82,15 @@ public abstract class VedAbstractEditorTool
         views.add( view );
       }
     }
+  }
+
+  /**
+   * Возвращает поставщика компонент для данного инструмента.<br>
+   *
+   * @return IVedComponentProvider - поставщик компонент данног инструмента
+   */
+  public IVedComponentProvider componentProvider() {
+    return compProvider;
   }
 
   /**

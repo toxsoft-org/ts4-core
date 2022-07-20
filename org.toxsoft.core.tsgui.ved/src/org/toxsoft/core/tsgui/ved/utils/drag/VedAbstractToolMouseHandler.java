@@ -320,6 +320,15 @@ public abstract class VedAbstractToolMouseHandler
     screenObjects.addAll( aObjects );
   }
 
+  /**
+   * Возвращает экран редактора.<br>
+   *
+   * @return VedScreen - экран редактора
+   */
+  public VedScreen vedScreen() {
+    return canvas;
+  }
+
   // ------------------------------------------------------------------------------------
   // Методы для переопределения в наследниках
   //

@@ -8,7 +8,6 @@ import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.panels.*;
 import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
-import org.toxsoft.core.tsgui.ved.incub.geom.*;
 import org.toxsoft.core.tsgui.ved.std.tool.*;
 import org.toxsoft.core.tsgui.ved.utils.*;
 import org.toxsoft.core.tsgui.ved.utils.drag.*;
@@ -123,6 +122,10 @@ public class VedScreen
   // ------------------------------------------------------------------------------------
   // API
   //
+
+  public IVedDataModel dataModel() {
+    return dataModel;
+  }
 
   @Override
   public void setCursor( Cursor aCursor ) {

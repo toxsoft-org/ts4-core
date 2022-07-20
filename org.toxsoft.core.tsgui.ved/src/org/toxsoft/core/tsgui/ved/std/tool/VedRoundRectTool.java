@@ -4,7 +4,9 @@ import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
 import static org.toxsoft.core.tsgui.ved.std.tool.ITsResources.*;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.ved.api.library.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
+import org.toxsoft.core.tsgui.ved.std.comps.*;
 import org.toxsoft.core.tsgui.ved.utils.drag.*;
 
 /**
@@ -17,14 +19,17 @@ import org.toxsoft.core.tsgui.ved.utils.drag.*;
 public class VedRoundRectTool
     extends VedAbstractEditorTool {
 
+  VedRoundRectToolMouseHandler mouseHandler;
+
   /**
    * Конструктор.<br>
    *
+   * @param aCompProvider IVedComponentProvider - поставщик компонент
    * @param aContext ITsGuiContext - контекст
    */
-  public VedRoundRectTool( ITsGuiContext aContext ) {
-    super( "roundrectTool", STR_D_TOOL_ROUNDRECT, STR_N_TOOL_ROUNDRECT, ICONID_ROUNDRECT, aContext ); //$NON-NLS-1$
-    // TODO Auto-generated constructor stub
+  public VedRoundRectTool( IVedComponentProvider aCompProvider, ITsGuiContext aContext ) {
+    super( "roundrectTool", STR_D_TOOL_ROUNDRECT, STR_N_TOOL_ROUNDRECT, ICONID_ROUNDRECT, aCompProvider, aContext ); //$NON-NLS-1$
+    mouseHandler = new VedRoundRectToolMouseHandler( aCompProvider );
   }
 
   // ------------------------------------------------------------------------------------
@@ -39,14 +44,12 @@ public class VedRoundRectTool
 
   @Override
   public IVedMouseHandler mouseHandler() {
-    // TODO Auto-generated method stub
-    return null;
+    return mouseHandler;
   }
 
   @Override
   public boolean accept( IVedComponentView aView ) {
-    // TODO Auto-generated method stub
-    return false;
+    return aView instanceof VedStdCompRoundRect;
   }
 
 }
