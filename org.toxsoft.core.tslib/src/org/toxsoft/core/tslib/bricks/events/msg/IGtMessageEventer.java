@@ -1,6 +1,7 @@
 package org.toxsoft.core.tslib.bricks.events.msg;
 
 import org.toxsoft.core.tslib.bricks.events.*;
+import org.toxsoft.core.tslib.bricks.filter.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.txtmatch.*;
@@ -32,10 +33,10 @@ public interface IGtMessageEventer
    * Prevous registreation of <code>aListener</code> will be cancelled.
    *
    * @param aListener {@link IGtMessageListener} - the listener
-   * @param aTopicIdMatcher {@link TextMatcher} - tpoic IDs selector
+   * @param aTopicIdMatcher {@link ITsFilter}&lt;String&gt; - tpoic IDs selector
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  void setListener( IGtMessageListener aListener, TextMatcher aTopicIdMatcher );
+  void setListener( IGtMessageListener aListener, ITsFilter<String> aTopicIdMatcher );
 
   // ------------------------------------------------------------------------------------
   // Convinience inline methods
