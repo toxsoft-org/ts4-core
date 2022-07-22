@@ -3,6 +3,7 @@ package org.toxsoft.core.tslib.utils.txtmatch;
 import java.io.*;
 import java.util.regex.*;
 
+import org.toxsoft.core.tslib.bricks.filter.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -15,7 +16,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public final class TextMatcher
-    implements Serializable {
+    implements ITsFilter<String>, Serializable {
 
   private static final long serialVersionUID = 157157L;
 
@@ -135,6 +136,15 @@ public final class TextMatcher
       default:
         throw new TsNotAllEnumsUsedRtException();
     }
+  }
+
+  // ------------------------------------------------------------------------------------
+  // ITsFilter
+  //
+
+  @Override
+  public boolean accept( String aObj ) {
+    return match( aObj );
   }
 
   // ------------------------------------------------------------------------------------

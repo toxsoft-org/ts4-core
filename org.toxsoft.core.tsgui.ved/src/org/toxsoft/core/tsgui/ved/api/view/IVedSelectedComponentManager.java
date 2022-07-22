@@ -24,7 +24,7 @@ public interface IVedSelectedComponentManager
   enum ESelectionKind {
 
     /**
-     * Nop component is selected.
+     * No component is selected.
      */
     NONE,
 

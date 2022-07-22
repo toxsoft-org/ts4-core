@@ -2,11 +2,11 @@ package org.toxsoft.core.tsgui.graphics;
 
 import static org.toxsoft.core.tsgui.graphics.ITsResources.*;
 
-import org.toxsoft.core.tslib.bricks.geometry.ITsRectangle;
-import org.toxsoft.core.tslib.bricks.geometry.impl.TsRectangle;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.std.StridableEnumKeeper;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
+import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.bricks.geometry.impl.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.std.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -41,7 +41,7 @@ public enum ETsFulcrum
   /**
    * Keeper ID.
    */
-  public static final String KEEPER_ID = "TsRectFulcrum"; //$NON-NLS-1$
+  public static final String KEEPER_ID = "TsFulcrum"; //$NON-NLS-1$
 
   /**
    * Keeper singleton.
@@ -105,26 +105,12 @@ public enum ETsFulcrum
    */
   public int calcSegmentX( int aFulcrumX, int aSegmentLength ) {
     TsIllegalArgumentRtException.checkTrue( aSegmentLength < 0 );
-    int x;
-    switch( this ) {
-      case CENTER:
-      case BOTTOM_CENTER:
-      case TOP_CENTER:
-        x = aFulcrumX - aSegmentLength / 2;
-        break;
-      case LEFT_TOP:
-      case LEFT_CENTER:
-      case LEFT_BOTTOM:
-        x = aFulcrumX;
-        break;
-      case RIGHT_TOP:
-      case RIGHT_CENTER:
-      case RIGHT_BOTTOM:
-        x = aFulcrumX - aSegmentLength;
-        break;
-      default:
-        throw new TsNotAllEnumsUsedRtException();
-    }
+    int x = switch( this ) {
+      case CENTER, BOTTOM_CENTER, TOP_CENTER -> aFulcrumX - aSegmentLength / 2;
+      case LEFT_TOP, LEFT_CENTER, LEFT_BOTTOM -> aFulcrumX;
+      case RIGHT_TOP, RIGHT_CENTER, RIGHT_BOTTOM -> aFulcrumX - aSegmentLength;
+      default -> throw new TsNotAllEnumsUsedRtException();
+    };
     return x;
   }
 
@@ -138,26 +124,12 @@ public enum ETsFulcrum
    */
   public int calcSegmentY( int aFulcrumY, int aSegmentLength ) {
     TsIllegalArgumentRtException.checkTrue( aSegmentLength < 0 );
-    int y;
-    switch( this ) {
-      case CENTER:
-      case LEFT_CENTER:
-      case RIGHT_CENTER:
-        y = aFulcrumY - aSegmentLength / 2;
-        break;
-      case LEFT_TOP:
-      case RIGHT_TOP:
-      case TOP_CENTER:
-        y = aFulcrumY;
-        break;
-      case LEFT_BOTTOM:
-      case RIGHT_BOTTOM:
-      case BOTTOM_CENTER:
-        y = aFulcrumY - aSegmentLength;
-        break;
-      default:
-        throw new TsNotAllEnumsUsedRtException();
-    }
+    int y = switch( this ) {
+      case CENTER, LEFT_CENTER, RIGHT_CENTER -> aFulcrumY - aSegmentLength / 2;
+      case LEFT_TOP, RIGHT_TOP, TOP_CENTER -> aFulcrumY;
+      case LEFT_BOTTOM, RIGHT_BOTTOM, BOTTOM_CENTER -> aFulcrumY - aSegmentLength;
+      default -> throw new TsNotAllEnumsUsedRtException();
+    };
     return y;
   }
 

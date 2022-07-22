@@ -2,9 +2,6 @@ package org.toxsoft.core.tslib.bricks.events;
 
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
-import org.toxsoft.core.tslib.utils.errors.*;
-
-//TRANSLATE
 
 /**
  * Base implementation for {@link ITsEventer}.
@@ -13,58 +10,17 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @param <L> - listener interface
  */
 public abstract class AbstractTsEventer<L>
+    extends AbstractTsPausabeEventsProducer
     implements ITsEventer<L> {
 
   private final IListEdit<L> listeners      = new ElemArrayList<>();
   private final IListEdit<L> mutedListeners = new ElemArrayList<>();
 
-  private int pauseCounter = 0;
-
-  // ------------------------------------------------------------------------------------
-  // ITsPausabeEventsProducer
-  //
-
-  @Override
-  public void pauseFiring() {
-    TsInternalErrorRtException.checkTrue( pauseCounter == Integer.MAX_VALUE );
-    if( ++pauseCounter == 1 ) {
-      doStartEventsAccrual();
-    }
-  }
-
-  @Override
-  public void resumeFiring( boolean aFireDelayed ) {
-    if( pauseCounter < 0 ) {
-      return;
-    }
-    --pauseCounter;
-    if( pauseCounter == 0 ) {
-      if( isPendingEvents() ) {
-        try {
-          if( aFireDelayed ) {
-            doFirePendingEvents();
-          }
-        }
-        finally {
-          doClearPendingEvents();
-        }
-      }
-    }
-  }
-
-  @Override
-  public boolean isFiringPaused() {
-    return pauseCounter > 0;
-  }
-
-  @Override
-  public boolean isPendingEvents() {
-    return doIsPendingEvents();
-  }
-
-  @Override
-  public void resetPendingEvents() {
-    doClearPendingEvents();
+  /**
+   * Constructor.
+   */
+  public AbstractTsEventer() {
+    // nop
   }
 
   // ------------------------------------------------------------------------------------
@@ -130,39 +86,5 @@ public abstract class AbstractTsEventer<L>
   public void clearListenersList() {
     listeners.clear();
   }
-
-  // ------------------------------------------------------------------------------------
-  // To override
-  //
-
-  /**
-   * Subclass may prepare to accumulating events.
-   * <p>
-   * In base class does nothing, there is no need to call superclass method in subclasses.
-   */
-  protected void doStartEventsAccrual() {
-    // nop
-  }
-
-  /**
-   * The subclass must determine if there is at least one pending event.
-   *
-   * @return boolean - <code>true</code> if there is at least one pending event to fire
-   */
-  protected abstract boolean doIsPendingEvents();
-
-  /**
-   * Subclass must fire all pending events.
-   * <p>
-   * This method is called from {@link #resumeFiring(boolean) resumeFiring(<b>true</b>)} only if there is at least one
-   * pending event. There is no need to excplicitly clear pending events queue, superclass will call
-   * {@link #doClearPendingEvents()} after this method.
-   */
-  protected abstract void doFirePendingEvents();
-
-  /**
-   * Subclass must clear pending events queue.
-   */
-  protected abstract void doClearPendingEvents();
 
 }

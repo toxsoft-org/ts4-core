@@ -16,8 +16,9 @@ import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.filter.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.helpers.*;
-import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 
 public class VedScreen
     extends TsPanel
@@ -65,15 +66,13 @@ public class VedScreen
 
     selectionColor = colorManager().getColor( ETsColor.RED );
 
-    addDisposeListener( aE -> onDispose() );
-
     addPaintListener( this::paint );
 
     dataModel = aContext.eclipseContext().get( IVedEnvironment.class ).dataModel();
-    dataModel.comps().addCollectionChangeListener( ( aSource, aOp, aItem ) -> {
+    dataModel.listComponents().addCollectionChangeListener( ( aSource, aOp, aItem ) -> {
       if( aOp == ECrudOp.CREATE ) {
         views.clear();
-        for( IVedComponent comp : dataModel.comps() ) {
+        for( IVedComponent comp : dataModel.listComponents() ) {
           views.add( comp.createView( VedScreen.this ) );
         }
         // setActiveTool( pointerTool );
@@ -90,11 +89,29 @@ public class VedScreen
   //
 
   @Override
+  public void addScreenObject( IScreenObject aObject ) {
+    screenObjects.add( aObject );
+  }
+
+  @Override
+  public void removeScreenObject( String aId ) {
+    screenObjects.removeById( aId );
+  }
+
+  @Override
+  public IStridablesList<IScreenObject> listScreenObjects() {
+    return screenObjects;
+  }
+
+  @Override
+  public IStridablesList<IVedComponentView> listViews() {
+    return views;
+  }
+
   public IVedEditorTool activeTool() {
     return activeTool;
   }
 
-  @Override
   public void setActiveTool( IVedEditorTool aTool ) {
     activeTool = (VedAbstractEditorTool)aTool;
     activeTool.activate( this );
@@ -107,11 +124,6 @@ public class VedScreen
 
     mh.activate( this, scrObjs );
     mouseDelegator.setMouseHandler( mh );
-  }
-
-  @Override
-  public IStridablesList<IVedEditorTool> tools() {
-    throw new TsUnderDevelopmentRtException();
   }
 
   @Override
@@ -131,10 +143,6 @@ public class VedScreen
    */
   public IVedComponentView findComponentView( String aId ) {
     return views.findByKey( aId );
-  }
-
-  public IVedDataModel dataModel() {
-    return dataModel;
   }
 
   @Override
@@ -195,10 +203,6 @@ public class VedScreen
     return result;
   }
 
-  public IStridablesList<IVedComponentView> listViews() {
-    return views;
-  }
-
   /**
    * Преобразует описывающий прямоугольник "представления" в прямоугольник в экранных координатах.<br>
    *
@@ -234,40 +238,47 @@ public class VedScreen
     return aCoord / zoomFactor;
   }
 
-  /**
-   * Добавляет экранный объект.<br>
-   *
-   * @param aObject IScreenObject - экранный объект
-   */
-  public void addScreenObject( IScreenObject aObject ) {
-    screenObjects.add( aObject );
-  }
-
-  /**
-   * Удаляет экранный объект.<br>
-   * Если объект отсутствует, то ничего не делает.
-   *
-   * @param aId String - идентификатор экранного объекта
-   */
-  public void removeScreenObject( String aId ) {
-    screenObjects.removeById( aId );
-  }
-
   // ------------------------------------------------------------------------------------
   // Внутренняя реализация
   //
 
-  void onDispose() {
-    mouseDelegator.dispose();
+  interface IScreenPainter {
+
+    void setTransform( double aZoomFactor, ID2Point aOrigin, double aAngle, ID2Point aPivotPoint );
+
+    void paint( GC aGc );
+
   }
 
+  interface IComponentViewDecorator {
+
+    void paint( IVedComponentView aView, GC aGc );
+  }
+
+  private IListEdit<IScreenPainter>          backgroundPainters = new ElemArrayList<>();
+  private IListEdit<IScreenPainter>          foregroundPainters = new ElemArrayList<>();
+  private IListEdit<IComponentViewDecorator> viewDecorators     = new ElemArrayList<>();
+
   void paint( PaintEvent aEvent ) {
+
+    for( IScreenPainter p : backgroundPainters ) {
+      p.paint( aEvent.gc );
+    }
+
     for( IVedComponentView view : views ) {
       view.painter().paint( aEvent.gc );
+      //
+      for( IComponentViewDecorator d : viewDecorators ) {
+        d.paint( view, aEvent.gc );
+      }
     }
 
     for( IScreenObject obj : screenObjects ) {
       obj.paint( aEvent.gc );
+    }
+
+    for( IScreenPainter p : foregroundPainters ) {
+      p.paint( aEvent.gc );
     }
 
     // отрисуем границы выделенных элементов

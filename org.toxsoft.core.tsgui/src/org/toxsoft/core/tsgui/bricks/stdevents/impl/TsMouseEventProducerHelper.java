@@ -115,7 +115,7 @@ public class TsMouseEventProducerHelper
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ISingleSourcing_MouseWheelListener
+  // ISingleSourcing_MouseWheelListener
   //
 
   @Override

@@ -1,18 +1,12 @@
 package org.toxsoft.core.tslib.bricks.events;
 
-import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
-//TRANSLATE
-
 /**
- * Интерфейс поддержки работы со слушателями.
- * <p>
- * Интерфейс публикует поддержку слушателей для клиентов служб, а реализациям служб следует расширить
- * {@link AbstractTsEventer} и воспользоваться дополнительным API класса.
+ * An interface to make it easier to work with listeners.
  *
  * @author hazard157
- * @param <L> - интерфейс слушателя службы
+ * @param <L> - interface of the supported listener
  */
 public interface ITsEventer<L>
     extends ITsPausabeEventsProducer {

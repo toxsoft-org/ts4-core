@@ -2,7 +2,7 @@ package org.toxsoft.core.tslib.bricks.ctx;
 
 import org.toxsoft.core.tslib.av.opset.IOptionSet;
 import org.toxsoft.core.tslib.av.utils.IParameterized;
-import org.toxsoft.core.tslib.utils.ITsPausabeEventsProducer;
+import org.toxsoft.core.tslib.bricks.events.*;
 import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
 import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 

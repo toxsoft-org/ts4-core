@@ -16,7 +16,7 @@ import org.toxsoft.core.tsgui.ved.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Panel displayes components in the data model {@link IVedDataModel#comps()}.
+ * Panel displayes components in the data model {@link IVedDataModel#listComponents()}.
  *
  * @author hazard157
  */

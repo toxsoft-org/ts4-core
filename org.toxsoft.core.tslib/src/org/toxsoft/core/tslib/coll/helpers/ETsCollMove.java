@@ -483,6 +483,24 @@ public enum ETsCollMove
     return navigateTo( aStartIndex, aCollSize, aJumpDistance, true, true );
   }
 
+  /**
+   * Finds element at position after moving as defined by this constant.
+   * <p>
+   * During movement this method considers only elements of collection, without "none item" at pindex -1. However, there
+   * is oe exception - if <code>aCurrElem</code> is <code>null</code> or nult in the collection, the starting point is
+   * considered as "none item" at index -1. So moving at {@link #NONE} will return <code>null</code>.
+   * <p>
+   * With valid argument <code>aCurrElem</code> (that is not <code>null</code> and contained in collection) this method
+   * never returns <code>null</code>.
+   *
+   * @param <E> - expected element type
+   * @param aCurrElem &lt;E&gt; - current element, ie the starting point of movement
+   * @param aColl {@link IList}&lt;E&gt; - the linear collection to move over on
+   * @param aJumpDistance int - nuber of elements to for <code>JUMP_XXX</code> movements
+   * @param aWrap boolean - the sign of circular traversal of the collection
+   * @return &lt;E&gt; - the element at position after movement or <code>null</code>
+   * @throws TsNullArgumentRtException <code>aColl</code> = <code>null</code>
+   */
   public <E> E findElemAt( E aCurrElem, IList<E> aColl, int aJumpDistance, boolean aWrap ) {
     TsNullArgumentRtException.checkNull( aColl );
     int startIndex = aCurrElem != null ? aColl.indexOf( aCurrElem ) : -1;
@@ -490,6 +508,20 @@ public enum ETsCollMove
     return index >= 0 ? aColl.get( index ) : null;
   }
 
+  /**
+   * Finds element at position after moving as defined by this constant.
+   * <p>
+   * This method considers elements of collection and one moe "none element" at index -1 before the first item in
+   * collection. "none item" is referenced as <code>null</code>.
+   *
+   * @param <E> - expected element type
+   * @param aCurrElem &lt;E&gt; - current element, ie the starting point of movement
+   * @param aColl {@link IList}&lt;E&gt; - the linear collection to move over on
+   * @param aJumpDistance int - nuber of elements to for <code>JUMP_XXX</code> movements
+   * @param aWrap boolean - the sign of circular traversal of the collection
+   * @return &lt;E&gt; - the element at position after movement or <code>null</code> for "none item"
+   * @throws TsNullArgumentRtException <code>aColl</code> = <code>null</code>
+   */
   public <E> E findElemAtWni( E aCurrElem, IList<E> aColl, int aJumpDistance, boolean aWrap ) {
     TsNullArgumentRtException.checkNull( aColl );
     int startIndex = aCurrElem != null ? aColl.indexOf( aCurrElem ) : -1;

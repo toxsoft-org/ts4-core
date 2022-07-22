@@ -126,7 +126,7 @@ public class VedPointerToolMouseHandler
       if( (aEvent.stateMask & SWT.CTRL) != 0 ) {
         IVedComponentView view = aObj.entity();
         if( view != null ) {
-          canvas.selectionManager().toggleSelection( view.owner() );
+          canvas.selectionManager().toggleSelection( view.component() );
           // System.out.println( "Toggle selection reuqired!" );
         }
         return;

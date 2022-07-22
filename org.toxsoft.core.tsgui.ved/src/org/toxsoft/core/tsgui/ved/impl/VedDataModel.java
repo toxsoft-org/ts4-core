@@ -26,7 +26,7 @@ class VedDataModel
   private final IGenericChangeListener componentChangeListener = aSource -> {
     IVedComponent c = (IVedComponent)aSource;
     // FIXME Sol-- раскоментировать
-    // this.compsList.fireItemByKeyChangeEvent( c.id() );
+    this.compsList.fireItemByKeyChangeEvent( c.id() );
   };
 
   private final INotifierStridablesListEdit<IVedComponent> compsList      =
@@ -85,7 +85,7 @@ class VedDataModel
   }
 
   @Override
-  public INotifierStridablesList<IVedComponent> comps() {
+  public INotifierStridablesList<IVedComponent> listComponents() {
     return compsList;
   }
 

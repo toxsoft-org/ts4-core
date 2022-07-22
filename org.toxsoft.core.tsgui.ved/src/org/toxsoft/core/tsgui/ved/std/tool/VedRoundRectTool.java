@@ -29,7 +29,7 @@ public class VedRoundRectTool
    */
   public VedRoundRectTool( IVedComponentProvider aCompProvider, ITsGuiContext aContext ) {
     super( "roundrectTool", STR_D_TOOL_ROUNDRECT, STR_N_TOOL_ROUNDRECT, ICONID_ROUNDRECT, aCompProvider, aContext ); //$NON-NLS-1$
-    mouseHandler = new VedRoundRectToolMouseHandler( aCompProvider );
+    mouseHandler = new VedRoundRectToolMouseHandler( vedEnv(), aCompProvider );
   }
 
   // ------------------------------------------------------------------------------------

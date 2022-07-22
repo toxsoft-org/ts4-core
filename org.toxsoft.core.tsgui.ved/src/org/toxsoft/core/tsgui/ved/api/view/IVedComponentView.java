@@ -36,10 +36,10 @@ public interface IVedComponentView
   IVedOutline outline();
 
   /**
-   * Returns the owner component which is represented by this view.
+   * Returns the component which is represented by this view.
    *
    * @return {@link IVedComponent} - the owner component
    */
-  IVedComponent owner();
+  IVedComponent component();
 
 }

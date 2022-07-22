@@ -46,7 +46,7 @@ public class VedUtils {
     IVedDataModel dm = aVedEnv.dataModel();
     ILpdContainer lpd = new LpdContainer();
     lpd.panelCfg().setAll( dm.canvasConfig() );
-    for( IVedComponent c : dm.comps() ) {
+    for( IVedComponent c : dm.listComponents() ) {
       IdChain namespace = new IdChain( c.provider().libraryId() );
       ILpdComponentInfo cinf = new LpdComponentInfo( namespace, c.provider().id(), c.id(), c.props(), c.extdata() );
       lpd.componentConfigs().add( cinf );
@@ -69,7 +69,7 @@ public class VedUtils {
     // update model data
     IVedDataModel dm = aVedEnv.dataModel();
     dm.genericChangeEventer().pauseFiring();
-    dm.comps().pauseFiring();
+    dm.listComponents().pauseFiring();
     dm.canvasConfig().pauseFiring();
     dm.clear();
     try {
@@ -90,7 +90,7 @@ public class VedUtils {
     }
     finally {
       dm.canvasConfig().resumeFiring( true );
-      dm.comps().resumeFiring( true );
+      dm.listComponents().resumeFiring( true );
       dm.genericChangeEventer().resumeFiring( true );
     }
   }

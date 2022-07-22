@@ -37,7 +37,7 @@ public class VedPointerTool
 
   @Override
   public boolean accept( IVedComponentView aView ) {
-    return aView.owner() instanceof VedStdCompRectangle;
+    return aView.component() instanceof VedStdCompRectangle;
   }
 
   @Override

@@ -1,11 +1,16 @@
 package org.toxsoft.core.tslib.bricks.d2;
 
 /**
- * The point on a plane with <code>double</code> coordinates.
+ * Point in 2D world.
  *
  * @author hazard157
  */
-public sealed interface ID2Point permits D2Point,D2PointEdit {
+public sealed interface ID2Point permits D2Point,ID2PointEdit {
+
+  /**
+   * Point with (0.0,0.0) coordinates.
+   */
+  ID2Point ZERO = new D2Point( 0.0, 0.0 );
 
   /**
    * Returns the X coordinate.

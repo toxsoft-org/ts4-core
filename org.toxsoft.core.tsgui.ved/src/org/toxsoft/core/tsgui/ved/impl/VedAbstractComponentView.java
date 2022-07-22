@@ -78,7 +78,7 @@ public abstract class VedAbstractComponentView
   public abstract IVedOutline outline();
 
   @Override
-  public final IVedComponent owner() {
+  public final IVedComponent component() {
     return owner;
   }
 

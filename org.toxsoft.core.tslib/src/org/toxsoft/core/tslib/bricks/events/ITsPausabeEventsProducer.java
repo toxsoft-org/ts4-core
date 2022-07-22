@@ -1,4 +1,4 @@
-package org.toxsoft.core.tslib.utils;
+package org.toxsoft.core.tslib.bricks.events;
 
 /**
  * An ability to suspend event generation.

@@ -43,7 +43,7 @@ public interface IGtMessageEventer
   //
 
   /**
-   * Wraps {@link #setListener(IGtMessageListener, TextMatcher)} for single topic ID listening.
+   * Wraps {@link #setListener(IGtMessageListener, ITsFilter)} for single topic ID listening.
    * <p>
    * Prevous registreation of <code>aListener</code> will be cancelled.
    *

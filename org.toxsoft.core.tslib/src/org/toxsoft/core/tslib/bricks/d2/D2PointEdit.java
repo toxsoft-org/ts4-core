@@ -1,5 +1,6 @@
 package org.toxsoft.core.tslib.bricks.d2;
 
+import static org.toxsoft.core.tslib.bricks.d2.D2Utils.*;
 import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
 import java.io.*;
@@ -7,17 +8,24 @@ import java.io.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * {@link ID2Point} editable implementation.
+ * {@link ID2PointEdit} implementation.
  *
  * @author hazard157
  */
 public final class D2PointEdit
-    implements ID2Point, Serializable {
+    implements ID2PointEdit, Serializable {
 
-  private static final long serialVersionUID = 157157L;
-
+  private static final long serialVersionUID = 5419533956300417542L;
+  
   private double x = 0.0;
   private double y = 0.0;
+
+  /**
+   * Constructor of point (0.0, 0.0).
+   */
+  public D2PointEdit() {
+    // nop
+  }
 
   /**
    * Constructor.
@@ -27,10 +35,10 @@ public final class D2PointEdit
    * @throws TsIllegalArgumentRtException argument is NAN of INFINITY
    */
   public D2PointEdit( double aX, double aY ) {
-    TsIllegalArgumentRtException.checkFalse( Double.isFinite( aX ) );
-    TsIllegalArgumentRtException.checkFalse( Double.isFinite( aY ) );
-    x = aX;
-    y = aY;
+    checkCoor( aX );
+    checkCoor( aY );
+    x = duck( aX );
+    y = duck( aY );
   }
 
   /**
@@ -41,13 +49,71 @@ public final class D2PointEdit
    */
   public D2PointEdit( ID2Point aSource ) {
     TsNullArgumentRtException.checkNull( aSource );
-    x = aSource.x();
-    y = aSource.y();
+    x = duck( aSource.x() );
+    y = duck( aSource.y() );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // ID2Point
+  //
+
+  @Override
+  public double x() {
+    return x;
+  }
+
+  @Override
+  public double y() {
+    return y;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // ID2PointEdit
+  //
+
+  @Override
+  public void setX( double aX ) {
+    checkCoor( aX );
+    x = duck( aX );
+  }
+
+  @Override
+  public void setY( double aY ) {
+    checkCoor( aY );
+    y = duck( aY );
+  }
+
+  @Override
+  public void setPoint( double aX, double aY ) {
+    checkCoor( aX );
+    checkCoor( aY );
+    x = duck( aX );
+    y = duck( aY );
+  }
+
+  @Override
+  public void setPoint( ID2Point aSource ) {
+    TsNullArgumentRtException.checkNull( aSource );
+    x = duck( aSource.x() );
+    y = duck( aSource.y() );
+  }
+
+  @Override
+  public void shiftOn( double aDeltaX, double aDeltaY ) {
+    checkCoor( aDeltaX );
+    checkCoor( aDeltaY );
+    x = duck( x + aDeltaX );
+    y = duck( y + aDeltaY );
   }
 
   // ------------------------------------------------------------------------------------
   // Object
   //
+
+  @Override
+  public String toString() {
+    return "(" + x + ',' + y + ')'; //$NON-NLS-1$
+  }
 
   @Override
   public boolean equals( Object object ) {
@@ -68,70 +134,6 @@ public final class D2PointEdit
     dblval = Double.doubleToRawLongBits( y );
     result = PRIME * result + (int)(dblval ^ (dblval >>> 32));
     return result;
-  }
-
-  @Override
-  public String toString() {
-    return "(" + x + ',' + y + ')'; //$NON-NLS-1$
-  }
-
-  // ------------------------------------------------------------------------------------
-  // ID2Point
-  //
-
-  @Override
-  public double x() {
-    return x;
-  }
-
-  @Override
-  public double y() {
-    return y;
-  }
-
-  // ------------------------------------------------------------------------------------
-  // API
-  //
-
-  /**
-   * Sets X coordinate.
-   *
-   * @param aX double - X coordinate
-   */
-  public void setX( double aX ) {
-    x = aX;
-  }
-
-  /**
-   * Задает y координату.
-   *
-   * @param aY double - y координата
-   */
-  public void setY( double aY ) {
-    y = aY;
-  }
-
-  /**
-   * Задает координаты точки.
-   *
-   * @param aX double - x координата
-   * @param aY double - y координата
-   */
-  public void setPoint( double aX, double aY ) {
-    x = aX;
-    y = aY;
-  }
-
-  /**
-   * Задает координаты точки.
-   *
-   * @param aSource {@link ID2Point} - исходня точка
-   * @throws TsNullArgumentRtException аргумент = null
-   */
-  public void setPoint( ID2Point aSource ) {
-    TsNullArgumentRtException.checkNull( aSource );
-    x = aSource.x();
-    y = aSource.y();
   }
 
 }

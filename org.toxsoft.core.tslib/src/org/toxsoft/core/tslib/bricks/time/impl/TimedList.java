@@ -386,4 +386,14 @@ public class TimedList<T extends ITimestampable>
     return index;
   }
 
+  @Override
+  public int replaceByTimestamp( T aElem ) {
+    TsNullArgumentRtException.checkNull( aElem );
+    int index = firstIndexOf( aElem.timestamp() );
+    if( index >= 0 ) {
+      removeByIndex( index );
+    }
+    return add( aElem );
+  }
+
 }

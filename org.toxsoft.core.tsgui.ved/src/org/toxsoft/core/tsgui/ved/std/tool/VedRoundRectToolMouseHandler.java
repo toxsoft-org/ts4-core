@@ -23,6 +23,7 @@ import org.toxsoft.core.tslib.bricks.strid.coll.*;
 public class VedRoundRectToolMouseHandler
     extends VedAbstractToolMouseHandler {
 
+  IVedEnvironment       vedEnv;
   IVedComponentProvider compProvider;
   IVedComponent         comp     = null;
   IVedComponentView     compView = null;
@@ -44,7 +45,7 @@ public class VedRoundRectToolMouseHandler
         );
 
         comp = compProvider.createComponent( id, canvas.vedEnv(), props, new OptionSet() );
-        canvas.dataModel().addComponent( comp );
+        vedEnv.dataModel().addComponent( comp );
         compView = canvas.findComponentView( comp.id() );
         canvas.redraw();
       }
@@ -63,7 +64,8 @@ public class VedRoundRectToolMouseHandler
 
   VedCreateCompDragExecutor createCompExector = null;
 
-  VedRoundRectToolMouseHandler( IVedComponentProvider aCompProvider ) {
+  VedRoundRectToolMouseHandler( IVedEnvironment aVedEnv, IVedComponentProvider aCompProvider ) {
+    vedEnv = aVedEnv;
     compProvider = aCompProvider;
   }
 

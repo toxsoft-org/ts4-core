@@ -104,7 +104,7 @@ public class VedStdCompRectangle
 
       Transform tr = null;
       try {
-        double angle = owner().props().getDouble( PDEF_ROTATION_ANGLE );
+        double angle = component().props().getDouble( PDEF_ROTATION_ANGLE );
         angle = 0;
         // angle = 45;
         if( Double.compare( angle, 0.0 ) != 0 ) {
@@ -149,8 +149,8 @@ public class VedStdCompRectangle
 
     @Override
     public void locate( double aX, double aY ) {
-      owner().props().setDouble( PDEF_X, aX );
-      owner().props().setDouble( PDEF_Y, aY );
+      component().props().setDouble( PDEF_X, aX );
+      component().props().setDouble( PDEF_Y, aY );
       double width = outline.width();
       double height = outline.height();
       outline = new D2RectOutline( aX, aY, width, height );
@@ -161,8 +161,8 @@ public class VedStdCompRectangle
     public void shiftOn( double aDx, double aDy ) {
       double x = outline.x() + aDx;
       double y = outline.y() + aDy;
-      owner().props().setDouble( PDEF_X, x );
-      owner().props().setDouble( PDEF_Y, y );
+      component().props().setDouble( PDEF_X, x );
+      component().props().setDouble( PDEF_Y, y );
       double width = outline.width();
       double height = outline.height();
       outline = new D2RectOutline( x, y, width, height );
@@ -171,8 +171,8 @@ public class VedStdCompRectangle
 
     @Override
     public void setSize( double aWidth, double aHeight ) {
-      owner().props().setDouble( PDEF_WIDTH, aWidth );
-      owner().props().setDouble( PDEF_HEIGHT, aHeight );
+      component().props().setDouble( PDEF_WIDTH, aWidth );
+      component().props().setDouble( PDEF_HEIGHT, aHeight );
       double x = outline.x();
       double y = outline.y();
       outline = new D2RectOutline( x, y, aWidth, aHeight );
@@ -181,10 +181,10 @@ public class VedStdCompRectangle
 
     @Override
     public void setBounds( double aX, double aY, double aWidth, double aHeight ) {
-      owner().props().setDouble( PDEF_X, aX );
-      owner().props().setDouble( PDEF_Y, aY );
-      owner().props().setDouble( PDEF_WIDTH, aWidth );
-      owner().props().setDouble( PDEF_HEIGHT, aHeight );
+      component().props().setDouble( PDEF_X, aX );
+      component().props().setDouble( PDEF_Y, aY );
+      component().props().setDouble( PDEF_WIDTH, aWidth );
+      component().props().setDouble( PDEF_HEIGHT, aHeight );
       outline = new D2RectOutline( aX, aY, aWidth, aHeight );
       updateVisRect();
     }
@@ -219,9 +219,9 @@ public class VedStdCompRectangle
     //
 
     private void update() {
-      RGB rgb = owner().props().getValobj( PID_FG_COLOR );
+      RGB rgb = component().props().getValobj( PID_FG_COLOR );
       fgColor = colorManager().getColor( rgb );
-      rgb = owner().props().getValobj( PID_BG_COLOR );
+      rgb = component().props().getValobj( PID_BG_COLOR );
       bgColor = colorManager().getColor( rgb );
       updateOutline();
       updateVisRect();
@@ -235,10 +235,10 @@ public class VedStdCompRectangle
     }
 
     private void updateOutline() {
-      double x = owner().props().getDouble( PID_X );
-      double y = owner().props().getDouble( PID_Y );
-      double width = owner().props().getDouble( PID_WIDTH );
-      double height = owner().props().getDouble( PID_HEIGHT );
+      double x = component().props().getDouble( PID_X );
+      double y = component().props().getDouble( PID_Y );
+      double width = component().props().getDouble( PID_WIDTH );
+      double height = component().props().getDouble( PID_HEIGHT );
       outline = new D2RectOutline( x, y, width, height );
     }
 

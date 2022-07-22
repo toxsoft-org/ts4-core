@@ -75,6 +75,8 @@ public class TsMiscUtils {
     }
   }
 
+  // TODO TRANSLATE
+
   /**
    * Запускает внешенюю программу и возвращает его консольный выход.
    *
@@ -243,6 +245,31 @@ public class TsMiscUtils {
       else {
         sb.append( ch );
       }
+    }
+    return sb.toString();
+  }
+
+  /**
+   * Returns hexadecimal steing representation of the argument.
+   * <p>
+   * first byte in array will make be two first <b>char</b>s of the resulting string, last byte - last 2
+   * <code>char</code>s.
+   * <p>
+   * If argument is an empty array returns an empty string. Returned {@link String#length()} is always twice the length
+   * of the array.
+   *
+   * @param aArray byte[] - array of bytes
+   * @return String - hexadecimal representation of the array
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static String bytesToHexStr( byte[] aArray ) {
+    TsNullArgumentRtException.checkNull( aArray );
+    if( aArray.length == 0 ) {
+      return TsLibUtils.EMPTY_STRING;
+    }
+    StringBuilder sb = new StringBuilder( aArray.length * 2 );
+    for( byte b : aArray ) {
+      sb.append( String.format( "%02x", Byte.valueOf( b ) ) ); //$NON-NLS-1$
     }
     return sb.toString();
   }

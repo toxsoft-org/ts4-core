@@ -1,7 +1,7 @@
 package org.toxsoft.core.tsgui.ved.impl;
 
 import org.eclipse.swt.events.*;
-import org.toxsoft.core.tsgui.ved.api.view.*;
+import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.ved.utils.drag.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -11,53 +11,52 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author vs
  */
-public class VedScreenMouseDelegator
-    implements IVedDisposable {
+public class VedScreenMouseDelegator {
 
   MouseListener mouseListener = new MouseListener() {
 
     @Override
     public void mouseUp( MouseEvent aEvent ) {
-      mouseHandler.onMouseUp( aEvent );
+      mouseHandler.mouseUp( aEvent );
     }
 
     @Override
     public void mouseDown( MouseEvent aEvent ) {
-      mouseHandler.onMouseDown( aEvent );
+      mouseHandler.mouseDown( aEvent );
     }
 
     @Override
     public void mouseDoubleClick( MouseEvent aEvent ) {
-      mouseHandler.onMouseDoubleClick( aEvent );
+      mouseHandler.mouseDoubleClick( aEvent );
     }
   };
 
-  MouseMoveListener mouseMoveListener = aEvent -> this.mouseHandler.onMouseMove( aEvent );
+  MouseMoveListener mouseMoveListener = aEvent -> this.mouseHandler.mouseMove( aEvent );
 
   MouseTrackListener mouseTrackListener = new MouseTrackListener() {
 
     @Override
     public void mouseHover( MouseEvent aEvent ) {
-      mouseHandler.onMouseHover( aEvent );
+      mouseHandler.mouseHover( aEvent );
     }
 
     @Override
     public void mouseExit( MouseEvent aEvent ) {
-      mouseHandler.onMouseExit();
+      mouseHandler.mouseExit( aEvent );
     }
 
     @Override
     public void mouseEnter( MouseEvent aEvent ) {
-      mouseHandler.onMouseEnter();
+      mouseHandler.mouseEnter( aEvent );
     }
   };
 
-  MouseWheelListener mouseWheelListener = aEvent -> this.mouseHandler.onMouseScrolled( aEvent );
+  MouseWheelListener mouseWheelListener = aEvent -> this.mouseHandler.mouseScrolled( aEvent );
 
   /**
    * Холст рисования события мыши которого необходимо обрабатывать
    */
-  private final VedScreen canvas;
+  private final Canvas canvas;
 
   /**
    * Признак того, что все ресурсы были освобождены
@@ -74,34 +73,12 @@ public class VedScreenMouseDelegator
    *
    * @param aCanvas Canvas - холст рисования
    */
-  public VedScreenMouseDelegator( VedScreen aCanvas ) {
+  public VedScreenMouseDelegator( Canvas aCanvas ) {
     canvas = aCanvas;
     canvas.addMouseListener( mouseListener );
     canvas.addMouseMoveListener( mouseMoveListener );
     canvas.addMouseTrackListener( mouseTrackListener );
     canvas.addMouseWheelListener( mouseWheelListener );
-  }
-
-  // ------------------------------------------------------------------------------------
-  // Реализация интерфейса {@link IVedDisposabe}
-  //
-
-  @Override
-  public boolean isDisposed() {
-    return disposed;
-  }
-
-  @Override
-  public void dispose() {
-    if( !disposed ) {
-      disposed = true;
-      if( !canvas.isDisposed() ) {
-        canvas.removeMouseListener( mouseListener );
-        canvas.removeMouseMoveListener( mouseMoveListener );
-        canvas.removeMouseTrackListener( mouseTrackListener );
-        canvas.removeMouseWheelListener( mouseWheelListener );
-      }
-    }
   }
 
   // ------------------------------------------------------------------------------------

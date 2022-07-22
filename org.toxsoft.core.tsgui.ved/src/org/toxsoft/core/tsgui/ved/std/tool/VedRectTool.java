@@ -29,7 +29,7 @@ public class VedRectTool
    */
   public VedRectTool( IVedComponentProvider aCompProvider, ITsGuiContext aContext ) {
     super( "rectTool", STR_D_TOOL_RECT, STR_N_TOOL_RECT, ICONID_RECT, aCompProvider, aContext ); //$NON-NLS-1$
-    mouseHandler = new VedRectToolMouseHandler( aCompProvider );
+    mouseHandler = new VedRectToolMouseHandler( vedEnv(), aCompProvider );
   }
 
   // ------------------------------------------------------------------------------------

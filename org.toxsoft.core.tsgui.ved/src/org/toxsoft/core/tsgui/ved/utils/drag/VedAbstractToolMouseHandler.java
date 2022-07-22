@@ -74,7 +74,7 @@ public abstract class VedAbstractToolMouseHandler
   }
 
   @Override
-  public void onMouseUp( MouseEvent aEvent ) {
+  public void mouseUp( MouseEvent aEvent ) {
     if( dragging ) { // если идет процесс "перетаскивания", то закончим его
       dragExecutor.doFinishDrag( dragInfo.mouseEvent(), aEvent );
       canvas.setCursor( null );
@@ -96,7 +96,7 @@ public abstract class VedAbstractToolMouseHandler
   }
 
   @Override
-  public void onMouseDown( MouseEvent aEvent ) {
+  public void mouseDown( MouseEvent aEvent ) {
     mouseDownInfo = new MouseDownInfo( aEvent );
     IStridablesList<IScreenObject> draggingObjects = objectsForDrag( hoveredObject, aEvent );
     dragExecutor = dragExecutor( hoveredObject );
@@ -110,13 +110,13 @@ public abstract class VedAbstractToolMouseHandler
   }
 
   @Override
-  public void onMouseDoubleClick( MouseEvent aEvent ) {
+  public void mouseDoubleClick( MouseEvent aEvent ) {
     clearInternalState(); // очистим внутренние флаги и состояние
     doOnMouseDoubleClick( aEvent );
   }
 
   @Override
-  public void onMouseMove( MouseEvent aEvent ) {
+  public void mouseMove( MouseEvent aEvent ) {
     cursorPos.x = aEvent.x;
     cursorPos.y = aEvent.y;
 
@@ -228,7 +228,7 @@ public abstract class VedAbstractToolMouseHandler
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса {@link IVedMouseHandler}
+  // Реализация интерфейса {@link ITsMouseListener}
   //
 
   @Override
@@ -292,8 +292,7 @@ public abstract class VedAbstractToolMouseHandler
   public void activate( VedScreen aCanvas, IStridablesList<IScreenObject> aObjects ) {
     hoveredObject = null;
     canvas = aCanvas;
-    screenObjects.clear();
-    screenObjects.addAll( aObjects );
+    screenObjects.setAll( aObjects );
     onActivate();
   }
 
@@ -316,8 +315,7 @@ public abstract class VedAbstractToolMouseHandler
    * @param aObjects IStridablesList&lt;IScreenObject> - список объектов доступных обработчику
    */
   public void setScreenObjects( IStridablesList<IScreenObject> aObjects ) {
-    screenObjects.clear();
-    screenObjects.addAll( aObjects );
+    screenObjects.setAll( aObjects );
   }
 
   /**

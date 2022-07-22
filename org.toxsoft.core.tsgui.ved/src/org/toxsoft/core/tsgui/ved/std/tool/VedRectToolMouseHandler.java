@@ -23,6 +23,8 @@ import org.toxsoft.core.tslib.bricks.strid.coll.*;
 public class VedRectToolMouseHandler
     extends VedAbstractToolMouseHandler {
 
+  IVedEnvironment vedEnv;
+
   IVedComponentProvider compProvider;
   IVedComponent         comp     = null;
   IVedComponentView     compView = null;
@@ -46,7 +48,7 @@ public class VedRectToolMouseHandler
 
         comp = compProvider.createComponent( id, canvas.vedEnv(), props, new OptionSet() );
         // compView = comp.createView( canvas );
-        canvas.dataModel().addComponent( comp );
+        vedEnv.dataModel().addComponent( comp );
         compView = canvas.findComponentView( comp.id() );
         canvas.redraw();
       }
@@ -65,7 +67,8 @@ public class VedRectToolMouseHandler
 
   VedCreateCompDragExecutor createCompExector = null;
 
-  VedRectToolMouseHandler( IVedComponentProvider aCompProvider ) {
+  VedRectToolMouseHandler( IVedEnvironment aEnv, IVedComponentProvider aCompProvider ) {
+    vedEnv = aEnv;
     compProvider = aCompProvider;
   }
 

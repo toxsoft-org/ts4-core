@@ -1,5 +1,6 @@
 package org.toxsoft.core.tslib.bricks.d2;
 
+import static org.toxsoft.core.tslib.bricks.d2.D2Utils.*;
 import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
 import java.io.*;
@@ -14,7 +15,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public final class D2Point
     implements ID2Point, Serializable {
 
-  private static final long serialVersionUID = 157157L;
+  private static final long serialVersionUID = 4151059724175075255L;
 
   private final double x;
   private final double y;
@@ -27,10 +28,10 @@ public final class D2Point
    * @throws TsIllegalArgumentRtException argument is NAN of INFINITY
    */
   public D2Point( double aX, double aY ) {
-    TsIllegalArgumentRtException.checkFalse( Double.isFinite( aX ) );
-    TsIllegalArgumentRtException.checkFalse( Double.isFinite( aY ) );
-    x = aX;
-    y = aY;
+    checkCoor( aX );
+    checkCoor( aY );
+    x = duck( aX );
+    y = duck( aY );
   }
 
   /**
@@ -41,13 +42,32 @@ public final class D2Point
    */
   public D2Point( ID2Point aSource ) {
     TsNullArgumentRtException.checkNull( aSource );
-    x = aSource.x();
-    y = aSource.y();
+    x = duck( aSource.x() );
+    y = duck( aSource.y() );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // ID2Point
+  //
+
+  @Override
+  public double x() {
+    return x;
+  }
+
+  @Override
+  public double y() {
+    return y;
   }
 
   // ------------------------------------------------------------------------------------
   // Object
   //
+
+  @Override
+  public String toString() {
+    return "(" + x + ',' + y + ')'; //$NON-NLS-1$
+  }
 
   @Override
   public boolean equals( Object object ) {
@@ -68,25 +88,6 @@ public final class D2Point
     dblval = Double.doubleToRawLongBits( y );
     result = PRIME * result + (int)(dblval ^ (dblval >>> 32));
     return result;
-  }
-
-  @Override
-  public String toString() {
-    return "(" + x + ',' + y + ')'; //$NON-NLS-1$
-  }
-
-  // ------------------------------------------------------------------------------------
-  // ID2Point
-  //
-
-  @Override
-  public double x() {
-    return x;
-  }
-
-  @Override
-  public double y() {
-    return y;
   }
 
 }

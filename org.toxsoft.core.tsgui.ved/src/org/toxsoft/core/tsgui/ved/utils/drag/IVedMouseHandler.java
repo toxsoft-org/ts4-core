@@ -3,7 +3,7 @@ package org.toxsoft.core.tsgui.ved.utils.drag;
 import org.eclipse.swt.events.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.impl.*;
-import org.toxsoft.core.tsgui.ved.incub.geom.*;
+import org.toxsoft.core.tsgui.ved.incub.tsmskbd.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -21,7 +21,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author vs
  */
 public interface IVedMouseHandler
-    extends IVedDragEventProducer, IVedDisposable {
+    extends IVedDragEventProducer, IVedDisposable, ITsMouseListener {
 
   /**
    * Нулевой (пустой) обработчик мыши, который ничего не делает
@@ -29,93 +29,9 @@ public interface IVedMouseHandler
   IVedMouseHandler NULL = new NullMouseHandler();
 
   /**
-   * Левая кнопка мыши
-   */
-  int BTN_LEFT   = 1;
-  /**
-   * Средняя кнопка мыши
-   */
-  int BTN_MIDDLE = 2;
-  /**
-   * Правая кнопка мыши
-   */
-  int BTN_RIGHT  = 3;
-
-  /**
-   * Вызывается при двойном нажатии кнопи мыши. См {@link MouseListener#mouseDoubleClick(MouseEvent)}
-   *
-   * @param aEvent - информация о положениии курсора и состянии кнопок
-   */
-  default void onMouseDoubleClick( MouseEvent aEvent ) {
-    // nop
-  }
-
-  /**
-   * Вызывается при нажатии кнопи мыши. См {@link MouseListener#mouseDown(MouseEvent)}
-   *
-   * @param aEvent - информация о положениии курсора и состянии кнопок
-   */
-  default void onMouseDown( MouseEvent aEvent ) {
-    // nop
-  }
-
-  /**
-   * Вызывается при отпускании кнопи мыши. См {@link MouseListener#mouseUp(MouseEvent)}
-   *
-   * @param aEvent - информация о положениии курсора и состянии кнопок
-   */
-  default void onMouseUp( MouseEvent aEvent ) {
-    // nop
-  }
-
-  /**
-   * Вызывается при перемещении курсора мыши. См {@link MouseMoveListener#mouseMove(MouseEvent)}
-   *
-   * @param aEvent - информация о положениии курсора и состянии кнопок
-   */
-  default void onMouseMove( MouseEvent aEvent ) {
-    // nop
-  }
-
-  /**
-   * Вызывается при вращении колесика мыши. См {@link MouseWheelListener#mouseScrolled(MouseEvent)}
-   *
-   * @param aEvent MouseEvent - информация о положениии курсора и вращении колесика
-   */
-  default void onMouseScrolled( MouseEvent aEvent ) {
-    // nop
-  }
-
-  /**
-   * Вызывается в момент появления курсора в области, за которую отвечает данный обработчик (Composite, Canvas ...). См
-   * {@link MouseTrackListener#mouseEnter(MouseEvent)}
-   */
-  default void onMouseEnter() {
-    // nop
-  }
-
-  /**
-   * Вызывается в момент когда курсор покидает область, за которую отвечает данный обработчик (Composite, Canvas ...).
-   * См {@link MouseTrackListener#mouseExit(MouseEvent)}
-   */
-  default void onMouseExit() {
-    // nop
-  }
-
-  /**
-   * Вызывается в момент когда курсор мыши останавливается и находится в покое определенное время. При этом неважно есть
-   * ли под курсором какой-либо объект или нет. См {@link MouseTrackListener#mouseHover(MouseEvent)}
-   *
-   * @param aEvent MouseEvent - информация о положениии курсора
-   */
-  default void onMouseHover( MouseEvent aEvent ) {
-    // nop
-  }
-
-  /**
    * Вызывается в момент однократного "щелчка" мыши.<br>
-   * Если в момент отпускания кнопки мыши зафиксирован "щелчок", то вместо {@linkplain #onMouseUp(MouseEvent)}
-   * вызывается данный метод.
+   * Если в момент отпускания кнопки мыши зафиксирован "щелчок", то вместо {@linkplain #mouseUp(MouseEvent)} вызывается
+   * данный метод.
    *
    * @param aShape IScreenObject - объект на котором произошел щелчок или null если щелчок был на пустом месте
    * @param aEvent MouseEvent - инфрмация о состоянии кнопок мыши, клавиатуры и т.д.

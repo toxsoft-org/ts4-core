@@ -29,10 +29,10 @@ public interface IVedDataModel
    *
    * @return {@link INotifierStridablesListEdit}&lt;{@link IVedComponent}&gt; - components data model
    */
-  INotifierStridablesList<IVedComponent> comps();
+  INotifierStridablesList<IVedComponent> listComponents();
 
   /**
-   * Adds new component to the end of list {@link #comps()}.
+   * Adds new component to the end of list {@link #listComponents()}.
    *
    * @param aComponent {@link IVedComponent} - component to add
    * @throws TsNullArgumentRtException any argument = <code>null</code>
@@ -41,7 +41,7 @@ public interface IVedDataModel
   void addComponent( IVedComponent aComponent );
 
   /**
-   * Adds the component to the specified position in list {@link #comps()}.
+   * Adds the component to the specified position in list {@link #listComponents()}.
    *
    * @param aIndex int - index of the element to insert (in range 0..list size)
    * @param aComponent {@link IVedComponent} - component to add
@@ -61,7 +61,7 @@ public interface IVedDataModel
   void removeComponent( String aComponentId );
 
   /**
-   * Returns components list {@link #comps()} reorderer.
+   * Returns components list {@link #listComponents()} reorderer.
    *
    * @return {@link IListReorderer}&lt;{@link IVedComponent}&gt; - compnents list reorderer
    */

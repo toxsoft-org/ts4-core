@@ -1,7 +1,7 @@
 package org.toxsoft.core.tslib.coll.notifier.basis;
 
+import org.toxsoft.core.tslib.bricks.events.*;
 import org.toxsoft.core.tslib.coll.helpers.ECrudOp;
-import org.toxsoft.core.tslib.utils.ITsPausabeEventsProducer;
 import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 
 /**

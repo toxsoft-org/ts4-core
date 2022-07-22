@@ -82,7 +82,7 @@ public class VedComponentM5Model
 
     @Override
     protected IList<IVedComponent> doListEntities() {
-      return master().comps();
+      return master().listComponents();
     }
 
   }
