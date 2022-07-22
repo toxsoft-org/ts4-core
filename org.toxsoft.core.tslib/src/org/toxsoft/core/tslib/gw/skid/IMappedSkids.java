@@ -7,7 +7,7 @@ import org.toxsoft.core.tslib.coll.primtypes.*;
 /**
  * SKID lists mapped on the string keys.
  * <p>
- * This is read-only interface, FIXME
+ * This is read-only interface, while implementation {@link MappedSkids} is editable.
  *
  * @author hazard157
  */
