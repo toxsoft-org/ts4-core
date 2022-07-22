@@ -14,6 +14,8 @@ import org.toxsoft.core.tsgui.ved.utils.drag.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.filter.*;
+import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.coll.*;
@@ -244,7 +246,7 @@ public class VedScreen
 
   interface IScreenPainter {
 
-    void setTransform( double aZoomFactor, ID2Point aOrigin, double aAngle, ID2Point aPivotPoint );
+    void setConversion( ID2Conversion aConversion );
 
     void paint( GC aGc );
 
@@ -259,31 +261,32 @@ public class VedScreen
   private IListEdit<IScreenPainter>          foregroundPainters = new ElemArrayList<>();
   private IListEdit<IComponentViewDecorator> viewDecorators     = new ElemArrayList<>();
 
-  void paint( PaintEvent aEvent ) {
+  void paint( PaintEvent aE ) {
+    ITsRectangle rect = new TsRectangle( aE.x, aE.y, aE.width, aE.height );
 
     for( IScreenPainter p : backgroundPainters ) {
-      p.paint( aEvent.gc );
+      p.paint( aE.gc );
     }
 
     for( IVedComponentView view : views ) {
-      view.painter().paint( aEvent.gc );
+      view.painter().paint( aE.gc, rect );
       //
       for( IComponentViewDecorator d : viewDecorators ) {
-        d.paint( view, aEvent.gc );
+        d.paint( view, aE.gc );
       }
     }
 
     for( IScreenObject obj : screenObjects ) {
-      obj.paint( aEvent.gc );
+      obj.paint( aE.gc );
     }
 
     for( IScreenPainter p : foregroundPainters ) {
-      p.paint( aEvent.gc );
+      p.paint( aE.gc );
     }
 
     // отрисуем границы выделенных элементов
-    aEvent.gc.setForeground( selectionColor );
-    aEvent.gc.setLineWidth( 2 );
+    aE.gc.setForeground( selectionColor );
+    aE.gc.setLineWidth( 2 );
     for( IVedComponentView view : views ) {
       if( selectionManager.selectedComponents().hasKey( view.id() ) ) {
         Rectangle r = boundsToScreen( view );
@@ -291,7 +294,7 @@ public class VedScreen
         r.y -= 2;
         r.width += 4;
         r.height += 4;
-        aEvent.gc.drawRectangle( r );
+        aE.gc.drawRectangle( r );
       }
     }
 

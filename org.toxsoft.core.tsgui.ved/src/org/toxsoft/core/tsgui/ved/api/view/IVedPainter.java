@@ -2,14 +2,15 @@ package org.toxsoft.core.tsgui.ved.api.view;
 
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 
 /**
- * The means to draw the view on the SWT {@link Canvas}.
+ * The means to draw something VED related on the SWT {@link Canvas}.
  * <p>
- * Note: zooming while drawing does not affects component properties. Motivation to have separate method
- * {@link #setZoomFactor(double)} rather than zoom argument in {@link #paint(GC, ITsRectangle)} is to allow paointer
- * optimizations. Zoom factor is set rarely while paint occures frequently.
+ * Note: conversion while drawing does not affects component properties. Motivation to have separate method
+ * {@link #setConversion(ID2Conversion)} rather than conversion parameters arguments in {@link #paint(GC, ITsRectangle)}
+ * is to allow painter optimizations. Copnversion is set rarely while paint occures frequently.
  *
  * @author hazard157
  */
@@ -24,17 +25,17 @@ public interface IVedPainter {
   void paint( GC aGc, ITsRectangle aPaintBounds );
 
   /**
-   * Returns current zoom factor
+   * Returns current conversion of normal coordinate space of component to painting coordinates space.
    *
-   * @return double - the zoom factor (1.0 is the original size)
+   * @return {@link ID2Conversion} - current conversion parameters
    */
-  double zoomFactor();
+  ID2Conversion getConversion();
 
   /**
-   * Sets the zoom factor for next paint operation.
+   * Sets the conversion parameters to be used in further paintings.
    *
-   * @param aZoomFactor double - коэффициент масштабирования
+   * @param aConversion {@link ID2Conversion} - conversion parameters
    */
-  void setZoomFactor( double aZoomFactor );
+  void setConversion( ID2Conversion aConversion );
 
 }

@@ -5,7 +5,12 @@ package org.toxsoft.core.tslib.bricks.d2;
  *
  * @author hazard157
  */
-public interface ID2Vector {
+public sealed interface ID2Vector permits ID2VectorEdit,D2Vector {
+
+  /**
+   * Zero length vector at origin.
+   */
+  ID2Vector ZERO = D2Vector.ofXyLenDeg( 0.0, 0.0, 0.0, 0.0 );
 
   /**
    * Returns the initial point of the vector.

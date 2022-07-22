@@ -7,8 +7,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public interface ID2AngleEdit
-    extends ID2Angle {
+public sealed interface ID2AngleEdit
+    extends ID2Angle permits D2AngleEdit {
 
   /**
    * Sets angle as ridians.

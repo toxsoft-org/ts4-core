@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.ved.api.view;
 
 import org.toxsoft.core.tsgui.ved.api.*;
+import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.utils.*;
 
@@ -24,6 +25,20 @@ public interface IVedScreen
    * @return {@link IStridablesList}&lt;{@link IVedComponentView}&fr; - list of views
    */
   IStridablesList<IVedComponentView> listViews();
+
+  /**
+   * Returns current conversion of normal coordinate space of component to painting coordinates space.
+   *
+   * @return {@link ID2Conversion} - current conversion parameters
+   */
+  ID2Conversion getConversion();
+
+  /**
+   * Sets the conversion parameters to be used in further paintings.
+   *
+   * @param aConversion {@link ID2Conversion} - conversion parameters
+   */
+  void setConversion( ID2Conversion aConversion );
 
   /**
    * Returns the manager of the tools owned by this screen.

@@ -5,7 +5,12 @@ package org.toxsoft.core.tslib.bricks.d2;
  *
  * @author hazard157
  */
-public interface ID2Rotation {
+public sealed interface ID2Rotation permits ID2RotationEdit,D2Rotation {
+
+  /**
+   * No rotation singleton.
+   */
+  ID2Rotation NONE = new D2Rotation( 0, 0, 0, true );
 
   /**
    * Returns the rotation center coordinates.
