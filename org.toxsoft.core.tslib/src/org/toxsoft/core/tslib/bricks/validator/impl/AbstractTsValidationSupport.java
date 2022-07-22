@@ -1,17 +1,14 @@
 package org.toxsoft.core.tslib.bricks.validator.impl;
 
-import org.toxsoft.core.tslib.bricks.validator.ITsValidationSupport;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
-
-// TODO TRANSLATE
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 
 /**
- * Базовая реализация {@link ITsValidationSupport}.
+ * {@link ITsValidationSupport} base implementation.
  *
  * @author hazard157
- * @param <V> - конкретный итерфейс валидатора
+ * @param <V> - concrete validator interface
  */
 public abstract class AbstractTsValidationSupport<V>
     implements ITsValidationSupport<V> {
@@ -20,14 +17,14 @@ public abstract class AbstractTsValidationSupport<V>
   private final IListEdit<V> pausedValidators = new ElemArrayList<>();
 
   /**
-   * Конструктор.
+   * Constructor.
    */
   public AbstractTsValidationSupport() {
     // nop
   }
 
   // ------------------------------------------------------------------------------------
-  // Методы для наследников
+  // API for subclasses
   //
 
   protected IList<V> validatorsList() {
@@ -41,7 +38,7 @@ public abstract class AbstractTsValidationSupport<V>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ISkValidationSupport
+  // ISkValidationSupport
   //
 
   @Override

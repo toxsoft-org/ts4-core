@@ -1,8 +1,8 @@
 package org.toxsoft.core.tslib.bricks.validator;
 
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.utils.errors.*;
 
-// TRANSLATE
+// TODO TRANSLATE
 
 /**
  * Поддержка валидации (предварительно проверки) редактирования.
@@ -25,22 +25,22 @@ public interface ITsValidationSupport<V> {
   V validator();
 
   /**
-   * Добавляет валидатор.
+   * Add the validator.
    * <p>
-   * Если такой валидатор уже зарегистрирован, метод ничего не делает.
+   * If validator is already registered then method soes nothing.
    *
-   * @param aValidator &ltV&gt; - добавляемый валидатор
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aValidator &ltV&gt; - the validator
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void addValidator( V aValidator );
 
   /**
-   * Удаляет валидатор.
+   * Removes the validator.
    * <p>
-   * Если такой валидатор не зарегистрирован, метод ничего не делает.
+   * If validator is not registered then method soes nothing.
    *
-   * @param aValidator &ltV&gt; - удаляемый валидатор
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aValidator &ltV&gt; - the validator
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void removeValidator( V aValidator );
 
