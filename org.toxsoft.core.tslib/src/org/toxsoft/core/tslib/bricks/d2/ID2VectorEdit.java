@@ -9,8 +9,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public interface ID2VectorEdit
-    extends ID2Vector {
+public sealed interface ID2VectorEdit
+    extends ID2Vector permits D2VectorEdit {
 
   @Override
   ID2PointEdit a();

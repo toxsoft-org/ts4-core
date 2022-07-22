@@ -10,7 +10,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public class D2VectorEdit
+public final class D2VectorEdit
     implements ID2VectorEdit {
 
   private final ID2PointEdit a     = new D2PointEdit( 0.0, 0.0 );
@@ -61,7 +61,7 @@ public class D2VectorEdit
   /**
    * Updates {@link #length} and {@link #angle} values when {@link #a} and {@link #b} are specified.
    */
-  private final void recalcLengthAndAngle() {
+  private void recalcLengthAndAngle() {
     double dx = b.x() - a.x();
     double dy = b.y() - a.y();
     length = duck( Math.sqrt( dx * dx + dy * dy ) );
@@ -71,7 +71,7 @@ public class D2VectorEdit
   /**
    * Updates {@link #b} value when {@link #a}, {@link #length} and {@link #angle} are specified.
    */
-  private final void recalcTerminalPoint() {
+  private void recalcTerminalPoint() {
     double dx = length * Math.cos( angle.radians() );
     double dy = length * Math.sin( angle.radians() );
     b.setPoint( a.x() + dx, a.y() + dy );

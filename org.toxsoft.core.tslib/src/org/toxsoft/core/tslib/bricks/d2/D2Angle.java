@@ -6,22 +6,15 @@ import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * {@link ID2AngleEdit} implementation.
+ * {@link ID2Angle} implementation.
  *
  * @author hazard157
  */
-public final class D2AngleEdit
-    implements ID2AngleEdit {
+public final class D2Angle
+    implements ID2Angle {
 
-  private double radians = 0.0;
-  private double degrees = 0.0;
-
-  /**
-   * Creates angle of 0.0 (both radians and degrees).
-   */
-  public D2AngleEdit() {
-    // nop
-  }
+  private final double radians;
+  private final double degrees;
 
   /**
    * Copy constructor.
@@ -29,38 +22,43 @@ public final class D2AngleEdit
    * @param aAngle {@link ID2Angle} - the source
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public D2AngleEdit( ID2Angle aAngle ) {
+  public D2Angle( ID2Angle aAngle ) {
     TsNullArgumentRtException.checkNull( aAngle );
     radians = aAngle.radians();
     degrees = aAngle.degrees();
+  }
+
+  D2Angle( double aAngle, boolean aIsRadians ) {
+    if( aIsRadians ) {
+      radians = checkAngleRadians( aAngle );
+      degrees = duck( rad2deg( radians ) );
+    }
+    else {
+      degrees = duck( aAngle );
+      radians = deg2rad( degrees );
+    }
   }
 
   /**
    * Creates angle of specified degrees.
    *
    * @param aDegrees double - angle value in degrees
-   * @return {@link D2AngleEdit} - created instance
+   * @return {@link D2Angle} - created instance
    * @throws TsIllegalArgumentRtException invalid value
    */
-  public static D2AngleEdit ofDegrees( double aDegrees ) {
-    D2AngleEdit a = new D2AngleEdit();
-    a.degrees = duck( aDegrees );
-    a.radians = deg2rad( a.degrees );
-    return a;
+  public static D2Angle ofDegrees( double aDegrees ) {
+    return new D2Angle( aDegrees, false );
   }
 
   /**
    * Creates angle of specified radians.
    *
    * @param aRadians double - angle value in radians
-   * @return {@link D2AngleEdit} - created instance
+   * @return {@link D2Angle} - created instance
    * @throws TsIllegalArgumentRtException invalid value
    */
-  public static D2AngleEdit ofRadians( double aRadians ) {
-    D2AngleEdit a = new D2AngleEdit();
-    a.radians = aRadians;
-    a.degrees = duck( rad2deg( aRadians ) );
-    return a;
+  public static D2Angle ofRadians( double aRadians ) {
+    return new D2Angle( aRadians, true );
   }
 
   // ------------------------------------------------------------------------------------
@@ -75,41 +73,6 @@ public final class D2AngleEdit
   @Override
   public double degrees() {
     return degrees;
-  }
-
-  // ------------------------------------------------------------------------------------
-  // ID2AngleEdit
-  //
-
-  @Override
-  public void setRad( double aRadians ) {
-    radians = checkAngleRadians( aRadians );
-    degrees = duck( rad2deg( radians ) );
-  }
-
-  @Override
-  public void changeRad( double aDeltaRadians ) {
-    radians += checkAngleRadians( aDeltaRadians );
-    degrees = duck( rad2deg( radians ) );
-  }
-
-  @Override
-  public void setDeg( double aDegrees ) {
-    degrees = duck( checkAngleDegrees( aDegrees ) );
-    radians = deg2rad( degrees );
-  }
-
-  @Override
-  public void changeDeg( double aDeltaDegrees ) {
-    degrees += duck( checkAngleDegrees( aDeltaDegrees ) );
-    radians = deg2rad( degrees );
-  }
-
-  @Override
-  public void setAngle( ID2Angle aAngle ) {
-    TsNullArgumentRtException.checkNull( aAngle );
-    radians = aAngle.radians();
-    degrees = aAngle.degrees();
   }
 
   // ------------------------------------------------------------------------------------

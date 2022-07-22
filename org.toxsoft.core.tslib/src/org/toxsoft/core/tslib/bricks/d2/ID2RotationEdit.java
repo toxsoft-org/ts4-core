@@ -7,8 +7,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public interface ID2RotationEdit
-    extends ID2Rotation {
+public sealed interface ID2RotationEdit
+    extends ID2Rotation permits D2RotationEdit {
 
   /**
    * Returns an editable rotation center coordinates.

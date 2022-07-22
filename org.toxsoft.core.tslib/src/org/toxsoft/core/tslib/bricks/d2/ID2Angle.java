@@ -5,7 +5,7 @@ package org.toxsoft.core.tslib.bricks.d2;
  *
  * @author hazard157
  */
-public interface ID2Angle {
+public sealed interface ID2Angle permits ID2AngleEdit,D2Angle {
 
   /**
    * Returns angle in radians.

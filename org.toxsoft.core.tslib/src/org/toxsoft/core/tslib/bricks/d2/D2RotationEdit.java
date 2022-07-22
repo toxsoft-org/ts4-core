@@ -9,7 +9,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public class D2RotationEdit
+public final class D2RotationEdit
     implements ID2RotationEdit {
 
   private final ID2PointEdit pivotPoint    = new D2PointEdit();

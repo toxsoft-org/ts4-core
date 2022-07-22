@@ -24,10 +24,15 @@ public interface ID2Conversion {
   /**
    * Returns the coordinates of origin in after conversion.
    *
-   * @return
+   * @return {@link ID2Point} - source origin coordinates on target
    */
   ID2Point origin();
 
+  /**
+   * Returns the rotation parameters.
+   *
+   * @return {@link ID2Rotation} - the rotation parameters
+   */
   ID2Rotation rotation();
 
 }

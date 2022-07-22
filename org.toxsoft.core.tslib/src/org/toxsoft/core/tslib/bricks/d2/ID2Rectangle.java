@@ -2,12 +2,15 @@ package org.toxsoft.core.tslib.bricks.d2;
 
 /**
  * The rectangleon a plane with <code>double</code> coordinates.
- * <p>
- * TODO clarify if {@link #width()} / {@link #height()} may be 0 ???
  *
  * @author hazard157
  */
 public sealed interface ID2Rectangle permits D2Rectangle,D2RectangleEdit {
+
+  /**
+   * Rectangle of 0 size at (0.0,0.0).
+   */
+  ID2Rectangle ZERO = new D2Rectangle( 0.0, 0.0, 0.0, 0.0 );
 
   /**
    * Returns the top-left corner X coordinate.
