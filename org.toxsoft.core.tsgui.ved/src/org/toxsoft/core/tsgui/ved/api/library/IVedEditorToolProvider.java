@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.ved.api.library;
 
+import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 
@@ -11,7 +12,13 @@ import org.toxsoft.core.tslib.bricks.strid.*;
 public interface IVedEditorToolProvider
     extends IStridableParameterized {
 
-  // FIXME API
-  IVedEditorTool createTool( /* arguments??? */ );
+  /**
+   * Creates {@link IVedEditorTool} implementation for the specified screen.
+   *
+   * @param aEnvironment {@link IVedEnvironment} - the VED framefork environment
+   * @param aScreen {@link IVedScreen} - one of the screens in environment
+   * @return {@link IVedEditorTool} - created instance
+   */
+  IVedEditorTool createTool( IVedEnvironment aEnvironment, IVedScreen aScreen );
 
 }

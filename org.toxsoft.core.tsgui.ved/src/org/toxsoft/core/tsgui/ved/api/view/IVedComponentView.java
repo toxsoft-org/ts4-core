@@ -42,4 +42,11 @@ public interface IVedComponentView
    */
   IVedComponent component();
 
+  /**
+   * Returns the screen where this view of the component is painted.
+   *
+   * @return {@link IVedScreen} - owner screen
+   */
+  IVedScreen ownerScreen();
+
 }

@@ -1,7 +1,6 @@
 package org.toxsoft.core.tsgui.ved.api.view;
 
 import org.eclipse.swt.graphics.*;
-import org.toxsoft.core.tsgui.ved.incub.geom.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -58,10 +57,13 @@ public interface IVedOutline {
   double distanceTo( double aX, double aY );
 
   /**
-   * TODO ???
+   * Returns the point on shape outline.
+   * <p>
+   * Some point on outline is considered as starting point. Place of any outline point is counted counterclockwise on
+   * the outline in percents. 0.00% is starting point and 100% is the starting point again.
    *
-   * @param aPercent
-   * @return
+   * @param aPercent double - percents of perimeter from starting point (in range 0.0 - 100.0)
+   * @return {@link ID2Point} - normal coordinatel of the point
    */
   ID2Point outlinePoint( double aPercent );
 

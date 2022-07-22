@@ -1,6 +1,5 @@
 package org.toxsoft.core.tsgui.ved.api.view;
 
-import org.toxsoft.core.tsgui.ved.incub.geom.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 
 /**
@@ -60,17 +59,8 @@ public interface IVedPorter {
    * Rotation center is measured statring from shapes X,Y coordinates or <code>null</code> value is used to specify
    * rotation around bounding rectanges center point.
    *
-   * @param aRotationCenter {@link ID2Point} - rotation center point coordinates or <code>null</code>
-   * @param aDegrees double - angle to rotate in degrees (<0 - clockwise, >0 - counterclockwise)
+   * @param aRotation {@link ID2Rotation} - rotation parameters (pivot point and angle)
    */
-  void rotate( ID2Point aRotationCenter, double aDegrees );
-
-  // TODO API
-
-  void flipHor( boolean aFlip );
-
-  void flipVer( boolean aFlip );
-
-  void zoom( double aZoomFactorX, double aZoomFactorY );
+  void rotate( ID2Rotation aRotation );
 
 }
