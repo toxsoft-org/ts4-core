@@ -3,6 +3,7 @@ package org.toxsoft.core.tsgui.ved.impl;
 import org.toxsoft.core.tsgui.ved.api.library.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -31,6 +32,11 @@ class VedLibraryManager
   public void registerLibrary( IVedLibrary aLibrary ) {
     TsNullArgumentRtException.checkNull( aLibrary );
     TsItemAlreadyExistsRtException.checkTrue( libs.hasKey( aLibrary.id() ) );
+    for( IVedLibrary lib : libs ) {
+      if( TsCollectionsUtils.intersects( lib.toolProviders().ids(), aLibrary.toolProviders().ids() ) ) {
+        throw new TsItemAlreadyExistsRtException();
+      }
+    }
     libs.add( aLibrary );
   }
 

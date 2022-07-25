@@ -24,7 +24,8 @@ public interface IVedLibraryManager {
    *
    * @param aLibrary {@link IVedLibrary} - library to be registered
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsItemAlreadyExistsRtException librarye with the same ID is already registered
+   * @throws TsItemAlreadyExistsRtException library with the same ID is already registered
+   * @throws TsItemAlreadyExistsRtException some other library contains the tool with ID of tool in new library
    */
   void registerLibrary( IVedLibrary aLibrary );
 

@@ -12,7 +12,12 @@ package org.toxsoft.core.tslib.bricks.d2;
  *
  * @author hazard157
  */
-public interface ID2Conversion {
+public sealed interface ID2Conversion permits ID2ConversionEdit,D2Conversion {
+
+  /**
+   * No conversion parameters singleton.
+   */
+  ID2Conversion NONE = new D2Conversion( 1.0, ID2Point.ZERO, ID2Rotation.NONE );
 
   /**
    * Returns the zoom factor where 1.0 means no zoom.

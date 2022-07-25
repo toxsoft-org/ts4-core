@@ -3,6 +3,8 @@ package org.toxsoft.core.tslib.bricks.d2;
 import static org.toxsoft.core.tslib.bricks.d2.D2Utils.*;
 import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
+import java.io.*;
+
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -11,7 +13,9 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public final class D2Vector
-    implements ID2Vector {
+    implements ID2Vector, Serializable {
+
+  private static final long serialVersionUID = -6227376902258600650L;
 
   private final ID2Point a;
   private final ID2Point b;

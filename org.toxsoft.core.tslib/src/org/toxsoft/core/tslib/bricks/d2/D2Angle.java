@@ -3,6 +3,8 @@ package org.toxsoft.core.tslib.bricks.d2;
 import static org.toxsoft.core.tslib.bricks.d2.D2Utils.*;
 import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
+import java.io.*;
+
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -11,7 +13,9 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public final class D2Angle
-    implements ID2Angle {
+    implements ID2Angle, Serializable {
+
+  private static final long serialVersionUID = 2666622496509094742L;
 
   private final double radians;
   private final double degrees;

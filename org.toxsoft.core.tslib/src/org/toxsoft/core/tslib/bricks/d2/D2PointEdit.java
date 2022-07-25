@@ -16,7 +16,7 @@ public final class D2PointEdit
     implements ID2PointEdit, Serializable {
 
   private static final long serialVersionUID = 5419533956300417542L;
-  
+
   private double x = 0.0;
   private double y = 0.0;
 
@@ -35,10 +35,8 @@ public final class D2PointEdit
    * @throws TsIllegalArgumentRtException argument is NAN of INFINITY
    */
   public D2PointEdit( double aX, double aY ) {
-    checkCoor( aX );
-    checkCoor( aY );
-    x = duck( aX );
-    y = duck( aY );
+    x = duck( checkCoor( aX ) );
+    y = duck( checkCoor( aY ) );
   }
 
   /**
@@ -73,22 +71,18 @@ public final class D2PointEdit
 
   @Override
   public void setX( double aX ) {
-    checkCoor( aX );
-    x = duck( aX );
+    x = duck( checkCoor( aX ) );
   }
 
   @Override
   public void setY( double aY ) {
-    checkCoor( aY );
-    y = duck( aY );
+    y = duck( checkCoor( aY ) );
   }
 
   @Override
   public void setPoint( double aX, double aY ) {
-    checkCoor( aX );
-    checkCoor( aY );
-    x = duck( aX );
-    y = duck( aY );
+    x = duck( checkCoor( aX ) );
+    y = duck( checkCoor( aY ) );
   }
 
   @Override

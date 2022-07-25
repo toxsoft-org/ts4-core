@@ -13,6 +13,13 @@ public interface IVedEditorToolProvider
     extends IStridableParameterized {
 
   /**
+   * Returns the owner library ID.
+   *
+   * @return String - the owner library ID (an IDpath)
+   */
+  String libraryId();
+
+  /**
    * Creates {@link IVedEditorTool} implementation for the specified screen.
    *
    * @param aEnvironment {@link IVedEnvironment} - the VED framefork environment

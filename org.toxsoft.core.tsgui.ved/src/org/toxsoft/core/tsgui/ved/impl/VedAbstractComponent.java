@@ -1,6 +1,6 @@
 package org.toxsoft.core.tsgui.ved.impl;
 
-import static org.toxsoft.core.tsgui.ved.std.IVedStdProperties.*;
+import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
@@ -22,7 +22,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public class VedAbstractComponent
+public abstract class VedAbstractComponent
     implements IVedComponent, IVedContextable {
 
   private final GenericChangeEventer eventer;
@@ -81,12 +81,12 @@ public class VedAbstractComponent
 
   @Override
   public String nmName() {
-    return props().getStr( PID_NAME, EMPTY_STRING );
+    return props().getStr( TSID_NAME, EMPTY_STRING );
   }
 
   @Override
   public String description() {
-    return props().getStr( PID_DESCRIPTION, EMPTY_STRING );
+    return props().getStr( TSID_DESCRIPTION, EMPTY_STRING );
   }
 
   // ------------------------------------------------------------------------------------
@@ -136,9 +136,28 @@ public class VedAbstractComponent
   }
 
   @Override
-  public IVedComponentView createView( IVedScreen aScreen ) {
-    // TODO реализовать VedAbstractComponent.createView()
-    throw new TsUnderDevelopmentRtException( "VedAbstractComponent.createView()" );
+  final public VedAbstractComponentView createView( IVedScreen aScreen ) {
+    TsNullArgumentRtException.checkNull( aScreen );
+    Object rawView = doCreateView( aScreen );
+    if( rawView instanceof VedAbstractComponentView v ) {
+      TsInternalErrorRtException.checkTrue( v.ownerScreen() != aScreen );
+      TsInternalErrorRtException.checkTrue( v.component() != this );
+      v.papiInitialUpdate();
+      return v;
+    }
+    throw new TsInternalErrorRtException();
   }
+
+  // ------------------------------------------------------------------------------------
+  // To implements
+  //
+
+  /**
+   * Subclass must create the view instance.
+   *
+   * @param aScreen {@link IVedScreen} - the screen
+   * @return {@link VedAbstractComponentView} - created instance
+   */
+  protected abstract VedAbstractComponentView doCreateView( IVedScreen aScreen );
 
 }

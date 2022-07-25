@@ -28,10 +28,8 @@ public final class D2Point
    * @throws TsIllegalArgumentRtException argument is NAN of INFINITY
    */
   public D2Point( double aX, double aY ) {
-    checkCoor( aX );
-    checkCoor( aY );
-    x = duck( aX );
-    y = duck( aY );
+    x = duck( checkCoor( aX ) );
+    y = duck( checkCoor( aY ) );
   }
 
   /**

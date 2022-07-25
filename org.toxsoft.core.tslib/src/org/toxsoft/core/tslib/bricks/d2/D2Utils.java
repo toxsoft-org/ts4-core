@@ -71,13 +71,15 @@ public class D2Utils {
    * Checks zoom factor in range from {@link #MIN_ZOOM_FACTOR} to {@link #MAX_ZOOM_FACTOR}.
    *
    * @param aZoomFactor double - inital zoom factor
+   * @return double - always returns argument value
    * @throws TsIllegalArgumentRtException invalid value
    */
-  public static void checkZoom( double aZoomFactor ) {
+  public static double checkZoom( double aZoomFactor ) {
     if( !Double.isFinite( aZoomFactor ) || aZoomFactor < MIN_ZOOM_FACTOR || aZoomFactor > MAX_ZOOM_FACTOR ) {
       throw new TsIllegalArgumentRtException( FMT_ERR_INV_ZOOM_VALUE, //
           Double.valueOf( MIN_ZOOM_FACTOR ), Double.valueOf( MAX_ZOOM_FACTOR ), Double.valueOf( aZoomFactor ) );
     }
+    return aZoomFactor;
   }
 
   /**
@@ -86,12 +88,14 @@ public class D2Utils {
    * Any finite <code>double</code> is considered as valid.
    *
    * @param aCoor double - coordinate value
+   * @return double - always returns argument value
    * @throws TsIllegalArgumentRtException invalid value
    */
-  public static void checkCoor( double aCoor ) {
+  public static double checkCoor( double aCoor ) {
     if( !Double.isFinite( aCoor ) ) {
       throw new TsIllegalArgumentRtException( FMT_ERR_INV_COOR_VALUE, Double.toString( aCoor ) );
     }
+    return aCoor;
   }
 
   /**
@@ -100,12 +104,14 @@ public class D2Utils {
    * Any non-negative finite <code>double</code> is considered as valid.
    *
    * @param aLength double - length value
+   * @return double - always returns argument value
    * @throws TsIllegalArgumentRtException invalid value
    */
-  public static void checkLength( double aLength ) {
+  public static double checkLength( double aLength ) {
     if( !Double.isFinite( aLength ) || aLength < 0.0 ) {
       throw new TsIllegalArgumentRtException( FMT_ERR_INV_LENGTH_VALUE, Double.toString( aLength ) );
     }
+    return aLength;
   }
 
   /**

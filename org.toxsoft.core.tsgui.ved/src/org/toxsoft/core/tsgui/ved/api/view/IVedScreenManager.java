@@ -1,6 +1,6 @@
 package org.toxsoft.core.tsgui.ved.api.view;
 
-import org.toxsoft.core.tsgui.panels.*;
+import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -15,17 +15,15 @@ public interface IVedScreenManager {
   /**
    * Creates the screen based on supplied SWT canvas.
    *
-   * @param aCanvas {@link TsAbstractCanvas} - the canvas
+   * @param aCanvas {@link Canvas} - the canvas
    * @return {@link IVedScreen} - created screen
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsItemAlreadyExistsRtException there already is the screen bound to this canvas
    */
-  IVedScreen createScreen( TsAbstractCanvas aCanvas );
+  IVedScreen createScreen( Canvas aCanvas );
 
   /**
    * Returns the active screen.
-   * <p>
-   * TODO describe what is the active screen
    *
    * @return {@link IVedScreen} - active screen or <code>null</code>
    */

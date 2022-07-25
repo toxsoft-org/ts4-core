@@ -7,8 +7,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public interface ID2ConversionEdit
-    extends ID2Conversion {
+public sealed interface ID2ConversionEdit
+    extends ID2Conversion permits D2ConversionEdit {
 
   /**
    * Sets the zoom factor.
@@ -33,5 +33,13 @@ public interface ID2ConversionEdit
    */
   @Override
   ID2RotationEdit rotation();
+
+  /**
+   * Copies conversion parameters.
+   *
+   * @param aSource {@link ID2Conversion} - the source
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  void setConversion( ID2Conversion aSource );
 
 }

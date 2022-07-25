@@ -2,6 +2,8 @@ package org.toxsoft.core.tslib.bricks.d2;
 
 import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
+import java.io.*;
+
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -10,7 +12,9 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public final class D2RotationEdit
-    implements ID2RotationEdit {
+    implements ID2RotationEdit, Serializable {
+
+  private static final long serialVersionUID = 9093027728464918338L;
 
   private final ID2PointEdit pivotPoint    = new D2PointEdit();
   private final ID2AngleEdit rotationAngle = new D2AngleEdit();

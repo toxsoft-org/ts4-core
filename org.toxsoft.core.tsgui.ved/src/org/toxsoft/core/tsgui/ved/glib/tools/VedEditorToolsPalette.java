@@ -27,6 +27,9 @@ public class VedEditorToolsPalette
    */
   public VedEditorToolsPalette( Composite aParent, ITsGuiContext aContext ) {
     super( aParent, aContext );
+
+    //
+
   }
 
 }
