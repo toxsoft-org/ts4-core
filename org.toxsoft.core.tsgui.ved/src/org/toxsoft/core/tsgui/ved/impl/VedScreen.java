@@ -253,6 +253,11 @@ class VedScreen
         aScreenRect.width() + 2, aScreenRect.height() + 2, true );
   }
 
+  @Override
+  public void setCursor( Cursor aCursor ) {
+    theCanvas.setCursor( aCursor );
+  }
+
   // ------------------------------------------------------------------------------------
   // IVedScreen
   //

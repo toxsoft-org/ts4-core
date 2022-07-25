@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.ved.api.view;
 
+import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -78,5 +79,12 @@ public interface IVedScreenPaintingManager {
    * @param aScreenRect {@link ITsRectangle} - screen region to redraw in pixels
    */
   void redrawRect( ITsRectangle aScreenRect );
+
+  /**
+   * Sets mouse cursor shape on screen.
+   *
+   * @param aCursor {@link Cursor} - mouse cursor or <code>null</code> for default
+   */
+  void setCursor( Cursor aCursor );
 
 }
