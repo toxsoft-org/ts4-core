@@ -1,9 +1,11 @@
 package org.toxsoft.core.tsgui.ved.utils.drag;
 
-import org.eclipse.e4.core.contexts.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.graphics.cursors.*;
+import org.toxsoft.core.tsgui.ved.api.*;
+import org.toxsoft.core.tsgui.ved.utils.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
@@ -16,7 +18,7 @@ import org.toxsoft.core.tslib.coll.impl.*;
  * @author vs
  */
 public class VedMoveObjectsDragExecutor
-    implements IVedDragExecutor, IVedDragObjectsEventProducer {
+    implements IVedDragExecutor, IVedDragObjectsEventProducer, IVedContextable {
 
   private final IListEdit<IVedDragObjectsListener> listeners = new ElemLinkedBundleList<>();
 
@@ -32,16 +34,23 @@ public class VedMoveObjectsDragExecutor
 
   Cursor handCursor;
 
+  private final IVedEnvironment vedEnv;
+
   /**
    * Конструктор.<br>
    *
    * @param aShapes IStridablesList&lt;IScreenObject> - список "перетаскиваемых" фигур
-   * @param aAppContext IEclipseContext - контекст окна
+   * @param aContext ITsGuiContext - контекст окна
    */
-  public VedMoveObjectsDragExecutor( IStridablesList<IScreenObject> aShapes, IEclipseContext aAppContext ) {
+  public VedMoveObjectsDragExecutor( IStridablesList<IScreenObject> aShapes, IVedEnvironment aEnv ) {
     shapes = aShapes;
-    ITsCursorManager cursorManager = new TsCursorManager( aAppContext );
-    handCursor = cursorManager.getCursor( ECursorType.HAND );
+    vedEnv = aEnv;
+    handCursor = cursorManager().getCursor( ECursorType.HAND );
+  }
+
+  @Override
+  final public ITsGuiContext tsContext() {
+    return vedEnv.tsContext();
   }
 
   // ------------------------------------------------------------------------------------

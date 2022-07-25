@@ -52,7 +52,7 @@ public class VedStdPointerTool
    */
   public VedStdPointerTool( IVedEnvironment aEnv, IVedScreen aScreen ) {
     super( PROVIDER, aEnv, aScreen );
-    mouseHandler = new VedPointerToolMouseHandler( aEnv.eclipseContext() );
+    mouseHandler = new VedPointerToolMouseHandler( aEnv, aScreen );
     aScreen.conversionChangeEventer().addListener( aSource -> {
       mouseHandler.onZoomFactorChanged( vedScreen().getConversion().zoomFactor() );
     } );

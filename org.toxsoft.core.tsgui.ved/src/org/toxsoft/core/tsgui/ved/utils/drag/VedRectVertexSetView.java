@@ -1,8 +1,8 @@
 package org.toxsoft.core.tsgui.ved.utils.drag;
 
-import org.eclipse.e4.core.contexts.*;
 import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.cursors.*;
@@ -29,14 +29,14 @@ public class VedRectVertexSetView
    * Конструктор.<br>
    *
    * @param aInitialRect Rectangle - начальный прямоугольник
-   * @param aAppContext IEclipseContext - контекст окна
+   * @param aContext ITsGuiContext - контекст окна
    */
-  public VedRectVertexSetView( Rectangle aInitialRect, IEclipseContext aAppContext ) {
+  public VedRectVertexSetView( Rectangle aInitialRect, ITsGuiContext aContext ) {
     super( "rectVertexSet", "Вершины прямоугольника", "Набор вершин прямоугольника" ); //$NON-NLS-1$
 
     updateRect( rect, aInitialRect, 2, 2 );
 
-    ITsColorManager cm = aAppContext.get( ITsColorManager.class );
+    ITsColorManager cm = aContext.get( ITsColorManager.class );
 
     colorBlue = cm.getColor( ETsColor.BLUE );
     Color fgColor = cm.getColor( ETsColor.BLACK );

@@ -2,6 +2,8 @@ package org.toxsoft.core.tsgui.ved.utils.drag;
 
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.std.tools.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
@@ -79,7 +81,7 @@ public abstract class VedAbstractToolMouseHandler
   public void mouseUp( MouseEvent aEvent ) {
     if( dragging ) { // если идет процесс "перетаскивания", то закончим его
       dragExecutor.doFinishDrag( dragInfo.mouseEvent(), aEvent );
-      canvas.paintingManager().setCursor( null );
+      screen.paintingManager().setCursor( null );
       afterDragEnded();
       clearInternalState();
       return;
@@ -126,12 +128,12 @@ public abstract class VedAbstractToolMouseHandler
       readyForDrag = false;
       beforeDragStarted();
       Cursor cursor = dragExecutor.onStartDrag( dragInfo.mouseEvent() );
-      canvas.paintingManager().setCursor( cursor );
+      screen.paintingManager().setCursor( cursor );
       dragging = true;
     }
     if( dragging ) {
       Cursor cursor = dragExecutor.doDrag( dragInfo.mouseEvent(), aEvent );
-      canvas.paintingManager().setCursor( cursor );
+      screen.paintingManager().setCursor( cursor );
       return;
     }
 
@@ -178,7 +180,7 @@ public abstract class VedAbstractToolMouseHandler
   /**
    * Холст рисования
    */
-  protected IVedScreen canvas = null;
+  private IVedScreen screen = null;
 
   /**
    * Обработчик событий перетаскивания
@@ -195,10 +197,18 @@ public abstract class VedAbstractToolMouseHandler
    */
   protected IStridablesListEdit<IScreenObject> screenObjects = new StridablesList<>();
 
+  private final IVedEnvironment vedEnv;
+
   /**
    * Конструктор.<br>
    */
-  public VedAbstractToolMouseHandler() {
+  public VedAbstractToolMouseHandler( IVedEnvironment aEnv, IVedScreen aScreen ) {
+    screen = aScreen;
+    vedEnv = aEnv;
+  }
+
+  public ITsGuiContext tsContext() {
+    return vedEnv.tsContext();
   }
 
   // ------------------------------------------------------------------------------------
@@ -279,7 +289,7 @@ public abstract class VedAbstractToolMouseHandler
    */
   public void activate( IVedScreen aCanvas, IStridablesList<IScreenObject> aObjects ) {
     hoveredObject = null;
-    canvas = aCanvas;
+    screen = aCanvas;
     screenObjects.setAll( aObjects );
     onActivate();
   }
@@ -290,10 +300,10 @@ public abstract class VedAbstractToolMouseHandler
   public void deactivate() {
     if( dragging ) {
       dragExecutor.doCancelDrag( dragInfo.mouseEvent(), null );
-      canvas.paintingManager().setCursor( null );
+      screen.paintingManager().setCursor( null );
     }
     onDeactivate();
-    canvas = null;
+    screen = null;
     clearInternalState();
   }
 
@@ -312,7 +322,7 @@ public abstract class VedAbstractToolMouseHandler
    * @return VedScreen - экран редактора
    */
   public IVedScreen vedScreen() {
-    return canvas;
+    return screen;
   }
 
   // ------------------------------------------------------------------------------------
@@ -374,6 +384,14 @@ public abstract class VedAbstractToolMouseHandler
 
   protected void afterDragEnded() {
     // nop
+  }
+
+  // ------------------------------------------------------------------------------------
+  // API
+  //
+
+  public IVedScreen screen() {
+    return screen;
   }
 
   // ------------------------------------------------------------------------------------
