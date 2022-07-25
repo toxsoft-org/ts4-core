@@ -109,6 +109,28 @@ public abstract class VedAbstractEditorTool
   }
 
   // ------------------------------------------------------------------------------------
+  // Package API
+  //
+
+  /**
+   * Called by screen after tool is activated and tool's all listeners and decorators set to screen.
+   * <p>
+   * Does nothing in base class, there is no need to call superclass method when overriding.
+   */
+  void papiToolActivated() {
+    // nop
+  }
+
+  /**
+   * Called by screen after tool is de-activated and tool's all listeners and decorators removed from screen.
+   * <p>
+   * Does nothing in base class, there is no need to call superclass method when overriding.
+   */
+  void papiToolDeactivated() {
+    // nop
+  }
+
+  // ------------------------------------------------------------------------------------
   // API for subclasses
   //
 

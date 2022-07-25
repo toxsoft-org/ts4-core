@@ -82,6 +82,7 @@ class VedScreenToolsManager
         if( activeTool.viewDecorator() != null ) {
           screen.paintingManager().removeViewsDecorator( activeTool.viewDecorator() );
         }
+        activeTool.papiToolDeactivated();
       }
       activeTool = toolsList.getByKey( aToolId );
       // activate tool
@@ -98,6 +99,7 @@ class VedScreenToolsManager
         if( activeTool.viewDecorator() != null ) {
           screen.paintingManager().addViewsDecorator( activeTool.viewDecorator() );
         }
+        activeTool.papiToolActivated();
       }
       activeToolChangeEventer.fireChangeEvent();
       screen.redraw();
