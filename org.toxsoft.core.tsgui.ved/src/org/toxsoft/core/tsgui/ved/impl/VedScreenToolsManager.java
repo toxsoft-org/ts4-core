@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.ved.impl;
 
+import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
+
 import java.util.*;
 
 import org.toxsoft.core.tsgui.ved.api.library.*;
@@ -23,8 +25,8 @@ class VedScreenToolsManager
   private final VedScreen      screen;
   private final VedEnvironment vedEnv;
 
-  private String  activeToolId = null;
-  private boolean disposed     = false;
+  private VedAbstractEditorTool activeTool = null;
+  private boolean               disposed   = false;
 
   public VedScreenToolsManager( VedScreen aScreen, VedEnvironment aVedEnv ) {
     screen = aScreen;
@@ -57,17 +59,48 @@ class VedScreenToolsManager
 
   @Override
   public String activeToolId() {
-    return activeToolId;
+    return activeTool != null ? activeTool.id() : EMPTY_STRING;
   }
 
   @Override
   public void setActiveTool( String aToolId ) {
-    if( !Objects.equals( activeToolId, aToolId ) ) {
-      if( aToolId != null ) {
+    if( !Objects.equals( activeToolId(), aToolId ) ) {
+      if( aToolId != null && !aToolId.isEmpty() ) {
         TsItemNotFoundRtException.checkFalse( toolsList.hasKey( aToolId ) );
       }
-      activeToolId = aToolId;
+      // deactivate current tool
+      if( activeTool != null ) {
+        if( activeTool.keyListener() != null ) {
+          screen.removeSwtKeyListener( activeTool.keyListener() );
+        }
+        if( activeTool.mouseListener() != null ) {
+          screen.removeSwtMouseListener( activeTool.mouseListener() );
+        }
+        if( activeTool.screenDecorator() != null ) {
+          screen.paintingManager().removeScreensDecorator( activeTool.screenDecorator() );
+        }
+        if( activeTool.viewDecorator() != null ) {
+          screen.paintingManager().removeViewsDecorator( activeTool.viewDecorator() );
+        }
+      }
+      activeTool = toolsList.getByKey( aToolId );
+      // activate tool
+      if( activeTool != null ) {
+        if( activeTool.keyListener() != null ) {
+          screen.addSwtKeyListener( activeTool.keyListener() );
+        }
+        if( activeTool.mouseListener() != null ) {
+          screen.addSwtMouseListener( activeTool.mouseListener() );
+        }
+        if( activeTool.screenDecorator() != null ) {
+          screen.paintingManager().addScreensDecorator( activeTool.screenDecorator() );
+        }
+        if( activeTool.viewDecorator() != null ) {
+          screen.paintingManager().addViewsDecorator( activeTool.viewDecorator() );
+        }
+      }
       activeToolChangeEventer.fireChangeEvent();
+      screen.redraw();
     }
   }
 

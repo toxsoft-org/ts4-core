@@ -16,14 +16,14 @@ public interface IVedScreenToolsManager {
   /**
    * Returns the active tool ID.
    *
-   * @return String - the active tool ID or <code>null</code>
+   * @return String - the active tool ID or an empty String if no tool is selected
    */
   String activeToolId();
 
   /**
    * Activates the tool by ID.
    *
-   * @param aToolId String - the tool ID or <code>null</code>
+   * @param aToolId String - the tool ID or <code>null</code> or empty String
    * @throws TsItemNotFoundRtException no such tool
    */
   void setActiveTool( String aToolId );

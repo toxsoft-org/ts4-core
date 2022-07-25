@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.ved.std.tools;
 
+import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
 import static org.toxsoft.core.tsgui.ved.std.tools.ITsResources.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
@@ -30,7 +31,8 @@ public class VedStdPointerTool
   public static final IVedEditorToolProvider PROVIDER = new VedAbstractEditorToolProvider( //
       VedStdLibraryShapes.LIBRARY_ID, TOOL_ID, OptionSetUtils.createOpSet( //
           TSID_NAME, STR_N_ET_POINTER, //
-          TSID_DESCRIPTION, STR_D_ET_POINTER //
+          TSID_DESCRIPTION, STR_D_ET_POINTER, //
+          TSID_ICON_ID, ICONID_TOOL_POINTER //
       ) ) {
 
     @Override

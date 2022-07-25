@@ -21,14 +21,12 @@ public interface ITsguiVedConstants {
   // ------------------------------------------------------------------------------------
   // Icons
 
-  String PREFIX_OF_ICON_FIELD_NAME = "ICONID_";         //$NON-NLS-1$
-  String ICONID_VED_LOGO           = "ved-logo";        //$NON-NLS-1$
-  String ICONID_STD_LIB_SHAPES     = "std-lib-shapes";  //$NON-NLS-1$
-  String ICONID_RECTANGLE_SHAPE    = "rectangle-shape"; //$NON-NLS-1$
-
-  String ICONID_POINTER   = "pointer";   //$NON-NLS-1$
-  String ICONID_RECT      = "rect";      //$NON-NLS-1$
-  String ICONID_ROUNDRECT = "roundrect"; //$NON-NLS-1$
+  String PREFIX_OF_ICON_FIELD_NAME = "ICONID_";        //$NON-NLS-1$
+  String ICONID_VED_LOGO           = "ved-logo";       //$NON-NLS-1$
+  String ICONID_STD_LIB_SHAPES     = "std-lib-shapes"; //$NON-NLS-1$
+  String ICONID_TOOL_POINTER       = "tool-pointer";   //$NON-NLS-1$
+  String ICONID_COMP_RECTANGLE     = "comp-rectangle"; //$NON-NLS-1$
+  String ICONID_COMP_ROUNDRECT     = "comp-roundrect"; //$NON-NLS-1$
 
   // ------------------------------------------------------------------------------------
   // App prefs
@@ -45,10 +43,6 @@ public interface ITsguiVedConstants {
   static void init( IEclipseContext aWinContext ) {
     ITsIconManager iconManager = aWinContext.get( ITsIconManager.class );
     iconManager.registerStdIconByIds( Activator.PLUGIN_ID, ITsguiVedConstants.class, PREFIX_OF_ICON_FIELD_NAME );
-
-    iconManager.registerFreeIcon( Activator.PLUGIN_ID, "icons/is32x32/pointer.png", ICONID_POINTER ); //$NON-NLS-1$
-    iconManager.registerFreeIcon( Activator.PLUGIN_ID, "icons/is32x32/rect.png", ICONID_RECT ); //$NON-NLS-1$
-    iconManager.registerFreeIcon( Activator.PLUGIN_ID, "icons/is32x32/roundrect.png", ICONID_ROUNDRECT ); //$NON-NLS-1$
   }
 
 }

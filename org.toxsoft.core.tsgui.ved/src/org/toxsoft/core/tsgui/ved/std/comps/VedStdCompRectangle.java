@@ -32,7 +32,7 @@ public class VedStdCompRectangle
       new VedAbstractComponentProvider( VedStdLibraryShapes.LIBRARY_ID, KIND_ID, OptionSetUtils.createOpSet( //
           TSID_NAME, STR_N_VSC_RECT, //
           TSID_DESCRIPTION, STR_D_VSC_RECT, //
-          TSID_ICON_ID, ICONID_RECTANGLE_SHAPE //
+          TSID_ICON_ID, ICONID_COMP_RECTANGLE //
       ), //
           PDEF_X, //
           PDEF_Y, //

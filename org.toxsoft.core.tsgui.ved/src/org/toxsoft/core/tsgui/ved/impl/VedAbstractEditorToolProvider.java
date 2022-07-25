@@ -8,6 +8,7 @@ import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -20,9 +21,30 @@ public abstract class VedAbstractEditorToolProvider
     implements IVedEditorToolProvider, IStdParameterized {
 
   private final String libraryId;
+  private final String groupId;
 
   /**
    * Constructor.
+   *
+   * @param aLibraryId Sting the owner library ID
+   * @param aId String - provider ID (tool kind ID)
+   * @param aGroupId String - tools group ID (an IDpath) or an empty string
+   * @param aParams {@link IOptionSet} - {@link #params()} initial values
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException any ID is not an IDpath
+   */
+  public VedAbstractEditorToolProvider( String aLibraryId, String aId, String aGroupId, IOptionSet aParams ) {
+    super( aId, aParams );
+    libraryId = StridUtils.checkValidIdPath( aLibraryId );
+    TsNullArgumentRtException.checkNull( aGroupId );
+    if( !aGroupId.isEmpty() ) {
+      StridUtils.checkValidIdPath( aGroupId );
+    }
+    groupId = aGroupId;
+  }
+
+  /**
+   * Constructor for tool outside of groups.
    *
    * @param aLibraryId Sting the owner library ID
    * @param aId String - provider ID (tool kind ID)
@@ -31,8 +53,7 @@ public abstract class VedAbstractEditorToolProvider
    * @throws TsIllegalArgumentRtException any ID is not an IDpath
    */
   public VedAbstractEditorToolProvider( String aLibraryId, String aId, IOptionSet aParams ) {
-    super( aId, aParams );
-    libraryId = StridUtils.checkValidIdPath( aLibraryId );
+    this( aLibraryId, aId, TsLibUtils.EMPTY_STRING, aParams );
   }
 
   // ------------------------------------------------------------------------------------
@@ -51,6 +72,11 @@ public abstract class VedAbstractEditorToolProvider
   @Override
   final public String libraryId() {
     return libraryId;
+  }
+
+  @Override
+  final public String groupId() {
+    return groupId;
   }
 
   @Override

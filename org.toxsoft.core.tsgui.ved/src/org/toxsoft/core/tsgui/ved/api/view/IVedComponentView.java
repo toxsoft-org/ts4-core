@@ -2,15 +2,12 @@ package org.toxsoft.core.tsgui.ved.api.view;
 
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.ved.api.*;
-import org.toxsoft.core.tsgui.ved.incub.d2.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.d2.helpers.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 
 /**
  * VED component view to be displayed on {@link IVedScreen}.
- * <p>
- * Note: each view may allocate resources that must be `released by calling {@link #dispose()}.
  *
  * @author hazard157
  */

@@ -57,6 +57,9 @@ public class VedScreenManager
     VedScreen vs = new VedScreen( aCanvas, vedEnv );
     screensList.add( vs );
     // TODO maybe more initialization?
+    if( screensList.size() == 1 ) {
+      activateScreen( vs );
+    }
     return vs;
   }
 
@@ -75,7 +78,9 @@ public class VedScreenManager
     }
     if( aScreen instanceof VedScreen vedScreen ) {
       activeScreen = vedScreen;
+
       // TODO inform screen about activation
+
       activeScreenChangeEventer.fireChangeEvent();
     }
     else {

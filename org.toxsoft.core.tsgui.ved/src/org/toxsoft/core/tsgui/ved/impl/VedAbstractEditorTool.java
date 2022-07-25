@@ -1,8 +1,4 @@
 package org.toxsoft.core.tsgui.ved.impl;
-import static org.toxsoft.core.tsgui.ved.impl.ITsResources.*;
-
-
-import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.swtevents.*;
@@ -74,7 +70,7 @@ public abstract class VedAbstractEditorTool
 
   @Override
   final public String iconId() {
-    return params().getStr( TSID_ICON_ID, null );
+    return toolProvider.iconId();
   }
 
   // ------------------------------------------------------------------------------------
