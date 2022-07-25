@@ -75,6 +75,6 @@ public class VedStdPointerTool
 
   @Override
   public IVedViewDecorator viewDecorator() {
-    return null;
+    return mouseHandler.vertexSet();
   }
 }

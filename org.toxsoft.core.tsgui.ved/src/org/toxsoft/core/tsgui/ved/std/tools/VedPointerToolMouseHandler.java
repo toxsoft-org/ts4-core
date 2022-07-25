@@ -74,11 +74,15 @@ public class VedPointerToolMouseHandler
   @Override
   protected void onActivate() {
     stdDragListener = new StdDragVedCompViewsListener( screen() );
+    for( IVedComponentView view : screen().listViews() ) {
+      screenObjects.add( new VedComponentViewScreenObject( view ) );
+    }
   }
 
   @Override
   protected void onDeactivate() {
     clearVertexSet();
+    screenObjects.clear();
   }
 
   @Override
@@ -173,6 +177,10 @@ public class VedPointerToolMouseHandler
 
       vertexSet.setRect( new Rectangle( x, y, w, h ) );
     }
+  }
+
+  VedRectVertexSetView vertexSet() {
+    return vertexSet;
   }
 
   // ------------------------------------------------------------------------------------
