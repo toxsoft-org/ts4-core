@@ -6,6 +6,7 @@ import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.library.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -14,13 +15,15 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public abstract class VedAbstractEditorTool
-    implements IVedEditorTool, IVedDisposable {
+    implements IVedEditorTool, IVedViewDecorator {
 
   private final IVedEditorToolProvider toolProvider;
   private final IVedEnvironment        vedEnv;
   private final IVedScreen             vedScreen;
 
   private boolean disposed = false;
+
+  private ID2Conversion d2Conv;
 
   /**
    * Constructor.
@@ -106,6 +109,20 @@ public abstract class VedAbstractEditorTool
   @Override
   final public IVedEditorToolProvider provider() {
     return toolProvider;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // IVedViewDecorator
+  //
+
+  @Override
+  public ID2Conversion getConversion() {
+    return d2Conv;
+  }
+
+  @Override
+  public void setConversion( ID2Conversion aConversion ) {
+    d2Conv = aConversion;
   }
 
   // ------------------------------------------------------------------------------------

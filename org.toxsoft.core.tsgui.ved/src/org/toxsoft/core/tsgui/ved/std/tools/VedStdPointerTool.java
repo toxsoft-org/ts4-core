@@ -4,6 +4,7 @@ import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
 import static org.toxsoft.core.tsgui.ved.std.tools.ITsResources.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
+import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.swtevents.*;
 import org.toxsoft.core.tsgui.ved.*;
 import org.toxsoft.core.tsgui.ved.api.*;
@@ -12,6 +13,7 @@ import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.impl.*;
 import org.toxsoft.core.tsgui.ved.std.library.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.bricks.geometry.*;
 
 /**
  * Инструмент "Указатель".
@@ -75,6 +77,18 @@ public class VedStdPointerTool
 
   @Override
   public IVedViewDecorator viewDecorator() {
-    return mouseHandler.vertexSet();
+    return this;
   }
+
+  // ------------------------------------------------------------------------------------
+  // IVedViewDecorator
+  //
+
+  @Override
+  public void paintAfter( IVedComponentView aView, GC aGc, ITsRectangle aPaintBounds ) {
+    if( mouseHandler.vertexSet() != null ) {
+      mouseHandler.vertexSet().paintAfter( aView, aGc, aPaintBounds );
+    }
+  }
+
 }

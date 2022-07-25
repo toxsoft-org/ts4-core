@@ -261,7 +261,7 @@ public abstract class VedAbstractToolMouseHandler
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса {@link IDisposed}
+  // Реализация интерфейса {@link IVedDisposable}
   //
 
   @Override

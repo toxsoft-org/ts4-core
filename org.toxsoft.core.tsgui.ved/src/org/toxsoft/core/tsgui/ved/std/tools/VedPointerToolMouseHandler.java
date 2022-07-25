@@ -69,11 +69,12 @@ public class VedPointerToolMouseHandler
   public VedPointerToolMouseHandler( IVedEnvironment aEnv, IVedScreen aScreen ) {
     super( aEnv, aScreen );
     cursorHand = cursorManager().getCursor( ECursorType.HAND );
+    stdDragListener = new StdDragVedCompViewsListener( screen() );
   }
 
   @Override
   protected void onActivate() {
-    stdDragListener = new StdDragVedCompViewsListener( screen() );
+    // stdDragListener = new StdDragVedCompViewsListener( screen() );
     for( IVedComponentView view : screen().listViews() ) {
       screenObjects.add( new VedComponentViewScreenObject( view ) );
     }
