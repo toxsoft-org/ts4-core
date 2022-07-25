@@ -42,6 +42,8 @@ public class VedStdPointerTool
 
   };
 
+  private final VedPointerToolMouseHandler mouseHandler;
+
   /**
    * Constructor.
    *
@@ -50,11 +52,15 @@ public class VedStdPointerTool
    */
   public VedStdPointerTool( IVedEnvironment aEnv, IVedScreen aScreen ) {
     super( PROVIDER, aEnv, aScreen );
+    mouseHandler = new VedPointerToolMouseHandler( aEnv.eclipseContext() );
+    aScreen.conversionChangeEventer().addListener( aSource -> {
+      mouseHandler.onZoomFactorChanged( vedScreen().getConversion().zoomFactor() );
+    } );
   }
 
   @Override
   public ISwtMouseListener mouseListener() {
-    return null;
+    return mouseHandler;
   }
 
   @Override
