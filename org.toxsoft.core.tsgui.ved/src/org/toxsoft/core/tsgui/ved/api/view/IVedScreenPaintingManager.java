@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.ved.api.view;
 
+import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -63,6 +64,25 @@ public interface IVedScreenPaintingManager {
    * Tries to redraw whole screen as soon as possible.
    */
   void redraw();
+
+  /**
+   * Forces all outstanding paint requests for the widget to be processed before this method returns. If there are no
+   * outstanding paint request, this method does nothing.
+   * <p>
+   * Note:
+   * </p>
+   * <ul>
+   * <li>This method does not cause a redraw.</li>
+   * <li>Some OS versions forcefully perform automatic deferred painting. This method does nothing in that case.</li>
+   * </ul>
+   *
+   * @exception SWTException
+   *              <ul>
+   *              <li>ERROR_WIDGET_DISPOSED - if the receiver has been disposed</li>
+   *              <li>ERROR_THREAD_INVALID_ACCESS - if not called from the thread that created the receiver</li>
+   *              </ul>
+   */
+  void update();
 
   /**
    * Redraws the specified view in its bounds.

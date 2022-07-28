@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.ved.utils.drag;
+package org.toxsoft.core.tsgui.ved.impl;
 
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
@@ -6,6 +6,7 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.std.tools.*;
+import org.toxsoft.core.tsgui.ved.utils.drag.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
@@ -120,6 +121,14 @@ public abstract class VedAbstractToolMouseHandler
   }
 
   @Override
+  public final void onClick( IScreenObject aShape, MouseEvent aEvent ) {
+    if( mouseConsumer != null ) {
+      mouseConsumer.onClick( aShape, aEvent );
+    }
+    doOnClick( aShape, aEvent );
+  }
+
+  @Override
   public void mouseMove( MouseEvent aEvent ) {
     cursorPos.x = aEvent.x;
     cursorPos.y = aEvent.y;
@@ -198,6 +207,11 @@ public abstract class VedAbstractToolMouseHandler
   protected IStridablesListEdit<IScreenObject> screenObjects = new StridablesList<>();
 
   private final IVedEnvironment vedEnv;
+
+  /**
+   * Потребитель семантических событий обработки мыши
+   */
+  private IMouseEventConsumer mouseConsumer = null;
 
   /**
    * Конструктор.<br>
@@ -378,6 +392,11 @@ public abstract class VedAbstractToolMouseHandler
     // nop
   }
 
+  @SuppressWarnings( "unused" )
+  protected void doOnClick( IScreenObject aHoveredObject, MouseEvent aEvent ) {
+    // nop
+  }
+
   protected void beforeDragStarted() {
     // nop
   }
@@ -392,6 +411,10 @@ public abstract class VedAbstractToolMouseHandler
 
   public IVedScreen screen() {
     return screen;
+  }
+
+  public void setMouseEventConsumer( IMouseEventConsumer aMouseConsumer ) {
+    mouseConsumer = aMouseConsumer;
   }
 
   // ------------------------------------------------------------------------------------

@@ -240,6 +240,11 @@ class VedScreen
   }
 
   @Override
+  public void update() {
+    theCanvas.update();
+  }
+
+  @Override
   public void redrawView( String aViewId ) {
     IVedComponentView v = compViews.getByKey( aViewId );
     ITsRectangle r = coorsConvertor().rectBounds( v.outline().bounds() );

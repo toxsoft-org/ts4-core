@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.ved.utils.drag;
+package org.toxsoft.core.tsgui.ved.impl;
 
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.graphics.cursors.*;

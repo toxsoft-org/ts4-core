@@ -1,14 +1,15 @@
 package org.toxsoft.core.tsgui.ved.std.tools;
 
-import org.eclipse.swt.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.graphics.cursors.*;
 import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
+import org.toxsoft.core.tsgui.ved.impl.*;
 import org.toxsoft.core.tsgui.ved.utils.*;
 import org.toxsoft.core.tsgui.ved.utils.drag.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
+import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 
@@ -28,23 +29,20 @@ public class VedPointerToolMouseHandler
 
   StdDragVedCompViewsListener stdDragListener = null;
 
-  /**
-   * Набор вершин прямоугольника
-   */
-  private VedRectVertexSetView vertexSet = null;
-
-  private IVedComponentView slaveShape = null;
+  private VedStdPointerTool tool = null;
 
   IVedDragObjectsListener moveListener = ( aDx, aDy, aShapes, aState ) -> {
-    if( vertexSet != null ) {
+    IVedComponentView slaveShape = tool.activeView();
+    if( slaveShape != null ) {
+      slaveShape.component().genericChangeEventer().muteListener( tool.activeComponentListener() );
       if( aShapes.size() > 0 ) {
 
         IScreenObject view = aShapes.first();
 
-        Rectangle r1 = vertexSet.bounds();
+        Rectangle r1 = tool.vertexSet().bounds();
         r1 = new Rectangle( r1.x, r1.y, r1.width, r1.height );
-        vertexSet.update( aDx, aDy, view.id() );
-        Rectangle r2 = vertexSet.bounds();
+        tool.vertexSet().update( aDx, aDy, view.id() );
+        Rectangle r2 = tool.vertexSet().bounds();
         Rectangle rr = substract( r2, r1 );
 
         double zf = screen().getConversion().zoomFactor();
@@ -56,7 +54,9 @@ public class VedPointerToolMouseHandler
         double h = slaveShape.outline().bounds().height() + rr.height / zf;
         slaveShape.porter().setSize( w, h );
         screen().paintingManager().redraw();
+        screen().paintingManager().update();
       }
+      slaveShape.component().genericChangeEventer().unmuteListener( tool.activeComponentListener() );
     }
     else {
       double zf = screen().getConversion().zoomFactor();
@@ -66,24 +66,18 @@ public class VedPointerToolMouseHandler
 
   VedMoveObjectsDragExecutor moveExecutor;
 
-  public VedPointerToolMouseHandler( IVedEnvironment aEnv, IVedScreen aScreen ) {
+  /**
+   * Конструктор.<br>
+   *
+   * @param aTool VedStdPointerTool - инструмент - указатель
+   * @param aEnv IVedEnvironment - окружение редактора
+   * @param aScreen IVedScreen - экран отображения
+   */
+  public VedPointerToolMouseHandler( VedStdPointerTool aTool, IVedEnvironment aEnv, IVedScreen aScreen ) {
     super( aEnv, aScreen );
+    tool = aTool;
     cursorHand = cursorManager().getCursor( ECursorType.HAND );
     stdDragListener = new StdDragVedCompViewsListener( screen() );
-  }
-
-  @Override
-  protected void onActivate() {
-    // stdDragListener = new StdDragVedCompViewsListener( screen() );
-    for( IVedComponentView view : screen().listViews() ) {
-      screenObjects.add( new VedComponentViewScreenObject( view ) );
-    }
-  }
-
-  @Override
-  protected void onDeactivate() {
-    clearVertexSet();
-    screenObjects.clear();
   }
 
   @Override
@@ -109,43 +103,6 @@ public class VedPointerToolMouseHandler
   }
 
   @Override
-  public void onClick( IScreenObject aObj, MouseEvent aEvent ) {
-    if( aObj != null && vertexSet == null ) { // клик на объекте при отсутствии активной границы
-      if( (aEvent.stateMask & SWT.CTRL) != 0 ) {
-        IVedComponentView view = aObj.entity();
-        if( view != null ) {
-          screen().selectionManager().toggleSelection( view.component() );
-        }
-        return;
-      }
-    }
-
-    if( aObj != null ) {
-      IStridablesListEdit<IScreenObject> scrObjs = new StridablesList<>();
-      slaveShape = aObj.entity();
-      vertexSet = new VedRectVertexSetView( aObj.bounds(), tsContext() );
-      screenObjects.add( vertexSet );
-      for( IScreenObject vertex : vertexSet.listVertexes() ) {
-        screenObjects.add( vertex );
-        scrObjs.add( vertex );
-      }
-      screen().paintingManager().redraw();
-      setScreenObjects( scrObjs );
-    }
-    else {
-      if( vertexSet != null ) {
-        clearVertexSet();
-      }
-      IStridablesListEdit<IScreenObject> scrObjs = new StridablesList<>();
-      for( IVedComponentView view : screen().listViews() ) {
-        IScreenObject obj = new VedComponentViewScreenObject( view );
-        scrObjs.add( obj );
-      }
-      setScreenObjects( scrObjs );
-    }
-  }
-
-  @Override
   public void onObjectIn( IScreenObject aObj ) {
     Cursor cursor = cursorManager().findCursor( aObj.cursorType().id() );
     if( cursor == null ) {
@@ -164,24 +121,25 @@ public class VedPointerToolMouseHandler
   //
 
   /**
-   * Вызывается при измнениии коэффициента масштабирования.
+   * Вызывается при изменении коэффициента масштабирования.
    *
    * @param aZoomFactor double - кэффициент масштабирования
    */
   public void onZoomFactorChanged( double aZoomFactor ) {
-    if( vertexSet != null ) {
-      ID2Rectangle d2r = slaveShape.outline().bounds();
-      int x = (int)Math.round( d2r.x1() * aZoomFactor );
-      int y = (int)Math.round( d2r.y1() * aZoomFactor );
-      int w = (int)Math.round( d2r.width() * aZoomFactor );
-      int h = (int)Math.round( d2r.height() * aZoomFactor );
+    // if( vertexSet != null ) {
+    if( tool.activeView() != null ) {
+      ID2Rectangle d2r = tool.activeView().outline().bounds();
+      ITsRectangle tsRect = vedScreen().coorsConvertor().rectBounds( d2r );
 
-      vertexSet.setRect( new Rectangle( x, y, w, h ) );
+      tool.vertexSet().init( tsRect );
+
+      // int x = (int)Math.round( d2r.x1() * aZoomFactor );
+      // int y = (int)Math.round( d2r.y1() * aZoomFactor );
+      // int w = (int)Math.round( d2r.width() * aZoomFactor );
+      // int h = (int)Math.round( d2r.height() * aZoomFactor );
+      //
+      // vertexSet.init( new TsRectangle( x, y, w, h ) );
     }
-  }
-
-  VedRectVertexSetView vertexSet() {
-    return vertexSet;
   }
 
   // ------------------------------------------------------------------------------------
@@ -190,34 +148,16 @@ public class VedPointerToolMouseHandler
 
   @Override
   protected void beforeDragStarted() {
-    if( vertexSet != null ) {
-      vertexSet.setVisible( false );
-      for( IVedVertex vertex : vertexSet.listVertexes() ) {
-        vertex.setVisible( false );
-      }
+    if( tool.activeView() != null ) {
+      tool.vertexSet().setVisible( false );
     }
   }
 
   @Override
   protected void afterDragEnded() {
     super.afterDragEnded();
-    if( vertexSet != null ) {
-      vertexSet.setVisible( true );
-      for( IVedVertex vertex : vertexSet.listVertexes() ) {
-        vertex.setVisible( true );
-      }
-      screen().paintingManager().redraw();
-    }
-  }
-
-  void clearVertexSet() {
-    if( vertexSet != null ) {
-      screenObjects.removeById( vertexSet.id() );
-      for( IVedVertex vertex : vertexSet.listVertexes() ) {
-        screenObjects.removeById( vertex.id() );
-      }
-      vertexSet = null;
-      slaveShape = null;
+    if( tool.activeView() != null ) {
+      tool.vertexSet().setVisible( true );
       screen().paintingManager().redraw();
     }
   }
@@ -230,4 +170,5 @@ public class VedPointerToolMouseHandler
     r.height = aRect1.height - aRect2.height;
     return r;
   }
+
 }

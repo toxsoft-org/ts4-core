@@ -5,25 +5,26 @@ import static org.toxsoft.core.tsgui.ved.std.tools.ITsResources.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.eclipse.swt.graphics.*;
-import org.toxsoft.core.tsgui.bricks.swtevents.*;
 import org.toxsoft.core.tsgui.ved.*;
 import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.library.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.impl.*;
 import org.toxsoft.core.tsgui.ved.std.library.*;
+import org.toxsoft.core.tsgui.ved.utils.drag.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
 
 /**
  * Инструмент "Указатель".
  * <p>
- * Является базовым инструментом, который позволяет выделять компонеты, перемещать их и изменять их размеры.
+ * Является базовым инструментом, который позволяет выделять компоненты, перемещать их и изменять их размеры.
  *
  * @author vs
  */
 public class VedStdPointerTool
-    extends VedAbstractEditorTool {
+    extends VedAbstractVertexBasedTool {
 
   private static final String TOOL_ID = ITsguiVedConstants.VED_ID + ".Pointer"; //$NON-NLS-1$
 
@@ -47,6 +48,11 @@ public class VedStdPointerTool
   private final VedPointerToolMouseHandler mouseHandler;
 
   /**
+   * Набор вершин прямоугольника
+   */
+  private final VedRectVertexSetView vertexSet;
+
+  /**
    * Constructor.
    *
    * @param aEnv {@link IVedEnvironment} - the VED framefork environment
@@ -54,21 +60,33 @@ public class VedStdPointerTool
    */
   public VedStdPointerTool( IVedEnvironment aEnv, IVedScreen aScreen ) {
     super( PROVIDER, aEnv, aScreen );
-    mouseHandler = new VedPointerToolMouseHandler( aEnv, aScreen );
+
+    vertexSet = new VedRectVertexSetView( tsContext() );
+    mouseHandler = new VedPointerToolMouseHandler( this, aEnv, aScreen );
+
     aScreen.conversionChangeEventer().addListener( aSource -> {
       mouseHandler.onZoomFactorChanged( vedScreen().getConversion().zoomFactor() );
     } );
   }
 
   @Override
-  public ISwtMouseListener mouseListener() {
+  public VedAbstractToolMouseHandler mouseListener() {
     return mouseHandler;
   }
 
   @Override
-  public ISwtKeyListener keyListener() {
-    return null;
+  protected IVedVertexSetView vertexSet() {
+    return vertexSet;
   }
+
+  @Override
+  protected IStridablesList<IVedComponentView> listComponentViews() {
+    return vedScreen().listViews();
+  }
+
+  // ------------------------------------------------------------------------------------
+  //
+  //
 
   @Override
   public IVedScreenDecorator screenDecorator() {
@@ -86,9 +104,10 @@ public class VedStdPointerTool
 
   @Override
   public void paintAfter( IVedComponentView aView, GC aGc, ITsRectangle aPaintBounds ) {
-    if( mouseHandler.vertexSet() != null ) {
-      mouseHandler.vertexSet().paintAfter( aView, aGc, aPaintBounds );
-    }
+    // if( mouseHandler.vertexSet() != null ) {
+    // mouseHandler.vertexSet().paintAfter( aView, aGc, aPaintBounds );
+    // }
+    vertexSet.paintAfter( aView, aGc, aPaintBounds );
   }
 
 }

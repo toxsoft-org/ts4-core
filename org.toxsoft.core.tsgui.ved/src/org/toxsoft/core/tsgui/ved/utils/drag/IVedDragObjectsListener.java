@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.ved.utils.drag;
 
+import org.toxsoft.core.tsgui.ved.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 
 /**
