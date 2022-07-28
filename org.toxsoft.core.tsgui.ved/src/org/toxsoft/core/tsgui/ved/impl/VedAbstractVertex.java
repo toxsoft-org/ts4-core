@@ -1,9 +1,8 @@
-package org.toxsoft.core.tsgui.ved.utils.drag;
+package org.toxsoft.core.tsgui.ved.impl;
 
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
-import org.toxsoft.core.tslib.bricks.strid.impl.*;
 
 /**
  * Базовый класс для создания вершин "активной" границы.
@@ -12,12 +11,12 @@ import org.toxsoft.core.tslib.bricks.strid.impl.*;
  * @author vs
  */
 public abstract class VedAbstractVertex
-    extends Stridable
+    extends VedAbstractScreenObject
     implements IVedVertex {
 
   private final IOptionSetEdit params = new OptionSet();
 
-  private double zoomFactor = 1.0;
+  // private double zoomFactor = 1.0;
 
   private Color fgColor = null;
 
@@ -32,19 +31,19 @@ public abstract class VedAbstractVertex
     return null;
   }
 
-  /**
-   * Возвращает коэффициент масштабирования.
-   *
-   * @return double - коэффициент масштабирования
-   */
-  public double zoomFactor() {
-    return zoomFactor;
-  }
-
-  @Override
-  public void setZoomFactor( double aZoomFactor ) {
-    zoomFactor = aZoomFactor;
-  }
+  // /**
+  // * Возвращает коэффициент масштабирования.
+  // *
+  // * @return double - коэффициент масштабирования
+  // */
+  // public double zoomFactor() {
+  // return zoomFactor;
+  // }
+  //
+  // @Override
+  // public void setZoomFactor( double aZoomFactor ) {
+  // zoomFactor = aZoomFactor;
+  // }
 
   @Override
   public final IOptionSet params() {

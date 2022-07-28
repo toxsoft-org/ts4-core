@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.ved.utils.drag;
 
 import org.toxsoft.core.tsgui.ved.api.view.*;
+import org.toxsoft.core.tsgui.ved.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 
 /**
@@ -51,6 +52,7 @@ public class StdDragVedCompViewsListener
     }
     // canvas.redraw( r.x, r.y, r.width + 1, r.height + 1, false );
     canvas.paintingManager().redraw();
+    canvas.paintingManager().update();
   }
 
 }

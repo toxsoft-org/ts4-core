@@ -1,7 +1,8 @@
-package org.toxsoft.core.tsgui.ved.utils.drag;
+package org.toxsoft.core.tsgui.ved.impl;
 
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.graphics.cursors.*;
+import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 
 /**
@@ -83,10 +84,17 @@ public interface IScreenObject
   void setVisible( boolean aVisible );
 
   /**
-   * Задает коеэффициент масштабирования.<br>
+   * Задает параметры преобразования координат.
    *
-   * @param aZoomFactor double - коеэффициент масштабирования
+   * @param aConversion ID2Conversion - параметры преобразования координат
    */
-  void setZoomFactor( double aZoomFactor );
+  void setConversion( ID2Conversion aConversion );
+
+  /**
+   * Возвращает параметры преобразования координат.
+   *
+   * @return ID2Conversion - параметры преобразования координат
+   */
+  ID2Conversion getConversion();
 
 }

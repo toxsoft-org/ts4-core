@@ -1,12 +1,10 @@
-package org.toxsoft.core.tsgui.ved.utils.drag;
+package org.toxsoft.core.tsgui.ved.impl;
 
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
-import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
-import org.toxsoft.core.tslib.bricks.strid.impl.*;
 
 /**
  * Базовый класс для создания наборов вершин.
@@ -15,16 +13,14 @@ import org.toxsoft.core.tslib.bricks.strid.impl.*;
  * @author vs
  */
 public abstract class VedAbstractVertexSetView
-    extends Stridable
+    extends VedAbstractScreenObject
     implements IVedVertexSetView, IVedViewDecorator {
 
   private final IStridablesListEdit<IVedVertex> vertexes = new StridablesList<>();
 
-  private double zoomFactor = 1.0;
+  // private double zoomFactor = 1.0;
 
   private boolean disposed = false;
-
-  private ID2Conversion d2Conv = ID2Conversion.NONE;
 
   /**
    * Конструктор для наследников.<br>
@@ -35,28 +31,12 @@ public abstract class VedAbstractVertexSetView
    */
   protected VedAbstractVertexSetView( String aId, String aName, String aDescription ) {
     super( aId, aName, aDescription );
+    setVisible( false );
   }
 
   // ------------------------------------------------------------------------------------
   // {@link IVedVertexSetView}
   //
-
-  /**
-   * Возвращает коэффициент масштабирования.
-   *
-   * @return double - коэффициент масштабирования
-   */
-  public final double zoomFactor() {
-    return zoomFactor;
-  }
-
-  @Override
-  public final void setZoomFactor( double aZoomFactor ) {
-    if( Double.compare( zoomFactor, aZoomFactor ) != 0 ) {
-      zoomFactor = aZoomFactor;
-      onZoomFactorChanged();
-    }
-  }
 
   @Override
   public IStridablesList<? extends IVedVertex> listVertexes() {
@@ -83,34 +63,35 @@ public abstract class VedAbstractVertexSetView
   }
 
   // ------------------------------------------------------------------------------------
-  // ID2Conversionable
-  //
-
-  @Override
-  public ID2Conversion getConversion() {
-    return d2Conv;
-  }
-
-  @Override
-  public void setConversion( ID2Conversion aConversion ) {
-    d2Conv = aConversion;
-    zoomFactor = d2Conv.zoomFactor();
-    onZoomFactorChanged();
-  }
-
-  // ------------------------------------------------------------------------------------
   // IVedViewDecorator
   //
 
   @Override
-  public void paintBefore( IVedComponentView aView, GC aGc, ITsRectangle aPaintBounds ) {
-    // nop
+  public final void paintBefore( IVedComponentView aView, GC aGc, ITsRectangle aPaintBounds ) {
+    if( !visible ) {
+      return;
+    }
+    doPaintBefore( aView, aGc, aPaintBounds );
+  }
+
+  @Override
+  public final void paintAfter( IVedComponentView aView, GC aGc, ITsRectangle aPaintBounds ) {
+    if( !visible ) {
+      return;
+    }
+    doPaintAfter( aView, aGc, aPaintBounds );
   }
 
   // ------------------------------------------------------------------------------------
-  // Методы для обязательного переопределения в наследниках
+  // Методы для возможного переопределения в наследниках
   //
 
-  protected abstract void onZoomFactorChanged();
+  protected void doPaintBefore( IVedComponentView aView, GC aGc, ITsRectangle aPaintBounds ) {
+    // nop
+  }
+
+  protected void doPaintAfter( IVedComponentView aView, GC aGc, ITsRectangle aPaintBounds ) {
+    // nop
+  }
 
 }

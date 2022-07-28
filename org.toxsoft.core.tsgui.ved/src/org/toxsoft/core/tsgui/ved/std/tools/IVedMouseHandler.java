@@ -3,6 +3,7 @@ package org.toxsoft.core.tsgui.ved.std.tools;
 import org.eclipse.swt.events.*;
 import org.toxsoft.core.tsgui.bricks.swtevents.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
+import org.toxsoft.core.tsgui.ved.impl.*;
 import org.toxsoft.core.tsgui.ved.utils.drag.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
