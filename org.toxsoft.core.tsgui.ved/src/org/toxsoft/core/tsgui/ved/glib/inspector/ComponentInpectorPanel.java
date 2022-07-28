@@ -52,11 +52,12 @@ public class ComponentInpectorPanel
     this.setLayout( new BorderLayout() );
     ITsGuiContext ctx = new TsGuiContext( tsContext() );
     panel = new OptionSetPanel( ctx, false );
-    panel.createControl( aParent );
+    panel.createControl( this );
     panel.getControl().setLayoutData( BorderLayout.CENTER );
     panel.optionChangeEventer().addListener( ( s, opId, newVal ) -> whenInspectorChanged( opId, newVal ) );
     vedEnv().dataModel().genericChangeEventer().addListener( dataModelChangeListener );
     vedEnv().screenManager().activeScreenChangeEventer().addListener( activeScreenChangeListener );
+    updateOnScreenChanged();
   }
 
   @Override
@@ -111,7 +112,7 @@ public class ComponentInpectorPanel
     if( activeScreen != null ) {
       activeScreen.selectionManager().genericChangeEventer().addListener( selectedComponentChangeListener );
     }
-    updateOnScreenChanged();
+    updateOnSelectionChanged();
   }
 
   /**
