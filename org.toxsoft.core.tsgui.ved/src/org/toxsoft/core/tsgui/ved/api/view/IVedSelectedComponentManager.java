@@ -67,10 +67,11 @@ public interface IVedSelectedComponentManager
   IVedComponent selectedComponent();
 
   /**
-   * Sets single component selection
+   * Sets single component selection.
+   * <p>
+   * <code>null</code> has same effect as {@link #deselectAll()}.
    *
-   * @param aComp {@link IVedComponent} - the only component to be set as selected
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @param aComp {@link IVedComponent} - the only component to be set as selected or <code>null</code>
    */
   void setSelectedComponent( IVedComponent aComp );
 

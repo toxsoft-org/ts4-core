@@ -33,7 +33,7 @@ class VedScreenToolsManager
     vedEnv = aVedEnv;
     activeToolChangeEventer = new GenericChangeEventer( this );
     initializeTools();
-    activeTool = toolsList.first();
+    // activeTool = toolsList.first();
   }
 
   // ------------------------------------------------------------------------------------

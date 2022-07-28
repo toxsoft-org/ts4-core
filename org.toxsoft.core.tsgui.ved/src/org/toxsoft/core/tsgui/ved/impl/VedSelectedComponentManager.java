@@ -83,9 +83,15 @@ class VedSelectedComponentManager
 
   @Override
   public void setSelectedComponent( IVedComponent aComp ) {
-    TsNullArgumentRtException.checkNull( aComp );
-    if( selComps.size() != 1 || selComps.remove( aComp ) >= 0 ) {
-      eventer.fireChangeEvent();
+    if( aComp != null ) {
+      if( selComps.size() != 1 || !selComps.first().equals( aComp ) ) {
+        selComps.clear();
+        selComps.add( aComp );
+        eventer.fireChangeEvent();
+      }
+    }
+    else {
+      deselectAll();
     }
   }
 
