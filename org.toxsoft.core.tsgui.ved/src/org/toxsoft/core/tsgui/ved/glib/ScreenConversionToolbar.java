@@ -81,6 +81,7 @@ public class ScreenConversionToolbar
         throw new TsNotAllEnumsUsedRtException( aActionId );
     }
     attachedScreen.setConversion( conv );
+    attachedScreen.paintingManager().redraw();
   }
 
   private void updateActionsState() {
