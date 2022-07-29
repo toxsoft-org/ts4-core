@@ -66,15 +66,36 @@ public class ScreenConversionToolbar
     D2ConversionEdit conv = new D2ConversionEdit( attachedScreen.getConversion() );
     switch( aActionId ) {
       case ACTID_ZOOM_IN: {
-        conv.setZoomFactor( conv.zoomFactor() * ZOOM_STEP_FACTOR );
+        // conv.setZoomFactor( conv.zoomFactor() * ZOOM_STEP_FACTOR );
+        conv.setZoomFactor( 2 );
+        D2AngleEdit angle = new D2AngleEdit();
+        // angle.setDeg( conv.zoomFactor() * ZOOM_STEP_FACTOR * 5 );
+        angle.setDeg( -15 );
+        conv.rotation().setRotation( new D2Rotation( new D2Point( 100, 100 ), angle ) );
+        conv.origin().setX( 100 );
+        conv.origin().setY( 100 );
         break;
       }
       case ACTID_ZOOM_ORIGINAL: {
+        conv.setZoomFactor( 2.0 );
         conv.setZoomFactor( 1.0 );
+        // conv.rotation().setRotation( ID2Rotation.NONE );
+        D2AngleEdit angle = new D2AngleEdit();
+        angle.setDeg( 0 );
+        conv.rotation().setRotation( new D2Rotation( new D2Point( 100, 100 ), angle ) );
+        conv.origin().setX( 100 );
+        conv.origin().setY( 100 );
         break;
       }
       case ACTID_ZOOM_OUT: {
-        conv.setZoomFactor( conv.zoomFactor() / ZOOM_STEP_FACTOR );
+        // conv.setZoomFactor( conv.zoomFactor() / ZOOM_STEP_FACTOR );
+        conv.setZoomFactor( 0.5 );
+        D2AngleEdit angle = new D2AngleEdit();
+        // angle.setDeg( -conv.zoomFactor() * ZOOM_STEP_FACTOR * 5 );
+        angle.setDeg( 15 );
+        conv.rotation().setRotation( new D2Rotation( new D2Point( 100, 100 ), angle ) );
+        conv.origin().setX( 100 );
+        conv.origin().setY( 100 );
         break;
       }
       default:
@@ -93,7 +114,7 @@ public class ScreenConversionToolbar
     }
     ID2Conversion conv = attachedScreen.getConversion();
     toolbar.setActionEnabled( ACTID_ZOOM_IN, conv.zoomFactor() < D2Utils.MAX_ZOOM_FACTOR );
-    toolbar.setActionEnabled( ACTID_ZOOM_ORIGINAL, conv.zoomFactor() != 1.0 );
+    // toolbar.setActionEnabled( ACTID_ZOOM_ORIGINAL, conv.zoomFactor() != 1.0 );
     toolbar.setActionEnabled( ACTID_ZOOM_OUT, conv.zoomFactor() > D2Utils.MIN_ZOOM_FACTOR );
 
     // TODO ScreenConversionToolbar.internalUpdateControlsFromScreen()

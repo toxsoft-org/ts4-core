@@ -7,6 +7,7 @@ import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.impl.*;
 import org.toxsoft.core.tsgui.ved.utils.*;
 import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 
 /**
@@ -70,6 +71,26 @@ class VedStdCompRectangleView
     // TODO respect conversion!
     // TODO filling properties
     // TODO line drawing properties
+    aGc.setAdvanced( true );
+    Transform oldTransfrom = null;
+    Transform t = null;
+    ID2Conversion d2conv = ownerScreen().getConversion();
+    if( d2conv != ID2Conversion.NONE ) {
+      oldTransfrom = new Transform( aGc.getDevice() );
+      t = new Transform( aGc.getDevice() );
+      aGc.getTransform( t );
+      t.scale( (float)d2conv.zoomFactor(), (float)d2conv.zoomFactor() );
+      t.translate( (float)d2conv.origin().x(), (float)d2conv.origin().x() );
+      if( d2conv.rotation() != ID2Rotation.NONE ) {
+        t.translate( (float)d2conv.rotation().pivotPoint().x(), (float)d2conv.rotation().pivotPoint().x() );
+        t.rotate( (float)d2conv.rotation().rotationAngle().degrees() );
+        t.translate( (float)-d2conv.rotation().pivotPoint().x(), (float)-d2conv.rotation().pivotPoint().x() );
+      }
+
+      aGc.setTransform( t );
+      t.dispose();
+    }
+
     int xi = (int)x;
     int yi = (int)y;
     int wi = (int)w;
@@ -79,6 +100,11 @@ class VedStdCompRectangleView
     aGc.setForeground( fgColor );
     aGc.setLineWidth( lineWidth );
     aGc.drawRectangle( xi, yi, wi, hi );
+
+    if( oldTransfrom != null ) { // восстановим старый transform
+      aGc.setTransform( oldTransfrom );
+      oldTransfrom.dispose();
+    }
   }
 
 }

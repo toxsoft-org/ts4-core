@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.ved.std.tools;
 
+import static java.lang.Math.*;
+
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.graphics.cursors.*;
@@ -45,22 +47,30 @@ public class VedPointerToolMouseHandler
         Rectangle r2 = tool.vertexSet().bounds();
         Rectangle rr = substract( r2, r1 );
 
-        double zf = screen().getConversion().zoomFactor();
+        double alpha = vedScreen().getConversion().rotation().rotationAngle().radians();
+        double dx = rr.x * cos( -alpha ) - rr.y * sin( -alpha );
+        double dy = rr.y * cos( -alpha ) + rr.x * sin( -alpha );
+        double zf = vedScreen().getConversion().zoomFactor();
 
-        ID2Point d2p = screen().coorsConvertor().convertPoint( rr.x, rr.y );
+        slaveShape.porter().shiftOn( dx / zf, dy / zf );
 
-        slaveShape.porter().shiftOn( d2p.x(), d2p.y() );
-        double w = slaveShape.outline().bounds().width() + rr.width / zf;
-        double h = slaveShape.outline().bounds().height() + rr.height / zf;
-        slaveShape.porter().setSize( w, h );
+        double w = rr.width * cos( -alpha ) - rr.height * sin( -alpha );
+        double h = rr.height * cos( -alpha ) + rr.width * sin( -alpha );
+
+        w = rr.width * cos( -alpha );// - rr.height * sin( -alpha );
+        h = rr.height * cos( -alpha );// + rr.width * sin( -alpha );
+
+        slaveShape.porter().setSize( slaveShape.outline().bounds().width() + w / zf,
+            slaveShape.outline().bounds().height() + h / zf );
+
         screen().paintingManager().redraw();
         screen().paintingManager().update();
       }
-      slaveShape.component().genericChangeEventer().unmuteListener( tool.activeComponentListener() );
+      slaveShape.component().genericChangeEventer().muteListener( tool.activeComponentListener() );
     }
     else {
-      double zf = screen().getConversion().zoomFactor();
-      stdDragListener.onShapesDrag( aDx / zf, aDy / zf, aShapes, aState );
+      ID2Point d2p = screen().coorsConvertor().reversePoint( aDx, aDy );
+      stdDragListener.onShapesDrag( d2p.x(), d2p.y(), aShapes, aState );
     }
   };
 
@@ -157,6 +167,8 @@ public class VedPointerToolMouseHandler
   protected void afterDragEnded() {
     super.afterDragEnded();
     if( tool.activeView() != null ) {
+      ITsRectangle tsRect = vedScreen().coorsConvertor().rectBounds( tool.activeView().outline().bounds() );
+      tool.vertexSet().init( tsRect );
       tool.vertexSet().setVisible( true );
       screen().paintingManager().redraw();
     }

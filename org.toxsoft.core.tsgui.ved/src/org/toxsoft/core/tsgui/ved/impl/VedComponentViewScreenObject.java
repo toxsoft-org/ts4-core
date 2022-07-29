@@ -3,6 +3,8 @@ package org.toxsoft.core.tsgui.ved.impl;
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.graphics.cursors.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
+import org.toxsoft.core.tslib.bricks.d2.*;
+import org.toxsoft.core.tslib.bricks.d2.helpers.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 
 public class VedComponentViewScreenObject
@@ -38,8 +40,11 @@ public class VedComponentViewScreenObject
 
   @Override
   public boolean containsScreenPoint( int aX, int aY ) {
-    double zf = view.ownerScreen().getConversion().zoomFactor();
-    return containsNormPoint( aX / zf, aY / zf );
+    // double zf = view.ownerScreen().getConversion().zoomFactor();
+    // return containsNormPoint( aX / zf, aY / zf );
+    ID2Convertor convertor = view.ownerScreen().coorsConvertor();
+    ID2Point d2p = convertor.reversePoint( aX, aY );
+    return containsNormPoint( d2p.x(), d2p.y() );
   }
 
   @Override
