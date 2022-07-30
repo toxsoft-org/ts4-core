@@ -73,7 +73,6 @@ public class VedPointerToolMouseHandler
       slaveShape.component().genericChangeEventer().muteListener( tool.activeComponentListener() );
     }
     else {
-      ID2Point d2p = screen().coorsConvertor().reversePoint( aDx, aDy );
       double alpha = vedScreen().getConversion().rotation().rotationAngle().radians();
       double dx = aDx * cos( -alpha ) - aDy * sin( -alpha );
       double dy = aDy * cos( -alpha ) + aDx * sin( -alpha );
