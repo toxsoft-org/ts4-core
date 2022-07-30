@@ -42,6 +42,8 @@ public class VedPointerToolMouseHandler
         IScreenObject view = aShapes.first();
 
         Rectangle r1 = tool.vertexSet().bounds();
+        // screen().paintingManager().redrawRect( new TsRectangle( r1.x, r1.y, r1.width, r1.height ) );
+
         r1 = new Rectangle( r1.x, r1.y, r1.width, r1.height );
         tool.vertexSet().update( aDx, aDy, view.id() );
         Rectangle r2 = tool.vertexSet().bounds();
@@ -63,6 +65,8 @@ public class VedPointerToolMouseHandler
         slaveShape.porter().setSize( slaveShape.outline().bounds().width() + w / zf,
             slaveShape.outline().bounds().height() + h / zf );
 
+        // r1 = tool.vertexSet().bounds();
+        // screen().paintingManager().redrawRect( new TsRectangle( r1.x, r1.y, r1.width, r1.height ) );
         screen().paintingManager().redraw();
         screen().paintingManager().update();
       }
@@ -70,7 +74,12 @@ public class VedPointerToolMouseHandler
     }
     else {
       ID2Point d2p = screen().coorsConvertor().reversePoint( aDx, aDy );
-      stdDragListener.onShapesDrag( d2p.x(), d2p.y(), aShapes, aState );
+      double alpha = vedScreen().getConversion().rotation().rotationAngle().radians();
+      double dx = aDx * cos( -alpha ) - aDy * sin( -alpha );
+      double dy = aDy * cos( -alpha ) + aDx * sin( -alpha );
+      double zf = vedScreen().getConversion().zoomFactor();
+
+      stdDragListener.onShapesDrag( dx / zf, dy / zf, aShapes, aState );
     }
   };
 
