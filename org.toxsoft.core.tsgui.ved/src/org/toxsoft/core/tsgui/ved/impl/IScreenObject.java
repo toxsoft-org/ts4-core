@@ -2,8 +2,6 @@ package org.toxsoft.core.tsgui.ved.impl;
 
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.graphics.cursors.*;
-import org.toxsoft.core.tslib.bricks.d2.*;
-import org.toxsoft.core.tslib.bricks.strid.*;
 
 /**
  * Отображаемый на экране объект.
@@ -15,8 +13,14 @@ import org.toxsoft.core.tslib.bricks.strid.*;
  *
  * @author vs
  */
-public interface IScreenObject
-    extends IStridable {
+public interface IScreenObject {
+
+  /**
+   * Возвращает тип экранного объекта, завищий от {@link #entity()}.
+   *
+   * @return EScreenObjectKind - тип экранного объекта, завищий от {@link #entity()}
+   */
+  EScreenObjectKind kind();
 
   /**
    * Отрисовывает экранный объект.<br>
@@ -28,7 +32,7 @@ public interface IScreenObject
   /**
    * Возвращает "суть" экранного объекта.
    *
-   * @param <T> - тип объекта составляющего "суть" экранного
+   * @param <T> - тип объекта, составляющего "суть" экранного объекта
    * @return T - "суть" экранного объекта
    */
   <T> T entity();
@@ -40,15 +44,15 @@ public interface IScreenObject
    */
   Rectangle bounds();
 
-  /**
-   * Определяет, принадлежит ли точка в нормализованных координатах экранному объекту.<br>
-   *
-   * @param aX double - нормализованная x координата точки
-   * @param aY double - нормализованная y координата точки
-   * @return <b>true</b> - точка принадлежит объекту<br>
-   *         <b>false</b> - точка находится вне объекта
-   */
-  boolean containsNormPoint( double aX, double aY );
+  // /**
+  // * Определяет, принадлежит ли точка в нормализованных координатах экранному объекту.<br>
+  // *
+  // * @param aX double - нормализованная x координата точки
+  // * @param aY double - нормализованная y координата точки
+  // * @return <b>true</b> - точка принадлежит объекту<br>
+  // * <b>false</b> - точка находится вне объекта
+  // */
+  // boolean containsNormPoint( double aX, double aY );
 
   /**
    * Определяет, принадлежит ли точка в экранных координатах экранному объекту.<br>
@@ -83,18 +87,11 @@ public interface IScreenObject
    */
   void setVisible( boolean aVisible );
 
-  /**
-   * Задает параметры преобразования координат.
-   *
-   * @param aConversion ID2Conversion - параметры преобразования координат
-   */
-  void setConversion( ID2Conversion aConversion );
-
-  /**
-   * Возвращает параметры преобразования координат.
-   *
-   * @return ID2Conversion - параметры преобразования координат
-   */
-  ID2Conversion getConversion();
+  // /**
+  // * Задает параметры преобразования координат.
+  // *
+  // * @param aConversion ID2Conversion - параметры преобразования координат
+  // */
+  // void setConversion( ID2Conversion aConversion );
 
 }

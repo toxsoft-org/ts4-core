@@ -7,6 +7,7 @@ import org.toxsoft.core.tsgui.ved.impl.*;
 import org.toxsoft.core.tsgui.ved.utils.drag.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -131,9 +132,9 @@ public interface IVedMouseHandler
    *
    * @param aX int - x координата курсора в пикселях
    * @param aY int - y координата курсора в пикселях
-   * @return IStridablesList&lt;IScreenObject> - список объектов содержащих указанную точку
+   * @return IList&lt;IScreenObject> - список объектов содержащих указанную точку
    */
-  IStridablesList<IScreenObject> objectsAt( int aX, int aY );
+  IList<IScreenObject> objectsAt( int aX, int aY );
 
 }
 
@@ -156,7 +157,7 @@ class NullMouseHandler
   }
 
   @Override
-  public IStridablesList<IScreenObject> objectsAt( int aX, int aY ) {
+  public IList<IScreenObject> objectsAt( int aX, int aY ) {
     return IStridablesList.EMPTY;
   }
 

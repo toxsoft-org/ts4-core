@@ -7,8 +7,14 @@ import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.d2.helpers.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 
+/**
+ * Экранный объект "сутью" которого, является представление (view) компоненты.
+ * <p>
+ *
+ * @author vs
+ */
 public class VedComponentViewScreenObject
-    extends VedAbstractScreenObject {
+    extends VedAbstractScreenObject<IVedComponentView> {
 
   private final IVedComponentView view;
 
@@ -18,7 +24,7 @@ public class VedComponentViewScreenObject
    * @param aView IVedComponentView - "представление" компоненты редактора
    */
   public VedComponentViewScreenObject( IVedComponentView aView ) {
-    super( aView.id(), aView.nmName(), aView.description() );
+    super( EScreenObjectKind.COMPONENT, aView );
     view = aView;
   }
 
@@ -40,15 +46,13 @@ public class VedComponentViewScreenObject
 
   @Override
   public boolean containsScreenPoint( int aX, int aY ) {
-    // double zf = view.ownerScreen().getConversion().zoomFactor();
-    // return containsNormPoint( aX / zf, aY / zf );
     ID2Convertor convertor = view.ownerScreen().coorsConvertor();
     ID2Point d2p = convertor.reversePoint( aX, aY );
     return containsNormPoint( d2p.x(), d2p.y() );
   }
 
-  @Override
-  public boolean containsNormPoint( double aX, double aY ) {
+  // @Override
+  boolean containsNormPoint( double aX, double aY ) {
     return view.outline().contains( aX, aY );
   }
 
@@ -57,8 +61,4 @@ public class VedComponentViewScreenObject
     return ECursorType.HAND;
   }
 
-  // @Override
-  // public void setZoomFactor( double aZoomFactor ) {
-  // // TODO Auto-generated method stub
-  // }
 }

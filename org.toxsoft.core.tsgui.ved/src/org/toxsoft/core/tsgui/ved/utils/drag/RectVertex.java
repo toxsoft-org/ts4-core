@@ -33,11 +33,11 @@ public class RectVertex
     return rect;
   }
 
-  @Override
-  public boolean containsNormPoint( double aX, double aY ) {
-    double zf = getConversion().zoomFactor();
-    return rect.contains( (int)Math.round( aX * zf ), (int)Math.round( aY * zf ) );
-  }
+  // @Override
+  // public boolean containsNormPoint( double aX, double aY ) {
+  // double zf = getConversion().zoomFactor();
+  // return rect.contains( (int)Math.round( aX * zf ), (int)Math.round( aY * zf ) );
+  // }
 
   @Override
   public boolean containsScreenPoint( int aX, int aY ) {
@@ -46,9 +46,6 @@ public class RectVertex
 
   @Override
   public void paint( GC aGc ) {
-    if( !visible() ) {
-      return;
-    }
     aGc.setForeground( foregroundColor() );
     aGc.setBackground( backgroundColor() );
 

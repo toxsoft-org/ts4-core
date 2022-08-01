@@ -7,7 +7,6 @@ import org.toxsoft.core.tsgui.graphics.cursors.*;
 import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.impl.*;
 import org.toxsoft.core.tsgui.ved.utils.*;
-import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 
@@ -23,10 +22,9 @@ public class VedMoveObjectsDragExecutor
 
   private final IListEdit<IVedDragObjectsListener> listeners = new ElemLinkedBundleList<>();
 
-  private boolean paused   = false;
-  private boolean wasEvent = false;
+  private boolean paused = false;
 
-  IStridablesList<IScreenObject> shapes;
+  IList<IScreenObject> shapes;
 
   int startX = -1;
   int startY = -1;
@@ -40,10 +38,10 @@ public class VedMoveObjectsDragExecutor
   /**
    * Конструктор.<br>
    *
-   * @param aShapes IStridablesList&lt;IScreenObject> - список "перетаскиваемых" фигур
-   * @param aContext ITsGuiContext - контекст окна
+   * @param aShapes IList&lt;IScreenObject> - список "перетаскиваемых" фигур
+   * @param aEnv IVedEnvironment - окружение редактора
    */
-  public VedMoveObjectsDragExecutor( IStridablesList<IScreenObject> aShapes, IVedEnvironment aEnv ) {
+  public VedMoveObjectsDragExecutor( IList<IScreenObject> aShapes, IVedEnvironment aEnv ) {
     shapes = aShapes;
     vedEnv = aEnv;
     handCursor = cursorManager().getCursor( ECursorType.HAND );

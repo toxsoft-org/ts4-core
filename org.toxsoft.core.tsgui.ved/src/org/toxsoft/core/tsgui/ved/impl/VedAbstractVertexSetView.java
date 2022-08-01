@@ -13,24 +13,18 @@ import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
  * @author vs
  */
 public abstract class VedAbstractVertexSetView
-    extends VedAbstractScreenObject
     implements IVedVertexSetView, IVedViewDecorator {
 
   private final IStridablesListEdit<IVedVertex> vertexes = new StridablesList<>();
 
-  // private double zoomFactor = 1.0;
-
   private boolean disposed = false;
+
+  private boolean visible = false;
 
   /**
    * Конструктор для наследников.<br>
-   *
-   * @param aId String - идентификатор
-   * @param aName String - имя
-   * @param aDescription String - описание
    */
-  protected VedAbstractVertexSetView( String aId, String aName, String aDescription ) {
-    super( aId, aName, aDescription );
+  protected VedAbstractVertexSetView() {
     setVisible( false );
   }
 
@@ -46,6 +40,16 @@ public abstract class VedAbstractVertexSetView
   @Override
   public void addVertex( IVedVertex aVertex ) {
     vertexes.add( aVertex );
+  }
+
+  @Override
+  public boolean visible() {
+    return visible;
+  }
+
+  @Override
+  public void setVisible( boolean aVisible ) {
+    visible = aVisible;
   }
 
   // ------------------------------------------------------------------------------------
@@ -86,10 +90,12 @@ public abstract class VedAbstractVertexSetView
   // Методы для возможного переопределения в наследниках
   //
 
+  @SuppressWarnings( "unused" )
   protected void doPaintBefore( IVedComponentView aView, GC aGc, ITsRectangle aPaintBounds ) {
     // nop
   }
 
+  @SuppressWarnings( "unused" )
   protected void doPaintAfter( IVedComponentView aView, GC aGc, ITsRectangle aPaintBounds ) {
     // nop
   }

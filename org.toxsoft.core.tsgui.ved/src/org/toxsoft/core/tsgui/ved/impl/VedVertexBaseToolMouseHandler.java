@@ -5,7 +5,7 @@ import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.utils.*;
 import org.toxsoft.core.tsgui.ved.utils.drag.*;
-import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.coll.*;
 
 /**
  * Обработчик мыши для инструментов, которые изменяют свойства компонент с помощью набора вершин
@@ -49,7 +49,7 @@ public class VedVertexBaseToolMouseHandler
   }
 
   @Override
-  protected IStridablesList<IScreenObject> objectsForDrag( IScreenObject aHoveredObject, MouseEvent aEvent ) {
+  protected IList<IScreenObject> objectsForDrag( IScreenObject aHoveredObject, MouseEvent aEvent ) {
     // TODO Auto-generated method stub
     return null;
   }

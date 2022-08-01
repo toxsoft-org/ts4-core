@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.ved.impl;
 
+import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -10,8 +11,14 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author vs
  */
-public interface IVedVertexSetView
-    extends IScreenObject {
+public interface IVedVertexSetView {
+
+  /**
+   * Возвращает описывающий прямоугольник.<br>
+   *
+   * @return Rectangle - описывающий прямоугольник
+   */
+  Rectangle bounds();
 
   /**
    * Возвращает список вершин.<br>
@@ -41,4 +48,27 @@ public interface IVedVertexSetView
    * @param aVertexId String - ИД вершины
    */
   void update( double aDx, double aDy, String aVertexId );
+
+  /**
+   * Возвращает признак видимости набора вершин.<br>
+   *
+   * @return <b>true</b> - набор вершин видим<br>
+   *         <b>false</b> - набор вершин не видим
+   */
+  boolean visible();
+
+  /**
+   * Задает признак видимости набора вершин <b>true</b> - набор вершин видим.<br>
+   *
+   * @param aVisible <b>true</b><br>
+   *          <b>false</b>
+   */
+  void setVisible( boolean aVisible );
+
+  /**
+   * Отрисовывает набор вершин.<br>
+   *
+   * @param aGc GC - графический контекст
+   */
+  void paint( GC aGc );
 }

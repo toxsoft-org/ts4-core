@@ -9,8 +9,8 @@ import org.toxsoft.core.tsgui.ved.std.tools.*;
 import org.toxsoft.core.tsgui.ved.utils.drag.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
-import org.toxsoft.core.tslib.bricks.strid.coll.*;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -62,9 +62,9 @@ public abstract class VedAbstractToolMouseHandler
 
     private final MouseEvent mouseEvent;
 
-    private final IStridablesList<IScreenObject> draggingObjects;
+    private final IList<IScreenObject> draggingObjects;
 
-    StartDragInfo( MouseEvent aMouseEvent, IStridablesList<IScreenObject> aDraggingObjects ) {
+    StartDragInfo( MouseEvent aMouseEvent, IList<IScreenObject> aDraggingObjects ) {
       mouseEvent = aMouseEvent;
       draggingObjects = aDraggingObjects;
     }
@@ -73,7 +73,7 @@ public abstract class VedAbstractToolMouseHandler
       return mouseEvent;
     }
 
-    IStridablesList<IScreenObject> draggingObjects() {
+    IList<IScreenObject> draggingObjects() {
       return draggingObjects;
     }
   }
@@ -103,7 +103,7 @@ public abstract class VedAbstractToolMouseHandler
   @Override
   public void mouseDown( MouseEvent aEvent ) {
     mouseDownInfo = new MouseDownInfo( aEvent );
-    IStridablesList<IScreenObject> draggingObjects = objectsForDrag( hoveredObject, aEvent );
+    IList<IScreenObject> draggingObjects = objectsForDrag( hoveredObject, aEvent );
     dragExecutor = dragExecutor( hoveredObject );
     if( dragExecutor != IVedDragExecutor.NULL ) {
       readyForDrag = true;
@@ -204,7 +204,7 @@ public abstract class VedAbstractToolMouseHandler
   /**
    * Список экранных объектов доступных обработчику мыши
    */
-  protected IStridablesListEdit<IScreenObject> screenObjects = new StridablesList<>();
+  protected IListEdit<IScreenObject> screenObjects = new ElemArrayList<>();
 
   private final IVedEnvironment vedEnv;
 
@@ -259,8 +259,8 @@ public abstract class VedAbstractToolMouseHandler
   }
 
   @Override
-  public IStridablesList<IScreenObject> objectsAt( int aX, int aY ) {
-    IStridablesListEdit<IScreenObject> result = new StridablesList<>();
+  public IList<IScreenObject> objectsAt( int aX, int aY ) {
+    IListEdit<IScreenObject> result = new ElemArrayList<>();
     for( IScreenObject obj : screenObjects ) {
       if( obj.containsScreenPoint( aX, aY ) ) {
         result.add( obj );
@@ -301,7 +301,7 @@ public abstract class VedAbstractToolMouseHandler
    * @param aCanvas IVedScreen - холст рисования
    * @param aObjects IStridablesList&lt;IScreenObject> - список объектов доступных обработчику
    */
-  public void activate( IVedScreen aCanvas, IStridablesList<IScreenObject> aObjects ) {
+  public void activate( IVedScreen aCanvas, IList<IScreenObject> aObjects ) {
     hoveredObject = null;
     screen = aCanvas;
     screenObjects.setAll( aObjects );
@@ -324,9 +324,9 @@ public abstract class VedAbstractToolMouseHandler
   /**
    * Устанавливает список объектов доступных обработчику.<br>
    *
-   * @param aObjects IStridablesList&lt;IScreenObject> - список объектов доступных обработчику
+   * @param aObjects IList&lt;IScreenObject> - список объектов доступных обработчику
    */
-  public void setScreenObjects( IStridablesList<IScreenObject> aObjects ) {
+  public void setScreenObjects( IList<IScreenObject> aObjects ) {
     screenObjects.setAll( aObjects );
   }
 
@@ -356,9 +356,9 @@ public abstract class VedAbstractToolMouseHandler
    *
    * @param aHoveredObject IObject2d - объект под курсором мыши
    * @param aEvent MouseEvent - информация о положении курсора мыши и состоянии кнопок
-   * @return IStridablesList&lt;IScreenObject> - список объектов для "перетаскивания" (м.б. пустным)
+   * @return IList&lt;IScreenObject> - список объектов для "перетаскивания" (м.б. пустным)
    */
-  protected abstract IStridablesList<IScreenObject> objectsForDrag( IScreenObject aHoveredObject, MouseEvent aEvent );
+  protected abstract IList<IScreenObject> objectsForDrag( IScreenObject aHoveredObject, MouseEvent aEvent );
 
   /**
    * Освобождает все системные ресурсы

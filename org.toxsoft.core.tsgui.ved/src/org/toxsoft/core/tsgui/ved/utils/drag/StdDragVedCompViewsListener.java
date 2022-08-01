@@ -2,7 +2,7 @@ package org.toxsoft.core.tsgui.ved.utils.drag;
 
 import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.impl.*;
-import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.coll.*;
 
 /**
  * Стандартный обработчик события о перемещении "фигур".
@@ -32,7 +32,7 @@ public class StdDragVedCompViewsListener
   //
 
   @Override
-  public void onShapesDrag( double aDx, double aDy, IStridablesList<IScreenObject> aShapes, ETsDragState aState ) {
+  public void onShapesDrag( double aDx, double aDy, IList<IScreenObject> aShapes, ETsDragState aState ) {
     if( aState != ETsDragState.START && aState != ETsDragState.FINISH ) {
       moveShapes( aDx, aDy, aShapes );
     }
@@ -42,7 +42,7 @@ public class StdDragVedCompViewsListener
   // Внутренняя реализация
   //
 
-  private void moveShapes( double aDx, double aDy, IStridablesList<IScreenObject> aObjects ) {
+  private void moveShapes( double aDx, double aDy, IList<IScreenObject> aObjects ) {
     // Rectangle r = new Rectangle( 0, 0, 0, 0 );
     for( IScreenObject obj : aObjects ) {
       IVedComponentView view = (IVedComponentView)obj.entity();

@@ -3,6 +3,7 @@ package org.toxsoft.core.tsgui.ved.impl;
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.graphics.cursors.*;
 import org.toxsoft.core.tslib.av.utils.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
 
 /**
  * Вершина - чувствительная для мыши отображаемая область экрана.
@@ -13,10 +14,38 @@ import org.toxsoft.core.tslib.av.utils.*;
  * @author vs
  */
 public interface IVedVertex
-    extends IScreenObject, IParameterized {
+    extends IStridable, IParameterized {
 
-  @Override
+  /**
+   * Возвращает описывающий прямоугольник.<br>
+   *
+   * @return Rectangle - описывающий прямоугольник
+   */
+  Rectangle bounds();
+
+  /**
+   * Тип курсора мыши, когда он находится над вершиной.
+   *
+   * @return ECursorType - тип курсора мыши, когда он находится над вершиной
+   */
   ECursorType cursorType();
+
+  /**
+   * Отрисовывает вершину.<br>
+   *
+   * @param aGc GC - графический контекст
+   */
+  void paint( GC aGc );
+
+  /**
+   * Определяет, принадлежит ли точка в экранных координатах экранному объекту.<br>
+   *
+   * @param aX int - экранная x координата точки
+   * @param aY int - экранная y координата точки
+   * @return <b>true</b> - точка принадлежит объекту<br>
+   *         <b>false</b> - точка находится вне объекта
+   */
+  boolean containsScreenPoint( int aX, int aY );
 
   /**
    * Задает цвет рисования.

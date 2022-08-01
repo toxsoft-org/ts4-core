@@ -12,8 +12,8 @@ import org.toxsoft.core.tsgui.ved.utils.*;
 import org.toxsoft.core.tsgui.ved.utils.drag.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
-import org.toxsoft.core.tslib.bricks.strid.coll.*;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 
 /**
  * Обработчик мыши для инструмента "Указатель".
@@ -45,7 +45,7 @@ public class VedPointerToolMouseHandler
         // screen().paintingManager().redrawRect( new TsRectangle( r1.x, r1.y, r1.width, r1.height ) );
 
         r1 = new Rectangle( r1.x, r1.y, r1.width, r1.height );
-        tool.vertexSet().update( aDx, aDy, view.id() );
+        tool.vertexSet().update( aDx, aDy, ((IVedVertex)view.entity()).id() );
         Rectangle r2 = tool.vertexSet().bounds();
         Rectangle rr = substract( r2, r1 );
 
@@ -104,13 +104,13 @@ public class VedPointerToolMouseHandler
       return IVedDragExecutor.NULL;
     }
 
-    moveExecutor = new VedMoveObjectsDragExecutor( new StridablesList<>( aHoveredObject ), vedEnv() );
+    moveExecutor = new VedMoveObjectsDragExecutor( new ElemArrayList<>( aHoveredObject ), vedEnv() );
     moveExecutor.addVedDragObjectsListener( moveListener );
     return moveExecutor;
   }
 
   @Override
-  protected IStridablesList<IScreenObject> objectsForDrag( IScreenObject aHoveredObject, MouseEvent aEvent ) {
+  protected IList<IScreenObject> objectsForDrag( IScreenObject aHoveredObject, MouseEvent aEvent ) {
     // TODO Auto-generated method stub
     return null;
   }

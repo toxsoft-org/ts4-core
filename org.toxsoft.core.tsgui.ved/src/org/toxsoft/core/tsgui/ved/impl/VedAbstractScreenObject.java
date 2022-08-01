@@ -2,57 +2,66 @@ package org.toxsoft.core.tsgui.ved.impl;
 
 import org.toxsoft.core.tsgui.graphics.cursors.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
-import org.toxsoft.core.tslib.bricks.strid.impl.*;
 
 /**
  * Базовы класс для создания экранных объектов.
  * <p>
  *
  * @author vs
+ * @param <T> - "суть" экранного объекта
  */
-public abstract class VedAbstractScreenObject
-    extends Stridable
+public abstract class VedAbstractScreenObject<T>
     implements IScreenObject {
 
   /**
    * Признак видимости объекта
    */
   boolean visible = true;
+//
+//  /**
+//   * Параметры преобразования координат
+//   */
+//  ID2Conversion d2Conv = ID2Conversion.NONE;
 
   /**
-   * Параметры преобразования координат
+   * Тип экранного объекта, зависящий от {@link #entity()}
    */
-  ID2Conversion d2Conv = ID2Conversion.NONE;
+  private final EScreenObjectKind kind;
+
+  /**
+   * "суть" экранного объекта
+   */
+  private final T entity;
 
   /**
    * Коструктор.
    *
-   * @param aId String - ИД объекта
+   * @param aKind EScreenObjectKind - тип экранного объекта, зависящий от {@link #entity()}
+   * @param aEntity T - "суть" экранного объекта
    */
-  public VedAbstractScreenObject( String aId ) {
-    super( aId );
-  }
-
-  /**
-   * Коструктор.
-   *
-   * @param aId String - ИД объекта
-   * @param aName String - имя объекта
-   * @param aDescription String - описние объекта
-   */
-  public VedAbstractScreenObject( String aId, String aName, String aDescription ) {
-    super( aId, aName, aDescription );
-  }
-
-  @Override
-  public ECursorType cursorType() {
-    // TODO Auto-generated method stub
-    return null;
+  public VedAbstractScreenObject( EScreenObjectKind aKind, T aEntity ) {
+    entity = aEntity;
+    kind = aKind;
   }
 
   // ------------------------------------------------------------------------------------
   // IScreenObject
   //
+
+  @Override
+  public EScreenObjectKind kind() {
+    return kind;
+  }
+
+  @Override
+  public T entity() {
+    return entity;
+  }
+
+  @Override
+  public ECursorType cursorType() {
+    return null;
+  }
 
   @Override
   public final boolean visible() {
@@ -65,16 +74,11 @@ public abstract class VedAbstractScreenObject
     onVisibiltyChanged();
   }
 
-  @Override
-  public final void setConversion( ID2Conversion aConversion ) {
-    d2Conv = aConversion;
-    onConversionChanged();
-  }
-
-  @Override
-  public final ID2Conversion getConversion() {
-    return d2Conv;
-  }
+//  @Override
+//  public final void setConversion( ID2Conversion aConversion ) {
+//    d2Conv = aConversion;
+//    onConversionChanged();
+//  }
 
   // ------------------------------------------------------------------------------------
   // Методы для возможного переопределения в наследниках

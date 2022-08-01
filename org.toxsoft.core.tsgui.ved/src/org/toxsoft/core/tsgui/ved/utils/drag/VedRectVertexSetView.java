@@ -5,9 +5,9 @@ import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
-import org.toxsoft.core.tsgui.graphics.cursors.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.impl.*;
+import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -24,13 +24,15 @@ public class VedRectVertexSetView
 
   Color colorBlue;
 
+  ID2Conversion d2Conv = ID2Conversion.NONE;
+
   /**
    * Конструктор.<br>
    *
    * @param aContext ITsGuiContext - контекст окна
    */
   public VedRectVertexSetView( ITsGuiContext aContext ) {
-    super( "rectVertexSet", "Вершины прямоугольника", "Набор вершин прямоугольника" ); //$NON-NLS-1$
+    // super( "rectVertexSet", "Вершины прямоугольника", "Набор вершин прямоугольника" ); //$NON-NLS-1$
 
     ITsColorManager cm = aContext.get( ITsColorManager.class );
 
@@ -51,7 +53,7 @@ public class VedRectVertexSetView
    * @param aContext ITsGuiContext - контекст окна
    */
   public VedRectVertexSetView( Rectangle aInitialRect, ITsGuiContext aContext ) {
-    super( "rectVertexSet", "Вершины прямоугольника", "Набор вершин прямоугольника" ); //$NON-NLS-1$
+    // super( "rectVertexSet", "Вершины прямоугольника", "Набор вершин прямоугольника" ); //$NON-NLS-1$
 
     updateRect( rect, aInitialRect, 2, 2 );
 
@@ -89,10 +91,10 @@ public class VedRectVertexSetView
   // {@link IScreenObject}
   //
 
-  @Override
-  public ECursorType cursorType() {
-    return ECursorType.HAND;
-  }
+  // @Override
+  // public ECursorType cursorType() {
+  // return ECursorType.HAND;
+  // }
 
   @Override
   public Rectangle bounds() {
@@ -108,20 +110,20 @@ public class VedRectVertexSetView
     return bounds;
   }
 
-  @Override
-  public boolean containsScreenPoint( int aX, int aY ) {
-    return false;
-  }
-
-  @Override
-  public boolean containsNormPoint( double aX, double aY ) {
-    return false;
-  }
-
-  @Override
-  public <T> T entity() {
-    return null;
-  }
+  // @Override
+  // public boolean containsScreenPoint( int aX, int aY ) {
+  // return false;
+  // }
+  //
+  // @Override
+  // public boolean containsNormPoint( double aX, double aY ) {
+  // return false;
+  // }
+  //
+  // @Override
+  // public <T> T entity() {
+  // return null;
+  // }
 
   // ------------------------------------------------------------------------------------
   // IVedVertexSetView
@@ -137,6 +139,20 @@ public class VedRectVertexSetView
   @Override
   public IStridablesList<? extends RectVertex> listVertexes() {
     return (IStridablesList<RectVertex>)super.listVertexes();
+  }
+
+  // ------------------------------------------------------------------------------------
+  // ID2Conversionable
+  //
+
+  @Override
+  public ID2Conversion getConversion() {
+    return d2Conv;
+  }
+
+  @Override
+  public void setConversion( ID2Conversion aConversion ) {
+    d2Conv = aConversion;
   }
 
   // ------------------------------------------------------------------------------------

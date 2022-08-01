@@ -12,6 +12,8 @@ import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.*;
 
 /**
@@ -127,7 +129,7 @@ public abstract class VedAbstractVertexBasedTool
   /**
    * Список экранных объектов доступных инструменту
    */
-  protected IStridablesListEdit<IScreenObject> screenObjects = new StridablesList<>();
+  protected IListEdit<IScreenObject> screenObjects = new ElemArrayList<>();
 
   private IVedVertexSetView vertexSet = null;
 
@@ -204,7 +206,8 @@ public abstract class VedAbstractVertexBasedTool
       // activeView.component().genericChangeEventer().addListener( activeComponentListener );
       activeView.component().props().propsEventer().addListener( propertyChangeListener );
       screenObjects.remove( aHoveredObject );
-      if( !selectedViews.hasKey( aHoveredObject.id() ) ) {
+      if( aHoveredObject.kind() == EScreenObjectKind.COMPONENT
+          && !selectedViews.hasKey( ((IVedComponentView)aHoveredObject.entity()).id() ) ) {
         selectedViews.add( activeView );
         ITsRectangle tsRect = vedScreen().coorsConvertor().rectBounds( activeView.outline().bounds() );
         vertexSet.init( tsRect );
@@ -297,12 +300,37 @@ public abstract class VedAbstractVertexBasedTool
   // Внутренняя реализация
   //
 
+  private void removeVertexScreenObject( String aVertexId ) {
+    for( int i = 0; i < screenObjects.size(); i++ ) {
+      IScreenObject scrObj = screenObjects.get( i );
+      if( scrObj.kind() == EScreenObjectKind.VERTEX ) {
+        if( ((IVedVertex)scrObj.entity()).id().equals( aVertexId ) ) {
+          screenObjects.removeByIndex( i );
+          break;
+        }
+      }
+    }
+  }
+
+  private boolean hasVertexScreenObject( String aVertexId ) {
+    for( int i = 0; i < screenObjects.size(); i++ ) {
+      IScreenObject scrObj = screenObjects.get( i );
+      if( scrObj.kind() == EScreenObjectKind.VERTEX ) {
+        if( ((IVedVertex)scrObj.entity()).id().equals( aVertexId ) ) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   private void hideVertexSet( IVedVertexSetView aView ) {
     aView.setVisible( false );
     for( IVedVertex v : aView.listVertexes() ) {
-      screenObjects.remove( v );
+      // screenObjects.remove( v );
+      removeVertexScreenObject( v.id() );
     }
-    screenObjects.remove( aView );
+    // screenObjects.remove( aView );
     if( mouseListener() != null ) {
       mouseListener().setScreenObjects( screenObjects );
     }
@@ -311,14 +339,21 @@ public abstract class VedAbstractVertexBasedTool
 
   private void showVertexSet( IVedVertexSetView aView ) {
     aView.setVisible( true );
-    if( !screenObjects.hasKey( aView.id() ) ) {
-      screenObjects.add( aView );
-    }
+    // if( !screenObjects.hasKey( aView.id() ) ) {
+    // screenObjects.add( aView );
+    // }
+    // for( IVedVertex v : aView.listVertexes() ) {
+    // if( !screenObjects.hasKey( v.id() ) ) {
+    // screenObjects.add( v );
+    // }
+    // }
+
     for( IVedVertex v : aView.listVertexes() ) {
-      if( !screenObjects.hasKey( v.id() ) ) {
-        screenObjects.add( v );
+      if( !hasVertexScreenObject( v.id() ) ) { // если нет screenObject соответсвующего вершине
+        screenObjects.add( new VedVertexScreenObject( v ) );
       }
     }
+
     if( mouseListener() != null ) {
       mouseListener().setScreenObjects( screenObjects );
     }
