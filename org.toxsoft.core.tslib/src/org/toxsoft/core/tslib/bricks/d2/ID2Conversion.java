@@ -3,7 +3,8 @@ package org.toxsoft.core.tslib.bricks.d2;
 /**
  * Coordinates conversion rules between two coordinates system.
  * <p>
- * Covertion from coordinate system N (normalized coordinates system) to S (screen coordinates system) is performad as:
+ * Covertion from source coordinate system N (normalized coordinates system) to target S (screen coordinates system) is
+ * performad as:
  * <ol>
  * <li>N will be rotated around origin point by {@link #rotation()} angle.</li>
  * <li>rotated N will be zoomed (from origin) by {@link #zoomFactor()}, where zoom of 1.0 means no zoom;</li>
@@ -38,7 +39,7 @@ public sealed interface ID2Conversion permits ID2ConversionEdit,D2Conversion {
   /**
    * Returns the coordinates of origin in after conversion.
    *
-   * @return {@link ID2Point} - source origin coordinates on target
+   * @return {@link ID2Point} - source N origin coordinates on target in S coordinates space
    */
   ID2Point origin();
 
