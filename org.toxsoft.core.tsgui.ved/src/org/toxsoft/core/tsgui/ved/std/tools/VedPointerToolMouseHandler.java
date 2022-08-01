@@ -36,7 +36,7 @@ public class VedPointerToolMouseHandler
   IVedDragObjectsListener moveListener = ( aDx, aDy, aShapes, aState ) -> {
     IVedComponentView slaveShape = tool.activeView();
     if( slaveShape != null ) {
-      slaveShape.component().genericChangeEventer().muteListener( tool.activeComponentListener() );
+      // slaveShape.component().genericChangeEventer().muteListener( tool.activeComponentListener() );
       if( aShapes.size() > 0 ) {
 
         IScreenObject view = aShapes.first();
@@ -70,7 +70,7 @@ public class VedPointerToolMouseHandler
         screen().paintingManager().redraw();
         screen().paintingManager().update();
       }
-      slaveShape.component().genericChangeEventer().muteListener( tool.activeComponentListener() );
+      // slaveShape.component().genericChangeEventer().unmuteListener( tool.activeComponentListener() );
     }
     else {
       double alpha = vedScreen().getConversion().rotation().radians();

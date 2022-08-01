@@ -6,9 +6,9 @@ import org.toxsoft.core.tsgui.bricks.swtevents.*;
 import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.library.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
+import org.toxsoft.core.tsgui.ved.incub.props.*;
 import org.toxsoft.core.tsgui.ved.std.tools.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
-import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
@@ -111,9 +111,13 @@ public abstract class VedAbstractVertexBasedTool
     }
   };
 
-  IGenericChangeListener activeComponentListener = aSource -> {
-    updateVertexSet();
-  };
+  private final IPropertyChangeListener propertyChangeListener =
+      ( aSource, aPropId, aOldValue, aNewValue ) -> updateVertexSet();
+
+  // GOGA
+  // IGenericChangeListener activeComponentListener = aSource -> {
+  // updateVertexSet();
+  // };
 
   /**
    * Список выделенных компонет, с которыми работает данный инструмент
@@ -187,7 +191,8 @@ public abstract class VedAbstractVertexBasedTool
       if( activeView != null ) {
         selectedViews.remove( activeView );
         screenObjects.add( activeObject );
-        activeView.component().genericChangeEventer().removeListener( activeComponentListener );
+        // activeView.component().genericChangeEventer().removeListener( activeComponentListener );
+        activeView.component().props().propsEventer().removeListener( propertyChangeListener );
         activeView = null;
         activeObject = null;
       }
@@ -196,7 +201,8 @@ public abstract class VedAbstractVertexBasedTool
     if( aHoveredObject != null && aHoveredObject.entity() != null ) {
       activeObject = aHoveredObject;
       activeView = aHoveredObject.entity();
-      activeView.component().genericChangeEventer().addListener( activeComponentListener );
+      // activeView.component().genericChangeEventer().addListener( activeComponentListener );
+      activeView.component().props().propsEventer().addListener( propertyChangeListener );
       screenObjects.remove( aHoveredObject );
       if( !selectedViews.hasKey( aHoveredObject.id() ) ) {
         selectedViews.add( activeView );
@@ -230,9 +236,9 @@ public abstract class VedAbstractVertexBasedTool
     }
   }
 
-  public IGenericChangeListener activeComponentListener() {
-    return activeComponentListener;
-  }
+  // public IGenericChangeListener activeComponentListener() {
+  // return activeComponentListener;
+  // }
 
   // ------------------------------------------------------------------------------------
   // Методы для наследников
