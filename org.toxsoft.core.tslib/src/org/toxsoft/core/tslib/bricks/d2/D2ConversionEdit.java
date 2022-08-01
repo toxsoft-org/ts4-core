@@ -15,17 +15,16 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public final class D2ConversionEdit
     implements ID2ConversionEdit, Serializable {
 
-  private static final long serialVersionUID = 4995515663514559187L;
+  private static final long serialVersionUID = 1010579325250088274L;
 
-  private final ID2PointEdit    origin   = new D2PointEdit();
-  private final ID2RotationEdit rotation = new D2RotationEdit();
-
-  private double zoomFactor = 1.0;
+  private final ID2AngleEdit rotation   = new D2AngleEdit();
+  private double             zoomFactor = 1.0;
+  private final ID2PointEdit origin     = new D2PointEdit();
 
   /**
    * Constructor.
    * <p>
-   * Creates copy of {@link ID2Conversion#NONE}.
+   * Creates an editable copy of {@link ID2Conversion#NONE}.
    */
   public D2ConversionEdit() {
     this( ID2Conversion.NONE );
@@ -34,16 +33,16 @@ public final class D2ConversionEdit
   /**
    * Constructor.
    *
+   * @param aRotation {@link ID2Angle} - the rotation angle
    * @param aZoomFactor double - the zoom factor (1.0 = no zoom)
    * @param aOrigin {@link ID2Point} - source origin coordinates on target
-   * @param aRotation {@link ID2Rotation} - the rotation parameters
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException invalid value
    */
-  public D2ConversionEdit( double aZoomFactor, ID2Point aOrigin, ID2Rotation aRotation ) {
+  public D2ConversionEdit( ID2Angle aRotation, double aZoomFactor, ID2Point aOrigin ) {
+    rotation.setAngle( aRotation );
     zoomFactor = checkZoom( aZoomFactor );
     origin.setPoint( aOrigin );
-    rotation.setRotation( aRotation );
   }
 
   /**
@@ -54,14 +53,19 @@ public final class D2ConversionEdit
    */
   public D2ConversionEdit( ID2Conversion aSource ) {
     TsNullArgumentRtException.checkNull( aSource );
+    rotation.setAngle( aSource.rotation() );
     zoomFactor = aSource.zoomFactor();
     origin.setPoint( aSource.origin() );
-    rotation.setRotation( aSource.rotation() );
   }
 
   // ------------------------------------------------------------------------------------
   // ID2Conversion
   //
+
+  @Override
+  public ID2AngleEdit rotation() {
+    return rotation;
+  }
 
   @Override
   public double zoomFactor() {
@@ -71,11 +75,6 @@ public final class D2ConversionEdit
   @Override
   public ID2PointEdit origin() {
     return origin;
-  }
-
-  @Override
-  public ID2RotationEdit rotation() {
-    return rotation;
   }
 
   // ------------------------------------------------------------------------------------
@@ -90,9 +89,9 @@ public final class D2ConversionEdit
   @Override
   public void setConversion( ID2Conversion aSource ) {
     TsNullArgumentRtException.checkNull( aSource );
+    rotation.setAngle( aSource.rotation() );
     zoomFactor = aSource.zoomFactor();
     origin.setPoint( aSource.origin() );
-    rotation.setRotation( aSource.rotation() );
   }
 
   // ------------------------------------------------------------------------------------
@@ -102,7 +101,7 @@ public final class D2ConversionEdit
   @SuppressWarnings( "boxing" )
   @Override
   public String toString() {
-    return String.format( "%.4f %s %s", zoomFactor, origin.toString(), rotation.toString() ); //$NON-NLS-1$
+    return String.format( "%s %.4f %s", rotation.toString(), zoomFactor, origin.toString() ); //$NON-NLS-1$
   }
 
   @Override
@@ -113,17 +112,17 @@ public final class D2ConversionEdit
     if( !(object instanceof ID2Conversion that) ) {
       return false;
     }
-    return this.zoomFactor == that.zoomFactor() && this.origin.equals( that.origin() )
-        && this.rotation.equals( that.rotation() );
+    return this.rotation.equals( that.rotation() ) && this.zoomFactor == that.zoomFactor()
+        && this.origin.equals( that.origin() );
   }
 
   @Override
   public int hashCode() {
     int result = INITIAL_HASH_CODE;
     long dblval = Double.doubleToRawLongBits( zoomFactor );
+    result = PRIME * result + rotation.hashCode();
     result = PRIME * result + (int)(dblval ^ (dblval >>> 32));
     result = PRIME * result + origin.hashCode();
-    result = PRIME * result + rotation.hashCode();
     return result;
   }
 

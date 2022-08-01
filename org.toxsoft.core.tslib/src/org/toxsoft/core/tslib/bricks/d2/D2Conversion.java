@@ -15,25 +15,25 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public final class D2Conversion
     implements ID2Conversion, Serializable {
 
-  private static final long serialVersionUID = -5103992882197512232L;
+  private static final long serialVersionUID = 1501632436869409292L;
 
-  private final double      zoomFactor;
-  private final ID2Point    origin;
-  private final ID2Rotation rotation;
+  private final ID2Angle rotation;
+  private final double   zoomFactor;
+  private final ID2Point origin;
 
   /**
    * Constructor.
    *
+   * @param aRotation {@link ID2Angle} - the rotation angle
    * @param aZoomFactor double - the zoom factor (1.0 = no zoom)
    * @param aOrigin {@link ID2Point} - source origin coordinates on target
-   * @param aRotation {@link ID2Rotation} - the rotation parameters
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException invalid value
    */
-  public D2Conversion( double aZoomFactor, ID2Point aOrigin, ID2Rotation aRotation ) {
+  public D2Conversion( ID2Angle aRotation, double aZoomFactor, ID2Point aOrigin ) {
     zoomFactor = checkZoom( aZoomFactor );
     origin = new D2Point( aOrigin );
-    rotation = new D2Rotation( aRotation );
+    rotation = new D2Angle( aRotation );
   }
 
   /**
@@ -44,9 +44,9 @@ public final class D2Conversion
    */
   public D2Conversion( ID2Conversion aSource ) {
     TsNullArgumentRtException.checkNull( aSource );
+    rotation = new D2Angle( aSource.rotation() );
     zoomFactor = aSource.zoomFactor();
     origin = new D2Point( aSource.origin() );
-    rotation = new D2Rotation( aSource.rotation() );
   }
 
   // ------------------------------------------------------------------------------------
@@ -64,7 +64,7 @@ public final class D2Conversion
   }
 
   @Override
-  public ID2Rotation rotation() {
+  public ID2Angle rotation() {
     return rotation;
   }
 
@@ -75,7 +75,7 @@ public final class D2Conversion
   @SuppressWarnings( "boxing" )
   @Override
   public String toString() {
-    return String.format( "%.4f %s %s", zoomFactor, origin.toString(), rotation.toString() ); //$NON-NLS-1$
+    return String.format( "%s %.4f %s", rotation.toString(), zoomFactor, origin.toString() ); //$NON-NLS-1$
   }
 
   @Override
@@ -86,17 +86,17 @@ public final class D2Conversion
     if( !(object instanceof ID2Conversion that) ) {
       return false;
     }
-    return this.zoomFactor == that.zoomFactor() && this.origin.equals( that.origin() )
-        && this.rotation.equals( that.rotation() );
+    return this.rotation.equals( that.rotation() ) && this.zoomFactor == that.zoomFactor()
+        && this.origin.equals( that.origin() );
   }
 
   @Override
   public int hashCode() {
     int result = INITIAL_HASH_CODE;
     long dblval = Double.doubleToRawLongBits( zoomFactor );
+    result = PRIME * result + rotation.hashCode();
     result = PRIME * result + (int)(dblval ^ (dblval >>> 32));
     result = PRIME * result + origin.hashCode();
-    result = PRIME * result + rotation.hashCode();
     return result;
   }
 

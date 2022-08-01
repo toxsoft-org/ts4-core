@@ -11,6 +11,14 @@ public sealed interface ID2ConversionEdit
     extends ID2Conversion permits D2ConversionEdit {
 
   /**
+   * An editable rotation.
+   * <p>
+   * {@inheritDoc}
+   */
+  @Override
+  ID2AngleEdit rotation();
+
+  /**
    * Sets the zoom factor.
    *
    * @param aZoomFactor double - the zoom factor
@@ -25,14 +33,6 @@ public sealed interface ID2ConversionEdit
    */
   @Override
   ID2PointEdit origin();
-
-  /**
-   * An editable rotation.
-   * <p>
-   * {@inheritDoc}
-   */
-  @Override
-  ID2RotationEdit rotation();
 
   /**
    * Copies conversion parameters.
