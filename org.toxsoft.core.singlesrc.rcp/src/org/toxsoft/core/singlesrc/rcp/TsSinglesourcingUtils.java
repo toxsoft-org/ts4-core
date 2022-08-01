@@ -1,12 +1,12 @@
 package org.toxsoft.core.singlesrc.rcp;
 
-import org.eclipse.swt.SWT;
+import org.eclipse.swt.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tslib.coll.IMapEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemMap;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Вспомогательные методы для сокрытия различия реализации RCP и RAP.
@@ -230,14 +230,7 @@ public class TsSinglesourcingUtils {
     synchronized (mwlMap) {
       mwl = mwlMap.findByKey( aListener );
       if( mwl == null ) {
-        mwl = new MouseWheelListener() {
-
-          @Override
-          public void mouseScrolled( MouseEvent aEvent ) {
-            aListener.mouseScrolled( aEvent );
-          }
-
-        };
+        mwl = aEvent -> aListener.mouseScrolled( aEvent );
         mwlMap.put( aListener, mwl );
       }
     }

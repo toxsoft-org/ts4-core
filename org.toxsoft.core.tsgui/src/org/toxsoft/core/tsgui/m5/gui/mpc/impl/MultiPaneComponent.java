@@ -246,6 +246,7 @@ public class MultiPaneComponent<T>
    */
   public void processAction( String aActionId ) {
     if( board == null || (toolbar.findAction( aActionId ) != null && !toolbar.isActionEnabled( aActionId )) ) {
+      // TODO when CRUD actions are disabled whis check does not works so double click ACTID_EDIT leads to error
       return;
     }
     T sel = tree.selectedItem();

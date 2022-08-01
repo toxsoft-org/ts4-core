@@ -1,14 +1,22 @@
 package org.toxsoft.core.tsgui.ved.utils.drag;
 
-import org.eclipse.e4.core.contexts.*;
 import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.cursors.*;
+import org.toxsoft.core.tsgui.ved.api.view.*;
+import org.toxsoft.core.tsgui.ved.impl.*;
+import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
+/**
+ * Набор вершин прямоугольника.
+ *
+ * @author vs
+ */
 public class VedRectVertexSetView
     extends VedAbstractVertexSetView {
 
@@ -16,26 +24,38 @@ public class VedRectVertexSetView
 
   Color colorBlue;
 
-  private final IEclipseContext appContext;
+  /**
+   * Конструктор.<br>
+   *
+   * @param aContext ITsGuiContext - контекст окна
+   */
+  public VedRectVertexSetView( ITsGuiContext aContext ) {
+    super( "rectVertexSet", "Вершины прямоугольника", "Набор вершин прямоугольника" ); //$NON-NLS-1$
 
-  private final ITsCursorManager cursorManager;
+    ITsColorManager cm = aContext.get( ITsColorManager.class );
 
-  private boolean visible = true;
+    colorBlue = cm.getColor( ETsColor.BLUE );
+    Color fgColor = cm.getColor( ETsColor.BLACK );
+    Color bgColor = cm.getColor( ETsColor.RED );
+
+    for( ETsFulcrum fulcrum : ETsFulcrum.values() ) {
+      RectVertex vertex = new RectVertex( 8, 8, fgColor, bgColor, fulcrum );
+      addVertex( vertex );
+    }
+  }
 
   /**
    * Конструктор.<br>
    *
    * @param aInitialRect Rectangle - начальный прямоугольник
-   * @param aAppContext IEclipseContext - контекст окна
+   * @param aContext ITsGuiContext - контекст окна
    */
-  public VedRectVertexSetView( Rectangle aInitialRect, IEclipseContext aAppContext ) {
+  public VedRectVertexSetView( Rectangle aInitialRect, ITsGuiContext aContext ) {
     super( "rectVertexSet", "Вершины прямоугольника", "Набор вершин прямоугольника" ); //$NON-NLS-1$
-    appContext = aAppContext;
-    cursorManager = appContext.get( ITsCursorManager.class );
 
     updateRect( rect, aInitialRect, 2, 2 );
 
-    ITsColorManager cm = aAppContext.get( ITsColorManager.class );
+    ITsColorManager cm = aContext.get( ITsColorManager.class );
 
     colorBlue = cm.getColor( ETsColor.BLUE );
     Color fgColor = cm.getColor( ETsColor.BLACK );
@@ -50,11 +70,12 @@ public class VedRectVertexSetView
 
   @Override
   public void paint( GC aGc ) {
-    if( !visible ) {
+    if( !visible() ) {
       return;
     }
     int oldStyle = aGc.getLineStyle();
     Color oldColor = aGc.getForeground();
+    aGc.setLineWidth( 1 );
     aGc.setLineStyle( SWT.LINE_DASH );
     aGc.setForeground( colorBlue );
 
@@ -67,15 +88,6 @@ public class VedRectVertexSetView
   // ------------------------------------------------------------------------------------
   // {@link IScreenObject}
   //
-  @Override
-  public boolean visible() {
-    return visible;
-  }
-
-  @Override
-  public void setVisible( boolean aVisible ) {
-    visible = aVisible;
-  }
 
   @Override
   public ECursorType cursorType() {
@@ -111,21 +123,37 @@ public class VedRectVertexSetView
     return null;
   }
 
+  // ------------------------------------------------------------------------------------
+  // IVedVertexSetView
+  //
+
   @Override
-  protected void onZoomFactorChanged() {
-    // updateVisRect();
-    // updateVertexes();
-    // System.out.println( "rect = " + rect.toString() );
+  public void init( ITsRectangle aRect ) {
+    Rectangle r = new Rectangle( aRect.a().x(), aRect.a().y(), aRect.width(), aRect.height() );
+    setRect( r );
+  }
+
+  @SuppressWarnings( "unchecked" )
+  @Override
+  public IStridablesList<? extends RectVertex> listVertexes() {
+    return (IStridablesList<RectVertex>)super.listVertexes();
+  }
+
+  // ------------------------------------------------------------------------------------
+  // IVedViewDecorator
+  //
+
+  @Override
+  public void doPaintAfter( IVedComponentView aView, GC aGc, ITsRectangle aPaintBounds ) {
+    paint( aGc );
+    for( IVedVertex v : listVertexes() ) {
+      v.paint( aGc );
+    }
   }
 
   // ------------------------------------------------------------------------------------
   // API
   //
-
-  public void setRect( Rectangle aShapeBounds ) {
-    updateRect( rect, aShapeBounds, 2, 2 );
-    updateVertexes();
-  }
 
   /**
    * Обновляет положения всех вершин и внутренний прямоугольник, при изменении одной из вершин.<br>
@@ -134,6 +162,7 @@ public class VedRectVertexSetView
    * @param aDy - смещение по оси y
    * @param aVertexId String - идентификатор вершины, один из ИДов элементов {@link ETsFulcrum}
    */
+  @Override
   public void update( double aDx, double aDy, String aVertexId ) {
     ETsFulcrum fulcrum = ETsFulcrum.findById( aVertexId );
     switch( fulcrum ) {
@@ -190,15 +219,14 @@ public class VedRectVertexSetView
     updateVertexes();
   }
 
-  @SuppressWarnings( "unchecked" )
-  @Override
-  public IStridablesList<? extends RectVertex> listVertexes() {
-    return (IStridablesList<RectVertex>)super.listVertexes();
-  }
-
   // ------------------------------------------------------------------------------------
   // Внутренняя реализация
   //
+
+  private void setRect( Rectangle aShapeBounds ) {
+    updateRect( rect, aShapeBounds, 2, 2 );
+    updateVertexes();
+  }
 
   private static void updateRect( Rectangle aRectDest, Rectangle aRectSource, int aDx, int aDy ) {
     aRectDest.x = aRectSource.x - aDx;

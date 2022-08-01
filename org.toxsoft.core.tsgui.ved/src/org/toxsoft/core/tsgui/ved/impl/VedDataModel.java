@@ -25,7 +25,6 @@ class VedDataModel
    */
   private final IGenericChangeListener componentChangeListener = aSource -> {
     IVedComponent c = (IVedComponent)aSource;
-    // FIXME Sol-- раскоментировать
     this.compsList.fireItemByKeyChangeEvent( c.id() );
   };
 

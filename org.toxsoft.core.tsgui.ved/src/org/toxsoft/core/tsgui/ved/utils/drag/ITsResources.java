@@ -6,7 +6,7 @@ package org.toxsoft.core.tsgui.ved.utils.drag;
  *
  * @author vs
  */
-public interface ITsResources {
+interface ITsResources {
 
   // ------------------------------------------------------------------------------------
   // {@link ETsDragState}

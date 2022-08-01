@@ -334,7 +334,7 @@ public abstract class AbstractOptionsGetter
 
   @Override
   public <T> T getValobj( IDataDef aOpId ) {
-    IAtomicValue av = internalFindAs( aOpId, EAtomicType.INTEGER );
+    IAtomicValue av = internalFindAs( aOpId, EAtomicType.VALOBJ );
     if( av == null ) {
       return aOpId.defaultValue().asValobj();
     }

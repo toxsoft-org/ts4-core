@@ -14,7 +14,7 @@ public interface IPasProtocol {
   /**
    * Идентификатор уведомления "проверка работоспособности канала"
    */
-  String JSON_NOTIFY_ALIVE = "org.toxsoft.core.pas.common.checkAlive";
+  String JSON_NOTIFY_ALIVE = "ru.toxsoft.tslib.pas.common.checkAlive";
 
   // ------------------------------------------------------------------------------------
   // Идентификаторы параметров запросов

@@ -23,7 +23,7 @@ public interface IPropertiesSetRo
    */
   IStringList ids();
 
-  /***
+  /**
    * Returns the properties values change eventer.
    *
    * @return {@link ITsEventer}&lt;{@link IPropertyChangeListener}&gt; - the eventer

@@ -162,22 +162,22 @@ public interface IVedStdProperties {
       TSID_DEFAULT_VALUE, avFloat( 10.0 ) //
   );
 
-  IDataDef PDEF_ROTATION_CENTER = null;
+  // IDataDef PDEF_ROTATION_CENTER = null;
 
   // ------------------------------------------------------------------------------------
   // Flip
   //
 
-  IDataDef PDEF_HOR_FLIP = null;
+  // IDataDef PDEF_HOR_FLIP = null;
 
-  IDataDef PDEF_VER_FLIP = null;
+  // IDataDef PDEF_VER_FLIP = null;
 
   // ------------------------------------------------------------------------------------
   // Zoom
   //
 
-  IDataDef PDEF_ZOOM_X = null;
+  // IDataDef PDEF_ZOOM_X = null;
 
-  IDataDef PDEF_ZOOM_Y = null;
+  // IDataDef PDEF_ZOOM_Y = null;
 
 }

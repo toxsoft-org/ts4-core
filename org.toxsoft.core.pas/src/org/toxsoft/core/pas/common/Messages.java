@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 @SuppressWarnings( "javadoc" )
 public class Messages {
 
-  private static final String BUNDLE_NAME = "org.toxsoft.core.pas.common.messages"; //$NON-NLS-1$
+  private static final String BUNDLE_NAME = "ru.toxsoft.tslib.pas.common.messages"; //$NON-NLS-1$
 
   private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle( BUNDLE_NAME );
 

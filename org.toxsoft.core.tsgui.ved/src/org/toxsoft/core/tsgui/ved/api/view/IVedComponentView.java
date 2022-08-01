@@ -2,31 +2,31 @@ package org.toxsoft.core.tsgui.ved.api.view;
 
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.ved.api.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.bricks.d2.helpers.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 
 /**
  * VED component view to be displayed on {@link IVedScreen}.
- * <p>
- * Note: each view may allocate resources that must be `released by calling {@link #dispose()}.
  *
  * @author hazard157
  */
 public interface IVedComponentView
-    extends IStridable, IVedDisposable {
+    extends IStridable, ID2Conversionable {
 
   /**
    * Returns the means to draw the view on the SWT {@link Canvas}.
    *
-   * @return {@link IVedPainter} - component painter
+   * @return {@link IVedViewPainter} - component painter
    */
-  IVedPainter painter();
+  IVedViewPainter painter();
 
   /**
    * returns the porter responsible for changing coordinates, size, etc. of the component.
    *
-   * @return {@link IVedPorter} - component geometrical representation changer
+   * @return {@link IVedViewPorter} - component geometrical representation changer
    */
-  IVedPorter porter();
+  IVedViewPorter porter();
 
   /**
    * Returns the full information the component outline.
@@ -36,10 +36,29 @@ public interface IVedComponentView
   IVedOutline outline();
 
   /**
+   * Returns the values of the external data.
+   *
+   * @return {@link IOptionSetEdit} - the external data
+   */
+  IOptionSetEdit extdata();
+
+  /**
    * Returns the component which is represented by this view.
    *
    * @return {@link IVedComponent} - the owner component
    */
   IVedComponent component();
+
+  /**
+   * Returns the screen where this view of the component is painted.
+   *
+   * @return {@link IVedScreen} - owner screen
+   */
+  IVedScreen ownerScreen();
+
+  /**
+   * Redraws the single view as soon as possible.
+   */
+  void redraw();
 
 }

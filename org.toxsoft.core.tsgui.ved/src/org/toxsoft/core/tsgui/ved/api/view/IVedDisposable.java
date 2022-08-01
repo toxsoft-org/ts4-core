@@ -3,7 +3,7 @@ package org.toxsoft.core.tsgui.ved.api.view;
 /**
  * Mixin interface of visual entities that require the release of OS resources.
  *
- * @author goga
+ * @author hazard157
  */
 public interface IVedDisposable {
 

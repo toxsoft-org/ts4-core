@@ -16,14 +16,14 @@ public class StdDragVedCompViewsListener
   /**
    * Холст рисования
    */
-  private final VedScreen canvas;
+  private final IVedScreen canvas;
 
   /**
    * Конструктор.<br>
    *
    * @param aCanvas Canvas - холст рисования
    */
-  public StdDragVedCompViewsListener( VedScreen aCanvas ) {
+  public StdDragVedCompViewsListener( IVedScreen aCanvas ) {
     canvas = aCanvas;
   }
 
@@ -51,7 +51,8 @@ public class StdDragVedCompViewsListener
       // r = r.union( VedScreen.boundsToScreen( view ) );
     }
     // canvas.redraw( r.x, r.y, r.width + 1, r.height + 1, false );
-    canvas.redraw();
+    canvas.paintingManager().redraw();
+    canvas.paintingManager().update();
   }
 
 }

@@ -33,7 +33,7 @@ public abstract class VedAbstractComponentProvider
    * <p>
    * {@link #params()} and {@link #propDefs()} may be updated in subclass constructor.
    *
-   * @param aLibraryId Sting the owner library ID
+   * @param aLibraryId String - the owner library ID
    * @param aId String - provider ID (component kind ID)
    * @param aParams {@link IOptionSet} - {@link #params()} initial values
    * @param aPropDefs {@link IDataDef}[] - proprties definitions

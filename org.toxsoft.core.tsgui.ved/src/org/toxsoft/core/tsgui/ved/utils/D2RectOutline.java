@@ -2,7 +2,6 @@ package org.toxsoft.core.tsgui.ved.utils;
 
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
-import org.toxsoft.core.tsgui.ved.incub.geom.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 
 /**

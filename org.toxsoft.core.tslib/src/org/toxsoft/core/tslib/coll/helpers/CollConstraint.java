@@ -68,16 +68,23 @@ public final class CollConstraint
 
   /**
    * Constructor.
+   * <p>
+   * There is invalid combination of arguments causing exception: if <code>aMaxCount</code> is 0 then both
+   * <code>aIsExactCount</code> and <code>aIsEmptyProhibited</code> can not be specified as <code>true</code>.
    *
-   * @param aMaxCount int - maximum allowen number of elements in collection
+   * @param aMaxCount int - maximum allowed number of elements in collection
    * @param aIsExactCount boolean - the flag of the empty collection is prohibited
    * @param aIsEmptyProhibited boolean - the flag of the empty collection is prohibited
    * @param aIsDuplicatesProhibited boolean - the flag of the dulicates prohibited
    * @throws TsIllegalArgumentRtException aMaxCount < 0
+   * @throws TsIllegalArgumentRtException invalid combination of argument values
    */
   public CollConstraint( int aMaxCount, boolean aIsExactCount, boolean aIsEmptyProhibited,
       boolean aIsDuplicatesProhibited ) {
     TsIllegalArgumentRtException.checkTrue( aMaxCount < 0 );
+    if( aIsExactCount && aMaxCount == 0 && aIsEmptyProhibited ) {
+      throw new TsIllegalArgumentRtException();
+    }
     maxCount = aMaxCount;
     int f = 0;
     if( aIsExactCount ) {
@@ -211,10 +218,8 @@ public final class CollConstraint
   /**
    * Returns the size limit on the collection.
    * <p>
-   * If {@link #isExactCount()} flag is <code>true</code> then collection must contain exactly his number of elements.
+   * If {@link #isExactCount()} flag is <code>true</code> then collection must contain exactly this number of elements.
    * Otherwise collection is prohibited to contain up to this number of elements.
-   * <p>
-   * Returned value 0 means that there is no size resriction on the collection.
    * <p>
    * Never returns negative values.
    *

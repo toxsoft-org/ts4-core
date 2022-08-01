@@ -2,7 +2,7 @@ package org.toxsoft.core.tsgui.ved.utils.drag;
 
 import org.eclipse.osgi.util.*;
 
-public class Messages
+class Messages
     extends NLS {
 
   private static final String BUNDLE_NAME = Messages.class.getPackageName() + ".messages"; //$NON-NLS-1$

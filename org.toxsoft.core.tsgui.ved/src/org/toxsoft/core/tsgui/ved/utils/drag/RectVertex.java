@@ -3,6 +3,7 @@ package org.toxsoft.core.tsgui.ved.utils.drag;
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.graphics.cursors.*;
+import org.toxsoft.core.tsgui.ved.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -17,8 +18,6 @@ public class RectVertex
   private final Rectangle rect = new Rectangle( 0, 0, 0, 0 );
 
   private final ETsFulcrum fulcrum;
-
-  private boolean visible = true;
 
   protected RectVertex( int aWidth, int aHeight, Color fgColor, Color bgColor, ETsFulcrum aFulcrum ) {
     super( aFulcrum.id(), aFulcrum.nmName(), aFulcrum.description() );
@@ -36,7 +35,8 @@ public class RectVertex
 
   @Override
   public boolean containsNormPoint( double aX, double aY ) {
-    return rect.contains( (int)Math.round( aX * zoomFactor() ), (int)Math.round( aY * zoomFactor() ) );
+    double zf = getConversion().zoomFactor();
+    return rect.contains( (int)Math.round( aX * zf ), (int)Math.round( aY * zf ) );
   }
 
   @Override
@@ -46,7 +46,7 @@ public class RectVertex
 
   @Override
   public void paint( GC aGc ) {
-    if( !visible ) {
+    if( !visible() ) {
       return;
     }
     aGc.setForeground( foregroundColor() );
@@ -59,16 +59,6 @@ public class RectVertex
   @Override
   public ECursorType cursorType() {
     return cursorType( fulcrum );
-  }
-
-  @Override
-  public boolean visible() {
-    return visible;
-  }
-
-  @Override
-  public void setVisible( boolean aVisible ) {
-    visible = aVisible;
   }
 
   // ------------------------------------------------------------------------------------

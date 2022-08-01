@@ -284,8 +284,15 @@ public interface ITsToolbar
   void addContributionItem( IContributionItem aItem );
 
   // ------------------------------------------------------------------------------------
+  // Inline methods for convinience
+
+  @SuppressWarnings( "javadoc" )
+  default boolean hasAction( String aActionId ) {
+    return findAction( aActionId ) != null;
+  }
+
+  // ------------------------------------------------------------------------------------
   // Action handling
-  //
 
   /**
    * Add the listener.

@@ -1,5 +1,7 @@
 package org.toxsoft.core.tslib.bricks.d2;
 
+import java.io.*;
+
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -9,7 +11,9 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public final class D2Rectangle
-    implements ID2Rectangle {
+    implements ID2Rectangle, Serializable {
+
+  private static final long serialVersionUID = -5708044273767400246L;
 
   private final D2Point a;
   private final D2Point b;

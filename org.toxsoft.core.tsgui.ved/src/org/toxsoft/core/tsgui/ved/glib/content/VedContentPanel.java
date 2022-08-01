@@ -6,12 +6,14 @@ import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
+import org.toxsoft.core.tsgui.bricks.stdevents.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.gui.panels.*;
 import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.panels.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tsgui.ved.api.*;
+import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -22,7 +24,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  */
 public class VedContentPanel
     extends TsPanel
-    implements IVedContextable {
+    implements IVedContextable, ITsSelectionChangeListener<IVedComponent> {
 
   IM5CollectionPanel<IVedComponent> compsPanel;
 
@@ -47,10 +49,27 @@ public class VedContentPanel
     compsPanel.createControl( this );
     compsPanel.getControl().setLayoutData( BorderLayout.CENTER );
     vedEnv().dataModel().genericChangeEventer().addListener( s -> compsPanel.refresh() );
+    compsPanel.addTsSelectionListener( this::onTsSelectionChanged );
   }
+
+  // ------------------------------------------------------------------------------------
+  // implementation
+  //
 
   // public void refresh() {
   // compsPanel.refresh();
   // }
+
+  // ------------------------------------------------------------------------------------
+  // ITsSelectionChangeListener
+  //
+
+  @Override
+  public void onTsSelectionChanged( Object aSource, IVedComponent aSel ) {
+    IVedScreen screen = vedEnv().screenManager().activeScreen();
+    if( screen != null ) {
+      screen.selectionManager().setSelectedComponent( aSel );
+    }
+  }
 
 }
