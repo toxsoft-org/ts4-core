@@ -67,8 +67,8 @@ public class VedPointerToolMouseHandler
 
         // r1 = tool.vertexSet().bounds();
         // screen().paintingManager().redrawRect( new TsRectangle( r1.x, r1.y, r1.width, r1.height ) );
-        screen().paintingManager().redraw();
-        screen().paintingManager().update();
+        // screen().paintingManager().redraw();
+        // screen().paintingManager().update();
       }
       // slaveShape.component().genericChangeEventer().unmuteListener( tool.activeComponentListener() );
     }
