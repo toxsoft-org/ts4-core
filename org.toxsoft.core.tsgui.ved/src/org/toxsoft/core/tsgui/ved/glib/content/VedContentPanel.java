@@ -15,6 +15,7 @@ import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.utils.*;
+import org.toxsoft.core.tslib.coll.notifier.basis.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -25,6 +26,25 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class VedContentPanel
     extends TsPanel
     implements IVedContextable, ITsSelectionChangeListener<IVedComponent> {
+
+  private final ITsCollectionChangeListener canvasConfigChangeListener = ( aSource, aOp, aItem ) -> {
+    this.compsPanel.refresh();
+  };
+
+  private final ITsCollectionChangeListener componentsListChangeListener = ( aSource, aOp, aItem ) -> {
+    switch( aOp ) {
+      case CREATE:
+      case REMOVE:
+      case LIST:
+        this.compsPanel.refresh();
+        break;
+      case EDIT:
+        break;
+      default:
+        throw new TsNotAllEnumsUsedRtException( aOp.id() );
+    }
+
+  };
 
   IM5CollectionPanel<IVedComponent> compsPanel;
 
@@ -48,7 +68,8 @@ public class VedContentPanel
     compsPanel = compsModel.panelCreator().createCollViewerPanel( ctx, lm.itemsProvider() );
     compsPanel.createControl( this );
     compsPanel.getControl().setLayoutData( BorderLayout.CENTER );
-    vedEnv().dataModel().genericChangeEventer().addListener( s -> compsPanel.refresh() );
+    vedEnv().dataModel().canvasConfig().addCollectionChangeListener( canvasConfigChangeListener );
+    vedEnv().dataModel().listComponents().addCollectionChangeListener( componentsListChangeListener );
     compsPanel.addTsSelectionListener( this::onTsSelectionChanged );
   }
 
