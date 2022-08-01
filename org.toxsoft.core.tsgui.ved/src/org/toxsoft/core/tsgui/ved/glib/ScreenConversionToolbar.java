@@ -71,9 +71,9 @@ public class ScreenConversionToolbar
         D2AngleEdit angle = new D2AngleEdit();
         // angle.setDeg( conv.zoomFactor() * ZOOM_STEP_FACTOR * 5 );
         angle.setDeg( -15 );
-        conv.rotation().setRotation( new D2Rotation( new D2Point( 100, 100 ), angle ) );
+        conv.rotation().setAngle( angle );
         conv.origin().setX( 100 );
-        conv.origin().setY( 100 );
+        conv.origin().setY( 0 );
         break;
       }
       case ACTID_ZOOM_ORIGINAL: {
@@ -82,9 +82,9 @@ public class ScreenConversionToolbar
         // conv.rotation().setRotation( ID2Rotation.NONE );
         D2AngleEdit angle = new D2AngleEdit();
         angle.setDeg( 0 );
-        conv.rotation().setRotation( new D2Rotation( new D2Point( 100, 100 ), angle ) );
-        conv.origin().setX( 100 );
-        conv.origin().setY( 100 );
+        conv.rotation().setAngle( angle );
+        conv.origin().setX( 0 );
+        conv.origin().setY( 0 );
         break;
       }
       case ACTID_ZOOM_OUT: {
@@ -93,8 +93,8 @@ public class ScreenConversionToolbar
         D2AngleEdit angle = new D2AngleEdit();
         // angle.setDeg( -conv.zoomFactor() * ZOOM_STEP_FACTOR * 5 );
         angle.setDeg( 15 );
-        conv.rotation().setRotation( new D2Rotation( new D2Point( 100, 100 ), angle ) );
-        conv.origin().setX( 100 );
+        conv.rotation().setAngle( angle );
+        conv.origin().setX( 0 );
         conv.origin().setY( 100 );
         break;
       }

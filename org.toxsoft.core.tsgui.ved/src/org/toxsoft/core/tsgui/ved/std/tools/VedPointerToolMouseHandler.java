@@ -49,7 +49,7 @@ public class VedPointerToolMouseHandler
         Rectangle r2 = tool.vertexSet().bounds();
         Rectangle rr = substract( r2, r1 );
 
-        double alpha = vedScreen().getConversion().rotation().rotationAngle().radians();
+        double alpha = vedScreen().getConversion().rotation().radians();
         double dx = rr.x * cos( -alpha ) - rr.y * sin( -alpha );
         double dy = rr.y * cos( -alpha ) + rr.x * sin( -alpha );
         double zf = vedScreen().getConversion().zoomFactor();
@@ -73,7 +73,7 @@ public class VedPointerToolMouseHandler
       slaveShape.component().genericChangeEventer().muteListener( tool.activeComponentListener() );
     }
     else {
-      double alpha = vedScreen().getConversion().rotation().rotationAngle().radians();
+      double alpha = vedScreen().getConversion().rotation().radians();
       double dx = aDx * cos( -alpha ) - aDy * sin( -alpha );
       double dy = aDy * cos( -alpha ) + aDx * sin( -alpha );
       double zf = vedScreen().getConversion().zoomFactor();

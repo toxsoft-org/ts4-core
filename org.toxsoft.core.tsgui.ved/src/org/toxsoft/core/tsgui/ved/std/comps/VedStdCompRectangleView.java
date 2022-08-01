@@ -74,18 +74,21 @@ class VedStdCompRectangleView
     aGc.setAdvanced( true );
     Transform oldTransfrom = null;
     Transform t = null;
-    ID2Conversion d2conv = ownerScreen().getConversion();
+    // ID2Conversion d2conv = ownerScreen().getConversion();
+    ID2Conversion d2conv = getConversion();
     if( d2conv != ID2Conversion.NONE ) {
       oldTransfrom = new Transform( aGc.getDevice() );
-      t = new Transform( aGc.getDevice() );
-      aGc.getTransform( t );
-      t.scale( (float)d2conv.zoomFactor(), (float)d2conv.zoomFactor() );
-      t.translate( (float)d2conv.origin().x(), (float)d2conv.origin().x() );
-      if( d2conv.rotation() != ID2Rotation.NONE ) {
-        t.translate( (float)d2conv.rotation().pivotPoint().x(), (float)d2conv.rotation().pivotPoint().x() );
-        t.rotate( (float)d2conv.rotation().rotationAngle().degrees() );
-        t.translate( (float)-d2conv.rotation().pivotPoint().x(), (float)-d2conv.rotation().pivotPoint().x() );
-      }
+      aGc.getTransform( oldTransfrom );
+
+      t = conv2transform( aGc );
+      // t = new Transform( aGc.getDevice() );
+      // aGc.getTransform( t );
+      // float zf = (float)d2conv.zoomFactor();
+      // t.translate( (float)d2conv.origin().x(), (float)d2conv.origin().y() );
+      // t.scale( zf, zf );
+      // if( d2conv.rotation() != ID2Rotation.NONE ) {
+      // t.rotate( (float)d2conv.rotation().degrees() );
+      // }
 
       aGc.setTransform( t );
       t.dispose();
