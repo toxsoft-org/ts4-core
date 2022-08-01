@@ -8,6 +8,14 @@ package org.toxsoft.core.tsgui.ved.impl;
 interface ITsResources {
 
   /**
+   * {@link EScreenObjectKind}
+   */
+  String STR_N_SOK_COMPONENT = "Component";
+  String STR_D_SOK_COMPONENT = "Object contains component view";
+  String STR_N_SOK_VERTEX    = "Vertex";
+  String STR_D_SOK_VERTEX    = "Draws an interactive vertex";
+
+  /**
    * {@link VedAbstractComponentProvider}
    */
   String FMT_ERR_INV_PROP_TYPE = Messages.getString( "FMT_ERR_INV_PROP_TYPE" ); //$NON-NLS-1$
