@@ -1,16 +1,13 @@
 package org.toxsoft.core.tslib.coll;
 
-import java.io.ObjectStreamException;
-import java.util.Objects;
+import java.io.*;
+import java.util.*;
 
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.coll.basis.ITsFastIndexListTag;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
-import org.toxsoft.core.tslib.coll.impl.ImmutableList;
-import org.toxsoft.core.tslib.coll.primtypes.IIntList;
-import org.toxsoft.core.tslib.coll.primtypes.impl.SortedIntLinkedBundleList;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * An ordered collection (sequence) of elements.
@@ -78,6 +75,32 @@ public interface IList<E>
       return get( count - 1 );
     }
     return null;
+  }
+
+  /**
+   * Finds the element if list contains one element or returns <code>null</code> if none.
+   *
+   * @return &lt;E&gt; - the only element of collection or <code>null</code> if collection is empty
+   * @throws TsIllegalStateRtException collection contains 2 or more elements
+   */
+  default E findOnly() {
+    if( size() <= 1 ) {
+      return first();
+    }
+    throw new TsIllegalStateRtException();
+  }
+
+  /**
+   * Returns the element if list contains exactly one element.
+   *
+   * @return &lt;E&gt; - the only element of collection
+   * @throws TsIllegalStateRtException collection contains no elements or 2 or more elements
+   */
+  default E getOnly() {
+    if( size() == 1 ) {
+      return first();
+    }
+    throw new TsIllegalStateRtException();
   }
 
   /**

@@ -7,6 +7,7 @@ import java.util.concurrent.locks.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 // TODO TRANSLATE
@@ -133,6 +134,100 @@ public class SynchronizedList<E, L extends IList<E>>
   }
 
   @Override
+  public E first() {
+    lock.readLock().lock();
+    try {
+      return source.first();
+    }
+    finally {
+      lock.readLock().unlock();
+    }
+  }
+
+  @Override
+  public E last() {
+    lock.readLock().lock();
+    try {
+      return source.last();
+    }
+    finally {
+      lock.readLock().unlock();
+    }
+  }
+
+  @Override
+  public E findOnly() {
+    lock.readLock().lock();
+    try {
+      return source.findOnly();
+    }
+    finally {
+      lock.readLock().unlock();
+    }
+  }
+
+  @Override
+  public E getOnly() {
+    lock.readLock().lock();
+    try {
+      return source.getOnly();
+    }
+    finally {
+      lock.readLock().unlock();
+    }
+  }
+
+  @Override
+  public E next( E aItem ) {
+    lock.readLock().lock();
+    try {
+      return source.next( aItem );
+    }
+    finally {
+      lock.readLock().unlock();
+    }
+  }
+
+  @Override
+  public E prev( E aItem ) {
+    lock.readLock().lock();
+    try {
+      return source.prev( aItem );
+    }
+    finally {
+      lock.readLock().unlock();
+    }
+  }
+
+  @Override
+  public IListEdit<E> fetch( IIntList aIndexes ) {
+    lock.readLock().lock();
+    try {
+      return source.fetch( aIndexes );
+    }
+    finally {
+      lock.readLock().unlock();
+    }
+  }
+
+  @Override
+  public IList<E> fetch( int aFromIndex, int aToIndex ) {
+    lock.readLock().lock();
+    try {
+      return source.fetch( aFromIndex, aToIndex );
+    }
+    finally {
+      lock.readLock().unlock();
+    }
+  }
+
+  // --- following are atomic methods from IList, no need to override
+  // public boolean isFirst( E aItem );
+  // public boolean isLast( E aItem );
+  // public boolean isInRange( int aIndex );
+  // ---
+
+  @Override
   public IListBasicEdit<E> copyTo( IListBasicEdit<E> aDest ) {
     IListBasicEdit<E> dest = aDest;
     if( dest == null ) {
@@ -147,6 +242,10 @@ public class SynchronizedList<E, L extends IList<E>>
       lock.readLock().unlock();
     }
   }
+
+  // ------------------------------------------------------------------------------------
+  // Iterable
+  //
 
   @Override
   public Iterator<E> iterator() {

@@ -1,11 +1,11 @@
 package org.toxsoft.core.tslib.coll.synch;
 
-import java.util.Collection;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.*;
+import java.util.concurrent.locks.*;
 
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Потоко-безопасная оболочка над редактируемым списком {@link IListEdit}.
@@ -42,7 +42,7 @@ public class SynchronizedListEdit<E>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IListEdit
+  // IListEdit
   //
 
   @Override
