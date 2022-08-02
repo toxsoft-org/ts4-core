@@ -168,6 +168,7 @@ public class VedPointerToolMouseHandler
   protected void beforeDragStarted() {
     if( tool.activeView() != null ) {
       tool.vertexSet().setVisible( false );
+      tool.selectionDecorator().hideSelection( tool.activeView().id() );
     }
   }
 
@@ -180,6 +181,7 @@ public class VedPointerToolMouseHandler
       tool.vertexSet().setVisible( true );
       screen().paintingManager().redraw();
     }
+    tool.selectionDecorator().showAll();
   }
 
   private static Rectangle substract( Rectangle aRect1, Rectangle aRect2 ) {

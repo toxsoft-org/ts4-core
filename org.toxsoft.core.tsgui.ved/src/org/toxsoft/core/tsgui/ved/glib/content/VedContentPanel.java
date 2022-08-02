@@ -89,7 +89,7 @@ public class VedContentPanel
   public void onTsSelectionChanged( Object aSource, IVedComponent aSel ) {
     IVedScreen screen = vedEnv().screenManager().activeScreen();
     if( screen != null ) {
-      screen.selectionManager().setSelectedComponent( aSel );
+      screen.selectionManager().setSelectedComponentView( screen.listViews().getByKey( aSel.id() ) );
     }
   }
 

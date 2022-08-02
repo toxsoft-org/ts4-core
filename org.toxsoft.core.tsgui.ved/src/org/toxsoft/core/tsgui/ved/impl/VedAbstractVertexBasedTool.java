@@ -11,7 +11,6 @@ import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.incub.props.*;
 import org.toxsoft.core.tsgui.ved.std.tools.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
-import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
@@ -142,15 +141,15 @@ public abstract class VedAbstractVertexBasedTool
 
   IVedSelectedComponentManager selectionManager;
 
-  IGenericChangeListener selectionListener = aSource -> {
-    selectionManager.setSelectedComponentViews( IStridablesList.EMPTY );
-    for( IVedComponent comp : selectionManager.selectedComponents() ) {
-      if( vedScreen().listViews().hasKey( comp.id() ) ) {
-        selectionManager.setComponentViewSelection( vedScreen().listViews().getByKey( comp.id() ), true );
-      }
-    }
-
-  };
+  // IGenericChangeListener selectionListener = aSource -> {
+  // selectionManager.setSelectedComponentViews( IStridablesList.EMPTY );
+  // for( IVedComponentView view : selectionManager.selectedComponentViews() ) {
+  // if( vedScreen().listViews().hasKey( view.id() ) ) {
+  // selectionManager.setComponentViewSelection( vedScreen().listViews().getByKey( view.id() ), true );
+  // }
+  // }
+  //
+  // };
 
   private final IVedScreenSelectionDecorator selectionDecorator;
 
@@ -177,7 +176,7 @@ public abstract class VedAbstractVertexBasedTool
 
   @Override
   void papiToolActivated() {
-    selectionManager.genericChangeEventer().addListener( selectionListener );
+    // selectionManager.genericChangeEventer().addListener( selectionListener );
     vedScreen().paintingManager().addViewsDecorator( selectionDecorator );
     vertexSet = vertexSet();
     if( mouseListener() != null ) {
@@ -196,7 +195,7 @@ public abstract class VedAbstractVertexBasedTool
 
   @Override
   void papiToolDeactivated() {
-    selectionManager.genericChangeEventer().removeListener( selectionListener );
+    // selectionManager.genericChangeEventer().removeListener( selectionListener );
     vedScreen().paintingManager().removeViewsDecorator( selectionDecorator );
     hideVertexSet( vertexSet );
     vertexSet = null;
@@ -256,9 +255,17 @@ public abstract class VedAbstractVertexBasedTool
     return activeView;
   }
 
+  public IVedSelectedComponentManager selectionManager() {
+    return selectionManager;
+  }
+
+  public IVedScreenSelectionDecorator selectionDecorator() {
+    return selectionDecorator;
+  }
+
   public IStridablesList<IVedComponentView> selectedViews() {
     IStridablesListEdit<IVedComponentView> result = new StridablesList<>();
-    for( IVedComponent comp : selectionManager.selectedComponents() ) {
+    for( IVedComponentView comp : selectionManager.selectedComponentViews() ) {
 
     }
     return result;
