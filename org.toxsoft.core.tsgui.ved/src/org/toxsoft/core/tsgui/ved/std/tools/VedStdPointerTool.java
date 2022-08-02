@@ -84,6 +84,11 @@ public class VedStdPointerTool
     return vedScreen().listViews();
   }
 
+  @Override
+  protected boolean accept( IVedComponentView aView ) {
+    return true; // работаем с любыми компонентами
+  }
+
   // ------------------------------------------------------------------------------------
   //
   //

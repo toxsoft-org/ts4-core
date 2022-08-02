@@ -2,13 +2,16 @@ package org.toxsoft.core.tsgui.ved.impl;
 
 import org.eclipse.swt.*;
 import org.eclipse.swt.events.*;
+import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.swtevents.*;
+import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.library.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.incub.props.*;
 import org.toxsoft.core.tsgui.ved.std.tools.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
@@ -137,8 +140,25 @@ public abstract class VedAbstractVertexBasedTool
 
   private IVedComponentView activeView = null;
 
+  IVedSelectedComponentManager selectionManager;
+
+  IGenericChangeListener selectionListener = aSource -> {
+    selectionManager.setSelectedComponentViews( IStridablesList.EMPTY );
+    for( IVedComponent comp : selectionManager.selectedComponents() ) {
+      if( vedScreen().listViews().hasKey( comp.id() ) ) {
+        selectionManager.setComponentViewSelection( vedScreen().listViews().getByKey( comp.id() ), true );
+      }
+    }
+
+  };
+
+  private final IVedScreenSelectionDecorator selectionDecorator;
+
   protected VedAbstractVertexBasedTool( IVedEditorToolProvider aProvider, IVedEnvironment aEnv, IVedScreen aScreen ) {
     super( aProvider, aEnv, aScreen );
+    selectionManager = vedScreen().selectionManager();
+    Color c = colorManager().getColor( ETsColor.BLUE );
+    selectionDecorator = new VedDefaultSelectionDecorator( aScreen, aEnv, c );
   }
 
   // ------------------------------------------------------------------------------------
@@ -157,6 +177,8 @@ public abstract class VedAbstractVertexBasedTool
 
   @Override
   void papiToolActivated() {
+    selectionManager.genericChangeEventer().addListener( selectionListener );
+    vedScreen().paintingManager().addViewsDecorator( selectionDecorator );
     vertexSet = vertexSet();
     if( mouseListener() != null ) {
       mouseListener().setMouseEventConsumer( this );
@@ -169,17 +191,18 @@ public abstract class VedAbstractVertexBasedTool
     if( mouseListener() != null ) {
       mouseListener().setScreenObjects( screenObjects );
     }
-
     onActivated();
   }
 
   @Override
   void papiToolDeactivated() {
+    selectionManager.genericChangeEventer().removeListener( selectionListener );
+    vedScreen().paintingManager().removeViewsDecorator( selectionDecorator );
+    hideVertexSet( vertexSet );
     vertexSet = null;
     if( mouseListener() != null ) {
       mouseListener().setMouseEventConsumer( null );
     }
-    hideVertexSet( vertexSet );
     onDeactivated();
   }
 
@@ -193,19 +216,27 @@ public abstract class VedAbstractVertexBasedTool
       if( activeView != null ) {
         selectedViews.remove( activeView );
         screenObjects.add( activeObject );
+        System.out.println( "+++ addScreenObject+++ " + activeObject );
         // activeView.component().genericChangeEventer().removeListener( activeComponentListener );
         activeView.component().props().propsEventer().removeListener( propertyChangeListener );
         activeView = null;
         activeObject = null;
       }
       hideVertexSet( vertexSet );
+      return;
     }
     if( aHoveredObject != null && aHoveredObject.entity() != null ) {
+      if( activeObject != null ) {
+        screenObjects.add( activeObject );
+        System.out.println( "+++ addScreenObject+++ " + activeObject );
+      }
       activeObject = aHoveredObject;
       activeView = aHoveredObject.entity();
       // activeView.component().genericChangeEventer().addListener( activeComponentListener );
       activeView.component().props().propsEventer().addListener( propertyChangeListener );
-      screenObjects.remove( aHoveredObject );
+      screenObjects.remove( activeObject );
+      selectedViews.remove( activeView );
+      System.out.println( "--- removeScreenObject--- " + activeObject );
       if( aHoveredObject.kind() == EScreenObjectKind.COMPONENT
           && !selectedViews.hasKey( ((IVedComponentView)aHoveredObject.entity()).id() ) ) {
         selectedViews.add( activeView );
@@ -225,6 +256,14 @@ public abstract class VedAbstractVertexBasedTool
     return activeView;
   }
 
+  public IStridablesList<IVedComponentView> selectedViews() {
+    IStridablesListEdit<IVedComponentView> result = new StridablesList<>();
+    for( IVedComponent comp : selectionManager.selectedComponents() ) {
+
+    }
+    return result;
+  }
+
   public void addToSelected( IVedComponentView aView ) {
     if( !selectedViews.hasKey( aView.id() ) ) {
       selectedViews.add( aView );
@@ -238,10 +277,6 @@ public abstract class VedAbstractVertexBasedTool
       onSelectionChanged();
     }
   }
-
-  // public IGenericChangeListener activeComponentListener() {
-  // return activeComponentListener;
-  // }
 
   // ------------------------------------------------------------------------------------
   // Методы для наследников
@@ -274,6 +309,8 @@ public abstract class VedAbstractVertexBasedTool
   protected abstract IVedVertexSetView vertexSet();
 
   protected abstract IStridablesList<IVedComponentView> listComponentViews();
+
+  protected abstract boolean accept( IVedComponentView aView );
 
   // ------------------------------------------------------------------------------------
   // Методы для возможного переопределения в наследниках
@@ -349,7 +386,7 @@ public abstract class VedAbstractVertexBasedTool
     // }
 
     for( IVedVertex v : aView.listVertexes() ) {
-      if( !hasVertexScreenObject( v.id() ) ) { // если нет screenObject соответсвующего вершине
+      if( !hasVertexScreenObject( v.id() ) ) { // если нет screenObject соответствующего вершине
         screenObjects.add( new VedVertexScreenObject( v ) );
       }
     }
@@ -361,10 +398,12 @@ public abstract class VedAbstractVertexBasedTool
   }
 
   private void updateVertexSet() {
-    ID2Rectangle d2r = this.activeView.outline().bounds();
-    ITsRectangle tsRect = vedScreen().coorsConvertor().rectBounds( d2r );
-    this.vertexSet.init( tsRect );
-    vedScreen().paintingManager().redraw();
-    vedScreen().paintingManager().update();
+    if( activeView != null ) {
+      ID2Rectangle d2r = activeView.outline().bounds();
+      ITsRectangle tsRect = vedScreen().coorsConvertor().rectBounds( d2r );
+      vertexSet.init( tsRect );
+      vedScreen().paintingManager().redraw();
+      vedScreen().paintingManager().update();
+    }
   }
 }

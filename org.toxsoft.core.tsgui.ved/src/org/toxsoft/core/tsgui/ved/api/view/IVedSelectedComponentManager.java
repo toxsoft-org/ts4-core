@@ -101,6 +101,62 @@ public interface IVedSelectedComponentManager
    */
   void toggleSelection( IVedComponent aComp );
 
+  // ------------------------------------------------------------------------------------
+  //
+  //
+
+  /**
+   * Returns selected component views.
+   *
+   * @return {@link IStridablesList}&lt;{@link IVedComponentView}&gt; - selected component views
+   */
+  IStridablesList<IVedComponentView> selectedComponentViews();
+
+  /**
+   * Returns one selected component view.
+   * <p>
+   * For there is no selection (kind = ONE) returns <code>null</code>. For multi selection returns first item of the
+   * list {@link #selectedComponents()}.
+   *
+   * @return {@link IVedComponentView} - selected component view of <code>null</code>
+   */
+  IVedComponentView selectedComponentView();
+
+  /**
+   * Sets single component view selection.
+   * <p>
+   * <code>null</code> has same effect as {@link #deselectAll()}.
+   *
+   * @param aView {@link IVedComponentView} - the only component view to be set as selected or <code>null</code>
+   */
+  void setSelectedComponentView( IVedComponentView aView );
+
+  /**
+   * Toogle component view selection.<br>
+   * If selection is true and component is already selected do nothing, if selection is false and component is
+   * deselected do nothing otherwise toggle componetnt's selection.
+   *
+   * @param aView {@link IVedComponentView} - component whose selection should be toggled
+   * @param aSelection <b>true</b> - component will be selected<br>
+   *          <b>false</b> - component will be deselected
+   */
+  void setComponentViewSelection( IVedComponentView aView, boolean aSelection );
+
+  /**
+   * Sets selected component views list.
+   *
+   * @param aViews {@link IStridablesList}&lt;{@link IVedComponentView}&gt; - component views to be selected
+   */
+  void setSelectedComponentViews( IStridablesList<IVedComponentView> aViews );
+
+  /**
+   * Toggles component view selection state.
+   *
+   * @param aView {@link IVedComponentView} - the component
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  void toggleSelection( IVedComponentView aView );
+
   /**
    * Clears selection.
    */

@@ -24,6 +24,11 @@ class VedSelectedComponentManager
   private IStridablesListEdit<IVedComponent> selComps = new StridablesList<>();
 
   /**
+   * Contains list of selected component views.
+   */
+  private IStridablesListEdit<IVedComponentView> selViews = new StridablesList<>();
+
+  /**
    * Constructor.
    *
    * @param aListenerForScreen {@link IGenericChangeListener} - listener for screen itself
@@ -75,8 +80,9 @@ class VedSelectedComponentManager
 
   @Override
   public void deselectAll() {
-    if( !selComps.isEmpty() ) {
+    if( !selComps.isEmpty() || !selViews.isEmpty() ) {
       selComps.clear();
+      selViews.clear();
       eventer.fireChangeEvent();
     }
   }
@@ -171,6 +177,71 @@ class VedSelectedComponentManager
     }
     else {
       selComps.add( aComp );
+    }
+    eventer.fireChangeEvent();
+  }
+
+  @Override
+  public IStridablesList<IVedComponentView> selectedComponentViews() {
+    return selViews;
+  }
+
+  @Override
+  public IVedComponentView selectedComponentView() {
+    return selViews.first();
+  }
+
+  @Override
+  public void setSelectedComponentView( IVedComponentView aView ) {
+    if( aView != null ) {
+      if( selViews.size() != 1 || !selViews.first().equals( aView ) ) {
+        selViews.clear();
+        selViews.add( aView );
+        eventer.fireChangeEvent();
+      }
+    }
+    else {
+      deselectAll();
+    }
+  }
+
+  @Override
+  public void setComponentViewSelection( IVedComponentView aView, boolean aSelection ) {
+    TsNullArgumentRtException.checkNull( aView );
+    boolean selection = selViews.hasKey( aView.id() );
+    if( !aSelection && !selection ) {
+      return;
+    }
+    if( aSelection && selection ) {
+      return;
+    }
+
+    if( !aSelection ) {
+      selViews.removeById( aView.id() );
+    }
+    else {
+      selViews.add( aView );
+    }
+    // eventer.fireChangeEvent();
+  }
+
+  @Override
+  public void setSelectedComponentViews( IStridablesList<IVedComponentView> aViews ) {
+    TsNullArgumentRtException.checkNull( aViews );
+    if( !selViews.equals( aViews ) ) {
+      selViews.setAll( aViews );
+      // eventer.fireChangeEvent();
+    }
+  }
+
+  @Override
+  public void toggleSelection( IVedComponentView aView ) {
+    TsNullArgumentRtException.checkNull( aView );
+    if( selViews.hasElem( aView ) ) {
+      selViews.remove( aView );
+    }
+    else {
+      selViews.add( aView );
     }
     eventer.fireChangeEvent();
   }

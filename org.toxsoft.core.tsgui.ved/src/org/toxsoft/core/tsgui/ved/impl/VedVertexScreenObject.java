@@ -41,16 +41,8 @@ public class VedVertexScreenObject
 
   @Override
   public boolean containsScreenPoint( int aX, int aY ) {
-    // ID2Convertor convertor = view.ownerScreen().coorsConvertor();
-    // ID2Point d2p = convertor.reversePoint( aX, aY );
-    // return containsNormPoint( d2p.x(), d2p.y() );
     return vertex.containsScreenPoint( aX, aY );
   }
-
-  // @Override
-  // public boolean containsNormPoint( double aX, double aY ) {
-  // return view.outline().contains( aX, aY );
-  // }
 
   @Override
   public ECursorType cursorType() {
