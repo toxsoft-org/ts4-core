@@ -45,7 +45,8 @@ public class VedStdPointerTool
 
   };
 
-  private final VedPointerToolMouseHandler mouseHandler;
+  // private final VedPointerToolMouseHandler mouseHandler;
+  private final VedVertexBasedToolMouseHandler mouseHandler;
 
   /**
    * Набор вершин прямоугольника
@@ -61,11 +62,13 @@ public class VedStdPointerTool
   public VedStdPointerTool( IVedEnvironment aEnv, IVedScreen aScreen ) {
     super( PROVIDER, aEnv, aScreen );
 
-    vertexSet = new VedRectVertexSetView( tsContext() );
-    mouseHandler = new VedPointerToolMouseHandler( this, aEnv, aScreen );
+    vertexSet = new VedRectVertexSetView( aScreen, tsContext() );
+    // mouseHandler = new VedPointerToolMouseHandler( this, aEnv, aScreen );
+
+    mouseHandler = new VedVertexBasedToolMouseHandler( this, aEnv, aScreen );
 
     aScreen.conversionChangeEventer().addListener( aSource -> {
-      mouseHandler.onZoomFactorChanged( vedScreen().getConversion().zoomFactor() );
+      vertexSet.setConversion( vedScreen().getConversion() );
     } );
   }
 
@@ -109,9 +112,6 @@ public class VedStdPointerTool
 
   @Override
   public void paintAfter( IVedComponentView aView, GC aGc, ITsRectangle aPaintBounds ) {
-    // if( mouseHandler.vertexSet() != null ) {
-    // mouseHandler.vertexSet().paintAfter( aView, aGc, aPaintBounds );
-    // }
     vertexSet.paintAfter( aView, aGc, aPaintBounds );
   }
 

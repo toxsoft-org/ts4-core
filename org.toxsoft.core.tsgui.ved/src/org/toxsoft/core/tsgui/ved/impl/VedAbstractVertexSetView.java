@@ -2,6 +2,7 @@ package org.toxsoft.core.tsgui.ved.impl;
 
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
+import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
@@ -21,11 +22,21 @@ public abstract class VedAbstractVertexSetView
 
   private boolean visible = false;
 
+  private IStridablesList<IVedComponentView> compViews = IStridablesList.EMPTY;
+
+  ID2Conversion d2Conv = ID2Conversion.NONE;
+
+  private final IVedScreen vedScreen;
+
   /**
    * Конструктор для наследников.<br>
+   *
+   * @param aVedScreen IVedScreen - экран редактора
    */
-  protected VedAbstractVertexSetView() {
+  protected VedAbstractVertexSetView( IVedScreen aVedScreen ) {
     setVisible( false );
+    vedScreen = aVedScreen;
+    d2Conv = vedScreen.getConversion();
   }
 
   // ------------------------------------------------------------------------------------
@@ -38,17 +49,23 @@ public abstract class VedAbstractVertexSetView
   }
 
   @Override
-  public void addVertex( IVedVertex aVertex ) {
-    vertexes.add( aVertex );
+  public final void init( IStridablesList<IVedComponentView> aCompViews ) {
+    compViews = aCompViews;
+    doInit();
   }
 
   @Override
-  public boolean visible() {
+  public final IStridablesList<IVedComponentView> componentViews() {
+    return compViews;
+  }
+
+  @Override
+  public final boolean visible() {
     return visible;
   }
 
   @Override
-  public void setVisible( boolean aVisible ) {
+  public final void setVisible( boolean aVisible ) {
     visible = aVisible;
   }
 
@@ -57,13 +74,28 @@ public abstract class VedAbstractVertexSetView
   //
 
   @Override
-  public boolean isDisposed() {
+  public final boolean isDisposed() {
     return disposed;
   }
 
   @Override
   public void dispose() {
     // nop
+  }
+
+  // ------------------------------------------------------------------------------------
+  // ID2Conversionable
+  //
+
+  @Override
+  public final ID2Conversion getConversion() {
+    return d2Conv;
+  }
+
+  @Override
+  public final void setConversion( ID2Conversion aConversion ) {
+    d2Conv = aConversion;
+    onConversionChanged();
   }
 
   // ------------------------------------------------------------------------------------
@@ -87,6 +119,18 @@ public abstract class VedAbstractVertexSetView
   }
 
   // ------------------------------------------------------------------------------------
+  // to use
+  //
+
+  protected void addVertex( IVedVertex aVertex ) {
+    vertexes.add( aVertex );
+  }
+
+  protected IVedScreen vedScreen() {
+    return vedScreen;
+  }
+
+  // ------------------------------------------------------------------------------------
   // Методы для возможного переопределения в наследниках
   //
 
@@ -100,4 +144,13 @@ public abstract class VedAbstractVertexSetView
     // nop
   }
 
+  protected void doInit() {
+    // nop
+  }
+
+  // ------------------------------------------------------------------------------------
+  // to implement
+  //
+
+  protected abstract void onConversionChanged();
 }

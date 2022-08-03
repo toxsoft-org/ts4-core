@@ -95,7 +95,7 @@ public class ComponentInpectorPanel
 
   void updateOnSelectionChanged() {
     IVedComponent newSel = null;
-    if( activeScreen != null ) {
+    if( activeScreen != null && activeScreen.selectionManager().selectedComponentView() != null ) {
       newSel = activeScreen.selectionManager().selectedComponentView().component();
     }
     editComponent( newSel );

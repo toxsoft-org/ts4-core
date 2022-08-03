@@ -88,7 +88,7 @@ public class VedContentPanel
   @Override
   public void onTsSelectionChanged( Object aSource, IVedComponent aSel ) {
     IVedScreen screen = vedEnv().screenManager().activeScreen();
-    if( screen != null ) {
+    if( screen != null && aSel != null ) {
       screen.selectionManager().setSelectedComponentView( screen.listViews().getByKey( aSel.id() ) );
     }
   }

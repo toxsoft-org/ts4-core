@@ -120,13 +120,13 @@ public abstract class VedAbstractToolMouseHandler
     doOnMouseDoubleClick( aEvent );
   }
 
-  @Override
-  public final void onClick( IScreenObject aShape, MouseEvent aEvent ) {
-    if( mouseConsumer != null ) {
-      mouseConsumer.onClick( aShape, aEvent );
-    }
-    doOnClick( aShape, aEvent );
-  }
+  // @Override
+  // public final void onClick( IScreenObject aShape, MouseEvent aEvent ) {
+  // if( mouseConsumer != null ) {
+  // mouseConsumer.onClick( aShape, aEvent );
+  // }
+  // doOnClick( aShape, aEvent );
+  // }
 
   @Override
   public void mouseMove( MouseEvent aEvent ) {

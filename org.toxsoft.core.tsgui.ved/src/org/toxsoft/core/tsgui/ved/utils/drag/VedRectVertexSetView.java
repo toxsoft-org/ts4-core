@@ -8,7 +8,9 @@ import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.impl.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
+import org.toxsoft.core.tslib.bricks.d2.helpers.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -31,8 +33,8 @@ public class VedRectVertexSetView
    *
    * @param aContext ITsGuiContext - контекст окна
    */
-  public VedRectVertexSetView( ITsGuiContext aContext ) {
-    // super( "rectVertexSet", "Вершины прямоугольника", "Набор вершин прямоугольника" ); //$NON-NLS-1$
+  public VedRectVertexSetView( IVedScreen aVedScreen, ITsGuiContext aContext ) {
+    super( aVedScreen );
 
     ITsColorManager cm = aContext.get( ITsColorManager.class );
 
@@ -46,29 +48,31 @@ public class VedRectVertexSetView
     }
   }
 
-  /**
-   * Конструктор.<br>
-   *
-   * @param aInitialRect Rectangle - начальный прямоугольник
-   * @param aContext ITsGuiContext - контекст окна
-   */
-  public VedRectVertexSetView( Rectangle aInitialRect, ITsGuiContext aContext ) {
-    // super( "rectVertexSet", "Вершины прямоугольника", "Набор вершин прямоугольника" ); //$NON-NLS-1$
-
-    updateRect( rect, aInitialRect, 2, 2 );
-
-    ITsColorManager cm = aContext.get( ITsColorManager.class );
-
-    colorBlue = cm.getColor( ETsColor.BLUE );
-    Color fgColor = cm.getColor( ETsColor.BLACK );
-    Color bgColor = cm.getColor( ETsColor.RED );
-
-    for( ETsFulcrum fulcrum : ETsFulcrum.values() ) {
-      RectVertex vertex = new RectVertex( 8, 8, fgColor, bgColor, fulcrum );
-      addVertex( vertex );
-    }
-    updateVertexes();
-  }
+  // /**
+  // * Конструктор.<br>
+  // *
+  // * @param aInitialRect Rectangle - начальный прямоугольник
+  // * @param aContext ITsGuiContext - контекст окна
+  // */
+  // public VedRectVertexSetView( IVedScreen aScreen, ITsGuiContext aContext ) {
+  // super( aScreen, aContext );
+  //
+  // // public VedRectVertexSetView( Rectangle aInitialRect, ITsGuiContext aContext ) {
+  //
+  // // updateRect( rect, aInitialRect, 2, 2 );
+  //
+  // ITsColorManager cm = aContext.get( ITsColorManager.class );
+  //
+  // colorBlue = cm.getColor( ETsColor.BLUE );
+  // Color fgColor = cm.getColor( ETsColor.BLACK );
+  // Color bgColor = cm.getColor( ETsColor.RED );
+  //
+  // for( ETsFulcrum fulcrum : ETsFulcrum.values() ) {
+  // RectVertex vertex = new RectVertex( 8, 8, fgColor, bgColor, fulcrum );
+  // addVertex( vertex );
+  // }
+  // updateVertexes();
+  // }
 
   @Override
   public void paint( GC aGc ) {
@@ -130,10 +134,22 @@ public class VedRectVertexSetView
   //
 
   @Override
-  public void init( ITsRectangle aRect ) {
-    Rectangle r = new Rectangle( aRect.a().x(), aRect.a().y(), aRect.width(), aRect.height() );
-    setRect( r );
+  protected void doInit() {
+    ITsRectangle r = calcRect( componentViews() );
+    if( r != null ) {
+      rect.x = r.a().x() - 2;
+      rect.y = r.a().y() - 2;
+      rect.width = r.width() + 4;
+      rect.height = r.height() + 4;
+    }
+    updateVertexes();
   }
+
+  // @Override
+  // public void init( ITsRectangle aRect ) {
+  // Rectangle r = new Rectangle( aRect.a().x(), aRect.a().y(), aRect.width(), aRect.height() );
+  // setRect( r );
+  // }
 
   @SuppressWarnings( "unchecked" )
   @Override
@@ -141,18 +157,9 @@ public class VedRectVertexSetView
     return (IStridablesList<RectVertex>)super.listVertexes();
   }
 
-  // ------------------------------------------------------------------------------------
-  // ID2Conversionable
-  //
-
   @Override
-  public ID2Conversion getConversion() {
-    return d2Conv;
-  }
-
-  @Override
-  public void setConversion( ID2Conversion aConversion ) {
-    d2Conv = aConversion;
+  protected void onConversionChanged() {
+    doInit();
   }
 
   // ------------------------------------------------------------------------------------
@@ -294,4 +301,27 @@ public class VedRectVertexSetView
     }
   }
 
+  private ITsRectangle calcRect( IStridablesList<IVedComponentView> aCompViews ) {
+    ID2Convertor convertor = vedScreen().coorsConvertor();
+    ITsRectangle r = null;
+    for( IVedComponentView view : aCompViews ) {
+      ITsRectangle tsRect = convertor.rectBounds( view.outline().bounds() );
+      if( r == null ) {
+        r = tsRect;
+      }
+      else {
+        r = union( r, tsRect );
+      }
+    }
+    return r;
+  }
+
+  private static ITsRectangle union( ITsRectangle r1, ITsRectangle r2 ) {
+    int minX = Math.min( r1.a().x(), r2.a().x() );
+    int minY = Math.min( r1.a().y(), r2.a().y() );
+    int maxX = Math.max( r1.b().x(), r2.b().x() );
+    int maxY = Math.max( r1.b().y(), r2.b().y() );
+
+    return new TsRectangle( minX, minY, maxX - minX + 1, maxY - minY + 1 );
+  }
 }

@@ -1,9 +1,9 @@
 package org.toxsoft.core.tsgui.ved.impl;
 
 import org.eclipse.swt.graphics.*;
-import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tsgui.ved.api.view.*;
+import org.toxsoft.core.tslib.bricks.d2.helpers.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
-import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Визуальное представление набора вершин.
@@ -11,7 +11,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author vs
  */
-public interface IVedVertexSetView {
+public interface IVedVertexSetView
+    extends ID2Conversionable {
 
   /**
    * Возвращает описывающий прямоугольник.<br>
@@ -28,19 +29,18 @@ public interface IVedVertexSetView {
   IStridablesList<? extends IVedVertex> listVertexes();
 
   /**
-   * Добаляет вершину к набору.<br>
+   * Инициализирует набор вершин, передавая ему список представлений компонент.<br>
    *
-   * @param aVertex IVedVertex - добавляемая вершина
-   * @throws TsItemAlreadyExistsRtException - если вершина с таким идентификатором уже существует
+   * @param aCompViews IStridablesList&lt;IVedComponentView> - список представлений компонент
    */
-  void addVertex( IVedVertex aVertex );
+  void init( IStridablesList<IVedComponentView> aCompViews );
 
   /**
-   * Задает прямоугольник ограничивающий фигуру для редактирования которой с создается набор вершин.
+   * Возвращает список компонент, переданный ему в методе {@link #init(IStridablesList)}.<br>
    *
-   * @param aRect ITsRectangle - прямоугольник ограничивающий фигуру для редактирования которой с создается набор вершин
+   * @return IStridablesList&lt;IVedComponentView> - список компонент, с которыми он был инициализирован
    */
-  void init( ITsRectangle aRect );
+  IStridablesList<IVedComponentView> componentViews();
 
   /**
    * @param aDx double - смещение по X
