@@ -1,7 +1,7 @@
 package org.toxsoft.core.tslib.bricks;
 
 /**
- * An object is capable to work in cooperative multitaskable environment.
+ * Mixin interface of an object capable to work in cooperative multitaskable environment.
  * <p>
  * This interface should be implemented by objects that work with similar ones. Cooperative multitasking is an
  * alternative to multiple threads of execution.
