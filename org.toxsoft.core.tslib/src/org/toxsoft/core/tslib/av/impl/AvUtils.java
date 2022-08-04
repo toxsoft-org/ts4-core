@@ -261,7 +261,7 @@ public class AvUtils {
    * @return {@link IAtomicValue} - atomic value holding argument value
    */
   public static final IAtomicValue avInt( int aValue ) {
-    if( aValue >= 0 && aValue <= AV_INT_ARR.length ) {
+    if( aValue >= 0 && aValue < AV_INT_ARR.length ) {
       return AV_INT_ARR[aValue];
     }
     if( aValue >= Short.MIN_VALUE && aValue <= Short.MAX_VALUE ) {

@@ -79,7 +79,7 @@ class AvIntegerShortImpl
 
   @Override
   protected int internalCompareValue( IAtomicValue aThat ) {
-    return Long.compare( value, aThat.asLong() );
+    return Integer.compare( value, aThat.asInt() );
   }
 
   @Override
