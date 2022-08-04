@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.ved.std.tools;
 
+import static java.lang.Math.*;
 import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
 import static org.toxsoft.core.tsgui.ved.std.tools.ITsResources.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
@@ -10,9 +11,11 @@ import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.library.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.impl.*;
+import org.toxsoft.core.tsgui.ved.impl.VedVertexBasedToolMouseHandler.*;
 import org.toxsoft.core.tsgui.ved.std.library.*;
 import org.toxsoft.core.tsgui.ved.utils.drag.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 
@@ -66,6 +69,7 @@ public class VedStdPointerTool
     // mouseHandler = new VedPointerToolMouseHandler( this, aEnv, aScreen );
 
     mouseHandler = new VedVertexBasedToolMouseHandler( this, aEnv, aScreen );
+    mouseHandler.setFreeDragStrategy( IFreeDragStrategy.NONE );
 
     aScreen.conversionChangeEventer().addListener( aSource -> {
       vertexSet.setConversion( vedScreen().getConversion() );
@@ -92,6 +96,32 @@ public class VedStdPointerTool
     return true; // работаем с любыми компонентами
   }
 
+  @Override
+  protected void onVertexDragged( double aDx, double aDy, IVedVertex aVertex, ETsDragState aState ) {
+    IVedComponentView slaveShape = selectedViews().first();
+    Rectangle r1 = vertexSet().bounds();
+
+    r1 = new Rectangle( r1.x, r1.y, r1.width, r1.height );
+    vertexSet().update( aDx, aDy, aVertex.id() );
+    Rectangle r2 = vertexSet().bounds();
+    Rectangle rr = substract( r2, r1 );
+
+    ID2Point origin = vedScreen().getConversion().origin();
+    ID2Point d2p = vedScreen().coorsConvertor().reversePoint( rr.x + origin.x(), rr.y + origin.y() );
+    slaveShape.porter().shiftOn( d2p.x(), d2p.y() );
+
+    double alpha = vedScreen().getConversion().rotation().radians();
+    double w = rr.width * cos( -alpha ) - rr.height * sin( -alpha );
+    double h = rr.height * cos( -alpha ) + rr.width * sin( -alpha );
+
+    w = rr.width * cos( -alpha );// - rr.height * sin( -alpha );
+    h = rr.height * cos( -alpha );// + rr.width * sin( -alpha );
+
+    double zf = vedScreen().getConversion().zoomFactor();
+    slaveShape.porter().setSize( slaveShape.outline().bounds().width() + w / zf,
+        slaveShape.outline().bounds().height() + h / zf );
+  }
+
   // ------------------------------------------------------------------------------------
   //
   //
@@ -113,6 +143,19 @@ public class VedStdPointerTool
   @Override
   public void paintAfter( IVedComponentView aView, GC aGc, ITsRectangle aPaintBounds ) {
     vertexSet.paintAfter( aView, aGc, aPaintBounds );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // internal
+  //
+
+  private static Rectangle substract( Rectangle aRect1, Rectangle aRect2 ) {
+    Rectangle r = new Rectangle( 0, 0, 0, 0 );
+    r.x = aRect1.x - aRect2.x;
+    r.y = aRect1.y - aRect2.y;
+    r.width = aRect1.width - aRect2.width;
+    r.height = aRect1.height - aRect2.height;
+    return r;
   }
 
 }

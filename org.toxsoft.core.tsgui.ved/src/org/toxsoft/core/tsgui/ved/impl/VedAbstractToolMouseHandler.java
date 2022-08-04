@@ -209,11 +209,6 @@ public abstract class VedAbstractToolMouseHandler
   private final IVedEnvironment vedEnv;
 
   /**
-   * Потребитель семантических событий обработки мыши
-   */
-  private IMouseEventConsumer mouseConsumer = null;
-
-  /**
    * Конструктор.<br>
    */
   public VedAbstractToolMouseHandler( IVedEnvironment aEnv, IVedScreen aScreen ) {
@@ -360,14 +355,16 @@ public abstract class VedAbstractToolMouseHandler
    */
   protected abstract IList<IScreenObject> objectsForDrag( IScreenObject aHoveredObject, MouseEvent aEvent );
 
-  /**
-   * Освобождает все системные ресурсы
-   */
-  protected abstract void doDispose();
-
   // ------------------------------------------------------------------------------------
   // Методы для возможного переопределения в наследниках
   //
+
+  /**
+   * Освобождает все системные ресурсы
+   */
+  protected void doDispose() {
+    // nop
+  }
 
   protected void onActivate() {
     // nop
@@ -411,10 +408,6 @@ public abstract class VedAbstractToolMouseHandler
 
   public IVedScreen screen() {
     return screen;
-  }
-
-  public void setMouseEventConsumer( IMouseEventConsumer aMouseConsumer ) {
-    mouseConsumer = aMouseConsumer;
   }
 
   // ------------------------------------------------------------------------------------

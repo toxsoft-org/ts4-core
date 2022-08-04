@@ -31,6 +31,7 @@ public class VedRectVertexSetView
   /**
    * Конструктор.<br>
    *
+   * @param aVedScreen IVedScreen - экран редактора
    * @param aContext ITsGuiContext - контекст окна
    */
   public VedRectVertexSetView( IVedScreen aVedScreen, ITsGuiContext aContext ) {
@@ -47,32 +48,6 @@ public class VedRectVertexSetView
       addVertex( vertex );
     }
   }
-
-  // /**
-  // * Конструктор.<br>
-  // *
-  // * @param aInitialRect Rectangle - начальный прямоугольник
-  // * @param aContext ITsGuiContext - контекст окна
-  // */
-  // public VedRectVertexSetView( IVedScreen aScreen, ITsGuiContext aContext ) {
-  // super( aScreen, aContext );
-  //
-  // // public VedRectVertexSetView( Rectangle aInitialRect, ITsGuiContext aContext ) {
-  //
-  // // updateRect( rect, aInitialRect, 2, 2 );
-  //
-  // ITsColorManager cm = aContext.get( ITsColorManager.class );
-  //
-  // colorBlue = cm.getColor( ETsColor.BLUE );
-  // Color fgColor = cm.getColor( ETsColor.BLACK );
-  // Color bgColor = cm.getColor( ETsColor.RED );
-  //
-  // for( ETsFulcrum fulcrum : ETsFulcrum.values() ) {
-  // RectVertex vertex = new RectVertex( 8, 8, fgColor, bgColor, fulcrum );
-  // addVertex( vertex );
-  // }
-  // updateVertexes();
-  // }
 
   @Override
   public void paint( GC aGc ) {
@@ -95,11 +70,6 @@ public class VedRectVertexSetView
   // {@link IScreenObject}
   //
 
-  // @Override
-  // public ECursorType cursorType() {
-  // return ECursorType.HAND;
-  // }
-
   @Override
   public Rectangle bounds() {
     Rectangle bounds = null;
@@ -113,21 +83,6 @@ public class VedRectVertexSetView
     }
     return bounds;
   }
-
-  // @Override
-  // public boolean containsScreenPoint( int aX, int aY ) {
-  // return false;
-  // }
-  //
-  // @Override
-  // public boolean containsNormPoint( double aX, double aY ) {
-  // return false;
-  // }
-  //
-  // @Override
-  // public <T> T entity() {
-  // return null;
-  // }
 
   // ------------------------------------------------------------------------------------
   // IVedVertexSetView
@@ -246,10 +201,10 @@ public class VedRectVertexSetView
   // Внутренняя реализация
   //
 
-  private void setRect( Rectangle aShapeBounds ) {
-    updateRect( rect, aShapeBounds, 2, 2 );
-    updateVertexes();
-  }
+  // private void setRect( Rectangle aShapeBounds ) {
+  // updateRect( rect, aShapeBounds, 2, 2 );
+  // updateVertexes();
+  // }
 
   private static void updateRect( Rectangle aRectDest, Rectangle aRectSource, int aDx, int aDy ) {
     aRectDest.x = aRectSource.x - aDx;

@@ -9,6 +9,7 @@ import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.library.*;
 import org.toxsoft.core.tsgui.ved.api.view.*;
 import org.toxsoft.core.tsgui.ved.incub.props.*;
+import org.toxsoft.core.tsgui.ved.utils.drag.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
@@ -24,7 +25,6 @@ import org.toxsoft.core.tslib.utils.*;
  */
 public abstract class VedAbstractVertexBasedTool
     extends VedAbstractEditorTool {
-  // implements IMouseEventConsumer {
 
   /**
    * Стратегия обработки изменения выделения.
@@ -227,9 +227,6 @@ public abstract class VedAbstractVertexBasedTool
     vedScreen().paintingManager().removeViewsDecorator( selectionDecorator );
     hideVertexSet( vertexSet );
     vertexSet = null;
-    if( mouseListener() != null ) {
-      mouseListener().setMouseEventConsumer( null );
-    }
     onDeactivated();
   }
 
@@ -384,6 +381,8 @@ public abstract class VedAbstractVertexBasedTool
   protected abstract IStridablesList<IVedComponentView> listComponentViews();
 
   protected abstract boolean accept( IVedComponentView aView );
+
+  protected abstract void onVertexDragged( double aDx, double aDy, IVedVertex aVertex, ETsDragState aState );
 
   // ------------------------------------------------------------------------------------
   // Методы для возможного переопределения в наследниках
