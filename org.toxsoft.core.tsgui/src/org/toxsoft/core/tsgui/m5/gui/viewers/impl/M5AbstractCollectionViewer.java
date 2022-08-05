@@ -11,6 +11,7 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.stdevents.*;
 import org.toxsoft.core.tsgui.bricks.stdevents.impl.*;
 import org.toxsoft.core.tsgui.bricks.tstree.*;
+import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.m5.*;
@@ -615,7 +616,7 @@ public abstract class M5AbstractCollectionViewer<T>
   protected final GenericChangeEventer            thumbSizeEventer;
   protected final TsDoubleClickEventHelper<T>     itemDoubleClickEventHelper;
   protected final TsSelectionChangeEventHelper<T> itemSelectionChangeEventHelper;
-  protected final TsKeyDownEventHelper            keyDownEventHelper;
+  protected final TsUserInputEventsBinder         keyDownEventBinder;
 
   private final ITsGuiContext         tsContext;
   private final IM5Model<T>           model;
@@ -653,7 +654,7 @@ public abstract class M5AbstractCollectionViewer<T>
     itemDoubleClickEventHelper = new TsDoubleClickEventHelper<>( this );
     itemSelectionChangeEventHelper = new TsSelectionChangeEventHelper<>( this );
     // обработку клавиш сделам так, чтобы сначала обрабатывались пользовательские
-    keyDownEventHelper = new TsKeyDownEventHelper( this );
+    keyDownEventBinder = new TsUserInputEventsBinder( this );
     tsContext = aContext;
     model = aObjModel;
     items = aItems;
@@ -794,9 +795,9 @@ public abstract class M5AbstractCollectionViewer<T>
     columnViewer.setContentProvider( contentProvider );
     columnViewer.setLabelProvider( labelProvider );
     columnViewer.setComparator( sortManager.new InternalViewerComparator() );
-    keyDownEventHelper.bindToControl( columnViewer.getControl() );
+    keyDownEventBinder.bindToControl( columnViewer.getControl(), TsUserInputEventsBinder.BIND_KEY_DOWN_UP );
     columnViewer.getControl().addDisposeListener( aE -> {
-      keyDownEventHelper.unbind();
+      keyDownEventBinder.unbind();
       items().removeCollectionChangeListener( itemsChangeListener );
     } );
     items.addCollectionChangeListener( itemsChangeListener );
@@ -851,13 +852,13 @@ public abstract class M5AbstractCollectionViewer<T>
   //
 
   @Override
-  public void addTsKeyDownListener( ITsKeyEventListener aListener ) {
-    keyDownEventHelper.addTsKeyDownListener( aListener );
+  public void addTsKeyInputListener( ITsKeyInputListener aListener ) {
+    keyDownEventBinder.addTsKeyInputListener( aListener );
   }
 
   @Override
-  public void removeTsKeyDownListener( ITsKeyEventListener aListener ) {
-    keyDownEventHelper.removeTsKeyDownListener( aListener );
+  public void removeTsKeyInputListener( ITsKeyInputListener aListener ) {
+    keyDownEventBinder.removeTsKeyInputListener( aListener );
   }
 
   // ------------------------------------------------------------------------------------

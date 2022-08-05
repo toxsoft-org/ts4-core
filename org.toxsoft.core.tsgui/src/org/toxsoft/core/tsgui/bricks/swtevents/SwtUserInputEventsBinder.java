@@ -8,16 +8,16 @@ import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Binds user input listeners to the specified control.
+ * Binds user input listeners <code>ISwtXxxListener</code> to the specified control.
  * <p>
- * This is default helper implementation of producers {@link ISwtKeyEventProducer} and {@link ISwtMouseEventProducer}.
+ * This is default helper implementation of producers {@link ISwtKeyEventProducer} and {@link ISwtMouseInputProducer}.
  * <p>
  * This helper correctly compiles and runs both in RCP and RAP.
  *
  * @author hazard157
  */
 public class SwtUserInputEventsBinder
-    implements ISwtMouseEventProducer, ISwtKeyEventProducer {
+    implements ISwtMouseInputProducer, ISwtKeyEventProducer {
 
   /**
    * Flags to bind mouse button press/release/click {@link MouseListener} events to the SWT control.

@@ -16,7 +16,7 @@ import org.toxsoft.core.tslib.utils.*;
  * @author hazard157
  */
 public interface IVedScreen
-    extends ICloseable, ID2ConversionableEx, ISwtMouseEventProducer, ISwtKeyEventProducer {
+    extends ICloseable, ID2ConversionableEx, ISwtMouseInputProducer, ISwtKeyEventProducer {
 
   /**
    * Returns component views owned by this screen.

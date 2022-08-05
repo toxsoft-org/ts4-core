@@ -2,18 +2,17 @@ package org.toxsoft.core.tsgui.graphics.image.impl;
 
 import static org.toxsoft.core.tsgui.graphics.image.impl.TsImageManagerUtils.*;
 
-import java.io.File;
+import java.io.*;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.e4.core.contexts.*;
+import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
-import org.toxsoft.core.tsgui.utils.IMediaFileConstants;
-import org.toxsoft.core.tslib.coll.IMapEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemMap;
+import org.toxsoft.core.tsgui.utils.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.files.IFileOperationProgressCallback;
-import org.toxsoft.core.tslib.utils.files.TsFileUtils;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.toxsoft.core.tslib.utils.files.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * Реализация {@link ITsImageManager}.
@@ -22,6 +21,8 @@ import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
  */
 public class TsImageManager
     implements ITsImageManager {
+
+  // TODO change to thread-safe implementation
 
   private static final String DEFAULT_ROOT_PATH        = "/home/zcache"; //$NON-NLS-1$
   private static final int    MIN_MAX_IMAGES_IN_MEMORY = 8;

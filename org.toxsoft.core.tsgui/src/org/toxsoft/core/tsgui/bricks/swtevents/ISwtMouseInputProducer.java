@@ -7,7 +7,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public interface ISwtMouseEventProducer {
+public interface ISwtMouseInputProducer {
 
   /**
    * Add the listener.

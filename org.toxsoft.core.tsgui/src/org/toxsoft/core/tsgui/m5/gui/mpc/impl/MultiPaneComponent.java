@@ -6,6 +6,7 @@ import static org.toxsoft.core.tsgui.m5.gui.mpc.IMultiPaneComponentConstants.*;
 import static org.toxsoft.core.tsgui.m5.gui.mpc.impl.ITsResources.*;
 
 import org.eclipse.swt.*;
+import org.eclipse.swt.events.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.actions.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
@@ -13,6 +14,7 @@ import org.toxsoft.core.tsgui.bricks.stdevents.*;
 import org.toxsoft.core.tsgui.bricks.stdevents.impl.*;
 import org.toxsoft.core.tsgui.bricks.tstree.*;
 import org.toxsoft.core.tsgui.bricks.tstree.tmm.*;
+import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.dialogs.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.m5.*;
@@ -84,7 +86,7 @@ public class MultiPaneComponent<T>
 
   private final TsSelectionChangeEventHelper<T> selectionChangeEventHelper;
   private final TsDoubleClickEventHelper<T>     doubleClickEventHelper;
-  private final TsKeyDownEventHelper            keyDownEventHelper;
+  private final TsKeyInputDelegator             keyInputDelegator;
 
   private final ITsTreeMaker<T>     tableMaker; // default tree maker makes plain list (table mode) of items
   private final IM5TreeViewer<T>    tree;
@@ -134,14 +136,11 @@ public class MultiPaneComponent<T>
       }
     };
     // first run user handler and then code in this class
-    keyDownEventHelper = new TsKeyDownEventHelper( this ) {
+    keyInputDelegator = new TsKeyInputDelegator( this, tree ) {
 
       @Override
-      public boolean fireTsKeyDownEvent( Event aEvent ) {
-        if( super.fireTsKeyDownEvent( aEvent ) ) {
-          return true;
-        }
-        return handleKeyDownEvent( aEvent );
+      protected boolean doAfterDelegateKeyDown( int aCode, char aChar, int aState ) {
+        return handleKeyDownEvent( aCode, aChar, aState );
       }
     };
     tableMaker = new M5DefaultTreeMaker<>( tree().model().entityClass() );
@@ -487,12 +486,14 @@ public class MultiPaneComponent<T>
   /**
    * Builtin key press handler.
    *
-   * @param aEvent {@link Event} - key down event
-   * @return boolean - a flag that keyboard key was handled
+   * @param aCode int - key code (as specified in {@link SWT})
+   * @param aChar char - corresponding character symbol as in {@link KeyEvent#character}
+   * @param aState int - the state of the keyboard modifier keys and mouse buttons mask as in {@link KeyEvent#stateMask}
+   * @return default boolean - event processing flag
    */
-  boolean handleKeyDownEvent( Event aEvent ) {
+  boolean handleKeyDownEvent( int aCode, char aChar, int aState ) {
     String actionId = TsLibUtils.EMPTY_STRING;
-    switch( aEvent.keyCode ) {
+    switch( aCode ) {
       case SWT.DEL:
         actionId = ACTID_REMOVE;
         break;
@@ -642,7 +643,6 @@ public class MultiPaneComponent<T>
     doCreateTreeColumns();
     updateToolbarMenus();
     tmm.setHasTreeMode( OPDEF_IS_SUPPORTS_TREE.getValue( tsContext().params() ).asBool() );
-    tree.addTsKeyDownListener( keyDownEventHelper );
     tree.getControl().addDisposeListener( aEvent -> internalDispose() );
     internalSetTreeGroupingMode( treeModeManager().currModeId() );
     if( filterPane != null ) {
@@ -722,13 +722,13 @@ public class MultiPaneComponent<T>
   //
 
   @Override
-  public void addTsKeyDownListener( ITsKeyEventListener aListener ) {
-    keyDownEventHelper.addTsKeyDownListener( aListener );
+  public void addTsKeyInputListener( ITsKeyInputListener aListener ) {
+    keyInputDelegator.addTsKeyInputListener( aListener );
   }
 
   @Override
-  public void removeTsKeyDownListener( ITsKeyEventListener aListener ) {
-    keyDownEventHelper.removeTsKeyDownListener( aListener );
+  public void removeTsKeyInputListener( ITsKeyInputListener aListener ) {
+    keyInputDelegator.removeTsKeyInputListener( aListener );
   }
 
   // ------------------------------------------------------------------------------------

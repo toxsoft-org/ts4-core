@@ -1,7 +1,7 @@
 package org.toxsoft.core.tsgui.widgets.pdw;
 
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tsgui.bricks.stdevents.*;
+import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.panels.lazy.*;
@@ -21,7 +21,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public interface IPdwWidget
-    extends ILazyControl<Control>, ITsContextable, IPausableAnimation, ITsMouseEventProducer {
+    extends ILazyControl<Control>, ITsContextable, IPausableAnimation, ITsUserInputProducer {
 
   /**
    * Returns displayed image.

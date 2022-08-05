@@ -12,6 +12,7 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.stdevents.*;
 import org.toxsoft.core.tsgui.bricks.stdevents.impl.*;
 import org.toxsoft.core.tsgui.bricks.tstree.*;
+import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
@@ -143,7 +144,7 @@ public class TsTreeViewer
 
   final TsSelectionChangeEventHelper<ITsNode> selectionChangeEventHelper;
   final TsDoubleClickEventHelper<ITsNode>     doubleClickEventHelper;
-  final TsKeyDownEventHelper                  keyDownEventHelper;
+  final TsUserInputEventsBinder               keyInputEventsBinder;
   final InternalLabelProvider                 labelProvider = new InternalLabelProvider();
 
   private final GenericChangeEventer iconSizeEventer;
@@ -169,7 +170,7 @@ public class TsTreeViewer
     context = aContext;
     selectionChangeEventHelper = new TsSelectionChangeEventHelper<>( this );
     doubleClickEventHelper = new TsDoubleClickEventHelper<>( this );
-    keyDownEventHelper = new TsKeyDownEventHelper( this );
+    keyInputEventsBinder = new TsUserInputEventsBinder( this );
     iconSizeEventer = new GenericChangeEventer( this );
     thumbSizeEventer = new GenericChangeEventer( this );
   }
@@ -190,7 +191,7 @@ public class TsTreeViewer
     treeViewer.getTree().setHeaderVisible( isHeaderVisible );
     treeViewer.getTree().setLinesVisible( true );
     treeViewer.setInput( this );
-    keyDownEventHelper.bindToControl( treeViewer.getControl() );
+    keyInputEventsBinder.bindToControl( treeViewer.getControl(), TsUserInputEventsBinder.BIND_KEY_DOWN_UP );
     return treeViewer.getControl();
   }
 
@@ -266,13 +267,13 @@ public class TsTreeViewer
   //
 
   @Override
-  public void addTsKeyDownListener( ITsKeyEventListener aListener ) {
-    keyDownEventHelper.addTsKeyDownListener( aListener );
+  public void addTsKeyInputListener( ITsKeyInputListener aListener ) {
+    keyInputEventsBinder.addTsKeyInputListener( aListener );
   }
 
   @Override
-  public void removeTsKeyDownListener( ITsKeyEventListener aListener ) {
-    keyDownEventHelper.removeTsKeyDownListener( aListener );
+  public void removeTsKeyInputListener( ITsKeyInputListener aListener ) {
+    keyInputEventsBinder.removeTsKeyInputListener( aListener );
   }
 
   // ------------------------------------------------------------------------------------

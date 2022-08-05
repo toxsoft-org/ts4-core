@@ -2,8 +2,7 @@ package org.toxsoft.core.tsgui.widgets.pdw;
 
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
-import org.toxsoft.core.tsgui.bricks.stdevents.*;
-import org.toxsoft.core.tsgui.bricks.stdevents.impl.*;
+import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.utils.anim.*;
@@ -41,7 +40,7 @@ public class PdwWidgetSimple
     }
   };
 
-  private final TsMouseEventProducerHelper mouseEventHelper;
+  private final TsUserInputEventsBinder userInputEventsBinder;
 
   final ITsGuiContext     tsContext;
   final ImageWidget       imageWidget;
@@ -61,7 +60,7 @@ public class PdwWidgetSimple
     tsContext = aContext;
     animationSupport = tsContext.get( IAnimationSupport.class );
     imageWidget = new ImageWidget();
-    mouseEventHelper = new TsMouseEventProducerHelper( this );
+    userInputEventsBinder = new TsUserInputEventsBinder( this );
   }
 
   // ------------------------------------------------------------------------------------
@@ -71,7 +70,7 @@ public class PdwWidgetSimple
   @Override
   public Control createControl( Composite aParent ) {
     Control c = imageWidget.createControl( aParent );
-    mouseEventHelper.bindToControl( c );
+    userInputEventsBinder.bindToControl( c, TsUserInputEventsBinder.BIND_ALL_INPUT_EVENTS );
     return c;
   }
 
@@ -200,17 +199,17 @@ public class PdwWidgetSimple
   }
 
   // ------------------------------------------------------------------------------------
-  // ITsMouseEventProducer
+  // ITsUserInputProducer
   //
 
   @Override
-  public void addTsMouseListener( ITsMouseListener aListener ) {
-    mouseEventHelper.addTsMouseListener( aListener );
+  public void addTsUserInputListener( ITsUserInputListener aListener ) {
+    userInputEventsBinder.addTsUserInputListener( aListener );
   }
 
   @Override
-  public void removeTsMouseListener( ITsMouseListener aListener ) {
-    mouseEventHelper.removeTsMouseListener( aListener );
+  public void removeTsUserInputListener( ITsUserInputListener aListener ) {
+    userInputEventsBinder.removeTsUserInputListener( aListener );
   }
 
 }

@@ -3,6 +3,7 @@ package org.toxsoft.core.tsgui.m5.gui.mpc;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.stdevents.*;
 import org.toxsoft.core.tsgui.bricks.tstree.tmm.*;
+import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.m5.gui.viewers.*;
 import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.panels.lazy.*;
@@ -28,7 +29,7 @@ public interface IMultiPaneComponent<T>
     IM5ModelRelated<T>, //
     ITsSelectionProvider<T>, //
     ITsDoubleClickEventProducer<T>, //
-    ITsKeyDownEventProducer, //
+    ITsKeyInputProducer, //
     ILazyControl<TsComposite>, //
     ITsGuiContextable {
 

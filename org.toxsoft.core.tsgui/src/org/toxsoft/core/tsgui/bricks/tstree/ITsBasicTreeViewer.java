@@ -4,6 +4,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Tree;
 import org.toxsoft.core.tsgui.bricks.stdevents.*;
 import org.toxsoft.core.tsgui.bricks.tstree.impl.TsNodeKind;
+import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.panels.lazy.ILazyControl;
 import org.toxsoft.core.tsgui.utils.jface.ViewerPaintHelper;
 import org.toxsoft.core.tslib.coll.primtypes.IIntList;
@@ -19,7 +20,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * @author hazard157
  */
 public interface ITsBasicTreeViewer
-    extends ITsSelectionProvider<ITsNode>, ITsDoubleClickEventProducer<ITsNode>, ITsKeyDownEventProducer, ITsNode,
+    extends ITsSelectionProvider<ITsNode>, ITsDoubleClickEventProducer<ITsNode>, ITsKeyInputProducer, ITsNode,
     ILazyControl<Control> {
 
   /**

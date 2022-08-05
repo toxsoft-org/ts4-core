@@ -5,6 +5,7 @@ import org.eclipse.jface.viewers.ITableFontProvider;
 import org.eclipse.swt.widgets.Control;
 import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContextable;
 import org.toxsoft.core.tsgui.bricks.stdevents.*;
+import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.graphics.icons.IIconSizeableEx;
 import org.toxsoft.core.tsgui.graphics.image.IThumbSizeableEx;
 import org.toxsoft.core.tsgui.m5.model.IM5ModelRelated;
@@ -26,7 +27,7 @@ public interface IM5CollectionViewer<T>
     ILazyControl<Control>, // this SWT control will be initialized lazely
     ITsSelectionProvider<T>, // user is informed about change of elements selection
     ITsDoubleClickEventProducer<T>, // user can handle mouse double click on viewer
-    ITsKeyDownEventProducer, // user can handle key events on viewer
+    ITsKeyInputProducer, // user can handle key events on viewer
     ITsCheckSupportable<T>, // possible elements check state support
     IThumbSizeableEx, // manages thumbs size (if applicable)
     IIconSizeableEx, // manages icons size (if applicable)

@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.panels;
 
 import org.eclipse.swt.*;
+import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
@@ -17,6 +18,14 @@ public abstract class TsAbstractCanvas
     extends Canvas
     implements ITsGuiContextable {
 
+  private final ControlListener resizeListener = new ControlAdapter() {
+
+    @Override
+    public void controlResized( ControlEvent aEvent ) {
+      doControlResized( aEvent );
+    }
+  };
+
   private final ITsGuiContext tsContext;
 
   /**
@@ -30,6 +39,7 @@ public abstract class TsAbstractCanvas
     super( aParent, aStyle );
     tsContext = TsNullArgumentRtException.checkNull( aContext );
     this.addPaintListener( aE -> paint( aE.gc, new TsRectangle( aE.x, aE.y, aE.width, aE.height ) ) );
+    this.addControlListener( resizeListener );
   }
 
   /**
@@ -52,7 +62,7 @@ public abstract class TsAbstractCanvas
   }
 
   // ------------------------------------------------------------------------------------
-  // To implements
+  // To implements & override
   //
 
   /**
@@ -62,6 +72,15 @@ public abstract class TsAbstractCanvas
    * @param aPaintBounds {@link ITsRectangle} - rectangle region that need to be painted
    */
   public abstract void paint( GC aGc, ITsRectangle aPaintBounds );
+
+  /**
+   * Subclass may handle the control resize.
+   *
+   * @param aEvent {@link ControlEvent} - the conrol resize event
+   */
+  protected void doControlResized( ControlEvent aEvent ) {
+    // nop
+  }
 
   /**
    * Subclass may perform clean-up including release of the resources.
