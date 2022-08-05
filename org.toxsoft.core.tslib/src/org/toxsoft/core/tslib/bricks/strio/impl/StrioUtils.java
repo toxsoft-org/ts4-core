@@ -18,6 +18,7 @@ import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -188,6 +189,50 @@ public class StrioUtils {
       aSr.ensureString( aKeyword );
       aSr.ensureChar( CHAR_EQUAL );
     }
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Array I/O
+  //
+
+  /**
+   * Writes an <code>int</code> array.
+   * <p>
+   * Array is written in form "<code>[N1,N2,...Nn]</code>".
+   *
+   * @param aSw {@link IStrioWriter} - output stream
+   * @param aArray int[] - array to write
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static void writeIntArray( IStrioWriter aSw, int[] aArray ) {
+    TsNullArgumentRtException.checkNulls( aSw, aArray );
+    aSw.writeChar( CHAR_ARRAY_BEGIN );
+    for( int i = 0; i < aArray.length; i++ ) {
+      aSw.writeInt( aArray[i] );
+      if( i < aArray.length - 1 ) {
+        aSw.writeSeparatorChar();
+      }
+    }
+    aSw.writeChar( CHAR_ARRAY_END );
+  }
+
+  /**
+   * Reads <code>int</code> array written by {@link #writeIntArray(IStrioWriter, int[])}.
+   *
+   * @param aSr {@link IStrioReader} - input stream
+   * @return int[] - read array
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static int[] readIntArray( IStrioReader aSr ) {
+    TsNullArgumentRtException.checkNull( aSr );
+    if( aSr.readArrayBegin() ) {
+      IntArrayList ll = new IntArrayList();
+      do {
+        ll.add( aSr.readInt() );
+      } while( aSr.readArrayNext() );
+      return ll.getInternalArray();
+    }
+    return TsLibUtils.EMPTY_ARRAY_OF_INTS;
   }
 
   // ------------------------------------------------------------------------------------
