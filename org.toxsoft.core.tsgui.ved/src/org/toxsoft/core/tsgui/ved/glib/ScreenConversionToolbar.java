@@ -27,7 +27,7 @@ public class ScreenConversionToolbar
 
   // TODO move to application preferences ??? or make the same size as other icons in VED?
   private final EIconSize TOOLBAR_ICON_SIZE = EIconSize.IS_32X32;
-  private final double    ZOOM_STEP_FACTOR  = Math.pow( 2.0, 0.25 ); // 4 steps = 2x times
+  // private final double ZOOM_STEP_FACTOR = Math.pow( 2.0, 0.25 ); // 4 steps = 2x times
 
   private final IGenericChangeListener screenConversionChangeListener = aSource -> updateActionsState();
 
@@ -133,6 +133,11 @@ public class ScreenConversionToolbar
   // API
   //
 
+  /**
+   * Establishes link between this toolbar and VED screen.
+   *
+   * @param aScreen {@link IVedScreen} - controlled screen
+   */
   public void attachToScreen( IVedScreen aScreen ) {
     if( attachedScreen != null ) {
       attachedScreen.conversionChangeEventer().removeListener( screenConversionChangeListener );

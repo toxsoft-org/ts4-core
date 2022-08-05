@@ -1,10 +1,13 @@
 package org.toxsoft.core.tsgui.ved.core.view;
 
-import org.toxsoft.core.tsgui.bricks.swtevents.*;
+import org.eclipse.swt.dnd.*;
+import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.ved.core.*;
 import org.toxsoft.core.tslib.bricks.d2.helpers.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * VED screen is interactive visualization of {@link IVedDataModel}.
@@ -16,7 +19,7 @@ import org.toxsoft.core.tslib.utils.*;
  * @author hazard157
  */
 public interface IVedScreen
-    extends ICloseable, ID2ConversionableEx, ISwtMouseInputProducer, ISwtKeyEventProducer {
+    extends ICloseable, ID2ConversionableEx, ITsUserInputProducer {
 
   /**
    * Returns component views owned by this screen.
@@ -47,5 +50,18 @@ public interface IVedScreen
    * @return {@link ID2Convertor} - the coordinates convertor
    */
   ID2Convertor coorsConvertor();
+
+  /**
+   * Creates drag-and-drop target for this screen.
+   * <p>
+   * Previously created {@link DropTarget} will be disposed. Cretaed instance will be disposed by screen.
+   * <p>
+   * Note: created {@link DropTarget} allows only {@link DND#DROP_COPY} operation.
+   *
+   * @param aAllowedTypes {@link IList}&lt;{@link Transfer}&gt; - allowed types of data accepted by screen
+   * @return {@link DropTarget} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  DropTarget createDropTarget( IList<Transfer> aAllowedTypes );
 
 }

@@ -3,6 +3,7 @@ package org.toxsoft.core.tsgui.ved.std.comps;
 import static org.toxsoft.core.tsgui.ved.std.IVedStdProperties.*;
 
 import org.eclipse.swt.graphics.*;
+import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.ved.core.impl.*;
 import org.toxsoft.core.tsgui.ved.core.view.*;
 import org.toxsoft.core.tsgui.ved.utils.*;
@@ -76,11 +77,11 @@ class VedStdCompRectangleView
     Transform t = null;
     // ID2Conversion d2conv = ownerScreen().getConversion();
     ID2Conversion d2conv = getConversion();
-    if( d2conv != ID2Conversion.NONE ) {
+    if( d2conv.isConversion() ) {
       oldTransfrom = new Transform( aGc.getDevice() );
       aGc.getTransform( oldTransfrom );
 
-      t = conv2transform( aGc );
+      t = TsGraphicsUtils.conv2transform( d2conv, aGc );
       // t = new Transform( aGc.getDevice() );
       // aGc.getTransform( t );
       // float zf = (float)d2conv.zoomFactor();

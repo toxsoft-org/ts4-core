@@ -296,23 +296,6 @@ public abstract class VedAbstractComponentView
     return ownerComp.props();
   }
 
-  /**
-   * Преобразует {@link ID2Conversion} в {@link Transform}.
-   *
-   * @param aGc GC - графический контекст
-   * @return Transform - матрицу преобразования для графического контекста
-   */
-  public Transform conv2transform( GC aGc ) {
-    Transform t = new Transform( aGc.getDevice() );
-    float zf = (float)d2Conv.zoomFactor();
-    t.translate( (float)d2Conv.origin().x(), (float)d2Conv.origin().y() );
-    t.scale( zf, zf );
-    if( d2Conv.rotation() != ID2Rotation.NONE ) {
-      t.rotate( (float)d2Conv.rotation().degrees() );
-    }
-    return t;
-  }
-
   // ------------------------------------------------------------------------------------
   // To implement
   //

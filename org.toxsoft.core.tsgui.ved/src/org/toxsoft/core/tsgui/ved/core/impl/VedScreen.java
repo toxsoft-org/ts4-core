@@ -1,9 +1,11 @@
 package org.toxsoft.core.tsgui.ved.core.impl;
 
+import org.eclipse.swt.dnd.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.swtevents.*;
+import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.ved.core.*;
 import org.toxsoft.core.tsgui.ved.core.view.*;
 import org.toxsoft.core.tsgui.ved.utils.*;
@@ -42,12 +44,14 @@ class VedScreen
   private final IListEdit<IVedViewDecorator>   viewDecorators   = new ElemArrayList<>();
   private final IListEdit<IVedScreenDecorator> screenDecorators = new ElemArrayList<>();
 
-  private final GenericChangeEventer     conversionChangeEventer;
-  private final SwtUserInputEventsBinder userEventsBinder = new SwtUserInputEventsBinder();
-  private final D2Convertor              d2Conv           = new D2Convertor();
+  private final GenericChangeEventer    conversionChangeEventer;
+  private final TsUserInputEventsBinder userInputBinder;
+  private final D2Convertor             d2Conv = new D2Convertor();
 
   private final Canvas         theCanvas;
   private final VedEnvironment vedEnv;
+
+  private DropTarget dropTarget = null;
 
   /**
    * Constructor.
@@ -61,7 +65,8 @@ class VedScreen
     theCanvas = aCanvas;
     vedEnv = aVedEnv;
     vedEnv.dataModel().listComponents().addCollectionChangeListener( componentsListChangeListener );
-    userEventsBinder.bindToControl( theCanvas, SwtUserInputEventsBinder.BIND_ALL_INPUT_EVENTS );
+    userInputBinder = new TsUserInputEventsBinder( this );
+    userInputBinder.bindToControl( theCanvas, SwtUserInputEventsBinder.BIND_ALL_INPUT_EVENTS );
     conversionChangeEventer = new GenericChangeEventer( this );
     selectionManager = new VedSelectedComponentManager( componentSelectionListener );
     selectionManager.genericChangeEventer().addListener( componentSelectionListener );
@@ -138,6 +143,7 @@ class VedScreen
       VedAbstractComponentView v = viewsList.getByKey( cid );
       compViews.add( v );
     }
+    redraw();
   }
 
   // ------------------------------------------------------------------------------------
@@ -167,10 +173,10 @@ class VedScreen
     d2Conv.setConversion( aConversion );
     // inform all painters about conversion change
     for( IVedScreenDecorator d : screenDecorators ) {
-      d.setConversion( d2Conv.getConversion() );
+      d.updateOnScreenConversionChange();
     }
     for( IVedViewDecorator d : viewDecorators ) {
-      d.setConversion( d2Conv.getConversion() );
+      d.updateOnScreenConversionChange();
     }
     for( IVedComponentView v : compViews ) {
       v.setConversion( d2Conv.getConversion() );
@@ -201,6 +207,10 @@ class VedScreen
     }
     while( !compViews.isEmpty() ) {
       compViews.removeByIndex( 0 ).dispose();
+    }
+    if( dropTarget != null ) {
+      dropTarget.dispose();
+      dropTarget = null;
     }
   }
 
@@ -286,33 +296,30 @@ class VedScreen
     return d2Conv;
   }
 
-  // ------------------------------------------------------------------------------------
-  // ISwtMouseEventProducer
-  //
-
   @Override
-  public void addSwtMouseListener( ISwtMouseListener aListener ) {
-    userEventsBinder.addSwtMouseListener( aListener );
-  }
-
-  @Override
-  public void removeSwtMouseListener( ISwtMouseListener aListener ) {
-    userEventsBinder.removeSwtMouseListener( aListener );
+  public DropTarget createDropTarget( IList<Transfer> aAllowedTypes ) {
+    TsNullArgumentRtException.checkNull( aAllowedTypes );
+    if( dropTarget != null ) {
+      dropTarget.dispose();
+      dropTarget = null;
+    }
+    dropTarget = new DropTarget( theCanvas, DND.DROP_COPY );
+    dropTarget.setTransfer( aAllowedTypes.toArray( new Transfer[aAllowedTypes.size()] ) );
+    return dropTarget;
   }
 
   // ------------------------------------------------------------------------------------
-  // ISwtKeyEventProducer
+  // ITsUserInputProducer
   //
 
   @Override
-  public void addSwtKeyListener( ISwtKeyListener aListener ) {
-    userEventsBinder.addSwtKeyListener( aListener );
+  public void addTsUserInputListener( ITsUserInputListener aListener ) {
+    userInputBinder.addTsUserInputListener( aListener );
   }
 
   @Override
-  public void removeSwtKeyListener( ISwtKeyListener aListener ) {
-    userEventsBinder.removeSwtKeyListener( aListener );
-
+  public void removeTsUserInputListener( ITsUserInputListener aListener ) {
+    userInputBinder.removeTsUserInputListener( aListener );
   }
 
 }

@@ -43,4 +43,11 @@ public sealed interface ID2Conversion permits ID2ConversionEdit,D2Conversion {
    */
   ID2Point origin();
 
+  /**
+   * Determines if this instance specifies real conversion.
+   *
+   * @return boolean - <code>true</code> if conversion parameters makes any changes
+   */
+  boolean isConversion();
+
 }

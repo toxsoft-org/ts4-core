@@ -68,6 +68,11 @@ public final class D2Conversion
     return rotation;
   }
 
+  @Override
+  public boolean isConversion() {
+    return (zoomFactor != 1.0) || !rotation.equals( ID2Angle.ZERO ) || !origin.equals( ID2Point.ZERO );
+  }
+
   // ------------------------------------------------------------------------------------
   // Object
   //

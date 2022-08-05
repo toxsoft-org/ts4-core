@@ -77,6 +77,11 @@ public final class D2ConversionEdit
     return origin;
   }
 
+  @Override
+  public boolean isConversion() {
+    return (zoomFactor != 1.0) || !rotation.equals( ID2Angle.ZERO ) || !origin.equals( ID2Point.ZERO );
+  }
+
   // ------------------------------------------------------------------------------------
   // ID2ConversionEdit
   //
