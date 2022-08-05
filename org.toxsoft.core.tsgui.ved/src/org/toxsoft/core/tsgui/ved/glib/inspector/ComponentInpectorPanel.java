@@ -9,8 +9,8 @@ import org.toxsoft.core.tsgui.panels.*;
 import org.toxsoft.core.tsgui.panels.opsedit.*;
 import org.toxsoft.core.tsgui.panels.opsedit.impl.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
-import org.toxsoft.core.tsgui.ved.api.*;
-import org.toxsoft.core.tsgui.ved.api.view.*;
+import org.toxsoft.core.tsgui.ved.core.*;
+import org.toxsoft.core.tsgui.ved.core.view.*;
 import org.toxsoft.core.tsgui.ved.utils.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
@@ -95,8 +95,8 @@ public class ComponentInpectorPanel
 
   void updateOnSelectionChanged() {
     IVedComponent newSel = null;
-    if( activeScreen != null && activeScreen.selectionManager().selectedComponentView() != null ) {
-      newSel = activeScreen.selectionManager().selectedComponentView().component();
+    if( activeScreen != null && activeScreen.selectionManager().selectedView() != null ) {
+      newSel = activeScreen.selectionManager().selectedView().component();
     }
     editComponent( newSel );
   }

@@ -3,7 +3,7 @@ package org.toxsoft.core.tsgui.ved.glib.comps;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.panels.*;
-import org.toxsoft.core.tsgui.ved.api.*;
+import org.toxsoft.core.tsgui.ved.core.*;
 import org.toxsoft.core.tsgui.ved.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 

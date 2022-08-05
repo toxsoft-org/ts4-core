@@ -1,7 +1,8 @@
 package org.toxsoft.core.tsgui.ved.utils.drag;
 
-import org.toxsoft.core.tsgui.ved.api.view.*;
-import org.toxsoft.core.tsgui.ved.impl.*;
+import org.toxsoft.core.tsgui.ved.core.impl.*;
+import org.toxsoft.core.tsgui.ved.core.view.*;
+import org.toxsoft.core.tsgui.ved.extra.tools.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 
 /**

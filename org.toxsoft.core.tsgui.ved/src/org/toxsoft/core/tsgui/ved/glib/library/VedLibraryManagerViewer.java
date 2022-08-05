@@ -13,8 +13,8 @@ import org.toxsoft.core.tsgui.m5.gui.panels.*;
 import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.panels.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
-import org.toxsoft.core.tsgui.ved.api.*;
-import org.toxsoft.core.tsgui.ved.api.library.*;
+import org.toxsoft.core.tsgui.ved.core.*;
+import org.toxsoft.core.tsgui.ved.core.library.*;
 import org.toxsoft.core.tsgui.ved.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 

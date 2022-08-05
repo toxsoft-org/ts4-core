@@ -3,8 +3,8 @@ package org.toxsoft.core.tsgui.ved.std.comps;
 import static org.toxsoft.core.tsgui.ved.std.IVedStdProperties.*;
 
 import org.eclipse.swt.graphics.*;
-import org.toxsoft.core.tsgui.ved.api.view.*;
-import org.toxsoft.core.tsgui.ved.impl.*;
+import org.toxsoft.core.tsgui.ved.core.impl.*;
+import org.toxsoft.core.tsgui.ved.core.view.*;
 import org.toxsoft.core.tsgui.ved.utils.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.bricks.d2.*;

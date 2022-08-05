@@ -4,7 +4,7 @@ import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
 import static org.toxsoft.core.tsgui.ved.std.library.ITsResources.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import org.toxsoft.core.tsgui.ved.impl.*;
+import org.toxsoft.core.tsgui.ved.core.impl.*;
 import org.toxsoft.core.tsgui.ved.std.comps.*;
 import org.toxsoft.core.tsgui.ved.std.tools.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;

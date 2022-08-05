@@ -12,8 +12,8 @@ import org.toxsoft.core.tsgui.m5.gui.panels.*;
 import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.panels.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
-import org.toxsoft.core.tsgui.ved.api.*;
-import org.toxsoft.core.tsgui.ved.api.view.*;
+import org.toxsoft.core.tsgui.ved.core.*;
+import org.toxsoft.core.tsgui.ved.core.view.*;
 import org.toxsoft.core.tsgui.ved.utils.*;
 import org.toxsoft.core.tslib.coll.notifier.basis.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -89,7 +89,7 @@ public class VedContentPanel
   public void onTsSelectionChanged( Object aSource, IVedComponent aSel ) {
     IVedScreen screen = vedEnv().screenManager().activeScreen();
     if( screen != null && aSel != null ) {
-      screen.selectionManager().setSelectedComponentView( screen.listViews().getByKey( aSel.id() ) );
+      screen.selectionManager().setSelectedView( screen.listViews().getByKey( aSel.id() ) );
     }
   }
 

@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.ved.glib.comps.tools;
 
-import org.toxsoft.core.tsgui.ved.api.view.*;
+import org.toxsoft.core.tsgui.ved.core.view.*;
+import org.toxsoft.core.tsgui.ved.extra.tools.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;

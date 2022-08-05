@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.ved.glib.comps.tools;
 
-import org.toxsoft.core.tsgui.ved.api.view.*;
+import org.toxsoft.core.tsgui.ved.core.view.*;
+import org.toxsoft.core.tsgui.ved.extra.tools.*;
 
 /**
  * Слушатель изменения "активного" инструмента.

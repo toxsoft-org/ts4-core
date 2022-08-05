@@ -6,6 +6,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry excluding="org/toxsoft/core/tsgui/ved/olds/" kind="src" path="src"/>
+	<classpathentry excluding="org/toxsoft/core/tsgui/ved/olds/|org/toxsoft/core/tsgui/ved/extra/tools/" kind="src" path="src"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

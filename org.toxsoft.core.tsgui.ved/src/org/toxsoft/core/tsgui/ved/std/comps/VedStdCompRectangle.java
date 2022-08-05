@@ -5,9 +5,9 @@ import static org.toxsoft.core.tsgui.ved.std.IVedStdProperties.*;
 import static org.toxsoft.core.tsgui.ved.std.comps.ITsResources.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import org.toxsoft.core.tsgui.ved.api.*;
-import org.toxsoft.core.tsgui.ved.api.view.*;
-import org.toxsoft.core.tsgui.ved.impl.*;
+import org.toxsoft.core.tsgui.ved.core.*;
+import org.toxsoft.core.tsgui.ved.core.impl.*;
+import org.toxsoft.core.tsgui.ved.core.view.*;
 import org.toxsoft.core.tsgui.ved.std.library.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;

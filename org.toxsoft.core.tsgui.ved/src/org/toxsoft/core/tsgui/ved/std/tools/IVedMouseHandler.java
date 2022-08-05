@@ -2,8 +2,10 @@ package org.toxsoft.core.tsgui.ved.std.tools;
 
 import org.eclipse.swt.events.*;
 import org.toxsoft.core.tsgui.bricks.swtevents.*;
-import org.toxsoft.core.tsgui.ved.api.view.*;
-import org.toxsoft.core.tsgui.ved.impl.*;
+import org.toxsoft.core.tsgui.ved.core.impl.*;
+import org.toxsoft.core.tsgui.ved.core.view.*;
+import org.toxsoft.core.tsgui.ved.extra.tools.impl.*;
+import org.toxsoft.core.tsgui.ved.incub.*;
 import org.toxsoft.core.tsgui.ved.utils.drag.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
@@ -23,7 +25,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author vs
  */
 public interface IVedMouseHandler
-    extends ISwtMouseListener, IDragEventProducer, IVedDisposable {
+    extends ISwtMouseListener, IDragEventProducer, IDisposable {
 
   /**
    * Нулевой (пустой) обработчик мыши, который ничего не делает

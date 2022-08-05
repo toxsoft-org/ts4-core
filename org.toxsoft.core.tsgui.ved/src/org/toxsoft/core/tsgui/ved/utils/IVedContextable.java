@@ -1,7 +1,7 @@
 package org.toxsoft.core.tsgui.ved.utils;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
-import org.toxsoft.core.tsgui.ved.api.*;
+import org.toxsoft.core.tsgui.ved.core.*;
 
 /**
  * Extends {@link ITsGuiContextable} with VED specific references.

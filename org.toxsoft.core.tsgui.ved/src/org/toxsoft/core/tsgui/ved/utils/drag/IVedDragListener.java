@@ -1,7 +1,7 @@
 package org.toxsoft.core.tsgui.ved.utils.drag;
 
 import org.eclipse.swt.events.*;
-import org.toxsoft.core.tsgui.ved.api.view.*;
+import org.toxsoft.core.tsgui.ved.core.view.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 
 /**
