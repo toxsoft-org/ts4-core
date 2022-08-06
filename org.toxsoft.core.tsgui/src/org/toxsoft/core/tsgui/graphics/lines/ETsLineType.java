@@ -19,17 +19,17 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public enum ETsLineType
     implements IStridable {
 
-  SOLID( "identifier", STR_N_LT_SOLID, STR_D_LT_SOLID, SWT.LINE_SOLID ), //$NON-NLS-1$
+  SOLID( "solid", STR_N_LT_SOLID, STR_D_LT_SOLID, SWT.LINE_SOLID ), //$NON-NLS-1$
 
-  DASH( "identifier", STR_N_LT_DASH, STR_D_LT_DASH, SWT.LINE_DASH ), //$NON-NLS-1$
+  DASH( "dash", STR_N_LT_DASH, STR_D_LT_DASH, SWT.LINE_DASH ), //$NON-NLS-1$
 
-  DOT( "identifier", STR_N_LT_DOT, STR_D_LT_DOT, SWT.LINE_DOT ), //$NON-NLS-1$
+  DOT( "dot", STR_N_LT_DOT, STR_D_LT_DOT, SWT.LINE_DOT ), //$NON-NLS-1$
 
-  DASHDOT( "identifier", STR_N_LT_DASHDOT, STR_D_LT_DASHDOT, SWT.LINE_DASHDOT ), //$NON-NLS-1$
+  DASHDOT( "dashdot", STR_N_LT_DASHDOT, STR_D_LT_DASHDOT, SWT.LINE_DASHDOT ), //$NON-NLS-1$
 
-  DASHDOTDOT( "identifier", STR_N_LT_DASHDOTDOT, STR_D_LT_DASHDOTDOT, SWT.LINE_DASHDOTDOT ), //$NON-NLS-1$
+  DASHDOTDOT( "dashdotdot", STR_N_LT_DASHDOTDOT, STR_D_LT_DASHDOTDOT, SWT.LINE_DASHDOTDOT ), //$NON-NLS-1$
 
-  CUSTOM( "identifier", STR_N_LT_CUSTOM, STR_D_LT_CUSTOM, SWT.LINE_CUSTOM ); //$NON-NLS-1$
+  CUSTOM( "custom", STR_N_LT_CUSTOM, STR_D_LT_CUSTOM, SWT.LINE_CUSTOM ); //$NON-NLS-1$
 
   /**
    * The keeper ID.
