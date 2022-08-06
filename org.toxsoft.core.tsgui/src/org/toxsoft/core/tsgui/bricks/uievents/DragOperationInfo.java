@@ -79,7 +79,7 @@ public final class DragOperationInfo {
    * @return &lt;T&gt; - the user data
    */
   @SuppressWarnings( "unchecked" )
-  <T> T cargo() {
+  public <T> T cargo() {
     return (T)cargo;
   }
 
@@ -89,7 +89,7 @@ public final class DragOperationInfo {
    * @param <T> - type of the used data
    * @param aData &lt;T&gt; - user data , may be <code>null</code>
    */
-  <T> void setCargo( T aData ) {
+  public <T> void setCargo( T aData ) {
     cargo = aData;
   }
 

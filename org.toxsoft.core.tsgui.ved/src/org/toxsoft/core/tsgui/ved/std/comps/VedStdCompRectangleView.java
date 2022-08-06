@@ -2,6 +2,7 @@ package org.toxsoft.core.tsgui.ved.std.comps;
 
 import static org.toxsoft.core.tsgui.ved.std.IVedStdProperties.*;
 
+import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.ved.core.impl.*;
@@ -73,6 +74,7 @@ class VedStdCompRectangleView
     // TODO filling properties
     // TODO line drawing properties
     aGc.setAdvanced( true );
+    aGc.setAntialias( SWT.ON );
     Transform oldTransfrom = null;
     Transform t = null;
     // ID2Conversion d2conv = ownerScreen().getConversion();
@@ -82,14 +84,6 @@ class VedStdCompRectangleView
       aGc.getTransform( oldTransfrom );
 
       t = TsGraphicsUtils.conv2transform( d2conv, aGc );
-      // t = new Transform( aGc.getDevice() );
-      // aGc.getTransform( t );
-      // float zf = (float)d2conv.zoomFactor();
-      // t.translate( (float)d2conv.origin().x(), (float)d2conv.origin().y() );
-      // t.scale( zf, zf );
-      // if( d2conv.rotation() != ID2Rotation.NONE ) {
-      // t.rotate( (float)d2conv.rotation().degrees() );
-      // }
 
       aGc.setTransform( t );
       t.dispose();
