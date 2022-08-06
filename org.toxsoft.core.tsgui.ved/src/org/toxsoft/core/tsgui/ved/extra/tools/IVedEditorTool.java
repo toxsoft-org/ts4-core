@@ -27,4 +27,8 @@ public interface IVedEditorTool
 
   IVedScreen vedScreen();
 
+  void activateTool();
+
+  void deactivateTool();
+
 }
