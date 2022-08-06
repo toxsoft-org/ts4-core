@@ -23,7 +23,7 @@ public interface IVedEditorTool
 
   ITsUserInputListener screenInputListener();
 
-  ITsCollectionChangeListener componentsListListenetr();
+  ITsCollectionChangeListener componentsListListener();
 
   IVedScreen vedScreen();
 
