@@ -74,7 +74,7 @@ public class TsUserInputEventsBinder
       lastMouseDownCoors = pfe( aEvent );
       readyForDrag = true;
       for( ITsMouseInputListener l : mouseListeners() ) {
-        if( l.onMouseDown( source, b, aEvent.stateMask, p, bindControl ) ) {
+        if( l.onMouseDown( source, b, aEvent.stateMask, p, boundControl ) ) {
           break;
         }
       }
@@ -96,7 +96,7 @@ public class TsUserInputEventsBinder
       }
       // fire mouse move event
       for( ITsMouseInputListener l : mouseListeners() ) {
-        if( l.onMouseUp( source, b, aEvent.stateMask, p, bindControl ) ) {
+        if( l.onMouseUp( source, b, aEvent.stateMask, p, boundControl ) ) {
           break;
         }
       }
@@ -107,7 +107,7 @@ public class TsUserInputEventsBinder
             && (Math.abs( p.y() - lastMouseDownCoors.y() ) <= MOUSE_CLICK_DETECT_DELTA_COORS) ) {
           // fire click event
           for( ITsMouseInputListener l : mouseListeners() ) {
-            if( l.onMouseClick( source, b, aEvent.stateMask, p, bindControl ) ) {
+            if( l.onMouseClick( source, b, aEvent.stateMask, p, boundControl ) ) {
               break;
             }
           }
@@ -121,7 +121,7 @@ public class TsUserInputEventsBinder
       ITsPoint p = pfe( aEvent );
       ETsMouseButton b = bfe( aEvent );
       for( ITsMouseInputListener l : mouseListeners() ) {
-        if( l.onMouseDoubleClick( source, b, aEvent.stateMask, p, bindControl ) ) {
+        if( l.onMouseDoubleClick( source, b, aEvent.stateMask, p, boundControl ) ) {
           break;
         }
       }
@@ -140,7 +140,7 @@ public class TsUserInputEventsBinder
       if( readyForDrag ) {
         readyForDrag = false;
         // fire drag start event with mouse info as it was at last mouse down
-        dragInfo = new DragOperationInfo( lastMouseDownButton, lastMouseDownState, lastMouseDownCoors, bindControl );
+        dragInfo = new DragOperationInfo( lastMouseDownButton, lastMouseDownState, lastMouseDownCoors, boundControl );
         for( ITsMouseInputListener l : mouseListeners() ) {
           if( l.onMouseDragStart( source, dragInfo ) ) {
             break;
@@ -158,7 +158,7 @@ public class TsUserInputEventsBinder
       }
       // fire move event
       for( ITsMouseInputListener l : mouseListeners() ) {
-        if( l.onMouseMove( source, aEvent.stateMask, p, bindControl ) ) {
+        if( l.onMouseMove( source, aEvent.stateMask, p, boundControl ) ) {
           break;
         }
       }
@@ -175,7 +175,7 @@ public class TsUserInputEventsBinder
         public void mouseScrolled( MouseEvent aEvent ) {
           ITsPoint p = pfe( aEvent );
           for( ITsMouseInputListener l : mouseListeners() ) {
-            if( l.onMouseWheel( source, aEvent.stateMask, p, bindControl, aEvent.count ) ) {
+            if( l.onMouseWheel( source, aEvent.stateMask, p, boundControl, aEvent.count ) ) {
               break;
             }
           }
@@ -211,8 +211,8 @@ public class TsUserInputEventsBinder
   private final IListEdit<ITsMouseInputListener> mouseListenersList = new ElemArrayList<>();
   private final IListEdit<ITsKeyInputListener>   keyListenersList   = new ElemArrayList<>();
 
-  private int     bindFlags   = 0;
-  private Control bindControl = null;
+  private int     bindingFlags   = 0;
+  private Control boundControl = null;
 
   // --- mouse click detection (also used for dragging support)
   private ETsMouseButton lastMouseDownButton = ETsMouseButton.OTHER; // button from mouse event - MouseEvent.buttons
@@ -345,8 +345,8 @@ public class TsUserInputEventsBinder
    *
    * @return {@link Control} - the bind control
    */
-  public Control bindControl() {
-    return bindControl;
+  public Control boundControl() {
+    return boundControl;
   }
 
   /**
@@ -356,40 +356,40 @@ public class TsUserInputEventsBinder
    *
    * @return int - what is bound (<code>BIND_XXX</code> flags ORed)
    */
-  public int bindFlags() {
-    return bindFlags;
+  public int bindingFlags() {
+    return bindingFlags;
   }
 
   /**
    * Binds to the specified control to produce specified events.
    *
    * @param aBindControl {@link Control} - SWT-control generating user input events
-   * @param aBindFlags int - what to bind specified by <code>BIND_XXX</code> flags ORed
+   * @param aBindingFlags int - what to bind specified by <code>BIND_XXX</code> flags ORed
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException control is disposed
    * @throws TsIllegalStateRtException this instance is already bind to control
    */
-  public void bindToControl( Control aBindControl, int aBindFlags ) {
+  public void bindToControl( Control aBindControl, int aBindingFlags ) {
     TsNullArgumentRtException.checkNull( aBindControl );
-    TsIllegalStateRtException.checkNoNull( bindControl );
+    TsIllegalStateRtException.checkNoNull( boundControl );
     TsIllegalArgumentRtException.checkTrue( aBindControl.isDisposed() );
     // setup
-    bindFlags = aBindFlags;
-    bindControl = aBindControl;
-    bindControl.addDisposeListener( aEvent -> unbind() );
+    bindingFlags = aBindingFlags;
+    boundControl = aBindControl;
+    boundControl.addDisposeListener( aEvent -> unbind() );
     // mouse
-    if( (bindFlags & BIND_MOUSE_BUTTONS) != 0 ) {
-      bindControl.addMouseListener( delegatorMouseButtonsListener );
+    if( (bindingFlags & BIND_MOUSE_BUTTONS) != 0 ) {
+      boundControl.addMouseListener( delegatorMouseButtonsListener );
     }
-    if( (bindFlags & BIND_MOUSE_MOVE) != 0 ) {
-      TsSinglesourcingUtils.Control_addMouseMoveListener( bindControl, delegatorMouseMoveListener );
+    if( (bindingFlags & BIND_MOUSE_MOVE) != 0 ) {
+      TsSinglesourcingUtils.Control_addMouseMoveListener( boundControl, delegatorMouseMoveListener );
     }
-    if( (bindFlags & BIND_MOUSE_WHEEL) != 0 ) {
-      TsSinglesourcingUtils.Control_addMouseWheelListener( bindControl, delegatorMouseWheelListener );
+    if( (bindingFlags & BIND_MOUSE_WHEEL) != 0 ) {
+      TsSinglesourcingUtils.Control_addMouseWheelListener( boundControl, delegatorMouseWheelListener );
     }
     // keyboard
-    if( (bindFlags & BIND_KEY_DOWN_UP) != 0 ) {
-      bindControl.addKeyListener( delegatorKeyListener );
+    if( (bindingFlags & BIND_KEY_DOWN_UP) != 0 ) {
+      boundControl.addKeyListener( delegatorKeyListener );
     }
 
   }
@@ -397,12 +397,12 @@ public class TsUserInputEventsBinder
   /**
    * Removes all bindings established by {@link #bindToControl(Control, int)} method.
    * <p>
-   * This method is called automatically before the {@link #bindControl()} is disposed.
+   * This method is called automatically before the {@link #boundControl()} is disposed.
    * <p>
    * Calling the method again is safe.
    */
   public void unbind() {
-    if( bindControl != null ) {
+    if( boundControl != null ) {
       if( isDragging() ) {
         for( ITsMouseInputListener l : mouseListeners() ) {
           if( l.onMouseDragCancel( source, dragInfo ) ) {
@@ -411,20 +411,20 @@ public class TsUserInputEventsBinder
         }
         resetDragSupport();
       }
-      if( (bindFlags & BIND_MOUSE_BUTTONS) != 0 ) {
-        bindControl.removeMouseListener( delegatorMouseButtonsListener );
+      if( (bindingFlags & BIND_MOUSE_BUTTONS) != 0 ) {
+        boundControl.removeMouseListener( delegatorMouseButtonsListener );
       }
-      if( (bindFlags & BIND_MOUSE_MOVE) != 0 ) {
-        TsSinglesourcingUtils.Control_removeMouseMoveListener( bindControl, delegatorMouseMoveListener );
+      if( (bindingFlags & BIND_MOUSE_MOVE) != 0 ) {
+        TsSinglesourcingUtils.Control_removeMouseMoveListener( boundControl, delegatorMouseMoveListener );
       }
-      if( (bindFlags & BIND_MOUSE_WHEEL) != 0 ) {
-        TsSinglesourcingUtils.Control_removeMouseWheelListener( bindControl, delegatorMouseWheelListener );
+      if( (bindingFlags & BIND_MOUSE_WHEEL) != 0 ) {
+        TsSinglesourcingUtils.Control_removeMouseWheelListener( boundControl, delegatorMouseWheelListener );
       }
-      if( (bindFlags & BIND_KEY_DOWN_UP) != 0 ) {
-        bindControl.removeKeyListener( delegatorKeyListener );
+      if( (bindingFlags & BIND_KEY_DOWN_UP) != 0 ) {
+        boundControl.removeKeyListener( delegatorKeyListener );
       }
-      bindControl = null;
-      bindFlags = 0;
+      boundControl = null;
+      bindingFlags = 0;
     }
   }
 
