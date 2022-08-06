@@ -2,6 +2,7 @@ package org.toxsoft.core.tsgui.ved.extra.tools;
 
 import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.ved.core.view.*;
+import org.toxsoft.core.tsgui.ved.incub.*;
 import org.toxsoft.core.tsgui.ved.utils.*;
 import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
@@ -15,7 +16,7 @@ import org.toxsoft.core.tslib.coll.notifier.basis.*;
  * @author hazard157
  */
 public interface IVedEditorTool
-    extends IStridableParameterized, IIconIdable, IVedContextable {
+    extends IStridableParameterized, IIconIdable, IVedContextable, IDisposable {
 
   IVedScreenDecorator screenDecorator();
 
@@ -27,8 +28,8 @@ public interface IVedEditorTool
 
   IVedScreen vedScreen();
 
-  void activateTool();
+  void activate();
 
-  void deactivateTool();
+  void deactivate();
 
 }
