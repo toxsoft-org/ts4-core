@@ -80,14 +80,13 @@ public interface IList<E>
   /**
    * Finds the element if list contains one element or returns <code>null</code> if none.
    *
-   * @return &lt;E&gt; - the only element of collection or <code>null</code> if collection is empty
-   * @throws TsIllegalStateRtException collection contains 2 or more elements
+   * @return &lt;E&gt; - the only element of collection or <code>null</code> if collection is empty or many elements
    */
   default E findOnly() {
     if( size() <= 1 ) {
       return first();
     }
-    throw new TsIllegalStateRtException();
+    return null;
   }
 
   /**
