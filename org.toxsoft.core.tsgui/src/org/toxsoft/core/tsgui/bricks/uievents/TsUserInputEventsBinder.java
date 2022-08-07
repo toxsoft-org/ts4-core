@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.bricks.uievents;
 
+import org.eclipse.swt.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.singlesrc.rcp.*;
@@ -8,6 +9,7 @@ import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * Binds user input listeners <code>ITsXxxInputListener</code> to the specified control.
@@ -66,6 +68,11 @@ public class TsUserInputEventsBinder
 
     @Override
     public void mouseDown( MouseEvent aEvent ) {
+      // mouse press cancels the dragging and event is ignored
+      if( isDragging() ) {
+        cancelDragAndFireCancelEvent();
+        return;
+      }
       ITsPoint p = pfe( aEvent );
       ETsMouseButton b = bfe( aEvent );
       lastMouseDownButton = b;
@@ -73,11 +80,7 @@ public class TsUserInputEventsBinder
       lastMouseDownTime = aEvent.time;
       lastMouseDownCoors = pfe( aEvent );
       readyForDrag = true;
-      for( ITsMouseInputListener l : mouseListeners() ) {
-        if( l.onMouseDown( source, b, aEvent.stateMask, p, boundControl ) ) {
-          break;
-        }
-      }
+      fireMouseDownEvent( b, aEvent.stateMask, p );
     }
 
     @Override
@@ -86,31 +89,18 @@ public class TsUserInputEventsBinder
       ETsMouseButton b = bfe( aEvent );
       // if dragging then finish it and return
       if( isDragging() ) {
-        for( ITsMouseInputListener l : mouseListeners() ) {
-          if( l.onMouseDragFinish( source, dragInfo, aEvent.stateMask, p ) ) {
-            break;
-          }
-        }
-        resetDragSupport();
+        finishDragAndFireEvent( aEvent.stateMask, p );
         return;
       }
       // fire mouse move event
-      for( ITsMouseInputListener l : mouseListeners() ) {
-        if( l.onMouseUp( source, b, aEvent.stateMask, p, boundControl ) ) {
-          break;
-        }
-      }
+      fireMouseUpEvent( b, aEvent.stateMask, p );
       // detect mouse click - first, check that same button was release soon after press
       if( b == lastMouseDownButton && (aEvent.time - lastMouseDownTime <= MOUSE_CLICK_DETECT_DELTA_MSECS) ) {
         // detect mouse click - second, check that mouse has not moved too far
         if( (Math.abs( p.x() - lastMouseDownCoors.x() ) <= MOUSE_CLICK_DETECT_DELTA_COORS)
             && (Math.abs( p.y() - lastMouseDownCoors.y() ) <= MOUSE_CLICK_DETECT_DELTA_COORS) ) {
           // fire click event
-          for( ITsMouseInputListener l : mouseListeners() ) {
-            if( l.onMouseClick( source, b, aEvent.stateMask, p, boundControl ) ) {
-              break;
-            }
-          }
+          fireClickEvent( b, aEvent.stateMask, p );
         }
       }
       resetDragSupport();
@@ -120,67 +110,47 @@ public class TsUserInputEventsBinder
     public void mouseDoubleClick( MouseEvent aEvent ) {
       ITsPoint p = pfe( aEvent );
       ETsMouseButton b = bfe( aEvent );
-      for( ITsMouseInputListener l : mouseListeners() ) {
-        if( l.onMouseDoubleClick( source, b, aEvent.stateMask, p, boundControl ) ) {
-          break;
-        }
-      }
+      fireDoubleClickEvent( b, aEvent.stateMask, p );
     }
   };
 
   /**
    * Listens mouse move events from the control and delegates to the registred listeners.
    */
-  private final MouseMoveListener delegatorMouseMoveListener = new MouseMoveListener() {
-
-    @Override
-    public void mouseMove( MouseEvent aEvent ) {
-      ITsPoint p = pfe( aEvent );
-      // start dragging if necessary
-      if( readyForDrag ) {
-        readyForDrag = false;
-        // fire drag start event with mouse info as it was at last mouse down
-        dragInfo = new DragOperationInfo( lastMouseDownButton, lastMouseDownState, lastMouseDownCoors, boundControl );
-        for( ITsMouseInputListener l : mouseListeners() ) {
-          if( l.onMouseDragStart( source, dragInfo ) ) {
-            break;
-          }
-        }
-      }
-      // if dragging then fire event and return
-      if( isDragging() ) {
-        for( ITsMouseInputListener l : mouseListeners() ) {
-          if( l.onMouseDragMove( source, dragInfo, aEvent.stateMask, p ) ) {
-            break;
-          }
-        }
-        return;
-      }
-      // fire move event
-      for( ITsMouseInputListener l : mouseListeners() ) {
-        if( l.onMouseMove( source, aEvent.stateMask, p, boundControl ) ) {
-          break;
-        }
-      }
+  private final MouseMoveListener delegatorMouseMoveListener = aEvent -> {
+    ITsPoint p = pfe( aEvent );
+    // start dragging if necessary
+    if( this.readyForDrag ) {
+      this.readyForDrag = false;
+      // fire drag start event with mouse info as it was at last mouse down
+      this.dragInfo = new DragOperationInfo( this.lastMouseDownButton, this.lastMouseDownState, this.lastMouseDownCoors,
+          this.boundControl );
+      fireMouseDragStartEvent();
     }
+    // handle dragging
+    if( isDragging() ) {
+      int buttsOldMask = this.dragInfo.startingState() & SWT.BUTTON_MASK;
+      int buttsNewMask = aEvent.stateMask & SWT.BUTTON_MASK;
+      // buttons state was change during drag - it means some events were lost, cancel dragging for safety
+      if( buttsOldMask != buttsNewMask ) {
+        cancelDragAndFireCancelEvent();
+      }
+      else {
+        fireMouseDragMoveEvent( aEvent.stateMask, p );
+      }
+      return;
+    }
+    // fire move event
+    fireMouseMoveEvent( aEvent.stateMask, p );
   };
 
   /**
    * Listens mouse wheel events from the control and delegates to the registred listeners.
    */
-  private final ISingleSourcing_MouseWheelListener delegatorMouseWheelListener =
-      new ISingleSourcing_MouseWheelListener() {
-
-        @Override
-        public void mouseScrolled( MouseEvent aEvent ) {
-          ITsPoint p = pfe( aEvent );
-          for( ITsMouseInputListener l : mouseListeners() ) {
-            if( l.onMouseWheel( source, aEvent.stateMask, p, boundControl, aEvent.count ) ) {
-              break;
-            }
-          }
-        }
-      };
+  private final ISingleSourcing_MouseWheelListener delegatorMouseWheelListener = aEvent -> {
+    ITsPoint p = pfe( aEvent );
+    fireMouseWheelEvent( aEvent.stateMask, p, aEvent.count );
+  };
 
   /**
    * Listens keyboard keys press and release events from the control and delegates to the registred listeners.
@@ -211,7 +181,7 @@ public class TsUserInputEventsBinder
   private final IListEdit<ITsMouseInputListener> mouseListenersList = new ElemArrayList<>();
   private final IListEdit<ITsKeyInputListener>   keyListenersList   = new ElemArrayList<>();
 
-  private int     bindingFlags   = 0;
+  private int     bindingFlags = 0;
   private Control boundControl = null;
 
   // --- mouse click detection (also used for dragging support)
@@ -282,6 +252,140 @@ public class TsUserInputEventsBinder
   private void resetDragSupport() {
     readyForDrag = false;
     dragInfo = null;
+  }
+
+  private void fireMouseDownEvent( ETsMouseButton aButton, int aState, ITsPoint aPoint ) {
+    for( ITsMouseInputListener l : mouseListeners() ) {
+      try {
+        if( l.onMouseDown( source, aButton, aState, aPoint, boundControl ) ) {
+          break;
+        }
+      }
+      catch( Exception ex ) {
+        LoggerUtils.errorLogger().error( ex );
+      }
+    }
+  }
+
+  private void fireClickEvent( ETsMouseButton aButton, int aState, ITsPoint aPoint ) {
+    // fire click event
+    for( ITsMouseInputListener l : mouseListeners() ) {
+      try {
+        if( l.onMouseClick( source, aButton, aState, aPoint, boundControl ) ) {
+          break;
+        }
+      }
+      catch( Exception ex ) {
+        LoggerUtils.errorLogger().error( ex );
+      }
+    }
+  }
+
+  private void fireDoubleClickEvent( ETsMouseButton aButton, int aState, ITsPoint aPoint ) {
+    // fire click event
+    for( ITsMouseInputListener l : mouseListeners() ) {
+      try {
+        if( l.onMouseDoubleClick( source, aButton, aState, aPoint, boundControl ) ) {
+          break;
+        }
+      }
+      catch( Exception ex ) {
+        LoggerUtils.errorLogger().error( ex );
+      }
+    }
+  }
+
+  private void fireMouseMoveEvent( int aState, ITsPoint aPoint ) {
+    for( ITsMouseInputListener l : mouseListeners() ) {
+      try {
+        if( l.onMouseMove( source, aState, aPoint, boundControl ) ) {
+          break;
+        }
+      }
+      catch( Exception ex ) {
+        LoggerUtils.errorLogger().error( ex );
+      }
+    }
+  }
+
+  private void fireMouseUpEvent( ETsMouseButton aButton, int aState, ITsPoint aPoint ) {
+    for( ITsMouseInputListener l : mouseListeners() ) {
+      try {
+        if( l.onMouseUp( source, aButton, aState, aPoint, boundControl ) ) {
+          break;
+        }
+      }
+      catch( Exception ex ) {
+        LoggerUtils.errorLogger().error( ex );
+      }
+    }
+  }
+
+  private void fireMouseWheelEvent( int aState, ITsPoint aPoint, int aScrollLines ) {
+    for( ITsMouseInputListener l : mouseListeners() ) {
+      try {
+        if( l.onMouseWheel( source, aState, aPoint, boundControl, aScrollLines ) ) {
+          break;
+        }
+      }
+      catch( Exception ex ) {
+        LoggerUtils.errorLogger().error( ex );
+      }
+    }
+  }
+
+  private void fireMouseDragStartEvent() {
+    for( ITsMouseInputListener l : mouseListeners() ) {
+      try {
+        if( l.onMouseDragStart( source, dragInfo ) ) {
+          break;
+        }
+      }
+      catch( Exception ex ) {
+        LoggerUtils.errorLogger().error( ex );
+      }
+    }
+  }
+
+  private void fireMouseDragMoveEvent( int aState, ITsPoint aPoint ) {
+    for( ITsMouseInputListener l : mouseListeners() ) {
+      try {
+        if( l.onMouseDragMove( source, dragInfo, aState, aPoint ) ) {
+          break;
+        }
+      }
+      catch( Exception ex ) {
+        LoggerUtils.errorLogger().error( ex );
+      }
+    }
+  }
+
+  private void finishDragAndFireEvent( int aState, ITsPoint aPoint ) {
+    for( ITsMouseInputListener l : mouseListeners() ) {
+      try {
+        if( l.onMouseDragFinish( source, dragInfo, aState, aPoint ) ) {
+          break;
+        }
+      }
+      catch( Exception ex ) {
+        LoggerUtils.errorLogger().error( ex );
+      }
+    }
+    resetDragSupport();
+  }
+
+  private void cancelDragAndFireCancelEvent() {
+    for( ITsMouseInputListener l : mouseListeners() ) {
+      try {
+        if( l.onMouseDragCancel( source, dragInfo ) ) {
+          break;
+        }
+      }
+      catch( Exception ex ) {
+        LoggerUtils.errorLogger().error( ex );
+      }
+    }
+    resetDragSupport();
   }
 
   // ------------------------------------------------------------------------------------
@@ -404,12 +508,7 @@ public class TsUserInputEventsBinder
   public void unbind() {
     if( boundControl != null ) {
       if( isDragging() ) {
-        for( ITsMouseInputListener l : mouseListeners() ) {
-          if( l.onMouseDragCancel( source, dragInfo ) ) {
-            break;
-          }
-        }
-        resetDragSupport();
+        cancelDragAndFireCancelEvent();
       }
       if( (bindingFlags & BIND_MOUSE_BUTTONS) != 0 ) {
         boundControl.removeMouseListener( delegatorMouseButtonsListener );
