@@ -76,7 +76,6 @@ public class TsUserInputEventsBinder
       ITsPoint p = pfe( aEvent );
       ETsMouseButton b = bfe( aEvent );
       lastMouseDownButton = b;
-      lastMouseDownState = aEvent.stateMask;
       lastMouseDownTime = aEvent.time;
       lastMouseDownCoors = pfe( aEvent );
       readyForDrag = true;
@@ -123,7 +122,7 @@ public class TsUserInputEventsBinder
     if( this.readyForDrag ) {
       this.readyForDrag = false;
       // fire drag start event with mouse info as it was at last mouse down
-      this.dragInfo = new DragOperationInfo( this.lastMouseDownButton, this.lastMouseDownState, this.lastMouseDownCoors,
+      this.dragInfo = new DragOperationInfo( this.lastMouseDownButton, aEvent.stateMask, this.lastMouseDownCoors,
           this.boundControl );
       fireMouseDragStartEvent();
     }
@@ -191,9 +190,8 @@ public class TsUserInputEventsBinder
   // ---
 
   // --- mouse dragging support
-  private boolean   readyForDrag       = false;
-  private int       lastMouseDownState = 0;    // state mask frmom mouse event - MouseEvent.stateMask
-  DragOperationInfo dragInfo           = null;
+  private boolean   readyForDrag = false;
+  DragOperationInfo dragInfo     = null;
   // ---
 
   /**
