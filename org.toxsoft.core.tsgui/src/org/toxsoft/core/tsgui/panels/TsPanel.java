@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.panels;
 
+import org.eclipse.swt.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.widgets.*;
@@ -26,7 +27,21 @@ public class TsPanel
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public TsPanel( Composite aParent, ITsGuiContext aContext ) {
-    super( aParent );
+    this( aParent, aContext, SWT.NONE );
+  }
+
+  /**
+   * Constructor.
+   * <p>
+   * Constructos stores reference to the context, does not creates copy.
+   *
+   * @param aParent {@link Composite} - parent component
+   * @param aContext {@link ITsGuiContext} - the context
+   * @param aStyle int - SWT style of composite to be created
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public TsPanel( Composite aParent, ITsGuiContext aContext, int aStyle ) {
+    super( aParent, aStyle );
     tsContext = TsNullArgumentRtException.checkNull( aContext );
     addDisposeListener( aE -> doDispose() );
   }
