@@ -48,6 +48,7 @@ public class ValedControlFactoriesRegistry
     registerFactory( ValedComboSelector.FACTORY );
     registerFactory( ValedSimpleFontInfo.FACTORY );
     registerFactory( ValedSimpleRgb.FACTORY );
+    registerFactory( ValedSimpleRgba.FACTORY );
     // av
     registerFactory( ValedAvBooleanCheck.FACTORY );
     registerFactory( ValedAvIntegerSpinner.FACTORY );
@@ -63,6 +64,10 @@ public class ValedControlFactoriesRegistry
     registerFactory( ValedAvValobjLocalDateTimeMpv.FACTORY );
     registerFactory( ValedAvValobjSimpleFontInfo.FACTORY );
     registerFactory( ValedAvValobjSimpleRgb.FACTORY );
+    registerFactory( ValedAvValobjSimpleRgba.FACTORY );
+
+    // Sol++
+    registerFactory( ValedAvValobjSwtPattern.FACTORY );
   }
 
   // ------------------------------------------------------------------------------------

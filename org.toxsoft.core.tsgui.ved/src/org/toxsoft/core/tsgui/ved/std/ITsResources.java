@@ -27,10 +27,12 @@ interface ITsResources {
   String STR_N_HEIGHT      = Messages.getString( "STR_N_HEIGHT" );      //$NON-NLS-1$
   String STR_D_HEIGHT      = Messages.getString( "STR_D_HEIGHT" );      //$NON-NLS-1$
 
-  String STR_N_FG_COLOR = Messages.getString( "STR_N_FG_COLOR" ); //$NON-NLS-1$
-  String STR_D_FG_COLOR = Messages.getString( "STR_D_FG_COLOR" ); //$NON-NLS-1$
-  String STR_N_BG_COLOR = Messages.getString( "STR_N_BG_COLOR" ); //$NON-NLS-1$
-  String STR_D_BG_COLOR = Messages.getString( "STR_D_BG_COLOR" ); //$NON-NLS-1$
+  String STR_N_FG_COLOR   = Messages.getString( "STR_N_FG_COLOR" ); //$NON-NLS-1$
+  String STR_D_FG_COLOR   = Messages.getString( "STR_D_FG_COLOR" ); //$NON-NLS-1$
+  String STR_N_BG_COLOR   = Messages.getString( "STR_N_BG_COLOR" ); //$NON-NLS-1$
+  String STR_D_BG_COLOR   = Messages.getString( "STR_D_BG_COLOR" ); //$NON-NLS-1$
+  String STR_N_BG_PATTERN  = Messages.getString("STR_N_BG_PATTERN");                  //$NON-NLS-1$
+  String STR_D_BG_PATTERN = Messages.getString("STR_D_BG_PATTERN");                   //$NON-NLS-1$
 
   String STR_N_ROTATION_ANGLE = Messages.getString( "STR_N_ROTATION_ANGLE" ); //$NON-NLS-1$
   String STR_D_ROTATION_ANGLE = Messages.getString( "STR_D_ROTATION_ANGLE" ); //$NON-NLS-1$
