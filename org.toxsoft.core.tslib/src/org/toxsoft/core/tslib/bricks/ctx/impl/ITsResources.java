@@ -11,7 +11,7 @@ interface ITsResources {
   /**
    * {@link TsContextRefDef}
    */
-  String FMT_ERR_NO_MANDATORY_REF = "В контексте отсутстввует обязательная ссылка '%s' с ключом '%s'";
+  String FMT_ERR_NO_MANDATORY_REF = "В контексте отсутстввует обязательная ссылка с ключом '%s'";
   String FMT_ERR_INV_CLASS_REF    = "Ссылка '%s' в контексте имеет тип '%s', а ожидался '%s'";
 
   /**

@@ -1,9 +1,12 @@
 package org.toxsoft.core.tslib.bricks.strid;
 
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
 
 /**
  * Entitiy distinguished by the unique string identifiers.
+ * <p>
+ * Stridable entities are mainly designed to be identified by humans hence human-readable name and description are
+ * provided.
  * <p>
  * Which kind of ID (IDname or IDpath, see {@link StridUtils}) is used as {@link #id()} identifier depends on
  * application and entity itself. This interface does not differs any of them.

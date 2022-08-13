@@ -2,10 +2,8 @@ package org.toxsoft.core.tslib.bricks.ctx.impl;
 
 import static org.toxsoft.core.tslib.bricks.ctx.impl.ITsResources.*;
 
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.av.opset.IOptionSetEdit;
-import org.toxsoft.core.tslib.av.opset.impl.OptionSet;
-import org.toxsoft.core.tslib.av.opset.impl.OptionSetUtils;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.ctx.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -90,7 +88,7 @@ public class TsContextRefDef<T>
   protected T internalToRef( Object aRef ) {
     if( aRef == null ) {
       if( isMandatory() ) {
-        throw new TsItemNotFoundRtException( FMT_ERR_NO_MANDATORY_REF, nmName(), refKey );
+        throw new TsItemNotFoundRtException( FMT_ERR_NO_MANDATORY_REF, refKey );
       }
       return null;
     }

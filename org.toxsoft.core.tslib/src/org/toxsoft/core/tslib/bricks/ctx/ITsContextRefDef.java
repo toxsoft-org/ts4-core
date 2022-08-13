@@ -2,9 +2,8 @@ package org.toxsoft.core.tslib.bricks.ctx;
 
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import org.toxsoft.core.tslib.av.utils.IStdParameterized;
-import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.av.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Описание ссылки в контексте приложения (или в любом другом контексте, например, {@link ITsContext}).
@@ -13,7 +12,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * @param <T> - the reference type
  */
 public interface ITsContextRefDef<T>
-    extends IStdParameterized {
+    extends IParameterized {
 
   /**
    * Returns the key of the reference in the context.

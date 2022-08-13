@@ -456,6 +456,47 @@ public final class TsCollectionsUtils {
     return ll;
   }
 
+  /**
+   * Subtracts the values of aList2 from aList1,
+   *
+   * @param <T> - type of elements in lists
+   * @param aList1 {@link IListEdit} - list to be edited
+   * @param aList2 {@link IList} - elements to be subtracted
+   * @return {@link IListEdit} - always aList1
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static <T> IListEdit<T> subtract( IListEdit<T> aList1, IList<T> aList2 ) {
+    TsNullArgumentRtException.checkNulls( aList1, aList2 );
+    for( int i = 0, n = aList2.size(); i < n; i++ ) {
+      T value = aList2.get( i );
+      // remove all occurences of element from the list
+      while( aList1.remove( value ) >= 0 ) {
+        // nop
+      }
+    }
+    return aList1;
+  }
+
+  /**
+   * Subtracts the values of aList2 from aList1,
+   *
+   * @param aList1 {@link IStringListEdit} - list to be edited
+   * @param aList2 {@link IStringList} - elements to be subtracted
+   * @return {@link IStringListEdit} - always aList1
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static IStringListEdit subtract( IStringListEdit aList1, IStringList aList2 ) {
+    TsNullArgumentRtException.checkNulls( aList1, aList2 );
+    for( int i = 0, n = aList2.size(); i < n; i++ ) {
+      String value = aList2.get( i );
+      // remove all occurences of element from the list
+      while( aList1.remove( value ) >= 0 ) {
+        // nop
+      }
+    }
+    return aList1;
+  }
+
   // ------------------------------------------------------------------------------------
   // Misc
   //

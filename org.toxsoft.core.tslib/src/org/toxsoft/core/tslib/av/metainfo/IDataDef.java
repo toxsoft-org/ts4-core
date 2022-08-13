@@ -25,7 +25,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public interface IDataDef
-    extends IDataType, IStridableParameterized, IStdParameterized {
+    extends IDataType, IStridableParameterized, IIconIdable {
 
   /**
    * Returns the atomic type of the data.
@@ -43,6 +43,11 @@ public interface IDataDef
   @Override
   default String description() {
     return DDEF_DESCRIPTION.getValue( params() ).asString();
+  }
+
+  @Override
+  default String iconId() {
+    return params().getStr( TSID_ICON_ID, null );
   }
 
   /**

@@ -254,14 +254,12 @@ public interface IList<E>
   }
 
   /**
-   * Копирует содержимое списка в список-назначение.
+   * Copies content to the destination list or creates new one if needed.
    * <p>
-   * Элементы этого списка добавляются в список-назначение методом {@link IListBasicEdit#addAll(ITsCollection)}.
-   * <p>
-   * Если аргумент равен <code>null</code>, то создает новый список {@link ElemArrayList} и возвращает ссыку на него.
+   * If argument is <code>null</code> then new {@link ElemArrayList} instance is created,
    *
-   * @param aDest {@link IListBasicEdit}&ltE&gt; - список-назначение или <code>null</code>
-   * @return {@link IListBasicEdit} - возвращает аргумент или новый список если аргумент был равен <code>null</code>
+   * @param aDest {@link IListBasicEdit}&ltE&gt; - destination list or <code>null</code>
+   * @return {@link IListBasicEdit} - the argument or new list if argument was <code>null</code>
    */
   default IListBasicEdit<E> copyTo( IListBasicEdit<E> aDest ) {
     IListBasicEdit<E> dest = aDest;

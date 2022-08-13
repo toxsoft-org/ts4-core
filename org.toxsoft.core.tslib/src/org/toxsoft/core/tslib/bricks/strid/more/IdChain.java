@@ -14,7 +14,9 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * A chain of the IDpaths.
  * <p>
- * {@link IdChain}s are compared case-insensitive.
+ * This is an immutable class.
+ * <p>
+ * {@link IdChain} instances are compared case-insensitive.
  *
  * @author hazard157
  */
@@ -50,11 +52,6 @@ public final class IdChain
       new AbstractEntityKeeper<>( IdChain.class, EEncloseMode.ENCLOSES_BASE_CLASS, NULL ) {
 
         @Override
-        public Class<IdChain> entityClass() {
-          return IdChain.class;
-        }
-
-        @Override
         protected void doWrite( IStrioWriter aSw, IdChain aEntity ) {
           aSw.writeAsIs( aEntity.canonicalString() );
         }
@@ -70,7 +67,7 @@ public final class IdChain
             }
             aSr.nextChar( EStrioSkipMode.SKIP_NONE ); // bypass separator char
           }
-          return new IdChain( ll );
+          return new IdChain( 0, ll );
         }
       };
 
@@ -149,8 +146,21 @@ public final class IdChain
     return new IdChain( sl );
   }
 
+  /**
+   * Internal constructor for {@link #NULL}.
+   */
   private IdChain() {
     branches = IStringList.EMPTY;
+  }
+
+  /**
+   * Internal constructor for some kind of optimization.
+   *
+   * @param aFoo int - unused argument to have method signature defferent from {@link #IdChain(IStringList)}
+   * @param aBranches {@link IStringList} - reference to this argument will beacme field {@link #branches}
+   */
+  private IdChain( int aFoo, IStringList aBranches ) {
+    branches = aBranches;
   }
 
   /**
@@ -220,9 +230,26 @@ public final class IdChain
   }
 
   /**
-   * TODO IDChain static API:<br>
-   * IdChain add(IdChain1,IdChain2), IdChain getParent(IdChain), boolean isChild() ...
+   * Returns new chain made of <code>aCount</code> number of subsequent branches starting with specified branch index.
+   *
+   * @param aStartBranchIndex int - index of first branch to include in subchain
+   * @param aCount int - number of subsequent branches to include
+   * @return {@link IdChain} - created instance of subchain
+   * @throws TsIllegalArgumentRtException index out of {@link #branches()} range
+   * @throws TsIllegalArgumentRtException <code>aCount</code> <= 0
+   * @throws TsIllegalArgumentRtException <code>aCount</code> specifies branches out of {@link #branches()} range
    */
+  public IdChain subchain( int aStartBranchIndex, int aCount ) {
+    TsIllegalArgumentRtException.checkFalse( branches.isInRange( aStartBranchIndex ) );
+    TsIllegalArgumentRtException.checkTrue( aCount <= 0 );
+    int endIndex = aStartBranchIndex + aCount - 1; // index of last branch to include
+    TsIllegalArgumentRtException.checkFalse( branches.isInRange( endIndex ) );
+    IStringListEdit ss = new StringArrayList();
+    for( int i = aStartBranchIndex; i <= endIndex; i++ ) {
+      ss.add( branches.get( i ) );
+    }
+    return new IdChain( 0, ss );
+  }
 
   // ------------------------------------------------------------------------------------
   // Object

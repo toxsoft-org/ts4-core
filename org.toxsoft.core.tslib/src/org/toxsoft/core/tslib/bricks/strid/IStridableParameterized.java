@@ -1,7 +1,9 @@
 package org.toxsoft.core.tslib.bricks.strid;
 
-import org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants;
-import org.toxsoft.core.tslib.av.utils.IParameterized;
+import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
+
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.av.utils.*;
 
 /**
  * Вспомгательный интерфейс стороко-идентифицируемых сущностей с параметрами.
@@ -18,8 +20,18 @@ import org.toxsoft.core.tslib.av.utils.IParameterized;
  * @author hazard157
  */
 public interface IStridableParameterized
-    extends IStridable, IParameterized {
+    extends IStridable, IParameterized, IIconIdable {
 
-  // nop
+  /**
+   * Returns the icon identifier.
+   * <p>
+   * Returns the value of the optional parameter with identifier {@link IAvMetaConstants#TSID_ICON_ID}.
+   *
+   * @return String - icon identifier or <code>null</code> if no parameter specified
+   */
+  @Override
+  default String iconId() {
+    return params().getStr( TSID_ICON_ID, null );
+  }
 
 }

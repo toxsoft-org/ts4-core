@@ -115,13 +115,7 @@ public sealed class MappedSkids
    * @throws TsIllegalArgumentRtException the key is not an IDpath
    */
   public SkidList ensureSkidList( String aKey ) {
-    SkidList sl = skidsMap.findByKey( aKey );
-    if( sl == null ) {
-      StridUtils.checkValidIdPath( aKey );
-      sl = new SkidList();
-      skidsMap.put( aKey, sl );
-    }
-    return sl;
+    return ensureSkidList( aKey, 0 );
   }
 
   /**
@@ -136,6 +130,30 @@ public sealed class MappedSkids
   public SkidList ensureSkidList( String aKey, IList<Skid> aSource ) {
     SkidList sl = ensureSkidList( aKey );
     sl.setAll( aSource );
+    return sl;
+  }
+
+  /**
+   * Returns existing or created instance of the editable SKIDs list under the specified key.
+   *
+   * @param aKey String - the key (an IDpath)
+   * @param aCount int - number of {@link Skid#NONE} elements in list if it is created
+   * @return {@link SkidList} - an existing or created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException the key is not an IDpath
+   * @throws TsIllegalArgumentRtException count is negative number
+   */
+  public SkidList ensureSkidList( String aKey, int aCount ) {
+    SkidList sl = skidsMap.findByKey( aKey );
+    if( sl == null ) {
+      StridUtils.checkValidIdPath( aKey );
+      TsIllegalArgumentRtException.checkTrue( aCount < 0 );
+      sl = new SkidList();
+      for( int i = 0; i < aCount; i++ ) {
+        sl.add( Skid.NONE );
+      }
+      skidsMap.put( aKey, sl );
+    }
     return sl;
   }
 

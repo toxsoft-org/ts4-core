@@ -86,6 +86,20 @@ public class StridableParameterized
     id = TsLibUtils.EMPTY_STRING;
   }
 
+  /**
+   * Static constructor.
+   *
+   * @param aId String - the ID (IDpath)
+   * @param aIdsAndValues Object[] - - {@link #params()} initial values
+   * @return {@link StridableParameterized} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException number of elements in array is uneven
+   * @throws ClassCastException argument types convention is violated
+   */
+  public static StridableParameterized create( String aId, Object... aIdsAndValues ) {
+    return new StridableParameterized( aId, OptionSetUtils.createOpSet( aIdsAndValues ) );
+  }
+
   // ------------------------------------------------------------------------------------
   // IStridable
   //
