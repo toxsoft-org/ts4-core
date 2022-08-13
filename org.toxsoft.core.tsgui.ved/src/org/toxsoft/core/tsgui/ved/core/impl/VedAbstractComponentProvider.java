@@ -10,7 +10,6 @@ import org.toxsoft.core.tslib.av.errors.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
-import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
@@ -23,7 +22,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  */
 public abstract class VedAbstractComponentProvider
     extends StridableParameterized
-    implements IVedComponentProvider, IStdParameterized {
+    implements IVedComponentProvider {
 
   private final String                        libraryId;
   private final IStridablesListEdit<IDataDef> propDefs = new StridablesList<>();

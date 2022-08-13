@@ -2,8 +2,8 @@ package org.toxsoft.core.tsgui.ved.core;
 
 import org.toxsoft.core.tsgui.ved.core.library.*;
 import org.toxsoft.core.tsgui.ved.core.view.*;
-import org.toxsoft.core.tsgui.ved.incub.props.*;
 import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.props.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 

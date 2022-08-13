@@ -9,7 +9,7 @@ import org.toxsoft.core.tslib.av.utils.*;
  * @author hazard157
  */
 public sealed interface IUndoRedoItem
-    extends IStdParameterized, IDisposable permits AbstractUndoRedoItem {
+    extends IParameterized,  IDisposable permits AbstractUndoRedoItem {
 
   /**
    * Returns UNDO operation performer.
