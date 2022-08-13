@@ -1,12 +1,16 @@
 package org.toxsoft.core.tsgui.ved.std;
 
+import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
 import static org.toxsoft.core.tsgui.ved.std.ITsResources.*;
 import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import org.toxsoft.core.tsgui.graphics.colors.*;
+import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.utils.swt.*;
+import org.toxsoft.core.tsgui.valed.controls.graphics.*;
+import org.toxsoft.core.tsgui.ved.std.patterns.*;
+import org.toxsoft.core.tsgui.ved.std.patterns.ValedAvValobjSwtPattern;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 
@@ -125,8 +129,9 @@ public interface IVedStdProperties {
   IDataDef PDEF_FG_COLOR = DataDef.create( PID_FG_COLOR, VALOBJ, //
       TSID_NAME, STR_N_FG_COLOR, //
       TSID_DESCRIPTION, STR_D_FG_COLOR, //
-      TSID_KEEPER_ID, RGBKeeper.KEEPER_ID, //
-      TSID_DEFAULT_VALUE, avValobj( ETsColor.BLACK.rgb() ) //
+      TSID_KEEPER_ID, RGBAKeeper.KEEPER_ID, //
+      OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, TSID_DEFAULT_VALUE,
+      avValobj( new RGBA( 0, 0, 0, 255 ) ) //
   );
 
   /**
@@ -140,8 +145,25 @@ public interface IVedStdProperties {
   IDataDef PDEF_BG_COLOR = DataDef.create( PID_BG_COLOR, VALOBJ, //
       TSID_NAME, STR_N_BG_COLOR, //
       TSID_DESCRIPTION, STR_D_BG_COLOR, //
-      TSID_KEEPER_ID, RGBKeeper.KEEPER_ID, //
-      TSID_DEFAULT_VALUE, avValobj( ETsColor.WHITE.rgb() ) //
+      TSID_KEEPER_ID, RGBAKeeper.KEEPER_ID, //
+      OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, //
+      TSID_DEFAULT_VALUE, avValobj( new RGBA( 255, 255, 255, 255 ) ) //
+  );
+
+  /**
+   * ID of property {@link #PDEF_BG_PATTERN}.
+   */
+  String PID_BG_PATTERN = "bgPattern"; //$NON-NLS-1$
+
+  /**
+   * Property: components background pattern.
+   */
+  IDataDef PDEF_BG_PATTERN = DataDef.create( PID_BG_PATTERN, VALOBJ, //
+      TSID_NAME, STR_N_BG_PATTERN, //
+      TSID_DESCRIPTION, STR_D_BG_PATTERN, //
+      TSID_KEEPER_ID, AbstractSwtPatternInfo.KEEPER_ID, //
+      OPID_EDITOR_FACTORY_NAME, ValedAvValobjSwtPattern.FACTORY_NAME, //
+      TSID_DEFAULT_VALUE, AV_VALOBJ_NULL //
   );
 
   // ------------------------------------------------------------------------------------

@@ -5,6 +5,7 @@ import static org.toxsoft.core.tsgui.ved.std.IVedStdProperties.*;
 import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.graphics.*;
+import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tsgui.ved.core.impl.*;
 import org.toxsoft.core.tsgui.ved.core.view.*;
 import org.toxsoft.core.tsgui.ved.utils.*;
@@ -23,9 +24,12 @@ class VedStdCompRectangleView
   // --- CACHE cached properties with conversion applied
   private D2RectOutline outline;
   private Color         bgColor;
+  private int           bgAlpha;
   private Color         fgColor;
+  private int           fgAlpha;
   int                   lineWidth;
   double                x, y, w, h;
+  ISwtPatternInfo       patternInfo = null;
   // ---
 
   public VedStdCompRectangleView( VedAbstractComponent aComponent, IVedScreen aScreen ) {
@@ -43,9 +47,7 @@ class VedStdCompRectangleView
 
   @Override
   protected void doUpdateOnConversionChange() {
-
     // TODO Auto-generated method stub
-
   }
 
   @Override
@@ -57,15 +59,19 @@ class VedStdCompRectangleView
     outline = new D2RectOutline( x, y, w, h );
 
     // TODO respect conversion!
-    RGB fgRgb = props().getValobj( PDEF_FG_COLOR );
-    fgColor = colorManager().getColor( fgRgb );
-    RGB bgRgb = props().getValobj( PDEF_BG_COLOR );
-    bgColor = colorManager().getColor( bgRgb );
+    RGBA fgRgb = props().getValobj( PDEF_FG_COLOR );
+    fgColor = colorManager().getColor( fgRgb.rgb );
+    fgAlpha = fgRgb.alpha;
+    RGBA bgRgb = props().getValobj( PDEF_BG_COLOR );
+    bgColor = colorManager().getColor( bgRgb.rgb );
+    bgAlpha = bgRgb.alpha;
     lineWidth = 2;
     x = (int)props().getDouble( PDEF_X );
     y = (int)props().getDouble( PDEF_Y );
     w = (int)props().getDouble( PDEF_WIDTH );
     h = (int)props().getDouble( PDEF_HEIGHT );
+
+    patternInfo = props().getValobj( PDEF_BG_PATTERN );
   }
 
   @Override
@@ -93,8 +99,26 @@ class VedStdCompRectangleView
     int yi = (int)y;
     int wi = (int)w;
     int hi = (int)h;
-    aGc.setBackground( bgColor );
-    aGc.fillRectangle( xi, yi, wi, hi );
+
+    if( patternInfo == null ) {
+      aGc.setAlpha( bgAlpha );
+      aGc.setBackground( bgColor );
+      aGc.fillRectangle( xi, yi, wi, hi );
+    }
+    else {
+      Pattern p = patternInfo.createSwtPattern( patternInfo, tsContext() ).pattern( aGc, wi, hi );
+      aGc.setBackgroundPattern( p );
+      Transform pTransform = new Transform( aGc.getDevice() );
+      aGc.getTransform( pTransform );
+      pTransform.translate( xi, yi );
+      aGc.setTransform( pTransform );
+      aGc.fillRectangle( 0, 0, wi, hi );
+      pTransform.translate( -xi, -yi );
+      aGc.setTransform( pTransform );
+      pTransform.dispose();
+      p.dispose();
+    }
+    aGc.setAlpha( fgAlpha );
     aGc.setForeground( fgColor );
     aGc.setLineWidth( lineWidth );
     aGc.drawRectangle( xi, yi, wi, hi );

@@ -7,6 +7,7 @@ import org.toxsoft.core.tsgui.graphics.fonts.impl.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.graphics.lines.*;
+import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tsgui.utils.rectfit.*;
 import org.toxsoft.core.tsgui.utils.swt.*;
@@ -54,6 +55,9 @@ public class TsGuiUtils {
     TsValobjUtils.registerKeeper( ETsLineJoinStyle.KEEPER_ID, ETsLineJoinStyle.KEEPER );
     TsValobjUtils.registerKeeper( ETsLineType.KEEPER_ID, ETsLineType.KEEPER );
     TsValobjUtils.registerKeeper( TsLineInfo.KEEPER_ID, TsLineInfo.KEEPER );
+
+    // Sol
+    TsValobjUtils.registerKeeper( AbstractSwtPatternInfo.KEEPER_ID, AbstractSwtPatternInfo.KEEPER );
 
     // following this is some hacking!
     DataDef dd = (DataDef)IAvMetaConstants.DDEF_DESCRIPTION;

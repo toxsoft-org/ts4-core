@@ -40,6 +40,7 @@ public class VedStdCompRectangle
           PDEF_HEIGHT, //
           PDEF_FG_COLOR, //
           PDEF_BG_COLOR, //
+          PDEF_BG_PATTERN, //
           PDEF_ROTATION_ANGLE //
       ) {
 
