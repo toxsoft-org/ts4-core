@@ -7,10 +7,9 @@ import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.eclipse.swt.graphics.*;
+import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tsgui.utils.swt.*;
 import org.toxsoft.core.tsgui.valed.controls.graphics.*;
-import org.toxsoft.core.tsgui.ved.std.patterns.*;
-import org.toxsoft.core.tsgui.ved.std.patterns.ValedAvValobjSwtPattern;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 
