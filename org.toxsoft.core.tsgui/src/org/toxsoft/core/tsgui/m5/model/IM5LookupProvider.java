@@ -2,6 +2,8 @@ package org.toxsoft.core.tsgui.m5.model;
 
 import java.io.*;
 
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.*;
 
@@ -21,6 +23,17 @@ public interface IM5LookupProvider<V>
    */
   @SuppressWarnings( "rawtypes" )
   IM5LookupProvider EMPTY = new InternalEmptyLookupProvider();
+
+  @Override
+  default String getName( V aItem ) {
+    if( aItem == null ) {
+      return TsLibUtils.EMPTY_STRING;
+    }
+    if( aItem instanceof IStridable s ) {
+      return StridUtils.printf( StridUtils.FORMAT_ID_NAME, s );
+    }
+    return aItem.toString();
+  }
 
   /**
    * Returns the lookup objects.

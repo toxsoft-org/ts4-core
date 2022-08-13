@@ -1,7 +1,9 @@
 package org.toxsoft.core.tsgui.graphics;
 
 import org.eclipse.swt.graphics.*;
+import org.toxsoft.core.tsgui.graphics.lines.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
+import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -29,6 +31,23 @@ public class TsGraphicsUtils {
       t.rotate( (float)aD2Conv.rotation().degrees() );
     }
     return t;
+  }
+
+  /**
+   * Draws the line according to its attributes.
+   *
+   * @param aGc GC - the canvas
+   * @param aColor {@link Color} - line color
+   * @param aLineInfo {@link TsLineInfo} - the line attributes
+   * @param aP1 {@link ITsPoint} - line starting point
+   * @param aP2 {@link ITsPoint} - lene ending point
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static void drawLine( GC aGc, Color aColor, TsLineInfo aLineInfo, ITsPoint aP1, ITsPoint aP2 ) {
+    TsNullArgumentRtException.checkNulls( aGc, aColor, aLineInfo, aP1, aP2 );
+    aGc.setForeground( aColor );
+    aLineInfo.setToGc( aGc );
+    aGc.drawLine( aP1.x(), aP1.y(), aP2.x(), aP2.y() );
   }
 
   /**
