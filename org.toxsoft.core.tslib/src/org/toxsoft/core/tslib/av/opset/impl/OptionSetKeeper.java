@@ -41,6 +41,11 @@ public class OptionSetKeeper
    */
   public static final String STR_EMPTY_OPSET_REPRESENTATION = KEEPER.ent2str( IOptionSet.NULL );
 
+  /**
+   * An empty {@link IOptionSet} keeped atomic value representation.
+   */
+  public static final IAtomicValue AV_EMPTY_OPSET = AvUtils.avValobj( IOptionSet.NULL, KEEPER, KEEPER_ID );
+
   private final boolean indented;
 
   private OptionSetKeeper( boolean aIndented ) {
