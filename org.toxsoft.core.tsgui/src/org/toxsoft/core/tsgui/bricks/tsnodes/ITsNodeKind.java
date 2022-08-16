@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.bricks.tstree;
+package org.toxsoft.core.tsgui.bricks.tsnodes;
 
 import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.bricks.strid.*;

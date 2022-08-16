@@ -1,7 +1,5 @@
-package org.toxsoft.core.tsgui.bricks.tstree.impl;
+package org.toxsoft.core.tsgui.bricks.tsnodes;
 
-import org.toxsoft.core.tsgui.bricks.tstree.ITsNode;
-import org.toxsoft.core.tsgui.bricks.tstree.ITsNodeKind;
 import org.toxsoft.core.tslib.bricks.strid.impl.Stridable;
 import org.toxsoft.core.tslib.utils.TsLibUtils;
 import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;

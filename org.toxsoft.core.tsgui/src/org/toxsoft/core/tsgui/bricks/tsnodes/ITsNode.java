@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.bricks.tstree;
+package org.toxsoft.core.tsgui.bricks.tsnodes;
 
 import java.util.*;
 

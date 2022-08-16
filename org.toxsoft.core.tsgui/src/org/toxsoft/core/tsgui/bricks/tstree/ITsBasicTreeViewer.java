@@ -3,7 +3,7 @@ package org.toxsoft.core.tsgui.bricks.tstree;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Tree;
 import org.toxsoft.core.tsgui.bricks.stdevents.*;
-import org.toxsoft.core.tsgui.bricks.tstree.impl.TsNodeKind;
+import org.toxsoft.core.tsgui.bricks.tsnodes.*;
 import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.panels.lazy.ILazyControl;
 import org.toxsoft.core.tsgui.utils.jface.ViewerPaintHelper;

@@ -2,7 +2,7 @@ package org.toxsoft.core.tsgui.bricks.tstree.impl;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-import org.toxsoft.core.tsgui.bricks.tstree.ITsNode;
+import org.toxsoft.core.tsgui.bricks.tsnodes.*;
 import org.toxsoft.core.tslib.utils.TsLibUtils;
 
 /**

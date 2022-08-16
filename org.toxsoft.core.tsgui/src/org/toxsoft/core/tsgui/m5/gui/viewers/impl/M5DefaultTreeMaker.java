@@ -1,8 +1,7 @@
 package org.toxsoft.core.tsgui.m5.gui.viewers.impl;
 
+import org.toxsoft.core.tsgui.bricks.tsnodes.*;
 import org.toxsoft.core.tsgui.bricks.tstree.*;
-import org.toxsoft.core.tsgui.bricks.tstree.impl.DefaultTsNode;
-import org.toxsoft.core.tsgui.bricks.tstree.impl.TsNodeKind;
 import org.toxsoft.core.tsgui.bricks.tstree.tmm.ITsTreeMaker;
 import org.toxsoft.core.tslib.coll.IList;
 import org.toxsoft.core.tslib.coll.IListEdit;

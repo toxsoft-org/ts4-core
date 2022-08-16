@@ -1,17 +1,15 @@
 package org.toxsoft.core.tslib.av.opset.impl;
 
-import java.util.Iterator;
+import java.util.*;
 
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.metainfo.IDataDef;
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.av.opset.IOptionSetEdit;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IMap;
-import org.toxsoft.core.tslib.coll.impl.TsCollectionsUtils;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Implementation of {@link IOptionSetEdit}.
@@ -185,6 +183,26 @@ public class OptionSet
     if( aOps != this && aOps != map ) {
       for( String key : aOps.keys() ) {
         if( !map.hasKey( key ) ) {
+          map.put( key, aOps.getByKey( key ) );
+          wasChanged = true;
+        }
+      }
+    }
+    return wasChanged;
+  }
+
+  @Override
+  public boolean refreshSet( IOptionSet aOps ) {
+    return refreshSet( (IMap<String, IAtomicValue>)aOps );
+  }
+
+  @Override
+  public boolean refreshSet( IMap<String, ? extends IAtomicValue> aOps ) {
+    TsNullArgumentRtException.checkNull( aOps );
+    boolean wasChanged = false;
+    if( aOps != this && aOps != map ) {
+      for( String key : aOps.keys() ) {
+        if( map.hasKey( key ) ) {
           map.put( key, aOps.getByKey( key ) );
           wasChanged = true;
         }

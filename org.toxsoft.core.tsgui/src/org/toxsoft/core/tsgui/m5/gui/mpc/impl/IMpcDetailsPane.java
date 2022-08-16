@@ -1,6 +1,6 @@
 package org.toxsoft.core.tsgui.m5.gui.mpc.impl;
 
-import org.toxsoft.core.tsgui.bricks.tstree.ITsNode;
+import org.toxsoft.core.tsgui.bricks.tsnodes.*;
 import org.toxsoft.core.tsgui.m5.IM5Bunch;
 import org.toxsoft.core.tsgui.m5.gui.mpc.IMultiPaneComponent;
 import org.toxsoft.core.tsgui.m5.gui.viewers.IM5TreeViewer;

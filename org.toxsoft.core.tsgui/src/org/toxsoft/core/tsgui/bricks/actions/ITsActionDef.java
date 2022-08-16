@@ -1,7 +1,6 @@
 package org.toxsoft.core.tsgui.bricks.actions;
 
 import org.eclipse.jface.action.*;
-import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 
 /**
@@ -10,7 +9,7 @@ import org.toxsoft.core.tslib.bricks.strid.*;
  * @author hazard157
  */
 public interface ITsActionDef
-    extends IStridableParameterized, IIconIdable {
+    extends IStridableParameterized {
 
   /**
    * Returns the SWT style of action.

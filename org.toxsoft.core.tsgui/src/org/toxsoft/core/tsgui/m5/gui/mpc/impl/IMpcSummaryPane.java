@@ -1,6 +1,6 @@
 package org.toxsoft.core.tsgui.m5.gui.mpc.impl;
 
-import org.toxsoft.core.tsgui.bricks.tstree.ITsNode;
+import org.toxsoft.core.tsgui.bricks.tsnodes.*;
 import org.toxsoft.core.tslib.coll.IList;
 
 /**

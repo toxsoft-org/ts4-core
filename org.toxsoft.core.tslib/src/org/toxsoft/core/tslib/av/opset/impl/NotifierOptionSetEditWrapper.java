@@ -2,17 +2,15 @@ package org.toxsoft.core.tslib.av.opset.impl;
 
 import static org.toxsoft.core.tslib.coll.helpers.ECrudOp.*;
 
-import java.util.Iterator;
-import java.util.Objects;
+import java.util.*;
 
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.metainfo.IDataDef;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IMap;
-import org.toxsoft.core.tslib.coll.notifier.impl.AbstractNotifierMap;
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.notifier.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Notification and validation wrapper over {@link IOptionSetEdit}.
@@ -517,6 +515,23 @@ public class NotifierOptionSetEditWrapper
     TsNullArgumentRtException.checkNull( aOps );
     if( !aOps.isEmpty() ) {
       if( source.extendSet( aOps ) ) {
+        fireChangedEvent( LIST, null );
+        return true;
+      }
+    }
+    return false;
+  }
+
+  @Override
+  public boolean refreshSet( IOptionSet aOps ) {
+    return refreshSet( (IMap<String, ? extends IAtomicValue>)aOps );
+  }
+
+  @Override
+  public boolean refreshSet( IMap<String, ? extends IAtomicValue> aOps ) {
+    TsNullArgumentRtException.checkNull( aOps );
+    if( !aOps.isEmpty() ) {
+      if( source.refreshSet( aOps ) ) {
         fireChangedEvent( LIST, null );
         return true;
       }

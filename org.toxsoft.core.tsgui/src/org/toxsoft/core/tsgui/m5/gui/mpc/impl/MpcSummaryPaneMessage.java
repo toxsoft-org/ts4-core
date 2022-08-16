@@ -4,7 +4,7 @@ import static org.toxsoft.core.tsgui.m5.gui.mpc.impl.ITsResources.*;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tsgui.bricks.tstree.ITsNode;
+import org.toxsoft.core.tsgui.bricks.tsnodes.*;
 import org.toxsoft.core.tsgui.m5.gui.mpc.IMultiPaneComponent;
 import org.toxsoft.core.tsgui.utils.layout.BorderLayout;
 import org.toxsoft.core.tsgui.widgets.TsComposite;

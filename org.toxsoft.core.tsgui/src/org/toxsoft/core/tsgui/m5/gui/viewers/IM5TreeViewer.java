@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.m5.gui.viewers;
 
 import org.eclipse.swt.widgets.Tree;
+import org.toxsoft.core.tsgui.bricks.tsnodes.*;
 import org.toxsoft.core.tsgui.bricks.tstree.*;
 import org.toxsoft.core.tsgui.bricks.tstree.tmm.ITsTreeMaker;
 import org.toxsoft.core.tsgui.utils.jface.ViewerPaintHelper;

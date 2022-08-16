@@ -2,7 +2,7 @@ package org.toxsoft.core.tsgui.m5.gui.mpc.impl;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.toxsoft.core.tsgui.bricks.tstree.ITsNode;
+import org.toxsoft.core.tsgui.bricks.tsnodes.*;
 import org.toxsoft.core.tsgui.m5.IM5Bunch;
 import org.toxsoft.core.tsgui.m5.gui.panels.IM5EntityPanel;
 import org.toxsoft.core.tsgui.panels.lazy.ILazyControl;

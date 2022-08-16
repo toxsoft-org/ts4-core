@@ -3,7 +3,7 @@ package org.toxsoft.core.tsgui.m5.gui.viewers;
 import org.eclipse.swt.events.MenuDetectEvent;
 import org.eclipse.swt.events.MenuDetectListener;
 import org.eclipse.swt.widgets.Menu;
-import org.toxsoft.core.tsgui.bricks.tstree.ITsNode;
+import org.toxsoft.core.tsgui.bricks.tsnodes.*;
 
 // TODO TRANSLATE
 

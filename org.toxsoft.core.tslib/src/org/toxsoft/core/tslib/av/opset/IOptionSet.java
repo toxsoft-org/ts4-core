@@ -423,6 +423,16 @@ class InternalNullOptionSetEdit
   }
 
   @Override
+  public boolean refreshSet( IOptionSet aOps ) {
+    throw new TsNullObjectErrorRtException();
+  }
+
+  @Override
+  public boolean refreshSet( IMap<String, ? extends IAtomicValue> aOps ) {
+    throw new TsNullObjectErrorRtException();
+  }
+
+  @Override
   public void setAll( IOptionSet aOps ) {
     throw new TsNullObjectErrorRtException();
   }

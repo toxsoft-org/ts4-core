@@ -1,10 +1,9 @@
-package org.toxsoft.core.tsgui.bricks.tstree.impl;
+package org.toxsoft.core.tsgui.bricks.tsnodes;
 
 import java.util.*;
 
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
-import org.toxsoft.core.tsgui.bricks.tstree.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
