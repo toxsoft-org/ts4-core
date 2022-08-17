@@ -5,8 +5,6 @@ import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
-// TODO TRANSLATE
-
 /**
  * Column for the tree {@link ITsTreeViewer}.
  *
@@ -15,142 +13,129 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public interface ITsViewerColumn {
 
   /**
-   * Возвращает текст заголовка этой колонки.
+   * Returns column header text.
    *
-   * @return String - текст заголовка этой колонки
+   * @return String - text on the header bar
    */
   String title();
 
   /**
-   * Задает текст заголовка этой колонки.
+   * Sets column header text.
    * <p>
-   * Внесенное изменение немедленно отображается в таблице.
+   * Changes are immediately shown in tree viewer.
    *
-   * @param aTitle String - текст заголовка колонки
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aTitle String - text on the header bar
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void setTitle( String aTitle );
 
   /**
-   * Возвращает горизонтальное выравнивание текста внутри колонки.
+   * Returns the text horizontal alignment in the cells of this column.
    * <p>
-   * По умолчанию, после создания колонки возвращает выравнивание, подходящее для атомарного типа данного.
+   * Alignments {@link EHorAlignment#FILL} for cell text is treated as {@link EHorAlignment#CENTER}.
    *
-   * @return {@link EHorAlignment} - горизонтальное выравнивание текста внутри колонки
+   * @return {@link EHorAlignment} - horizontal alignment in cell
    */
   EHorAlignment alignment();
 
   /**
-   * Задает горизонтальное выравнивание текста внутри колонки.
+   * Sets the text horizontal alignment in the cells of this column.
    * <p>
-   * Внесенное изменение немедленно отображается в таблице. Выравнивание {@link EHorAlignment#FILL} обрабатывается как
-   * {@link EHorAlignment#CENTER}.
+   * Changes are immediately shown in tree viewer.
    *
-   * @param aAlignment {@link EHorAlignment} - горизонтальное выравнивание текста внутри колонки
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aAlignment {@link EHorAlignment} - horizontal alignment in cell
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void setAlignment( EHorAlignment aAlignment );
 
   /**
-   * Возвращает подсказку заголовка этой колонки.
+   * Returns tooltip text for the colemn header.
    *
-   * @return String - текст заголовка этой колонки
+   * @return String - tooltip text for the colemn header
    */
   String tooltip();
 
   /**
-   * Задает подсказку заголовка этой колонки.
+   * Sets tooltip text for the colemn header.
    * <p>
-   * Внесенное изменение немедленно отображается в просмотрщике.
+   * Changes are immediately shown in tree viewer.
    *
-   * @param aTooltip String - подсказка заголовка колонки
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aTooltip String - tooltip text for the colemn header
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void setTooltip( String aTooltip );
 
   /**
-   * Возвращает значок, отображаемый в заголовке колонки.
-   * <p>
-   * По умолчанию, после создания колонки возвращает null.
+   * Returns the icon image show in the column header.
    *
-   * @return {@link Image} - значок, отображаемый в заголовке колонки или null
+   * @return {@link Image} - column header icon image or <code>null</code> for no icon
    */
   Image headerImage();
 
   /**
-   * Задает значок, отображаемый в заголовке колонки.
+   * Sets the icon image show in the column header.
    * <p>
-   * Если значок не нужен, следует задать null, что является начальным значением при создании новой колонки.
-   * <p>
-   * Внесенное изменение немедленно отображается в таблице.
+   * Changes are immediately shown in tree viewer.
    *
-   * @param aImage {@link Image} - значок, отображаемый в заголовке колонки или null
+   * @param aImage {@link Image} - column header icon image or <code>null</code> for no icon
    */
   void setHeaderImage( Image aImage );
 
   /**
-   * Возвращает ширину колонки в пикселях.
+   * Returns the column width in pixels.
    * <p>
-   * По умолчанию, после создания колонки ширина устанавливается методом {@link #adjustWidth(String)}, где в качестве
-   * строки выступает значение по умолчанию поля, к которому привязана колонка.
-   * <p>
-   * Для скрытого столбца ({@link #isHidden()} = <code>true</code>) возвращает ширнину, которую будет иметь столбец
-   * после показа.
+   * For a hidden colemnt ({@link #isHidden()} = <code>true</code>) return width of column before it was hidden, that is
+   * the width after column becames visible.
    *
-   * @return int - ширина колонки в пикселях
+   * @return int - column with in pixels
    */
   int width();
 
   /**
-   * Задает ширину колонки в пикселях.
+   * Sets the column width in pixels.
    * <p>
-   * Если аргумент aPixelWidth <= 0, то метод ничего не делает.
+   * Negative values of argument is ignored.
    * <p>
-   * Внесенное изменение немедленно отображается в таблице.
+   * Changes are immediately shown in tree viewer.
    * <p>
-   * Для скрытого столбца ({@link #isHidden()} = <code>true</code>) задает ширнину, которую будет иметь столбец после
-   * показа.
+   * Setting width for the hidden column does nt makes it visible.
    *
-   * @param aPixelWidth int - положительная ширина колонки в пикселях
+   * @param aPixelWidth int - column with in pixels
    */
   void setWidth( int aPixelWidth );
 
   /**
-   * Задает ширну колонки на значение по умолчанию.
+   * Sets column width to the default value.
    * <p>
-   * Фактически, вызывает {@link TreeColumn#pack()} или {@link TableColumn#pack()}.
+   * This method calls {@link TreeColumn#pack()} to set the width.
    */
   void pack();
 
   /**
-   * Подбирает ширину колонки, чтобы она вмещала заданную строку с небольшим запасом.
+   * Adjusts column width so the given text will fit with small extra space.
    * <p>
-   * Внесенное изменение немедленно отображается в таблице.
+   * Changes are immediately shown in tree viewer.
    *
-   * @param aSampleString String - строка, по которой происходит подбор ширины колонки
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aSampleString String - sample string to adjust column width to fit it
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void adjustWidth( String aSampleString );
 
   /**
-   * Возвращает признак сокрытия колонки.
+   * Determines if column is hidden.
+   * <p>
+   * Hidden colemn remains in tree viewer but has width of 0.
    *
-   * @return boolean - признак сокрытия колонки<br>
-   *         <b>true</b> - в данный момент колонка невидима (скрыта);<br>
-   *         <b>false</b> - колонка в данный момент отображается (видима).
+   * @return boolean - <code>true</code> column is hidden, <code>false</code> - visible
    */
   boolean isHidden();
 
   /**
-   * Показывает/скрывает колонку таблицы.
+   * Hides or shows the column.
    * <p>
-   * При показе ранее скрытой колонки она будет иметь последнюю заданную ширину.
-   * <p>
-   * Внесенное изменение немедленно отображается в таблице.
+   * Changes are immediately shown in tree viewer.
    *
-   * @param aHidden boolean - признак сокрытия колонки <br>
-   *          <b>true</b> - колонка будет скрыта;<br>
-   *          <b>false</b> - колонка будет видна.
+   * @param aHidden boolean - <code>true</code> to hide column, <code>false</code> - make visible
    */
   void setHidden( boolean aHidden );
 
