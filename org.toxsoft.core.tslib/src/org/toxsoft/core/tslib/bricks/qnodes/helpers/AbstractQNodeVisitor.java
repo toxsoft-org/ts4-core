@@ -12,6 +12,8 @@ import org.toxsoft.core.tslib.utils.logs.impl.*;
 public abstract non-sealed class AbstractQNodeVisitor
     implements IQNodeVisitor {
 
+  private IQNode stopperNode = null;
+
   /**
    * Constructor.
    */
@@ -20,6 +22,7 @@ public abstract non-sealed class AbstractQNodeVisitor
   }
 
   private boolean internalVisitSubtree( IQNode aNode ) {
+    stopperNode = aNode;
     if( visitNode( aNode ) ) {
       return true;
     }
@@ -38,6 +41,7 @@ public abstract non-sealed class AbstractQNodeVisitor
   @Override
   final public boolean visitSubtree( IQNode aNode ) {
     TsNullArgumentRtException.checkNull( aNode );
+    stopperNode = null;
     if( beforeStartSubtree( aNode ) ) {
       return true;
     }
@@ -51,7 +55,7 @@ public abstract non-sealed class AbstractQNodeVisitor
       retval = true;
       LoggerUtils.errorLogger().error( exception );
     }
-    afterEndSubtree( aNode, retval, exception );
+    afterEndSubtree( aNode, retval, exception, stopperNode );
     return retval;
   }
 
@@ -99,8 +103,10 @@ public abstract non-sealed class AbstractQNodeVisitor
    * @param aSubtreeRoot {@link IQNode} - root of subtree to be visited, never is <code>null</code>
    * @param aWasCancelled boolean - <code>true</code> if iteration was cancelled
    * @param aException {@link Throwable} - an excepation ctched during visiting or <code>null</code>
+   * @param aStopperNode {@link IQNode} - node that cancelled iteration
    */
-  protected void afterEndSubtree( IQNode aSubtreeRoot, boolean aWasCancelled, Throwable aException ) {
+  protected void afterEndSubtree( IQNode aSubtreeRoot, boolean aWasCancelled, Throwable aException,
+      IQNode aStopperNode ) {
     if( aException != null ) {
       throw new TsRemoteIoRtException( aException );
     }

@@ -1,6 +1,6 @@
 package org.toxsoft.core.tsgui.bricks.tstree.impl;
 
-import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 
 /**

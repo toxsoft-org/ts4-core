@@ -17,16 +17,17 @@ public interface IQTreeConsole {
    * Expands all ancestors of the given element or tree path so that the given element becomes visible in this viewer's
    * tree control, and then expands the subtree rooted at the given element to the given level.
    *
-   * @param aNode {@link IQNode} - the node to expand
+   * @param aNode {@link IQNode} - the node to expand or <code>null</code> for whole tree
    * @param aLevel int - non-negative level, or <0 to expand all levels of the subtree
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void expandNodeTo( IQNode aNode, int aLevel );
 
   /**
    * Collapses the subtree rooted at the given node to the given level.
+   * <p>
+   * When <code>aNode = null</code> tree is allways fully collapsed, <code>aLevel</code> argument is ignored.
    *
-   * @param aNode {@link IQNode} - node to collapse
+   * @param aNode {@link IQNode} - node to collapse or <code>null</code> for whole tree
    * @param aLevel int - non-negative level, or <0 to collase all levels of the subtree
    */
   void collapseNode( IQNode aNode, int aLevel );
@@ -36,7 +37,7 @@ public interface IQTreeConsole {
    * <p>
    * Recreates child nodes so handles strctural changes in the tree model.
    *
-   * @param aNode {@link IQNode} - root node of the subtree
+   * @param aNode {@link IQNode} - root node of the subtree or <code>null</code> for whole tree
    */
   void refresh( IQNode aNode );
 
@@ -44,8 +45,9 @@ public interface IQTreeConsole {
    * Updates visual presentation of the given node without handling structural changes.
    *
    * @param aNode {@link IQNode} - node to update
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  void update( Object aNode );
+  void update( IQNode aNode );
 
   /**
    * Returns the currently selected single node.

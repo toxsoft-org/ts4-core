@@ -47,6 +47,7 @@ public abstract non-sealed class AbstractQNode<T>
    * @param aParams {@link IOptionSet} - {@link #nodeData} params initial values
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException ID is not an IDpath
+   * @throws ClassCastException entity is not of expected class
    */
   public AbstractQNode( String aId, IQNodeKind<T> aKind, IQNode aParent, T aEntity, IOptionSet aParams ) {
     id = StridUtils.checkValidIdPath( aId );
@@ -65,6 +66,21 @@ public abstract non-sealed class AbstractQNode<T>
   }
 
   /**
+   * Constructor for non-root nodes.
+   *
+   * @param aId String - node ID
+   * @param aKind {@link IQNodeKind} - node kind
+   * @param aParent {@link IQNode} - parent node
+   * @param aEntity &lt;T&gt; - entity in this node
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException ID is not an IDpath
+   * @throws ClassCastException entity is not of expected class
+   */
+  public AbstractQNode( String aId, IQNodeKind<T> aKind, IQNode aParent, T aEntity ) {
+    this( aId, aKind, aParent, aEntity, IOptionSet.NULL );
+  }
+
+  /**
    * Constructor for root node implementing {@link IQRootNode}.
    *
    * @param aId String - node ID
@@ -74,6 +90,7 @@ public abstract non-sealed class AbstractQNode<T>
    * @param aParams {@link IOptionSet} - {@link #nodeData} params initial values
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException ID is not an IDpath
+   * @throws ClassCastException entity is not of expected class
    */
   protected AbstractQNode( String aId, IQNodeKind<T> aKind, ITsContext aContext, T aEntity, IOptionSet aParams ) {
     id = StridUtils.checkValidIdPath( aId );
@@ -122,6 +139,17 @@ public abstract non-sealed class AbstractQNode<T>
   }
 
   // ------------------------------------------------------------------------------------
+  // API for subclasses
+  //
+
+  /**
+   * Marks child cache as invalid so at next call of {@link #childs()} the childs list will be rebuild.
+   */
+  protected void invalidateCache() {
+    isChildsCached = false;
+  }
+
+  // ------------------------------------------------------------------------------------
   // IStridable
   //
 
@@ -162,6 +190,11 @@ public abstract non-sealed class AbstractQNode<T>
   @Override
   final public <C extends ITsContext> C tsContext() {
     return (C)tsContext;
+  }
+
+  @Override
+  public ITsContext nodeData() {
+    return nodeData;
   }
 
   @SuppressWarnings( "unchecked" )
@@ -237,7 +270,7 @@ public abstract non-sealed class AbstractQNode<T>
   }
 
   @Override
-  public void invalidateEntity() {
+  public void refreshEntity() {
     T oldEntityRef = entity;
     Object newEntityRef = doGetEntity();
     TsInternalErrorRtException.checkNull( newEntityRef );
@@ -247,9 +280,9 @@ public abstract non-sealed class AbstractQNode<T>
   }
 
   @Override
-  public void invalidateChilds( ECrudOp aOp, String aChildNodeId ) {
+  public void informOnChildsChange( ECrudOp aOp, String aChildNodeId ) {
     TsNullArgumentRtException.checkNull( aOp );
-    cacheChilds( true ); // refresh childs
+    invalidateCache();
     root.fireNodeSubtreeChanged( this, aOp, aChildNodeId );
   }
 
@@ -276,7 +309,7 @@ public abstract non-sealed class AbstractQNode<T>
   protected abstract IStridablesList<IQNode> doGetNodes();
 
   /**
-   * Subclass may refresh reference to held entity when informed about changes by {@link #invalidateEntity()}.
+   * Subclass may refresh reference to held entity when informed about changes by {@link #refreshEntity()}.
    * <p>
    * Base implementation simply returns entity. This method must be overriden only if reference to the changes, for
    * example, when held entity is an immutable class instance.
@@ -290,16 +323,16 @@ public abstract non-sealed class AbstractQNode<T>
   /**
    * The subclass may work out the change in the node entity.
    * <p>
-   * Recall that the reference to node entity is updated every time after {@link #invalidateEntity()} is called. This
+   * Recall that the reference to node entity is updated every time after {@link #refreshEntity()} is called. This
    * notification method is called even when both old and new references point to the same object. Indeed, the meaning
-   * of {@link #invalidateEntity()} is that the node is informed that there are changes in the entity, it does not
-   * matter if the reference has changed or the entity field has changed or something has changed that the entity refers
-   * to. For example, the entity is constant {@link File}, but the content of the file has changed.
+   * of {@link #refreshEntity()} is that the node is informed that there are changes in the entity, it does not matter
+   * if the reference has changed or the entity field has changed or something has changed that the entity refers to.
+   * For example, the entity is constant {@link File}, but the content of the file has changed.
    * <p>
    * Does nothing in the base class; when overridden, you do not need to call the parent method.
    *
    * @param aEntity &lt;T&gt; - current entity, the same as {@link #entity()}
-   * @param aOldEntity &lt;T&gt; - previous reference to entity, before call to {@link #invalidateEntity()}
+   * @param aOldEntity &lt;T&gt; - previous reference to entity, before call to {@link #refreshEntity()}
    */
   protected void doEntityChanged( T aEntity, T aOldEntity ) {
     // nop
@@ -333,12 +366,69 @@ public abstract non-sealed class AbstractQNode<T>
    * Returns value to be returned by {@link #iconId()}.
    * <p>
    * Subclass may override default implementation that returns value of option {@link IAvMetaConstants#TSID_ICON_ID}
-   * from {@link #nodeData()} params.
+   * from {@link #nodeData()} params or {@link IQNodeKind#iconId()} if first one is <code>null</code>.
    *
    * @return String - the icon ID or <code>null</code>
    */
   protected String doGetIconId() {
-    return nodeData.params().getStr( TSID_ICON_ID, null );
+    String iconId = nodeData.params().getStr( TSID_ICON_ID, null );
+    if( iconId == null ) {
+      iconId = kind.iconId();
+    }
+    return iconId;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // API
+  //
+
+  /**
+   * Sets {@link #nmName()} as {@link #nodeData()} option.
+   *
+   * @param aName String - short name
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  protected void setName( String aName ) {
+    TsNullArgumentRtException.checkNull( aName );
+    nodeData.params().setStr( TSID_NAME, aName );
+  }
+
+  /**
+   * Sets {@link #description()} as {@link #nodeData()} option.
+   *
+   * @param aDescription String - description
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  protected void setDescription( String aDescription ) {
+    TsNullArgumentRtException.checkNull( aDescription );
+    nodeData.params().setStr( TSID_DESCRIPTION, aDescription );
+  }
+
+  /**
+   * Sets {@link #nmName()} and {@link #description()} as {@link #nodeData()} option.
+   *
+   * @param aName String - short name
+   * @param aDescription String - description
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  protected void setNameAndDescription( String aName, String aDescription ) {
+    TsNullArgumentRtException.checkNulls( aName, aDescription );
+    nodeData.params().setStr( TSID_NAME, aName );
+    nodeData.params().setStr( TSID_DESCRIPTION, aDescription );
+  }
+
+  /**
+   * Sets {@link #iconId()} as {@link #nodeData()} option.
+   *
+   * @param aIconId String - icon ID, or <code>null</code>
+   */
+  protected void setIconId( String aIconId ) {
+    if( aIconId != null ) {
+      nodeData.params().setStr( TSID_ICON_ID, aIconId );
+    }
+    else {
+      nodeData.params().remove( TSID_ICON_ID );
+    }
   }
 
 }

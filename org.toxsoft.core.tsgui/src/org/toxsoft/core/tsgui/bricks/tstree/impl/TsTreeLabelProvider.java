@@ -3,7 +3,6 @@ package org.toxsoft.core.tsgui.bricks.tstree.impl;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.tsnodes.*;
-import org.toxsoft.core.tsgui.bricks.tstree.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.utils.jface.*;
