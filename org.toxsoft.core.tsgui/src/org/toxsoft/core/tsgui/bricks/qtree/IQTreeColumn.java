@@ -1,16 +1,18 @@
-package org.toxsoft.core.tsgui.bricks.tstree;
+package org.toxsoft.core.tsgui.bricks.qtree;
 
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.graphics.*;
+import org.toxsoft.core.tsgui.utils.*;
+import org.toxsoft.core.tslib.bricks.qnodes.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Column for the tree {@link ITsTreeViewer}.
+ * Colemn of the {@link IQTreeViewer}.
  *
  * @author hazard157
  */
-public interface ITsViewerColumn {
+public interface IQTreeColumn {
 
   /**
    * Returns column header text.
@@ -28,6 +30,13 @@ public interface ITsViewerColumn {
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void setTitle( String aTitle );
+
+  /**
+   * Returns the cell visuals (text, icon) provider.
+   *
+   * @return {@link ITsVisualsProvider}&lt;{@link IQNode}&gt; - cell visuals provider
+   */
+  ITsVisualsProvider<IQNode> visProvider();
 
   /**
    * Returns the text horizontal alignment in the cells of this column.
@@ -141,6 +150,7 @@ public interface ITsViewerColumn {
 
   /**
    * Determines if in column cells the thumb (not icon) images will be drawn.
+   * <p>
    *
    * @return boolean - <code>true</code> if thumbs will drawn, <code>false</code> - icons
    */

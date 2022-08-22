@@ -1,35 +1,32 @@
-package org.toxsoft.core.tsgui.bricks.tstree.impl;
+package org.toxsoft.core.tsgui.bricks.qtree.impl;
 
 import org.eclipse.jface.viewers.*;
-import org.toxsoft.core.tsgui.bricks.tsnodes.*;
+import org.toxsoft.core.tslib.bricks.qnodes.*;
 import org.toxsoft.core.tslib.utils.*;
 
 /**
- * Показывает модель дерева узлов {@link ITsNode}.
- * <p>
- * В качестве как входного элемента, так и всех узлов ожидается {@link ITsNode}.
+ * {@link ITreeContentProvider} implementation assuming {@link IQNode} both as elements and input.
  *
  * @author hazard157
  */
-public class TsTreeContentProvider
+public class QTreeContentProvider
     implements ITreeContentProvider {
 
-  private static final ITsNode[] EMPTY_NODES_ARRAY = new ITsNode[0];
+  private static final IQNode[] EMPTY_NODES_ARRAY = {};
 
   /**
-   * Конструктор.
+   * Constructor.
    */
-  public TsTreeContentProvider() {
+  public QTreeContentProvider() {
     // nop
   }
 
   // ------------------------------------------------------------------------------------
-  // Внутренные методы
+  // implementation
   //
 
   private static Object[] getChildNodesArray( Object aElement ) {
-    if( aElement instanceof ITsNode ) {
-      ITsNode n = (ITsNode)aElement;
+    if( aElement instanceof IQNode n ) {
       n.rebuildSubtree( false, false );
       return n.childs().toArray( EMPTY_NODES_ARRAY );
     }
@@ -37,7 +34,7 @@ public class TsTreeContentProvider
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITreeContentProvider
+  // ITreeContentProvider
   //
 
   @Override
@@ -52,7 +49,7 @@ public class TsTreeContentProvider
 
   @Override
   public Object[] getElements( Object aInputElement ) {
-    if( aInputElement instanceof ITsNode ) {
+    if( aInputElement instanceof IQNode ) {
       return getChildNodesArray( aInputElement );
     }
     return TsLibUtils.EMPTY_ARRAY_OF_OBJECTS;
@@ -65,8 +62,7 @@ public class TsTreeContentProvider
 
   @Override
   public Object getParent( Object aElement ) {
-    if( aElement instanceof ITsNode ) {
-      ITsNode n = (ITsNode)aElement;
+    if( aElement instanceof IQNode n ) {
       return n.parent();
     }
     return null;
@@ -74,8 +70,7 @@ public class TsTreeContentProvider
 
   @Override
   public boolean hasChildren( Object aElement ) {
-    if( aElement instanceof ITsNode ) {
-      ITsNode n = (ITsNode)aElement;
+    if( aElement instanceof IQNode n ) {
       if( n.kind().canHaveChilds() ) {
         return !n.childs().isEmpty();
       }

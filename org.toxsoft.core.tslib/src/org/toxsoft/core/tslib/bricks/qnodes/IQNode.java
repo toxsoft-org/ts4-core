@@ -183,26 +183,26 @@ public sealed interface IQNode
   // notifications
 
   /**
-   * Informs this node about changes in {@link #entity()}.
+   * Informs this node about changes and refreshed reference to the {@link #entity()}
    * <p>
    * In general, this node assumes that the {@link #entity()} link has changed, not just the properties of the existing
    * entity. Also, this method may be called when {@link #nodeData()} has been changed, especially, if it is used to
    * store {@link #nmName()}, {@link #description()} or {@link #iconId()}.
    * <p>
-   * Note: there is no need to call this method if {@link #invalidateChilds(ECrudOp, String)} with {@link ECrudOp#EDIT}
-   * was called with this node {@link #id()} - parent implementation must call this method.
+   * Note: there is no need to call this method if {@link #informOnChildsChange(ECrudOp, String)} with
+   * {@link ECrudOp#EDIT} was called with this node {@link #id()} - parent implementation must call this method.
    */
-  void invalidateEntity();
+  void refreshEntity();
 
   /**
-   * Informs this node about changes in child nodes.
+   * Informs this node about changes in child nodes and invalidates childs cache.
    * <p>
    * According to <code>aOp</code> value there are different reasons:
    * <ul>
    * <li>{@link ECrudOp#CREATE} - new node added with ID <code>aChildNodeId</code>;</li>
    * <li>{@link ECrudOp#REMOVE} - child node with ID <code>aChildNodeId</code> was removed;</li>
    * <li>{@link ECrudOp#EDIT} - properties of node with ID <code>aChildNodeId</code> has been changed without changes in
-   * tree structure. Implementaion must call {@link #invalidateEntity()} for the specified child node;</li>
+   * tree structure. Implementaion must call {@link #refreshEntity()} for the specified child node;</li>
    * <li>{@link ECrudOp#LIST} - there is changes in subtree structure affecting several nodes at once. Usually all
    * childs need to be recreated. In this case value of argument <code>aChildNodeId</code> is ignored and may be
    * <code>null</code>.</li>
@@ -212,7 +212,7 @@ public sealed interface IQNode
    * @param aOp {@link ECrudOp} - the reason of change
    * @param aChildNodeId String - affected node ID or <code>null</code>
    */
-  void invalidateChilds( ECrudOp aOp, String aChildNodeId );
+  void informOnChildsChange( ECrudOp aOp, String aChildNodeId );
 
   // ------------------------------------------------------------------------------------
   // TODO Tree paths API

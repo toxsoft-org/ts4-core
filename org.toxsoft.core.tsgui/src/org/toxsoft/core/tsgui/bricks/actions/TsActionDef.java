@@ -224,6 +224,43 @@ public class TsActionDef
     return new TsActionDef( aId, IAction.AS_UNSPECIFIED, aIdsAndValues );
   }
 
+  /**
+   * Creates action definition based on template.
+   * <p>
+   * Created action definition will have same style as the given template. Option values given in
+   * <code>aIdsAndValues</code> will override {@link #params()} option taken from the template.
+   *
+   * @param aTemplate {@link ITsActionDef} - the template action definition
+   * @param aIdsAndValues String[] - {@link #params()} values to override
+   * @return {@link TsActionDef} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException ID is not an IDpath
+   */
+  public static TsActionDef ofTemplate( ITsActionDef aTemplate, Object... aIdsAndValues ) {
+    TsActionDef acDef = new TsActionDef( aTemplate.id(), aTemplate.actionStyle(), aIdsAndValues );
+    acDef.params().addAll( OptionSetUtils.createOpSet( aIdsAndValues ) );
+    return acDef;
+  }
+
+  /**
+   * Creates action definition with new ID based on template.
+   * <p>
+   * Created action definition will have same style as the given template. Option values given in
+   * <code>aIdsAndValues</code> will override {@link #params()} option taken from the template.
+   *
+   * @param aId String - action ID (an IDpath)
+   * @param aTemplate {@link ITsActionDef} - the template action definition
+   * @param aIdsAndValues String[] - {@link #params()} values to override
+   * @return {@link TsActionDef} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException ID is not an IDpath
+   */
+  public static TsActionDef ofTemplate( String aId, ITsActionDef aTemplate, Object... aIdsAndValues ) {
+    TsActionDef acDef = new TsActionDef( aId, aTemplate.actionStyle(), aIdsAndValues );
+    acDef.params().addAll( OptionSetUtils.createOpSet( aIdsAndValues ) );
+    return acDef;
+  }
+
   // ------------------------------------------------------------------------------------
   // ITsActionDef
   //

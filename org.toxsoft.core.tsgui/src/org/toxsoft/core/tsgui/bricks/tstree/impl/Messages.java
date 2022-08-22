@@ -1,6 +1,6 @@
 package org.toxsoft.core.tsgui.bricks.tstree.impl;
 
-import org.eclipse.osgi.util.NLS;
+import org.eclipse.osgi.util.*;
 
 @SuppressWarnings( "javadoc" )
 public class Messages

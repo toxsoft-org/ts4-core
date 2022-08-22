@@ -1,5 +1,6 @@
 package org.toxsoft.core.tslib.bricks.qnodes;
 
+import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 
 /**
@@ -11,7 +12,7 @@ import org.toxsoft.core.tslib.bricks.strid.*;
  * @param <T> - node entity type
  */
 public interface IQNodeKind<T>
-    extends IStridableParameterized {
+    extends IStridable, IIconIdable {
 
   /**
    * Returns class of entity hold by nodes of this kind.
