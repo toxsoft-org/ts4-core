@@ -104,4 +104,13 @@ public class DataType
     return params;
   }
 
+  // ------------------------------------------------------------------------------------
+  // Object
+  //
+
+  @Override
+  public String toString() {
+    return this.getClass().getSimpleName() + ": " + atomicType.id(); //$NON-NLS-1$
+  }
+
 }

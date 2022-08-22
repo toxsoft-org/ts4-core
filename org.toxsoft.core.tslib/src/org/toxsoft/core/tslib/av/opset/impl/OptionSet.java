@@ -20,7 +20,7 @@ public class OptionSet
     extends AbstractOptionsSetter
     implements IOptionSetEdit {
 
-  private final IStringMapEdit<IAtomicValue> map = new StringMap<>();
+  protected final IStringMapEdit<IAtomicValue> map = new StringMap<>();
 
   /**
    * Constructor.
