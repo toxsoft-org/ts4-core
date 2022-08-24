@@ -8,7 +8,7 @@ import org.eclipse.ui.services.*;
  *
  * @author vs
  */
-public interface ISwtPattern
+public interface IGradient
     extends IDisposable {
 
   /**
@@ -16,7 +16,7 @@ public interface ISwtPattern
    *
    * @return ISwtPatternInfo параметры "узора" для заполнения фигуры
    */
-  ISwtPatternInfo patternInfo();
+  IGradientInfo patternInfo();
 
   /**
    * Возвращает "узор" для фона закрашиваемой фигуры или <b>null</b> если ширина или высота <= 0.<br>

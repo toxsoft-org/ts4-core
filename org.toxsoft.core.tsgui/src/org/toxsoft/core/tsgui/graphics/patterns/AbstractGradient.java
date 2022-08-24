@@ -8,14 +8,14 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
  *
  * @author vs
  */
-public abstract class AbstractSwtPattern
-    implements ISwtPattern, ITsGuiContextable {
+public abstract class AbstractGradient
+    implements IGradient, ITsGuiContextable {
 
   private final ITsGuiContext context;
 
   private boolean disposed = false;
 
-  protected AbstractSwtPattern( ITsGuiContext aContext ) {
+  protected AbstractGradient( ITsGuiContext aContext ) {
     context = aContext;
   }
 

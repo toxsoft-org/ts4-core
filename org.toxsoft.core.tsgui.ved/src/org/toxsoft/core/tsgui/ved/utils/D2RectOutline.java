@@ -77,7 +77,7 @@ public class D2RectOutline
     double dBottom = Math.abs( bounds.y2() - aY );
     double ny = bounds.y1();
     if( dBottom < dTop ) {
-      nx = bounds.y2();
+      ny = bounds.y2();
     }
 
     double dHor = Math.min( dLeft, dRight );

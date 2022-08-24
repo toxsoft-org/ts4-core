@@ -3,19 +3,19 @@ package org.toxsoft.core.tsgui.graphics.patterns;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 
 /**
- * Параметры "узора" для заливки областей при отрисовке.
+ * Параметры градиентной заливки областей при отрисовке.
  * <p>
  *
  * @author vs
  */
-public interface ISwtPatternInfo {
+public interface IGradientInfo {
 
-  /**
-   * Возвращает тип узора для заполнения фигуры.<br>
-   *
-   * @return ESwtPatternType - тип узора для заполнения
-   */
-  ESwtPatternType type();
+  // /**
+  // * Возвращает тип узора для заполнения фигуры.<br>
+  // *
+  // * @return ETsFillKind - тип узора для заполнения
+  // */
+  // ETsFillKind type();
 
   /**
    * Возвращает тип градиентной заливки.
@@ -29,10 +29,10 @@ public interface ISwtPatternInfo {
   /**
    * Создает соотвествующий узор для заполнения областей при рисовании.
    *
-   * @param aInfo ISwtPatternInfo - параметры заливки
+   * @param aInfo IGradientInfo - параметры заливки
    * @param aContext ITsGuiContext - соотвествующий контекст
    * @return ISwtPattern - узор для заполнения областей при рисовании
    */
-  ISwtPattern createSwtPattern( ISwtPatternInfo aInfo, ITsGuiContext aContext );
+  IGradient createGradient( IGradientInfo aInfo, ITsGuiContext aContext );
 
 }

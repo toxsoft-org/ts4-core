@@ -81,7 +81,7 @@ public class PanelLinearGradientSelector
     RGBA startRgba = null;
     RGBA endRgba   = null;
 
-    ISwtPattern pattern = null;
+    IGradient pattern = null;
 
     PaintListener paintListener = aE -> {
 
@@ -103,7 +103,7 @@ public class PanelLinearGradientSelector
         colorIdx = (colorIdx + (r.height / 16) % 2) % 2;
       }
 
-      pattern = gradientInfo().createSwtPattern( gradientInfo(), tsContext );
+      pattern = gradientInfo().createGradient( gradientInfo(), tsContext );
       if( pattern != null ) {
         Pattern p = pattern.pattern( aE.gc, r.width, r.height );
         aE.gc.setBackgroundPattern( p );
@@ -208,7 +208,7 @@ public class PanelLinearGradientSelector
       endRgba = aEndRgba;
 
       LinearGradientInfo gradientInfo = gradientInfo();
-      pattern = gradientInfo.createSwtPattern( gradientInfo, tsContext() );
+      pattern = gradientInfo.createGradient( gradientInfo, tsContext() );
       redraw();
     }
 
@@ -276,13 +276,13 @@ public class PanelLinearGradientSelector
   /**
    * Возвращает параметры заливки.<br>
    *
-   * @return ISwtPatternInfo - параметры заливки
+   * @return IGradientInfo - параметры заливки
    */
-  public ISwtPatternInfo patternInfo() {
+  public IGradientInfo patternInfo() {
     return resultPanel.gradientInfo();
   }
 
-  public void setPatternInfo( ISwtPatternInfo aInfo ) {
+  public void setPatternInfo( IGradientInfo aInfo ) {
     TsIllegalArgumentRtException.checkFalse( aInfo.gradientType() == EGradientType.LINEAR );
     LinearGradientInfo info = (LinearGradientInfo)aInfo;
     resultPanel.setGradientInfo( info );

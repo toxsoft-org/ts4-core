@@ -55,9 +55,11 @@ public class TsGuiUtils {
     TsValobjUtils.registerKeeper( ETsLineJoinStyle.KEEPER_ID, ETsLineJoinStyle.KEEPER );
     TsValobjUtils.registerKeeper( ETsLineType.KEEPER_ID, ETsLineType.KEEPER );
     TsValobjUtils.registerKeeper( TsLineInfo.KEEPER_ID, TsLineInfo.KEEPER );
+    TsValobjUtils.registerKeeper( TsBorderInfo.KEEPER_ID, TsBorderInfo.KEEPER );
 
     // Sol
-    TsValobjUtils.registerKeeper( AbstractSwtPatternInfo.KEEPER_ID, AbstractSwtPatternInfo.KEEPER );
+    // TsValobjUtils.registerKeeper( AbstractSwtPatternInfo.KEEPER_ID, AbstractSwtPatternInfo.KEEPER );
+    TsValobjUtils.registerKeeper( TsFillInfo.KEEPER_ID, TsFillInfo.KEEPER );
 
     // following this is some hacking!
     DataDef dd = (DataDef)IAvMetaConstants.DDEF_DESCRIPTION;
