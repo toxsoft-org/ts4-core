@@ -74,13 +74,13 @@ public class PanelCylinderGradientSelector
     fractionsPanel.setRGBA( rgbaSelector.rgba() );
     IList<Pair<Double, RGBA>> fractions = fractionsPanel.fractions();
     CylinderGradientInfo gi = new CylinderGradientInfo( fractions );
-    pattern = gi.createSwtPattern( gi, tsContext() );
+    pattern = gi.createGradient( gi, tsContext() );
     resultPanel.redraw();
   };
 
   private final ITsGuiContext tsContext;
 
-  ISwtPattern pattern = null;
+  IGradient pattern = null;
 
   PanelCylinderGradientSelector( Composite aParent, ITsGuiContext aContext ) {
     super( aParent, aContext );
@@ -97,7 +97,7 @@ public class PanelCylinderGradientSelector
       rgbaSelector.setRgba( fractionsPanel.selectedRgba() );
       IList<Pair<Double, RGBA>> fractions = fractionsPanel.fractions();
       CylinderGradientInfo gi = new CylinderGradientInfo( fractions );
-      pattern = gi.createSwtPattern( gi, aContext );
+      pattern = gi.createGradient( gi, aContext );
     } );
 
     rgbaSelector = new RgbaSelector( this, SWT.NONE, aContext.eclipseContext() );
@@ -119,9 +119,9 @@ public class PanelCylinderGradientSelector
   /**
    * Возвращает параметры заливки.<br>
    *
-   * @return ISwtPatternInfo - параметры заливки
+   * @return IGradientInfo - параметры заливки
    */
-  public ISwtPatternInfo patternInfo() {
+  public IGradientInfo patternInfo() {
     return new CylinderGradientInfo( fractionsPanel.fractions() );
   }
 

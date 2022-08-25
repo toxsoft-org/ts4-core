@@ -17,7 +17,7 @@ import org.toxsoft.core.tslib.utils.valobj.*;
  * @author vs
  */
 public class RadialGradientInfo
-    extends AbstractSwtPatternInfo {
+    extends AbstractGradientInfo {
 
   double centerX = 50;
 
@@ -105,13 +105,8 @@ public class RadialGradientInfo
   }
 
   // ------------------------------------------------------------------------------------
-  // AbstractSwtPatternInfo
+  // IGradientInfo
   //
-
-  @Override
-  public ESwtPatternType type() {
-    return ESwtPatternType.GRADIENT;
-  }
 
   @Override
   public EGradientType gradientType() {

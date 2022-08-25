@@ -15,7 +15,7 @@ import org.toxsoft.core.tslib.utils.valobj.*;
  * @author vs
  */
 public class LinearGradientInfo
-    extends AbstractSwtPatternInfo {
+    extends AbstractGradientInfo {
 
   private final D2Point startPoint;
   private final D2Point endPoint;
@@ -91,13 +91,8 @@ public class LinearGradientInfo
   }
 
   // ------------------------------------------------------------------------------------
-  // AbstractSwtPatternInfo
+  // IGradientInfo
   //
-
-  @Override
-  public ESwtPatternType type() {
-    return ESwtPatternType.GRADIENT;
-  }
 
   @Override
   public EGradientType gradientType() {

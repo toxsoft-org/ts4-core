@@ -205,6 +205,23 @@ public class RgbaSelector
   //
 
   /**
+   * Задает значение цвета без прозрачности.
+   *
+   * @param aRgb RGB - значение цвета без прозрачности
+   */
+  public void setRgb( RGB aRgb ) {
+    if( aRgb != null ) {
+      redSpin.setSelection( aRgb.red );
+      greenSpin.setSelection( aRgb.green );
+      blueSpin.setSelection( aRgb.blue );
+      redSlide.setSelection( aRgb.red );
+      greenSlide.setSelection( aRgb.green );
+      blueSlide.setSelection( aRgb.blue );
+    }
+    onColorChanged();
+  }
+
+  /**
    * Задает значение цвета с прозрачностью.
    *
    * @param aRgba RGBA - значение цвета с прозрачностью

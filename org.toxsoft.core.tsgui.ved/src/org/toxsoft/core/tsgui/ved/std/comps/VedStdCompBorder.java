@@ -1,62 +1,65 @@
 package org.toxsoft.core.tsgui.ved.std.comps;
 
+import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
 import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
 import static org.toxsoft.core.tsgui.ved.std.IVedStdProperties.*;
 import static org.toxsoft.core.tsgui.ved.std.comps.ITsResources.*;
+import static org.toxsoft.core.tslib.av.EAtomicType.*;
+import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
+import org.toxsoft.core.tsgui.graphics.lines.*;
+import org.toxsoft.core.tsgui.valed.controls.graphics.*;
 import org.toxsoft.core.tsgui.ved.core.*;
 import org.toxsoft.core.tsgui.ved.core.impl.*;
 import org.toxsoft.core.tsgui.ved.core.view.*;
 import org.toxsoft.core.tsgui.ved.std.library.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 
 /**
- * VED staandard component: filled rectangle.
+ * VED standard component: рамка (граница).
  *
- * @author hazard157, vs
+ * @author vs
  */
-public class VedStdCompRectangle
+public class VedStdCompBorder
     extends VedAbstractComponent {
 
   /**
    * Component kind ID.
    */
-  public static final String KIND_ID = "rectangle"; //$NON-NLS-1$
+  public static final String KIND_ID = "border"; //$NON-NLS-1$
 
-  // static final IDataDef PDEF_BORDER_INFO = DataDef.create( "borderInfo", VALOBJ, //
-  // TSID_NAME, "STR_N_BG_PATTERN", //
-  // TSID_DESCRIPTION, "STR_D_BG_PATTERN", //
-  // TSID_KEEPER_ID, TsBorderInfo.KEEPER_ID, //
-  // OPID_EDITOR_FACTORY_NAME, ValedAvValobjTsBorderInfo.FACTORY_NAME, //
-  // TSID_DEFAULT_VALUE, AV_VALOBJ_NULL //
-  // );
+  static final IDataDef PDEF_BORDER_INFO = DataDef.create( "borderInfo", VALOBJ, // //$NON-NLS-1$
+      TSID_NAME, STR_N_BORDER_INFO, //
+      TSID_DESCRIPTION, STR_D_BORDER_INFO, //
+      TSID_KEEPER_ID, TsBorderInfo.KEEPER_ID, //
+      OPID_EDITOR_FACTORY_NAME, ValedAvValobjTsBorderInfo.FACTORY_NAME, //
+      TSID_DEFAULT_VALUE, avValobj( TsBorderInfo.DEFAULT )//
+  );
 
   /**
    * Component provider singleton.
    */
   public static final VedAbstractComponentProvider PROVIDER =
       new VedAbstractComponentProvider( VedStdLibraryShapes.LIBRARY_ID, KIND_ID, OptionSetUtils.createOpSet( //
-          TSID_NAME, STR_N_VSC_RECT, //
-          TSID_DESCRIPTION, STR_D_VSC_RECT, //
+          TSID_NAME, STR_N_VSC_BORDER, //
+          TSID_DESCRIPTION, STR_D_VSC_BORDER, //
           TSID_ICON_ID, ICONID_COMP_RECTANGLE //
       ), //
           PDEF_X, //
           PDEF_Y, //
           PDEF_WIDTH, //
           PDEF_HEIGHT, //
-          PDEF_FG_COLOR, //
-          // PDEF_BG_COLOR, //
-          PDEF_FILL_INFO, //
-          // PDEF_BORDER_INFO, //
-          PDEF_ROTATION_ANGLE //
-      ) {
+          PDEF_ROTATION_ANGLE, //
+          PDEF_BORDER_INFO ) {
 
         @Override
         protected IVedComponent doCreateComponent( String aCompId, IVedEnvironment aEnvironment, IOptionSet aProps,
             IOptionSet aExtdata ) {
-          IVedComponent c = new VedStdCompRectangle( aCompId, aEnvironment );
+          IVedComponent c = new VedStdCompBorder( aCompId, aEnvironment );
           c.props().setProps( aProps );
           c.extdata().setAll( aExtdata );
           return c;
@@ -69,13 +72,13 @@ public class VedStdCompRectangle
    * @param aId String - component ID
    * @param aVedEnv {@link IVedEnvironment} - the VED envoronment
    */
-  public VedStdCompRectangle( String aId, IVedEnvironment aVedEnv ) {
+  public VedStdCompBorder( String aId, IVedEnvironment aVedEnv ) {
     super( PROVIDER, aVedEnv, aId );
   }
 
   @Override
   protected VedAbstractComponentView doCreateView( IVedScreen aScreen ) {
-    return new VedStdCompRectangleView( this, aScreen );
+    return new VedStdCompBorderView( this, aScreen );
   }
 
 }

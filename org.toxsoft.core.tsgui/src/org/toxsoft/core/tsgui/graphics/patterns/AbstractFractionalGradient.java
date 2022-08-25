@@ -13,8 +13,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author vs
  */
-public abstract class AbstractFractionalGradientPattern
-    extends AbstractSwtPattern {
+public abstract class AbstractFractionalGradient
+    extends AbstractGradient {
 
   /**
    * Узора для фона закрашиваемой фигуры
@@ -36,7 +36,7 @@ public abstract class AbstractFractionalGradientPattern
    * @param aContext ITsGuiContext - соотвествующий контекст
    * @throws TsIllegalArgumentRtException - количество фракций меньше 2
    */
-  public AbstractFractionalGradientPattern( IList<Pair<Double, RGBA>> aFractions, ITsGuiContext aContext ) {
+  public AbstractFractionalGradient( IList<Pair<Double, RGBA>> aFractions, ITsGuiContext aContext ) {
     super( aContext );
     TsIllegalArgumentRtException.checkTrue( aFractions.size() < 2 );
     Pair<Double, RGBA> prevPair = null;

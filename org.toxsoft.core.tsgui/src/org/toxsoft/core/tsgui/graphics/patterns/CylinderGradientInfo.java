@@ -17,7 +17,7 @@ import org.toxsoft.core.tslib.utils.valobj.*;
  * @author vs
  */
 public class CylinderGradientInfo
-    extends AbstractSwtPatternInfo {
+    extends AbstractGradientInfo {
 
   IListEdit<Pair<Double, RGBA>> fractions;
 
@@ -85,17 +85,13 @@ public class CylinderGradientInfo
    * @param aFractions IList&lt;Pair&lt;Double, RGBA>> aFractions - список фракций
    */
   public CylinderGradientInfo( IList<Pair<Double, RGBA>> aFractions ) {
+    super();
     fractions = new ElemArrayList<>( aFractions );
   }
 
   // ------------------------------------------------------------------------------------
-  // AbstractSwtPatternInfo
+  // IGradientInfo
   //
-
-  @Override
-  public ESwtPatternType type() {
-    return ESwtPatternType.GRADIENT;
-  }
 
   @Override
   public EGradientType gradientType() {

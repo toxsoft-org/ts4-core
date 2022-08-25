@@ -9,8 +9,8 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
  *
  * @author vs
  */
-public class LinearGradientPattern
-    extends AbstractSwtPattern {
+public class LinearGradient
+    extends AbstractGradient {
 
   private final LinearGradientInfo info;
 
@@ -22,7 +22,7 @@ public class LinearGradientPattern
    * @param aInfo LinearGradientInfo - параметры линейного градиента
    * @param aContext ITsGuiContext - соответствующий контекст
    */
-  public LinearGradientPattern( LinearGradientInfo aInfo, ITsGuiContext aContext ) {
+  public LinearGradient( LinearGradientInfo aInfo, ITsGuiContext aContext ) {
     super( aContext );
     info = aInfo;
     context = aContext;
@@ -38,7 +38,7 @@ public class LinearGradientPattern
   //
 
   @Override
-  public ISwtPatternInfo patternInfo() {
+  public IGradientInfo patternInfo() {
     return info;
   }
 

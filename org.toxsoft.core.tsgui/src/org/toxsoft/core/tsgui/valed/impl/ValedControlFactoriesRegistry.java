@@ -49,6 +49,8 @@ public class ValedControlFactoriesRegistry
     registerFactory( ValedSimpleFontInfo.FACTORY );
     registerFactory( ValedSimpleRgb.FACTORY );
     registerFactory( ValedSimpleRgba.FACTORY );
+    registerFactory( ValedTsLineInfo.FACTORY );
+    registerFactory( ValedTsBorderInfo.FACTORY );
     // av
     registerFactory( ValedAvBooleanCheck.FACTORY );
     registerFactory( ValedAvIntegerSpinner.FACTORY );
@@ -65,9 +67,11 @@ public class ValedControlFactoriesRegistry
     registerFactory( ValedAvValobjSimpleFontInfo.FACTORY );
     registerFactory( ValedAvValobjSimpleRgb.FACTORY );
     registerFactory( ValedAvValobjSimpleRgba.FACTORY );
+    registerFactory( ValedAvValobjTsLineInfo.FACTORY );
+    registerFactory( ValedAvValobjTsBorderInfo.FACTORY );
 
-    // Sol++
-    registerFactory( ValedAvValobjSwtPattern.FACTORY );
+    registerFactory( ValedAvValobjTsFillInfo.FACTORY );
+
   }
 
   // ------------------------------------------------------------------------------------

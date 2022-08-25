@@ -11,8 +11,8 @@ import org.toxsoft.core.tslib.utils.*;
  *
  * @author vs
  */
-public class RadialGradientPattern
-    extends AbstractFractionalGradientPattern {
+public class RadialGradient
+    extends AbstractFractionalGradient {
 
   /**
    * Смещение центра по оси x в процентах от ширины
@@ -32,14 +32,14 @@ public class RadialGradientPattern
    * @param aFractions IList&lt;Pair&lt;Double, RGBA>> - список фракций
    * @param aContext ITsGuiContext - соотвествующий контекст
    */
-  public RadialGradientPattern( double aCenterDx, double aCenterDy, IList<Pair<Double, RGBA>> aFractions,
+  public RadialGradient( double aCenterDx, double aCenterDy, IList<Pair<Double, RGBA>> aFractions,
       ITsGuiContext aContext ) {
     super( aFractions, aContext );
     centerDx = aCenterDx;
     centerDy = aCenterDy;
   }
 
-  public RadialGradientPattern( RadialGradientInfo aInfo, ITsGuiContext aContext ) {
+  public RadialGradient( RadialGradientInfo aInfo, ITsGuiContext aContext ) {
     super( aInfo.fractions, aContext );
     centerDx = aInfo.centerX;
     centerDy = aInfo.centerY;
@@ -91,7 +91,7 @@ public class RadialGradientPattern
   }
 
   @Override
-  public ISwtPatternInfo patternInfo() {
+  public IGradientInfo patternInfo() {
     // TODO Auto-generated method stub
     return null;
   }

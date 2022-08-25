@@ -10,8 +10,8 @@ import org.toxsoft.core.tslib.utils.*;
  *
  * @author vs
  */
-public class CylinderGradientPattern
-    extends AbstractFractionalGradientPattern {
+public class CylinderGradient
+    extends AbstractFractionalGradient {
 
   private final CylinderGradientInfo info;
 
@@ -21,7 +21,7 @@ public class CylinderGradientPattern
    * @param aInfo CylinderGradientInfo - параметры цилиндрической заливки
    * @param aContext ITsGuiContext - соответствующий контекст
    */
-  public CylinderGradientPattern( CylinderGradientInfo aInfo, ITsGuiContext aContext ) {
+  public CylinderGradient( CylinderGradientInfo aInfo, ITsGuiContext aContext ) {
     super( aInfo.fractions(), aContext );
     info = aInfo;
   }
@@ -78,11 +78,11 @@ public class CylinderGradientPattern
   }
 
   // ------------------------------------------------------------------------------------
-  // ISwtPattern
+  // IGradient
   //
 
   @Override
-  public ISwtPatternInfo patternInfo() {
+  public IGradientInfo patternInfo() {
     return info;
   }
 

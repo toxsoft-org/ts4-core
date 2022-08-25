@@ -24,12 +24,11 @@ class VedStdCompRectangleView
   // --- CACHE cached properties with conversion applied
   private D2RectOutline outline;
   private Color         bgColor;
-  private int           bgAlpha;
   private Color         fgColor;
   private int           fgAlpha;
   int                   lineWidth;
   double                x, y, w, h;
-  ISwtPatternInfo       patternInfo = null;
+  TsFillInfo            fillInfo = null;
   // ---
 
   public VedStdCompRectangleView( VedAbstractComponent aComponent, IVedScreen aScreen ) {
@@ -64,14 +63,14 @@ class VedStdCompRectangleView
     fgAlpha = fgRgb.alpha;
     RGBA bgRgb = props().getValobj( PDEF_BG_COLOR );
     bgColor = colorManager().getColor( bgRgb.rgb );
-    bgAlpha = bgRgb.alpha;
+    int bgAlpha = bgRgb.alpha;
     lineWidth = 2;
     x = (int)props().getDouble( PDEF_X );
     y = (int)props().getDouble( PDEF_Y );
     w = (int)props().getDouble( PDEF_WIDTH );
     h = (int)props().getDouble( PDEF_HEIGHT );
 
-    patternInfo = props().getValobj( PDEF_BG_PATTERN );
+    fillInfo = props().getValobj( PDEF_FILL_INFO );
   }
 
   @Override
@@ -100,24 +99,45 @@ class VedStdCompRectangleView
     int wi = (int)w;
     int hi = (int)h;
 
-    if( patternInfo == null ) {
-      aGc.setAlpha( bgAlpha );
-      aGc.setBackground( bgColor );
-      aGc.fillRectangle( xi, yi, wi, hi );
+    if( fillInfo != null && fillInfo != TsFillInfo.NONE ) { // если есть заливка
+      switch( fillInfo.kind() ) {
+        case GRADIENT:
+          break;
+        case IMAGE:
+          break;
+        case NONE:
+          break;
+        case SOLID:
+          RGBA rgba = fillInfo.fillColor();
+          aGc.setAlpha( rgba.alpha );
+          aGc.setBackground( colorManager().getColor( rgba.rgb ) );
+          aGc.fillRectangle( xi, yi, wi, hi );
+          break;
+        default:
+          break;
+      }
     }
-    else {
-      Pattern p = patternInfo.createSwtPattern( patternInfo, tsContext() ).pattern( aGc, wi, hi );
-      aGc.setBackgroundPattern( p );
-      Transform pTransform = new Transform( aGc.getDevice() );
-      aGc.getTransform( pTransform );
-      pTransform.translate( xi, yi );
-      aGc.setTransform( pTransform );
-      aGc.fillRectangle( 0, 0, wi, hi );
-      pTransform.translate( -xi, -yi );
-      aGc.setTransform( pTransform );
-      pTransform.dispose();
-      p.dispose();
-    }
+
+    // if( fillInfo == null || fillInfo == TsFillInfo.NONE ) {
+    // aGc.setAlpha( bgAlpha );
+    // aGc.setBackground( bgColor );
+    // aGc.fillRectangle( xi, yi, wi, hi );
+    // }
+    // else {
+    // if( fillInfo.kind() == ETsFillKind.GRADIENT ) {
+    // // Pattern p = fillInfo.createSwtPattern( fillInfo, tsContext() ).pattern( aGc, wi, hi );
+    // // aGc.setBackgroundPattern( p );
+    // // Transform pTransform = new Transform( aGc.getDevice() );
+    // // aGc.getTransform( pTransform );
+    // // pTransform.translate( xi, yi );
+    // // aGc.setTransform( pTransform );
+    // // aGc.fillRectangle( 0, 0, wi, hi );
+    // // pTransform.translate( -xi, -yi );
+    // // aGc.setTransform( pTransform );
+    // // pTransform.dispose();
+    // // p.dispose();
+    // }
+    // }
     aGc.setAlpha( fgAlpha );
     aGc.setForeground( fgColor );
     aGc.setLineWidth( lineWidth );

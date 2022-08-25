@@ -1,34 +1,38 @@
 package org.toxsoft.core.tsgui.graphics.patterns;
 
-import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.std.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Типы паттернов {@link Pattern} используемых при заливке отрисовываемых фигур.
+ * Типы заполнения фона при заливке изображением.
  * <p>
  *
  * @author vs
  */
-public enum ESwtPatternType
+public enum EImageFillKind
     implements IStridable {
+
+  /**
+   * Без заливки
+   */
+  CENTER( "center", "по центру без масштабирования", "по центру" ),
+
+  /**
+   * Цвет (RGBA)
+   */
+  FIT( "fit", "увеличить изображение для масимального заполнения области", "заполнить" ),
 
   /**
    * Изображение
    */
-  IMAGE( "imagePattern", "паттерн-изображение", "линейниый" ),
-
-  /**
-   * Градиент
-   */
-  GRADIENT( "gradientPattern", "паттерн-градиент", "градиент" );
+  TILE( "tile", "заполнение фона изображениями состыковывая их по горизонтали и вертикали", "плитка" );
 
   /**
    * Экземпляр-синглтон хранителя.
    */
-  public static final IEntityKeeper<ESwtPatternType> KEEPER = new StridableEnumKeeper<>( ESwtPatternType.class );
+  public static final IEntityKeeper<EImageFillKind> KEEPER = new StridableEnumKeeper<>( EImageFillKind.class );
 
   private final String id;
   private final String description;
@@ -41,7 +45,7 @@ public enum ESwtPatternType
    * @param aDescr String - отображаемое описание константы
    * @param aName String - краткое название константы
    */
-  ESwtPatternType( String aId, String aDescr, String aName ) {
+  EImageFillKind( String aId, String aDescr, String aName ) {
     id = aId;
     description = aDescr;
     name = aName;
@@ -120,9 +124,9 @@ public enum ESwtPatternType
    * @return EDragState - найденная константа, или null если нет константы с таимк идентификатором
    * @throws TsNullArgumentRtException аргумент = null
    */
-  public static ESwtPatternType findByIdOrNull( String aId ) {
+  public static EImageFillKind findByIdOrNull( String aId ) {
     TsNullArgumentRtException.checkNull( aId );
-    for( ESwtPatternType item : values() ) {
+    for( EImageFillKind item : values() ) {
       if( item.id.equals( aId ) ) {
         return item;
       }
@@ -138,7 +142,7 @@ public enum ESwtPatternType
    * @throws TsNullArgumentRtException аргумент = null
    * @throws TsItemNotFoundRtException нет константы с таким идентификатором
    */
-  public static ESwtPatternType findById( String aId ) {
+  public static EImageFillKind findById( String aId ) {
     return TsItemNotFoundRtException.checkNull( findByIdOrNull( aId ) );
   }
 
@@ -149,9 +153,9 @@ public enum ESwtPatternType
    * @return EDragState - найденная константа, или null если нет константы с таким описанием
    * @throws TsNullArgumentRtException аргумент = null
    */
-  public static ESwtPatternType findByDescriptionOrNull( String aDescription ) {
+  public static EImageFillKind findByDescriptionOrNull( String aDescription ) {
     TsNullArgumentRtException.checkNull( aDescription );
-    for( ESwtPatternType item : values() ) {
+    for( EImageFillKind item : values() ) {
       if( item.description.equals( aDescription ) ) {
         return item;
       }
@@ -167,7 +171,7 @@ public enum ESwtPatternType
    * @throws TsNullArgumentRtException аргумент = null
    * @throws TsItemNotFoundRtException нет константы с таким описанием
    */
-  public static ESwtPatternType findByDescription( String aDescription ) {
+  public static EImageFillKind findByDescription( String aDescription ) {
     return TsItemNotFoundRtException.checkNull( findByDescriptionOrNull( aDescription ) );
   }
 
@@ -178,9 +182,9 @@ public enum ESwtPatternType
    * @return EDragState - найденная константа, или null если нет константы с таким именем
    * @throws TsNullArgumentRtException аргумент = null
    */
-  public static ESwtPatternType findByNameOrNull( String aName ) {
+  public static EImageFillKind findByNameOrNull( String aName ) {
     TsNullArgumentRtException.checkNull( aName );
-    for( ESwtPatternType item : values() ) {
+    for( EImageFillKind item : values() ) {
       if( item.name.equals( aName ) ) {
         return item;
       }
@@ -196,7 +200,7 @@ public enum ESwtPatternType
    * @throws TsNullArgumentRtException аргумент = null
    * @throws TsItemNotFoundRtException нет константы с таким именем
    */
-  public static ESwtPatternType findByName( String aName ) {
+  public static EImageFillKind findByName( String aName ) {
     return TsItemNotFoundRtException.checkNull( findByNameOrNull( aName ) );
   }
 

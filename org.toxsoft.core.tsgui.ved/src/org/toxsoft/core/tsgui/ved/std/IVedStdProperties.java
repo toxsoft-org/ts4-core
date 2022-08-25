@@ -149,20 +149,36 @@ public interface IVedStdProperties {
       TSID_DEFAULT_VALUE, avValobj( new RGBA( 255, 255, 255, 255 ) ) //
   );
 
+  // /**
+  // * ID of property {@link #PDEF_BG_PATTERN}.
+  // */
+  // String PID_BG_PATTERN = "bgPattern"; //$NON-NLS-1$
+  //
+  // /**
+  // * Property: components background pattern.
+  // */
+  // IDataDef PDEF_BG_PATTERN = DataDef.create( PID_BG_PATTERN, VALOBJ, //
+  // TSID_NAME, STR_N_BG_PATTERN, //
+  // TSID_DESCRIPTION, STR_D_BG_PATTERN, //
+  // TSID_KEEPER_ID, AbstractSwtPatternInfo.KEEPER_ID, //
+  // OPID_EDITOR_FACTORY_NAME, ValedAvValobjSwtPattern.FACTORY_NAME, //
+  // TSID_DEFAULT_VALUE, AV_VALOBJ_NULL //
+  // );
+
   /**
-   * ID of property {@link #PDEF_BG_PATTERN}.
+   * ID of property {@link #PDEF_FILL_INFO}.
    */
-  String PID_BG_PATTERN = "bgPattern"; //$NON-NLS-1$
+  String PID_FILL_INFO = "fillInfo"; //$NON-NLS-1$
 
   /**
    * Property: components background pattern.
    */
-  IDataDef PDEF_BG_PATTERN = DataDef.create( PID_BG_PATTERN, VALOBJ, //
-      TSID_NAME, STR_N_BG_PATTERN, //
-      TSID_DESCRIPTION, STR_D_BG_PATTERN, //
-      TSID_KEEPER_ID, AbstractSwtPatternInfo.KEEPER_ID, //
-      OPID_EDITOR_FACTORY_NAME, ValedAvValobjSwtPattern.FACTORY_NAME, //
-      TSID_DEFAULT_VALUE, AV_VALOBJ_NULL //
+  IDataDef PDEF_FILL_INFO = DataDef.create( PID_FILL_INFO, VALOBJ, //
+      TSID_NAME, STR_N_FILL_INFO, //
+      TSID_DESCRIPTION, STR_D_FILL_INFO, //
+      TSID_KEEPER_ID, TsFillInfo.KEEPER_ID, //
+      OPID_EDITOR_FACTORY_NAME, ValedAvValobjTsFillInfo.FACTORY_NAME, //
+      TSID_DEFAULT_VALUE, avValobj( TsFillInfo.NONE ) //
   );
 
   // ------------------------------------------------------------------------------------
