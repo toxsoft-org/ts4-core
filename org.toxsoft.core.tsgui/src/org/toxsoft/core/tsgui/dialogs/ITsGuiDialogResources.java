@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.dialogs;
 
+import org.toxsoft.core.tsgui.dialogs.misc.*;
+
 /**
  * Localizable resources.
  *
@@ -38,5 +40,14 @@ public interface ITsGuiDialogResources {
   String DLG_T_NEW_OBJ         = Messages.getString( "DLG_T_NEW_OBJ" );         //$NON-NLS-1$
   String DLG_C_SELECT_OBJ      = Messages.getString( "DLG_C_SELECT_OBJ" );      //$NON-NLS-1$
   String DLG_T_SELECT_OBJ      = Messages.getString( "DLG_T_SELECT_OBJ" );      //$NON-NLS-1$
+
+  /**
+   * {@link DialogEnterPassword}
+   */
+  String DLG_C_ENTER_PASSWORD  = Messages.getString( "DLG_C_ENTER_PASSWORD" );  //$NON-NLS-1$
+  String DLG_T_ENTER_PASSWORD  = Messages.getString( "DLG_T_ENTER_PASSWORD" );  //$NON-NLS-1$
+  String STR_L_ENTER_PASSWORD1 = Messages.getString( "STR_L_ENTER_PASSWORD1" ); //$NON-NLS-1$
+  String STR_L_ENTER_PASSWORD2 = Messages.getString( "STR_L_ENTER_PASSWORD2" ); //$NON-NLS-1$
+  String MSG_ERR_PSWD_NO_MATCH = Messages.getString( "MSG_ERR_PSWD_NO_MATCH" ); //$NON-NLS-1$
 
 }
