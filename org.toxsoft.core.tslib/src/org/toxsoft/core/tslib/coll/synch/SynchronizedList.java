@@ -230,10 +230,10 @@ public class SynchronizedList<E, L extends IList<E>>
   @Override
   public IListBasicEdit<E> copyTo( IListBasicEdit<E> aDest ) {
     IListBasicEdit<E> dest = aDest;
+    lock.readLock().lock();
     if( dest == null ) {
       dest = new ElemArrayList<>( size() );
     }
-    lock.readLock().lock();
     try {
       dest.addAll( this );
       return dest;

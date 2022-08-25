@@ -75,6 +75,7 @@ public class M5LifecycleManager<T, M>
    * @param aCanRemove boolean - entity removingsupport flags
    * @param aEnumeratable boolean - entity listing support flags
    * @param aMaster &lt;M&gt; - master object, may be <code>null</code>
+   * @throws TsNullArgumentRtException model is <code>null</code>
    */
   public M5LifecycleManager( IM5Model<T> aModel, boolean aCanCreate, boolean aCanEdit, boolean aCanRemove,
       boolean aEnumeratable, M aMaster ) {
