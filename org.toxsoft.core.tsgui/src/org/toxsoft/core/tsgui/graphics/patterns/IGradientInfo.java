@@ -29,10 +29,9 @@ public interface IGradientInfo {
   /**
    * Создает соотвествующий узор для заполнения областей при рисовании.
    *
-   * @param aInfo IGradientInfo - параметры заливки
    * @param aContext ITsGuiContext - соотвествующий контекст
    * @return ISwtPattern - узор для заполнения областей при рисовании
    */
-  IGradient createGradient( IGradientInfo aInfo, ITsGuiContext aContext );
+  IGradient createGradient( ITsGuiContext aContext );
 
 }

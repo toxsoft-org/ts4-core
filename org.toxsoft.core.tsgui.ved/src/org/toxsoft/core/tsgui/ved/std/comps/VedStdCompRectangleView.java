@@ -23,7 +23,8 @@ class VedStdCompRectangleView
 
   // --- CACHE cached properties with conversion applied
   private D2RectOutline outline;
-  private Color         bgColor;
+  private Color         bgColor  = null;
+  private int           bgAlpha  = 255;
   private Color         fgColor;
   private int           fgAlpha;
   int                   lineWidth;
@@ -61,9 +62,6 @@ class VedStdCompRectangleView
     RGBA fgRgb = props().getValobj( PDEF_FG_COLOR );
     fgColor = colorManager().getColor( fgRgb.rgb );
     fgAlpha = fgRgb.alpha;
-    RGBA bgRgb = props().getValobj( PDEF_BG_COLOR );
-    bgColor = colorManager().getColor( bgRgb.rgb );
-    int bgAlpha = bgRgb.alpha;
     lineWidth = 2;
     x = (int)props().getDouble( PDEF_X );
     y = (int)props().getDouble( PDEF_Y );
@@ -71,6 +69,13 @@ class VedStdCompRectangleView
     h = (int)props().getDouble( PDEF_HEIGHT );
 
     fillInfo = props().getValobj( PDEF_FILL_INFO );
+    if( fillInfo.kind() == ETsFillKind.SOLID ) {
+      bgAlpha = fillInfo.fillColor().alpha;
+      bgColor = colorManager().getColor( fillInfo.fillColor().rgb );
+    }
+    else {
+      bgColor = null;
+    }
   }
 
   @Override
@@ -101,16 +106,28 @@ class VedStdCompRectangleView
 
     if( fillInfo != null && fillInfo != TsFillInfo.NONE ) { // если есть заливка
       switch( fillInfo.kind() ) {
-        case GRADIENT:
+        case NONE:
+          break;
+        case GRADIENT: {
+          IGradient gradient = fillInfo.gradientFillInfo().createGradient( tsContext() );
+          Pattern p = gradient.pattern( aGc, wi, hi );
+          aGc.setBackgroundPattern( p );
+          Transform pTransform = new Transform( aGc.getDevice() );
+          aGc.getTransform( pTransform );
+          pTransform.translate( xi, yi );
+          aGc.setTransform( pTransform );
+          aGc.fillRectangle( 0, 0, wi, hi );
+          pTransform.translate( -xi, -yi );
+          aGc.setTransform( pTransform );
+          pTransform.dispose();
+          p.dispose();
+        }
           break;
         case IMAGE:
           break;
-        case NONE:
-          break;
         case SOLID:
-          RGBA rgba = fillInfo.fillColor();
-          aGc.setAlpha( rgba.alpha );
-          aGc.setBackground( colorManager().getColor( rgba.rgb ) );
+          aGc.setAlpha( bgAlpha );
+          aGc.setBackground( bgColor );
           aGc.fillRectangle( xi, yi, wi, hi );
           break;
         default:

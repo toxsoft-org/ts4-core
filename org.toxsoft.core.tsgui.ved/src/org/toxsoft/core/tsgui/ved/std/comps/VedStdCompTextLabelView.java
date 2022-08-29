@@ -7,6 +7,7 @@ import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.graphics.fonts.impl.*;
 import org.toxsoft.core.tsgui.graphics.lines.*;
+import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tsgui.ved.core.impl.*;
 import org.toxsoft.core.tsgui.ved.core.view.*;
 import org.toxsoft.core.tsgui.ved.utils.*;
@@ -53,7 +54,7 @@ class VedStdCompTextLabelView
 
   @Override
   protected void doUpdateOnConversionChange() {
-    // TODO Auto-generated method stub
+    // nop
   }
 
   @Override
@@ -130,14 +131,52 @@ class VedStdCompTextLabelView
     aGc.setBackground( bgColor );
     aGc.fillRectangle( (int)x, (int)y, (int)w, (int)h );
 
+    TsFillInfo fillInfo = props().getValobj( VedStdCompTextLabel.PDEF_TEXT_FILL_INFO );
+    if( fillInfo != null && fillInfo != TsFillInfo.NONE ) { // если есть заливка
+      switch( fillInfo.kind() ) {
+        case NONE:
+          break;
+        case GRADIENT: {
+          IGradient gradient = fillInfo.gradientFillInfo().createGradient( tsContext() );
+          Pattern p = gradient.pattern( aGc, (int)w, (int)h );
+          aGc.setBackgroundPattern( p );
+          Transform pTransform = new Transform( aGc.getDevice() );
+          aGc.getTransform( pTransform );
+          pTransform.translate( (int)txtX, (int)txtY );
+          aGc.setTransform( pTransform );
+          Path path = new Path( aGc.getDevice() );
+          path.addString( text, 0, 0, font );
+          aGc.fillPath( path );
+          path.dispose();
+          pTransform.translate( (int)-txtX, (int)-txtY );
+          aGc.setTransform( pTransform );
+          pTransform.dispose();
+          p.dispose();
+        }
+          break;
+        case IMAGE:
+          break;
+        case SOLID:
+          aGc.setFont( font );
+          aGc.setAlpha( textAlpha );
+          aGc.setForeground( textColor );
+          aGc.drawText( text, (int)txtX, (int)txtY, true );
+          break;
+        default:
+          break;
+      }
+    }
+
+    // aGc.setAlpha( bgAlpha );
+    // aGc.setBackground( bgColor );
+    // aGc.fillRectangle( (int)x, (int)y, (int)w, (int)h );
+
     TsGraphicsUtils.drawBorder( aGc, borderInfo, new TsRectangle( (int)x, (int)y, (int)w, (int)h ), colorManager() );
 
-    aGc.setFont( font );
-    aGc.setAlpha( textAlpha );
-    aGc.setForeground( textColor );
-    aGc.drawText( text, (int)txtX, (int)txtY, true );
-
-    // TsGraphicsUtils.drawBorder( aGc, borderInfo, new TsRectangle( (int)x, (int)y, (int)w, (int)h ), colorManager() );
+    // aGc.setFont( font );
+    // aGc.setAlpha( textAlpha );
+    // aGc.setForeground( textColor );
+    // aGc.drawText( text, (int)txtX, (int)txtY, true );
 
     if( oldTransfrom != null ) { // восстановим старый transform
       aGc.setTransform( oldTransfrom );

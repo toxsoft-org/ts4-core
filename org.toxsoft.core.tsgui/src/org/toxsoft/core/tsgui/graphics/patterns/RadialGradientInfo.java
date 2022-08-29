@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.graphics.patterns;
 
 import org.eclipse.swt.graphics.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.utils.swt.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
@@ -111,6 +112,11 @@ public class RadialGradientInfo
   @Override
   public EGradientType gradientType() {
     return EGradientType.RADIAL;
+  }
+
+  @Override
+  public IGradient createGradient( ITsGuiContext aContext ) {
+    return new RadialGradient( this, aContext );
   }
 
   // ------------------------------------------------------------------------------------

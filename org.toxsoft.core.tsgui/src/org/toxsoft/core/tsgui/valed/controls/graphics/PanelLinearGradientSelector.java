@@ -103,7 +103,7 @@ public class PanelLinearGradientSelector
         colorIdx = (colorIdx + (r.height / 16) % 2) % 2;
       }
 
-      pattern = gradientInfo().createGradient( gradientInfo(), tsContext );
+      pattern = gradientInfo().createGradient( tsContext );
       if( pattern != null ) {
         Pattern p = pattern.pattern( aE.gc, r.width, r.height );
         aE.gc.setBackgroundPattern( p );
@@ -208,7 +208,7 @@ public class PanelLinearGradientSelector
       endRgba = aEndRgba;
 
       LinearGradientInfo gradientInfo = gradientInfo();
-      pattern = gradientInfo.createGradient( gradientInfo, tsContext() );
+      pattern = gradientInfo.createGradient( tsContext() );
       redraw();
     }
 
@@ -278,7 +278,7 @@ public class PanelLinearGradientSelector
    *
    * @return IGradientInfo - параметры заливки
    */
-  public IGradientInfo patternInfo() {
+  public IGradientInfo gradientInfo() {
     return resultPanel.gradientInfo();
   }
 

@@ -118,23 +118,25 @@ public class TsGradientFillInfo
   }
 
   @Override
-  public IGradient createGradient( IGradientInfo aInfo, ITsGuiContext aContext ) {
-    // TODO Auto-generated method stub
+  public IGradient createGradient( ITsGuiContext aContext ) {
+    switch( type ) {
+      case NONE:
+        break;
+      case CYLINDER:
+        return cylinderGradientInfo.createGradient( aContext );
+      case LINEAR:
+        return linearGradientInfo.createGradient( aContext );
+      case RADIAL:
+        return radialGradientInfo.createGradient( aContext );
+      default:
+        throw new TsNotAllEnumsUsedRtException();
+    }
     return null;
   }
 
   // ------------------------------------------------------------------------------------
   // API
   //
-
-  // /**
-  // * Возвращает тип градиента.
-  // *
-  // * @return EGradientType - тип градиента
-  // */
-  // public EGradientType type() {
-  // return type;
-  // }
 
   /**
    * Возвращает параметры линейного градиента.

@@ -71,7 +71,7 @@ public class PanelRadialGradientSelector
 
         IList<Pair<Double, RGBA>> fractions = fractionsPanel.fractions();
         RadialGradientInfo gi = new RadialGradientInfo( centerX, centerY, fractions );
-        pattern = gi.createGradient( gi, tsContext() );
+        pattern = gi.createGradient( tsContext() );
 
         redraw();
         update();
@@ -102,7 +102,7 @@ public class PanelRadialGradientSelector
     fractionsPanel.setRGBA( rgbaSelector.rgba() );
     IList<Pair<Double, RGBA>> fractions = fractionsPanel.fractions();
     RadialGradientInfo gi = new RadialGradientInfo( centerX, centerY, fractions );
-    pattern = gi.createGradient( gi, tsContext() );
+    pattern = gi.createGradient( tsContext() );
     resultPanel.redraw();
   };
 
@@ -125,7 +125,7 @@ public class PanelRadialGradientSelector
       rgbaSelector.setRgba( fractionsPanel.selectedRgba() );
       IList<Pair<Double, RGBA>> fractions = fractionsPanel.fractions();
       RadialGradientInfo gi = new RadialGradientInfo( centerX, centerY, fractions );
-      pattern = gi.createGradient( gi, aContext );
+      pattern = gi.createGradient( aContext );
     } );
 
     rgbaSelector = new RgbaSelector( this, SWT.NONE, aContext.eclipseContext() );
@@ -149,7 +149,7 @@ public class PanelRadialGradientSelector
    *
    * @return IGradientInfo - параметры заливки
    */
-  public IGradientInfo patternInfo() {
+  public IGradientInfo gradientInfo() {
     return new RadialGradientInfo( centerX, centerY, fractionsPanel.fractions() );
   }
 

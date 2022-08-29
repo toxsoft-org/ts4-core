@@ -56,16 +56,24 @@ public class PanelGradientFillInfo
 
   }
 
+  /**
+   * Возвращает параметры градиентной заливки.
+   *
+   * @return TsGradientFillInfo - параметры градиентной заливки
+   */
   public TsGradientFillInfo fillInfo() {
-    // if( stackLayout.topControl == linearGradientSelector ) {
-    // return new TsGradientFillInfo( new TsGradientFillInfo( linearGradientSelector.patternInfo() ) );
-    // }
-    // if( stackLayout.topControl == radialGradientSelector ) {
-    // return new TsGradientFillInfo( new TsGradientFillInfo( radialGradientSelector.patternInfo() ) );
-    // }
-    // if( stackLayout.topControl == cylinderGradientSelector ) {
-    // return new TsGradientFillInfo( new TsGradientFillInfo( cylinderGradientSelector.patternInfo() ) );
-    // }
+    switch( fillKindCombo.getValue() ) {
+      case NONE:
+        break;
+      case CYLINDER:
+        return new TsGradientFillInfo( cylinderGradientSelector.gradientInfo() );
+      case LINEAR:
+        return new TsGradientFillInfo( linearGradientSelector.gradientInfo() );
+      case RADIAL:
+        return new TsGradientFillInfo( radialGradientSelector.gradientInfo() );
+      default:
+        throw new TsNotAllEnumsUsedRtException();
+    }
     return null;
   }
 

@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.graphics.fonts.impl.*;
 import org.toxsoft.core.tsgui.graphics.lines.*;
+import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tsgui.valed.controls.graphics.*;
 import org.toxsoft.core.tsgui.ved.core.*;
 import org.toxsoft.core.tsgui.ved.core.impl.*;
@@ -106,6 +107,17 @@ public class VedStdCompTextLabel
   );
 
   /**
+   * Property: text fill properties.
+   */
+  public static final IDataDef PDEF_TEXT_FILL_INFO = DataDef.create( "textFillInfo", VALOBJ, //$NON-NLS-1$
+      TSID_NAME, "Заливка текста", //
+      TSID_DESCRIPTION, "Заливка текста", //
+      TSID_KEEPER_ID, TsFillInfo.KEEPER_ID, //
+      OPID_EDITOR_FACTORY_NAME, ValedAvValobjTsFillInfo.FACTORY_NAME, //
+      TSID_DEFAULT_VALUE, avValobj( TsFillInfo.NONE ) //
+  );
+
+  /**
    * Component provider singleton.
    */
   public static final VedAbstractComponentProvider PROVIDER =
@@ -118,8 +130,10 @@ public class VedStdCompTextLabel
           PDEF_Y, //
           PDEF_WIDTH, //
           PDEF_HEIGHT, //
-          PDEF_BG_COLOR, //
+          // PDEF_BG_COLOR, //
+          PDEF_FILL_INFO, //
           PDEF_FG_COLOR, //
+          PDEF_TEXT_FILL_INFO, //
           PDEF_ROTATION_ANGLE, //
           OPDEF_TEXT, //
           OPDEF_FONT, //

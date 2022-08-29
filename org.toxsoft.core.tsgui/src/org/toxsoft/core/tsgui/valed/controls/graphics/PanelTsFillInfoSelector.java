@@ -14,6 +14,12 @@ import org.toxsoft.core.tsgui.valed.controls.enums.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
+/**
+ * Панель редактирования параметров заливки.
+ * <p>
+ *
+ * @author vs
+ */
 public class PanelTsFillInfoSelector
     extends AbstractTsDialogPanel<TsFillInfo, ITsGuiContext> {
 
@@ -22,6 +28,12 @@ public class PanelTsFillInfoSelector
 
   Combo gtypeCombo;
 
+  /**
+   * Конструктор.<br>
+   *
+   * @param aParent Composite - родительская компонента
+   * @param aOwnerDialog TsDialog - родительский диалог
+   */
   public PanelTsFillInfoSelector( Composite aParent, TsDialog<TsFillInfo, ITsGuiContext> aOwnerDialog ) {
     super( aParent, aOwnerDialog );
     this.setLayout( new BorderLayout() );
@@ -53,7 +65,7 @@ public class PanelTsFillInfoSelector
       case NONE:
         return TsFillInfo.NONE;
       case GRADIENT:
-        return TsFillInfo.NONE;
+        return new TsFillInfo( gradientPanel.fillInfo() );
       case IMAGE:
         return TsFillInfo.NONE;
       case SOLID:

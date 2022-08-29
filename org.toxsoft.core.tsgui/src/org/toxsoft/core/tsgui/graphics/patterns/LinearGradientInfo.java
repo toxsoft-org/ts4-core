@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.graphics.patterns;
 
 import org.eclipse.swt.graphics.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.utils.swt.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
@@ -93,6 +94,11 @@ public class LinearGradientInfo
   // ------------------------------------------------------------------------------------
   // IGradientInfo
   //
+
+  @Override
+  public IGradient createGradient( ITsGuiContext aContext ) {
+    return new LinearGradient( this, aContext );
+  }
 
   @Override
   public EGradientType gradientType() {

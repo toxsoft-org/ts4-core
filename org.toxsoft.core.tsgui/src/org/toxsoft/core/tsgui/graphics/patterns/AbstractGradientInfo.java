@@ -1,6 +1,5 @@
 package org.toxsoft.core.tsgui.graphics.patterns;
 
-import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
@@ -73,21 +72,21 @@ public abstract class AbstractGradientInfo
   // IGradientInfo
   //
 
-  @Override
-  public IGradient createGradient( IGradientInfo aInfo, ITsGuiContext aContext ) {
-    switch( aInfo.gradientType() ) {
-      case NONE:
-        break;
-      case CYLINDER:
-        return new CylinderGradient( (CylinderGradientInfo)aInfo, aContext );
-      case LINEAR:
-        return new LinearGradient( (LinearGradientInfo)aInfo, aContext );
-      case RADIAL:
-        return new RadialGradient( (RadialGradientInfo)aInfo, aContext );
-      default:
-        throw new TsNotAllEnumsUsedRtException();
-    }
-    return null;
-  }
+  // @Override
+  // public IGradient createGradient( IGradientInfo aInfo, ITsGuiContext aContext ) {
+  // switch( aInfo.gradientType() ) {
+  // case NONE:
+  // break;
+  // case CYLINDER:
+  // return new CylinderGradient( (CylinderGradientInfo)aInfo, aContext );
+  // case LINEAR:
+  // return new LinearGradient( (LinearGradientInfo)aInfo, aContext );
+  // case RADIAL:
+  // return new RadialGradient( (RadialGradientInfo)aInfo, aContext );
+  // default:
+  // throw new TsNotAllEnumsUsedRtException();
+  // }
+  // return null;
+  // }
 
 }
