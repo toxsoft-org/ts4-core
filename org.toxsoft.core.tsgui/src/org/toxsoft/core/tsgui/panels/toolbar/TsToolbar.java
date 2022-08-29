@@ -69,13 +69,12 @@ public class TsToolbar
    * @param aContext {@link ITsGuiContext} - the context
    * @param aName String - toolbar name, may be <code>null</code>
    * @param aIconSize {@link EIconSize} - icons size or <code>null</code> for default size
-   * @param aActionDefs {@link ITsActionDef} - action buttons on toolbar
+   * @param aActionDefs {@link IList}&lt;{@link ITsActionDef}&gt; - action buttons on toolbar
    * @return {@link TsToolbar} - created instance
    */
   public static TsToolbar create( Composite aParent, ITsGuiContext aContext, String aName, EIconSize aIconSize,
-      ITsActionDef... aActionDefs ) {
-    TsNullArgumentRtException.checkNulls( aParent, aContext, aIconSize );
-    TsErrorUtils.checkArrayArg( aActionDefs );
+      IList<ITsActionDef> aActionDefs ) {
+    TsNullArgumentRtException.checkNulls( aParent, aContext, aIconSize, aActionDefs );
     TsToolbar toolBar = new TsToolbar( aContext );
     for( ITsActionDef actDef : aActionDefs ) {
       toolBar.addActionDef( actDef );
@@ -91,6 +90,21 @@ public class TsToolbar
     }
     toolBar.createControl( aParent );
     return toolBar;
+  }
+
+  /**
+   * Creates named toolbar.
+   *
+   * @param aParent {@link Composite} - parent composite
+   * @param aContext {@link ITsGuiContext} - the context
+   * @param aName String - toolbar name, may be <code>null</code>
+   * @param aIconSize {@link EIconSize} - icons size or <code>null</code> for default size
+   * @param aActionDefs {@link ITsActionDef} - action buttons on toolbar
+   * @return {@link TsToolbar} - created instance
+   */
+  public static TsToolbar create( Composite aParent, ITsGuiContext aContext, String aName, EIconSize aIconSize,
+      ITsActionDef... aActionDefs ) {
+    return create( aParent, aContext, TsErrorUtils.checkArrayArg( aActionDefs ) );
   }
 
   /**
@@ -116,6 +130,18 @@ public class TsToolbar
    * @return {@link TsToolbar} - created instance
    */
   public static TsToolbar create( Composite aParent, ITsGuiContext aContext, ITsActionDef... aActionDefs ) {
+    return create( aParent, aContext, null, null, aActionDefs );
+  }
+
+  /**
+   * Creates unnamed toolbar with icons of default size.
+   *
+   * @param aParent {@link Composite} - parent composite
+   * @param aContext {@link ITsGuiContext} - the context
+   * @param aActionDefs {@link IList}&lt;{@link ITsActionDef}&gt; - action buttons on toolbar
+   * @return {@link TsToolbar} - created instance
+   */
+  public static TsToolbar create( Composite aParent, ITsGuiContext aContext, IList<ITsActionDef> aActionDefs ) {
     return create( aParent, aContext, null, null, aActionDefs );
   }
 
