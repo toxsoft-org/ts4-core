@@ -16,12 +16,12 @@ public class D2Utils {
   /**
    * Max allowed zoom factor is x1000 times.
    */
-  public static final double MAX_ZOOM_FACTOR = 100_000.0;
+  public static final double MAX_ZOOM_FACTOR = 1_000.0;
 
   /**
    * Min allowed zoom factor is 1/1000 times.
    */
-  public static final double MIN_ZOOM_FACTOR = 0.1;
+  public static final double MIN_ZOOM_FACTOR = 0.001;
 
   private static final double MAX_D2_VALUE         = (Long.MAX_VALUE) + 0.1;
   private static final double MIN_D2_VALUE         = (Long.MIN_VALUE) - 0.1;
