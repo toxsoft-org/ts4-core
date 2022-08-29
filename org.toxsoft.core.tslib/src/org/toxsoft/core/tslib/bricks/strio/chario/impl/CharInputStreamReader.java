@@ -1,9 +1,8 @@
 package org.toxsoft.core.tslib.bricks.strio.chario.impl;
 
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Character stream reader from {@link Reader}.
@@ -34,10 +33,6 @@ public final class CharInputStreamReader
   @Override
   public int doReadChar()
       throws IOException {
-    // есть входные данные?
-    if( !reader.ready() ) {
-      return -1;
-    }
     // считаем очередной символ, был ли при этом EOF?
     if( reader.read( cbuf ) == -1 ) {
       return -1;

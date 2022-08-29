@@ -8,7 +8,6 @@ import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.errors.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.opset.*;
-import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -25,7 +24,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public interface IDataDef
-    extends IDataType, IStridableParameterized, IIconIdable {
+    extends IDataType, IStridableParameterized {
 
   /**
    * Returns the atomic type of the data.

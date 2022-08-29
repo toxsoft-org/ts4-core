@@ -178,7 +178,7 @@ public class M5GuiUtils {
    * @param <T> - M5-modelled entity type
    * @param aContext {@link ITsGuiContext} - the context
    * @param aModel {@link IM5Model} - the model
-   * @param aValues {@link IM5Bunch} - initl values of entity fields or <code>null</code>
+   * @param aValues {@link IM5Bunch} - initial values of entity fields or <code>null</code>
    * @param aDialogInfo {@link ITsDialogInfo} - dialog window properties
    * @param aLifecycleManager {@link IM5LifecycleManager} - the lifecycle manager
    * @return &lt;T&gt; - created entity or <code>null</code> if user cancelled operation
@@ -380,6 +380,36 @@ public class M5GuiUtils {
     IDialogPanelCreator<T, Object> creator = ( aParent,
         aOwnerDialog ) -> new SelectLookupItemDialogContentPanel<>( aParent, aOwnerDialog, aModel, aLookupProvider );
     TsDialog<T, Object> d = new TsDialog<>( aDialogInfo, aInitialSelected, null, creator );
+    return d.execData();
+  }
+
+  /**
+   * Shows modelled entity bunch edit dialog.
+   * <p>
+   * Depending on {@link IM5Bunch#originalEntity()} value checks either for creation (if originnale entity is
+   * <code>null</code>) or editing.
+   *
+   * @param <T> - M5-modelled entity type
+   * @param aContext {@link ITsGuiContext} - the context
+   * @param aModel {@link IM5Model} - the model
+   * @param aValues {@link IM5Bunch} - initial values of entity fields or <code>null</code>
+   * @param aDialogInfo {@link ITsDialogInfo} - dialog window properties
+   * @param aLifecycleManager {@link IM5LifecycleManager} - the lifecycle manager
+   * @return IM5Bunch&lt;T&gt; - edited bunch or <code>null</code> if user cancelled operation
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static <T> IM5Bunch<T> editBunch( ITsGuiContext aContext, IM5Model<T> aModel, IM5Bunch<T> aValues,
+      ITsDialogInfo aDialogInfo, IM5LifecycleManager<T> aLifecycleManager ) {
+    TsNullArgumentRtException.checkNulls( aContext, aModel, aDialogInfo, aLifecycleManager );
+    IDialogPanelCreator<IM5Bunch<T>, ITsGuiContext> creator = ( aParent, aOwnerDialog ) -> {
+      IM5EntityPanel<T> panel = aModel.panelCreator().createEntityEditorPanel( aContext, aLifecycleManager );
+      return new AskDialogContentPanel<>( aParent, aOwnerDialog, panel, aValues.originalEntity() == null );
+    };
+    IM5Bunch<T> initVals = aValues;
+    if( initVals == null ) {
+      initVals = aModel.valuesOf( null );
+    }
+    TsDialog<IM5Bunch<T>, ITsGuiContext> d = new TsDialog<>( aDialogInfo, initVals, aContext, creator );
     return d.execData();
   }
 

@@ -82,6 +82,10 @@ public interface ITsGuiContextable
     return tsContext().get( IAppPreferences.class );
   }
 
+  default IPrefBundle prefBundle( String aBundleId ) {
+    return appPrefs().getBundle( aBundleId );
+  }
+
   default IM5Domain m5() {
     return tsContext().get( IM5Domain.class );
   }
