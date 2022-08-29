@@ -4,7 +4,6 @@ import org.toxsoft.core.tsgui.ved.core.*;
 import org.toxsoft.core.tslib.av.errors.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
-import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -15,7 +14,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public interface IVedComponentProvider
-    extends IStridableParameterized, IIconIdable {
+    extends IStridableParameterized {
 
   /**
    * Returns the owner library ID.

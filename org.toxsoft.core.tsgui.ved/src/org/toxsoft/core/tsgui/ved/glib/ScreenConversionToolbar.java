@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.ved.glib;
 
 import static org.toxsoft.core.tsgui.bricks.actions.ITsStdActionDefs.*;
+import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
 
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.actions.*;
@@ -26,8 +27,9 @@ public class ScreenConversionToolbar
     extends AbstractLazyPanel<Control> {
 
   // TODO move to application preferences ??? or make the same size as other icons in VED?
-  private final EIconSize TOOLBAR_ICON_SIZE = EIconSize.IS_32X32;
-  // private final double ZOOM_STEP_FACTOR = Math.pow( 2.0, 0.25 ); // 4 steps = 2x times
+  private final EIconSize TOOLBAR_ICON_SIZE     = EIconSize.IS_32X32;
+  private final double    ZOOM_STEP_FACTOR      = Math.pow( 2.0, 0.25 ); // 4 steps = 2x times
+  private final double    ROTATION_STEP_DEGREES = 15.0;
 
   private final IGenericChangeListener screenConversionChangeListener = aSource -> updateActionsState();
 
@@ -48,11 +50,13 @@ public class ScreenConversionToolbar
     super( aVedEnv.tsContext() );
     toolbar = new TsToolbar( tsContext() );
     toolbar.addActionDefs( //
-        ACDEF_ZOOM_IN, ACDEF_ZOOM_ORIGINAL, ACDEF_ZOOM_OUT, //
+        ACDEF_ZOOM_IN, ACDEF_ZOOM_ORIGINAL, ACDEF_ZOOM_OUT, ACDEF_SEPARATOR, //
+        ACDEF_OBJECT_ROTATE_LEFT, ACDEF_OBJECT_ROTATE_RIGHT, //
         ACDEF_SEPARATOR //
     );
     toolbar.setIconSize( TOOLBAR_ICON_SIZE );
     toolbar.addListener( this::processControl );
+    // TODO set mouse handler to VedScreen for Ctrl+Wheel zoom in/out
   }
 
   // ------------------------------------------------------------------------------------
@@ -66,36 +70,25 @@ public class ScreenConversionToolbar
     D2ConversionEdit conv = new D2ConversionEdit( attachedScreen.getConversion() );
     switch( aActionId ) {
       case ACTID_ZOOM_IN: {
-        // conv.setZoomFactor( conv.zoomFactor() * ZOOM_STEP_FACTOR );
-        conv.setZoomFactor( 2 );
-        D2AngleEdit angle = new D2AngleEdit();
-        // angle.setDeg( conv.zoomFactor() * ZOOM_STEP_FACTOR * 5 );
-        angle.setDeg( -15 );
-        conv.rotation().setAngle( angle );
-        conv.origin().setX( 100 );
-        conv.origin().setY( 0 );
+        conv.setZoomFactor( conv.zoomFactor() * ZOOM_STEP_FACTOR );
         break;
       }
       case ACTID_ZOOM_ORIGINAL: {
-        conv.setZoomFactor( 2.0 );
-        conv.setZoomFactor( 1.0 );
-        // conv.rotation().setRotation( ID2Rotation.NONE );
-        D2AngleEdit angle = new D2AngleEdit();
-        angle.setDeg( 0 );
-        conv.rotation().setAngle( angle );
-        conv.origin().setX( 0 );
-        conv.origin().setY( 0 );
+        conv.setConversion( ID2Conversion.NONE );
         break;
       }
       case ACTID_ZOOM_OUT: {
-        // conv.setZoomFactor( conv.zoomFactor() / ZOOM_STEP_FACTOR );
-        conv.setZoomFactor( 0.5 );
-        D2AngleEdit angle = new D2AngleEdit();
-        // angle.setDeg( -conv.zoomFactor() * ZOOM_STEP_FACTOR * 5 );
-        angle.setDeg( 15 );
+        conv.setZoomFactor( conv.zoomFactor() / ZOOM_STEP_FACTOR );
+        break;
+      }
+      case ACTID_OBJECT_ROTATE_LEFT: {
+        ID2Angle angle = D2Angle.ofDegrees( conv.rotation().degrees() - ROTATION_STEP_DEGREES );
         conv.rotation().setAngle( angle );
-        conv.origin().setX( 0 );
-        conv.origin().setY( 100 );
+        break;
+      }
+      case ACTID_OBJECT_ROTATE_RIGHT: {
+        ID2Angle angle = D2Angle.ofDegrees( conv.rotation().degrees() + ROTATION_STEP_DEGREES );
+        conv.rotation().setAngle( angle );
         break;
       }
       default:
