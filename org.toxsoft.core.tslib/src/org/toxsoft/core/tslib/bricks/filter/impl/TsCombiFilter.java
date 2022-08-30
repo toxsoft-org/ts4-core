@@ -1,6 +1,6 @@
 package org.toxsoft.core.tslib.bricks.filter.impl;
 
-import java.io.Serializable;
+import java.io.*;
 
 import org.toxsoft.core.tslib.bricks.filter.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -23,8 +23,10 @@ public class TsCombiFilter<T>
   private final boolean              completeEvaluation;
 
   // ------------------------------------------------------------------------------------
-  // Статические конструкторы
+  // Instance creation
   //
+
+  // TODO TRANSLATE
 
   /**
    * Создает фильтра с указанием всех параметров и настроек.
@@ -63,11 +65,11 @@ public class TsCombiFilter<T>
   }
 
   /**
-   * Скрытый реальный конструктор, создает все внутренные структуры.
+   * Hidden constructor correctl initializes all fields.
    *
-   * @param aParams {@link ITsCombiFilterParams} - параметры создаваемого фильтра
-   * @param aFacReg ITsFilterFactoriesRegistry&lt;T&gt; - реестр фабрик единичных фильтров
-   * @param aCompleteEvaluation boolean - признак режима полных вычислении
+   * @param aParams {@link ITsCombiFilterParams} - parameters of filter creation
+   * @param aFacReg ITsFilterFactoriesRegistry&lt;T&gt; - the factory used for each single filter creation
+   * @param aCompleteEvaluation boolean - the complete evaluation flag
    * @throws TsNullArgumentRtException любой аргумент = null
    */
   private TsCombiFilter( ITsCombiFilterParams aParams, ITsFilterFactoriesRegistry<T> aFacReg,

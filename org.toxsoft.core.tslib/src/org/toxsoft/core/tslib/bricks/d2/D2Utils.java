@@ -31,9 +31,9 @@ public class D2Utils {
   /**
    * Returns double exactly equal to the nearest long if aValue is near enough.
    * <p>
-   * If something looks like duck, souns like duck then it is the duck. If double value is near to integer less then
-   * {@link #DUCK_DIFF_TRHRESHLOD} this method returns double exactly equal to integer value. This method allows to
-   * avoid values like 0.0000000000123 instead of 0.0.
+   * If something looks like duck, sounds like duck and walks like duck then it is the duck. If double value is near to
+   * integer less then {@link #DUCK_DIFF_TRHRESHLOD} this method returns double exactly equal to integer value. This
+   * method allows to avoid values like 0.0000000000123 instead of 0.0.
    *
    * @param aValue double - value very close to long value
    * @return double - exact long or unchanged aValue
