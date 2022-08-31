@@ -26,6 +26,7 @@
     <ant dir="../../org.toxsoft.core.txtproj.lib" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
     <ant dir="../../org.toxsoft.core.txtproj.gui" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
     <ant dir="../../org.toxsoft.core.txtproj.mws" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
+    <ant dir="../../org.toxsoft.core.git.parser" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
   </target>
 
   <!-- ЦЕЛЬ: сборка plugin-ов -->
