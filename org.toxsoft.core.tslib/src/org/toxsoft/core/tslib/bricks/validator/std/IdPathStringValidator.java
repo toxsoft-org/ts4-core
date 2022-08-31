@@ -74,7 +74,7 @@ public class IdPathStringValidator
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsValidator<String>
+  // ITsValidator<String>
   //
 
   @Override

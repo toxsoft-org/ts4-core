@@ -94,7 +94,7 @@ public class TsProjectContentChangeProducerHelper
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsProjectContentChangeProducer
+  // ITsProjectContentChangeProducer
   //
 
   @Override

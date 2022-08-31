@@ -70,7 +70,7 @@ public abstract class AbstractSinentity<F>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ISinentity
+  // ISinentity
   //
 
   @Override

@@ -60,7 +60,7 @@ class BlinkerAnimator
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IPausableAnimation
+  // IPausableAnimation
   //
 
   @Override
@@ -79,7 +79,7 @@ class BlinkerAnimator
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IBlinkerAnimator
+  // IBlinkerAnimator
   //
 
   @Override

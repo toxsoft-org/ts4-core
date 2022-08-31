@@ -142,7 +142,7 @@ public class M5SingleLinkFieldDefBase<T, V>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IM5MixinModelledField
+  // IM5MixinModelledField
   //
 
   @Override
@@ -152,7 +152,7 @@ public class M5SingleLinkFieldDefBase<T, V>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IM5MixinSingleLinkField
+  // IM5MixinSingleLinkField
   //
 
   @Override

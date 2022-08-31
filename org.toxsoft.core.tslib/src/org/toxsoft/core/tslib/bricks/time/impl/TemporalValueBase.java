@@ -35,7 +35,7 @@ public class TemporalValueBase<E>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITemporalValue
+  // ITemporalValue
   //
 
   @Override

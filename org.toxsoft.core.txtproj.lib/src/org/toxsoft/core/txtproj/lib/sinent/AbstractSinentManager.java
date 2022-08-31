@@ -84,7 +84,7 @@ public abstract class AbstractSinentManager<E extends ISinentity<F>, F>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ISinentManager
+  // ISinentManager
   //
 
   @Override

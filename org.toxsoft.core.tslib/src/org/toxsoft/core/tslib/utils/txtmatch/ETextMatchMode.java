@@ -78,7 +78,7 @@ public enum ETextMatchMode
   }
 
   // --------------------------------------------------------------------------
-  // Реализация интерфейса IStridable
+  // IStridable
   //
 
   @Override

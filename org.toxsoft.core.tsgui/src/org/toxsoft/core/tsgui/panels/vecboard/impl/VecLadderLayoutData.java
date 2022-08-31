@@ -64,7 +64,7 @@ public class VecLadderLayoutData
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ILadderLayoutData
+  // ILadderLayoutData
   //
 
   @Override

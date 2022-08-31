@@ -103,7 +103,7 @@ class InternalNullTemporalAtomicValue
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITemporalValue
+  // ITemporalValue
   //
 
   @Override

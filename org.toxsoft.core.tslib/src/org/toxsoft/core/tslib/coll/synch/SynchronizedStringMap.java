@@ -163,7 +163,7 @@ public class SynchronizedStringMap<E>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IStringMapEdit
+  // IStringMapEdit
   //
 
   @Override

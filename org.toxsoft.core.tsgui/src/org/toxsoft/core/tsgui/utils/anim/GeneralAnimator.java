@@ -66,7 +66,7 @@ class GeneralAnimator<T>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IPausableAnimation
+  // IPausableAnimation
   //
 
   @Override
@@ -85,7 +85,7 @@ class GeneralAnimator<T>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IGeneralAnimator
+  // IGeneralAnimator
   //
 
   @Override

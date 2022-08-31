@@ -52,7 +52,7 @@ public class EmptyStringValidator
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsValidator<String>
+  // ITsValidator<String>
   //
 
   @Override

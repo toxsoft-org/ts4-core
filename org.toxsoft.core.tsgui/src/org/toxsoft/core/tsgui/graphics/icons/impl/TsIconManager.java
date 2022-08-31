@@ -89,7 +89,7 @@ public class TsIconManager
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsIconManager
+  // ITsIconManager
   //
 
   @Override

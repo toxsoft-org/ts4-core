@@ -37,7 +37,7 @@ public class CharOutputStreamFile
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ICharOutputStream
+  // ICharOutputStream
   //
 
   @Override
@@ -48,7 +48,7 @@ public class CharOutputStreamFile
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ICharOutputStreamCloseable
+  // ICharOutputStreamCloseable
   //
 
   @Override

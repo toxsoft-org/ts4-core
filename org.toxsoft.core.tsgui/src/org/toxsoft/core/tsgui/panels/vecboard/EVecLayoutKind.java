@@ -63,7 +63,7 @@ public enum EVecLayoutKind
   }
 
   // --------------------------------------------------------------------------
-  // Реализация интерфейса IStridable
+  // IStridable
   //
 
   @Override

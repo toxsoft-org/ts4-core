@@ -102,7 +102,7 @@ public class TsColorManager
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsColorManager
+  // ITsColorManager
   //
 
   @Override

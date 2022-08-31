@@ -47,7 +47,7 @@ public abstract class AbstractMenuCreator
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IMenuCreator
+  // IMenuCreator
   //
 
   @Override

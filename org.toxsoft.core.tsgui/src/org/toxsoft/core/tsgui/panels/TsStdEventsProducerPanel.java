@@ -60,7 +60,7 @@ public abstract class TsStdEventsProducerPanel<E>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsSelectionChangeEventProducer
+  // ITsSelectionChangeEventProducer
   //
 
   @Override
@@ -74,7 +74,7 @@ public abstract class TsStdEventsProducerPanel<E>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsDoubleClickEventProducer
+  // ITsDoubleClickEventProducer
   //
 
   @Override

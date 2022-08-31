@@ -30,7 +30,7 @@ public class CharOutputStreamOutputStream
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ICharOutputStream
+  // ICharOutputStream
   //
 
   @Override

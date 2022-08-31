@@ -68,7 +68,7 @@ public class VecRowLayout
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IAopRowLayout
+  // IAopRowLayout
   //
 
   @Override

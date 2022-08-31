@@ -252,7 +252,7 @@ public class AnimationSupport
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IAnimationSupport
+  // IAnimationSupport
   //
 
   @Override
@@ -337,7 +337,7 @@ public class AnimationSupport
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IPausable
+  // IPausable
   //
 
   @Override

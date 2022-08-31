@@ -42,7 +42,7 @@ public abstract class AbstractProjDataUnit
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IKeepableEntity
+  // IKeepableEntity
   //
 
   @Override
@@ -63,7 +63,7 @@ public abstract class AbstractProjDataUnit
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsClearableCollection
+  // ITsClearableCollection
   //
 
   @Override

@@ -47,7 +47,7 @@ public class VecBorderLayout
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IVecBorderLayout
+  // IVecBorderLayout
   //
 
   @Override

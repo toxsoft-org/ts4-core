@@ -107,7 +107,7 @@ public class DialogItemsList {
     }
 
     // ------------------------------------------------------------------------------------
-    // Реализация интерфейса ITsSelectionProvider
+    // ITsSelectionProvider
     //
 
     @Override

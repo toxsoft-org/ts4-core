@@ -38,7 +38,7 @@ public class AvComparatorStrict
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IAvComparator
+  // IAvComparator
   //
 
   @Override

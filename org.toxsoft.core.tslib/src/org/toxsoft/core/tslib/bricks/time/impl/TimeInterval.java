@@ -58,7 +58,7 @@ public final class TimeInterval
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITimeInterval
+  // ITimeInterval
   //
 
   @Override

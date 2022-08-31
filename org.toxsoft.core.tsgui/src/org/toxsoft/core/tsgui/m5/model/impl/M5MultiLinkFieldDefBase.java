@@ -102,7 +102,7 @@ public class M5MultiLinkFieldDefBase<T, V>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IM5MixinModelledField
+  // IM5MixinModelledField
   //
 
   @Override
@@ -112,7 +112,7 @@ public class M5MultiLinkFieldDefBase<T, V>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IM5MixinMultiLinkField
+  // IM5MixinMultiLinkField
   //
 
   @Override

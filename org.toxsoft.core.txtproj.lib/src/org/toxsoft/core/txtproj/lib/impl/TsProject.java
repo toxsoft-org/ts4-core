@@ -84,7 +84,7 @@ public class TsProject
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IKeepableEntity
+  // IKeepableEntity
   //
 
   private TdfSection sectFromFile( String aKeyword ) {
@@ -158,7 +158,7 @@ public class TsProject
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsClearableCollection
+  // ITsClearableCollection
   //
 
   @Override
@@ -177,7 +177,7 @@ public class TsProject
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsProject
+  // ITsProject
   //
 
   @Override
@@ -242,7 +242,7 @@ public class TsProject
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsProjectContentChangeProducer
+  // ITsProjectContentChangeProducer
   //
 
   @Override

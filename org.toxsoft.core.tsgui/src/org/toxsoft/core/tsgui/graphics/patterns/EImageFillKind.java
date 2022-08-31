@@ -52,7 +52,7 @@ public enum EImageFillKind
   }
 
   // --------------------------------------------------------------------------
-  // Реализация интерфейса IStridable
+  // IStridable
   //
 
   @Override

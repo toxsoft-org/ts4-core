@@ -27,7 +27,7 @@ public final class CharInputStreamReader
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ICharInputStream
+  // ICharInputStream
   //
 
   @Override

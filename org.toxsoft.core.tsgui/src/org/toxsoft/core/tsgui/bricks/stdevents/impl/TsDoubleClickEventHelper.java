@@ -80,7 +80,7 @@ public class TsDoubleClickEventHelper<E>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsDoubleClickEventProducer
+  // ITsDoubleClickEventProducer
   //
 
   @Override
@@ -96,7 +96,7 @@ public class TsDoubleClickEventHelper<E>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsDoubleClickListener
+  // ITsDoubleClickListener
   //
 
   /**

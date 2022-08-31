@@ -42,7 +42,7 @@ public class M5MultiLookupKeyFieldDef<T, V>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IM5MultiLookupKeyFieldDef
+  // IM5MultiLookupKeyFieldDef
   //
 
   @Override

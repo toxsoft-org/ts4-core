@@ -227,7 +227,7 @@ public class TsApplicationInfo
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsApplicationInfo
+  // ITsApplicationInfo
   //
 
   @Override

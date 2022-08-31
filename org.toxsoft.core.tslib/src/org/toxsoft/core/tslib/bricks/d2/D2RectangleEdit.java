@@ -66,7 +66,7 @@ public final class D2RectangleEdit
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ID2Rectangle
+  // ID2Rectangle
   //
 
   @Override

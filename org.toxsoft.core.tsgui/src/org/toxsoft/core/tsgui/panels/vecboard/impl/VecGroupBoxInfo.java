@@ -69,7 +69,7 @@ public class VecGroupBoxInfo
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IGroupBoxInfo
+  // IGroupBoxInfo
   //
 
   @Override

@@ -74,7 +74,7 @@ class ImageAnimator
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IImageAnimator
+  // IImageAnimator
   //
 
   @Override
@@ -93,7 +93,7 @@ class ImageAnimator
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IPausableAnimation
+  // IPausableAnimation
   //
 
   @Override

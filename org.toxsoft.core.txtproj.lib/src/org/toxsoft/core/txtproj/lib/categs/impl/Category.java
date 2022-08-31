@@ -38,7 +38,7 @@ public class Category<T extends ICategory<T>>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IStridable
+  // IStridable
   //
 
   @Override
@@ -57,7 +57,7 @@ public class Category<T extends ICategory<T>>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IParameterizedEdit
+  // IParameterizedEdit
   //
 
   @Override
@@ -66,7 +66,7 @@ public class Category<T extends ICategory<T>>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ICategory
+  // ICategory
   //
 
   @Override

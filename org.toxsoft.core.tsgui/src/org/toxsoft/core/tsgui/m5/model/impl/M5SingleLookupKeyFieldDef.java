@@ -39,7 +39,7 @@ public class M5SingleLookupKeyFieldDef<T, V>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IM5SingleLookupKeyFieldDef
+  // IM5SingleLookupKeyFieldDef
   //
 
   @Override

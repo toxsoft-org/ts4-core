@@ -59,7 +59,7 @@ public final class TsRectangle
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsRectangle
+  // ITsRectangle
   //
 
   @Override

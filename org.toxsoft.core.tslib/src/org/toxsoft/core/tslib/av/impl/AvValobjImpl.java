@@ -143,7 +143,7 @@ class AvValobjImpl
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IValueImporter
+  // IValueImporter
   //
 
   @SuppressWarnings( { "unchecked", "rawtypes" } )

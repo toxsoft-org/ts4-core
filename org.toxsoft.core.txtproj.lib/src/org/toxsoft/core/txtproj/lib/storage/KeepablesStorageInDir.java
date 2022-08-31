@@ -73,7 +73,7 @@ public class KeepablesStorageInDir
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsClearableCollection
+  // ITsClearableCollection
   //
 
   @Override
@@ -84,7 +84,7 @@ public class KeepablesStorageInDir
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IKeepablesStorage
+  // IKeepablesStorage
   //
 
   @Override

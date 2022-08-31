@@ -76,7 +76,7 @@ public class TsSingleFilterParams
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IFpFilterInfo
+  // IFpFilterInfo
   //
 
   @Override

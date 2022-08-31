@@ -48,7 +48,7 @@ public class SynchronizedStringList<L extends IStringList>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IStringList
+  // IStringList
   //
 
   @Override
@@ -140,7 +140,7 @@ public class SynchronizedStringList<L extends IStringList>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsSynchronizedCollectionTag
+  // ITsSynchronizedCollectionTag
   //
 
   @Override

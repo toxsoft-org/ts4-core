@@ -38,7 +38,7 @@ public class IntArrayWrapper
   }
 
   // --------------------------------------------------------------------------
-  // Реализация интерфейса ILongList
+  // ILongList
   //
 
   @Override

@@ -65,7 +65,7 @@ public class CatalogProjDataUnit
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ICatalogProjDataUnit
+  // ICatalogProjDataUnit
   //
 
   @Override

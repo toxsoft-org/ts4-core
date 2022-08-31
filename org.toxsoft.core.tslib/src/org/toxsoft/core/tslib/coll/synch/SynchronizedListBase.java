@@ -43,7 +43,7 @@ class SynchronizedListBase<E, L extends IListBasicEdit<E>>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IListBasicEdit
+  // IListBasicEdit
   //
 
   @Override

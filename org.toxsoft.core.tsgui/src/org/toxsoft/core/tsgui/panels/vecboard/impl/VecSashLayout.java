@@ -56,7 +56,7 @@ public class VecSashLayout
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IAopSashLayout
+  // IAopSashLayout
   //
 
   @Override

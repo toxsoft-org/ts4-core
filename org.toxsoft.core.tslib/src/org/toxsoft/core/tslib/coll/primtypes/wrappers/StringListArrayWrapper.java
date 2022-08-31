@@ -39,7 +39,7 @@ public class StringListArrayWrapper
   }
 
   // --------------------------------------------------------------------------
-  // Реализация интерфейса IStringList
+  // IStringList
   //
 
   @Override
@@ -103,7 +103,7 @@ public class StringListArrayWrapper
   }
 
   // --------------------------------------------------------------------------
-  // Реализация интерфейса Iterable
+  // Iterable
   //
 
   @Override

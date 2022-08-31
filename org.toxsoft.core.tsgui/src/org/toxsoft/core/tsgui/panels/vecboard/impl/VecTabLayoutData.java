@@ -50,7 +50,7 @@ public class VecTabLayoutData
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IAopTabLayoutData
+  // IAopTabLayoutData
   //
 
   @Override

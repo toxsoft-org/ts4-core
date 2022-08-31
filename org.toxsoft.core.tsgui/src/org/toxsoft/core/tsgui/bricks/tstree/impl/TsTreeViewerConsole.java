@@ -133,7 +133,7 @@ public class TsTreeViewerConsole
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsTreeViewerConsole
+  // ITsTreeViewerConsole
   //
 
   @Override

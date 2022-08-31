@@ -151,7 +151,7 @@ public abstract class AbstractTsNode<T>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IParameterizedEdit
+  // IParameterizedEdit
   //
 
   @Override
@@ -160,7 +160,7 @@ public abstract class AbstractTsNode<T>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsNode
+  // ITsNode
   //
 
   @Override

@@ -37,7 +37,7 @@ public class TsTreeContentProvider
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITreeContentProvider
+  // ITreeContentProvider
   //
 
   @Override

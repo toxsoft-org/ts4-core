@@ -278,7 +278,7 @@ public abstract class TsCombiFilterParams
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsCombiFilterParams
+  // ITsCombiFilterParams
   //
 
   @Override

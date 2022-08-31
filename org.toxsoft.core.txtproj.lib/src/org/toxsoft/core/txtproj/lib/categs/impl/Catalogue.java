@@ -250,7 +250,7 @@ public class Catalogue<T extends ICategory<T>>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IStridable
+  // IStridable
   //
 
   @Override
@@ -269,7 +269,7 @@ public class Catalogue<T extends ICategory<T>>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IParameterized
+  // IParameterized
   //
 
   @Override
@@ -278,7 +278,7 @@ public class Catalogue<T extends ICategory<T>>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IKeepableEntity
+  // IKeepableEntity
   //
 
   @Override
@@ -341,7 +341,7 @@ public class Catalogue<T extends ICategory<T>>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsClearableCollection
+  // ITsClearableCollection
   //
 
   @Override
@@ -353,7 +353,7 @@ public class Catalogue<T extends ICategory<T>>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ICategory
+  // ICategory
   //
 
   @Override

@@ -95,7 +95,7 @@ abstract class M5AbstractColumnManager<T>
   abstract protected void doRemoveControlFromControl( IM5Column<T> aRemovedColumn );
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IM5ColumnManager
+  // IM5ColumnManager
   //
 
   @Override

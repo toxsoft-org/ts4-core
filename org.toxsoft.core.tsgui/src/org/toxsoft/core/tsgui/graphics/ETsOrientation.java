@@ -59,7 +59,7 @@ public enum ETsOrientation
   }
 
   // --------------------------------------------------------------------------
-  // Реализация интерфейса IStridable
+  // IStridable
   //
 
   @Override

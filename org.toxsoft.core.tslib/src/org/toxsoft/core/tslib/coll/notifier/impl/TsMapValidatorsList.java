@@ -66,7 +66,7 @@ public class TsMapValidatorsList<K, E>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsMapValidator
+  // ITsMapValidator
   //
 
   @Override

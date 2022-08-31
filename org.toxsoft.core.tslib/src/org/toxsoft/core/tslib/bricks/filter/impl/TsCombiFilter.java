@@ -93,7 +93,7 @@ public class TsCombiFilter<T>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsCombiFilter
+  // ITsCombiFilter
   //
 
   @Override

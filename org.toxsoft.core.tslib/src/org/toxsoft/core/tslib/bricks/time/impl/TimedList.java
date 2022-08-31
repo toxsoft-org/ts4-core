@@ -255,7 +255,7 @@ public class TimedList<T extends ITimestampable>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITimedList
+  // ITimedList
   //
 
   @Override

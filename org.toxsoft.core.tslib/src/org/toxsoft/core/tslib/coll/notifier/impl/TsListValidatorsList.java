@@ -65,7 +65,7 @@ public class TsListValidatorsList<E>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsListValidator
+  // ITsListValidator
   //
 
   @Override

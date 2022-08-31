@@ -63,7 +63,7 @@ public enum EQueryIntervalType
   }
 
   // --------------------------------------------------------------------------
-  // Реализация интерфейса IStridable
+  // IStridable
   //
 
   @Override

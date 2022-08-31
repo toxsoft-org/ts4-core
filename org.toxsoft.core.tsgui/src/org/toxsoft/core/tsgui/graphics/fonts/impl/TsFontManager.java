@@ -95,7 +95,7 @@ public class TsFontManager
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsFontManager
+  // ITsFontManager
   //
 
   @Override

@@ -37,7 +37,7 @@ public class NotifierStringListEditWrapper
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IStringListeEdit
+  // IStringListeEdit
   //
 
   @Override

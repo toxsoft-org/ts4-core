@@ -80,7 +80,7 @@ public class TsSelectionChangeEventHelper<E>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsSelectionChangeEventProducer
+  // ITsSelectionChangeEventProducer
   //
 
   @Override
@@ -96,7 +96,7 @@ public class TsSelectionChangeEventHelper<E>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ITsSelectionChangeListener
+  // ITsSelectionChangeListener
   //
 
   /**
