@@ -574,6 +574,7 @@
     <module>org.toxsoft.core.txtproj.lib</module>
     <module>org.toxsoft.core.txtproj.gui</module>
     <module>org.toxsoft.core.txtproj.mws</module>
+    <module>org.toxsoft.core.git.parser</module>
  
     <module>releng/org.toxsoft.core.releng.p2</module>
     <module>releng/org.toxsoft.core.releng.ant</module>

@@ -14,6 +14,7 @@
    <bundle id="org.toxsoft.core.txtproj.lib"/>
    <bundle id="org.toxsoft.core.txtproj.gui"/>
    <bundle id="org.toxsoft.core.txtproj.mws"/>
+   <bundle id="org.toxsoft.core.git.parser"/>
 
    <!-- sources -->
    <!-- TODO: -->
@@ -25,5 +26,6 @@
    <bundle id="org.toxsoft.core.txtproj.lib.source"/>
    <bundle id="org.toxsoft.core.txtproj.gui.source"/>
    <bundle id="org.toxsoft.core.txtproj.mws.source"/>
+   <bundle id="org.toxsoft.core.git.parser.source"/>
 
 </site>
