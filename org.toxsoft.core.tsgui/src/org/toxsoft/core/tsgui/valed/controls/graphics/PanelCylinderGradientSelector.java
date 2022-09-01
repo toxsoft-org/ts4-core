@@ -12,6 +12,7 @@ import org.toxsoft.core.tsgui.panels.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Панель редактирования параметров "цилиндрической" заливки.
@@ -48,9 +49,11 @@ public class PanelCylinderGradientSelector
 
       if( pattern != null ) {
         Pattern p = pattern.pattern( aE.gc, r.width, r.height );
-        aE.gc.setBackgroundPattern( p );
-        aE.gc.fillRectangle( getClientArea() );
-        p.dispose();
+        if( p != null ) {
+          aE.gc.setBackgroundPattern( p );
+          aE.gc.fillRectangle( getClientArea() );
+          p.dispose();
+        }
       }
     };
 
@@ -105,6 +108,8 @@ public class PanelCylinderGradientSelector
 
     rgbaSelector.setRgba( new RGBA( 255, 255, 255, 255 ) );
     rgbaSelector.genericChangeEventer().addListener( changeListener );
+
+    updateGradient( aContext );
   }
 
   @Override
@@ -123,6 +128,30 @@ public class PanelCylinderGradientSelector
    */
   public IGradientInfo gradientInfo() {
     return new CylinderGradientInfo( fractionsPanel.fractions() );
+  }
+
+  /**
+   * Задает параметры цилиндрического градиента.
+   *
+   * @param aInfo IGradientInfo - параметры цилиндрического градиента
+   */
+  public void setGradientInfo( IGradientInfo aInfo ) {
+    TsIllegalArgumentRtException.checkFalse( aInfo.gradientType() == EGradientType.RADIAL );
+    RadialGradientInfo info = (RadialGradientInfo)aInfo;
+    fractionsPanel.setFractions( info.fractions() );
+    updateGradient( tsContext );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Implementation
+  //
+
+  void updateGradient( ITsGuiContext aContext ) {
+    rgbaSelector.setRgba( fractionsPanel.selectedRgba() );
+    IList<Pair<Double, RGBA>> fractions = fractionsPanel.fractions();
+    CylinderGradientInfo ci = new CylinderGradientInfo( fractions );
+    pattern = ci.createGradient( aContext );
+    resultPanel.redraw();
   }
 
 }

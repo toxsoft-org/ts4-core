@@ -14,6 +14,7 @@ import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Панель редактирования параметров "цилиндрической" заливки.
@@ -53,10 +54,11 @@ public class PanelRadialGradientSelector
 
       if( pattern != null ) {
         Pattern p = pattern.pattern( aE.gc, r.width, r.height );
-        aE.gc.setBackgroundPattern( p );
-        // aE.gc.fillRectangle( getClientArea() );
-        aE.gc.fillOval( 0, 0, getSize().x, getSize().y );
-        p.dispose();
+        if( p != null ) {
+          aE.gc.setBackgroundPattern( p );
+          aE.gc.fillOval( 0, 0, getSize().x, getSize().y );
+          p.dispose();
+        }
       }
     };
 
@@ -133,6 +135,8 @@ public class PanelRadialGradientSelector
 
     rgbaSelector.setRgba( new RGBA( 255, 255, 255, 255 ) );
     rgbaSelector.genericChangeEventer().addListener( changeListener );
+
+    updateGradient( aContext );
   }
 
   @Override
@@ -153,4 +157,27 @@ public class PanelRadialGradientSelector
     return new RadialGradientInfo( centerX, centerY, fractionsPanel.fractions() );
   }
 
+  /**
+   * Задает параметры радиального градиента.
+   *
+   * @param aInfo IGradientInfo - параметры радиального градиента
+   */
+  public void setGradientInfo( IGradientInfo aInfo ) {
+    TsIllegalArgumentRtException.checkFalse( aInfo.gradientType() == EGradientType.RADIAL );
+    RadialGradientInfo info = (RadialGradientInfo)aInfo;
+    fractionsPanel.setFractions( info.fractions() );
+    updateGradient( tsContext );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Implementation
+  //
+
+  void updateGradient( ITsGuiContext aContext ) {
+    rgbaSelector.setRgba( fractionsPanel.selectedRgba() );
+    IList<Pair<Double, RGBA>> fractions = fractionsPanel.fractions();
+    RadialGradientInfo gi = new RadialGradientInfo( centerX, centerY, fractions );
+    pattern = gi.createGradient( aContext );
+    resultPanel.redraw();
+  }
 }

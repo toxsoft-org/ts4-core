@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.valed.controls.graphics;
 
+import static org.toxsoft.core.tsgui.valed.controls.graphics.ITsResources.*;
+
 import org.eclipse.e4.core.contexts.*;
 import org.eclipse.swt.*;
 import org.eclipse.swt.custom.*;
@@ -10,6 +12,12 @@ import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 
+/**
+ * Панель выбора компонентов цвета включая прозрачность.
+ * <p>
+ *
+ * @author vs
+ */
 public class RgbaSelector
     extends Canvas
     implements IGenericChangeEventCapable {
@@ -89,6 +97,13 @@ public class RgbaSelector
 
   private GenericChangeEventer changeEventer;
 
+  /**
+   * Конструктор.
+   *
+   * @param aParent Composite - родительская компонента
+   * @param aStyle int - стиль пнели в понятиях SWT
+   * @param aAppContext IEclipseContext - соответствующий контекст
+   */
   public RgbaSelector( Composite aParent, int aStyle, IEclipseContext aAppContext ) {
     super( aParent, aStyle );
 
@@ -97,7 +112,7 @@ public class RgbaSelector
     setLayout( new FillLayout() );
 
     Group g = new Group( this, SWT.NONE );
-    g.setText( "Компоненты цвета" );
+    g.setText( STR_L_COLOR_PARAMS );
 
     GridLayout gd = new GridLayout( 4, false );
 
@@ -114,7 +129,7 @@ public class RgbaSelector
       }
     } );
 
-    redSpin = createRow( g, "red" );
+    redSpin = createRow( g, "red" ); //$NON-NLS-1$
     redSpin.addSelectionListener( new SelectionAdapter() {
 
       @Override
@@ -138,7 +153,7 @@ public class RgbaSelector
         onColorChanged();
       }
     } );
-    greenSpin = createRow( g, "green" );
+    greenSpin = createRow( g, "green" ); //$NON-NLS-1$
     greenSpin.addSelectionListener( new SelectionAdapter() {
 
       @Override
@@ -158,7 +173,7 @@ public class RgbaSelector
         onColorChanged();
       }
     } );
-    blueSpin = createRow( g, "blue" );
+    blueSpin = createRow( g, "blue" ); //$NON-NLS-1$
     blueSpin.addSelectionListener( new SelectionAdapter() {
 
       @Override
@@ -178,7 +193,7 @@ public class RgbaSelector
         onColorChanged();
       }
     } );
-    alphaSpin = createRow( g, "alpha" );
+    alphaSpin = createRow( g, "alpha" ); //$NON-NLS-1$
     alphaSpin.addSelectionListener( new SelectionAdapter() {
 
       @Override
@@ -188,7 +203,7 @@ public class RgbaSelector
       }
     } );
 
-    alphaSpin.setSelection( 255 );
+    // alphaSpin.setSelection( 255 );
   }
 
   // ------------------------------------------------------------------------------------
@@ -257,7 +272,7 @@ public class RgbaSelector
   // implementation
   //
 
-  private Spinner createRow( Composite aParent, String aText ) {
+  private static Spinner createRow( Composite aParent, String aText ) {
     CLabel l;
     Spinner spin;
 

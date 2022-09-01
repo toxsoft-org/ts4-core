@@ -25,14 +25,6 @@ public class VedStdCompRectangle
    */
   public static final String KIND_ID = "rectangle"; //$NON-NLS-1$
 
-  // static final IDataDef PDEF_BORDER_INFO = DataDef.create( "borderInfo", VALOBJ, //
-  // TSID_NAME, "STR_N_BG_PATTERN", //
-  // TSID_DESCRIPTION, "STR_D_BG_PATTERN", //
-  // TSID_KEEPER_ID, TsBorderInfo.KEEPER_ID, //
-  // OPID_EDITOR_FACTORY_NAME, ValedAvValobjTsBorderInfo.FACTORY_NAME, //
-  // TSID_DEFAULT_VALUE, AV_VALOBJ_NULL //
-  // );
-
   /**
    * Component provider singleton.
    */
@@ -47,9 +39,7 @@ public class VedStdCompRectangle
           PDEF_WIDTH, //
           PDEF_HEIGHT, //
           PDEF_FG_COLOR, //
-          // PDEF_BG_COLOR, //
           PDEF_FILL_INFO, //
-          // PDEF_BORDER_INFO, //
           PDEF_ROTATION_ANGLE //
       ) {
 

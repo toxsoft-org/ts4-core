@@ -16,6 +16,11 @@ import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
+/**
+ * Панель рдактирования параметров линейного градиента.
+ *
+ * @author vs
+ */
 public class PanelLinearGradientSelector
     extends TsPanel {
 
@@ -69,6 +74,7 @@ public class PanelLinearGradientSelector
 
   ThumbVertex startVertex;
   ThumbVertex endVertex;
+  ThumbVertex selectedVertex;
 
   class ResultPanel
       extends TsPanel {
@@ -119,14 +125,6 @@ public class PanelLinearGradientSelector
 
       startVertex.paint( aE.gc, this );
       endVertex.paint( aE.gc, this );
-
-      // aE.gc.setBackground( colorManager().getColor( ETsColor.RED ) );
-      // int thumbX = (int)(getSize().x * x1 / 100.);
-      // int thumbY = (int)(getSize().y * y1 / 100.);
-      // aE.gc.fillRectangle( thumbX, thumbY - 8, 8, 8 );
-      // thumbX = (int)(getSize().x * x2 / 100.);
-      // thumbY = (int)(getSize().y * y2 / 100.);
-      // aE.gc.fillRectangle( thumbX - 8, thumbY - 8, 8, 8 );
     };
 
     ITsMouseInputListener mouseListener = new ITsMouseInputListener() {
@@ -161,6 +159,18 @@ public class PanelLinearGradientSelector
         Point size = getSize();
         int x = (int)(aCoors.x() * 100. / size.x);
         int y = (int)(aCoors.y() * 100. / size.y);
+        if( x < 0 ) {
+          x = 0;
+        }
+        if( y < 0 ) {
+          y = 0;
+        }
+        if( x > 100 ) {
+          x = 100;
+        }
+        if( y > 100 ) {
+          y = 100;
+        }
         if( obj == startVertex ) {
           x1 = x;
           y1 = y;
@@ -188,6 +198,7 @@ public class PanelLinearGradientSelector
       startVertex.update( (int)x1, (int)y1 );
       endVertex = new ThumbVertex( colorBlack, colorRed );
       endVertex.update( (int)x2, (int)y2 );
+      selectedVertex = startVertex;
       TsUserInputEventsBinder binder = new TsUserInputEventsBinder( this );
       binder.bindToControl( this, TsUserInputEventsBinder.BIND_ALL_MOUSE_EVENTS );
       binder.addTsMouseInputListener( mouseListener );
@@ -225,7 +236,7 @@ public class PanelLinearGradientSelector
     LinearGradientInfo gradientInfo() {
       D2Point p1 = new D2Point( x1, y1 );
       D2Point p2 = new D2Point( x2, y2 );
-      return new LinearGradientInfo( p1, p2, startRgba, endRgba );
+      return new LinearGradientInfo( p1, p2, startRgba, endRgba, growFactor );
     }
 
   }
@@ -238,6 +249,8 @@ public class PanelLinearGradientSelector
   private final ITsGuiContext tsContext;
 
   Cursor handCursor;
+
+  D2Point growFactor = new D2Point( 1.0, 1.0 );
 
   PanelLinearGradientSelector( Composite aParent, ITsGuiContext aContext ) {
     super( aParent, aContext );
@@ -282,12 +295,21 @@ public class PanelLinearGradientSelector
     return resultPanel.gradientInfo();
   }
 
-  public void setPatternInfo( IGradientInfo aInfo ) {
+  /**
+   * Задает параметры линейного градиента.
+   *
+   * @param aInfo IGradientInfo - параметры линейного градиента
+   */
+  public void setGradientInfo( IGradientInfo aInfo ) {
     TsIllegalArgumentRtException.checkFalse( aInfo.gradientType() == EGradientType.LINEAR );
     LinearGradientInfo info = (LinearGradientInfo)aInfo;
     resultPanel.setGradientInfo( info );
     startRgbaSelector.setRgba( info.startRGBA() );
     endRgbaSelector.setRgba( info.endRGBA() );
+    resultPanel.x1 = info.startPoint().x();
+    resultPanel.y1 = info.startPoint().y();
+    resultPanel.x2 = info.endPoint().x();
+    resultPanel.y2 = info.endPoint().y();
   }
 
 }

@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.valed.controls.graphics;
 
+import static org.toxsoft.core.tsgui.valed.controls.graphics.ITsResources.*;
+
 import org.eclipse.swt.*;
 import org.eclipse.swt.custom.*;
 import org.eclipse.swt.graphics.*;
@@ -22,7 +24,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author vs
  */
-public class PanelTsLinfoEditor
+public class PanelTsLineInfoEditor
     extends AbstractTsDialogPanel<TsLineInfo, ITsGuiContext> {
 
   ValedIntegerSpinner              widthSpiner;
@@ -30,7 +32,7 @@ public class PanelTsLinfoEditor
   ValedEnumCombo<ETsLineCapStyle>  capStyleCombo;
   ValedEnumCombo<ETsLineJoinStyle> joinStyleCombo;
 
-  PanelTsLinfoEditor( Composite aParent, TsDialog<TsLineInfo, ITsGuiContext> aOwnerDialog ) {
+  PanelTsLineInfoEditor( Composite aParent, TsDialog<TsLineInfo, ITsGuiContext> aOwnerDialog ) {
     super( aParent, aOwnerDialog );
     this.setLayout( new BorderLayout() );
     init();
@@ -70,26 +72,26 @@ public class PanelTsLinfoEditor
     CLabel l;
     widthSpiner = new ValedIntegerSpinner( tsContext() );
     l = new CLabel( this, SWT.NONE );
-    l.setText( "толщина: " );
+    l.setText( STR_L_THICKNESS );
     // l.setImage( createLabelImage() );
     widthSpiner.createControl( this );
     widthSpiner.setLimits( 1, 1, 1, 100 );
 
     lineTypeCombo = new ValedEnumCombo( tsContext(), ETsLineType.class, visualsProvider );
     l = new CLabel( this, SWT.NONE );
-    l.setText( "тип линии: " );
+    l.setText( STR_L_LINE_TYPE );
     lineTypeCombo.createControl( this );
     lineTypeCombo.setValue( ETsLineType.SOLID );
 
     capStyleCombo = new ValedEnumCombo( tsContext(), ETsLineCapStyle.class, visualsProvider );
     l = new CLabel( this, SWT.NONE );
-    l.setText( "тип окончания: " );
+    l.setText( STR_L_CAP_TYPE );
     capStyleCombo.createControl( this );
     capStyleCombo.setValue( ETsLineCapStyle.FLAT );
 
     joinStyleCombo = new ValedEnumCombo( tsContext(), ETsLineJoinStyle.class, visualsProvider );
     l = new CLabel( this, SWT.NONE );
-    l.setText( "тип соедиения: " );
+    l.setText( STR_L_JOIN_TYPE );
     joinStyleCombo.createControl( this );
     joinStyleCombo.setValue( ETsLineJoinStyle.MITER );
   }
@@ -108,8 +110,8 @@ public class PanelTsLinfoEditor
    */
   public static final TsLineInfo editLineInfo( TsLineInfo aInfo, ITsGuiContext aContext ) {
     TsNullArgumentRtException.checkNull( aContext );
-    IDialogPanelCreator<TsLineInfo, ITsGuiContext> creator = PanelTsLinfoEditor::new;
-    ITsDialogInfo dlgInfo = new TsDialogInfo( aContext, "Caption", "Title" );
+    IDialogPanelCreator<TsLineInfo, ITsGuiContext> creator = PanelTsLineInfoEditor::new;
+    ITsDialogInfo dlgInfo = new TsDialogInfo( aContext, DLG_T_LINE_INFO, STR_MSG_LINE_INFO );
     TsDialog<TsLineInfo, ITsGuiContext> d = new TsDialog<>( dlgInfo, aInfo, aContext, creator );
     return d.execData();
   }

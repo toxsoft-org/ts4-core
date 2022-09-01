@@ -22,6 +22,7 @@ public class LinearGradientInfo
   private final D2Point endPoint;
   private final RGBA    startRGBA;
   private final RGBA    endRGBA;
+  private final D2Point growFactor;
 
   /**
    * Value-object registration identifier for {@link TsValobjUtils}.
@@ -48,6 +49,10 @@ public class LinearGradientInfo
           RGBAKeeper.KEEPER.write( aSw, aEntity.startRGBA() );
           aSw.writeSeparatorChar();
           RGBAKeeper.KEEPER.write( aSw, aEntity.endRGBA() );
+          aSw.writeSeparatorChar();
+          aSw.writeDouble( aEntity.growFactor().x() );
+          aSw.writeSeparatorChar();
+          aSw.writeDouble( aEntity.growFactor().y() );
         }
 
         @Override
@@ -63,7 +68,11 @@ public class LinearGradientInfo
           RGBA startRgba = RGBAKeeper.KEEPER.read( aSr );
           aSr.ensureSeparatorChar();
           RGBA endRgba = RGBAKeeper.KEEPER.read( aSr );
-          return new LinearGradientInfo( new D2Point( x1, y1 ), new D2Point( x2, y2 ), startRgba, endRgba );
+          double gfx = aSr.readDouble();
+          aSr.ensureSeparatorChar();
+          double gfy = aSr.readDouble();
+          D2Point gfp = new D2Point( gfx, gfy );
+          return new LinearGradientInfo( new D2Point( x1, y1 ), new D2Point( x2, y2 ), startRgba, endRgba, gfp );
         }
       };
 
@@ -83,12 +92,14 @@ public class LinearGradientInfo
    * @param aEndPoint D2Point - координаты конечной точки
    * @param aStartRGBA RGBA - парметры цвета начальной точки
    * @param aEndRGBA RGBA - парметры цвета конечной точки
+   * @param aGrow D2oint - коэффициент расширения
    */
-  public LinearGradientInfo( D2Point aStartPoint, D2Point aEndPoint, RGBA aStartRGBA, RGBA aEndRGBA ) {
+  public LinearGradientInfo( D2Point aStartPoint, D2Point aEndPoint, RGBA aStartRGBA, RGBA aEndRGBA, D2Point aGrow ) {
     startPoint = aStartPoint;
     endPoint = aEndPoint;
     startRGBA = aStartRGBA;
     endRGBA = aEndRGBA;
+    growFactor = aGrow;
   }
 
   // ------------------------------------------------------------------------------------
@@ -145,4 +156,12 @@ public class LinearGradientInfo
     return endRGBA;
   }
 
+  /**
+   * Возвращает коеффициент расширения.
+   *
+   * @return D2Point коеффициент расширения
+   */
+  public final D2Point growFactor() {
+    return growFactor;
+  }
 }

@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.valed.controls.graphics;
 
+import static org.toxsoft.core.tsgui.valed.controls.graphics.ITsResources.*;
+
 import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
@@ -54,7 +56,7 @@ public class PanelRgbaSelector
   public static final RGBA editRgba( RGBA aRgba, ITsGuiContext aContext ) {
     TsNullArgumentRtException.checkNull( aContext );
     IDialogPanelCreator<RGBA, ITsGuiContext> creator = PanelRgbaSelector::new;
-    ITsDialogInfo dlgInfo = new TsDialogInfo( aContext, "Caption", "Title" );
+    ITsDialogInfo dlgInfo = new TsDialogInfo( aContext, DLG_T_COLOR_INFO, STR_MSG_COLOR_INFO );
     TsDialog<RGBA, ITsGuiContext> d = new TsDialog<>( dlgInfo, aRgba, aContext, creator );
     return d.execData();
   }

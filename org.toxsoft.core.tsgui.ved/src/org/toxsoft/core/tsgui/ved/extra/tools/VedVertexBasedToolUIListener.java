@@ -27,6 +27,66 @@ public class VedVertexBasedToolUIListener
    *
    * @author vs
    */
+  public interface IMouseDownStrategy {
+
+    /**
+     * Стратегия, которая ничего не делает
+     */
+    InternalNullMouseDownStrategy NONE = new InternalNullMouseDownStrategy();
+
+    /**
+     * Выполняет сооствествующие действия при нажатии мыши.
+     *
+     * @param aObject IScreenObject - экранный объект, на котором произошло нажатие, м.б. <code>null</code>
+     * @param aButton ETsMouseButton - кнопка мыши, которая была нажата
+     * @param aStateMask int - SWT коды клавиш Ctrl, Shift, Alt
+     */
+    void onMouseDown( IScreenObject aObject, ETsMouseButton aButton, int aStateMask );
+
+  }
+
+  static class InternalNullMouseDownStrategy
+      implements IMouseDownStrategy {
+
+    @Override
+    public void onMouseDown( IScreenObject aObject, ETsMouseButton aButton, int aStateMask ) {
+      // nop
+    }
+  }
+
+  /**
+   * Реализация IClickStrategy по-умолчанию.
+   * <p>
+   * Данная стратегия реализует следущее поведение без нажатой клавиши Ctrl:
+   * <ul>
+   * <li>Click на пустом месте экрана - снимается выделение со всех элементов</li>
+   * <li>Click на компоненте - снимается выделение со всех элементов и выделяется только тот, на котором произошел
+   * <li>Click на вершине набора - игнорируется</li>
+   * </ul>
+   * С нажатой клавишей Ctrl поведние следующее:
+   * <ul>
+   * <li>Click на пустом месте - игнорируется, чтобы при аддитивном выделении промах не приводил к потере ранее
+   * выделенных элементов</li>
+   * <li>Click на компоненте - переключает выделение компоненты, на которой произошел click</li>
+   * <li>Click на вершине набора - игнорируется</li>
+   * </ul>
+   *
+   * @author vs
+   */
+  class DefaultMouseDownStrategy
+      implements IMouseDownStrategy {
+
+    @Override
+    public void onMouseDown( IScreenObject aObject, ETsMouseButton aButton, int aStateMask ) {
+      updateSelection( aObject, aButton, aStateMask );
+    }
+  }
+
+  /**
+   * Инкапсулированная и отделенная от обработчика мыши реакция на клик мыши.
+   *
+   * @author vs
+   */
   public interface IClickStrategy {
 
     /**
@@ -55,63 +115,24 @@ public class VedVertexBasedToolUIListener
   }
 
   /**
-   * Реализация IClickStrategy по-умолчанию.
-   * <p>
-   * Данная стратегия реализует следущее поведение без нажатой клавиши Ctrl:
-   * <ul>
-   * <li>Click на пустом месте экрана - снимается выделение со всех элементов</li>
-   * <li>Click на компоненте - снимается выделение со всех элементов и выделяется только тот, на котором произошел
-   * <li>Click на вершине набора - игнорируется</li>
-   * </ul>
-   * С нажатой клавишей Ctrl поведние следующее:
-   * <ul>
-   * <li>Click на пустом месте - игнорируется, чтобы при аддитивном выделении промах не приводил к потере ранее
-   * выделенных элементов</li>
-   * <li>Click на компоненте - переключает выделение компоненты, на которой произошел click</li>
-   * <li>Click на вершине набора - игнорируется</li>
-   * </ul>
-   *
-   * @author vs
-   */
-  class DefaultClickStrategy
-      implements IClickStrategy {
-
-    @Override
-    public void onClick( IScreenObject aObject, ETsMouseButton aButton, int aStateMask ) {
-      if( aButton == ETsMouseButton.LEFT ) {
-        if( (aStateMask & SWT.CTRL) == 0 ) { // Click без Ctrl
-          if( aObject == null ) { // click на пустом месте
-            tool.selectionManager.deselectAll();
-          }
-          else { // click на экранном объекте
-            if( aObject.kind() == EScreenObjectKind.COMPONENT ) { // click на компоненте
-              tool.selectionManager.deselectAll();
-              IVedComponentView compView = aObject.entity();
-              tool.selectionManager.setSelectedView( compView );
-            }
-          }
-        }
-        else { // Click с нажатой клавишей Ctrl
-          if( aObject != null ) { // Click на пустом месте игнорируется
-            if( aObject.kind() == EScreenObjectKind.COMPONENT ) { // если click на компоненте
-              IVedComponentView compView = aObject.entity();
-              tool.selectionManager.toggleSelection( compView );
-            }
-          }
-        }
-      }
-    }
-  }
-
-  /**
    * Инкапсулированная и отделенная от обработчика мыши реакция на перетаскивание курсора на пустом месте экрана.
    *
    * @author vs
    */
   public interface IFreeDragStrategy {
 
+    /**
+     * Стратегия, которая не реагирует на перетаскивание
+     */
     IFreeDragStrategy NONE = new NoneFreeDragStrategy();
 
+    /**
+     * Вызывается в процессе перетаскивания.
+     *
+     * @param aDx double - смещение по X
+     * @param aDy double - смещение по Y
+     * @param aDragState ETsDragState - состояние процесса перетаскивание
+     */
     void onDrag( double aDx, double aDy, ETsDragState aDragState );
   }
 
@@ -287,7 +308,9 @@ public class VedVertexBasedToolUIListener
 
   private InternalDragInfo dragInfo = null;
 
-  private IClickStrategy clickStrategy = new DefaultClickStrategy();
+  private IMouseDownStrategy mouseDownStrategy = new DefaultMouseDownStrategy();
+
+  private IClickStrategy clickStrategy = IClickStrategy.NONE;
 
   private IFreeDragStrategy freeDragStrategy = new DefaultFreeDragStrategy();
 
@@ -302,6 +325,16 @@ public class VedVertexBasedToolUIListener
   // ------------------------------------------------------------------------------------
   // ITsUserInputListener
   //
+
+  @Override
+  public boolean onMouseDown( Object aSource, ETsMouseButton aButton, int aState, ITsPoint aCoors, Control aWidget ) {
+    if( mouseDownStrategy != IMouseDownStrategy.NONE ) {
+      IScreenObject scrObj = tool.objectAt( aCoors.x(), aCoors.y() );
+      mouseDownStrategy.onMouseDown( scrObj, aButton, aState );
+      return true;
+    }
+    return false;
+  }
 
   @Override
   public boolean onMouseClick( Object aSource, ETsMouseButton aButton, int aState, ITsPoint aCoors, Control aWidget ) {
@@ -437,6 +470,31 @@ public class VedVertexBasedToolUIListener
       }
     }
     return false;
+  }
+
+  private void updateSelection( IScreenObject aObject, ETsMouseButton aButton, int aStateMask ) {
+    if( aButton == ETsMouseButton.LEFT ) {
+      if( (aStateMask & SWT.CTRL) == 0 ) { // Click без Ctrl
+        if( aObject == null ) { // click на пустом месте
+          tool.selectionManager.deselectAll();
+        }
+        else { // click на экранном объекте
+          if( aObject.kind() == EScreenObjectKind.COMPONENT ) { // click на компоненте
+            tool.selectionManager.deselectAll();
+            IVedComponentView compView = aObject.entity();
+            tool.selectionManager.setSelectedView( compView );
+          }
+        }
+      }
+      else { // Click с нажатой клавишей Ctrl
+        if( aObject != null ) { // Click на пустом месте игнорируется
+          if( aObject.kind() == EScreenObjectKind.COMPONENT ) { // если click на компоненте
+            IVedComponentView compView = aObject.entity();
+            tool.selectionManager.toggleSelection( compView );
+          }
+        }
+      }
+    }
   }
 
 }

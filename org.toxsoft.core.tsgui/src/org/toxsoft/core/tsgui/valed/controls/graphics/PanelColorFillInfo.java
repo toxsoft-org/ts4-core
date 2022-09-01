@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.valed.controls.graphics;
 
+import static org.toxsoft.core.tsgui.valed.controls.graphics.ITsResources.*;
+
 import org.eclipse.swt.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
@@ -9,11 +11,23 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.panels.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
 
+/**
+ * Панель выбора цвета для сплошной заливки.
+ * <p>
+ *
+ * @author vs
+ */
 public class PanelColorFillInfo
     extends TsPanel {
 
   RgbaSelector rgbaSelector;
 
+  /**
+   * Конструктор.
+   *
+   * @param aParent Composite - родительская компонента
+   * @param aContext ITsGuiContext - соотвествующий контекст
+   */
   public PanelColorFillInfo( Composite aParent, ITsGuiContext aContext ) {
     super( aParent, aContext );
 
@@ -24,7 +38,7 @@ public class PanelColorFillInfo
     topPanel.setLayoutData( BorderLayout.SOUTH );
 
     Button btn = new Button( topPanel, SWT.PUSH );
-    btn.setText( "Выбрать цвет..." );
+    btn.setText( STR_B_CHOOSE_COLOR );
     btn.addSelectionListener( new SelectionAdapter() {
 
       @Override
@@ -52,6 +66,15 @@ public class PanelColorFillInfo
    */
   public RGBA rgba() {
     return rgbaSelector.rgba();
+  }
+
+  /**
+   * Задает параметры цвета.
+   *
+   * @param aRgba RGBA - параметры цвета
+   */
+  public void setRgba( RGBA aRgba ) {
+    rgbaSelector.setRgba( aRgba );
   }
 
 }
