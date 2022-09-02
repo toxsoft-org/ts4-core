@@ -26,13 +26,13 @@ class TsJsonObjectStorage {
 
   public ITjObject load( IStrioReader aSr ) {
     ITjObject obj = new TjObject();
-    if( aSr.readArrayBegin() ) {
+    if( aSr.readSetBegin() ) {
       do {
         String fieldName = aSr.readQuotedString();
         aSr.ensureChar( ':' );
         ITjValue fieldValue = TsJsonValueStorage.STORAGE.load( aSr );
         obj.fields().put( fieldName, fieldValue );
-      } while( aSr.readArrayNext() );
+      } while( aSr.readSetNext() );
     }
     return obj;
   }
