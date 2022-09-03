@@ -1,5 +1,6 @@
 package org.toxsoft.core.tslib.av.opset.impl;
 
+import java.io.*;
 import java.util.*;
 
 import org.toxsoft.core.tslib.av.*;
@@ -18,7 +19,9 @@ import org.toxsoft.core.tslib.utils.errors.*;
  */
 public class OptionSet
     extends AbstractOptionsSetter
-    implements IOptionSetEdit {
+    implements IOptionSetEdit, Serializable {
+
+  private static final long serialVersionUID = -3955045978903840862L;
 
   protected final IStringMapEdit<IAtomicValue> map = new StringMap<>();
 
