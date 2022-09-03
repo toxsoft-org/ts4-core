@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.valed.controls.graphics;
 
+import static org.toxsoft.core.tsgui.valed.controls.graphics.ITsResources.*;
+
 import org.eclipse.swt.*;
 import org.eclipse.swt.custom.*;
 import org.eclipse.swt.layout.*;
@@ -46,17 +48,28 @@ public class PanelTsFillInfoSelector
 
   @Override
   protected void doSetDataRecord( TsFillInfo aData ) {
-    // nop
     if( aData != null ) {
-      // if( aData.kind() == ETsFillKind.GRADIENT ) {
-      // TsGradientFillInfo gfi = aData.gradientFillInfo();
-      // if( gfi.gradientType() == EGradientType.LINEAR ) {
-      // stackLayout.topControl = linearGradientSelector;
-      // linearGradientSelector.setPatternInfo( gfi.linearGradientInfo() );
-      // }
-      // }
+      switch( aData.kind() ) {
+        case NONE:
+          break;
+        case SOLID:
+          fillKindCombo.setValue( ETsFillKind.SOLID );
+          colorPanel.setRgba( aData.fillColor() );
+          stackLayout.topControl = colorPanel;
+          break;
+        case GRADIENT:
+          fillKindCombo.setValue( ETsFillKind.GRADIENT );
+          gradientPanel.setFillInfo( aData.gradientFillInfo() );
+          stackLayout.topControl = gradientPanel;
+          break;
+        case IMAGE:
+          fillKindCombo.setValue( ETsFillKind.IMAGE );
+          stackLayout.topControl = imagePanel;
+          break;
+        default:
+          throw new TsNotAllEnumsUsedRtException();
+      }
     }
-
   }
 
   @Override
@@ -95,7 +108,7 @@ public class PanelTsFillInfoSelector
     topPanel.setLayout( new RowLayout( SWT.HORIZONTAL ) );
 
     CLabel l = new CLabel( topPanel, SWT.NONE );
-    l.setText( "Тип заливки: " );
+    l.setText( STR_L_FILL_TYPE );
     fillKindCombo = new ValedEnumCombo( tsContext(), ETsFillKind.class, visualsProvider );
     fillKindCombo.createControl( topPanel );
     fillKindCombo.setValue( ETsFillKind.SOLID );
@@ -146,7 +159,7 @@ public class PanelTsFillInfoSelector
   public static final TsFillInfo editPattern( TsFillInfo aInfo, ITsGuiContext aContext ) {
     TsNullArgumentRtException.checkNull( aContext );
     IDialogPanelCreator<TsFillInfo, ITsGuiContext> creator = PanelTsFillInfoSelector::new;
-    ITsDialogInfo dlgInfo = new TsDialogInfo( aContext, "Caption", "Title" );
+    ITsDialogInfo dlgInfo = new TsDialogInfo( aContext, DLG_T_FILL_INFO, STR_MSG_FILL_INFO );
     TsDialog<TsFillInfo, ITsGuiContext> d = new TsDialog<>( dlgInfo, aInfo, aContext, creator );
     return d.execData();
   }

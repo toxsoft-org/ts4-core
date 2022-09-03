@@ -90,8 +90,7 @@ class PanelGradientFractions
   ITsMouseInputListener mouseListener = new ITsMouseInputListener() {
 
     @Override
-    public boolean onMouseClick( Object aSource, ETsMouseButton aButton, int aState, ITsPoint aCoors,
-        Control aWidget ) {
+    public boolean onMouseDown( Object aSource, ETsMouseButton aButton, int aState, ITsPoint aCoors, Control aWidget ) {
       setFocus();
       ThumbVertex vertex = objectAt( aCoors.x(), aCoors.y() );
       onSelectionchanged( vertex );
@@ -115,6 +114,7 @@ class PanelGradientFractions
           idx++;
           onSelectionchanged( v );
         }
+        redraw();
       }
       return true;
     }
@@ -235,6 +235,16 @@ class PanelGradientFractions
       result.add( p );
     }
     return result;
+  }
+
+  void setFractions( IList<Pair<Double, RGBA>> aFractions ) {
+    thumbsList.clear();
+    for( Pair<Double, RGBA> p : aFractions ) {
+      ThumbVertex v = new ThumbVertex( p.right(), p.left().doubleValue(), colorBlue, colorBlack );
+      thumbsList.add( v );
+    }
+    startVertex = thumbsList.first();
+    endVertex = thumbsList.last();
   }
 
   // ------------------------------------------------------------------------------------

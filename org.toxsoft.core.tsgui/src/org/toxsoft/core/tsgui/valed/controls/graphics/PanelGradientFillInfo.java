@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.valed.controls.graphics;
 
+import static org.toxsoft.core.tsgui.valed.controls.graphics.ITsResources.*;
+
 import org.eclipse.swt.*;
 import org.eclipse.swt.custom.*;
 import org.eclipse.swt.layout.*;
@@ -25,8 +27,6 @@ public class PanelGradientFillInfo
   TsPanel topPanel;
   TsPanel contentHolder;
 
-  Combo gtypeCombo;
-
   /**
    * Конструктор.<br>
    *
@@ -42,16 +42,34 @@ public class PanelGradientFillInfo
   // API
   //
 
+  /**
+   * Задает параметры заливки.
+   *
+   * @param aData TsGradientFillInfo - параметры заливки
+   */
   public void setFillInfo( TsGradientFillInfo aData ) {
-    // nop
     if( aData != null ) {
-      // if( aData.kind() == ETsFillKind.GRADIENT ) {
-      // TsGradientFillInfo gfi = aData.gradientFillInfo();
-      // if( gfi.gradientType() == EGradientType.LINEAR ) {
-      // stackLayout.topControl = linearGradientSelector;
-      // linearGradientSelector.setPatternInfo( gfi.linearGradientInfo() );
-      // }
-      // }
+      switch( aData.gradientType() ) {
+        case NONE:
+          break;
+        case LINEAR:
+          fillKindCombo.setValue( EGradientType.LINEAR );
+          linearGradientSelector.setGradientInfo( aData.linearGradientInfo() );
+          stackLayout.topControl = linearGradientSelector;
+          break;
+        case RADIAL:
+          fillKindCombo.setValue( EGradientType.RADIAL );
+          radialGradientSelector.setGradientInfo( aData.radialGradientInfo() );
+          stackLayout.topControl = radialGradientSelector;
+          break;
+        case CYLINDER:
+          fillKindCombo.setValue( EGradientType.CYLINDER );
+          cylinderGradientSelector.setGradientInfo( aData.cylinderGradientInfo() );
+          stackLayout.topControl = cylinderGradientSelector;
+          break;
+        default:
+          throw new TsNotAllEnumsUsedRtException();
+      }
     }
 
   }
@@ -99,7 +117,7 @@ public class PanelGradientFillInfo
     topPanel.setLayout( new RowLayout( SWT.HORIZONTAL ) );
 
     CLabel l = new CLabel( topPanel, SWT.NONE );
-    l.setText( "Тип градиента: " );
+    l.setText( STR_L_GRADIENT_TYPE );
     fillKindCombo = new ValedEnumCombo( tsContext(), EGradientType.class, visualsProvider );
     fillKindCombo.createControl( topPanel );
     fillKindCombo.setValue( EGradientType.LINEAR );

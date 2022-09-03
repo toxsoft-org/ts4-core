@@ -6,6 +6,7 @@ import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.swtevents.*;
 import org.toxsoft.core.tsgui.graphics.cursors.*;
 import org.toxsoft.core.tsgui.ved.core.*;
+import org.toxsoft.core.tsgui.ved.core.library.*;
 import org.toxsoft.core.tsgui.ved.core.view.*;
 import org.toxsoft.core.tsgui.ved.extra.decors.*;
 import org.toxsoft.core.tslib.av.opset.*;
@@ -172,8 +173,9 @@ public abstract class VedAbstractVertexBasedTool
 
   VedVertexBasedToolUIListener uiListener;
 
-  protected VedAbstractVertexBasedTool( String aId, IOptionSet aParams, IVedScreen aScreen, IVedEnvironment aEnv ) {
-    super( aId, aParams, aScreen, aEnv );
+  protected VedAbstractVertexBasedTool( String aId, IOptionSet aParams, IVedScreen aScreen, IVedEnvironment aEnv,
+      IVedComponentProvider aCompProvider ) {
+    super( aId, aParams, aScreen, aEnv, aCompProvider );
     selectionManager = vedScreen().selectionManager();
     uiListener = new VedVertexBasedToolUIListener( this );
   }

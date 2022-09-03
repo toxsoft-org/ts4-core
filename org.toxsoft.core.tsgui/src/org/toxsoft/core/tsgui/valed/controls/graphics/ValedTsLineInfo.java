@@ -64,7 +64,7 @@ public class ValedTsLineInfo
 
   @Override
   protected void doProcessButtonPress() {
-    TsLineInfo li = PanelTsLinfoEditor.editLineInfo( lineInfo, tsContext() );
+    TsLineInfo li = PanelTsLineInfoEditor.editLineInfo( lineInfo, tsContext() );
     if( li != null ) {
       lineInfo = li;
     }

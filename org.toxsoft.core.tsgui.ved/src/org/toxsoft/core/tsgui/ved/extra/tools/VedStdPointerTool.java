@@ -24,7 +24,10 @@ import org.toxsoft.core.tslib.bricks.strid.coll.*;
 public class VedStdPointerTool
     extends VedAbstractVertexBasedTool {
 
-  private static final String TOOL_ID = ITsguiVedConstants.VED_ID + ".Pointer"; //$NON-NLS-1$
+  /**
+   * Идентификатор инструмента
+   */
+  public static final String TOOL_ID = ITsguiVedConstants.VED_ID + ".Pointer"; //$NON-NLS-1$
 
   /**
    * Набор вершин прямоугольника
@@ -42,7 +45,7 @@ public class VedStdPointerTool
         TSID_NAME, STR_N_ET_POINTER, //
         TSID_DESCRIPTION, STR_D_ET_POINTER, //
         TSID_ICON_ID, ICONID_TOOL_POINTER //
-    ), aScreen, aEnv );
+    ), aScreen, aEnv, null );
 
     vertexSet = new VedRectVertexSetView( aScreen, tsContext() );
   }
