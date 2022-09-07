@@ -2,6 +2,7 @@ package org.toxsoft.core.pas.tj.impl;
 
 import org.toxsoft.core.pas.tj.ITjObject;
 import org.toxsoft.core.pas.tj.ITjValue;
+import org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants;
 import org.toxsoft.core.tslib.coll.primtypes.IStringMapEdit;
 import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
 import org.toxsoft.core.tslib.utils.TsLibUtils;
@@ -34,7 +35,21 @@ class TjObject
 
   @Override
   public String toString() {
-    return fields.keys().toString();
+    StringBuilder sb = new StringBuilder();
+    sb.append( IStrioHardConstants.CHAR_ARRAY_BEGIN );
+    int size = fields.keys().size();
+    int index = 0;
+    for( String key : fields.keys() ) {
+      sb.append( key );
+      sb.append( '=' );
+      sb.append( fields.getByKey( key ) );
+      if( index + 1 < size ) {
+        sb.append( ',' );
+      }
+      index++;
+    }
+    sb.append( IStrioHardConstants.CHAR_ARRAY_END );
+    return sb.toString();
   }
 
   @Override

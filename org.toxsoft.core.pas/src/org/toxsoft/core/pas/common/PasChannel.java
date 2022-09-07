@@ -40,6 +40,7 @@ import org.toxsoft.core.tslib.coll.synch.SynchronizedStringMap;
 import org.toxsoft.core.tslib.utils.ICloseable;
 import org.toxsoft.core.tslib.utils.TsLibUtils;
 import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.ELogSeverity;
 import org.toxsoft.core.tslib.utils.logs.ILogger;
 
 /**
@@ -1167,7 +1168,9 @@ public class PasChannel
         retValue = new JSONError( jsonObj );
       }
       // По каналу получено сообщение
-      logger.debug( MSG_RECEIVE_MESSAGE, aChannel, retValue );
+      if( logger.isSeverityOn( ELogSeverity.DEBUG ) ) {
+        logger.debug( MSG_RECEIVE_MESSAGE, aChannel, retValue );
+      }
     }
     catch( TsIoRtException e ) {
       // Обнаружен разрыв соединения
@@ -1217,7 +1220,9 @@ public class PasChannel
       // Запись через писателя
       aChannel.channelWriter().writeJsonObject( aMessage.value() );
       // По каналу передано сообщение
-      logger.debug( MSG_SEND_MESSAGE, aChannel, aMessage );
+      if( logger.isSeverityOn( ELogSeverity.DEBUG ) ) {
+        logger.debug( MSG_SEND_MESSAGE, aChannel, aMessage );
+      }
     }
     catch( Throwable e ) {
       // Ошибка записи объекта в поток канала
