@@ -10,6 +10,7 @@ import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesListEdit;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.StridablesList;
 import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
 import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
 
 /**
  * Atomic data type.
@@ -81,6 +82,11 @@ public enum EAtomicType
    * Embedded value object.
    */
   VALOBJ( DDID_VALOBJ, STR_N_AT_VALOBJ, STR_D_AT_VALOBJ, AV_VALOBJ_NULL );
+
+  /**
+   * Value-object registration identifier for {@link TsValobjUtils}.
+   */
+  public static final String KEEPER_ID = "EAtomicType"; //$NON-NLS-1$
 
   /**
    * Keeper singleton instance

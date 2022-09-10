@@ -2,26 +2,30 @@ package org.toxsoft.core.tslib.utils.valobj;
 
 import static org.toxsoft.core.tslib.utils.valobj.ITsResources.*;
 
-import java.util.concurrent.locks.*;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import org.toxsoft.core.tslib.av.EAtomicType;
 import org.toxsoft.core.tslib.av.impl.*;
-import org.toxsoft.core.tslib.av.list.*;
-import org.toxsoft.core.tslib.av.opset.impl.*;
-import org.toxsoft.core.tslib.av.temporal.*;
-import org.toxsoft.core.tslib.bricks.geometry.impl.*;
-import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.av.list.AvList;
+import org.toxsoft.core.tslib.av.opset.impl.OptionSetKeeper;
+import org.toxsoft.core.tslib.av.temporal.TemporalAtomicValueKeeper;
+import org.toxsoft.core.tslib.bricks.geometry.impl.TsPointKeeper;
+import org.toxsoft.core.tslib.bricks.geometry.impl.TsRectangleKeeper;
+import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
 import org.toxsoft.core.tslib.bricks.keeper.std.*;
-import org.toxsoft.core.tslib.coll.*;
-import org.toxsoft.core.tslib.coll.helpers.*;
-import org.toxsoft.core.tslib.coll.impl.*;
-import org.toxsoft.core.tslib.coll.primtypes.*;
-import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.coll.IMapEdit;
+import org.toxsoft.core.tslib.coll.helpers.CollConstraint;
+import org.toxsoft.core.tslib.coll.helpers.ECrudOp;
+import org.toxsoft.core.tslib.coll.impl.ElemMap;
+import org.toxsoft.core.tslib.coll.primtypes.IStringMap;
+import org.toxsoft.core.tslib.coll.primtypes.IStringMapEdit;
+import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
 import org.toxsoft.core.tslib.gw.gwid.*;
 import org.toxsoft.core.tslib.gw.skid.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.logs.*;
-import org.toxsoft.core.tslib.utils.txtmatch.*;
+import org.toxsoft.core.tslib.utils.logs.ELogSeverity;
+import org.toxsoft.core.tslib.utils.txtmatch.ETextMatchMode;
 
 /**
  * Value objects support in tslib.
@@ -51,6 +55,7 @@ public class TsValobjUtils {
   private static final IMapEdit<Class<?>, String> idsMapByClass = new ElemMap<>();
 
   static {
+    registerKeeper( EAtomicType.KEEPER_ID, EAtomicType.KEEPER );
     registerKeeper( OptionSetKeeper.KEEPER_ID, OptionSetKeeper.KEEPER );
     registerKeeper( FileKeeper.KEEPER_ID, FileKeeper.KEEPER );
     registerKeeper( StringKeeper.KEEPER_ID, StringKeeper.KEEPER );
