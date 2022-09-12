@@ -523,7 +523,7 @@ public final class StridUtils {
   }
 
   /**
-   * Returns the first component.
+   * Returns the last component.
    * <p>
    * If argument is IDname then returns argument.
    * <p>

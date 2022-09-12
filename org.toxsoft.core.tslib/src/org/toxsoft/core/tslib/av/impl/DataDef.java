@@ -156,6 +156,8 @@ public final class DataDef
     TsNullArgumentRtException.checkNulls( aSrc, aParams );
     DataDef dd = new DataDef( aId, aSrc.atomicType(), aSrc.params() );
     dd.params().addAll( aParams );
+    dd.validator = aSrc.validator();
+    dd.comparator = aSrc.comparator();
     return dd;
   }
 
@@ -177,6 +179,8 @@ public final class DataDef
     DataDef dd = new DataDef( aId, aSrc.atomicType(), aSrc.params() );
     IOptionSet p = OptionSetUtils.createOpSet( aIdsAndValues );
     dd.params().addAll( p );
+    dd.validator = aSrc.validator();
+    dd.comparator = aSrc.comparator();
     return dd;
   }
 

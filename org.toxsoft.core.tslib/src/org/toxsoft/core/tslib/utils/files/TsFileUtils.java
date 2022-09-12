@@ -4,14 +4,12 @@ import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 import static org.toxsoft.core.tslib.utils.files.ITsResources.*;
 
 import java.io.*;
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.*;
 
-import org.toxsoft.core.tslib.bricks.validator.ITsValidator;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
+import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -422,6 +420,26 @@ public class TsFileUtils {
   }
 
   /**
+   * Removes all (if any) {@link File#separatorChar} from the end of the string.
+   *
+   * @param aPath String - source string
+   * @return String - source string without ending separator chars
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static String removeEndingSeparator( String aPath ) {
+    TsNullArgumentRtException.checkNull( aPath );
+    int pathLen = aPath.length();
+    if( pathLen == 0 ) {
+      return aPath;
+    }
+    int index = pathLen;
+    while( aPath.charAt( index - 1 ) == File.separatorChar ) {
+      --index;
+    }
+    return aPath.substring( 0, index );
+  }
+
+  /**
    * Returns an argument with the addition of a {@link File#separatorChar} at the end, if there is none.
    * <p>
    * Empty string is returned as is.
@@ -440,6 +458,32 @@ public class TsFileUtils {
       return aPath;
     }
     return aPath + File.separatorChar;
+  }
+
+  /**
+   * Returns relative path of the child file path in the parent directory path.
+   * <p>
+   * if <code>aChildFile</code> is not child of <code>aParentDir</code> the returns <code>null</code>. If child is the
+   * same directory as parent then returns an empty string.
+   *
+   * @param aParentDir File - parent directory
+   * @param aChildFile File - probable child file or directory
+   * @return String - path of <code>aChildFile</code> relative to <code>aParentDir</code> or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException aParentDir is not a directory
+   */
+  public static String extractRelativePath( File aParentDir, File aChildFile ) {
+    TsNullArgumentRtException.checkNulls( aParentDir, aChildFile );
+    TsIllegalArgumentRtException.checkFalse( aParentDir.isDirectory() );
+    String p1 = removeEndingSeparator( aParentDir.getAbsolutePath() );
+    String p2 = removeEndingSeparator( aChildFile.getAbsolutePath() );
+    if( p1.length() > p2.length() ) {
+      return null;
+    }
+    if( !p2.startsWith( p1 ) ) {
+      return null;
+    }
+    return removeStartingSeparator( p2.substring( p1.length() ) );
   }
 
   // ------------------------------------------------------------------------------------
