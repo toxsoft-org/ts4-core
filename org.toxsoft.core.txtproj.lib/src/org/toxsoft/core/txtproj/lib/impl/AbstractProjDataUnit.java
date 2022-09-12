@@ -1,14 +1,12 @@
 package org.toxsoft.core.txtproj.lib.impl;
 
-import org.toxsoft.core.tslib.bricks.events.change.GenericChangeEventer;
-import org.toxsoft.core.tslib.bricks.events.change.IGenericChangeEventer;
+import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
-import org.toxsoft.core.tslib.coll.helpers.ECrudOp;
-import org.toxsoft.core.tslib.coll.notifier.basis.ITsCollectionChangeListener;
-import org.toxsoft.core.tslib.utils.errors.TsIoRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
-import org.toxsoft.core.txtproj.lib.IProjDataUnit;
+import org.toxsoft.core.tslib.coll.helpers.*;
+import org.toxsoft.core.tslib.coll.notifier.basis.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
+import org.toxsoft.core.txtproj.lib.*;
 
 /**
  * Abstract implementation of {@link IProjDataUnit}.
@@ -17,6 +15,8 @@ import org.toxsoft.core.txtproj.lib.IProjDataUnit;
  */
 public abstract class AbstractProjDataUnit
     implements IProjDataUnit {
+
+  // TRANSLATE
 
   /**
    * Помощник реализации {@link IGenericChangeEventer} сделан открытым, чтобы в наследниках избежать warning-ы.
@@ -103,6 +103,8 @@ public abstract class AbstractProjDataUnit
 
   /**
    * Наследник должен считать содержимое из потока, ранее записанное методом {@link #doWrite(IStrioWriter)}.
+   * <p>
+   * In case of changes method must fire generic change event.
    *
    * @param aSr {@link IStrioReader} - поток чтения, не бывает <code>null</code>
    * @throws TsIoRtException при ошибках доступа к потоку
@@ -112,6 +114,8 @@ public abstract class AbstractProjDataUnit
 
   /**
    * Implementation must clear the content of the unit as it was immediately after constructor.
+   * <p>
+   * In case of changes method must fire generic change event.
    * <p>
    * This method is called from {@link #clear()}.
    */

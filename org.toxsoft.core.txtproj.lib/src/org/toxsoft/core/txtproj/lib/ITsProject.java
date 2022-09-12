@@ -87,6 +87,19 @@ public interface ITsProject
   IStringMap<IProjDataUnit> units();
 
   /**
+   * Returns the unit by ID of an expected type.
+   *
+   * @param <T> - expected class of the unit
+   * @param aUnitId String - the unit ID
+   * @param aUnitClass {@link Class} - expected class of the unit
+   * @return &lt;T&gt; - the unit
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException no unit with the specified ID
+   * @throws ClassCastException found unit is ot of expected class
+   */
+  <T extends IProjDataUnit> T getUnit( String aUnitId, Class<T> aUnitClass );
+
+  /**
    * Регистрирует компоненту проекта.
    * <p>
    * Обратите внимание, что регистрация (и дерегистривация) компоненты не приводит к извещению

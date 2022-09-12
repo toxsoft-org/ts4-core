@@ -2,26 +2,20 @@ package org.toxsoft.core.txtproj.lib.impl;
 
 import static org.toxsoft.core.txtproj.lib.impl.ITsResources.*;
 
-import org.toxsoft.core.tslib.av.opset.INotifierOptionSetEdit;
-import org.toxsoft.core.tslib.av.opset.IOptionSetEdit;
+import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
-import org.toxsoft.core.tslib.bricks.events.change.GenericChangeEventer;
-import org.toxsoft.core.tslib.bricks.events.change.IGenericChangeEventer;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
-import org.toxsoft.core.tslib.bricks.strio.IStrioReader;
-import org.toxsoft.core.tslib.bricks.strio.IStrioWriter;
-import org.toxsoft.core.tslib.bricks.strio.impl.StrioUtils;
-import org.toxsoft.core.tslib.bricks.validator.ITsValidator;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.bricks.validator.impl.TsValidationFailedRtException;
-import org.toxsoft.core.tslib.coll.helpers.ECrudOp;
-import org.toxsoft.core.tslib.coll.notifier.basis.ITsCollectionChangeListener;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMap;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMapEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
-import org.toxsoft.core.tslib.utils.errors.TsItemAlreadyExistsRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.toxsoft.core.tslib.bricks.events.change.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.bricks.strio.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.coll.helpers.*;
+import org.toxsoft.core.tslib.coll.notifier.basis.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 import org.toxsoft.core.txtproj.lib.*;
 import org.toxsoft.core.txtproj.lib.tdfile.*;
 
@@ -198,6 +192,13 @@ public class TsProject
   @Override
   public IStringMap<IProjDataUnit> units() {
     return projUnits;
+  }
+
+  @Override
+  public <T extends IProjDataUnit> T getUnit( String aUnitId, Class<T> aUnitClass ) {
+    TsNullArgumentRtException.checkNulls( aUnitId, aUnitClass );
+    IProjDataUnit unit = projUnits.getByKey( aUnitId );
+    return aUnitClass.cast( unit );
   }
 
   @Override
