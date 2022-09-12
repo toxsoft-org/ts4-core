@@ -7,8 +7,8 @@ import org.toxsoft.core.tslib.av.props.*;
  *
  * @author hazard157
  */
-public interface ICompLink
-    extends IPropertable {
+public sealed interface IVedCompLink
+    extends IPropertable permits VedAbstractCompLink {
 
   String componentId();
 

@@ -14,8 +14,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public interface IVedComponentControllerProvider
-    extends IStridableParameterized {
+public sealed interface IVedComponentControllerProvider
+    extends IStridableParameterized permits VedAbstractComponentControllerProvider {
 
   /**
    * Returns the information about controller properties.
@@ -30,13 +30,13 @@ public interface IVedComponentControllerProvider
    * Some links are mandatory for controller to work. Again, for <code>Gauge</code> example "splitBar" link to the
    * <code>SplitBar</code> component is mandatory while "textValue" link to the <code>TextLabel</code> component
    * (displaying the value) is optional. Mandatory links has the {@link IAvMetaConstants#TSID_IS_MANDATORY} option set
-   * to <code>true</code> in {@link ICompLinkInfo#params()}.
+   * to <code>true</code> in {@link IVedCompLinkInfo#params()}.
    * <p>
    * This is a "backend" method intended to be used by some GUI designeds.
    *
-   * @return {@link IStridablesList}&lt;{@link ICompLinkInfo}&gt; - links definitions
+   * @return {@link IStridablesList}&lt;{@link IVedCompLinkInfo}&gt; - links definitions
    */
-  IStridablesList<ICompLinkInfo> linkDefs();
+  IStridablesList<IVedCompLinkInfo> linkDefs();
 
   /**
    * Creates the controller.

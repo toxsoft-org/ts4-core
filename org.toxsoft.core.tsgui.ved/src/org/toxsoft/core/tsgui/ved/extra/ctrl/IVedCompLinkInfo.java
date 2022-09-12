@@ -10,8 +10,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public interface ICompLinkInfo
-    extends IStridableParameterized {
+public sealed interface IVedCompLinkInfo
+    extends IStridableParameterized permits VedAbstractCompLinkInfo {
 
   /**
    * Determines if components from the specified providers are accepted by this link.
@@ -26,10 +26,10 @@ public interface ICompLinkInfo
    * Links component to the owner controller.
    *
    * @param aComponent {@link IVedComponent} - the component
-   * @return {@link ICompLink} - created link
+   * @return {@link IVedCompLink} - created link
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException this component is not accepter by the link
    */
-  ICompLink createLink( IVedComponent aComponent );
+  IVedCompLink createLink( IVedComponent aComponent );
 
 }

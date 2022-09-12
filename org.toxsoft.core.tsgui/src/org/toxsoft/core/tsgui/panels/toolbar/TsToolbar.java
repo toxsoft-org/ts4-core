@@ -74,7 +74,7 @@ public class TsToolbar
    */
   public static TsToolbar create( Composite aParent, ITsGuiContext aContext, String aName, EIconSize aIconSize,
       IList<ITsActionDef> aActionDefs ) {
-    TsNullArgumentRtException.checkNulls( aParent, aContext, aIconSize, aActionDefs );
+    TsNullArgumentRtException.checkNulls( aParent, aContext, aActionDefs );
     TsToolbar toolBar = new TsToolbar( aContext );
     for( ITsActionDef actDef : aActionDefs ) {
       toolBar.addActionDef( actDef );
@@ -130,7 +130,7 @@ public class TsToolbar
    * @return {@link TsToolbar} - created instance
    */
   public static TsToolbar create( Composite aParent, ITsGuiContext aContext, ITsActionDef... aActionDefs ) {
-    return create( aParent, aContext, null, null, aActionDefs );
+    return create( aParent, aContext, null, null, new ElemArrayList<>( aActionDefs ) );
   }
 
   /**

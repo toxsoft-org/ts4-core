@@ -29,8 +29,8 @@ import org.toxsoft.core.tslib.coll.primtypes.*;
  *
  * @author hazard157
  */
-public interface IVedComponentController
-    extends IStridableParameterized, IPropertable {
+public sealed interface IVedComponentController
+    extends IStridableParameterized, IPropertable permits VedAbstractComponentController {
 
   /**
    * Returns the provider that created this controller.
@@ -44,6 +44,6 @@ public interface IVedComponentController
    *
    * @return {@link IStringMap}&lt;String&gt; - the list of links
    */
-  IList<ICompLink> links();
+  IList<IVedCompLink> links();
 
 }

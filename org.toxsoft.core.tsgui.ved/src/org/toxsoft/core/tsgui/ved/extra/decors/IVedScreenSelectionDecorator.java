@@ -7,7 +7,7 @@ import org.toxsoft.core.tslib.coll.primtypes.*;
 /**
  * {@link IVedScreen} selected views outline painter decorator.
  * <p>
- * Extends {@link IParameterizedEdit} allowing to tune subclass dpendent drawing parameters like outline width, line
+ * Extends {@link IParameterizedEdit} allowing to tune subclass dependent drawing parameters like outline width, line
  * style, color, etc.
  * <p>
  * As any screen decorator, instances of this interface must be disposed.
