@@ -12,11 +12,11 @@ import org.toxsoft.core.tslib.coll.primtypes.*;
  * Controls behaviour of the several {@link IVedComponent}.
  * <p>
  * Controller may me decaribed as having a "frontend" and a "backend". As a backend controller is connected to at least
- * one VED component and sets it's properties. As a frontend controller is declared {@link IPropertable} so main API is
- * to set controllers properties.
+ * one VED component and sets it's properties. Frontend API of the controller is {@link IPropertable} - another set of
+ * properties.
  * <p>
  * While it seems strange setting properties of controller to set properties of components this have a sense. VED
- * components properties are simply drawing properties like coordinates, color, fillstyle, font or text string.
+ * components properties are simple drawing properties like coordinates, color, fillstyle, font or text string.
  * Properties of the controller re-define components as meaningful real-time visual controls.
  * <p>
  * For exmple imagine a rectanguler component <code>SplitBar</code> divided in two parts (say left and right parts).

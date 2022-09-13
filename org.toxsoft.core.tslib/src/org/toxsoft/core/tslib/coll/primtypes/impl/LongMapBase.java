@@ -1,12 +1,11 @@
 package org.toxsoft.core.tslib.coll.primtypes.impl;
 
-import java.io.Serializable;
-import java.util.Iterator;
+import java.io.*;
+import java.util.*;
 
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
+import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Basic {@link ILongMap} implementation for sorted and unsorted maps.
@@ -83,13 +82,13 @@ class LongMapBase<E>
   @Override
   public boolean hasKey( Long aKey ) {
     TsNullArgumentRtException.checkNull( aKey );
-    return hasKey( aKey.intValue() );
+    return hasKey( aKey.longValue() );
   }
 
   @Override
   public E findByKey( Long aKey ) {
     TsNullArgumentRtException.checkNull( aKey );
-    return findByKey( aKey.intValue() );
+    return findByKey( aKey.longValue() );
   }
 
   @Override
@@ -137,13 +136,13 @@ class LongMapBase<E>
   @Override
   public E put( Long aKey, E aElem ) {
     TsNullArgumentRtException.checkNull( aKey );
-    return put( aKey.intValue(), aElem );
+    return put( aKey.longValue(), aElem );
   }
 
   @Override
   public E removeByKey( Long aKey ) {
     TsNullArgumentRtException.checkNull( aKey );
-    return removeByKey( aKey.intValue() );
+    return removeByKey( aKey.longValue() );
   }
 
   // ------------------------------------------------------------------------------------

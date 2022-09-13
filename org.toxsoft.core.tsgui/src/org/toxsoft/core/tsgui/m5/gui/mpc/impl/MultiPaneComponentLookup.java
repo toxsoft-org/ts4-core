@@ -56,6 +56,7 @@ public class MultiPaneComponentLookup<T>
   private static ITsGuiContext makeContext( ITsGuiContext aContext, boolean aEditor ) {
     ITsGuiContext ctx = new TsGuiContext( aContext );
     OPDEF_IS_ACTIONS_CRUD.setValue( ctx.params(), AvUtils.avBool( aEditor ) );
+    OPDEF_IS_FILTER_PANE.setValue( ctx.params(), AvUtils.AV_TRUE );
     return ctx;
   }
 
