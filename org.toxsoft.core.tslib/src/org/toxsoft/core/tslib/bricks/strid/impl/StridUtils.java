@@ -1,6 +1,7 @@
 package org.toxsoft.core.tslib.bricks.strid.impl;
 
 import static org.toxsoft.core.tslib.bricks.strid.impl.ITsResources.*;
+import static org.toxsoft.core.tslib.bricks.strio.impl.StrioUtils.*;
 
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
@@ -582,6 +583,97 @@ public final class StridUtils {
       return TsLibUtils.EMPTY_STRING;
     }
     return makeIdPath( comps, 0, comps.size() - aCount );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Converting any string <-> IDpath
+  //
+
+  // TODO translate
+
+  /**
+   * Префикс к ИД-имени, сформированной из произвольных строк, не являющейся ИД-путем.
+   */
+  private static final String ANY_STR_TO_ID_NAME_PREFIX = "___"; //$NON-NLS-1$
+
+  /**
+   * Преобразует произвольную строку в ИД-путь.
+   * <p>
+   * Преобразование двустороннее - из полученного идентификатора однозначно восстанавливаетс строка методом
+   * {@link #id2str(String)}.
+   * <p>
+   * Метод гарантирует, что:
+   * <ul>
+   * <li>одинаковые аргументы дают одинаковый результат;</li>
+   * <li>разные аргументы дают разный результат;</li>
+   * <li>null остаеться null-ом;</li>
+   * <li>ИД-путь остается без изменении.</li>
+   * </ul>
+   *
+   * @param aStr String - произвольная строка
+   * @return String - ИД-путь, соответствующий строке
+   */
+  public static String str2id( String aStr ) {
+    if( aStr == null ) {
+      return null;
+    }
+    if( aStr.isEmpty() ) {
+      return ANY_STR_TO_ID_NAME_PREFIX;
+    }
+    if( isValidIdPath( aStr ) ) {
+      return aStr;
+    }
+    StringBuilder sb = new StringBuilder( ANY_STR_TO_ID_NAME_PREFIX );
+    for( int i = 0, count = aStr.length(); i < count; i++ ) {
+      char ch = aStr.charAt( i );
+      int tetr1 = (ch & 0x0000000F) >> 0;
+      int tetr2 = (ch & 0x000000F0) >> 4;
+      int tetr3 = (ch & 0x00000F00) >> 8;
+      int tetr4 = (ch & 0x0000F000) >> 12;
+      sb.append( int2HexChar( tetr4 ) );
+      sb.append( int2HexChar( tetr3 ) );
+      sb.append( int2HexChar( tetr2 ) );
+      sb.append( int2HexChar( tetr1 ) );
+    }
+    return sb.toString();
+  }
+
+  /**
+   * Восстанавливает текстовую строку из ИД-пути, созданной методом {@link #str2id(String)}.
+   *
+   * @param aId String - ИД-путь, созданной методом {@link #str2id(String)}
+   * @return String - текстовая строка
+   * @throws TsNullArgumentRtException аргумент = null
+   * @throws TsIllegalArgumentRtException аргумент не ИД-путь
+   * @throws TsIllegalArgumentRtException аргумент не был создан методом {@link #str2id(String)}
+   */
+  public static String id2str( String aId ) {
+    IStringList comps = getComponents( aId );
+    // для ИД-пути (не ИД-имени) вовзращаем аргумент
+    if( comps.size() > 1 ) {
+      return aId;
+    }
+    // если аргумент совпадает с ANY_STR_TO_ID_NAME_PREFIX, то возвращаем пустую строку
+    String s = comps.get( 0 );
+    TsIllegalArgumentRtException.checkFalse( s.startsWith( ANY_STR_TO_ID_NAME_PREFIX ),
+        MSG_ERR_INVALID_ARG_FOR_ID2STR );
+    if( s.length() == ANY_STR_TO_ID_NAME_PREFIX.length() ) {
+      return TsLibUtils.EMPTY_STRING;
+    }
+    // если отбросить префикс, то должна получитсья двоичная строка
+    s = s.substring( ANY_STR_TO_ID_NAME_PREFIX.length() );
+    int count = s.length();
+    TsIllegalArgumentRtException.checkTrue( count % 4 != 0, MSG_ERR_INVALID_ARG_FOR_ID2STR ); // длина всегда кратно 4-м
+    StringBuilder sb = new StringBuilder();
+    for( int i = 0; i < count; i += 4 ) {
+      int tetr4 = hexChar2Int( s.charAt( i + 0 ) );
+      int tetr3 = hexChar2Int( s.charAt( i + 1 ) );
+      int tetr2 = hexChar2Int( s.charAt( i + 2 ) );
+      int tetr1 = hexChar2Int( s.charAt( i + 3 ) );
+      int c = (tetr1 & 0x000F) + ((tetr2 << 4) & 0x00F0) + ((tetr3 << 8) & 0x0F00) + ((tetr4 << 12) & 0xF000);
+      sb.append( (char)c );
+    }
+    return sb.toString();
   }
 
   // ------------------------------------------------------------------------------------

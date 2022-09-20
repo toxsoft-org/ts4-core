@@ -1,12 +1,11 @@
 package org.toxsoft.core.tslib.bricks.strid.more;
 
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
-import org.toxsoft.core.tslib.bricks.validator.ITsValidationSupport;
-import org.toxsoft.core.tslib.bricks.validator.impl.TsValidationFailedRtException;
-import org.toxsoft.core.tslib.coll.basis.ITsClearable;
-import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link IStridable} items registry.
@@ -14,7 +13,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * Basicallу registry is key-value map with following additions:
  * <ul>
  * <li>obviously keys in map are item identifiers {@link IStridable#id()};</li>
- * <li>putting to items to map is called <b>registration</b> and removing - <b>unregistration</b>;</li>
+ * <li>putting items to map is called <b>registration</b> and removing - <b>unregistration</b>;</li>
  * <li>registry may have always registered <b>builtin</b> items. Builtin items can not by unregistered;</li>
  * <li>type of the items are checked during registration.</li>
  * </ul>
