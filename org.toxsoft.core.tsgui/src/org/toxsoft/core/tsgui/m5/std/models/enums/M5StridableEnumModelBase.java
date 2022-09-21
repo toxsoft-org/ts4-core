@@ -1,9 +1,8 @@
 package org.toxsoft.core.tsgui.m5.std.models.enums;
 
-import org.toxsoft.core.tsgui.m5.model.impl.M5AttributeFieldDef;
-import org.toxsoft.core.tsgui.m5.std.fields.M5StdFieldDefDescription;
-import org.toxsoft.core.tsgui.m5.std.fields.M5StdFieldDefId;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
+import org.toxsoft.core.tsgui.m5.model.impl.*;
+import org.toxsoft.core.tsgui.m5.std.fields.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -16,12 +15,17 @@ public class M5StridableEnumModelBase<T extends Enum<T> & IStridable>
     extends M5EnumModelBase<T> {
 
   /**
-   * Атрибут {@link IStridable#id()}.
+   * Attribute {@link IStridable#id()}.
    */
   public final M5AttributeFieldDef<T> ID = new M5StdFieldDefId<>();
 
   /**
-   * Атрибут {@link IStridable#description()}.
+   * Attribute {@link IStridable#nmName()}.
+   */
+  public final M5AttributeFieldDef<T> NAME = new M5StdFieldDefName<>();
+
+  /**
+   * Attribute {@link IStridable#description()}.
    */
   public final M5AttributeFieldDef<T> DESCRIPTION = new M5StdFieldDefDescription<>();
 
@@ -36,7 +40,7 @@ public class M5StridableEnumModelBase<T extends Enum<T> & IStridable>
    */
   public M5StridableEnumModelBase( String aId, Class<T> aEntityClass ) {
     super( aId, aEntityClass );
-    addFieldDefs( ID, DESCRIPTION );
+    addFieldDefs( ID, NAME, DESCRIPTION );
   }
 
 }

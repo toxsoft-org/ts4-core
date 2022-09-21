@@ -6,6 +6,7 @@ import org.eclipse.e4.core.contexts.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.m5.*;
+import org.toxsoft.core.tsgui.m5.std.models.av.*;
 import org.toxsoft.core.tsgui.m5.std.models.misc.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -56,15 +57,15 @@ public class M5Utils {
   public static void initBuiltinModels( IM5Domain aDomain ) {
     aDomain.addModel( new FileM5Model() );
     aDomain.addModel( new StringM5Model() );
+    aDomain.addModel( new AtomicTypeM5Model() );
+    aDomain.addModel( new DataTypeM5Model() );
     // aDomain.addModel( new SectionDefM5Model() );
     // TODO aDomain.addModel( new LongM5Model() );
     // TODO aDomain.addModel( new TsVersionM5Model() );
     // TODO aDomain.addModel( new ValidationResultTypeM5Model() );
-    // TODO aDomain.addModel( new AtomicTypeM5Model() );
     // TODO aDomain.addModel( new AtomicValueM5Model() );
     // TODO aDomain.addModel( new IdValueM5Model() );
     // TODO aDomain.addModel( new OptionSetM5Model() );
-    // TODO aDomain.addModel( new DataTypeM5Model() );
     // TODO aDomain.addModel( new DvInfoM5Model() );
     // TODO aDomain.addModel( new TsWeekDayM5Model() );
     // TODO aDomain.addModel( new LocalTimeM5Model() );
