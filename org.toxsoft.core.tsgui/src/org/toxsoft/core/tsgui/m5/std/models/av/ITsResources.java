@@ -7,9 +7,24 @@ package org.toxsoft.core.tsgui.m5.std.models.av;
  */
 interface ITsResources {
 
-  String STR_N_ATOMIC_TYPE = Messages.getString( "STR_N_ATOMIC_TYPE" ); //$NON-NLS-1$
-  String STR_D_ATOMIC_TYPE = Messages.getString( "STR_D_ATOMIC_TYPE" ); //$NON-NLS-1$
-  String STR_N_DATA_TYPE   = Messages.getString( "STR_N_DATA_TYPE" );   //$NON-NLS-1$
-  String STR_D_DATA_TYPE   = Messages.getString( "STR_D_DATA_TYPE" );   //$NON-NLS-1$
+  /**
+   * {@link DataTypeM5Model}
+   */
+  String STR_N_M5M_DATA_TYPE = Messages.getString( "STR_N_M5M_DATA_TYPE" ); //$NON-NLS-1$
+  String STR_D_M5M_DATA_TYPE = Messages.getString( "STR_D_M5M_DATA_TYPE" ); //$NON-NLS-1$
+  String STR_N_ATOMIC_TYPE   = Messages.getString( "STR_N_ATOMIC_TYPE" );   //$NON-NLS-1$
+  String STR_D_ATOMIC_TYPE   = Messages.getString( "STR_D_ATOMIC_TYPE" );   //$NON-NLS-1$
+  String STR_N_CONSTRAINTS   = Messages.getString( "STR_N_CONSTRAINTS" );   //$NON-NLS-1$
+  String STR_D_CONSTRAINTS   = Messages.getString( "STR_D_CONSTRAINTS" );   //$NON-NLS-1$
+
+  /**
+   * {@link IdValueM5Model}
+   */
+  String STR_N_M5M_IDVAL   = Messages.getString( "STR_N_M5M_IDVAL" );   //$NON-NLS-1$
+  String STR_D_M5M_IDVAL   = Messages.getString( "STR_D_M5M_IDVAL" );   //$NON-NLS-1$
+  String STR_N_IDVAL_ID    = Messages.getString( "STR_N_IDVAL_ID" );    //$NON-NLS-1$
+  String STR_D_IDVAL_ID    = Messages.getString( "STR_D_IDVAL_ID" );    //$NON-NLS-1$
+  String STR_N_IDVAL_VALUE = Messages.getString( "STR_N_IDVAL_VALUE" ); //$NON-NLS-1$
+  String STR_D_IDVAL_VALUE = Messages.getString( "STR_D_IDVAL_VALUE" ); //$NON-NLS-1$
 
 }

@@ -1,9 +1,9 @@
 package org.toxsoft.core.tslib.av.math;
 
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.errors.AvTypeCastRtException;
-import org.toxsoft.core.tslib.av.errors.AvUnassignedValueRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.errors.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Интерфейс с методами сравнения атомарных значений.
@@ -24,16 +24,32 @@ public interface IAvComparator {
   /**
    * Сравнивает атомарные значения.
    *
-   * @param aAv1 IAtomicValue - левый операнд сравнения
-   * @param aOp EAvCompareOp - опреция сравнения
-   * @param aAv2 IAtomicValue - правый операнд сравнения
-   * @return boolean - результат сравнения<br>
-   *         <b>true</b> - удвлетворяется условие сравнения aAv1 aOp aAv2;<br>
-   *         <b>false</b> - условие сравнения aAv1 aOp aAv2 не воплняется.
-   * @throws TsNullArgumentRtException любой аргумент = null
-   * @throws AvTypeCastRtException одно из значении не является доспустимым
-   * @throws AvUnassignedValueRtException одно из значении не содержит значения
+   * @param aAv1 IAtomicValue - the left operand
+   * @param aOp EAvCompareOp - the comparison operation
+   * @param aAv2 IAtomicValue - the right operand
+   * @return boolean - comparison result<br>
+   *         <b>true</b> - the comparison condition is satisfied;<br>
+   *         <b>false</b> - comparison condition is not met.
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws AvTypeCastRtException operands have different atomic types
+   * @throws AvUnassignedValueRtException operand has not assigned value
    */
   boolean avCompare( IAtomicValue aAv1, EAvCompareOp aOp, IAtomicValue aAv2 );
+
+  /**
+   * Checks if comparison operation may be performed with the given arguments.
+   * <p>
+   * This is optional operation. If operation is not implemented it simple returns {@link ValidationResult#SUCCESS}.
+   * <p>
+   * Method does not throws an exception even if any argument is <code>null</code>, rather returns the error.
+   *
+   * @param aAv1 IAtomicValue - the left operand
+   * @param aOp EAvCompareOp - the comparison operation
+   * @param aAv2 IAtomicValue - the right operand
+   * @return {@link ValidationResult} - the check result
+   */
+  default ValidationResult canCompare( IAtomicValue aAv1, EAvCompareOp aOp, IAtomicValue aAv2 ) {
+    return ValidationResult.SUCCESS;
+  }
 
 }

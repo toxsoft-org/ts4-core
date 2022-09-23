@@ -1,9 +1,10 @@
 package org.toxsoft.core.tslib.av.math;
 
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.errors.AvTypeCastRtException;
-import org.toxsoft.core.tslib.av.errors.AvUnassignedValueRtException;
+import static org.toxsoft.core.tslib.av.math.ITsResources.*;
+
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.errors.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 // TODO TRANSLATE
@@ -56,6 +57,7 @@ public class AvComparatorStrict
       if( aAv1.atomicType() == EAtomicType.STRING ) {
         return aAv1.asString().matches( aAv2.asString() );
       }
+      return false;
     }
     int cmpVal; // результат сравнения имеет три значения: <0, 0, >0
     // сравним однотипные значение
@@ -130,6 +132,37 @@ public class AvComparatorStrict
       default:
         throw new TsNotAllEnumsUsedRtException();
     }
+  }
+
+  @Override
+  public ValidationResult canCompare( IAtomicValue aAv1, EAvCompareOp aOp, IAtomicValue aAv2 ) {
+    if( aAv1 == null ) {
+      return ValidationResult.error( FMT_ERR_ARG_NULL, "1" ); //$NON-NLS-1$
+    }
+    if( aOp == null ) {
+      return ValidationResult.error( FMT_ERR_ARG_NULL, "OP" ); //$NON-NLS-1$
+    }
+    if( aAv2 == null ) {
+      return ValidationResult.error( FMT_ERR_ARG_NULL, "2" ); //$NON-NLS-1$
+    }
+    if( !aAv1.isAssigned() ) {
+      return ValidationResult.error( FMT_ERR_OPER_AV_NULL, "1" ); //$NON-NLS-1$
+    }
+    if( !aAv2.isAssigned() ) {
+      return ValidationResult.error( FMT_ERR_OPER_AV_NULL, "2" ); //$NON-NLS-1$
+    }
+    if( aAv1.atomicType() != aAv2.atomicType() ) {
+      return ValidationResult.error( FMT_ERR_OPER_DIFF_AT, aAv1.atomicType().id(), aAv2.atomicType().id() );
+    }
+    if( aOp == EAvCompareOp.MATCH ) {
+      if( aAv1.atomicType() != EAtomicType.STRING ) {
+        return ValidationResult.error( FMT_ERR_OPER_NOT_STR, "1" ); //$NON-NLS-1$
+      }
+      if( aAv2.atomicType() != EAtomicType.STRING ) {
+        return ValidationResult.error( FMT_ERR_OPER_NOT_STR, "2" ); //$NON-NLS-1$
+      }
+    }
+    return ValidationResult.SUCCESS;
   }
 
 }

@@ -4,10 +4,14 @@ import static org.toxsoft.core.tsgui.m5.IM5Constants.*;
 import static org.toxsoft.core.tsgui.m5.std.models.av.ITsResources.*;
 import static org.toxsoft.core.tslib.ITsHardConstants.*;
 
+import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.m5.model.impl.*;
 import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.av.misc.*;
+import org.toxsoft.core.tslib.coll.*;
 
 /**
  * M5-model of {@link IDataType}.
@@ -27,6 +31,14 @@ public class DataTypeM5Model
    */
   public static final String FID_ATOMIC_TYPE = "atomicType"; //$NON-NLS-1$
 
+  /**
+   * The ID of the field {@link #CONSTRAINTS}.
+   */
+  public static final String FID_CONSTRAINTS = "constraints"; //$NON-NLS-1$
+
+  /**
+   * Field {@link IDataType#atomicType()}.
+   */
   public static final IM5SingleLookupFieldDef<IDataType, EAtomicType> ATOMIC_TYPE =
       new M5SingleLookupFieldDef<>( FID_ATOMIC_TYPE, DataTypeM5Model.MODEL_ID ) {
 
@@ -43,13 +55,72 @@ public class DataTypeM5Model
       };
 
   /**
+   * Field {@link IDataType#params()}.
+   */
+  public static final IM5MultiModownFieldDef<IDataType, IdValue> CONSTRAINTS =
+      new M5MultiModownFieldDef<>( FID_CONSTRAINTS, IdValueM5Model.MODEL_ID ) {
+
+        @Override
+        protected void doInit() {
+          setNameAndDescription( STR_N_CONSTRAINTS, STR_D_CONSTRAINTS );
+          setFlags( M5FF_DETAIL );
+        }
+
+        protected IList<IdValue> doGetFieldValue( IDataType aEntity ) {
+          return IdValue.makeIdValuesCollFromOptionSet( aEntity.params() ).values();
+        }
+
+      };
+
+  static class LifecycleManager
+      extends M5LifecycleManager<IDataType, Object> {
+
+    public LifecycleManager( IM5Model<IDataType> aModel ) {
+      super( aModel, true, true, true, false, null );
+    }
+
+    @Override
+    protected IDataType doCreate( IM5Bunch<IDataType> aValues ) {
+      EAtomicType atomicType = aValues.getAs( FID_ATOMIC_TYPE, EAtomicType.class );
+      IList<IdValue> idvals = aValues.getAs( FID_CONSTRAINTS, IList.class );
+      DataType dt = new DataType( atomicType );
+      IdValue.fillOptionSetFromIdValuesColl( idvals, dt.params() );
+      return dt;
+    }
+
+    @Override
+    protected IDataType doEdit( IM5Bunch<IDataType> aValues ) {
+      EAtomicType atomicType = aValues.getAs( FID_ATOMIC_TYPE, EAtomicType.class );
+      IList<IdValue> idvals = aValues.getAs( FID_CONSTRAINTS, IList.class );
+      DataType dt = new DataType( atomicType );
+      IdValue.fillOptionSetFromIdValuesColl( idvals, dt.params() );
+      return dt;
+    }
+
+    @Override
+    protected void doRemove( IDataType aEntity ) {
+      // nop
+    }
+
+  }
+
+  /**
    * Constructor.
    */
   public DataTypeM5Model() {
     super( MODEL_ID, IDataType.class );
-    setNameAndDescription( STR_N_DATA_TYPE, STR_D_DATA_TYPE );
-    addFieldDefs( ATOMIC_TYPE );
-    // TODO Auto-generated constructor stub
+    setNameAndDescription( STR_N_M5M_DATA_TYPE, STR_D_M5M_DATA_TYPE );
+    addFieldDefs( ATOMIC_TYPE, CONSTRAINTS );
+  }
+
+  @Override
+  protected IM5LifecycleManager<IDataType> doCreateDefaultLifecycleManager() {
+    return new LifecycleManager( this );
+  }
+
+  @Override
+  protected IM5LifecycleManager<IDataType> doCreateLifecycleManager( Object aMaster ) {
+    return getLifecycleManager( null );
   }
 
 }

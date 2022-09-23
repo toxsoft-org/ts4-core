@@ -99,6 +99,10 @@ public class QTreeViewer
     treeViewer.getTree().setLinesVisible( isLinesVisible );
   }
 
+  private void applyNodeIconOrImageSizeChange() {
+    // TODO QTreeViewer.applyNodeIconOrImageSizeChange()
+  }
+
   // ------------------------------------------------------------------------------------
   // package API
   //
@@ -146,7 +150,7 @@ public class QTreeViewer
     }
     // default icon/thumb size
     if( aId == null || aId.equals( OPID_DEFAULT_ICON_SIZE ) || aId.equals( OPID_DEFAULT_THUMB_SIZE ) ) {
-      applyLabelProviderChanges();
+      applyNodeIconOrImageSizeChange();
     }
   }
 

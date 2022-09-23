@@ -1,13 +1,9 @@
 package org.toxsoft.core.tsgui.bricks.stdevents.impl;
 
-import org.toxsoft.core.tsgui.bricks.stdevents.ITsSelectionChangeEventProducer;
-import org.toxsoft.core.tsgui.bricks.stdevents.ITsSelectionChangeListener;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
-import org.toxsoft.core.tslib.coll.impl.ElemLinkedBundleList;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.toxsoft.core.tsgui.bricks.stdevents.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 // TODO TRANSLATE
 
@@ -49,12 +45,7 @@ public class TsSelectionChangeEventHelper<E>
     if( !listeners.isEmpty() ) {
       IList<ITsSelectionChangeListener<E>> ll = new ElemArrayList<>( listeners );
       for( ITsSelectionChangeListener<E> l : ll ) {
-        try {
-          l.onTsSelectionChanged( source, aItem );
-        }
-        catch( Exception ex ) {
-          LoggerUtils.errorLogger().error( ex );
-        }
+        l.onTsSelectionChanged( source, aItem );
       }
     }
     afterSelectionEventFired( aItem );

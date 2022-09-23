@@ -1,13 +1,9 @@
 package org.toxsoft.core.tsgui.bricks.stdevents.impl;
 
-import org.toxsoft.core.tsgui.bricks.stdevents.ITsDoubleClickEventProducer;
-import org.toxsoft.core.tsgui.bricks.stdevents.ITsDoubleClickListener;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
-import org.toxsoft.core.tslib.coll.impl.ElemLinkedBundleList;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.toxsoft.core.tsgui.bricks.stdevents.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 //TODO TRANSLATE
 
@@ -49,12 +45,7 @@ public class TsDoubleClickEventHelper<E>
     if( !listeners.isEmpty() ) {
       IList<ITsDoubleClickListener<E>> ll = new ElemArrayList<>( listeners );
       for( ITsDoubleClickListener<E> l : ll ) {
-        try {
-          l.onTsDoubleClick( source, aSelected );
-        }
-        catch( Exception ex ) {
-          LoggerUtils.errorLogger().error( ex );
-        }
+        l.onTsDoubleClick( source, aSelected );
       }
     }
     afterDoubleClickEventFired( aSelected );
