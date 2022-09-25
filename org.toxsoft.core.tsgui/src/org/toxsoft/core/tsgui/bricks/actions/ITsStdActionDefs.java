@@ -426,9 +426,17 @@ public interface ITsStdActionDefs {
       STR_T_COLLAPSE_ALL, STR_P_COLLAPSE_ALL, ICONID_VIEW_COLLAPSE_ALL );
 
   /**
-   * Action: invoke collection filtering parameters dialog.
+   * Action: invoke collection filtering parameters dialog.<br>
+   * Actions {@link #ACDEF_FILTER} and {@link #ACDEF_FILTER} has the same ID, so they can not be used together.
    */
   ITsActionDef ACDEF_FILTER = ofPush2( ACTID_FILTER, //
+      STR_T_FILTER, STR_P_FILTER, ICONID_VIEW_FILTER );
+
+  /**
+   * Action: set filter on/off check.<br>
+   * Actions {@link #ACDEF_FILTER} and {@link #ACDEF_FILTER} has the same ID, so they can not be used together.
+   */
+  ITsActionDef ACDEF_FILTER_CHECK = ofCheck2( ACTID_FILTER, //
       STR_T_FILTER, STR_P_FILTER, ICONID_VIEW_FILTER );
 
   /**

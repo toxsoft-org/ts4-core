@@ -4,9 +4,8 @@ import static org.toxsoft.core.tslib.coll.impl.TsCollectionsUtils.*;
 
 import java.io.*;
 
-import org.toxsoft.core.tslib.coll.basis.ITsSortedCollectionTag;
-import org.toxsoft.core.tslib.coll.primtypes.IIntList;
-import org.toxsoft.core.tslib.coll.primtypes.IIntListBasicEdit;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -103,6 +102,35 @@ public final class SortedIntLinkedBundleList
       int val = aIn.readInt();
       add( val );
     }
+  }
+
+  // ------------------------------------------------------------------------------------
+  // IIntList
+  //
+
+  @Override
+  public int indexOfValue( int aValue ) {
+    Bundle b = firstBundle;
+    if( b.isEmpty() ) {
+      return -1;
+    }
+    int index = 0;
+    do {
+      if( aValue <= b.lastValue() ) {
+        for( int i = 0; i < b.count; i++ ) {
+          if( b.elems[i] == aValue ) {
+            return i + index;
+          }
+          if( aValue < b.elems[i] ) {
+            return -1;
+          }
+        }
+        return -1;
+      }
+      index += b.count;
+      b = b.next;
+    } while( b != null );
+    return -1;
   }
 
   // ------------------------------------------------------------------------------------
