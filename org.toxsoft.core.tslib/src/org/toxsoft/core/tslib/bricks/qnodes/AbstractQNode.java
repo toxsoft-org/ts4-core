@@ -292,7 +292,8 @@ public abstract non-sealed class AbstractQNode<T>
 
   @Override
   public String toString() {
-    return getClass().getSimpleName() + ": " + kind.id() + " - " + id; //$NON-NLS-1$ //$NON-NLS-2$
+    String s = nmName().isEmpty() ? id : nmName();
+    return getClass().getSimpleName() + ": " + kind.id() + " - " + s; //$NON-NLS-1$ //$NON-NLS-2$
   }
 
   // ------------------------------------------------------------------------------------

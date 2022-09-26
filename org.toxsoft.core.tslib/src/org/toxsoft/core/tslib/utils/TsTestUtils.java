@@ -20,10 +20,10 @@ public class TsTestUtils {
    *
    * @param aMessageFormat String - message format string
    * @param aMsgArgs Object[] - optional arguments for message string
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsNullArgumentRtException aMessageFormat = <code>null</code>
    */
   public static void p( String aMessageFormat, Object... aMsgArgs ) {
-    TsNullArgumentRtException.checkNulls( aMessageFormat, aMsgArgs );
+    TsNullArgumentRtException.checkNull( aMessageFormat );
     String msg = String.format( aMessageFormat, aMsgArgs );
     System.out.print( msg );
   }
@@ -33,10 +33,10 @@ public class TsTestUtils {
    *
    * @param aMessageFormat String - message format string
    * @param aMsgArgs Object[] - optional arguments for message string
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsNullArgumentRtException aMessageFormat = <code>null</code>
    */
   public static void pl( String aMessageFormat, Object... aMsgArgs ) {
-    TsNullArgumentRtException.checkNulls( aMessageFormat, aMsgArgs );
+    TsNullArgumentRtException.checkNull( aMessageFormat );
     String msg = String.format( aMessageFormat, aMsgArgs );
     System.out.println( msg );
   }
@@ -46,10 +46,10 @@ public class TsTestUtils {
    *
    * @param aMessageFormat String - message format string
    * @param aMsgArgs Object[] - optional arguments for message string
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsNullArgumentRtException aMessageFormat = <code>null</code>
    */
   public static void errl( String aMessageFormat, Object... aMsgArgs ) {
-    TsNullArgumentRtException.checkNulls( aMessageFormat, aMsgArgs );
+    TsNullArgumentRtException.checkNull( aMessageFormat );
     String msg = String.format( MSG_ERROR_MSG_PREFIX + aMessageFormat + '\n', aMsgArgs );
     System.out.println( msg );
   }
@@ -67,7 +67,7 @@ public class TsTestUtils {
    * @param aMessageFormat String - message format string
    * @param aMsgArgs Object[] - optional arguments for message string
    * @return String - entered string or empty string (including on I/O error)
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsNullArgumentRtException aMessageFormat = <code>null</code>
    */
   public static String waitEnter( String aMessageFormat, Object... aMsgArgs ) {
     p( aMessageFormat, aMsgArgs );
@@ -95,7 +95,7 @@ public class TsTestUtils {
    * @param aMessageFormat String - message format string
    * @param aMsgArgs Object[] - optional arguments for message string
    * @return boolean - <code>true</code> if user answered y (yes)
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsNullArgumentRtException aMessageFormat = <code>null</code>
    */
   @SuppressWarnings( "nls" )
   public static boolean askConfirm( String aMessageFormat, Object aMsgArgs ) {

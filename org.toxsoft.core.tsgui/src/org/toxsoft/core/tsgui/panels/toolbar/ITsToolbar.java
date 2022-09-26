@@ -1,12 +1,9 @@
 package org.toxsoft.core.tsgui.panels.toolbar;
 
 import org.eclipse.jface.action.*;
-import org.eclipse.jface.resource.*;
 import org.eclipse.swt.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.actions.*;
-import org.toxsoft.core.tsgui.graphics.icons.*;
-import org.toxsoft.core.tsgui.panels.lazy.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -17,23 +14,11 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public interface ITsToolbar
-    extends ILazyControl<Control>, IIconSizeable {
+    extends ITsBasicToolbar {
 
   // ------------------------------------------------------------------------------------
   // Configuration
   //
-
-  /**
-   * Sets the icon size of the buttons on toolbar.
-   * <p>
-   * This is the initial configuration method. It must be called before {@link #createControl(Composite)}, after widget
-   * is created calling this method has no effect.
-   *
-   * @param aIconSize {@link EIconSize} - the icons size
-   * @throws TsNullArgumentRtException argument = <code>null</code>
-   */
-  @Override
-  void setIconSize( EIconSize aIconSize );
 
   /**
    * Determines if toolbar is set configured as vertical one.
@@ -96,141 +81,6 @@ public interface ITsToolbar
    */
   void setTooltipText( String aTooltip );
 
-  // ------------------------------------------------------------------------------------
-  // Actions management
-  //
-
-  /**
-   * Finds the action of specified ID.
-   *
-   * @param aActionId String - the action ID
-   * @return {@link TsAction} - the action or <code>null</code>
-   * @throws TsIllegalStateRtException toolbar widget is not created yet
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   */
-  TsAction findAction( String aActionId );
-
-  /**
-   * Returns the action of specified ID.
-   *
-   * @param aActionId String - the action ID
-   * @return {@link TsAction} - the action
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIllegalStateRtException toolbar widget is not created yet
-   * @throws TsItemNotFoundRtException no item of specified ID found
-   */
-  TsAction getAction( String aActionId );
-
-  /**
-   * Returns list of button items - the items with corresponding buttons toolbar.
-   * <p>
-   * Method {@link #listButtonItems()} returns button items, that is items {@link #listAllItems()} without separators.
-   *
-   * @return {@link IList}&lt;{@link ITsActionDef}&gt; - list of button items in order of appearance
-   */
-  IList<ITsActionDef> listButtonItems();
-
-  /**
-   * Returns list of all items.
-   * <p>
-   * Method {@link #listButtonItems()} returns button items, that is items {@link #listAllItems()} without separators.
-   *
-   * @return {@link IList}&lt;{@link ITsActionDef}&gt; - list of all items
-   */
-  IList<ITsActionDef> listAllItems();
-
-  /**
-   * Determines if action button is anabled.
-   *
-   * @param aActionId String - the action ID
-   * @return boolean - the enabled state
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIllegalStateRtException toolbar widget is not created yet
-   * @throws TsItemNotFoundRtException no item of specified ID found
-   */
-  boolean isActionEnabled( String aActionId );
-
-  /**
-   * Sets if the action button is enable.
-   *
-   * @param aActionId String - the action ID
-   * @param aEnabled boolean - the enabled state
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsItemNotFoundRtException no item of specified ID found
-   */
-  void setActionEnabled( String aActionId, boolean aEnabled );
-
-  /**
-   * Returns the checked state of the action button.
-   * <p>
-   * If action is not of style {@link TsAction#AS_CHECK_BOX} or {@link TsAction#AS_RADIO_BUTTON} method returns
-   * <code>false</code>.
-   *
-   * @param aActionId String - the action ID
-   * @return boolean - the check state
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   */
-  boolean isActionChecked( String aActionId );
-
-  /**
-   * Sets the action button checked state.
-   * <p>
-   * If action is not of style {@link TsAction#AS_CHECK_BOX} or {@link TsAction#AS_RADIO_BUTTON} method does nothing.
-   *
-   * @param aActionId String - the action ID
-   * @param aChecked boolean - the check state
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsItemNotFoundRtException no item of specified ID found
-   */
-  void setActionChecked( String aActionId, boolean aChecked );
-
-  /**
-   * Sets the action button text.
-   * <p>
-   * Please note that for buttons with images no text is dispayed.
-   *
-   * @param aActionId String - the action ID
-   * @param aText String - the text
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIllegalStateRtException toolbar widget is not created yet
-   * @throws TsItemNotFoundRtException no item of specified ID found
-   */
-  void setActionText( String aActionId, String aText );
-
-  /**
-   * Sets the action button image.
-   *
-   * @param aActionId String - the action ID
-   * @param aImageDescriptior {@link ImageDescriptor} - image descriptor
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIllegalStateRtException toolbar widget is not created yet
-   * @throws TsItemNotFoundRtException no item of specified ID found
-   */
-  void setActionImage( String aActionId, ImageDescriptor aImageDescriptior );
-
-  /**
-   * Sets the action button tooltip text.
-   *
-   * @param aActionId String - the action ID
-   * @param aText String - the tooltip
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIllegalStateRtException toolbar widget is not created yet
-   * @throws TsItemNotFoundRtException no item of specified ID found
-   */
-  void setActionTooltipText( String aActionId, String aText );
-
-  /**
-   * Sets the menu to the drop-down menu item.
-   *
-   * @param aActionId String - the action ID
-   * @param aMenuCreator {@link IMenuCreator} - the menu to the action or <code>null</code> for no menu
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIllegalStateRtException toolbar widget is not created yet
-   * @throws TsItemNotFoundRtException no item of specified ID found
-   * @throws TsIllegalStateRtException the item is not of {@link TsAction#AS_DROP_DOWN_MENU} style
-   */
-  void setActionMenu( String aActionId, IMenuCreator aMenuCreator );
-
   /**
    * Add an action to the end of the toolbar items.
    * <p>
@@ -282,38 +132,5 @@ public interface ITsToolbar
    * @throws TsIllegalStateRtException toolbar widget is not created yet
    */
   void addContributionItem( IContributionItem aItem );
-
-  // ------------------------------------------------------------------------------------
-  // Inline methods for convinience
-
-  @SuppressWarnings( "javadoc" )
-  default boolean hasAction( String aActionId ) {
-    return findAction( aActionId ) != null;
-  }
-
-  // ------------------------------------------------------------------------------------
-  // Action handling
-
-  /**
-   * Add the listener.
-   * <p>
-   * Already added listeners are ignored.
-   * <p>
-   * Note: for actions added with {@link #addAction(TsAction)} no listener is called!
-   *
-   * @param aListener {@link ITsToolbarListener} - the listener
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   */
-  void addListener( ITsToolbarListener aListener );
-
-  /**
-   * Removes the listener.
-   * <p>
-   * If listener was not added then method does nothing.
-   *
-   * @param aListener {@link ITsToolbarListener} - the listener
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   */
-  void removeListener( ITsToolbarListener aListener );
 
 }

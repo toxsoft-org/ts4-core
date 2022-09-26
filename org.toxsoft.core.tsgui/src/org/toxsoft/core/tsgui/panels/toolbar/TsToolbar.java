@@ -157,6 +157,13 @@ public class TsToolbar
     }
   }
 
+  private void internalClearAll() {
+    tbManager.removeAll();
+    actionsMap.clear();
+    allActionDefs.clear();
+    buttonActDefs.clear();
+  }
+
   private void internalAddToToolbarManager( ITsActionDef aActionDef ) {
     if( aActionDef.id().equals( ACTID_SEPARATOR ) ) {
       tbManager.add( new Separator() );
@@ -391,6 +398,21 @@ public class TsToolbar
   @Override
   public void addSeparator() {
     addActionDef( ACDEF_SEPARATOR );
+  }
+
+  @Override
+  public void setActionDefs( IList<ITsActionDef> aActionDefs ) {
+    TsNullArgumentRtException.checkNull( aActionDefs );
+    internalClearAll();
+    for( ITsActionDef d : aActionDefs ) {
+      addActionDef( d );
+    }
+    tbManager.update( true );
+  }
+
+  @Override
+  public void setActionDefs( ITsActionDef... aActionDefs ) {
+    setActionDefs( new ElemArrayList<>( aActionDefs ) );
   }
 
   @Override
