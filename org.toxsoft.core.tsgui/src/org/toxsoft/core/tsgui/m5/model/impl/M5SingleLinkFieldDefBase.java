@@ -54,8 +54,9 @@ public class M5SingleLinkFieldDefBase<T, V>
     if( itemModel == null ) {
       itemModelId = specifyItemModelId();
       itemModel = (IM5Model<V>)ownerModel().domain().models().findByKey( itemModelId );
+      TsInternalErrorRtException.checkNull( itemModel, FMT_ERR_CANT_FIND_LINK_MODEL, id(), itemModelId );
+      internalSetValueClass( itemModel.entityClass() );
     }
-    TsInternalErrorRtException.checkNull( itemModel, FMT_ERR_CANT_FIND_LINK_MODEL, id(), itemModelId );
   }
 
   // ------------------------------------------------------------------------------------

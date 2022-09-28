@@ -7,6 +7,7 @@ import static org.toxsoft.core.tslib.ITsHardConstants.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.m5.model.impl.*;
+import org.toxsoft.core.tsgui.utils.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
@@ -40,7 +41,7 @@ public class DataTypeM5Model
    * Field {@link IDataType#atomicType()}.
    */
   public static final IM5SingleLookupFieldDef<IDataType, EAtomicType> ATOMIC_TYPE =
-      new M5SingleLookupFieldDef<>( FID_ATOMIC_TYPE, DataTypeM5Model.MODEL_ID ) {
+      new M5SingleLookupFieldDef<>( FID_ATOMIC_TYPE, AtomicTypeM5Model.MODEL_ID ) {
 
         @Override
         protected void doInit() {
@@ -111,6 +112,13 @@ public class DataTypeM5Model
     super( MODEL_ID, IDataType.class );
     setNameAndDescription( STR_N_M5M_DATA_TYPE, STR_D_M5M_DATA_TYPE );
     addFieldDefs( ATOMIC_TYPE, CONSTRAINTS );
+    setVisualsProvider( aItem -> {
+      StringBuilder s = new StringBuilder().append( aItem.atomicType().nmName() );
+      if( !aItem.params().isEmpty() ) {
+        s.append( '[' ).append( aItem.params().size() ).append( ']' );
+      }
+      return s.toString();
+    } );
   }
 
   @Override

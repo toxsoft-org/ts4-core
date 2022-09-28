@@ -1,9 +1,8 @@
 package org.toxsoft.core.tslib.utils;
 
-import java.io.ObjectStreamException;
-import java.io.Serializable;
+import java.io.*;
 
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
+import org.toxsoft.core.tslib.bricks.strid.*;
 
 /**
  * Any items name and description provider.
@@ -67,16 +66,16 @@ class InternalDefaultItemNameProvider
     if( aItem == null ) {
       return TsLibUtils.EMPTY_STRING;
     }
-    if( aItem instanceof IStridable ) {
-      return ((IStridable)aItem).nmName();
+    if( aItem instanceof IStridable item ) {
+      return item.nmName();
     }
     return aItem.toString();
   }
 
   @Override
   public String getDescription( Object aItem ) {
-    if( aItem instanceof IStridable ) {
-      return ((IStridable)aItem).description();
+    if( aItem instanceof IStridable item ) {
+      return item.description();
     }
     return null;
   }

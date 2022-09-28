@@ -240,7 +240,7 @@ public class M5GuiUtils {
    * @param <T> - M5-modelled entity type
    * @param aContext {@link ITsGuiContext} - the context
    * @param aModel {@link IM5Model} - the model
-   * @param aEntity &lt;T&gt - the entity to edit
+   * @param aEntity &lt;T&gt - the entity to edit or <code>null</code> for default values of entity fields
    * @param aDialogInfo {@link ITsDialogInfo} - dialog window properties
    * @param aLifecycleManager {@link IM5LifecycleManager} - the lifecycle manager
    * @return &lt;T&gt; - edited entity or <code>null</code> if user cancelled operation
@@ -248,7 +248,7 @@ public class M5GuiUtils {
    */
   public static <T> T askEdit( ITsGuiContext aContext, IM5Model<T> aModel, T aEntity, ITsDialogInfo aDialogInfo,
       IM5LifecycleManager<T> aLifecycleManager ) {
-    TsNullArgumentRtException.checkNulls( aContext, aDialogInfo, aEntity, aLifecycleManager );
+    TsNullArgumentRtException.checkNulls( aContext, aDialogInfo, aLifecycleManager );
     IDialogPanelCreator<IM5Bunch<T>, ITsGuiContext> creator = ( aParent, aOwnerDialog ) -> {
       IM5EntityPanel<T> panel = aModel.panelCreator().createEntityEditorPanel( aContext, aLifecycleManager );
       return new AskDialogContentPanel<>( aParent, aOwnerDialog, panel, false );
@@ -268,7 +268,7 @@ public class M5GuiUtils {
    * @param <T> - M5-modelled entity type
    * @param aContext {@link ITsGuiContext} - the context
    * @param aPanel {@link IM5EntityPanel}&lt;T&gt - entity editor panel
-   * @param aEntity &lt;T&gt - the entity to edit
+   * @param aEntity &lt;T&gt - the entity to edit or <code>null</code> for default values of entity fields
    * @param aDialogInfo {@link ITsDialogInfo} - dialog window properties
    * @return &lt;T&gt; - edited entity or <code>null</code> if user cancelled operation
    * @throws TsNullArgumentRtException any argument = <code>null</code>
@@ -276,7 +276,7 @@ public class M5GuiUtils {
    */
   public static <T> T askEdit( ITsGuiContext aContext, IM5EntityPanel<T> aPanel, T aEntity,
       ITsDialogInfo aDialogInfo ) {
-    TsNullArgumentRtException.checkNulls( aContext, aDialogInfo, aEntity, aPanel );
+    TsNullArgumentRtException.checkNulls( aContext, aDialogInfo, aPanel );
     TsIllegalArgumentRtException.checkTrue( aPanel.lifecycleManager() == null );
     IDialogPanelCreator<IM5Bunch<T>, ITsGuiContext> creator =
         ( aParent, aOwnerDialog ) -> new AskDialogContentPanel<>( aParent, aOwnerDialog, aPanel, false );

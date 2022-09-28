@@ -161,10 +161,10 @@ public class M5FieldDef<T, V>
   }
 
   // ------------------------------------------------------------------------------------
-  // Implementation
+  // API for subclasses
   //
 
-  private final void internalSetValueClass( Class<V> aValueClass ) {
+  protected final void internalSetValueClass( Class<V> aValueClass ) {
     TsNullArgumentRtException.checkNull( aValueClass );
     TsIllegalStateRtException.checkNoNull( valueClass );
     valueClass = aValueClass;
