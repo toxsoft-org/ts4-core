@@ -188,7 +188,7 @@ public abstract non-sealed class AbstractQNode<T>
 
   @SuppressWarnings( "unchecked" )
   @Override
-  final public <C extends ITsContext> C tsContext() {
+  public <C extends ITsContext> C tsContext() {
     return (C)tsContext;
   }
 
@@ -229,10 +229,28 @@ public abstract non-sealed class AbstractQNode<T>
       cacheChilds( true );
     }
     for( IQNode n : childNodes ) {
-      if( aEntity.equals( n.entity() ) ) {
+      if( Objects.equals( aEntity, n.entity() ) ) {
         return n;
       }
       IQNode found = n.findByEntity( aEntity, aQuerySubtree );
+      if( found != null ) {
+        return found;
+      }
+    }
+    return null;
+  }
+
+  @Override
+  public IQNode findByNodeId( String aNodeId ) {
+    TsNullArgumentRtException.checkNull( aNodeId );
+    if( id().equals( aNodeId ) ) {
+      return this;
+    }
+    for( IQNode n : childNodes ) {
+      if( aNodeId.equals( n.entity() ) ) {
+        return n;
+      }
+      IQNode found = n.findByNodeId( aNodeId );
       if( found != null ) {
         return found;
       }

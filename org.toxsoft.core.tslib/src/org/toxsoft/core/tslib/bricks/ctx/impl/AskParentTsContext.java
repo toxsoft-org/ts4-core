@@ -21,7 +21,7 @@ class AskParentTsContext
 
   @Override
   public IAtomicValue findOp( String aId ) {
-    return parent.params().findByKey( aId );
+    return parent.params().findValue( aId );
   }
 
   @Override

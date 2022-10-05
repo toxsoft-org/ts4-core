@@ -1,7 +1,6 @@
 package org.toxsoft.core.tslib.coll.impl;
 
-import org.toxsoft.core.tslib.coll.IMap;
-import org.toxsoft.core.tslib.coll.IMapEdit;
+import org.toxsoft.core.tslib.coll.*;
 
 /**
  * {@link IMapEdit} implementation with {@link IMap#keys()} sorted in ascending order.
@@ -10,7 +9,8 @@ import org.toxsoft.core.tslib.coll.IMapEdit;
  * @param <K> - the type of keys maintained by this map
  * @param <E> - the type of mapped values
  */
-public class SortedElemMap<K extends Comparable<K>, E>
+@SuppressWarnings( "rawtypes" )
+public class SortedElemMap<K extends Comparable, E>
     extends AbstractElemMap<K, E> {
 
   private static final long serialVersionUID = 157157L;

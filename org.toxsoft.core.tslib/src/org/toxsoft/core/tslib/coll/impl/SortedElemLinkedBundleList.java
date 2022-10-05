@@ -2,15 +2,13 @@ package org.toxsoft.core.tslib.coll.impl;
 
 import static org.toxsoft.core.tslib.coll.impl.TsCollectionsUtils.*;
 
-import java.io.Serializable;
-import java.lang.reflect.Array;
+import java.io.*;
+import java.lang.reflect.*;
 import java.util.*;
 
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListBasicEdit;
-import org.toxsoft.core.tslib.coll.basis.ITsFastIndexListTag;
-import org.toxsoft.core.tslib.coll.basis.ITsSortedCollectionTag;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -342,9 +340,7 @@ public class SortedElemLinkedBundleList<E extends Comparable<E>>
     if( size != 0 ) {
       firstBundle.next = null;
       firstBundle.count = 0;
-      for( int i = 0, n = firstBundle.elems.length; i < n; i++ ) {
-        firstBundle.elems[i] = null; // clear unused references
-      }
+      Arrays.fill( firstBundle.elems, null );
       size = 0;
       ++changeCount;
     }

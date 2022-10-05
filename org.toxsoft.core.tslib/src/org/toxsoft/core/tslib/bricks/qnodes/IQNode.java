@@ -117,6 +117,15 @@ public sealed interface IQNode
   IQNode findByEntity( Object aEntity, boolean aQuerySubtree );
 
   /**
+   * Searches for the existing node by the node ID.
+   *
+   * @param aNodeId String - the node ID
+   * @return {@link IQNode} - found node or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  IQNode findByNodeId( String aNodeId );
+
+  /**
    * Determines if asked node is in this nodes subtree.
    * <p>
    * The node is searched by simple <b><code>==</code></b> operator, not by {@link Object#equals(Object)} method.
