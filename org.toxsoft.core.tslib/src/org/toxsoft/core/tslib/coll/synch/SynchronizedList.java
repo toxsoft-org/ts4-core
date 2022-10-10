@@ -156,6 +156,17 @@ public class SynchronizedList<E, L extends IList<E>>
   }
 
   @Override
+  public E middle() {
+    lock.readLock().lock();
+    try {
+      return source.middle();
+    }
+    finally {
+      lock.readLock().unlock();
+    }
+  }
+
+  @Override
   public E findOnly() {
     lock.readLock().lock();
     try {

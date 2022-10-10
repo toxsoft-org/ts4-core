@@ -10,7 +10,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Manages {@link IQNode} based tree content and visualisation contributors.
  * <p>
  * TODO comment usage and what is "tree visualization" (including node-related actions)<br>
- * Not all kinds of nodes may have contributions, mose of thema have no such capabilities<br>
+ * Not all kinds of nodes may have contributions, most of them have no such capabilities<br>
  * This manager does not defines how node contributors and action prividers are used
  * <p>
  * There may my several different manager in the applications for several different QTrees.

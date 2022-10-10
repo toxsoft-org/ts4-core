@@ -78,6 +78,21 @@ public interface IList<E>
   }
 
   /**
+   * Returns middle element of collecion.
+   * <p>
+   * Middle element has index {@link #size()} / 2.
+   *
+   * @return &lt;E&gt; - middle element of collection or <code>null</code> for empty collection
+   */
+  default E middle() {
+    int count = size();
+    if( count > 0 ) {
+      return get( count / 2 );
+    }
+    return null;
+  }
+
+  /**
    * Finds the element if list contains one element or returns <code>null</code> if none.
    *
    * @return &lt;E&gt; - the only element of collection or <code>null</code> if collection is empty or many elements

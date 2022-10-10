@@ -24,6 +24,9 @@ import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
+ * FIXME move these methods to {@link ValedControlFactoriesRegistry}<br>
+ * FIXME add user-specified editor guessing rules registration to {@link ValedControlFactoriesRegistry}
+ * <p>
  * Вспомгательные методы для работы с редакторами.
  *
  * @author hazard157
