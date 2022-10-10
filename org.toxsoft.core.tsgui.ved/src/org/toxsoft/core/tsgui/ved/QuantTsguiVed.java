@@ -5,11 +5,11 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.bricks.quant.*;
 import org.toxsoft.core.tsgui.m5.*;
-import org.toxsoft.core.tsgui.ved.core.*;
-import org.toxsoft.core.tsgui.ved.core.impl.*;
-import org.toxsoft.core.tsgui.ved.glib.content.*;
-import org.toxsoft.core.tsgui.ved.glib.library.*;
-import org.toxsoft.core.tsgui.ved.std.library.*;
+import org.toxsoft.core.tsgui.ved.zver1.core.*;
+import org.toxsoft.core.tsgui.ved.zver1.core.impl.*;
+import org.toxsoft.core.tsgui.ved.zver1.glib.content.*;
+import org.toxsoft.core.tsgui.ved.zver1.glib.library.*;
+import org.toxsoft.core.tsgui.ved.zver1.std.library.*;
 
 /**
  * The library quant.
