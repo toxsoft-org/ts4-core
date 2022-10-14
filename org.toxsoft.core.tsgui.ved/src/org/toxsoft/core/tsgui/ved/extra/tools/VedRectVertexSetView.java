@@ -10,6 +10,7 @@ import org.toxsoft.core.tslib.bricks.d2.helpers.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -20,12 +21,13 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class VedRectVertexSetView
     extends VedAbstractVertexSetView {
 
-  Rectangle rect = new Rectangle( 0, 0, 0, 0 );
+  protected Rectangle rect = new Rectangle( 0, 0, 0, 0 );
 
   Color colorBlue;
 
   /**
    * Конструктор.<br>
+   * Создает набор вершин, соответствующие всем опорным точкам прямоугольника.
    *
    * @param aVedScreen IVedScreen - экран редактора
    * @param aContext ITsGuiContext - контекст окна
@@ -40,6 +42,29 @@ public class VedRectVertexSetView
     Color bgColor = cm.getColor( ETsColor.RED );
 
     for( ETsFulcrum fulcrum : ETsFulcrum.values() ) {
+      RectVertex vertex = new RectVertex( 8, 8, fgColor, bgColor, fulcrum );
+      addVertex( vertex );
+    }
+  }
+
+  /**
+   * Конструктор.<br>
+   * Создает набор вершин, соответствующие указанным опорным точкам прямоугольника.
+   *
+   * @param aPoints IList&lt;ETsFulcrum> - список опорных точек прямоугольника
+   * @param aVedScreen IVedScreen - экран редактора
+   * @param aContext ITsGuiContext - контекст окна
+   */
+  public VedRectVertexSetView( IList<ETsFulcrum> aPoints, IVedScreen aVedScreen, ITsGuiContext aContext ) {
+    super( aVedScreen );
+
+    ITsColorManager cm = aContext.get( ITsColorManager.class );
+
+    colorBlue = cm.getColor( ETsColor.BLUE );
+    Color fgColor = cm.getColor( ETsColor.BLACK );
+    Color bgColor = cm.getColor( ETsColor.RED );
+
+    for( ETsFulcrum fulcrum : aPoints ) {
       RectVertex vertex = new RectVertex( 8, 8, fgColor, bgColor, fulcrum );
       addVertex( vertex );
     }
@@ -73,7 +98,7 @@ public class VedRectVertexSetView
   @Override
   public Rectangle bounds() {
     Rectangle bounds = null;
-    for( RectVertex vertex : listVertexes() ) {
+    for( IVedVertex vertex : listVertexes() ) {
       if( bounds == null ) {
         bounds = vertex.bounds();
       }
@@ -100,11 +125,11 @@ public class VedRectVertexSetView
     updateVertexes();
   }
 
-  @SuppressWarnings( "unchecked" )
-  @Override
-  public IStridablesList<? extends RectVertex> listVertexes() {
-    return (IStridablesList<RectVertex>)super.listVertexes();
-  }
+  // @SuppressWarnings( "unchecked" )
+  // @Override
+  // public IStridablesList<? extends RectVertex> listVertexes() {
+  // return (IStridablesList<RectVertex>)super.listVertexes();
+  // }
 
   @Override
   protected void onConversionChanged() {
@@ -124,59 +149,88 @@ public class VedRectVertexSetView
    */
   @Override
   public void update( double aDx, double aDy, String aVertexId ) {
-    ETsFulcrum fulcrum = ETsFulcrum.findById( aVertexId );
-    switch( fulcrum ) {
-      case TOP_CENTER: {
-        rect.y += aDy;
-        rect.height -= aDy;
-        break;
+    IVedVertex vertex = listVertexes().getByKey( aVertexId );
+    if( vertex instanceof RectVertex ) {
+      switch( ((RectVertex)vertex).fulcrum() ) {
+        case TOP_CENTER: {
+          rect.y += aDy;
+          rect.height -= aDy;
+          break;
+        }
+        case BOTTOM_CENTER: {
+          rect.height += aDy;
+          break;
+        }
+        case LEFT_CENTER: {
+          rect.x += aDx;
+          rect.width -= aDx;
+          break;
+        }
+        case RIGHT_CENTER: {
+          rect.width += aDx;
+          break;
+        }
+        case LEFT_TOP: {
+          rect.x += aDx;
+          rect.y += aDy;
+          rect.width -= aDx;
+          rect.height -= aDy;
+          break;
+        }
+        case RIGHT_BOTTOM: {
+          rect.width += aDx;
+          rect.height += aDy;
+          break;
+        }
+        case RIGHT_TOP: {
+          rect.y += aDy;
+          rect.width += aDx;
+          rect.height -= aDy;
+          break;
+        }
+        case LEFT_BOTTOM: {
+          rect.x += aDx;
+          rect.width -= aDx;
+          rect.height += aDy;
+          break;
+        }
+        case CENTER: {
+          rect.x += aDx;
+          rect.y += aDy;
+          break;
+        }
+        default:
+          throw new TsNotAllEnumsUsedRtException();
       }
-      case BOTTOM_CENTER: {
-        rect.height += aDy;
-        break;
-      }
-      case LEFT_CENTER: {
-        rect.x += aDx;
-        rect.width -= aDx;
-        break;
-      }
-      case RIGHT_CENTER: {
-        rect.width += aDx;
-        break;
-      }
-      case LEFT_TOP: {
-        rect.x += aDx;
-        rect.y += aDy;
-        rect.width -= aDx;
-        rect.height -= aDy;
-        break;
-      }
-      case RIGHT_BOTTOM: {
-        rect.width += aDx;
-        rect.height += aDy;
-        break;
-      }
-      case RIGHT_TOP: {
-        rect.y += aDy;
-        rect.width += aDx;
-        rect.height -= aDy;
-        break;
-      }
-      case LEFT_BOTTOM: {
-        rect.x += aDx;
-        rect.width -= aDx;
-        rect.height += aDy;
-        break;
-      }
-      case CENTER: {
-        rect.x += aDx;
-        rect.y += aDy;
-        break;
-      }
-      default:
-        throw new TsNotAllEnumsUsedRtException();
+      updateVertexes();
     }
-    updateVertexes();
+    else {
+      onVertexMoved( aDx, aDy, aVertexId );
+    }
+  }
+
+  // ------------------------------------------------------------------------------------
+  // to implements
+  //
+
+  /**
+   * Вызывается для вершин не привзанных к точкам опоры прямоугольника.
+   *
+   * @param aDx double - смещение по X
+   * @param aDy double - смещение по Y
+   * @param aVertexId String - ИД вершины
+   */
+  protected void onVertexMoved( double aDx, double aDy, String aVertexId ) {
+    // nop
+  }
+
+  /**
+   * Вызывается при необходимости обновить положение вершины.
+   *
+   * @param aVertex IVedVertex - вершина, которую необходимо обновить
+   */
+  protected void updateVertex( IVedVertex aVertex ) {
+    // nop
   }
 
   // ------------------------------------------------------------------------------------
@@ -184,45 +238,49 @@ public class VedRectVertexSetView
   //
 
   private void updateVertexes() {
-    for( RectVertex vertex : listVertexes() ) {
-      int x = rect.x;
-      int y = rect.y;
-      switch( vertex.fulcrum() ) {
-        case LEFT_TOP:
-          break;
-        case TOP_CENTER:
-          x += rect.width / 2;
-          break;
-        case BOTTOM_CENTER:
-          x += rect.width / 2;
-          y += rect.height;
-          break;
-        case CENTER:
-          x += rect.width / 2;
-          y += rect.height / 2;
-          break;
-        case LEFT_CENTER:
-          y += rect.height / 2;
-          break;
-        case RIGHT_CENTER:
-          x += rect.width;
-          y += rect.height / 2;
-          break;
-        case RIGHT_BOTTOM:
-          x += rect.width;
-          y += rect.height;
-          break;
-        case RIGHT_TOP:
-          x += rect.width;
-          break;
-        case LEFT_BOTTOM:
-          y += rect.height;
-          break;
-        default:
-          throw new TsNotAllEnumsUsedRtException();
+    for( IVedVertex vertex : listVertexes() ) {
+      if( vertex instanceof RectVertex ) {
+        int x = rect.x;
+        int y = rect.y;
+        switch( ((RectVertex)vertex).fulcrum() ) {
+          case LEFT_TOP:
+            break;
+          case TOP_CENTER:
+            x += rect.width / 2;
+            break;
+          case BOTTOM_CENTER:
+            x += rect.width / 2;
+            y += rect.height;
+            break;
+          case CENTER:
+            x += rect.width / 2;
+            y += rect.height / 2;
+            break;
+          case LEFT_CENTER:
+            y += rect.height / 2;
+            break;
+          case RIGHT_CENTER:
+            x += rect.width;
+            y += rect.height / 2;
+            break;
+          case RIGHT_BOTTOM:
+            x += rect.width;
+            y += rect.height;
+            break;
+          case RIGHT_TOP:
+            x += rect.width;
+            break;
+          case LEFT_BOTTOM:
+            y += rect.height;
+            break;
+          default:
+            throw new TsNotAllEnumsUsedRtException();
+        }
+        ((RectVertex)vertex).setRect( new Rectangle( x - 4, y - 4, 8, 8 ) );
       }
-
-      vertex.setRect( new Rectangle( x - 4, y - 4, 8, 8 ) );
+      else {
+        updateVertex( vertex );
+      }
     }
   }
 

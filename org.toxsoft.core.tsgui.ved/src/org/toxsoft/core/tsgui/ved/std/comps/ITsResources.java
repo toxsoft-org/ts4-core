@@ -15,6 +15,16 @@ interface ITsResources {
   String STR_D_VSC_RECT = "Залитый цветом прямоугольник с обрамлением";
 
   /**
+   * {@link VedStdCompRoundRectangle}
+   */
+  String STR_N_VSC_ROUND_RECT = "Скругленный прямоугольник";
+  String STR_D_VSC_ROUND_RECT = "Залитый цветом скругленный прямоугольник с обрамлением";
+  String STR_N_ARC_WIDTH      = "ширина скруления";
+  String STR_D_ARC_WIDTH      = "ширина скруления угла прямоугольника";
+  String STR_N_ARC_HEIGHT     = "высота скруления";
+  String STR_D_ARC_HEIGHT     = "высота скруления угла прямоугольника";
+
+  /**
    * {@link VedStdCompBorder}
    */
   String STR_N_VSC_BORDER  = "Рамка";

@@ -6,19 +6,29 @@ import org.toxsoft.core.tsgui.graphics.cursors.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Вершина, представляющая собой прямоугольник.
+ * Вершина, представляющая собой круг.
  * <p>
  *
  * @author vs
  */
-public class RectVertex
+public class CircleVertex
     extends VedAbstractVertex {
 
   private final Rectangle rect = new Rectangle( 0, 0, 0, 0 );
 
   private final ETsFulcrum fulcrum;
 
-  public RectVertex( int aWidth, int aHeight, Color fgColor, Color bgColor, ETsFulcrum aFulcrum ) {
+  public CircleVertex( String aId, String aName, String aDescription, int aWidth, int aHeight, Color fgColor,
+      Color bgColor ) {
+    super( aId, aName, aDescription );
+    fulcrum = null;
+    rect.width = aWidth;
+    rect.height = aHeight;
+    setForeground( fgColor );
+    setBackground( bgColor );
+  }
+
+  public CircleVertex( int aWidth, int aHeight, Color fgColor, Color bgColor, ETsFulcrum aFulcrum ) {
     super( aFulcrum.id(), aFulcrum.nmName(), aFulcrum.description() );
     fulcrum = aFulcrum;
     rect.width = aWidth;
@@ -32,14 +42,14 @@ public class RectVertex
     return rect;
   }
 
-  // @Override
-  // public boolean containsNormPoint( double aX, double aY ) {
-  // double zf = getConversion().zoomFactor();
-  // return rect.contains( (int)Math.round( aX * zf ), (int)Math.round( aY * zf ) );
-  // }
-
   @Override
   public boolean containsScreenPoint( int aX, int aY ) {
+    if( rect.width == rect.height ) {
+      int r = rect.width / 2;
+      int centerX = rect.x + r;
+      int centerY = rect.y + r;
+      return Math.sqrt( (aX - centerX) * (aX - centerX) + (aY - centerY) * (aY - centerY) ) <= r;
+    }
     return rect.contains( aX, aY );
   }
 
@@ -48,8 +58,8 @@ public class RectVertex
     aGc.setForeground( foregroundColor() );
     aGc.setBackground( backgroundColor() );
 
-    aGc.fillRectangle( rect );
-    aGc.drawRectangle( rect );
+    aGc.fillOval( rect.x, rect.y, rect.width, rect.height );
+    aGc.drawOval( rect.x, rect.y, rect.width, rect.height );
   }
 
   @Override
@@ -90,26 +100,29 @@ public class RectVertex
    * @return ECursorType - тип курсора мыши
    */
   public static ECursorType cursorType( ETsFulcrum aFulcrum ) {
-    switch( aFulcrum ) {
-      case TOP_CENTER:
-      case BOTTOM_CENTER:
-        return ECursorType.SIZSTR_N_NORTH_SOUTH;
-      case CENTER:
-        return ECursorType.SIZSTR_N_ALL;
-      case LEFT_CENTER:
-      case RIGHT_CENTER:
-        return ECursorType.SIZSTR_N_WEST_EAST;
-      case LEFT_TOP:
-        return ECursorType.SIZSTR_N_NORTH_WEST;
-      case RIGHT_BOTTOM:
-        return ECursorType.SIZSTR_N_SOUTH_EAST;
-      case RIGHT_TOP:
-        return ECursorType.SIZSTR_N_NORTH_EAST;
-      case LEFT_BOTTOM:
-        return ECursorType.SIZSTR_N_SOUTH_WEST;
-      default:
-        throw new TsNotAllEnumsUsedRtException();
+    if( aFulcrum != null ) {
+      switch( aFulcrum ) {
+        case TOP_CENTER:
+        case BOTTOM_CENTER:
+          return ECursorType.SIZSTR_N_NORTH_SOUTH;
+        case CENTER:
+          return ECursorType.SIZSTR_N_ALL;
+        case LEFT_CENTER:
+        case RIGHT_CENTER:
+          return ECursorType.SIZSTR_N_WEST_EAST;
+        case LEFT_TOP:
+          return ECursorType.SIZSTR_N_NORTH_WEST;
+        case RIGHT_BOTTOM:
+          return ECursorType.SIZSTR_N_SOUTH_EAST;
+        case RIGHT_TOP:
+          return ECursorType.SIZSTR_N_NORTH_EAST;
+        case LEFT_BOTTOM:
+          return ECursorType.SIZSTR_N_SOUTH_WEST;
+        default:
+          throw new TsNotAllEnumsUsedRtException();
+      }
     }
+    return ECursorType.HAND;
   }
 
 }
