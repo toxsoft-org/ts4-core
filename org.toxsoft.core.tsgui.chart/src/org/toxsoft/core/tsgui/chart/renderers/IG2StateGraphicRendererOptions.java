@@ -1,18 +1,17 @@
 package org.toxsoft.core.tsgui.chart.renderers;
 
+import static org.toxsoft.core.tsgui.chart.renderers.IG2Resources.*;
 import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
-import static ru.toxsoft.tsgui.chart.renderers.IG2Resources.*;
 
+import org.toxsoft.core.tsgui.chart.api.*;
+import org.toxsoft.core.tsgui.chart.impl.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.keeper.std.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
-
-import ru.toxsoft.tsgui.chart.api.*;
-import ru.toxsoft.tsgui.chart.impl.*;
 
 /**
  * Свойства стандартного отрисовщика графика состояний.

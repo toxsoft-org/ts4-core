@@ -1,11 +1,10 @@
 package org.toxsoft.core.tsgui.chart.impl;
 
 import org.eclipse.swt.graphics.*;
+import org.toxsoft.core.tsgui.chart.api.*;
 import org.toxsoft.core.tslib.av.temporal.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-
-import ru.toxsoft.tsgui.chart.api.*;
 
 /**
  * Визуальное представление графика.

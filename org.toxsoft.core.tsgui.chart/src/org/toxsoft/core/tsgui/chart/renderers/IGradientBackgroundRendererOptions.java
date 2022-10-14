@@ -1,20 +1,19 @@
 package org.toxsoft.core.tsgui.chart.renderers;
 
+import static org.toxsoft.core.tsgui.chart.renderers.IG2Resources.*;
 import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
 import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
-import static ru.toxsoft.tsgui.chart.renderers.IG2Resources.*;
 
 import org.eclipse.swt.graphics.*;
+import org.toxsoft.core.tsgui.chart.api.*;
+import org.toxsoft.core.tsgui.chart.impl.*;
 import org.toxsoft.core.tsgui.utils.swt.*;
 import org.toxsoft.core.tsgui.valed.controls.graphics.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
-
-import ru.toxsoft.tsgui.chart.api.*;
-import ru.toxsoft.tsgui.chart.impl.*;
 
 /**
  * Свойства отрисовщика фона с помощью градиентной заливки.

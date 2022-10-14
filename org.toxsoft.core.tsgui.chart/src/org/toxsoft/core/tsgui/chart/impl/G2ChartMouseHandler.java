@@ -3,9 +3,8 @@ package org.toxsoft.core.tsgui.chart.impl;
 import org.eclipse.swt.*;
 import org.eclipse.swt.events.*;
 import org.toxsoft.core.singlesrc.rcp.*;
+import org.toxsoft.core.tsgui.chart.api.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-
-import ru.toxsoft.tsgui.chart.api.*;
 
 /**
  * Реализация обработчика событий мыши для графической копоненты.
@@ -29,41 +28,37 @@ public class G2ChartMouseHandler {
     chart = aChart;
     console = chart.console();
 
-    ISingleSourcing_MouseWheelListener mwl = new ISingleSourcing_MouseWheelListener() {
-
-      @Override
-      public void mouseScrolled( MouseEvent e ) {
-        IG2ChartArea area = chart.chartLayout().areaUnderCursor( e.x, e.y );
-        if( area != null ) {
-          switch( area.elementKind() ) {
-            case CANVAS:
-              canvasMouseScrolled( e );
-              break;
-            case LABEL:
-              break;
-            case LEGEND:
-              break;
-            case TITLE:
-              break;
-            case X_AXIS:
-              if( e.stateMask == SWT.CTRL ) {
-                xAxisMouseScaled( e );
-              }
-              else {
-                xAxisMouseScrolled( e );
-              }
-              break;
-            case Y_AXIS:
-              if( e.stateMask == SWT.CTRL ) {
-                yAxisMouseScaled( area, e );
-              }
-              else {
-                yAxisMouseScrolled( area, e );
-              }
-              break;
-            default:
-              throw new TsNotAllEnumsUsedRtException();
-          }
+    ISingleSourcing_MouseWheelListener mwl = e -> {
+      IG2ChartArea area = chart.chartLayout().areaUnderCursor( e.x, e.y );
+      if( area != null ) {
+        switch( area.elementKind() ) {
+          case CANVAS:
+            canvasMouseScrolled( e );
+            break;
+          case LABEL:
+            break;
+          case LEGEND:
+            break;
+          case TITLE:
+            break;
+          case X_AXIS:
+            if( e.stateMask == SWT.CTRL ) {
+              xAxisMouseScaled( e );
+            }
+            else {
+              xAxisMouseScrolled( e );
+            }
+            break;
+          case Y_AXIS:
+            if( e.stateMask == SWT.CTRL ) {
+              yAxisMouseScaled( area, e );
+            }
+            else {
+              yAxisMouseScrolled( area, e );
+            }
+            break;
+          default:
+            throw new TsNotAllEnumsUsedRtException();
         }
       }
     };

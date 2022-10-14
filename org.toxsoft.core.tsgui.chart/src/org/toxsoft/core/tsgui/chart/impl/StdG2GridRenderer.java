@@ -1,6 +1,6 @@
 package org.toxsoft.core.tsgui.chart.impl;
 
-import static ru.toxsoft.tsgui.chart.renderers.IStdG2GridRendererOptions.*;
+import static org.toxsoft.core.tsgui.chart.renderers.IStdG2GridRendererOptions.*;
 
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;

@@ -1,10 +1,9 @@
 package org.toxsoft.core.tsgui.chart.impl;
 
+import org.toxsoft.core.tsgui.chart.api.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.bricks.time.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-
-import ru.toxsoft.tsgui.chart.api.*;
 
 /**
  * Консоль управления графиками.

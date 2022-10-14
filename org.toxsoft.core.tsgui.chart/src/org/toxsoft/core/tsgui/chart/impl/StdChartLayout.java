@@ -4,6 +4,10 @@ import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.chart.api.*;
+import org.toxsoft.core.tsgui.chart.layouts.*;
+import org.toxsoft.core.tsgui.chart.legaсy.*;
+import org.toxsoft.core.tsgui.chart.renderers.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tslib.av.opset.*;
@@ -14,11 +18,6 @@ import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.*;
-
-import ru.toxsoft.tsgui.chart.api.*;
-import ru.toxsoft.tsgui.chart.layouts.*;
-import ru.toxsoft.tsgui.chart.legaсy.*;
-import ru.toxsoft.tsgui.chart.renderers.*;
 
 class StdChartLayout
     extends AbstractG2Layout

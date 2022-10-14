@@ -1,10 +1,12 @@
 package org.toxsoft.core.tsgui.chart.impl;
 
-import static ru.toxsoft.tsgui.chart.renderers.IStdG2AxisAnnotationRendererOptions.*;
+import static org.toxsoft.core.tsgui.chart.renderers.IStdG2AxisAnnotationRendererOptions.*;
 
 import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.chart.api.*;
+import org.toxsoft.core.tsgui.chart.legaсy.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.fonts.*;
@@ -17,9 +19,6 @@ import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-
-import ru.toxsoft.tsgui.chart.api.*;
-import ru.toxsoft.tsgui.chart.legaсy.*;
 
 /**
  * Стандартный аннотатор шкалы графика.

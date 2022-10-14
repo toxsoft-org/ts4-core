@@ -3,6 +3,8 @@ package org.toxsoft.core.tsgui.chart.impl;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.chart.api.*;
+import org.toxsoft.core.tsgui.chart.layouts.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.coll.*;
@@ -10,9 +12,6 @@ import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-
-import ru.toxsoft.tsgui.chart.api.*;
-import ru.toxsoft.tsgui.chart.layouts.*;
 
 /**
  * Базовый класс, от которого должны наследоваться конкретные менеджеры размещения.

@@ -1,10 +1,11 @@
 package org.toxsoft.core.tsgui.chart.impl;
 
-import static ru.toxsoft.tsgui.chart.renderers.IG2StateAxisAnnotationRendererOptions.*;
+import static org.toxsoft.core.tsgui.chart.renderers.IG2StateAxisAnnotationRendererOptions.*;
 
 import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.chart.api.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
@@ -16,8 +17,6 @@ import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-
-import ru.toxsoft.tsgui.chart.api.*;
 
 /**
  * Отрисовщик шкалы графика состояния.

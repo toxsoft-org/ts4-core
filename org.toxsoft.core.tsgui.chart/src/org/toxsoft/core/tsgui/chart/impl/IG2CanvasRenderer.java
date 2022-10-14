@@ -1,12 +1,11 @@
 package org.toxsoft.core.tsgui.chart.impl;
 
 import org.eclipse.swt.graphics.*;
+import org.toxsoft.core.tsgui.chart.api.*;
+import org.toxsoft.core.tsgui.chart.legaсy.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.*;
-
-import ru.toxsoft.tsgui.chart.api.*;
-import ru.toxsoft.tsgui.chart.legaсy.*;
 
 interface IG2CanvasRenderer {
 

@@ -1,6 +1,8 @@
 package org.toxsoft.core.tsgui.chart.impl;
 
 import org.eclipse.swt.graphics.*;
+import org.toxsoft.core.tsgui.chart.api.*;
+import org.toxsoft.core.tsgui.chart.legaсy.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
@@ -9,9 +11,6 @@ import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.*;
-
-import ru.toxsoft.tsgui.chart.api.*;
-import ru.toxsoft.tsgui.chart.legaсy.*;
 
 /**
  * Базовый класс визуальных компонент для отображения шкал.

@@ -4,11 +4,10 @@ import java.lang.reflect.*;
 import java.util.*;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.chart.api.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.time.*;
-
-import ru.toxsoft.tsgui.chart.api.*;
 
 /**
  * Вспомогательные методы работы с модулем графиков.

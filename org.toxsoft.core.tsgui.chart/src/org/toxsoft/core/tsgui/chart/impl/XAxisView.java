@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.chart.impl;
 
+import org.toxsoft.core.tsgui.chart.api.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
@@ -7,8 +8,6 @@ import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-
-import ru.toxsoft.tsgui.chart.api.*;
 
 public class XAxisView
     extends G2AxisViewBase {

@@ -1,9 +1,8 @@
 package org.toxsoft.core.tsgui.chart.impl;
 
+import org.toxsoft.core.tsgui.chart.api.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
-
-import ru.toxsoft.tsgui.chart.api.*;
 
 /**
  * Модель Y шкалы.

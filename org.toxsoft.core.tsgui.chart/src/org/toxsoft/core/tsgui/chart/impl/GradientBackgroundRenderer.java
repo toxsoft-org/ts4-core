@@ -1,15 +1,14 @@
 package org.toxsoft.core.tsgui.chart.impl;
 
-import static ru.toxsoft.tsgui.chart.renderers.IGradientBackgroundRendererOptions.*;
+import static org.toxsoft.core.tsgui.chart.renderers.IGradientBackgroundRendererOptions.*;
 
 import org.eclipse.swt.graphics.*;
+import org.toxsoft.core.tsgui.chart.renderers.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-
-import ru.toxsoft.tsgui.chart.renderers.*;
 
 /**
  * Реализация отрисовщика фона с помощью градиентной заливки.

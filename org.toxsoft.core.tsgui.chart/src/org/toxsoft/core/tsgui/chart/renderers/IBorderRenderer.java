@@ -1,8 +1,7 @@
 package org.toxsoft.core.tsgui.chart.renderers;
 
 import org.eclipse.swt.graphics.*;
-
-import ru.toxsoft.tsgui.chart.legaсy.*;
+import org.toxsoft.core.tsgui.chart.legaсy.*;
 
 /**
  * Отрисовщик границы прямоугольной области.

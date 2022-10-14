@@ -1,9 +1,11 @@
 package org.toxsoft.core.tsgui.chart.impl;
 
-import static ru.toxsoft.tsgui.chart.renderers.IStdG2CanvasRendererOptions.*;
+import static org.toxsoft.core.tsgui.chart.renderers.IStdG2CanvasRendererOptions.*;
 
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.chart.api.*;
+import org.toxsoft.core.tsgui.chart.legaсy.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
@@ -13,9 +15,6 @@ import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-
-import ru.toxsoft.tsgui.chart.api.*;
-import ru.toxsoft.tsgui.chart.legaсy.*;
 
 /**
  * Стандартный отрисовщик холста для отображения графиков.

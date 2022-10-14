@@ -1,16 +1,15 @@
 package org.toxsoft.core.tsgui.chart.impl;
 
-import static ru.toxsoft.tsgui.chart.renderers.IStdG2AxisRendererOptions.*;
+import static org.toxsoft.core.tsgui.chart.renderers.IStdG2AxisRendererOptions.*;
 
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.chart.api.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
-
-import ru.toxsoft.tsgui.chart.api.*;
 
 /**
  * Финальная реализация стандартного отрисовщика шкалы.

@@ -1,12 +1,11 @@
 package org.toxsoft.core.tsgui.chart.impl;
 
+import org.toxsoft.core.tsgui.chart.api.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.*;
-
-import ru.toxsoft.tsgui.chart.api.*;
 
 /**
  * Y шкала для отображения действительных значений.

@@ -12,10 +12,8 @@ import java.awt.image.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.chart.legaсy.*;
 import org.toxsoft.core.tsgui.graphics.fonts.*;
-
-import ru.toxsoft.tsgui.chart.legaсy.*;
-//import org.toxsoft.core.tsgui.graphics.image.*;
 
 public class TextUtils {
 

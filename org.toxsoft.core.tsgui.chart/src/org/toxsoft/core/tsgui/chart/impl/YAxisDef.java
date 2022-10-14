@@ -1,12 +1,11 @@
 package org.toxsoft.core.tsgui.chart.impl;
 
+import org.toxsoft.core.tsgui.chart.api.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
-
-import ru.toxsoft.tsgui.chart.api.*;
 
 /**
  * Описание Y шкалы.

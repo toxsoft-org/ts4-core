@@ -1,8 +1,7 @@
 package org.toxsoft.core.tsgui.chart.impl;
 
+import org.toxsoft.core.tsgui.chart.legaсy.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
-
-import ru.toxsoft.tsgui.chart.legaсy.*;
 
 /**
  * Интерфейс холста для отрисовки графиков.

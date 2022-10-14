@@ -1,8 +1,7 @@
 package org.toxsoft.core.tsgui.chart.impl;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
-
-import ru.toxsoft.tsgui.chart.layouts.*;
+import org.toxsoft.core.tsgui.chart.layouts.*;
 
 /**
  * Вспомогательные методы работы с менеджерами размещения элементов компоненты графиков.

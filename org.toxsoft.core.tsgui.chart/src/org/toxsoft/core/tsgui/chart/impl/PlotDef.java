@@ -1,9 +1,8 @@
 package org.toxsoft.core.tsgui.chart.impl;
 
+import org.toxsoft.core.tsgui.chart.api.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
-
-import ru.toxsoft.tsgui.chart.api.*;
 
 /**
  * Описание графика с указанием шкалы, холста, набора данных и параметров отрисовки.

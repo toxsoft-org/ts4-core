@@ -1,6 +1,6 @@
 package org.toxsoft.core.tsgui.chart.impl;
 
-import ru.toxsoft.tsgui.chart.api.*;
+import org.toxsoft.core.tsgui.chart.api.*;
 
 public class StdGrid
     implements IGrid {

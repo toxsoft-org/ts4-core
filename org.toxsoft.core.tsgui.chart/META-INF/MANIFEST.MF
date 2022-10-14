@@ -8,7 +8,8 @@ Bundle-Vendor: toxsoft.org
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.toxsoft.core.tslib,
- org.toxsoft.core.tsgui
+ org.toxsoft.core.tsgui,
+ org.toxsoft.core.singlesrc.rcp;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: org.toxsoft.core.tsgui.chart
 Bundle-ActivationPolicy: lazy

@@ -1,12 +1,11 @@
 package org.toxsoft.core.tsgui.chart.api;
 
 import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.chart.impl.*;
+import org.toxsoft.core.tsgui.chart.layouts.*;
 import org.toxsoft.core.tsgui.panels.lazy.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.notifier.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-
-import ru.toxsoft.tsgui.chart.impl.*;
-import ru.toxsoft.tsgui.chart.layouts.*;
 
 /**
  * Компонента графиков.

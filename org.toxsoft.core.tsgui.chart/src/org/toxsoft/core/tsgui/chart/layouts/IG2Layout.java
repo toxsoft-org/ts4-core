@@ -1,6 +1,6 @@
 package org.toxsoft.core.tsgui.chart.layouts;
 
-import ru.toxsoft.tsgui.chart.impl.IG2ChartArea;
+import org.toxsoft.core.tsgui.chart.impl.*;
 
 /**
  * Базовый интерфейс всех видов раскладок графиков.

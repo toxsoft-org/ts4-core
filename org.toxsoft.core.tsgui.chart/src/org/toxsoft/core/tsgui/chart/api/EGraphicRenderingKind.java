@@ -1,6 +1,6 @@
 package org.toxsoft.core.tsgui.chart.api;
 
-import static ru.toxsoft.tsgui.chart.api.ITgResources.*;
+import static org.toxsoft.core.tsgui.chart.api.ITgResources.*;
 
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.std.*;
