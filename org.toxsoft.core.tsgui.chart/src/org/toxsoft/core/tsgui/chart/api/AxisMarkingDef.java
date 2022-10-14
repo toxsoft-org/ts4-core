@@ -124,7 +124,7 @@ public class AxisMarkingDef {
     if( aNumber % midTickNumber == 0 ) {
       return ETickType.MIDDLE;
     }
-    int n = aNumber / bigTickNumber;
+    // int n = aNumber / bigTickNumber;
     return ETickType.LITTLE;
   }
 

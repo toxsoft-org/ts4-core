@@ -24,7 +24,8 @@ public interface IVisir
   /**
    * Устанавливает признак видимости "визира".
    *
-   * @param aVisible
+   * @param aVisible <b>true</b> - визир должен отображаться<br>
+   *          <b>false</b> - визи должен быть скрыт
    */
   void setVisible( boolean aVisible );
 
