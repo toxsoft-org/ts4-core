@@ -59,7 +59,7 @@ public class CmdMwsAbout {
       TsImage tsImg = TsImage.create( icon );
       imageWidget.setTsImage( tsImg );
       //
-      label = new Label( this, SWT.CENTER | SWT.BORDER );
+      label = new Label( this, SWT.CENTER | SWT.BORDER | SWT.WRAP );
       label.setLayoutData( BorderLayout.CENTER );
     }
 

@@ -181,6 +181,7 @@ public class M5DefaultPanelCreator<T>
    * @return {@link IM5EntityPanel} - created instance
    */
   protected IM5EntityPanel<T> doCreateEntityDetailsPanel( ITsGuiContext aContext ) {
+    OPDEF_IS_DETAILS_PANE.setValue( aContext.params(), AV_FALSE ); // to avoid infinite recusion
     return new M5DefaultEntityDetailsPanel<>( aContext, model );
   }
 

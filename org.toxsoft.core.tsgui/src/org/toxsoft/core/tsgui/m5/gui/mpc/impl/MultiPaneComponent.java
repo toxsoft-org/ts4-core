@@ -10,6 +10,7 @@ import org.eclipse.swt.events.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.actions.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.bricks.stdevents.*;
 import org.toxsoft.core.tsgui.bricks.stdevents.impl.*;
 import org.toxsoft.core.tsgui.bricks.tsnodes.*;
@@ -658,7 +659,7 @@ public class MultiPaneComponent<T>
     if( summaryPane != null ) {
       summaryPane.getControl().setVisible( !OPDEF_IS_SUMMARY_PANE_HIDDEN.getValue( tsContext().params() ).asBool() );
     }
-    // TODO MultiPaneComponent.createControl()
+    //
     doAfterCreateControls();
     board.getParent().layout( true, true );
     refresh();
@@ -908,7 +909,7 @@ public class MultiPaneComponent<T>
       }
     }
     if( needDetailsPane ) {
-      IM5EntityPanel<T> panel = model().panelCreator().createEntityDetailsPanel( tsContext() );
+      IM5EntityPanel<T> panel = model().panelCreator().createEntityDetailsPanel( new TsGuiContext( tsContext() ) );
       return new MpcDetailsPaneWrapper<>( this, panel );
     }
     return null;

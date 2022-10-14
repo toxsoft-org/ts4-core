@@ -364,7 +364,7 @@ public class M5FieldDef<T, V>
 
   @Override
   public String toString() {
-    return "params = " + OptionSetUtils.humanReadable( params() ); //$NON-NLS-1$
+    return id() + "\nparams = " + OptionSetUtils.humanReadable( params() ); //$NON-NLS-1$
   }
 
   // ------------------------------------------------------------------------------------

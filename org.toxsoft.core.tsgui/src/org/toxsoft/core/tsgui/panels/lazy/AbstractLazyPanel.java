@@ -59,6 +59,9 @@ public abstract class AbstractLazyPanel<C extends Control>
     TsNullArgumentRtException.checkNull( aParent );
     TsIllegalStateRtException.checkNoNull( control );
     C c = doCreateControl( aParent );
+    if( c == null ) {
+      throw new TsInternalErrorRtException();
+    }
     if( control != null && c != control ) {
       throw new TsInternalErrorRtException();
     }

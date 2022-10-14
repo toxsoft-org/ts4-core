@@ -2,13 +2,11 @@ package org.toxsoft.core.tslib.utils.files;
 
 import static org.toxsoft.core.tslib.utils.files.EFsObjKind.*;
 
-import java.io.File;
+import java.io.*;
 
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
-import org.toxsoft.core.tslib.coll.primtypes.IStringListEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.SingleStringList;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringArrayList;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Base for simple file filtering via {@link File#listFiles(java.io.FileFilter)}.
@@ -88,7 +86,7 @@ public class TsFileFilter
   }
 
   /**
-   * Cretae filter for unhidden files of specified case-insensitive extension.
+   * Creates filter for unhidden files of specified case-insensitive extension.
    *
    * @param aExt String - an extension without dot
    * @return {@link TsFileFilter} - cretaed instance
