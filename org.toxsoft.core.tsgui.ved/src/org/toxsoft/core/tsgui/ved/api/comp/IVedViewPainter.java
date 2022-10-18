@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.ved.zver1.core.view;
+package org.toxsoft.core.tsgui.ved.api.comp;
 
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;

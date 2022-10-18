@@ -3,9 +3,8 @@ package org.toxsoft.core.tsgui.ved.api.entity;
 import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
 import static org.toxsoft.core.tsgui.ved.api.entity.ITsResources.*;
 
-import org.toxsoft.core.tsgui.ved.api.actor.*;
 import org.toxsoft.core.tsgui.ved.api.comp.*;
-import org.toxsoft.core.tsgui.ved.api.tailor.*;
+import org.toxsoft.core.tsgui.ved.api.doc.*;
 import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.std.*;
@@ -23,7 +22,7 @@ public enum EVedEntityKind
     implements IStridable, IIconIdable {
 
   /**
-   * {@link IVedComponentCfg}.
+   * {@link IVedComponent}.
    */
   COMPONENT( "component", STR_N_COMPONENT, STR_D_COMPONENT, //$NON-NLS-1$
       ICON_VED_COMPONENT, IVedComponent.class ),

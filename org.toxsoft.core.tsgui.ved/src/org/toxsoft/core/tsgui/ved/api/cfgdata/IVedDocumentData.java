@@ -1,9 +1,8 @@
-package org.toxsoft.core.tsgui.ved.api.doc;
+package org.toxsoft.core.tsgui.ved.api.cfgdata;
 
 import org.toxsoft.core.tsgui.ved.api.*;
-import org.toxsoft.core.tsgui.ved.api.actor.*;
 import org.toxsoft.core.tsgui.ved.api.comp.*;
-import org.toxsoft.core.tsgui.ved.api.tailor.*;
+import org.toxsoft.core.tsgui.ved.api.doc.*;
 import org.toxsoft.core.tsgui.ved.incub.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;

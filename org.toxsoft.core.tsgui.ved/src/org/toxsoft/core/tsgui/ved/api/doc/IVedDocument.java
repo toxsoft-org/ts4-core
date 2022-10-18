@@ -1,8 +1,7 @@
 package org.toxsoft.core.tsgui.ved.api.doc;
 
-import org.toxsoft.core.tsgui.ved.api.actor.*;
+import org.toxsoft.core.tsgui.ved.api.cfgdata.*;
 import org.toxsoft.core.tsgui.ved.api.comp.*;
-import org.toxsoft.core.tsgui.ved.api.tailor.*;
 import org.toxsoft.core.tslib.av.props.*;
 
 /**

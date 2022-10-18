@@ -1,25 +1,18 @@
-package org.toxsoft.core.tsgui.ved.api.entity;
+package org.toxsoft.core.tsgui.ved.api.cfgdata;
 
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 
 /**
- * Base interface of all VED entities.
+ * Base interface configuration data of single VED entity or other propartable object.
  *
  * @author hazard157
  */
-public interface IVedEntityCfg
+public interface IVedConfigBase
     extends IStridableParameterized {
 
   /**
-   * Returns the kind of provider entities.
-   *
-   * @return {@link EVedEntityKind} - the kind of entities
-   */
-  EVedEntityKind entityKind();
-
-  /**
-   * Returns the values of the entity properties.
+   * Returns the values of the properties.
    *
    * @return {@link IOptionSet} - the properies values
    */

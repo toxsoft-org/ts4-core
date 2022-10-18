@@ -1,7 +1,6 @@
 package org.toxsoft.core.tsgui.ved.api.comp;
 
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tsgui.ved.zver1.core.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.d2.helpers.*;
 import org.toxsoft.core.tslib.bricks.strid.*;

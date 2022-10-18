@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.ved.api.entity;
 
 import org.toxsoft.core.tsgui.ved.api.*;
+import org.toxsoft.core.tsgui.ved.api.cfgdata.*;
 import org.toxsoft.core.tslib.av.errors.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
@@ -35,10 +36,12 @@ public interface IVedEntityProvider
    * @param <T> - expected type of created entity must match {@link EVedEntityKind#entityClass()}
    * @param aId String - the ID of entity to be created
    * @param aVedEnv {@link IVedEnvironment} the VED environment
+   * @param aCfg {@link IVedEntityConfig} - entity config data
    * @return &lt;T&gt; - created component
    * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException config entity kind does not matches provided entity kind
    * @throws AvTypeCastRtException any property value is not compatible to the property definition
    */
-  <T extends IVedEntity> T create( String aId, IVedEnvironment aVedEnv );
+  <T extends IVedEntity> T create( String aId, IVedEnvironment aVedEnv, IVedEntityConfig aCfg );
 
 }
