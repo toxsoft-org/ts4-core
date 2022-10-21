@@ -20,7 +20,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.logs.ILogger;
 
 /**
- * Реализация Сервера Публичного Доступа (СПД)
+ * Реализация Сервера Публичного Доступа (СПД).
  *
  * @author mvk
  * @param <CHANNEL> тип двунаправленного канала обмена между клиентом и сервером
