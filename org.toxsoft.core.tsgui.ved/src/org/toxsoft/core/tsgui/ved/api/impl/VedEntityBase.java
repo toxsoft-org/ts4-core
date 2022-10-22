@@ -65,7 +65,7 @@ public class VedEntityBase
    *
    * @return {@link IStridablesList}&lt;{@link IDataDef}&gt; - properties definitions
    */
-  public IStridablesList<IDataDef> propDefs() {
+  final public IStridablesList<IDataDef> propDefs() {
     return creator.propDefs();
   }
 
@@ -79,12 +79,12 @@ public class VedEntityBase
   }
 
   @Override
-  public String nmName() {
+  final public String nmName() {
     return props().getStr( TSID_NAME, EMPTY_STRING );
   }
 
   @Override
-  public String description() {
+  final public String description() {
     return props().getStr( TSID_DESCRIPTION, EMPTY_STRING );
   }
 
@@ -93,7 +93,7 @@ public class VedEntityBase
   //
 
   @Override
-  public ITsGuiContext tsContext() {
+  final public ITsGuiContext tsContext() {
     return vedEnv.tsContext();
   }
 
@@ -102,7 +102,7 @@ public class VedEntityBase
   //
 
   @Override
-  public IPropertiesSet props() {
+  final public IPropertiesSet props() {
     return props;
   }
 
@@ -111,7 +111,7 @@ public class VedEntityBase
   //
 
   @Override
-  public IGenericChangeEventer genericChangeEventer() {
+  final public IGenericChangeEventer genericChangeEventer() {
     return eventer;
   }
 
@@ -120,17 +120,17 @@ public class VedEntityBase
   //
 
   @Override
-  public IVedEntityProvider provider() {
+  final public IVedEntityProvider provider() {
     return creator;
   }
 
   @Override
-  public IOptionSet capabilities() {
+  final public IOptionSet capabilities() {
     return capabilities;
   }
 
   @Override
-  public INotifierOptionSetEdit extdata() {
+  final public INotifierOptionSetEdit extdata() {
     return extdata;
   }
 

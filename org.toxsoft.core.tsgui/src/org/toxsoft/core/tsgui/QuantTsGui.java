@@ -2,6 +2,8 @@ package org.toxsoft.core.tsgui;
 
 import org.eclipse.e4.core.contexts.*;
 import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.bricks.quant.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.colors.impl.*;
@@ -15,6 +17,7 @@ import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.mws.quants.progargs.*;
 import org.toxsoft.core.tsgui.mws.services.hdpi.*;
+import org.toxsoft.core.tsgui.mws.services.timers.*;
 import org.toxsoft.core.tsgui.utils.*;
 import org.toxsoft.core.tsgui.utils.anim.*;
 import org.toxsoft.core.tsgui.valed.api.*;
@@ -30,6 +33,7 @@ public class QuantTsGui
     extends AbstractQuant {
 
   private ITsImageManager imageManager = null;
+  private TsGuiTimersService timerService = null;
 
   /**
    * Constructor.
@@ -57,6 +61,9 @@ public class QuantTsGui
     aWinContext.set( ITsIconManager.class, new TsIconManager( aWinContext ) );
     imageManager = new TsImageManager( aWinContext );
     aWinContext.set( ITsImageManager.class, imageManager );
+    ITsGuiContext ctx1 = new TsGuiContext( aWinContext );
+    // HERE may set up timer service periods
+    timerService = new TsGuiTimersService( ctx1 );
     aWinContext.set( ITsColorManager.class, new TsColorManager( display ) );
     aWinContext.set( ITsFontManager.class, new TsFontManager( display ) );
     aWinContext.set( ITsCursorManager.class, new TsCursorManager( aWinContext ) );
@@ -70,6 +77,10 @@ public class QuantTsGui
     if( imageManager != null ) {
       imageManager.clearCache();
       imageManager = null;
+    }
+    if( timerService != null ) {
+      timerService.close();
+      timerService = null;
     }
   }
 

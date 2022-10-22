@@ -72,7 +72,6 @@ class VedEnvironmentEdit
   @Override
   public IVedDocumentData getDocumentData() {
     // TODO Auto-generated method stub
-    return null;
   }
 
 }
