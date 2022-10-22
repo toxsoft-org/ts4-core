@@ -2,7 +2,6 @@ package org.toxsoft.core.tslib.av.props;
 
 import static org.toxsoft.core.tslib.av.props.ITsResources.*;
 
-import java.io.*;
 import java.util.*;
 
 import org.toxsoft.core.tslib.av.*;
@@ -23,12 +22,12 @@ import org.toxsoft.core.tslib.utils.errors.*;
  */
 public class PropertiesSet
     extends OptionSet
-    implements IPropertiesSet, Serializable {
+    implements IPropertiesSet {
 
   private static final long serialVersionUID = 3102088694406134027L;
 
   /**
-   * {@link IPropertiesSetRo#propsEventer()} implementation.
+   * {@link IPropertiesSet#propsEventer()} implementation.
    *
    * @author hazard157
    */
@@ -132,6 +131,7 @@ public class PropertiesSet
    * Constructor.
    *
    * @param aPropsDefs {@link IStridablesList}&lt;{@link IDataDef}&gt; - properties definitions
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public PropertiesSet( IStridablesList<IDataDef> aPropsDefs ) {
     propDefs.setAll( aPropsDefs );
@@ -221,7 +221,25 @@ public class PropertiesSet
     finally {
       disableSingleChangeEvent = false;
     }
+  }
 
+  // ------------------------------------------------------------------------------------
+  // class API
+  //
+
+  /**
+   * Changes properties set definitions.
+   *
+   * @param aPropsDefs {@link IStridablesList}&lt;{@link IDataDef}&gt; - properties definitions
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public void defineProperties( IStridablesList<IDataDef> aPropsDefs ) {
+    propDefs.setAll( aPropsDefs );
+    clear();
+    // initialize default values
+    for( IDataDef dd : propDefs ) {
+      setValue( dd.id(), dd.defaultValue() );
+    }
   }
 
 }

@@ -1,6 +1,8 @@
 package org.toxsoft.core.tsgui.ved.api.doc;
 
 import org.toxsoft.core.tsgui.ved.api.entity.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
+import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.coll.helpers.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -11,7 +13,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @param <T> - entities Java type
  */
 public interface IVedEntityManagerEdit<T extends IVedEntity>
-    extends IVedEntityManager<T> {
+    extends IVedEntityManager<T>, ITsClearable, IGenericChangeEventCapable {
 
   /**
    * Adds new entity to the end of list {@link #items()}.

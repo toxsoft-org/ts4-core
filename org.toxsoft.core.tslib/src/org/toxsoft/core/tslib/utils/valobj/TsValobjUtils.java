@@ -10,6 +10,7 @@ import org.toxsoft.core.tslib.av.list.*;
 import org.toxsoft.core.tslib.av.misc.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.av.temporal.*;
+import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.std.*;
@@ -85,6 +86,7 @@ public class TsValobjUtils {
     registerKeeper( TsRectangleKeeper.KEEPER_ID, TsRectangleKeeper.KEEPER );
     registerKeeper( TsPointKeeper.KEEPER_ID, TsPointKeeper.KEEPER );
     registerKeeper( IdValue.KEEPER_ID, IdValue.KEEPER );
+    registerKeeper( D2Point.KEEPER_ID, D2Point.KEEPER );
   }
 
   // ------------------------------------------------------------------------------------

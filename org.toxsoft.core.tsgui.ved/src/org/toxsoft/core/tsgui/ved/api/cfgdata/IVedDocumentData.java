@@ -6,6 +6,7 @@ import org.toxsoft.core.tsgui.ved.api.doc.*;
 import org.toxsoft.core.tsgui.ved.incub.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
 
 /**
  * VED document data to be stored in database, file, etc.
@@ -24,23 +25,30 @@ public interface IVedDocumentData {
   /**
    * Returns config data to create components in document.
    *
-   * @return {@link IStridablesList}&lt;{@link IVedComponentCfg}&gt; - data to create {@link IVedDocument#components()}
+   * @return {@link IStridablesList}&lt;{@link IVedEntityConfig}&gt; - data to create {@link IVedDocument#components()}
    */
-  IStridablesList<IVedComponentCfg> componentConfigs();
+  IStridablesList<IVedEntityConfig> componentConfigs();
 
   /**
    * Returns config data to create tailors in document.
    *
-   * @return {@link IStridablesList}&lt;{@link IVedTailorCfg}&gt; - data to create {@link IVedDocument#tailors()}
+   * @return {@link IStridablesList}&lt;{@link IVedEntityConfig}&gt; - data to create {@link IVedDocument#tailors()}
    */
-  IStridablesList<IVedTailorCfg> tailorConfigs();
+  IStridablesList<IVedEntityConfig> tailorConfigs();
+
+  /**
+   * Returns the bindings of each tailor from the list {@link #tailorConfigs()}.
+   *
+   * @return {@link IStringMap}&lt;{@link IStridablesList}&lt;{@link IVedBindingCfg}&gt;&gt; - map tailr ID - bind cfgs
+   */
+  IStringMap<IStridablesList<IVedBindingCfg>> tailorBindingConfigs();
 
   /**
    * Returns config data to create actors in document.
    *
-   * @return {@link IStridablesList}&lt;{@link IVedActorCfg}&gt; - data to create {@link IVedDocument#actors()}
+   * @return {@link IStridablesList}&lt;{@link IVedEntityConfig}&gt; - data to create {@link IVedDocument#actors()}
    */
-  IStridablesList<IVedActorCfg> actorConfigs();
+  IStridablesList<IVedEntityConfig> actorConfigs();
 
   /**
    * Returns application-specific data sections.

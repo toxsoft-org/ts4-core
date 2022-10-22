@@ -37,7 +37,7 @@ public interface IVedEntityProvider
    * @param aId String - the ID of entity to be created
    * @param aVedEnv {@link IVedEnvironment} the VED environment
    * @param aCfg {@link IVedEntityConfig} - entity config data
-   * @return &lt;T&gt; - created component
+   * @return &lt;T&gt; - created entity
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException config entity kind does not matches provided entity kind
    * @throws AvTypeCastRtException any property value is not compatible to the property definition

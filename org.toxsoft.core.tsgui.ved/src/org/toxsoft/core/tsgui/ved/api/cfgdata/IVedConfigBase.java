@@ -9,7 +9,7 @@ import org.toxsoft.core.tslib.bricks.strid.*;
  * @author hazard157
  */
 public interface IVedConfigBase
-    extends IStridableParameterized {
+    extends IStridable {
 
   /**
    * Returns the values of the properties.

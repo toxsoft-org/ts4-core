@@ -2,25 +2,30 @@ package org.toxsoft.core.tsgui.ved;
 
 import org.eclipse.e4.core.contexts.*;
 import org.toxsoft.core.tsgui.bricks.quant.*;
+import org.toxsoft.core.tsgui.ved.api.*;
+import org.toxsoft.core.tsgui.ved.api.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * The library quant.
  *
  * @author hazard157
  */
-public class QuantTsguiVed
+public class QuantTsGuiVed
     extends AbstractQuant {
 
   /**
    * Constructor.
    */
-  public QuantTsguiVed() {
-    super( QuantTsguiVed.class.getSimpleName() );
+  public QuantTsGuiVed() {
+    super( QuantTsGuiVed.class.getSimpleName() );
   }
 
   @Override
   protected void doInitApp( IEclipseContext aAppContext ) {
-    // nop
+    TsInternalErrorRtException.checkNoNull( aAppContext.get( IVedFramework.class ) );
+    IVedFramework vedFramework = VedUtils.createFramework();
+    aAppContext.set( IVedFramework.class, vedFramework );
   }
 
   @Override
