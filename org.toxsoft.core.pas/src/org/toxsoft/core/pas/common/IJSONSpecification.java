@@ -1,7 +1,7 @@
 package org.toxsoft.core.pas.common;
 
 /**
- * Описание спецификации (константные определения)
+ * Описание спецификации (константные определения).
  * <p>
  * Источник: https://www.jsonrpc.org/specification
  *
@@ -18,15 +18,15 @@ public interface IJSONSpecification {
   // ------------------------------------------------------------------------------------
   // Поля запросов, ответов
   //
-  String SPEC_FIELD_JSONRPC = "jsonrpc";
-  String SPEC_FIELD_ID = "id";
-  String SPEC_FIELD_METHOD = "method";
-  String SPEC_FIELD_PARAMS = "params";
-  String SPEC_FIELD_RESULT = "result";
-  String SPEC_FIELD_ERROR = "error";
-  String SPEC_FIELD_ERROR_CODE = "code";
+  String SPEC_FIELD_JSONRPC       = "jsonrpc";
+  String SPEC_FIELD_ID            = "id";
+  String SPEC_FIELD_METHOD        = "method";
+  String SPEC_FIELD_PARAMS        = "params";
+  String SPEC_FIELD_RESULT        = "result";
+  String SPEC_FIELD_ERROR         = "error";
+  String SPEC_FIELD_ERROR_CODE    = "code";
   String SPEC_FIELD_ERROR_MESSAGE = "message";
-  String SPEC_FIELD_ERROR_DATA = "data";
+  String SPEC_FIELD_ERROR_DATA    = "data";
 
   // ------------------------------------------------------------------------------------
   // Системные коды ошибок выполнения запросов
