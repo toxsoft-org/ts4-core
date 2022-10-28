@@ -18,7 +18,7 @@ public interface IVedBinding
    *
    * @return {@link IVedBindingProvider} - the binding definition
    */
-  IVedBindingProvider bindInfo();
+  IVedBindingProvider bindProvider();
 
   /**
    * Returns the bind component ID.

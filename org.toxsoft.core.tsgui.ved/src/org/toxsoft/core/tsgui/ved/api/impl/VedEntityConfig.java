@@ -64,6 +64,18 @@ public final class VedEntityConfig
     kind = TsNullArgumentRtException.checkNull( aKind );
   }
 
+  /**
+   * Creates configuration of the given entity.
+   *
+   * @param aEntity {@link IVedEntity} - the VED entity
+   * @return {@link IVedEntityConfig} - the configuration data of the entity
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static IVedEntityConfig ofEntity( IVedEntity aEntity ) {
+    TsNullArgumentRtException.checkNull( aEntity );
+    return new VedEntityConfig( aEntity.id(), aEntity.entityKind(), aEntity.props(), aEntity.extdata() );
+  }
+
   // ------------------------------------------------------------------------------------
   // IVedEntityConfig
   //

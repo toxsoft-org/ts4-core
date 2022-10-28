@@ -7,6 +7,7 @@ import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.notifier.*;
 import org.toxsoft.core.tslib.coll.helpers.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -16,7 +17,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @param <T> - entities Java type
  */
 class VedEntityManagerEdit<T extends IVedEntity>
-    implements IVedEntityManagerEdit<T> {
+    implements IVedEntityManagerEdit<T>, ICloseable {
 
   private final GenericChangeEventer   genericChangeEventer;
   private final IStridablesListEdit<T> itemsListSource = new StridablesList<>();
@@ -94,6 +95,17 @@ class VedEntityManagerEdit<T extends IVedEntity>
   @Override
   public IGenericChangeEventer genericChangeEventer() {
     return genericChangeEventer;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // ICloseable
+  //
+
+  @Override
+  public void close() {
+    genericChangeEventer.clearListenersList();
+    items.removeCollectionChangeListener( genericChangeEventer );
+    clear();
   }
 
 }

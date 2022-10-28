@@ -107,7 +107,9 @@ public class TsGuiTimersService
         }
       }
       catch( InterruptedException ex ) {
-        LoggerUtils.errorLogger().error( ex );
+        if( !closeQueried ) {
+          LoggerUtils.errorLogger().error( ex );
+        }
       }
     }
 
@@ -120,6 +122,8 @@ public class TsGuiTimersService
   private final Display              display;
   private final TsTimerServiceThread threadQuick;
   private final TsTimerServiceThread threadSlow;
+
+  private boolean closeQueried = false;
 
   /**
    * Constructor.
@@ -179,6 +183,7 @@ public class TsGuiTimersService
 
   @Override
   public void close() {
+    closeQueried = true;
     threadSlow.interrupt();
     threadQuick.interrupt();
   }

@@ -7,6 +7,7 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.swtevents.*;
 import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.ved.api.comp.*;
+import org.toxsoft.core.tsgui.ved.api.doc.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.d2.helpers.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
@@ -99,7 +100,7 @@ class VedScreen
   }
 
   /**
-   * Synchronizes list of views {@link #compViews} to the components {@link IVedDataModel#listComponents()}.
+   * Synchronizes list of views {@link #compViews} to the components {@link IVedDocument#components()}.
    * <p>
    * Existing views remain, views for new components are created while for removed components views are removed and
    * disposed.
@@ -193,7 +194,7 @@ class VedScreen
 
   @Override
   public void close() {
-    vedEnv.dataModel().listComponents().removeCollectionChangeListener( componentsListChangeListener );
+    vedEnv.doc().components().items().removeCollectionChangeListener( componentsListChangeListener );
     // remove screen from screen manager's list
     vedEnv.screenManager().papiWhenScreenClosed( this );
     // remove and dispose painters

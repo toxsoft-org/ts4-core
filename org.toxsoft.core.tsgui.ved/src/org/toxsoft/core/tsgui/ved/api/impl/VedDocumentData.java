@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.ved.api.impl;
 
+import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
+
 import org.toxsoft.core.tsgui.ved.api.cfgdata.*;
 import org.toxsoft.core.tsgui.ved.incub.*;
 import org.toxsoft.core.tslib.av.opset.*;
@@ -10,6 +12,7 @@ import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.bricks.strio.impl.*;
+import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 
@@ -36,18 +39,79 @@ public class VedDocumentData
 
         @Override
         protected void doWrite( IStrioWriter aSw, IVedDocumentData aEntity ) {
+          aSw.incNewLine();
+          // doc props
           StrioUtils.writeKeywordHeader( aSw, KW_DOC_PROPS, true );
           OptionSetKeeper.KEEPER_INDENTED.write( aSw, aEntity.documentPropValues() );
           aSw.writeEol();
-
-          // TODO Auto-generated method stub
-
+          // components
+          StrioUtils.writeKeywordHeader( aSw, KW_COMP_CFGS, true );
+          VedEntityConfig.KEEPER.writeColl( aSw, aEntity.componentConfigs(), true );
+          aSw.writeEol();
+          // tailors
+          StrioUtils.writeKeywordHeader( aSw, KW_TAILOR_CFGS, true );
+          VedEntityConfig.KEEPER.writeColl( aSw, aEntity.tailorConfigs(), true );
+          aSw.writeEol();
+          // actors
+          StrioUtils.writeKeywordHeader( aSw, KW_ACTOR_CFGS, true );
+          VedEntityConfig.KEEPER.writeColl( aSw, aEntity.actorConfigs(), true );
+          aSw.writeEol();
+          // bindings
+          StrioUtils.writeKeywordHeader( aSw, KW_BINDING_CFGS, true );
+          aSw.writeChar( CHAR_ARRAY_BEGIN );
+          if( !aEntity.tailorBindingConfigs().isEmpty() ) {
+            aSw.incNewLine();
+            for( String compId : aEntity.tailorBindingConfigs().keys() ) {
+              aSw.writeAsIs( compId );
+              aSw.writeChars( CHAR_SPACE, CHAR_EQUAL, CHAR_SPACE );
+              VedBindingCfg.KEEPER.writeColl( aSw, aEntity.tailorBindingConfigs().getByKey( compId ), true );
+              aSw.writeEol();
+            }
+            aSw.decNewLine();
+          }
+          aSw.writeChar( CHAR_ARRAY_END );
+          aSw.writeEol();
+          // sections
+          StrioUtils.writeKeywordHeader( aSw, KW_EXT_SECTS_DATA, true );
+          aSw.writeChar( CHAR_SET_BEGIN );
+          aSw.incNewLine();
+          ((KtorSectionsContainer)aEntity.secitonsData()).write( aSw );
+          aSw.decNewLine();
+          aSw.writeChar( CHAR_SET_END );
+          aSw.decNewLine();
         }
 
         @Override
         protected IVedDocumentData doRead( IStrioReader aSr ) {
-          // TODO Auto-generated method stub
-          return null;
+          VedDocumentData dd = new VedDocumentData();
+          // doc props
+          StrioUtils.ensureKeywordHeader( aSr, KW_DOC_PROPS );
+          dd.documentPropValues.setAll( OptionSetKeeper.KEEPER.read( aSr ) );
+          // components
+          StrioUtils.ensureKeywordHeader( aSr, KW_COMP_CFGS );
+          VedEntityConfig.KEEPER.readColl( aSr, dd.componentConfigs );
+          // tailors
+          StrioUtils.ensureKeywordHeader( aSr, KW_TAILOR_CFGS );
+          VedEntityConfig.KEEPER.readColl( aSr, dd.tailorConfigs );
+          // actors
+          StrioUtils.ensureKeywordHeader( aSr, KW_ACTOR_CFGS );
+          VedEntityConfig.KEEPER.readColl( aSr, dd.actorConfigs );
+          // bindings
+          if( !aSr.readArrayBegin() ) {
+            do {
+              String compId = aSr.readIdPath();
+              aSr.ensureChar( CHAR_EQUAL );
+              IList<IVedBindingCfg> cfgsList = VedBindingCfg.KEEPER.readColl( aSr );
+              dd.tailorBindingConfigs.put( compId, new StridablesList<>( cfgsList ) );
+
+            } while( aSr.readArrayNext() );
+          }
+          // sections
+          StrioUtils.ensureKeywordHeader( aSr, KW_EXT_SECTS_DATA );
+          aSr.ensureChar( CHAR_SET_BEGIN );
+          dd.secitonsData.read( aSr );
+          aSr.ensureChar( CHAR_SET_END );
+          return dd;
         }
       };
 

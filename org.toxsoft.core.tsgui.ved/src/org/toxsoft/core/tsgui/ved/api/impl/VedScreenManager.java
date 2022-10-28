@@ -7,6 +7,7 @@ import org.toxsoft.core.tsgui.ved.api.comp.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -15,7 +16,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public class VedScreenManager
-    implements IVedScreenManager {
+    implements IVedScreenManager, ICloseable {
 
   private final GenericChangeEventer activeScreenChangeEventer;
   private final IListEdit<VedScreen> screensList = new ElemArrayList<>();
@@ -97,6 +98,16 @@ public class VedScreenManager
   @Override
   public IGenericChangeEventer activeScreenChangeEventer() {
     return activeScreenChangeEventer;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // ICloseable
+  //
+
+  @Override
+  public void close() {
+    // TODO Auto-generated method stub
+
   }
 
 }

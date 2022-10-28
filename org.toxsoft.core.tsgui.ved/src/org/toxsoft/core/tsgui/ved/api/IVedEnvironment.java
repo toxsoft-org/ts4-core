@@ -4,6 +4,7 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.ved.api.cfgdata.*;
 import org.toxsoft.core.tsgui.ved.api.comp.*;
 import org.toxsoft.core.tsgui.ved.api.doc.*;
+import org.toxsoft.core.tslib.utils.*;
 
 /**
  * VED environment contains everything that is needed to view VED document.
@@ -11,7 +12,7 @@ import org.toxsoft.core.tsgui.ved.api.doc.*;
  * @author hazard157
  */
 public interface IVedEnvironment
-    extends ITsGuiContextable {
+    extends ITsGuiContextable, ICloseable {
 
   /**
    * Returns the VED framework that created this environment.
@@ -43,6 +44,8 @@ public interface IVedEnvironment
 
   /**
    * Returns the current content data of the document.
+   * <p>
+   * Note: as VED does not uses section data the {@link IVedDocumentData#secitonsData()} is empty.
    *
    * @return {@link IVedDocumentData} - document content data
    */

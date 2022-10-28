@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.ved.api.impl;
 
 import org.toxsoft.core.tsgui.ved.api.cfgdata.*;
+import org.toxsoft.core.tsgui.ved.api.doc.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
@@ -78,6 +79,19 @@ public class VedBindingCfg
     bindingProviderId = StridUtils.checkValidIdPath( aProviderId );
     componentId = StridUtils.checkValidIdPath( aCompId );
     propertyId = StridUtils.checkValidIdPath( aPropId );
+  }
+
+  /**
+   * Creates configuration of the given binding.
+   *
+   * @param aBinding {@link IVedBinding} - the binding
+   * @return {@link IVedBindingCfg} = the configuration data of the binding
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static final IVedBindingCfg ofBinding( IVedBinding aBinding ) {
+    TsNullArgumentRtException.checkNull( aBinding );
+    return new VedBindingCfg( aBinding.id(), aBinding.bindProvider().id(), aBinding.componentId(),
+        aBinding.propertyId(), aBinding.props(), IOptionSet.NULL );
   }
 
   // ------------------------------------------------------------------------------------

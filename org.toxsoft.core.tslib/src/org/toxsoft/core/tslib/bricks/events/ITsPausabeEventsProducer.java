@@ -2,8 +2,6 @@ package org.toxsoft.core.tslib.bricks.events;
 
 /**
  * An ability to suspend event generation.
- * <p>
- * This is mixin interface to the {@link ITsPausabeEventsProducer} interfaces.
  *
  * @author hazard157
  */
