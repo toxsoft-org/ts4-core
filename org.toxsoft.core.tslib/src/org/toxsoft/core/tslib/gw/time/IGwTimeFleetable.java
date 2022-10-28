@@ -1,5 +1,7 @@
 package org.toxsoft.core.tslib.gw.time;
 
+import org.toxsoft.core.tslib.bricks.*;
+
 /**
  * Mixin interface of Green World time-dependent entities.
  * <p>
@@ -12,6 +14,8 @@ package org.toxsoft.core.tslib.gw.time;
  * any direction - next call to {@link #whenGwTimePassed(long)} may have argument value less than previous call;</li>
  * <li>thus the Green World time is flexible and may flow in any direction at any "speed".</li>
  * </ul>
+ * <p>
+ * This interface has same meaning for Green World time as {@link IRealTimeSensitive} has for real time.
  *
  * @author hazard157
  */

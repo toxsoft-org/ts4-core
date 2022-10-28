@@ -221,6 +221,25 @@ public final class DataDef
     return dd;
   }
 
+  /**
+   * Static constructor of boolean flag.
+   *
+   * @param aId String - data identifier (IDpath)
+   * @param aDefVal boolean - default (initial) value of the flag
+   * @param aIdsAndValues Object[] - parameters as id / value pairs array
+   * @return {@link DataDef} - new instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException identifier is not an IDpath
+   * @throws TsIllegalArgumentRtException number of elements in array is uneven
+   * @throws ClassCastException argument types convention is violated
+   * @see OptionSetUtils#createOpSet(Object...)
+   */
+  public static DataDef ofBoolFlag( String aId, boolean aDefVal, Object... aIdsAndValues ) {
+    IOptionSetEdit p = OptionSetUtils.createOpSet( aIdsAndValues );
+    p.setBool( TSID_DEFAULT_VALUE, aDefVal );
+    return new DataDef( aId, EAtomicType.BOOLEAN, p );
+  }
+
   // ------------------------------------------------------------------------------------
   // Implementation
   //

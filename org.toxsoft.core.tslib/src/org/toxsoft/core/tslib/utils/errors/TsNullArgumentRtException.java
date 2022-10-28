@@ -73,7 +73,10 @@ public class TsNullArgumentRtException
    */
   public static void checkNulls( Object aRef1, Object aRef2 )
       throws TsNullArgumentRtException {
-    if( aRef1 == null || aRef2 == null ) {
+    if( aRef1 == null ) {
+      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+    }
+    if( aRef2 == null ) {
       throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
     }
   }
@@ -89,7 +92,13 @@ public class TsNullArgumentRtException
    */
   public static void checkNulls( Object aRef1, Object aRef2, Object aRef3 )
       throws TsNullArgumentRtException {
-    if( aRef1 == null || aRef2 == null || aRef3 == null ) {
+    if( aRef1 == null ) {
+      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+    }
+    if( aRef2 == null ) {
+      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+    }
+    if( aRef3 == null ) {
       throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
     }
   }
@@ -106,7 +115,16 @@ public class TsNullArgumentRtException
    */
   public static void checkNulls( Object aRef1, Object aRef2, Object aRef3, Object aRef4 )
       throws TsNullArgumentRtException {
-    if( aRef1 == null || aRef2 == null || aRef3 == null || aRef4 == null ) {
+    if( aRef1 == null ) {
+      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+    }
+    if( aRef2 == null ) {
+      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+    }
+    if( aRef3 == null ) {
+      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+    }
+    if( aRef4 == null ) {
       throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
     }
   }
@@ -125,7 +143,19 @@ public class TsNullArgumentRtException
    */
   public static void checkNulls( Object aRef1, Object aRef2, Object aRef3, Object aRef4, Object aRef5, Object... aRefs )
       throws TsNullArgumentRtException {
-    if( aRef1 == null || aRef2 == null || aRef3 == null || aRef4 == null || aRef5 == null ) {
+    if( aRef1 == null ) {
+      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+    }
+    if( aRef2 == null ) {
+      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+    }
+    if( aRef3 == null ) {
+      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+    }
+    if( aRef4 == null ) {
+      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+    }
+    if( aRef5 == null ) {
       throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
     }
     for( int i = aRefs.length - 1; i >= 0; i-- ) {

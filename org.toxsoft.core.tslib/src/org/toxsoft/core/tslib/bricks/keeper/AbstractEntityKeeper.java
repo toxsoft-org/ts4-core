@@ -178,17 +178,13 @@ public abstract class AbstractEntityKeeper<E>
 
   @Override
   public void write( IStrioWriter aSw, E aEntity ) {
-    if( aSw == null || aEntity == null ) {
-      throw new TsNullArgumentRtException();
-    }
+    TsNullArgumentRtException.checkNulls( aSw, aEntity );
     internalWriteEntity( aSw, aEntity );
   }
 
   @Override
   public E read( IStrioReader aSr ) {
-    if( aSr == null ) {
-      throw new TsNullArgumentRtException();
-    }
+    TsNullArgumentRtException.checkNull( aSr );
     return internalReadEntity( aSr );
   }
 

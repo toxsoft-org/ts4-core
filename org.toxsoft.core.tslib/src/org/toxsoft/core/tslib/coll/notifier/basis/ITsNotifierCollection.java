@@ -1,6 +1,6 @@
 package org.toxsoft.core.tslib.coll.notifier.basis;
 
-import org.toxsoft.core.tslib.coll.helpers.ECrudOp;
+import org.toxsoft.core.tslib.coll.helpers.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -65,4 +65,8 @@ public interface ITsNotifierCollection
    */
   void setValidationEnabled( boolean aEnabled );
 
+  /**
+   * Removes all registered collection change listeners.
+   */
+  void clearCollectionChangeListeners();
 }

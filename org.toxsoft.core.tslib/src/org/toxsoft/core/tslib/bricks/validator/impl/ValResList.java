@@ -1,14 +1,12 @@
 package org.toxsoft.core.tslib.bricks.validator.impl;
 
-import java.io.Serializable;
+import java.io.*;
 
-import org.toxsoft.core.tslib.bricks.validator.IValResList;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.basis.ITsClearable;
-import org.toxsoft.core.tslib.coll.impl.ElemLinkedBundleList;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * An {@link IValResList} implementation.
@@ -27,6 +25,16 @@ public class ValResList
    */
   public ValResList() {
     // nop
+  }
+
+  /**
+   * Constructor with initial content.
+   *
+   * @param aResList {@link IList}&lt;{@link ValidationResult}&gt; - the list to add
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public ValResList( IList<ValidationResult> aResList ) {
+    results.addAll( aResList );
   }
 
   // ------------------------------------------------------------------------------------
@@ -86,6 +94,17 @@ public class ValResList
   public void addValResList( IValResList aValResList ) {
     TsNullArgumentRtException.checkNull( aValResList );
     results.addAll( aValResList.results() );
+  }
+
+  /**
+   * Add other {@link IValResList} to this one.
+   *
+   * @param aResList {@link IList}&lt;{@link ValidationResult}&gt; - the list to add
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public void addResList( IList<ValidationResult> aResList ) {
+    TsNullArgumentRtException.checkNull( aResList );
+    results.addAll( aResList );
   }
 
   /**

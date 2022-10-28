@@ -3,24 +3,21 @@ package org.toxsoft.core.tslib.bricks.strid.coll.impl;
 import static org.toxsoft.core.tslib.bricks.strid.coll.impl.ITsResources.*;
 import static org.toxsoft.core.tslib.bricks.validator.ValidationResult.*;
 
-import java.io.Serializable;
-import java.util.Iterator;
+import java.io.*;
+import java.util.*;
 
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesListBasicEdit;
-import org.toxsoft.core.tslib.bricks.strid.coll.notifier.INotifierStridablesListBasicEdit;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.bricks.validator.impl.TsValidationFailedRtException;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.helpers.ECrudOp;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.notifier.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.helpers.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.notifier.basis.*;
-import org.toxsoft.core.tslib.coll.notifier.impl.TsListValidatorsList;
-import org.toxsoft.core.tslib.coll.notifier.impl.TsMapValidatorsList;
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
-import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.notifier.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Оболочка над списком {@link IStridablesListBasicEdit} с извещением об изменениях при редактировании.
@@ -470,6 +467,11 @@ public class NotifierStridablesListBasicEditWrapper<E extends IStridable>
   @Override
   public void setValidationEnabled( boolean aEnabled ) {
     validationEnabled = aEnabled;
+  }
+
+  @Override
+  public void clearCollectionChangeListeners() {
+    listeners.clear();
   }
 
   // ------------------------------------------------------------------------------------

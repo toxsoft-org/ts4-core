@@ -13,6 +13,8 @@ import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.bricks.strio.chario.*;
 import org.toxsoft.core.tslib.bricks.strio.chario.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.coll.impl.*;
@@ -735,7 +737,7 @@ public class StrioUtils {
   /**
    * Reads input starting from opening bracket to the closing bracket.
    * <p>
-   * Opening and closeing brackets will be incuded in the resulting string.
+   * Opening and closeing brackets will be included in the resulting string.
    * <p>
    * First read character must be {@link IStrioHardConstants#CHAR_SET_BEGIN} or
    * {@link IStrioHardConstants#CHAR_ARRAY_BEGIN}.
@@ -814,6 +816,102 @@ public class StrioUtils {
       // other chars will be simply copied to resulting string
     } while( ch != CHAR_EOF );
     throw new StrioRtException( MSG_ERR_UNEXPECTED_EOF );
+  }
+
+  /**
+   * Checks argument is valid KTOR interbrace content.
+   *
+   * @param aInterbraceContent String - interbrace content
+   * @return {@link ValidationResult} - the check result
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static ValidationResult validateInterbraceContent( String aInterbraceContent ) {
+    IStrioReader sr = new StrioReader( new CharInputStreamString( aInterbraceContent ) );
+    char ch = sr.peekChar( EStrioSkipMode.SKIP_COMMENTS );
+    char chStart = ch;
+    char chEnd;
+    switch( ch ) {
+      case CHAR_ARRAY_BEGIN:
+        chEnd = CHAR_ARRAY_END;
+        break;
+      case CHAR_SET_BEGIN:
+        chEnd = CHAR_SET_END;
+        break;
+      default:
+        return ValidationResult.error( FMT_ERR_LEFT_BRACKET_EXPECTED, Character.valueOf( ch ) );
+    }
+    sr.nextChar(); // skipping left (first) bracket already read
+    int bracketsLevel = 1;
+    do {
+      ch = sr.nextChar( EStrioSkipMode.SKIP_NONE );
+      // check for interbrace content end
+      if( ch == chEnd ) {
+        --bracketsLevel;
+        if( bracketsLevel == 0 ) {
+          return ValidationResult.SUCCESS;
+        }
+        continue;
+      }
+      // starting bracket again?
+      if( ch == chStart ) {
+        ++bracketsLevel;
+        continue;
+      }
+      // bypass comment
+      if( ch == CHAR_LINE_COMMENT_SHELL ) {
+        while( ch != CHAR_EOL ) {
+          ch = sr.nextChar( EStrioSkipMode.SKIP_NONE );
+          if( ch == CHAR_EOF ) {
+            return ValidationResult.error( MSG_ERR_UNEXPECTED_EOF );
+          }
+        }
+      }
+      // reading quoted string "as is", with escaped characters
+      if( ch == CHAR_QUOTE ) {
+        boolean prevWasEscape = false; // flag^ previous char was escape char
+        while( true ) {
+          ch = sr.nextChar( EStrioSkipMode.SKIP_NONE );
+          if( ch == CHAR_EOF ) {
+            return ValidationResult.error( MSG_ERR_UNEXPECTED_EOF );
+          }
+          // bypass comment
+          if( ch == CHAR_LINE_COMMENT_SHELL ) {
+            while( ch != CHAR_EOL ) {
+              ch = sr.nextChar( EStrioSkipMode.SKIP_NONE );
+              if( ch == CHAR_EOF ) {
+                return ValidationResult.error( MSG_ERR_UNEXPECTED_EOF );
+              }
+            }
+            continue;
+          }
+          // process quote char (either escaped one or end of quoted string)
+          if( ch == CHAR_QUOTE ) {
+            if( !prevWasEscape ) {
+              break;
+            }
+          }
+          if( ch == CHAR_ESCAPE ) {
+            prevWasEscape = !prevWasEscape;
+          }
+          else {
+            prevWasEscape = false;
+          }
+        }
+      }
+      // other chars will be simply copied to resulting string
+    } while( ch != CHAR_EOF );
+    return ValidationResult.error( MSG_ERR_UNEXPECTED_EOF );
+  }
+
+  /**
+   * Checks argument is valid KTOR interbrace content and throws an exception if not.
+   *
+   * @param aInterbraceContent String - interbrace content
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsValidationFailedRtException failed {@link #validateInterbraceContent(String)}
+   */
+  public static void checkValidInterbraceContent( String aInterbraceContent ) {
+    TsValidationFailedRtException.checkWarn( validateInterbraceContent( aInterbraceContent ) );
   }
 
   /**

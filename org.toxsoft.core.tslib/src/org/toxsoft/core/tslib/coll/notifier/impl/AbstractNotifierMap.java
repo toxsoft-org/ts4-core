@@ -1,17 +1,15 @@
 package org.toxsoft.core.tslib.coll.notifier.impl;
 
-import java.io.Serializable;
+import java.io.*;
 
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.bricks.validator.impl.TsValidationFailedRtException;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.helpers.ECrudOp;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
-import org.toxsoft.core.tslib.coll.notifier.INotifierMap;
-import org.toxsoft.core.tslib.coll.notifier.basis.ITsCollectionChangeListener;
-import org.toxsoft.core.tslib.coll.notifier.basis.ITsMapValidator;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.helpers.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.notifier.*;
+import org.toxsoft.core.tslib.coll.notifier.basis.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 // TRANSLATE
 
@@ -162,6 +160,11 @@ public abstract class AbstractNotifierMap<K, E>
   @Override
   public void setValidationEnabled( boolean aEnabled ) {
     validationEnabled = aEnabled;
+  }
+
+  @Override
+  public void clearCollectionChangeListeners() {
+    listeners.clear();
   }
 
   // ------------------------------------------------------------------------------------

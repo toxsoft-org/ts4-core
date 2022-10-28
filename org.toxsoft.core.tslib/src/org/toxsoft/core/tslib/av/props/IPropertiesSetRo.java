@@ -1,7 +1,6 @@
 package org.toxsoft.core.tslib.av.props;
 
 import org.toxsoft.core.tslib.av.opset.*;
-import org.toxsoft.core.tslib.bricks.events.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 
 /**
@@ -22,12 +21,5 @@ public interface IPropertiesSetRo
    * @return {@link IStringList} - property IDs list
    */
   IStringList ids();
-
-  /**
-   * Returns the properties values change eventer.
-   *
-   * @return {@link ITsEventer}&lt;{@link IPropertyChangeListener}&gt; - the eventer
-   */
-  ITsEventer<IPropertyChangeListener> propsEventer();
 
 }

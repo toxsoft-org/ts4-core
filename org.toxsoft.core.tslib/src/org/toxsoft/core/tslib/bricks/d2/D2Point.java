@@ -5,6 +5,9 @@ import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
 import java.io.*;
 
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -16,6 +19,30 @@ public final class D2Point
     implements ID2Point, Serializable {
 
   private static final long serialVersionUID = 4151059724175075255L;
+
+  /**
+   * The registered keeper ID.
+   */
+  public static final String KEEPER_ID = "D2Point"; //$NON-NLS-1$
+
+  public static final IEntityKeeper<ID2Point> KEEPER =
+      new AbstractEntityKeeper<>( ID2Point.class, EEncloseMode.ENCLOSES_BASE_CLASS, ID2Point.ZERO ) {
+
+        @Override
+        protected void doWrite( IStrioWriter aSw, ID2Point aEntity ) {
+          aSw.writeDouble( aEntity.x() );
+          aSw.writeSeparatorChar();
+          aSw.writeDouble( aEntity.y() );
+        }
+
+        @Override
+        protected ID2Point doRead( IStrioReader aSr ) {
+          double x = aSr.readDouble();
+          aSr.ensureSeparatorChar();
+          double y = aSr.readDouble();
+          return new D2Point( x, y );
+        }
+      };
 
   private final double x;
   private final double y;
