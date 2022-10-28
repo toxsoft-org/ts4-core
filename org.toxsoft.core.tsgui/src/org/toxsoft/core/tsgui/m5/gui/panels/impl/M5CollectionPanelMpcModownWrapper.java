@@ -29,6 +29,7 @@ public class M5CollectionPanelMpcModownWrapper<T>
   public M5CollectionPanelMpcModownWrapper( MultiPaneComponentModown<T> aMpc, boolean aViewer ) {
     super( aMpc.tsContext(), aMpc.model(), aViewer );
     source = aMpc;
+    source.setEditable( isEditable() );
     source.addTsDoubleClickListener( doubleClickEventHelper );
     source.addTsSelectionListener( selectionChangeEventHelper );
   }
