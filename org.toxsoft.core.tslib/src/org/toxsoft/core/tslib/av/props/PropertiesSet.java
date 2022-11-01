@@ -200,7 +200,7 @@ public class PropertiesSet
   public void setProps( IStringMap<IAtomicValue> aNewValues ) {
     disableSingleChangeEvent = true;
     try {
-      IOptionSetEdit newValues = new OptionSet(); // onlye changed new values
+      IOptionSetEdit newValues = new OptionSet(); // only changed new values
       // check arguments
       for( IDataDef pdef : propDefs ) {
         IAtomicValue newValue = aNewValues.findByKey( pdef.id() );
@@ -220,6 +220,28 @@ public class PropertiesSet
     }
     finally {
       disableSingleChangeEvent = false;
+    }
+  }
+
+  @Override
+  public void resetToDefaults() {
+    boolean wasChange = false;
+    IOptionSetEdit oldValues = null;
+    IOptionSetEdit newValues = null;
+    for( IDataDef pdef : propDefs ) {
+      if( !pdef.defaultValue().equals( getValue( pdef ) ) ) {
+        setValue( pdef, pdef.defaultValue() );
+        if( newValues == null ) {
+          oldValues = new OptionSet( this );
+          newValues = new OptionSet();
+        }
+        newValues.setValue( pdef, pdef.defaultValue() );
+        wasChange = true;
+      }
+    }
+    if( wasChange ) {
+      eventer.fireSinglePropChange( null, null, null );
+      eventer.fireSeveralPropsChanged( oldValues, newValues );
     }
   }
 

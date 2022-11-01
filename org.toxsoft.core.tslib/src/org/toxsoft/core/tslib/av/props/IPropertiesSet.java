@@ -27,6 +27,11 @@ public interface IPropertiesSet
   void setProps( IStringMap<IAtomicValue> aNewValues );
 
   /**
+   * Sets all properties values to defaults.
+   */
+  void resetToDefaults();
+
+  /**
    * Returns the properties values change eventer.
    *
    * @return {@link ITsEventer}&lt;{@link IPropertyChangeListener}&gt; - the eventer

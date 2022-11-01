@@ -40,6 +40,11 @@ public class NoneGenericChangeEventer
   }
 
   @Override
+  public boolean isListenerMuted( IGenericChangeListener aListener ) {
+    return false;
+  }
+
+  @Override
   public void pauseFiring() {
     // nop
   }

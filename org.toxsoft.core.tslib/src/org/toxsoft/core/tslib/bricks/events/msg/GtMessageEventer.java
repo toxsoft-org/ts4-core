@@ -82,6 +82,11 @@ public class GtMessageEventer
     mutedListeners.remove( aListener );
   }
 
+  @Override
+  public boolean isListenerMuted( IGtMessageListener aListener ) {
+    return mutedListeners.hasElem( aListener );
+  }
+
   // ------------------------------------------------------------------------------------
   // IGtMessageEventer
   //

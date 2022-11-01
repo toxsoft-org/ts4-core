@@ -55,6 +55,11 @@ public abstract class AbstractTsEventer<L>
     mutedListeners.remove( aListener );
   }
 
+  @Override
+  public boolean isListenerMuted( L aListener ) {
+    return mutedListeners.hasElem( aListener );
+  }
+
   // ------------------------------------------------------------------------------------
   // For subclasses
   //

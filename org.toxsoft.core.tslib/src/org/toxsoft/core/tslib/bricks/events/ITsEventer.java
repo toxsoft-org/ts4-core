@@ -51,4 +51,14 @@ public interface ITsEventer<L>
    */
   void unmuteListener( L aListener );
 
+  /**
+   * Determines if listener is muted.
+   * <p>
+   * If listener is not registered returns <code>false</code>.
+   *
+   * @param aListener &lt;L&gt; - the listener
+   * @return boolean - <code>true</code> if listener is muted
+   */
+  boolean isListenerMuted( L aListener );
+
 }

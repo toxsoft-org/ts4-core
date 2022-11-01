@@ -10,6 +10,7 @@ import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.mws.services.e4helper.*;
 import org.toxsoft.core.tsgui.mws.services.hdpi.*;
+import org.toxsoft.core.tsgui.mws.services.timers.*;
 import org.toxsoft.core.tsgui.utils.anim.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
@@ -92,6 +93,10 @@ public interface ITsGuiContextable
 
   default IAnimationSupport animSupport() {
     return tsContext().get( IAnimationSupport.class );
+  }
+
+  default ITsGuiTimersService guiTimersService() {
+    return tsContext().get( ITsGuiTimersService.class );
   }
 
   default IAtomicValue getAppPrefsValue( String aPrefBundleId, IDataDef aPrmId ) {
