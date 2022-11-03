@@ -216,6 +216,7 @@ public class StringMap<E>
     if( aKey == null || aElem == null ) {
       throw new TsNullArgumentRtException();
     }
+    checkArgsValidity( aKey, aElem );
     int bIndex = bucketIndex( aKey.hashCode() );
     IIntListEdit elemIndexList = buckets[bIndex];
     if( elemIndexList == null ) {
@@ -296,6 +297,26 @@ public class StringMap<E>
       result = TsLibUtils.PRIME * result + values().get( i ).hashCode();
     }
     return result;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // To override
+  //
+
+  /**
+   * Subclass may throw an exception if any argument of the method{@link #put(String, Object)} is not accepted.
+   * <p>
+   * Note: checking {@link #put(String, Object)} is the same as to check any key/values pair because this is the only
+   * method that adds entires to this map.
+   * <p>
+   * Does nothong in the base class there is no need to call superclass method when overriding.
+   *
+   * @param aKey String - the key, never is <code>null</code>
+   * @param aElem &lt;E&gt; - the value, never is <code>null</code>
+   * @throws TsRuntimeException (or subclass) is any argument is not accepted by the subclass
+   */
+  protected void checkArgsValidity( String aKey, E aElem ) {
+    // all non-null arguments are accepted
   }
 
 }
