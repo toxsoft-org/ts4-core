@@ -34,4 +34,9 @@ interface ITsResources {
   String MSG_ENTER_TO_CONTINUE = "Press ENTER to continue";
   String MSG_ERROR_MSG_PREFIX  = "ERROR: ";
 
+  /**
+   * {@link TsVersion}
+   */
+  String ERR_MSG_INV_VERSION_STRING_FORMAT = Messages.getString( "ERR_MSG_INV_VERSION_STRING_FORMAT" ); //$NON-NLS-1$
+
 }

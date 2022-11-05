@@ -1,18 +1,19 @@
 package org.toxsoft.core.tslib.utils;
 
+import static org.toxsoft.core.tslib.utils.ITsResources.*;
+
 import java.io.*;
 import java.time.*;
 
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.bricks.strio.chario.impl.*;
+import org.toxsoft.core.tslib.bricks.strio.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.valobj.*;
-
-// TODO TRANSLATE
 
 /**
- * Обобщение понятия "версии" чего-либо.
+ * A generalization of the concept of a "version" of something.
  *
  * @author hazard157
  */
@@ -22,12 +23,12 @@ public final class TsVersion
   private static final long serialVersionUID = 157157L;
 
   /**
-   * Идентификатор регистрации хранителя {@link #KEEPER} в реестре {@link TsValobjUtils}.
+   * The registered keeper ID.
    */
   public static final String KEEPER_ID = "TsVersion"; //$NON-NLS-1$
 
   /**
-   * Экземпляр-синглтон хранителя.
+   * The keeper singleton.
    */
   public static final IEntityKeeper<TsVersion> KEEPER =
       new AbstractEntityKeeper<>( TsVersion.class, EEncloseMode.ENCLOSES_BASE_CLASS, null ) {
@@ -55,6 +56,8 @@ public final class TsVersion
   private final short verMajor;
   private final short verMinor;
   private final long  verDate;
+
+  // TODO TRANSLATE
 
   /**
    * Создать версию со всеми инвариантами.
@@ -132,11 +135,13 @@ public final class TsVersion
   }
 
   // ------------------------------------------------------------------------------------
-  // Переопределеные методы Object
-  // Логика работы методов сравнения и вычисления хеш-кода должны соотвктствовать логике
-  // работы метода VersionUtils.getVersionString()
+  // Object
   //
 
+  /**
+   * Returns the version string in format "1.0. 2022-12-31 23:59:59".
+   * <p>
+   */
   @Override
   public String toString() {
     Long date = Long.valueOf( verDate() );
@@ -229,6 +234,51 @@ public final class TsVersion
    */
   public long verDate() {
     return verDate;
+  }
+
+  /**
+   * Creates {@link TsVersion} instance from the string of format "1.0. 2022-12-31 23:59:59".
+   *
+   * @param aVerString String - formatted version string
+   * @return {@link TsVersion} - creted instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException invalid format
+   */
+  public static TsVersion parseVersionString( String aVerString ) {
+    TsNullArgumentRtException.checkNull( aVerString );
+    IStrioReader sr = new StrioReader( new CharInputStreamString( aVerString ) );
+    sr.setSkipMode( EStrioSkipMode.SKIP_NONE );
+    int verMajor;
+    int verMinor;
+    int year;
+    int month;
+    int day;
+    int hour;
+    int minute;
+    int second;
+    try {
+      verMajor = sr.readInt();
+      sr.ensureChar( '.' );
+      verMinor = sr.readInt();
+      sr.ensureChar( ' ' );
+      year = sr.readInt();
+      sr.ensureChar( '-' );
+      month = sr.readInt();
+      sr.ensureChar( '-' );
+      day = sr.readInt();
+      sr.ensureChar( ' ' );
+      hour = sr.readInt();
+      sr.ensureChar( ':' );
+      minute = sr.readInt();
+      sr.ensureChar( ':' );
+      second = sr.readInt();
+    }
+    catch( Exception e ) {
+      throw new TsIllegalArgumentRtException( ERR_MSG_INV_VERSION_STRING_FORMAT, e );
+    }
+    LocalDateTime ldt = LocalDateTime.of( year, month, day, hour, minute, second );
+    long verDate = ldt.atZone( ZoneId.systemDefault() ).toInstant().toEpochMilli();
+    return new TsVersion( verMajor, verMinor, verDate );
   }
 
 }
