@@ -5,6 +5,9 @@ import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
 import java.io.*;
 
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -16,6 +19,43 @@ public final class D2Angle
     implements ID2Angle, Serializable {
 
   private static final long serialVersionUID = 2666622496509094742L;
+
+  private static final char CHAR_DEGREE_SIGN = '°';
+
+  /**
+   * The registered keeper ID.
+   */
+  public static final String KEEPER_ID = "D2Angle"; //$NON-NLS-1$
+
+  /**
+   * The keeper singleton.
+   * <p>
+   * Returned value may be safely casted to {@link D2AngleEdit} (but not to {@link D2Angle}).
+   */
+  public static final IEntityKeeper<ID2Angle> KEEPER =
+      new AbstractEntityKeeper<>( ID2Angle.class, EEncloseMode.NOT_IN_PARENTHESES, ID2Angle.ZERO ) {
+
+        @Override
+        protected void doWrite( IStrioWriter aSw, ID2Angle aEntity ) {
+          if( isDuck( aEntity.radians() ) ) {
+            aSw.writeDouble( aEntity.radians() );
+          }
+          else {
+            aSw.writeDouble( aEntity.degrees() );
+            aSw.writeChar( CHAR_DEGREE_SIGN );
+          }
+        }
+
+        @Override
+        protected ID2Angle doRead( IStrioReader aSr ) {
+          double angle = aSr.readDouble();
+          if( aSr.peekChar( EStrioSkipMode.SKIP_NONE ) == CHAR_DEGREE_SIGN ) {
+            aSr.nextChar();
+            return D2AngleEdit.ofDegrees( angle );
+          }
+          return D2AngleEdit.ofRadians( angle );
+        }
+      };
 
   private final double radians;
   private final double degrees;
@@ -85,7 +125,7 @@ public final class D2Angle
 
   @Override
   public String toString() {
-    return "∠" + radians + " (" + degrees + "°)"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    return "∠" + radians + " (" + degrees + CHAR_DEGREE_SIGN + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
   }
 
   @Override

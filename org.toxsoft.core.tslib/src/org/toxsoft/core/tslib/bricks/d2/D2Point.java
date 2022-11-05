@@ -25,6 +25,11 @@ public final class D2Point
    */
   public static final String KEEPER_ID = "D2Point"; //$NON-NLS-1$
 
+  /**
+   * The keeper singleton.
+   * <p>
+   * Returned value may be safely casted to {@link D2PointEdit} (but not to {@link D2Point}).
+   */
   public static final IEntityKeeper<ID2Point> KEEPER =
       new AbstractEntityKeeper<>( ID2Point.class, EEncloseMode.ENCLOSES_BASE_CLASS, ID2Point.ZERO ) {
 
@@ -40,7 +45,7 @@ public final class D2Point
           double x = aSr.readDouble();
           aSr.ensureSeparatorChar();
           double y = aSr.readDouble();
-          return new D2Point( x, y );
+          return new D2PointEdit( x, y );
         }
       };
 

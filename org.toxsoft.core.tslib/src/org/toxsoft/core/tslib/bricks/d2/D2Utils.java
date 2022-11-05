@@ -37,9 +37,10 @@ public class D2Utils {
    *
    * @param aValue double - value very close to long value
    * @return double - exact long or unchanged aValue
-   * @throws TsIllegalArgumentRtException argument is out of long range
+   * @throws TsIllegalArgumentRtException argument is out of <code>long</code> range
    */
   public static double duck( double aValue ) {
+    // following code is the same as @isDuck() but is NOT replaced by isDuck() for optimization
     if( aValue < MIN_D2_VALUE || aValue > MAX_D2_VALUE ) {
       throw new TsIllegalArgumentRtException();
     }
@@ -49,6 +50,24 @@ public class D2Utils {
       return d.longValue();
     }
     return aValue;
+  }
+
+  /**
+   * Determines if thei is the duck.
+   * <p>
+   * See comments to {@link #duck(double)}.
+   *
+   * @param aValue double - the value to be tested
+   * @return boolean - <code>true</code> if value is close enoght to integer value
+   * @throws TsIllegalArgumentRtException argument is out of <code>long</code> range
+   */
+  public static boolean isDuck( double aValue ) {
+    if( aValue < MIN_D2_VALUE || aValue > MAX_D2_VALUE ) {
+      throw new TsIllegalArgumentRtException();
+    }
+    Double d = Double.valueOf( aValue );
+    double diff = aValue - d.longValue();
+    return Math.abs( diff ) < DUCK_DIFF_TRHRESHLOD;
   }
 
   /**

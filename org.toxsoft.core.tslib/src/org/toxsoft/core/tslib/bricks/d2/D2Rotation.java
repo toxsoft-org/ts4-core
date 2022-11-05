@@ -4,6 +4,9 @@ import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
 import java.io.*;
 
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -15,6 +18,35 @@ public final class D2Rotation
     implements ID2Rotation, Serializable {
 
   private static final long serialVersionUID = 5450373235820649340L;
+
+  /**
+   * The registered keeper ID.
+   */
+  public static final String KEEPER_ID = "D2Rotation"; //$NON-NLS-1$
+
+  /**
+   * The keeper singleton.
+   * <p>
+   * Returned value may be safely casted to {@link D2RotationEdit} (but not to {@link D2Rotation}).
+   */
+  public static final IEntityKeeper<ID2Rotation> KEEPER =
+      new AbstractEntityKeeper<>( ID2Rotation.class, EEncloseMode.ENCLOSES_BASE_CLASS, ID2Rotation.NONE ) {
+
+        @Override
+        protected void doWrite( IStrioWriter aSw, ID2Rotation aEntity ) {
+          D2Point.KEEPER.write( aSw, aEntity.pivotPoint() );
+          aSw.writeSeparatorChar();
+          D2Angle.KEEPER.write( aSw, aEntity.rotationAngle() );
+        }
+
+        @Override
+        protected ID2Rotation doRead( IStrioReader aSr ) {
+          ID2Point point = D2Point.KEEPER.read( aSr );
+          aSr.ensureSeparatorChar();
+          ID2Angle angle = D2Angle.KEEPER.read( aSr );
+          return new D2RotationEdit( point, angle );
+        }
+      };
 
   private ID2Point pivotPoint;
   private ID2Angle rotationAngle;
