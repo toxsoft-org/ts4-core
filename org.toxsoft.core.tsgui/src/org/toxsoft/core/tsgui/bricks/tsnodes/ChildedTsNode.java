@@ -1,6 +1,5 @@
 package org.toxsoft.core.tsgui.bricks.tsnodes;
 
-import org.toxsoft.core.tsgui.bricks.tstree.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;

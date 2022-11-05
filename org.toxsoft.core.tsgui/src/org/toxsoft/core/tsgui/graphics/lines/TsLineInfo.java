@@ -30,7 +30,7 @@ public final class TsLineInfo {
   public static final TsLineInfo DEFAULT = new TsLineInfo( 1, SOLID, FLAT, MITER, TsLibUtils.EMPTY_ARRAY_OF_INTS );
 
   /**
-   * Regi9stered keeper ID.
+   * Registered keeper ID.
    */
   public static final String KEEPER_ID = "TsLineInfo"; //$NON-NLS-1$
 
@@ -115,6 +115,16 @@ public final class TsLineInfo {
     joinStyle = aJoinStyle;
     type = aType;
     dash = aDash;
+  }
+
+  /**
+   * Creates solide line info of the given width with SWT default other attributes.
+   *
+   * @param aWidth int - the line width
+   * @return {@link TsLineInfo} - created instance
+   */
+  public static TsLineInfo ofWidth( int aWidth ) {
+    return new TsLineInfo( aWidth, ETsLineType.SOLID, ETsLineCapStyle.FLAT, ETsLineJoinStyle.MITER, IIntList.EMPTY );
   }
 
   // ------------------------------------------------------------------------------------

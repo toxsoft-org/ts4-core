@@ -8,6 +8,16 @@ package org.toxsoft.core.tsgui.graphics.lines;
 interface ITsResources {
 
   /**
+   * {@link ETsBorderKind}
+   */
+  String STR_N_BK_NONE   = Messages.getString( "STR_N_BK_NONE" );   //$NON-NLS-1$
+  String STR_D_BK_NONE   = Messages.getString( "STR_D_BK_NONE" );   //$NON-NLS-1$
+  String STR_N_BK_SINGLE = Messages.getString( "STR_N_BK_SINGLE" ); //$NON-NLS-1$
+  String STR_D_BK_SINGLE = Messages.getString( "STR_D_BK_SINGLE" ); //$NON-NLS-1$
+  String STR_N_BK_DOUBLE = Messages.getString( "STR_N_BK_DOUBLE" ); //$NON-NLS-1$
+  String STR_D_BK_DOUBLE = Messages.getString( "STR_D_BK_DOUBLE" ); //$NON-NLS-1$
+
+  /**
    * {@link ETsLineCapStyle}
    */
   String STR_D_LCS_FLAT   = Messages.getString( "STR_D_LCS_FLAT" );   //$NON-NLS-1$
@@ -44,23 +54,31 @@ interface ITsResources {
   String STR_D_LT_CUSTOM     = Messages.getString( "STR_D_LT_CUSTOM" );     //$NON-NLS-1$
 
   /**
+   * {@link ETsOutlineKind}
+   */
+  String STR_N_OK_NONE   = Messages.getString( "STR_N_OK_NONE" );   //$NON-NLS-1$
+  String STR_D_OK_NONE   = Messages.getString( "STR_D_OK_NONE" );   //$NON-NLS-1$
+  String STR_N_OK_SIMPLE = Messages.getString( "STR_N_OK_SIMPLE" ); //$NON-NLS-1$
+  String STR_D_OK_SIMPLE = Messages.getString( "STR_D_OK_SIMPLE" ); //$NON-NLS-1$
+
+  /**
    * {@link TsBorderInfo}
    */
-  String STR_N_SINGLE       = "Одиночная";
-  String STR_D_SINGLE       = "Одиночная граница";
-  String STR_N_LEFT_RGBA    = "Левый цвет";
-  String STR_D_LEFT_RGBA    = "Цвет линий расположенных левей или выше";
-  String STR_N_RIGHT_RGBA   = "Правый цвет";
-  String STR_D_RIGHT_RGBA   = "Цвет линий расположенных правей или ниже";
-  String STR_N_LINE_INFO    = "Параметры линии";
-  String STR_D_LINE_INFO    = "Параметры линии";
-  String STR_N_PAINT_LEFT   = "Левая сторона";
-  String STR_D_PAINT_LEFT   = "Рисовать левую сторону";
-  String STR_N_PAINT_TOP    = "Верхняя сторона";
-  String STR_D_PAINT_TOP    = "Рисовать верхнюю сторону";
-  String STR_N_PAINT_RIGHT  = "Правая сторона";
-  String STR_D_PAINT_RIGHT  = "Рисовать правую сторону";
-  String STR_N_PAINT_BOTTOM = "Нижняя сторона";
-  String STR_D_PAINT_BOTTOM = "Рисовать нижнюю сторону";
+  String STR_N_BI_KIND         = Messages.getString( "STR_N_BI_KIND" );         //$NON-NLS-1$
+  String STR_D_BI_KIND         = Messages.getString( "STR_D_BI_KIND" );         //$NON-NLS-1$
+  String STR_N_BI_LEFT_RGBA    = Messages.getString( "STR_N_BI_LEFT_RGBA" );    //$NON-NLS-1$
+  String STR_D_BI_LEFT_RGBA    = Messages.getString( "STR_D_BI_LEFT_RGBA" );    //$NON-NLS-1$
+  String STR_N_BI_RIGHT_RGBA   = Messages.getString( "STR_N_BI_RIGHT_RGBA" );   //$NON-NLS-1$
+  String STR_D_BI_RIGHT_RGBA   = Messages.getString( "STR_D_BI_RIGHT_RGBA" );   //$NON-NLS-1$
+  String STR_N_BI_LINE_INFO    = Messages.getString( "STR_N_BI_LINE_INFO" );    //$NON-NLS-1$
+  String STR_D_BI_LINE_INFO    = Messages.getString( "STR_D_BI_LINE_INFO" );    //$NON-NLS-1$
+  String STR_N_BI_PAINT_LEFT   = Messages.getString( "STR_N_BI_PAINT_LEFT" );   //$NON-NLS-1$
+  String STR_D_BI_PAINT_LEFT   = Messages.getString( "STR_D_BI_PAINT_LEFT" );   //$NON-NLS-1$
+  String STR_N_BI_PAINT_TOP    = Messages.getString( "STR_N_BI_PAINT_TOP" );    //$NON-NLS-1$
+  String STR_D_BI_PAINT_TOP    = Messages.getString( "STR_D_BI_PAINT_TOP" );    //$NON-NLS-1$
+  String STR_N_BI_PAINT_RIGHT  = Messages.getString( "STR_N_BI_PAINT_RIGHT" );  //$NON-NLS-1$
+  String STR_D_BI_PAINT_RIGHT  = Messages.getString( "STR_D_BI_PAINT_RIGHT" );  //$NON-NLS-1$
+  String STR_N_BI_PAINT_BOTTOM = Messages.getString( "STR_N_BI_PAINT_BOTTOM" ); //$NON-NLS-1$
+  String STR_D_BI_PAINT_BOTTOM = Messages.getString( "STR_D_BI_PAINT_BOTTOM" ); //$NON-NLS-1$
 
 }

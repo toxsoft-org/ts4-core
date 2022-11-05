@@ -54,135 +54,164 @@ public class TsGraphicsUtils {
   /**
    * Рисует рамку (границу).
    *
-   * @param aGc GC - графичский контекст
-   * @param aBorderInfo TsBorderInfo - парамтры рамки
-   * @param aRect ITsRectangle - прямоугольник описывающий рамку
-   * @param aColorManager ITsColorManager - менеджер цветов
+   * @param aGc {@link GC} - the graphics context to draw on
+   * @param aBorderInfo {@link TsBorderInfo} - the border (frame) drawing info
+   * @param aRect ITsRectangle - frame coordinates
+   * @param aColorManager ITsColorManager - the colcor manager
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static void drawBorder( GC aGc, TsBorderInfo aBorderInfo, ITsRectangle aRect, ITsColorManager aColorManager ) {
-    aBorderInfo.lineInfo().setToGc( aGc );
-    int thick = aBorderInfo.lineInfo().width();
-    RGBA rgbaLeft = aBorderInfo.leftTopRGBA();
-    RGBA rgbaRight = aBorderInfo.rightBottomRGBA();
+    TsNullArgumentRtException.checkNulls( aGc, aBorderInfo, aRect, aColorManager );
+    switch( aBorderInfo.kind() ) {
+      case NONE: {
+        // nop
+        break;
+      }
+      case SINGLE: {
+        drawSingleBoreder( aGc, aBorderInfo, aRect, aColorManager );
+        break;
+      }
+      case DOUBLE: {
+        drawDoubleBoreder( aGc, aBorderInfo, aRect, aColorManager );
+        break;
+      }
+      default:
+        throw new TsNotAllEnumsUsedRtException( aBorderInfo.kind().id() );
+    }
+  }
 
+  private static void drawSingleBoreder( GC aGc, TsBorderInfo aBinf, ITsRectangle aRect, ITsColorManager aColorMan ) {
+    // prepare
+    aBinf.lineInfo().setToGc( aGc );
+    int thick = aBinf.lineInfo().width();
+    RGBA rgbaLeft = aBinf.leftTopRGBA();
+    RGBA rgbaRight = aBinf.rightBottomRGBA();
     int x1 = aRect.x1();
     int x2 = aRect.x1() + aRect.width();
     int y1 = aRect.y1();
     int y2 = aRect.y1() + aRect.height();
-
-    if( aBorderInfo.isSingle() ) { // одинарная граница
-      if( aBorderInfo.shouldPaintAll() ) { // нужно рисовать все стороны
-        if( aBorderInfo.leftTopRGBA().equals( aBorderInfo.rightBottomRGBA() ) ) { // одноцветный прямоугольник
-          aGc.drawRectangle( x1 + thick / 2, y1 + thick / 2, aRect.width() - thick, aRect.height() - thick );
-        }
-        else { // двухцветная граница
-          aGc.setLineWidth( 1 );
-          aGc.setAlpha( rgbaLeft.alpha );
-          aGc.setForeground( aColorManager.getColor( rgbaLeft.rgb ) );
-          for( int i = 0; i < thick; i++ ) {
-            aGc.drawLine( x1 + i, y1 + i, x2 - i, y1 + i );
-          }
-          for( int i = 0; i < thick; i++ ) {
-            aGc.drawLine( x1 + i, y1 + i, x1 + i, y2 - i );
-          }
-
-          aGc.setAlpha( rgbaRight.alpha );
-          aGc.setForeground( aColorManager.getColor( rgbaRight.rgb ) );
-          for( int i = 0; i < thick; i++ ) {
-            aGc.drawLine( x1 + i, y2 - i, x2 - i, y2 - i );
-          }
-          for( int i = 0; i < thick; i++ ) {
-            aGc.drawLine( x2 - i, y1 + i, x2 - i, y2 - i );
-          }
-        }
+    aGc.setLineWidth( thick );
+    // draw
+    if( aBinf.shouldPaintAll() ) { // нужно рисовать все стороны
+      if( aBinf.leftTopRGBA().equals( aBinf.rightBottomRGBA() ) ) { // одноцветный прямоугольник
+        aGc.drawRectangle( x1 + thick / 2, y1 + thick / 2, aRect.width() - thick, aRect.height() - thick );
       }
-      else { // рисуем только отмеченные стороны
+      else { // двухцветная граница
         aGc.setLineWidth( 1 );
-        if( aBorderInfo.shouldPaintLeft() ) {
-          aGc.setAlpha( rgbaLeft.alpha );
-          aGc.setForeground( aColorManager.getColor( rgbaLeft.rgb ) );
-          for( int i = 0; i < thick; i++ ) {
-            aGc.drawLine( x1 + i, y1 + i, x1 + i, y2 - i );
-          }
-        }
-        if( aBorderInfo.shouldPaintTop() ) {
-          aGc.setAlpha( rgbaLeft.alpha );
-          aGc.setForeground( aColorManager.getColor( rgbaLeft.rgb ) );
-          for( int i = 0; i < thick; i++ ) {
-            aGc.drawLine( x1 + i, y1 + i, x2 - i, y1 + i );
-          }
-        }
-        if( aBorderInfo.shouldPaintRight() ) {
-          aGc.setAlpha( rgbaRight.alpha );
-          aGc.setForeground( aColorManager.getColor( rgbaRight.rgb ) );
-          for( int i = 0; i < thick; i++ ) {
-            aGc.drawLine( x2 - i, y1 + i, x2 - i, y2 - i );
-          }
-        }
-        if( aBorderInfo.shouldPaintBottom() ) {
-          aGc.setAlpha( rgbaRight.alpha );
-          aGc.setForeground( aColorManager.getColor( rgbaRight.rgb ) );
-          for( int i = 0; i < thick; i++ ) {
-            aGc.drawLine( x1 + i, y2 - i, x2 - i, y2 - i );
-          }
-        }
-      }
-    }
-    else { // двойная граница
-      aGc.setLineWidth( thick );
-      if( aBorderInfo.shouldPaintAll() ) { // нужно рисовать все стороны
         aGc.setAlpha( rgbaLeft.alpha );
-        aGc.setForeground( aColorManager.getColor( rgbaLeft.rgb ) );
-        aGc.drawRectangle( x1 + thick / 2, y1 + thick / 2, aRect.width() - 2 * thick, aRect.height() - 2 * thick );
+        aGc.setForeground( aColorMan.getColor( rgbaLeft.rgb ) );
+        for( int i = 0; i < thick; i++ ) {
+          aGc.drawLine( x1 + i, y1 + i, x2 - i, y1 + i );
+        }
+        for( int i = 0; i < thick; i++ ) {
+          aGc.drawLine( x1 + i, y1 + i, x1 + i, y2 - i );
+        }
 
         aGc.setAlpha( rgbaRight.alpha );
-        aGc.setForeground( aColorManager.getColor( rgbaRight.rgb ) );
-        aGc.drawRectangle( x1 + thick + thick / 2, y1 + thick + thick / 2, aRect.width() - 2 * thick,
-            aRect.height() - 2 * thick );
+        aGc.setForeground( aColorMan.getColor( rgbaRight.rgb ) );
+        for( int i = 0; i < thick; i++ ) {
+          aGc.drawLine( x1 + i, y2 - i, x2 - i, y2 - i );
+        }
+        for( int i = 0; i < thick; i++ ) {
+          aGc.drawLine( x2 - i, y1 + i, x2 - i, y2 - i );
+        }
       }
-      else { // рисуем только отмеченные стороны
-        if( aBorderInfo.shouldPaintLeft() ) {
-          aGc.setAlpha( rgbaLeft.alpha );
-          aGc.setForeground( aColorManager.getColor( rgbaLeft.rgb ) );
-          aGc.drawLine( x1 + thick / 2, y1, x1 + thick / 2, y2 - thick );
-        }
-        if( aBorderInfo.shouldPaintTop() ) {
-          aGc.setAlpha( rgbaLeft.alpha );
-          aGc.setForeground( aColorManager.getColor( rgbaLeft.rgb ) );
-          aGc.drawLine( x1 + thick / 2, y1 + thick / 2, x2 - thick, y1 + thick / 2 );
-        }
-        if( aBorderInfo.shouldPaintRight() ) {
-          aGc.setAlpha( rgbaLeft.alpha );
-          aGc.setForeground( aColorManager.getColor( rgbaLeft.rgb ) );
-          aGc.drawLine( x2 - thick - thick / 2, y1, x2 - thick - thick / 2, y2 - thick );
-        }
-        if( aBorderInfo.shouldPaintBottom() ) {
-          aGc.setAlpha( rgbaLeft.alpha );
-          aGc.setForeground( aColorManager.getColor( rgbaLeft.rgb ) );
-          aGc.drawLine( x1 + thick / 2, y2 - thick - thick / 2, x2 - thick, y2 - thick - thick / 2 );
-        }
+      return;
+    }
+    aGc.setLineWidth( 1 );
+    if( aBinf.shouldPaintLeft() ) {
+      aGc.setAlpha( rgbaLeft.alpha );
+      aGc.setForeground( aColorMan.getColor( rgbaLeft.rgb ) );
+      for( int i = 0; i < thick; i++ ) {
+        aGc.drawLine( x1 + i, y1 + i, x1 + i, y2 - i );
+      }
+    }
+    if( aBinf.shouldPaintTop() ) {
+      aGc.setAlpha( rgbaLeft.alpha );
+      aGc.setForeground( aColorMan.getColor( rgbaLeft.rgb ) );
+      for( int i = 0; i < thick; i++ ) {
+        aGc.drawLine( x1 + i, y1 + i, x2 - i, y1 + i );
+      }
+    }
+    if( aBinf.shouldPaintRight() ) {
+      aGc.setAlpha( rgbaRight.alpha );
+      aGc.setForeground( aColorMan.getColor( rgbaRight.rgb ) );
+      for( int i = 0; i < thick; i++ ) {
+        aGc.drawLine( x2 - i, y1 + i, x2 - i, y2 - i );
+      }
+    }
+    if( aBinf.shouldPaintBottom() ) {
+      aGc.setAlpha( rgbaRight.alpha );
+      aGc.setForeground( aColorMan.getColor( rgbaRight.rgb ) );
+      for( int i = 0; i < thick; i++ ) {
+        aGc.drawLine( x1 + i, y2 - i, x2 - i, y2 - i );
+      }
+    }
+  }
 
-        if( aBorderInfo.shouldPaintLeft() ) {
-          aGc.setAlpha( rgbaRight.alpha );
-          aGc.setForeground( aColorManager.getColor( rgbaRight.rgb ) );
-          aGc.drawLine( x1 + thick / 2 + thick, y1 + thick, x1 + thick / 2 + thick, y2 );
-        }
-        if( aBorderInfo.shouldPaintTop() ) {
-          aGc.setAlpha( rgbaRight.alpha );
-          aGc.setForeground( aColorManager.getColor( rgbaRight.rgb ) );
-          aGc.drawLine( x1 + thick / 2 + thick, y1 + thick + thick / 2, x2, y1 + thick + thick / 2 );
-        }
-        if( aBorderInfo.shouldPaintRight() ) {
-          aGc.setAlpha( rgbaRight.alpha );
-          aGc.setForeground( aColorManager.getColor( rgbaRight.rgb ) );
-          aGc.drawLine( x2 - thick / 2, y1, x2 - thick / 2, y2 - thick );
-        }
-        if( aBorderInfo.shouldPaintBottom() ) {
-          aGc.setAlpha( rgbaRight.alpha );
-          aGc.setForeground( aColorManager.getColor( rgbaRight.rgb ) );
-          aGc.drawLine( x1 + thick / 2 + thick, y2 - thick / 2, x2, y2 - thick / 2 );
-        }
-      }
+  private static void drawDoubleBoreder( GC aGc, TsBorderInfo aBinf, ITsRectangle aRect, ITsColorManager aColorMan ) {
+    // prepare
+    aBinf.lineInfo().setToGc( aGc );
+    int thick = aBinf.lineInfo().width();
+    RGBA rgbaLeft = aBinf.leftTopRGBA();
+    RGBA rgbaRight = aBinf.rightBottomRGBA();
+    int x1 = aRect.x1();
+    int x2 = aRect.x1() + aRect.width();
+    int y1 = aRect.y1();
+    int y2 = aRect.y1() + aRect.height();
+    aGc.setLineWidth( thick );
+    // draw
+    if( aBinf.shouldPaintAll() ) { // нужно рисовать все стороны
+      aGc.setAlpha( rgbaLeft.alpha );
+      aGc.setForeground( aColorMan.getColor( rgbaLeft.rgb ) );
+      aGc.drawRectangle( x1 + thick / 2, y1 + thick / 2, aRect.width() - 2 * thick, aRect.height() - 2 * thick );
+
+      aGc.setAlpha( rgbaRight.alpha );
+      aGc.setForeground( aColorMan.getColor( rgbaRight.rgb ) );
+      aGc.drawRectangle( x1 + thick + thick / 2, y1 + thick + thick / 2, aRect.width() - 2 * thick,
+          aRect.height() - 2 * thick );
+      return;
+    }
+    if( aBinf.shouldPaintLeft() ) {
+      aGc.setAlpha( rgbaLeft.alpha );
+      aGc.setForeground( aColorMan.getColor( rgbaLeft.rgb ) );
+      aGc.drawLine( x1 + thick / 2, y1, x1 + thick / 2, y2 - thick );
+    }
+    if( aBinf.shouldPaintTop() ) {
+      aGc.setAlpha( rgbaLeft.alpha );
+      aGc.setForeground( aColorMan.getColor( rgbaLeft.rgb ) );
+      aGc.drawLine( x1 + thick / 2, y1 + thick / 2, x2 - thick, y1 + thick / 2 );
+    }
+    if( aBinf.shouldPaintRight() ) {
+      aGc.setAlpha( rgbaLeft.alpha );
+      aGc.setForeground( aColorMan.getColor( rgbaLeft.rgb ) );
+      aGc.drawLine( x2 - thick - thick / 2, y1, x2 - thick - thick / 2, y2 - thick );
+    }
+    if( aBinf.shouldPaintBottom() ) {
+      aGc.setAlpha( rgbaLeft.alpha );
+      aGc.setForeground( aColorMan.getColor( rgbaLeft.rgb ) );
+      aGc.drawLine( x1 + thick / 2, y2 - thick - thick / 2, x2 - thick, y2 - thick - thick / 2 );
+    }
+
+    if( aBinf.shouldPaintLeft() ) {
+      aGc.setAlpha( rgbaRight.alpha );
+      aGc.setForeground( aColorMan.getColor( rgbaRight.rgb ) );
+      aGc.drawLine( x1 + thick / 2 + thick, y1 + thick, x1 + thick / 2 + thick, y2 );
+    }
+    if( aBinf.shouldPaintTop() ) {
+      aGc.setAlpha( rgbaRight.alpha );
+      aGc.setForeground( aColorMan.getColor( rgbaRight.rgb ) );
+      aGc.drawLine( x1 + thick / 2 + thick, y1 + thick + thick / 2, x2, y1 + thick + thick / 2 );
+    }
+    if( aBinf.shouldPaintRight() ) {
+      aGc.setAlpha( rgbaRight.alpha );
+      aGc.setForeground( aColorMan.getColor( rgbaRight.rgb ) );
+      aGc.drawLine( x2 - thick / 2, y1, x2 - thick / 2, y2 - thick );
+    }
+    if( aBinf.shouldPaintBottom() ) {
+      aGc.setAlpha( rgbaRight.alpha );
+      aGc.setForeground( aColorMan.getColor( rgbaRight.rgb ) );
+      aGc.drawLine( x1 + thick / 2 + thick, y2 - thick / 2, x2, y2 - thick / 2 );
     }
   }
 

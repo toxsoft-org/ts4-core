@@ -56,7 +56,7 @@ public class ValedTsBorderInfo
    */
   public static final AbstractValedControlFactory FACTORY = new Factory();
 
-  TsBorderInfo value = TsBorderInfo.DEFAULT;
+  TsBorderInfo value = TsBorderInfo.NONE;
 
   /**
    * Конструктор.
@@ -76,7 +76,7 @@ public class ValedTsBorderInfo
     TsDialogInfo dlgInfo = new TsDialogInfo( tsContext(), DLG_T_BORDER_INFO, STR_MSG_BORDER_INFO );
     IOptionSet opSet = DialogOptionsEdit.editOpset( dlgInfo, TsBorderInfo.ALL_DEFS, value.options() );
     if( opSet != null ) {
-      value = new TsBorderInfo( opSet );
+      value = TsBorderInfo.ofOptions( opSet );
       fireModifyEvent( true );
     }
   }

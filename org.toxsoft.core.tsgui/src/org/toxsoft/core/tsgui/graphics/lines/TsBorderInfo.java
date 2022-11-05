@@ -6,10 +6,10 @@ import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.utils.swt.*;
 import org.toxsoft.core.tsgui.valed.controls.graphics.*;
+import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
@@ -19,6 +19,7 @@ import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * All attributes to draw rectangular border.
@@ -28,57 +29,58 @@ import org.toxsoft.core.tslib.bricks.strio.*;
  */
 public final class TsBorderInfo {
 
-  static final IDataDef OPDEF_SINGLE = DataDef.create( "single", BOOLEAN, // //$NON-NLS-1$
-      TSID_NAME, STR_N_SINGLE, //
-      TSID_DESCRIPTION, STR_D_SINGLE, //
-      TSID_DEFAULT_VALUE, AvUtils.AV_TRUE //
+  static final IDataDef OPDEF_BORDER_KIND = DataDef.create( "kind", VALOBJ, // //$NON-NLS-1$
+      TSID_NAME, STR_N_BI_KIND, //
+      TSID_DESCRIPTION, STR_D_BI_KIND, //
+      TSID_KEEPER_ID, ETsBorderKind.KEEPER_ID, //
+      TSID_DEFAULT_VALUE, avValobj( ETsBorderKind.SINGLE ) //
   );
 
   static final IDataDef OPDEF_LEFT_RGBA = DataDef.create( "leftTopRgba", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_LEFT_RGBA, //
-      TSID_DESCRIPTION, STR_D_LEFT_RGBA, //
+      TSID_NAME, STR_N_BI_LEFT_RGBA, //
+      TSID_DESCRIPTION, STR_D_BI_LEFT_RGBA, //
       TSID_KEEPER_ID, RGBAKeeper.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, //
       TSID_DEFAULT_VALUE, avValobj( new RGBA( 0, 0, 0, 255 ) ) //
   );
 
   static final IDataDef OPDEF_RIGHT_RGBA = DataDef.create( "rightBottomRgba", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_RIGHT_RGBA, //
-      TSID_DESCRIPTION, STR_D_RIGHT_RGBA, //
+      TSID_NAME, STR_N_BI_RIGHT_RGBA, //
+      TSID_DESCRIPTION, STR_D_BI_RIGHT_RGBA, //
       TSID_KEEPER_ID, RGBAKeeper.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, //
       TSID_DEFAULT_VALUE, avValobj( new RGBA( 0, 0, 0, 255 ) ) //
   );
 
   static final IDataDef OPDEF_LINE_INFO = DataDef.create( "lineInfo", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_LINE_INFO, //
-      TSID_DESCRIPTION, STR_D_LINE_INFO, //
+      TSID_NAME, STR_N_BI_LINE_INFO, //
+      TSID_DESCRIPTION, STR_D_BI_LINE_INFO, //
       TSID_KEEPER_ID, TsLineInfo.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjTsLineInfo.FACTORY_NAME, //
       TSID_DEFAULT_VALUE, avValobj( TsLineInfo.DEFAULT ) //
   );
 
   static final IDataDef OPDEF_PAINT_LEFT = DataDef.create( "paintLeft", BOOLEAN, // //$NON-NLS-1$
-      TSID_NAME, STR_N_PAINT_LEFT, //
-      TSID_DESCRIPTION, STR_D_PAINT_LEFT, //
+      TSID_NAME, STR_N_BI_PAINT_LEFT, //
+      TSID_DESCRIPTION, STR_D_BI_PAINT_LEFT, //
       TSID_DEFAULT_VALUE, AvUtils.AV_TRUE //
   );
 
   static final IDataDef OPDEF_PAINT_TOP = DataDef.create( "paintTop", BOOLEAN, // //$NON-NLS-1$
-      TSID_NAME, STR_N_PAINT_TOP, //
-      TSID_DESCRIPTION, STR_D_PAINT_TOP, //
+      TSID_NAME, STR_N_BI_PAINT_TOP, //
+      TSID_DESCRIPTION, STR_D_BI_PAINT_TOP, //
       TSID_DEFAULT_VALUE, AvUtils.AV_TRUE //
   );
 
   static final IDataDef OPDEF_PAINT_RIGHT = DataDef.create( "paintRight", BOOLEAN, // //$NON-NLS-1$
-      TSID_NAME, STR_N_PAINT_RIGHT, //
-      TSID_DESCRIPTION, STR_D_PAINT_RIGHT, //
+      TSID_NAME, STR_N_BI_PAINT_RIGHT, //
+      TSID_DESCRIPTION, STR_D_BI_PAINT_RIGHT, //
       TSID_DEFAULT_VALUE, AvUtils.AV_TRUE //
   );
 
   static final IDataDef OPDEF_PAINT_BOTTOM = DataDef.create( "paintBottom", BOOLEAN, // //$NON-NLS-1$
-      TSID_NAME, STR_N_PAINT_BOTTOM, //
-      TSID_DESCRIPTION, STR_D_PAINT_BOTTOM, //
+      TSID_NAME, STR_N_BI_PAINT_BOTTOM, //
+      TSID_DESCRIPTION, STR_D_BI_PAINT_BOTTOM, //
       TSID_DEFAULT_VALUE, AvUtils.AV_TRUE //
   );
 
@@ -86,7 +88,7 @@ public final class TsBorderInfo {
    * Все описания опций
    */
   public static IStridablesList<IDataDef> ALL_DEFS = new StridablesList<>( //
-      OPDEF_SINGLE, //
+      OPDEF_BORDER_KIND, //
       OPDEF_LEFT_RGBA, //
       OPDEF_RIGHT_RGBA, //
       OPDEF_LINE_INFO, //
@@ -97,13 +99,11 @@ public final class TsBorderInfo {
   );
 
   /**
-   * Default simple rectagular border of 1 pixel width.
+   * Singleton of the no border (border of kind {@link ETsBorderKind#NONE}).
    */
-  public static final TsBorderInfo DEFAULT = new TsBorderInfo( OptionSetUtils.createOpSet( //
-      OPDEF_LINE_INFO, TsLineInfo.fromLineAttributes( new LineAttributes( 1, SWT.CAP_FLAT, SWT.JOIN_MITER ) ), //
-      OPDEF_LEFT_RGBA, new RGBA( 0, 0, 0, 255 ), //
-      OPDEF_RIGHT_RGBA, new RGBA( 0, 0, 0, 255 ) //
-  ) );
+  public static final TsBorderInfo NONE = new TsBorderInfo( OptionSetUtils.createOpSet( //
+      OPDEF_BORDER_KIND, avValobj( ETsBorderKind.NONE ) ) //
+  );
 
   /**
    * Registered keeper ID.
@@ -114,7 +114,7 @@ public final class TsBorderInfo {
    * Keeper singleton.
    */
   public static final IEntityKeeper<TsBorderInfo> KEEPER =
-      new AbstractEntityKeeper<>( TsBorderInfo.class, EEncloseMode.ENCLOSES_BASE_CLASS, DEFAULT ) {
+      new AbstractEntityKeeper<>( TsBorderInfo.class, EEncloseMode.ENCLOSES_BASE_CLASS, NONE ) {
 
         @Override
         protected void doWrite( IStrioWriter aSw, TsBorderInfo aEntity ) {
@@ -125,74 +125,173 @@ public final class TsBorderInfo {
         protected TsBorderInfo doRead( IStrioReader aSr ) {
           IOptionSet opSet = OptionSetKeeper.KEEPER.read( aSr );
           return new TsBorderInfo( opSet );
-          // return new TsBorderInfo( single, lineAttrs, rgbaLeft, rgbaRight, paintFlags );
         }
 
       };
 
-  IOptionSetEdit options = new OptionSet();
+  private final IOptionSet options;
 
   /**
-   * Создает границу в виде одноцветного прямоугольника.
+   * Private constructor.
+   * <p>
+   * Use static constructors or {@link #NONE} constant for instance creation.
+   * <p>
+   * Note on implementation: constructor stores reference to the argument without creating defensive copy.
    *
-   * @param aWidth int - толщина линии
-   * @param aRgba RGBA - цвет границы
-   * @return TsBorderInfo - описание границы
+   * @param aOpSet {@link IOptionSet} - the option values making the border info
+   */
+  private TsBorderInfo( IOptionSet aOpSet ) {
+    options = aOpSet;
+  }
+
+  /**
+   * Creates instance from options.
+   * <p>
+   * Only options listed in {@link #ALL_DEFS} will remain in the internal options set.
+   *
+   * @param aOptions {@link IOptionSet} - border options
+   * @return {@link TsBorderInfo} - created instance
+   */
+  public static TsBorderInfo ofOptions( IOptionSet aOptions ) {
+    TsNullArgumentRtException.checkNull( aOptions );
+    IOptionSetEdit ops = new OptionSet();
+    for( String opId : aOptions.keys() ) {
+      if( ALL_DDEFS.hasKey( opId ) ) {
+        ops.setValue( opId, aOptions.getByKey( opId ) );
+      }
+    }
+    return new TsBorderInfo( ops );
+  }
+
+  /**
+   * Simply returns {@link #NONE}.
+   *
+   * @return {@link TsBorderInfo} - no border info
+   */
+  public static TsBorderInfo ofNone() {
+    return NONE;
+  }
+
+  /**
+   * Creates border info of kind {@link ETsBorderKind#SINGLE}.
+   *
+   * @param aLeftColor {@link RGBA} - left color
+   * @param aRightColor {@link RGBA} - right color
+   * @param aLineInfo {@link TsLineInfo} - line drawing info
+   * @param aIsLeft boolean - <code>true</code> to draw left edge
+   * @param aIsRight boolean - <code>true</code> to draw right edge
+   * @param aIsTop boolean - <code>true</code> to draw top edge
+   * @param aIsBottom boolean - <code>true</code> to draw bottom edge
+   * @return {@link TsBorderInfo} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static TsBorderInfo ofSingle( RGBA aLeftColor, RGBA aRightColor, TsLineInfo aLineInfo, boolean aIsLeft,
+      boolean aIsRight, boolean aIsTop, boolean aIsBottom ) {
+    return ofKind1( ETsBorderKind.SINGLE, aLeftColor, aRightColor, aLineInfo, aIsLeft, aIsRight, aIsTop, aIsBottom );
+  }
+
+  /**
+   * Creates border info of kind {@link ETsBorderKind#DOUBLE}.
+   *
+   * @param aLeftColor {@link RGBA} - left color
+   * @param aRightColor {@link RGBA} - right color
+   * @param aLineInfo {@link TsLineInfo} - line drawing info
+   * @param aIsLeft boolean - <code>true</code> to draw left edge
+   * @param aIsRight boolean - <code>true</code> to draw right edge
+   * @param aIsTop boolean - <code>true</code> to draw top edge
+   * @param aIsBottom boolean - <code>true</code> to draw bottom edge
+   * @return {@link TsBorderInfo} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static TsBorderInfo ofDouble( RGBA aLeftColor, RGBA aRightColor, TsLineInfo aLineInfo, boolean aIsLeft,
+      boolean aIsRight, boolean aIsTop, boolean aIsBottom ) {
+    return ofKind1( ETsBorderKind.DOUBLE, aLeftColor, aRightColor, aLineInfo, aIsLeft, aIsRight, aIsTop, aIsBottom );
+  }
+
+  private static TsBorderInfo ofKind1( ETsBorderKind aKind, RGBA aLeftColor, RGBA aRightColor, TsLineInfo aLineInfo,
+      boolean aIsLeft, boolean aIsRight, boolean aIsTop, boolean aIsBottom ) {
+    TsNullArgumentRtException.checkNulls( aLeftColor, aRightColor, aLineInfo );
+    IOptionSetEdit ops = new OptionSet();
+    ops.setValobj( OPDEF_BORDER_KIND, aKind );
+    IAtomicValue avLeftColor = avValobj( aLeftColor );
+    if( !avLeftColor.equals( OPDEF_LEFT_RGBA.defaultValue() ) ) {
+      OPDEF_LEFT_RGBA.setValue( ops, avLeftColor );
+    }
+    IAtomicValue avRightColor = avValobj( aRightColor );
+    if( !avRightColor.equals( OPDEF_RIGHT_RGBA.defaultValue() ) ) {
+      OPDEF_RIGHT_RGBA.setValue( ops, avRightColor );
+    }
+    IAtomicValue avLineInfo = avValobj( aLineInfo );
+    if( !avLineInfo.equals( OPDEF_LINE_INFO.defaultValue() ) ) {
+      OPDEF_LEFT_RGBA.setValue( ops, avLineInfo );
+    }
+    if( OPDEF_PAINT_LEFT.defaultValue().asBool() != aIsLeft ) {
+      OPDEF_PAINT_LEFT.setValue( ops, avBool( aIsLeft ) );
+    }
+    if( OPDEF_PAINT_RIGHT.defaultValue().asBool() != aIsRight ) {
+      OPDEF_PAINT_RIGHT.setValue( ops, avBool( aIsRight ) );
+    }
+    if( OPDEF_PAINT_TOP.defaultValue().asBool() != aIsTop ) {
+      OPDEF_PAINT_TOP.setValue( ops, avBool( aIsTop ) );
+    }
+    if( OPDEF_PAINT_BOTTOM.defaultValue().asBool() != aIsBottom ) {
+      OPDEF_PAINT_BOTTOM.setValue( ops, avBool( aIsBottom ) );
+    }
+    return new TsBorderInfo( ops );
+  }
+
+  /**
+   * Creates border as single color solid rectangle.
+   *
+   * @param aWidth int - the line width
+   * @param aRgba {@link RGBA} - the color
+   * @return {@link TsBorderInfo} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static TsBorderInfo createSimpleBorder( int aWidth, RGBA aRgba ) {
-    IOptionSetEdit opSet = new OptionSet();
-    LineAttributes lineAttrs = new LineAttributes( aWidth, SWT.CAP_FLAT, SWT.JOIN_MITER );
-    opSet.setValobj( OPDEF_LINE_INFO, lineAttrs );
-    return new TsBorderInfo( opSet );
+    return ofSingle( aRgba, aRgba, TsLineInfo.ofWidth( aWidth ), true, true, true, true );
   }
 
   /**
-   * Создает одинарную границу в виде двух-цветного прямоугольника.<br>
+   * Creates border as two-color solid rectangle.
    *
-   * @param aWidth int - толщина линии
-   * @param aLeftTopRgba RGBA - параметры цвета линий, которые расположены левее и выше
-   * @param aRightBottomRgba RGBA - параметры цвета линий, которые расположены правее и ниже
-   * @return TsBorderInfo - описание границы
+   * @param aWidth int - the line width
+   * @param aLeftTopRgba {@link RGBA} - color of the left and top edges
+   * @param aRightBottomRgba {@link RGBA} - color of the right and bottom edges
+   * @return TsBorderInfo - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static TsBorderInfo createSingleBorder( int aWidth, RGBA aLeftTopRgba, RGBA aRightBottomRgba ) {
-    IOptionSetEdit opSet = new OptionSet();
-    opSet.setValobj( OPDEF_LEFT_RGBA, aLeftTopRgba );
-    opSet.setValobj( OPDEF_RIGHT_RGBA, aRightBottomRgba );
-    LineAttributes lineAttrs = new LineAttributes( aWidth, SWT.CAP_FLAT, SWT.JOIN_MITER );
-    opSet.setValobj( OPDEF_LINE_INFO, lineAttrs );
-    return new TsBorderInfo( opSet );
+    return ofSingle( aLeftTopRgba, aRightBottomRgba, TsLineInfo.ofWidth( aWidth ), true, true, true, true );
   }
 
   /**
-   * Создает двойную границу в виде двух одноцветных прямоугольников.<br>
+   * Creates border as two-color double solid line rectangle.
    *
-   * @param aWidth int - толщина линии
-   * @param aLeftTopRgba RGBA - параметры цвета линий, которые расположены левее и выше
-   * @param aRightBottomRgba RGBA - параметры цвета линий, которые расположены правее и ниже
-   * @return TsBorderInfo - описание границы
+   * @param aWidth int - the line width
+   * @param aLeftTopRgba {@link RGBA} - color of the left and top edges
+   * @param aRightBottomRgba {@link RGBA} - color of the right and bottom edges
+   * @return TsBorderInfo - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static TsBorderInfo createDoubleBorder( int aWidth, RGBA aLeftTopRgba, RGBA aRightBottomRgba ) {
-    IOptionSetEdit opSet = new OptionSet();
-    opSet.setBool( OPDEF_SINGLE, false );
-    opSet.setValobj( OPDEF_LEFT_RGBA, aLeftTopRgba );
-    opSet.setValobj( OPDEF_RIGHT_RGBA, aRightBottomRgba );
-    LineAttributes lineAttrs = new LineAttributes( aWidth, SWT.CAP_FLAT, SWT.JOIN_MITER );
-    opSet.setValobj( OPDEF_LINE_INFO, lineAttrs );
-    return new TsBorderInfo( opSet );
-  }
-
-  /**
-   * Конструктор.<br>
-   *
-   * @param aOpSet IOptionSet - свойства границы
-   */
-  public TsBorderInfo( IOptionSet aOpSet ) {
-    options.setAll( aOpSet );
+    return ofDouble( aLeftTopRgba, aRightBottomRgba, TsLineInfo.ofWidth( aWidth ), true, true, true, true );
   }
 
   // ------------------------------------------------------------------------------------
   // API
   //
+
+  /**
+   * Returns the border kind.
+   *
+   * @return {@link ETsBorderKind} - the border kind
+   */
+  public ETsBorderKind kind() {
+    return OPDEF_BORDER_KIND.getValue( options ).asValobj();
+  }
+
+  // TODO TRANSLATE
 
   /**
    * Возвращает свойства границы в виде {@link IOptionSet}.
@@ -201,16 +300,6 @@ public final class TsBorderInfo {
    */
   public IOptionSet options() {
     return options;
-  }
-
-  /**
-   * Вовзращает признак того, является ли граница одинарной.<br>
-   *
-   * @return <b>true</b> - одинарная граница<br>
-   *         <b>false</b> - двойная граница
-   */
-  public boolean isSingle() {
-    return options.getBool( OPDEF_SINGLE );
   }
 
   /**
