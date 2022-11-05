@@ -1,7 +1,5 @@
 package org.toxsoft.core.tsgui.ved.api.cfgdata;
 
-import org.toxsoft.core.tsgui.ved.api.doc.*;
-
 /**
  * The tailor to component binding config data.
  *
@@ -9,13 +7,6 @@ import org.toxsoft.core.tsgui.ved.api.doc.*;
  */
 public interface IVedBindingCfg
     extends IVedConfigBase {
-
-  /**
-   * Returns the ID of {@link IVedBindingProvider} to create the binding.
-   *
-   * @return String - binding provider ID
-   */
-  String bindingProviderId();
 
   /**
    * Returns the bind component ID.

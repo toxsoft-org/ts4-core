@@ -35,7 +35,7 @@ class VedEnvironmentEdit
     TsNullArgumentRtException.checkNull( aContext );
     framework = aFramework;
     tsContext = aContext;
-    doc = new VedDocumentEdit();
+    doc = new VedDocumentEdit( this );
     screenManager = new VedScreenManager( this );
   }
 
@@ -86,7 +86,7 @@ class VedEnvironmentEdit
       for( IVedEntityConfig cfg : aData.componentConfigs() ) {
         IVedEntityProvider provider = registry.providers().getByKey( cfg.id() );
         IVedComponent e = provider.create( cfg, this );
-        doc.components().addEntity( e );
+        // FIXME doc.components().addEntity( e );
       }
       // init tailors
       registry = vedFramework().getTailorsRegistry();
@@ -96,7 +96,7 @@ class VedEnvironmentEdit
 
         // TODO init bindings
 
-        doc.tailors().addEntity( e );
+        // FIXME doc.tailors().addEntity( e );
       }
       // TODO init actors
 

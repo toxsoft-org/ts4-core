@@ -36,11 +36,12 @@ public abstract class VedAbstractEntityProvider
    * @param aKind {@link EVedEntityKind} - the kind of created entities
    * @param aId String - provider ID (entity kind ID)
    * @param aParams {@link IOptionSet} - {@link #params()} initial values
-   * @param aPropDefs {@link IDataDef}[] - proprties definitions
+   * @param aPropDefs {@link IStridablesList}&lt;{@link IDataDef}&gt; - proprties definitions
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException any ID is not an IDpath
    */
-  public VedAbstractEntityProvider( EVedEntityKind aKind, String aId, IOptionSet aParams, IDataDef... aPropDefs ) {
+  public VedAbstractEntityProvider( EVedEntityKind aKind, String aId, IOptionSet aParams,
+      IStridablesList<IDataDef> aPropDefs ) {
     super( aId, aParams );
     kind = TsNullArgumentRtException.checkNull( aKind );
     propDefs.addAll( aPropDefs );

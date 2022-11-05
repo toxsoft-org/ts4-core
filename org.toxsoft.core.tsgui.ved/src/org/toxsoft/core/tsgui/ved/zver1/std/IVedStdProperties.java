@@ -16,7 +16,7 @@ import org.toxsoft.core.tslib.av.metainfo.*;
 /**
  * Standard properties for all components.
  * <p>
- * Not all components have all of these properties. Hoveve, if component declared standard property then property must
+ * Not all components have all of these properties. Hovever, if component declared standard property then property must
  * behave exactly as described here.
  *
  * @author hazard157

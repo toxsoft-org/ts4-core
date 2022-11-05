@@ -28,6 +28,8 @@ public final class VedEntityConfig
         protected void doWrite( IStrioWriter aSw, IVedEntityConfig aEntity ) {
           aSw.writeAsIs( aEntity.id() );
           aSw.writeSeparatorChar();
+          aSw.writeAsIs( aEntity.providerId() );
+          aSw.writeSeparatorChar();
           EVedEntityKind.KEEPER.write( aSw, aEntity.entityKind() );
           aSw.writeSeparatorChar();
           OptionSetKeeper.KEEPER.write( aSw, aEntity.propValues() );
@@ -39,12 +41,14 @@ public final class VedEntityConfig
         protected IVedEntityConfig doRead( IStrioReader aSr ) {
           String id = aSr.readIdPath();
           aSr.ensureSeparatorChar();
+          String providerId = aSr.readIdPath();
+          aSr.ensureSeparatorChar();
           EVedEntityKind kind = EVedEntityKind.KEEPER.read( aSr );
           aSr.ensureSeparatorChar();
           IOptionSet props = OptionSetKeeper.KEEPER.read( aSr );
           aSr.ensureSeparatorChar();
           IOptionSet extdata = OptionSetKeeper.KEEPER.read( aSr );
-          return new VedEntityConfig( id, kind, props, extdata );
+          return new VedEntityConfig( id, providerId, kind, props, extdata );
         }
       };
 
@@ -54,13 +58,15 @@ public final class VedEntityConfig
    * Constructor.
    *
    * @param aId String - entity ID
+   * @param aProviderId String - ID of the provider (factory) that creates the entity
    * @param aKind {@link EVedEntityKind} - entity kind
    * @param aProps {@link IOptionSet} - properties values
    * @param aExtData {@link IOptionSet} - external data
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public VedEntityConfig( String aId, EVedEntityKind aKind, IOptionSet aProps, IOptionSet aExtData ) {
-    super( aId, aProps, aExtData );
+  public VedEntityConfig( String aId, String aProviderId, EVedEntityKind aKind, IOptionSet aProps,
+      IOptionSet aExtData ) {
+    super( aId, aProviderId, aProps, aExtData );
     kind = TsNullArgumentRtException.checkNull( aKind );
   }
 
@@ -73,7 +79,8 @@ public final class VedEntityConfig
    */
   public static IVedEntityConfig ofEntity( IVedEntity aEntity ) {
     TsNullArgumentRtException.checkNull( aEntity );
-    return new VedEntityConfig( aEntity.id(), aEntity.entityKind(), aEntity.props(), aEntity.extdata() );
+    return new VedEntityConfig( aEntity.id(), aEntity.provider().id(), aEntity.entityKind(), aEntity.props(),
+        aEntity.extdata() );
   }
 
   // ------------------------------------------------------------------------------------

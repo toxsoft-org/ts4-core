@@ -1,6 +1,6 @@
 package org.toxsoft.core.tsgui.ved.api.impl;
 
-import static org.toxsoft.core.tsgui.ved.api.std.IVedStdProperties.*;
+import static org.toxsoft.core.tsgui.ved.std.IVedStdProperties.*;
 import static org.toxsoft.core.tslib.bricks.d2.D2Utils.*;
 
 import org.eclipse.swt.graphics.*;

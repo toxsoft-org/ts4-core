@@ -18,6 +18,7 @@ class VedConfigBase
     implements IVedConfigBase {
 
   private final String     id;
+  private final String     providerId;
   private final IOptionSet props;
   private final IOptionSet extdata;
 
@@ -25,14 +26,16 @@ class VedConfigBase
    * Constructor.
    *
    * @param aId String - the ID
+   * @param aProviderId String - ID of the provider (factory) that creates the entity
    * @param aProps {@link IOptionSet} - properties values
    * @param aExtData {@link IOptionSet} - external data
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException ID is not an IDpath
    * @throws TsIllegalArgumentRtException ID is not an IDpath
    */
-  public VedConfigBase( String aId, IOptionSet aProps, IOptionSet aExtData ) {
+  public VedConfigBase( String aId, String aProviderId, IOptionSet aProps, IOptionSet aExtData ) {
     id = StridUtils.checkValidIdPath( aId );
+    providerId = StridUtils.checkValidIdPath( aProviderId );
     props = new OptionSet( aProps );
     extdata = new OptionSet( aExtData );
   }
@@ -44,6 +47,11 @@ class VedConfigBase
   @Override
   public String id() {
     return id;
+  }
+
+  @Override
+  public String providerId() {
+    return providerId;
   }
 
   @Override

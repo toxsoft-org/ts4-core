@@ -2,12 +2,14 @@ package org.toxsoft.core.tsgui.ved.api.impl;
 
 import static org.toxsoft.core.tsgui.ved.api.IVedFrameworkConstants.*;
 
+import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.comp.*;
 import org.toxsoft.core.tsgui.ved.api.doc.*;
 import org.toxsoft.core.tsgui.ved.api.entity.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.props.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link IVedDocumentEdit} implementation.
@@ -17,17 +19,24 @@ import org.toxsoft.core.tslib.bricks.events.change.*;
 public class VedDocumentEdit
     implements IVedDocumentEdit {
 
-  private final VedEntityManagerEdit<IVedComponent> emComps   = new VedEntityManagerEdit<>( EVedEntityKind.COMPONENT );
-  private final VedEntityManagerEdit<IVedTailor>    emTailors = new VedEntityManagerEdit<>( EVedEntityKind.TAILOR );
-  private final VedEntityManagerEdit<IVedActor>     emActors  = new VedEntityManagerEdit<>( EVedEntityKind.ACTOR );
+  private final IVedEnvironment                     vedEnv;
+  private final VedEntityManagerEdit<IVedComponent> emComps;
+  private final VedEntityManagerEdit<IVedTailor>    emTailors;
+  private final VedEntityManagerEdit<IVedActor>     emActors;
 
   private final GenericChangeEventer genericChangeEventer;
   private final PropertiesSet        props;
 
   /**
    * Constructor.
+   *
+   * @param aVedEnv {@link IVedEnvironment} ----- surroundinge VED environment
    */
-  public VedDocumentEdit() {
+  public VedDocumentEdit( IVedEnvironment aVedEnv ) {
+    vedEnv = TsNullArgumentRtException.checkNull( aVedEnv );
+    emComps = new VedEntityManagerEdit<>( EVedEntityKind.COMPONENT, vedEnv );
+    emTailors = new VedEntityManagerEdit<>( EVedEntityKind.TAILOR, vedEnv );
+    emActors = new VedEntityManagerEdit<>( EVedEntityKind.ACTOR, vedEnv );
     genericChangeEventer = new GenericChangeEventer( this );
     props = new PropertiesSet( VED_DOCUMENT_PROP_DEFS );
     props.propsEventer().addListener( ( src, pId, oldVal, newVal ) -> genericChangeEventer.fireChangeEvent() );

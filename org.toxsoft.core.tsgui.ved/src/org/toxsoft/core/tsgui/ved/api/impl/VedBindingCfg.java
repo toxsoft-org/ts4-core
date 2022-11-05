@@ -29,7 +29,7 @@ public class VedBindingCfg
         protected void doWrite( IStrioWriter aSw, IVedBindingCfg aEntity ) {
           aSw.writeAsIs( aEntity.id() );
           aSw.writeSeparatorChar();
-          aSw.writeAsIs( aEntity.bindingProviderId() );
+          aSw.writeAsIs( aEntity.providerId() );
           aSw.writeSeparatorChar();
           aSw.writeAsIs( aEntity.componentId() );
           aSw.writeSeparatorChar();
@@ -57,7 +57,6 @@ public class VedBindingCfg
         }
       };
 
-  private final String bindingProviderId;
   private final String componentId;
   private final String propertyId;
 
@@ -75,8 +74,7 @@ public class VedBindingCfg
    */
   public VedBindingCfg( String aId, String aProviderId, String aCompId, String aPropId, IOptionSet aProps,
       IOptionSet aExtData ) {
-    super( aId, aProps, aExtData );
-    bindingProviderId = StridUtils.checkValidIdPath( aProviderId );
+    super( aId, aProviderId, aProps, aExtData );
     componentId = StridUtils.checkValidIdPath( aCompId );
     propertyId = StridUtils.checkValidIdPath( aPropId );
   }
@@ -97,11 +95,6 @@ public class VedBindingCfg
   // ------------------------------------------------------------------------------------
   // IVedBindingCfg
   //
-
-  @Override
-  public String bindingProviderId() {
-    return bindingProviderId;
-  }
 
   @Override
   public String componentId() {
