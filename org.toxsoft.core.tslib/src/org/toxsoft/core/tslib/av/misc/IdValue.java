@@ -119,9 +119,12 @@ public final class IdValue
    * Existing options will be overwritten. Options not listed in <code>aIdvals</code> will remain intact.
    *
    * @param aIdvals {@link ITsCollection}&lt;{@link IdValue}&gt; - named values collection
-   * @param aOps
+   * @param aOps {@link IOptionSetEdit}
    */
   public static void fillOptionSetFromIdValuesColl( ITsCollection<IdValue> aIdvals, IOptionSetEdit aOps ) {
+
+    // TODO реализовать IdValue.fillOptionSetFromIdValuesColl()
+    throw new TsUnderDevelopmentRtException( "IdValue.fillOptionSetFromIdValuesColl()" );
 
   }
 

@@ -5,12 +5,12 @@ import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 import static org.toxsoft.core.tslib.bricks.strio.impl.ITsResources.*;
 import static org.toxsoft.core.tslib.bricks.strio.impl.StrioUtils.*;
 
-import java.util.Calendar;
+import java.util.*;
 
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
-import org.toxsoft.core.tslib.bricks.strio.chario.ICharInputStream;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
+import org.toxsoft.core.tslib.bricks.strio.chario.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -471,7 +471,7 @@ public class StrioReader
     else {
       retVal = readDecUint( ch, isNegative );
     }
-    if( isNegative == false ) {
+    if( !isNegative ) {
       retVal = -retVal;
     }
     return retVal;
@@ -497,10 +497,12 @@ public class StrioReader
     return Float.parseFloat( readUntilDelimiter() );
   }
 
+  // TODO TRANSLATE
+
   private String readStringForDouble( EStrioSkipMode aSkipMode ) {
     tokenBuilder.setLength( 0 );
     char ch = nextChar( aSkipMode );
-    if( ch == '-' ) { // необязательный унарный минус
+    if( ch == '-' ) { // optiona unary minus
       tokenBuilder.append( ch );
       ch = nextChar();
     }

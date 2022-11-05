@@ -40,8 +40,9 @@ public interface IStridable {
   /**
    * Identifier having no corresponding entity.
    * <p>
-   * Is used for None special case instances. Such instances are just programmatic implementation (instead of
-   * <code>null</code>) of absence of entity.
+   * Used for None special case instances. Such instances are just programmatic implementation (instead of
+   * <code>null</code>) of absence of entity. Also may be used as ID of the <code>enum</code>s with meanone of none,
+   * nothine, absence of something, etc.
    */
   String NONE_ID = "__none__"; //$NON-NLS-1$
 
