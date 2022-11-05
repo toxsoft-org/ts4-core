@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.graphics.patterns;
 
+import static org.toxsoft.core.tsgui.graphics.patterns.ITsResources.*;
+
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.std.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
@@ -17,22 +19,22 @@ public enum EGradientType
   /**
    * Линейный градиент
    */
-  NONE( "noneGradient", "не градиент", "не градиент" ),
+  NONE( "noneGradient", STR_D_GRADIENT_NONE, STR_N_GRADIENT_NONE ), //$NON-NLS-1$
 
   /**
    * Линейный градиент
    */
-  LINEAR( "linearGradient", "линейный градиент", "линейниый" ),
+  LINEAR( "linearGradient", STR_D_GRADIENT_LINEAR, STR_N_GRADIENT_LINEAR ), //$NON-NLS-1$
 
   /**
    * Радиальный градиент
    */
-  RADIAL( "radialGradient", "радиальный градиент", "радиальный" ),
+  RADIAL( "radialGradient", STR_D_GRADIENT_RADIAL, STR_N_GRADIENT_RADIAL ), //$NON-NLS-1$
 
   /**
    * Цилиндрический градиент
    */
-  CYLINDER( "cylinder", "цилиндрический градиент", "цилиндрический" );
+  CYLINDER( "cylinder", STR_D_GRADIENT_CYLINDER, STR_N_GRADIENT_CYLINDER ); //$NON-NLS-1$
 
   /**
    * Экземпляр-синглтон хранителя.
