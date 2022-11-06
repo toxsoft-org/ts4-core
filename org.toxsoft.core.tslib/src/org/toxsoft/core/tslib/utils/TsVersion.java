@@ -237,6 +237,23 @@ public final class TsVersion
   }
 
   /**
+   * Creates and returns version number string.
+   * <p>
+   * Returned string format is part of the API. String has format like "1.3", that is formatted as <br>
+   * <b><tt>Formatter.format("%d.%d", verMajor, verMinor);</tt> </b>
+   *
+   * @param aVersion {@link TsVersion} - the version
+   * @return String - version string, like "1.3"
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static String getVersionNumber( TsVersion aVersion ) {
+    TsNullArgumentRtException.checkNull( aVersion );
+    Integer vMaj = Integer.valueOf( aVersion.verMajor() );
+    Integer vMin = Integer.valueOf( aVersion.verMinor() );
+    return String.format( "%d.%d", vMaj, vMin ); //$NON-NLS-1$
+  }
+
+  /**
    * Creates {@link TsVersion} instance from the string of format "1.0. 2022-12-31 23:59:59".
    *
    * @param aVerString String - formatted version string
