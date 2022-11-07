@@ -32,7 +32,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class QuantTsGui
     extends AbstractQuant {
 
-  private ITsImageManager imageManager = null;
+  private ITsImageManager    imageManager = null;
   private TsGuiTimersService timerService = null;
 
   /**
@@ -64,6 +64,7 @@ public class QuantTsGui
     ITsGuiContext ctx1 = new TsGuiContext( aWinContext );
     // HERE may set up timer service periods
     timerService = new TsGuiTimersService( ctx1 );
+    aWinContext.set( ITsGuiTimersService.class, timerService );
     aWinContext.set( ITsColorManager.class, new TsColorManager( display ) );
     aWinContext.set( ITsFontManager.class, new TsFontManager( display ) );
     aWinContext.set( ITsCursorManager.class, new TsCursorManager( aWinContext ) );
