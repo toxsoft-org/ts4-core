@@ -19,8 +19,8 @@ import org.toxsoft.core.tslib.utils.logs.impl.*;
 public class TsGuiTimersService
     implements ITsGuiTimersService, ICloseable {
 
-  private static final String THREAD_NAME_QUICK_TIMER = "TsTimerService.QuickTimerThread"; //$NON-NLS-1$
-  private static final String THREAD_NAME_SLOW_TIMER  = "TsTimerService.SlowTimerThread";  //$NON-NLS-1$
+  private static final String THREAD_NAME_QUICK_TIMER = "TsGuiTimerService.QuickTimerThread"; //$NON-NLS-1$
+  private static final String THREAD_NAME_SLOW_TIMER  = "TsGuiTimerService.SlowTimerThread";  //$NON-NLS-1$
 
   private static final IntRange  GRANULARITY_RATIO_RANGE = new IntRange( 2, 100 );
   private static final LongRange QUICK_PERIOD_RANGE      = new LongRange( 10, 299 );
@@ -96,6 +96,7 @@ public class TsGuiTimersService
           long time = System.currentTimeMillis();
           while( time - lastRunFinishedAtTime < period ) {
             sleep( sleepPeriod );
+            time = System.currentTimeMillis();
           }
           try {
             display.syncExec( runnable );
