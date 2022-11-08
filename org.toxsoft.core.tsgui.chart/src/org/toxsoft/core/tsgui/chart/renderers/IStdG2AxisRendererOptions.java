@@ -2,6 +2,7 @@ package org.toxsoft.core.tsgui.chart.renderers;
 
 import static org.toxsoft.core.tsgui.chart.renderers.IG2Resources.*;
 import static org.toxsoft.core.tslib.av.EAtomicType.*;
+import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.toxsoft.core.tsgui.chart.api.*;
@@ -61,7 +62,7 @@ public interface IStdG2AxisRendererOptions {
       TSID_NAME, STR_N_BACKGROUND_RENDERER_OPS, //
       TSID_DESCRIPTION, STR_D_BACKGROUND_RENDERER_OPS, //
       TSID_KEEPER_ID, OptionSetKeeper.KEEPER_ID, //
-      TSID_DEFAULT_VALUE, IOptionSet.NULL //
+      TSID_DEFAULT_VALUE, avValobj( new OptionSet() ) //
   );
   // IFimbedOptionInfo<IOptionSet> BACKGROUND_RENDERER_OPS =
   // new FimbedOptionInfo<>( IStdG2AxisRendererOptions.class.getSimpleName() + ".BackgroundOps", //$NON-NLS-1$
@@ -92,7 +93,7 @@ public interface IStdG2AxisRendererOptions {
       TSID_NAME, STR_N_MARKING_RENDERER_OPS, //
       TSID_DESCRIPTION, STR_D_MARKING_RENDERER_OPS, //
       TSID_KEEPER_ID, OptionSetKeeper.KEEPER_ID, //
-      TSID_DEFAULT_VALUE, IOptionSet.NULL //
+      TSID_DEFAULT_VALUE, avValobj( new OptionSet() ) //
   );
   // IFimbedOptionInfo<IOptionSet> MARKING_RENDERER_OPS =
   // new FimbedOptionInfo<>( IStdG2AxisRendererOptions.class.getSimpleName() + ".MarkingOps", //$NON-NLS-1$
@@ -123,7 +124,7 @@ public interface IStdG2AxisRendererOptions {
       TSID_NAME, STR_N_ANNOTATION_RENDERER_OPS, //
       TSID_DESCRIPTION, STR_D_ANNOTATION_RENDERER_OPS, //
       TSID_KEEPER_ID, OptionSetKeeper.KEEPER_ID, //
-      TSID_DEFAULT_VALUE, IOptionSet.NULL //
+      TSID_DEFAULT_VALUE, avValobj( new OptionSet() ) //
   );
   // IFimbedOptionInfo<IOptionSet> ANNOTATION_RENDERER_OPS =
   // new FimbedOptionInfo<>( IStdG2AxisRendererOptions.class.getSimpleName() + ".AnnotationOps", //$NON-NLS-1$
