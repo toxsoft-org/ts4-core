@@ -25,7 +25,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public final class G2Chart
     implements IG2Chart {
 
-  IXAxisDef xAxisInfo = new XAxisDef();
+  IXAxisDef xAxisInfo = null;
   Canvas    backplane = null;
 
   private final AbstractG2Layout        layout;
@@ -54,8 +54,9 @@ public final class G2Chart
   public G2Chart( IG2Layout aLayout, ITsGuiContext aContext ) {
     layout = (AbstractG2Layout)aLayout;
     renderer = new G2ChartRenderer( layout, aContext );
+    xAxisInfo = new XAxisDef( aContext );
 
-    G2Params g2p = new G2Params( IStdG2VisirRendererOptions.CONSUMER_NAME );
+    G2Params g2p = new G2Params( IStdG2VisirRendererOptions.CONSUMER_NAME, aContext );
     visir = new StdVisir( g2p, this );
     visir.setVisible( false );
 

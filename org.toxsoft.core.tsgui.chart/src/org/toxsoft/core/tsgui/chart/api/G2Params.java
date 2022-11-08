@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.chart.api;
 
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.utils.*;
@@ -19,6 +20,7 @@ public class G2Params
 
   private final String         consumerClassName;
   private final IOptionSetEdit params = new OptionSet();
+  private final ITsGuiContext  context;
 
   /**
    * Конструктор с единственным инвариантом.<br>
@@ -27,12 +29,14 @@ public class G2Params
    * параметром - {@link IOptionSet}
    *
    * @param aConsumerClassName String - имя класса-потребителя настроечных параметров
+   * @param aContext {@link ITsGuiContext } - контекст приложения
    * @throws TsNullArgumentRtException аргумент = null
    * @throws TsIllegalArgumentRtException аргумент пустая строка
    */
-  public G2Params( String aConsumerClassName ) {
+  public G2Params( String aConsumerClassName, ITsGuiContext aContext ) {
     TsErrorUtils.checkNonEmpty( aConsumerClassName );
     consumerClassName = aConsumerClassName;
+    context = aContext;
   }
 
   // ------------------------------------------------------------------------------------
@@ -78,6 +82,11 @@ public class G2Params
     result = TsLibUtils.PRIME * result + consumerClassName.hashCode();
     result = TsLibUtils.PRIME * result + params.hashCode();
     return result;
+  }
+
+  @Override
+  public ITsGuiContext сontext() {
+    return context;
   }
 
 }

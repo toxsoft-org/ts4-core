@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.chart.api;
 
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tslib.av.opset.*;
 
 /**
@@ -23,10 +24,15 @@ public interface IG2Params {
    * Возвращает настроечные параметры.
    * <p>
    * Предполагается, что параметры "населяются" значениями с использованием паттернов {@link IAtomicOptionInfo} и
-   * {@link IFimbedOptionInfo}.
    *
    * @return {@link IOptionSet} - настроечные параметры
    */
   IOptionSet params();
 
+  /**
+   * dima 08.11.22 Возвращает контекст приложения
+   *
+   * @return {@link ITsGuiContext} - настроечные параметры
+   */
+  ITsGuiContext сontext();
 }

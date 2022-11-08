@@ -281,7 +281,8 @@ class StdChartLayout
     try {
       gc = new GC( Display.getCurrent() );
       // создадим полотно для рисования графиков
-      IG2Params g2p = G2ChartUtils.createParams( IStdG2CanvasRendererOptions.CONSUMER_NAME, IOptionSet.NULL );
+      IG2Params g2p =
+          G2ChartUtils.createParams( IStdG2CanvasRendererOptions.CONSUMER_NAME, IOptionSet.NULL, guiContext );
       chartCanvas = new G2Canvas( MAIN_CANVAS_ID, TsLibUtils.EMPTY_STRING, g2p, guiContext );
       canvases.add( chartCanvas );
       areas.add( chartCanvas );
