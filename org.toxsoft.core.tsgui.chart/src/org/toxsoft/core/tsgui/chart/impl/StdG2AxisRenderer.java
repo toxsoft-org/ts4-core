@@ -38,15 +38,16 @@ public class StdG2AxisRenderer
     super( aContext );
 
     IOptionSet opSet = BACKGROUND_RENDERER_OPS.getValue( aParams ).asValobj();
-    IG2Params g2Params = G2ChartUtils.createParams( BACKGROUND_RENDERER_CLASS.getValue( aParams ).asString(), opSet );
+    IG2Params g2Params =
+        G2ChartUtils.createParams( BACKGROUND_RENDERER_CLASS.getValue( aParams ).asString(), opSet, aContext );
     bkRenderer = (IBackgroundRenderer)G2ChartUtils.createObject( g2Params );
 
     opSet = MARKING_RENDERER_OPS.getValue( aParams ).asValobj();
-    g2Params = G2ChartUtils.createParams( MARKING_RENDERER_CLASS.getValue( aParams ).asString(), opSet );
+    g2Params = G2ChartUtils.createParams( MARKING_RENDERER_CLASS.getValue( aParams ).asString(), opSet, aContext );
     markingRenderer = (IAxisMarkingRenderer)G2ChartUtils.createObject( g2Params );
 
     opSet = ANNOTATION_RENDERER_OPS.getValue( aParams ).asValobj();
-    g2Params = G2ChartUtils.createParams( ANNOTATION_RENDERER_CLASS.getValue( aParams ).asString(), opSet );
+    g2Params = G2ChartUtils.createParams( ANNOTATION_RENDERER_CLASS.getValue( aParams ).asString(), opSet, aContext );
     annotationRenderer = (IAxisAnnotationRenderer)G2ChartUtils.createObject( g2Params );
   }
 

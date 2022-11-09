@@ -3,6 +3,7 @@ package org.toxsoft.core.tsgui.chart.impl;
 import static org.toxsoft.core.tsgui.chart.renderers.IGradientBackgroundRendererOptions.*;
 
 import org.eclipse.swt.graphics.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.chart.renderers.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
@@ -25,16 +26,17 @@ public final class GradientBackgroundRenderer
   /**
    * Конструктор с параметрами настройки.
    *
-   * @param aOpSet IOptionSet - параметры настройки
-   * @param aColorManager ITsColorManager - менеджер цветов
+   * @param aOpSet {@link IOptionSet} - параметры настройки
+   * @param aContext {@link ITsGuiContext } - контекст приложения
    */
-  GradientBackgroundRenderer( IOptionSet aOpSet, ITsColorManager aColorManager ) {
+  GradientBackgroundRenderer( IOptionSet aOpSet, ITsGuiContext aContext ) {
+    ITsColorManager colorManager = aContext.get( ITsColorManager.class );
     horizontal = HORIZONTAL.getValue( aOpSet ).asBool();
     RGBA rgba;
     rgba = IGradientBackgroundRendererOptions.START_COLOR.getValue( aOpSet ).asValobj();
-    startColor = aColorManager.getColor( rgba.rgb );
+    startColor = colorManager.getColor( rgba.rgb );
     rgba = IGradientBackgroundRendererOptions.END_COLOR.getValue( aOpSet ).asValobj();
-    endColor = aColorManager.getColor( rgba.rgb );
+    endColor = colorManager.getColor( rgba.rgb );
   }
 
   // -------------------------------------------------------------------------

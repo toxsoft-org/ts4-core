@@ -2,6 +2,7 @@ package org.toxsoft.core.tsgui.chart.impl;
 
 import static org.toxsoft.core.tsgui.chart.api.ETimeUnit.*;
 
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.chart.api.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.time.*;
@@ -28,13 +29,15 @@ class XAxisDef
 
   /**
    * Конструктор, создающий объект с полями по умолчанию.
+   *
+   * @param aContext контекст приложения
    */
-  XAxisDef() {
+  XAxisDef( ITsGuiContext aContext ) {
     long now = System.currentTimeMillis();
     initialTimeInterval = new TimeInterval( now - 3600L * 1000L, now );
     allowedTimeUnits.addAll( SEC01, MIN10 ); // TODO задать что-то более осмысленное
     axisMarking = new AxisMarkingDef();
-    rendererParams = new G2Params( StdG2AxisRenderer.class.getName() );
+    rendererParams = new G2Params( StdG2AxisRenderer.class.getName(), aContext );
     // G2Params annoParams = new G2Params( IStdG2TimeAxisAnnotationRendererOptions.CONSUMER_NAME );
     // IAtomicValue arClass = DvUtils.dvStr( IStdG2TimeAxisAnnotationRendererOptions.CONSUMER_NAME );
     // IStdG2TimeAxisAnnotationRendererOptions.ANNOTATION_RENDERER_CLASS.setValue(

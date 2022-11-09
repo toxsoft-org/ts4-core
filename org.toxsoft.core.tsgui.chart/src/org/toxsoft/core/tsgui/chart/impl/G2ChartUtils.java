@@ -8,6 +8,7 @@ import org.toxsoft.core.tsgui.chart.api.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.time.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * Вспомогательные методы работы с модулем графиков.
@@ -26,8 +27,16 @@ public class G2ChartUtils {
     return new G2Chart( G2LayoutUtils.createDefaultChartLayout( aContext ), aContext );
   }
 
-  public static IG2Params createParams( String aConsumerClassName, IOptionSet aParams ) {
-    G2Params g2params = new G2Params( aConsumerClassName );
+  /**
+   * Созлдает набор настроечных параметров
+   *
+   * @param aConsumerClassName класс потребителя
+   * @param aParams начльные значения
+   * @param aContext контекст приложения
+   * @return набор настроечных параметров
+   */
+  public static IG2Params createParams( String aConsumerClassName, IOptionSet aParams, ITsGuiContext aContext ) {
+    G2Params g2params = new G2Params( aConsumerClassName, aContext );
     g2params.params().addAll( aParams );
     return g2params;
   }
@@ -35,26 +44,38 @@ public class G2ChartUtils {
   /**
    * Создает объект по имени класса и набору опций, которые ранее были установлены.<br>
    * <b>На заметку:</b><br>
-   * Объект создается путем вызова конструктора класса с единственным параметром {@link IOptionSet}
+   * Объект создается путем вызова конструктора класса с параметрами {@link IOptionSet} и {@link ITsGuiContext}
    *
+   * @param aParams {@link IG2Params} - набор опций
    * @return Object - созданный объект или null в случае неудачи
    */
+  @SuppressWarnings( { "rawtypes", "unchecked" } )
   public static Object createObject( IG2Params aParams ) {
     try {
       Class clazz = Class.forName( aParams.consumerName() );
-      Constructor constructor = clazz.getDeclaredConstructor( IOptionSet.class );
+      // dima, 08.11.22 ищем конструктор с двумя параметрами IOptionSet и ITsGuiContext
+      Constructor constructor = clazz.getDeclaredConstructor( IOptionSet.class, ITsGuiContext.class );
       constructor.setAccessible( true );
-      return constructor.newInstance( aParams.params() );
+      return constructor.newInstance( aParams.params(), aParams.сontext() );
     }
     catch( Throwable ex ) {
-      ex.printStackTrace();
+      try {
+        Class clazz = Class.forName( aParams.consumerName() );
+        Constructor constructor = clazz.getDeclaredConstructor( IOptionSet.class );
+        constructor.setAccessible( true );
+        return constructor.newInstance( aParams.params() );
+      }
+      catch( Throwable ex2 ) {
+        LoggerUtils.errorLogger().error( ex2 );
+      }
     }
     return null;
   }
 
-  public static IXAxisDef createXAxisDef() {
-    return new XAxisDef();
-  }
+  // dima 08.11.22 не могу создать без ITsGuiContext
+  // public static IXAxisDef createXAxisDef() {
+  // return new XAxisDef();
+  // }
 
   public static IXAxisDef createXAxisDef( IG2Params aRendererParams ) {
     return new XAxisDef( aRendererParams );
@@ -69,9 +90,10 @@ public class G2ChartUtils {
     return new XAxisDef( aRendererParams, aStartTime, aEndTime, aTimeUnit, aMarking );
   }
 
-  public static IYAxisDef createYAxisDef( String aId, String aDescription, String aName ) {
-    return new YAxisDef( aId, aDescription, aName );
-  }
+  // dima 08.11.22 не могу создать без ITsGuiContext
+  // public static IYAxisDef createYAxisDef( String aId, String aDescription, String aName ) {
+  // return new YAxisDef( aId, aDescription, aName );
+  // }
 
   public static IYAxisDef createYAxisDef( String aId, String aDescription, String aName, IG2Params aParams ) {
     return new YAxisDef( aId, aDescription, aName, aParams );

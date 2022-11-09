@@ -7,7 +7,6 @@ import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.chart.api.*;
 import org.toxsoft.core.tsgui.graphics.*;
-import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.opset.*;
@@ -40,7 +39,9 @@ public class G2StateAxisAnnotationRenderer
 
     valueFormat = ANNOTATION_FORMAT.getValue( aOptions ).asString();
     indent = ANNOTATION_INDENT.getValue( aOptions ).asInt();
-    color = colorManager().getColor( ITsColorManager.int2rgb( TEXT_COLOR.getValue( aOptions ).asInt() ) );
+    // color = colorManager().getColor( ITsColorManager.int2rgb( TEXT_COLOR.getValue( aOptions ).asInt() ) );
+    RGBA rgba = TEXT_COLOR.getValue( aOptions ).asValobj();
+    color = colorManager().getColor( rgba.rgb );
     font = fontManager().getFont( FONT_INFO.getValue( aOptions ).asValobj() );
     names = TICK_NAMES.getValue( aOptions ).asValobj();
   }

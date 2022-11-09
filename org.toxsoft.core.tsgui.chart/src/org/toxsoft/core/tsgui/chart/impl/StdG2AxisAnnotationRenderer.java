@@ -8,7 +8,6 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.chart.api.*;
 import org.toxsoft.core.tsgui.chart.legaсy.*;
 import org.toxsoft.core.tsgui.graphics.*;
-import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.fonts.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tslib.av.*;
@@ -60,12 +59,16 @@ public class StdG2AxisAnnotationRenderer
     valueFormat = ANNOTATION_FORMAT.getValue( aOptions ).asString();
 
     indent = ANNOTATION_INDENT.getValue( aOptions ).asInt();
-    color = colorManager().getColor( ITsColorManager.int2rgb( TEXT_COLOR.getValue( aOptions ).asInt() ) );
+    // color = colorManager().getColor( ITsColorManager.int2rgb( TEXT_COLOR.getValue( aOptions ).asInt() ) );
+    RGBA rgba = TEXT_COLOR.getValue( aOptions ).asValobj();
+    color = colorManager().getColor( rgba.rgb );
     font = fontManager().getFont( FONT_INFO.getValue( aOptions ).asValobj() );
     title = TITLE.getValue( aOptions ).asString();
     titleFontInfo = TITLE_FONT_INFO.getValue( aOptions ).asValobj();
     titleFont = fontManager().getFont( titleFontInfo );
-    titleColor = colorManager().getColor( ITsColorManager.int2rgb( TITLE_COLOR.getValue( aOptions ).asInt() ) );
+    // titleColor = colorManager().getColor( ITsColorManager.int2rgb( TITLE_COLOR.getValue( aOptions ).asInt() ) );
+    rgba = TITLE_COLOR.getValue( aOptions ).asValobj();
+    titleColor = colorManager().getColor( rgba.rgb );
     orientation = TITLE_ORIENTATION.getValue( aOptions ).asValobj();
 
     // if( ETsOrientation.findByIdOrNull( TITLE_ORIENTATION.getValue( aOptions ).asString() ) != null ) {

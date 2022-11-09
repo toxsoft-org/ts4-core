@@ -48,7 +48,7 @@ public class StdG2CanvasRenderer
     // String grClassName = GRID_RENDERER_CLASS.getValue( aOptions ).asString();
     // IG2Params grParams = G2ChartUtils.createParams( grClassName, GRID_RENDERER_OPS.getValue( aOptions ) );
     String grClassName = StdG2GridRenderer.class.getName();
-    IG2Params grParams = G2ChartUtils.createParams( grClassName, IOptionSet.NULL );
+    IG2Params grParams = G2ChartUtils.createParams( grClassName, IOptionSet.NULL, aContext );
     gridRenderer = (IG2GridRenderer)G2ChartUtils.createObject( grParams );
   }
 

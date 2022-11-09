@@ -37,15 +37,16 @@ class YAxisDef
    * @param aDescription String - описание сущности
    * @param aName String - удобочитаемое имя сущности
    */
-  YAxisDef( String aId, String aDescription, String aName ) {
-    super( aId, aDescription, aName );
-    valueType = EAtomicType.FLOATING;
-    axisMarking = new AxisMarkingDef();
-    initialStartValue = AvUtils.avFloat( 0 );
-    initialEndValue = AvUtils.avFloat( 100 );
-    initialUnitValue = AvUtils.avFloat( 10 );
-    rendererParams = new G2Params( StdG2AxisRenderer.class.getName() );
-  }
+  // dima 08.11.22 без контекста не работаем
+  // YAxisDef( String aId, String aDescription, String aName ) {
+  // super( aId, aDescription, aName );
+  // valueType = EAtomicType.FLOATING;
+  // axisMarking = new AxisMarkingDef();
+  // initialStartValue = AvUtils.avFloat( 0 );
+  // initialEndValue = AvUtils.avFloat( 100 );
+  // initialUnitValue = AvUtils.avFloat( 10 );
+  // rendererParams = new G2Params( StdG2AxisRenderer.class.getName() );
+  // }
 
   YAxisDef( String aId, String aDescription, String aName, IG2Params aParams ) {
     super( aId, aDescription, aName );
