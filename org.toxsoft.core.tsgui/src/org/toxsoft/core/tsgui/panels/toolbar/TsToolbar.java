@@ -158,7 +158,9 @@ public class TsToolbar
   }
 
   private void internalClearAll() {
-    tbManager.removeAll();
+    if( tbManager != null ) {
+      tbManager.removeAll();
+    }
     actionsMap.clear();
     allActionDefs.clear();
     buttonActDefs.clear();
@@ -407,7 +409,9 @@ public class TsToolbar
     for( ITsActionDef d : aActionDefs ) {
       addActionDef( d );
     }
-    tbManager.update( true );
+    if( tbManager != null ) {
+      tbManager.update( true );
+    }
   }
 
   @Override

@@ -14,6 +14,7 @@ import org.toxsoft.core.tsgui.bricks.actions.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
+import org.toxsoft.core.tsgui.mws.services.hdpi.*;
 import org.toxsoft.core.tsgui.panels.toolbar.*;
 import org.toxsoft.core.tsgui.utils.swt.*;
 import org.toxsoft.core.tslib.coll.*;
@@ -21,26 +22,24 @@ import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Создатель выпадающего меню к действию {@link #AI_THUMB_SIZEABLE_ZOOM_MENU}.
+ * Creates thumb size selection drop-down menu for the action {@link #AI_THUMB_SIZEABLE_ZOOM_MENU}.
  * <p>
- * Испольльзование:
+ * Usage:
  * <ul>
- * <li>добавить в тулбар действие {@link #AI_THUMB_SIZEABLE_ZOOM_MENU};</li>
- * <li>создать экземпляр класса
+ * <li>add the action {@link #AI_THUMB_SIZEABLE_ZOOM_MENU} to the toolbar;</li>
+ * <li>create instance of thei class
  * <code>IMenuCreator thumbSizeMenuCreator = new ThumbSizeableExZoomDropDownMenuCreator(...)</code>;</li>
- * <li>задать меню к действию методом {@link TsToolbar#setActionMenu(String, IMenuCreator) toolbar.setActionMenu(
+ * <li>add menu to the action by the method {@link TsToolbar#setActionMenu(String, IMenuCreator) toolbar.setActionMenu(
  * AID_THUMB_SIZEABLE_ZOOM_MENU, thumbSizeMenuCreator )};</li>
- * <li>в обработчике тулбара {@link ITsToolbarListener#onToolButtonPressed(String)} обработать действие
- * #AID_THUMB_SIZEABLE_ZOOM_MENU} установку размера по умолчаню методом {@link IThumbSizeable#setThumbSize(EThumbSize)
+ * <li>in the toolbar handler {@link ITsToolbarListener#onToolButtonPressed(String)} handle action with ID
+ * #AID_THUMB_SIZEABLE_ZOOM_MENU} by setting default thumb size {@link IThumbSizeable#setThumbSize(EThumbSize)
  * src.setThumbSize( src.defaultThumbSize() )}.</li>
  * </ul>
  * <p>
- * Внимание: размер по умолчанию управляемой сущности {@link IThumbSizeable#defaultThumbSize()} должен находится в
- * списке {@link #getAvailableThumbSizes()}. Иначе поведение при масштабировании "больше"/"меньше" окажется странным.
- * Например, если размер по умолчанию меньше минимально допустимого, то уменьшение размера приведет к его увеличению (до
- * наименьшего из {@link #getAvailableThumbSizes()}).
+ * Note: default size {@link IThumbSizeable#defaultThumbSize()} should be in the lsit {@link #getAvailableThumbSizes()}
+ * otherwise behavior will be undefined.
  *
- * @author goga
+ * @author hazrard157
  */
 public class ThumbSizeableDropDownMenuCreator
     extends AbstractMenuCreator {
@@ -59,6 +58,8 @@ public class ThumbSizeableDropDownMenuCreator
    * ID of action {@link #AI_THUMB_SIZEABLE_ZOOM_OUT}.
    */
   public static final String AID_THUMB_SIZEABLE_ZOOM_OUT = AID_THUMB_SIZEABLE_ZOOM_MENU + ".ZoomOut"; //$NON-NLS-1$
+
+  // TODO TRANSLATE
 
   /**
    * Действие с выпадающим меню для управления размером значка {@link IThumbSizeable}.
@@ -96,18 +97,38 @@ public class ThumbSizeableDropDownMenuCreator
    *
    * @param aSubject {@link IThumbSizeable} - управляемая сущность
    * @param aContext {@link ITsGuiContext} - the context
-   * @param aMenuIconSize {@link EIconSize} - размер значков в выпадающем меню
+   * @param aMenuIconSize {@link EIconSize} - menu icons size or <code>null</code> for ts default size
    * @param aMinThumbSize {@link EThumbSize} - минимальныо допустимый размер миниатюры
    * @param aMaxThumbSize {@link EThumbSize} - максимальныо допустимый размер миниатюры
    * @throws TsNullArgumentRtException любой аргумент = null
    */
   public ThumbSizeableDropDownMenuCreator( IThumbSizeable aSubject, ITsGuiContext aContext, EIconSize aMenuIconSize,
       EThumbSize aMinThumbSize, EThumbSize aMaxThumbSize ) {
-    TsNullArgumentRtException.checkNulls( aSubject, aContext, aMenuIconSize, aMinThumbSize, aMaxThumbSize );
+    TsNullArgumentRtException.checkNulls( aSubject, aContext, aMinThumbSize, aMaxThumbSize );
     subject = aSubject;
     iconManager = aContext.get( ITsIconManager.class );
-    menuIconSize = aMenuIconSize;
+    if( aMenuIconSize != null ) {
+      menuIconSize = aMenuIconSize;
+    }
+    else {
+      ITsHdpiService hdpiService = aContext.get( ITsHdpiService.class );
+      menuIconSize = hdpiService.getMenuIconsSize();
+    }
     setAvalaiableThumbSizesRange( aMinThumbSize, aMaxThumbSize );
+  }
+
+  /**
+   * Конструктор.
+   *
+   * @param aSubject {@link IThumbSizeable} - управляемая сущность
+   * @param aContext {@link ITsGuiContext} - the context
+   * @param aMinThumbSize {@link EThumbSize} - минимальныо допустимый размер миниатюры
+   * @param aMaxThumbSize {@link EThumbSize} - максимальныо допустимый размер миниатюры
+   * @throws TsNullArgumentRtException любой аргумент = null
+   */
+  public ThumbSizeableDropDownMenuCreator( IThumbSizeable aSubject, ITsGuiContext aContext, EThumbSize aMinThumbSize,
+      EThumbSize aMaxThumbSize ) {
+    this( aSubject, aContext, null, aMinThumbSize, aMaxThumbSize );
   }
 
   /**
@@ -118,7 +139,7 @@ public class ThumbSizeableDropDownMenuCreator
    * @throws TsNullArgumentRtException любой аргумент = null
    */
   public ThumbSizeableDropDownMenuCreator( IThumbSizeable aSubject, ITsGuiContext aContext ) {
-    this( aSubject, aContext, EIconSize.IS_16X16, EThumbSize.minSize(), EThumbSize.maxSize() );
+    this( aSubject, aContext, null, EThumbSize.minSize(), EThumbSize.maxSize() );
   }
 
   // ------------------------------------------------------------------------------------

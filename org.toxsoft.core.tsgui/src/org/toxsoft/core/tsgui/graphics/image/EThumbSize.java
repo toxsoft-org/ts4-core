@@ -3,15 +3,14 @@ package org.toxsoft.core.tsgui.graphics.image;
 import static org.toxsoft.core.tsgui.graphics.image.IThumbSizeConstants.*;
 import static org.toxsoft.core.tsgui.graphics.image.ITsResources.*;
 
-import org.toxsoft.core.tsgui.graphics.icons.EIconSize;
-import org.toxsoft.core.tslib.bricks.geometry.ITsPoint;
-import org.toxsoft.core.tslib.bricks.geometry.impl.TsPoint;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.std.StridableEnumKeeper;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesListEdit;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.StridablesList;
+import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.bricks.geometry.impl.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.std.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -42,12 +41,12 @@ public enum EThumbSize
   ;
 
   /**
-   * Keeper ID.
+   * The registered keeper ID.
    */
   public static final String KEEPER_ID = "EThumbSize"; //$NON-NLS-1$
 
   /**
-   * Keeper singleton.
+   * The keeper singleton.
    */
   public static final IEntityKeeper<EThumbSize> KEEPER = new StridableEnumKeeper<>( EThumbSize.class );
 
@@ -59,17 +58,6 @@ public enum EThumbSize
   private final int      size;
   private final ITsPoint pointSize;
 
-  // private final int height16_9;
-  // private final int height16_10;
-  // private final int height4_3;
-  // private final int height5_4; // DVD 720x576
-
-  /**
-   * Создает константу со всеми инвариантами.
-   *
-   * @param aId String - идентифицирующее название константы
-   * @param aSize int - размер значка в пикселях
-   */
   EThumbSize( String aId, int aSize ) {
     id = aId;
     size = aSize;
@@ -77,10 +65,6 @@ public enum EThumbSize
     name = String.format( FMT_N_THUMB_SIZE, sz, sz );
     description = String.format( FMT_D_THUMB_SIZE, sz, sz );
     pointSize = new TsPoint( aSize, aSize );
-    // height16_10 = aSize * 10 / 16;
-    // height16_9 = aSize * 9 / 16;
-    // height4_3 = aSize * 3 / 4;
-    // height5_4 = aSize * 4 / 5;
   }
 
   // --------------------------------------------------------------------------
@@ -107,18 +91,20 @@ public enum EThumbSize
   //
 
   /**
-   * Возвращает размер значка в пикселях.
+   * Returns the thumb size in pixels.
    *
-   * @return int - размер значка в пикселях
+   * @return int - Returns the thumb size in pixels
    */
   public int size() {
     return size;
   }
 
+  // TODO TRANSLATE
+
   /**
-   * Возвращает размер значка в виде {@link ITsPoint}.
+   * Возвращает размер миниатюры в виде {@link ITsPoint}.
    *
-   * @return int - размер значка в виде {@link ITsPoint}
+   * @return int - размер миниатюры в виде {@link ITsPoint}
    */
   public ITsPoint pointSize() {
     return pointSize;
@@ -208,42 +194,6 @@ public enum EThumbSize
     return values()[values().length - 1];
   }
 
-  // /**
-  // * Возвращает высоту, соответствующей соотношению сторон 16:10.
-  // *
-  // * @return int - выстоа для соотношения сторон 16:10
-  // */
-  // public int getHeight16_10() {
-  // return height16_10;
-  // }
-  //
-  // /**
-  // * Возвращает высоту, соответствующей соотношению сторон 16:9.
-  // *
-  // * @return int - выстоа для соотношения сторон 16:9
-  // */
-  // public int getHeight16_9() {
-  // return height16_9;
-  // }
-  //
-  // /**
-  // * Возвращает высоту, соответствующей соотношению сторон 4:3.
-  // *
-  // * @return int - выстоа для соотношения сторон 4:3
-  // */
-  // public int getHeight4_3() {
-  // return height4_3;
-  // }
-  //
-  // /**
-  // * Возвращает высоту, соответствующей соотношению сторон 5:4.
-  // *
-  // * @return int - выстоа для соотношения сторон 5:4
-  // */
-  // public int getHeight5_4() {
-  // return height5_4;
-  // }
-
   /**
    * Находит наименший размер, обрамляющий прямоугольник указанного размера.
    * <p>
@@ -266,9 +216,9 @@ public enum EThumbSize
   }
 
   /**
-   * Находит наименший размер, обрамляющий квадрат размера значка.
+   * Находит наименший размер, обрамляющий квадрат размера миниатюры.
    *
-   * @param aIconSize {@link EIconSize} - размер значка
+   * @param aIconSize {@link EIconSize} - размер миниатюры
    * @return {@link EThumbSize} - наименший размер, обрамляющий значок указаного размера
    * @throws TsNullArgumentRtException аргумент = null
    */

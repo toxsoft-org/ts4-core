@@ -1,6 +1,6 @@
 package org.toxsoft.core.tsgui.graphics.image;
 
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Примешиваемый интерфейс визуальных элементов, имеющих понятие "размер миниатюры".
@@ -33,5 +33,12 @@ public interface IThumbSizeable {
    * @return {@link EThumbSize} - размер миниатюр по умолчанию
    */
   EThumbSize defaultThumbSize();
+
+  /**
+   * Sets the thumb size to the {@link #defaultThumbSize()}.
+   */
+  default void setDefaultThumbSize() {
+    setThumbSize( defaultThumbSize() );
+  }
 
 }
