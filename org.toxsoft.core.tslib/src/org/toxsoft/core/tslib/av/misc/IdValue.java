@@ -114,18 +114,19 @@ public final class IdValue
   }
 
   /**
-   * Copies c ontent of {@link IdValue} collection to the {@link IOptionSetEdit}.
+   * Copies content of {@link IdValue} collection to the {@link IOptionSetEdit}.
    * <p>
-   * Existing options will be overwritten. Options not listed in <code>aIdvals</code> will remain intact.
+   * Existing options will be overwritten. Options not listed in <code>aIdVals</code> will remain intact.
    *
-   * @param aIdvals {@link ITsCollection}&lt;{@link IdValue}&gt; - named values collection
-   * @param aOps {@link IOptionSetEdit}
+   * @param aIdVals {@link ITsCollection}&lt;{@link IdValue}&gt; - named values collection
+   * @param aOps {@link IOptionSetEdit} - options set to be updated
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public static void fillOptionSetFromIdValuesColl( ITsCollection<IdValue> aIdvals, IOptionSetEdit aOps ) {
-
-    // TODO реализовать IdValue.fillOptionSetFromIdValuesColl()
-    throw new TsUnderDevelopmentRtException( "IdValue.fillOptionSetFromIdValuesColl()" );
-
+  public static void fillOptionSetFromIdValuesColl( ITsCollection<IdValue> aIdVals, IOptionSetEdit aOps ) {
+    TsNullArgumentRtException.checkNulls( aIdVals, aOps );
+    for( IdValue idval : aIdVals ) {
+      aOps.setValue( idval.id(), idval.value() );
+    }
   }
 
   // ------------------------------------------------------------------------------------

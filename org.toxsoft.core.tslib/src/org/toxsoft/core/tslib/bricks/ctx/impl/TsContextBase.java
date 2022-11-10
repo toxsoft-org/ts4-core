@@ -2,16 +2,15 @@ package org.toxsoft.core.tslib.bricks.ctx.impl;
 
 import static org.toxsoft.core.tslib.bricks.ctx.impl.ITsResources.*;
 
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.opset.IOptionSetEdit;
-import org.toxsoft.core.tslib.av.opset.impl.OptionSet;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.ctx.*;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMapEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
-import org.toxsoft.core.tslib.utils.WeakRefListenersList;
-import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * Реализация {@link ITsContext}.
@@ -22,8 +21,15 @@ import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
 public class TsContextBase<P extends ITsContextRo>
     implements ITsContext {
 
+  /**
+   * {@link ITsContext#params()} implementation adds event generation and options searching in the parent context.
+   *
+   * @author hazard157
+   */
   class ContextOptions
       extends OptionSet {
+
+    private static final long serialVersionUID = 5922161916792749016L;
 
     @Override
     protected void doInternalSet( String aId, IAtomicValue aValue ) {

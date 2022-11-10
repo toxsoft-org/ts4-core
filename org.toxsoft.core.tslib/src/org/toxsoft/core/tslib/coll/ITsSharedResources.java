@@ -1,18 +1,14 @@
-package org.toxsoft.core.tslib.coll.impl;
+package org.toxsoft.core.tslib.coll;
 
 /**
  * Localizable resources.
  *
  * @author hazard157
  */
-@SuppressWarnings( "nls" )
-interface ITsResources {
+@SuppressWarnings( "javadoc" )
+public interface ITsSharedResources {
 
-  // FIXME TRANSLATE
-
-  // ------------------------------------------------------------------------------------
-  // en.EN
-  //
+  // FIXME L10N
 
   String FMT_ERR_ITEM_NOT_FOUND_BY_KEY             = "%s: no item found by key '%s'";
   String FMT_ERR_INV_INITIAL_CAPACITY              = "%s: invalid initial capacity %d";

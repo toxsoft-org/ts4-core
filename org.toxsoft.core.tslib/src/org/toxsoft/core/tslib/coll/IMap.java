@@ -1,5 +1,7 @@
 package org.toxsoft.core.tslib.coll;
 
+import static org.toxsoft.core.tslib.coll.ITsSharedResources.*;
+
 import java.io.*;
 
 import org.toxsoft.core.tslib.coll.basis.*;
@@ -48,7 +50,11 @@ public interface IMap<K, E>
    * @throws TsItemNotFoundRtException specified key not found in map
    */
   default E getByKey( K aKey ) {
-    return TsItemNotFoundRtException.checkNull( findByKey( aKey ) );
+    E e = findByKey( aKey );
+    if( e == null ) {
+      throw new TsItemNotFoundRtException( FMT_ERR_ITEM_NOT_FOUND_BY_KEY, this.getClass().getSimpleName(), aKey );
+    }
+    return e;
   }
 
   /**
