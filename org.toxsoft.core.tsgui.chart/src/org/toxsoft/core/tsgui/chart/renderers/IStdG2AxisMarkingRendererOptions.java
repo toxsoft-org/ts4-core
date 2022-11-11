@@ -54,7 +54,7 @@ public interface IStdG2AxisMarkingRendererOptions {
       TSID_DESCRIPTION, STR_D_BIG_TICK_LINE_INFO, //
       TSID_KEEPER_ID, TsLineInfo.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjTsLineInfo.FACTORY_NAME, //
-      TSID_DEFAULT_VALUE, avValobj( TsLineInfo.fromLineAttributes( new LineAttributes( 3 ) ) ) //
+      TSID_DEFAULT_VALUE, avValobj( TsLineInfo.fromLineAttributes( new LineAttributes( 2 ) ) ) //
   );
   // IFimbedOptionInfo<ILineInfo> BIG_TICK_LINE_INFO = new FimbedOptionInfo<>( //
   // IStdG2AxisMarkingRendererOptions.class.getSimpleName() + ".BigTickLineInfo", //$NON-NLS-1$
@@ -108,7 +108,7 @@ public interface IStdG2AxisMarkingRendererOptions {
       TSID_DESCRIPTION, STR_D_BIG_TICK_COLOR, //
       TSID_KEEPER_ID, RGBAKeeper.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, TSID_DEFAULT_VALUE,
-      avValobj( new RGBA( 0, 0, 0, 255 ) ) //
+      avValobj( new RGBA( 50, 50, 50, 255 ) ) //
   );
 
   /**
@@ -119,7 +119,7 @@ public interface IStdG2AxisMarkingRendererOptions {
       TSID_DESCRIPTION, STR_D_MID_TICK_COLOR, //
       TSID_KEEPER_ID, RGBAKeeper.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, TSID_DEFAULT_VALUE,
-      avValobj( new RGBA( 0, 0, 0, 255 ) ) //
+      avValobj( new RGBA( 50, 50, 50, 255 ) ) //
   );
 
   /**
@@ -130,7 +130,7 @@ public interface IStdG2AxisMarkingRendererOptions {
       TSID_DESCRIPTION, STR_D_LIT_TICK_COLOR, //
       TSID_KEEPER_ID, RGBAKeeper.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, TSID_DEFAULT_VALUE,
-      avValobj( new RGBA( 0, 0, 0, 255 ) ) //
+      avValobj( new RGBA( 50, 50, 50, 255 ) ) //
   );
 
 }

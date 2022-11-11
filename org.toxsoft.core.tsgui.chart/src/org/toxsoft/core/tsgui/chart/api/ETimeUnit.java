@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.chart.api;
 
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.std.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -49,6 +51,16 @@ public enum ETimeUnit
   private final long   millisecs;
   private final int    littTicksQtty;
   private final int    midTicksQtty;
+
+  /**
+   * The keeper ID.
+   */
+  public static final String KEEPER_ID = "ETimeUnit"; //$NON-NLS-1$
+
+  /**
+   * Keeper singleton.
+   */
+  public static final IEntityKeeper<ETimeUnit> KEEPER = new StridableEnumKeeper<>( ETimeUnit.class );
 
   ETimeUnit( String aId, String aName, String aDescr, long aMillisecs, int aLittTickQtty, int aMidTickQtty ) {
     id = aId;
