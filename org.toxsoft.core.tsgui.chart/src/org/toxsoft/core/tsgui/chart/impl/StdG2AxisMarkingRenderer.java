@@ -29,6 +29,8 @@ public class StdG2AxisMarkingRenderer
   private final TsLineInfo ltLineInfo;
 
   private final Color btColor;
+  // dima 11.11.22 экспериментируем с эффектом "вырезанная" шкала
+  private final Color shadowColor = new Color( 250, 250, 250 );
   private final Color mtColor;
   private final Color ltColor;
 
@@ -102,6 +104,10 @@ public class StdG2AxisMarkingRenderer
       }
       int x = G2ChartUtils.normToScreen( tick.left().doubleValue(), aBounds.width() );
       aGc.drawLine( aBounds.x1() + x, y, aBounds.x1() + x, y + tickLength );
+      // dima 11.11.22 экспериментируем с эффектом "вырезанная" шкала
+      aGc.setForeground( shadowColor );
+      aGc.drawLine( aBounds.x1() + x + aGc.getLineWidth(), y + 1, aBounds.x1() + x + aGc.getLineWidth(),
+          y + tickLength + 1 );
     }
   }
 

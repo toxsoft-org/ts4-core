@@ -123,6 +123,8 @@ public class StdG2TimeAxisAnnotationRenderer
   void annotateHorizontal( GC aGc, EBorderLayoutPlacement aPlace ) {
     String dateStr = TsLibUtils.EMPTY_STRING;
     String timeStr = TsLibUtils.EMPTY_STRING;
+    // dima, 11.11.22
+    String currDateStr = TsLibUtils.EMPTY_STRING;
 
     IList<Pair<IAtomicValue, Integer>> values = axisView.doListAnnotationValues( axisView.markingBounds().width() );
     for( int i = 0; i < values.size(); i++ ) {
@@ -133,6 +135,13 @@ public class StdG2TimeAxisAnnotationRenderer
 
       if( dateFormat != null && !dateFormat.isEmpty() ) {
         dateStr = AvUtils.printAv( dateFormat, p.left() );
+        // dima, 11.11.22 печатаем дату на первой и последней засечке, а также при смене даты
+        if( (dateStr.compareTo( currDateStr ) == 0) && (i != values.size() - 1) ) {
+          dateStr = TsLibUtils.EMPTY_STRING;
+        }
+        if( !dateStr.isEmpty() ) {
+          currDateStr = dateStr;
+        }
       }
 
       if( !dateWrap ) {
