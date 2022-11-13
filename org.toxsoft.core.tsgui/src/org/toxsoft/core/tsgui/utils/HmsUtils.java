@@ -4,12 +4,11 @@ import static org.toxsoft.core.tsgui.utils.ITsResources.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.bricks.strio.impl.StrioUtils.*;
 
-import org.toxsoft.core.tslib.av.IAtomicValue;
+import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.bricks.validator.impl.TsValidationFailedRtException;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Вспомогетельные методы для работы с количеством секунд в виде "ЧЧЧ:ММ:СС"/"МММ:СС".
@@ -115,17 +114,18 @@ public class HmsUtils {
   }
 
   /**
-   * Возвращает строку вида "ММV:СС" из количества секунд.
+   * Returns the auto-detected string representation of the seconds.
    *
-   * @param aSecs int - количество секунд
-   * @return String - строка вида "ММ:СС"
+   * @param aSecs int - number of seconds
+   * @return String - string in one of the forma MM:SS or HH:MM:SS ot HHH:MM:SS
    * @throws TsIllegalArgumentRtException aSecs < 0
    */
   public static String mmmss( int aSecs ) {
     TsIllegalArgumentRtException.checkTrue( aSecs < 0 );
-    int m = aSecs / 60;
-    int s = aSecs % 60;
-    return String.format( MMSS_FORMAT, Integer.valueOf( m ), Integer.valueOf( s ) );
+    if( aSecs >= 3600 ) {
+      return hhhmmss( aSecs );
+    }
+    return mmss( aSecs );
   }
 
   /**

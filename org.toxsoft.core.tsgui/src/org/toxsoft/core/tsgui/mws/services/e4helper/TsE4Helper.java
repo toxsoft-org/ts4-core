@@ -147,6 +147,21 @@ public class TsE4Helper
   }
 
   @Override
+  public MPerspective findPerspective( String aPerspectiveId ) {
+    TsNullArgumentRtException.checkNull( aPerspectiveId );
+    EModelService modelService = windowContext.get( EModelService.class );
+    MWindow window = windowContext.get( MWindow.class );
+    return (MPerspective)modelService.find( aPerspectiveId, window );
+  }
+
+  @Override
+  public MPart findPart( String aPartId ) {
+    TsNullArgumentRtException.checkNull( aPartId );
+    EPartService partService = windowContext.get( EPartService.class );
+    return partService.findPart( aPartId );
+  }
+
+  @Override
   public String currentPerspId() {
     EModelService modelService = windowContext.get( EModelService.class );
     MPerspective perspective = modelService.getActivePerspective( windowContext.get( MWindow.class ) );

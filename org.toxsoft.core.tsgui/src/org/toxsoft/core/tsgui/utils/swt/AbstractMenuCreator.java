@@ -1,8 +1,7 @@
 package org.toxsoft.core.tsgui.utils.swt;
 
-import org.eclipse.jface.action.IMenuCreator;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Menu;
+import org.eclipse.jface.action.*;
+import org.eclipse.swt.widgets.*;
 
 /**
  * Базовый класс для облегчения реализации {@link IMenuCreator}.
@@ -24,6 +23,17 @@ import org.eclipse.swt.widgets.Menu;
  */
 public abstract class AbstractMenuCreator
     implements IMenuCreator {
+
+  /**
+   * No dorp-down menu creator,
+   */
+  public static final IMenuCreator NO_DROP_DOWN_MENU_CREATOR = new AbstractMenuCreator() {
+
+    @Override
+    protected boolean fillMenu( Menu aMenu ) {
+      return false;
+    }
+  };
 
   private final boolean cacheOnceCreatedMenu;
   private Menu          fMenu = null;

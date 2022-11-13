@@ -2,6 +2,7 @@ package org.toxsoft.core.tsgui.mws.services.e4helper;
 
 import org.eclipse.e4.core.di.annotations.*;
 import org.eclipse.e4.ui.model.application.ui.*;
+import org.eclipse.e4.ui.model.application.ui.advanced.*;
 import org.eclipse.e4.ui.model.application.ui.basic.*;
 import org.eclipse.e4.ui.workbench.modeling.*;
 import org.toxsoft.core.tsgui.mws.*;
@@ -38,6 +39,24 @@ public interface ITsE4Helper {
    * @throws TsNullArgumentRtException aPerspectiveId = null
    */
   MPart switchToPerspective( String aPerspectiveId, String aActivatePartId );
+
+  /**
+   * Finds the perspective by ID.
+   *
+   * @param aPerspectiveId String - the perspective ID
+   * @return {@link MPerspective} - found perspective or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  MPerspective findPerspective( String aPerspectiveId );
+
+  /**
+   * Finds the part by ID.
+   *
+   * @param aPartId String - the part ID
+   * @return {@link MPart} - found part or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  MPart findPart( String aPartId );
 
   /**
    * Возвращает идентификатор активной перспективы.
