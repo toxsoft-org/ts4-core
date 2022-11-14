@@ -78,7 +78,7 @@ public class MpcFilterPaneWrapper<T>
     // btnClear
     btnClear = new Button( c, SWT.PUSH );
     btnClear.setLayoutData( new GridData( SWT.RIGHT, SWT.FILL, false, false ) );
-    btnClear.setText( "<" ); //$NON-NLS-1$
+    btnClear.setText( "<" );
     btnClear.setToolTipText( BTN_P_CLEAR );
     btnClear.addSelectionListener( new SelectionAdapter() {
 

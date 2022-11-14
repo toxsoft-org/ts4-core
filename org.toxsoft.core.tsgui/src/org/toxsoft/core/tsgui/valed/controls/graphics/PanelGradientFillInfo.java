@@ -105,7 +105,7 @@ public class PanelGradientFillInfo
   PanelRadialGradientSelector   radialGradientSelector;
   PanelCylinderGradientSelector cylinderGradientSelector;
 
-  ITsVisualsProvider<? extends IStridable> visualsProvider = IStridable::nmName;
+  ITsVisualsProvider<EGradientType> visualsProvider = IStridable::nmName;
 
   ValedEnumCombo<EGradientType> fillKindCombo;
 
@@ -118,7 +118,7 @@ public class PanelGradientFillInfo
 
     CLabel l = new CLabel( topPanel, SWT.NONE );
     l.setText( STR_L_GRADIENT_TYPE );
-    fillKindCombo = new ValedEnumCombo( tsContext(), EGradientType.class, visualsProvider );
+    fillKindCombo = new ValedEnumCombo<>( tsContext(), EGradientType.class, visualsProvider );
     fillKindCombo.createControl( topPanel );
     fillKindCombo.setValue( EGradientType.LINEAR );
     fillKindCombo.eventer().addListener( ( aSource, aEditFinished ) -> {

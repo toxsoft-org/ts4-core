@@ -2,14 +2,13 @@ package org.toxsoft.core.tsgui.valed.controls.av;
 
 import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
 
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.valed.api.IValedControl;
-import org.toxsoft.core.tsgui.valed.controls.basic.ValedBooleanCheck;
-import org.toxsoft.core.tsgui.valed.impl.AbstractValedControlFactory;
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.impl.AvUtils;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.valed.api.*;
+import org.toxsoft.core.tsgui.valed.controls.basic.*;
+import org.toxsoft.core.tsgui.valed.impl.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link EAtomicType#BOOLEAN} editor using {@link ValedBooleanCheck}.
@@ -52,11 +51,11 @@ public class ValedAvBooleanCheck
   /**
    * Constructor.
    *
-   * @param aTsContext {@link ITsGuiContext} - the editor context
+   * @param aContext {@link ITsGuiContext} - the editor context
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public ValedAvBooleanCheck( ITsGuiContext aTsContext ) {
-    super( aTsContext, EAtomicType.BOOLEAN, ValedBooleanCheck.FACTORY );
+  public ValedAvBooleanCheck( ITsGuiContext aContext ) {
+    super( aContext, EAtomicType.BOOLEAN, ValedBooleanCheck.FACTORY );
   }
 
   @Override

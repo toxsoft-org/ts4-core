@@ -19,7 +19,7 @@ public interface IValedControlValueChangeListener {
    * фокуса контролем.
    *
    * @param aSource {@link IValedControl} - редактор - источник сообщения
-   * @param aEditFinished boolean - признак завершения редактирования (ввода значения)
+   * @param aEditFinished boolean - the sign that editing was finished
    */
   void onEditorValueChanged( IValedControl<?> aSource, boolean aEditFinished );
 

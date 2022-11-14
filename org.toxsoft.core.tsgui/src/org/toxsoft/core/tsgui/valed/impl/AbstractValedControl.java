@@ -30,7 +30,12 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public abstract class AbstractValedControl<V, C extends Control>
     implements IValedControl<V>, ITsContextListener, ITsGuiContextable {
 
-  class Eventer
+  /**
+   * Subclass-visible implementation of {@link IValedControl#eventer()}.
+   *
+   * @author hazard157
+   */
+  public class Eventer
       extends AbstractTsEventer<IValedControlValueChangeListener> {
 
     private boolean wasEvent     = false;
@@ -62,7 +67,12 @@ public abstract class AbstractValedControl<V, C extends Control>
     // ------------------------------------------------------------------------------------
     // API
 
-    void fireEvent( boolean aEditFinished ) {
+    /**
+     * Fires an {@link IValedControlValueChangeListener#onEditorValueChanged(IValedControl, boolean)} event.
+     *
+     * @param aEditFinished boolean - the sign that editing was finished
+     */
+    public void fireEvent( boolean aEditFinished ) {
       if( isFiringPaused() ) {
         wasEvent = true;
         editFinished = aEditFinished;
@@ -336,7 +346,7 @@ public abstract class AbstractValedControl<V, C extends Control>
   }
 
   @Override
-  public ITsEventer<IValedControlValueChangeListener> eventer() {
+  public Eventer eventer() {
     return eventer;
   }
 
@@ -543,11 +553,21 @@ public abstract class AbstractValedControl<V, C extends Control>
   // ITsContextListener
   //
 
+  /**
+   * {@inheritDoc}
+   * <p>
+   * In {@link AbstractValedControl} does nothing, there is no need to call superclass method when overriding.
+   */
   @Override
   public <X extends ITsContextRo> void onContextOpChanged( X aSource, String aId, IAtomicValue aValue ) {
     // nop
   }
 
+  /**
+   * {@inheritDoc}
+   * <p>
+   * In {@link AbstractValedControl} does nothing, there is no need to call superclass method when overriding.
+   */
   @Override
   public <X extends ITsContextRo> void onContextRefChanged( X aSource, String aName, Object aRef ) {
     // nop
