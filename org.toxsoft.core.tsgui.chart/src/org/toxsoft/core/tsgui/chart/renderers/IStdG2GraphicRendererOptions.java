@@ -76,4 +76,17 @@ public interface IStdG2GraphicRendererOptions {
   // STR_D_RENDERING_KIND, STR_N_RENDERING_KIND, EAtomicType.STRING,
   // DvUtils.avStr( EGraphicRenderingKind.LINE.id() ), false );
 
+  /**
+   * dima 15.11.22 TODO согласовать с Володей <br>
+   * Формат отображение значений графика.<br>
+   * Тип данных: {@link EAtomicType#VALOBJ} <br>
+   * Значение по умолчанию: {@link EDisplayFormat#TWO_DIGIT}
+   */
+  IDataDef VALUES_DISPLAY_FORMAT = DataDef.create( "valuesDiplayFormat", VALOBJ, //$NON-NLS-1$
+      TSID_NAME, STR_N_VALUES_DISPLAY_FORMAT, //
+      TSID_DESCRIPTION, STR_D_VALUES_DISPLAY_FORMAT, //
+      TSID_KEEPER_ID, EDisplayFormat.KEEPER_ID, //
+      TSID_DEFAULT_VALUE, avValobj( EDisplayFormat.TWO_DIGIT ) //
+  );
+
 }

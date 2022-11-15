@@ -1,8 +1,11 @@
 package org.toxsoft.core.tsgui.chart.impl;
 
+import java.util.*;
+
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.chart.api.*;
+import org.toxsoft.core.tsgui.chart.renderers.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.temporal.*;
@@ -159,7 +162,11 @@ public class StdG2Graphic
     if( aValue != ITemporalAtomicValue.NULL ) {
       IAtomicValue value = aValue.value();
       if( value != IAtomicValue.NULL ) {
-        return AvUtils.printAv( "%4.2f", value );
+        // dima, 11.11.22 используем формат из параметра
+        // return AvUtils.printAv( "%4.2f", value );
+        EDisplayFormat displayFormat =
+            IStdG2GraphicRendererOptions.VALUES_DISPLAY_FORMAT.getValue( plotDef.rendererParams().params() ).asValobj();
+        return AvUtils.printAv( displayFormat.format(), value );
       }
     }
     return valStr;
@@ -178,5 +185,36 @@ public class StdG2Graphic
   @Override
   public void setYAxisView( YAxisView aAxis ) {
     yAxisView = aAxis;
+  }
+
+  public static void main( String[] args ) {
+
+    String input = "1234567890.123456";
+    double d = Double.parseDouble( input );
+
+    // no decimal points
+    System.out.println( String.format( "%.0f", d ) ); // 1,234,567,890.12
+
+    // 2 decimal points
+    System.out.println( String.format( "%,.2f", d ) ); // 1,234,567,890.12
+
+    // 4 decimal points
+    System.out.println( String.format( "%,.4f", d ) ); // 1,234,567,890.1235
+
+    // 20 digits, if enough digits, puts 0
+    System.out.println( String.format( "%,020.2f", d ) ); // 00001,234,567,890.12
+
+    // 10 decimal points, if not enough digit, puts 0
+    System.out.println( String.format( "%,.010f", d ) ); // 1,234,567,890.1234560000
+
+    // in scientist format
+    System.out.println( String.format( "%e", d ) ); // 1.234568e+09
+
+    // different locale - FRANCE
+    System.out.println( String.format( Locale.FRANCE, "%,.2f", d ) ); // 1 234 567 890,12
+
+    // different locale - GERMAN
+    System.out.println( String.format( Locale.GERMAN, "%,.2f", d ) ); // 1.234.567.890,12
+
   }
 }

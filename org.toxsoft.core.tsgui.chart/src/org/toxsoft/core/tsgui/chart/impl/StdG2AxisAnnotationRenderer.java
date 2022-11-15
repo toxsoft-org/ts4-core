@@ -3,7 +3,9 @@ package org.toxsoft.core.tsgui.chart.impl;
 import static org.toxsoft.core.tsgui.chart.renderers.IStdG2AxisAnnotationRendererOptions.*;
 
 import org.eclipse.swt.*;
+import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.chart.api.*;
 import org.toxsoft.core.tsgui.chart.legaсy.*;
@@ -70,6 +72,9 @@ public class StdG2AxisAnnotationRenderer
     rgba = TITLE_COLOR.getValue( aOptions ).asValobj();
     titleColor = colorManager().getColor( rgba.rgb );
     orientation = TITLE_ORIENTATION.getValue( aOptions ).asValobj();
+
+    Shell shell = tsContext().get( Shell.class );
+    shell.addDisposeListener( aE -> dispose() );
 
     // if( ETsOrientation.findByIdOrNull( TITLE_ORIENTATION.getValue( aOptions ).asString() ) != null ) {
     // orientation = ETsOrientation.findByIdOrNull( TITLE_ORIENTATION.getValue( aOptions ).asString() );
