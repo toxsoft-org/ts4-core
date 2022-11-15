@@ -222,14 +222,6 @@ public abstract class AbstractValedControl<V, C extends Control>
   // ILazyControl
   //
 
-  /**
-   * Создает SWT-контроль, реализующий этот редактор.
-   * <p>
-   * Этот метод вызывается фабрикой сразу после конструктора.
-   *
-   * @param aParent {@link Composite} - родительская панель
-   * @throws TsNullArgumentRtException аргумент = null
-   */
   @Override
   final public Control createControl( Composite aParent ) {
     TsNullArgumentRtException.checkNull( aParent );
