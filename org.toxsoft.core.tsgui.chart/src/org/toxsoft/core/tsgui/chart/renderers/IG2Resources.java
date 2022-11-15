@@ -119,12 +119,14 @@ interface IG2Resources {
   /**
    * {@link IStdG2GraphicRendererOptions}
    */
-  String STR_D_GRAPHIC_LINE_INFO = Messages.IG2Resources_STR_D_GRAPH_LINE_INFO;
-  String STR_N_GRAPHIC_LINE_INFO = Messages.IG2Resources_STR_N_GRAPH_LINE_INFO;
-  String STR_D_RENDERING_KIND    = Messages.IG2Resources_STR_D_RENDERING_KIND;
-  String STR_N_RENDERING_KIND    = Messages.IG2Resources_STR_N_RENDERING_KIND;
-  String STR_N_GRAPHIC_RGBA      = "Цвет графика";
-  String STR_D_GRAPHIC_RGBA      = "Цвет графика";
+  String STR_D_GRAPHIC_LINE_INFO     = Messages.IG2Resources_STR_D_GRAPH_LINE_INFO;
+  String STR_N_GRAPHIC_LINE_INFO     = Messages.IG2Resources_STR_N_GRAPH_LINE_INFO;
+  String STR_D_RENDERING_KIND        = Messages.IG2Resources_STR_D_RENDERING_KIND;
+  String STR_N_RENDERING_KIND        = Messages.IG2Resources_STR_N_RENDERING_KIND;
+  String STR_N_GRAPHIC_RGBA          = "Цвет графика";
+  String STR_D_GRAPHIC_RGBA          = "Цвет графика";
+  String STR_N_VALUES_DISPLAY_FORMAT = "формат отображения значений";
+  String STR_D_VALUES_DISPLAY_FORMAT = "формат отображения значений";
 
   /**
    * {@link IG2StateGraphicRendererOptions}.
