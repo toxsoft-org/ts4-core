@@ -57,10 +57,7 @@ public class ValedBooleanCheck
     @SuppressWarnings( "unchecked" )
     @Override
     protected IValedControl<Boolean> doCreateEditor( ITsGuiContext aContext ) {
-      AbstractValedControl<Boolean, ?> e = new ValedBooleanCheck( aContext );
-      e.setParamIfNull( OPDEF_IS_WIDTH_FIXED, AV_TRUE );
-      e.setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
-      return e;
+      return new ValedBooleanCheck( aContext );
     }
 
   }
@@ -81,6 +78,8 @@ public class ValedBooleanCheck
    */
   public ValedBooleanCheck( ITsGuiContext aTsContext ) {
     super( aTsContext );
+    setParamIfNull( OPDEF_IS_WIDTH_FIXED, AV_TRUE );
+    setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
   }
 
   // ------------------------------------------------------------------------------------

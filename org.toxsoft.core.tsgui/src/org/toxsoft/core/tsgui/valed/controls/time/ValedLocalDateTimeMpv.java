@@ -6,24 +6,22 @@ import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import java.time.LocalDateTime;
+import java.time.*;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.valed.api.IValedControl;
-import org.toxsoft.core.tsgui.valed.impl.AbstractValedControl;
-import org.toxsoft.core.tsgui.valed.impl.AbstractValedControlFactory;
+import org.eclipse.swt.*;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.valed.api.*;
+import org.toxsoft.core.tsgui.valed.impl.*;
 import org.toxsoft.core.tsgui.widgets.mpv.*;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.impl.DataDef;
-import org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants;
-import org.toxsoft.core.tslib.av.metainfo.IDataDef;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContextRo;
-import org.toxsoft.core.tslib.bricks.time.ITimeInterval;
-import org.toxsoft.core.tslib.bricks.time.impl.TimeInterval;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.bricks.ctx.*;
+import org.toxsoft.core.tslib.bricks.time.*;
+import org.toxsoft.core.tslib.bricks.time.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Edits {@link Long} value as moment of time in millisecons from epoch start.
@@ -73,8 +71,7 @@ public class ValedLocalDateTimeMpv
     @SuppressWarnings( "unchecked" )
     @Override
     protected IValedControl<LocalDateTime> doCreateEditor( ITsGuiContext aContext ) {
-      AbstractValedControl<LocalDateTime, ?> e = new ValedLocalDateTimeMpv( aContext );
-      return e;
+      return new ValedLocalDateTimeMpv( aContext );
     }
 
   }
@@ -94,6 +91,8 @@ public class ValedLocalDateTimeMpv
    */
   public ValedLocalDateTimeMpv( ITsGuiContext aTsContext ) {
     super( aTsContext );
+    setParamIfNull( OPDEF_IS_WIDTH_FIXED, AV_FALSE );
+    setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
     mpv = IMpvTimestamp.create( OPDEF_MPV_TIME_LEN.getValue( params() ).asValobj() );
     updateAllowedRange();
   }

@@ -1,23 +1,22 @@
 package org.toxsoft.core.tsgui.valed.controls.time;
 
 import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
+import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import java.time.LocalDate;
+import java.time.*;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.valed.api.IValedControl;
-import org.toxsoft.core.tsgui.valed.impl.AbstractValedControl;
-import org.toxsoft.core.tsgui.valed.impl.AbstractValedControlFactory;
-import org.toxsoft.core.tsgui.widgets.mpv.IMpvLocalDate;
-import org.toxsoft.core.tsgui.widgets.mpv.MultiPartValueWidget;
-import org.toxsoft.core.tsgui.widgets.mpv.impl.MpvLocatDate;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContextRo;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.eclipse.swt.*;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.valed.api.*;
+import org.toxsoft.core.tsgui.valed.impl.*;
+import org.toxsoft.core.tsgui.widgets.mpv.*;
+import org.toxsoft.core.tsgui.widgets.mpv.impl.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.bricks.ctx.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Edits {@link LocalDate} value as YYYY-MM-DD.
@@ -47,8 +46,7 @@ public class ValedLocalDateMpv
     @SuppressWarnings( "unchecked" )
     @Override
     protected IValedControl<LocalDate> doCreateEditor( ITsGuiContext aContext ) {
-      AbstractValedControl<LocalDate, ?> e = new ValedLocalDateMpv( aContext );
-      return e;
+      return new ValedLocalDateMpv( aContext );
     }
 
   }
@@ -68,6 +66,8 @@ public class ValedLocalDateMpv
    */
   public ValedLocalDateMpv( ITsGuiContext aTsContext ) {
     super( aTsContext );
+    setParamIfNull( OPDEF_IS_WIDTH_FIXED, AV_FALSE );
+    setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
     mpv = new MpvLocatDate();
     updateAllowedRange();
   }

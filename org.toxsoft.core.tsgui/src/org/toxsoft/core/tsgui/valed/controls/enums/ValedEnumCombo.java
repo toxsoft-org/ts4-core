@@ -3,17 +3,14 @@ package org.toxsoft.core.tsgui.valed.controls.enums;
 import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Composite;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.graphics.icons.EIconSize;
-import org.toxsoft.core.tsgui.utils.ITsVisualsProvider;
-import org.toxsoft.core.tsgui.valed.api.IValedControl;
-import org.toxsoft.core.tsgui.valed.api.IValedControlConstants;
-import org.toxsoft.core.tsgui.valed.impl.AbstractValedControl;
-import org.toxsoft.core.tsgui.valed.impl.AbstractValedControlFactory;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
+import org.eclipse.swt.*;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tsgui.utils.*;
+import org.toxsoft.core.tsgui.valed.api.*;
+import org.toxsoft.core.tsgui.valed.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -48,6 +45,7 @@ public class ValedEnumCombo<V extends Enum<V>>
     protected IValedControl<V> doCreateEditor( ITsGuiContext aContext ) {
       AbstractValedControl<V, ?> e = new ValedEnumCombo<>( aContext );
       e.setParamIfNull( OPDEF_IS_WIDTH_FIXED, AV_FALSE );
+      e.setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
       return e;
     }
 

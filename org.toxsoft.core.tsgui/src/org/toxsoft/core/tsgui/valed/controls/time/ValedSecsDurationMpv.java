@@ -6,21 +6,19 @@ import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.valed.api.IValedControl;
-import org.toxsoft.core.tsgui.valed.impl.AbstractValedControl;
-import org.toxsoft.core.tsgui.valed.impl.AbstractValedControlFactory;
-import org.toxsoft.core.tsgui.widgets.mpv.IMpvSecsDuration;
-import org.toxsoft.core.tsgui.widgets.mpv.MultiPartValueWidget;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.impl.DataDef;
-import org.toxsoft.core.tslib.av.metainfo.IDataDef;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContextRo;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.math.IntRange;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.eclipse.swt.*;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.valed.api.*;
+import org.toxsoft.core.tsgui.valed.impl.*;
+import org.toxsoft.core.tsgui.widgets.mpv.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.bricks.ctx.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.math.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Edits {@link Integer} value of duration seconds using {@link IMpvSecsDuration} as "HH:MM:SS".
@@ -82,8 +80,7 @@ public class ValedSecsDurationMpv
     @SuppressWarnings( "unchecked" )
     @Override
     protected IValedControl<Integer> doCreateEditor( ITsGuiContext aContext ) {
-      AbstractValedControl<Integer, ?> e = new ValedSecsDurationMpv( aContext );
-      return e;
+      return new ValedSecsDurationMpv( aContext );
     }
 
   }
@@ -103,6 +100,8 @@ public class ValedSecsDurationMpv
    */
   public ValedSecsDurationMpv( ITsGuiContext aTsContext ) {
     super( aTsContext );
+    setParamIfNull( OPDEF_IS_WIDTH_FIXED, AV_FALSE );
+    setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
     boolean isHoursPart = params().getBool( OPDEF_IS_HOURS_PART );
     boolean isSecondsPart = params().getBool( OPDEF_IS_SECONDS_PART );
     mpv = IMpvSecsDuration.create( isHoursPart, isSecondsPart );

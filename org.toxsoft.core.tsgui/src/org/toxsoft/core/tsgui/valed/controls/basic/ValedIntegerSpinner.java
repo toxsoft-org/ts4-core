@@ -77,8 +77,7 @@ public class ValedIntegerSpinner
     @SuppressWarnings( "unchecked" )
     @Override
     protected IValedControl<Integer> doCreateEditor( ITsGuiContext aContext ) {
-      AbstractValedControl<Integer, ?> e = new ValedIntegerSpinner( aContext );
-      return e;
+      return new ValedIntegerSpinner( aContext );
     }
 
   }
@@ -110,6 +109,7 @@ public class ValedIntegerSpinner
    */
   public ValedIntegerSpinner( ITsGuiContext aContext ) {
     super( aContext );
+    setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
   }
 
   // ------------------------------------------------------------------------------------

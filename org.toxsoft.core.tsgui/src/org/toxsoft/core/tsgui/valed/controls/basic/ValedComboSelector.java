@@ -70,10 +70,7 @@ public class ValedComboSelector<V>
     @SuppressWarnings( "unchecked" )
     @Override
     protected IValedControl<?> doCreateEditor( ITsGuiContext aContext ) {
-      AbstractValedControl<?, Combo> e = new ValedComboSelector<>( aContext );
-      e.setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
-      e.setParamIfNull( OPDEF_IS_WIDTH_FIXED, AV_FALSE );
-      return e;
+      return new ValedComboSelector<>( aContext );
     }
 
   }
@@ -93,6 +90,8 @@ public class ValedComboSelector<V>
    */
   public ValedComboSelector( ITsGuiContext aContext ) {
     super( aContext );
+    setParamIfNull( OPDEF_IS_WIDTH_FIXED, AV_FALSE );
+    setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
     visualsProvider = REFDEF_VALUE_VISUALS_PROVIDER.getRef( aContext, ITsVisualsProvider.DEFAULT );
     itemsProvider = REFDEF_ITEMS_PROVIDER.getRef( aContext, ITsItemsProvider.EMPTY );
     items.setAll( itemsProvider.listItems() );
@@ -109,6 +108,8 @@ public class ValedComboSelector<V>
   public ValedComboSelector( ITsGuiContext aContext, IList<V> aItems, ITsVisualsProvider<V> aNameProvider ) {
     super( aContext );
     TsNullArgumentRtException.checkNulls( aItems, aNameProvider );
+    setParamIfNull( OPDEF_IS_WIDTH_FIXED, AV_FALSE );
+    setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
     visualsProvider = aNameProvider;
     items.setAll( aItems );
   }

@@ -39,10 +39,7 @@ public class ValedIntegerText
     @SuppressWarnings( "unchecked" )
     @Override
     protected IValedControl<Integer> doCreateEditor( ITsGuiContext aContext ) {
-      AbstractValedControl<Integer, ?> e = new ValedIntegerText( aContext );
-      e.setParamIfNull( OPDEF_IS_WIDTH_FIXED, AV_FALSE );
-      e.setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_FALSE );
-      return e;
+      return new ValedIntegerText( aContext );
     }
 
   }
@@ -67,6 +64,7 @@ public class ValedIntegerText
    */
   public ValedIntegerText( ITsGuiContext aContext ) {
     super( aContext );
+    setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
   }
 
   private void displayValue() {

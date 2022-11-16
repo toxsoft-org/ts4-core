@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.valed.controls.graphics;
 
 import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
+import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
@@ -62,6 +63,7 @@ public class ValedSimpleRgba
    */
   ValedSimpleRgba( ITsGuiContext aContext ) {
     super( aContext );
+    setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
   }
 
   // ------------------------------------------------------------------------------------

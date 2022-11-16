@@ -35,6 +35,7 @@ public class ValedSingleModownTextViewer<V>
   public ValedSingleModownTextViewer( ITsGuiContext aContext ) {
     super( aContext );
     setParamIfNull( OPDEF_IS_WIDTH_FIXED, AV_FALSE );
+    setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
   }
 
   // ------------------------------------------------------------------------------------

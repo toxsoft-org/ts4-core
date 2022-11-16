@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.valed.controls.graphics;
 
 import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
+import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
@@ -61,6 +62,7 @@ public class ValedTsFillInfo
    */
   protected ValedTsFillInfo( ITsGuiContext aTsContext ) {
     super( aTsContext );
+    setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
   }
 
   // ------------------------------------------------------------------------------------

@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.m5.valeds.singlelookup;
 
+import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
@@ -38,6 +39,7 @@ public class ValedSingleLookupComboEditor<V>
   public ValedSingleLookupComboEditor( ITsGuiContext aContext ) {
     super( aContext );
     setParamIfNull( IValedControlConstants.OPID_IS_WIDTH_FIXED, AV_FALSE );
+    setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
   }
 
   // ------------------------------------------------------------------------------------

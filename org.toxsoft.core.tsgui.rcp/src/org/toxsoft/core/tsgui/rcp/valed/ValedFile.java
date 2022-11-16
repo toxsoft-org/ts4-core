@@ -53,10 +53,7 @@ public class ValedFile
 
     @Override
     protected IValedControl<File> doCreateEditor( ITsGuiContext aContext ) {
-      AbstractValedControl<File, Composite> e = new ValedFile( aContext );
-      e.setParamIfNull( IValedControlConstants.OPID_IS_HEIGHT_FIXED, AV_TRUE );
-      e.setParamIfNull( IValedControlConstants.OPID_IS_WIDTH_FIXED, AV_FALSE );
-      return e;
+      return new ValedFile( aContext );
     }
 
   }
@@ -76,6 +73,8 @@ public class ValedFile
    */
   public ValedFile( ITsGuiContext aContext ) {
     super( aContext );
+    setParamIfNull( OPDEF_IS_WIDTH_FIXED, AV_FALSE );
+    setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
   }
 
   // ------------------------------------------------------------------------------------
