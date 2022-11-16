@@ -1,13 +1,16 @@
 package org.toxsoft.core.tslib.bricks.ctx;
 
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.av.utils.IParameterized;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.bricks.events.*;
-import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Readonly context contains arbitrary references and options set.
+ * <p>
+ * Note: depending on implementation and creation of instance, context may be @child" of the "parent" context. For child
+ * copntexts methods <code>isSelfXxx()</code> determines if reference or option is hold by this instance, or supplied by
+ * the parent.
  *
  * @author hazard157
  */
@@ -68,6 +71,39 @@ public interface ITsContextRo
    * @throws TsItemNotFoundRtException нет запрошенной ссылки в контексте
    */
   Object get( String aName );
+
+  /**
+   * Determines if the option is hold by this instance, or supplied by the parent hierarchy.
+   * <p>
+   * Returning <code>false</code> may mean either that option is supplied by parent hierarhy or not found al all.
+   *
+   * @param aClass {@link Class} - the class of the reference
+   * @return boolean - <code>true</code> option value is in this context
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  boolean isSelfRef( Class<?> aClass );
+
+  /**
+   * Determines if the option is hold by this instance, or supplied by the parent hierarchy.
+   * <p>
+   * Returning <code>false</code> may mean either that option is supplied by parent hierarhy or not found al all.
+   *
+   * @param aName String - the referennce name
+   * @return boolean - <code>true</code> option value is in this context
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  boolean isSelfRef( String aName );
+
+  /**
+   * Determines if the option is hold by this instance, or supplied by the parent hierarchy.
+   * <p>
+   * Returning <code>false</code> may mean either that option is supplied by parent hierarhy or not found al all.
+   *
+   * @param aOptionId String - the option ID
+   * @return boolean - <code>true</code> option value is in this context
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  boolean isSelfOption( String aOptionId );
 
   /**
    * Adds the listener.

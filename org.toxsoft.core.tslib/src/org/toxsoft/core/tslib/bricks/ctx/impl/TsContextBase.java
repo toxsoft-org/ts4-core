@@ -46,11 +46,15 @@ public class TsContextBase<P extends ITsContextRo>
       return askParent.findOp( aId );
     }
 
+    boolean isSelfOption( String aOptionId ) {
+      return super.doInternalFind( aOptionId ) != null;
+    }
+
   }
 
   private final WeakRefListenersList<ITsContextListener> listeners = new WeakRefListenersList<>();
 
-  private final IOptionSetEdit         ops     = new ContextOptions();
+  private final ContextOptions         ops     = new ContextOptions();
   private final IStringMapEdit<Object> refsMap = new StringMap<>();
 
   private boolean firingPaused  = false;
@@ -178,6 +182,23 @@ public class TsContextBase<P extends ITsContextRo>
     Object ref = find( aName );
     TsItemNotFoundRtException.checkNull( ref, FMT_ERR_NO_REF_OF_KEY_IN_CTX, aName );
     return ref;
+  }
+
+  @Override
+  public boolean isSelfRef( Class<?> aClass ) {
+    TsNullArgumentRtException.checkNull( aClass );
+    String key = aClass.getName();
+    return refsMap.hasKey( key );
+  }
+
+  @Override
+  public boolean isSelfRef( String aName ) {
+    return refsMap.hasKey( aName );
+  }
+
+  @Override
+  public boolean isSelfOption( String aOptionId ) {
+    return ops.isSelfOption( aOptionId );
   }
 
   @Override
