@@ -47,9 +47,9 @@ public class LocalDateTimeKeeper
     Integer hh = Integer.valueOf( aEntity.getHour() );
     Integer mm = Integer.valueOf( aEntity.getMinute() );
     Integer ss = Integer.valueOf( aEntity.getSecond() );
-    Integer uuu = Integer.valueOf( aEntity.getNano() / 1000 );
-    if( uuu.intValue() != 0 ) {
-      aSw.p( "%04d-%02d-%02d_%02d:%02d:%02d.%03d", year, month, dayOfMonth, hh, mm, ss, uuu ); //$NON-NLS-1$
+    Integer mmm = Integer.valueOf( aEntity.getNano() / 1_000_000 );
+    if( mmm.intValue() != 0 ) {
+      aSw.p( "%04d-%02d-%02d_%02d:%02d:%02d.%03d", year, month, dayOfMonth, hh, mm, ss, mmm ); //$NON-NLS-1$
     }
     else {
       aSw.p( "%04d-%02d-%02d_%02d:%02d:%02d", year, month, dayOfMonth, hh, mm, ss ); //$NON-NLS-1$
