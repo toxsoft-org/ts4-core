@@ -8,7 +8,6 @@ import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
-import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.opset.*;
@@ -211,8 +210,7 @@ public abstract class AbstractValedControl<V, C extends Control>
    * @throws TsNullArgumentRtException аргумент = null
    */
   protected AbstractValedControl( ITsGuiContext aTsContext ) {
-    TsNullArgumentRtException.checkNull( aTsContext );
-    tsContext = new TsGuiContext( aTsContext );
+    tsContext = TsNullArgumentRtException.checkNull( aTsContext );
     tsContext.addContextListener( this );
     createdUneditable = OPDEF_CREATE_UNEDITABLE.getValue( params() ).asBool();
     editable = !createdUneditable;
