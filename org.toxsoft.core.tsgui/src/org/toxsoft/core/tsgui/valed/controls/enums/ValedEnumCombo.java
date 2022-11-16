@@ -43,10 +43,7 @@ public class ValedEnumCombo<V extends Enum<V>>
     @SuppressWarnings( "unchecked" )
     @Override
     protected IValedControl<V> doCreateEditor( ITsGuiContext aContext ) {
-      AbstractValedControl<V, ?> e = new ValedEnumCombo<>( aContext );
-      e.setParamIfNull( OPDEF_IS_WIDTH_FIXED, AV_FALSE );
-      e.setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
-      return e;
+      return new ValedEnumCombo<>( aContext );
     }
 
   }
@@ -85,6 +82,9 @@ public class ValedEnumCombo<V extends Enum<V>>
    */
   public ValedEnumCombo( ITsGuiContext aTsContext ) {
     super( aTsContext );
+    setParamIfNull( OPDEF_IS_WIDTH_FIXED, AV_FALSE );
+    setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
+    setParamIfNull( OPDEF_VERTICAL_SPAN, AV_1 );
   }
 
   // ------------------------------------------------------------------------------------

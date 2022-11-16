@@ -22,6 +22,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class ValedMultiLookupTableEditor<V>
     extends AbstractValedMultiLookupEditor<V> {
 
+  private static final int DEFAULT_VERTICAL_SPAN = 15;
+
   private IM5MultiLookupPanel<V> panel = null;
 
   /**
@@ -36,7 +38,7 @@ public class ValedMultiLookupTableEditor<V>
     super( aContext );
     setParamIfNull( OPDEF_IS_WIDTH_FIXED, AV_FALSE );
     setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_FALSE );
-    setParamIfNull( OPDEF_VERTICAL_SPAN, avInt( 15 ) );
+    setParamIfNull( OPDEF_VERTICAL_SPAN, avInt( DEFAULT_VERTICAL_SPAN ) );
     setLookupProvider( fieldDef().lookupProvider() );
   }
 

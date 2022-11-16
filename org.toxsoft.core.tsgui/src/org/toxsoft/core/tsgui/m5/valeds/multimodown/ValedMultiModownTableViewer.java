@@ -21,6 +21,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class ValedMultiModownTableViewer<V>
     extends AbstractValedMultiModownEditor<V> {
 
+  private static final int DEFAULT_VERTICAL_SPAN = 15;
+
   IM5CollectionPanel<V>             panel         = null;
   private M5DefaultItemsProvider<V> itemsProvider = new M5DefaultItemsProvider<>();
 
@@ -34,7 +36,7 @@ public class ValedMultiModownTableViewer<V>
     super( aContext );
     setParamIfNull( OPDEF_IS_WIDTH_FIXED, AV_FALSE );
     setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_FALSE );
-    setParamIfNull( OPDEF_VERTICAL_SPAN, avInt( 15 ) );
+    setParamIfNull( OPDEF_VERTICAL_SPAN, avInt( DEFAULT_VERTICAL_SPAN ) );
     itemsProvider.genericChangeEventer().addListener( aSource -> {
       if( panel != null ) {
         panel.refresh();

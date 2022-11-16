@@ -23,6 +23,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class ValedMultiModownTableEditor<V>
     extends AbstractValedMultiModownEditor<V> {
 
+  private static final int DEFAULT_VERTICAL_SPAN = 15;
+
   // FIXME есть проблема - про вызове не "руками", нужно указывать правильный мастер-объект
   // правильно все работает, только если мастер = null
 
@@ -117,7 +119,7 @@ public class ValedMultiModownTableEditor<V>
     super( aContext );
     setParamIfNull( OPDEF_IS_WIDTH_FIXED, AV_FALSE );
     setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_FALSE );
-    setParamIfNull( OPDEF_VERTICAL_SPAN, avInt( 15 ) );
+    setParamIfNull( OPDEF_VERTICAL_SPAN, avInt( DEFAULT_VERTICAL_SPAN ) );
     itemsContainer.genericChangeEventer().addListener( aSource -> {
       if( panel != null ) {
         panel.refresh();

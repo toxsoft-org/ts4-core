@@ -40,6 +40,7 @@ public class ValedSingleLookupComboEditor<V>
     super( aContext );
     setParamIfNull( IValedControlConstants.OPID_IS_WIDTH_FIXED, AV_FALSE );
     setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
+    setParamIfNull( OPDEF_VERTICAL_SPAN, AV_1 );
   }
 
   // ------------------------------------------------------------------------------------

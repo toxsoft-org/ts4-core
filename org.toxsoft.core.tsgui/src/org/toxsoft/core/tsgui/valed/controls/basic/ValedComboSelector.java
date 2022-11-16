@@ -92,6 +92,7 @@ public class ValedComboSelector<V>
     super( aContext );
     setParamIfNull( OPDEF_IS_WIDTH_FIXED, AV_FALSE );
     setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
+    setParamIfNull( OPDEF_VERTICAL_SPAN, AV_1 );
     visualsProvider = REFDEF_VALUE_VISUALS_PROVIDER.getRef( aContext, ITsVisualsProvider.DEFAULT );
     itemsProvider = REFDEF_ITEMS_PROVIDER.getRef( aContext, ITsItemsProvider.EMPTY );
     items.setAll( itemsProvider.listItems() );
@@ -110,6 +111,7 @@ public class ValedComboSelector<V>
     TsNullArgumentRtException.checkNulls( aItems, aNameProvider );
     setParamIfNull( OPDEF_IS_WIDTH_FIXED, AV_FALSE );
     setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
+    setParamIfNull( OPDEF_VERTICAL_SPAN, AV_1 );
     visualsProvider = aNameProvider;
     items.setAll( aItems );
   }

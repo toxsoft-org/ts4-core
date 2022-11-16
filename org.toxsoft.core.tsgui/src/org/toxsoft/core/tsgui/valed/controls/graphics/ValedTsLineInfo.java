@@ -58,6 +58,7 @@ public class ValedTsLineInfo
   protected ValedTsLineInfo( ITsGuiContext aTsContext ) {
     super( aTsContext );
     setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
+    setParamIfNull( OPDEF_VERTICAL_SPAN, AV_1 );
   }
 
   // ------------------------------------------------------------------------------------

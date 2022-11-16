@@ -86,6 +86,7 @@ public class ValedTimestampMpv
   public ValedTimestampMpv( ITsGuiContext aTsContext ) {
     super( aTsContext );
     setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
+    setParamIfNull( OPDEF_VERTICAL_SPAN, AV_1 );
     mpv = IMpvTimestamp.create( OPDEF_MPV_TIME_LEN.getValue( params() ).asValobj() );
     updateAllowedRange();
   }

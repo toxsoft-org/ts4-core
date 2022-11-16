@@ -31,6 +31,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class ValedSingleModownInplaceEditor<V>
     extends AbstractValedSingleModownEditor<V> {
 
+  private static final int DEFAULT_VERTICAL_SPAN = 3;
+
   /**
    * {@link #checkboxIsNull} listener.
    */
@@ -64,7 +66,7 @@ public class ValedSingleModownInplaceEditor<V>
     super( aContext );
     setParamIfNull( OPDEF_IS_WIDTH_FIXED, AV_FALSE );
     setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_FALSE );
-    setParamIfNull( OPDEF_VERTICAL_SPAN, avInt( 3 ) );
+    setParamIfNull( OPDEF_VERTICAL_SPAN, avInt( DEFAULT_VERTICAL_SPAN ) );
     if( isCreatedUneditable() ) {
       panel = fieldDef().itemModel().panelCreator().createEntityViewerPanel( aContext );
     }

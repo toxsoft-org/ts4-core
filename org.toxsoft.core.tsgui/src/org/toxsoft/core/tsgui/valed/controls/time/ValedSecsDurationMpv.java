@@ -102,6 +102,7 @@ public class ValedSecsDurationMpv
     super( aTsContext );
     setParamIfNull( OPDEF_IS_WIDTH_FIXED, AV_FALSE );
     setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
+    setParamIfNull( OPDEF_VERTICAL_SPAN, AV_1 );
     boolean isHoursPart = params().getBool( OPDEF_IS_HOURS_PART );
     boolean isSecondsPart = params().getBool( OPDEF_IS_SECONDS_PART );
     mpv = IMpvSecsDuration.create( isHoursPart, isSecondsPart );
