@@ -29,6 +29,9 @@ import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link IM5EntityPanel} implementation based on auto-created {@link IValedControl} editors.
+ * <p>
+ * Thois panle has a backplane {@link #board()} and field VALEDs on it. Optional decorating widgets may also be placed
+ * on this panel. However, panel creates {@link IM5Bunch} result based only on values from {@link #editors()}.
  *
  * @author hazard157
  * @param <T> - modelled entity type
@@ -36,30 +39,25 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class M5EntityPanelWithValeds<T>
     extends M5AbstractEntityPanel<T> {
 
-  // TODO TRANSLATE
-
   /**
-   * Слушатель правок в редакторах полей.
+   * Listens to the edit events in the VALEDs of this panel.
    */
   private final IValedControlValueChangeListener valueEditorsListener = ( aSource, aEditFinished ) -> {
-    // сначала пусть обработает наследник, и если он разрешил обработку по умолчанию...
     IM5FieldDef<T, ?> fDef = findEditorFieldDef( aSource );
     if( doProcessEditorValueChange( aSource, fDef, aEditFinished ) ) {
-      // известим всех об измененияхz
       fireChangeEvent();
     }
-    // TODO этот метод вызывается для обновления состояния редакторов, но может это
-    // не совсем подходящий метод? может нужно иметь другой (типа как updateActionsState() в панели коллекции?)
+    // calling this method allows to update panel widgets states
     doEditableStateChanged();
   };
 
   /**
-   * Карта редакторов "ИД поля" - "редактор поля".
+   * Field value editors as map "field ID" - "field VALED"..
    */
   private final IStringMapEdit<IValedControl<?>> editors = new StringMap<>();
 
   /**
-   * Панель с визуальными компонентами.
+   * The backplane board.
    */
   private final IVecBoard board = new VecBoard();
 
@@ -69,13 +67,13 @@ public class M5EntityPanelWithValeds<T>
   private final M5EntityPanelWithValedsController<T> controller;
 
   /**
-   * Конструктор.
+   * Constructor.
    *
-   * @param aContext {@link ITsGuiContext} - контекст панели
-   * @param aModel {@link IM5Model} - модель
-   * @param aViewer boolean - признак просмотрщика (панели только для просмотра)
-   * @param aController {@link M5EntityPanelWithValedsController} - контроллер панели или <code>null</code>
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aContext {@link ITsGuiContext} - the context
+   * @param aModel {@link IM5Model} - the M5-model of entity
+   * @param aViewer boolean - flags viewer (read-only) mode of panel to be created
+   * @param aController {@link M5EntityPanelWithValedsController} - the controller or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public M5EntityPanelWithValeds( ITsGuiContext aContext, IM5Model<T> aModel, boolean aViewer,
       M5EntityPanelWithValedsController<T> aController ) {
@@ -102,53 +100,16 @@ public class M5EntityPanelWithValeds<T>
   }
 
   // ------------------------------------------------------------------------------------
-  // Implementation
+  // implementation
   //
-
-  /**
-   * Возвращает описание поля, редактиромое запрошенным редактором.
-   *
-   * @param aEditor {@link IValedControl} - запрошенный редактор
-   * @return {@link IM5FieldDef} - описание поля моделированного объекта, редактируемое аргументом
-   * @throws TsNullArgumentRtException аргумент = null
-   * @throws TsItemNotFoundRtException редактор не от этой панели
-   */
-  public IM5FieldDef<T, ?> findEditorFieldDef( IValedControl<?> aEditor ) {
-    int index = editors.values().indexOf( aEditor );
-    TsItemNotFoundRtException.checkTrue( index < 0 );
-    String fieldId = editors.keys().get( index );
-    return model().fieldDefs().getByKey( fieldId );
-  }
-
-  /**
-   * Добавляет виджет просмотра значения поля.
-   * <p>
-   * Если такое поле уже добавлено, метод ничего не делает.
-   *
-   * @param aFieldId String - идентификатор одного из полей модели {@link IM5Model#fieldDefs()}
-   * @return {@link IValedControl} - созданный или ранее существующий редактор поля
-   * @throws TsNullArgumentRtException аргумент = null
-   * @throws TsItemNotFoundRtException нет такого поля в модели
-   */
-  public IValedControl<?> addField( String aFieldId ) {
-    IM5FieldDef<T, ?> fDef = model().fieldDefs().getByKey( aFieldId );
-    IValedControl<?> e = editors.findByKey( aFieldId );
-    if( e == null ) {
-      e = createEditor( fDef );
-      TsInternalErrorRtException.checkNull( e );
-      e.setEditable( isEditable() );
-      editors.put( aFieldId, e );
-    }
-    return e;
-  }
 
   /**
    * Creates editor for specified field.
    * <p>
    * First finds the editor factory and then crates the editor. Editor factory may be specified in option
    * {@link IValedControlConstants#OPDEF_EDITOR_FACTORY_NAME} of field {@link IM5FieldDef#params()}. If not specified
-   * method uses heuristic knowledge and tries to puck up an editor factory. If factory can not be found throws an
-   * exception {@link TsItemNotFoundRtException}.
+   * method uses heuristic knowledge from {@link ValedControlUtils} and tries to puck up an editor factory. If factory
+   * can not be found throws an exception {@link TsItemNotFoundRtException}.
    *
    * @param aFieldDef {@link IM5FieldDef} - the field
    * @return {@link IValedControl} - created editor
@@ -158,7 +119,7 @@ public class M5EntityPanelWithValeds<T>
   @SuppressWarnings( { "rawtypes" } )
   private IValedControl<?> createEditor( IM5FieldDef<T, ?> aFieldDef ) {
     TsNullArgumentRtException.checkNull( aFieldDef );
-    // подготовим индивидуальный экземпляр контекста для создания редактора
+    // each editor needs own instance of the context
     ITsGuiContext ctx = new TsGuiContext( tsContext() );
     ctx.params().addAll( aFieldDef.params() );
     for( String refId : aFieldDef.valedRefs().keys() ) {
@@ -168,7 +129,7 @@ public class M5EntityPanelWithValeds<T>
       ctx.params().setBool( OPDEF_CREATE_UNEDITABLE, true );
     }
     IM5ValedConstants.M5_VALED_REFDEF_FIELD_DEF.setRef( ctx, aFieldDef );
-    // если редактор задан явно, то используем его
+    // use explicitly specified VALED
     IAtomicValue avEdName = aFieldDef.params().findValue( OPDEF_EDITOR_FACTORY_NAME );
     if( avEdName != null && avEdName != IAtomicValue.NULL ) {
       // необходим реестр фабрик
@@ -182,11 +143,16 @@ public class M5EntityPanelWithValeds<T>
       return editor;
     }
     //
-    // редактор не задан, начинаем эвристику определения редактора и создания редактора
     // GOGA 2020-11-24 в контексте уровнем выше может быть EDITOR_FACTORY_NAME, обнулим для себя
-    //
+    // reset OPDEF_EDITOR_FACTORY_NAME option if it is defined
+
+    /**
+     * At this point #ctx does NOT contains OPDEF_EDITOR_FACTORY_NAME option from the field definition. However,
+     * somwhere in the parent contexts there may be the same option defined. To avoid misunderstanding we'll "hide"
+     * parent OPDEF_EDITOR_FACTORY_NAME option.
+     */
     OPDEF_EDITOR_FACTORY_NAME.setValue( ctx.params(), IAtomicValue.NULL );
-    // для атрибутов всегда можно подобрать редактор
+    // for the attributes an IAtmicValue editor alway may be found
     if( aFieldDef instanceof IM5AttributeFieldDef afd ) {
       EAtomicType atomicType = afd.atomicType();
       IValedControlFactory factory = ValedControlUtils.guessAvEditorFactory( atomicType, ctx );
@@ -194,59 +160,27 @@ public class M5EntityPanelWithValeds<T>
       editor.clearValue();
       return editor;
     }
+    // use ValedControlUtils heuristics to find VALED for the field
     IValedControlFactory factory = ValedControlUtils.guessRawEditorFactory( aFieldDef.valueClass(), ctx );
     if( factory != null ) {
       IValedControl editor = doCreateEditor( factory, aFieldDef, ctx );
       editor.clearValue();
       return editor;
     }
-    // эвристические правила создания редактора моделированных полей не смогли ничего подобрать, увы...
+    // heuritics faild, we can't create fiedl editor
     throw new TsItemNotFoundRtException( FMT_ERR_NO_FACTORY_IN_PARAMS, aFieldDef.id() );
   }
 
-  /**
-   * Заменяет текст сообщения, добавляя информацию насчет поля объекта, вызвавшего ошибку.
-   *
-   * @param aVr {@link ValidationResult} - исходное сообщение
-   * @param aFieldDef {@link IM5FieldDef} - поле, редактор которого вызвал ошибку/предупреждение
-   * @return {@link ValidationResult} - сообщение с замененным текстом
-   */
-  public static ValidationResult repackFieldVr( ValidationResult aVr, IM5FieldDef<?, ?> aFieldDef ) {
-    switch( aVr.type() ) {
-      case OK:
-        return ValidationResult.SUCCESS;
-      case WARNING:
-        return ValidationResult.warn( FMT_ERR_FIELD_VALIDATION_FAIL, aFieldDef.nmName(), aVr.message() );
-      case ERROR:
-        return ValidationResult.error( FMT_ERR_FIELD_VALIDATION_FAIL, aFieldDef.nmName(), aVr.message() );
-      default:
-        throw new TsNotAllEnumsUsedRtException();
-    }
-  }
+  // TODO TRANSLATE
 
   /**
-   * Возвращает оснву, содержащий виджеты панели.
+   * Method tries to collect values from VALEDs in the argument bunch.
+   * <p>
+   * If error is returned the reason may be either VALED which fails {@link IValedControl#canGetValue()} or field that
+   * fails {@link IM5FieldDef#validator()} validation.
    *
-   * @return {@link IVecBoard} 0 основа для виджетов панели
-   */
-  public IVecBoard board() {
-    return board;
-  }
-
-  /**
-   * Returns all editors in panel.
-   *
-   * @return IStringMap&lt;{@link IValedControl}&gt; - the map "field ID" - "field editor"
-   */
-  public IStringMap<IValedControl<?>> editors() {
-    return editors;
-  }
-
-  /**
-   * Пытается собрать значения полей с виджетов панели.
-   *
-   * @param aValues {@link IM5BunchEdit} - редактируемый набор для сбора значений
-   * @return {@link ValidationResult} - результат сбора и валидации значений полей
+   * @param aValues {@link IM5BunchEdit} - the bunch to put values to
+   * @return {@link ValidationResult} - the result of collecing and validating values
    */
   @SuppressWarnings( { "rawtypes", "unchecked" } )
   private ValidationResult internalCollectValues( IM5BunchEdit<T> aValues ) {
@@ -299,6 +233,81 @@ public class M5EntityPanelWithValeds<T>
       }
     }
     return valResult;
+  }
+
+  /**
+   * Возвращает описание поля, редактиромое запрошенным редактором.
+   *
+   * @param aEditor {@link IValedControl} - запрошенный редактор
+   * @return {@link IM5FieldDef} - описание поля моделированного объекта, редактируемое аргументом
+   * @throws TsNullArgumentRtException аргумент = null
+   * @throws TsItemNotFoundRtException редактор не от этой панели
+   */
+  public IM5FieldDef<T, ?> findEditorFieldDef( IValedControl<?> aEditor ) {
+    int index = editors.values().indexOf( aEditor );
+    TsItemNotFoundRtException.checkTrue( index < 0 );
+    String fieldId = editors.keys().get( index );
+    return model().fieldDefs().getByKey( fieldId );
+  }
+
+  /**
+   * Добавляет виджет просмотра значения поля.
+   * <p>
+   * Если такое поле уже добавлено, метод ничего не делает.
+   *
+   * @param aFieldId String - идентификатор одного из полей модели {@link IM5Model#fieldDefs()}
+   * @return {@link IValedControl} - созданный или ранее существующий редактор поля
+   * @throws TsNullArgumentRtException аргумент = null
+   * @throws TsItemNotFoundRtException нет такого поля в модели
+   */
+  public IValedControl<?> addField( String aFieldId ) {
+    IM5FieldDef<T, ?> fDef = model().fieldDefs().getByKey( aFieldId );
+    IValedControl<?> e = editors.findByKey( aFieldId );
+    if( e == null ) {
+      e = createEditor( fDef );
+      TsInternalErrorRtException.checkNull( e );
+      e.setEditable( isEditable() );
+      editors.put( aFieldId, e );
+    }
+    return e;
+  }
+
+  /**
+   * Заменяет текст сообщения, добавляя информацию насчет поля объекта, вызвавшего ошибку.
+   *
+   * @param aVr {@link ValidationResult} - исходное сообщение
+   * @param aFieldDef {@link IM5FieldDef} - поле, редактор которого вызвал ошибку/предупреждение
+   * @return {@link ValidationResult} - сообщение с замененным текстом
+   */
+  public static ValidationResult repackFieldVr( ValidationResult aVr, IM5FieldDef<?, ?> aFieldDef ) {
+    switch( aVr.type() ) {
+      case OK:
+        return ValidationResult.SUCCESS;
+      case WARNING:
+        return ValidationResult.warn( FMT_ERR_FIELD_VALIDATION_FAIL, aFieldDef.nmName(), aVr.message() );
+      case ERROR:
+        return ValidationResult.error( FMT_ERR_FIELD_VALIDATION_FAIL, aFieldDef.nmName(), aVr.message() );
+      default:
+        throw new TsNotAllEnumsUsedRtException();
+    }
+  }
+
+  /**
+   * Возвращает оснву, содержащий виджеты панели.
+   *
+   * @return {@link IVecBoard} 0 основа для виджетов панели
+   */
+  public IVecBoard board() {
+    return board;
+  }
+
+  /**
+   * Returns all editors in panel.
+   *
+   * @return IStringMap&lt;{@link IValedControl}&gt; - the map "field ID" - "field editor"
+   */
+  public IStringMap<IValedControl<?>> editors() {
+    return editors;
   }
 
   // ------------------------------------------------------------------------------------

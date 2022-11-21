@@ -19,6 +19,7 @@ Require-Bundle: javax.inject,
  org.eclipse.e4.ui.workbench,
  org.eclipse.e4.ui.model.workbench,
  org.toxsoft.core.tslib,
+ org.toxsoft.core.tsgui,
  org.toxsoft.core.singlesrc.rcp
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: org.toxsoft.core.tsgui

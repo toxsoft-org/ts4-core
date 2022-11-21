@@ -71,7 +71,7 @@ public interface ITsCheckSupport<T> {
    * Sets the check state for the specified elements.
    * <p>
    * Check state will be set for elements listed in argument <code>aItems</code>. Elements of <code>aItems</code> that
-   * are not present in displayed collection aare ignored. молча игнорируются.
+   * are not present in displayed collection are ignored.
    *
    * @param aItems IList&lt;T&gt; - list of elements to chenge the check state
    * @param aCheckState boolean - the check state to be set

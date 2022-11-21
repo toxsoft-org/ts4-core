@@ -14,6 +14,7 @@ import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.m5.model.impl.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -118,6 +119,56 @@ public class M5GuiUtils {
     @Override
     protected T doGetDataRecord() {
       return panel.selectedItem();
+    }
+
+  }
+
+  /**
+   * Checked items list panel from the list provided by {@link IM5ItemsProvider}.
+   * <p>
+   * Used by {@link M5GuiUtils#askSelectItemsList(ITsDialogInfo, IM5Model, IList, IM5ItemsProvider)}.
+   *
+   * @author hazard157
+   * @param <T> - modelled entity type
+   */
+  static class SelectItemsListDialogContentPanel<T>
+      extends AbstractTsDialogPanel<IList<T>, Object> {
+
+    final IM5CollectionPanel<T> panel;
+
+    protected SelectItemsListDialogContentPanel( Composite aParent, TsDialog<IList<T>, Object> aOwnerDialog,
+        IM5CollectionPanel<T> aPanel ) {
+      super( aParent, aOwnerDialog );
+      this.setLayout( new BorderLayout() );
+      panel = aPanel;
+      TsInternalErrorRtException.checkFalse( panel.checkSupport().isChecksSupported() );
+      panel.createControl( this );
+      panel.getControl().setLayoutData( BorderLayout.CENTER );
+      panel.addTsDoubleClickListener( ( aSource, aSelectedItem ) -> {
+        fireContentChangeEvent();
+        ownerDialog().closeDialog( ETsDialogCode.OK );
+      } );
+      panel.addTsSelectionListener( ( aSource, aSelectedItem ) -> fireContentChangeEvent() );
+    }
+
+    @Override
+    protected ValidationResult validateData() {
+      return ValidationResult.SUCCESS;
+    }
+
+    @Override
+    protected void doSetDataRecord( IList<T> aData ) {
+      if( aData != null ) {
+        panel.checkSupport().setItemsCheckState( aData, true );
+      }
+      else {
+        panel.checkSupport().setAllItemsCheckState( false );
+      }
+    }
+
+    @Override
+    protected IList<T> doGetDataRecord() {
+      return panel.checkSupport().listCheckedItems( true );
     }
 
   }
@@ -341,7 +392,7 @@ public class M5GuiUtils {
    * @param aInitialSelected &lt;T&gt; - inititlly selected item or <code>null</code>
    * @param aItemsProvider {@link IM5ItemsProvider} - items provider
    * @param aLifecycleManager {@link IM5LifecycleManager} - lifecycle manager or <code>null</code>
-   * @return &lt;T&gt; - выбранный элемент или <code>null</code>
+   * @return &lt;T&gt; - selected item or <code>null</code>
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static <T> T askSelectItem( ITsDialogInfo aDialogInfo, IM5Model<T> aModel, T aInitialSelected,
@@ -358,6 +409,32 @@ public class M5GuiUtils {
       return new SelectItemDialogContentPanel<>( aParent, aOwnerDlg, panel );
     };
     TsDialog<T, Object> d = new TsDialog<>( aDialogInfo, aInitialSelected, null, creator );
+    return d.execData();
+  }
+
+  /**
+   * Shows provided items list and allows to select any number of them.
+   * <p>
+   * Dialog will contain editable panel creted by
+   * {@link IM5PanelCreator#createCollChecksPanel(ITsGuiContext, IM5ItemsProvider)}.
+   *
+   * @param <T> - provided items class
+   * @param aDialogInfo {@link ITsDialogInfo} - dialog window parameters
+   * @param aModel {@link IM5Model} - lookup items model
+   * @param aInitialChecked {@link IList}&lt;T&gt; - inititlly selected items
+   * @param aItemsProvider {@link IM5ItemsProvider} - items provider
+   * @return {@link IList}&lt;T&gt; - checked items list or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static <T> IList<T> askSelectItemsList( ITsDialogInfo aDialogInfo, IM5Model<T> aModel,
+      IList<T> aInitialChecked, IM5ItemsProvider<T> aItemsProvider ) {
+    TsNullArgumentRtException.checkNulls( aDialogInfo, aModel, aItemsProvider );
+    IDialogPanelCreator<IList<T>, Object> creator = ( aParent, aOwnerDlg ) -> {
+      IM5CollectionPanel<T> panel =
+          aModel.panelCreator().createCollChecksPanel( aOwnerDlg.tsContext(), aItemsProvider );
+      return new SelectItemsListDialogContentPanel<>( aParent, aOwnerDlg, panel );
+    };
+    TsDialog<IList<T>, Object> d = new TsDialog<>( aDialogInfo, aInitialChecked, null, creator );
     return d.execData();
   }
 
