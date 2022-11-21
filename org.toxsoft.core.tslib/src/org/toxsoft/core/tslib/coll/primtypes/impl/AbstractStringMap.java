@@ -1,4 +1,4 @@
-package org.toxsoft.core.tslib.coll.impl;
+package org.toxsoft.core.tslib.coll.primtypes.impl;
 
 import static org.toxsoft.core.tslib.coll.impl.TsCollectionsUtils.*;
 
@@ -6,25 +6,25 @@ import java.io.*;
 import java.util.*;
 
 import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Internal template for {@link IMap} sorted and unsorted implementations.
+ * Internal template for {@link IStringMap} sorted and unsorted implementations.
  *
  * @author hazard157
- * @param <K> - the type of keys maintained by this map
  * @param <E> - the type of mapped values
  */
-class AbstractElemMap<K, E>
-    implements IMapEdit<K, E>, Serializable {
+public class AbstractStringMap<E>
+    implements IStringMapEdit<E>, Serializable {
 
-  private static final long serialVersionUID = 158158L;
+  private static final long serialVersionUID = 157157L;
 
-  private final IListBasicEdit<K>        keyList;
-  private final IListEdit<E>             elemList;
-  private final ElemMapInternalIntList[] buckets;
-
-  private final int bucketArrayLength;
+  private final IStringListBasicEdit keyList;
+  private final IListEdit<E>         elemList;
+  private final IIntListEdit[]       buckets;
 
   transient int changeCount = 0; // Counter of list editing operations used for concurrent access detection
 
@@ -32,21 +32,16 @@ class AbstractElemMap<K, E>
    * Construcor for subclasses.
    *
    * @param aBucketsCount int - number of cells in hash-table (rounded to nearest prime number)
-   * @param aKeysList {@link IListBasicEdit}&lt;K:gt; - keys list, may be sorted
+   * @param aKeysList {@link IStringListBasicEdit}&lt;K:gt; - keys list, may be sorted
    * @param aElemList {@link IListEdit}&lt;E&gt; - values list
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  protected AbstractElemMap( int aBucketsCount, IListBasicEdit<K> aKeysList, IListEdit<E> aElemList ) {
+  protected AbstractStringMap( int aBucketsCount, IStringListBasicEdit aKeysList, IListEdit<E> aElemList ) {
     int bucketsCount = calculateNextPrimeNumber( aBucketsCount );
     TsNullArgumentRtException.checkNulls( aKeysList, aElemList );
     keyList = aKeysList;
     elemList = aElemList;
-    int bal = (int)Math.sqrt( bucketsCount );
-    if( bal < 4 ) {
-      bal = 4;
-    }
-    bucketArrayLength = bal;
-    buckets = new ElemMapInternalIntList[bucketsCount];
+    buckets = new IIntListEdit[bucketsCount];
     Arrays.fill( buckets, null );
   }
 
@@ -64,10 +59,10 @@ class AbstractElemMap<K, E>
    */
   private void adjustIndexesAfterRemove( int aRemovedIndex ) {
     for( int bIndex = 0; bIndex < buckets.length; bIndex++ ) {
-      ElemMapInternalIntList elemIndexList = buckets[bIndex];
+      IIntListEdit elemIndexList = buckets[bIndex];
       if( elemIndexList != null ) {
         for( int i = 0, n = elemIndexList.size(); i < n; i++ ) {
-          int elemIndex = elemIndexList.get( i );
+          int elemIndex = elemIndexList.getValue( i );
           if( elemIndex > aRemovedIndex ) {
             elemIndexList.set( i, elemIndex - 1 );
           }
@@ -137,12 +132,12 @@ class AbstractElemMap<K, E>
   //
 
   @Override
-  public boolean hasKey( K aKey ) {
+  public boolean hasKey( String aKey ) {
     TsNullArgumentRtException.checkNull( aKey );
-    ElemMapInternalIntList elemIndexList = buckets[bucketIndex( aKey.hashCode() )];
+    IIntList elemIndexList = buckets[bucketIndex( aKey.hashCode() )];
     if( elemIndexList != null ) {
       for( int i = 0, n = elemIndexList.size(); i < n; i++ ) {
-        int eIndex = elemIndexList.get( i );
+        int eIndex = elemIndexList.getValue( i );
         if( keyList.get( eIndex ).equals( aKey ) ) {
           return true;
         }
@@ -152,14 +147,14 @@ class AbstractElemMap<K, E>
   }
 
   @Override
-  public E findByKey( K aKey ) {
+  public E findByKey( String aKey ) {
     if( aKey == null ) {
       throw new TsNullArgumentRtException();
     }
-    ElemMapInternalIntList elemIndexList = buckets[bucketIndex( aKey.hashCode() )];
+    IIntList elemIndexList = buckets[bucketIndex( aKey.hashCode() )];
     if( elemIndexList != null ) {
       for( int i = 0, n = elemIndexList.size(); i < n; i++ ) {
-        int eIndex = elemIndexList.get( i );
+        int eIndex = elemIndexList.getValue( i );
         if( keyList.get( eIndex ).equals( aKey ) ) {
           return elemList.get( eIndex );
         }
@@ -169,13 +164,17 @@ class AbstractElemMap<K, E>
   }
 
   @Override
-  public IList<K> keys() {
-    return keyList;
-  }
-
-  @Override
   public IList<E> values() {
     return elemList;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // IStringMap
+  //
+
+  @Override
+  public IStringList keys() {
+    return keyList;
   }
 
   // ------------------------------------------------------------------------------------
@@ -201,20 +200,21 @@ class AbstractElemMap<K, E>
   //
 
   @Override
-  public E put( K aKey, E aElem ) {
+  public E put( String aKey, E aElem ) {
     if( aKey == null || aElem == null ) {
       throw new TsNullArgumentRtException();
     }
+    checkArgsValidity( aKey, aElem );
     // find bucket and ensure it exists
     int bIndex = bucketIndex( aKey.hashCode() );
-    ElemMapInternalIntList elemIndexList = buckets[bIndex];
+    IIntListEdit elemIndexList = buckets[bIndex];
     if( elemIndexList == null ) {
-      elemIndexList = new ElemMapInternalIntList( bucketArrayLength );
+      elemIndexList = new IntLinkedBundleList();
       buckets[bIndex] = elemIndexList;
     }
     // if key is already in map, just set new value
     for( int i = 0, n = elemIndexList.size(); i < n; i++ ) {
-      int eIndex = elemIndexList.get( i );
+      int eIndex = elemIndexList.getValue( i );
       if( keyList.get( eIndex ).equals( aKey ) ) {
         ++changeCount;
         return elemList.set( eIndex, aElem );
@@ -229,15 +229,15 @@ class AbstractElemMap<K, E>
   }
 
   @Override
-  public E removeByKey( K aKey ) {
+  public E removeByKey( String aKey ) {
     TsNullArgumentRtException.checkNull( aKey );
-    ElemMapInternalIntList elemIndexList = buckets[bucketIndex( aKey.hashCode() )];
+    IIntListEdit elemIndexList = buckets[bucketIndex( aKey.hashCode() )];
     if( elemIndexList != null ) {
       for( int i = 0, n = elemIndexList.size(); i < n; i++ ) {
-        int eIndex = elemIndexList.get( i );
+        int eIndex = elemIndexList.getValue( i );
         if( keyList.get( eIndex ).equals( aKey ) ) {
           keyList.removeByIndex( eIndex );
-          elemIndexList.remove( i );
+          elemIndexList.removeByIndex( i );
           adjustIndexesAfterRemove( eIndex );
           ++changeCount;
           return elemList.removeByIndex( eIndex );
@@ -248,7 +248,7 @@ class AbstractElemMap<K, E>
   }
 
   // ------------------------------------------------------------------------------------
-  // Object
+  // Реализация методов Object
   //
 
   @Override
@@ -256,21 +256,58 @@ class AbstractElemMap<K, E>
     return TsCollectionsUtils.countableCollectionToString( this );
   }
 
-  @SuppressWarnings( "rawtypes" )
   @Override
   public boolean equals( Object obj ) {
     if( obj == this ) {
       return true;
     }
-    if( !(obj instanceof IList) ) {
+    if( !(obj instanceof IStringMap) ) {
       return false;
     }
-    return TsCollectionsUtils.isMapsEqual( this, (IMap)obj );
+    IStringMap<?> map = (IStringMap<?>)obj;
+    int sz = map.size();
+    if( sz != size() ) {
+      return false;
+    }
+    for( int i = 0; i < sz; i++ ) {
+      if( !map.keys().get( i ).equals( this.keys().get( i ) ) ) {
+        return false;
+      }
+      if( !map.values().get( i ).equals( this.values().get( i ) ) ) {
+        return false;
+      }
+    }
+    return true;
   }
 
   @Override
   public int hashCode() {
-    return TsCollectionsUtils.calcMapHashCode( this );
+    int result = TsLibUtils.INITIAL_HASH_CODE;
+    for( int i = 0, n = size(); i < n; i++ ) {
+      result = TsLibUtils.PRIME * result + keys().get( i ).hashCode();
+      result = TsLibUtils.PRIME * result + values().get( i ).hashCode();
+    }
+    return result;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // To override
+  //
+
+  /**
+   * Subclass may throw an exception if any argument of the method{@link #put(String, Object)} is not accepted.
+   * <p>
+   * Note: checking {@link #put(String, Object)} is the same as to check any key/values pair because this is the only
+   * method that adds entires to this map.
+   * <p>
+   * Does nothong in the base class there is no need to call superclass method when overriding.
+   *
+   * @param aKey String - the key, never is <code>null</code>
+   * @param aElem &lt;E&gt; - the value, never is <code>null</code>
+   * @throws TsRuntimeException (or subclass) is any argument is not accepted by the subclass
+   */
+  protected void checkArgsValidity( String aKey, E aElem ) {
+    // all non-null arguments are accepted
   }
 
 }
