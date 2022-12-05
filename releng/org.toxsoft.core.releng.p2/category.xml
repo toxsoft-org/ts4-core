@@ -9,6 +9,7 @@
    <bundle id="org.toxsoft.core.tslib"/>
    <bundle id="org.toxsoft.core.tsgui"/>
    <bundle id="org.toxsoft.core.tsgui.mws"/>
+   <bundle id="org.toxsoft.core.tsgui.chart"/>
    <bundle id="org.toxsoft.core.log4j"/>
    <bundle id="org.toxsoft.core.pas"/>
    <bundle id="org.toxsoft.core.txtproj.lib"/>
@@ -21,6 +22,7 @@
    <bundle id="org.toxsoft.core.tslib.source"/>
    <bundle id="org.toxsoft.core.tsgui.source"/>
    <bundle id="org.toxsoft.core.tsgui.mws.source"/>
+   <bundle id="org.toxsoft.core.tsgui.chart.source"/>
    <bundle id="org.toxsoft.core.log4j.source"/>
    <bundle id="org.toxsoft.core.pas.source"/>
    <bundle id="org.toxsoft.core.txtproj.lib.source"/>
