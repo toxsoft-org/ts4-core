@@ -450,7 +450,7 @@ public final class G2Chart
     return layout.xAxisView;
   }
 
-  XAxisModel xAxisModel() {
+  public XAxisModel xAxisModel() {
     return layout.xAxisModel;
   }
 
