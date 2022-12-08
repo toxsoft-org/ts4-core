@@ -24,7 +24,7 @@ public interface ITsMouseInputListener {
    * @param aState int - the state of the keyboard modifier keys and mouse buttons mask as in {@link KeyEvent#stateMask}
    * @param aCoors {@link ITsPoint} - mouse coordinates relative to <code>aWidget</code>
    * @param aWidget {@link Control} - the control that issued the event
-   * @return default boolean - event processing flag
+   * @return boolean - event processing flag
    */
   default boolean onMouseDown( Object aSource, ETsMouseButton aButton, int aState, ITsPoint aCoors, Control aWidget ) {
     return false;
@@ -38,7 +38,7 @@ public interface ITsMouseInputListener {
    * @param aState int - the state of the keyboard modifier keys and mouse buttons mask as in {@link KeyEvent#stateMask}
    * @param aCoors {@link ITsPoint} - mouse coordinates relative to <code>aWidget</code>
    * @param aWidget {@link Control} - the control that issued the event
-   * @return default boolean - event processing flag
+   * @return boolean - event processing flag
    */
   default boolean onMouseUp( Object aSource, ETsMouseButton aButton, int aState, ITsPoint aCoors, Control aWidget ) {
     return false;
@@ -52,7 +52,7 @@ public interface ITsMouseInputListener {
    * @param aState int - the state of the keyboard modifier keys and mouse buttons mask as in {@link KeyEvent#stateMask}
    * @param aCoors {@link ITsPoint} - mouse coordinates relative to <code>aWidget</code>
    * @param aWidget {@link Control} - the control that issued the event
-   * @return default boolean - event processing flag
+   * @return boolean - event processing flag
    */
   default boolean onMouseClick( Object aSource, ETsMouseButton aButton, int aState, ITsPoint aCoors, Control aWidget ) {
     return false;
@@ -66,7 +66,7 @@ public interface ITsMouseInputListener {
    * @param aState int - the state of the keyboard modifier keys and mouse buttons mask as in {@link KeyEvent#stateMask}
    * @param aCoors {@link ITsPoint} - mouse coordinates relative to <code>aWidget</code>
    * @param aWidget {@link Control} - the control that issued the event
-   * @return default boolean - event processing flag
+   * @return boolean - event processing flag
    */
   default boolean onMouseDoubleClick( Object aSource, ETsMouseButton aButton, int aState, ITsPoint aCoors,
       Control aWidget ) {
@@ -80,7 +80,7 @@ public interface ITsMouseInputListener {
    * @param aState int - the state of the keyboard modifier keys and mouse buttons mask as in {@link KeyEvent#stateMask}
    * @param aCoors {@link ITsPoint} - mouse coordinates relative to <code>aWidget</code>
    * @param aWidget {@link Control} - the control that issued the event
-   * @return default boolean - event processing flag
+   * @return boolean - event processing flag
    */
   default boolean onMouseMove( Object aSource, int aState, ITsPoint aCoors, Control aWidget ) {
     return false;
@@ -94,7 +94,7 @@ public interface ITsMouseInputListener {
    * @param aCoors {@link ITsPoint} - mouse coordinates relative to <code>aWidget</code>
    * @param aWidget {@link Control} - the control that issued the event
    * @param aScrollLines int - number of scrolled "lines" (>0 - scroll up, <0 scroll down)
-   * @return default boolean - event processing flag
+   * @return boolean - event processing flag
    */
   default boolean onMouseWheel( Object aSource, int aState, ITsPoint aCoors, Control aWidget, int aScrollLines ) {
     return false;
@@ -112,7 +112,7 @@ public interface ITsMouseInputListener {
    *
    * @param aSource Object - the event source
    * @param aDragInfo {@link DragOperationInfo} - dragging information as introduced at start
-   * @return default boolean - event processing flag
+   * @return boolean - event processing flag
    */
   default boolean onMouseDragStart( Object aSource, DragOperationInfo aDragInfo ) {
     return false;
@@ -125,7 +125,7 @@ public interface ITsMouseInputListener {
    * @param aDragInfo {@link DragOperationInfo} - dragging information as introduced at start
    * @param aState int - the state of the keyboard modifier keys and mouse buttons mask as in {@link KeyEvent#stateMask}
    * @param aCoors {@link ITsPoint} - mouse coordinates relative to {@link DragOperationInfo#starterControl()}
-   * @return default boolean - event processing flag
+   * @return boolean - event processing flag
    */
   default boolean onMouseDragMove( Object aSource, DragOperationInfo aDragInfo, int aState, ITsPoint aCoors ) {
     return false;
@@ -138,7 +138,7 @@ public interface ITsMouseInputListener {
    * @param aDragInfo {@link DragOperationInfo} - dragging information as introduced at start
    * @param aState int - the state of the keyboard modifier keys and mouse buttons mask as in {@link KeyEvent#stateMask}
    * @param aCoors {@link ITsPoint} - mouse coordinates relative to {@link DragOperationInfo#starterControl()}
-   * @return default boolean - event processing flag
+   * @return boolean - event processing flag
    */
   default boolean onMouseDragFinish( Object aSource, DragOperationInfo aDragInfo, int aState, ITsPoint aCoors ) {
     return false;
@@ -152,7 +152,7 @@ public interface ITsMouseInputListener {
    *
    * @param aSource Object - the event source
    * @param aDragInfo {@link DragOperationInfo} - dragging information as introduced at start
-   * @return default boolean - event processing flag
+   * @return boolean - event processing flag
    */
   default boolean onMouseDragCancel( Object aSource, DragOperationInfo aDragInfo ) {
     return false;

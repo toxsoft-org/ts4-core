@@ -1,12 +1,10 @@
 package org.toxsoft.core.tsgui.mws.services.currentity;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
-import org.toxsoft.core.tslib.coll.impl.ElemLinkedBundleList;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.eclipse.e4.core.contexts.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * {@link ICurrentEntityService} implementation.
@@ -67,6 +65,16 @@ public class CurrentEntityService<E>
     }
   }
 
+  void fireAfterListenersEvent() {
+    if( listeners.isEmpty() ) {
+      return;
+    }
+    IList<ICurrentEntityChangeListener<E>> ll = new ElemArrayList<>( listeners );
+    for( ICurrentEntityChangeListener<E> l : ll ) {
+      l.afterListenersInformed();
+    }
+  }
+
   // ------------------------------------------------------------------------------------
   // API for subclasses
   //
@@ -88,6 +96,8 @@ public class CurrentEntityService<E>
    * Subclass may handle current entity change.
    * <p>
    * This method is called after current entity changed but before listeners are informed.
+   * <p>
+   * In base class does nothing, there is no need to call superclass method when overriding.
    *
    * @param aOld &lt;E&gt; - old value of {@link #current()} may be <code>null</code>
    * @param aNew &lt;E&gt; - new value of {@link #current()} may be <code>null</code>
@@ -97,9 +107,12 @@ public class CurrentEntityService<E>
   }
 
   /**
-   * Subclass may handle current entity change.
+   * Subclass may prform additional actions after external listeners were called.
    * <p>
-   * This method is called after current entity changed and after listeners were informed.
+   * This method is called after current entity changed and after listeners were informed. Also all
+   * {@link ICurrentEntityChangeListener#afterListenersInformed()} were called before invoking this method.
+   * <p>
+   * In base class does nothing, there is no need to call superclass method when overriding.
    */
   protected void afterListenersInformed() {
     // nop
@@ -121,6 +134,7 @@ public class CurrentEntityService<E>
       current = aCurrent;
       beforeListenersInformed( old, current );
       fireEntityChangedEvent();
+      fireAfterListenersEvent();
       afterListenersInformed();
     }
   }
@@ -128,6 +142,8 @@ public class CurrentEntityService<E>
   @Override
   public void informOnContentChange() {
     fireContentChangedEvent();
+    fireAfterListenersEvent();
+    afterListenersInformed();
   }
 
   @Override

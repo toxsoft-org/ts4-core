@@ -26,4 +26,13 @@ public interface ICurrentEntityChangeListener<E> {
     // nop
   }
 
+  /**
+   * Called after current entity or content change listeners was informaed.
+   * <p>
+   * Listener may update menu and toolbar items state, etc.
+   */
+  default void afterListenersInformed() {
+    // nop
+  }
+
 }
