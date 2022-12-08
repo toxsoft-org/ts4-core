@@ -5,6 +5,7 @@ import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.lines.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -13,6 +14,45 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public class TsGraphicsUtils {
+
+  /**
+   * Creates SWT {@link Rectangle} from tslib {@link ITsRectangle}.
+   *
+   * @param aRect {@link ITsRectangle} - tslib rectangle
+   * @return {@link Rectangle} - created instance of SWT rectangle
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static Rectangle rectFromTs( ITsRectangle aRect ) {
+    TsNullArgumentRtException.checkNull( aRect );
+    return new Rectangle( aRect.a().x(), aRect.a().y(), aRect.width(), aRect.height() );
+  }
+
+  /**
+   * Sets the rectangle coordinates from TS to SWT.
+   *
+   * @param aSource {@link ITsRectangle} - TS rectangle
+   * @param aDest {@link Rectangle} - SWT rectangle
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static void setRect( ITsRectangle aSource, Rectangle aDest ) {
+    TsNullArgumentRtException.checkNulls( aSource, aDest );
+    aDest.x = aSource.x1();
+    aDest.y = aSource.y1();
+    aDest.width = aSource.width();
+    aDest.height = aSource.height();
+  }
+
+  /**
+   * Sets the rectangle coordinates from SWT to TS.
+   *
+   * @param aSource {@link ITsRectangle} - SWT rectangle
+   * @param aDest {@link TsRectangleEdit} - TS rectangle
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static void setRect( Rectangle aSource, TsRectangleEdit aDest ) {
+    TsNullArgumentRtException.checkNulls( aSource, aDest );
+    aDest.setRect( aSource.x, aSource.y, aSource.width, aSource.height );
+  }
 
   /**
    * Converts {@link ID2Conversion} to SWT {@link Transform}.
