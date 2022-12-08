@@ -19,6 +19,21 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class TsMiscUtils {
 
   /**
+   * Makes Eclipse OSGi/E4 class contribution IRI string.
+   *
+   * @param aPluginId String - ID of the plugin containing contributed class
+   * @param aClass {@link Class} - the contributed class
+   * @return String - the contribution URI string
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException plugin ID is a blank string
+   */
+  public static String makeContributionUri( String aPluginId, Class<?> aClass ) {
+    TsErrorUtils.checkNonBlank( aPluginId );
+    TsNullArgumentRtException.checkNull( aClass );
+    return "bundleclass://" + aPluginId + '/' + aClass.getName(); //$NON-NLS-1$
+  }
+
+  /**
    * Runs external program and does not waits for it.
    *
    * @param aProgramName String - program name
