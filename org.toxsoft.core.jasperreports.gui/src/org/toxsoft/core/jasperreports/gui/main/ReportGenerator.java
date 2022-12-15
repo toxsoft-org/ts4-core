@@ -1055,7 +1055,7 @@ public class ReportGenerator {
     // Настройки отчета в целом
     JasperDesign jasperDesign = new JasperDesign();
     jasperDesign.setPrintOrder( PrintOrderEnum.VERTICAL );
-    IIntList integerColumnsWeigths = aContext.params().getValobj( IJasperReportConstants.COL_WEIGTH );
+    IIntList integerColumnsWeigths = aContext.params().getValobj( IJasperReportConstants.COLUMNS_WEIGTHS );
     // В случае если массив пустой, то просто все колонки делаем одинаковой ширины
     IListEdit<Float> columnsWeigths = new ElemArrayList<>();
 
