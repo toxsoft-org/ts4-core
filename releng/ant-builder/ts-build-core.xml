@@ -22,6 +22,7 @@
     <ant dir="../../org.toxsoft.core.tsgui.chart" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
     <ant dir="../../org.toxsoft.core.tsgui.rcp" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
     <ant dir="../../org.toxsoft.core.singlesrc.rcp" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
+    <ant dir="../../org.toxsoft.core.jasperreports.gui" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
     <ant dir="../../org.toxsoft.core.log4j" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
     <ant dir="../../org.toxsoft.core.pas" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
     <ant dir="../../org.toxsoft.core.txtproj.lib" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
@@ -44,6 +45,7 @@
                                 org.toxsoft.core.tsgui.chart,
                                 org.toxsoft.core.tsgui.rcp,
                                 org.toxsoft.core.singlesrc.rcp,
+                                org.toxsoft.core.jasperreports.gui,
                                 org.toxsoft.core.log4j,
                                 org.toxsoft.core.pas,
                                 org.toxsoft.core.unit.txtproj.lib,
