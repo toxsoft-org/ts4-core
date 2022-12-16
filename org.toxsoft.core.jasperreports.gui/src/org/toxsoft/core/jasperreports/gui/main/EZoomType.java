@@ -46,8 +46,8 @@ public enum EZoomType
     percents = aPercents;
     zoomFactor = (float)((percents) / 100.0);
     id = "ZOOM_" + percents; //$NON-NLS-1$
-    name = String.format( FMT_ZOOM_NAME, Integer.toString( percents ) );
-    description = String.format( FMT_ZOOM_DESCRITPION, Integer.toString( percents ) );
+    name = String.format( FMT_ZOOM_NAME, Integer.valueOf( percents ) );
+    description = String.format( FMT_ZOOM_DESCRITPION, Integer.valueOf( percents ) );
   }
 
   // --------------------------------------------------------------------------
