@@ -17,50 +17,98 @@ import net.sf.jasperreports.engine.type.*;
  *
  * @author max
  */
+@SuppressWarnings( { "javadoc", "nls" } )
 public interface IJasperReportConstants {
 
-  IDataDef REPORT_TITLE_M5_ID =
-      create( "jasper.report.title.m5.id", STRING, TSID_NAME, "Jasper Report Title M5 Identifier", //
-          TSID_DEFAULT_VALUE, AvUtils.avStr( TsLibUtils.EMPTY_STRING ) );
+  String STR_N_PAR_PAGE_HEADER_STRINGS = "Page header strings";
 
-  IDataDef LEFT_BOTTOM_STR_M5_ID =
-      create( "left.bottom.str.m5.id", STRING, TSID_NAME, "Left bottom string (Author) m5 identifier",
-          TSID_DEFAULT_VALUE, AvUtils.avStr( TsLibUtils.EMPTY_STRING ), TSID_IS_MANDATORY, Boolean.FALSE );
+  String PAR_ID_PAGE_HEADER_STRINGS = "page.header.strings.id";
 
-  IDataDef RIGHT_BOTTOM_STR_M5_ID =
-      create( "right.bottom.str.m5.id", STRING, TSID_NAME, "Right bottom string (Author) m5 identifier",
-          TSID_DEFAULT_VALUE, AvUtils.avStr( TsLibUtils.EMPTY_STRING ), TSID_IS_MANDATORY, Boolean.FALSE );
+  String STR_N_PAR_COLUMNS_WEIGTHS = "Array of column width weigths";
 
-  IDataDef REPORT_DATA_HORIZONTAL_TEXT_ALIGN_ID =
-      create( "report.data.horizontal.text.align.id", STRING, TSID_NAME, "Text horizontal align id", TSID_DEFAULT_VALUE,
-          AvUtils.avStr( HorizontalTextAlignEnum.CENTER.getName() ), TSID_IS_MANDATORY, Boolean.FALSE );
-  // Dima, 14.08.19
-  // Настройки дизайна отчета
-  // ориентация листа
-  IDataDef LANDSCAPE_ORIENTATION_M5_ID =
-      create( "landscape.orientation.m5.id", BOOLEAN, TSID_NAME, "Landscape/Portrait orientaition m5 identifier",
-          TSID_DEFAULT_VALUE, AvUtils.avBool( true ), TSID_IS_MANDATORY, Boolean.FALSE );
+  String PAR_ID_COLUMNS_WEIGTHS = "column.weigth.m5.id";
 
-  // вертикальные названия в заголовке таблицы
-  IDataDef COLUM_HEADER_VERTICAL_M5_ID =
-      create( "colum.header.vertical.m5.id", BOOLEAN, TSID_NAME, "Column header vertical orientaition m5 identifier",
-          TSID_DEFAULT_VALUE, AvUtils.avBool( false ), TSID_IS_MANDATORY, Boolean.FALSE );
+  String STR_N_PAR_HAS_NUM_COLUMN = "Create zero column with numbers m5 identifier";
 
-  // показывать нулевую колонку с номерами строк
-  IDataDef HAS_NUMBER_COLUMN_M5_ID =
-      create( "has.number.column.m5.id", BOOLEAN, TSID_NAME, "Create zero column with numbers m5 identifier",
-          TSID_DEFAULT_VALUE, AvUtils.avBool( true ), TSID_IS_MANDATORY, Boolean.FALSE );
+  String PAR_ID_HAS_NUM_COLUMN = "has.number.column.m5.id";
+
+  String STR_N_PAR_COLUM_HEADER_VERTICAL = "Column header vertical orientaition m5 identifier";
+
+  String PAR_ID_COLUM_HEADER_VERTICAL = "colum.header.vertical.m5.id";
+
+  String STR_N_PAR_LANDSCAPE_ORIENTATION = "Landscape/Portrait orientaition m5 identifier";
+
+  String PAR_ID_LANDSCAPE_ORIENTATION = "landscape.orientation.m5.id";
+
+  String STR_N_PAR_DATA_HORIZONTAL_TEXT_ALIGN = "Text horizontal align id";
+
+  String PAR_ID_DATA_HORIZONTAL_TEXT_ALIGN = "report.data.horizontal.text.align.id";
+
+  String STR_N_PAR_RIGHT_BOTTOM_TEXT = "Right bottom string (Author) m5 identifier";
+
+  String PAR_ID_RIGHT_BOTTOM_TEXT = "right.bottom.str.m5.id";
+
+  String STR_N_PAR_LEFT_BOTTOM_TEXT = "Left bottom string (Author) m5 identifier";
+
+  String PAR_ID_LEFT_BOTTOM_TEXT = "left.bottom.str.m5.id";
+
+  String STR_N_PAR_REPORT_TITLE = "Jasper Report Title M5 Identifier";
+
+  String PAR_ID_REPORT_TITLE = "jasper.report.title.m5.id";
+
+  /**
+   * Параметр - текст в заголовке
+   */
+  IDataDef REPORT_TITLE_M5_ID = create( PAR_ID_REPORT_TITLE, STRING, TSID_NAME, STR_N_PAR_REPORT_TITLE,
+      TSID_DEFAULT_VALUE, AvUtils.avStr( TsLibUtils.EMPTY_STRING ) );
+
+  /**
+   * Параметр - текст в нижнем левом углу (подпись)
+   */
+  IDataDef LEFT_BOTTOM_STR_M5_ID = create( PAR_ID_LEFT_BOTTOM_TEXT, STRING, TSID_NAME, STR_N_PAR_LEFT_BOTTOM_TEXT,
+      TSID_DEFAULT_VALUE, AvUtils.avStr( TsLibUtils.EMPTY_STRING ), TSID_IS_MANDATORY, Boolean.FALSE );
+
+  /**
+   * Параметр - текст в нижнем правом углу (подпись)
+   */
+  IDataDef RIGHT_BOTTOM_STR_M5_ID = create( PAR_ID_RIGHT_BOTTOM_TEXT, STRING, TSID_NAME, STR_N_PAR_RIGHT_BOTTOM_TEXT,
+      TSID_DEFAULT_VALUE, AvUtils.avStr( TsLibUtils.EMPTY_STRING ), TSID_IS_MANDATORY, Boolean.FALSE );
+
+  /**
+   * Параметр - выравниевание :портретная ( false) или пейзажная (true)
+   */
+  IDataDef REPORT_DATA_HORIZONTAL_TEXT_ALIGN_ID = create( PAR_ID_DATA_HORIZONTAL_TEXT_ALIGN, STRING, TSID_NAME,
+      STR_N_PAR_DATA_HORIZONTAL_TEXT_ALIGN, TSID_DEFAULT_VALUE,
+      AvUtils.avStr( HorizontalTextAlignEnum.CENTER.getName() ), TSID_IS_MANDATORY, Boolean.FALSE );
+
+  /**
+   * Параметр - ориентация листа
+   */
+  IDataDef LANDSCAPE_ORIENTATION_M5_ID = create( PAR_ID_LANDSCAPE_ORIENTATION, BOOLEAN, TSID_NAME,
+      STR_N_PAR_LANDSCAPE_ORIENTATION, TSID_DEFAULT_VALUE, AvUtils.avBool( true ), TSID_IS_MANDATORY, Boolean.FALSE );
+
+  /**
+   * Параметр, определяющий вертикальные названия в заголовке таблицы или горизонтальные.
+   */
+  IDataDef COLUM_HEADER_VERTICAL_M5_ID = create( PAR_ID_COLUM_HEADER_VERTICAL, BOOLEAN, TSID_NAME,
+      STR_N_PAR_COLUM_HEADER_VERTICAL, TSID_DEFAULT_VALUE, AvUtils.avBool( false ), TSID_IS_MANDATORY, Boolean.FALSE );
+
+  /**
+   * Параметр, определяющий показывать нулевую колонку с номерами строк или нет.
+   */
+  IDataDef HAS_NUMBER_COLUMN_M5_ID = create( PAR_ID_HAS_NUM_COLUMN, BOOLEAN, TSID_NAME, STR_N_PAR_HAS_NUM_COLUMN,
+      TSID_DEFAULT_VALUE, AvUtils.avBool( true ), TSID_IS_MANDATORY, Boolean.FALSE );
 
   /**
    * Параметр - список содержащий значения весов колонок отчета.
    */
-  IDataDef COL_WEIGTH = create( "column.weigth.m5.id", VALOBJ, TSID_NAME, "Array of column width weigths",
+  IDataDef COLUMNS_WEIGTHS = create( PAR_ID_COLUMNS_WEIGTHS, VALOBJ, TSID_NAME, STR_N_PAR_COLUMNS_WEIGTHS,
       TSID_DEFAULT_VALUE, avValobj( new IntArrayList() ), TSID_IS_MANDATORY, Boolean.FALSE );
 
   /**
    * Параметр - список содержащий значения строк верхнего колонтитула.
    */
-  IDataDef PAGE_HEADER_STRINGS = create( "page.header.strings.id", VALOBJ, TSID_NAME, "Page header strings",
+  IDataDef PAGE_HEADER_STRINGS = create( PAR_ID_PAGE_HEADER_STRINGS, VALOBJ, TSID_NAME, STR_N_PAR_PAGE_HEADER_STRINGS,
       TSID_DEFAULT_VALUE, avValobj( new StringArrayList() ), TSID_IS_MANDATORY, Boolean.FALSE );
 
 }

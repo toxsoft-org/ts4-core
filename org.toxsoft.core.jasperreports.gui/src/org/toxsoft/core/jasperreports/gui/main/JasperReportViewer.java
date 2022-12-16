@@ -158,12 +158,9 @@ public class JasperReportViewer
   private void formAndShowJasperReport( ITsGuiContext aContext, IProgressMonitor aMonitor, String aJasperReportPath,
       JRDataSource aDataSource, Map<String, Object> aReportParameters )
       throws InvocationTargetException {
+    aMonitor.subTask( STR_REPORT_FORMING_STATE_STR );
 
-    try {
-
-      aMonitor.subTask( STR_REPORT_FORMING_STATE_STR );
-      // TODO try-with-resource
-      InputStream stream = getClass().getClassLoader().getResourceAsStream( aJasperReportPath );
+    try( InputStream stream = getClass().getClassLoader().getResourceAsStream( aJasperReportPath ) ) {
       JasperReport jasperReport = JasperCompileManager.compileReport( stream );
       final JasperPrint jasperPrint = JasperFillManager.fillReport( jasperReport, aReportParameters, aDataSource );
       stream.close();
@@ -171,12 +168,13 @@ public class JasperReportViewer
       aMonitor.subTask( STR_REPORT_VIEW_OPEN );
 
       displeyJasperReportPrint( aContext, jasperPrint );
-
     }
     catch( Exception ee ) {
       throw new InvocationTargetException( ee );
     }
-    aMonitor.done();
+    finally {
+      aMonitor.done();
+    }
   }
 
   /**

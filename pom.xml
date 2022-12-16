@@ -570,6 +570,7 @@
     <module>org.toxsoft.core.tsgui</module>
     <module>org.toxsoft.core.tsgui.mws</module>
     <module>org.toxsoft.core.tsgui.chart</module>
+    <module>org.toxsoft.core.jasperreports.gui</module>
     <module>org.toxsoft.core.log4j</module>
     <module>org.toxsoft.core.pas</module>
     <module>org.toxsoft.core.txtproj.lib</module>
