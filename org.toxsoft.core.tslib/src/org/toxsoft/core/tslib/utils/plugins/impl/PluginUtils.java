@@ -3,18 +3,20 @@ package org.toxsoft.core.tslib.utils.plugins.impl;
 import static org.toxsoft.core.tslib.utils.plugins.IPluginsHardConstants.*;
 import static org.toxsoft.core.tslib.utils.plugins.impl.ITsResources.*;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.jar.*;
 
-import org.toxsoft.core.tslib.bricks.strid.impl.*;
-import org.toxsoft.core.tslib.coll.*;
-import org.toxsoft.core.tslib.coll.impl.*;
-import org.toxsoft.core.tslib.coll.primtypes.*;
-import org.toxsoft.core.tslib.coll.primtypes.impl.*;
-import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
+import org.toxsoft.core.tslib.coll.IList;
+import org.toxsoft.core.tslib.coll.IListEdit;
+import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
+import org.toxsoft.core.tslib.coll.primtypes.IStringMapEdit;
+import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
+import org.toxsoft.core.tslib.utils.TsVersion;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.plugins.*;
-import org.toxsoft.core.tslib.utils.plugins.IPluginInfo.*;
+import org.toxsoft.core.tslib.utils.plugins.IPluginInfo.IDependencyInfo;
 
 /**
  * Вспомогательные методы для создания менеджера подключаемых модулей.
@@ -167,7 +169,9 @@ public class PluginUtils {
     }
     TsVersion ver;
     try {
-      ver = TsVersion.parseVersionString( strVersion );
+      // 2022-12-19 mvk
+      // ver = TsVersion.parseVersionString( strVersion );
+      ver = TsVersion.KEEPER.str2ent( strVersion );
     }
     catch( Exception e ) {
       throw new TsIllegalArgumentRtException( e, MSG_ERR_INV_PLUGIN_VERSION, aPluginId, aFileName );
