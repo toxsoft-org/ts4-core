@@ -129,6 +129,8 @@ public final class RectFitInfo {
 
   /**
    * Returns the zoom factor for {@link ERectFitMode#ZOOMED} mode.
+   * <p>
+   * Original size (100%) is represented by value 1.0.
    *
    * @return doublt - the zoom factor in range {@link #MIN_ZOOM_FACTOR} .. {@link #MAX_ZOOM_FACTOR}
    */

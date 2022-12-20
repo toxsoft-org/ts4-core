@@ -7,13 +7,12 @@ import org.toxsoft.core.tsgui.bricks.stdevents.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Абстрактный класс панелей просмотра / редактирования набора объектов.
+ * {@link TsPanel} extension to work with a list of objects of the same type.
  * <p>
- * Облегчает реализацию панелью интерфейсов {@link ITsSelectionChangeEventProducer} и
- * {@link ITsDoubleClickEventProducer}.
+ * Implements {@link ITsSelectionChangeEventProducer} and {@link ITsDoubleClickEventProducer}.
  *
  * @author hazard157
- * @param <E> - тип объектов в наборе
+ * @param <E> - type of the objects
  */
 public abstract class TsStdEventsProducerPanel<E>
     extends TsPanel
@@ -38,22 +37,22 @@ public abstract class TsStdEventsProducerPanel<E>
   }
 
   // ------------------------------------------------------------------------------------
-  // API для наследников
+  // API for subclasses
   //
 
   /**
-   * Генерирует сообщение {@link ITsSelectionChangeListener#onTsSelectionChanged(Object, Object)}.
+   * Generates an event {@link ITsSelectionChangeListener#onTsSelectionChanged(Object, Object)}.
    *
-   * @param aItem E - выбранный элемент, может быть null
+   * @param aItem &lt;E&gt; - selected element, may be <code>null</code>
    */
   public void fireTsSelectionEvent( E aItem ) {
     selectionChangeEventHelper.fireTsSelectionEvent( aItem );
   }
 
   /**
-   * Генерирует сообщение {@link ITsSelectionChangeListener#onTsSelectionChanged(Object, Object)}.
+   * Generates an event {@link ITsSelectionChangeListener#onTsSelectionChanged(Object, Object)}.
    *
-   * @param aItem E - выбранный элемент, может быть null
+   * @param aItem &lt;E&gt; - selected element, may be <code>null</code>
    */
   public void fireTsDoubleClickEvent( E aItem ) {
     doubleClickEventHelper.fireTsDoublcClickEvent( aItem );

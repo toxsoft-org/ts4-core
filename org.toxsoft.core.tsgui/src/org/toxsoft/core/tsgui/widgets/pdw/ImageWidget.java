@@ -72,7 +72,6 @@ class ImageWidget
      * <li>{@link ImageWidget#imageSize} - either real image or defult dimensions if image is <code>null</code>;</li>
      * <li>{@link ImageWidget#fitInfo} - determines how to fit image in canvas bounds;</li>
      * <li>{@link ImageWidget#fulcrum} - determines how to place image in canvas.</li>
-     * <li>zzz.</li>
      * </ul>
      *
      * @param aEvent {@link PaintEvent} - drawing surface in event

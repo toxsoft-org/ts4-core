@@ -2,14 +2,12 @@ package org.toxsoft.core.tsgui.utils.rectfit;
 
 import static org.toxsoft.core.tsgui.utils.rectfit.ITsResources.*;
 
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.std.StridableEnumKeeper;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesListEdit;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.StridablesList;
-import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.std.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Modes to fit an object into the rectangle.
@@ -27,17 +25,17 @@ public enum ERectFitMode
   /**
    * Fit both width and height.
    */
-  FIT_BOTH( "both", STR_N_FM_FIT_BOTH, STR_D_FM_FIT_BOTH, false ), //$NON-NLS-1$
+  FIT_BOTH( "both", STR_N_FM_FIT_BOTH, STR_D_FM_FIT_BOTH, true ), //$NON-NLS-1$
 
   /**
    * Fit width.
    */
-  FIT_WIDTH( "width", STR_N_FM_FIT_WIDTH, STR_D_FM_FIT_WIDTH, false ), //$NON-NLS-1$
+  FIT_WIDTH( "width", STR_N_FM_FIT_WIDTH, STR_D_FM_FIT_WIDTH, true ), //$NON-NLS-1$
 
   /**
    * Fit height.
    */
-  FIT_HEIGHT( "height", STR_N_FM_FIT_HEIGHT, STR_D_FM_FIT_HEIGHT, false ), //$NON-NLS-1$
+  FIT_HEIGHT( "height", STR_N_FM_FIT_HEIGHT, STR_D_FM_FIT_HEIGHT, true ), //$NON-NLS-1$
 
   /**
    * Zoom - show with the specified scaling factor.

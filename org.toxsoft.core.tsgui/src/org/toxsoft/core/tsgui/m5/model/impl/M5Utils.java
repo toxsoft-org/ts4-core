@@ -48,7 +48,7 @@ public class M5Utils {
     TsInternalErrorRtException.checkNoNull( aWinContext.get( IM5Domain.class ) );
     ITsGuiContext ctx = new TsGuiContext( aWinContext );
     ctx.params().setStr( TSID_NAME, ROOT_DOMAIN_ID );
-    ctx.params().setStr( TSID_DEFAULT_VALUE, "The root M5-domain" ); //$NON-NLS-1$
+    ctx.params().setStr( TSID_DESCRIPTION, "The root M5-domain" ); //$NON-NLS-1$
     M5Domain m5 = new M5Domain( ROOT_DOMAIN_ID, ctx );
     aWinContext.set( IM5Domain.class, m5 );
     initBuiltinModels( m5 );
