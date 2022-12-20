@@ -1,14 +1,17 @@
 package org.toxsoft.core.tslib.bricks.strid.more;
 
-import java.io.*;
+import java.io.ObjectStreamException;
+import java.io.Serializable;
 
-import org.toxsoft.core.tslib.bricks.keeper.*;
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
-import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper;
+import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.EEncloseMode;
+import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
+import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
 import org.toxsoft.core.tslib.bricks.strio.*;
-import org.toxsoft.core.tslib.coll.primtypes.*;
-import org.toxsoft.core.tslib.coll.primtypes.impl.*;
-import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.coll.primtypes.IStringList;
+import org.toxsoft.core.tslib.coll.primtypes.IStringListEdit;
+import org.toxsoft.core.tslib.coll.primtypes.impl.StringArrayList;
+import org.toxsoft.core.tslib.utils.TsLibUtils;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -169,10 +172,12 @@ public final class IdChain
    * @return {@link ObjectStreamException} - {@link #NULL}
    * @throws ObjectStreamException is declared but newer throw by this method
    */
-  @SuppressWarnings( { "static-method" } )
   private Object readResolve()
       throws ObjectStreamException {
-    return NULL;
+    if( branches.equals( IStringList.EMPTY ) ) {
+      return NULL;
+    }
+    return this;
   }
 
   // ------------------------------------------------------------------------------------

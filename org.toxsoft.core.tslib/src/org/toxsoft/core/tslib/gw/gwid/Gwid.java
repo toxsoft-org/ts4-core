@@ -4,16 +4,17 @@ import static org.toxsoft.core.tslib.gw.IGwHardConstants.*;
 import static org.toxsoft.core.tslib.gw.gwid.EGwidKind.*;
 
 import java.io.*;
-import java.util.*;
+import java.util.Objects;
 
-import org.toxsoft.core.tslib.bricks.keeper.*;
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
-import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper;
+import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.EEncloseMode;
+import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
+import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
 import org.toxsoft.core.tslib.bricks.strio.*;
-import org.toxsoft.core.tslib.bricks.strio.chario.*;
-import org.toxsoft.core.tslib.bricks.strio.chario.impl.*;
-import org.toxsoft.core.tslib.bricks.strio.impl.*;
-import org.toxsoft.core.tslib.gw.skid.*;
+import org.toxsoft.core.tslib.bricks.strio.chario.ICharInputStream;
+import org.toxsoft.core.tslib.bricks.strio.chario.impl.CharInputStreamString;
+import org.toxsoft.core.tslib.bricks.strio.impl.StrioReader;
+import org.toxsoft.core.tslib.gw.skid.Skid;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -392,6 +393,13 @@ public final class Gwid
       ++lp; // пропустим KEYCH_PART_DELIM
       plp = lp;
     }
+
+    // for gwid with class & strid only
+    if( lp > len ) {
+      kind = determineKind();
+      return;
+    }
+
     // считаем пару "propSectId(propId)"
     while( StridUtils.isIdPathPart( ch = canonicalString.charAt( lp ) ) ) {
       ++lp; // здесь не может быть конца строки

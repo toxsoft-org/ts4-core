@@ -44,7 +44,7 @@ public enum EZoomType
 
   EZoomType( int aPercents ) {
     percents = aPercents;
-    zoomFactor = (float)((percents) / 100.0);
+    zoomFactor = percents / 100f;
     id = "ZOOM_" + percents; //$NON-NLS-1$
     name = String.format( FMT_ZOOM_NAME, Integer.valueOf( percents ) );
     description = String.format( FMT_ZOOM_DESCRITPION, Integer.valueOf( percents ) );
@@ -91,6 +91,8 @@ public enum EZoomType
       int d = Math.abs( z.percents - perc );
       if( d < diff ) {
         bestZoom = z;
+        // fix by max
+        diff = d;
       }
     }
     return bestZoom;
