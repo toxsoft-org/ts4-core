@@ -1,13 +1,12 @@
 package org.toxsoft.core.tslib.bricks.time.impl;
 
-import java.io.Serializable;
+import java.io.*;
 import java.time.*;
-import java.time.temporal.ChronoUnit;
+import java.time.temporal.*;
 
-import org.toxsoft.core.tslib.bricks.time.ITimeInterval;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.bricks.time.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Неизменяемая реализация интервала времени {@link ITimeInterval}.
@@ -76,51 +75,6 @@ public final class TimeInterval
     return end - start + 1;
   }
 
-  // ------------------------------------------------------------------------------------
-  // Реализация методов класса Object
-  //
-
-  @Override
-  public String toString() {
-    return TimeUtils.intervalToString( start, end );
-  }
-
-  @Override
-  public boolean equals( Object aObj ) {
-    if( aObj == this ) {
-      return true;
-    }
-    if( aObj instanceof TimeInterval ) {
-      TimeInterval obj = (TimeInterval)aObj;
-      return start == obj.start && end == obj.end;
-    }
-    return false;
-  }
-
-  @Override
-  public int hashCode() {
-    int result = TsLibUtils.INITIAL_HASH_CODE;
-    result = TsLibUtils.PRIME * result + (int)(start ^ (start >>> 32));
-    result = TsLibUtils.PRIME * result + (int)(end ^ (end >>> 32));
-    return result;
-  }
-
-  // ------------------------------------------------------------------------------------
-  // Реализация интерфейса Comparable
-  //
-
-  @Override
-  public int compareTo( ITimeInterval o ) {
-    if( o == null ) {
-      throw new NullPointerException();
-    }
-    int c = Long.compare( start, o.startTime() );
-    if( c == 0 ) {
-      c = Long.compare( end, o.endTime() );
-    }
-    return c;
-  }
-
   @Override
   public LocalDateTime getStartDatetime() {
     if( ldtStart == null ) {
@@ -143,6 +97,50 @@ public final class TimeInterval
       duration = Duration.of( duration(), ChronoUnit.MILLIS );
     }
     return duration;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Object
+  //
+
+  @Override
+  public String toString() {
+    return TimeUtils.intervalToString( start, end );
+  }
+
+  @Override
+  public boolean equals( Object aObj ) {
+    if( aObj == this ) {
+      return true;
+    }
+    if( aObj instanceof TimeInterval obj ) {
+      return start == obj.start && end == obj.end;
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = TsLibUtils.INITIAL_HASH_CODE;
+    result = TsLibUtils.PRIME * result + (int)(start ^ (start >>> 32));
+    result = TsLibUtils.PRIME * result + (int)(end ^ (end >>> 32));
+    return result;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Comparable
+  //
+
+  @Override
+  public int compareTo( ITimeInterval o ) {
+    if( o == null ) {
+      throw new NullPointerException();
+    }
+    int c = Long.compare( start, o.startTime() );
+    if( c == 0 ) {
+      c = Long.compare( end, o.endTime() );
+    }
+    return c;
   }
 
 }

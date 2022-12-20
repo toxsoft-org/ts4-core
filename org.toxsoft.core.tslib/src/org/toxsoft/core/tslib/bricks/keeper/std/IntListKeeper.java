@@ -8,32 +8,32 @@ import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 
 /**
- * Keeper of the {@link ILongList} .
+ * Keeper of the {@link IIntList} .
  * <p>
- * Read references may be safely casted to {@link ILongListEdit}.
+ * Read references may be safely casted to {@link IIntListEdit}.
  *
  * @author hazard157
  */
-public class LongListKeeper
-    extends AbstractEntityKeeper<ILongList> {
+public class IntListKeeper
+    extends AbstractEntityKeeper<IIntList> {
 
   /**
    * The registered keeper ID.
    */
-  public static final String KEEPER_ID = "LongList"; //$NON-NLS-1$
+  public static final String KEEPER_ID = "IntList"; //$NON-NLS-1$
 
   /**
    * The keeper singleton.
    */
-  public static final IEntityKeeper<ILongList> KEEPER = new LongListKeeper();
+  public static final IEntityKeeper<IIntList> KEEPER = new IntListKeeper();
 
   /**
    * An empty list KTOR representation.
    */
-  public static final String EMPTY_LIST = KEEPER.ent2str( ILongList.EMPTY );
+  public static final String EMPTY_LIST = KEEPER.ent2str( IIntList.EMPTY );
 
-  private LongListKeeper() {
-    super( ILongList.class, EEncloseMode.ENCLOSES_KEEPER_IMPLEMENTATION, null );
+  private IntListKeeper() {
+    super( IIntList.class, EEncloseMode.ENCLOSES_KEEPER_IMPLEMENTATION, null );
   }
 
   // ------------------------------------------------------------------------------------
@@ -41,10 +41,10 @@ public class LongListKeeper
   //
 
   @Override
-  protected void doWrite( IStrioWriter aSw, ILongList aEntity ) {
+  protected void doWrite( IStrioWriter aSw, IIntList aEntity ) {
     aSw.writeChar( CHAR_ARRAY_BEGIN );
     for( int i = 0, n = aEntity.size(); i < n; i++ ) {
-      aSw.writeLong( aEntity.getValue( i ) );
+      aSw.writeInt( aEntity.getValue( i ) );
       if( i < n - 1 ) {
         aSw.writeSeparatorChar();
       }
@@ -53,11 +53,11 @@ public class LongListKeeper
   }
 
   @Override
-  protected ILongList doRead( IStrioReader aSr ) {
-    ILongListEdit result = new LongLinkedBundleList();
+  protected IIntList doRead( IStrioReader aSr ) {
+    IIntListEdit result = new IntLinkedBundleList();
     if( aSr.readArrayBegin() ) {
       do {
-        result.add( aSr.readLong() );
+        result.add( aSr.readInt() );
       } while( aSr.readArrayNext() );
     }
     return result;
