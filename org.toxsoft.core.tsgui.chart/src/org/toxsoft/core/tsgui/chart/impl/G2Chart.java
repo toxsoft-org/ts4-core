@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.chart.impl;
 
 import org.eclipse.swt.events.*;
+import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.chart.api.*;
@@ -496,4 +497,12 @@ public final class G2Chart
     }
   }
 
+  /**
+   * Вывод рисования на канву принтера
+   *
+   * @param aPrinterGc канва принтера
+   */
+  public void print( GC aPrinterGc ) {
+    renderer.draw( aPrinterGc );
+  }
 }
