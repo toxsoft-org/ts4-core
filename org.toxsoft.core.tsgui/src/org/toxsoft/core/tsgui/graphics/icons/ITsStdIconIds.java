@@ -87,9 +87,6 @@ public interface ITsStdIconIds {
   // ------------------------------------------------------------------------------------
   // Arrows and navigation indcators
 
-  /**
-   * ИД значка: двойная стрелка вниз.
-   */
   String ICONID_ARROW_DOWN_DOUBLE     = "arrow-down-double";
   String ICONID_ARROW_DOWN            = "arrow-down";
   String ICONID_ARROW_LEFT_DOUBLE     = "arrow-left-double";
@@ -151,11 +148,9 @@ public interface ITsStdIconIds {
   String ICONID_ZOOM_OUT             = "zoom-out";
 
   // ------------------------------------------------------------------------------------
-  // Content (MIME) types
+  // Content (MIME, file) types
 
-  // String ICONID_MIMETYPE_PDF = "mimetypes/application-pdf";
-  // String ICONID_MIMETYPE_VND_MS_EXCEL = "mimetypes/application-vnd.ms-excel";
-  // String ICONID_MIMETYPE_TEXT_HTML = "mimetypes/text-html";
-  // String ICONID_MIMETYPE_X_OFFICE_CALENDAR = "mimetypes/x-office-calendar";
+  String ICONID_FILE_TYPE_PDF         = "file-type-pdf";
+  String ICONID_FILE_TYPE_SPREADSHEET = "file-type-spreadsheet";
 
 }
