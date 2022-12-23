@@ -27,6 +27,8 @@ interface ITsResources {
   String STR_T_FIRST_PAGE             = Messages.getString( "STR_T_FIRST_PAGE" );             //$NON-NLS-1$
   String STR_P_EXPORT_PDF             = Messages.getString( "STR_P_EXPORT_PDF" );             //$NON-NLS-1$
   String STR_T_EXPORT_PDF             = Messages.getString( "STR_T_EXPORT_PDF" );             //$NON-NLS-1$
+  String STR_P_EXPORT_XLS             = Messages.getString("STR_P_EXPORT_XLS"); //$NON-NLS-1$
+  String STR_T_EXPORT_XLS             = Messages.getString("STR_T_EXPORT_XLS"); //$NON-NLS-1$
   String STR_FILE_EXISTS_OVERWRITE_IT = Messages.getString( "STR_FILE_EXISTS_OVERWRITE_IT" ); //$NON-NLS-1$
 
 }

@@ -31,6 +31,7 @@ import com.jasperassistant.designer.viewer.*;
 
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.export.*;
+import net.sf.jasperreports.engine.export.ooxml.*;
 import net.sf.jasperreports.export.*;
 import net.sf.jasperreports.view.*;
 
@@ -55,6 +56,7 @@ public class TsReportViewer
   private final static String ACTID_ZOOMFACTOR_REPORT  = ACTID_PREFIX + ".ReportZoomfactor"; //$NON-NLS-1$
   private final static String ACTID_PRINT_REPORT       = ACTID_PREFIX + ".ReportPrint";      //$NON-NLS-1$
   private final static String ACTID_EXPORT_PDF_REPORT  = ACTID_PREFIX + ".ReportExportPdf";  //$NON-NLS-1$
+  private final static String ACTID_EXPORT_XLS_REPORT  = ACTID_PREFIX + ".ReportExportXls";  //$NON-NLS-1$
 
   private final static TsActionDef ACDEF_FIRST_PAGE_REPORT =
       TsActionDef.ofPush2( ACTID_FIRST_PAGE_REPORT, STR_T_FIRST_PAGE, STR_P_FIRST_PAGE, ICONID_GO_FIRST_VIEW_PAGE );
@@ -78,7 +80,10 @@ public class TsReportViewer
       TsActionDef.ofPush2( ACTID_PRINT_REPORT, STR_PRINT, STR_PRINT, ICONID_DOCUMENT_PRINT );
 
   private final static TsActionDef ACDEF_EXPORT_PDF_REPORT =
-      TsActionDef.ofPush2( ACTID_EXPORT_PDF_REPORT, STR_T_EXPORT_PDF, STR_P_EXPORT_PDF, ICONID_DOCUMENT_EXPORT );
+      TsActionDef.ofPush2( ACTID_EXPORT_PDF_REPORT, STR_T_EXPORT_PDF, STR_P_EXPORT_PDF, ICONID_FILE_TYPE_PDF );
+
+  private final static TsActionDef ACDEF_EXPORT_XLS_REPORT =
+      TsActionDef.ofPush2( ACTID_EXPORT_XLS_REPORT, STR_T_EXPORT_XLS, STR_P_EXPORT_XLS, ICONID_FILE_TYPE_SPREADSHEET );
 
   private IListEdit<IReportViewerActionListener> listeners = new ElemArrayList<>();
 
@@ -135,6 +140,7 @@ public class TsReportViewer
 
     toolBar.addSeparator();
 
+    toolBar.addActionDef( ACDEF_EXPORT_XLS_REPORT );
     toolBar.addActionDef( ACDEF_EXPORT_PDF_REPORT );
 
     toolBar.addSeparator();
@@ -142,6 +148,45 @@ public class TsReportViewer
     toolBar.addActionDef( ACDEF_PRINT_REPORT );
 
     toolBar.addListener( aActionId -> {
+      if( aActionId.equals( ACDEF_EXPORT_XLS_REPORT.id() ) ) {
+
+        FileDialog fd = new FileDialog( getShell(), SWT.SAVE | SWT.APPLICATION_MODAL );
+        fd.setFilterExtensions( new String[] { "*.xls" } ); //$NON-NLS-1$
+        String xlsFilePath = fd.open();
+
+        if( xlsFilePath == null ) {
+          return;
+        }
+
+        if( new File( xlsFilePath ).exists() ) {
+          ETsDialogCode dialogResult =
+              TsDialogUtils.askYesNoCancel( getShell(), STR_FILE_EXISTS_OVERWRITE_IT, xlsFilePath );
+          if( dialogResult != ETsDialogCode.YES && dialogResult != ETsDialogCode.OK ) {
+            return;
+          }
+        }
+
+        JRXlsxExporter xlsExporter = new JRXlsxExporter();
+
+        xlsExporter.setExporterInput( new SimpleExporterInput( jasperPrint ) );
+        xlsExporter.setExporterOutput( new SimpleOutputStreamExporterOutput( xlsFilePath ) );
+        SimpleXlsxReportConfiguration configuration = new SimpleXlsxReportConfiguration();
+        // TODO: set exporter configuration
+        configuration.setOnePagePerSheet( Boolean.FALSE );
+        configuration.setDetectCellType( Boolean.TRUE );
+        xlsExporter.setConfiguration( configuration );
+
+        try {
+          xlsExporter.exportReport();
+        }
+        catch( JRException ex ) {
+          LoggerUtils.errorLogger().error( ex );
+          TsDialogUtils.error( getShell(), ex );
+        }
+
+        return;
+
+      }
       if( aActionId.equals( ACDEF_EXPORT_PDF_REPORT.id() ) ) {
 
         FileDialog fd = new FileDialog( getShell(), SWT.SAVE | SWT.APPLICATION_MODAL );
@@ -175,7 +220,6 @@ public class TsReportViewer
           TsDialogUtils.error( getShell(), ex );
         }
         return;
-
       }
       if( aActionId.equals( ACDEF_PRINT_REPORT.id() ) ) {
         // new PrintAction( this ).run();
