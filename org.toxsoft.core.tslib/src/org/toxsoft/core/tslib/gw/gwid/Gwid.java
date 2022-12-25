@@ -4,17 +4,16 @@ import static org.toxsoft.core.tslib.gw.IGwHardConstants.*;
 import static org.toxsoft.core.tslib.gw.gwid.EGwidKind.*;
 
 import java.io.*;
-import java.util.Objects;
+import java.util.*;
 
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.EEncloseMode;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
-import org.toxsoft.core.tslib.bricks.strio.chario.ICharInputStream;
-import org.toxsoft.core.tslib.bricks.strio.chario.impl.CharInputStreamString;
-import org.toxsoft.core.tslib.bricks.strio.impl.StrioReader;
-import org.toxsoft.core.tslib.gw.skid.Skid;
+import org.toxsoft.core.tslib.bricks.strio.chario.*;
+import org.toxsoft.core.tslib.bricks.strio.chario.impl.*;
+import org.toxsoft.core.tslib.bricks.strio.impl.*;
+import org.toxsoft.core.tslib.gw.skid.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -591,8 +590,11 @@ public final class Gwid
   /**
    * Returns the only one concrete object.
    * <p>
-   * Exctly one object is defined for abstract and non-multi object GWID, ie when {@link #isAbstract()} =
+   * Exactly one object is defined for abstract and non-multi object GWID, ie when {@link #isAbstract()} =
    * <code>false</code> and {@link #isStridMulti()} = <code>false</code>
+   * <p>
+   * Note: if not <code>null</code>, returned value is always made of pair of the values {@link #classId()} and
+   * {@link #strid}.
    *
    * @return {@link Skid} - the only concrete object or <code>null</code>
    */

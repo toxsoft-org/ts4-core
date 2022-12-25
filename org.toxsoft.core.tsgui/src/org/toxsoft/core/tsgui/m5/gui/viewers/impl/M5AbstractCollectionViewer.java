@@ -11,7 +11,6 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.stdevents.*;
 import org.toxsoft.core.tsgui.bricks.stdevents.impl.*;
 import org.toxsoft.core.tsgui.bricks.tsnodes.*;
-import org.toxsoft.core.tsgui.bricks.tstree.*;
 import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
@@ -558,15 +557,22 @@ public abstract class M5AbstractCollectionViewer<T>
     @Override
     public void setAllItemsCheckState( boolean aCheckState ) {
       TsUnsupportedFeatureRtException.checkFalse( isChecksSupported() );
+      boolean wasChange = false;
       if( aCheckState ) {
-        checkedItems.setAll( items() );
-        refresh();
+        if( !checkedItems.equals( items() ) ) {
+          checkedItems.setAll( items() );
+          wasChange = true;
+        }
       }
       else {
         if( !checkedItems.isEmpty() ) {
           checkedItems.clear();
-          refresh();
+          wasChange = true;
         }
+      }
+      if( wasChange ) {
+        refresh();
+        genericChangeEventer.fireChangeEvent();
       }
     }
 

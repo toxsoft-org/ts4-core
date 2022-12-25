@@ -259,10 +259,22 @@ public class M5DefaultPanelCreator<T>
     return new M5MultiLookupPanelMpcLookupWrapper<>( mpc, false );
   }
 
+  /**
+   * Subclass may create own implementation of {@link IM5CollectionPanel} in viewer mode with check support enabled.
+   * <p>
+   * In the base class returns new instance of {@link M5CollectionPanelMpcModownWrapper}, no need to call superclass
+   * method when overriding.
+   *
+   * @param aContext {@link ITsGuiContext} - the context
+   * @param aItemsProvider {@link IM5ItemsProvider} - the items provider or <code>null</code>
+   * @return {@link IM5CollectionPanel} - created panel
+   */
   protected IM5CollectionPanel<T> doCreateCollChecksPanel( ITsGuiContext aContext,
       IM5ItemsProvider<T> aItemsProvider ) {
-    // TODO реализовать M5DefaultPanelCreator.doCreateCollChecksPanel()
-    throw new TsUnderDevelopmentRtException( "M5DefaultPanelCreator.doCreateCollChecksPanel()" );
+    OPDEF_IS_ACTIONS_CRUD.setValue( aContext.params(), AV_FALSE );
+    OPDEF_IS_SUPPORTS_CHECKS.setValue( aContext.params(), AV_TRUE );
+    MultiPaneComponentModown<T> mpc = new MultiPaneComponentModown<>( aContext, model, aItemsProvider );
+    return new M5CollectionPanelMpcModownWrapper<>( mpc, false );
   }
 
 }
