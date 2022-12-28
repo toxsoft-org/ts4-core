@@ -8,7 +8,9 @@ import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * List of the {@link Skid}s.
+ * List of the {@link Skid}s with som helper API added.
+ * <p>
+ * This is "read-only" interface with editable {@link SkidList} implementation.
  *
  * @author hazard157
  */
@@ -16,9 +18,12 @@ public interface ISkidList
     extends IList<Skid> {
 
   /**
-   * Всегда пустой список.
+   * Singleton of the always empty list.
+   * <p>
+   * All reading methods returns as expected for an empty list, all mutator method throw an
+   * {@link TsNullObjectErrorRtException}.
    */
-  ISkidList EMPTY = new InternalNullSkidList();
+  ISkidList EMPTY = new InternalEmptySkidList();
 
   /**
    * Creates and returns list of class IDs of SKIDs in this list.
@@ -49,7 +54,7 @@ public interface ISkidList
 
 }
 
-final class InternalNullSkidList
+final class InternalEmptySkidList
     extends ImmutableList<Skid>
     implements ISkidList {
 

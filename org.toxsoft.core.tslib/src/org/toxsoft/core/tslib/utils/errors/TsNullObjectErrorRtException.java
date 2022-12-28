@@ -3,10 +3,10 @@ package org.toxsoft.core.tslib.utils.errors;
 import static org.toxsoft.core.tslib.utils.errors.ITsResources.*;
 
 /**
- * Call of "null" object methods.
+ * Call of "null" (special case) object methods.
  * <p>
  * Null objects are implementation of design pattern "<i>special case</i>" as described in Martin Fowler's "Refactoring"
- * (Introduce null object). Depending on designation of object (such as "unknown", "empty" or just "null" instaed of
+ * (Introduce null object). Depending on designation of object (such as "unknown", "empty" or just "null" instead of
  * <code>null</code>) call of some methods may be prohibited. This is the exception to be thrown from such methods.
  * <p>
  * Thsi exception reveals eroor in progam code and needs immediate correction.
