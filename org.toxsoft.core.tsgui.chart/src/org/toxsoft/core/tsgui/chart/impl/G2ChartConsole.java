@@ -38,15 +38,27 @@ public class G2ChartConsole
   }
 
   @Override
-  public IAtomicValue getY1( String aPlotId ) {
-    // TODO Auto-generated method stub
-    return null;
+  public IAtomicValue getY1( String aYAxisId ) {
+    IAtomicValue retVal = null;
+    for( YAxisModel model : chartLayout.yAxisModels ) {
+      if( model.yAxisDef().id().equals( aYAxisId ) ) {
+        retVal = model.startValue();
+        break;
+      }
+    }
+    return retVal;
   }
 
   @Override
-  public IAtomicValue getY2( String aPlotId ) {
-    // TODO Auto-generated method stub
-    return null;
+  public IAtomicValue getY2( String aYAxisId ) {
+    IAtomicValue retVal = null;
+    for( YAxisModel model : chartLayout.yAxisModels ) {
+      if( model.yAxisDef().id().equals( aYAxisId ) ) {
+        retVal = model.endValue();
+        break;
+      }
+    }
+    return retVal;
   }
 
   @Override
@@ -96,9 +108,12 @@ public class G2ChartConsole
   }
 
   @Override
-  public void locateY( String aPlotId, IAtomicValue aV1 ) {
-    // TODO Auto-generated method stub
-
+  public void locateY( String aAxisId, IAtomicValue aV1 ) {
+    for( YAxisModel model : chartLayout.yAxisModels ) {
+      if( model.yAxisDef().id().equals( aAxisId ) ) {
+        model.locate( aV1 );
+      }
+    }
   }
 
   @Override
