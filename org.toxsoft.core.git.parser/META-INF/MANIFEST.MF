@@ -7,4 +7,3 @@ Automatic-Module-Name: org.toxsoft.core.git.parser
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Main-Class: org.toxsoft.core.git.parser.Main
 Export-Package: org.toxsoft.core.git.parser
-Require-Bundle: org.toxsoft.core.tslib

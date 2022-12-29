@@ -4,9 +4,6 @@ import java.io.*;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringArrayList;
-
 /**
  * Утилитные методы разбора результатов выполнения git команд.
  *
@@ -39,10 +36,10 @@ public class Main {
    * <p>
    * TODO: рассмотреть вопрос о использовании аргумента командной строки для определения параметра
    */
-  private static final IStringList ARTEFACT_MODULE_PEFFIXS = new StringArrayList( //
+  private static final String[] ARTEFACT_MODULE_PEFFIXS = { //
       "org.toxsoft.", //$NON-NLS-1$
       "ru.toxsoft." //$NON-NLS-1$
-  );
+  };
 
   /**
    * Проводит разбор потока ввода команды 'git pull' формируя в потоке вывода имена обновившихся артефактов:
