@@ -4,6 +4,9 @@ import java.io.*;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.toxsoft.core.tslib.coll.primtypes.IStringList;
+import org.toxsoft.core.tslib.coll.primtypes.impl.StringArrayList;
+
 /**
  * Утилитные методы разбора результатов выполнения git команд
  *
@@ -36,7 +39,10 @@ public class Main {
    * <p>
    * TODO: рассмотреть вопрос о использовании аргумента командной строки для определения параметра
    */
-  private static final String ARTEFACT_MODULE_PEFFIX = "org.toxsoft."; //$NON-NLS-1$
+  private static final IStringList ARTEFACT_MODULE_PEFFIXS = new StringArrayList( //
+      "org.toxsoft.", //$NON-NLS-1$
+      "ru.toxsoft." //$NON-NLS-1$
+  );
 
   /**
    * Проводит разбор потока ввода команды 'git pull' формируя в потоке вывода имена обновившихся артефактов:
@@ -52,11 +58,11 @@ public class Main {
         while( (line = reader.readLine()) != null ) {
           String t[] = line.split( "/" ); //$NON-NLS-1$
           if( t.length <= 1 || //
-              (t[0].equals( DIFF_AFTER_TOKEN ) == false && t[0].equals( DIFF_BEFORE_TOKEN ) == false) ) {
+              (!t[0].equals( DIFF_AFTER_TOKEN ) && !t[0].equals( DIFF_BEFORE_TOKEN )) ) {
             continue;
           }
           String artefactId = t[1].trim();
-          if( artefactId.startsWith( ARTEFACT_MODULE_PEFFIX ) == false ) {
+          if( !isBuildModule( artefactId ) ) {
             continue;
           }
           // System.out.println( "append: " + artefactId );
@@ -78,5 +84,14 @@ public class Main {
     }
     // System.out.println( "artefacts.size = " + artefacts.size() ); //$NON-NLS-1$
     System.out.println( sb.toString() );
+  }
+
+  private static boolean isBuildModule( String aArtefactId ) {
+    for( String prefix : ARTEFACT_MODULE_PEFFIXS ) {
+      if( aArtefactId.startsWith( prefix ) ) {
+        return true;
+      }
+    }
+    return false;
   }
 }
