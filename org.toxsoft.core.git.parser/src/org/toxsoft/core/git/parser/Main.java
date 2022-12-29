@@ -8,7 +8,7 @@ import org.toxsoft.core.tslib.coll.primtypes.IStringList;
 import org.toxsoft.core.tslib.coll.primtypes.impl.StringArrayList;
 
 /**
- * Утилитные методы разбора результатов выполнения git команд
+ * Утилитные методы разбора результатов выполнения git команд.
  *
  * @author mvk
  */

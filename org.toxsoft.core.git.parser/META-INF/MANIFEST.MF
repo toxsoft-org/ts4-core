@@ -4,6 +4,7 @@ Bundle-Name: Toxsoft GitParser
 Bundle-SymbolicName: org.toxsoft.core.git.parser
 Bundle-Version: 1.0.0.qualifier
 Automatic-Module-Name: org.toxsoft.core.git.parser
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Main-Class: org.toxsoft.core.git.parser.Main
 Export-Package: org.toxsoft.core.git.parser
+Require-Bundle: org.toxsoft.core.tslib
