@@ -36,6 +36,7 @@ public class ValedLocalDateMpv
    *
    * @author hazard157
    */
+  @SuppressWarnings( "unchecked" )
   static class Factory
       extends AbstractValedControlFactory {
 
@@ -43,10 +44,14 @@ public class ValedLocalDateMpv
       super( FACTORY_NAME );
     }
 
-    @SuppressWarnings( "unchecked" )
     @Override
     protected IValedControl<LocalDate> doCreateEditor( ITsGuiContext aContext ) {
       return new ValedLocalDateMpv( aContext );
+    }
+
+    @Override
+    protected IValedControl<LocalDate> doCreateViewer( ITsGuiContext aContext ) {
+      return new ValedLocalDateViewer( aContext );
     }
 
   }

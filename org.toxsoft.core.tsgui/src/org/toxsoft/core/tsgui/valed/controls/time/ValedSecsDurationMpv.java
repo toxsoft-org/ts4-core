@@ -21,7 +21,10 @@ import org.toxsoft.core.tslib.math.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Edits {@link Integer} value of duration seconds using {@link IMpvSecsDuration} as "HH:MM:SS".
+ * Edits {@link Integer} value of duration seconds using {@link IMpvSecsDuration} as "HH:MM:SS" or "HH:MM" or "MM:SS".
+ * <p>
+ * Display format depends on options {@link ValedSecsDurationMpv#OPDEF_IS_HOURS_PART} and
+ * {@link ValedSecsDurationMpv#OPDEF_IS_SECONDS_PART}.
  *
  * @author hazard157
  */
@@ -70,6 +73,7 @@ public class ValedSecsDurationMpv
    *
    * @author hazard157
    */
+  @SuppressWarnings( "unchecked" )
   static class Factory
       extends AbstractValedControlFactory {
 
@@ -77,10 +81,14 @@ public class ValedSecsDurationMpv
       super( FACTORY_NAME );
     }
 
-    @SuppressWarnings( "unchecked" )
     @Override
     protected IValedControl<Integer> doCreateEditor( ITsGuiContext aContext ) {
       return new ValedSecsDurationMpv( aContext );
+    }
+
+    @Override
+    protected IValedControl<Integer> doCreateViewer( ITsGuiContext aContext ) {
+      return new ValedSecsDurationViewer( aContext );
     }
 
   }

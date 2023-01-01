@@ -183,8 +183,8 @@ public class OptionSetPanel
         IValedControl<IAtomicValue> valed = createValedControl( valedsGrid, dd );
         valed.eventer().addListener( valedControlValueChangeListener );
         mapValeds.put( dd.id(), valed );
-        valed.setEditable( isEditable() );
       }
+      updateValedEditableStatus();
       backplane.setContent( valedsGrid );
       valedsGrid.setSize( valedsGrid.computeSize( SWT.DEFAULT, SWT.DEFAULT ) );
     }
@@ -237,6 +237,17 @@ public class OptionSetPanel
       currValues.setValue( id, av );
     }
     return vr;
+  }
+
+  /**
+   * Updates VALEDs in {@link #mapValeds} editable statis depending on {@link #editable} and value of the
+   * {@link IAvMetaConstants#TSID_IS_READ_ONLY} option in VALEDs context parameters.
+   */
+  private void updateValedEditableStatus() {
+    for( IValedControl<IAtomicValue> c : mapValeds ) {
+      boolean isReadOnly = c.tsContext().params().getBool( TSID_IS_READ_ONLY, false );
+      c.setEditable( editable && !isReadOnly );
+    }
   }
 
   private String findOptionIdByValed( IValedControl<?> aValed ) {
@@ -343,9 +354,7 @@ public class OptionSetPanel
     }
     if( editable != aEditable ) {
       editable = aEditable;
-      for( IValedControl<IAtomicValue> c : mapValeds ) {
-        c.setEditable( editable );
-      }
+      updateValedEditableStatus();
     }
   }
 

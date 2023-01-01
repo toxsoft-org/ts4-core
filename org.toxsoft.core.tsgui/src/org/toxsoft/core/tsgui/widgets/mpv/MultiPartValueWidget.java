@@ -16,7 +16,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * {@link IMultiPartValue} editor, with "up" / "down" buttons on the right.
  * <p>
  * Warning: due to SWT {@link Text} widget restrictions this widget correctly works with mouse wheel events only when
- * fonts with equal-width digit glyphs. Font may be contains variable width glyphs, the only requirement is ASCII digits
+ * fonts with equal-width digit glyphs. Font may contain variable width glyphs, the only requirement is the ASCII digits
  * 0-9 to have the same width.
  *
  * @author hazard157
@@ -180,9 +180,9 @@ public class MultiPartValueWidget
   final VertTwoButtonsPane twoButtonsPane; // buttons on the right side
 
   /**
-   * Признак игнорирования правки в text изнутри кода этого виджета.<br>
-   * Назначение этого флага - НЕ вызывать{@link #handleVerify(Event)} когда редактирование текста проиходит программно,
-   * из кода этого виджета.
+   * Flags that widget text is changing from inside this widget source code. <br>
+   * The flag is <code>true</code> when text is changing by the code of this Java file so {@link #handleVerify(Event)}
+   * will not be called.
    */
   boolean isVerifyIgnored = true;
 
@@ -192,6 +192,8 @@ public class MultiPartValueWidget
 
   private int arrowStep = INITIAL_ARROW_STEP;
   private int pageStep  = INITIAL_PAGE_STEP;
+
+  // TODO TRANSLATE
 
   /**
    * Конструктор для наследников.

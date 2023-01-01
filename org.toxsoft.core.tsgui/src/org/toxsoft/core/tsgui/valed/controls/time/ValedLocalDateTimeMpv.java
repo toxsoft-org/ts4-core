@@ -24,7 +24,7 @@ import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Edits {@link Long} value as moment of time in millisecons from epoch start.
+ * Edits {@link LocalDateTime} value as moment of time in millisecons from epoch start.
  * <p>
  * This valed accepts {@link IAvMetaConstants#TSID_MIN_INCLUSIVE} and {@link IAvMetaConstants#TSID_MAX_INCLUSIVE}
  * constraints of type {@link LocalDateTime}, but <b>ignores</b> {@link IAvMetaConstants#TSID_MIN_EXCLUSIVE} and
@@ -61,6 +61,7 @@ public class ValedLocalDateTimeMpv
    *
    * @author hazard157
    */
+  @SuppressWarnings( "unchecked" )
   static class Factory
       extends AbstractValedControlFactory {
 
@@ -68,10 +69,14 @@ public class ValedLocalDateTimeMpv
       super( FACTORY_NAME );
     }
 
-    @SuppressWarnings( "unchecked" )
     @Override
     protected IValedControl<LocalDateTime> doCreateEditor( ITsGuiContext aContext ) {
       return new ValedLocalDateTimeMpv( aContext );
+    }
+
+    @Override
+    protected IValedControl<LocalDateTime> doCreateViewer( ITsGuiContext aContext ) {
+      return new ValedLocalDateTimeViewer( aContext );
     }
 
   }

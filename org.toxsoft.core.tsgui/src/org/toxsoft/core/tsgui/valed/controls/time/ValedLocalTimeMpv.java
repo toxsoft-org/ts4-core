@@ -56,6 +56,7 @@ public class ValedLocalTimeMpv
    *
    * @author hazard157
    */
+  @SuppressWarnings( "unchecked" )
   static class Factory
       extends AbstractValedControlFactory {
 
@@ -63,10 +64,14 @@ public class ValedLocalTimeMpv
       super( FACTORY_NAME );
     }
 
-    @SuppressWarnings( "unchecked" )
     @Override
     protected IValedControl<LocalTime> doCreateEditor( ITsGuiContext aContext ) {
       return new ValedLocalTimeMpv( aContext );
+    }
+
+    @Override
+    protected IValedControl<LocalTime> doCreateViewer( ITsGuiContext aContext ) {
+      return new ValedLocalTimeViewer( aContext );
     }
 
   }

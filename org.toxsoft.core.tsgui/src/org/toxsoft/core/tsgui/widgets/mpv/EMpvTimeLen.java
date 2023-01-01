@@ -2,14 +2,14 @@ package org.toxsoft.core.tsgui.widgets.mpv;
 
 import static org.toxsoft.core.tsgui.widgets.mpv.ITsResources.*;
 
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.std.StridableEnumKeeper;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesListEdit;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.StridablesList;
-import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import java.time.*;
+
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.std.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Time field negth - the accuracy of time editing using sume {@link IMultiPartValue} subclasses.
@@ -96,6 +96,48 @@ public enum EMpvTimeLen
       list = new StridablesList<>( values() );
     }
     return list;
+  }
+
+  /**
+   * Returns the formatted string representation of argument respecting this constant.
+   * <p>
+   * Returns string like "HH:MM[:SS[.mmm]]"
+   *
+   * @param aTime {@link LocalTime} - the time
+   * @return String - formatted string
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  @SuppressWarnings( "boxing" )
+  public String toString( LocalTime aTime ) {
+    TsNullArgumentRtException.checkNull( aTime );
+    switch( this ) {
+      case HH_MM: {
+        return String.format( "%02d:%02d", aTime.getHour(), aTime.getMinute() ); //$NON-NLS-1$
+      }
+      case HH_MM_SS: {
+        return String.format( "%02d:%02d:%02d", aTime.getHour(), aTime.getMinute(), aTime.getSecond() ); //$NON-NLS-1$
+      }
+      case HH_MM_SS_MMM: {
+        int msec = aTime.getNano() / 1_000_000;
+        return String.format( "%02d:%02d:%02d.%03d", aTime.getHour(), aTime.getMinute(), aTime.getSecond(), msec ); //$NON-NLS-1$
+      }
+      default:
+        throw new TsNotAllEnumsUsedRtException( this.id );
+    }
+  }
+
+  /**
+   * Returns the formatted string representation of argument respecting this constant.
+   * <p>
+   * Returns string like "YYYY-DD-MM HH:MM[:SS[.mmm]]"
+   *
+   * @param aTime {@link LocalDateTime} - the time
+   * @return String - formatted string
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public String toString( LocalDateTime aTime ) {
+    TsNullArgumentRtException.checkNull( aTime );
+    return aTime.toLocalDate().toString() + ' ' + toString( aTime.toLocalTime() );
   }
 
   /**

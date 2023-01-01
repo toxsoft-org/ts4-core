@@ -22,6 +22,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Edits {@link Long} value as moment of time in millisecons from epoch start.
+ * <p>
+ * Display format depends on value of the option {@link ValedTimestampMpv#OPDEF_MPV_TIME_LEN}.
  *
  * @author hazard157
  */
@@ -54,6 +56,7 @@ public class ValedTimestampMpv
    *
    * @author hazard157
    */
+  @SuppressWarnings( "unchecked" )
   static class Factory
       extends AbstractValedControlFactory {
 
@@ -61,10 +64,15 @@ public class ValedTimestampMpv
       super( FACTORY_NAME );
     }
 
-    @SuppressWarnings( "unchecked" )
     @Override
     protected IValedControl<Long> doCreateEditor( ITsGuiContext aContext ) {
       AbstractValedControl<Long, ?> e = new ValedTimestampMpv( aContext );
+      return e;
+    }
+
+    @Override
+    protected IValedControl<Long> doCreateViewer( ITsGuiContext aContext ) {
+      AbstractValedControl<Long, ?> e = new ValedTimestampViewer( aContext );
       return e;
     }
 
