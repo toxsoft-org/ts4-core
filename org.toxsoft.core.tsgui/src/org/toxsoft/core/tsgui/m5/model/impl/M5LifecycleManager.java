@@ -103,7 +103,7 @@ public class M5LifecycleManager<T, M>
   //
 
   @Override
-  final public IM5Model<T> model() {
+  public IM5Model<T> model() {
     return model;
   }
 

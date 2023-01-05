@@ -41,7 +41,7 @@ public class MultiPaneComponentModown<T>
   }
 
   /**
-   * Creates instance to view entities, not to edit.
+   * Constructor - creates instance to view entities, not to edit.
    *
    * @param aContext {@link ITsGuiContext} - the context
    * @param aModel {@link IM5Model} - the model
@@ -54,7 +54,7 @@ public class MultiPaneComponentModown<T>
   }
 
   /**
-   * Creates instance to edit entities.
+   * Constructor - creates instance to edit entities.
    *
    * @param aContext {@link ITsGuiContext} - the context
    * @param aModel {@link IM5Model} - the model
