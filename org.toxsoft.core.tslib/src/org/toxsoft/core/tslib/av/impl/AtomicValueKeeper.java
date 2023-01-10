@@ -44,8 +44,6 @@ public class AtomicValueKeeper
    */
   public static final IEntityKeeper<IAtomicValue> KEEPER = new AtomicValueKeeper();
 
-  private final AtomicValueReaderUtils avReader = new AtomicValueReaderUtils();
-
   private AtomicValueKeeper() {
     super( IAtomicValue.class, EEncloseMode.NOT_IN_PARENTHESES, null );
   }
@@ -88,7 +86,7 @@ public class AtomicValueKeeper
 
   @Override
   protected IAtomicValue doRead( IStrioReader aSr ) {
-    return avReader.readAtomicValueOrException( aSr );
+    return AtomicValueReaderUtils.readAtomicValueOrException( aSr );
   }
 
 }
