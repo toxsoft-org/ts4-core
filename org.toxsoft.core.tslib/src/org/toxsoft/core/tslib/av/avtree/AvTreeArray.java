@@ -11,7 +11,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Реализация {@link IAvTree} - массива, у которого {@link #isArray()} = <code>true</code>.
  *
- * @author goga
+ * @author hazard157
  */
 class AvTreeArray
     extends AvTree {

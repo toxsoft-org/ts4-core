@@ -11,7 +11,7 @@ import org.toxsoft.core.tslib.utils.plugins.IPluginInfo.*;
  * Неизменяемый класс - реализация интерфейса {@link IDependencyInfo}.
  *
  * @author Dima
- * @author goga
+ * @author hazard157
  */
 class DepedencyInfo
     implements IDependencyInfo {

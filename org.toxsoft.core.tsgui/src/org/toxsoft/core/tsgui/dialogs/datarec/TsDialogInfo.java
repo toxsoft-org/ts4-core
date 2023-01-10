@@ -2,13 +2,11 @@ package org.toxsoft.core.tsgui.dialogs.datarec;
 
 import static org.toxsoft.core.tsgui.dialogs.ITsGuiDialogResources.*;
 
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContextable;
-import org.toxsoft.core.tslib.bricks.geometry.ITsPoint;
-import org.toxsoft.core.tslib.bricks.geometry.impl.TsPoint;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.bricks.geometry.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link ITsDialogInfo} implementation.
@@ -44,7 +42,7 @@ public class TsDialogInfo
    * @param aShell {@link Shell} - parent window or <code>null</code> for default shell
    * @param aCaption String - window caption
    * @param aTitle String - dialog title area text
-   * @param aFlags int - флаги диалога {@link ITsDialogInfo}<b>.DF_XXX</b>
+   * @param aFlags int - флаги диалога {@link ITsDialogConstants}<b>.DF_XXX</b>
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public TsDialogInfo( ITsGuiContext aContext, Shell aShell, String aCaption, String aTitle, int aFlags ) {

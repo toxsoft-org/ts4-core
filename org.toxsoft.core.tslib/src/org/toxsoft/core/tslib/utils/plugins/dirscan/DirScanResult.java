@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * Простая реализация интерфейса возвращаемых данных сканирования директория.
  * 
- * @author goga
+ * @author hazard157
  */
 final class DirScanResult
     implements IDirScanResult {

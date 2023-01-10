@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Неизменяемая реализация {@link IAvTreeFieldInfo}.
  *
- * @author goga
+ * @author hazard157
  */
 public class AvTreeFieldInfo
     extends Stridable

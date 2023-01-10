@@ -11,7 +11,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * <p>
  * Для создания экземпляров дерева следует использовать статические методы createXxx().
  * 
- * @author goga
+ * @author hazard157
  */
 public abstract class AvTree
     implements IAvTreeEdit, Serializable {

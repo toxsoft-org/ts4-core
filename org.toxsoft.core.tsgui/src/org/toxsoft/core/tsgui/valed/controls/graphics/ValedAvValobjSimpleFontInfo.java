@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Аналог {@link ValedSimpleFontInfo} работающий со значениями {@link IAtomicValue} типа {@link EAtomicType#VALOBJ}.
  *
- * @author goga
+ * @author hazard157
  */
 public class ValedAvValobjSimpleFontInfo
     extends AbstractValedSimpleFontInfo<IAtomicValue> {

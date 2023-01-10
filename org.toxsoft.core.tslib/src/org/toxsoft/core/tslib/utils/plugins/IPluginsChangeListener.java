@@ -3,7 +3,7 @@ package org.toxsoft.core.tslib.utils.plugins;
 /**
  * Интерфейс слушателя изменений в файлах плагинов.
  * 
- * @author goga
+ * @author hazard157
  */
 public interface IPluginsChangeListener {
 

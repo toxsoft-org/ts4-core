@@ -32,7 +32,7 @@ import org.toxsoft.core.tslib.utils.*;
  * {@link IPluginInfo#userProperties()}.</li>
  * </ul>
  *
- * @author goga
+ * @author hazard157
  */
 public interface IPluginsHardConstants {
 

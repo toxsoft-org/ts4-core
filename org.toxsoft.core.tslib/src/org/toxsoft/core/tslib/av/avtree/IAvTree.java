@@ -15,7 +15,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * может быть корнем дерева. В каждом узле {@link IAvTree} кроме дочерных узлов {@link #nodes()}, находятся и поля
  * данных {@link #fields()}, оформленные в виде {@link IOptionSet}.
  *
- * @author goga
+ * @author hazard157
  */
 public interface IAvTree {
 

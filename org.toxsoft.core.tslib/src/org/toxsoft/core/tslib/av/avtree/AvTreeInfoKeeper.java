@@ -30,7 +30,7 @@ import org.toxsoft.core.tslib.bricks.strio.*;
  * Обратите внимание, что метод {@link #read(IStrioReader)} на самом деле возвращает {@link IAvTreeInfoEdit} - то есть,
  * возвращаемое значение можно сразу приводить к {@link IAvTreeInfoEdit}.
  *
- * @author goga
+ * @author hazard157
  */
 public class AvTreeInfoKeeper
     extends AbstractEntityKeeper<IAvTreeInfo> {

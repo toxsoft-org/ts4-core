@@ -8,7 +8,7 @@ import org.toxsoft.core.tslib.bricks.strio.*;
 /**
  * Реализация {@link AbstractEntityKeeper} для {@link IAvTreePathElement}.
  *
- * @author goga
+ * @author hazard157
  */
 class AvTreePathElementKeeper
     extends AbstractEntityKeeper<IAvTreePathElement> {

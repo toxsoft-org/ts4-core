@@ -23,7 +23,7 @@ import org.toxsoft.core.tslib.utils.plugins.IPluginInfo.IDependencyInfo;
  * <p>
  * Описание работы с плагинами см. в {@link IPluginsHardConstants}.
  *
- * @author goga
+ * @author hazard157
  * @author Dima
  */
 public class PluginUtils {

@@ -16,7 +16,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * при показе/редактировании содержимого узла).</li>
  * </ul>
  *
- * @author goga
+ * @author hazard157
  */
 public interface IAvTreeInfo
     extends IStridable {

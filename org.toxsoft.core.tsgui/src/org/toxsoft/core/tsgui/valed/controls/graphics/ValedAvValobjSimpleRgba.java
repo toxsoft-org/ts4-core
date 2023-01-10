@@ -15,7 +15,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * <p>
  * Редактор возвращает {@link IAtomicValue#NULL} если цвет не задан, рассматривая это как "цвет по умолчанию".
  *
- * @author goga
+ * @author hazard157
  * @author vs
  */
 public class ValedAvValobjSimpleRgba

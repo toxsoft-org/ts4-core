@@ -15,7 +15,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Вспомогательные мтеоды для работы с деревом значений
  *
- * @author goga
+ * @author hazard157
  */
 public class AvTreeUtils {
 

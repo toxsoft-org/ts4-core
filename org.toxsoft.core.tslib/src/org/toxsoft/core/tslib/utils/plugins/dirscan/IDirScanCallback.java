@@ -12,7 +12,7 @@ package org.toxsoft.core.tslib.utils.plugins.dirscan;
  * <li>любых других целей.</li>
  * </ul>
  * 
- * @author goga
+ * @author hazard157
  */
 public interface IDirScanCallback {
 

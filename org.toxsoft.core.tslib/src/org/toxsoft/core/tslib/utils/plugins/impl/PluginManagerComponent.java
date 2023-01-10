@@ -12,7 +12,7 @@ import org.toxsoft.core.tslib.utils.plugins.*;
 /**
  * Компонента управления плагинами, реализация {@link IPluginManagerComponent}.
  *
- * @author goga
+ * @author hazard157
  */
 public class PluginManagerComponent
     implements IPluginManagerComponent {

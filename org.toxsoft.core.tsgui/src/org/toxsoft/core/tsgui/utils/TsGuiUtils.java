@@ -57,6 +57,7 @@ public class TsGuiUtils {
     TsValobjUtils.registerKeeper( TsLineInfo.KEEPER_ID, TsLineInfo.KEEPER );
     TsValobjUtils.registerKeeper( TsBorderInfo.KEEPER_ID, TsBorderInfo.KEEPER );
     TsValobjUtils.registerKeeper( ETsOutlineKind.KEEPER_ID, ETsOutlineKind.KEEPER );
+    TsValobjUtils.registerKeeper( EGradientType.KEEPER_ID, EGradientType.KEEPER );
 
     // Sol
     // TsValobjUtils.registerKeeper( AbstractSwtPatternInfo.KEEPER_ID, AbstractSwtPatternInfo.KEEPER );

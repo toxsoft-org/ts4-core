@@ -24,7 +24,7 @@ import org.toxsoft.core.tslib.utils.plugins.dirwalk.*;
  * найденных изменений ( {@link IDirScanResult}) сделать нужную работу.</li>
  * </ul>
  *
- * @author goga
+ * @author hazard157
  */
 public class DirScanner {
 
@@ -145,7 +145,7 @@ public class DirScanner {
   /**
    * Класс обработки обратного вызова при сканировании директрия.
    *
-   * @author goga
+   * @author hazard157
    * @version $id$
    */
   private class ScannerCb

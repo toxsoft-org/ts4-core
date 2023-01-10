@@ -18,7 +18,7 @@ package org.toxsoft.core.tslib.av.avtree;
  * проверить, что элемиент пути сслыается на элемент в массиве (то есть {@link #isArrayElement()} = true) и надо взять
  * элмент массива с индексом {@link #arrayElementIndex()}.
  * 
- * @author goga
+ * @author hazard157
  */
 public interface IAvTreePathElement {
 

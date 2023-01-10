@@ -3,7 +3,7 @@ package org.toxsoft.core.tslib.av.avtree;
 /**
  * Локализуемые ресурсы деревьев значений.
  *
- * @author goga
+ * @author hazard157
  */
 interface ITsResources {
 

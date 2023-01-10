@@ -24,7 +24,7 @@ import org.toxsoft.core.tslib.utils.files.*;
  * <p>
  * Логика работы описана в комментарии к {@link IDirWalkerCallback}.
  *
- * @author goga
+ * @author hazard157
  */
 public class DirWalker {
 

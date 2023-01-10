@@ -5,7 +5,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Интерфейс редатирования описания дерева (структуры) значений {@link IAvTreeInfo}.
  * 
- * @author goga
+ * @author hazard157
  */
 public interface IAvTreeInfoEdit
     extends IAvTreeInfo {

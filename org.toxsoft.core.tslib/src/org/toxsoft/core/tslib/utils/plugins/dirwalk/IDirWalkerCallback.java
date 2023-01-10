@@ -26,7 +26,7 @@ import java.io.*;
  * {@link #afterFinish(boolean)}</li>
  * </ul>
  * 
- * @author goga
+ * @author hazard157
  */
 public interface IDirWalkerCallback {
 

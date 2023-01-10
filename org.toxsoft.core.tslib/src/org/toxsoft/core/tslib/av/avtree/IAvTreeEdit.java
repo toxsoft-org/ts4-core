@@ -7,7 +7,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Редактируемое дерево значений {@link IAtomicValue}.
  *
- * @author goga
+ * @author hazard157
  */
 public interface IAvTreeEdit
     extends IAvTree {

@@ -16,7 +16,7 @@ import org.toxsoft.core.tslib.bricks.strid.*;
  * (Label) к виджету на панели при показе/редактировании значения поля).</li>
  * </ul>
  *
- * @author goga
+ * @author hazard157
  */
 public interface IAvTreeFieldInfo
     extends IStridable {

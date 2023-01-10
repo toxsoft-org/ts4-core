@@ -3,7 +3,7 @@ package org.toxsoft.core.tsgui.graphics.image.impl;
 /**
  * Localizable resources.
  *
- * @author goga
+ * @author hazard157
  */
 @SuppressWarnings( "nls" )
 interface ITsResources {

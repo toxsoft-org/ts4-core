@@ -14,7 +14,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * <p>
  * Редактор возвращает <code>null</code> если цвет не задан, рассматривая это как "цвет по умолчанию".
  *
- * @author goga
+ * @author hazard157
  * @author vs
  */
 public class ValedSimpleRgba

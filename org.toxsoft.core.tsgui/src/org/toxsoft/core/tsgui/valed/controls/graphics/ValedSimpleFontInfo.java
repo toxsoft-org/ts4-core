@@ -16,7 +16,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * смысл, например чтобы обозначить понятие "использовать шрифт по умолчанию". Задание значения <code>null</code> в
  * методе {@link IValedControl#setValue(Object)} равнозначно заданию значения {@link IFontInfo#NULL}.
  *
- * @author goga
+ * @author hazard157
  */
 public class ValedSimpleFontInfo
     extends AbstractValedSimpleFontInfo<IFontInfo> {

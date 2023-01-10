@@ -9,7 +9,7 @@ import org.toxsoft.core.tslib.utils.*;
  * <p>
  * Описание работы с плагинами см. в {@link IPluginsHardConstants}.
  *
- * @author goga
+ * @author hazard157
  */
 public interface IPluginInfo
     extends IPluginBasicInfo {
@@ -32,7 +32,7 @@ public interface IPluginInfo
   /**
    * Информация о зависимости от отдельного модуля.
    *
-   * @author goga
+   * @author hazard157
    */
   interface IDependencyInfo
       extends IPluginBasicInfo {

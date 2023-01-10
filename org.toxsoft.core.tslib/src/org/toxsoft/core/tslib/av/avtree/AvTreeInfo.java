@@ -8,7 +8,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Редактируемая реализация описание дерева (структуры) значений {@link IAvTreeInfo}.
  *
- * @author goga
+ * @author hazard157
  */
 public class AvTreeInfo
     extends Stridable

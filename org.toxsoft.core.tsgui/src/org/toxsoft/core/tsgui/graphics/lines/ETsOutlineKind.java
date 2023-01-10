@@ -12,7 +12,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * The outline drawing kind.
  *
- * @author goga
+ * @author hazard157
  */
 public enum ETsOutlineKind
     implements IStridable {

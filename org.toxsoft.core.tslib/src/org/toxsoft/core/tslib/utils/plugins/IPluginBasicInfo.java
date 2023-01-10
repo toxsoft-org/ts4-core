@@ -5,7 +5,7 @@ import org.toxsoft.core.tslib.utils.*;
 /**
  * Минимальная информация, необходимая и достаточная для идентификации подключаемого модуля.
  *
- * @author goga
+ * @author hazard157
  */
 public interface IPluginBasicInfo {
 

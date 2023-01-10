@@ -8,7 +8,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Управление поключаемыми модулями одного типа.
  *
- * @author goga
+ * @author hazard157
  */
 public interface IPluginsStorage {
 

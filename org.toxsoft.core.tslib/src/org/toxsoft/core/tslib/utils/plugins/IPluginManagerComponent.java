@@ -26,7 +26,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * <p>
  * Реализация не является потоко-безопасной.
  *
- * @author goga
+ * @author hazard157
  */
 public interface IPluginManagerComponent
     extends ICloseable, ICooperativeMultiTaskable {

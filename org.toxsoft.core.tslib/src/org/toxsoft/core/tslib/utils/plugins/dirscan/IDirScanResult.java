@@ -18,7 +18,7 @@ import java.util.*;
  * </ul>
  * Например, переименование файла приведет появление информации в двух списках: в новых и удаленных.
  * 
- * @author goga
+ * @author hazard157
  */
 public interface IDirScanResult {
 

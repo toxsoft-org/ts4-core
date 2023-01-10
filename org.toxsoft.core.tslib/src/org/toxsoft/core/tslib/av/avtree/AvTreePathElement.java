@@ -7,7 +7,7 @@ import org.toxsoft.core.tslib.bricks.strid.impl.*;
 /**
  * Неизменяемая реализация {@link IAvTreePathElement}.
  * 
- * @author goga
+ * @author hazard157
  */
 public class AvTreePathElement
     implements IAvTreePathElement, Serializable {

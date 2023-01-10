@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.coll.*;
  * <p>
  * Путь записывается как <code>{ {true,id1,isArray,arrIndex}, ... {false,idN,isArray,arrIndex} }</code>.
  *
- * @author goga
+ * @author hazard157
  */
 public class AvTreePathKeeper
     extends AbstractEntityKeeper<AvTreePath> {

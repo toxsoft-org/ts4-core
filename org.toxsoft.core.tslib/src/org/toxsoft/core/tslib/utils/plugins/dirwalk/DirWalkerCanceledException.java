@@ -5,7 +5,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Исключение, означающее отмену обработчиком обхода директории.
  * 
- * @author goga
+ * @author hazard157
  */
 @SuppressWarnings("serial")
 public class DirWalkerCanceledException

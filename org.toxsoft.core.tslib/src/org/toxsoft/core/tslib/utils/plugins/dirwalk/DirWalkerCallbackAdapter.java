@@ -5,7 +5,7 @@ import java.io.*;
 /**
  * Заглушка для методов интерфейса {@link IDirWalkerCallback}.
  *
- * @author goga
+ * @author hazard157
  */
 public class DirWalkerCallbackAdapter
     implements IDirWalkerCallback {

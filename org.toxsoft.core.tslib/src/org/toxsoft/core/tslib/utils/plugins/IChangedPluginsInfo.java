@@ -10,7 +10,7 @@ import org.toxsoft.core.tslib.utils.*;
  * <p>
  * Содержит информацию о новых, удаленных и измененных модулях.
  *
- * @author goga
+ * @author hazard157
  */
 public interface IChangedPluginsInfo {
 
@@ -40,7 +40,7 @@ public interface IChangedPluginsInfo {
   /**
    * Инофрмация о подключаемом модуле с изменением версии.
    *
-   * @author goga
+   * @author hazard157
    */
   public interface IChangedPluginInfo {
 

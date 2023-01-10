@@ -29,7 +29,7 @@ import org.toxsoft.core.tslib.coll.primtypes.impl.*;
  * Обратите внимание, что метод {@link #read(IStrioReader)} на самом деле возвращает {@link IAvTreeEdit} - то есть,
  * возвращаемое значение можно сразу приводить к {@link IAvTreeEdit}.
  *
- * @author goga
+ * @author hazard157
  */
 public class AvTreeKeeper
     extends AbstractEntityKeeper<IAvTree> {

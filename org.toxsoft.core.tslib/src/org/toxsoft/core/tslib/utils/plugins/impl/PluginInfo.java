@@ -11,7 +11,7 @@ import org.toxsoft.core.tslib.utils.plugins.*;
  * неизменяемый класс - реализация интерфейса IPluginInfo.
  *
  * @author Дима
- * @author goga
+ * @author hazard157
  */
 class PluginInfo
     implements IPluginInfo {

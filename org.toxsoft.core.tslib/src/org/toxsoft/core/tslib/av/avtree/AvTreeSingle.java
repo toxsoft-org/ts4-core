@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Реализация единичного {@link IAvTree}, у которого {@link #isArray()} = <code>false</code>.
  *
- * @author goga
+ * @author hazard157
  */
 class AvTreeSingle
     extends AvTree {

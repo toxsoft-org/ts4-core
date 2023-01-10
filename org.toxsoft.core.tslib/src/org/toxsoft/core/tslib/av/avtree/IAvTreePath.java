@@ -6,7 +6,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Путь к конкретному элементу в дереве {@link IAvTree} и/или в описании дерева {@link IAvTreeInfo} значений.
  * 
- * @author goga
+ * @author hazard157
  */
 public interface IAvTreePath {
 

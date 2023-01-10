@@ -6,7 +6,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Информация о файле, сохраняемое при слежении за содержимым директория.<br>
  * Данный класс является неизменяемым.
  * 
- * @author goga
+ * @author hazard157
  */
 public final class ScannedFileInfo {
 
