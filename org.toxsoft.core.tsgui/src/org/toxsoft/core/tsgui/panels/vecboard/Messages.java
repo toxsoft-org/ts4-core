@@ -1,6 +1,6 @@
 package org.toxsoft.core.tsgui.panels.vecboard;
 
-import org.eclipse.osgi.util.NLS;
+import org.eclipse.osgi.util.*;
 
 @SuppressWarnings( "javadoc" )
 public class Messages
@@ -12,6 +12,8 @@ public class Messages
   public static String STR_D_LK_BORDER;
   public static String STR_N_LK_LADDER;
   public static String STR_D_LK_LADDER;
+  public static String STR_N_LK_COLUMN;
+  public static String STR_D_LK_COLUMN;
   public static String STR_N_LK_ROW;
   public static String STR_D_LK_ROW;
   public static String STR_N_LK_SASH;

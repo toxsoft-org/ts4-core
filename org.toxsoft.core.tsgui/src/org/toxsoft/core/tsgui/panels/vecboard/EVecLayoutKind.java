@@ -2,9 +2,8 @@ package org.toxsoft.core.tsgui.panels.vecboard;
 
 import static org.toxsoft.core.tsgui.panels.vecboard.ITsResources.*;
 
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Виды раскладок контролей {@link IVecLayout}.
@@ -28,6 +27,13 @@ public enum EVecLayoutKind
    * Раскладку {@link IVecLayout} этого вида нужно приводить к {@link IVecLadderLayout}.
    */
   LADDER( "Ladder", STR_N_LK_LADDER, STR_D_LK_LADDER ),
+
+  /**
+   * Раскладка контролей по столбцам.
+   * <p>
+   * Раскладку {@link IVecLayout} этого вида нужно приводить к {@link IVecColumnLayout}.
+   */
+  COLUMN( "Column", STR_N_LK_COLUMN, STR_D_LK_COLUMN ),
 
   /**
    * Раскладка контролей в виде вкладок.
