@@ -6,7 +6,6 @@ import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
  * Параметры заливки.
@@ -19,15 +18,15 @@ public class TsFillInfo {
   /**
    * Отстутсвие заливки
    */
-  public static final TsFillInfo NONE = new TsFillInfo( ETsFillKind.NONE );
+  public static final TsFillInfo NONE = new TsFillInfo();
 
   /**
-   * Value-object registration identifier for {@link TsValobjUtils}.
+   * The registsred keeper ID.
    */
   public static final String KEEPER_ID = "TsFillInfo"; //$NON-NLS-1$
 
   /**
-   * Keeper singleton.
+   * The keeper singleton.
    */
   public static final IEntityKeeper<TsFillInfo> KEEPER =
       new AbstractEntityKeeper<>( TsFillInfo.class, EEncloseMode.ENCLOSES_BASE_CLASS, NONE ) {
@@ -60,7 +59,7 @@ public class TsFillInfo {
           aSr.ensureSeparatorChar();
           switch( kind ) {
             case NONE:
-              return new TsFillInfo( kind );
+              return NONE;
             case SOLID:
               RGBA rgba = RGBAKeeper.KEEPER.read( aSr );
               return new TsFillInfo( rgba );
@@ -76,37 +75,47 @@ public class TsFillInfo {
         }
       };
 
-  /**
-   * Тип заливки
-   */
   private final ETsFillKind kind;
 
-  /**
-   * Цвет для сплошной заливки
-   */
-  private RGBA fillRgba = new RGBA( 0, 0, 0, 255 );
-
-  private TsImageFillInfo imageFillInfo = TsImageFillInfo.DEFAULT;
-
+  private RGBA               fillRgba         = new RGBA( 0, 0, 0, 255 );
+  private TsImageFillInfo    imageFillInfo    = TsImageFillInfo.DEFAULT;
   private TsGradientFillInfo gradientFillInfo = TsGradientFillInfo.DEFAULT;
 
-  TsFillInfo( ETsFillKind aKind ) {
-    kind = aKind;
+  private TsFillInfo() {
+    kind = ETsFillKind.NONE;
   }
 
+  /**
+   * Creates instance of kind {@link ETsFillKind#SOLID}.
+   *
+   * @param aRgba {@link RGBA} - the color
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
   public TsFillInfo( RGBA aRgba ) {
+    fillRgba = TsNullArgumentRtException.checkNull( aRgba );
     kind = ETsFillKind.SOLID;
-    fillRgba = aRgba;
   }
 
+  /**
+   * Creates instance of kind {@link ETsFillKind#IMAGE}.
+   *
+   * @param aImageFillInfo {@link TsImageFillInfo} - the image parameters
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
   public TsFillInfo( TsImageFillInfo aImageFillInfo ) {
+    imageFillInfo = TsNullArgumentRtException.checkNull( aImageFillInfo );
     kind = ETsFillKind.IMAGE;
-    imageFillInfo = aImageFillInfo;
   }
 
+  /**
+   * Creates instance of kind {@link ETsFillKind#GRADIENT}.
+   *
+   * @param aGradientFillInfo {@link TsGradientFillInfo} - the gradient parameters
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
   public TsFillInfo( TsGradientFillInfo aGradientFillInfo ) {
+    gradientFillInfo = TsNullArgumentRtException.checkNull( aGradientFillInfo );
     kind = ETsFillKind.GRADIENT;
-    gradientFillInfo = aGradientFillInfo;
   }
 
   /**

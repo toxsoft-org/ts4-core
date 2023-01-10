@@ -4,10 +4,10 @@ import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * "Узор" радиального градиента.
- * <p>
+ * The radial gradient pattern.
  *
  * @author vs
  */
@@ -15,22 +15,24 @@ public class RadialGradient
     extends AbstractFractionalGradient {
 
   /**
-   * Смещение центра по оси x в процентах от ширины
+   * Center offset on the x-axis as a percentage of the width.
    */
   private final double centerDx;
 
   /**
-   * Смещение центра по оси y в процентах
+   * Center offset on the y-axis as a percentage of the height.
    */
   private final double centerDy;
 
   /**
-   * Конструктор.<br>
+   * Constructor.
    *
-   * @param aCenterDx double - cмещение центра по оси x в процентах от ширины
-   * @param aCenterDy double - Смещение центра по оси y в процентах от высоты
-   * @param aFractions IList&lt;Pair&lt;Double, RGBA>> - список фракций
-   * @param aContext ITsGuiContext - соотвествующий контекст
+   * @param aCenterDx double - center offset on the x-axis as a percentage of the width.
+   * @param aCenterDy double - center offset on the y-axis as a percentage of the height
+   * @param aFractions IList&lt;Pair&lt;Double, RGBA&gt;&gt; - list of fractions
+   * @param aContext ITsGuiContext - the context
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException - number of fractions is less than 2 2
    */
   public RadialGradient( double aCenterDx, double aCenterDy, IList<Pair<Double, RGBA>> aFractions,
       ITsGuiContext aContext ) {
@@ -39,11 +41,23 @@ public class RadialGradient
     centerDy = aCenterDy;
   }
 
+  /**
+   * Constructor.
+   *
+   * @param aInfo {@link RadialGradientInfo} - gradient parameters
+   * @param aContext ITsGuiContext - the context
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException - number of fractions is less than 2 2
+   */
   public RadialGradient( RadialGradientInfo aInfo, ITsGuiContext aContext ) {
     super( aInfo.fractions, aContext );
     centerDx = aInfo.centerX;
     centerDy = aInfo.centerY;
   }
+
+  // ------------------------------------------------------------------------------------
+  // AbstractFractionalGradient
+  //
 
   @Override
   Image createImage( GC aGc, int aWidth, int aHeight ) {
@@ -92,8 +106,8 @@ public class RadialGradient
 
   @Override
   public IGradientInfo patternInfo() {
-    // TODO Auto-generated method stub
-    return null;
+    // TODO реализовать RadialGradient.patternInfo()
+    throw new TsUnderDevelopmentRtException( "RadialGradient.patternInfo()" );
   }
 
 }

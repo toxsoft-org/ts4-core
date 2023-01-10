@@ -1,10 +1,10 @@
 package org.toxsoft.core.tsgui.graphics.patterns;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Базовый класс для создания "узоров" для заполнения областей при рисовании.
- * <p>
  *
  * @author vs
  */
@@ -16,6 +16,7 @@ public abstract class AbstractGradient
   private boolean disposed = false;
 
   protected AbstractGradient( ITsGuiContext aContext ) {
+    TsNullArgumentRtException.checkNull( aContext );
     context = aContext;
   }
 

@@ -8,33 +8,27 @@ import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Базовый класс для реализации градиентов при заполнении фигур.
- * <p>
+ * The base class for implementing the description of gradients when filling shapes.
  *
  * @author vs
  */
 public abstract class AbstractFractionalGradient
     extends AbstractGradient {
 
-  /**
-   * Узора для фона закрашиваемой фигуры
-   */
-  Pattern pattern = null;
-
-  boolean disposed = false;
-
-  private int width = 0;
-
-  private int height = 0;
+  Pattern     pattern  = null;
+  boolean     disposed = false;
+  private int width    = 0;
+  private int height   = 0;
 
   private IListEdit<IGradientFraction> fractions = new ElemArrayList<>();
 
   /**
-   * Конструктор.<br>
+   * Constructor.
    *
-   * @param aFractions IList&lt;Pair&lt;Double, RGBA>> - список пар значение-цвет
-   * @param aContext ITsGuiContext - соотвествующий контекст
-   * @throws TsIllegalArgumentRtException - количество фракций меньше 2
+   * @param aFractions IList&lt;Pair&lt;Double, RGBA>> - the list of fractions as pairs value-color
+   * @param aContext ITsGuiContext - the context
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException - number of fractions is less than 2 2
    */
   public AbstractFractionalGradient( IList<Pair<Double, RGBA>> aFractions, ITsGuiContext aContext ) {
     super( aContext );
@@ -51,7 +45,7 @@ public abstract class AbstractFractionalGradient
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса {@link IDisposable}
+  // IDisposable
   //
 
   @Override
@@ -67,7 +61,7 @@ public abstract class AbstractFractionalGradient
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса {@link IGradientPattern}
+  // IGradientPattern
   //
 
   @Override
@@ -79,7 +73,7 @@ public abstract class AbstractFractionalGradient
   }
 
   // ------------------------------------------------------------------------------------
-  // Методы для использования в наследниках
+  // for subclasses
   //
 
   protected IListEdit<IGradientFraction> fractions() {
@@ -87,15 +81,7 @@ public abstract class AbstractFractionalGradient
   }
 
   // ------------------------------------------------------------------------------------
-  // Методы для обязательного переопределения в наследниках
-  //
-
-  abstract IGradientFraction createFraction( Pair<Double, RGBA> aStart, Pair<Double, RGBA> aEnd );
-
-  abstract Image createImage( GC aGc, int aWidth, int aHeight );
-
-  // ------------------------------------------------------------------------------------
-  // Внутренняя реализация
+  // implementation
   //
 
   private boolean shouldRecreate( int aWidth, int aHeight ) {
@@ -125,5 +111,13 @@ public abstract class AbstractFractionalGradient
       img.dispose();
     }
   }
+
+  // ------------------------------------------------------------------------------------
+  // to override
+  //
+
+  abstract IGradientFraction createFraction( Pair<Double, RGBA> aStart, Pair<Double, RGBA> aEnd );
+
+  abstract Image createImage( GC aGc, int aWidth, int aHeight );
 
 }
