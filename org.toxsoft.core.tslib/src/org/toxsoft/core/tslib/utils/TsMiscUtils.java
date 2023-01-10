@@ -18,6 +18,10 @@ import org.toxsoft.core.tslib.utils.errors.*;
  */
 public class TsMiscUtils {
 
+  // ------------------------------------------------------------------------------------
+  // OSGi/Eclipse/E4
+  //
+
   /**
    * Makes Eclipse OSGi/E4 class contribution IRI string.
    *
@@ -32,6 +36,58 @@ public class TsMiscUtils {
     TsNullArgumentRtException.checkNull( aClass );
     return "bundleclass://" + aPluginId + '/' + aClass.getName(); //$NON-NLS-1$
   }
+
+  // ------------------------------------------------------------------------------------
+  // Bits manipulation
+  //
+
+  /**
+   * Checks if any bit is set in a word.
+   *
+   * @param aFlags int - the word to check
+   * @param aBitsMask long - the bits mask
+   * @return boolean - <code>true</code> if any of the masked bits are set
+   */
+  public static boolean isBitAny( long aFlags, long aBitsMask ) {
+    return (aFlags & aBitsMask) != 0;
+  }
+
+  /**
+   * Checks if all bit is set in a word.
+   *
+   * @param aFlags long - the word to check
+   * @param aBitsMask long - the bits mask
+   * @return boolean - <code>true</code> if all of the masked bits are set
+   */
+  public static boolean isBitsAll( long aFlags, long aBitsMask ) {
+    return (aFlags & aBitsMask) == aBitsMask;
+  }
+
+  /**
+   * Checks if any bit is set in a word.
+   *
+   * @param aFlags int - the word to check
+   * @param aBitsMask int - the bits mask
+   * @return boolean - <code>true</code> if any of the masked bits are set
+   */
+  public static boolean isBitAny( int aFlags, int aBitsMask ) {
+    return (aFlags & aBitsMask) != 0;
+  }
+
+  /**
+   * Checks if all bit is set in a word.
+   *
+   * @param aFlags int - the word to check
+   * @param aBitsMask int - the bits mask
+   * @return boolean - <code>true</code> if all of the masked bits are set
+   */
+  public static boolean isBitsAll( int aFlags, int aBitsMask ) {
+    return (aFlags & aBitsMask) == aBitsMask;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Running programs
+  //
 
   /**
    * Runs external program and does not waits for it.
