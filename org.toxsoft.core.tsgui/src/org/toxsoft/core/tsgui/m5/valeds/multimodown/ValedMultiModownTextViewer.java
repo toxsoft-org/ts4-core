@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Просмотрщик ссылочного поля {@link M5MultiModownFieldDef} в виде нередактируемого текстового поля.
  *
- * @author goga
+ * @author hazard157
  * @param <V> - тип значения элементов спискочного поля
  */
 public class ValedMultiModownTextViewer<V>

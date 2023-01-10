@@ -10,7 +10,7 @@ import org.toxsoft.core.tslib.coll.*;
  * Поле является владельцем объекта, которые сами описаны моделью {@link #itemModel()}. Отсюда и название Modown -
  * MODelled OWNed object.
  *
- * @author goga
+ * @author hazard157
  * @param <T> - тип моделированного объекта
  * @param <V> - тип элемента списка (а не тип коллекции!)
  */

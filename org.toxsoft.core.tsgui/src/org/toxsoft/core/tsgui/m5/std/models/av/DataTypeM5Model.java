@@ -1,6 +1,5 @@
 package org.toxsoft.core.tsgui.m5.std.models.av;
 
-import static org.toxsoft.core.tsgui.m5.IM5Constants.*;
 import static org.toxsoft.core.tsgui.m5.std.models.av.ITsResources.*;
 import static org.toxsoft.core.tslib.ITsHardConstants.*;
 
@@ -19,7 +18,7 @@ import org.toxsoft.core.tslib.coll.*;
  * @author hazard157
  */
 public class DataTypeM5Model
-    extends M5Model<IDataType> {
+    extends DataMetaInfoBasicM5Model<IDataType> {
 
   /**
    * The model ID.
@@ -27,52 +26,11 @@ public class DataTypeM5Model
   public static final String MODEL_ID = TS_ID + "DataType"; //$NON-NLS-1$
 
   /**
-   * The ID of the field {@link #ATOMIC_TYPE}.
+   * LM for this model.
+   *
+   * @author hazard157
    */
-  public static final String FID_ATOMIC_TYPE = "atomicType"; //$NON-NLS-1$
-
-  /**
-   * The ID of the field {@link #CONSTRAINTS}.
-   */
-  public static final String FID_CONSTRAINTS = "constraints"; //$NON-NLS-1$
-
-  /**
-   * Field {@link IDataType#atomicType()}.
-   */
-  public static final IM5SingleLookupFieldDef<IDataType, EAtomicType> ATOMIC_TYPE =
-      new M5SingleLookupFieldDef<>( FID_ATOMIC_TYPE, AtomicTypeM5Model.MODEL_ID ) {
-
-        @Override
-        protected void doInit() {
-          setNameAndDescription( STR_N_ATOMIC_TYPE, STR_D_ATOMIC_TYPE );
-          setFlags( M5FF_COLUMN | M5FF_INVARIANT );
-        }
-
-        protected EAtomicType doGetFieldValue( IDataType aEntity ) {
-          return aEntity.atomicType();
-        }
-
-      };
-
-  /**
-   * Field {@link IDataType#params()}.
-   */
-  public static final IM5MultiModownFieldDef<IDataType, IdValue> CONSTRAINTS =
-      new M5MultiModownFieldDef<>( FID_CONSTRAINTS, IdValueM5Model.MODEL_ID ) {
-
-        @Override
-        protected void doInit() {
-          setNameAndDescription( STR_N_CONSTRAINTS, STR_D_CONSTRAINTS );
-          setFlags( M5FF_DETAIL );
-        }
-
-        protected IList<IdValue> doGetFieldValue( IDataType aEntity ) {
-          return IdValue.makeIdValuesCollFromOptionSet( aEntity.params() ).values();
-        }
-
-      };
-
-  static class LifecycleManager
+  class LifecycleManager
       extends M5LifecycleManager<IDataType, Object> {
 
     public LifecycleManager( IM5Model<IDataType> aModel ) {

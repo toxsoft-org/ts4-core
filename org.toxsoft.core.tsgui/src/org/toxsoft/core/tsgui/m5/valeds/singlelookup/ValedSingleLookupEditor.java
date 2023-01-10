@@ -18,7 +18,7 @@ import org.toxsoft.core.tsgui.valed.impl.*;
  * </ul>
  * For uncpecified or unknown widget types {@link IM5ValedConstants#M5VWTID_TEXT} will be used.
  *
- * @author goga
+ * @author hazard157
  */
 @SuppressWarnings( { "unchecked", "rawtypes" } )
 public class ValedSingleLookupEditor {

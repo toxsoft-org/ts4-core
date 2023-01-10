@@ -8,6 +8,18 @@ package org.toxsoft.core.tsgui.m5.std.models.misc;
 interface ITsResources {
 
   /**
+   * {@link CollConstraintM5Model}
+   */
+  String STR_N_IS_DUPS_PROHIBITED  = Messages.getString( "STR_N_IS_DUPS_PROHIBITED" );  //$NON-NLS-1$
+  String STR_D_IS_DUPS_PROHIBITED  = Messages.getString( "STR_D_IS_DUPS_PROHIBITED" );  //$NON-NLS-1$
+  String STR_N_IS_EMPTY_PROHIBITED = Messages.getString( "STR_N_IS_EMPTY_PROHIBITED" ); //$NON-NLS-1$
+  String STR_D_IS_EMPTY_PROHIBITED = Messages.getString( "STR_D_IS_EMPTY_PROHIBITED" ); //$NON-NLS-1$
+  String STR_N_IS_EXACT_COUNT      = Messages.getString( "STR_N_IS_EXACT_COUNT" );      //$NON-NLS-1$
+  String STR_D_IS_EXACT_COUNT      = Messages.getString( "STR_D_IS_EXACT_COUNT" );      //$NON-NLS-1$
+  String STR_N_MAX_COUNT           = Messages.getString( "STR_N_MAX_COUNT" );           //$NON-NLS-1$
+  String STR_D_MAX_COUNT           = Messages.getString( "STR_D_MAX_COUNT" );           //$NON-NLS-1$
+
+  /**
    * {@link FileM5Model}
    */
   String STR_N_M5M_FILE    = Messages.getString( "STR_N_M5M_FILE" );    //$NON-NLS-1$

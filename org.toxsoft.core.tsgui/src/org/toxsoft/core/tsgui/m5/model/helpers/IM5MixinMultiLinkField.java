@@ -3,7 +3,7 @@ package org.toxsoft.core.tsgui.m5.model.helpers;
 /**
  * Смешиваемый интерфейс мульти-полей.
  *
- * @author goga
+ * @author hazard157
  */
 public interface IM5MixinMultiLinkField {
 

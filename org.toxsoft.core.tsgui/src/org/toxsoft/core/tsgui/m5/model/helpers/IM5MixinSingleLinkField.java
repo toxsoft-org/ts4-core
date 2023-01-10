@@ -6,7 +6,7 @@ import org.toxsoft.core.tsgui.valed.api.*;
 /**
  * Смешиваемый интерфейс одиночных полей.
  *
- * @author goga
+ * @author hazard157
  */
 public interface IM5MixinSingleLinkField {
 

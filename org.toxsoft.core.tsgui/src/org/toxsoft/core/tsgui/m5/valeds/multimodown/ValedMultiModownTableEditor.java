@@ -17,7 +17,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Редактор поля связи {@link M5MultiLookupFieldDef} в виде списка с панелью управления.
  *
- * @author goga
+ * @author hazard157
  * @param <V> - тип значения поля
  */
 public class ValedMultiModownTableEditor<V>

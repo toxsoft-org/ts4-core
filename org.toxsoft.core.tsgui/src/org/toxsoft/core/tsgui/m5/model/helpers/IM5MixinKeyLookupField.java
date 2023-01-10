@@ -3,7 +3,7 @@ package org.toxsoft.core.tsgui.m5.model.helpers;
 /**
  * Смешиваемый интерфейс полей, содержащих ключи, а не сами моделированные сущности.
  *
- * @author goga
+ * @author hazard157
  * @param <V> - тип моделированной сущности, содержащейся в поле
  */
 public interface IM5MixinKeyLookupField<V>

@@ -6,7 +6,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Смешиваемый интерфейс полей, содержащие ключи или сами справочные элементы.
  *
- * @author goga
+ * @author hazard157
  * @param <V> - тип моделированной сущности, содержащейся в поле
  */
 public interface IM5MixinLookupField<V> {

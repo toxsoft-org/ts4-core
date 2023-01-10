@@ -11,25 +11,25 @@ import org.toxsoft.core.tsgui.m5.model.impl.*;
 import org.toxsoft.core.tslib.av.*;
 
 /**
- * Модель объектов типа {@link String}.
+ * M5-model of the {@link String} entities.
  *
- * @author goga
+ * @author hazard157
  */
 public class StringM5Model
     extends M5Model<String> {
 
   /**
-   * Идентификатор модели.
+   * The model ID.
    */
-  public static final String MODEL_ID = "ts.String"; //$NON-NLS-1$
+  public static final String MODEL_ID = M5_ID + ".String"; //$NON-NLS-1$
 
   /**
-   * Идентификатор поля {@link #STR}.
+   * ID of field {@link #STR}.
    */
   public static final String FID_STRING = "String"; //$NON-NLS-1$
 
   /**
-   * Атрибут {@link String#toString()}.
+   * Field {@link String#toString()}.
    */
   public final M5AttributeFieldDef<String> STR = new M5AttributeFieldDef<>( FID_STRING, DDEF_STRING ) {
 
@@ -47,9 +47,9 @@ public class StringM5Model
   };
 
   /**
-   * Внутренный класс управления жизненным циклом.
+   * LM for this model.
    *
-   * @author goga
+   * @author hazard157
    */
   private static class DefaultLifecyleManager
       extends M5LifecycleManager<String, Object> {
@@ -71,7 +71,7 @@ public class StringM5Model
 
     @Override
     protected void doRemove( String aEntity ) {
-      // ничего не надо делать для удаления
+      // nop
     }
 
   }

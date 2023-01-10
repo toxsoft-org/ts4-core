@@ -413,6 +413,27 @@ public class M5GuiUtils {
   }
 
   /**
+   * Shows provided items list.
+   *
+   * @param <T> - provided items class
+   * @param aDialogInfo {@link ITsDialogInfo} - dialog window parameters
+   * @param aModel {@link IM5Model} - lookup items model
+   * @param aItemsProvider {@link IM5ItemsProvider} - items provider
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static <T> void showItemsList( ITsDialogInfo aDialogInfo, IM5Model<T> aModel,
+      IM5ItemsProvider<T> aItemsProvider ) {
+    TsNullArgumentRtException.checkNulls( aDialogInfo, aModel, aItemsProvider );
+    IDialogPanelCreator<T, Object> creator = ( aParent, aOwnerDlg ) -> {
+      IM5CollectionPanel<T> panel;
+      panel = aModel.panelCreator().createCollViewerPanel( aOwnerDlg.tsContext(), aItemsProvider );
+      return new SelectItemDialogContentPanel<>( aParent, aOwnerDlg, panel );
+    };
+    TsDialog<T, Object> d = new TsDialog<>( aDialogInfo, null, null, creator );
+    d.execDialog();
+  }
+
+  /**
    * Shows provided items list and allows to select any number of them.
    * <p>
    * Dialog will contain editable panel creted by

@@ -2,18 +2,15 @@ package org.toxsoft.core.tsgui.m5.std.models.misc;
 
 import static org.toxsoft.core.tsgui.m5.IM5Constants.*;
 import static org.toxsoft.core.tsgui.m5.std.models.misc.ITsResources.*;
-import static org.toxsoft.core.tslib.ITsHardConstants.*;
 import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import java.io.File;
+import java.io.*;
 
-import org.toxsoft.core.tsgui.m5.model.impl.M5AttributeFieldDef;
-import org.toxsoft.core.tsgui.m5.model.impl.M5Model;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.m5.model.impl.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * M5-model of the {@link File} entities.
@@ -26,7 +23,7 @@ public class FileM5Model
   /**
    * The model ID.
    */
-  public static final String MODEL_ID = TS_ID + ".File"; //$NON-NLS-1$
+  public static final String MODEL_ID = M5_ID + ".File"; //$NON-NLS-1$
 
   /**
    * ID of field {@link #PATH}.

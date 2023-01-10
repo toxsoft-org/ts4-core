@@ -17,7 +17,7 @@ import org.toxsoft.core.tslib.bricks.validator.*;
 /**
  * Модель объектов типа {@link IdValue}.
  *
- * @author goga
+ * @author hazard157
  */
 public class IdValueM5Model
     extends M5Model<IdValue> {

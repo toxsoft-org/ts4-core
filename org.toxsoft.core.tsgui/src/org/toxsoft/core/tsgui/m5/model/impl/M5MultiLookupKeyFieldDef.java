@@ -8,7 +8,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Реализация {@link IM5MultiLookupFieldDef}.
  *
- * @author goga
+ * @author hazard157
  * @param <T> - тип моделированного объекта
  * @param <V> - тип справочного объекта
  */

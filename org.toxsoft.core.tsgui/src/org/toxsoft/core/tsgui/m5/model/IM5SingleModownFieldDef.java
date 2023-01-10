@@ -9,7 +9,7 @@ import org.toxsoft.core.tsgui.m5.model.helpers.*;
  * Поле является владельцем объекта, которые сами описаны моделью {@link #itemModel()}. Отсюда и название Modown -
  * MODelled OWNed object.
  *
- * @author goga
+ * @author hazard157
  * @param <T> - тип моделированного объекта
  * @param <V> - тип объекта-ссылки
  */

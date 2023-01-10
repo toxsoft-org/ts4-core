@@ -11,7 +11,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Базовая реализация мульти-поля, содержащего моделированные сущности.
  *
- * @author goga
+ * @author hazard157
  * @param <T> - тип моделированной сущности
  * @param <V> - тип значения поля
  */

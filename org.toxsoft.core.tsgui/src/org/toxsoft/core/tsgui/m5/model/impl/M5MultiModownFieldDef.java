@@ -9,7 +9,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Реализация {@link IM5MultiModownFieldDef}.
  *
- * @author goga
+ * @author hazard157
  * @param <T> - тип моделированного объекта
  * @param <V> - тип объекта-ссылки
  */

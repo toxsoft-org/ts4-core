@@ -5,7 +5,7 @@ import org.toxsoft.core.tsgui.m5.model.helpers.*;
 /**
  * Описание поля, ссылающегося один справочный (lookup) объект.
  *
- * @author goga
+ * @author hazard157
  * @param <T> - тип моделированного объекта
  * @param <V> - тип справочного объекта
  */
