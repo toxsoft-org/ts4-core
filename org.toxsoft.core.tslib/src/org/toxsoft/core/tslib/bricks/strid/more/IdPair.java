@@ -24,7 +24,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * идентификаторов, соединенных методом {@link #makePairId(String, String)}. Отстувие левой или правой чати не
  * допускается.
  *
- * @author goga
+ * @author hazard157
  */
 public final class IdPair
     implements Comparable<IdPair>, Serializable {

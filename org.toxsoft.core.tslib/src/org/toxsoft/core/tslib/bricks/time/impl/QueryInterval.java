@@ -10,7 +10,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Неизменяемая реализация интервала времени {@link IQueryInterval}.
  *
- * @author goga
+ * @author hazard157
  */
 public final class QueryInterval
     implements IQueryInterval, Serializable {

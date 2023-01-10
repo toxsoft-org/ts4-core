@@ -101,7 +101,7 @@ public class OptionSetUtils {
 
   private static final IOptionSetEdit internalCreateAdded( IOptionSetEdit aOps, Object... aIdsAndValues ) {
     TsErrorUtils.checkArrayArg( aIdsAndValues );
-    TsIllegalArgumentRtException.checkTrue( aIdsAndValues.length % 2 != 0 ); // нечетное количество аргументов?
+    TsIllegalArgumentRtException.checkTrue( aIdsAndValues.length % 2 != 0 ); // must be even number of elements
     for( int i = 0; i < aIdsAndValues.length; i += 2 ) {
       Object nameObj = aIdsAndValues[i];
       String name;

@@ -21,7 +21,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * {@link IAvMetaConstants#TSID_DESCRIPTION} and {@link IAvMetaConstants#TSID_ICON_ID} are used to store
  * {@link #nmName()}, {@link #description()} and {@link #iconId()} values respectively.
  *
- * @author goga
+ * @author hazard157
  */
 @SuppressWarnings( "rawtypes" )
 public sealed interface IQNode
