@@ -2,11 +2,10 @@ package org.toxsoft.core.tslib.bricks.validator;
 
 import static org.toxsoft.core.tslib.bricks.validator.ITsResources.*;
 
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.StridablesList;
-import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * The type of validaton result: success (ok), warning or error.
@@ -19,7 +18,7 @@ public enum EValidationResultType
   /**
    * Validation succeeded without errors or warnings.
    * <p>
-   * Please note: there is singleton instance of the {@link ValidationResult#SUCCESS} of this type.
+   * Please note: {@link ValidationResult#SUCCESS} is the singleton instance of the this type.
    */
   OK( "Ok", STR_N_OK, STR_D_OK ), //$NON-NLS-1$
 
