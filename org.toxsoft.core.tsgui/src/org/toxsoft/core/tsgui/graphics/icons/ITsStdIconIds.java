@@ -60,6 +60,7 @@ public interface ITsStdIconIds {
   String ICONID_LIST_ADD_COPY         = "list-add-copy";
   String ICONID_LIST_ADD_ALL          = "list-add-all";
   String ICONID_LIST_REMOVE           = "list-remove";
+  String ICONID_RESTORE_DEFAULTS      = "restore-defaults";
   String ICONID_ITEMS_CHECK_ALL       = "items_check_all";
   String ICONID_ITEMS_UNCHECK_ALL     = "items_uncheck_all";
   String ICONID_ITEMS_CHECK_GROUP     = "items_check";
