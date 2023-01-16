@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.graphics.icons;
 
+import org.toxsoft.core.tslib.utils.icons.*;
+
 /**
  * Icons built in core TsGUI library.
  *
@@ -76,14 +78,18 @@ public interface ITsStdIconIds {
   // ------------------------------------------------------------------------------------
   // Dialog window icons
 
-  String ICONID_DIALOG_CANCEL      = "dialog-cancel";      // Cancel button icon
-  String ICONID_DIALOG_CLOSE       = "dialog-close";       // Close button icon
-  String ICONID_DIALOG_OK_APPLY    = "dialog-ok-apply";    // Apply button icon
-  String ICONID_DIALOG_OK          = "dialog-ok";          // OK button icon
-  String ICONID_DIALOG_ERROR       = "dialog-error";       // Dialog kind: error
-  String ICONID_DIALOG_INFORMATION = "dialog-information"; // Dialog kind: informational message
-  String ICONID_DIALOG_PASSWORD    = "dialog-password";    // Dialog kind: enter password
-  String ICONID_DIALOG_WARNING     = "dialog-warning";     // Dialog kind: warning
+  String ICONID_DIALOG_CANCEL   = "dialog-cancel";   // Cancel button icon
+  String ICONID_DIALOG_CLOSE    = "dialog-close";    // Close button icon
+  String ICONID_DIALOG_OK_APPLY = "dialog-ok-apply"; // Apply button icon
+  String ICONID_DIALOG_OK       = "dialog-ok";       // OK button icon
+  String ICONID_DIALOG_PASSWORD = "dialog-password"; // Dialog kind: enter password
+
+  /**
+   * Following constants must match IDs from {@link ITsLibIconIds}.
+   */
+  String ICONID_DIALOG_INFORMATION = "dialog-information";
+  String ICONID_DIALOG_WARNING     = "dialog-warning";
+  String ICONID_DIALOG_ERROR       = "dialog-error";
 
   // ------------------------------------------------------------------------------------
   // Arrows and navigation indcators
