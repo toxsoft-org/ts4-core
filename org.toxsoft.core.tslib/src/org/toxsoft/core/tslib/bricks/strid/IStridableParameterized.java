@@ -4,6 +4,7 @@ import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.utils.*;
+import org.toxsoft.core.tslib.utils.icons.*;
 
 /**
  * Вспомгательный интерфейс стороко-идентифицируемых сущностей с параметрами.

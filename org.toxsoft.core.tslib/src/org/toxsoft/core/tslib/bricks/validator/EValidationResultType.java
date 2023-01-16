@@ -1,11 +1,13 @@
 package org.toxsoft.core.tslib.bricks.validator;
 
 import static org.toxsoft.core.tslib.bricks.validator.ITsResources.*;
+import static org.toxsoft.core.tslib.utils.icons.ITsLibIconIds.*;
 
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.icons.*;
 
 /**
  * The type of validaton result: success (ok), warning or error.
@@ -13,30 +15,31 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public enum EValidationResultType
-    implements IStridable {
+    implements IStridable, IIconIdable {
 
   /**
    * Validation succeeded without errors or warnings.
    * <p>
    * Please note: {@link ValidationResult#SUCCESS} is the singleton instance of the this type.
    */
-  OK( "Ok", STR_N_OK, STR_D_OK ), //$NON-NLS-1$
+  OK( "Ok", STR_N_OK, STR_D_OK, TSLIB_ICONID_INFO ), //$NON-NLS-1$
 
   /**
    * Validation succeeded but with some warning.
    */
-  WARNING( "Warning", STR_N_WARNING, STR_D_WARNING ), //$NON-NLS-1$
+  WARNING( "Warning", STR_N_WARNING, STR_D_WARNING, TSLIB_ICONID_WARNING ), //$NON-NLS-1$
 
   /**
    * Validation failure with error.
    */
-  ERROR( "Error", STR_N_ERROR, STR_D_ERROR ); //$NON-NLS-1$
+  ERROR( "Error", STR_N_ERROR, STR_D_ERROR, TSLIB_ICONID_ERROR ); //$NON-NLS-1$
 
   private static IStridablesList<EValidationResultType> list = null;
 
   private final String id;
   private final String nmName;
   private final String description;
+  private final String iconId;
 
   /**
    * Constructor.
@@ -44,11 +47,13 @@ public enum EValidationResultType
    * @param aId String - identifier (IDPath)
    * @param aName String - short, human-readable name
    * @param aDescr String - description
+   * @param aIconId String - the icon ID
    */
-  EValidationResultType( String aId, String aName, String aDescr ) {
+  EValidationResultType( String aId, String aName, String aDescr, String aIconId ) {
     id = aId;
     nmName = aName;
     description = aDescr;
+    iconId = aIconId;
   }
 
   // --------------------------------------------------------------------------
@@ -68,6 +73,15 @@ public enum EValidationResultType
   @Override
   public String description() {
     return description;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // IIconIdable
+  //
+
+  @Override
+  public String iconId() {
+    return iconId;
   }
 
   // ------------------------------------------------------------------------------------
