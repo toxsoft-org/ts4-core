@@ -516,6 +516,7 @@
         <!-- TODO rcp-библиотеки -->
         <module>org.toxsoft.core.singlesrc.rcp</module>
         <module>org.toxsoft.core.tsgui.rcp</module>
+        <module>org.toxsoft.core.p2</module>
 
         <module>releng/org.toxsoft.core.releng.p2.rcp</module>
         <module>releng/org.toxsoft.core.releng.ant.rcp</module>

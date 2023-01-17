@@ -7,9 +7,11 @@
    </category-def>
    <bundle id="org.toxsoft.core.singlesrc.rcp"/>
    <bundle id="org.toxsoft.core.tsgui.rcp"/>
+   <bundle id="org.toxsoft.core.p2"/>
 
    <!-- sources -->
    <bundle id="org.toxsoft.core.singlesrc.rcp.source"/>
    <bundle id="org.toxsoft.core.tsgui.rcp.source"/>
+   <bundle id="org.toxsoft.core.p2.source"/>
 
 </site>
