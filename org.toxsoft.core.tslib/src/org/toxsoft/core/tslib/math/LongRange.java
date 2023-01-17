@@ -41,7 +41,7 @@ public final class LongRange
   /**
    * Keeper singleton.
    */
-  public static final IEntityKeeper<LongRange> KEEPR =
+  public static final IEntityKeeper<LongRange> KEEPER =
       new AbstractEntityKeeper<>( LongRange.class, EEncloseMode.ENCLOSES_BASE_CLASS, ZERO ) {
 
         @Override

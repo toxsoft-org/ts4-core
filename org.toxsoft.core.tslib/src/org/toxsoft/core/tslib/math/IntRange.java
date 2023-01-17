@@ -41,7 +41,7 @@ public final class IntRange
   /**
    * Keeper singleton.
    */
-  public static final IEntityKeeper<IntRange> KEEPR =
+  public static final IEntityKeeper<IntRange> KEEPER =
       new AbstractEntityKeeper<>( IntRange.class, EEncloseMode.ENCLOSES_BASE_CLASS, ZERO ) {
 
         @Override

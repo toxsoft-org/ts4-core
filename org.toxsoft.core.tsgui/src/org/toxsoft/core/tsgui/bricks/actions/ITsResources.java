@@ -51,6 +51,10 @@ interface ITsResources {
   String STR_P_SORT_ASCENDING       = Messages.getString( "STR_P_SORT_ASCENDING" );
   String STR_T_SORT_DESCENDING      = Messages.getString( "STR_T_SORT_DESCENDING" );
   String STR_P_SORT_DESCENDING      = Messages.getString( "STR_P_SORT_DESCENDING" );
+  String STR_T_REVERT_CHANGES       = Messages.getString( "STR_T_REVERT_CHANGES" );
+  String STR_P_REVERT_CHANGES       = Messages.getString( "STR_P_REVERT_CHANGES" );
+  String STR_T_RESTORE_DEFAULTS     = Messages.getString( "STR_T_RESTORE_DEFAULTS" );
+  String STR_P_RESTORE_DEFAULTS     = Messages.getString( "STR_P_RESTORE_DEFAULTS" );
   String STR_T_VALIDATE             = Messages.getString( "STR_T_VALIDATE" );
   String STR_P_VALIDATE             = Messages.getString( "STR_P_VALIDATE" );
   String STR_T_REFRESH              = Messages.getString( "STR_T_REFRESH" );

@@ -42,6 +42,8 @@ public class TsTreeViewer
 
   /**
    * ID of option {@link #OPDEF_IS_HEADER_SHOWN}.
+   * <p>
+   * TODO move this option somwhere eslse, it is used also in M5XxxViewer
    */
   public static final String OPID_IS_HEADER_SHOWN = "TsTreeViewer.isHeaderShown"; //$NON-NLS-1$
 

@@ -118,6 +118,16 @@ public interface ITsStdActionDefs {
   String ACTID_SORT_DESCENDING = STD_ACTION_DEF_PREFIX + ".sort_desc"; //$NON-NLS-1$
 
   /**
+   * ID of action {@link #ACDEF_REVERT_CHANGES}.
+   */
+  String ACTID_REVERT_CHANGES = STD_ACTION_DEF_PREFIX + ".revert_changes"; //$NON-NLS-1$
+
+  /**
+   * ID of action {@link #ACDEF_RESTORE_DEFAULTS}.
+   */
+  String ACTID_RESTORE_DEFAULTS = STD_ACTION_DEF_PREFIX + ".restore_defaults"; //$NON-NLS-1$
+
+  /**
    * ID of action {@link #ACDEF_CHECK_ALL}.
    */
   String ACTID_CHECK_ALL = STD_ACTION_DEF_PREFIX + ".check_all"; //$NON-NLS-1$
@@ -456,6 +466,18 @@ public interface ITsStdActionDefs {
    */
   ITsActionDef ACDEF_SORT_DESCENDING = ofPush2( ACTID_SORT_DESCENDING, //
       STR_T_SORT_DESCENDING, STR_P_SORT_DESCENDING, ICONID_VIEW_SORT_DESCENDING );
+
+  /**
+   * Action: revert changes to the previous values.
+   */
+  ITsActionDef ACDEF_REVERT_CHANGES = ofPush2( ACTID_REVERT_CHANGES, //
+      STR_T_REVERT_CHANGES, STR_P_REVERT_CHANGES, ICONID_DOCUMENT_REVERT );
+
+  /**
+   * Action: restore default values.
+   */
+  ITsActionDef ACDEF_RESTORE_DEFAULTS = ofPush2( ACTID_RESTORE_DEFAULTS, //
+      STR_T_RESTORE_DEFAULTS, STR_P_RESTORE_DEFAULTS, ICONID_RESTORE_DEFAULTS );
 
   /**
    * Action: set checkmark on all elements of the collection.

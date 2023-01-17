@@ -9,6 +9,7 @@ import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.graphics.lines.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
+import org.toxsoft.core.tsgui.utils.margins.*;
 import org.toxsoft.core.tsgui.utils.rectfit.*;
 import org.toxsoft.core.tsgui.utils.swt.*;
 import org.toxsoft.core.tsgui.valed.api.*;
@@ -58,6 +59,8 @@ public class TsGuiUtils {
     TsValobjUtils.registerKeeper( TsBorderInfo.KEEPER_ID, TsBorderInfo.KEEPER );
     TsValobjUtils.registerKeeper( ETsOutlineKind.KEEPER_ID, ETsOutlineKind.KEEPER );
     TsValobjUtils.registerKeeper( EGradientType.KEEPER_ID, EGradientType.KEEPER );
+    TsValobjUtils.registerKeeper( TsMargins.KEEPER_ID, TsMargins.KEEPER );
+    TsValobjUtils.registerKeeper( TsGridMargins.KEEPER_ID, TsGridMargins.KEEPER );
 
     // Sol
     // TsValobjUtils.registerKeeper( AbstractSwtPatternInfo.KEEPER_ID, AbstractSwtPatternInfo.KEEPER );

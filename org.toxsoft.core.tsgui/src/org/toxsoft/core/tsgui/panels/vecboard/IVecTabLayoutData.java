@@ -2,6 +2,7 @@ package org.toxsoft.core.tsgui.panels.vecboard;
 
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tslib.av.utils.*;
+import org.toxsoft.core.tslib.utils.icons.*;
 
 // TODO TRANSLATE
 
