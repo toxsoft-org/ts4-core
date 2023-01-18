@@ -84,7 +84,7 @@ public interface ITsToolbar
   /**
    * Add an action to the end of the toolbar items.
    * <p>
-   * Please note that for actions added with this method no {@link ITsToolbarListener#onToolButtonPressed(String)} is
+   * Please note that for actions added with this method no {@link ITsActionHandler#handleAction(String)} is
    * called. Action must have implrmrnted method {@link Action#run()} or {@link Action#runWithEvent(Event)}.
    *
    * @param aAction {@link TsAction} - the action

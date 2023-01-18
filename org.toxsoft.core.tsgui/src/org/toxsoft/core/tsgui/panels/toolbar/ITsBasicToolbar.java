@@ -186,19 +186,19 @@ public interface ITsBasicToolbar
    * <p>
    * Already added listeners are ignored.
    *
-   * @param aListener {@link ITsToolbarListener} - the listener
+   * @param aListener {@link ITsActionHandler} - the listener
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  void addListener( ITsToolbarListener aListener );
+  void addListener( ITsActionHandler aListener );
 
   /**
    * Removes the listener.
    * <p>
    * If listener was not added then method does nothing.
    *
-   * @param aListener {@link ITsToolbarListener} - the listener
+   * @param aListener {@link ITsActionHandler} - the listener
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  void removeListener( ITsToolbarListener aListener );
+  void removeListener( ITsActionHandler aListener );
 
 }

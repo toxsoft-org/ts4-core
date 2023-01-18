@@ -31,7 +31,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * <code>IMenuCreator thumbSizeMenuCreator = new ThumbSizeableExZoomDropDownMenuCreator(...)</code>;</li>
  * <li>add menu to the action by the method {@link TsToolbar#setActionMenu(String, IMenuCreator) toolbar.setActionMenu(
  * AID_THUMB_SIZEABLE_ZOOM_MENU, thumbSizeMenuCreator )};</li>
- * <li>in the toolbar handler {@link ITsToolbarListener#onToolButtonPressed(String)} handle action with ID
+ * <li>in the toolbar handler {@link ITsActionHandler#handleAction(String)} handle action with ID
  * #AID_THUMB_SIZEABLE_ZOOM_MENU} by setting default thumb size {@link IThumbSizeable#setThumbSize(EThumbSize)
  * src.setThumbSize( src.defaultThumbSize() )}.</li>
  * </ul>

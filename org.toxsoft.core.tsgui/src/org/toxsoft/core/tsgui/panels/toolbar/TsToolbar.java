@@ -29,7 +29,7 @@ public class TsToolbar
     extends AbstractLazyPanel<Control>
     implements ITsToolbar {
 
-  private final IListEdit<ITsToolbarListener> listeners = new ElemArrayList<>();
+  private final IListEdit<ITsActionHandler> listeners = new ElemArrayList<>();
 
   private final IListEdit<ITsActionDef>  allActionDefs = new ElemArrayList<>();
   private final IListEdit<ITsActionDef>  buttonActDefs = new ElemArrayList<>();
@@ -151,8 +151,8 @@ public class TsToolbar
 
   private void fireToolButtonPressed( String aActionId ) {
     if( !listeners.isEmpty() ) {
-      for( ITsToolbarListener l : listeners ) {
-        l.onToolButtonPressed( aActionId );
+      for( ITsActionHandler l : listeners ) {
+        l.handleAction( aActionId );
       }
     }
   }
@@ -428,14 +428,14 @@ public class TsToolbar
   }
 
   @Override
-  public void addListener( ITsToolbarListener aListener ) {
+  public void addListener( ITsActionHandler aListener ) {
     if( !listeners.hasElem( aListener ) ) {
       listeners.add( aListener );
     }
   }
 
   @Override
-  public void removeListener( ITsToolbarListener aListener ) {
+  public void removeListener( ITsActionHandler aListener ) {
     listeners.remove( aListener );
   }
 
