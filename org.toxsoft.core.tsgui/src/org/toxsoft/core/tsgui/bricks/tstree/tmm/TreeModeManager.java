@@ -1,13 +1,10 @@
 package org.toxsoft.core.tsgui.bricks.tstree.tmm;
 
-import java.util.Objects;
+import java.util.*;
 
-import org.toxsoft.core.tslib.bricks.events.change.GenericChangeEventer;
-import org.toxsoft.core.tslib.bricks.events.change.IGenericChangeEventer;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.NotifierStridablesListEditWrapper;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.StridablesList;
-import org.toxsoft.core.tslib.bricks.strid.coll.notifier.INotifierStridablesList;
-import org.toxsoft.core.tslib.bricks.strid.coll.notifier.INotifierStridablesListEdit;
+import org.toxsoft.core.tslib.bricks.events.change.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.notifier.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**

@@ -1,11 +1,10 @@
 package org.toxsoft.core.tsgui.bricks.tstree;
 
-import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.swt.widgets.Tree;
-import org.toxsoft.core.tsgui.utils.jface.ViewerPaintHelper;
-import org.toxsoft.core.tslib.bricks.geometry.ITsPoint;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.eclipse.jface.viewers.*;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.utils.jface.*;
+import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Control console for visual representation of the tree.

@@ -1,12 +1,9 @@
 package org.toxsoft.core.tsgui.bricks.tstree.tmm;
 
-import org.toxsoft.core.tsgui.graphics.icons.EIconSize;
-import org.toxsoft.core.tsgui.graphics.icons.ITsIconManager;
-import org.toxsoft.core.tslib.bricks.events.change.IGenericChangeEventCapable;
-import org.toxsoft.core.tslib.bricks.events.change.IGenericChangeListener;
-import org.toxsoft.core.tslib.bricks.strid.coll.notifier.INotifierStridablesList;
-import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.notifier.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 // TODO TRANSLATE
 

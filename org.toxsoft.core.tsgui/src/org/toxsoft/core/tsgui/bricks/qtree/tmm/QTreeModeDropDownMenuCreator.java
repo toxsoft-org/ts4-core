@@ -1,19 +1,16 @@
 package org.toxsoft.core.tsgui.bricks.qtree.tmm;
 
-import java.util.Objects;
+import java.util.*;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
-import org.toxsoft.core.singlesrc.rcp.TsSinglesourcingUtils;
-import org.toxsoft.core.tsgui.bricks.actions.ITsStdActionDefs;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContextable;
-import org.toxsoft.core.tsgui.graphics.icons.EIconSize;
-import org.toxsoft.core.tsgui.utils.swt.AbstractMenuCreator;
-import org.toxsoft.core.tsgui.utils.swt.SelectionListenerAdapter;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.eclipse.swt.*;
+import org.eclipse.swt.events.*;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.singlesrc.rcp.*;
+import org.toxsoft.core.tsgui.bricks.actions.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tsgui.utils.swt.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Drop down menu creator for menu button of action {@link ITsStdActionDefs#ACDEF_VIEW_AS_TREE_MENU}.
