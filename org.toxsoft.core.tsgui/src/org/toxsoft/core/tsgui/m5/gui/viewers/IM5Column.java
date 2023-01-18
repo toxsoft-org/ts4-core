@@ -1,11 +1,10 @@
 package org.toxsoft.core.tsgui.m5.gui.viewers;
 
-import org.eclipse.swt.graphics.Image;
-import org.toxsoft.core.tsgui.bricks.tstree.ITsViewerColumn;
-import org.toxsoft.core.tsgui.graphics.icons.EIconSize;
-import org.toxsoft.core.tsgui.graphics.image.EThumbSize;
-import org.toxsoft.core.tsgui.graphics.image.TsImage;
-import org.toxsoft.core.tsgui.m5.IM5Model;
+import org.eclipse.swt.graphics.*;
+import org.toxsoft.core.tsgui.bricks.tstree.*;
+import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tsgui.graphics.image.*;
+import org.toxsoft.core.tsgui.m5.*;
 
 /**
  * Column of the viewerr {@link IM5CollectionViewer}.

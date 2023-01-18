@@ -26,6 +26,8 @@ public class MpcFilterPaneWrapper<T>
     extends MpcAbstractPane<T, Control>
     implements IMpcFilterPane<T> {
 
+  private static final String BTN_CLEAR_TEXT = "<"; //$NON-NLS-1$
+
   private final GenericChangeEventer eventer;
 
   private final IM5FilterPanel<T> panel;
@@ -78,7 +80,7 @@ public class MpcFilterPaneWrapper<T>
     // btnClear
     btnClear = new Button( c, SWT.PUSH );
     btnClear.setLayoutData( new GridData( SWT.RIGHT, SWT.FILL, false, false ) );
-    btnClear.setText( "<" );
+    btnClear.setText( BTN_CLEAR_TEXT );
     btnClear.setToolTipText( BTN_P_CLEAR );
     btnClear.addSelectionListener( new SelectionAdapter() {
 

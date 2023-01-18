@@ -1,6 +1,6 @@
 package org.toxsoft.core.tsgui.m5.gui.viewers;
 
-import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.*;
 
 /**
  * Менеджер локальных меню в просмотрщиках {@link IM5CollectionViewer}.

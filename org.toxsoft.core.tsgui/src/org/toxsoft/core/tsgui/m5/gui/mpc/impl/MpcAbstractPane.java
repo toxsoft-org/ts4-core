@@ -1,7 +1,6 @@
 package org.toxsoft.core.tsgui.m5.gui.mpc.impl;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**

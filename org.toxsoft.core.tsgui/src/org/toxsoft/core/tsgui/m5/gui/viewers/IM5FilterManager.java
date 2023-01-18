@@ -1,8 +1,8 @@
 package org.toxsoft.core.tsgui.m5.gui.viewers;
 
-import org.toxsoft.core.tslib.bricks.filter.ITsFilter;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.bricks.filter.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Manages visible items filtering in {@link IM5CollectionViewer} implementations.

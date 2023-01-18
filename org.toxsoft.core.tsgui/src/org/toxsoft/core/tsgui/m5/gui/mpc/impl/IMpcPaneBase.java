@@ -1,8 +1,8 @@
 package org.toxsoft.core.tsgui.m5.gui.mpc.impl;
 
-import org.eclipse.swt.widgets.Control;
-import org.toxsoft.core.tsgui.m5.gui.mpc.IMultiPaneComponent;
-import org.toxsoft.core.tsgui.panels.lazy.ILazyControl;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.m5.gui.mpc.*;
+import org.toxsoft.core.tsgui.panels.lazy.*;
 
 /**
  * Base intreface of data display panes of {@link IMultiPaneComponent}.

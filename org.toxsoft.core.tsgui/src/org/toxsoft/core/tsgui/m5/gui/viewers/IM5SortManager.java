@@ -1,8 +1,8 @@
 package org.toxsoft.core.tsgui.m5.gui.viewers;
 
-import org.eclipse.swt.SWT;
-import org.toxsoft.core.tsgui.m5.IM5FieldDef;
-import org.toxsoft.core.tslib.utils.ESortOrder;
+import org.eclipse.swt.*;
+import org.toxsoft.core.tsgui.m5.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**

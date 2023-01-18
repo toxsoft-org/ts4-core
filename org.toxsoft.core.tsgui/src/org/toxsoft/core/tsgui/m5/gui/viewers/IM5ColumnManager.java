@@ -1,8 +1,7 @@
 package org.toxsoft.core.tsgui.m5.gui.viewers;
 
-import org.toxsoft.core.tsgui.m5.IM5Getter;
-import org.toxsoft.core.tsgui.m5.IM5Model;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMap;
+import org.toxsoft.core.tsgui.m5.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**

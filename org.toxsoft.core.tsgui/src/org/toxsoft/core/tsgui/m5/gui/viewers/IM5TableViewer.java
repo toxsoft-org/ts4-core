@@ -1,8 +1,8 @@
 package org.toxsoft.core.tsgui.m5.gui.viewers;
 
-import org.eclipse.swt.widgets.Table;
-import org.toxsoft.core.tsgui.utils.jface.ViewerPaintHelper;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalStateRtException;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.utils.jface.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * M5 table viewer.

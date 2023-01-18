@@ -1,19 +1,17 @@
 package org.toxsoft.core.tsgui.m5.gui.viewers;
 
-import org.eclipse.jface.viewers.ITableColorProvider;
-import org.eclipse.jface.viewers.ITableFontProvider;
-import org.eclipse.swt.widgets.Control;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContextable;
+import org.eclipse.jface.viewers.*;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.stdevents.*;
 import org.toxsoft.core.tsgui.bricks.uievents.*;
-import org.toxsoft.core.tsgui.graphics.icons.IIconSizeableEx;
-import org.toxsoft.core.tsgui.graphics.image.IThumbSizeableEx;
-import org.toxsoft.core.tsgui.m5.model.IM5ModelRelated;
-import org.toxsoft.core.tsgui.panels.lazy.ILazyControl;
-import org.toxsoft.core.tsgui.utils.checkcoll.ITsCheckSupportable;
-import org.toxsoft.core.tslib.coll.notifier.INotifierList;
-import org.toxsoft.core.tslib.coll.notifier.INotifierListEdit;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tsgui.graphics.image.*;
+import org.toxsoft.core.tsgui.m5.model.*;
+import org.toxsoft.core.tsgui.panels.lazy.*;
+import org.toxsoft.core.tsgui.utils.checkcoll.*;
+import org.toxsoft.core.tslib.coll.notifier.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * M5 viewers base interface.
