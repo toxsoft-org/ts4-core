@@ -39,4 +39,20 @@ interface ITsResources {
   String STR_N_STRING_STR = Messages.getString( "STR_N_STRING_STR" ); //$NON-NLS-1$
   String STR_D_STRING_STR = Messages.getString( "STR_D_STRING_STR" ); //$NON-NLS-1$
 
+  /**
+   * {@link ValidationResultM5Model}
+   */
+  String STR_N_M5M_VALIDATION_RESULT = Messages.getString( "STR_D_M5M_VALIDATION_RESULT" ); //$NON-NLS-1$
+  String STR_D_M5M_VALIDATION_RESULT = Messages.getString( "STR_D_M5M_VALIDATION_RESULT" ); //$NON-NLS-1$
+  String STR_N_VR_TYPE               = Messages.getString( "STR_N_VR_TYPE" );               //$NON-NLS-1$
+  String STR_D_VR_TYPE               = Messages.getString( "STR_D_VR_TYPE" );               //$NON-NLS-1$
+  String STR_N_VR_MESSAGE            = Messages.getString( "STR_N_VR_MESSAGE" );            //$NON-NLS-1$
+  String STR_D_VR_MESSAGE            = Messages.getString( "STR_D_VR_MESSAGE" );            //$NON-NLS-1$
+
+  /**
+   * {@link ValidationResultMpc}
+   */
+  String STR_N_TMI_VR_BY_TYPE = Messages.getString( "STR_N_TMI_VR_BY_TYPE" ); //$NON-NLS-1$
+  String STR_D_TMI_VR_BY_TYPE = Messages.getString( "STR_D_TMI_VR_BY_TYPE" ); //$NON-NLS-1$
+
 }

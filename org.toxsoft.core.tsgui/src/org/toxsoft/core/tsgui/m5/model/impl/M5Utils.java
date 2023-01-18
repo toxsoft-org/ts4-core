@@ -62,10 +62,10 @@ public class M5Utils {
     aDomain.addModel( new IdValueM5Model() );
     aDomain.addModel( new DataTypeM5Model() );
     aDomain.addModel( new DataDefM5Model() );
+    aDomain.addModel( new ValidationResultM5Model() );
     // aDomain.addModel( new SectionDefM5Model() );
     // TODO aDomain.addModel( new LongM5Model() );
     // TODO aDomain.addModel( new TsVersionM5Model() );
-    // TODO aDomain.addModel( new ValidationResultTypeM5Model() );
     // TODO aDomain.addModel( new AtomicValueM5Model() );
     // TODO aDomain.addModel( new OptionSetM5Model() );
     // TODO aDomain.addModel( new DvInfoM5Model() );
