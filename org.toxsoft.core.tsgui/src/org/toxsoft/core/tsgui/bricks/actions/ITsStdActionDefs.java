@@ -123,6 +123,21 @@ public interface ITsStdActionDefs {
   String ACTID_REVERT_CHANGES = STD_ACTION_DEF_PREFIX + ".revert_changes"; //$NON-NLS-1$
 
   /**
+   * ID of action {@link #ACDEF_OK_CHANGES}.
+   */
+  String ACTID_OK_CHANGES = STD_ACTION_DEF_PREFIX + ".ok_changes"; //$NON-NLS-1$
+
+  /**
+   * ID of action {@link #ACDEF_CANCEL_CHANGES}.
+   */
+  String ACTID_CANCEL_CHANGES = STD_ACTION_DEF_PREFIX + ".cancel_changes"; //$NON-NLS-1$
+
+  /**
+   * ID of action {@link #ACDEF_APPLY_CHANGES}.
+   */
+  String ACTID_APPLY_CHANGES = STD_ACTION_DEF_PREFIX + ".apply_changes"; //$NON-NLS-1$
+
+  /**
    * ID of action {@link #ACDEF_RESTORE_DEFAULTS}.
    */
   String ACTID_RESTORE_DEFAULTS = STD_ACTION_DEF_PREFIX + ".restore_defaults"; //$NON-NLS-1$
@@ -468,7 +483,25 @@ public interface ITsStdActionDefs {
       STR_T_SORT_DESCENDING, STR_P_SORT_DESCENDING, ICONID_VIEW_SORT_DESCENDING );
 
   /**
-   * Action: revert changes to the previous values.
+   * Action: revert changes to the previous values and finish editing.
+   */
+  ITsActionDef ACDEF_OK_CHANGES = ofPush2( ACTID_OK_CHANGES, //
+      STR_T_OK_CHANGES, STR_P_OK_CHANGES, ICONID_DIALOG_OK );
+
+  /**
+   * Action: revert changes to the previous values and finish editing.
+   */
+  ITsActionDef ACDEF_CANCEL_CHANGES = ofPush2( ACTID_CANCEL_CHANGES, //
+      STR_T_CANCEL_CHANGES, STR_P_CANCEL_CHANGES, ICONID_DIALOG_CANCEL );
+
+  /**
+   * Action: revert changes to the previous values and finish editing.
+   */
+  ITsActionDef ACDEF_APPLY_CHANGES = ofPush2( ACTID_APPLY_CHANGES, //
+      STR_T_APPLY_CHANGES, STR_P_APPLY_CHANGES, ICONID_DIALOG_OK_APPLY );
+
+  /**
+   * Action: revert changes to the previous values and continue editing.
    */
   ITsActionDef ACDEF_REVERT_CHANGES = ofPush2( ACTID_REVERT_CHANGES, //
       STR_T_REVERT_CHANGES, STR_P_REVERT_CHANGES, ICONID_DOCUMENT_REVERT );
