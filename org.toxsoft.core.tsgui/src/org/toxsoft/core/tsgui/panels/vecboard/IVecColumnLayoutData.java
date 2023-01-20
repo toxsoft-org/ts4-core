@@ -8,7 +8,7 @@ package org.toxsoft.core.tsgui.panels.vecboard;
 public interface IVecColumnLayoutData {
 
   /**
-   * Единстрвенный экземпляр класса
+   * Единственный экземпляр класса
    */
   IVecColumnLayoutData INSTANCE = new VecColumnLayoutData();
 }
