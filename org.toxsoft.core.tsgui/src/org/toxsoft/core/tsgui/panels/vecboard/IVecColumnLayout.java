@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.panels.vecboard;
 
+import org.toxsoft.core.tsgui.utils.margins.*;
+
 /**
  * Раскладка контролей по столбцам.
  * <p>
@@ -37,11 +39,19 @@ public interface IVecColumnLayout {
   boolean areEqualWidth();
 
   /**
+   * Возвращет признак изменяемости высоты ячейки при изменении размеров окна.
+   *
+   * @return <b>false</b> - высота ячейки изменяться<br>
+   *         <b>true</b> - высота ячейки останется постоянной
+   */
+  boolean isHeightFixed();
+
+  /**
    * Возвращает значения полей области, где располагаются контроли.
    *
-   * @return IMargins - значения полей области, где располагаются контроли
+   * @return ITsMargins - значения полей области, где располагаются контроли
    */
-  IMargins margins();
+  ITsMargins margins();
 
   /**
    * Расстояние между колонками по горизонтали в пикселях.

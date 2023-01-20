@@ -24,14 +24,6 @@ public interface IVecColumnLayoutData {
   boolean isWidthFixed();
 
   /**
-   * Возвращет признак изменяемости высоты ячейки при изменении размеров окна.
-   *
-   * @return <b>false</b> - высота ячейки изменяться<br>
-   *         <b>true</b> - высота ячейки останется постоянной
-   */
-  boolean isHeightFixed();
-
-  /**
    * Возвращает тип выравнивания положения элемента в колонке по горизонтали.
    *
    * @return EHorAlignment - тип выравнивания положения элемента в колонке по горизонтали
@@ -68,11 +60,6 @@ class InternalDefaultColumnData
 
   @Override
   public boolean isWidthFixed() {
-    return false;
-  }
-
-  @Override
-  public boolean isHeightFixed() {
     return false;
   }
 

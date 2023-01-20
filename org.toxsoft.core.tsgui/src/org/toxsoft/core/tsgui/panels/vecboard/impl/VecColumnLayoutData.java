@@ -65,11 +65,6 @@ public class VecColumnLayoutData
   }
 
   @Override
-  public boolean isHeightFixed() {
-    return fixedHeight;
-  }
-
-  @Override
   public EHorAlignment horAlignment() {
     return horAlignment;
   }
