@@ -9,7 +9,7 @@ import org.toxsoft.core.tsgui.panels.vecboard.*;
  * @author vs
  */
 public class VecColumnLayoutData
-    implements IVecColumnLayoutData {
+    implements IVecColumnLayoutDefinition {
 
   private final boolean fixedWidth;
   private final boolean fixedHeight;

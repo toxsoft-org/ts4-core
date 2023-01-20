@@ -26,7 +26,7 @@ public class VecColumnLayout
 
   private final ITsMargins margins;
 
-  private final IList<IVecColumnLayoutData> columnDefs;
+  private final IList<IVecColumnLayoutDefinition> columnDefs;
 
   /**
    * Создает раскладку с нулевыми расстояними по вертикали и горизонтали и без полей.
@@ -36,7 +36,7 @@ public class VecColumnLayout
    * @param aFixedHeight boolean - признак фиксированной высоты строк
    * @return IVecColumnLayout - раскладка с мнимальными отступами
    */
-  public static VecColumnLayout createNoTrims( IList<IVecColumnLayoutData> aColumnDefs, boolean aEqualWidth,
+  public static VecColumnLayout createNoTrims( IList<IVecColumnLayoutDefinition> aColumnDefs, boolean aEqualWidth,
       boolean aFixedHeight ) {
     return new VecColumnLayout( aColumnDefs, aEqualWidth, aFixedHeight, 0, 0, new TsMargins() );
   }
@@ -48,7 +48,7 @@ public class VecColumnLayout
    * @param aEqualWidth boolean - признак одинаковой ширины колонок
    * @param aFixedHeight boolean - признак фиксированной высоты строк
    */
-  public VecColumnLayout( IList<IVecColumnLayoutData> aColumnDefs, boolean aEqualWidth, boolean aFixedHeight ) {
+  public VecColumnLayout( IList<IVecColumnLayoutDefinition> aColumnDefs, boolean aEqualWidth, boolean aFixedHeight ) {
     columnDefs = new ElemArrayList<>( aColumnDefs );
     equalWidth = aEqualWidth;
     fixedHeight = aFixedHeight;
@@ -67,7 +67,7 @@ public class VecColumnLayout
    * @param aVertSpace int - расстояние между контролями по вертикали
    * @param aMargins ITsMargins - поля
    */
-  public VecColumnLayout( IList<IVecColumnLayoutData> aColumnDefs, boolean aEqualWidth, boolean aFixedHeight,
+  public VecColumnLayout( IList<IVecColumnLayoutDefinition> aColumnDefs, boolean aEqualWidth, boolean aFixedHeight,
       int aHorSpace, int aVertSpace, ITsMargins aMargins ) {
     columnDefs = new ElemArrayList<>( aColumnDefs );
     equalWidth = aEqualWidth;
@@ -105,7 +105,7 @@ public class VecColumnLayout
     int idx = 0;
     for( Item<IVecColumnLayoutData> item : items() ) {
       Control c = item.cb().createControl( aParent );
-      IVecColumnLayoutData ld = columnDefs.get( idx % columnDefs.size() );
+      IVecColumnLayoutDefinition ld = columnDefs.get( idx % columnDefs.size() );
       c.setLayoutData( createGridData( ld ) );
       idx++;
     }
@@ -150,7 +150,7 @@ public class VecColumnLayout
   // Implementation
   //
 
-  private GridData createGridData( IVecColumnLayoutData aData ) {
+  private GridData createGridData( IVecColumnLayoutDefinition aData ) {
     GridData gd = new GridData();
 
     gd.horizontalIndent = 0;
