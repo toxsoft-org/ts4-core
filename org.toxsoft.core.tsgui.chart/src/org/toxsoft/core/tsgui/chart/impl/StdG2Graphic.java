@@ -10,8 +10,10 @@ import org.toxsoft.core.tslib.av.temporal.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 public class StdG2Graphic
     implements IG2Graphic {
@@ -57,6 +59,23 @@ public class StdG2Graphic
     // Sol++ print date
     // G2ChartUtils.printTimeInterval( xAxisView.axisModel().timeInterval(), "Draw graphic: " );
 
+    // dima 20.01.23 draw set point lines
+    // проходим по списку уставок и отрисовываем каждую
+    if( plotDef.rendererParams().params().findByKey( IStdG2GraphicRendererOptions.СHART_SET_POINTS.id() ) != null ) {
+      IStringList setPointList =
+          IStdG2GraphicRendererOptions.СHART_SET_POINTS.getValue( plotDef.rendererParams().params() ).asValobj();
+      for( String setPointStr : setPointList ) {
+        try {
+          float spValue = Float.parseFloat( setPointStr );
+          double nv = yAxisView.normalizeValue( AvUtils.avFloat( spValue ) );
+          int spY = cr.y2() - G2ChartUtils.normToScreen( nv, cr.height() );
+          aGc.drawLine( cr.x1(), spY, cr.x2(), spY );
+        }
+        catch( Exception ex ) {
+          LoggerUtils.errorLogger().error( ex );
+        }
+      }
+    }
     IListEdit<IList<Pair<Integer, Integer>>> polylines = new ElemArrayList<>();
     IListEdit<Pair<Integer, Integer>> polyline = null;
 

@@ -15,6 +15,8 @@ import org.toxsoft.core.tsgui.valed.controls.graphics.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.bricks.keeper.std.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 
 /**
  * Свойства стандартного отрисовщика графика.
@@ -87,6 +89,18 @@ public interface IStdG2GraphicRendererOptions {
       TSID_DESCRIPTION, STR_D_VALUES_DISPLAY_FORMAT, //
       TSID_KEEPER_ID, EDisplayFormat.KEEPER_ID, //
       TSID_DEFAULT_VALUE, avValobj( EDisplayFormat.TWO_DIGIT ) //
+  );
+
+  /**
+   * dima 20.01.23 Набор уставок для графика.<br>
+   * Тип данных: {@link EAtomicType#VALOBJ} <br>
+   */
+  IDataDef СHART_SET_POINTS = DataDef.create( "setPoints", VALOBJ, //$NON-NLS-1$
+      TSID_NAME, STR_N_SET_POINTS, //
+      TSID_DESCRIPTION, STR_D_SET_POINTS, //
+      TSID_KEEPER_ID, StringListKeeper.KEEPER_ID, //
+      TSID_DEFAULT_VALUE, avValobj( new StringArrayList() ), //
+      TSID_IS_MANDATORY, Boolean.FALSE //
   );
 
 }
