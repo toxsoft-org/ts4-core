@@ -90,7 +90,7 @@ public class StdG2VisirRenderer
         if( graph instanceof StdG2Graphic stdGraph ) {
           IStringList setPoints = stdGraph.setPoints();
           for( String spVal : setPoints ) {
-            valStr += " | " + spVal;
+            valStr += " | " + spVal; //$NON-NLS-1$
           }
         }
         Point p = aGc.textExtent( valStr );
@@ -131,6 +131,13 @@ public class StdG2VisirRenderer
       curW = aGc.textExtent( graph.valueToString( graph.valueAt( aTime ) ) ).x + thumbW + horIndent;
       if( showNames ) {
         curW += aGc.textExtent( graph.plotDef().nmName() ).x + horIndent;
+      }
+      // dima 24.01.23 добавляем место для уставок
+      if( graph instanceof StdG2Graphic stdGraph ) {
+        IStringList setPoints = stdGraph.setPoints();
+        for( String spVal : setPoints ) {
+          curW += aGc.textExtent( " | " + spVal ).x; //$NON-NLS-1$
+        }
       }
       if( curW > maxW ) {
         maxW = curW;
