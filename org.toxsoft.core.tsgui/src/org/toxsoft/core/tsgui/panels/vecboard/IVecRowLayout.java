@@ -1,7 +1,7 @@
 package org.toxsoft.core.tsgui.panels.vecboard;
 
-import org.eclipse.swt.layout.RowLayout;
-import org.toxsoft.core.tsgui.graphics.ETsOrientation;
+import org.eclipse.swt.layout.*;
+import org.toxsoft.core.tsgui.graphics.*;
 
 /**
  * Раскладка контролей в ряд (горизонтальный или вертикальный).

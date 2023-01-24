@@ -1,7 +1,7 @@
 package org.toxsoft.core.tsgui.panels.vecboard;
 
-import org.eclipse.swt.widgets.Group;
-import org.toxsoft.core.tsgui.graphics.EBorderType;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.graphics.*;
 
 /**
  * Свойства оформления (обрамления) панели {@link IVecBoard} как группы контролей {@link Group}.

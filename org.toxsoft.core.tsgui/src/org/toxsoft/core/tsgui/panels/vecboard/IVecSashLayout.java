@@ -1,6 +1,6 @@
 package org.toxsoft.core.tsgui.panels.vecboard;
 
-import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.custom.*;
 
 /**
  * Раскладка контролей одним столбцом (или строкой), разедленных перемещаемыми планками.

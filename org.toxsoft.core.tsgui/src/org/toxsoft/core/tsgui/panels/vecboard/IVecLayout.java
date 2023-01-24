@@ -1,7 +1,7 @@
 package org.toxsoft.core.tsgui.panels.vecboard;
 
-import org.eclipse.swt.widgets.Layout;
-import org.toxsoft.core.tsgui.panels.lazy.ILazyControl;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.panels.lazy.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
