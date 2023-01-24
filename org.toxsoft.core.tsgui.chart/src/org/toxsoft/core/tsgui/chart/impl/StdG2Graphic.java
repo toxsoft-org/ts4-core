@@ -11,6 +11,7 @@ import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.logs.impl.*;
@@ -194,6 +195,19 @@ public class StdG2Graphic
       }
     }
     return valStr;
+  }
+
+  /**
+   * dima 24.01.23
+   *
+   * @return список значений уставок
+   */
+  public IStringList setPoints() {
+    IStringList retVal = new StringArrayList();
+    if( plotDef.rendererParams().params().findByKey( IStdG2GraphicRendererOptions.СHART_SET_POINTS.id() ) != null ) {
+      retVal = IStdG2GraphicRendererOptions.СHART_SET_POINTS.getValue( plotDef.rendererParams().params() ).asValobj();
+    }
+    return retVal;
   }
 
   @Override

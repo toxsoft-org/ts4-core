@@ -12,6 +12,7 @@ import org.toxsoft.core.tslib.av.temporal.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -86,6 +87,12 @@ public class StdG2VisirRenderer
 
         ITemporalAtomicValue val = graph.valueAt( aVisirTime );
         String valStr = graph.valueToString( val );
+        if( graph instanceof StdG2Graphic stdGraph ) {
+          IStringList setPoints = stdGraph.setPoints();
+          for( String spVal : setPoints ) {
+            valStr += " | " + spVal;
+          }
+        }
         Point p = aGc.textExtent( valStr );
         aGc.drawText( valStr, x + thumbW + horIndent, y + (itemH - p.y) / 2, true );
         if( showNames ) {
