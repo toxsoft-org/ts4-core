@@ -2,18 +2,17 @@ package org.toxsoft.core.tsgui.panels.generic;
 
 import org.toxsoft.core.tsgui.bricks.stdevents.*;
 import org.toxsoft.core.tsgui.utils.checkcoll.*;
-import org.toxsoft.core.tslib.bricks.ctx.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.*;
 
 /**
- * Generic items collection viewer/ editor panel.
+ * Generic items collection viewer / editor panel.
  *
  * @author hazard157
  * @param <T> - the entity type
  */
 public interface IGenericCollPanel<T>
-    extends ITsSelectionProvider<T>, ITsDoubleClickEventProducer<T>, ITsContextable {
+    extends IGenericContentPanel, ITsSelectionProvider<T>, ITsDoubleClickEventProducer<T> {
 
   /**
    * Returns the list of items to display.

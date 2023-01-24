@@ -41,8 +41,8 @@ public abstract class AbstractLazyPanel<C extends Control>
    * <p>
    * Constructos stores reference to the context, does not creates copy.
    *
-   * @param aContext {@link ITsGuiContext} - контекст панели
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aContext {@link ITsGuiContext} - the context
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public AbstractLazyPanel( ITsGuiContext aContext ) {
     TsNullArgumentRtException.checkNull( aContext );

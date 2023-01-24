@@ -16,7 +16,7 @@ public sealed interface ITsMargins permits ITsGridMargins,TsMargins {
   /**
    * The allowed range of any parameter value.
    * <p>
-   * Options less than the minimum value are forced to accept this value.
+   * Options outside the range will be forced to "fit" the range.
    */
   IntRange VALUES_RANGE = new IntRange( 0, 10 * 1024 );
 

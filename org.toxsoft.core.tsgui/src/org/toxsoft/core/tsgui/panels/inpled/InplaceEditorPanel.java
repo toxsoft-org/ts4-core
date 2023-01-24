@@ -3,126 +3,69 @@ package org.toxsoft.core.tsgui.panels.inpled;
 import static org.toxsoft.core.tsgui.bricks.actions.ITsStdActionDefs.*;
 import static org.toxsoft.core.tsgui.panels.inpled.IInplaceEditorConstants.*;
 
-import java.util.*;
-
 import org.eclipse.swt.*;
 import org.eclipse.swt.custom.*;
-import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.actions.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
-import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.panels.lazy.*;
 import org.toxsoft.core.tsgui.panels.misc.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tsgui.widgets.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
-import org.toxsoft.core.tslib.coll.primtypes.*;
-import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * {@link IInplaceEditorPanel} implementation.
  *
  * @author hazard157
  */
-public class InplaceEditorPanel
+public final class InplaceEditorPanel
     extends AbstractLazyPanel<Control>
     implements IInplaceEditorPanel {
 
   /**
-   * Button bar for {@link InplaceEditorPanel}.
-   *
-   * @author hazard157
+   * Default buttons in edit mode.
+   * <p>
+   * Actions defined in content panel as {@link AbstractInplaceContentPanel#listSupportedActions()} may add several more
+   * buttons.
    */
-  class ButtonBar
-      extends Composite {
+  public static final IStridablesList<ITsActionDef> DEFAULT_EDIT_ACTION_DEFS = new StridablesList<>( //
+      ACDEF_OK_CHANGES, //
+      ACDEF_CANCEL_CHANGES, //
+      ACDEF_APPLY_CHANGES, //
+      ACDEF_REVERT_CHANGES //
+  );
 
-    private final SelectionAdapter buttonListener = new SelectionAdapter() {
+  private final GenericChangeEventer        eventer;
+  private final AbstractInplaceContentPanel contentPanel;
 
-      @Override
-      public void widgetSelected( SelectionEvent aEvent ) {
-        Button btn = (Button)aEvent.widget;
-        processAction( (String)btn.getData() );
-      }
-
-    };
-
-    private final EIconSize iconSize;
-
-    private final IStringMapEdit<Button> btnsMap = new StringMap<>();
-
-    public ButtonBar( Composite aParent ) {
-      super( aParent, SWT.BORDER );
-      iconSize = hdpiService().getDefaultIconSize(); // TODO how to specify icon size ?
-    }
-
-    private void createButton( ITsActionDef aActionDef ) {
-      Button btn = new Button( this, SWT.PUSH );
-      btn.setData( aActionDef.id() );
-      btn.setText( aActionDef.nmName() );
-      btn.setToolTipText( aActionDef.description() );
-      btn.setImage( iconManager().loadStdIcon( aActionDef.iconId(), iconSize ) );
-      btn.addSelectionListener( buttonListener );
-      btnsMap.put( aActionDef.id(), btn );
-    }
-
-    /**
-     * Расставляет кнопки на нижней панели {@link #buttonsPane}.
-     * <p>
-     * Сначала удаляет все конпки, а потом расставляет их согласно текущему состоянию.
-     */
-    void resetButtonPane() {
-      removeButtons();
-
-      // TODO ButtonBar.resetButtonPane()
-      updateState();
-    }
-
-    void updateState() {
-      // TODO ButtonBar.updateState()
-    }
-
-    private void removeButtons() {
-      while( !btnsMap.isEmpty() ) {
-        Button b = btnsMap.getByKey( btnsMap.keys().first() );
-        b.dispose();
-      }
-    }
-
-  }
-
-  private final IGenericChangeListener panelChangeListener = aSource -> handlePanelChange();
-
-  // ------------------------------------------------------------------------------------
-  // Components of the panel
+  /**
+   * List of actions (button) in edit mode.
+   * <p>
+   * List contains actions from {@link #DEFAULT_EDIT_ACTION_DEFS} with additions from
+   * {@link AbstractInplaceContentPanel#listSupportedActions()}.
+   */
+  private final IStridablesList<ITsActionDef> editActionDefs;
 
   private TsComposite           backplane;                 // persistent background panel
-  private ValidationResultPanel vrPanel     = null;        // north panel of validation result display or null
+  private ValidationResultPanel vrPanel = null;            // north panel of validation result display or null
   private BorderLayout          contentHolderBorderLayout; // layout for #contentHolderBorder
   private ScrolledComposite     contentHolder;             // scroller contains the inplace editor content panel
-  private ButtonBar             buttonBar;                 // south button bar
-  private IInplaceContentPanel  inpledPanel = null;        // inplacde editor content, may be null
+  private ButtonBar             buttonsBar;                // south panel with buttons
 
   /**
    * Middle panel of the specified (default - RED) color contains scroller {@link #contentHolder}.
    * <p>
-   * In editing mode size of the scroller comopnent is decreased by the specified border thickness thus the red
+   * In editing mode size of the scroller component is decreased by the specified border thickness thus the red
    * surrounding rectangle is displayed.
    */
   private TsComposite contentHolderBorder;
-
-  // ------------------------------------------------------------------------------------
-  // currenbt state fields
-
-  /**
-   * <code>true</code> - panel was changed, that is panel content does not natches edited entity.
-   */
-  boolean wasChanges = false;
 
   /**
    * Constructor.
@@ -130,84 +73,147 @@ public class InplaceEditorPanel
    * Constructos stores reference to the context, does not creates copy.
    *
    * @param aContext {@link ITsGuiContext} - контекст панели
+   * @param aContentPanel {@link AbstractInplaceContentPanel} - content panel
    * @throws TsNullArgumentRtException аргумент = null
    */
-  public InplaceEditorPanel( ITsGuiContext aContext ) {
+  public InplaceEditorPanel( ITsGuiContext aContext, AbstractInplaceContentPanel aContentPanel ) {
     super( aContext );
+    TsNullArgumentRtException.checkNull( aContentPanel );
+    TsIllegalArgumentRtException.checkTrue( aContentPanel.getControl() != null );
+    contentPanel = aContentPanel;
+    eventer = new GenericChangeEventer( this );
+    eventer.addListener( s -> whenContentPanelChanges() );
+    aContentPanel.genericChangeEventer().addListener( eventer );
+    IStridablesListEdit<ITsActionDef> ll = new StridablesList<>( DEFAULT_EDIT_ACTION_DEFS );
+    ll.addAll( contentPanel.listSupportedActions() );
+    editActionDefs = ll;
   }
 
   // ------------------------------------------------------------------------------------
   // implementation
   //
 
-  void handlePanelChange() {
-    TsInternalErrorRtException.checkNull( inpledPanel );
-    wasChanges = true;
-    updatePanelState();
-  }
-
-  /**
-   * Updates validation panel (if any) and buttons enabled state on {@link #buttonBar}.
-   */
-  void updatePanelState() {
-    ValidationResult vr = inpledPanel != null ? inpledPanel.validate() : ValidationResult.SUCCESS;
-    vrPanel.setShownValidationResult( vr );
-    buttonBar.updateState();
-  }
-
-  /**
-   * Controls is surrounding colored rectangle is displayed.
-   *
-   * @param aShow boolean - <code>true</code> to show colored border
-   */
-  private void showRedBorder( boolean aShow ) {
-    if( aShow ) {
-      int borderThinkness = OPDEF_BORDER_THICKNESS.getValue( tsContext().params() ).asInt();
-      contentHolderBorderLayout.setMargins( borderThinkness, borderThinkness, borderThinkness, borderThinkness );
-    }
-    else {
-      contentHolderBorderLayout.setMargins( 0, 0, 0, 0 );
-    }
-    contentHolderBorder.layout();
-  }
-
-  private void undefferLayout() {
-    // FIXME что-то надо делать с исключением Widget is disposed!!!
-    backplane.getParent().layout( true, true );
-    backplane.setLayoutDeferred( false );
-  }
-
-  void processAction( String aActionId ) {
+  private void whenButtonPressed( String aActionId ) {
     switch( aActionId ) {
       case ACTID_EDIT: {
-        // TODO InplaceEditorPanel.processAction()
-        break;
+        startEditing();
+        return;
       }
       case ACTID_OK_CHANGES: {
-        // TODO InplaceEditorPanel.processAction()
-        break;
-      }
-      case ACTID_APPLY_CHANGES: {
-        // TODO InplaceEditorPanel.processAction()
+        applyAndFinishEditing();
         break;
       }
       case ACTID_CANCEL_CHANGES: {
-        // TODO InplaceEditorPanel.processAction()
+        cancelAndFinishEditing();
+        break;
+      }
+      case ACTID_APPLY_CHANGES: {
+        applyAndContinueEditing();
         break;
       }
       case ACTID_REVERT_CHANGES: {
-        // TODO InplaceEditorPanel.processAction()
+        cancelAndContinueEditing();
         break;
       }
-      case ACTID_RESTORE_DEFAULTS: {
-        // TODO InplaceEditorPanel.processAction()
+      default: {
+        contentPanel.handleAction( aActionId );
         break;
       }
-      default:
-        throw new TsNotAllEnumsUsedRtException( aActionId );
     }
+  }
 
-    // TODO InplaceEditorPanel.processAction()
+  void whenContentPanelChanges() {
+    updatePanelState();
+  }
+
+  private void applyAndContinueEditing() {
+    if( isEditing() ) {
+      contentPanel.applyChanges();
+      updatePanelState();
+    }
+  }
+
+  private void cancelAndContinueEditing() {
+    if( isEditing() ) {
+      contentPanel.revertChanges();
+      updatePanelState();
+    }
+  }
+
+  private ValidationResult updateValidatonPane() {
+    ValidationResult vr = ValidationResult.SUCCESS;
+    if( isEditing() ) {
+      vr = contentPanel.validate();
+    }
+    else {
+      vr = contentPanel.canStartEditing();
+    }
+    if( vrPanel != null ) {
+      vrPanel.setShownValidationResult( vr );
+    }
+    return vr;
+  }
+
+  private void updateButtonsEnabledState( ValidationResult aVr ) {
+    if( isEditing() ) {
+      for( ITsActionDef adef : editActionDefs ) {
+        boolean enabled = switch( adef.id() ) {
+          case ACTID_OK_CHANGES -> !aVr.isError();
+          case ACTID_CANCEL_CHANGES -> true;
+          case ACTID_REVERT_CHANGES, ACTID_APPLY_CHANGES -> isChanged();
+          default -> contentPanel.isActionEnabled( adef.id() );
+        };
+        buttonsBar.setActionEnabled( adef.id(), enabled );
+      }
+    }
+    else {
+      buttonsBar.setActionEnabled( ACTID_EDIT, !aVr.isError() );
+    }
+  }
+
+  private void resetButtonPane() {
+    ValidationResult vr = updateValidatonPane();
+    buttonsBar.removeButtons();
+    if( isEditing() ) {
+      for( ITsActionDef adef : editActionDefs ) {
+        buttonsBar.createButton( adef );
+      }
+    }
+    else {
+      buttonsBar.createButton( ACDEF_EDIT );
+    }
+    updateButtonsEnabledState( vr );
+  }
+
+  private void updatePanelState() {
+    ValidationResult vr = updateValidatonPane();
+    updateButtonsEnabledState( vr );
+  }
+
+  private void internalSetEditMode( boolean aMode ) {
+    if( isEditing() == aMode ) {
+      return;
+    }
+    backplane.setLayoutDeferred( true );
+    try {
+      contentPanel.setEditMode( aMode );
+      // hide/show "red border" and #vrPanel
+      if( aMode ) {
+        int borderThinkness = OPDEF_BORDER_THICKNESS.getValue( tsContext().params() ).asInt();
+        contentHolderBorderLayout.setMargins( borderThinkness, borderThinkness, borderThinkness, borderThinkness );
+      }
+      else {
+        contentHolderBorderLayout.setMargins( 0, 0, 0, 0 );
+      }
+      if( vrPanel != null ) {
+        vrPanel.setVisible( aMode );
+      }
+      resetButtonPane();
+    }
+    finally {
+      backplane.getParent().layout( true, true );
+      backplane.setLayoutDeferred( false );
+    }
   }
 
   // ------------------------------------------------------------------------------------
@@ -223,6 +229,7 @@ public class InplaceEditorPanel
     if( OPDEF_IS_VALIDATION_USED.getValue( tsContext().params() ).asBool() ) {
       vrPanel = new ValidationResultPanel( backplane, tsContext() );
       vrPanel.setLayoutData( BorderLayout.NORTH );
+      vrPanel.setVisible( false );
     }
     // contentHolderBorder
     contentHolderBorder = new TsComposite( backplane, SWT.NONE );
@@ -234,20 +241,19 @@ public class InplaceEditorPanel
     // contentHolder
     contentHolder = new ScrolledComposite( contentHolderBorder, SWT.H_SCROLL | SWT.V_SCROLL );
     contentHolder.setLayoutData( BorderLayout.CENTER );
+    // contentPanel
+    contentPanel.createControl( contentHolder );
+    contentHolder.setContent( contentPanel.getControl() );
+    contentHolder.setSize( contentPanel.getControl().computeSize( SWT.DEFAULT, SWT.DEFAULT ) );
+    contentHolder.setExpandHorizontal( true );
+    contentHolder.setExpandVertical( true );
     // buttonsPane
-    buttonBar = new ButtonBar( backplane );
-    buttonBar.setLayoutData( BorderLayout.SOUTH );
-    buttonBar.setLayout( new RowLayout( SWT.HORIZONTAL ) );
-    buttonBar.resetButtonPane();
+    buttonsBar = new ButtonBar( backplane, tsContext(), this::whenButtonPressed );
+    buttonsBar.setLayoutData( BorderLayout.SOUTH );
+    buttonsBar.setLayout( new RowLayout( SWT.HORIZONTAL ) );
     // setup
+    resetButtonPane();
     return backplane;
-  }
-
-  @Override
-  protected void doDispose() {
-    if( inpledPanel != null && inpledPanel.isEditing() ) {
-      inpledPanel.actionCancel();
-    }
   }
 
   // ------------------------------------------------------------------------------------
@@ -255,73 +261,51 @@ public class InplaceEditorPanel
   //
 
   @Override
-  public IInplaceContentPanel contentPanel() {
-    return inpledPanel;
+  public boolean isViewer() {
+    return contentPanel.isViewer();
   }
 
   @Override
-  public void setContentPanel( IInplaceContentPanel aPanel ) {
-    // check preconditions
-    if( Objects.equals( aPanel, inpledPanel ) ) {
-      return;
-    }
-    if( aPanel != null ) {
-      TsIllegalArgumentRtException.checkTrue( aPanel.getControl() != null );
-      TsIllegalArgumentRtException.checkTrue( aPanel.isEditing() );
-    }
-    // remove old (if aby) and create new #inpledPanel
-    backplane.setLayoutDeferred( true );
-    try {
-      showRedBorder( false );
-      if( inpledPanel != null ) {
-        if( inpledPanel.isEditing() ) {
-          inpledPanel.actionCancel();
-        }
-        if( inpledPanel.getControl() != null ) {
-          inpledPanel.genericChangeEventer().removeListener( panelChangeListener );
-          inpledPanel.getControl().dispose();
-          contentHolder.setContent( null );
-        }
-        inpledPanel = aPanel;
-        if( inpledPanel != null ) {
-          // remove validation result display panel for readonly content panel
-          if( vrPanel != null ) {
-            vrPanel.setVisible( !inpledPanel.isReadonly() );
-          }
-          inpledPanel.createControl( contentHolder );
-          contentHolder.setContent( inpledPanel.getControl() );
-          contentHolder.setSize( inpledPanel.getControl().computeSize( SWT.DEFAULT, SWT.DEFAULT ) );
-          contentHolder.setExpandHorizontal( true );
-          contentHolder.setExpandVertical( true );
-          inpledPanel.genericChangeEventer().addListener( panelChangeListener );
-          buttonBar.resetButtonPane();
-        }
-      }
-    }
-    finally {
-      undefferLayout();
+  public IGenericChangeEventer genericChangeEventer() {
+    return eventer;
+  }
+
+  @Override
+  public boolean isEditing() {
+    return contentPanel.isEditing();
+  }
+
+  @Override
+  public void startEditing() {
+    if( !isEditing() ) {
+      internalSetEditMode( true );
     }
   }
 
-  void removeContentPanel() {
-    if( inpledPanel != null ) {
-      // удалим и обнулим панель
-      try {
-        if( inpledPanel.getControl() != null ) {
-          if( inpledPanel.isEditing() ) {
-            inpledPanel.actionCancel();
-          }
-          inpledPanel.genericChangeEventer().removeListener( panelChangeListener );
-          inpledPanel.getControl().dispose();
-          contentHolder.setContent( null );
-        }
-      }
-      catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
-      }
-      inpledPanel = null;
-      buttonBar.resetButtonPane();
+  @Override
+  public boolean isChanged() {
+    return contentPanel.isChanged();
+  }
+
+  @Override
+  public void applyAndFinishEditing() {
+    if( isEditing() ) {
+      contentPanel.applyChanges();
+      internalSetEditMode( false );
     }
+  }
+
+  @Override
+  public void cancelAndFinishEditing() {
+    if( isEditing() ) {
+      contentPanel.revertChanges();
+      internalSetEditMode( false );
+    }
+  }
+
+  @Override
+  public void refresh() {
+    updatePanelState();
   }
 
 }

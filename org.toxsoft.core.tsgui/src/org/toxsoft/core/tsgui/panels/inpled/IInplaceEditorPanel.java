@@ -1,43 +1,62 @@
 package org.toxsoft.core.tsgui.panels.inpled;
 
-import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tsgui.panels.lazy.*;
+import org.toxsoft.core.tsgui.panels.generic.*;
 import org.toxsoft.core.tsgui.panels.misc.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Panel to view and edit {@link IInplaceContentPanel}.
+ * Panel to view and edit some content.
  * <p>
- * Contains inplace content {@link IInplaceContentPanel}, optional validation result pane and the button bar. Initially
- * there is only "edit" button in button bar. Presing "Edit" switches content to the editing state and "OK", "Cancel",
- * "Revert", "Apply", "Restore" buttons appear on button bar. "OK" and "Cancel" button finishes the editing and returns
- * inplace editor to the viewer mode.
+ * Contains inplace content panel, optional validation result pane and the button bar. Initially there is only "Edit"
+ * button in button bar. Presing "Edit" switches content to the editing state and "OK", "Cancel", "Revert", "Apply",
+ * "Restore" buttons appear on button bar. "OK" and "Cancel" button finishes the editing and returns inplace editor to
+ * the viewer mode.
  * <p>
  * For validation message panel respects {@link ValidationResultPanel} options.
  *
  * @author hazard157
  */
-public interface IInplaceEditorPanel
-    extends ILazyControl<Control> {
+public sealed interface IInplaceEditorPanel
+    extends IGenericContentPanel permits InplaceEditorPanel {
 
   /**
-   * Returns the content panel.
+   * Determinies current state of the panel.
    *
-   * @return {@link IInplaceContentPanel} - the content panek or <code>null</code>
+   * @return boolean <code>true</code> for editing statem, <code>false</code> for viewer mode
    */
-  IInplaceContentPanel contentPanel();
+  boolean isEditing();
 
   /**
-   * Sets the content panel.
-   * <p>
-   * Existing content will be replaced. If exisintg panel is in editing mode it will be canc elled before remove,
-   * <p>
-   * Note: argument must be the panel with <b>no SWT control created</b>.
+   * Starts editing - puts the panel in editing mode.
    *
-   * @param aPanel {@link IInplaceContentPanel} - new content panel or <code>null</code> to clear content
-   * @throws TsIllegalArgumentRtException argument has SWT control created
-   * @throws TsIllegalArgumentRtException argument is in editing state
+   * @throws TsUnsupportedFeatureRtException panel is the viewer
    */
-  void setContentPanel( IInplaceContentPanel aPanel );
+  void startEditing();
+
+  /**
+   * Determines if widgets contains values different than edited content.
+   *
+   * @return boolean - <code>true</code> when panel contains values not applied to the content
+   */
+  boolean isChanged();
+
+  /**
+   * Applies changed values to the underlying content and finishes editing.
+   * <p>
+   * Has no effect in the viewer mode.
+   */
+  void applyAndFinishEditing();
+
+  /**
+   * Cancels edting, restores initial values and finishes editing.
+   * <p>
+   * Has no effect in the viewer mode.
+   */
+  void cancelAndFinishEditing();
+
+  /**
+   * Informs this panel about changes in content panel.
+   */
+  void refresh();
 
 }
