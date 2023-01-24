@@ -127,6 +127,8 @@ interface IG2Resources {
   String STR_D_GRAPHIC_RGBA          = "Цвет графика";
   String STR_N_VALUES_DISPLAY_FORMAT = "формат отображения значений";
   String STR_D_VALUES_DISPLAY_FORMAT = "формат отображения значений";
+  String STR_N_SET_POINTS            = "список значений уставок графика";
+  String STR_D_SET_POINTS            = "список значений уставок графика";
 
   /**
    * {@link IG2StateGraphicRendererOptions}.
