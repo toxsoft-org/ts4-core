@@ -25,7 +25,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class StdG2VisirRenderer
     implements IG2VisirRenderer {
 
-  private final static String dtFormat = "%1$tF %1$tT"; //$NON-NLS-1$
+  private final static String dtFormat       = "%1$tF %1$tT"; //$NON-NLS-1$
+  private final static String setPointFormat = "[%s]";        //$NON-NLS-1$
 
   private final TsLineInfo verticalLineInfo;
   private final Color      verticalLineColor;
@@ -90,7 +91,7 @@ public class StdG2VisirRenderer
         if( graph instanceof StdG2Graphic stdGraph ) {
           IStringList setPoints = stdGraph.setPoints();
           for( String spVal : setPoints ) {
-            valStr += " | " + spVal; //$NON-NLS-1$
+            valStr += String.format( setPointFormat, spVal );
           }
         }
         Point p = aGc.textExtent( valStr );
@@ -136,7 +137,7 @@ public class StdG2VisirRenderer
       if( graph instanceof StdG2Graphic stdGraph ) {
         IStringList setPoints = stdGraph.setPoints();
         for( String spVal : setPoints ) {
-          curW += aGc.textExtent( " | " + spVal ).x; //$NON-NLS-1$
+          curW += aGc.textExtent( String.format( setPointFormat, spVal ) ).x;
         }
       }
       if( curW > maxW ) {
