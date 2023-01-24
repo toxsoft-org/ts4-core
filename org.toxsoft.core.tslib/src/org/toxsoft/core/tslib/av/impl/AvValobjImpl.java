@@ -3,7 +3,6 @@ package org.toxsoft.core.tslib.av.impl;
 import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 
 import java.io.*;
-import java.util.*;
 
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
@@ -15,6 +14,17 @@ import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
  * Atomic value of type {@link EAtomicType#VALOBJ} implementation.
+ * <p>
+ * There is two way of creating instances of this class:
+ * <ul>
+ * <li>for value-objects of registered keepers by the constructor {@link AvValobjImpl#AvValobjImpl(Object)}. In such a
+ * case field {@link #valobj} is initalized while {@link #keeperId} and {@link #ktor} remains <code>null</code>;</li>
+ * <li>for read KTOR textual representetion by the constructor {@link AvValobjImpl#AvValobjImpl(String, String)}. In
+ * this case {@link #keeperId} and {@link #ktor} are initilized while {@link #valobj} remain <code>null</code>.</li>
+ * </ul>
+ * <p>
+ * {@link Serializable} serialization is supported for any value-objects. This instance is serilized as KTRO
+ * representation {@link String}.
  *
  * @author hazard157
  */
@@ -28,38 +38,39 @@ class AvValobjImpl
   private transient Object valobj   = null;
 
   /**
-   * Конструктор из объекта-значения для для создания экземпляров методами {@link AvUtils}.
-   * <p>
-   * Конструктор инициализирует поле {@link #valobj} и оставляет поля {@link #keeperId} и {@link #ktor} равным
-   * <code>null</code>, чтобы можно было создавать экземпляры без обязательной регистрации типа объекта-значения в
-   * {@link TsValobjUtils};</li>
+   * Constructor creates instance from value-object (for {@link AvUtils#avValobj(Object)}.
    *
-   * @param aValobj Object - объект-значение,
-   * @throws TsNullArgumentRtException любой аргумент = <code>null</code>
-   * @throws TsIllegalArgumentRtException aDataType не типа {@link EAtomicType#VALOBJ}
+   * @param aValobj Object - the value-object with registered keeper
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   AvValobjImpl( Object aValobj ) {
     if( aValobj == null ) {
       throw new TsNullArgumentRtException();
     }
+    // =====
+    // argument checking is commented out for optimization purposes.
+    // It's assumed that instance is created only for vale-objects with registered keepers
+    // @formatter:off
+//    if( TsValobjUtils.findKeeperByClass( aValobj.getClass() ) == null ) {
+//      throw new TsIllegalArgumentRtException();
+//    }
+    // @formatter:on
+    // =====
     valobj = aValobj;
     // ktor = null;
     // keeperId = null;
   }
 
   /**
-   * Конструктор для читателся из текстового представления {@link StrioReader}.
-   * <p>
-   * Конструктор инициализирует поля {@link #keeperId} и {@link #ktor} и оставляет {@link #valobj} равным
-   * <code>null</code>, чтобы можно было создавать экземпляры без обязательной регистрации типа объекта-значения в
-   * {@link TsValobjUtils};</li>
+   * Constructor creates instance from keeper ID and KTOR representation text.
    *
-   * @param aKeeperId String - идентификатор (ИД-путь) хранителя
-   * @param aTextInBraces String - текстовое представление, первый и последний символ - обрамляющие скобки
+   * @param aKeeperId String - the keeper ID
+   * @param aTextInBraces String - the KTRO representation in braces
    */
   AvValobjImpl( String aKeeperId, String aTextInBraces ) {
     // =====
-    // с целью оптимизации, проверка аргументов отключена, код DvReader гарантирует корректность аргументов
+    // argument checking is commented out for optimization purposes.
+    // It is assumed that caller checks for KTOR validity
     // @formatter:off
 //    StridUtils.checkValidIdPath( aKeeperId );
 //    TsNullArgumentRtException.checkNull( aTextInBraces );
@@ -82,13 +93,13 @@ class AvValobjImpl
   }
 
   // ------------------------------------------------------------------------------------
-  // Сериализация
+  // Serialization
   //
 
   private void writeObject( ObjectOutputStream aOut )
       throws IOException {
     aOut.defaultWriteObject();
-    getKtor(); // убедимся, что ktor и keeperId инициализированы
+    getKtor(); // initialize #ktor an #keeperId
     aOut.writeObject( ktor );
     aOut.writeObject( keeperId );
   }
@@ -102,11 +113,13 @@ class AvValobjImpl
   }
 
   // ------------------------------------------------------------------------------------
-  // API пакета
+  // package API
   //
 
   /**
-   * Return the value-object's KTOR text representation.
+   * Returns the value-object's full KTOR text representation.
+   * <p>
+   * Intensively used side effect ensures that {@link #ktor} and {@link #keeperId} fields are initialized.
    *
    * @return String the value-object's KTOR text representation
    * @throws TsRuntimeException the KTOR creation failed
@@ -134,7 +147,7 @@ class AvValobjImpl
   }
 
   /**
-   * Метод для {@link StrioWriter} - записывает это значение в текстовое представление.
+   * Method for {@link StrioWriter} - writes full KTOR representation to the stream.
    *
    * @param aSw {@link IStrioWriter}
    */
@@ -143,7 +156,7 @@ class AvValobjImpl
   }
 
   // ------------------------------------------------------------------------------------
-  // IValueImporter
+  // AbstractAtomicValue
   //
 
   @SuppressWarnings( { "unchecked", "rawtypes" } )
@@ -162,87 +175,38 @@ class AvValobjImpl
     return (T)valobj;
   }
 
-  // ------------------------------------------------------------------------------------
-  // AbstractAtomicValue methods
-  //
-
   @Override
   public final EAtomicType atomicType() {
     return EAtomicType.VALOBJ;
   }
 
-  @Override
-  public String asString() {
-    if( ktor != null ) {
-      return ktor;
-    }
-    return "@ " + valobj.toString(); //$NON-NLS-1$
-  }
-
   /**
-   * Extract valoue-object from atomic value as {@link Comparable} if possible.
-   *
-   * @param aValue {@link IAtomicValue} - atomic value of {@link EAtomicType#VALOBJ} type
-   * @return {@link Comparable} - comparable value-object or null
-   */
-  @SuppressWarnings( "rawtypes" )
-  private static Comparable extractAsComparable( IAtomicValue aValue ) {
-    // AvValobjImpl - returns non-null if valobj exists or may be created and it is Comparable
-    if( aValue instanceof AvValobjImpl value ) {
-      Object vo = value.valobj;
-      if( vo == null && value.keeperId != null ) {
-        if( TsValobjUtils.findKeeperById( value.keeperId ) != null ) {
-          vo = aValue.asValobj();
-        }
-      }
-      if( vo instanceof Comparable cvo ) {
-        return cvo;
-      }
-      return null;
-    }
-    // AvValobjNullImpl impelemtation - always null
-    if( aValue instanceof AvValobjNullImpl ) {
-      return null;
-    }
-    // this may happen when other than AvValobjImpl or AvValobjNullImpl implementation will appear
-    throw new TsInternalErrorRtException();
-  }
-
-  /**
-   * {@inheritDoc} Two VALOBJs equality check is kind of problem. If both values has {@link #ktor} or {@link #valobj}
-   * initialized - that's easy. In other case we need to convert ethoer {@link #ktor} to {@link #valobj} or vise versa.
-   * However such conversion need the appropriate keeper to be registered. In environments such as server this may not
-   * be the case. TODO ???
+   * {@inheritDoc}
+   * <p>
+   * Two VALOBJs equality check is kind of problem. If both values has {@link #ktor} or {@link #valobj} initialized -
+   * that's easy. In other case we need to convert ethoer {@link #ktor} to {@link #valobj} or vise versa. However such
+   * conversion need the appropriate keeper to be registered. In environments such as server this may not be the case.
+   * TODO ???
    */
   @Override
   protected boolean internalEqualsValue( IAtomicValue aThat ) {
     if( aThat instanceof AvValobjImpl that ) {
-      // same kind of data in both objects, equality check is simple
+      // check equality for #ktor fields if initilized in both instance
       if( this.ktor != null && that.ktor != null ) {
         return this.ktor.equals( that.ktor );
       }
+      // check equality for #valobj fields if initilized in both instance
       if( this.valobj != null && that.valobj != null ) {
         return this.valobj.equals( that.valobj );
       }
-      // different data, first, let's determine keeperIds
-      String thisKeeperId = this.keeperId;
-      if( thisKeeperId == null ) {
-        this.keeperId = TsValobjUtils.findKeeperIdByClass( this.valobj.getClass() );
-      }
-      String thatKeeperId = that.keeperId;
-      if( thatKeeperId == null ) {
-        that.keeperId = TsValobjUtils.findKeeperIdByClass( that.valobj.getClass() );
-      }
-      // we don't knw about keepers - assume different
-      if( thisKeeperId == null && thatKeeperId == null ) {
-        return false;
-      }
-      // different keepers - objects are not equal
-      if( !Objects.equals( thisKeeperId, thatKeeperId ) ) {
-        return false;
-      }
-      // same keepers - we prefer to write ktor rather than build valobj
-      return Objects.equals( this.getKtor(), that.getKtor() );
+      /**
+       * Here we are when one instance has #valobj field initialized and other instance has #ktor and #keeperId fields.
+       * <br>
+       * We'll init unexisting #ktor field and compare KTORs. Other way of creating #valobj may not work in environments
+       * when #kkeperId is not registered.
+       */
+      // ensure and check equality via #ktor fields
+      return this.getKtor().equals( that.getKtor() );
     }
     return false;
   }
@@ -270,6 +234,51 @@ class AvValobjImpl
   @Override
   protected int internalValueHashCode() {
     return getKtor().hashCode();
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Object
+  //
+
+  @Override
+  public String asString() {
+    if( ktor != null ) {
+      return ktor;
+    }
+    return "@ " + valobj.toString(); //$NON-NLS-1$
+  }
+
+  // ------------------------------------------------------------------------------------
+  // implementation
+  //
+
+  /**
+   * Extract value-object from atomic value as {@link Comparable} if possible.
+   *
+   * @param aValue {@link IAtomicValue} - atomic value of {@link EAtomicType#VALOBJ} type
+   * @return {@link Comparable} - comparable value-object or null
+   */
+  @SuppressWarnings( "rawtypes" )
+  private static Comparable extractAsComparable( IAtomicValue aValue ) {
+    // AvValobjImpl - returns non-null if valobj exists or may be created and it is Comparable
+    if( aValue instanceof AvValobjImpl value ) {
+      Object vo = value.valobj;
+      if( vo == null && value.keeperId != null ) {
+        if( TsValobjUtils.findKeeperById( value.keeperId ) != null ) {
+          vo = aValue.asValobj();
+        }
+      }
+      if( vo instanceof Comparable cvo ) {
+        return cvo;
+      }
+      return null;
+    }
+    // AvValobjNullImpl impelemtation - always null
+    if( aValue instanceof AvValobjNullImpl ) {
+      return null;
+    }
+    // this may happen only if other than AvValobjImpl or AvValobjNullImpl implementation exists
+    throw new TsInternalErrorRtException();
   }
 
 }

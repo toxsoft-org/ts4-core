@@ -117,7 +117,7 @@ public abstract class AbstractAtomicValue
   //
 
   /**
-   * Descendant must tdetermine if this and <code>aThat</code> values are equal.
+   * Descendant must determine if <code>this</code> and <code>aThat</code> values are equal.
    *
    * @param aThat {@link IAtomicValue} - the object to be compared, has the same atomic type as this object
    * @return boolean - <code>true</code> if values are equal
