@@ -192,4 +192,38 @@ public class TsIllegalArgumentRtException
     return aRef;
   }
 
+  /**
+   * Throws an exception if reference is <b>not</b> <code>null</code>.
+   *
+   * @param <E> - reference type
+   * @param aRef &lt;E&gt; - checked reference
+   * @param aMessageFormat String - message format string
+   * @param aMsgArgs Object[] - optional arguments for message string
+   * @return &lt;E&gt; - always returns aRef
+   * @throws TsIllegalArgumentRtException aRef != <code>null</code>
+   */
+  public static <E> E checkNoNull( E aRef, String aMessageFormat, Object... aMsgArgs )
+      throws TsIllegalArgumentRtException {
+    if( aRef != null ) {
+      throw new TsIllegalArgumentRtException( aMessageFormat, aMsgArgs );
+    }
+    return aRef;
+  }
+
+  /**
+   * Throws an exception with preset message if reference is <b>not</b> <code>null</code>.
+   *
+   * @param <E> - reference type
+   * @param aRef &lt;E&gt; - checked reference
+   * @return &lt;E&gt; - always returns aRef
+   * @throws TsIllegalArgumentRtException aRef != <code>null</code>
+   */
+  public static <E> E checkNoNull( E aRef )
+      throws TsIllegalArgumentRtException {
+    if( aRef != null ) {
+      throw new TsIllegalArgumentRtException( MSG_ERR_ILLEGAL_ARG );
+    }
+    return aRef;
+  }
+
 }

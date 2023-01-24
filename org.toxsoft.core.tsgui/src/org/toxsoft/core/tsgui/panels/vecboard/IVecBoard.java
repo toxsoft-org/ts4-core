@@ -1,10 +1,8 @@
 package org.toxsoft.core.tsgui.panels.vecboard;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
-import org.toxsoft.core.tsgui.panels.lazy.ILazyControl;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalStateRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.panels.lazy.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Панель для отложенной инициализации визульных компонент.

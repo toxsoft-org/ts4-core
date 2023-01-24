@@ -1,8 +1,8 @@
 package org.toxsoft.core.tsgui.panels.vecboard;
 
-import org.toxsoft.core.tsgui.panels.lazy.ILazyControl;
-import org.toxsoft.core.tsgui.utils.layout.EBorderLayoutPlacement;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.panels.lazy.*;
+import org.toxsoft.core.tsgui.utils.layout.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Раскладка контролей по четырем сторонам и центру панели.

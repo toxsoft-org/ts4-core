@@ -1,9 +1,8 @@
 package org.toxsoft.core.tsgui.panels.vecboard;
 
-import org.toxsoft.core.tsgui.graphics.EHorAlignment;
-import org.toxsoft.core.tsgui.graphics.EVerAlignment;
-import org.toxsoft.core.tsgui.panels.vecboard.impl.VecLadderLayoutData;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
+import org.toxsoft.core.tsgui.graphics.*;
+import org.toxsoft.core.tsgui.panels.vecboard.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 
 /**
  * Параметры расположения элементов в раскладке {@link IVecLadderLayout}.

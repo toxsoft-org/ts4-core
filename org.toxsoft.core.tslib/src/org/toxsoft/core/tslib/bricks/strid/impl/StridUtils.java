@@ -698,7 +698,7 @@ public final class StridUtils {
   /**
    * Format string: "{@link IStridable#id()} - {@link IStridable#nmName()}"
    */
-  public static final String FORMAT_ID_NAME = "%s - %3$s"; //$NON-NLS-1$
+  public static final String FORMAT_ID_NAME = "%s - %2$s"; //$NON-NLS-1$
 
   /**
    * Format string: "{@link IStridable#nmName()} ({@link IStridable#id()})".

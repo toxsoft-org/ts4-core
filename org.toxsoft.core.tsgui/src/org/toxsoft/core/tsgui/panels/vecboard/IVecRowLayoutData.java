@@ -1,8 +1,8 @@
 package org.toxsoft.core.tsgui.panels.vecboard;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Control;
-import org.toxsoft.core.tsgui.panels.vecboard.impl.VecRowLayoutData;
+import org.eclipse.swt.*;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.panels.vecboard.impl.*;
 
 /**
  * Параметры элементов в раскладке {@link IVecRowLayout}.
