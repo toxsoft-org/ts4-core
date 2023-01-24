@@ -8,12 +8,12 @@ import org.toxsoft.core.tsgui.graphics.*;
  *
  * @author vs
  */
-public interface IVecColumnLayoutDefinition {
+public interface IVecColumnDef {
 
   /**
    * Параметры размещения элементов по умолчанию
    */
-  IVecColumnLayoutDefinition DEFAULT = new InternalDefaultColumnData();
+  IVecColumnDef DEFAULT = new InternalDefaultColumnData();
 
   /**
    * Возвращет признак изменяемости ширины колонки при изменении размеров окна.
@@ -56,7 +56,7 @@ public interface IVecColumnLayoutDefinition {
 }
 
 class InternalDefaultColumnData
-    implements IVecColumnLayoutDefinition {
+    implements IVecColumnDef {
 
   @Override
   public boolean isWidthFixed() {

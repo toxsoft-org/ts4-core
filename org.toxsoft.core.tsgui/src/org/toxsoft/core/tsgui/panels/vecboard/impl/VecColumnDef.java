@@ -8,11 +8,10 @@ import org.toxsoft.core.tsgui.panels.vecboard.*;
  *
  * @author vs
  */
-public class VecColumnLayoutData
-    implements IVecColumnLayoutDefinition {
+public class VecColumnDef
+    implements IVecColumnDef {
 
   private final boolean fixedWidth;
-  private final boolean fixedHeight;
 
   private final EHorAlignment horAlignment;
   private final EVerAlignment verAlignment;
@@ -26,9 +25,8 @@ public class VecColumnLayoutData
    * @param aHorAlignment EHorAlignment - выравнивание положения элемента по горизонтали
    * @param aVerAlignment EVerAlignment - выравнивание положения элемента по вертикали
    */
-  public VecColumnLayoutData( EHorAlignment aHorAlignment, EVerAlignment aVerAlignment ) {
+  public VecColumnDef( EHorAlignment aHorAlignment, EVerAlignment aVerAlignment ) {
     fixedWidth = false;
-    fixedHeight = false;
     horAlignment = aHorAlignment;
     verAlignment = aVerAlignment;
     minWidth = 0;
@@ -41,14 +39,12 @@ public class VecColumnLayoutData
    * @param aHorAlignment EHorAlignment - выравнивание положения элемента по горизонтали
    * @param aVerAlignment EVerAlignment - выравнивание положения элемента по вертикали
    * @param aFixedWidh boolean - признак изменения ширины колонки при изменении размеров окна (<b>true<b> - постоянная)
-   * @param aFixedHeight boolean- признак изменения высоты колонки при изменении размеров окна (<b>true<b> - постоянная)
    * @param aMinWidth int - минимальная ширина колонки в пикселях
    * @param aMinHeight int - минимальная высота элемента в пикселях
    */
-  public VecColumnLayoutData( EHorAlignment aHorAlignment, EVerAlignment aVerAlignment, boolean aFixedWidh,
-      boolean aFixedHeight, int aMinWidth, int aMinHeight ) {
+  public VecColumnDef( EHorAlignment aHorAlignment, EVerAlignment aVerAlignment, boolean aFixedWidh,
+      int aMinWidth, int aMinHeight ) {
     fixedWidth = false;
-    fixedHeight = false;
     horAlignment = aHorAlignment;
     verAlignment = aVerAlignment;
     minWidth = 0;
