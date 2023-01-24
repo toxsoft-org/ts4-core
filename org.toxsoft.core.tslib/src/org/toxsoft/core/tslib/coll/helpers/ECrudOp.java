@@ -24,22 +24,22 @@ public enum ECrudOp
   /**
    * New element added.
    */
-  CREATE( "Create", STR_N_CREATE, STR_D_CREATE ),
+  CREATE( "Create", STR_N_CREATE, STR_D_CREATE, false ),
 
   /**
    * An existing element changed.
    */
-  EDIT( "Edit", STR_N_EDIT, STR_D_EDIT ),
+  EDIT( "Edit", STR_N_EDIT, STR_D_EDIT, false ),
 
   /**
    * Element removed.
    */
-  REMOVE( "Remove", STR_N_REMOVE, STR_D_REMOVE ),
+  REMOVE( "Remove", STR_N_REMOVE, STR_D_REMOVE, false ),
 
   /**
    * List items, batch changes of two or more elements.
    */
-  LIST( "List", STR_N_LIST, STR_D_LIST ),
+  LIST( "List", STR_N_LIST, STR_D_LIST, false ),
 
   ;
 
@@ -55,9 +55,10 @@ public enum ECrudOp
 
   private static IStridablesList<ECrudOp> list = null;
 
-  private final String id;
-  private final String nmName;
-  private final String description;
+  private final String  id;
+  private final String  nmName;
+  private final String  description;
+  private final boolean batchOp;
 
   /**
    * Constructor.
@@ -65,11 +66,13 @@ public enum ECrudOp
    * @param aId String - identifier (IDPath)
    * @param aName String - short, human-readable name
    * @param aDescr String - description
+   * @param aIsBatch boolean - the flag of the batch operatin
    */
-  ECrudOp( String aId, String aName, String aDescr ) {
+  ECrudOp( String aId, String aName, String aDescr, boolean aIsBatch ) {
     id = aId;
     nmName = aName;
     description = aDescr;
+    batchOp = aIsBatch;
   }
 
   // --------------------------------------------------------------------------
@@ -105,6 +108,17 @@ public enum ECrudOp
       list = new StridablesList<>( values() );
     }
     return list;
+  }
+
+  /**
+   * Determines if this is a batch operation that affects more than one element of the collection.
+   *
+   * @return boolean - a batch operation flag<br>
+   *         <b>true</b> - operation affects to or more elements;<br>
+   *         <b>false</b> - operation affects exactly one element of the collection.
+   */
+  public boolean isBatchOp() {
+    return batchOp;
   }
 
   // ------------------------------------------------------------------------------------
