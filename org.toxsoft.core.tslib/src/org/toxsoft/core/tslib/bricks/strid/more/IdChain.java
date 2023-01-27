@@ -1,17 +1,14 @@
 package org.toxsoft.core.tslib.bricks.strid.more;
 
-import java.io.ObjectStreamException;
-import java.io.Serializable;
+import java.io.*;
 
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.EEncloseMode;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
-import org.toxsoft.core.tslib.coll.primtypes.IStringListEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringArrayList;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -123,7 +120,7 @@ public final class IdChain
    * Creates an instance of {@link IdChain} from canonical string representation.
    *
    * @param aCanonicalString String - canonical string representation
-   * @return {@link IdChain} - cretaed instance
+   * @return {@link IdChain} - created instance
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException argument is not canonical string representation
    */
@@ -159,8 +156,8 @@ public final class IdChain
   /**
    * Internal constructor for some kind of optimization.
    *
-   * @param aFoo int - unused argument to have method signature defferent from {@link #IdChain(IStringList)}
-   * @param aBranches {@link IStringList} - reference to this argument will beacme field {@link #branches}
+   * @param aFoo int - unused argument to have method signature different from {@link #IdChain(IStringList)}
+   * @param aBranches {@link IStringList} - reference to this argument will became field {@link #branches}
    */
   private IdChain( int aFoo, IStringList aBranches ) {
     branches = aBranches;
@@ -194,11 +191,11 @@ public final class IdChain
   }
 
   /**
-   * Returns ths canonical representation of the {@link IdChain}.
+   * Returns the canonical representation of the {@link IdChain}.
    * <p>
    * Canonical representation is branches separated by the {@link #CHAR_BRANCH_SEPARATOR}, eg
-   * "<code>branch1.id.path/branch2/branch3</code>". For the chain with no braches (that is for singleton {@link #NULL})
-   * returns an empty string.
+   * "<code>branch1.id.path/branch2/branch3</code>". For the chain with no branches (that is for singleton
+   * {@link #NULL}) returns an empty string.
    *
    * @return String - string
    */

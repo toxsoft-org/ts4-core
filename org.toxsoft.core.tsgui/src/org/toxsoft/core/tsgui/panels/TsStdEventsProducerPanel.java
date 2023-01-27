@@ -4,6 +4,7 @@ import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.stdevents.*;
 import org.toxsoft.core.tsgui.bricks.stdevents.impl.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -16,8 +17,9 @@ import org.toxsoft.core.tslib.utils.errors.*;
  */
 public abstract class TsStdEventsProducerPanel<E>
     extends TsPanel
-    implements ITsSelectionProvider<E>, ITsDoubleClickEventProducer<E> {
+    implements ITsSelectionProvider<E>, ITsDoubleClickEventProducer<E>, IGenericChangeEventCapable {
 
+  protected final GenericChangeEventer            genericChangeEventer;
   protected final TsSelectionChangeEventHelper<E> selectionChangeEventHelper;
   protected final TsDoubleClickEventHelper<E>     doubleClickEventHelper;
 
@@ -32,6 +34,7 @@ public abstract class TsStdEventsProducerPanel<E>
    */
   public TsStdEventsProducerPanel( Composite aParent, ITsGuiContext aContext ) {
     super( aParent, aContext );
+    genericChangeEventer = new GenericChangeEventer( this );
     selectionChangeEventHelper = new TsSelectionChangeEventHelper<>( this );
     doubleClickEventHelper = new TsDoubleClickEventHelper<>( this );
   }
@@ -84,6 +87,15 @@ public abstract class TsStdEventsProducerPanel<E>
   @Override
   public void removeTsDoubleClickListener( ITsDoubleClickListener<E> aListener ) {
     doubleClickEventHelper.removeTsDoubleClickListener( aListener );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // IGenericChangeEventCapable
+  //
+
+  @Override
+  public GenericChangeEventer genericChangeEventer() {
+    return genericChangeEventer;
   }
 
 }

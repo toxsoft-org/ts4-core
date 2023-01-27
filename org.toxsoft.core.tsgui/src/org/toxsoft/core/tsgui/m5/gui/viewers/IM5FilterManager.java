@@ -8,7 +8,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Manages visible items filtering in {@link IM5CollectionViewer} implementations.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public interface IM5FilterManager<T> {
 
@@ -29,7 +29,7 @@ public interface IM5FilterManager<T> {
   IList<T> items();
 
   /**
-   * Sets the filter to selectet displayed elements from {@link IM5CollectionViewer#items()}.
+   * Sets the filter to selected displayed elements from {@link IM5CollectionViewer#items()}.
    * <p>
    * To turn filtering off use argument {@link ITsFilter#ALL}
    *
