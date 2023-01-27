@@ -882,7 +882,9 @@ public class MultiPaneComponent<T>
       IListEdit<ITsActionDef> aActs ) {
     ITsToolbar tb = new TsToolbar( aContext );
     tb.setIconSize( aIconSize );
-    tb.setNameLabelText( aName );
+    if( OPDEF_IS_TOOLBAR_NAME.getValue( tsContext().params() ).asBool() ) {
+      tb.setNameLabelText( aName );
+    }
     tb.addActionDefs( aActs );
     return tb;
   }

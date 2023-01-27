@@ -27,6 +27,9 @@ public interface IMultiPaneComponentConstants {
   IDataDef OPDEF_IS_TOOLBAR = bdd( "IsToolbar", true, //$NON-NLS-1$
       STR_N_IS_TOOLBAR, STR_D_IS_TOOLBAR );
 
+  IDataDef OPDEF_IS_TOOLBAR_NAME = bdd( "IsToolbarName", false, //$NON-NLS-1$
+      STR_N_IS_, STR_D_IS_ );
+
   IDataDef OPDEF_IS_FILTER_PANE = bdd( "IsFilterPane", false, //$NON-NLS-1$
       STR_N_IS_, STR_D_IS_ );
 
