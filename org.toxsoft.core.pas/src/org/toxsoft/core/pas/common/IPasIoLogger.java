@@ -1,7 +1,7 @@
 package org.toxsoft.core.pas.common;
 
 /**
- * Журнал
+ * Журнал.
  *
  * @author mvk
  */
