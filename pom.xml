@@ -518,8 +518,8 @@
         <module>org.toxsoft.core.tsgui.rcp</module>
         <module>org.toxsoft.core.p2</module>
 
-        <module>releng/org.toxsoft.core.releng.p2.rcp</module>
-        <module>releng/org.toxsoft.core.releng.ant.rcp</module>
+        <module>zz-releng/org.toxsoft.core.releng.p2.rcp</module>
+        <module>zz-releng/org.toxsoft.core.releng.ant.rcp</module>
       </modules>
     </profile>
     <profile>
@@ -561,8 +561,8 @@
       <modules>                                           
         <!-- TODO rap-библиотеки -->
  
-        <module>releng/org.toxsoft.core.releng.p2.rap</module>
-        <module>releng/org.toxsoft.core.releng.ant.rap</module>
+        <module>zz-releng/org.toxsoft.core.releng.p2.rap</module>
+        <module>zz-releng/org.toxsoft.core.releng.ant.rap</module>
      </modules>
     </profile>
   </profiles>
@@ -579,8 +579,8 @@
     <module>org.toxsoft.core.txtproj.mws</module>
     <module>org.toxsoft.core.git.parser</module>
  
-    <module>releng/org.toxsoft.core.releng.p2</module>
-    <module>releng/org.toxsoft.core.releng.ant</module>
+    <module>zz-releng/org.toxsoft.core.releng.p2</module>
+    <module>zz-releng/org.toxsoft.core.releng.ant</module>
   </modules>
 
   <distributionManagement>
