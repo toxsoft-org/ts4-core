@@ -55,7 +55,7 @@ public class TemporalValueBase<E>
   @SuppressWarnings( "nls" )
   @Override
   public String toString() {
-    return TimeUtils.timestampToString( timestamp ) + (value == null ? "<<null>>" : value.toString());
+    return TimeUtils.timestampToString( timestamp ) + ' ' + (value == null ? "<<null>>" : value.toString());
   }
 
   @Override
