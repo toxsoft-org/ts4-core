@@ -4,7 +4,7 @@ import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Package-internal {@link IM5BunchEdit} implementation.
+ * {@link IM5BunchEdit} implementation.
  *
  * @author hazard157
  * @param <T> - modelled entity type
@@ -25,17 +25,17 @@ public class M5BunchEdit<T>
     super( aModel );
   }
 
-  // /**
-  // * Constructor.
-  // *
-  // * @param aModel {@link IM5Model}&lt;T&gt; - entity model
-  // * @param aOriginalEntity &lt;T&gt; - modelled entity or <code>null</code> for field default field values
-  // * @throws TsNullArgumentRtException any argument = <code>null</code>
-  // */
-  // M5BunchEdit( IM5Model<T> aModel, T aOriginalEntity ) {
-  // super( aModel );
-  // fillFrom( aOriginalEntity, true );
-  // }
+  /**
+   * Constructor.
+   *
+   * @param aModel {@link IM5Model}&lt;T&gt; - entity model
+   * @param aOriginalEntity &lt;T&gt; - modelled entity or <code>null</code> for field default field values
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  M5BunchEdit( IM5Model<T> aModel, T aOriginalEntity ) {
+    super( aModel );
+    fillFrom( aOriginalEntity, true );
+  }
 
   // ------------------------------------------------------------------------------------
   // M5AbstractBunch
