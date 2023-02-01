@@ -121,4 +121,14 @@ public class StdG2GraphicRenderer
     aGc.drawRectangle( x, y, w, h );
   }
 
+  @Override
+  public Color graphicColor() {
+    return graphicColor;
+  }
+
+  @Override
+  public TsLineInfo lineInfo() {
+    return lineInfo;
+  }
+
 }
