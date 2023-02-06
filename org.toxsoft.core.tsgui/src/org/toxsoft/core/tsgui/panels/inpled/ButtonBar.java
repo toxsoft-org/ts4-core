@@ -69,6 +69,13 @@ class ButtonBar
     }
   }
 
+  public void setButtonTooltip( String aActionId, String aTooltip ) {
+    Button b = btnsMap.findByKey( aActionId );
+    if( b != null ) {
+      b.setToolTipText( aTooltip );
+    }
+  }
+
   // ------------------------------------------------------------------------------------
   // ITsGuiContextable
   //

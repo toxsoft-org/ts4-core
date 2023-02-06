@@ -18,6 +18,7 @@ import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -168,6 +169,16 @@ public final class InplaceEditorPanel
     }
     else {
       buttonsBar.setActionEnabled( ACTID_EDIT, !aVr.isError() );
+      // set tooltip with reason why the editing is disabled
+      // NOTE: disabled button does not shows tootip so we'll set/resety tooltip for whole byutton bar
+      if( aVr.isError() ) {
+        buttonsBar.setButtonTooltip( ACTID_EDIT, aVr.message() );
+        buttonsBar.setToolTipText( aVr.message() );
+      }
+      else {
+        buttonsBar.setButtonTooltip( ACTID_EDIT, ACDEF_EDIT.description() );
+        buttonsBar.setToolTipText( TsLibUtils.EMPTY_STRING );
+      }
     }
   }
 
