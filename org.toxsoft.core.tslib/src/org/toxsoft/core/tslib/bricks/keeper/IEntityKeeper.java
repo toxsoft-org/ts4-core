@@ -204,7 +204,7 @@ public interface IEntityKeeper<E> {
    * @throws TsIoRtException {@link IOException} occurred
    * @throws StrioRtException invalid text representation format
    */
-  ITsCollectionEdit<E> readColl( IStrioReader aSr, ITsCollectionEdit<E> aColl );
+  <T extends ITsCollectionEdit<E>> T readColl( IStrioReader aSr, ITsCollectionEdit<E> aColl );
 
   /**
    * Reads text representation of the collection from the file.
@@ -218,7 +218,7 @@ public interface IEntityKeeper<E> {
    * @throws TsIoRtException {@link IOException} occurred
    * @throws StrioRtException invalid text representation format
    */
-  ITsCollectionEdit<E> readColl( File aFile, ITsCollectionEdit<E> aColl );
+  <T extends ITsCollectionEdit<E>> T readColl( File aFile, ITsCollectionEdit<E> aColl );
 
   // ------------------------------------------------------------------------------------
   // In-line methods for convenience
