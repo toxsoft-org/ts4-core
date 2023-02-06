@@ -65,6 +65,9 @@ public class StdG2Graphic
     if( plotDef.rendererParams().params().findByKey( IStdG2GraphicRendererOptions.СHART_SET_POINTS.id() ) != null ) {
       IStringList setPointList =
           IStdG2GraphicRendererOptions.СHART_SET_POINTS.getValue( plotDef.rendererParams().params() ).asValobj();
+      aGc.setForeground( renderer.graphicColor() );
+      aGc.setLineWidth( renderer.lineInfo().width() );
+
       for( String setPointStr : setPointList ) {
         try {
           float spValue = Float.parseFloat( setPointStr );

@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.chart.impl;
 
 import org.eclipse.swt.graphics.*;
+import org.toxsoft.core.tsgui.graphics.lines.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.*;
@@ -23,5 +24,15 @@ public interface IG2GraphicRenderer {
    * @param aBounds TsRectangle - границы области, в которой должно уместиться представление (не null)
    */
   void drawRepresentation( GC aGc, ITsRectangle aBounds );
+
+  /**
+   * @return цвет графика
+   */
+  Color graphicColor();
+
+  /**
+   * @return атрибуты линии
+   */
+  TsLineInfo lineInfo();
 
 }
