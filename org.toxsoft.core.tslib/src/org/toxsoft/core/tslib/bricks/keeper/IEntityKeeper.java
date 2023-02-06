@@ -2,15 +2,12 @@ package org.toxsoft.core.tslib.bricks.keeper;
 
 import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 import org.toxsoft.core.tslib.bricks.strio.*;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.coll.basis.ITsCollectionEdit;
-import org.toxsoft.core.tslib.utils.errors.TsIoRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * The interface for storing and loading entities into a text representation.
@@ -69,7 +66,7 @@ public interface IEntityKeeper<E> {
    * @param aSw {@link IStrioWriter} - text representation writer stream
    * @param aEntity &lt;E&gt; - entity to be stored
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIoRtException {@link IOException} occured
+   * @throws TsIoRtException {@link IOException} occurred
    */
   void write( IStrioWriter aSw, E aEntity );
 
@@ -81,7 +78,7 @@ public interface IEntityKeeper<E> {
    * @param aSr {@link IStrioReader} - text representation reader stream
    * @return &lt;E&gt; - restored entity
    * @throws TsNullArgumentRtException argument = <code>null</code>
-   * @throws TsIoRtException {@link IOException} occured
+   * @throws TsIoRtException {@link IOException} occurred
    * @throws StrioRtException invalid text representation format
    */
   E read( IStrioReader aSr );
@@ -92,7 +89,7 @@ public interface IEntityKeeper<E> {
    * @param aEntity &lt;E&gt; - entity to be stored
    * @return String - text representation string
    * @throws TsNullArgumentRtException argument = <code>null</code>
-   * @throws TsIoRtException {@link IOException} occured
+   * @throws TsIoRtException {@link IOException} occurred
    */
   String ent2str( E aEntity );
 
@@ -102,7 +99,7 @@ public interface IEntityKeeper<E> {
    * @param aStr String - text representation string
    * @return &lt;E&gt; - restored entity
    * @throws TsNullArgumentRtException argument = <code>null</code>
-   * @throws TsIoRtException {@link IOException} occured
+   * @throws TsIoRtException {@link IOException} occurred
    * @throws StrioRtException invalid text representation format
    */
   E str2ent( String aStr );
@@ -115,7 +112,7 @@ public interface IEntityKeeper<E> {
    * @param aFile {@link File} - the destination file
    * @param aEntity &lt;E&gt; - entity to be stored
    * @throws TsNullArgumentRtException argument = <code>null</code>
-   * @throws TsIoRtException {@link IOException} occured
+   * @throws TsIoRtException {@link IOException} occurred
    */
   void write( File aFile, E aEntity );
 
@@ -125,104 +122,106 @@ public interface IEntityKeeper<E> {
    * @param aFile {@link File} - the source file
    * @return &lt;E&gt; - restored entity
    * @throws TsNullArgumentRtException argument = <code>null</code>
-   * @throws TsIoRtException {@link IOException} occured
+   * @throws TsIoRtException {@link IOException} occurred
    * @throws StrioRtException invalid text representation format
    */
   E read( File aFile );
 
   /**
-   * Stores text representaion of the collection to the {@link String}.
+   * Stores text representation of the collection to the {@link String}.
    *
    * @param aColl {@link ITsCollection} - collection to be stored
    * @return String - text representation string
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIoRtException {@link IOException} occured
+   * @throws TsIoRtException {@link IOException} occurred
    */
   String coll2str( ITsCollection<E> aColl );
 
   /**
-   * Reads text representaion of the collection from the string.
+   * Reads text representation of the collection from the string.
    *
    * @param aCollAsString String - text representation string
-   * @return {@link IListEdit} - restored colleaction
+   * @return {@link IListEdit} - restored collection
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIoRtException {@link IOException} occured
+   * @throws TsIoRtException {@link IOException} occurred
    * @throws StrioRtException invalid text representation format
    */
   IListEdit<E> str2coll( String aCollAsString );
 
   /**
-   * Stores text representaion of the collection.
+   * Stores text representation of the collection.
    *
    * @param aSw {@link IStrioWriter} - text representation writer stream
    * @param aColl {@link ITsCollection} - collection to be stored
    * @param aIndented boolean - hint to write collection in indented (human-readable) form
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIoRtException {@link IOException} occured
+   * @throws TsIoRtException {@link IOException} occurred
    */
   void writeColl( IStrioWriter aSw, ITsCollection<E> aColl, boolean aIndented );
 
   /**
-   * Stores text representaion of the collection to the file.
+   * Stores text representation of the collection to the file.
    *
    * @param aFile {@link File} - file to store text representation
    * @param aColl {@link ITsCollection} - collection to be stored
    * @param aIndented boolean - hint to write collection in indented (human-readable) form
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIoRtException {@link IOException} occured
+   * @throws TsIoRtException {@link IOException} occurred
    */
   void writeColl( File aFile, ITsCollection<E> aColl, boolean aIndented );
 
   /**
-   * Reads text representaion of the collection from the stream.
+   * Reads text representation of the collection from the stream.
    *
    * @param aSr {@link IStrioReader} - input stream
-   * @return {@link IListEdit} - restored colleaction
+   * @return {@link IListEdit} - restored collection
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIoRtException {@link IOException} occured
+   * @throws TsIoRtException {@link IOException} occurred
    * @throws StrioRtException invalid text representation format
    */
   IListEdit<E> readColl( IStrioReader aSr );
 
   /**
-   * Reads text representaion of the collection from the file.
+   * Reads text representation of the collection from the file.
    *
    * @param aFile {@link File} - file to be read
-   * @return {@link IListEdit} - restored colleaction
+   * @return {@link IListEdit} - restored collection
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIoRtException {@link IOException} occured
+   * @throws TsIoRtException {@link IOException} occurred
    * @throws StrioRtException invalid text representation format
    */
   IListEdit<E> readColl( File aFile );
 
   /**
-   * Reads text representaion of the collection from the stream.
+   * Reads text representation of the collection from the stream.
    * <p>
    * Restored elements will be added to the destination collection.
    *
    * @param aSr {@link IStrioReader} - input stream
-   * @param aColl {@link ITsCollectionEdit} - destination colleaction
+   * @param aColl {@link ITsCollectionEdit} - destination collection
+   * @return {@link ITsCollectionEdit} - always returns the argument collection
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIoRtException {@link IOException} occured
+   * @throws TsIoRtException {@link IOException} occurred
    * @throws StrioRtException invalid text representation format
    */
-  void readColl( IStrioReader aSr, ITsCollectionEdit<E> aColl );
+  ITsCollectionEdit<E> readColl( IStrioReader aSr, ITsCollectionEdit<E> aColl );
 
   /**
-   * Reads text representaion of the collection from the file.
+   * Reads text representation of the collection from the file.
    * <p>
    * Restored elements will be added to the destination collection.
    *
    * @param aFile {@link File} - file to be read
-   * @param aColl {@link ITsCollectionEdit} - destination colleaction
+   * @param aColl {@link ITsCollectionEdit} - destination collection
+   * @return {@link ITsCollectionEdit} - always returns the argument collection
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIoRtException {@link IOException} occured
+   * @throws TsIoRtException {@link IOException} occurred
    * @throws StrioRtException invalid text representation format
    */
-  void readColl( File aFile, ITsCollectionEdit<E> aColl );
+  ITsCollectionEdit<E> readColl( File aFile, ITsCollectionEdit<E> aColl );
 
   // ------------------------------------------------------------------------------------
-  // Inline methods for convinience
+  // In-line methods for convenience
   //
 
   /**
@@ -233,7 +232,7 @@ public interface IEntityKeeper<E> {
    * @param aSw {@link IStrioWriter} - text representation writer stream
    * @param aEntity &lt;E&gt; - entity to be stored
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIoRtException {@link IOException} occured
+   * @throws TsIoRtException {@link IOException} occurred
    */
   default void writeEnclosed( IStrioWriter aSw, E aEntity ) {
     if( isEnclosed() ) {
@@ -253,7 +252,7 @@ public interface IEntityKeeper<E> {
    * @param aSr {@link IStrioReader} - text representation reader stream
    * @return &lt;E&gt; - restored entity
    * @throws TsNullArgumentRtException argument = <code>null</code>
-   * @throws TsIoRtException {@link IOException} occured
+   * @throws TsIoRtException {@link IOException} occurred
    * @throws StrioRtException invalid text representation format
    */
   default E readEnclosed( IStrioReader aSr ) {

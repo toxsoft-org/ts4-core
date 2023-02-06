@@ -273,18 +273,20 @@ public abstract class AbstractEntityKeeper<E>
   }
 
   @Override
-  public void readColl( IStrioReader aSr, ITsCollectionEdit<E> aColl ) {
+  public ITsCollectionEdit<E> readColl( IStrioReader aSr, ITsCollectionEdit<E> aColl ) {
     TsNullArgumentRtException.checkNulls( aSr, aColl );
     internalReadColl( aSr, aColl );
+    return aColl;
   }
 
   @Override
-  public void readColl( File aFile, ITsCollectionEdit<E> aColl ) {
+  public ITsCollectionEdit<E> readColl( File aFile, ITsCollectionEdit<E> aColl ) {
     TsNullArgumentRtException.checkNulls( aFile, aColl );
     try( ICharInputStreamCloseable chIn = new CharInputStreamFile( aFile ) ) {
       IStrioReader sr = new StrioReader( chIn );
       internalReadColl( sr, aColl );
     }
+    return aColl;
   }
 
   // ------------------------------------------------------------------------------------
