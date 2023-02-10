@@ -1,11 +1,11 @@
 package org.toxsoft.core.tslib.bricks.events.change;
 
-import org.toxsoft.core.tslib.bricks.events.AbstractTsEventer;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.helpers.ECrudOp;
-import org.toxsoft.core.tslib.coll.notifier.basis.ITsCollectionChangeListener;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.toxsoft.core.tslib.bricks.events.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.helpers.*;
+import org.toxsoft.core.tslib.coll.notifier.basis.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * An {@link IGenericChangeEventer} impementation.
@@ -95,11 +95,28 @@ public class GenericChangeEventer
    * Fires or stores an event depending on {@link #isFiringPaused()} state.
    */
   public void fireChangeEvent() {
+    whenChanged();
     if( isFiringPaused() ) {
       wasEvent = true;
       return;
     }
     reallyFireEvent();
+  }
+
+  // ------------------------------------------------------------------------------------
+  // To override
+  //
+
+  /**
+   * Called from {@link #fireChangeEvent()}.
+   * <p>
+   * Subclass may perform addition actions when {@link #fireChangeEvent()} is called but before events are actually
+   * fired.
+   * <p>
+   * In the base class does nothing there is no need to call superclass method when overriding.
+   */
+  protected void whenChanged() {
+    // nop
   }
 
 }

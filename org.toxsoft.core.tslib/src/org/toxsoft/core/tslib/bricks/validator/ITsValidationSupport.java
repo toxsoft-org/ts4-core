@@ -8,7 +8,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Поддержка валидации (предварительно проверки) редактирования.
  *
  * @author hazard157
- * @param <V> - конкретный интерфейс валидатора
+ * @param <V> - the validator type
  */
 public interface ITsValidationSupport<V> {
 
@@ -20,7 +20,7 @@ public interface ITsValidationSupport<V> {
    * {@link ValidationResult#isError()} = <code>true</code> немедленно возвращается. Предупреждение же возвращается
    * согласно правилам {@link ValidationResult#firstNonOk(ValidationResult, ValidationResult)}.
    *
-   * @return &ltV&gt; - валидатор
+   * @return &ltV&gt; - the validator
    */
   V validator();
 
@@ -45,7 +45,7 @@ public interface ITsValidationSupport<V> {
   void removeValidator( V aValidator );
 
   /**
-   * Temprary disables the specified validator.
+   * Temporary disables the specified validator.
    * <p>
    * After call of this method the {@link #validator()} will not include disabled validator untill the
    * {@link #resumeValidator(Object)} call. The order of the argument - validator in {@link #validator()} calls list is
@@ -59,7 +59,7 @@ public interface ITsValidationSupport<V> {
   void pauseValidator( V aValidator );
 
   /**
-   * Enables prevously disabled validator.
+   * Enables previously disabled validator.
    * <p>
    * Unregistered validator is ignored.
    *

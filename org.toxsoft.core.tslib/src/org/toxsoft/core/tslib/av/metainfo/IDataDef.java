@@ -15,11 +15,11 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Atomic data type information.
  * <p>
- * This is identifyable (via {@link IStridable}) data type {@link IDataType}.
+ * This is identifiable (via {@link IStridable}) data type {@link IDataType}.
  * <p>
  * Data type information is the simple set of the constraint values held in {@link #params()}.
  * <p>
- * The only allowd inmplementation of this interface is {@link DataDef}.
+ * The only allowed implementation of this interface is {@link DataDef}.
  *
  * @author hazard157
  */
@@ -79,7 +79,7 @@ public interface IDataDef
    * Returns the value comparator.
    * <p>
    * BY default atomic values are compared with {@link AvUtils#DEFAULT_AV_COMPARATOR}. However for some cases, mostly
-   * for {@link EAtomicType#VALOBJ} types it is meaningfull to compare contained values.
+   * for {@link EAtomicType#VALOBJ} types it is meaningful to compare contained values.
    *
    * @return {@link Comparator}&lr;{@link IAtomicValue}&gt; - the comparator never is <code>null</code>
    */
@@ -88,11 +88,11 @@ public interface IDataDef
   /**
    * Returns the value of the option with identifier {@link #id()}.
    * <p>
-   * Method behaviour when set does not contains the value with identifier {@link #id()} depends on the mandatory flag
+   * Method behavior when set does not contains the value with identifier {@link #id()} depends on the mandatory flag
    * {@link #isMandatory()} state:
    * <ul>
-   * <li>for mandatory options throws an excpetion {@link TsItemNotFoundRtException};</li>
-   * <li>for non-mandatory optoions returns {@link #defaultValue()}.</li>
+   * <li>for mandatory options throws an exception {@link TsItemNotFoundRtException};</li>
+   * <li>for non-mandatory options returns {@link #defaultValue()}.</li>
    * </ul>
    * {@link #defaultValue()} is also returned when set contains {@link IAtomicValue#NULL} value.
    *

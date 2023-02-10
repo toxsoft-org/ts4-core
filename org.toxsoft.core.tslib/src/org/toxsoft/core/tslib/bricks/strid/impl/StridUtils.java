@@ -307,7 +307,7 @@ public final class StridUtils {
    *
    * @param aIdPath String - IDpath to be checked
    * @param aPrefixIdPath String - possible prefix
-   * @return boolean - <code>true</code> if aIdPath starts with aPrefixIdPath or they are equeal
+   * @return boolean - <code>true</code> if aIdPath starts with aPrefixIdPath or they are equal
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException any argument is not an IDpath
    */
@@ -328,7 +328,7 @@ public final class StridUtils {
    *
    * @param aIdPath String - IDpath to be checked
    * @param aSuffixIdPath String - possible suffix
-   * @return boolean - <code>true</code> if aIdPath ends with aSuffixIdPath or they are equeal
+   * @return boolean - <code>true</code> if aIdPath ends with aSuffixIdPath or they are equal
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException any argument is not an IDpath
    */
