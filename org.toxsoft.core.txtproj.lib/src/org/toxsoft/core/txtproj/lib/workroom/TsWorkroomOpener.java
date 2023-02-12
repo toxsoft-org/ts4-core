@@ -26,7 +26,7 @@ public class TsWorkroomOpener {
    */
   public TsWorkroomOpener( File aWrDir, WorkroomFlavor aFlavor ) {
     TsNullArgumentRtException.checkNulls( aWrDir, aFlavor );
-    workroomDir = aWrDir;
+    workroomDir = aWrDir.getAbsoluteFile();
     flavor = aFlavor;
   }
 

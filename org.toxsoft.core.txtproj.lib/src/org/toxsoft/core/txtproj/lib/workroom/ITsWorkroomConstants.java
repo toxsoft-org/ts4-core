@@ -12,11 +12,6 @@ import org.toxsoft.core.txtproj.lib.storage.*;
 public interface ITsWorkroomConstants {
 
   /**
-   * The command line option to specify the workroom directory.
-   */
-  String CMD_LINE_ARG_WORKROOM = "workroom"; //$NON-NLS-1$
-
-  /**
    * The name of the file identifying directory as a workroom.
    */
   String TS_WORKROOM_FLAVOR_FILE_NAME = "ts-workroom.flavor"; //$NON-NLS-1$
