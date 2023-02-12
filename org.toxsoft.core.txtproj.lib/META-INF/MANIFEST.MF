@@ -19,4 +19,5 @@ Export-Package: org.toxsoft.core.txtproj.lib,
  org.toxsoft.core.txtproj.lib.sinent,
  org.toxsoft.core.txtproj.lib.storage,
  org.toxsoft.core.txtproj.lib.stripar,
- org.toxsoft.core.txtproj.lib.tdfile
+ org.toxsoft.core.txtproj.lib.tdfile,
+ org.toxsoft.core.txtproj.lib.workroom
