@@ -297,7 +297,7 @@ public class TsDialogUtils {
 
   private static Image getTitleIcon() {
     Image titleIcon = null;
-    IEclipseContext winContext = TsGuiUtils.getGuiThreadWinContext();
+    IEclipseContext winContext = TsGuiUtils.findGuiThreadWinContext();
     if( winContext != null ) {
       ITsIconManager iconManager = winContext.get( ITsIconManager.class );
       titleIcon = iconManager.loadStdIcon( ITsStdIconIds.ICONID_TSAPP_WINDOWS_ICON, EIconSize.IS_16X16 );

@@ -29,7 +29,7 @@ import org.toxsoft.core.tslib.utils.valobj.*;
 public class TsGuiUtils {
 
   /**
-   * Holds windows level {@link IEclipseContext} assosiated to the GUI-thread.
+   * Holds windows level {@link IEclipseContext} associated to the GUI-thread.
    */
   private static final ThreadLocal<IEclipseContext> guiThreadWinContext = new ThreadLocal<>();
 
@@ -75,7 +75,7 @@ public class TsGuiUtils {
   }
 
   /**
-   * Stores windows level {@link IEclipseContext} assosiated to the GUI-thread.
+   * Stores windows level {@link IEclipseContext} associated to the GUI-thread.
    * <p>
    * This method must be called once per GUI-thread as soon as possibe after thread and cpntext is created.
    *
@@ -92,13 +92,25 @@ public class TsGuiUtils {
    * <p>
    * Warning: this method must be called from GUI-thread.
    *
-   * @return {@link IEclipseContext} - context assosiated with current GUI-thread
+   * @return {@link IEclipseContext} - context associated with current GUI-thread
    * @throws TsIllegalStateRtException non-GUI thread call or context was not stored yet
    */
   public static final IEclipseContext getGuiThreadWinContext() {
     IEclipseContext ctx = guiThreadWinContext.get();
     TsIllegalStateRtException.checkNull( ctx );
     return ctx;
+  }
+
+  /**
+   * Finds the context previously stored by {@link #storeGuiThreadWinContext(IEclipseContext)}.
+   * <p>
+   * Method returns <code>null</code> either if called not from mainGUI thread or if called before
+   * {@link #storeGuiThreadWinContext(IEclipseContext)}.
+   *
+   * @return {@link IEclipseContext} - context associated with current GUI-thread or <code>null</code>
+   */
+  public static final IEclipseContext findGuiThreadWinContext() {
+    return guiThreadWinContext.get();
   }
 
   /**
