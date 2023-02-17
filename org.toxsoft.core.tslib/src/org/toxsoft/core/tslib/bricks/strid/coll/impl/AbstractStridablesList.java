@@ -167,10 +167,6 @@ public abstract class AbstractStridablesList<E extends IStridable, L extends ISt
   public void clear() {
     ids.clear();
     values.clear();
-
-    // FIXME GOGA 2023-02-10 temporary code
-    checkValidity();
-
   }
 
   // ------------------------------------------------------------------------------------
@@ -195,10 +191,6 @@ public abstract class AbstractStridablesList<E extends IStridable, L extends ISt
   public E removeByIndex( int aIndex ) {
     ids.removeByIndex( aIndex );
     E e = values.removeByIndex( aIndex );
-
-    // FIXME GOGA 2023-02-10 temporary code
-    checkValidity();
-
     return e;
   }
 
@@ -235,10 +227,6 @@ public abstract class AbstractStridablesList<E extends IStridable, L extends ISt
       ids.removeByIndex( index );
       e = values.removeByIndex( index );
     }
-
-    // FIXME GOGA 2023-02-10 temporary code
-    checkValidity();
-
     return e;
   }
 
@@ -279,13 +267,6 @@ public abstract class AbstractStridablesList<E extends IStridable, L extends ISt
   @Override
   public String toString() {
     return TsCollectionsUtils.countableCollectionToString( this );
-  }
-
-  // FIXME GOGA 2023-02-10 temporary code
-  protected void checkValidity() {
-    if( ids.size() != values.size() ) {
-      throw new TsInternalErrorRtException( "StridablesList: different sizes!" );
-    }
   }
 
 }

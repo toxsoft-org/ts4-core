@@ -34,7 +34,7 @@ public final class TsWorkroom
   TsWorkroom( File aWrDir ) {
     workroomDir = aWrDir;
     File prefInitFile = new File( workroomDir, TS_WORKROOM_PREFS_FILE_NAME );
-    AbstractAppPreferencesStorage ps = new AppPreferencesConfigIniStorage( prefInitFile );
+    AbstractAppPreferencesStorage ps = new AppPreferencesConfigIniStorage( prefInitFile, false );
     workroomPerferences = new AppPreferences( ps );
     IPrefBundle pb = workroomPerferences.getBundle( TS_WORKROOM_APP_PREFS_BUNDLE_ID );
     appStorage = new TsWorkroomStorage( TsLibUtils.EMPTY_STRING, aWrDir, pb );

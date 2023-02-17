@@ -5,26 +5,20 @@ import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 
 import java.io.*;
 
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.impl.AtomicValueKeeper;
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.av.opset.IOptionSetEdit;
-import org.toxsoft.core.tslib.av.opset.impl.OptionSet;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
-import org.toxsoft.core.tslib.bricks.strio.chario.ICharInputStreamCloseable;
-import org.toxsoft.core.tslib.bricks.strio.chario.ICharOutputStream;
-import org.toxsoft.core.tslib.bricks.strio.chario.impl.CharInputStreamFile;
-import org.toxsoft.core.tslib.bricks.strio.chario.impl.CharOutputStreamAppendable;
-import org.toxsoft.core.tslib.bricks.strio.impl.StrioReader;
-import org.toxsoft.core.tslib.bricks.strio.impl.StrioWriter;
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMapEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
-import org.toxsoft.core.tslib.utils.errors.TsIoRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.files.TsFileUtils;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.toxsoft.core.tslib.bricks.strio.chario.*;
+import org.toxsoft.core.tslib.bricks.strio.chario.impl.*;
+import org.toxsoft.core.tslib.bricks.strio.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.files.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * App preferences storage to the INI file.
@@ -37,11 +31,32 @@ public class AppPreferencesConfigIniStorage
   private static final char   LINE_COMMENT_CHAR         = ';';
   private static final String BAKUP_FILE_ADDITIONAL_EXT = ".bak"; //$NON-NLS-1$
 
-  private final File                       iniFile;
+  private final File    iniFile;
+  private final boolean backups;
+
   private final IStringMapEdit<IOptionSet> prefsMap = new StringMap<>();
 
   /**
    * Constructor.
+   *
+   * @param aIniFile {@link File} - INI file
+   * @param aCreateBackups boolean - the flag to create backup copies of INI-file
+   * @throws TsNullArgumentRtException argument = <code>null</code>
+   * @throws TsIoRtException failed {@link TsFileUtils#checkFileWriteable(File)}
+   * @throws TsIoRtException error reading INI file
+   * @throws StrioRtException invalid file format
+   */
+  public AppPreferencesConfigIniStorage( File aIniFile, boolean aCreateBackups ) {
+    TsFileUtils.checkFileAppendable( aIniFile );
+    iniFile = aIniFile;
+    backups = aCreateBackups;
+    if( aIniFile.exists() ) {
+      load();
+    }
+  }
+
+  /**
+   * Constructor with bakups turned on.
    *
    * @param aIniFile {@link File} - INI file
    * @throws TsNullArgumentRtException argument = <code>null</code>
@@ -50,11 +65,7 @@ public class AppPreferencesConfigIniStorage
    * @throws StrioRtException invalid file format
    */
   public AppPreferencesConfigIniStorage( File aIniFile ) {
-    TsFileUtils.checkFileAppendable( aIniFile );
-    iniFile = aIniFile;
-    if( aIniFile.exists() ) {
-      load();
-    }
+    this( aIniFile, true );
   }
 
   // ------------------------------------------------------------------------------------
@@ -115,7 +126,7 @@ public class AppPreferencesConfigIniStorage
 
   private void save() {
     // creating backup copy
-    if( iniFile.exists() ) {
+    if( backups && iniFile.exists() ) {
       File backupFile = new File( iniFile.getParentFile(), iniFile.getName() + BAKUP_FILE_ADDITIONAL_EXT );
       TsFileUtils.copyFile( iniFile, backupFile );
     }

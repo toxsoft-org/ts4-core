@@ -2,15 +2,12 @@ package org.toxsoft.core.tslib.av.validators.defav;
 
 import static org.toxsoft.core.tslib.av.validators.defav.ITsResources.*;
 
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.impl.DataType;
-import org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants;
-import org.toxsoft.core.tslib.av.metainfo.IDataType;
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
-import org.toxsoft.core.tslib.utils.errors.TsNotAllEnumsUsedRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 // TODO TRANSLATE
 
@@ -38,13 +35,13 @@ public class DefaultAvValidator
     implements ITsValidator<IAtomicValue> {
 
   /*
-   * Этот класс реализован на основе паттерна программирования "состояние". В зависимости от атомарного типа
-   * проверяемого значения (задается в конструкторе или setDataType()), ссылка currentValidator указывает на экземпляр
-   * валидатора соответствующего типа XxxValidator.
+   * This class implementation is based on the "state" programming pattern. Depending on the atomic type of the value
+   * being checked (set in the constructor or setDataType()), the currentValidator reference points to a validator
+   * instance of the corresponding XxxValidator type.
    */
 
   /**
-   * Тип проверямых данных, задается в конструкторе, меняется в setXxx().
+   * The data type to be checked is set in the constructor and changed in setXxx().
    */
   private IDataType dataType;
 
@@ -56,7 +53,7 @@ public class DefaultAvValidator
   /**
    * Constructor.
    *
-   * @param aDataType {@link IDataType} - atomic data type
+   * @param aDataType {@link IDataType} - the data type
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public DefaultAvValidator( IDataType aDataType ) {
@@ -64,14 +61,14 @@ public class DefaultAvValidator
   }
 
   /**
-   * Создает валидатор.
+   * Constructor.
    * <p>
-   * <b>Внимание:</b> Конструктор не копирует ограничения типа, только запоминает ссылку. Поэтому, если органичения типа
-   * изменятся "снаружи", то валидатор при каждом вызове {@link #validate(IAtomicValue)} будет использовать текущие
-   * значения органицений типа.
+   * <b>Warning:</b> The constructor does not copy type constraints, it only remembers the reference. Therefore, if type
+   * constraints change outside, then the validator will use the current values of type constraints.
    *
-   * @param aAtomicType {@link EAtomicType} - атомарный тип данных
-   * @param aTypeContsraints {@link IOptionSet} - ограничения типа
+   * @param aAtomicType {@link IDataType} - atomic data type
+   * @param aTypeContsraints {@link IOptionSet} - type constraints
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public DefaultAvValidator( EAtomicType aAtomicType, IOptionSet aTypeContsraints ) {
     setType( new DataType( aAtomicType, aTypeContsraints ) );
@@ -120,9 +117,9 @@ public class DefaultAvValidator
   }
 
   /**
-   * Returns the datomic data type.
+   * Returns the data type.
    *
-   * @return {@link IDataType} - value vill be vaildated agains this type
+   * @return {@link IDataType} - the value will be validated against this type
    */
   public IDataType dataType() {
     return dataType;

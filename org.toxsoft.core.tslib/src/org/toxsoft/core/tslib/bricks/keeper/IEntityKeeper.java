@@ -197,6 +197,7 @@ public interface IEntityKeeper<E> {
    * <p>
    * Restored elements will be added to the destination collection.
    *
+   * @param <T> - expected type of the collection elements
    * @param aSr {@link IStrioReader} - input stream
    * @param aColl {@link ITsCollectionEdit} - destination collection
    * @return {@link ITsCollectionEdit} - always returns the argument collection
@@ -211,6 +212,7 @@ public interface IEntityKeeper<E> {
    * <p>
    * Restored elements will be added to the destination collection.
    *
+   * @param <T> - expected type of the collection elements
    * @param aFile {@link File} - file to be read
    * @param aColl {@link ITsCollectionEdit} - destination collection
    * @return {@link ITsCollectionEdit} - always returns the argument collection

@@ -1,13 +1,13 @@
 package org.toxsoft.core.tslib.av.list;
 
-import java.util.Iterator;
+import java.util.*;
 
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
  * An {@link IAvList} implementation as wrapper over any {@link IListEdit}.
@@ -110,7 +110,6 @@ public class AvList
 
   @Override
   public IAtomicValue removeByIndex( int aIndex ) {
-    // TODO Auto-generated method stub
     return source.removeByIndex( aIndex );
   }
 

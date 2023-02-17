@@ -1,6 +1,5 @@
 package org.toxsoft.core.tslib.bricks.qnodes;
 
-import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.utils.icons.*;
 

@@ -9,14 +9,12 @@ import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
-// TODO TRANSLATE
-
 /**
- * Потоко-безопасная оболочка над редактируемой картой отображения {@link IMapEdit}.
+ * Thread-safe wrapper over an editable map {@link IMapEdit}.
  *
  * @author hazard157
- * @param <K> - тип ключей в карте
- * @param <E> - тип хранимых элементов, значений в карте
+ * @param <K> - the type of keys maintained by this map
+ * @param <E> - the type of mapped values
  */
 public class SynchronizedMap<K, E>
     implements IMapEdit<K, E>, ITsSynchronizedCollectionWrapper<E>, Serializable {
@@ -29,21 +27,23 @@ public class SynchronizedMap<K, E>
   protected final IMapEdit<K, E>         source;
 
   /**
-   * Создает оболочку над aSource с потоко-безопасным доступом.
+   * Constructor.
+   * <p>
+   * Creates new instance of the lock for synchronization.
    *
-   * @param aSource {@link IMapEdit} - карта - источник
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aSource {@link IMapEdit} - the wrapped map
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public SynchronizedMap( IMapEdit<K, E> aSource ) {
     this( aSource, new ReentrantReadWriteLock() );
   }
 
   /**
-   * Создает оболочку над aSource с потоко-безопасным доступом с указанием блокировки.
+   * Constructor.
    *
-   * @param aSource {@link IMapEdit} - карта - источник
-   * @param aLock {@link ReentrantReadWriteLock} - блокировка карты
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aSource {@link IMapEdit} - the wrapped map
+   * @param aLock {@link ReentrantReadWriteLock} - the lock to be used for synchronization
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public SynchronizedMap( IMapEdit<K, E> aSource, ReentrantReadWriteLock aLock ) {
     TsNullArgumentRtException.checkNulls( aSource, aLock );
@@ -261,7 +261,7 @@ public class SynchronizedMap<K, E>
   }
 
   // ------------------------------------------------------------------------------------
-  // ITsSynchronizedCollectionTag
+  // ITsSynchronizedCollectionWrapper
   //
 
   @Override
@@ -275,7 +275,7 @@ public class SynchronizedMap<K, E>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация методов Object
+  // Object
   //
   @Override
   public String toString() {

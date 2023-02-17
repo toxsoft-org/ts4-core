@@ -3,7 +3,7 @@ package org.toxsoft.core.tslib.gw.time;
 import org.toxsoft.core.tslib.bricks.*;
 
 /**
- * Mixin interface of Green World time-dependent entities.
+ * Mix-in interface of Green World time-dependent entities.
  * <p>
  * The time of the Green World (TODO describe correctly):
  * <ul>

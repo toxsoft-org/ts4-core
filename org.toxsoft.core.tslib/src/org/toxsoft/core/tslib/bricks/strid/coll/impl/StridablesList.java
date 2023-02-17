@@ -77,10 +77,6 @@ public class StridablesList<E extends IStridable>
     }
     ids.add( aElem.id() );
     values.add( aElem );
-
-    // FIXME GOGA 2023-02-10 temporary code
-    checkValidity();
-
     return ids.size() - 1;
   }
 
@@ -99,10 +95,6 @@ public class StridablesList<E extends IStridable>
     E oldItem = values.get( index );
     ids.set( index, aElem.id() );
     values.set( index, aElem );
-
-    // FIXME GOGA 2023-02-10 temporary code
-    checkValidity();
-
     return oldItem;
   }
 
@@ -118,10 +110,6 @@ public class StridablesList<E extends IStridable>
     TsNullArgumentRtException.checkNull( aElem );
     ids.set( aIndex, aElem.id() );
     E e = values.set( aIndex, aElem );
-
-    // FIXME GOGA 2023-02-10 temporary code
-    checkValidity();
-
     return e;
   }
 
@@ -134,10 +122,6 @@ public class StridablesList<E extends IStridable>
     }
     ids.insert( aIndex, aElem.id() );
     values.insert( aIndex, aElem );
-
-    // FIXME GOGA 2023-02-10 temporary code
-    checkValidity();
-
   }
 
 }

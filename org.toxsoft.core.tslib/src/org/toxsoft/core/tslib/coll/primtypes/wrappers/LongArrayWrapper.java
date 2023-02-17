@@ -1,19 +1,15 @@
 package org.toxsoft.core.tslib.coll.primtypes.wrappers;
 
-import java.io.Serializable;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.io.*;
+import java.util.*;
 
-import org.toxsoft.core.tslib.coll.impl.TsCollectionsUtils;
-import org.toxsoft.core.tslib.coll.primtypes.ILongList;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-
-// TODO TRANSLATE
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Адаптер к массиву целых чисел (long[]), превращающий его в {@link ILongList}.
+ * An adapter to an array of <code>long[]</code> that converts it to {@link ILongList}.
  *
  * @author hazard157
  */
@@ -25,10 +21,10 @@ public class LongArrayWrapper
   private final long[] source;
 
   /**
-   * Создает оболочку над массивом-аргументом.
+   * Constructor.
    *
-   * @param aSrcArray long[] - оборачиваемый массив
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aSrcArray long[] - wrapped array
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public LongArrayWrapper( long[] aSrcArray ) {
     TsNullArgumentRtException.checkNull( aSrcArray );
@@ -146,7 +142,7 @@ public class LongArrayWrapper
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация методов класса Object
+  // Object
   //
 
   @Override

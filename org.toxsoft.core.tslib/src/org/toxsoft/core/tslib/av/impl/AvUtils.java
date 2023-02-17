@@ -5,19 +5,17 @@ import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 
 import java.util.*;
 
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.errors.AvTypeCastRtException;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
-import org.toxsoft.core.tslib.bricks.strio.IStrioReader;
-import org.toxsoft.core.tslib.bricks.strio.StrioRtException;
-import org.toxsoft.core.tslib.bricks.strio.chario.impl.CharInputStreamString;
-import org.toxsoft.core.tslib.bricks.strio.impl.StrioReader;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.errors.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.bricks.strio.chario.impl.*;
+import org.toxsoft.core.tslib.bricks.strio.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
+import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
  * Helper methods and constants to work with the atomic values.
@@ -180,8 +178,8 @@ public class AvUtils {
    * Если aFormatString равен null, то возвращает стандартное представление методом {@link IAtomicValue#asString()}. Во
    * всех остальных случаях возвращается строка, отформатировання методом {@link AvUtils#printAv(String, IAtomicValue)}.
    * <p>
-   * FIXME for {@link EAtomicType#VALOBJ} uses {@link Object#toString()} but for {@link IStridable}
-   * {@link StridUtils#pe}
+   * TODO for {@link EAtomicType#VALOBJ} uses {@link Object#toString()} but for {@link IStridable}
+   * {@link StridUtils#printf(String, IStridable)}
    *
    * @param aFormatString String - форматирующая строка, может быть null
    * @param aValue {@link IAtomicValue} - значение отображаемого данного, может быть null
