@@ -8,10 +8,10 @@ import org.toxsoft.core.tslib.bricks.ctx.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Реализация {@link ITsContextRefDef}.
+ * {@link ITsContextRefDef} implementation.
  *
  * @author hazard157
- * @param <T> - класс ссылки
+ * @param <T> - the reference type
  */
 public class TsContextRefDef<T>
     implements ITsContextRefDef<T> {

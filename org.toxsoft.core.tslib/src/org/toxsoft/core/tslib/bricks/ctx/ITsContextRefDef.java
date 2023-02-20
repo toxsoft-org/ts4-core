@@ -6,7 +6,7 @@ import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Описание ссылки в контексте приложения (или в любом другом контексте, например, {@link ITsContext}).
+ * The meta-information about reference in the context {@link ITsContext}.
  *
  * @author hazard157
  * @param <T> - the reference type
