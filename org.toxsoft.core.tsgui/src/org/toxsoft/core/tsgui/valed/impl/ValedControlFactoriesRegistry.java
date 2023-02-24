@@ -71,6 +71,7 @@ public class ValedControlFactoriesRegistry
     registerFactory( ValedAvValobjTsBorderInfo.FACTORY );
 
     registerFactory( ValedAvValobjTsFillInfo.FACTORY );
+    registerFactory( ValedOptionSet.FACTORY );
 
   }
 
