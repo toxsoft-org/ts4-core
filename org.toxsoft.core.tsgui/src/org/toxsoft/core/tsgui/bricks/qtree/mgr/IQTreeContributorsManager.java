@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Not all kinds of nodes may have contributions, most of them have no such capabilities<br>
  * This manager does not defines how node contributors and action prividers are used
  * <p>
- * There may my several different manager in the applications for several different QTrees.
+ * There may my several different managers in the applications for several different QTrees.
  *
  * @author hazard157
  */

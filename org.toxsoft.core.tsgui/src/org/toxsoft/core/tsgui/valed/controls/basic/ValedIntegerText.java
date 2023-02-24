@@ -22,7 +22,7 @@ public class ValedIntegerText
   /**
    * The factory name.
    */
-  public static final String FACTORY_NAME = VALED_OPID_PREFIX + ".ValedAvIntText"; //$NON-NLS-1$
+  public static final String FACTORY_NAME = VALED_EDNAME_PREFIX + ".ValedAvIntText"; //$NON-NLS-1$
 
   /**
    * The factory class.
@@ -59,8 +59,6 @@ public class ValedIntegerText
    *
    * @param aContext {@link ITsGuiContext} - the editor context
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsItemNotFoundRtException context does not contains mandatory information
-   * @throws TsIllegalArgumentRtException <code>enum</code> does not contains any constant
    */
   public ValedIntegerText( ITsGuiContext aContext ) {
     super( aContext );

@@ -28,7 +28,7 @@ public interface IGenericEntityEditPanel<T>
   T getEntity();
 
   /**
-   * Detemines if panel content allows to return valid edited entity.
+   * Determines if panel content allows to return valid edited entity.
    * <p>
    * If method returns {@link EValidationResultType#ERROR} then {@link #getEntity()} will throw the exception. However
    * if this method succeeds {@link #getEntity()} may still throw an exception. This method just checks if each data in

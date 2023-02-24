@@ -48,7 +48,7 @@ public sealed interface IQNode
   /**
    * Returns the supplementary node data.
    * <p>
-   * Note difference between {@link #tsContext()} and {@link #nodeData()}. First if single context of whole tree and
+   * Note difference between {@link #tsContext()} and {@link #nodeData()}. First is the single context of whole tree and
    * second is some storage that may freely be used by the application. However default implementation of
    * {@link AbstractQNode} uses corresponding options (as in {@link IAvMetaConstants}) to store values of
    * {@link #nmName()}, {@link #description()} and {@link #iconId()}.
