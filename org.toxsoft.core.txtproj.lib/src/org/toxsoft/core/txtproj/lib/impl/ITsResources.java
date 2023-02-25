@@ -21,7 +21,6 @@ interface ITsResources {
   String STR_D_APP_PROJ_FILE_VERSION = Messages.getString( "ITsResources.STR_D_APP_PROJ_FILE_VERSION" ); //$NON-NLS-1$
   String STR_N_APP_ID                = Messages.getString( "ITsResources.STR_N_APP_ID" );                //$NON-NLS-1$
   String STR_D_APP_ID                = Messages.getString( "ITsResources.STR_D_APP_ID" );                //$NON-NLS-1$
-  String FMT_ERR_NO_MANDATORY_PARAM  = Messages.getString( "ITsResources.FMT_ERR_NO_MANDATORY_PARAM" );  //$NON-NLS-1$
   String FMT_ERR_UNKNOWN_TS_FMT_VER  = Messages.getString( "ITsResources.FMT_ERR_UNKNOWN_TS_FMT_VER" );  //$NON-NLS-1$
 
 }

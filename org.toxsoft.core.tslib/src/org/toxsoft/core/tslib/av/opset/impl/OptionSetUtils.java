@@ -3,9 +3,14 @@ package org.toxsoft.core.tslib.av.opset.impl;
 import static org.toxsoft.core.tslib.av.opset.impl.ITsResources.*;
 
 import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.errors.*;
 import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -93,6 +98,57 @@ public class OptionSetUtils {
   public static void printOptionSet( IOptionSet aOpSet ) {
     TsNullArgumentRtException.checkNull( aOpSet );
     TsTestUtils.pl( " = " + humanReadable( aOpSet ) ); //$NON-NLS-1$
+  }
+
+  /**
+   * Check option set against list of option definitions.
+   * <p>
+   * The check includes the following steps:
+   * <ul>
+   * <li>check all mandatory {@link IDataDef#isMandatory()} options from <code>aOpDefs</code> has corresponding values
+   * in the option set <code>aOpValues</code>;</li>
+   * <li>check that all values for options from <code>aOpDefs</code> have type compatible to the definition.</li>
+   * </ul>
+   * Options in <code>aOpValues</code> without corresponding definitions in <code>aOpDefs</code> are not checked.
+   *
+   * @param aOpValues {@link IOptionSet} - option values
+   * @param aOpDefs {@link IStridablesList}&lt;{@link IDataDef}&gt; - optiondefinitions
+   * @return {@link ValidationResult} - the check result
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static ValidationResult validateOptionSet( IOptionSet aOpValues, IStridablesList<IDataDef> aOpDefs ) {
+    TsNullArgumentRtException.checkNulls( aOpValues, aOpDefs );
+    // check mandatory option present
+    for( IDataDef dd : aOpDefs ) {
+      if( dd.isMandatory() && !aOpValues.hasKey( dd.id() ) ) {
+        return ValidationResult.error( FMT_ERR_NO_MANDATORY_OP, dd.id(), dd.nmName() );
+      }
+    }
+    // check option values against defined types
+    for( IDataDef dd : aOpDefs ) {
+      if( aOpValues.hasKey( dd.id() ) ) {
+        IAtomicValue opVal = aOpValues.getValue( dd.id() );
+        if( !AvTypeCastRtException.canAssign( dd.atomicType(), opVal.atomicType() ) ) {
+          return ValidationResult.error( FMT_ERR_OP_TYPE_MISMATCH, dd.id(), dd.atomicType().id(),
+              opVal.atomicType().id() );
+        }
+      }
+    }
+    return ValidationResult.SUCCESS;
+  }
+
+  /**
+   * Check option set against list of option definitions and throws an exception on error.
+   * <p>
+   * The method {@link #validateOptionSet(IOptionSet, IStridablesList)} is used for checking.
+   *
+   * @param aOpValues {@link IOptionSet} - option values
+   * @param aOpDefs {@link IStridablesList}&lt;{@link IDataDef}&gt; - optiondefinitions
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsValidationFailedRtException on error
+   */
+  public static void checkOptionSet( IOptionSet aOpValues, IStridablesList<IDataDef> aOpDefs ) {
+    TsValidationFailedRtException.checkError( validateOptionSet( aOpValues, aOpDefs ) );
   }
 
   // ------------------------------------------------------------------------------------

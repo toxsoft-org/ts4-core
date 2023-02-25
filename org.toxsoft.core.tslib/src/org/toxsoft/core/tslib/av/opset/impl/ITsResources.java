@@ -5,23 +5,19 @@ package org.toxsoft.core.tslib.av.opset.impl;
  *
  * @author hazard157
  */
-@SuppressWarnings( "nls" )
 interface ITsResources {
 
-  // ------------------------------------------------------------------------------------
-  // en.EN
-  //
+  /**
+   * {@link AbstractOptionsGetter}
+   */
+  String FMT_ERR_CANT_CAST_OPSET_VALUE = Messages.getString( "FMT_ERR_CANT_CAST_OPSET_VALUE" ); //$NON-NLS-1$
 
-  String FMT_ERR_CANT_CAST_OPSET_VALUE           = "Option %s: value type %s is not convertable to %s";
-  String FMT_ERR_INV_OPSET_CREATION_NAME_VARARG  = "Parameter #%d must be String or IStridable";
-  String FMT_ERR_INV_OPSET_CREATION_VALUE_VARARG = "Parameter #%d must be convertable to IAtomicValue";
-
-  // ------------------------------------------------------------------------------------
-  // ru.RU
-  //
-
-  // String FMT_ERR_CANT_CAST_OPSET_VALUE = "Опция %s: тип значения %s и тип опции %s несовместимы";
-  // String FMT_ERR_INV_OPSET_CREATION_NAME_VARARG = "Параметр #%d должен быть String или IStridable";
-  // String FMT_ERR_INV_OPSET_CREATION_VALUE_VARARG = "Параметр #%d должен быть IAtomicValue";
+  /**
+   * {@link OptionSetUtils}
+   */
+  String FMT_ERR_NO_MANDATORY_OP                 = Messages.getString( "FMT_ERR_NO_MANDATORY_OP" );                 //$NON-NLS-1$
+  String FMT_ERR_OP_TYPE_MISMATCH                = Messages.getString( "FMT_ERR_OP_TYPE_MISMATCH" );                //$NON-NLS-1$
+  String FMT_ERR_INV_OPSET_CREATION_NAME_VARARG  = Messages.getString( "FMT_ERR_INV_OPSET_CREATION_NAME_VARARG" );  //$NON-NLS-1$
+  String FMT_ERR_INV_OPSET_CREATION_VALUE_VARARG = Messages.getString( "FMT_ERR_INV_OPSET_CREATION_VALUE_VARARG" ); //$NON-NLS-1$
 
 }

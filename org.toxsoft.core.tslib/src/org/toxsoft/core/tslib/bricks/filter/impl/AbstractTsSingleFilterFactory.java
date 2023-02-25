@@ -1,14 +1,14 @@
 package org.toxsoft.core.tslib.bricks.filter.impl;
 
-import static org.toxsoft.core.tslib.bricks.filter.impl.ITsResources.*;
 import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
-import org.toxsoft.core.tslib.av.metainfo.IDataDef;
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.filter.*;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesListEdit;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.StridablesList;
-import org.toxsoft.core.tslib.bricks.strid.impl.Stridable;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -68,13 +68,7 @@ public abstract class AbstractTsSingleFilterFactory<T>
   @Override
   public ITsFilter<T> create( ITsSingleFilterParams aFilterParams ) {
     TsNullArgumentRtException.checkNull( aFilterParams );
-    for( IDataDef opInfo : paramDefs ) {
-      if( opInfo.isMandatory() ) {
-        if( !aFilterParams.params().hasValue( opInfo ) ) {
-          throw new TsItemNotFoundRtException( FMT_ERR_NO_MANDATORY_PARAM, id(), opInfo.id() );
-        }
-      }
-    }
+    OptionSetUtils.checkOptionSet( aFilterParams.params(), paramDefs );
     ITsFilter<T> f = doCreateFilter( aFilterParams.params() );
     TsInternalErrorRtException.checkNull( f );
     return f;

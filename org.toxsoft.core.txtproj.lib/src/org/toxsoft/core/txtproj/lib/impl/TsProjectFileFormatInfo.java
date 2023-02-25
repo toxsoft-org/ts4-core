@@ -5,16 +5,16 @@ import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import static org.toxsoft.core.txtproj.lib.impl.ITsResources.*;
 
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.impl.DataDef;
-import org.toxsoft.core.tslib.av.metainfo.IDataDef;
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.av.opset.IOptionSetEdit;
-import org.toxsoft.core.tslib.av.opset.impl.OptionSet;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 // TODO TRANSLATE
 
@@ -66,11 +66,11 @@ public final class TsProjectFileFormatInfo {
       TSID_IS_MANDATORY, AV_TRUE //
   );
 
-  private static final IDataDef[] ALL_PARAM_INFOES = { //
+  private static final IStridablesList<IDataDef> ALL_PARAM_INFOES = new StridablesList<>( //
       TS_PROJ_FILE_VERSION, //
       APP_PROJ_FILE_VERSION, //
       APP_ID //
-  };
+  );
 
   final IOptionSetEdit params = new OptionSet();
 
@@ -92,13 +92,7 @@ public final class TsProjectFileFormatInfo {
   @SuppressWarnings( "boxing" )
   TsProjectFileFormatInfo( IOptionSet aParams ) {
     params.addAll( aParams );
-    for( IDataDef pInfo : ALL_PARAM_INFOES ) {
-      if( pInfo.isMandatory() ) {
-        if( !aParams.hasValue( pInfo ) ) {
-          throw new TsIllegalArgumentRtException( FMT_ERR_NO_MANDATORY_PARAM, pInfo.id() );
-        }
-      }
-    }
+    OptionSetUtils.checkOptionSet( params, ALL_DDEFS );
     StridUtils.checkValidIdPath( APP_ID.getValue( params ).asString() );
     int tsFmtVer = TS_PROJ_FILE_VERSION.getValue( params ).asInt();
     if( tsFmtVer < MIN_TS_FILE_FORMAT_VERSION || tsFmtVer > CURRENT_TS_FILE_FORMAT_VERSION ) {
