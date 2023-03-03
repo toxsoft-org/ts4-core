@@ -1,20 +1,19 @@
 package org.toxsoft.core.tslib.bricks.strid.coll.impl;
 
-import java.util.Collection;
+import java.util.*;
 
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesListBasicEdit;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesListEdit;
-import org.toxsoft.core.tslib.bricks.strid.coll.notifier.INotifierStridablesListEdit;
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.coll.helpers.ECrudOp;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.notifier.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.helpers.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Оболочка над списком {@link IStridablesListBasicEdit} с извещением об изменениях при редактировании.
+ * Wraps over {@link IStridablesListBasicEdit} with notification and validation added.
  *
  * @author hazard157
- * @param <E> - тип хранимых элементов
+ * @param <E> - concrete type of {@link IStridable} elements
  */
 public class NotifierStridablesListEditWrapper<E extends IStridable>
     extends NotifierStridablesListBasicEditWrapper<E>
@@ -33,7 +32,7 @@ public class NotifierStridablesListEditWrapper<E extends IStridable>
   }
 
   // ------------------------------------------------------------------------------------
-  // Внутренние методы
+  // implementation
   //
 
   IStridablesListEdit<E> source() {

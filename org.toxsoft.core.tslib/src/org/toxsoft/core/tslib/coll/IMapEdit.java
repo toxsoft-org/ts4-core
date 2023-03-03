@@ -1,7 +1,7 @@
 package org.toxsoft.core.tslib.coll;
 
-import org.toxsoft.core.tslib.coll.basis.ITsClearable;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * An editable extension of the {@link IMap} collection that maps keys to values.
@@ -35,7 +35,7 @@ public interface IMapEdit<K, E>
   E removeByKey( K aKey );
 
   // ------------------------------------------------------------------------------------
-  // Convinience methods with default implementations
+  // Convenience methods with default implementations
   //
 
   /**

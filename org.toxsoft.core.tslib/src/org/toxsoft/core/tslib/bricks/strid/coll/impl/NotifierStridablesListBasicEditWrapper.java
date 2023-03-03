@@ -12,6 +12,7 @@ import org.toxsoft.core.tslib.bricks.strid.coll.notifier.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.coll.helpers.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.notifier.basis.*;
@@ -20,10 +21,10 @@ import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Оболочка над списком {@link IStridablesListBasicEdit} с извещением об изменениях при редактировании.
+ * Wraps {@link IStridablesListBasicEdit} with notification and validation added.
  *
  * @author hazard157
- * @param <E> - тип хранимых элементов
+ * @param <E> - concrete type of {@link IStridable} elements
  */
 public class NotifierStridablesListBasicEditWrapper<E extends IStridable>
     implements INotifierStridablesListBasicEdit<E>, Serializable {
@@ -31,45 +32,43 @@ public class NotifierStridablesListBasicEditWrapper<E extends IStridable>
   private static final long serialVersionUID = 157157L;
 
   /**
-   * Список слушателей изменений.
+   * The listeners list.
    */
   private final IListEdit<ITsCollectionChangeListener> listeners = new ElemArrayList<>();
 
   /**
-   * Валидатор изменении в ассоциативной коллекции.
+   * The map validation support.
    */
   private final TsMapValidatorsList<String, E> mapValidator = new TsMapValidatorsList<>();
 
   /**
-   * Валидатор изменении в линейнео коллекции.
+   * The list validation support.
    */
   private final TsListValidatorsList<E> listValidator = new TsListValidatorsList<>();
 
   /**
-   * Признак работы валидатора.
+   * The flag that validation is enabled.
    */
   private boolean validationEnabled = true;
 
   /**
-   * Признак изменения состава элементов после последнего вызова {@link #resetPendingEvents()}.
+   * Flags that elements list has been changed since last call to {@link #resetPendingEvents()}.
    */
   private boolean eventsArePending = false;
 
   /**
-   * Признак, режима пакетных изменений.
-   * <p>
-   * Устанавливается в состояние <code>true</code> при вызове {@link #pauseFiring()} и сбрасывается при вызове
-   * {@link #resumeFiring(boolean)}.
+   * Flags that event firing is paused.
    */
   private boolean firingPaused = false;
 
   /**
-   * Признак, что были изменения в период между {@link #pauseFiring()} и {@link #resumeFiring(boolean)}.
+   * Flags that there were changes between calls to the methods {@link #pauseFiring()} and
+   * {@link #resumeFiring(boolean)}.
    */
   private boolean wasChangesWhilePaused = false;
 
   /**
-   * Список, который "оборачивается" настоящим классом.
+   * The wrapped list.
    */
   protected final IStridablesListBasicEdit<E> source;
 
@@ -84,7 +83,7 @@ public class NotifierStridablesListBasicEditWrapper<E extends IStridable>
   }
 
   // ------------------------------------------------------------------------------------
-  // Внутренные методы
+  // implementation
   //
 
   protected void fireChangedEvent( ECrudOp aOp, Object aItem ) {
@@ -304,6 +303,208 @@ public class NotifierStridablesListBasicEditWrapper<E extends IStridable>
   }
 
   // ------------------------------------------------------------------------------------
+  // ITsCollectionEdit
+  //
+
+  @Override
+  public void removeRangeByIndex( int aIndex, int aCount ) {
+    TsIllegalArgumentRtException.checkTrue( aIndex < 0 || aCount < 0 );
+    TsIllegalArgumentRtException.checkFalse( aIndex >= size() );
+    if( aCount == 0 ) {
+      return;
+    }
+    TsIllegalArgumentRtException.checkFalse( aIndex + aCount >= size() );
+    boolean alreadyPaused = isFiringPaused();
+    if( !alreadyPaused ) {
+      pauseFiring();
+    }
+    try {
+      for( int i = 0; i < aCount; i++ ) {
+        removeByIndex( aIndex );
+      }
+    }
+    finally {
+      if( !alreadyPaused ) {
+        resumeFiring( true );
+      }
+    }
+  }
+
+  @Override
+  public void addAll( @SuppressWarnings( "unchecked" ) E... aArray ) {
+    TsErrorUtils.checkArrayArg( aArray );
+    boolean alreadyPaused = isFiringPaused();
+    if( !alreadyPaused ) {
+      pauseFiring();
+    }
+    try {
+      for( int i = 0; i < aArray.length; i++ ) {
+        add( aArray[i] );
+      }
+    }
+    finally {
+      if( !alreadyPaused ) {
+        resumeFiring( true );
+      }
+    }
+  }
+
+  @Override
+  public void addAll( ITsCollection<E> aColl ) {
+    TsNullArgumentRtException.checkNull( aColl );
+    boolean alreadyPaused = isFiringPaused();
+    if( !alreadyPaused ) {
+      pauseFiring();
+    }
+    try {
+      if( aColl instanceof ITsFastIndexListTag ) {
+        @SuppressWarnings( { "rawtypes", "unchecked" } )
+        ITsFastIndexListTag<E> ll = (ITsFastIndexListTag)aColl;
+        for( int i = 0, count = ll.size(); i < count; i++ ) {
+          add( ll.get( i ) );
+        }
+      }
+      else {
+        for( E e : aColl ) {
+          add( e );
+        }
+      }
+    }
+    finally {
+      if( !alreadyPaused ) {
+        resumeFiring( true );
+      }
+    }
+  }
+
+  @Override
+  public void addAll( Collection<E> aColl ) {
+    TsNullArgumentRtException.checkNull( aColl );
+    for( E e : aColl ) { // for atomic error recovery check for nulls before really make changes in collection
+      TsNullArgumentRtException.checkNull( e );
+    }
+    boolean alreadyPaused = isFiringPaused();
+    if( !alreadyPaused ) {
+      pauseFiring();
+    }
+    try {
+      for( E e : aColl ) {
+        add( e );
+      }
+    }
+    finally {
+      if( !alreadyPaused ) {
+        resumeFiring( true );
+      }
+    }
+  }
+
+  @Override
+  public void setAll( ITsCollection<E> aColl ) {
+    TsNullArgumentRtException.checkNull( aColl );
+    boolean alreadyPaused = isFiringPaused();
+    if( !alreadyPaused ) {
+      pauseFiring();
+    }
+    try {
+      clear();
+      addAll( aColl );
+    }
+    finally {
+      if( !alreadyPaused ) {
+        resumeFiring( true );
+      }
+    }
+  }
+
+  @Override
+  public void setAll( Collection<E> aColl ) {
+    TsNullArgumentRtException.checkNull( aColl );
+    for( E e : aColl ) { // for atomic error recovery check for nulls before really make changes in collection
+      TsNullArgumentRtException.checkNull( e );
+    }
+    boolean alreadyPaused = isFiringPaused();
+    if( !alreadyPaused ) {
+      pauseFiring();
+    }
+    try {
+      clear();
+      for( E e : aColl ) {
+        add( e );
+      }
+    }
+    finally {
+      if( !alreadyPaused ) {
+        resumeFiring( true );
+      }
+    }
+  }
+
+  @Override
+  @SuppressWarnings( "unchecked" )
+  public void setAll( E... aArray ) {
+    TsErrorUtils.checkArrayArg( aArray );
+    boolean alreadyPaused = isFiringPaused();
+    if( !alreadyPaused ) {
+      pauseFiring();
+    }
+    try {
+      clear();
+      for( int i = 0; i < aArray.length; i++ ) {
+        add( aArray[i] );
+      }
+    }
+    finally {
+      if( !alreadyPaused ) {
+        resumeFiring( true );
+      }
+    }
+  }
+
+  // ------------------------------------------------------------------------------------
+  // IMapEdit
+  //
+
+  @Override
+  public void putAll( IMap<String, ? extends E> aSrc ) {
+    TsNullArgumentRtException.checkNull( aSrc );
+    IList<String> srcIds = aSrc.keys();
+    IList<? extends E> srcValues = aSrc.values();
+    boolean alreadyPaused = isFiringPaused();
+    if( !alreadyPaused ) {
+      pauseFiring();
+    }
+    try {
+      for( int i = 0, n = srcIds.size(); i < n; i++ ) {
+        put( srcIds.get( i ), srcValues.get( i ) );
+      }
+    }
+    finally {
+      if( !alreadyPaused ) {
+        resumeFiring( true );
+      }
+    }
+  }
+
+  @Override
+  public void setAll( IMap<String, ? extends E> aSrc ) {
+    TsNullArgumentRtException.checkNull( aSrc );
+    boolean alreadyPaused = isFiringPaused();
+    if( !alreadyPaused ) {
+      pauseFiring();
+    }
+    try {
+      clear();
+      putAll( aSrc );
+    }
+    finally {
+      if( !alreadyPaused ) {
+        resumeFiring( true );
+      }
+    }
+  }
+
+  // ------------------------------------------------------------------------------------
   // IStringMapEdit
   //
 
@@ -333,6 +534,16 @@ public class NotifierStridablesListBasicEditWrapper<E extends IStridable>
       fireChangedEvent( ECrudOp.REMOVE, e.id() );
     }
     return e;
+  }
+
+  @Override
+  public void putAll( IStringMap<? extends E> aSrc ) {
+    putAll( (IMap<String, ? extends E>)aSrc );
+  }
+
+  @Override
+  public void setAll( IStringMap<? extends E> aSrc ) {
+    setAll( (IMap<String, ? extends E>)aSrc );
   }
 
   // ------------------------------------------------------------------------------------
@@ -491,16 +702,17 @@ public class NotifierStridablesListBasicEditWrapper<E extends IStridable>
   }
 
   /**
-   * Логику работы приближаем к "естественному" пониманию.<br>
+   * We bring the logic closer to the "natural" understanding.<br>
    * <ul>
-   * <li>Если на месте aIndex находится элемент с ключом aNewItem.id(), то все естественно и понятно, соответствует
-   * doCanPut( aNewItem.id(), pointedItem, aNewItem );</li>
-   * <li>Если существующий элемент имеет другой ключ, и в списке нет элемента с ключом aNewItem.id(), то эта ситуация
-   * также понятна, и соответствует doCanPut( aNewItem.id(), null, aNewItem );</li>
-   * <li>Проблема, если не на месте aIndex существует элемент с идентификатором aNewItem.id(). Какой из этих двух
-   * элементов (в позиции aIndex или с ключом aNewItem.id()) следует заменить? Считаем, что пользователь хочет заменить
-   * pointedItem, но существует элемент с таким идентификатором. Это не соответствует ни одному методу валидаторов
-   * IXxxCollectionChangeValidator, поэтому ошибку веренм тут же.</li>
+   * <li>If in place of <code>aIndex</code> there is an element with the key <code>aNewItem.id()</code>, then everything
+   * is natural and understandable, corresponds to <code>doCanPut( aNewItem.id(), pointedItem, aNewItem )</code>;</li>
+   * <li>If an existing item has a different key, and there is no item in the list with the key
+   * <code>aNewItem.id()</code>, then this situation is also understandable, and corresponds to
+   * <code>doCanPut( aNewItem.id(), null, aNewItem )</code>;</li>
+   * <li>Problem if there is an element with an ID <code>aNewItem.id()</code> not in place of aIndex. Which of these two
+   * elements (at position aIndex or with key <code>aNewItem.id()</code>) should be replaced? We assume that the user
+   * wants to replace pointedItem, but there is an element with that ID. This doesn't match any validators method
+   * IXxxCollectionChangeValidator, so we return the error.</li>
    * </ul>
    */
   @Override
