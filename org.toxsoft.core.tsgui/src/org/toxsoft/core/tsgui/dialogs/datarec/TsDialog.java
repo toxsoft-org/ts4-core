@@ -11,6 +11,7 @@ import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.dialogs.*;
+import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
@@ -53,7 +54,7 @@ public class TsDialog<T, E>
   // TODO TRANSLATE
 
   /**
-   * Window windget implementation.
+   * Window widget implementation.
    *
    * @author hazard157
    */
@@ -163,10 +164,19 @@ public class TsDialog<T, E>
       //
       getShell().setText( dialogInfo.caption() );
       setTitle( dialogInfo.title() );
+
       // create content widget
-      Composite area = (Composite)super.createDialogArea( aParent );
-      Composite container = new Composite( area, SWT.NONE );
-      container.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+      // GOGA 2023-02-24 remove unnecessary composite
+      // OLD code
+      // Composite area = (Composite)super.createDialogArea( aParent );
+      // Composite container = new Composite( area, SWT.NONE );
+      // container.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+      // NEW code
+      Composite container = new Composite( aParent, SWT.NONE );
+      container.setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true ) );
+      container.setBackground( colorManager().getColor( ETsColor.RED ) );
+      // ---
+
       container.setLayout( new BorderLayout() );
       contentPanel = panelCreator.createDialogPanel( container, TsDialog.this );
       contentPanel.setLayoutData( BorderLayout.CENTER );
