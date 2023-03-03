@@ -2,15 +2,14 @@ package org.toxsoft.core.tslib.bricks.filter.std.paramed;
 
 import static org.toxsoft.core.tslib.bricks.filter.std.IStdTsFiltersConstants.*;
 
-import org.toxsoft.core.tslib.av.IAtomicValue;
+import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.math.*;
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.av.utils.IParameterized;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.bricks.filter.*;
 import org.toxsoft.core.tslib.bricks.filter.impl.*;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Фильтр сравнения одного из опции {@link IParameterized#params()} с константой.
@@ -27,12 +26,12 @@ public final class StdFilterOptionVsConst
     implements ITsFilter<IParameterized> {
 
   /**
-   * Идентификатор типа фильтра {@link ITsSingleFilterFactory#id()},
+   * The filter type ID {@link ITsSingleFilterFactory#id()},
    */
   public static final String TYPE_ID = STD_FILTERID_ID_PREFIX + ".OptionVsConst"; //$NON-NLS-1$
 
   /**
-   * Фабрика создания фильтра из значений параметров.
+   * Filter factory, an {@link ITsSingleFilterFactory} implementation.
    */
   public static final ITsSingleFilterFactory<IParameterized> FACTORY =
       new AbstractTsSingleFilterFactory<>( TYPE_ID, IParameterized.class ) {
@@ -56,13 +55,13 @@ public final class StdFilterOptionVsConst
   private final IAtomicValue constant;
 
   /**
-   * Конструктор.
+   * Constructor.
    *
-   * @param aOptionId String - идентификатор (ИД-путь) проверяемой опции
-   * @param aOp {@link EAvCompareOp} - способ сравнения
-   * @param aConst {@link IAtomicValue} - константа для сравнения
-   * @throws TsNullArgumentRtException любой аргумент = null
-   * @throws TsIllegalArgumentRtException идентификатор не ИД-путь
+   * @param aOptionId String - the checked option ID (an IDpath)
+   * @param aOp {@link EAvCompareOp} - the comparison method
+   * @param aConst {@link IAtomicValue} - the constant to compare to
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException ID is not an IDpath
    */
   public StdFilterOptionVsConst( String aOptionId, EAvCompareOp aOp, IAtomicValue aConst ) {
     TsNullArgumentRtException.checkNulls( aOp, aConst );
@@ -72,25 +71,24 @@ public final class StdFilterOptionVsConst
   }
 
   /**
-   * Создает набор параметров {@link ITsCombiFilterParams} для создания фильтра фабрикой {@link #FACTORY}.
+   * Makes the parameters {@link ITsCombiFilterParams} to create filter using {@link #FACTORY}.
    *
-   * @param aOptionId String - идентификатор (ИД-путь) проверяемой опции
-   * @param aOp {@link EAvCompareOp} - способ сравнения
-   * @param aConst {@link IAtomicValue} - константа для сравнения
-   * @return {@link ITsCombiFilterParams} - параметры для создания фильтра фабрикой
-   * @throws TsNullArgumentRtException любой аргумент = null
-   * @throws TsIllegalArgumentRtException идентификатор не ИД-путь
+   * @param aOptionId String - the checked option ID (an IDpath)
+   * @param aOp {@link EAvCompareOp} - the comparison method
+   * @param aConst {@link IAtomicValue} - the constant to compare to
+   * @return {@link ITsCombiFilterParams} - parameters to create the filter
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException ID is not an IDpath
    */
   public static ITsCombiFilterParams makeFilterParams( String aOptionId, EAvCompareOp aOp, IAtomicValue aConst ) {
     StridUtils.checkValidIdPath( aOptionId );
     TsNullArgumentRtException.checkNulls( aOp, aConst );
-    ITsSingleFilterParams sp = TsSingleFilterParams.create( TYPE_ID, //
+    ITsSingleFilterParams spf = TsSingleFilterParams.create( TYPE_ID, //
         PID_OPTION_ID, aOptionId, //
         PID_OP, aOp.id(), //
         PID_CONSTANT, aConst //
     );
-    ITsCombiFilterParams p = TsCombiFilterParams.createSingle( sp );
-    return p;
+    return TsCombiFilterParams.createSingle( spf );
   }
 
   // ------------------------------------------------------------------------------------

@@ -1,8 +1,8 @@
 package org.toxsoft.core.tslib.bricks.filter;
 
-import org.toxsoft.core.tslib.av.metainfo.IDataDef;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -15,7 +15,7 @@ public interface ITsSingleFilterFactory<T>
     extends IStridable {
 
   /**
-   * Returns decription of the filter parameters.
+   * Returns description of the filter parameters.
    * <p>
    * This is optional method and it may return empty set event if filter has parameters.
    * <p>
@@ -31,12 +31,12 @@ public interface ITsSingleFilterFactory<T>
    * <p>
    * Filters must allow objects of returned class or its descendants.
    *
-   * @return {@link Class}&lt;T&gt; - accpeted objects class
+   * @return {@link Class}&lt;T&gt; - accepted objects class
    */
   Class<T> objectClass();
 
   /**
-   * Creates filter instance baseod on filter parameters.
+   * Creates filter instance based on filter parameters.
    *
    * @param aFilterParams {@link ITsSingleFilterParams} - filter parameters
    * @return {@link ITsFilter} - created filter

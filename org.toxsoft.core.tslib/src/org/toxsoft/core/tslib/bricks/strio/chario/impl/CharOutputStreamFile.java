@@ -57,7 +57,7 @@ public class CharOutputStreamFile
   }
 
   // ------------------------------------------------------------------------------------
-  // Interface ICloseable
+  // ICloseable
   //
 
   @Override

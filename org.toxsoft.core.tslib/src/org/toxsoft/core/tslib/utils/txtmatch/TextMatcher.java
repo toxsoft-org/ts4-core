@@ -7,6 +7,8 @@ import org.toxsoft.core.tslib.bricks.filter.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
+// TODO TRANSLATE
+
 /**
  * Вспомогательный класс для реализации алгоритмов сравнения {@link ETextMatchMode}.
  * <p>
@@ -27,11 +29,12 @@ public final class TextMatcher
   private final Pattern        pattern;
 
   /**
-   * Создает сравниватель со всеми инвариантами.
+   * Constructor.
    *
-   * @param aMatchMode {@link ETextMatchMode} - режим сравнения
-   * @param aConstString String - константная строка, с которой происходит сравнение исходной строки
-   * @param aCaseSensitive boolean - признак проверки с учетом регистра
+   * @param aMatchMode {@link ETextMatchMode} - the string comparison (matching) mode
+   * @param aConstString String - the string constant to compare to
+   * @param aCaseSensitive boolean - the case sensitivity flag during comparison
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public TextMatcher( ETextMatchMode aMatchMode, String aConstString, boolean aCaseSensitive ) {
     TsNullArgumentRtException.checkNulls( aMatchMode, aConstString );
@@ -73,66 +76,66 @@ public final class TextMatcher
   //
 
   /**
-   * Возвращает режим сравнения текста.
+   * Returns the text matching mode (the comparison method).
    *
-   * @return {@link ETextMatchMode} - режим сравнения текста
+   * @return {@link ETextMatchMode} - the matching mode
    */
   public ETextMatchMode matchMode() {
     return matchMode;
   }
 
   /**
-   * Вовзращает константную строку, с которой происходит сравнение исходной строки.
+   * Returns the string constant used to compare accepted string to.
    *
-   * @return String - константная строка, с которой происходит сравнение исходной строки
+   * @return String - he string constant to compare to
    */
   public String constString() {
     return constString;
   }
 
   /**
-   * Возвращает признак проверки с учетом регистра.
+   * Returns a case-sensitive check flag.
    * <p>
-   * Некторые режимы сравнения (см. описания констант {@link ETextMatchMode}) могут происходить как с учетеом, так и без
-   * учета регистра символов. Этот признак дает знать, как происходят такие сравнение.
+   * Some comparison modes (see descriptions of {@link ETextMatchMode} constants) can occur both with and without
+   * case-sensitive characters. This feature lets you know how such comparisons occur.
    *
-   * @return boolean - признак проверки с учетом регистра
+   * @return boolean - the case sensitivity flag during comparison
    */
   public boolean isCaseSensitive() {
     return isCaseSensitive;
   }
 
   /**
-   * Осуществляет сравнение исходной строки с {@link #constString()} в режиме сравнения {@link #matchMode()}.
+   * Compares <code>aString</code> to the {@link #constString()} according to the {@link #matchMode()}.
    *
-   * @param aSourceString String - исходная строка
-   * @return boolean - результат срванения по правилам {@link ETextMatchMode}
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aString String - the string to compare
+   * @return boolean - the string matching flag according to {@link ETextMatchMode}
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public boolean match( String aSourceString ) {
-    if( aSourceString == null ) {
+  public boolean match( String aString ) {
+    if( aString == null ) {
       throw new TsNullArgumentRtException();
     }
     switch( matchMode ) {
       case EXACT:
-        return aSourceString.equals( constString );
+        return aString.equals( constString );
       case CONTAINS:
         if( isCaseSensitive ) {
-          return aSourceString.contains( constString );
+          return aString.contains( constString );
         }
-        return aSourceString.toLowerCase().contains( constStringLowerCase );
+        return aString.toLowerCase().contains( constStringLowerCase );
       case REGEXP:
-        return pattern.matcher( aSourceString ).matches();
+        return pattern.matcher( aString ).matches();
       case STARTS:
         if( isCaseSensitive ) {
-          return aSourceString.startsWith( constString );
+          return aString.startsWith( constString );
         }
-        return aSourceString.toLowerCase().startsWith( constStringLowerCase );
+        return aString.toLowerCase().startsWith( constStringLowerCase );
       case ENDS:
         if( isCaseSensitive ) {
-          return aSourceString.endsWith( constString );
+          return aString.endsWith( constString );
         }
-        return aSourceString.toLowerCase().endsWith( constStringLowerCase );
+        return aString.toLowerCase().endsWith( constStringLowerCase );
       default:
         throw new TsNotAllEnumsUsedRtException();
     }
@@ -148,7 +151,7 @@ public final class TextMatcher
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация методов класса Object
+  // Object
   //
 
   @SuppressWarnings( "nls" )

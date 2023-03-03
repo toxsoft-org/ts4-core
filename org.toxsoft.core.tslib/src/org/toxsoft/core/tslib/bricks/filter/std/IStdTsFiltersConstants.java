@@ -1,13 +1,17 @@
 package org.toxsoft.core.tslib.bricks.filter.std;
 
-import org.toxsoft.core.tslib.ITsHardConstants;
-import org.toxsoft.core.tslib.bricks.filter.ITsSingleFilterFactory;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesListEdit;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.StridablesList;
+import org.toxsoft.core.tslib.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.utils.*;
+import org.toxsoft.core.tslib.bricks.filter.*;
+import org.toxsoft.core.tslib.bricks.filter.std.av.*;
+import org.toxsoft.core.tslib.bricks.filter.std.paramed.*;
+import org.toxsoft.core.tslib.bricks.filter.std.string.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 
 /**
- * Персистентные константы стандартных фильтров.
+ * Standard (built in tslib) filters constants.
  *
  * @author hazard157
  */
@@ -15,20 +19,29 @@ import org.toxsoft.core.tslib.bricks.strid.coll.impl.StridablesList;
 public interface IStdTsFiltersConstants {
 
   /**
-   * Префикс (ИД-путь) идентификаторов стандартных фильтров.
+   * Standard filter type IDs prefix.
    */
   String STD_FILTERID_ID_PREFIX = ITsHardConstants.TS_ID + "filter.std";
 
   /**
-   * Возвращает список фабрик, известных в этом пакете.
-   *
-   * @return IStridablesList&lt;{@link ITsSingleFilterFactory}&gt; - список фабрик стандартных фильтров
+   * List of {@link String} objects filter factories declared in this package.
    */
-  default IStridablesList<ITsSingleFilterFactory<?>> listStandardFactories() {
-    IStridablesListEdit<ITsSingleFilterFactory<?>> ll = new StridablesList<>( //
+  IStridablesList<ITsSingleFilterFactory<String>> TS_STRING_FILTER_FACTORIES = new StridablesList<>( //
+      StdFilterStringMatcher.FACTORY //
+  );
 
-    );
-    return ll;
-  }
+  /**
+   * List of {@link IAtomicValue} objects filter factories declared in this package.
+   */
+  IStridablesList<ITsSingleFilterFactory<IAtomicValue>> TS_AV_FILTER_FACTORIES = new StridablesList<>( //
+      StdFilterAtimicValueVsConst.FACTORY //
+  );
+
+  /**
+   * List of {@link IParameterized} objects filter factories declared in this package.
+   */
+  IStridablesList<ITsSingleFilterFactory<IParameterized>> TS_PARAMETERIZED_FILTER_FACTORIES = new StridablesList<>( //
+      StdFilterOptionVsConst.FACTORY //
+  );
 
 }
