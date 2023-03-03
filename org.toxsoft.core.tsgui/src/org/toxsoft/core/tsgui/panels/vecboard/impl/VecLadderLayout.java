@@ -1,13 +1,12 @@
 package org.toxsoft.core.tsgui.panels.vecboard.impl;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.FontData;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.*;
+import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tsgui.graphics.EVerAlignment;
+import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.panels.vecboard.*;
-import org.toxsoft.core.tsgui.utils.layout.BorderLayout;
+import org.toxsoft.core.tsgui.utils.layout.*;
 
 /**
  * Реализация раскладки {@link IVecLadderLayout}.
@@ -84,14 +83,15 @@ public class VecLadderLayout
       }
       IVecLadderLayoutData ld = item.layoutData();
       // boolean isLastControl = (i == (n - 1));
-      if( !ld.isLabelShown() ) { // нет подписи - расположим во всю ширину строки
+      // no label, VALED has full width (2 columns)
+      if( !ld.isLabelShown() ) {
         Control c = item.cb().createControl( aParent );
         c.setLayoutData( gd( ld, true, spanHeight ) );
         c.setToolTipText( ld.tooltip() );
         continue;
       }
-      // отображение с подписью
-      if( ld.isFullWidthControl() ) { // подпись сверху - контроль ведь во всю ширину
+      // here we have to setup VALED with label
+      if( ld.isFullWidthControl() ) { // label -> north side, VALED -> south, full width (2 columns)
         Composite container = new Composite( aParent, SWT.NONE );
         container.setLayout( new BorderLayout() );
         Label l = new Label( container, SWT.LEFT );
@@ -103,7 +103,7 @@ public class VecLadderLayout
         c.setLayoutData( BorderLayout.CENTER );
         container.setLayoutData( gd( ld, true, spanHeight ) );
       }
-      else { // подпись слева - контроль справа
+      else { // label -> left, valed -> right side
         Label l = new Label( aParent, SWT.NONE );
         l.setText( ld.labelText() );
         l.setToolTipText( ld.tooltip() );
