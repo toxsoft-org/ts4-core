@@ -69,18 +69,22 @@ public class StdG2VisirRenderer
     aGc.setForeground( verticalLineColor );
     aGc.setLineWidth( verticalLineInfo.width() );
     aGc.drawLine( aBounds.x1() + aX, aBounds.y1(), aBounds.x1() + aX, aBounds.y2() );
-
-    drawBackground( aGc, aBounds.x1() + aX + 2, aBounds.y1() + aY, aVisirTime, aGraphics );
+    // dima 06.02.23 перемещаем подсказку в левую часть
+    TsPoint size = calcSize( aGc, aVisirTime, aGraphics );
+    int tipX = aBounds.x1() + aX - size.x() - 2;
+    // int tipX = aBounds.x1() + aX + 2; // вариант когда подсказка справа
+    // drawBackground( aGc, aBounds.x1() + aX + 2, aBounds.y1() + aY, aVisirTime, aGraphics );
+    drawBackground( aGc, tipX, aBounds.y1() + aY, aVisirTime, aGraphics );
 
     String timeStr = timeToString( aVisirTime );
     aGc.setForeground( colorBlack );
-    aGc.drawText( timeStr, aBounds.x1() + aX + 2 + margins.left(), aBounds.y1() + aY + margins.top(), true );
+    // aGc.drawText( timeStr, aBounds.x1() + aX + 2 + margins.left(), aBounds.y1() + aY + margins.top(), true );
+    aGc.drawText( timeStr, tipX + margins.left(), aBounds.y1() + aY + margins.top(), true );
 
     int y = aBounds.y1() + aY + 10 + aGc.textExtent( timeStr ).y + vertIndent;
-    int x = aBounds.x1() + aX + margins.left() + 2;
+    // int x = aBounds.x1() + aX + margins.left() + 2;
+    int x = tipX + margins.left();
 
-    // for( int i = aGraphics.size() - 1; i >= 0; i-- ) {
-    // IG2Graphic graph = aGraphics.get( i );
     for( IG2Graphic graph : aGraphics ) {
       if( graph.isVisible() ) {
         TsRectangle bounds = new TsRectangle( x, y, thumbW, itemH );

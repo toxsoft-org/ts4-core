@@ -2,12 +2,13 @@ package org.toxsoft.core.tslib.bricks.time.impl;
 
 import static org.toxsoft.core.tslib.coll.impl.TsCollectionsUtils.*;
 
-import java.io.*;
-import java.util.*;
+import java.io.Serializable;
+import java.util.Comparator;
 
 import org.toxsoft.core.tslib.bricks.time.*;
-import org.toxsoft.core.tslib.coll.basis.*;
-import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.IList;
+import org.toxsoft.core.tslib.coll.basis.ITsCollection;
+import org.toxsoft.core.tslib.coll.impl.SortedElemLinkedBundleListEx;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -135,17 +136,7 @@ public class TimedList<T extends ITimestampable>
     if( first().timestamp() > aTimestamp ) {
       return -1;
     }
-    // TODO OPTIMIZE переделать алогритм на двоичный поиск
-    for( int i = 0; i < count; i++ ) {
-      long t = get( i ).timestamp();
-      if( t == aTimestamp ) {
-        return i;
-      }
-      if( t > aTimestamp ) {
-        return i - 1;
-      }
-    }
-    throw new TsInternalErrorRtException(); // не должны оказаться здесь
+    return binarySearch( this, aTimestamp, true, true );
   }
 
   /**
@@ -172,14 +163,7 @@ public class TimedList<T extends ITimestampable>
     if( first().timestamp() > aTimestamp ) {
       return 0;
     }
-    // TODO OPTIMIZE переделать алогритм на двоичный поиск
-    for( int i = 0; i < count; i++ ) {
-      long t = get( i ).timestamp();
-      if( t >= aTimestamp ) {
-        return i;
-      }
-    }
-    throw new TsInternalErrorRtException(); // не должны оказаться здесь
+    return binarySearch( this, aTimestamp, true, false );
   }
 
   /**
@@ -207,14 +191,7 @@ public class TimedList<T extends ITimestampable>
     if( last().timestamp() < aTimestamp ) {
       return -1;
     }
-    // TODO OPTIMIZE переделать алогритм на двоичный поиск
-    for( int i = count - 1; i >= 0; i-- ) {
-      long t = get( i ).timestamp();
-      if( t <= aTimestamp ) {
-        return i;
-      }
-    }
-    throw new TsInternalErrorRtException(); // не должны оказаться здесь
+    return binarySearch( this, aTimestamp, false, true );
   }
 
   /**
@@ -241,17 +218,7 @@ public class TimedList<T extends ITimestampable>
     if( first().timestamp() > aTimestamp ) {
       return 0;
     }
-    // TODO OPTIMIZE переделать алогритм на двоичный поиск
-    for( int i = count - 1; i >= 0; i-- ) {
-      long t = get( i ).timestamp();
-      if( t == aTimestamp ) {
-        return i;
-      }
-      if( t < aTimestamp ) {
-        return i + 1;
-      }
-    }
-    throw new TsInternalErrorRtException(); // не должны оказаться здесь
+    return binarySearch( this, aTimestamp, false, false );
   }
 
   // ------------------------------------------------------------------------------------
@@ -396,4 +363,102 @@ public class TimedList<T extends ITimestampable>
     return add( aElem );
   }
 
+  /**
+   */
+
+  /**
+   * Проводит поиск элемента в списке с указанным временем.
+   * <p>
+   * aFirst = true, aBefore = true: если есть элемент(ы) с заданным временем, то возвращает индекс последнего из таких
+   * элементов, иначе возвращает индекс элемента слева от запрошенного времени.
+   * <p>
+   * aFirst = true, aBefore = false: если есть элемент(ы) с заданным временем, то возвращает индекс первого из таких
+   * элементов, иначе возвращает индекс элемента справа от запрошенного времени.
+   * <p>
+   * aFirst = false, aBefore = true: если есть элемент(ы) с заданным временем, то возвращает индекс первого из таких
+   * элементов, иначе возвращает индекс элемента слева от запрошенного времени.
+   * <p>
+   * aFirst = false, aBefore = false: если есть элемент(ы) с заданным временем, то возвращает индекс последнего из таких
+   * элементов, иначе возвращает индекс элемента справа от запрошенного времени.
+   *
+   * @param aList {@link IList} список элементов упорядочный по {@link ITimestampable#timestamp()}.
+   * @param aTimestamp long метка времени (мсек с начала эпохи) поиска элемента списка
+   * @param aFirst boolean <b>true</b> - поиск первого элемента с заданным временем.<br>
+   *          <b>false</b> - поиск последнего элемента с заданным временем.
+   * @param aBefore boolean <b>true</b> - поиск элемента с указанным временем или до него<br>
+   *          <b>false</b> - поиск элемента с указанным временем или после него.
+   * @return int индекс найденного элемента. < 0: не найден
+   * @param <T> тип элементов списка
+   */
+  private static <T extends ITimestampable> int binarySearch( IList<T> aList, long aTimestamp, boolean aFirst,
+      boolean aBefore ) {
+    int foundIndex = -1;
+    int low = 0;
+    int high = aList.size() - 1;
+    while( low <= high ) {
+      int mid = low + ((high - low) / 2);
+      long t = aList.get( mid ).timestamp();
+      if( t < aTimestamp ) {
+        low = mid + 1;
+      }
+      else
+        if( t > aTimestamp ) {
+          high = mid - 1;
+        }
+        else
+          if( t == aTimestamp ) {
+            foundIndex = mid;
+            break;
+          }
+    }
+    // Признак того, что найден элемент с указанной меткой
+    boolean wasFound = (foundIndex >= 0);
+
+    // aFirst = true, aBefore = true: если есть элемент(ы) с заданным временем, то возвращает индекс последнего из таких
+    // элементов, иначе возвращает индекс элемента слева от запрошенного времени.
+    if( aFirst && aBefore ) {
+      for( int i = (wasFound ? foundIndex + 1 : low); i <= high; i++ ) {
+        if( aTimestamp < aList.get( i ).timestamp() ) {
+          return (wasFound ? i - 1 : i);
+        }
+      }
+    }
+
+    // aFirst = true, aBefore = false: если есть элемент(ы) с заданным временем, то возвращает индекс первого из таких
+    // элементов, иначе возвращает индекс элемента справа от запрошенного времени.
+    if( aFirst && !aBefore ) {
+      for( int i = (wasFound ? foundIndex - 1 : high); i >= low; i-- ) {
+        if( aList.get( i ).timestamp() < aTimestamp ) {
+          return (i + 1);
+        }
+      }
+    }
+
+    // aFirst = false, aBefore = true: если есть элемент(ы) с заданным временем, то возвращает индекс первого из таких
+    // элементов, иначе возвращает индекс элемента слева от запрошенного времени.
+    if( !aFirst && aBefore ) {
+      for( int i = (wasFound ? foundIndex - 1 : high); i >= low; i-- ) {
+        if( aList.get( i ).timestamp() < aTimestamp ) {
+          return (wasFound ? i + 1 : i);
+        }
+      }
+    }
+
+    // aFirst = false, aBefore = false: если есть элемент(ы) с заданным временем, то возвращает индекс последнего из
+    // таких элементов, иначе возвращает индекс элемента справа от запрошенного времени.
+    if( !aFirst && !aBefore ) {
+      for( int i = (wasFound ? foundIndex + 1 : low); i <= high; i++ ) {
+        if( aTimestamp < aList.get( i ).timestamp() ) {
+          return (wasFound ? i - 1 : i);
+        }
+      }
+    }
+
+    if( wasFound ) {
+      return foundIndex;
+    }
+
+    // Недопустимая логика
+    throw new TsInternalErrorRtException();
+  }
 }

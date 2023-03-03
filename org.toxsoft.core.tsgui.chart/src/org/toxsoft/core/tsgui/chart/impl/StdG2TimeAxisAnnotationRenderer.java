@@ -128,6 +128,10 @@ public class StdG2TimeAxisAnnotationRenderer
 
     IList<Pair<IAtomicValue, Integer>> values = axisView.doListAnnotationValues( axisView.markingBounds().width() );
     for( int i = 0; i < values.size(); i++ ) {
+      // dima 03.03.23 не печатаем ничего на нечетных насечках
+      if( i % 2 == 1 ) {
+        continue;
+      }
       Pair<IAtomicValue, Integer> p = values.get( i );
       if( timeFormat != null && !timeFormat.isEmpty() ) {
         timeStr = AvUtils.printAv( timeFormat, p.left() );
