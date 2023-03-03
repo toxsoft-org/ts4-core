@@ -147,15 +147,6 @@ public class OptionSetPanel
     IValedControlFactory factory = ValedControlUtils.guessAvEditorFactory( aDef.atomicType(), ctx );
     IValedControl<IAtomicValue> valed = factory.createEditor( ctx );
     valed.createControl( aParent );
-    // TODO настроить LayoutData в зависимости от параметров EValedControlParam, как в VecLadderLayout
-    int horAlogn = SWT.FILL;
-    boolean horGrab = true;
-    if( OPDEF_IS_WIDTH_FIXED.getValue( valed.params() ).asBool() ) {
-      horAlogn = SWT.LEFT;
-      horGrab = false;
-    }
-    GridData gd = new GridData( horAlogn, SWT.CENTER, horGrab, true, 1, 1 );
-    valed.getControl().setLayoutData( gd );
     return valed;
   }
 
@@ -179,9 +170,23 @@ public class OptionSetPanel
         Label l = new Label( valedsGrid, SWT.LEFT );
         l.setText( dd.nmName() );
         l.setToolTipText( printf( FORMAT_DESCRIPTION_ID, dd ) );
-        // IValedControl - option value editor
+        // VALED - option value editor
         IValedControl<IAtomicValue> valed = createValedControl( valedsGrid, dd );
         valed.eventer().addListener( valedControlValueChangeListener );
+        // setup LayoutData according to IValedControlConstants options
+        int horAlogn = SWT.FILL;
+        boolean horGrab = true;
+        if( OPDEF_IS_WIDTH_FIXED.getValue( valed.params() ).asBool() ) {
+          horAlogn = SWT.LEFT;
+          horGrab = false;
+        }
+        int verSpan = OPDEF_VERTICAL_SPAN.getValue( valed.params() ).asInt();
+        boolean grabVertical = verSpan > 1;
+        GridData gd = new GridData( SWT.LEFT, SWT.FILL, false, false, 1, verSpan );
+        l.setLayoutData( gd );
+        gd = new GridData( horAlogn, SWT.FILL, horGrab, grabVertical, 1, verSpan );
+        valed.getControl().setLayoutData( gd );
+        // remember created VALED
         mapValeds.put( dd.id(), valed );
       }
       updateValedEditableStatus();
@@ -268,6 +273,7 @@ public class OptionSetPanel
   protected Control doCreateControl( Composite aParent ) {
     backplane = new ScrolledComposite( aParent, SWT.H_SCROLL | SWT.V_SCROLL );
     backplane.setExpandHorizontal( true );
+    backplane.setExpandVertical( true );
     reinitPanelContent();
     return backplane;
   }
