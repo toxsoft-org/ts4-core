@@ -151,7 +151,8 @@ public class MultiPaneComponentModown<T>
   /**
    * Subclass may adjust initial values for entity creation.
    * <p>
-   * Example usage is to set non-default values for fields flagged with {@link IM5Constants#M5FF_HIDDEN} flag.
+   * Example usage is to set non-default values for fields flagged with {@link IM5Constants#M5FF_HIDDEN} flag. Another
+   * example is to create an identifier for for entities assuming IDs are created automatically.
    *
    * @param aValues {@link IM5BunchEdit}&lt;T&gt; - initial values created by {@link M5BunchEdit#M5BunchEdit(IM5Model)}
    */

@@ -43,7 +43,7 @@ import org.toxsoft.core.tslib.utils.logs.impl.*;
  * {@link IMultiPaneComponent} base implementation.
  *
  * @author hazard157
- * @param <T> - displayed M5-modelled entity type
+ * @param <T> - displayed M5-modeled entity type
  */
 public class MultiPaneComponent<T>
     implements IMultiPaneComponent<T> {
