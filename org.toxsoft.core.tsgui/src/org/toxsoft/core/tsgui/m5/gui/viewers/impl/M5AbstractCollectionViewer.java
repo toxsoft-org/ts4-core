@@ -103,6 +103,7 @@ public abstract class M5AbstractCollectionViewer<T>
       if( !Objects.equals( tsFilter, aFilter ) ) {
         tsFilter = TsNullArgumentRtException.checkNull( aFilter );
         refreshFilteredItems();
+        doRefreshAll();
       }
     }
 
@@ -124,7 +125,8 @@ public abstract class M5AbstractCollectionViewer<T>
       else {
         filteredItems.setAll( M5AbstractCollectionViewer.this.items() );
       }
-      doRefreshAll();
+      // GOGA 2023-03-04 next line is commented to avoid double calls to doRefreshAll()
+      // doRefreshAll();
     }
 
   }
@@ -492,7 +494,6 @@ public abstract class M5AbstractCollectionViewer<T>
     @Override
     public boolean getItemCheckState( T aItem ) {
       TsUnsupportedFeatureRtException.checkFalse( isChecksSupported() );
-
       return checkedItems.hasElem( aItem );
     }
 
@@ -580,6 +581,21 @@ public abstract class M5AbstractCollectionViewer<T>
     void fireChangeEvent() {
       TsUnsupportedFeatureRtException.checkFalse( isChecksSupported() );
       genericChangeEventer.fireChangeEvent();
+    }
+
+    void processItemsChanged() {
+      if( checkedItems == null ) {
+        return;
+      }
+      IListEdit<T> toRemove = new ElemArrayList<>();
+      for( T ci : checkedItems ) {
+        if( !items.hasElem( ci ) ) {
+          toRemove.add( ci );
+        }
+      }
+      for( T ri : toRemove ) {
+        checkedItems.remove( ri );
+      }
     }
 
   }
@@ -698,6 +714,8 @@ public abstract class M5AbstractCollectionViewer<T>
       default:
         throw new TsNotAllEnumsUsedRtException();
     }
+    // inform InternalChecksImplementation about changes in items to remove stale checked items
+    checks.processItemsChanged();
     // if selection was not hold fire selection change event
     T selItem2 = selectedItem();
     if( selItem2 != selItem1 ) {
