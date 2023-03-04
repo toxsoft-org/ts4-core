@@ -57,6 +57,11 @@ public class ValedMultiModownTableEditor<V>
       return lm.itemsProvider();
     }
 
+    @Override
+    public IM5BunchEdit<V> createNewItemValues() {
+      return lm.createNewItemValues();
+    }
+
     @SuppressWarnings( "unchecked" )
     @Override
     public Object master() {

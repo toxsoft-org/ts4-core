@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * M5-model of entities of specified &lt;T&gt; type.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public interface IM5Model<T>
     extends IStridable {
@@ -27,9 +27,9 @@ public interface IM5Model<T>
   IM5Domain domain();
 
   /**
-   * Returns the class of the modelled entity.
+   * Returns the class of the modeled entity.
    *
-   * @return {@link Class}&lt;T&gt; - the class of the modelled entity
+   * @return {@link Class}&lt;T&gt; - the class of the modeled entity
    */
   Class<T> entityClass();
 
@@ -41,7 +41,7 @@ public interface IM5Model<T>
   IStridablesList<IM5FieldDef<T, ?>> fieldDefs();
 
   /**
-   * Determines if the specified object is modelled by this model.
+   * Determines if the specified object is modeled by this model.
    * <p>
    * Generally it is not enough to check if an argument is {@link Class#isInstance(Object)}. For example, all
    * <code>SkObject</code> entities of uSkat framework are based on the same class but must be M5-modlled by the
@@ -50,12 +50,12 @@ public interface IM5Model<T>
    * For <code>null</code> argument always returns <code>false</code>.
    *
    * @param aObj {@link Object} - the object to be tested
-   * @return boolean - <code>true</code> if argument is modelled by this model
+   * @return boolean - <code>true</code> if argument is modeled by this model
    */
   boolean isModelledObject( Object aObj );
 
   /**
-   * Returns the bunch of the specified modelled entity field values.
+   * Returns the bunch of the specified modeled entity field values.
    * <p>
    * For <code>null</code> argument returns the bunch where each field has {@link IM5FieldDef#defaultValue()}.
    * <p>
@@ -63,8 +63,8 @@ public interface IM5Model<T>
    * M5 subsystems user. By default, the cache is disabled, and on each call of this method the new instance of the
    * {@link IM5Bunch} is created.
    *
-   * @param aObj &lt;T&gt; - the modelled entity, may be <code>null</code>
-   * @return {@link IM5Bunch} - набор значений полей
+   * @param aObj &lt;T&gt; - the modeled entity, may be <code>null</code>
+   * @return {@link IM5Bunch} - field values of the specified entity or default values for <code>null</code> argument
    */
   IM5Bunch<T> valuesOf( T aObj );
 
@@ -96,7 +96,7 @@ public interface IM5Model<T>
   /**
    * Return the visualization provider for modeled entity as whole.
    *
-   * @return {@link ITsVisualsProvider}&lt;T&gt; - modelled entity visuals provider
+   * @return {@link ITsVisualsProvider}&lt;T&gt; - modeled entity visuals provider
    */
   ITsVisualsProvider<T> visualsProvider();
 

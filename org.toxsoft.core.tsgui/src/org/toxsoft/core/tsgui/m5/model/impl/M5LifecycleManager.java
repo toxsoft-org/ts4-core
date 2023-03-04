@@ -26,7 +26,7 @@ import org.toxsoft.core.tslib.utils.logs.impl.*;
  * </ul>
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  * @param <M> - master object type
  */
 public class M5LifecycleManager<T, M>
@@ -129,6 +129,13 @@ public class M5LifecycleManager<T, M>
       throw new TsUnsupportedFeatureRtException( FMT_ERR_MODEL_CANT_LIST_OBJS, model.id() );
     }
     return itemsProvider;
+  }
+
+  @Override
+  public IM5BunchEdit<T> createNewItemValues() {
+    IM5BunchEdit<T> b = new M5BunchEdit<>( model );
+    doSetupNewItemValues( b );
+    return b;
   }
 
   @Override
@@ -235,6 +242,17 @@ public class M5LifecycleManager<T, M>
    */
   protected ValidationResult doBeforeCreate( IM5Bunch<T> aValues ) {
     return ValidationResult.SUCCESS;
+  }
+
+  /**
+   * Subclass may perform additional tuning of the values for new entity creation.
+   * <p>
+   * In base class does nothing, there is no need to call superclass method when overriding.
+   *
+   * @param aValues {@link IM5BunchEdit} - new editable bunch with default field values
+   */
+  protected void doSetupNewItemValues( IM5BunchEdit<T> aValues ) {
+    // nop
   }
 
   /**

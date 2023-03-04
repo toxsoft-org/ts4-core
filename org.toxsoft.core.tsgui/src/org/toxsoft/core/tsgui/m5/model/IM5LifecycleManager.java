@@ -45,7 +45,7 @@ public interface IM5LifecycleManager<T>
   boolean isCrudOpAllowed( ECrudOp aOp );
 
   /**
-   * Returns the master object who is resposible for lifacycle management
+   * Returns the master object who is responsible for lifecycle management
    *
    * @param <M> - expected mater object type
    * @return &lt;M&gt; - the master object, may be <code>null</code>
@@ -60,6 +60,17 @@ public interface IM5LifecycleManager<T>
    *           <code>false</code>
    */
   IM5ItemsProvider<T> itemsProvider();
+
+  /**
+   * Returns field values set for new item creation.
+   * <p>
+   * Sometimes new item creation requires special handling like unique invariant ID. Note that creation bunch not always
+   * need to the item creation. For example, returned value may be used in used dialog and user may cancel new item
+   * creation.
+   *
+   * @return {@link IM5BunchEdit}&lt;T&gt; - values for new item creation
+   */
+  IM5BunchEdit<T> createNewItemValues();
 
   /**
    * Validates the ability to create the entity with specified field values.
@@ -98,7 +109,7 @@ public interface IM5LifecycleManager<T>
    * <p>
    * The method may throw other exceptions if editing does not succeed even if validation {@link #canEdit(IM5Bunch)}
    * returns {@link ValidationResult#SUCCESS}. For example when database connection is lost between validation and
-   * actual invokation of this method.
+   * actual invocation of this method.
    * <p>
    * The method may return new instance and must return new instance for immutable entities.
    *

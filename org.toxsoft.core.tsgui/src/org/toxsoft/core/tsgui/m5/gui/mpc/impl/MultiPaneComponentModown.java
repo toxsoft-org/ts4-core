@@ -10,7 +10,6 @@ import org.toxsoft.core.tsgui.m5.gui.mpc.*;
 import org.toxsoft.core.tsgui.m5.gui.viewers.*;
 import org.toxsoft.core.tsgui.m5.gui.viewers.impl.*;
 import org.toxsoft.core.tsgui.m5.model.*;
-import org.toxsoft.core.tsgui.m5.model.impl.*;
 import org.toxsoft.core.tsgui.panels.lazy.*;
 import org.toxsoft.core.tslib.coll.helpers.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -106,9 +105,10 @@ public class MultiPaneComponentModown<T>
   @Override
   protected T doAddItem() {
     ITsDialogInfo cdi = TsDialogInfo.forCreateEntity( tsContext() );
-    IM5BunchEdit<T> initVals = new M5BunchEdit<>( model() );
+    IM5LifecycleManager<T> lm = getNonNullLM();
+    IM5BunchEdit<T> initVals = lm.createNewItemValues();
     doAdjustEntityCreationInitialValues( initVals );
-    return M5GuiUtils.askCreate( tsContext(), model(), initVals, cdi, getNonNullLM() );
+    return M5GuiUtils.askCreate( tsContext(), model(), initVals, cdi, null );
   }
 
   @Override
@@ -151,10 +151,9 @@ public class MultiPaneComponentModown<T>
   /**
    * Subclass may adjust initial values for entity creation.
    * <p>
-   * Example usage is to set non-default values for fields flagged with {@link IM5Constants#M5FF_HIDDEN} flag. Another
-   * example is to create an identifier for for entities assuming IDs are created automatically.
+   * Argument is new instance of an editable bunch returned by {@link IM5LifecycleManager#createNewItemValues()}.
    *
-   * @param aValues {@link IM5BunchEdit}&lt;T&gt; - initial values created by {@link M5BunchEdit#M5BunchEdit(IM5Model)}
+   * @param aValues {@link IM5BunchEdit}&lt;T&gt; - initial values to adjust
    */
   protected void doAdjustEntityCreationInitialValues( IM5BunchEdit<T> aValues ) {
     // nop
