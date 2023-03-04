@@ -174,13 +174,13 @@ public abstract class AbstractAvWrapperValedControl<T>
   //
 
   /**
-   * Implementaion may perform additional check if atomic value may be returned by {@link #getValue()}.
+   * Implementation may perform additional check if atomic value may be returned by {@link #getValue()}.
    * <p>
-   * This methid is called when underlying valed {@link IValedControl#canGetValue()} returns without error. As an
+   * This method is called when underlying valed {@link IValedControl#canGetValue()} returns without error. As an
    * argument the underlying valed's value is used.
    * <p>
-   * In base cclass simply returns {@link ValidationResult#SUCCESS}, when overriding, there is no need to call
-   * superclass method.
+   * In base class simply returns {@link ValidationResult#SUCCESS}, when overriding, there is no need to call superclass
+   * method.
    *
    * @param aValue &lt;T&gt; - value in underlying valed
    * @return {@link ValidationResult} - the validation result
@@ -190,13 +190,13 @@ public abstract class AbstractAvWrapperValedControl<T>
   }
 
   /**
-   * Implementation must resolve value from underlyine valed to atomic value.
+   * Implementation must resolve value from underline VALED to atomic value.
    * <p>
    * This is the value returned by underlying {@link IValedControl#getValue()}.
    * <p>
    * Note that method must return either {@link IAtomicValue#NULL} or value of {@link #atomicType}.
    *
-   * @param aTypedValue &lt;T&gt; - the underlyined value, never is <code>null</code>
+   * @param aTypedValue &lt;T&gt; - the underlined value, never is <code>null</code>
    * @return {@link IAtomicValue} - corresponding atomic value, must not be <code>null</code>
    */
   protected abstract IAtomicValue tv2av( T aTypedValue );

@@ -70,7 +70,7 @@ public interface IValedFileConstants {
   );
 
   /**
-   * Признак использования диалога открытия (а не сохранения) файла.<br>
+   * The flag of using the dialog for opening (rather than saving) a file.<br>
    * Type: {@link EAtomicType#BOOLEAN}<br>
    * Usage: <code>true</code> - on button click will be shown file open (not save) dialog<br>
    * Default value: <code>false</code> (file save dialog)
