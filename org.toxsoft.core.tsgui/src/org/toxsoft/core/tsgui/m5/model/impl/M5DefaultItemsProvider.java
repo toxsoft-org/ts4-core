@@ -22,7 +22,7 @@ public class M5DefaultItemsProvider<T>
   private final IListReorderer<T>    listReorderer;
 
   /**
-   * Конструктор.
+   * Constructor.
    */
   public M5DefaultItemsProvider() {
     eventer = new GenericChangeEventer( this );

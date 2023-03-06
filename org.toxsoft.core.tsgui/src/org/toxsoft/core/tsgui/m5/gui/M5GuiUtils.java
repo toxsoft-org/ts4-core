@@ -28,7 +28,7 @@ public class M5GuiUtils {
    * Internal class to implement {@link M5GuiUtils}.askXxx() methods.
    *
    * @author hazard157
-   * @param <T> - modelled entity type
+   * @param <T> - modeled entity type
    */
   static class AskDialogContentPanel<T>
       extends AbstractTsDialogPanel<IM5Bunch<T>, ITsGuiContext> {
@@ -82,7 +82,7 @@ public class M5GuiUtils {
    * Used by {@link M5GuiUtils#askSelectItem(ITsDialogInfo, IM5Model, Object, IM5ItemsProvider, IM5LifecycleManager)}.
    *
    * @author hazard157
-   * @param <T> - modelled entity type
+   * @param <T> - modeled entity type
    */
   static class SelectItemDialogContentPanel<T>
       extends AbstractTsDialogPanel<T, Object> {
@@ -129,7 +129,7 @@ public class M5GuiUtils {
    * Used by {@link M5GuiUtils#askSelectItemsList(ITsDialogInfo, IM5Model, IList, IM5ItemsProvider)}.
    *
    * @author hazard157
-   * @param <T> - modelled entity type
+   * @param <T> - modeled entity type
    */
   static class SelectItemsListDialogContentPanel<T>
       extends AbstractTsDialogPanel<IList<T>, Object> {
@@ -179,7 +179,7 @@ public class M5GuiUtils {
    * Used by {@link M5GuiUtils#askSelectLookupItem(ITsDialogInfo, IM5Model, Object, IM5LookupProvider)}.
    *
    * @author hazard157
-   * @param <T> - modelled entity type
+   * @param <T> - modeled entity type
    */
   static class SelectLookupItemDialogContentPanel<T>
       extends AbstractTsDialogPanel<T, Object> {
@@ -224,9 +224,48 @@ public class M5GuiUtils {
   }
 
   /**
-   * Shows modelled entity creation dialog and creates new instance.
+   * Modown items list editing dialog panel.
    *
-   * @param <T> - M5-modelled entity type
+   * @author hazard157
+   * @param <T> - modeled entity type
+   */
+  static class EditModownCollDialogPanel<T>
+      extends AbstractTsDialogPanel<IList<T>, Object> {
+
+    final IM5CollectionPanel<T>     panel;
+    final M5DefaultItemsProvider<T> itemsProvider = new M5DefaultItemsProvider<>();
+
+    EditModownCollDialogPanel( Composite aParent, TsDialog<IList<T>, Object> aOwnerDialog, IM5Model<T> aItemsModel,
+        IM5LifecycleManager<T> aLifecycleManager ) {
+      super( aParent, aOwnerDialog );
+      this.setLayout( new BorderLayout() );
+      panel = aItemsModel.panelCreator().createCollEditPanel( tsContext(), itemsProvider, aLifecycleManager );
+      panel.createControl( this );
+      panel.getControl().setLayoutData( BorderLayout.CENTER );
+    }
+
+    @Override
+    protected void doSetDataRecord( IList<T> aData ) {
+      if( aData != null ) {
+        itemsProvider.items().setAll( aData );
+      }
+      else {
+        itemsProvider.items().clear();
+      }
+      panel.refresh();
+    }
+
+    @Override
+    protected IList<T> doGetDataRecord() {
+      return panel.items();
+    }
+
+  }
+
+  /**
+   * Shows modeled entity creation dialog and creates new instance.
+   *
+   * @param <T> - M5-modeled entity type
    * @param aContext {@link ITsGuiContext} - the context
    * @param aModel {@link IM5Model} - the model
    * @param aValues {@link IM5Bunch} - initial values of entity fields or <code>null</code>
@@ -255,9 +294,9 @@ public class M5GuiUtils {
   }
 
   /**
-   * Shows modelled entity creation dialog and creates new instance.
+   * Shows modeled entity creation dialog and creates new instance.
    *
-   * @param <T> - M5-modelled entity type
+   * @param <T> - M5-modeled entity type
    * @param aContext {@link ITsGuiContext} - the context
    * @param aPanel {@link IM5EntityPanel}&lt;T&gt - entity editor panel
    * @param aValues {@link IM5Bunch} - initial field values for entity creation
@@ -286,9 +325,9 @@ public class M5GuiUtils {
   }
 
   /**
-   * Shows modelled entity edit dialog and then edits the entity.
+   * Shows modeled entity edit dialog and then edits the entity.
    *
-   * @param <T> - M5-modelled entity type
+   * @param <T> - M5-modeled entity type
    * @param aContext {@link ITsGuiContext} - the context
    * @param aModel {@link IM5Model} - the model
    * @param aEntity &lt;T&gt - the entity to edit or <code>null</code> for default values of entity fields
@@ -314,9 +353,9 @@ public class M5GuiUtils {
   }
 
   /**
-   * Shows modelled entity edit dialog and then edits the entity.
+   * Shows modeled entity edit dialog and then edits the entity.
    *
-   * @param <T> - M5-modelled entity type
+   * @param <T> - M5-modeled entity type
    * @param aContext {@link ITsGuiContext} - the context
    * @param aPanel {@link IM5EntityPanel}&lt;T&gt - entity editor panel
    * @param aEntity &lt;T&gt - the entity to edit or <code>null</code> for default values of entity fields
@@ -351,7 +390,7 @@ public class M5GuiUtils {
    * <li>removes an entity using the method {@link IM5LifecycleManager#remove(Object)}.</li>
    * </ul>
    *
-   * @param <T> - M5-modelled entity type
+   * @param <T> - M5-modeled entity type
    * @param aContext {@link ITsGuiContext} - the context
    * @param aModel {@link IM5Model} - the model
    * @param aRemovedObject &lt;T&gt - the entity to be removed
@@ -482,18 +521,18 @@ public class M5GuiUtils {
   }
 
   /**
-   * Shows modelled entity bunch edit dialog.
+   * Shows modeled entity bunch edit dialog.
    * <p>
    * Depending on {@link IM5Bunch#originalEntity()} value checks either for creation (if originnale entity is
    * <code>null</code>) or editing.
    *
-   * @param <T> - M5-modelled entity type
+   * @param <T> - M5-modeled entity type
    * @param aContext {@link ITsGuiContext} - the context
    * @param aModel {@link IM5Model} - the model
    * @param aValues {@link IM5Bunch} - initial values of entity fields or <code>null</code>
    * @param aDialogInfo {@link ITsDialogInfo} - dialog window properties
    * @param aLifecycleManager {@link IM5LifecycleManager} - the lifecycle manager
-   * @return IM5Bunch&lt;T&gt; - edited bunch or <code>null</code> if user cancelled operation
+   * @return {@link IM5Bunch}&lt;T&gt; - edited bunch or <code>null</code> if user cancelled operation
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static <T> IM5Bunch<T> editBunch( ITsGuiContext aContext, IM5Model<T> aModel, IM5Bunch<T> aValues,
@@ -505,14 +544,35 @@ public class M5GuiUtils {
     };
     IM5Bunch<T> initVals = aValues;
     if( initVals == null ) {
-      initVals = aModel.valuesOf( null );
+      initVals = aLifecycleManager.createNewItemValues();
     }
     TsDialog<IM5Bunch<T>, ITsGuiContext> d = new TsDialog<>( aDialogInfo, initVals, aContext, creator );
     return d.execData();
   }
 
   /**
-   * No subclassing.
+   * Shows modown items list editing dialog..
+   *
+   * @param <T> - M5-modeled entity type
+   * @param aContext {@link ITsGuiContext} - the context
+   * @param aItemsModel {@link IM5Model} - the items model
+   * @param aInitialList {@link IList}&lt;T&gt; - initial content of list to edit
+   * @param aDialogInfo {@link ITsDialogInfo} - dialog window properties
+   * @param aLifecycleManager {@link IM5LifecycleManager} - the lifecycle manager
+   * @return {@link IList}&lt;T&gt; - edited list or <code>null</code> if user cancelled operation
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static <T> IList<T> editModownColl( ITsGuiContext aContext, IM5Model<T> aItemsModel, IList<T> aInitialList,
+      ITsDialogInfo aDialogInfo, IM5LifecycleManager<T> aLifecycleManager ) {
+    TsNullArgumentRtException.checkNulls( aContext, aItemsModel, aInitialList, aDialogInfo, aLifecycleManager );
+    IDialogPanelCreator<IList<T>, Object> creator = ( aParent, aOwnerDialog ) -> //
+    new EditModownCollDialogPanel<>( aParent, aOwnerDialog, aItemsModel, aLifecycleManager );
+    TsDialog<IList<T>, Object> d = new TsDialog<>( aDialogInfo, aInitialList, aContext, creator );
+    return d.execData();
+  }
+
+  /**
+   * No subclasses.
    */
   private M5GuiUtils() {
     // nop
