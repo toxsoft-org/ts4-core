@@ -108,7 +108,9 @@ public class MultiPaneComponentModown<T>
     IM5LifecycleManager<T> lm = getNonNullLM();
     IM5BunchEdit<T> initVals = lm.createNewItemValues();
     doAdjustEntityCreationInitialValues( initVals );
-    return M5GuiUtils.askCreate( tsContext(), model(), initVals, cdi, null );
+    // dima 06.03.23
+    // return M5GuiUtils.askCreate( tsContext(), model(), initVals, cdi, null );
+    return M5GuiUtils.askCreate( tsContext(), model(), initVals, cdi, lm );
   }
 
   @Override
