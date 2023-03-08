@@ -50,11 +50,13 @@ public class JasperReportViewer
    */
   public JasperReportViewer( Composite aParent, ITsGuiContext aContext ) {
     super( aParent, aContext );
-    doDoInit( aParent );
+    doDoInit();
   }
 
-  protected void doDoInit( Composite aParent ) {
-    tableComposite = new Composite( aParent, SWT.NONE );
+  protected void doDoInit() {
+    setLayout( new BorderLayout() );
+    tableComposite = new Composite( this, SWT.NONE );
+    tableComposite.setLayoutData( BorderLayout.CENTER );
     tableComposite.setLayout( new BorderLayout() );
   }
 
