@@ -15,6 +15,7 @@ import org.toxsoft.core.tsgui.m5.model.impl.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -232,32 +233,27 @@ public class M5GuiUtils {
   static class EditModownCollDialogPanel<T>
       extends AbstractTsDialogPanel<IList<T>, Object> {
 
-    final IM5CollectionPanel<T>     panel;
-    final M5DefaultItemsProvider<T> itemsProvider = new M5DefaultItemsProvider<>();
+    final IM5CollectionPanel<T> panel;
 
     EditModownCollDialogPanel( Composite aParent, TsDialog<IList<T>, Object> aOwnerDialog, IM5Model<T> aItemsModel,
         IM5LifecycleManager<T> aLifecycleManager ) {
       super( aParent, aOwnerDialog );
       this.setLayout( new BorderLayout() );
-      panel = aItemsModel.panelCreator().createCollEditPanel( tsContext(), itemsProvider, aLifecycleManager );
+      panel = aItemsModel.panelCreator().createCollEditPanel( tsContext(), aLifecycleManager.itemsProvider(),
+          aLifecycleManager );
       panel.createControl( this );
       panel.getControl().setLayoutData( BorderLayout.CENTER );
     }
 
     @Override
     protected void doSetDataRecord( IList<T> aData ) {
-      if( aData != null ) {
-        itemsProvider.items().setAll( aData );
-      }
-      else {
-        itemsProvider.items().clear();
-      }
+      // items are provided by the lifecycle manager
       panel.refresh();
     }
 
     @Override
     protected IList<T> doGetDataRecord() {
-      return panel.items();
+      return new ElemArrayList<>( panel.items() );
     }
 
   }
@@ -551,23 +547,22 @@ public class M5GuiUtils {
   }
 
   /**
-   * Shows modown items list editing dialog..
+   * Shows editing dialog of the modown items list provided by the lifecycle manager.
    *
    * @param <T> - M5-modeled entity type
    * @param aContext {@link ITsGuiContext} - the context
    * @param aItemsModel {@link IM5Model} - the items model
-   * @param aInitialList {@link IList}&lt;T&gt; - initial content of list to edit
    * @param aDialogInfo {@link ITsDialogInfo} - dialog window properties
    * @param aLifecycleManager {@link IM5LifecycleManager} - the lifecycle manager
    * @return {@link IList}&lt;T&gt; - edited list or <code>null</code> if user cancelled operation
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public static <T> IList<T> editModownColl( ITsGuiContext aContext, IM5Model<T> aItemsModel, IList<T> aInitialList,
-      ITsDialogInfo aDialogInfo, IM5LifecycleManager<T> aLifecycleManager ) {
-    TsNullArgumentRtException.checkNulls( aContext, aItemsModel, aInitialList, aDialogInfo, aLifecycleManager );
+  public static <T> IList<T> editModownColl( ITsGuiContext aContext, IM5Model<T> aItemsModel, ITsDialogInfo aDialogInfo,
+      IM5LifecycleManager<T> aLifecycleManager ) {
+    TsNullArgumentRtException.checkNulls( aContext, aItemsModel, aDialogInfo, aLifecycleManager );
     IDialogPanelCreator<IList<T>, Object> creator = ( aParent, aOwnerDialog ) -> //
     new EditModownCollDialogPanel<>( aParent, aOwnerDialog, aItemsModel, aLifecycleManager );
-    TsDialog<IList<T>, Object> d = new TsDialog<>( aDialogInfo, aInitialList, aContext, creator );
+    TsDialog<IList<T>, Object> d = new TsDialog<>( aDialogInfo, null, aContext, creator );
     return d.execData();
   }
 
