@@ -9,18 +9,18 @@ import org.toxsoft.core.tslib.coll.helpers.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * M5-modelled entities lifecycle manager.
+ * M5-modeled entities lifecycle manager.
  * <p>
  * In general lifecycle manager (LM) has following functionality:
  * <ul>
- * <li><b>list</b> available items - {@link #itemsProvider()} provedes avaliable entities of modelled type, if allowed
- * by {@link #isCrudOpAllowed(ECrudOp) isAllowed(<b>LIST</b>)} = <code>true</code>. For example, <code>java enum</code>
- * constants provider lists all constants of enum;</li>
+ * <li><b>list</b> available items - {@link #itemsProvider()} provides available entities of modeled type, if allowed by
+ * {@link #isCrudOpAllowed(ECrudOp) isAllowed(<b>LIST</b>)} = <code>true</code>. For example, Java <code>enum</code>
+ * constants provider lists all constants of <code>enum</code>;</li>
  * <li><b>create</b> instances of entities - if allowed by {@link #isCrudOpAllowed(ECrudOp) isAllowed(<b>CREATE</b>)} =
- * <code>true</code> it is possible to create entity instance from {@link IM5Bunch} modelled values using the method
+ * <code>true</code> it is possible to create entity instance from {@link IM5Bunch} modeled values using the method
  * {@link #create(IM5Bunch)};</li>
  * <li><b>edit</b> existing instance - if allowed by {@link #isCrudOpAllowed(ECrudOp) isAllowed(<b>EDIT</b>)} =
- * <code>true</code> it is possible to change entity field values to {@link IM5Bunch} modelled values using the method
+ * <code>true</code> it is possible to change entity field values to {@link IM5Bunch} modeled values using the method
  * {@link #edit(IM5Bunch)}. Editing is supported also for immutable types like {@link File}. In such case the new
  * instance is created and returned by the method {@link #edit(IM5Bunch)};</li>
  * <li><b>remove</b> (delete) existing instance - if allowed by {@link #isCrudOpAllowed(ECrudOp)
@@ -28,10 +28,10 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * {@link #remove(Object)}.</li>
  * </ul>
  * The CRUD operations (create/edit/remove) have corresponding methods <code>canXxx()</code> to check if opereation will
- * be succsessful.
+ * be successful.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public interface IM5LifecycleManager<T>
     extends IM5ModelRelated<T> {

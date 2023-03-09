@@ -12,7 +12,7 @@ import org.toxsoft.core.tslib.coll.notifier.impl.*;
  * {@link IM5ItemsProvider} implementation as items container.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public class M5DefaultItemsProvider<T>
     implements IM5ItemsProvider<T> {
