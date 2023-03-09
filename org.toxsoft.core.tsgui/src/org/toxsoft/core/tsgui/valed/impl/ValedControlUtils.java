@@ -1,33 +1,14 @@
 package org.toxsoft.core.tsgui.valed.impl;
 
-import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
-import static org.toxsoft.core.tsgui.valed.controls.enums.IValedEnumConstants.*;
-import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
-
-import java.time.*;
-
-import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
-import org.toxsoft.core.tsgui.graphics.fonts.*;
-import org.toxsoft.core.tsgui.graphics.fonts.impl.*;
-import org.toxsoft.core.tsgui.utils.swt.*;
 import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tsgui.valed.controls.av.*;
-import org.toxsoft.core.tsgui.valed.controls.enums.*;
-import org.toxsoft.core.tsgui.valed.controls.graphics.*;
-import org.toxsoft.core.tsgui.valed.controls.time.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
-import org.toxsoft.core.tslib.bricks.keeper.*;
-import org.toxsoft.core.tslib.bricks.keeper.std.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
- * FIXME move these methods to {@link ValedControlFactoriesRegistry}<br>
- * FIXME add user-specified editor guessing rules registration to {@link ValedControlFactoriesRegistry}
- * <p>
- * Вспомгательные методы для работы с редакторами.
+ * Helper methods to work with VALEDs.
  *
  * @author hazard157
  */
@@ -111,63 +92,69 @@ public class ValedControlUtils {
    */
   public static IValedControlFactory guessAvEditorFactory( EAtomicType aAtomicType, ITsGuiContext aContext ) {
     TsNullArgumentRtException.checkNulls( aAtomicType, aContext );
-    IValedControlFactory factory = null;
-    // straight way to get editor - take it from OPID_EDITOR_FACTORY_NAME option
-    ValedControlFactoriesRegistry vcfRegistry = aContext.find( ValedControlFactoriesRegistry.class );
-    IAtomicValue avFacName = IAtomicValue.NULL;
-    if( aContext.params().hasKey( OPID_EDITOR_FACTORY_NAME ) ) {
-      avFacName = aContext.params().getValue( OPID_EDITOR_FACTORY_NAME );
-    }
-    if( vcfRegistry != null && avFacName != IAtomicValue.NULL ) {
-      factory = vcfRegistry.findFactory( avFacName.asString() );
-    }
-    // straight way not works, now using heuristic
-    if( factory == null ) {
-      switch( aAtomicType ) {
-        case BOOLEAN:
-        case INTEGER:
-        case FLOATING:
-        case TIMESTAMP:
-        case STRING:
-        case NONE:
-          // HERE may be additional heuristic
-          break;
-        case VALOBJ: {
-          // choosding editor by keeper ID from argument option TSID_KEEPER_ID
-          String keeperId = aContext.params().getStr( TSID_KEEPER_ID, null );
-          if( keeperId != null ) {
-            // method findFactoryForValobjByKeeperId() recognizes some specifi keeper IDs
-            factory = findFactoryForValobjByKeeperId( keeperId );
-            if( factory == null ) {
-              // some generic editors may be used depending on entity class
-              IEntityKeeper<?> keeper = TsValobjUtils.findKeeperById( keeperId );
-              if( keeper != null ) { // this happens only for unregistered VALOBJs
-                /**
-                 * For Java enum VALOBJ we have generic editor
-                 */
-                Class<?> rawClass = keeper.entityClass();
-                if( rawClass != null ) {
-                  // if VALOBJ entity is Java enum, use enum drop-down Combo editor
-                  if( rawClass.isEnum() ) {
-                    REFDEF_ENUM_CLASS.setRef( aContext, rawClass );
-                    factory = ValedAvValobjEnumCombo.FACTORY;
-                  }
-                }
-                // too bad - no suitable editor was found
-              }
-            }
-          }
-          break;
-        }
-        default:
-          throw new TsNotAllEnumsUsedRtException();
-      }
-    }
-    // suitable factory not found - using very generic editor depending on atomic type of edited value
-    if( factory == null ) {
-      factory = ValedControlUtils.getDefaultFactory( aAtomicType );
-    }
-    return factory;
+    IValedControlFactoriesRegistry vcfRegistry = aContext.find( IValedControlFactoriesRegistry.class );
+    TsInternalErrorRtException.checkNull( vcfRegistry );
+    return vcfRegistry.getSuitableAvEditor( aAtomicType, aContext );
+
+    // GOGA 2023-03-06 commented code stays here temporary
+    // IValedControlFactory factory = null;
+    // // straight way to get editor - take it from OPID_EDITOR_FACTORY_NAME option
+    // ValedControlFactoriesRegistry vcfRegistry = aContext.find( ValedControlFactoriesRegistry.class );
+    //
+    // IAtomicValue avFacName = IAtomicValue.NULL;
+    // if( aContext.params().hasKey( OPID_EDITOR_FACTORY_NAME ) ) {
+    // avFacName = aContext.params().getValue( OPID_EDITOR_FACTORY_NAME );
+    // }
+    // if( vcfRegistry != null && avFacName != IAtomicValue.NULL ) {
+    // factory = vcfRegistry.findFactory( avFacName.asString() );
+    // }
+    // // straight way not works, now using heuristic
+    // if( factory == null ) {
+    // switch( aAtomicType ) {
+    // case BOOLEAN:
+    // case INTEGER:
+    // case FLOATING:
+    // case TIMESTAMP:
+    // case STRING:
+    // case NONE:
+    // // HERE may be additional heuristic
+    // break;
+    // case VALOBJ: {
+    // // choosding editor by keeper ID from argument option TSID_KEEPER_ID
+    // String keeperId = aContext.params().getStr( TSID_KEEPER_ID, null );
+    // if( keeperId != null ) {
+    // // method findFactoryForValobjByKeeperId() recognizes some specifi keeper IDs
+    // factory = findFactoryForValobjByKeeperId( keeperId );
+    // if( factory == null ) {
+    // // some generic editors may be used depending on entity class
+    // IEntityKeeper<?> keeper = TsValobjUtils.findKeeperById( keeperId );
+    // if( keeper != null ) { // this happens only for unregistered VALOBJs
+    // /**
+    // * For Java enum VALOBJ we have generic editor
+    // */
+    // Class<?> rawClass = keeper.entityClass();
+    // if( rawClass != null ) {
+    // // if VALOBJ entity is Java enum, use enum drop-down Combo editor
+    // if( rawClass.isEnum() ) {
+    // REFDEF_ENUM_CLASS.setRef( aContext, rawClass );
+    // factory = ValedAvValobjEnumCombo.FACTORY;
+    // }
+    // }
+    // // too bad - no suitable editor was found
+    // }
+    // }
+    // }
+    // break;
+    // }
+    // default:
+    // throw new TsNotAllEnumsUsedRtException();
+    // }
+    // }
+    // // suitable factory not found - using very generic editor depending on atomic type of edited value
+    // if( factory == null ) {
+    // factory = ValedControlUtils.getDefaultFactory( aAtomicType );
+    // }
+    // return factory;
   }
 
   /**
@@ -183,64 +170,63 @@ public class ValedControlUtils {
    */
   public static IValedControlFactory guessRawEditorFactory( Class<?> aValueClass, ITsGuiContext aContext ) {
     TsNullArgumentRtException.checkNulls( aValueClass, aContext );
-    // IAtomicValue
-    if( IAtomicValue.class.isAssignableFrom( aValueClass ) ) {
-      return ValedAvAnytypeText.FACTORY;
-    }
-    // попробуем подобрать редактор для Enum-ов
-    if( Enum.class.isAssignableFrom( aValueClass ) ) {
-      IValedEnumConstants.REFDEF_ENUM_CLASS.setRef( aContext, aValueClass );
-      return ValedEnumCombo.FACTORY;
-    }
+    IValedControlFactoriesRegistry vcfRegistry = aContext.find( IValedControlFactoriesRegistry.class );
+    TsInternalErrorRtException.checkNull( vcfRegistry );
+    return vcfRegistry.findSuitableRawEditor( aValueClass, aContext );
 
-    // редакторы для временных классов
-    if( aValueClass.equals( LocalTime.class ) ) {
-      return ValedLocalTimeMpv.FACTORY;
-    }
-    if( aValueClass.equals( LocalDate.class ) ) {
-      return ValedLocalDateMpv.FACTORY;
-    }
-    if( aValueClass.equals( LocalDateTime.class ) ) {
-      return ValedLocalDateTimeMpv.FACTORY;
-    }
-    if( aValueClass.equals( IFontInfo.class ) ) {
-      return ValedSimpleFontInfo.FACTORY;
-    }
-    if( aValueClass.equals( RGB.class ) ) {
-      return ValedSimpleRgb.FACTORY;
-    }
-    // nothing can be done...
-    return null;
+    // GOGA 2023-03-06 commented code stays here temporary
+    // // IAtomicValue
+    // if( IAtomicValue.class.isAssignableFrom( aValueClass ) ) {
+    // return ValedAvAnytypeText.FACTORY;
+    // }
+    // // попробуем подобрать редактор для Enum-ов
+    // if( Enum.class.isAssignableFrom( aValueClass ) ) {
+    // IValedEnumConstants.REFDEF_ENUM_CLASS.setRef( aContext, aValueClass );
+    // return ValedEnumCombo.FACTORY;
+    // }
+    //
+    // // редакторы для временных классов
+    // if( aValueClass.equals( LocalTime.class ) ) {
+    // return ValedLocalTimeMpv.FACTORY;
+    // }
+    // if( aValueClass.equals( LocalDate.class ) ) {
+    // return ValedLocalDateMpv.FACTORY;
+    // }
+    // if( aValueClass.equals( LocalDateTime.class ) ) {
+    // return ValedLocalDateTimeMpv.FACTORY;
+    // }
+    // if( aValueClass.equals( IFontInfo.class ) ) {
+    // return ValedSimpleFontInfo.FACTORY;
+    // }
+    // if( aValueClass.equals( RGB.class ) ) {
+    // return ValedSimpleRgb.FACTORY;
+    // }
+    // // nothing can be done...
+    // return null;
   }
 
-  /**
-   * Ищет фабрику редактор по идентификатору хранителя атомарного типа {@link EAtomicType#VALOBJ}.
-   *
-   * @param aKeeperId String - идентификатор хранителя
-   * @return {@link IValedControlFactory} - найденная фабрика или <code>null</code>
-   */
-  private static IValedControlFactory findFactoryForValobjByKeeperId( String aKeeperId ) {
-
-    /**
-     * FIXME cretae providers for VALOBJ entity editing. <br>
-     * For example, it is needed to add some Skid or Gwid editors
-     */
-
-    switch( aKeeperId ) {
-      case LocalTimeKeeper.KEEPER_ID:
-        return ValedAvValobjLocalTimeMpv.FACTORY;
-      case LocalDateKeeper.KEEPER_ID:
-        return ValedAvValobjLocalDateMpv.FACTORY;
-      case LocalDateTimeKeeper.KEEPER_ID:
-        return ValedAvValobjLocalDateTimeMpv.FACTORY;
-      case FontInfo.KEEPER_ID:
-        return ValedAvValobjSimpleFontInfo.FACTORY;
-      case RGBKeeper.KEEPER_ID:
-        return ValedAvValobjSimpleRgb.FACTORY;
-      default:
-        return null;
-    }
-  }
+  // /**
+  // * Ищет фабрику редактор по идентификатору хранителя атомарного типа {@link EAtomicType#VALOBJ}.
+  // *
+  // * @param aKeeperId String - идентификатор хранителя
+  // * @return {@link IValedControlFactory} - найденная фабрика или <code>null</code>
+  // */
+  // static IValedControlFactory findFactoryForValobjByKeeperId( String aKeeperId ) {
+  // switch( aKeeperId ) {
+  // case LocalTimeKeeper.KEEPER_ID:
+  // return ValedAvValobjLocalTimeMpv.FACTORY;
+  // case LocalDateKeeper.KEEPER_ID:
+  // return ValedAvValobjLocalDateMpv.FACTORY;
+  // case LocalDateTimeKeeper.KEEPER_ID:
+  // return ValedAvValobjLocalDateTimeMpv.FACTORY;
+  // case FontInfo.KEEPER_ID:
+  // return ValedAvValobjSimpleFontInfo.FACTORY;
+  // case RGBKeeper.KEEPER_ID:
+  // return ValedAvValobjSimpleRgb.FACTORY;
+  // default:
+  // return null;
+  // }
+  // }
 
   /**
    * Запрет на создание экземпляров.
