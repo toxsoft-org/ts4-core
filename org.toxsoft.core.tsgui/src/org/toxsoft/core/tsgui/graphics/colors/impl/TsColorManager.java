@@ -2,14 +2,12 @@ package org.toxsoft.core.tsgui.graphics.colors.impl;
 
 import static org.toxsoft.core.tsgui.graphics.colors.impl.ITsResources.*;
 
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.widgets.Display;
-import org.toxsoft.core.tsgui.graphics.colors.ETsColor;
-import org.toxsoft.core.tsgui.graphics.colors.ITsColorManager;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMapEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
+import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.graphics.colors.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -42,13 +40,7 @@ public class TsColorManager
     display = TsNullArgumentRtException.checkNull( aDisplay );
     TsItemNotFoundRtException.checkNull( display );
     // запланируем освобождение ресурсов
-    display.disposeExec( new Runnable() {
-
-      @Override
-      public void run() {
-        releaseResources();
-      }
-    } );
+    display.disposeExec( () -> releaseResources() );
     // разместим в карте имен стандартные имена цветов ETsColor
     for( ETsColor tsc : ETsColor.values() ) {
       String rgbName = rgb2name( tsc.rgb() );
@@ -88,9 +80,9 @@ public class TsColorManager
     }
     int r, g, b;
     try {
-      r = Integer.valueOf( colorStrs[0] ).intValue();
-      g = Integer.valueOf( colorStrs[1] ).intValue();
-      b = Integer.valueOf( colorStrs[2] ).intValue();
+      r = Integer.parseInt( colorStrs[0] );
+      g = Integer.parseInt( colorStrs[1] );
+      b = Integer.parseInt( colorStrs[2] );
     }
     catch( NumberFormatException ex ) {
       throw new TsIllegalArgumentRtException( ex, FMT_ERR_INV_RGB_NAME, aRgbName );
@@ -170,6 +162,17 @@ public class TsColorManager
   @Override
   public Color getColor( RGB aRgb ) {
     return getColor( aRgb.red, aRgb.green, aRgb.blue );
+  }
+
+  @SuppressWarnings( "boxing" )
+  @Override
+  public String getHumanReadableName( RGB aRgb ) {
+    ETsColor c = ETsColor.findByRgb( aRgb );
+    if( c != null ) {
+      return c.nmName();
+    }
+    // HERE may be added other recognized color names
+    return String.format( "(%d,%d,%d)", aRgb.red, aRgb.green, aRgb.blue ); //$NON-NLS-1$
   }
 
 }
