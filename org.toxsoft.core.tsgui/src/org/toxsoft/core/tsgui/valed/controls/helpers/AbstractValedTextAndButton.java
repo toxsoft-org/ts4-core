@@ -57,7 +57,10 @@ public abstract class AbstractValedTextAndButton<V>
 
       @Override
       public void widgetSelected( SelectionEvent e ) {
-        doProcessButtonPress();
+        if( doProcessButtonPress() ) {
+          doUpdateTextControl();
+          fireModifyEvent( true );
+        }
       }
     } );
     // setup
@@ -65,6 +68,7 @@ public abstract class AbstractValedTextAndButton<V>
     button.setEnabled( isEditable() && !isCreatedUneditable() );
     button.setText( STR_ELLIPSIS );
     doAfterControlCreated();
+    doUpdateTextControl();
     return board;
   }
 
@@ -78,10 +82,17 @@ public abstract class AbstractValedTextAndButton<V>
   @Override
   protected void doClearValue() {
     text.setText( TsLibUtils.EMPTY_STRING );
+    doUpdateTextControl();
+  }
+
+  @Override
+  final protected void doSetUnvalidatedValue( V aValue ) {
+    doDoSetUnvalidatedValue( aValue );
+    doUpdateTextControl();
   }
 
   // ------------------------------------------------------------------------------------
-  // Для наследников
+  // For subclasses
   //
 
   /**
@@ -96,7 +107,7 @@ public abstract class AbstractValedTextAndButton<V>
   /**
    * Returns the button at right.
    *
-   * @return Buntton - the button at right
+   * @return {@link Button} - the button at right
    */
   public Button getButtonControl() {
     return button;
@@ -107,23 +118,42 @@ public abstract class AbstractValedTextAndButton<V>
   //
 
   /**
-   * Subclass may additionally setup conotrols after creation.
+   * Subclass may additionally setup controls after creation.
    * <p>
    * Is called at the end of {@link #createControl(Composite)}, when controls {@link #getButtonControl()} and
    * {@link #getTextControl()} are already created and {@link #getControl()} returns backplate {@link Composite}. For
    * example, method may reset button text (contains ellipsis) and set own icon.
    * <p>
-   * Does nothng in the base class hence there is no need to call superclass method when overriding.
+   * Does nothing in the base class hence there is no need to call superclass method when overriding.
    */
   protected void doAfterControlCreated() {
     // nop
   }
 
   /**
+   * Subclass must update {@link #getTextControl()}.
+   * <p>
+   * Called after value change.
+   */
+  protected abstract void doUpdateTextControl();
+
+  /**
    * Subclass must call value editor dialog and set value to this VALED.
    * <p>
    * Is called when user pushes button {@link #getButtonControl()}.
+   *
+   * @return boolean - the flag indicates that value was changed
    */
-  protected abstract void doProcessButtonPress();
+  protected abstract boolean doProcessButtonPress();
+
+  /**
+   * Subclass must the value to editor widget(s).
+   * <p>
+   * Called from {@link AbstractValedTextAndButton#doSetUnvalidatedValue(Object)}.
+   *
+   * @param aValue &lt;V&gt; - new value, never is <code>null</code>
+   * @throws TsIllegalArgumentRtException value has incompatible type
+   */
+  protected abstract void doDoSetUnvalidatedValue( V aValue );
 
 }
