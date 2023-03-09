@@ -2,15 +2,15 @@ package org.toxsoft.core.tsgui.valed.controls.av;
 
 import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
 
-import java.time.LocalTime;
+import java.time.*;
 
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.valed.api.IValedControl;
-import org.toxsoft.core.tsgui.valed.controls.time.ValedLocalTimeMpv;
-import org.toxsoft.core.tsgui.valed.impl.AbstractValedControlFactory;
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.valed.api.*;
+import org.toxsoft.core.tsgui.valed.controls.time.*;
+import org.toxsoft.core.tsgui.valed.impl.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.bricks.keeper.std.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Edit {@link EAtomicType#VALOBJ} values containing {@link LocalTime}.
@@ -43,6 +43,14 @@ public class ValedAvValobjLocalTimeMpv
     @Override
     protected IValedControl<IAtomicValue> doCreateEditor( ITsGuiContext aContext ) {
       return new ValedAvValobjLocalTimeMpv( aContext );
+    }
+
+    @Override
+    protected boolean isSuitableAvEditor( EAtomicType aAtomicType, String aKeeperId, ITsGuiContext aEditorContext ) {
+      if( aAtomicType == EAtomicType.VALOBJ && aKeeperId != null ) {
+        return aKeeperId.equals( LocalTimeKeeper.KEEPER_ID );
+      }
+      return false;
     }
 
   }

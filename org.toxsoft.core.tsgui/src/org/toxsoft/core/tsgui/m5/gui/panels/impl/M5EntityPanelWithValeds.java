@@ -148,11 +148,11 @@ public class M5EntityPanelWithValeds<T>
 
     /**
      * At this point #ctx does NOT contains OPDEF_EDITOR_FACTORY_NAME option from the field definition. However,
-     * somwhere in the parent contexts there may be the same option defined. To avoid misunderstanding we'll "hide"
+     * somewhere in the parent contexts there may be the same option defined. To avoid misunderstanding we'll "hide"
      * parent OPDEF_EDITOR_FACTORY_NAME option.
      */
     OPDEF_EDITOR_FACTORY_NAME.setValue( ctx.params(), IAtomicValue.NULL );
-    // for the attributes an IAtmicValue editor alway may be found
+    // for the attributes an IAtmicValue editor always may be found
     if( aFieldDef instanceof IM5AttributeFieldDef afd ) {
       EAtomicType atomicType = afd.atomicType();
       IValedControlFactory factory = ValedControlUtils.guessAvEditorFactory( atomicType, ctx );

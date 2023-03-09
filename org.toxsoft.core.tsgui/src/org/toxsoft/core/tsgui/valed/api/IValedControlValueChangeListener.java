@@ -1,24 +1,25 @@
 package org.toxsoft.core.tsgui.valed.api;
 
 /**
- * Слушатель изменений пользовательского ввода в каком-нибудь редактире.
+ * Listener to the user input in the VALED.
  *
  * @author hazard157
  */
 public interface IValedControlValueChangeListener {
 
   /**
-   * Вызывается, при изменении <b>пользователем</b> значения в редакторе.
+   * Called when the value in the editor is changed by the <b>user</b>.
    * <p>
-   * Если значение в контроле меняется программно (методами API контроля), данный слушатель <b>не</b> вызывается.
+   * If the value in the control is changed programmatically (by the {@link IValedControl} API methods), the listener
+   * <b>is not</b> called.
    * <p>
-   * Для некторых контролей (редакторов) процесс изменения значения является продолжительным (состоящим из нескольких
-   * действий) и надо отличать изменение значение в процессе правки, и в момент завершения. Типичный случай - поле ввода
-   * текста. По мере набора символов вызывается метод с параметром aEditFinished = false, а при завершениии ввода - со
-   * значением true. При этом, завершением ввода могут считаться такие события как, например, нажатие Enter и потеря
-   * фокуса контролем.
+   * For some controls (editors), the process of changing the value is lengthy (consisting of several actions) and it is
+   * necessary to distinguish between changing the value during editing and at the moment of completion. A typical case
+   * is a text input field. As characters are typed, the method is called with the parameter aEditFinished = false, and
+   * when the input is completed - with the value true. The completion of input can be considered events such as
+   * pressing Enter and focus loss of the control.
    *
-   * @param aSource {@link IValedControl} - редактор - источник сообщения
+   * @param aSource {@link IValedControl} - the event source VALED
    * @param aEditFinished boolean - the sign that editing was finished
    */
   void onEditorValueChanged( IValedControl<?> aSource, boolean aEditFinished );

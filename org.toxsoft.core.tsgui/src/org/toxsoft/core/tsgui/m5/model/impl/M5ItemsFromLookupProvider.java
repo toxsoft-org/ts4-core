@@ -8,7 +8,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Implements {@link IM5ItemsProvider} as wrapper over {@link IM5LookupProvider}.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public class M5ItemsFromLookupProvider<T>
     implements IM5ItemsProvider<T> {

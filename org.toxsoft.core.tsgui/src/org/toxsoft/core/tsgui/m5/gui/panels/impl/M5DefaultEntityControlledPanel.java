@@ -2,11 +2,11 @@ package org.toxsoft.core.tsgui.m5.gui.panels.impl;
 
 import static org.toxsoft.core.tsgui.m5.IM5Constants.*;
 
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.m5.*;
-import org.toxsoft.core.tsgui.m5.gui.panels.IM5EntityPanel;
-import org.toxsoft.core.tsgui.m5.model.IM5LifecycleManager;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.m5.gui.panels.*;
+import org.toxsoft.core.tsgui.m5.model.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link IM5EntityPanel} default implementation to show specified entity field values.
@@ -16,7 +16,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * This panel contains editors for fields without flag {@link IM5Constants#M5FF_HIDDEN}.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public class M5DefaultEntityControlledPanel<T>
     extends M5EntityPanelWithValeds<T> {

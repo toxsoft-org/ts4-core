@@ -104,6 +104,27 @@ public interface ITsColorManager {
   Color getColor( RGB aRgb );
 
   /**
+   * Returns human-readable name of the RGB color.
+   *
+   * @param aRgb {@link RGB} - the color
+   * @return String - human-readable color name
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  String getHumanReadableName( RGB aRgb );
+
+  /**
+   * Returns human-readable name of the {@link Color}.
+   *
+   * @param aColor {@link Color} - the color
+   * @return String - human-readable color name
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  default String getHumanReadableName( Color aColor ) {
+    TsNullArgumentRtException.checkNull( aColor );
+    return getHumanReadableName( aColor.getRGB() );
+  }
+
+  /**
    * Создает {@link RGB} из целочисленного значения цвета.
    * <p>
    * Три младших байта целого хранят значения (в диапазоне 0..255) красного, зеленого и синего (начиная с самого

@@ -5,6 +5,7 @@ import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.utils.swt.*;
 import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tsgui.valed.impl.*;
 import org.toxsoft.core.tslib.av.*;
@@ -41,6 +42,14 @@ public class ValedAvValobjSimpleRgb
       return new ValedAvValobjSimpleRgb( aContext );
     }
 
+    @Override
+    protected boolean isSuitableAvEditor( EAtomicType aAtomicType, String aKeeperId, ITsGuiContext aEditorContext ) {
+      if( aAtomicType == EAtomicType.VALOBJ && aKeeperId != null ) {
+        return aKeeperId.equals( RGBKeeper.KEEPER_ID );
+      }
+      return false;
+    }
+
   }
 
   /**
@@ -66,7 +75,7 @@ public class ValedAvValobjSimpleRgb
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация методов базового класса
+  // AbstractValedSimpleRgb
   //
 
   @Override
@@ -79,7 +88,7 @@ public class ValedAvValobjSimpleRgb
   }
 
   @Override
-  protected void doSetUnvalidatedValue( IAtomicValue aValue ) {
+  protected void doDoSetUnvalidatedValue( IAtomicValue aValue ) {
     if( aValue == null || aValue == IAtomicValue.NULL ) {
       setRgb( null );
     }

@@ -54,6 +54,11 @@ public class ValedLocalDateMpv
       return new ValedLocalDateViewer( aContext );
     }
 
+    @Override
+    protected boolean isSuitableRawEditor( Class<?> aValueClass, ITsGuiContext aEditorContext ) {
+      return aValueClass.equals( LocalDate.class );
+    }
+
   }
 
   /**

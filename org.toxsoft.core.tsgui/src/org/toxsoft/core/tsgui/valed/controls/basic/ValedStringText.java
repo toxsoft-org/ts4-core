@@ -64,6 +64,11 @@ public class ValedStringText
       return new ValedStringText( aContext );
     }
 
+    @Override
+    protected boolean isSuitableRawEditor( Class<?> aValueClass, ITsGuiContext aEditorContext ) {
+      return aValueClass.equals( String.class );
+    }
+
   }
 
   /**

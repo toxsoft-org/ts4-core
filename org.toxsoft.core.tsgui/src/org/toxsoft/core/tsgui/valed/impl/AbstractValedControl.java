@@ -30,11 +30,11 @@ public abstract class AbstractValedControl<V, C extends Control>
     implements IValedControl<V>, ITsContextListener, ITsGuiContextable {
 
   /**
-   * Subclass-visible implementation of {@link IValedControl#eventer()}.
+   * {@link IValedControl#eventer()} implementation.
    *
    * @author hazard157
    */
-  public class Eventer
+  class Eventer
       extends AbstractTsEventer<IValedControlValueChangeListener> {
 
     private boolean wasEvent     = false;
@@ -206,8 +206,8 @@ public abstract class AbstractValedControl<V, C extends Control>
   /**
    * Constructor for subclasses.
    *
-   * @param aTsContext {@link ITsGuiContext} - the valed context
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aTsContext {@link ITsGuiContext} - the VALED context
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   protected AbstractValedControl( ITsGuiContext aTsContext ) {
     tsContext = TsNullArgumentRtException.checkNull( aTsContext );
@@ -304,7 +304,8 @@ public abstract class AbstractValedControl<V, C extends Control>
     if( getControl() == null ) {
       return;
     }
-    eventer.pauseFiring();
+    boolean savedSelfEditingFlag = isSelfEditing;
+    isSelfEditing = true;
     try {
       if( aValue != null ) {
         doSetUnvalidatedValue( aValue );
@@ -314,7 +315,7 @@ public abstract class AbstractValedControl<V, C extends Control>
       }
     }
     finally {
-      eventer.resumeFiring( false );
+      isSelfEditing = savedSelfEditingFlag;
     }
     getControl().getParent().layout();
   }
@@ -325,18 +326,19 @@ public abstract class AbstractValedControl<V, C extends Control>
     if( getControl() == null ) {
       return;
     }
-    eventer.pauseFiring();
+    boolean savedSelfEditingFlag = isSelfEditing;
+    isSelfEditing = true;
     try {
       doClearValue();
     }
     finally {
-      eventer.resumeFiring( false );
+      isSelfEditing = savedSelfEditingFlag;
     }
     getControl().getParent().layout();
   }
 
   @Override
-  public Eventer eventer() {
+  public ITsEventer<IValedControlValueChangeListener> eventer() {
     return eventer;
   }
 
@@ -467,9 +469,9 @@ public abstract class AbstractValedControl<V, C extends Control>
   }
 
   /**
-   * Извещает слушателей {@link IValedControlValueChangeListener} об измненни
+   * Fires an {@link IValedControlValueChangeListener} event only if {@link #isSelfEditing()} = <code>false</code>.
    *
-   * @param aEditFinished boolean - признак завершения редактирования (ввода значения)
+   * @param aEditFinished boolean - the sign that editing was finished
    */
   public void fireModifyEvent( boolean aEditFinished ) {
     if( isSelfEditing ) {
@@ -482,7 +484,7 @@ public abstract class AbstractValedControl<V, C extends Control>
   }
 
   // ------------------------------------------------------------------------------------
-  // Методы, которые могут потребовать реализации наследниками
+  // To override
   //
 
   @Override
@@ -491,10 +493,11 @@ public abstract class AbstractValedControl<V, C extends Control>
   }
 
   /**
-   * Вызывается при уничтожении виджета операционной системы, реализуюший данный контроль.
+   * Called when the operating system widget that implements this control is destroyed.
    * <p>
-   * В базовом классе {@link AbstractValedControl} ничего не делает, и при переопределении можно не вызвать. Однако,
-   * если наследуетесь не напрямую от {@link AbstractValedControl} а его наследника, нужно вызвать родительский метод.
+   * This method in the base class {@link AbstractValedControl} does nothing and the parent method does not need to be
+   * called when overridden. However, if the inheritance does not come directly from {@link AbstractValedControl} but
+   * its successor, you need to call the parent method.
    */
   protected void onDispose() {
     // nop
@@ -610,20 +613,19 @@ public abstract class AbstractValedControl<V, C extends Control>
   /**
    * Subclass must the value to editor widget(s).
    * <p>
-   * This method is called only when SWT widgets are created.
+   * This method is called only after the SWT widgets are created.
    *
    * @param aValue &lt;V&gt; - new value, never is <code>null</code>
-   * @throws TsIllegalArgumentRtException value has uncompatibe type
+   * @throws TsIllegalArgumentRtException value has incompatible type
    */
   abstract protected void doSetUnvalidatedValue( V aValue );
 
   /**
    * Implementation must clear the value in the widget.
    * <p>
-   * This methos\d is called from {@link #clearValue()} and {@link #doSetUnvalidatedValue(Object)} with
-   * <code>null</code> argument.
+   * This method is called from {@link #clearValue()} and {@link #setValue(Object) setValue( <b>null</b> )}.
    * <p>
-   * This meothod is called only when widget is created, that is {@link #getControl()} != <code>null</code>.
+   * This method is called only when widget is created, that is {@link #getControl()} != <code>null</code>.
    */
   abstract protected void doClearValue();
 

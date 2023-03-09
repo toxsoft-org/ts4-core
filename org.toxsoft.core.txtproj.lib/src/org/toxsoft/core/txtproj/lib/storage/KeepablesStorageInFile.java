@@ -4,21 +4,18 @@ import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 
 import java.io.*;
 
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
-import org.toxsoft.core.tslib.bricks.strio.chario.ICharInputStreamCloseable;
-import org.toxsoft.core.tslib.bricks.strio.chario.ICharOutputStream;
-import org.toxsoft.core.tslib.bricks.strio.chario.impl.CharInputStreamFile;
-import org.toxsoft.core.tslib.bricks.strio.chario.impl.CharOutputStreamWriter;
+import org.toxsoft.core.tslib.bricks.strio.chario.*;
+import org.toxsoft.core.tslib.bricks.strio.chario.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.impl.*;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMapEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
-import org.toxsoft.core.tslib.utils.errors.TsIoRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.files.TsFileUtils;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.files.*;
 
 /**
  * Хранит все раздели хранилища в одном файле.
@@ -45,7 +42,7 @@ public class KeepablesStorageInFile
   }
 
   // ------------------------------------------------------------------------------------
-  // Внутренние методы
+  // implementation
   //
 
   private void load() {
@@ -70,9 +67,9 @@ public class KeepablesStorageInFile
         sw.writeAsIs( keyword );
         sw.writeSpace();
         sw.writeChar( CHAR_EQUAL );
-        sw.writeSpace();
+        sw.incNewLine();
         sw.writeAsIs( sectionsMap.getByKey( keyword ) );
-        sw.writeEol();
+        sw.decNewLine();
       }
     }
     catch( IOException ex ) {

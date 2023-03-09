@@ -39,15 +39,6 @@ public abstract class AbstractValedSimpleFontInfo<V>
   // implementation
   //
 
-  private void updateTextControl() {
-    if( fontInfo != IFontInfo.NULL ) {
-      getTextControl().setText( fontInfo.toString() );
-    }
-    else {
-      getTextControl().setText( STR_MSG_DEFAULT_FONT );
-    }
-  }
-
   // ------------------------------------------------------------------------------------
   // AbstractValedTextAndButton
   //
@@ -57,11 +48,10 @@ public abstract class AbstractValedSimpleFontInfo<V>
     ITsIconManager iconManager = tsContext().get( ITsIconManager.class );
     EIconSize iconSize = hdpiService().getJFaceCellIconsSize();
     getButtonControl().setImage( iconManager.loadStdIcon( ICONID_FONTS, iconSize ) );
-    updateTextControl();
   }
 
   @Override
-  final protected void doProcessButtonPress() {
+  final protected boolean doProcessButtonPress() {
     FontDialog dlg = new FontDialog( getShell() );
     dlg.setText( DLG_T_FONT_SELECT );
     ITsFontManager fontManager = tsContext().get( ITsFontManager.class );
@@ -71,11 +61,20 @@ public abstract class AbstractValedSimpleFontInfo<V>
     }
     FontData fd = dlg.open();
     if( fd == null ) {
-      return;
+      return false;
     }
     fontInfo = fontManager.data2info( fd );
-    updateTextControl();
-    fireModifyEvent( true );
+    return true;
+  }
+
+  @Override
+  protected void doUpdateTextControl() {
+    if( fontInfo != IFontInfo.NULL ) {
+      getTextControl().setText( fontInfo.toString() );
+    }
+    else {
+      getTextControl().setText( STR_MSG_DEFAULT_FONT );
+    }
   }
 
   // ------------------------------------------------------------------------------------
@@ -93,7 +92,7 @@ public abstract class AbstractValedSimpleFontInfo<V>
     else {
       fontInfo = IFontInfo.NULL;
     }
-    updateTextControl();
+    doUpdateTextControl();
   }
 
 }

@@ -46,6 +46,11 @@ public class ValedTsFillInfo
       return new ValedTsFillInfo( aContext );
     }
 
+    @Override
+    protected boolean isSuitableRawEditor( Class<?> aValueClass, ITsGuiContext aEditorContext ) {
+      return aValueClass.equals( TsFillInfo.class );
+    }
+
   }
 
   /**
@@ -71,16 +76,22 @@ public class ValedTsFillInfo
   //
 
   @Override
-  protected void doProcessButtonPress() {
+  protected boolean doProcessButtonPress() {
     TsFillInfo fi = TsFillInfo.NONE;
     if( value != TsFillInfo.NONE ) {
       fi = value;
     }
     fi = PanelTsFillInfoSelector.editPattern( fi, tsContext() );
-    if( fi != null ) {
-      value = fi;
-      fireModifyEvent( true );
+    if( fi == null ) {
+      return false;
     }
+    value = fi;
+    return true;
+  }
+
+  @Override
+  protected void doUpdateLabelControl() {
+    // TODO what to write/display in label ?
   }
 
   @Override
@@ -89,7 +100,7 @@ public class ValedTsFillInfo
   }
 
   @Override
-  protected void doSetUnvalidatedValue( TsFillInfo aValue ) {
+  protected void doDoSetUnvalidatedValue( TsFillInfo aValue ) {
     value = aValue;
   }
 

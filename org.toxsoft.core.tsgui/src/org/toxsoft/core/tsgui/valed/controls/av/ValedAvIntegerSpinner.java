@@ -41,6 +41,11 @@ public class ValedAvIntegerSpinner
       return new ValedAvIntegerSpinner( aContext );
     }
 
+    @Override
+    protected boolean isSuitableAvEditor( EAtomicType aAtomicType, String aKeeperId, ITsGuiContext aEditorContext ) {
+      return aAtomicType == EAtomicType.INTEGER;
+    }
+
   }
 
   /**

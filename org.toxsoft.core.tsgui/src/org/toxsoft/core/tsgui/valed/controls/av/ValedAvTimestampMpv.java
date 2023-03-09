@@ -41,6 +41,11 @@ public class ValedAvTimestampMpv
       return new ValedAvTimestampMpv( aContext );
     }
 
+    @Override
+    protected boolean isSuitableAvEditor( EAtomicType aAtomicType, String aKeeperId, ITsGuiContext aEditorContext ) {
+      return aAtomicType == EAtomicType.TIMESTAMP;
+    }
+
   }
 
   /**

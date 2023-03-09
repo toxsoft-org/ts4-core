@@ -5,6 +5,7 @@ import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.graphics.fonts.*;
+import org.toxsoft.core.tsgui.graphics.fonts.impl.*;
 import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tsgui.valed.impl.*;
 import org.toxsoft.core.tslib.av.*;
@@ -37,6 +38,14 @@ public class ValedAvValobjSimpleFontInfo
     @Override
     protected IValedControl<IAtomicValue> doCreateEditor( ITsGuiContext aContext ) {
       return new ValedAvValobjSimpleFontInfo( aContext );
+    }
+
+    @Override
+    protected boolean isSuitableAvEditor( EAtomicType aAtomicType, String aKeeperId, ITsGuiContext aEditorContext ) {
+      if( aAtomicType == EAtomicType.VALOBJ && aKeeperId != null ) {
+        return aKeeperId.equals( FontInfo.KEEPER_ID );
+      }
+      return false;
     }
 
   }
@@ -73,7 +82,7 @@ public class ValedAvValobjSimpleFontInfo
   }
 
   @Override
-  protected void doSetUnvalidatedValue( IAtomicValue aValue ) {
+  protected void doDoSetUnvalidatedValue( IAtomicValue aValue ) {
     IFontInfo finf = IFontInfo.NULL;
     if( aValue != null ) {
       finf = aValue.asValobj();

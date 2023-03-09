@@ -17,10 +17,10 @@ import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Strid geberaten based on UUID generation by {@link UUID#randomUUID()}.
+ * Strid generator based on UUID generation with {@link UUID#randomUUID()}.
  * <p>
- * Createds STRIDs like "uuid_f2d8afc1_6dd8_4dc6_ad26_dc701284e43c". As a prefix "<i>uuid_</i>" any valid IDpath may be
- * used.
+ * Creates STRIDs like "prefix.uf2d8afc1_6dd8_4dc6_ad26_dc701284e43c". As a prefix "<i>prefix</i>" any valid IDpath may
+ * be used.
  * <p>
  * State of the generator includes only prefix string.
  *
@@ -102,9 +102,10 @@ public class UuidStridGenerator
 
   @Override
   public String nextId() {
-    UUID uuid = UUID.randomUUID();
     String prefix = OPDEF_PREFIX.getValue( state ).asString();
-    return prefix + uuid.toString().replace( '-', '_' );
+    UUID uuid = UUID.randomUUID();
+    String uuidStr = 'u' + uuid.toString().replace( '-', '_' );
+    return StridUtils.makeIdPath( prefix, uuidStr );
   }
 
   @Override

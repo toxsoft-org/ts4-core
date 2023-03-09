@@ -65,6 +65,11 @@ public class ValedOptionSet
       return new ValedOptionSet( aContext );
     }
 
+    @Override
+    protected boolean isSuitableRawEditor( Class<?> aValueClass, ITsGuiContext aEditorContext ) {
+      return aValueClass.equals( IOptionSet.class );
+    }
+
   }
 
   /**
@@ -139,7 +144,7 @@ public class ValedOptionSet
   @Override
   protected void doSetUnvalidatedValue( IOptionSet aValue ) {
     if( aValue != null ) {
-      // если не заданы описания опции, сгенерируем описания по умолчанию
+      // auto-generate options definitions if not set previously
       if( !isOptionDefsSet ) {
         panel.setOptionDefs( prepareDefaultDefs( aValue ) );
       }
@@ -174,16 +179,22 @@ public class ValedOptionSet
    * Setting an empty list just causes no option to be shown.
    *
    * @param aDefs {@link IStridablesList}&lt;{@link IDataDef}&gt; - list of option definitions or <code>null</code>
-   * @throws TsItemNotFoundRtException не задано имя фабрики редактора для одной из опции
    */
   public void setOptionDefs( IStridablesList<IDataDef> aDefs ) {
-    if( aDefs != null ) {
-      panel.setOptionDefs( aDefs );
-      isOptionDefsSet = true;
+    boolean savedSelfEditingFlag = isSelfEditing();
+    setSelfEditing( true );
+    try {
+      if( aDefs != null ) {
+        panel.setOptionDefs( aDefs );
+        isOptionDefsSet = true;
+      }
+      else {
+        panel.setOptionDefs( IStridablesList.EMPTY );
+        isOptionDefsSet = false;
+      }
     }
-    else {
-      panel.setOptionDefs( IStridablesList.EMPTY );
-      isOptionDefsSet = false;
+    finally {
+      setSelfEditing( savedSelfEditingFlag );
     }
   }
 

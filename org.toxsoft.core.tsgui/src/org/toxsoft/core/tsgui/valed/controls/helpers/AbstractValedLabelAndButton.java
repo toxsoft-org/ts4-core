@@ -62,13 +62,17 @@ public abstract class AbstractValedLabelAndButton<V>
 
       @Override
       public void widgetSelected( SelectionEvent e ) {
-        doProcessButtonPress();
+        if( doProcessButtonPress() ) {
+          doUpdateLabelControl();
+          fireModifyEvent( true );
+        }
       }
     } );
     // setup
     button.setEnabled( isEditable() && !isCreatedUneditable() );
     button.setText( STR_ELLIPSIS );
     doAfterControlCreated();
+    doUpdateLabelControl();
     return board;
   }
 
@@ -82,6 +86,13 @@ public abstract class AbstractValedLabelAndButton<V>
   @Override
   protected void doClearValue() {
     label.setText( TsLibUtils.EMPTY_STRING );
+    doUpdateLabelControl();
+  }
+
+  @Override
+  final protected void doSetUnvalidatedValue( V aValue ) {
+    doDoSetUnvalidatedValue( aValue );
+    doUpdateLabelControl();
   }
 
   // ------------------------------------------------------------------------------------
@@ -100,7 +111,7 @@ public abstract class AbstractValedLabelAndButton<V>
   /**
    * Returns the button at right.
    *
-   * @return Buntton - the button at right
+   * @return {@link Button} - the button at right
    */
   public Button getButtonControl() {
     return button;
@@ -117,17 +128,36 @@ public abstract class AbstractValedLabelAndButton<V>
    * {@link #getLabelControl()} are already created and {@link #getControl()} returns backplate {@link Composite}. For
    * example, method may reset button text (contains ellipsis) and set own icon.
    * <p>
-   * Does nothng in the base class hence there is no need to call superclass method when overriding.
+   * Does nothing in the base class hence there is no need to call superclass method when overriding.
    */
   protected void doAfterControlCreated() {
     // nop
   }
 
   /**
+   * Subclass must update {@link #getLabelControl()}.
+   * <p>
+   * Called after value change.
+   */
+  protected abstract void doUpdateLabelControl();
+
+  /**
    * Subclass must call value editor dialog and set value to this VALED.
    * <p>
    * Is called when user pushes button {@link #getButtonControl()}.
+   *
+   * @return boolean - the flag indicates that value was changed
    */
-  protected abstract void doProcessButtonPress();
+  protected abstract boolean doProcessButtonPress();
+
+  /**
+   * Subclass must the value to editor widget(s).
+   * <p>
+   * Called from {@link AbstractValedTextAndButton#doSetUnvalidatedValue(Object)}.
+   *
+   * @param aValue &lt;V&gt; - new value, never is <code>null</code>
+   * @throws TsIllegalArgumentRtException value has incompatible type
+   */
+  protected abstract void doDoSetUnvalidatedValue( V aValue );
 
 }

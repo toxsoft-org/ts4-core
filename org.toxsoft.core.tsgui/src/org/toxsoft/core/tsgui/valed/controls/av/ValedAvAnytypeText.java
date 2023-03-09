@@ -120,6 +120,11 @@ public class ValedAvAnytypeText
       return new ValedAvAnytypeText( aContext );
     }
 
+    @Override
+    protected boolean isSuitableAvEditor( EAtomicType aAtomicType, String aKeeperId, ITsGuiContext aEditorContext ) {
+      return aAtomicType == EAtomicType.NONE;
+    }
+
   }
 
   /**

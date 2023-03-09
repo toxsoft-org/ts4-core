@@ -18,7 +18,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * method.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public class M5DefaultPanelCreator<T>
     implements IM5PanelCreator<T> {

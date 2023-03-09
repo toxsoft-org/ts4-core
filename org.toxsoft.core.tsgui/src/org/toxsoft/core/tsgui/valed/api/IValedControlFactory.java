@@ -1,32 +1,33 @@
 package org.toxsoft.core.tsgui.valed.api;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.eclipse.e4.core.contexts.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.valed.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link IValedControl} instance creation factory.
+ * <p>
+ * The only allowed implementation is {@link AbstractValedControlFactory}.
  *
  * @author hazard157
  */
 public interface IValedControlFactory {
 
   /**
-   * Returns the globally uinque factory name.
-   * <p>
-   * Factory may be named as of created control name, eg. "ts.core.ValedAvIntSpinner".
+   * Returns the globally unique factory name.
    *
-   * @return String - the globally uinque factory name
+   * @return String - the globally unique factory name
    */
   String factoryName();
 
   /**
-   * Создает редактор.
+   * Creates the editor.
    *
-   * @param <V> - конкретный тип редактируемого значения
-   * @param aContext {@link IEclipseContext} - контекст редактора с параметрами
-   * @return {@link IValedControl} - созданный редактор
-   * @throws TsNullArgumentRtException aContext или aParams аргумент = null
+   * @param <V> - edited value type
+   * @param aContext {@link IEclipseContext} - the editor creation context
+   * @return {@link IValedControl} - created editor
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   <V> IValedControl<V> createEditor( ITsGuiContext aContext );
 

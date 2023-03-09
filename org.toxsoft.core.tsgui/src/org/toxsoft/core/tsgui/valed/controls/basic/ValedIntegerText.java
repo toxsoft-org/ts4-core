@@ -42,6 +42,11 @@ public class ValedIntegerText
       return new ValedIntegerText( aContext );
     }
 
+    @Override
+    protected boolean isSuitableRawEditor( Class<?> aValueClass, ITsGuiContext aEditorContext ) {
+      return aValueClass.equals( Integer.class );
+    }
+
   }
 
   /**

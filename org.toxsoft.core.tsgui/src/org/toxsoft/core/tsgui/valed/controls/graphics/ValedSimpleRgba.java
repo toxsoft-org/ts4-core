@@ -41,6 +41,11 @@ public class ValedSimpleRgba
       return new ValedSimpleRgba( aContext );
     }
 
+    @Override
+    protected boolean isSuitableRawEditor( Class<?> aValueClass, ITsGuiContext aEditorContext ) {
+      return aValueClass.equals( RGBA.class );
+    }
+
   }
 
   /**
@@ -77,7 +82,7 @@ public class ValedSimpleRgba
   }
 
   @Override
-  protected void doSetUnvalidatedValue( RGBA aValue ) {
+  protected void doDoSetUnvalidatedValue( RGBA aValue ) {
     setRgba( aValue );
   }
 

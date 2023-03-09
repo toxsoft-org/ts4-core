@@ -5,6 +5,8 @@ import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import static org.toxsoft.core.tslib.utils.plugins.ITsResources.*;
 
+import java.lang.reflect.*;
+
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
@@ -68,7 +70,8 @@ public interface IPluginsHardConstants {
    * Название свойства "имя класса плагина".
    * <p>
    * Значение свойства: полное название класса плагина {@link Class#getName()}. Класс плагина должен иметь открытый
-   * конструктор без аргументов, для создания экземпляра методом {@link Class#newInstance()}.
+   * конструктор без аргументов, для создания экземпляра методом {@link Constructor#newInstance(Object...)
+   * newInstance()}.
    */
   String MF_ATTR_PLUGIN_CLASS_NAME = "TsPluginClassName"; //$NON-NLS-1$
 
