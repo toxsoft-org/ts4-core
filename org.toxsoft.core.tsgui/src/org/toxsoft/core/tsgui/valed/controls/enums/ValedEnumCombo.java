@@ -46,6 +46,15 @@ public class ValedEnumCombo<V extends Enum<V>>
       return new ValedEnumCombo<>( aContext );
     }
 
+    @Override
+    protected boolean isSuitableRawEditor( Class<?> aValueClass, ITsGuiContext aEditorContext ) {
+      if( Enum.class.isAssignableFrom( aValueClass ) ) {
+        IValedEnumConstants.REFDEF_ENUM_CLASS.setRef( aEditorContext, aValueClass );
+        return true;
+      }
+      return false;
+    }
+
   }
 
   /**

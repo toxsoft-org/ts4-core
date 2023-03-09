@@ -60,6 +60,11 @@ public class ValedBooleanCheck
       return new ValedBooleanCheck( aContext );
     }
 
+    @Override
+    protected boolean isSuitableRawEditor( Class<?> aValueClass, ITsGuiContext aEditorContext ) {
+      return aValueClass.equals( Boolean.class );
+    }
+
   }
 
   /**

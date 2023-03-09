@@ -80,6 +80,11 @@ public class ValedIntegerSpinner
       return new ValedIntegerSpinner( aContext );
     }
 
+    @Override
+    protected boolean isSuitableRawEditor( Class<?> aValueClass, ITsGuiContext aEditorContext ) {
+      return aValueClass.equals( Integer.class );
+    }
+
   }
 
   /**

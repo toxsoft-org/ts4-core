@@ -120,6 +120,11 @@ public class ValedDoubleSpinner
       return new ValedDoubleSpinner( aContext );
     }
 
+    @Override
+    protected boolean isSuitableRawEditor( Class<?> aValueClass, ITsGuiContext aEditorContext ) {
+      return aValueClass.equals( Double.class );
+    }
+
   }
 
   /**
