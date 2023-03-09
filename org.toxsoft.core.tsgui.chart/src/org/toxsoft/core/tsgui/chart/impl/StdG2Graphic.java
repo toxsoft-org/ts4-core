@@ -1,6 +1,8 @@
 package org.toxsoft.core.tsgui.chart.impl;
 
+import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.chart.api.*;
 import org.toxsoft.core.tsgui.chart.renderers.*;
@@ -16,9 +18,15 @@ import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.logs.impl.*;
 
+/**
+ * Стандартный график типа линии
+ *
+ * @author hazard157
+ */
 public class StdG2Graphic
     implements IG2Graphic {
 
+  private static final int         SET_POINT_LINE_WIDTH = 1;
   private final IG2DataSet         dataSet;
   private final IG2GraphicRenderer renderer;
   private final XAxisView          xAxisView;
@@ -29,7 +37,15 @@ public class StdG2Graphic
   // FIXME добавить аппроксиматор как параметр
   IApproximator approximator = new LinearApproximator();
 
-  // public StdG2Graphic( IG2DataSet aDataSet, XAxisView aXAxis, YAxisView aYAxis, IG2Params aRendererParams ) {
+  /**
+   * Конструктор
+   *
+   * @param aDataSet даннные графика
+   * @param aXAxis описание шкалы X
+   * @param aYAxis описание шкалы Y
+   * @param aPlotDef описание поля отображения
+   * @param aContext контекст приложения
+   */
   public StdG2Graphic( IG2DataSet aDataSet, XAxisView aXAxis, YAxisView aYAxis, IPlotDef aPlotDef,
       ITsGuiContext aContext ) {
     TsNullArgumentRtException.checkNulls( aDataSet, aXAxis, aYAxis );
@@ -65,12 +81,18 @@ public class StdG2Graphic
     if( plotDef.rendererParams().params().findByKey( IStdG2GraphicRendererOptions.СHART_SET_POINTS.id() ) != null ) {
       IStringList setPointList =
           IStdG2GraphicRendererOptions.СHART_SET_POINTS.getValue( plotDef.rendererParams().params() ).asValobj();
-      aGc.setForeground( renderer.graphicColor() );
-      aGc.setLineWidth( renderer.lineInfo().width() );
+      aGc.setForeground( Display.getCurrent().getSystemColor( SWT.COLOR_BLACK ) );
+      // запоминаем текущие настройки
+      int currWidth = aGc.getLineWidth();
+      aGc.setLineWidth( SET_POINT_LINE_WIDTH );
+      int currStyle = aGc.getLineStyle();
+      aGc.setLineStyle( SWT.LINE_SOLID );
+
+      aGc.setLineDash( new int[] { 3, 6 } );
 
       for( String setPointStr : setPointList ) {
         try {
-          float spValue = Float.parseFloat( setPointStr );
+          float spValue = floatVal( setPointStr );
           double nv = yAxisView.normalizeValue( AvUtils.avFloat( spValue ) );
           int spY = cr.y2() - G2ChartUtils.normToScreen( nv, cr.height() );
           aGc.drawLine( cr.x1(), spY, cr.x2(), spY );
@@ -79,6 +101,11 @@ public class StdG2Graphic
           LoggerUtils.errorLogger().error( ex );
         }
       }
+      // восстанавливаем текущие настройки
+      aGc.setLineWidth( currWidth );
+      aGc.setLineStyle( currStyle );
+      aGc.setForeground( renderer.graphicColor() );
+
     }
     IListEdit<IList<Pair<Integer, Integer>>> polylines = new ElemArrayList<>();
     IListEdit<Pair<Integer, Integer>> polyline = null;
@@ -142,6 +169,20 @@ public class StdG2Graphic
     }
 
     renderer.drawGraphic( aGc, polylines, cr );
+  }
+
+  @SuppressWarnings( "nls" )
+  private static float floatVal( String aSetPointStr ) {
+    float retVal = Float.NaN;
+    // перестрахуемся на счет использования запятой в качестве разделителя
+    String spValStr = aSetPointStr.replaceAll( ",", "." );
+    try {
+      retVal = Float.parseFloat( spValStr );
+    }
+    catch( Exception ex ) {
+      LoggerUtils.errorLogger().error( ex );
+    }
+    return retVal;
   }
 
   @Override
