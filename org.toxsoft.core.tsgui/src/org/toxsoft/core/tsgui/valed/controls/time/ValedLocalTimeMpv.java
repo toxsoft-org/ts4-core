@@ -74,6 +74,11 @@ public class ValedLocalTimeMpv
       return new ValedLocalTimeViewer( aContext );
     }
 
+    @Override
+    protected boolean isSuitableRawEditor( Class<?> aValueClass, ITsGuiContext aEditorContext ) {
+      return aValueClass.equals( LocalTime.class );
+    }
+
   }
 
   /**
