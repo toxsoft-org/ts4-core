@@ -6,16 +6,15 @@ import static org.toxsoft.core.tsgui.valed.controls.graphics.ITsResources.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
-import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.valed.controls.helpers.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Simple eidot of {@link RGB} as uneditable text field with edit button at right.
+ * Simple editor of {@link RGB} as uneditable text field with edit button at right.
  * <p>
- * Thisd class is generic because may edit both {@link RGB} and {@link IAtomicValue}.
+ * This class is generic because may edit both {@link RGB} and {@link IAtomicValue}.
  *
  * @author hazard157
  * @author dima
@@ -44,26 +43,22 @@ public abstract class AbstractValedSimpleRgb<V>
   //
 
   /**
-   * Цвет в формате RGB переводим в человеческое название
+   * Returns human-readable name of the RGB color.
    *
-   * @param aRgb цвет
-   * @return человеческое название RGB
+   * @param aRgb {@link RGB} - the color, may be <code>null</code>
+   * @return String - human-readable color name
    */
-  @SuppressWarnings( { "boxing" } )
-  public static String rgb2text( RGB aRgb ) {
+  public String rgb2text( RGB aRgb ) {
     if( aRgb == null ) {
       return STR_MSG_DEFAULT_COLOR;
     }
-    ETsColor c = ETsColor.findByRgb( aRgb );
-    if( c != null ) {
-      return c.nmName();
-    }
-    return String.format( "(%d,%d,%d)", aRgb.red, aRgb.green, aRgb.blue ); //$NON-NLS-1$
+    return colorManager().getHumanReadableName( aRgb );
   }
 
-  private void updateTextControl() {
+  @Override
+  protected void doUpdateLabelControl() {
     getLabelControl().setText( rgb2text( value ) );
-    // обновим прямоугольник с цветом
+    // refresh color sample rectangle
     if( colorImage != null ) {
       colorImage.dispose();
     }
@@ -73,9 +68,9 @@ public abstract class AbstractValedSimpleRgb<V>
       gc.setBackground( new Color( value.red, value.green, value.blue ) );
       gc.fillRectangle( 0, 0, colorImage.getImageData().width, colorImage.getImageData().height );
       gc.dispose();
-
       getLabelControl().setImage( colorImage );
     }
+    // TODO set font color to WHITE for dark colors
   }
 
   // ------------------------------------------------------------------------------------
@@ -87,27 +82,26 @@ public abstract class AbstractValedSimpleRgb<V>
     ITsIconManager iconManager = tsContext().get( ITsIconManager.class );
     EIconSize iconSize = hdpiService().getJFaceCellIconsSize();
     getButtonControl().setImage( iconManager.loadStdIcon( ICONID_COLORS, iconSize ) );
-    updateTextControl();
-    // чистим ресурсы за собой
-    getLabelControl().addDisposeListener( event -> {
-      if( colorImage != null ) {
-        colorImage.dispose();
-      }
-    } );
   }
 
   @Override
-  final protected void doProcessButtonPress() {
+  final protected boolean doProcessButtonPress() {
     ColorDialog dlg = new ColorDialog( getShell() );
     dlg.setText( DLG_T_COLOR_SELECT );
     dlg.setRGB( value );
     RGB newVal = dlg.open();
     if( newVal == null ) {
-      return;
+      return false;
     }
     value = newVal;
-    updateTextControl();
-    fireModifyEvent( true );
+    return true;
+  }
+
+  @Override
+  protected void onDispose() {
+    if( colorImage != null ) {
+      colorImage.dispose();
+    }
   }
 
   // ------------------------------------------------------------------------------------
@@ -120,7 +114,6 @@ public abstract class AbstractValedSimpleRgb<V>
 
   protected void setRgb( RGB aRgb ) {
     value = aRgb;
-    updateTextControl();
   }
 
 }

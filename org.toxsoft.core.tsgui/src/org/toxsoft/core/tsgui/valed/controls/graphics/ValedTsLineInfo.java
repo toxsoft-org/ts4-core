@@ -46,6 +46,11 @@ public class ValedTsLineInfo
       return new ValedTsLineInfo( aContext );
     }
 
+    @Override
+    protected boolean isSuitableRawEditor( Class<?> aValueClass, ITsGuiContext aEditorContext ) {
+      return aValueClass.equals( TsLineInfo.class );
+    }
+
   }
 
   /**
@@ -66,11 +71,18 @@ public class ValedTsLineInfo
   //
 
   @Override
-  protected void doProcessButtonPress() {
+  protected boolean doProcessButtonPress() {
     TsLineInfo li = PanelTsLineInfoEditor.editLineInfo( lineInfo, tsContext() );
-    if( li != null ) {
-      lineInfo = li;
+    if( li == null ) {
+      return false;
     }
+    lineInfo = li;
+    return true;
+  }
+
+  @Override
+  protected void doUpdateLabelControl() {
+    // TODO what to write/display in label ?
   }
 
   @Override
@@ -79,7 +91,7 @@ public class ValedTsLineInfo
   }
 
   @Override
-  protected void doSetUnvalidatedValue( TsLineInfo aValue ) {
+  protected void doDoSetUnvalidatedValue( TsLineInfo aValue ) {
     lineInfo = aValue;
   }
 

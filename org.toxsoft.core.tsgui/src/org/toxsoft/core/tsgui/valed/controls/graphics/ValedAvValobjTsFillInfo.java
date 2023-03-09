@@ -40,6 +40,15 @@ public class ValedAvValobjTsFillInfo
     protected IValedControl<IAtomicValue> doCreateEditor( ITsGuiContext aContext ) {
       return new ValedAvValobjTsFillInfo( aContext );
     }
+
+    @Override
+    protected boolean isSuitableAvEditor( EAtomicType aAtomicType, String aKeeperId, ITsGuiContext aEditorContext ) {
+      if( aAtomicType == EAtomicType.VALOBJ && aKeeperId != null ) {
+        return aKeeperId.equals( TsFillInfo.KEEPER_ID );
+      }
+      return false;
+    }
+
   }
 
   /**

@@ -50,6 +50,11 @@ public class ValedTsBorderInfo
       return new ValedTsBorderInfo( aContext );
     }
 
+    @Override
+    protected boolean isSuitableRawEditor( Class<?> aValueClass, ITsGuiContext aEditorContext ) {
+      return aValueClass.equals( TsBorderInfo.class );
+    }
+
   }
 
   /**
@@ -75,13 +80,19 @@ public class ValedTsBorderInfo
   //
 
   @Override
-  protected void doProcessButtonPress() {
+  protected boolean doProcessButtonPress() {
     TsDialogInfo dlgInfo = new TsDialogInfo( tsContext(), DLG_T_BORDER_INFO, STR_MSG_BORDER_INFO );
     IOptionSet opSet = DialogOptionsEdit.editOpset( dlgInfo, TsBorderInfo.ALL_DEFS, value.options() );
-    if( opSet != null ) {
-      value = TsBorderInfo.ofOptions( opSet );
-      fireModifyEvent( true );
+    if( opSet == null ) {
+      return false;
     }
+    value = TsBorderInfo.ofOptions( opSet );
+    return true;
+  }
+
+  @Override
+  protected void doUpdateLabelControl() {
+    // TODO what to write/display in label ?
   }
 
   @Override
@@ -90,7 +101,7 @@ public class ValedTsBorderInfo
   }
 
   @Override
-  protected void doSetUnvalidatedValue( TsBorderInfo aValue ) {
+  protected void doDoSetUnvalidatedValue( TsBorderInfo aValue ) {
     value = aValue;
   }
 

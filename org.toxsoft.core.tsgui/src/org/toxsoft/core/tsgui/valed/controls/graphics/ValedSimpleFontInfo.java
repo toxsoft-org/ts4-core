@@ -42,6 +42,11 @@ public class ValedSimpleFontInfo
       return new ValedSimpleFontInfo( aContext );
     }
 
+    @Override
+    protected boolean isSuitableRawEditor( Class<?> aValueClass, ITsGuiContext aEditorContext ) {
+      return aValueClass.equals( IFontInfo.class );
+    }
+
   }
 
   /**
@@ -78,7 +83,7 @@ public class ValedSimpleFontInfo
   }
 
   @Override
-  protected void doSetUnvalidatedValue( IFontInfo aValue ) {
+  protected void doDoSetUnvalidatedValue( IFontInfo aValue ) {
     setFontInfo( aValue );
   }
 

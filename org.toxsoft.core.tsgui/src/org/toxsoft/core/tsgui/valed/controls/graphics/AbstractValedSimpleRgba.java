@@ -47,27 +47,22 @@ public abstract class AbstractValedSimpleRgba<V>
   //
 
   /**
-   * Цвет в формате RGB переводим в человеческое название
+   * Returns human-readable name of the RGB color.
    *
-   * @param aRgba RGBA - цвет с прозрачностью
-   * @return человеческое название RGB
+   * @param aRgba {@link RGBA} - the color, may be <code>null</code>
+   * @return String - human-readable color name
    */
-  @SuppressWarnings( { "boxing" } )
-  public static String rgba2text( RGBA aRgba ) {
+  public String rgba2text( RGBA aRgba ) {
     if( aRgba == null ) {
       return STR_MSG_DEFAULT_COLOR;
     }
-    ETsColor c = ETsColor.findByRgb( aRgba.rgb );
-    if( c != null ) {
-      return c.nmName();
-    }
-    RGB rgb = aRgba.rgb;
-    return String.format( "(%d,%d,%d,%d)", rgb.red, rgb.green, rgb.blue, aRgba.alpha ); //$NON-NLS-1$
+    return colorManager().getHumanReadableName( aRgba.rgb );
   }
 
-  private void updateTextControl() {
+  @Override
+  protected void doUpdateLabelControl() {
     getLabelControl().setText( rgba2text( value ) );
-    // обновим прямоугольник с цветом
+    // refresh color sample rectangle
     if( colorImage != null ) {
       colorImage.dispose();
     }
@@ -94,7 +89,6 @@ public abstract class AbstractValedSimpleRgba<V>
       gc.setBackground( new Color( value.rgb.red, value.rgb.green, value.rgb.blue ) );
       gc.fillRectangle( 0, 0, colorImage.getImageData().width, colorImage.getImageData().height );
       gc.dispose();
-
       getLabelControl().setImage( colorImage );
     }
   }
@@ -108,24 +102,23 @@ public abstract class AbstractValedSimpleRgba<V>
     ITsIconManager iconManager = tsContext().get( ITsIconManager.class );
     EIconSize iconSize = hdpiService().getJFaceCellIconsSize();
     getButtonControl().setImage( iconManager.loadStdIcon( ICONID_COLORS, iconSize ) );
-    updateTextControl();
-    // чистим ресурсы за собой
-    getLabelControl().addDisposeListener( event -> {
-      if( colorImage != null ) {
-        colorImage.dispose();
-      }
-    } );
   }
 
   @Override
-  final protected void doProcessButtonPress() {
+  final protected boolean doProcessButtonPress() {
     RGBA newVal = PanelRgbaSelector.editRgba( value, tsContext() );
     if( newVal == null ) {
-      return;
+      return false;
     }
     value = newVal;
-    updateTextControl();
-    fireModifyEvent( true );
+    return true;
+  }
+
+  @Override
+  protected void onDispose() {
+    if( colorImage != null ) {
+      colorImage.dispose();
+    }
   }
 
   // ------------------------------------------------------------------------------------
@@ -138,7 +131,6 @@ public abstract class AbstractValedSimpleRgba<V>
 
   protected void setRgba( RGBA aRgba ) {
     value = aRgba;
-    updateTextControl();
   }
 
 }

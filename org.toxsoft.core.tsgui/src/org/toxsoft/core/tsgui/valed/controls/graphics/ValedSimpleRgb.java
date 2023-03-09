@@ -40,6 +40,11 @@ public class ValedSimpleRgb
       return new ValedSimpleRgb( aContext );
     }
 
+    @Override
+    protected boolean isSuitableRawEditor( Class<?> aValueClass, ITsGuiContext aEditorContext ) {
+      return aValueClass.equals( RGB.class );
+    }
+
   }
 
   /**
@@ -76,7 +81,7 @@ public class ValedSimpleRgb
   }
 
   @Override
-  protected void doSetUnvalidatedValue( RGB aValue ) {
+  protected void doDoSetUnvalidatedValue( RGB aValue ) {
     setRgb( aValue );
   }
 
