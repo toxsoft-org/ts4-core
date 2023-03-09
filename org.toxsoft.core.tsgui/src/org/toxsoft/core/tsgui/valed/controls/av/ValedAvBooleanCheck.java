@@ -41,6 +41,11 @@ public class ValedAvBooleanCheck
       return new ValedAvBooleanCheck( aContext );
     }
 
+    @Override
+    protected boolean isSuitableAvEditor( EAtomicType aAtomicType, String aKeeperId, ITsGuiContext aEditorContext ) {
+      return aAtomicType == EAtomicType.BOOLEAN;
+    }
+
   }
 
   /**

@@ -3,13 +3,14 @@ package org.toxsoft.core.tsgui.valed.controls.av;
 import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.valed.api.IValedControl;
-import org.toxsoft.core.tsgui.valed.controls.enums.ValedEnumCombo;
-import org.toxsoft.core.tsgui.valed.impl.AbstractValedControlFactory;
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.valed.api.*;
+import org.toxsoft.core.tsgui.valed.controls.enums.*;
+import org.toxsoft.core.tsgui.valed.impl.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
  * {@link EAtomicType#VALOBJ} Java <code>enum</code> editor using {@link ValedEnumCombo}.
@@ -43,6 +44,20 @@ public class ValedAvValobjEnumCombo<V extends Enum<V>>
       return new ValedAvValobjEnumCombo<>( aContext );
     }
 
+    @Override
+    protected boolean isSuitableAvEditor( EAtomicType aAtomicType, String aKeeperId, ITsGuiContext aEditorContext ) {
+      if( aAtomicType == EAtomicType.VALOBJ && aKeeperId != null ) {
+        IEntityKeeper<?> keeper = TsValobjUtils.findKeeperById( aKeeperId );
+        if( keeper != null ) {
+          Class<?> rawClass = keeper.entityClass();
+          if( rawClass != null && rawClass.isEnum() ) {
+            IValedEnumConstants.REFDEF_ENUM_CLASS.setRef( aEditorContext, rawClass );
+            return true;
+          }
+        }
+      }
+      return false;
+    }
   }
 
   /**

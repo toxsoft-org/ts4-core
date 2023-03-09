@@ -41,6 +41,11 @@ public class ValedAvFloatSpinner
       return new ValedAvFloatSpinner( aContext );
     }
 
+    @Override
+    protected boolean isSuitableAvEditor( EAtomicType aAtomicType, String aKeeperId, ITsGuiContext aEditorContext ) {
+      return aAtomicType == EAtomicType.FLOATING;
+    }
+
   }
 
   /**
