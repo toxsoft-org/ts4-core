@@ -5,7 +5,7 @@ import static org.toxsoft.core.tslib.utils.errors.ITsResources.*;
 /**
  * Uncheckable exception of illegal argument.
  * <p>
- * This excpetion is like {@link java.lang.IllegalArgumentException}.
+ * This exception is like {@link java.lang.IllegalArgumentException}.
  * <p>
  * This is method's precondition violation exception. Happens when methods argument is out of range allowed by API
  * contract.

@@ -15,9 +15,9 @@ public class TsInternalErrorRtException
   /**
    * Constructor for wrapper exception.
    * <p>
-   * Message string is created useing {@link String#format(String, Object...)}.
+   * Message string is created using {@link String#format(String, Object...)}.
    *
-   * @param aCause Throwable - cause, mey be <code>null</code>
+   * @param aCause Throwable - cause, may be <code>null</code>
    * @param aMessageFormat String - message format string
    * @param aMsgArgs Object[] - optional arguments for message string
    */
@@ -28,7 +28,7 @@ public class TsInternalErrorRtException
   /**
    * Constructor.
    * <p>
-   * Message string is created useing {@link String#format(String, Object...)}.
+   * Message string is created using {@link String#format(String, Object...)}.
    *
    * @param aMessageFormat String - message format string
    * @param aMsgArgs Object[] - optional arguments for message string
@@ -40,7 +40,7 @@ public class TsInternalErrorRtException
   /**
    * Constructor for wrapper exception with preset message.
    *
-   * @param aCause Throwable - cause, mey be <code>null</code>
+   * @param aCause Throwable - cause, may be <code>null</code>
    */
   public TsInternalErrorRtException( Throwable aCause ) {
     super( ERR_MSG_INTERNAL_ERROR, aCause );

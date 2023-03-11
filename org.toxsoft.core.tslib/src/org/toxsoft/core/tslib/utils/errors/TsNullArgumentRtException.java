@@ -20,7 +20,7 @@ public class TsNullArgumentRtException
   /**
    * Constructor.
    * <p>
-   * Message string is created useing {@link String#format(String, Object...)}.
+   * Message string is created using {@link String#format(String, Object...)}.
    *
    * @param aMessageFormat String - message format string
    * @param aMsgArgs Object[] - optional arguments for message string

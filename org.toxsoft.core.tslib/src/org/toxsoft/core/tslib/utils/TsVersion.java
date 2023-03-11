@@ -57,15 +57,13 @@ public final class TsVersion
   private final short verMinor;
   private final long  verDate;
 
-  // TODO TRANSLATE
-
   /**
-   * Создать версию со всеми инвариантами.
+   * Constructor.
    *
-   * @param aMajor short - старший номер версии.
-   * @param aMinor short - младший номер версии.
-   * @param aVerDate long - метка времени версии
-   * @throws TsIllegalArgumentRtException aMajor или aMinor < 0
+   * @param aMajor short - version major number
+   * @param aMinor short - version minor number
+   * @param aVerDate long - version time stamp
+   * @throws TsIllegalArgumentRtException aMajor or aMinor < 0
    */
   public TsVersion( short aMajor, short aMinor, long aVerDate ) {
     TsIllegalArgumentRtException.checkTrue( aMajor < 0 || aMinor < 0 );
@@ -74,12 +72,15 @@ public final class TsVersion
     verDate = aVerDate;
   }
 
+  // TODO TRANSLATE
+
   /**
-   * Создать версию со всеми инвариантами.
+   * Constructor.
    *
-   * @param aMajor byte - старший номер версии.
-   * @param aMinor byte - младший номер версии.
-   * @param aVerDate long - метка времени (миллисекунды с начала эпохи 01.01.1970).
+   * @param aMajor int - version major number
+   * @param aMinor int - version minor number
+   * @param aVerDate long - version time stamp
+   * @throws TsIllegalArgumentRtException aMajor or aMinor < 0
    */
   public TsVersion( int aMajor, int aMinor, long aVerDate ) {
     this( (short)aMajor, (short)aMinor, aVerDate );
@@ -106,29 +107,29 @@ public final class TsVersion
   }
 
   /**
-   * Создает версию с датой сборки - текущий момент и пустым описанием.
+   * Constructor with current time stamp.
    *
-   * @param aMajor short - старший номер версии.
-   * @param aMinor short - младший номер версии.
+   * @param aMajor short - version major number
+   * @param aMinor short - version minor number
    */
   public TsVersion( short aMajor, short aMinor ) {
     this( aMajor, aMinor, System.currentTimeMillis() );
   }
 
   /**
-   * Создает версию с датой сборки - текущий момент и пустым описанием.
+   * Constructor with current time stamp.
    *
-   * @param aMajor int - старший номер версии.
-   * @param aMinor int - младший номер версии.
+   * @param aMajor int - version major number
+   * @param aMinor int - version minor number
    */
   public TsVersion( int aMajor, int aMinor ) {
     this( aMajor, aMinor, System.currentTimeMillis() );
   }
 
   /**
-   * Конструктор копирования.
+   * Copy constructor.
    *
-   * @param aSource TsVersion - версия - источник
+   * @param aSource TsVersion - the source
    */
   public TsVersion( TsVersion aSource ) {
     this( aSource.verMajor(), aSource.verMinor(), aSource.verDate() );
@@ -140,7 +141,6 @@ public final class TsVersion
 
   /**
    * Returns the version string in format "1.0. 2022-12-31 23:59:59".
-   * <p>
    */
   @Override
   public String toString() {
@@ -184,7 +184,7 @@ public final class TsVersion
   }
 
   // --------------------------------------------------------------------------
-  // Реализация интерфейса Comparable<TsVersion>
+  // Comparable<TsVersion>
   //
 
   @Override
@@ -210,27 +210,27 @@ public final class TsVersion
   //
 
   /**
-   * Возвращает младший номер версии модуля.
+   * Return the version major number.
    *
-   * @return byte - неотрицательный младший номер
+   * @return short - major number (always >=9)
    */
   public short verMajor() {
     return verMajor;
   }
 
   /**
-   * Возвращает младший номер версии модуля.
+   * Return the version major number.
    *
-   * @return byte - неотрицательный младший номер
+   * @return short - major number (always >=9)
    */
   public short verMinor() {
     return verMinor;
   }
 
   /**
-   * Возвращает дату сборки версии модуля.
+   * Return version time stamp.
    *
-   * @return long - метка времени в миллисекундах с начала эпохи
+   * @return long - version time stamp
    */
   public long verDate() {
     return verDate;
@@ -257,7 +257,7 @@ public final class TsVersion
    * Creates {@link TsVersion} instance from the string of format "1.0. 2022-12-31 23:59:59".
    *
    * @param aVerString String - formatted version string
-   * @return {@link TsVersion} - creted instance
+   * @return {@link TsVersion} - created instance
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException invalid format
    */

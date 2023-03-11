@@ -1,6 +1,6 @@
 package org.toxsoft.core.tslib.utils.errors;
 
-import org.toxsoft.core.tslib.bricks.time.ITimestampable;
+import org.toxsoft.core.tslib.bricks.time.*;
 
 /**
  * Base class for all unchecked exceptions.
@@ -23,9 +23,9 @@ public class TsRuntimeException
   /**
    * Constructor for wrapper exception.
    * <p>
-   * Message string is created useing {@link String#format(String, Object...)}.
+   * Message string is created using {@link String#format(String, Object...)}.
    *
-   * @param aCause Throwable - cause, mey be <code>null</code>
+   * @param aCause Throwable - cause, may be <code>null</code>
    * @param aMessageFormat String - message format string
    * @param aMsgArgs Object[] - optional arguments for message string
    */
@@ -37,7 +37,7 @@ public class TsRuntimeException
   /**
    * Constructor for wrapper exception.
    *
-   * @param aCause Throwable - cause, mey be <code>null</code>
+   * @param aCause Throwable - cause, may be <code>null</code>
    * @param aMessage String - message string
    */
   protected TsRuntimeException( Throwable aCause, String aMessage ) {
@@ -48,7 +48,7 @@ public class TsRuntimeException
   /**
    * Constructor.
    * <p>
-   * Message string is created useing {@link String#format(String, Object...)}.
+   * Message string is created using {@link String#format(String, Object...)}.
    *
    * @param aMessageFormat String - message format string
    * @param aMsgArgs Object[] - optional arguments for message string
