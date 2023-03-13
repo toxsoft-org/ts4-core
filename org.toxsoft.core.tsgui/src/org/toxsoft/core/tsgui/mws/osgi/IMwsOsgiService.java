@@ -1,11 +1,9 @@
 package org.toxsoft.core.tsgui.mws.osgi;
 
-import org.toxsoft.core.tsgui.bricks.quant.IQuant;
-import org.toxsoft.core.tsgui.mws.appinf.ITsApplicationInfo;
-import org.toxsoft.core.tslib.av.utils.IParameterized;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContext;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.mws.appinf.*;
+import org.toxsoft.core.tslib.av.utils.*;
+import org.toxsoft.core.tslib.bricks.ctx.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Modular WorkStation (MWS) supporting ISGI service.
@@ -39,23 +37,5 @@ public interface IMwsOsgiService {
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void setAppInfo( ITsApplicationInfo aAppInfo );
-
-  /**
-   * Adds quant to be initialized by this plugin's addon.
-   * <p>
-   * Please note that this plugin (mws.base) is loaded before any other module plugin of the Modular WorkStation.
-   * Registered quants will be initialized before any other quants.
-   *
-   * @param aQuant {@link IQuant} - quant to be added
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   */
-  void addQuant( IQuant aQuant );
-
-  /**
-   * Returns quants registered by {@link #addQuant(IQuant)}.
-   *
-   * @return {@link IList}&lt;{@link IQuant}&gt; - list of the quant in the registration order
-   */
-  IList<IQuant> listQuants();
 
 }
