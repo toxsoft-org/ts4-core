@@ -9,8 +9,6 @@ import org.eclipse.e4.ui.workbench.modeling.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
-import org.toxsoft.core.tsgui.utils.*;
-import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
@@ -31,8 +29,11 @@ public abstract class MwsAbstractPart
   MPart selfPart;
 
   @Inject
-  MwaWindowStaff mainStaff;
+  MwaWindowStaff winStaff;
 
+  /**
+   * Listens to the part service events to call whenXxx() methods of this class.
+   */
   private final IPartListener partListener = new IPartListener() {
 
     @Override
@@ -71,19 +72,13 @@ public abstract class MwsAbstractPart
     }
   };
 
-  // /**
-  // * Ключ, под которым в контексте окна хранится {@link Boolean} признак инициализации частей для окна {@link
-  // #window}.
-  // */
-  // private static final String KEY_IS_INITED_PARTS_FOR_WINDOW = "ru.toxsoft.IsInitedPartsForWindow"; //$NON-NLS-1$
-
   /**
    * TS context is initialized in tsContext().
    */
   private ITsGuiContext tsContext = null;
 
   /**
-   * Пустой конструктор для наследников.
+   * Constructor.
    */
   protected MwsAbstractPart() {
     // nop
@@ -91,7 +86,22 @@ public abstract class MwsAbstractPart
 
   @PostConstruct
   final void init( Composite aParent ) {
-    checkAndInitWindow();
+
+    // FiXME ???
+    // boolean wasWindowInited = wasWindowInit();
+    // if( !wasWindowInited ) {
+    // // initOncePerWindow
+    // TsGuiUtils.storeGuiThreadWinContext( window.getContext() );
+    // }
+    // // initOncePerView
+    // EPartService partService = getWindowContext().get( EPartService.class );
+    // partService.addPartListener( partListener );
+    // if( !wasWindowInited ) {
+    // setWindowInitFlag();
+    // winStaff.fireBeforeWindowOpenEvent();
+    // }
+    // FiXME ???
+
     try {
       doInit( aParent );
     }
@@ -111,46 +121,6 @@ public abstract class MwsAbstractPart
       LoggerUtils.errorLogger().error( ex );
     }
   }
-
-  // ------------------------------------------------------------------------------------
-  // Внутренняя реализация
-  //
-
-  /**
-   * Метод инициализации, вызывается первым после создания вью в методе {@link #init(Composite)}.
-   * <p>
-   * Осуществляет одноразовую инициализацию для окна при вызове для первого вью этого окна.
-   */
-  private final void checkAndInitWindow() {
-    TsInternalErrorRtException.checkNull( window );
-    boolean wasWindowInited = wasWindowInit();
-    if( !wasWindowInited ) {
-      // initOncePerWindow
-      TsGuiUtils.storeGuiThreadWinContext( window.getContext() );
-    }
-    // initOncePerView
-    EPartService partService = getWindowContext().get( EPartService.class );
-    partService.addPartListener( partListener );
-
-    if( !wasWindowInited ) {
-      setWindowInitFlag();
-      mainStaff.fireBeforeWindowOpenEvent();
-    }
-  }
-
-  // private final boolean wasWindowInit() {
-  // Object val = window.getContext().get( KEY_IS_INITED_PARTS_FOR_WINDOW );
-  // if( val instanceof Boolean boolVal ) {
-  // if( boolVal.booleanValue() ) {
-  // return true;
-  // }
-  // }
-  // return false;
-  // }
-  //
-  // private final void setWindowInitFlag() {
-  // window.getContext().set( KEY_IS_INITED_PARTS_FOR_WINDOW, Boolean.TRUE );
-  // }
 
   // ------------------------------------------------------------------------------------
   // ITsGuiContextable
@@ -241,7 +211,7 @@ public abstract class MwsAbstractPart
   }
 
   // ------------------------------------------------------------------------------------
-  // Вызываемые из IPartListener, когда событие касается этого вью
+  // Called from IPartListener, if event is releated to this part
   //
 
   protected void whenPartVisible() {
@@ -265,11 +235,19 @@ public abstract class MwsAbstractPart
   }
 
   // ------------------------------------------------------------------------------------
-  // Методы для реализации наследниками
+  // Subclass
   //
 
+  /**
+   * Subclass must create part content.
+   *
+   * @param aParent {@link Composite} - the parent for part content SWT widgets
+   */
   abstract protected void doInit( Composite aParent );
 
+  /**
+   * Called before this part is destroyed.
+   */
   protected void beforeDestroy() {
     // nop
   }

@@ -8,7 +8,7 @@ import org.toxsoft.core.tslib.bricks.events.*;
  *
  * @author hazard157
  */
-public interface ITsGuiTimersService {
+public sealed interface ITsGuiTimersService permits TsGuiTimersService {
 
   /**
    * Returns the period of quick timer invockation.

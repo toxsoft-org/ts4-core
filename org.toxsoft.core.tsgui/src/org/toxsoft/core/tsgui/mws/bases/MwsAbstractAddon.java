@@ -14,13 +14,16 @@ import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
- * MWS plugin addons base class.
+ * MWS plugin addon base class.
  *
  * @author hazard157
  */
 public abstract class MwsAbstractAddon {
 
-  IMainWindowLifeCylceListener windowsInterceptor = new IMainWindowLifeCylceListener() {
+  /**
+   * Calls windows lifecycle handling methods of the registered quants and this addon.
+   */
+  private final IMainWindowLifeCylceListener windowsInterceptor = new IMainWindowLifeCylceListener() {
 
     @Override
     public void beforeMainWindowOpen( IEclipseContext aWinContext, MWindow aWindow ) {
@@ -74,9 +77,9 @@ public abstract class MwsAbstractAddon {
   final void init( IEclipseContext aAppContext ) {
     LoggerUtils.defaultLogger().info( FMT_INFO_ADDON_STARTING, nameForLog );
     try {
-      MwsMainWindowStaff mainWindowStaff = aAppContext.get( MwsMainWindowStaff.class );
-      TsInternalErrorRtException.checkNull( mainWindowStaff );
-      mainWindowStaff.addMainWindowLifecycleInterceptor( windowsInterceptor );
+      MwaWindowStaff winStaff = aAppContext.get( MwaWindowStaff.class );
+      TsInternalErrorRtException.checkNull( winStaff );
+      winStaff.addMainWindowLifecycleInterceptor( windowsInterceptor );
       doRegisterQuants( quantManager );
       LoggerUtils.defaultLogger().info( FMT_INFO_ADDON_INIT_APP, nameForLog );
       quantManager.initApp( aAppContext );
@@ -93,18 +96,18 @@ public abstract class MwsAbstractAddon {
   //
 
   /**
-   * Находит зарегистрированный в OSGi сервис по его типу.
+   * Finds registered OSGi service.
    *
-   * @param <S> - тип (класс) сервиса
-   * @param aSeviceClass {@link Class}&lt;S&gt; - класс сервиса
-   * @return &lt;S&gt; - сервис или <code>null</code>
-   * @throws TsIllegalStateRtException метод вызван при остановленном плагине
-   * @throws TsNullArgumentRtException любой аргумент = <code>null</code>
+   * @param <S> - the expected type of the service
+   * @param aSeviceClass {@link Class}&lt;S&gt; - the expected type of the service
+   * @return &lt;S&gt; - found service or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalStateRtException method is called when plugin is stopped
    */
   public <S> S findOsgiService( Class<S> aSeviceClass ) {
     BundleContext context = Activator.getInstance().getBundle().getBundleContext();
-    TsIllegalStateRtException.checkNull( context );
     TsNullArgumentRtException.checkNull( aSeviceClass );
+    TsIllegalStateRtException.checkNull( context );
     ServiceReference<S> ref = context.getServiceReference( aSeviceClass );
     if( ref != null ) {
       return context.getService( ref );
@@ -113,14 +116,14 @@ public abstract class MwsAbstractAddon {
   }
 
   /**
-   * Возвращает зарегистрированный в OSGi сервис по его типу.
+   * Returns registered OSGi service.
    *
-   * @param <S> - тип (класс) сервиса
-   * @param aSeviceClass {@link Class}&lt;S&gt; - класс сервиса
-   * @return &lt;S&gt; - сервис или <code>null</code>
-   * @throws TsIllegalStateRtException метод вызван при остановленном плагине
-   * @throws TsNullArgumentRtException любой аргумент = <code>null</code>
-   * @throws TsItemNotFoundRtException нет такого сервиса
+   * @param <S> - the expected type of the service
+   * @param aSeviceClass {@link Class}&lt;S&gt; - the expected type of the service
+   * @return &lt;S&gt; - found service
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalStateRtException method is called when plugin is stopped
+   * @throws TsItemNotFoundRtException no such service
    */
   public <S> S getOsgiService( Class<S> aSeviceClass ) {
     S service = findOsgiService( aSeviceClass );
@@ -155,7 +158,7 @@ public abstract class MwsAbstractAddon {
    * <p>
    * In base class does nothing, there is no need to call superclass method in subclasses.
    *
-   * @param aWinContext {@link IEclipseContext} - контекст уровня главного окна
+   * @param aWinContext {@link IEclipseContext} - window level context
    * @param aWindow {@link MWindow} - the window to be closed
    */
   protected void doBeforeMainWindowClose( IEclipseContext aWinContext, MWindow aWindow ) {
@@ -163,7 +166,7 @@ public abstract class MwsAbstractAddon {
   }
 
   /**
-   * Subclasses may register quants before inititialization {@link #initApp(IEclipseContext)} starts.
+   * Subclasses may register quants before initialization {@link #initApp(IEclipseContext)} starts.
    * <p>
    * In base class does nothing, there is no need to call superclass method in subclasses.
    *

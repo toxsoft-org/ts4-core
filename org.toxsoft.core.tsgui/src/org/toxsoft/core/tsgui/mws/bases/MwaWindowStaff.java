@@ -32,50 +32,6 @@ public class MwaWindowStaff {
     return false;
   };
 
-  static class WindowLifecycleInterceptor
-      implements IMainWindowLifeCylceListener {
-
-    public WindowLifecycleInterceptor() {
-      // TODO Auto-generated constructor stub
-    }
-
-    @Override
-    final public void beforeMainWindowOpen( IEclipseContext aWinContext, MWindow aWindow ) {
-      try {
-        LoggerUtils.defaultLogger().info( FMT_INFO_APP_MAIN_ADDON_INIT_WIN, nameForLog );
-        ITsE4Helper e4Helper = new TsE4Helper( aWinContext );
-        aWinContext.set( ITsE4Helper.class, e4Helper );
-        // init quants
-        quantManager.initWin( aWinContext );
-      }
-      catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
-      }
-    }
-
-    @Override
-    final public boolean canCloseMainWindow( IEclipseContext aWinContext, MWindow aWindow ) {
-      try {
-        return quantManager.canCloseMainWindow( aWinContext, aWindow );
-      }
-      catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
-        return true;
-      }
-    }
-
-    @Override
-    public void beforeMainWindowClose( IEclipseContext aWinContext, MWindow aWindow ) {
-      try {
-        quantManager.close();
-      }
-      catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
-      }
-    }
-
-  }
-
   private final IListEdit<IMainWindowLifeCylceListener> windowInterceptors =
       new SynchronizedListEdit<>( new ElemArrayList<>( false ) );
 
@@ -152,7 +108,7 @@ public class MwaWindowStaff {
   /**
    * Determines if window may be closed.
    * <p>
-   * All registered interceptors will ask by the method
+   * All registered interceptors will be asked by the method
    * {@link IMainWindowLifeCylceListener#canCloseMainWindow(IEclipseContext, MWindow)}.
    *
    * @return boolean - permission to close the window<br>

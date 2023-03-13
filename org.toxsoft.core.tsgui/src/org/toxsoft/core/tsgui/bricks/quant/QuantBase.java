@@ -1,11 +1,10 @@
 package org.toxsoft.core.tsgui.bricks.quant;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.eclipse.e4.core.contexts.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Quant manager is default implementation of the {@link IQuant} with main goal to initialize child quants.
+ * Default implementation of the {@link IQuant} with main goal to initialize child quants.
  *
  * @author hazard157
  */

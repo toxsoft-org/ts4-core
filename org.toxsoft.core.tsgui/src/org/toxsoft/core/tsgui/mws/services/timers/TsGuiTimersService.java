@@ -16,7 +16,7 @@ import org.toxsoft.core.tslib.utils.logs.impl.*;
  *
  * @author hazard157
  */
-public class TsGuiTimersService
+public final class TsGuiTimersService
     implements ITsGuiTimersService, ICloseable {
 
   private static final String THREAD_NAME_QUICK_TIMER = "TsGuiTimerService.QuickTimerThread"; //$NON-NLS-1$

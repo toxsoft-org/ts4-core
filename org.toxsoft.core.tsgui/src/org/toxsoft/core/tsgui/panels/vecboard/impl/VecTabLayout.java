@@ -1,11 +1,8 @@
 package org.toxsoft.core.tsgui.panels.vecboard.impl;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.eclipse.swt.SWT;
+import org.eclipse.swt.*;
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tsgui.graphics.icons.ITsIconManager;
 import org.toxsoft.core.tsgui.panels.vecboard.*;
-import org.toxsoft.core.tsgui.utils.TsGuiUtils;
 
 /**
  * Реализация раскладки {@link IVecTabLayout}.
@@ -52,9 +49,10 @@ public class VecTabLayout
       tabItem.setText( ld.name() );
       tabItem.setToolTipText( ld.tooltipText() );
       if( !ld.iconId().isEmpty() ) {
-        IEclipseContext winContext = TsGuiUtils.getGuiThreadWinContext();
-        ITsIconManager iconManager = winContext.get( ITsIconManager.class );
-        tabItem.setImage( iconManager.loadStdIcon( ld.iconId(), ld.iconSize() ) );
+        // FIXME GOGA MWA
+        // IEclipseContext winContext = TsGuiUtils.getGuiThreadWinContext();
+        // ITsIconManager iconManager = winContext.get( ITsIconManager.class );
+        // tabItem.setImage( iconManager.loadStdIcon( ld.iconId(), ld.iconSize() ) );
       }
       tabItem.setControl( c );
     }

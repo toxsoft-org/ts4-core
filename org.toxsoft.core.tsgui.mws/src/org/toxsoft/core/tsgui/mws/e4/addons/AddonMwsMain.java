@@ -7,15 +7,13 @@ import javax.annotation.*;
 import javax.inject.*;
 
 import org.eclipse.e4.core.contexts.*;
-import org.eclipse.e4.ui.model.application.ui.basic.*;
-import org.toxsoft.core.tsgui.*;
-import org.toxsoft.core.tsgui.bricks.quant.*;
+import org.eclipse.e4.ui.model.application.*;
 import org.toxsoft.core.tsgui.mws.bases.*;
 import org.toxsoft.core.tsgui.mws.osgi.*;
-import org.toxsoft.core.tsgui.mws.services.e4helper.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.apprefs.*;
 import org.toxsoft.core.tslib.bricks.apprefs.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
@@ -27,66 +25,32 @@ import org.toxsoft.core.tslib.utils.logs.impl.*;
  */
 public class AddonMwsMain {
 
-  IMainWindowLifeCylceListener windowsInterceptor = new IMainWindowLifeCylceListener() {
-
-    @Override
-    final public void beforeMainWindowOpen( IEclipseContext aWinContext, MWindow aWindow ) {
-      try {
-        LoggerUtils.defaultLogger().info( FMT_INFO_APP_MAIN_ADDON_INIT_WIN, nameForLog );
-        ITsE4Helper e4Helper = new TsE4Helper( aWinContext );
-        aWinContext.set( ITsE4Helper.class, e4Helper );
-        // init quants
-        quantManager.initWin( aWinContext );
-      }
-      catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
-      }
-    }
-
-    @Override
-    final public boolean canCloseMainWindow( IEclipseContext aWinContext, MWindow aWindow ) {
-      try {
-        return quantManager.canCloseMainWindow( aWinContext, aWindow );
-      }
-      catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
-        return true;
-      }
-    }
-
-    @Override
-    public void beforeMainWindowClose( IEclipseContext aWinContext, MWindow aWindow ) {
-      try {
-        quantManager.close();
-      }
-      catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
-      }
-    }
-
-  };
-
   @Inject
   IMwsOsgiService mwsService;
 
-  private final String nameForLog;
-  private final IQuant quantManager;
+  private final String    nameForLog;
+  private MApplication    e4App      = null;
+  private IEclipseContext appContext = null;
 
   /**
    * Constructor.
    */
   public AddonMwsMain() {
     nameForLog = this.getClass().getSimpleName();
-    quantManager = new QuantBase( super.getClass().getName() );
   }
 
   @PostConstruct
-  final void init( IEclipseContext aAppContext ) {
+  final void init( MApplication aApplication ) {
     LoggerUtils.defaultLogger().info( FMT_INFO_APP_MAIN_ADDON_STARTING, nameForLog );
     try {
-      initAppPrefs( aAppContext );
-      quantManager.registerQuant( new QuantTsGui() );
-      quantManager.initApp( aAppContext );
+      TsNullArgumentRtException.checkNull( aApplication );
+      e4App = aApplication;
+      appContext = aApplication.getContext();
+      TsInternalErrorRtException.checkNull( appContext );
+      initAppPrefs( appContext );
+      MwaApplicationStaff appStaff = new MwaApplicationStaff( e4App );
+      appContext.set( MwaApplicationStaff.class, appStaff );
+      // FIXME appStaff. init APP() ???
       LoggerUtils.defaultLogger().info( FMT_INFO_APP_MAIN_ADDON_INIT_APP, nameForLog );
     }
     catch( Exception ex ) {

@@ -183,8 +183,12 @@ public class TsE4Helper
 
   @Override
   public void quitApplication() {
-    MwsMainWindowStaff mainWindowStaff = windowContext.get( MwsMainWindowStaff.class );
-    if( mainWindowStaff.canCloseWindow() ) {
+
+    // FIXME GOGA MWA
+    // TODO must ask ALL open windows !
+
+    MwaWindowStaff WinStaff = windowContext.get( MwaWindowStaff.class );
+    if( WinStaff.canCloseWindow() ) {
       IWorkbench workbench = windowContext.get( IWorkbench.class );
       // TODO надо решить вопрос - закрывается одно окно, какого хера завершать всё приложение?
       // это работает если в приложении одно главное окно, а если несколько?

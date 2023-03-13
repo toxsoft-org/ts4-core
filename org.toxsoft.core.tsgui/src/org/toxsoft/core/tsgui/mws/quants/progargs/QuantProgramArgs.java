@@ -3,13 +3,13 @@ package org.toxsoft.core.tsgui.mws.quants.progargs;
 import static org.toxsoft.core.tsgui.mws.quants.progargs.ITsResources.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.eclipse.equinox.app.IApplicationContext;
-import org.toxsoft.core.tsgui.bricks.quant.AbstractQuant;
-import org.toxsoft.core.tsgui.mws.osgi.IMwsOsgiService;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContextRefDef;
-import org.toxsoft.core.tslib.bricks.ctx.impl.TsContextRefDef;
-import org.toxsoft.core.tslib.utils.progargs.ProgramArgs;
+import org.eclipse.e4.core.contexts.*;
+import org.eclipse.equinox.app.*;
+import org.toxsoft.core.tsgui.bricks.quant.*;
+import org.toxsoft.core.tsgui.mws.osgi.*;
+import org.toxsoft.core.tslib.bricks.ctx.*;
+import org.toxsoft.core.tslib.bricks.ctx.impl.*;
+import org.toxsoft.core.tslib.utils.progargs.*;
 
 /**
  * Квант разборщика командной строки.
@@ -44,7 +44,7 @@ public class QuantProgramArgs
     IApplicationContext applicationContext = aAppContext.get( IApplicationContext.class );
     String cmdLineArgs[] = (String[])applicationContext.getArguments().get( IApplicationContext.APPLICATION_ARGS );
     ProgramArgs pa = new ProgramArgs( cmdLineArgs );
-    IMwsOsgiService mwsService = eclipseContext().get( IMwsOsgiService.class );
+    IMwsOsgiService mwsService = aAppContext.get( IMwsOsgiService.class );
     aAppContext.set( ProgramArgs.class, pa );
     mwsService.context().put( ProgramArgs.class, pa );
   }

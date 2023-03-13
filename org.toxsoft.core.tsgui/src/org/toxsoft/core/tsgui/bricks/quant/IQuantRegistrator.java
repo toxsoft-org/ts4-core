@@ -1,7 +1,6 @@
 package org.toxsoft.core.tsgui.bricks.quant;
 
-import org.toxsoft.core.tslib.utils.errors.TsIllegalStateRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Quant registration interface - any unit with initialization and finalization handling.
@@ -11,14 +10,13 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 public interface IQuantRegistrator {
 
   /**
-   * Добавляет дочерний квант.
+   * Adds the child quant/
    * <p>
-   * Доерние кванты инициализируются после родительского в порядке их регистрации и заврываются в обратном порядке, до
-   * завершения родительского кванта.
+   * Child quants are initialized after parent one and closed before parent.
    *
-   * @param aQuant {@link IQuant} - регистрируемый квант
-   * @throws TsNullArgumentRtException аргумент = <code>null</code>
-   * @throws TsIllegalStateRtException попытка добавить квант после инициализации
+   * @param aQuant {@link IQuant} - quant to be registered
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalStateRtException attempt to add quant after initialization starts
    */
   void registerQuant( IQuant aQuant );
 
