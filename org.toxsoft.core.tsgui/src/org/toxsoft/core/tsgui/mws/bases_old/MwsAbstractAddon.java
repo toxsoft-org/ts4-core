@@ -1,17 +1,18 @@
-package org.toxsoft.core.tsgui.mws.bases;
+package org.toxsoft.core.tsgui.mws.bases_old;
 
 import static org.toxsoft.core.tsgui.mws.bases.ITsResources.*;
 
-import javax.annotation.*;
+import javax.annotation.PostConstruct;
 
-import org.eclipse.e4.core.contexts.*;
-import org.eclipse.e4.ui.model.application.ui.basic.*;
-import org.osgi.framework.*;
-import org.toxsoft.core.tsgui.*;
+import org.eclipse.e4.core.contexts.IEclipseContext;
+import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
+import org.toxsoft.core.tsgui.Activator;
 import org.toxsoft.core.tsgui.bricks.quant.*;
-import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.logs.impl.*;
+import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
 
 /**
  * MWS plugin addons base class.

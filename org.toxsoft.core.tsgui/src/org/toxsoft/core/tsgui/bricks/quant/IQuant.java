@@ -1,8 +1,8 @@
 package org.toxsoft.core.tsgui.bricks.quant;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
-import org.toxsoft.core.tslib.utils.ICloseable;
+import org.eclipse.e4.core.contexts.*;
+import org.eclipse.e4.ui.model.application.ui.basic.*;
+import org.toxsoft.core.tslib.utils.*;
 
 /**
  * Quant - any unit with initialization and finalization handling.
@@ -29,16 +29,22 @@ public interface IQuant
   String name();
 
   /**
-   * Инииализация один раз, при старте приложения.
+   * Implementation may perform initialization at application start, before any window is open.
+   * <p>
+   * Called once, at application start.
    *
-   * @param aAppContext {@link IEclipseContext} - контекст уровня приложения
+   * @param aAppContext {@link IEclipseContext} - the application level context
    */
   void initApp( IEclipseContext aAppContext );
 
   /**
-   * Инициализация один раз для каждого главного окна приложения, перед открытием.
+   * Implementation may perform initialization at when the specified window is open.
+   * <p>
+   * Called once per window, before window opened.
+   * <p>
+   * FIXME where to get reference to the MWindow?
    *
-   * @param aWinContext {@link IEclipseContext} - контекст уровня главного окна
+   * @param aWinContext {@link IEclipseContext} - the context of the window to be opened
    */
   void initWin( IEclipseContext aWinContext );
 

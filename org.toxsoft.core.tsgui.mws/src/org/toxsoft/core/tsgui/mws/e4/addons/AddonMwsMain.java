@@ -10,7 +10,6 @@ import org.eclipse.e4.core.contexts.*;
 import org.eclipse.e4.ui.model.application.ui.basic.*;
 import org.toxsoft.core.tsgui.*;
 import org.toxsoft.core.tsgui.bricks.quant.*;
-import org.toxsoft.core.tsgui.mws.appinf.*;
 import org.toxsoft.core.tsgui.mws.bases.*;
 import org.toxsoft.core.tsgui.mws.osgi.*;
 import org.toxsoft.core.tsgui.mws.services.e4helper.*;
@@ -26,8 +25,46 @@ import org.toxsoft.core.tslib.utils.logs.impl.*;
  *
  * @author hazard157
  */
-public class AddonMwsMain
-    implements IMainWindowLifeCylceListener {
+public class AddonMwsMain {
+
+  IMainWindowLifeCylceListener windowsInterceptor = new IMainWindowLifeCylceListener() {
+
+    @Override
+    final public void beforeMainWindowOpen( IEclipseContext aWinContext, MWindow aWindow ) {
+      try {
+        LoggerUtils.defaultLogger().info( FMT_INFO_APP_MAIN_ADDON_INIT_WIN, nameForLog );
+        ITsE4Helper e4Helper = new TsE4Helper( aWinContext );
+        aWinContext.set( ITsE4Helper.class, e4Helper );
+        // init quants
+        quantManager.initWin( aWinContext );
+      }
+      catch( Exception ex ) {
+        LoggerUtils.errorLogger().error( ex );
+      }
+    }
+
+    @Override
+    final public boolean canCloseMainWindow( IEclipseContext aWinContext, MWindow aWindow ) {
+      try {
+        return quantManager.canCloseMainWindow( aWinContext, aWindow );
+      }
+      catch( Exception ex ) {
+        LoggerUtils.errorLogger().error( ex );
+        return true;
+      }
+    }
+
+    @Override
+    public void beforeMainWindowClose( IEclipseContext aWinContext, MWindow aWindow ) {
+      try {
+        quantManager.close();
+      }
+      catch( Exception ex ) {
+        LoggerUtils.errorLogger().error( ex );
+      }
+    }
+
+  };
 
   @Inject
   IMwsOsgiService mwsService;
@@ -40,7 +77,7 @@ public class AddonMwsMain
    */
   public AddonMwsMain() {
     nameForLog = this.getClass().getSimpleName();
-    quantManager = new QuantBase( "BuiltinQuant." + AddonMwsMain.class.getSimpleName() ); //$NON-NLS-1$
+    quantManager = new QuantBase( super.getClass().getName() );
   }
 
   @PostConstruct
@@ -48,59 +85,9 @@ public class AddonMwsMain
     LoggerUtils.defaultLogger().info( FMT_INFO_APP_MAIN_ADDON_STARTING, nameForLog );
     try {
       initAppPrefs( aAppContext );
-      // prepare MwsMainWindowStaff for MwsAbstractPart
-      MwsMainWindowStaff mainWindowStaff = new MwsMainWindowStaff( this );
-      aAppContext.set( MwsMainWindowStaff.class, mainWindowStaff );
-      // HERE registration and starting builtin quants
       quantManager.registerQuant( new QuantTsGui() );
-      // HERE registration and starting user-specified quants
-      for( IQuant q : mwsService.listQuants() ) {
-        quantManager.registerQuant( q );
-      }
       quantManager.initApp( aAppContext );
       LoggerUtils.defaultLogger().info( FMT_INFO_APP_MAIN_ADDON_INIT_APP, nameForLog );
-    }
-    catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
-    }
-  }
-
-  // ------------------------------------------------------------------------------------
-  // IMainWindowLifeCylceListener
-  //
-
-  @Override
-  final public void beforeMainWindowOpen( IEclipseContext aWinContext, MWindow aWindow ) {
-    try {
-      LoggerUtils.defaultLogger().info( FMT_INFO_APP_MAIN_ADDON_INIT_WIN, nameForLog );
-      // set window name to application name
-      ITsApplicationInfo appInfo = mwsService.appInfo();
-      aWindow.setLabel( appInfo.nmName() );
-      // init E4 helper and all quants after
-      ITsE4Helper e4Helper = new TsE4Helper( aWinContext );
-      aWinContext.set( ITsE4Helper.class, e4Helper );
-      quantManager.initWin( aWinContext );
-    }
-    catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
-    }
-  }
-
-  @Override
-  final public boolean canCloseMainWindow( IEclipseContext aWinContext, MWindow aWindow ) {
-    try {
-      return quantManager.canCloseMainWindow( aWinContext, aWindow );
-    }
-    catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
-      return true;
-    }
-  }
-
-  @Override
-  public void beforeMainWindowClose( IEclipseContext aWinContext, MWindow aWindow ) {
-    try {
-      quantManager.close();
     }
     catch( Exception ex ) {
       LoggerUtils.errorLogger().error( ex );
