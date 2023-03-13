@@ -12,8 +12,8 @@ import org.eclipse.e4.core.contexts.*;
 import org.eclipse.e4.core.services.events.*;
 import org.eclipse.e4.ui.model.application.*;
 import org.eclipse.e4.ui.model.application.ui.basic.*;
+import org.eclipse.e4.ui.workbench.*;
 import org.osgi.service.event.*;
-import org.toxsoft.core.tsgui.mws.*;
 import org.toxsoft.core.tsgui.mws.bases.*;
 import org.toxsoft.core.tsgui.mws.osgi.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
@@ -53,8 +53,11 @@ public class AddonMwsMain {
       TsNullArgumentRtException.checkNull( aApplication );
       e4App = aApplication;
       appContext = aApplication.getContext();
-      subscribeToWindowsLifecycleOsgiEvents( appContext );
       TsInternalErrorRtException.checkNull( appContext );
+      // subscribe to windows event to handle windows lifecycle
+      IEventBroker eventBroker = appContext.get( IEventBroker.class );
+      eventBroker.subscribe( UIEvents.Context.TOPIC_ALL, windowsContextChangeEventHandler );
+      // initialize MWS
       initAppPrefs( appContext );
       MwaApplicationStaff appStaff = new MwaApplicationStaff( e4App );
       appContext.set( MwaApplicationStaff.class, appStaff );
@@ -70,12 +73,27 @@ public class AddonMwsMain {
   // implementation
   //
 
-  private void subscribeToWindowsLifecycleOsgiEvents( IEclipseContext aAppContext ) {
-    IEventBroker eventBroker = aAppContext.get( IEventBroker.class );
+  private final EventHandler windowsContextChangeEventHandler = aEvent -> {
+    if( hasPropWithValue( aEvent, "AttName", "context" ) ) { //$NON-NLS-1$ //$NON-NLS-2$
+      if( hasPropWithValue( aEvent, "EventType", "SET" ) ) { //$NON-NLS-1$ //$NON-NLS-2$
+        Object rawMainWin = aEvent.getProperty( "ChangedElement" ); //$NON-NLS-1$
+        MTrimmedWindow mainWin = MTrimmedWindow.class.cast( rawMainWin );
 
-    // TODO AddonMwsMain.subscribeToWindowsLifecycleOsgiEvents()
+        IEclipseContext winContext = IEclipseContext.class.cast( aEvent.getProperty( "NewValue" ) ); //$NON-NLS-1$
+        MwaWindowStaff winStaff;
+        if( winContext != null ) { // windows creation and opening
+          winStaff = new MwaWindowStaff( mainWin );
+        }
+        else { // window closing
+          IEclipseContext winContext = aEventIEclipseContext.class.cast( aEvent.getProperty( "NewValue" ) ); //$NON-NLS-1$
 
-  }
+        }
+
+        // TODO AddonMwsMain.subscribeToWindowsLifecycleOsgiEvents()
+
+      }
+    }
+  };
 
   /**
    * Determines if event is trimmed window context initialization.
@@ -87,13 +105,13 @@ public class AddonMwsMain {
    */
   private static MTrimmedWindow checkMainWindowContextSetEvent( Event aEvent ) {
     if( hasPropWithValue( aEvent, "AttName", "context" ) ) { //$NON-NLS-1$ //$NON-NLS-2$
-      if( hasPropWithValue( aEvent, "ChangedElement", IMwsCoreConstants.MWSID_WINDOW_MAIN ) ) { //$NON-NLS-1$
+      if( hasPropWithValue( aEvent, "EventType", "SET" ) ) { //$NON-NLS-1$ //$NON-NLS-2$
         Object rawMainWin = aEvent.getProperty( "ChangedElement" ); //$NON-NLS-1$
         IEclipseContext winContext = IEclipseContext.class.cast( aEvent.getProperty( "NewValue" ) ); //$NON-NLS-1$
         MTrimmedWindow mainWin = MTrimmedWindow.class.cast( rawMainWin );
 
         // DEBUG
-        if( winContext != null ) { // happens when closing window
+        if( winContext != null ) { // winContext == null happens when closing window
           mainWin = winContext.get( MTrimmedWindow.class );
           TsTestUtils.pl( "---------------------------" );
           TsTestUtils.pl( "MWindow from context = %s", mainWin );
