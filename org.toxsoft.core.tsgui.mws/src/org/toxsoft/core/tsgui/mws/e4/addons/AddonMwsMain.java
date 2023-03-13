@@ -3,16 +3,23 @@ package org.toxsoft.core.tsgui.mws.e4.addons;
 import static org.toxsoft.core.tsgui.mws.e4.addons.ITsResources.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
+import java.util.*;
+
 import javax.annotation.*;
 import javax.inject.*;
 
 import org.eclipse.e4.core.contexts.*;
+import org.eclipse.e4.core.services.events.*;
 import org.eclipse.e4.ui.model.application.*;
+import org.eclipse.e4.ui.model.application.ui.basic.*;
+import org.osgi.service.event.*;
+import org.toxsoft.core.tsgui.mws.*;
 import org.toxsoft.core.tsgui.mws.bases.*;
 import org.toxsoft.core.tsgui.mws.osgi.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.apprefs.*;
 import org.toxsoft.core.tslib.bricks.apprefs.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.logs.impl.*;
 
@@ -46,6 +53,7 @@ public class AddonMwsMain {
       TsNullArgumentRtException.checkNull( aApplication );
       e4App = aApplication;
       appContext = aApplication.getContext();
+      subscribeToWindowsLifecycleOsgiEvents( appContext );
       TsInternalErrorRtException.checkNull( appContext );
       initAppPrefs( appContext );
       MwaApplicationStaff appStaff = new MwaApplicationStaff( e4App );
@@ -62,6 +70,55 @@ public class AddonMwsMain {
   // implementation
   //
 
+  private void subscribeToWindowsLifecycleOsgiEvents( IEclipseContext aAppContext ) {
+    IEventBroker eventBroker = aAppContext.get( IEventBroker.class );
+
+    // TODO AddonMwsMain.subscribeToWindowsLifecycleOsgiEvents()
+
+  }
+
+  /**
+   * Determines if event is trimmed window context initialization.
+   * <p>
+   * This event is used to determine if new application window is opening.
+   *
+   * @param aEvent {@link Event} - the event
+   * @return {@link MTrimmedWindow} - the window or <code>null</code> if this is not window init event
+   */
+  private static MTrimmedWindow checkMainWindowContextSetEvent( Event aEvent ) {
+    if( hasPropWithValue( aEvent, "AttName", "context" ) ) { //$NON-NLS-1$ //$NON-NLS-2$
+      if( hasPropWithValue( aEvent, "ChangedElement", IMwsCoreConstants.MWSID_WINDOW_MAIN ) ) { //$NON-NLS-1$
+        Object rawMainWin = aEvent.getProperty( "ChangedElement" ); //$NON-NLS-1$
+        IEclipseContext winContext = IEclipseContext.class.cast( aEvent.getProperty( "NewValue" ) ); //$NON-NLS-1$
+        MTrimmedWindow mainWin = MTrimmedWindow.class.cast( rawMainWin );
+
+        // DEBUG
+        if( winContext != null ) { // happens when closing window
+          mainWin = winContext.get( MTrimmedWindow.class );
+          TsTestUtils.pl( "---------------------------" );
+          TsTestUtils.pl( "MWindow from context = %s", mainWin );
+          TsTestUtils.pl( "---------------------------" );
+        }
+
+        return mainWin;
+      }
+    }
+    return null;
+  }
+
+  private static boolean hasPropWithValue( Event aEvent, String aPropName, String aPropValue ) {
+    if( aEvent.containsProperty( aPropName ) ) {
+      String propStr = Objects.toString( aEvent.getProperty( aPropName ) );
+      return propStr.startsWith( aPropValue );
+    }
+    return false;
+  }
+
+  /**
+   * Initializes {@link IAppPreferences} and puts it in the context.
+   *
+   * @param aAppContext {@link IEclipseContext} - application level context
+   */
   private void initAppPrefs( IEclipseContext aAppContext ) {
     // initialize app preferences service
     IAppPreferences appPrefs = aAppContext.get( IAppPreferences.class );
