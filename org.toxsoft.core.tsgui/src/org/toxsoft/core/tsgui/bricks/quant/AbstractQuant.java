@@ -40,11 +40,6 @@ public abstract class AbstractQuant
   private final String name;
 
   /**
-   * Flags that quant was started, at least {@link #initApp(IEclipseContext)} was called.
-   */
-  private boolean wasStarted = false;
-
-  /**
    * Constructor.
    *
    * @param aQuantName String - non-blank quant name, must be unique for all quants in application
@@ -90,10 +85,6 @@ public abstract class AbstractQuant
 
   @Override
   public void close() {
-    if( !wasStarted ) {
-      LoggerUtils.errorLogger().warning( FMT_WARN_CLOSE_UNOPENED, name );
-      return;
-    }
     // finalizing child quants
     while( !quants.isEmpty() ) {
       IQuant q = quants.removeByIndex( quants.size() - 1 );
@@ -120,7 +111,6 @@ public abstract class AbstractQuant
 
   @Override
   final public void initApp( IEclipseContext aAppContext ) {
-    wasStarted = true;
     // check context initialization state
     if( getInitFlag( aAppContext, CTX_REF_NAME_APP_INIT_CONTEXT_FLAG ) ) {
       LoggerUtils.errorLogger().warning( FMT_WARN_QUANT_DUP_INIT_APP, name );
@@ -197,7 +187,6 @@ public abstract class AbstractQuant
 
   @Override
   final public void registerQuant( IQuant aQuant ) {
-    TsIllegalStateRtException.checkTrue( wasStarted );
     if( !quants.hasElem( aQuant ) ) {
       quants.add( aQuant );
     }
@@ -209,6 +198,8 @@ public abstract class AbstractQuant
 
   /**
    * Subclass may perform application level initialization (once when application starts).
+   * <p>
+   * This method is called after child quants {@link IQuant#initApp(IEclipseContext)}.
    *
    * @param aAppContext {@link IEclipseContext} - application level context
    */
@@ -216,6 +207,8 @@ public abstract class AbstractQuant
 
   /**
    * Subclass may perform window level initialization (once per window).
+   * <p>
+   * This method is called after child quants {@link IQuant#initWin(IEclipseContext)}.
    *
    * @param aWinContext {@link IEclipseContext} - window level context
    */

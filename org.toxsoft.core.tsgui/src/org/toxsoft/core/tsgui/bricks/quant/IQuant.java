@@ -16,7 +16,7 @@ import org.toxsoft.core.tslib.utils.*;
  * @author hazard157
  */
 public interface IQuant
-    extends ICloseable, IQuantRegistrator {
+    extends IQuantRegistrator, ICloseable {
 
   /**
    * Returns the name of the quant.

@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.mws.bases;
 
+import static org.toxsoft.core.tslib.ITsHardConstants.*;
+
 import javax.annotation.*;
 import javax.inject.*;
 
@@ -19,6 +21,29 @@ import org.toxsoft.core.tslib.utils.logs.impl.*;
 public abstract class MwsAbstractPart
     implements ITsGuiContextable {
 
+  /**
+   * Calls windows lifecycle handling methods of the registered quants and this addon.
+   */
+  class WindowLifeCylceListener
+      implements IMainWindowLifeCylceListener {
+
+    @Override
+    public void beforeMainWindowOpen( IEclipseContext aWinContext, MWindow aWindow ) {
+      appWideQuantManager.initWin( aWinContext );
+    }
+
+    @Override
+    public boolean canCloseMainWindow( IEclipseContext aWinContext, MWindow aWindow ) {
+      return appWideQuantManager.canCloseMainWindow( aWinContext, aWindow );
+    }
+
+    @Override
+    public void beforeMainWindowClose( IEclipseContext aWinContext, MWindow aWindow ) {
+      appWideQuantManager.whenCloseMainWindow( aWinContext, aWindow );
+    }
+
+  }
+
   @Inject
   IEclipseContext partContext;
 
@@ -30,6 +55,11 @@ public abstract class MwsAbstractPart
 
   @Inject
   MwaWindowStaff winStaff;
+
+  @Inject
+  IApplicationWideQuantManager appWideQuantManager;
+
+  IMainWindowLifeCylceListener mainWindowLifeCylceListener = new WindowLifeCylceListener();
 
   /**
    * Listens to the part service events to call whenXxx() methods of this class.
@@ -78,6 +108,11 @@ public abstract class MwsAbstractPart
   private ITsGuiContext tsContext = null;
 
   /**
+   * The key of the {@link Boolean} reference in the window context as the sign of the .
+   */
+  private static final String KEY_IS_INITED_PARTS_FOR_WINDOW = TS_FULL_ID + ".MwsWindowWasInited"; //$NON-NLS-1$
+
+  /**
    * Constructor.
    */
   protected MwsAbstractPart() {
@@ -86,22 +121,17 @@ public abstract class MwsAbstractPart
 
   @PostConstruct
   final void init( Composite aParent ) {
-
-    // FiXME ???
-    // boolean wasWindowInited = wasWindowInit();
-    // if( !wasWindowInited ) {
-    // // initOncePerWindow
-    // TsGuiUtils.storeGuiThreadWinContext( window.getContext() );
-    // }
-    // // initOncePerView
-    // EPartService partService = getWindowContext().get( EPartService.class );
-    // partService.addPartListener( partListener );
-    // if( !wasWindowInited ) {
-    // setWindowInitFlag();
-    // winStaff.fireBeforeWindowOpenEvent();
-    // }
-    // FiXME ???
-
+    boolean wasWindowInited = isWindowInitFlag();
+    if( !wasWindowInited ) {
+      setWindowInitFlag();
+      winStaff.addMainWindowLifecycleInterceptor( mainWindowLifeCylceListener );
+    }
+    EPartService partService = getWindowContext().get( EPartService.class );
+    partService.addPartListener( partListener );
+    if( !wasWindowInited ) {
+      setWindowInitFlag();
+      winStaff.fireBeforeWindowOpenEvent();
+    }
     try {
       doInit( aParent );
     }
@@ -115,11 +145,30 @@ public abstract class MwsAbstractPart
     try {
       EPartService partService = getWindowContext().get( EPartService.class );
       partService.removePartListener( partListener );
+      winStaff.removeMainWindowLifecycleInterceptor( mainWindowLifeCylceListener );
       beforeDestroy();
     }
     catch( Exception ex ) {
       LoggerUtils.errorLogger().error( ex );
     }
+  }
+
+  // ------------------------------------------------------------------------------------
+  // implementation
+  //
+
+  private final boolean isWindowInitFlag() {
+    Object val = window.getContext().get( KEY_IS_INITED_PARTS_FOR_WINDOW );
+    if( val instanceof Boolean boolVal ) {
+      if( boolVal.booleanValue() ) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private final void setWindowInitFlag() {
+    window.getContext().set( KEY_IS_INITED_PARTS_FOR_WINDOW, Boolean.TRUE );
   }
 
   // ------------------------------------------------------------------------------------

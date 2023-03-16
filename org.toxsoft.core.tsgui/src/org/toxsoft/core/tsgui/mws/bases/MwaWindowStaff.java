@@ -5,7 +5,6 @@ import org.eclipse.e4.ui.model.application.ui.basic.*;
 import org.eclipse.e4.ui.workbench.modeling.*;
 import org.toxsoft.core.tsgui.mws.appinf.*;
 import org.toxsoft.core.tsgui.mws.osgi.*;
-import org.toxsoft.core.tsgui.mws.services.e4helper.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.synch.*;
@@ -35,28 +34,19 @@ public class MwaWindowStaff {
   private final IListEdit<IMainWindowLifeCylceListener> windowInterceptors =
       new SynchronizedListEdit<>( new ElemArrayList<>( false ) );
 
-  private final MWindow         window;
-  private final IEclipseContext winContext;
+  private final MWindow window;
 
   /**
-   * Constructs instance and initialized windows context.
+   * Constructs instance and initialized window context.
    *
    * @param aWindow {@link MWindow} - the window to bind the instance with
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public MwaWindowStaff( MWindow aWindow ) {
     window = TsNullArgumentRtException.checkNull( aWindow );
-    winContext = window.getContext();
     // put instance into the context
-    TsInternalErrorRtException.checkNoNull( winContext.get( MwaWindowStaff.class ) );
-    winContext.set( MwaWindowStaff.class, this );
-    // init for RCP/E4
-    winContext.set( IWindowCloseHandler.class, closeHandler );
-    // init MWS
-    ITsApplicationInfo appInfo = winContext.get( IMwsOsgiService.class ).appInfo();
-    aWindow.setLabel( appInfo.nmName() );
-    ITsE4Helper e4Helper = new TsE4Helper( winContext );
-    winContext.set( ITsE4Helper.class, e4Helper );
+    TsInternalErrorRtException.checkNoNull( window.getContext().get( MwaWindowStaff.class ) );
+    window.getContext().set( MwaWindowStaff.class, this );
   }
 
   // ------------------------------------------------------------------------------------
@@ -64,7 +54,7 @@ public class MwaWindowStaff {
   //
 
   /**
-   * Adds an lifecycle event interceptor for the main application window.
+   * Adds a lifecycle event interceptor for the main application window.
    *
    * @param aInterceptor {@link IMainWindowLifeCylceListener} - the interceptor
    * @throws TsNullArgumentRtException any argument = <code>null</code>
@@ -74,9 +64,25 @@ public class MwaWindowStaff {
   }
 
   /**
+   * Removes a lifecycle event interceptor for the main application window.
+   *
+   * @param aInterceptor {@link IMainWindowLifeCylceListener} - the interceptor
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public void removeMainWindowLifecycleInterceptor( IMainWindowLifeCylceListener aInterceptor ) {
+    windowInterceptors.remove( aInterceptor );
+  }
+
+  /**
    * Fires an event {@link IMainWindowLifeCylceListener#beforeMainWindowOpen(IEclipseContext, MWindow)}.
    */
   public final void fireBeforeWindowOpenEvent() {
+    // init for RCP/E4
+    window.getContext().set( IWindowCloseHandler.class, closeHandler );
+    // init MWS
+    ITsApplicationInfo appInfo = window.getContext().get( IMwsOsgiService.class ).appInfo();
+    window.setLabel( appInfo.nmName() );
+    // fire event
     IListEdit<IMainWindowLifeCylceListener> ll = new ElemArrayList<>();
     windowInterceptors.copyTo( ll );
     for( IMainWindowLifeCylceListener l : ll ) {

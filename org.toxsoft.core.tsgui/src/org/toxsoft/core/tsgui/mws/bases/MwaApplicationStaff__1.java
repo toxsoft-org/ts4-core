@@ -11,7 +11,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public class MwaApplicationStaff {
+public class MwaApplicationStaff__1 {
 
   private final MApplication    e4App;
   private final IEclipseContext appContext;
@@ -22,15 +22,15 @@ public class MwaApplicationStaff {
    *
    * @param aApplication {@link MApplication} - the application
    */
-  public MwaApplicationStaff( MApplication aApplication ) {
+  public MwaApplicationStaff__1( MApplication aApplication ) {
     TsNullArgumentRtException.checkNull( aApplication );
     e4App = aApplication;
     appContext = aApplication.getContext();
     TsInternalErrorRtException.checkNull( appContext );
     quantManager = new QuantBase( super.getClass().getName() );
     // put instance into the context
-    TsInternalErrorRtException.checkNoNull( appContext.get( MwaApplicationStaff.class ) );
-    appContext.set( MwaApplicationStaff.class, this );
+    TsInternalErrorRtException.checkNoNull( appContext.get( MwaApplicationStaff__1.class ) );
+    appContext.set( MwaApplicationStaff__1.class, this );
     quantManager.registerQuant( new QuantTsGui() );
   }
 

@@ -17,6 +17,7 @@ import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.mws.quants.progargs.*;
+import org.toxsoft.core.tsgui.mws.services.e4helper.*;
 import org.toxsoft.core.tsgui.mws.services.hdpi.*;
 import org.toxsoft.core.tsgui.mws.services.timers.*;
 import org.toxsoft.core.tsgui.utils.*;
@@ -58,12 +59,13 @@ public class QuantTsGui
     ITsImageManager imageManager = new TsImageManager( aWinContext );
     aWinContext.set( ITsImageManager.class, imageManager );
     ITsGuiContext ctx1 = new TsGuiContext( aWinContext );
-    // HERE may set up timer service periods
     ITsGuiTimersService timerService = new TsGuiTimersService( ctx1 );
+    // HERE may set up timer service periods
     aWinContext.set( ITsGuiTimersService.class, timerService );
     aWinContext.set( ITsColorManager.class, new TsColorManager( display ) );
     aWinContext.set( ITsFontManager.class, new TsFontManager( display ) );
     aWinContext.set( ITsCursorManager.class, new TsCursorManager( aWinContext ) );
+    aWinContext.set( ITsE4Helper.class, new TsE4Helper( aWinContext ) );
     IAnimationSupport as = new AnimationSupport( display );
     aWinContext.set( IAnimationSupport.class, as );
     as.resume();

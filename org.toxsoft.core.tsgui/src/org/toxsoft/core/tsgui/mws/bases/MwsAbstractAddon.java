@@ -3,8 +3,10 @@ package org.toxsoft.core.tsgui.mws.bases;
 import static org.toxsoft.core.tsgui.mws.bases.ITsResources.*;
 
 import javax.annotation.*;
+import javax.inject.*;
 
 import org.eclipse.e4.core.contexts.*;
+import org.eclipse.e4.ui.model.application.*;
 import org.eclipse.e4.ui.model.application.ui.basic.*;
 import org.osgi.framework.*;
 import org.toxsoft.core.tsgui.*;
@@ -21,42 +23,44 @@ import org.toxsoft.core.tslib.utils.logs.impl.*;
 public abstract class MwsAbstractAddon {
 
   /**
-   * Calls windows lifecycle handling methods of the registered quants and this addon.
+   * Class allows to registered this addon as quant to the application-wide quant manager.
+   *
+   * @author hazard157
    */
-  private final IMainWindowLifeCylceListener windowsInterceptor = new IMainWindowLifeCylceListener() {
+  class ThisAddonAsQuant
+      extends AbstractQuant {
 
-    @Override
-    public void beforeMainWindowOpen( IEclipseContext aWinContext, MWindow aWindow ) {
-      try {
-        quantManager.initWin( aWinContext );
-        LoggerUtils.defaultLogger().info( FMT_INFO_ADDON_INIT_WIN, nameForLog );
-        initWin( aWinContext );
-      }
-      catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
-        throw ex;
-      }
+    ThisAddonAsQuant( String aName ) {
+      super( aName );
     }
 
     @Override
-    public void beforeMainWindowClose( IEclipseContext aWinContext, MWindow aWindow ) {
-      quantManager.close();
-      doBeforeMainWindowClose( aWinContext, aWindow );
+    protected void doInitApp( IEclipseContext aAppContext ) {
+      MwsAbstractAddon.this.initApp( aAppContext );
     }
 
     @Override
-    public boolean canCloseMainWindow( IEclipseContext aWinContext, MWindow aWindow ) {
-      if( quantManager.canCloseMainWindow( aWinContext, aWindow ) ) {
-        return doCanCloseMainWindow( aWinContext, aWindow );
-      }
-      return false;
+    protected void doInitWin( IEclipseContext aWinContext ) {
+      MwsAbstractAddon.this.initWin( aWinContext );
     }
 
-  };
+    @Override
+    protected void doCloseWin( MWindow aWindow ) {
+      MwsAbstractAddon.this.doBeforeMainWindowClose( aWindow.getContext(), aWindow );
+    }
+
+    @Override
+    protected void doClose() {
+      MwsAbstractAddon.this.doClose();
+    }
+
+  }
+
+  @Inject
+  MApplication e4Application;
 
   final String pluginId;
   final String nameForLog;
-  final IQuant quantManager;
 
   /**
    * Constructor for subclasses.
@@ -70,20 +74,19 @@ public abstract class MwsAbstractAddon {
   public MwsAbstractAddon( String aPluginId ) {
     pluginId = StridUtils.checkValidIdPath( aPluginId );
     nameForLog = this.getClass().getSimpleName();
-    quantManager = new QuantBase( super.getClass().getName() );
   }
 
   @PostConstruct
   final void init( IEclipseContext aAppContext ) {
     LoggerUtils.defaultLogger().info( FMT_INFO_ADDON_STARTING, nameForLog );
     try {
-      MwaWindowStaff winStaff = aAppContext.get( MwaWindowStaff.class );
-      TsInternalErrorRtException.checkNull( winStaff );
-      winStaff.addMainWindowLifecycleInterceptor( windowsInterceptor );
-      doRegisterQuants( quantManager );
+      // create temporary quant manager to a) register quants, b) call #initApp()
+      IQuant tmpQuantManager = new ThisAddonAsQuant( getClass().getName() );
+      tmpQuantManager.initApp( aAppContext );
+      // now move quants to the application-wide quant manager - windows lifecycle methods will be called on them
+      IApplicationWideQuantManager appQM = e4Application.getContext().get( IApplicationWideQuantManager.class );
+      appQM.registerQuant( tmpQuantManager );
       LoggerUtils.defaultLogger().info( FMT_INFO_ADDON_INIT_APP, nameForLog );
-      quantManager.initApp( aAppContext );
-      initApp( aAppContext );
     }
     catch( Exception ex ) {
       LoggerUtils.errorLogger().error( ex );
@@ -154,7 +157,7 @@ public abstract class MwsAbstractAddon {
    * Subclass may perform additional clean-up before window is closed.
    * <p>
    * Note: #{@link #doCanCloseMainWindow(IEclipseContext, MWindow)} may not be called if someone already declined
-   * windows closeing so use only this method if clean-up must be done unconditionally.
+   * windows closing so use only this method if clean-up must be done unconditionally.
    * <p>
    * In base class does nothing, there is no need to call superclass method in subclasses.
    *
@@ -162,6 +165,15 @@ public abstract class MwsAbstractAddon {
    * @param aWindow {@link MWindow} - the window to be closed
    */
   protected void doBeforeMainWindowClose( IEclipseContext aWinContext, MWindow aWindow ) {
+    // nop
+  }
+
+  /**
+   * Called before application quits, after all windows are closed.
+   * <p>
+   * In base class does nothing, there is no need to call superclass method in subclasses.
+   */
+  protected void doClose() {
     // nop
   }
 
@@ -175,6 +187,10 @@ public abstract class MwsAbstractAddon {
   protected void doRegisterQuants( IQuantRegistrator aQuantRegistrator ) {
     // nop
   }
+
+  // ------------------------------------------------------------------------------------
+  // IQuant
+  //
 
   /**
    * Is called one per application.

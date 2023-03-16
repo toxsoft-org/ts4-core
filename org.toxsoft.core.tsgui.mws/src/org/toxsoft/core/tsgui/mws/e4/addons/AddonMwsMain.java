@@ -14,30 +14,55 @@ import org.eclipse.e4.ui.model.application.*;
 import org.eclipse.e4.ui.model.application.ui.basic.*;
 import org.eclipse.e4.ui.workbench.*;
 import org.osgi.service.event.*;
+import org.toxsoft.core.tsgui.*;
+import org.toxsoft.core.tsgui.bricks.quant.*;
 import org.toxsoft.core.tsgui.mws.bases.*;
 import org.toxsoft.core.tsgui.mws.osgi.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.apprefs.*;
 import org.toxsoft.core.tslib.bricks.apprefs.impl.*;
-import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * Main addon of MWS based application.
  * <p>
- * This is very firs addon executed among all other addons of plugins making MWS application.
+ * This is very first addon executed among all other addons of plugins making MWS application.
+ * <p>
+ * The MWS initialization and working sequence:
+ * <ul>
+ * <li>{@link AddonMwsMain#init(MApplication)} is called:</li>
+ * <ul>
+ * <li>subscribes to the {@link MTrimmedWindow} creation events;</li>
+ * <li>initializes {@link IAppPreferences} storage;</li>
+ * <li>TODO</li>
+ * <li>xxx;</li>
+ * <li>xxx;</li>
+ * <li>zzz.</li>
+ * </ul>
+ * <li>xxx;</li>
+ * <li>zzz.</li>
+ * </ul>
  *
  * @author hazard157
  */
 public class AddonMwsMain {
 
+  static class ApplicationWideQuantManager
+      extends QuantBase
+      implements IApplicationWideQuantManager {
+
+    public ApplicationWideQuantManager() {
+      super( "ApplicationWideQuantManager" ); //$NON-NLS-1$
+    }
+
+  }
+
   @Inject
   IMwsOsgiService mwsService;
 
-  private final String    nameForLog;
-  private MApplication    e4App      = null;
-  private IEclipseContext appContext = null;
+  private final IApplicationWideQuantManager appWideQuantManager = new ApplicationWideQuantManager();
+  private final String                       nameForLog;
 
   /**
    * Constructor.
@@ -51,17 +76,17 @@ public class AddonMwsMain {
     LoggerUtils.defaultLogger().info( FMT_INFO_APP_MAIN_ADDON_STARTING, nameForLog );
     try {
       TsNullArgumentRtException.checkNull( aApplication );
-      e4App = aApplication;
-      appContext = aApplication.getContext();
+      IEclipseContext appContext = aApplication.getContext();
       TsInternalErrorRtException.checkNull( appContext );
       // subscribe to windows event to handle windows lifecycle
       IEventBroker eventBroker = appContext.get( IEventBroker.class );
       eventBroker.subscribe( UIEvents.Context.TOPIC_ALL, windowsContextChangeEventHandler );
-      // initialize MWS
+      // initialize preferences storage
       initAppPrefs( appContext );
-      MwaApplicationStaff appStaff = new MwaApplicationStaff( e4App );
-      appContext.set( MwaApplicationStaff.class, appStaff );
-      // FIXME appStaff. init APP() ???
+      // initialize application-wide quants registry
+      appContext.set( IApplicationWideQuantManager.class, appWideQuantManager );
+      appWideQuantManager.registerQuant( new QuantTsGui() );
+      appWideQuantManager.initApp( appContext );
       LoggerUtils.defaultLogger().info( FMT_INFO_APP_MAIN_ADDON_INIT_APP, nameForLog );
     }
     catch( Exception ex ) {
@@ -69,61 +94,40 @@ public class AddonMwsMain {
     }
   }
 
+  @PreDestroy
+  final void close() {
+    appWideQuantManager.close();
+  }
+
   // ------------------------------------------------------------------------------------
   // implementation
   //
 
   private final EventHandler windowsContextChangeEventHandler = aEvent -> {
+    // check it is context set event (either to the new instance on opening or to null on closing window)
     if( hasPropWithValue( aEvent, "AttName", "context" ) ) { //$NON-NLS-1$ //$NON-NLS-2$
       if( hasPropWithValue( aEvent, "EventType", "SET" ) ) { //$NON-NLS-1$ //$NON-NLS-2$
-        Object rawMainWin = aEvent.getProperty( "ChangedElement" ); //$NON-NLS-1$
-        MTrimmedWindow mainWin = MTrimmedWindow.class.cast( rawMainWin );
-
-        IEclipseContext winContext = IEclipseContext.class.cast( aEvent.getProperty( "NewValue" ) ); //$NON-NLS-1$
-        MwaWindowStaff winStaff;
-        if( winContext != null ) { // windows creation and opening
-          winStaff = new MwaWindowStaff( mainWin );
+        Object changedElem = aEvent.getProperty( "ChangedElement" ); //$NON-NLS-1$
+        // check that we're handling windows (not part, perspective, etc) context event
+        if( changedElem instanceof MTrimmedWindow mainWin ) {
+          boolean isWindowsOpenEvent = aEvent.containsProperty( "NewValue" ); //$NON-NLS-1$
+          if( isWindowsOpenEvent ) {
+            @SuppressWarnings( "unused" )
+            MwaWindowStaff winStaff = new MwaWindowStaff( mainWin );
+          }
         }
-        else { // window closing
-          IEclipseContext winContext = aEventIEclipseContext.class.cast( aEvent.getProperty( "NewValue" ) ); //$NON-NLS-1$
-
-        }
-
-        // TODO AddonMwsMain.subscribeToWindowsLifecycleOsgiEvents()
-
       }
     }
   };
 
   /**
-   * Determines if event is trimmed window context initialization.
-   * <p>
-   * This event is used to determine if new application window is opening.
+   * Checks that specified {@link String} attribute of the event has the specified value.
    *
    * @param aEvent {@link Event} - the event
-   * @return {@link MTrimmedWindow} - the window or <code>null</code> if this is not window init event
+   * @param aPropName String - the property name
+   * @param aPropValue String - the expected value of the property
+   * @return boolean - <code>true</code> if property exists and has the specified value
    */
-  private static MTrimmedWindow checkMainWindowContextSetEvent( Event aEvent ) {
-    if( hasPropWithValue( aEvent, "AttName", "context" ) ) { //$NON-NLS-1$ //$NON-NLS-2$
-      if( hasPropWithValue( aEvent, "EventType", "SET" ) ) { //$NON-NLS-1$ //$NON-NLS-2$
-        Object rawMainWin = aEvent.getProperty( "ChangedElement" ); //$NON-NLS-1$
-        IEclipseContext winContext = IEclipseContext.class.cast( aEvent.getProperty( "NewValue" ) ); //$NON-NLS-1$
-        MTrimmedWindow mainWin = MTrimmedWindow.class.cast( rawMainWin );
-
-        // DEBUG
-        if( winContext != null ) { // winContext == null happens when closing window
-          mainWin = winContext.get( MTrimmedWindow.class );
-          TsTestUtils.pl( "---------------------------" );
-          TsTestUtils.pl( "MWindow from context = %s", mainWin );
-          TsTestUtils.pl( "---------------------------" );
-        }
-
-        return mainWin;
-      }
-    }
-    return null;
-  }
-
   private static boolean hasPropWithValue( Event aEvent, String aPropName, String aPropValue ) {
     if( aEvent.containsProperty( aPropName ) ) {
       String propStr = Objects.toString( aEvent.getProperty( aPropName ) );

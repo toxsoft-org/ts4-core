@@ -16,7 +16,6 @@ public interface IQuantRegistrator {
    *
    * @param aQuant {@link IQuant} - quant to be registered
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIllegalStateRtException attempt to add quant after initialization starts
    */
   void registerQuant( IQuant aQuant );
 
