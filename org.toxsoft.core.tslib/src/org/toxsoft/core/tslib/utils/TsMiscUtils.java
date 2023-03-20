@@ -12,7 +12,7 @@ import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Miscallenous utility methods.
+ * Miscellaneous utility methods.
  *
  * @author hazard157
  */

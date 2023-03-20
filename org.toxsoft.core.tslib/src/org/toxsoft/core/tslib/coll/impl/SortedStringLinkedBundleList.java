@@ -2,13 +2,12 @@ package org.toxsoft.core.tslib.coll.impl;
 
 import static org.toxsoft.core.tslib.coll.impl.TsCollectionsUtils.*;
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.*;
 
 import org.toxsoft.core.tslib.coll.basis.*;
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
-import org.toxsoft.core.tslib.coll.primtypes.IStringListBasicEdit;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -18,8 +17,6 @@ import org.toxsoft.core.tslib.utils.errors.*;
  */
 public class SortedStringLinkedBundleList
     implements IStringListBasicEdit, ITsFastIndexListTag<String>, ITsSortedCollectionTag, Serializable {
-
-  // FIXME serialize as array
 
   private static final long serialVersionUID = 157157L;
 
@@ -484,9 +481,7 @@ public class SortedStringLinkedBundleList
     if( size != 0 ) {
       firstBundle.next = null;
       firstBundle.count = 0;
-      for( int i = 0, n = firstBundle.elems.length; i < n; i++ ) {
-        firstBundle.elems[i] = null; // очистим неиспользуемую ссылку
-      }
+      Arrays.fill( firstBundle.elems, null );
       size = 0;
       ++changeCount;
     }

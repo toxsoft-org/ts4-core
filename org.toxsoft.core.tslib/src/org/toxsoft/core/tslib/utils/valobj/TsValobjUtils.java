@@ -35,7 +35,7 @@ import org.toxsoft.core.tslib.utils.txtmatch.*;
 public class TsValobjUtils {
 
   /**
-   * Lock object to syncronize access to keepers registry {@link #keepersMap}.
+   * Lock object to synchronize access to keepers registry {@link #keepersMap}.
    */
   private static ReentrantReadWriteLock mainLock = new ReentrantReadWriteLock();
 
@@ -50,7 +50,7 @@ public class TsValobjUtils {
   private static final IMapEdit<Class<?>, IEntityKeeper<?>> keepersMapByClass = new ElemMap<>();
 
   /**
-   * The same keeper ids by class keys.
+   * The same keeper IDs by class keys.
    */
   private static final IMapEdit<Class<?>, String> idsMapByClass = new ElemMap<>();
 

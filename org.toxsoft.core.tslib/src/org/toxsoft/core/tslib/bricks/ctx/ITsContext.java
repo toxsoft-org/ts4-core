@@ -1,10 +1,10 @@
 package org.toxsoft.core.tslib.bricks.ctx;
 
-import org.toxsoft.core.tslib.av.opset.IOptionSetEdit;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * An edtable extention of the {@link ITsContextRo}.
+ * An editable extension of the {@link ITsContextRo}.
  *
  * @author hazard157
  */
@@ -12,7 +12,7 @@ public interface ITsContext
     extends ITsContextRo {
 
   /**
-   * Returns an edtable context parameters.
+   * Returns a context parameters ion the editable form.
    *
    * @return {@link IOptionSetEdit} - editable parameters
    */
@@ -28,45 +28,45 @@ public interface ITsContext
   ITsContextRo parent();
 
   /**
-   * Добавляет элемент в карту, заменяя существующий с тем же ключом.
+   * Puts the reference to the map replacing existing one.
    * <p>
-   * Ссылка кладется в этот контекст, становясь доступным наследникам-контекстам, но не родителю.
+   * The reference is placed in this context, becoming available to child contexts, but not to the parent.
    *
-   * @param <T> - конкретный тип (класс) добавляемой ссылки
-   * @param aClass {@link Class} - ключ добавляемого элемента
-   * @param aRef Object - добавляемая ссылка
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param <T> - the reference type
+   * @param aClass {@link Class} - the key is the type of the reference
+   * @param aRef Object - the reference
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   <T> void put( Class<T> aClass, T aRef );
 
   /**
-   * Добавляет элемент в карту, заменяя существующий с тем же ключом.
+   * Puts the reference to the map replacing existing one.
    * <p>
-   * Ссылка кладется в этот контекст, становясь доступным наследникам-контекстам, но не родителю.
+   * The reference is placed in this context, becoming available to child contexts, but not to the parent.
    *
-   * @param aName String - ключ добавляемого элемента
-   * @param aRef Object - добавляемая ссылка
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aName String - the String key
+   * @param aRef Object - the reference
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void put( String aName, Object aRef );
 
   /**
-   * Удаляет ссылку по ключу - имени из текущего контекста.
+   * Removes the reference from this context.
    * <p>
-   * Если такого элемента нет в этом контексте (даже если есть в родителях или наследниках), метод ничего не делает.
+   * If there is no such reference in this context (even if it exists in parents or children), the method does nothing.
    *
-   * @param aClass {@link Class} - ключ удаляемого элемента
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aClass {@link Class} - the key
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void remove( Class<?> aClass );
 
   /**
-   * Удаляет ссылку по ключу - имени из текущего контекста.
+   * Removes the reference from this context.
    * <p>
-   * Если такого элемента нет в этом контексте (даже если есть в родителях или наследниках), метод ничего не делает.
+   * If there is no such reference in this context (even if it exists in parents or children), the method does nothing.
    *
-   * @param aName String - ключ удаляемого элемента
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aName String - the String key
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void remove( String aName );
 

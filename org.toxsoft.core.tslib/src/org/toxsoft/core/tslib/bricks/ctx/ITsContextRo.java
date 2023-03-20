@@ -6,10 +6,10 @@ import org.toxsoft.core.tslib.bricks.events.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Readonly context contains arbitrary references and options set.
+ * Read-only context contains arbitrary references and options set.
  * <p>
  * Note: depending on implementation and creation of instance, context may be @child" of the "parent" context. For child
- * copntexts methods <code>isSelfXxx()</code> determines if reference or option is hold by this instance, or supplied by
+ * contexts methods <code>isSelfXxx()</code> determines if reference or option is hold by this instance, or supplied by
  * the parent.
  *
  * @author hazard157
@@ -33,42 +33,42 @@ public interface ITsContextRo
   ITsContextRo parent();
 
   /**
-   * Находит произвольную ссылку, зарегистрированную в контексте по Java-классу.
+   * Finds a reference registered in the context by Java class.
    *
-   * @param <T> - конкретный тип (класс) ссылки
-   * @param aClass {@link Class} - Java-класс искомой ссылки
-   * @return &lt;T&gt; - найденная ссылка, или null если нет такой ссылки
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param <T> - expected type of the reference
+   * @param aClass {@link Class} - expected type of the reference
+   * @return &lt;T&gt; - the found reference or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   <T> T find( Class<T> aClass );
 
   /**
-   * Возвращает произвольную ссылку, зарегистрированную в контексте по Java-классу.
+   * Returns a reference registered in the context by Java class.
    *
-   * @param <T> - конкретный тип (класс) ссылки
-   * @param aClass {@link Class} - Java-класс искомой ссылки
-   * @return &lt;T&gt; - найденная ссылка
-   * @throws TsNullArgumentRtException аргумент = null
-   * @throws TsItemNotFoundRtException нет запрошенной ссылки в контексте
+   * @param <T> - expected type of the reference
+   * @param aClass {@link Class} - expected type of the reference
+   * @return &lt;T&gt; - the found reference
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException asked reference not found in the context
    */
   <T> T get( Class<T> aClass );
 
   /**
-   * Возвращает произвольную ссылку, зарегистрированную в контексте по текстовой строке (по имени).
+   * Finds a reference registered in the context by the String key.
    *
-   * @param aName String - строковый ключ в карте ссылок
-   * @return Object - найденная ссылка, или null если нет такой ссылки
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aName String - the key
+   * @return &lt;T&gt; - the found reference or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   Object find( String aName );
 
   /**
-   * Возвращает произвольную ссылку, зарегистрированную в контексте по текстовой строке (по имени).
+   * Finds a reference registered in the context by the String key.
    *
-   * @param aName String - строковый ключ в карте ссылок
-   * @return Object - найденная ссылка
-   * @throws TsNullArgumentRtException аргумент = null
-   * @throws TsItemNotFoundRtException нет запрошенной ссылки в контексте
+   * @param aName String - the key
+   * @return Object - the found reference
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException asked reference not found in the context
    */
   Object get( String aName );
 
@@ -126,17 +126,19 @@ public interface ITsContextRo
   void removeContextListener( ITsContextListener aListener );
 
   // ------------------------------------------------------------------------------------
-  // Inline convinience methods
+  // convenience in-line methods
   //
 
   /**
-   * Находит ссылку указанного типа по имени.
+   * Finds a reference of expected type registered in the context by the String key.
+   * <p>
+   * Returns <code>null</code> if either no reference found b key or if found reference is not of specified type.
    *
-   * @param <T> - тип ссылки
-   * @param aName String - строковый ключ в карте ссылок
-   * @param aClass {@link Class}&lt;T&gt; - класс сслыки
-   * @return &lt;T&gt; - найденная ссылка или null если нет ссылки с таким именем или этого класса
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param <T> - expected type of the reference
+   * @param aName String - the key
+   * @param aClass {@link Class} - expected type of the reference
+   * @return &lt;T&gt; - the found reference or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   default <T> T findRef( String aName, Class<T> aClass ) {
     TsNullArgumentRtException.checkNull( aClass );
@@ -150,28 +152,31 @@ public interface ITsContextRo
   }
 
   /**
-   * Возвращает ссылку указанного типа по имени.
+   * Returns a reference of expected type registered in the context by the String key.
    *
-   * @param <T> - тип ссылки
-   * @param aName String - строковый ключ в карте ссылок
-   * @param aClass {@link Class}&lt;T&gt; - класс сслыки
-   * @return &lt;T&gt; - найденная ссылка
-   * @throws TsNullArgumentRtException любой аргумент = null
-   * @throws TsItemNotFoundRtException нет запрошенной ссылки в контексте
-   * @throws ClassCastException ссылка не указанного типа
+   * @param <T> - expected type of the reference
+   * @param aName String - the key
+   * @param aClass {@link Class} - expected type of the reference
+   * @return &lt;T&gt; - the found reference
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException asked reference not found in the context
+   * @throws ClassCastException found reference is not of specified type
    */
   default <T> T getRef( String aName, Class<T> aClass ) {
     TsNullArgumentRtException.checkNull( aClass );
-    Object ref = get( aName );
-    return aClass.cast( ref );
+    Object ref = find( aName );
+    if( ref != null ) {
+      return aClass.cast( ref );
+    }
+    return null;
   }
 
   /**
-   * Определяет, содержит ли контекст ссылку с указанным ключом.
+   * Determines a reference exists in the context by Java class.
    *
-   * @param aClass {@link Class} - Java-класс искомой ссылки
-   * @return boolean - признак существования ссылки с указанным ключом
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aClass {@link Class} - expected type of the reference
+   * @return boolean - <code>true</code> if there is a reference in the context
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   default boolean hasKey( Class<?> aClass ) {
     TsNullArgumentRtException.checkNull( aClass );
@@ -179,11 +184,11 @@ public interface ITsContextRo
   }
 
   /**
-   * Определяет, содержит ли контекст ссылку с указанным ключом.
+   * Determines a reference exists in the context by the String key.
    *
-   * @param aName String - строковый ключ в карте ссылок
-   * @return boolean - признак существования ссылки с указанным ключом
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aName String - the key
+   * @return boolean - <code>true</code> if there is a reference in the context
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   default boolean hasKey( String aName ) {
     return find( aName ) != null;
