@@ -69,4 +69,13 @@ public interface IQuant
    */
   void whenCloseMainWindow( IEclipseContext aWinContext, MWindow aWindow );
 
+  /**
+   * Called before application finishes.
+   * <p>
+   * Warning: at this point all windows are closed and obviously there is no main GUI threads. So this method is called
+   * in some execution thread, not a GUI one.
+   */
+  @Override
+  void close();
+
 }

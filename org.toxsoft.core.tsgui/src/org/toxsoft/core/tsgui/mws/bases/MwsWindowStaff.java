@@ -1,10 +1,15 @@
 package org.toxsoft.core.tsgui.mws.bases;
 
+import static org.toxsoft.core.tsgui.mws.bases.ITsResources.*;
+import static org.toxsoft.core.tslib.ITsHardConstants.*;
+
 import org.eclipse.e4.core.contexts.*;
 import org.eclipse.e4.ui.model.application.ui.basic.*;
 import org.eclipse.e4.ui.workbench.modeling.*;
+import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.mws.appinf.*;
 import org.toxsoft.core.tsgui.mws.osgi.*;
+import org.toxsoft.core.tsgui.mws.services.e4helper.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.synch.*;
@@ -18,10 +23,36 @@ import org.toxsoft.core.tslib.utils.logs.impl.*;
  *
  * @author hazard157
  */
-public class MwaWindowStaff {
+public class MwsWindowStaff {
+
+  /**
+   * Calls windows lifecycle handling methods of the registered quants and this addon.
+   */
+  class WindowLifeCylceListener
+      implements IMainWindowLifeCylceListener {
+
+    @Override
+    public void beforeMainWindowOpen( IEclipseContext aWinContext, MWindow aWindow ) {
+      appWideQuantManager.initWin( aWinContext );
+    }
+
+    @Override
+    public boolean canCloseMainWindow( IEclipseContext aWinContext, MWindow aWindow ) {
+      return appWideQuantManager.canCloseMainWindow( aWinContext, aWindow );
+    }
+
+    @Override
+    public void beforeMainWindowClose( IEclipseContext aWinContext, MWindow aWindow ) {
+      appWideQuantManager.whenCloseMainWindow( aWinContext, aWindow );
+    }
+
+  }
 
   /**
    * Close handler to be set as RCP means.
+   * <p>
+   * Close handler is called when user closes application by system mean (window menu, window close button, etc). Close
+   * handler is <b>not called</b> when finishing application by {@link ITsE4Helper#quitApplication()}.
    */
   private final IWindowCloseHandler closeHandler = aWindow -> {
     if( canCloseWindow() ) {
@@ -34,7 +65,9 @@ public class MwaWindowStaff {
   private final IListEdit<IMainWindowLifeCylceListener> windowInterceptors =
       new SynchronizedListEdit<>( new ElemArrayList<>( false ) );
 
-  private final MWindow window;
+  private final MWindow                      window;
+  private final IApplicationWideQuantManager appWideQuantManager;
+  private final IMainWindowLifeCylceListener mainWindowLifeCylceListener = new WindowLifeCylceListener();
 
   /**
    * Constructs instance and initialized window context.
@@ -42,11 +75,68 @@ public class MwaWindowStaff {
    * @param aWindow {@link MWindow} - the window to bind the instance with
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public MwaWindowStaff( MWindow aWindow ) {
+  public MwsWindowStaff( MWindow aWindow ) {
     window = TsNullArgumentRtException.checkNull( aWindow );
     // put instance into the context
-    TsInternalErrorRtException.checkNoNull( window.getContext().get( MwaWindowStaff.class ) );
-    window.getContext().set( MwaWindowStaff.class, this );
+    TsInternalErrorRtException.checkNoNull( window.getContext().get( MwsWindowStaff.class ) );
+    window.getContext().set( MwsWindowStaff.class, this );
+    appWideQuantManager = aWindow.getContext().get( IApplicationWideQuantManager.class );
+    TsInternalErrorRtException.checkNull( appWideQuantManager );
+    LoggerUtils.defaultLogger().info( FMT_INFO_WIN_STAFF_INIT, aWindow.getElementId() );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // implementation
+  //
+
+  /**
+   * The key of the {@link Boolean} reference in the window context as the sign of the .
+   */
+  private static final String KEY_IS_INITED_PARTS_FOR_WINDOW = TS_FULL_ID + ".MwsWindowWasInited"; //$NON-NLS-1$
+
+  private final boolean isWindowInitFlag() {
+    Object val = window.getContext().get( KEY_IS_INITED_PARTS_FOR_WINDOW );
+    if( val instanceof Boolean boolVal ) {
+      if( boolVal.booleanValue() ) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private final void setWindowInitFlag() {
+    window.getContext().set( KEY_IS_INITED_PARTS_FOR_WINDOW, Boolean.TRUE );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // package API
+  //
+
+  /**
+   * Called when any part is created in the {@link #window}.
+   * <p>
+   * Called from {@link MwsAbstractPart#initPart(Composite)}.
+   *
+   * @param aPart {@link MwsAbstractPart} - the part
+   */
+  void papiOnPartInit( MwsAbstractPart aPart ) {
+    boolean wasWindowInited = isWindowInitFlag();
+    if( !wasWindowInited ) {
+      setWindowInitFlag();
+      addMainWindowLifecycleInterceptor( mainWindowLifeCylceListener );
+      fireBeforeWindowOpenEvent();
+    }
+  }
+
+  /**
+   * Called when any part is destroyed in the {@link #window}.
+   * <p>
+   * Called from {@link MwsAbstractPart#destroyPart()}.
+   *
+   * @param aPart {@link MwsAbstractPart} - the part
+   */
+  void papiOnPartDestroy( MwsAbstractPart aPart ) {
+    // nop
   }
 
   // ------------------------------------------------------------------------------------
@@ -99,6 +189,7 @@ public class MwaWindowStaff {
    * Fires an event {@link IMainWindowLifeCylceListener#beforeMainWindowClose(IEclipseContext, MWindow)}.
    */
   public void fireBeforeWindowCloseEvent() {
+    LoggerUtils.defaultLogger().info( FMT_INFO_WIN_STAFF_CLOSING, window.getElementId() );
     IListEdit<IMainWindowLifeCylceListener> ll = new ElemArrayList<>();
     windowInterceptors.copyTo( ll );
     for( IMainWindowLifeCylceListener l : ll ) {

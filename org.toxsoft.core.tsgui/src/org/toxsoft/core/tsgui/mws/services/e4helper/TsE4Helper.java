@@ -187,7 +187,7 @@ public class TsE4Helper
     // FIXME GOGA MWA
     // TODO must ask ALL open windows !
 
-    MwaWindowStaff WinStaff = windowContext.get( MwaWindowStaff.class );
+    MwsWindowStaff WinStaff = windowContext.get( MwsWindowStaff.class );
     if( WinStaff.canCloseWindow() ) {
       IWorkbench workbench = windowContext.get( IWorkbench.class );
       // TODO надо решить вопрос - закрывается одно окно, какого хера завершать всё приложение?

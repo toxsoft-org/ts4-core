@@ -113,7 +113,7 @@ public class AddonMwsMain {
           boolean isWindowsOpenEvent = aEvent.containsProperty( "NewValue" ); //$NON-NLS-1$
           if( isWindowsOpenEvent ) {
             @SuppressWarnings( "unused" )
-            MwaWindowStaff winStaff = new MwaWindowStaff( mainWin );
+            MwsWindowStaff winStaff = new MwsWindowStaff( mainWin );
           }
         }
       }

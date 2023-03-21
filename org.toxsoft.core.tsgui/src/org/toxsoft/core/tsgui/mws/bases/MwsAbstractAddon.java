@@ -41,11 +41,13 @@ public abstract class MwsAbstractAddon {
 
     @Override
     protected void doInitWin( IEclipseContext aWinContext ) {
+      LoggerUtils.defaultLogger().info( FMT_INFO_ADDON_INIT_WIN, nameForLog );
       MwsAbstractAddon.this.initWin( aWinContext );
     }
 
     @Override
     protected void doCloseWin( MWindow aWindow ) {
+      LoggerUtils.defaultLogger().info( FMT_INFO_ADDON_CLOSE_WIN, nameForLog );
       MwsAbstractAddon.this.doBeforeMainWindowClose( aWindow.getContext(), aWindow );
     }
 
@@ -82,6 +84,7 @@ public abstract class MwsAbstractAddon {
     try {
       // create temporary quant manager to a) register quants, b) call #initApp()
       IQuant tmpQuantManager = new ThisAddonAsQuant( getClass().getName() );
+      doRegisterQuants( tmpQuantManager );
       tmpQuantManager.initApp( aAppContext );
       // now move quants to the application-wide quant manager - windows lifecycle methods will be called on them
       IApplicationWideQuantManager appQM = e4Application.getContext().get( IApplicationWideQuantManager.class );

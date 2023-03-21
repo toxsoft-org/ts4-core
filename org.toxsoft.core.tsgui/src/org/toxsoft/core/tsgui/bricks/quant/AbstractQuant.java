@@ -172,6 +172,14 @@ public abstract class AbstractQuant
 
   @Override
   public void whenCloseMainWindow( IEclipseContext aWinContext, MWindow aWindow ) {
+    for( IQuant q : quants ) {
+      try {
+        q.whenCloseMainWindow( aWinContext, aWindow );
+      }
+      catch( Exception ex ) {
+        LoggerUtils.errorLogger().error( ex );
+      }
+    }
     try {
       doCloseWin( aWindow );
     }
