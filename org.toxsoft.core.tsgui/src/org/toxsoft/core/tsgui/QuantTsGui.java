@@ -15,8 +15,6 @@ import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.graphics.icons.impl.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.graphics.image.impl.*;
-import org.toxsoft.core.tsgui.m5.*;
-import org.toxsoft.core.tsgui.mws.quants.progargs.*;
 import org.toxsoft.core.tsgui.mws.services.e4helper.*;
 import org.toxsoft.core.tsgui.mws.services.hdpi.*;
 import org.toxsoft.core.tsgui.mws.services.timers.*;
@@ -39,21 +37,20 @@ public class QuantTsGui
   public QuantTsGui() {
     super( QuantTsGui.class.getSimpleName() );
     TsGuiUtils.initializeTsGuiCore();
-    registerQuant( new QuantProgramArgs() );
-    registerQuant( new QuantM5() );
   }
 
   @Override
   protected void doInitApp( IEclipseContext aAppContext ) {
     aAppContext.set( ITsHdpiService.class, new TsHdpiService( aAppContext ) );
-    //
-    ValedControlFactoriesRegistry registry = new ValedControlFactoriesRegistry();
-    aAppContext.set( IValedControlFactoriesRegistry.class, registry );
-    aAppContext.set( ValedControlFactoriesRegistry.class, registry );
   }
 
   @Override
   protected void doInitWin( IEclipseContext aWinContext ) {
+    //
+    ValedControlFactoriesRegistry registry = new ValedControlFactoriesRegistry();
+    aWinContext.set( IValedControlFactoriesRegistry.class, registry );
+    aWinContext.set( ValedControlFactoriesRegistry.class, registry );
+    //
     Display display = aWinContext.get( Display.class );
     aWinContext.set( ITsIconManager.class, new TsIconManager( aWinContext ) );
     ITsImageManager imageManager = new TsImageManager( aWinContext );

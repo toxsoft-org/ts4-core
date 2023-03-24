@@ -16,8 +16,10 @@ import org.eclipse.e4.ui.workbench.*;
 import org.osgi.service.event.*;
 import org.toxsoft.core.tsgui.*;
 import org.toxsoft.core.tsgui.bricks.quant.*;
+import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.mws.bases.*;
 import org.toxsoft.core.tsgui.mws.osgi.*;
+import org.toxsoft.core.tsgui.mws.quants.progargs.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.apprefs.*;
 import org.toxsoft.core.tslib.bricks.apprefs.impl.*;
@@ -85,7 +87,9 @@ public class AddonMwsMain {
       initAppPrefs( appContext );
       // initialize application-wide quants registry
       appContext.set( IApplicationWideQuantManager.class, appWideQuantManager );
+      appWideQuantManager.registerQuant( new QuantProgramArgs() );
       appWideQuantManager.registerQuant( new QuantTsGui() );
+      appWideQuantManager.registerQuant( new QuantM5() );
       appWideQuantManager.initApp( appContext );
       LoggerUtils.defaultLogger().info( FMT_INFO_APP_MAIN_ADDON_INIT_APP, nameForLog );
     }

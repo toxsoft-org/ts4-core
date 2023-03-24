@@ -134,13 +134,13 @@ public abstract class AbstractQuant
 
   @Override
   final public void initWin( IEclipseContext aWinContext ) {
+    TsNullArgumentRtException.checkNull( aWinContext );
     // check init state
     if( getInitFlag( aWinContext, CTX_REF_NAME_WIN_INIT_CONTEXT_FLAG ) ) {
       LoggerUtils.errorLogger().warning( FMT_WARN_QUANT_DUP_INIT_WIN, name );
       return;
     }
     LoggerUtils.defaultLogger().info( FMT_INFO_QUANT_INIT_WIN, name );
-    TsNullArgumentRtException.checkNull( aWinContext );
     // init child quants
     for( IQuant q : quants ) {
       q.initWin( aWinContext );
