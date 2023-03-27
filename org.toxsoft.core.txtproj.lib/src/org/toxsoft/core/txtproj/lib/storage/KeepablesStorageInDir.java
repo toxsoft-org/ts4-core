@@ -1,23 +1,20 @@
 package org.toxsoft.core.txtproj.lib.storage;
 
-import java.io.File;
+import java.io.*;
 
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMap;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMapEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.files.TsFileFilter;
-import org.toxsoft.core.tslib.utils.files.TsFileUtils;
+import org.toxsoft.core.tslib.utils.files.*;
 
 /**
- * Реализация хранилища в виде набора фалов в директории.
+ * {@link IKeepablesStorage} implemented as the files in the single directory.
  * <p>
- * Каждый раздел хранится в файле с именем, совпадающим с идентификатором раздела и расширением
- * {@link #getSectionFileExtension()}.
+ * Each section is stored in the file named as section ID and added extension {@link #getSectionFileExtension()}.
  *
  * @author hazard157
  */
@@ -25,7 +22,7 @@ public class KeepablesStorageInDir
     implements IKeepablesStorage {
 
   /**
-   * Расширение по умолчанию файлов разделов.
+   * Default section file name extension.
    * <p>
    * KSS = Keepable Storage Section.
    */
@@ -36,12 +33,12 @@ public class KeepablesStorageInDir
   private final TsFileFilter fileFilter;
 
   /**
-   * Создает хранилище.
+   * Constructor.
    *
-   * @param aDir {@link File} - директория хранения
-   * @param aSectionFileExtension String - расширение файлов разделов (без точки)
-   * @throws TsNullArgumentRtException любой аргумент = null
-   * @throws TsIllegalArgumentRtException расширение - пустая строка
+   * @param aDir {@link File} - the storage directory
+   * @param aSectionFileExtension String - section file names extension
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException extension is an empty string
    */
   public KeepablesStorageInDir( File aDir, String aSectionFileExtension ) {
     dir = TsNullArgumentRtException.checkNull( aDir );
@@ -49,27 +46,14 @@ public class KeepablesStorageInDir
     fileFilter = TsFileFilter.ofFileExt( fileExt );
   }
 
-  // ------------------------------------------------------------------------------------
-  // Внутренние методы
-  //
-
   /**
-   * Возвращает список файлов, потенциально содержащих разделы.
-   * <p>
-   * Список файлов формируется по расширению, и имени, которая доллжна быть ИД-путем.
+   * Constructor with default extension.
    *
-   * @return IStringMap&lt;File&gt; - карта "имя файла без расширения (ИД раздела)" - "файл"
+   * @param aDir {@link File} - the storage directory
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  private IStringMap<File> listProbableSectionFiles() {
-    File[] ff = dir.listFiles( fileFilter );
-    IStringMapEdit<File> result = new StringMap<>();
-    for( File f : ff ) {
-      String bareFileName = TsFileUtils.extractBareFileName( f.getName() );
-      if( StridUtils.isValidIdPath( bareFileName ) ) {
-        result.put( bareFileName, f );
-      }
-    }
-    return result;
+  public KeepablesStorageInDir( File aDir ) {
+    this( aDir, DEFAULT_SECTION_FILE_EXTENSION );
   }
 
   // ------------------------------------------------------------------------------------
@@ -104,8 +88,7 @@ public class KeepablesStorageInDir
   @Override
   public <T> void writeItem( String aId, T aItem, IEntityKeeper<T> aKeeper ) {
     TsNullArgumentRtException.checkNulls( aItem, aKeeper );
-    StridUtils.checkValidIdPath( aId );
-    File f = new File( dir, aId + File.separator + fileExt );
+    File f = makeSectionFile( aId );
     aKeeper.write( f, aItem );
   }
 
@@ -121,8 +104,7 @@ public class KeepablesStorageInDir
   @Override
   public <T> void writeColl( String aId, ITsCollection<T> aColl, IEntityKeeper<T> aKeeper ) {
     TsNullArgumentRtException.checkNulls( aColl, aKeeper );
-    StridUtils.checkValidIdPath( aId );
-    File f = new File( dir, aId + File.separator + fileExt );
+    File f = makeSectionFile( aId );
     aKeeper.writeColl( f, aColl, true );
   }
 
@@ -139,21 +121,53 @@ public class KeepablesStorageInDir
   //
 
   /**
-   * Возвращает директорию хранения файлов разделов.
+   * Returns the directory containing sections files.
    *
-   * @return {@link File} - директория хранения файлов
+   * @return {@link File} - the storage directory
    */
   public File getDirectory() {
     return dir;
   }
 
   /**
-   * Возвращает расширение файлов разделов.
+   * Returns the section content file name extension.
    *
-   * @return String - расширение файлов разделов (без точки)
+   * @return String - section file names extension
    */
   public String getSectionFileExtension() {
     return fileExt;
+  }
+
+  /**
+   * Returns the names of the file probably containing the sections data.
+   * <p>
+   * File names are chosen by the specified extension and names as an IDpath.
+   *
+   * @return IStringMap&lt;File&gt; - the map "bare file name (= section ID)" - " the section file"
+   */
+  public IStringMap<File> listProbableSectionFiles() {
+    File[] ff = dir.listFiles( fileFilter );
+    IStringMapEdit<File> result = new StringMap<>();
+    for( File f : ff ) {
+      String bareFileName = TsFileUtils.extractBareFileName( f.getName() );
+      if( StridUtils.isValidIdPath( bareFileName ) ) {
+        result.put( bareFileName, f );
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Creates the file name for the specified section.
+   *
+   * @param aSectionId String - the section ID
+   * @return {@link File} - name of the file
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException argument is not an IDpath
+   */
+  public File makeSectionFile( String aSectionId ) {
+    StridUtils.checkValidIdPath( aSectionId );
+    return new File( dir, aSectionId + '.' + fileExt );
   }
 
 }

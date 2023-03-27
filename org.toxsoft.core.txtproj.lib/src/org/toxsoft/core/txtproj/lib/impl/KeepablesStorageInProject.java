@@ -2,19 +2,19 @@ package org.toxsoft.core.txtproj.lib.impl;
 
 import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 
-import java.util.Objects;
+import java.util.*;
 
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
-import org.toxsoft.core.tslib.bricks.strio.impl.StrioUtils;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMapEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.txtproj.lib.IProjDataUnit;
-import org.toxsoft.core.txtproj.lib.storage.IKeepablesStorage;
+import org.toxsoft.core.tslib.bricks.strio.impl.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.txtproj.lib.*;
+import org.toxsoft.core.txtproj.lib.storage.*;
 
 /**
  * Реализация хранилище {@link IKeepablesStorage} как компоненты проекта {@link IProjDataUnit}.
@@ -37,7 +37,7 @@ public class KeepablesStorageInProject
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация методов AbstractProjDataUnit
+  // AbstractProjDataUnit
   //
 
   @Override

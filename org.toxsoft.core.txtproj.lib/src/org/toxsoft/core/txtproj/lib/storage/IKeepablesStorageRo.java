@@ -13,12 +13,15 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public interface IKeepablesStorageRo {
 
   /**
-   * Определяет, если в хранилище раздел с указанным идентификатором.
+   * Determines if the storage contains the section with specified ID.
    *
-   * @param aId String - искомый идентификатор
-   * @return boolean - признак существования указанного раздела
+   * @param aId String - the section ID
+   * @return boolean - <code>true</code> if the section with specified ID exists
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   boolean hasSection( String aId );
+
+  // TODO TRANSLATE
 
   /**
    * Загружает объект из разедла.

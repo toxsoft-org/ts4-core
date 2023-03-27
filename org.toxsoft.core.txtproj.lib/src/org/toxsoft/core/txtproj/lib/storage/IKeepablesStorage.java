@@ -5,6 +5,8 @@ import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.txtproj.lib.*;
 
+// TODO TRANSLATE
+
 /**
  * Хранилище сериализуемых с помощью {@link IEntityKeeper} сущностей.
  * <p>

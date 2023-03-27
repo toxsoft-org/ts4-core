@@ -2,80 +2,74 @@ package org.toxsoft.core.txtproj.lib.storage;
 
 import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 
-import java.io.*;
-
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
-import org.toxsoft.core.tslib.bricks.strio.chario.*;
-import org.toxsoft.core.tslib.bricks.strio.chario.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.files.*;
 
 /**
- * {@link IKeepablesStorage} is implemented as the single file containing all data.
+ * {@link IKeepablesStorage} implemented as the {@link IKeepableEntity}.
+ * <p>
+ * Note: {@link #write(IStrioWriter)} writes indented content enclosed in braces
+ * {@link IStrioHardConstants#CHAR_SET_BEGIN} and {@link IStrioHardConstants#CHAR_SET_END}.
  *
  * @author hazard157
  */
-public class KeepablesStorageInFile
-    implements IKeepablesStorage {
+public class KeepablesStorageAsKeepable
+    implements IKeepablesStorage, IKeepableEntity {
 
-  private final File                   file;
   private final IStringMapEdit<String> sectionsMap = new StringMap<>();
 
   /**
    * Constructor.
-   *
-   * @param aFile {@link File} - the storage file
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIoRtException file can be accessed for read-write
    */
-  public KeepablesStorageInFile( File aFile ) {
-    file = TsFileUtils.checkFileAppendable( aFile );
-    if( file.exists() ) {
-      load();
-    }
+  public KeepablesStorageAsKeepable() {
+    // nop
   }
 
   // ------------------------------------------------------------------------------------
-  // implementation
+  // IKeepableEntity
   //
 
-  private void load() {
-    try( ICharInputStreamCloseable chIn = new CharInputStreamFile( file ) ) {
-      IStrioReader sr = new StrioReader( chIn );
-      IStringMapEdit<String> map = new StringMap<>();
-      while( sr.peekChar( EStrioSkipMode.SKIP_COMMENTS ) != CHAR_EOF ) {
-        String keywrod = sr.readIdPath();
-        sr.ensureChar( CHAR_EQUAL );
-        String content = StrioUtils.readInterbaceContent( sr );
-        map.put( keywrod, content );
-      }
-      sectionsMap.putAll( map );
+  @Override
+  public void read( IStrioReader aSr ) {
+    TsNullArgumentRtException.checkNull( aSr );
+    IStringMapEdit<String> map = new StringMap<>();
+    aSr.ensureChar( CHAR_SET_BEGIN );
+    while( aSr.peekChar( EStrioSkipMode.SKIP_COMMENTS ) != CHAR_EOF ) {
+      String keywrod = aSr.readIdPath();
+      aSr.ensureChar( CHAR_EQUAL );
+      String content = StrioUtils.readInterbaceContent( aSr );
+      map.put( keywrod, content );
     }
+    aSr.ensureChar( CHAR_SET_END );
+    sectionsMap.putAll( map );
   }
 
-  private void save() {
-    try( FileWriter fw = new FileWriter( file ) ) {
-      ICharOutputStream chOut = new CharOutputStreamWriter( fw );
-      IStrioWriter sw = new StrioWriter( chOut );
-      for( String keyword : sectionsMap.keys() ) {
-        sw.writeAsIs( keyword );
-        sw.writeSpace();
-        sw.writeChar( CHAR_EQUAL );
-        sw.incNewLine();
-        sw.writeAsIs( sectionsMap.getByKey( keyword ) );
-        sw.decNewLine();
-      }
+  @Override
+  public void write( IStrioWriter aSw ) {
+    TsNullArgumentRtException.checkNull( aSw );
+    aSw.writeChar( CHAR_SET_BEGIN );
+    if( sectionsMap.isEmpty() ) {
+      aSw.writeChar( CHAR_SET_END );
+      return;
     }
-    catch( IOException ex ) {
-      throw new TsIoRtException( ex );
+    aSw.incNewLine();
+    for( String keyword : sectionsMap.keys() ) {
+      aSw.writeAsIs( keyword );
+      aSw.writeSpace();
+      aSw.writeChar( CHAR_EQUAL );
+      aSw.incNewLine();
+      aSw.writeAsIs( sectionsMap.getByKey( keyword ) );
+      aSw.decNewLine();
     }
+    aSw.decNewLine();
+    aSw.writeChar( CHAR_SET_END );
   }
 
   // ------------------------------------------------------------------------------------
@@ -85,12 +79,6 @@ public class KeepablesStorageInFile
   @Override
   public void clear() {
     sectionsMap.clear();
-    try( FileWriter fw = new FileWriter( file ) ) {
-      // just open writer and immediately close to clear the file
-    }
-    catch( IOException ex ) {
-      throw new TsIoRtException( ex );
-    }
   }
 
   // ------------------------------------------------------------------------------------
@@ -117,7 +105,6 @@ public class KeepablesStorageInFile
     TsNullArgumentRtException.checkNulls( aItem, aKeeper );
     String content = aKeeper.ent2str( aItem );
     sectionsMap.put( aId, content );
-    save();
   }
 
   @Override
@@ -135,14 +122,11 @@ public class KeepablesStorageInFile
     TsNullArgumentRtException.checkNulls( aColl, aKeeper );
     String content = aKeeper.coll2str( aColl );
     sectionsMap.put( aId, content );
-    save();
   }
 
   @Override
   public void removeSection( String aId ) {
-    if( sectionsMap.removeByKey( aId ) != null ) {
-      save();
-    }
+    sectionsMap.removeByKey( aId );
   }
 
 }
