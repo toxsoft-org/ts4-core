@@ -281,7 +281,7 @@ public class TsReportViewer
 
     } );
 
-    zoomFactor = EZoomType.ZOOM_100;
+    zoomFactor = EZoomType.ZOOM_150;
 
     Control toolbarCtrl = toolBar.createControl( this );
     toolbarCtrl.setLayoutData( BorderLayout.NORTH );
