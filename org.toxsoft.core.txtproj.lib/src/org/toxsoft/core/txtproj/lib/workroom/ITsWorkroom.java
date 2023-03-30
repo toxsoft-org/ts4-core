@@ -19,7 +19,7 @@ public sealed interface ITsWorkroom permits TsWorkroom {
    *
    * @return {@link File} - the workroom directory
    */
-  File wsDir();
+  File wrDir();
 
   /**
    * Returns the storage for application-wide data.

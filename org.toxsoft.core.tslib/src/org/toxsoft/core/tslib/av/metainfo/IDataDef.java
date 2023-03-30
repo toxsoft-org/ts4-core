@@ -20,6 +20,14 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Data type information is the simple set of the constraint values held in {@link #params()}.
  * <p>
  * The only allowed implementation of this interface is {@link DataDef}.
+ * <p>
+ * <b>Important notice:</b> there is siginficant difference between {@link #getValue(IOptionSet)} method of this
+ * interface and <code>getXxx()</code> of the {@link IOptionSet}. Behaviour differs only when {@link IOptionSet}
+ * contains {@link IAtomicValue#NULL} value with the key {@link #id()}. {@link #getValue(IOptionSet)} considers
+ * <code>null</code> and {@link IAtomicValue#NULL NULL} as the same case - there is no value in the options set, while
+ * {@link IOptionSet} considers {@link IAtomicValue#NULL NULL} as a valid value. So {@link #getValue(IOptionSet)}
+ * returns {@link #defaultValue()} instead of {@link IAtomicValue#NULL NULL} while geters returns
+ * {@link IAtomicValue#NULL NULL} itself.
  *
  * @author hazard157
  */

@@ -46,6 +46,19 @@ public class OptionSetKeeper
    */
   public static final IAtomicValue AV_EMPTY_OPSET = AvUtils.avValobj( IOptionSet.NULL, KEEPER, KEEPER_ID );
 
+  /**
+   * Returns {@link #KEEPER_INDENTED} or {@link #KEEPER} depending on argument.
+   *
+   * @param aIndented boolean - <code>true</code> to choose indenting keeper
+   * @return {@link IEntityKeeper}&lt;{@link IOptionSet}&gt; - the choosen keeper
+   */
+  public static final IEntityKeeper<IOptionSet> getInstance( boolean aIndented ) {
+    if( aIndented ) {
+      return KEEPER_INDENTED;
+    }
+    return KEEPER;
+  }
+
   private final boolean indented;
 
   private OptionSetKeeper( boolean aIndented ) {
