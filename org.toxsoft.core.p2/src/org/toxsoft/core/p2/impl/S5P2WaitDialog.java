@@ -9,8 +9,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.dialogs.ETsDialogCode;
-import org.toxsoft.core.tsgui.graphics.icons.*;
-import org.toxsoft.core.tsgui.utils.TsGuiUtils;
 import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 
 /**
@@ -146,8 +144,10 @@ class S5P2WaitDialog
   // Внутренние методы
   //
   private static Image titleImage() {
-    ITsIconManager iconManager = TsGuiUtils.getGuiThreadWinContext().get( ITsIconManager.class );
-    return iconManager.loadStdIcon( ITsStdIconIds.ICONID_TSAPP_WINDOWS_ICON, EIconSize.IS_16X16 );
+    // 2023-04-05 mvk TsGuiUtils.getGuiThreadWinContext(...) - упразднен. Замены пока нет
+    // ITsIconManager iconManager = TsGuiUtils.getGuiThreadWinContext().get( ITsIconManager.class );
+    // return iconManager.loadStdIcon( ITsStdIconIds.ICONID_TSAPP_WINDOWS_ICON, EIconSize.IS_16X16 );
+    return null;
   }
 
 }
