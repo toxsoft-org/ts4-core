@@ -70,7 +70,7 @@ public class StriparManager<E extends IStridable & IParameterized>
           LoggerUtils.errorLogger().error( ex );
         }
       }
-      genericChangeEventer.fireChangeEvent();
+      genericChangeEventer().fireChangeEvent();
     }
 
   }
@@ -284,6 +284,11 @@ public class StriparManager<E extends IStridable & IParameterized>
     items.put( elem );
     eventer.fireChangeEvent( ECrudOp.EDIT, aId );
     return elem;
+  }
+
+  @Override
+  public E editItem( String aId, IOptionSet aParams ) {
+    return editItem( aId, aId, aParams );
   }
 
   @Override

@@ -3,14 +3,11 @@ package org.toxsoft.core.tsgui.dialogs;
 import static org.toxsoft.core.tsgui.dialogs.ETsDialogCode.*;
 import static org.toxsoft.core.tsgui.dialogs.ITsGuiDialogResources.*;
 
-import org.eclipse.e4.core.contexts.*;
 import org.eclipse.jface.dialogs.*;
 import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
-import org.toxsoft.core.tsgui.graphics.icons.*;
-import org.toxsoft.core.tsgui.utils.*;
 import org.toxsoft.core.tslib.bricks.time.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -297,11 +294,12 @@ public class TsDialogUtils {
 
   private static Image getTitleIcon() {
     Image titleIcon = null;
-    IEclipseContext winContext = TsGuiUtils.findGuiThreadWinContext();
-    if( winContext != null ) {
-      ITsIconManager iconManager = winContext.get( ITsIconManager.class );
-      titleIcon = iconManager.loadStdIcon( ITsStdIconIds.ICONID_TSAPP_WINDOWS_ICON, EIconSize.IS_16X16 );
-    }
+    // FIXME GOGA MWA
+    // IEclipseContext winContext = TsGuiUtils.findGuiThreadWinContext();
+    // if( winContext != null ) {
+    // ITsIconManager iconManager = winContext.get( ITsIconManager.class );
+    // titleIcon = iconManager.loadStdIcon( ITsStdIconIds.ICONID_TSAPP_WINDOWS_ICON, EIconSize.IS_16X16 );
+    // }
     return titleIcon;
   }
 

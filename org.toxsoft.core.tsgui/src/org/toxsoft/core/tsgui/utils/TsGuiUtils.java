@@ -1,6 +1,5 @@
 package org.toxsoft.core.tsgui.utils;
 
-import org.eclipse.e4.core.contexts.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.fonts.impl.*;
@@ -18,7 +17,6 @@ import org.toxsoft.core.tsgui.valed.controls.basic.*;
 import org.toxsoft.core.tsgui.widgets.mpv.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
-import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
@@ -31,7 +29,7 @@ public class TsGuiUtils {
   /**
    * Holds windows level {@link IEclipseContext} associated to the GUI-thread.
    */
-  private static final ThreadLocal<IEclipseContext> guiThreadWinContext = new ThreadLocal<>();
+  // private static final ThreadLocal<IEclipseContext> guiThreadWinContext = new ThreadLocal<>();
 
   /**
    * Performs tsgui core library initializtion.
@@ -74,44 +72,44 @@ public class TsGuiUtils {
 
   }
 
-  /**
-   * Stores windows level {@link IEclipseContext} associated to the GUI-thread.
-   * <p>
-   * This method must be called once per GUI-thread as soon as possibe after thread and cpntext is created.
-   *
-   * @param aWinContext {@link IEclipseContext} - windows level context
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   */
-  public static final void storeGuiThreadWinContext( IEclipseContext aWinContext ) {
-    TsNullArgumentRtException.checkNull( aWinContext );
-    guiThreadWinContext.set( aWinContext );
-  }
-
-  /**
-   * Returns the context previously stored by {@link #storeGuiThreadWinContext(IEclipseContext)}.
-   * <p>
-   * Warning: this method must be called from GUI-thread.
-   *
-   * @return {@link IEclipseContext} - context associated with current GUI-thread
-   * @throws TsIllegalStateRtException non-GUI thread call or context was not stored yet
-   */
-  public static final IEclipseContext getGuiThreadWinContext() {
-    IEclipseContext ctx = guiThreadWinContext.get();
-    TsIllegalStateRtException.checkNull( ctx );
-    return ctx;
-  }
-
-  /**
-   * Finds the context previously stored by {@link #storeGuiThreadWinContext(IEclipseContext)}.
-   * <p>
-   * Method returns <code>null</code> either if called not from mainGUI thread or if called before
-   * {@link #storeGuiThreadWinContext(IEclipseContext)}.
-   *
-   * @return {@link IEclipseContext} - context associated with current GUI-thread or <code>null</code>
-   */
-  public static final IEclipseContext findGuiThreadWinContext() {
-    return guiThreadWinContext.get();
-  }
+  // /**
+  // * Stores windows level {@link IEclipseContext} associated to the GUI-thread.
+  // * <p>
+  // * This method must be called once per GUI-thread as soon as possibe after thread and cpntext is created.
+  // *
+  // * @param aWinContext {@link IEclipseContext} - windows level context
+  // * @throws TsNullArgumentRtException any argument = <code>null</code>
+  // */
+  // public static final void storeGuiThreadWinContext( IEclipseContext aWinContext ) {
+  // TsNullArgumentRtException.checkNull( aWinContext );
+  // guiThreadWinContext.set( aWinContext );
+  // }
+  //
+  // /**
+  // * Returns the context previously stored by {@link #storeGuiThreadWinContext(IEclipseContext)}.
+  // * <p>
+  // * Warning: this method must be called from GUI-thread.
+  // *
+  // * @return {@link IEclipseContext} - context associated with current GUI-thread
+  // * @throws TsIllegalStateRtException non-GUI thread call or context was not stored yet
+  // */
+  // public static final IEclipseContext getGuiThreadWinContext() {
+  // IEclipseContext ctx = guiThreadWinContext.get();
+  // TsIllegalStateRtException.checkNull( ctx );
+  // return ctx;
+  // }
+  //
+  // /**
+  // * Finds the context previously stored by {@link #storeGuiThreadWinContext(IEclipseContext)}.
+  // * <p>
+  // * Method returns <code>null</code> either if called not from mainGUI thread or if called before
+  // * {@link #storeGuiThreadWinContext(IEclipseContext)}.
+  // *
+  // * @return {@link IEclipseContext} - context associated with current GUI-thread or <code>null</code>
+  // */
+  // public static final IEclipseContext findGuiThreadWinContext() {
+  // return guiThreadWinContext.get();
+  // }
 
   /**
    * Prohibition of descendants creation.

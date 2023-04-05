@@ -16,15 +16,10 @@ import org.toxsoft.core.txtproj.lib.*;
 public abstract class AbstractProjDataUnit
     implements IProjDataUnit {
 
-  // TRANSLATE
+  private final GenericChangeEventer genericChangeEventer;
 
   /**
-   * Помощник реализации {@link IGenericChangeEventer} сделан открытым, чтобы в наследниках избежать warning-ы.
-   */
-  public final GenericChangeEventer genericChangeEventer;
-
-  /**
-   * Слушатель-нотификатор для облечения реализации наследников.
+   * Notifier listener to make it easier to implement subclasses.
    */
   protected final ITsCollectionChangeListener collectionChangeListener = new ITsCollectionChangeListener() {
 
@@ -35,7 +30,7 @@ public abstract class AbstractProjDataUnit
   };
 
   /**
-   * Конструктор для наследников.
+   * Constructor.
    */
   protected AbstractProjDataUnit() {
     genericChangeEventer = new GenericChangeEventer( this );
@@ -86,29 +81,30 @@ public abstract class AbstractProjDataUnit
   }
 
   // ------------------------------------------------------------------------------------
-  // Методы для переопределения наследниками
+  // To implement
   //
 
   /**
-   * Наслденик должен записать содержимое в поток.
+   * The inheritor must write the content to the output stream.
    * <p>
-   * <b>Внимание:</b> первым символом (не считая пропуски) должна быть одна из открывающих скобок
-   * {@link IStrioHardConstants#CHAR_ARRAY_BEGIN} или {@link IStrioHardConstants#CHAR_SET_BEGIN}. Последним символом (не
-   * считая пропусков) должна быть парная к открывающей закрывающая скобка.
+   * <b>Note:</b> The first character (excluding spaces) must be one of the opening brackets
+   * {@link IStrioHardConstants#CHAR_ARRAY_BEGIN} or {@link IStrioHardConstants#CHAR_SET_BEGIN}. The last character (not
+   * counting spaces) must be the pair of the opening closing brace. *
    *
-   * @param aSw {@link IStrioWriter} - поток записи, не бывает <code>null</code>
-   * @throws TsIoRtException при ошибках доступа к потоку
+   * @param aSw {@link IStrioWriter} - output stream, never is <code>null</code>
+   * @throws TsIoRtException stream I/O error
    */
   abstract protected void doWrite( IStrioWriter aSw );
 
   /**
-   * Наследник должен считать содержимое из потока, ранее записанное методом {@link #doWrite(IStrioWriter)}.
+   * The subclass must read the content from the stream, previously written by the {@link #doWrite(IStrioWriter)}
+   * method.
    * <p>
    * In case of changes method must fire generic change event.
    *
-   * @param aSr {@link IStrioReader} - поток чтения, не бывает <code>null</code>
-   * @throws TsIoRtException при ошибках доступа к потоку
-   * @throws StrioRtException при ошибках формата текстового представления
+   * @param aSr {@link IStrioReader} - input stream, never is <code>null</code>
+   * @throws TsIoRtException stream I/O error
+   * @throws StrioRtException invalid data format
    */
   abstract protected void doRead( IStrioReader aSr );
 

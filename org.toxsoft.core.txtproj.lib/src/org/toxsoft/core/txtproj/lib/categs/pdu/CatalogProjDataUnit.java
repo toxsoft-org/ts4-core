@@ -1,12 +1,10 @@
 package org.toxsoft.core.txtproj.lib.categs.pdu;
 
-import org.toxsoft.core.tslib.bricks.strio.IStrioReader;
-import org.toxsoft.core.tslib.bricks.strio.IStrioWriter;
-import org.toxsoft.core.tslib.coll.helpers.ECrudOp;
-import org.toxsoft.core.txtproj.lib.categs.ICatalogue;
-import org.toxsoft.core.txtproj.lib.categs.ICatalogueChangeListener;
-import org.toxsoft.core.txtproj.lib.categs.impl.Catalogue;
-import org.toxsoft.core.txtproj.lib.impl.AbstractProjDataUnit;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.coll.helpers.*;
+import org.toxsoft.core.txtproj.lib.categs.*;
+import org.toxsoft.core.txtproj.lib.categs.impl.*;
+import org.toxsoft.core.txtproj.lib.impl.*;
 
 /**
  * Реализация {@link ICatalogueProjDataUnit}.
@@ -27,15 +25,11 @@ public class CatalogProjDataUnit
    */
   public CatalogProjDataUnit() {
     catalogue = new Catalogue();
-    catalogue.eventer().addListener( new ICatalogueChangeListener() {
-
-      @Override
-      public void onCatalogueChanged( ICatalogue aCatalogue, ECrudOp aOp, String aCategoryId ) {
-        if( isReading ) {
-          return;
-        }
-        genericChangeEventer.fireChangeEvent();
+    catalogue.eventer().addListener( (ICatalogueChangeListener)( aCatalogue, aOp, aCategoryId ) -> {
+      if( isReading ) {
+        return;
       }
+      genericChangeEventer().fireChangeEvent();
     } );
   }
 

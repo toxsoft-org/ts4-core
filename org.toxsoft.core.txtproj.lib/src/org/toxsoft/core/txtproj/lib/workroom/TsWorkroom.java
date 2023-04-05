@@ -59,7 +59,7 @@ public final class TsWorkroom
   //
 
   @Override
-  public File wsDir() {
+  public File wrDir() {
     return workroomDir;
   }
 

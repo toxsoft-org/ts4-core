@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.mws.bases;
+package org.toxsoft.core.tsgui.mws.bases_old;
 
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;

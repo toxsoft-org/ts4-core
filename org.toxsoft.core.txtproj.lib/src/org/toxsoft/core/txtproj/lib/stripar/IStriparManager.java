@@ -32,29 +32,43 @@ public interface IStriparManager<E extends IStridable & IParameterized>
    * Создает элемент (сущность).
    *
    * @param aId String - идентификатор (ИД-путь) элемента
-   * @param aInfo IOptionSet - параметры элемента
+   * @param aParams IOptionSet - параметры элемента
    * @return E - созданный элемент
    * @throws TsNullArgumentRtException любой аргумент = null
    * @throws TsValidationFailedRtException не прошла {@link IStriparManagerValidator#canCreateItem(String, IOptionSet)}
    */
-  E createItem( String aId, IOptionSet aInfo );
+  E createItem( String aId, IOptionSet aParams );
 
   /**
-   * Редактирует существующийй элемент.
+   * Edits the ID and/or parameters of the item.
    * <p>
-   * Аргумент aInfo может содержать только измененные параметры, старые останутся без изменений.
+   * Argument <code>aParams</code> may contain only options to be changed/added, or event be an empty set.
    * <p>
-   * Обратите внимание, что изменение идентификатора приводит к созданию нового элемента взамен существующего.
+   * Returned instance may be an update existing instance or the new instance.
    *
-   * @param aOldId String - идентификатор существующего элемента
-   * @param aId String - новый идентификатор (ИД-путь) элемента (может совпадать со старым)
-   * @param aInfo IOptionSet - параметры элемента
-   * @return E - отредкатированный или вновь созданный элемент
-   * @throws TsNullArgumentRtException любой аргумент = null
-   * @throws TsValidationFailedRtException не прошла
-   *           {@link IStriparManagerValidator#canEditItem(String, String, IOptionSet)}
+   * @param aOldId String - the ID of the existing item to change
+   * @param aId String - item new ID (an IDpath), may be the same as old ID
+   * @param aParams IOptionSet - changed parameters values
+   * @return &lt;E&gt; - an edited items (may be newly created instance)
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsValidationFailedRtException validation failed
    */
-  E editItem( String aOldId, String aId, IOptionSet aInfo );
+  E editItem( String aOldId, String aId, IOptionSet aParams );
+
+  /**
+   * Changes only parameters of the item without changing the ID.
+   * <p>
+   * Argument <code>aParams</code> may contain only options to be changed/added, or event be an empty set.
+   * <p>
+   * Returned instance may be an update existing instance or the new instance.
+   *
+   * @param aId String - existing item ID (an IDpath)
+   * @param aParams IOptionSet - changed parameters values
+   * @return &lt;E&gt; - an edited items (may be newly created instance)
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsValidationFailedRtException validation failed
+   */
+  E editItem( String aId, IOptionSet aParams );
 
   /**
    * Удаляет элемент.

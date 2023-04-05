@@ -23,15 +23,15 @@ public class QuantTsGuiRcp
 
   @Override
   protected void doInitApp( IEclipseContext aAppContext ) {
-    IValedControlFactoriesRegistry vcfReg = aAppContext.get( IValedControlFactoriesRegistry.class );
-    vcfReg.registerFactory( ValedFile.FACTORY );
-    vcfReg.registerFactory( ValedAvStringFile.FACTORY );
-    vcfReg.registerFactory( ValedAvValobjFile.FACTORY );
+    // nop
   }
 
   @Override
   protected void doInitWin( IEclipseContext aWinContext ) {
-    // nop
+    IValedControlFactoriesRegistry vcfReg = aWinContext.get( IValedControlFactoriesRegistry.class );
+    vcfReg.registerFactory( ValedFile.FACTORY );
+    vcfReg.registerFactory( ValedAvStringFile.FACTORY );
+    vcfReg.registerFactory( ValedAvValobjFile.FACTORY );
   }
 
 }

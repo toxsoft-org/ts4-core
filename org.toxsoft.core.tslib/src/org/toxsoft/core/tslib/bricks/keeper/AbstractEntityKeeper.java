@@ -75,7 +75,7 @@ public abstract class AbstractEntityKeeper<E>
   // implementation
   //
 
-  protected void internalWriteEntity( IStrioWriter aSw, E aEntity ) {
+  private void internalWriteEntity( IStrioWriter aSw, E aEntity ) {
     if( encloseMode != EEncloseMode.ENCLOSES_BASE_CLASS ) {
       doWrite( aSw, aEntity );
       return;
@@ -90,7 +90,7 @@ public abstract class AbstractEntityKeeper<E>
     aSw.writeChar( CHAR_SET_END );
   }
 
-  protected E internalReadEntity( IStrioReader aSr ) {
+  private E internalReadEntity( IStrioReader aSr ) {
     if( encloseMode != EEncloseMode.ENCLOSES_BASE_CLASS ) {
       return doRead( aSr );
     }
@@ -150,6 +150,14 @@ public abstract class AbstractEntityKeeper<E>
   }
 
   // ------------------------------------------------------------------------------------
+  // API for sublcasses
+  //
+
+  protected EEncloseMode encloseMode() {
+    return encloseMode;
+  }
+
+  // ------------------------------------------------------------------------------------
   // IEntityKeeper
   //
 
@@ -165,15 +173,11 @@ public abstract class AbstractEntityKeeper<E>
 
   @Override
   public boolean isEnclosed() {
-    switch( encloseMode ) {
-      case NOT_IN_PARENTHESES:
-        return false;
-      case ENCLOSES_BASE_CLASS:
-      case ENCLOSES_KEEPER_IMPLEMENTATION:
-        return true;
-      default:
-        throw new TsNotAllEnumsUsedRtException();
-    }
+    return switch( encloseMode ) {
+      case NOT_IN_PARENTHESES -> false;
+      case ENCLOSES_BASE_CLASS, ENCLOSES_KEEPER_IMPLEMENTATION -> true;
+      default -> throw new TsNotAllEnumsUsedRtException();
+    };
   }
 
   @Override
@@ -214,6 +218,9 @@ public abstract class AbstractEntityKeeper<E>
       IStrioWriter sw = new StrioWriter( chOut );
       internalWriteEntity( sw, aEntity );
     }
+    catch( Exception ex ) {
+      throw new TsIoRtException( ex );
+    }
   }
 
   @Override
@@ -222,6 +229,9 @@ public abstract class AbstractEntityKeeper<E>
     try( ICharInputStreamCloseable chIn = new CharInputStreamFile( aFile ) ) {
       IStrioReader sr = new StrioReader( chIn );
       return internalReadEntity( sr );
+    }
+    catch( Exception ex ) {
+      throw new TsIoRtException( ex );
     }
   }
 
@@ -255,6 +265,9 @@ public abstract class AbstractEntityKeeper<E>
       IStrioWriter sw = new StrioWriter( chOut );
       internalWriteColl( sw, aColl, aIndented );
     }
+    catch( Exception ex ) {
+      throw new TsIoRtException( ex );
+    }
   }
 
   @Override
@@ -269,6 +282,9 @@ public abstract class AbstractEntityKeeper<E>
     try( ICharInputStreamCloseable chIn = new CharInputStreamFile( aFile ) ) {
       IStrioReader sr = new StrioReader( chIn );
       return internalReadColl( sr );
+    }
+    catch( Exception ex ) {
+      throw new TsIoRtException( ex );
     }
   }
 
@@ -287,6 +303,9 @@ public abstract class AbstractEntityKeeper<E>
     try( ICharInputStreamCloseable chIn = new CharInputStreamFile( aFile ) ) {
       IStrioReader sr = new StrioReader( chIn );
       internalReadColl( sr, aColl );
+    }
+    catch( Exception ex ) {
+      throw new TsIoRtException( ex );
     }
     return (T)aColl;
   }

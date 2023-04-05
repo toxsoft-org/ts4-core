@@ -18,33 +18,31 @@ public abstract class AbstractQuant
     implements IQuant {
 
   /**
-   * Имя ссылки в контексте, содержащий {@link Boolean#TRUE} как признак вызова метода
-   * {@link #initApp(IEclipseContext)}.
+   * Name of the reference in the context containing {@link Boolean#TRUE} as the flag that
+   * {@link #initApp(IEclipseContext)} was called.
    */
   public final String CTX_REF_NAME_APP_INIT_CONTEXT_FLAG;
 
   /**
-   * Имя ссылки в контексте, содержащий {@link Boolean#TRUE} как признак вызова метода
-   * {@link #initWin(IEclipseContext)}.
+   * Name of the reference in the context containing {@link Boolean#TRUE} as the flag that
+   * {@link #initWin(IEclipseContext)} was called.
    */
   public final String CTX_REF_NAME_WIN_INIT_CONTEXT_FLAG;
 
   /**
-   * Контекст приложения, сначала уровня приложения, потом уровня окна.
-   */
-  private IEclipseContext appContext = null;
-
-  /**
-   * Дочерние кванты.
+   * Child quants.
    */
   private final IListEdit<IQuant> quants = new ElemLinkedBundleList<>();
 
-  private final String name; // имя кванта
+  /**
+   * The quant name.
+   */
+  private final String name;
 
   /**
    * Constructor.
    *
-   * @param aQuantName String - non-blank quant name, must be uinque for all quants in application
+   * @param aQuantName String - non-blank quant name, must be unique for all quants in application
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException argument is blank string
    */
@@ -87,16 +85,12 @@ public abstract class AbstractQuant
 
   @Override
   public void close() {
-    if( appContext == null ) {
-      LoggerUtils.errorLogger().warning( FMT_WARN_CLOSE_UNOPENED, name );
-      return;
-    }
     // finalizing child quants
     while( !quants.isEmpty() ) {
       IQuant q = quants.removeByIndex( quants.size() - 1 );
       q.close();
     }
-    // finalizing this qunat
+    // finalizing this quant
     LoggerUtils.defaultLogger().info( FMT_INFO_QUANT_CLOSE, name );
     try {
       doClose();
@@ -104,34 +98,6 @@ public abstract class AbstractQuant
     catch( Exception ex ) {
       LoggerUtils.errorLogger().error( ex, FMT_ERR_CLOSING_QUANT, name );
     }
-    setInitFlag( appContext, CTX_REF_NAME_APP_INIT_CONTEXT_FLAG, false );
-    setInitFlag( appContext, CTX_REF_NAME_WIN_INIT_CONTEXT_FLAG, false );
-  }
-
-  // ------------------------------------------------------------------------------------
-  // Object
-  //
-
-  @Override
-  public String toString() {
-    return "Quant '" + name + "'"; //$NON-NLS-1$ //$NON-NLS-2$
-  }
-
-  @Override
-  public boolean equals( Object aThat ) {
-    if( aThat == this ) {
-      return true;
-    }
-    // quant equality check is just name equality check
-    if( aThat instanceof AbstractQuant that ) {
-      return this.name.equals( that.name );
-    }
-    return false;
-  }
-
-  @Override
-  public int hashCode() {
-    return name.hashCode();
   }
 
   // ------------------------------------------------------------------------------------
@@ -145,19 +111,18 @@ public abstract class AbstractQuant
 
   @Override
   final public void initApp( IEclipseContext aAppContext ) {
-    // check init state
+    // check context initialization state
     if( getInitFlag( aAppContext, CTX_REF_NAME_APP_INIT_CONTEXT_FLAG ) ) {
       LoggerUtils.errorLogger().warning( FMT_WARN_QUANT_DUP_INIT_APP, name );
       return;
     }
     LoggerUtils.defaultLogger().info( FMT_INFO_QUANT_INIT_APP, name );
     TsNullArgumentRtException.checkNull( aAppContext );
-    appContext = aAppContext;
-    // init child quants
+    // child quants
     for( IQuant q : quants ) {
       q.initApp( aAppContext );
     }
-    // init this quant
+    // this quant
     try {
       doInitApp( aAppContext );
     }
@@ -169,17 +134,16 @@ public abstract class AbstractQuant
 
   @Override
   final public void initWin( IEclipseContext aWinContext ) {
+    TsNullArgumentRtException.checkNull( aWinContext );
     // check init state
     if( getInitFlag( aWinContext, CTX_REF_NAME_WIN_INIT_CONTEXT_FLAG ) ) {
       LoggerUtils.errorLogger().warning( FMT_WARN_QUANT_DUP_INIT_WIN, name );
       return;
     }
     LoggerUtils.defaultLogger().info( FMT_INFO_QUANT_INIT_WIN, name );
-    TsNullArgumentRtException.checkNull( aWinContext );
-    appContext = aWinContext;
     // init child quants
     for( IQuant q : quants ) {
-      q.initWin( appContext );
+      q.initWin( aWinContext );
     }
     // init this quant
     try {
@@ -206,32 +170,34 @@ public abstract class AbstractQuant
     return true;
   }
 
+  @Override
+  public void whenCloseMainWindow( IEclipseContext aWinContext, MWindow aWindow ) {
+    for( IQuant q : quants ) {
+      try {
+        q.whenCloseMainWindow( aWinContext, aWindow );
+      }
+      catch( Exception ex ) {
+        LoggerUtils.errorLogger().error( ex );
+      }
+    }
+    try {
+      doCloseWin( aWindow );
+    }
+    catch( Exception ex ) {
+      LoggerUtils.errorLogger().error( ex );
+    }
+    setInitFlag( aWinContext, CTX_REF_NAME_WIN_INIT_CONTEXT_FLAG, false );
+  }
+
   // ------------------------------------------------------------------------------------
   // IQuantRegistrator
   //
 
   @Override
   final public void registerQuant( IQuant aQuant ) {
-    TsIllegalStateRtException.checkNoNull( appContext );
     if( !quants.hasElem( aQuant ) ) {
       quants.add( aQuant );
     }
-  }
-
-  // ------------------------------------------------------------------------------------
-  // For subclesses
-  //
-
-  /**
-   * Returns the context {@link IEclipseContext}.
-   * <p>
-   * When implementing {@link #doInitApp(IEclipseContext)} returns application level context, in methods
-   * {@link #doInitWin(IEclipseContext)} and in {@link #doClose()} return the windows level context.
-   *
-   * @return {@link IEclipseContext} - application or windows level context
-   */
-  public IEclipseContext eclipseContext() {
-    return appContext;
   }
 
   // ------------------------------------------------------------------------------------
@@ -239,35 +205,48 @@ public abstract class AbstractQuant
   //
 
   /**
-   * Наследник должен определить действия при инициалиации кванта на уровне приложения.
+   * Subclass may perform application level initialization (once when application starts).
    * <p>
-   * Вызов метода обрамлен конструкцией <code>try-catch</code>, логирующий исключения так, что метод
-   * {@link #initApp(IEclipseContext)} не выбрасывает исключение.
+   * This method is called after child quants {@link IQuant#initApp(IEclipseContext)}.
    *
    * @param aAppContext {@link IEclipseContext} - application level context
    */
   protected abstract void doInitApp( IEclipseContext aAppContext );
 
   /**
-   * Наследник должен определить действия при инициалиации кванта на уровне окна.
+   * Subclass may perform window level initialization (once per window).
    * <p>
-   * Вызов метода обрамлен конструкцией <code>try-catch</code>, логирующий исключения так, что метод
-   * {@link #initWin(IEclipseContext)} не выбрасывает исключение.
+   * This method is called after child quants {@link IQuant#initWin(IEclipseContext)}.
    *
    * @param aWinContext {@link IEclipseContext} - window level context
    */
   protected abstract void doInitWin( IEclipseContext aWinContext );
 
   /**
-   * Наследник может осуществить действия по завершении работы кванта после дочерних квантов.
+   * Subclass may process window closing, eg release resources allocated in {@link #doInitWin(IEclipseContext)}.
+   *
+   * @param aWindow {@link MWindow} - the window to be closed
+   */
+  protected void doCloseWin( MWindow aWindow ) {
+    // nop
+  }
+
+  /**
+   * Subclass may perform clean-up before application quits.
    * <p>
-   * В базовом классе ничего не делает, при переопределении вызывать родительский метод не надо.
-   * <p>
-   * Вызов метода обрамлен конструкцией <code>try-catch</code>, логирующий исключения так, что метод {@link #close()} не
-   * выбрасывает исключение.
+   * Does nothing in the base class there is need to call parent method whem overriding.
    */
   protected void doClose() {
     // nop
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Object
+  //
+
+  @Override
+  public String toString() {
+    return "Quant '" + name + "'"; //$NON-NLS-1$ //$NON-NLS-2$
   }
 
 }

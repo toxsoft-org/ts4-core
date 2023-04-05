@@ -78,7 +78,7 @@ public class KeepablesStorageInProject
   protected void doClear() {
     if( !sectionsMap.isEmpty() ) {
       sectionsMap.clear();
-      genericChangeEventer.fireChangeEvent();
+      genericChangeEventer().fireChangeEvent();
     }
   }
 
@@ -107,7 +107,7 @@ public class KeepablesStorageInProject
     String content = aKeeper.ent2str( aItem );
     if( !Objects.equals( sectionsMap.findByKey( aId ), content ) ) {
       sectionsMap.put( aId, content );
-      genericChangeEventer.fireChangeEvent();
+      genericChangeEventer().fireChangeEvent();
     }
   }
 
@@ -127,14 +127,14 @@ public class KeepablesStorageInProject
     String content = aKeeper.coll2str( aColl );
     if( !Objects.equals( sectionsMap.findByKey( aId ), content ) ) {
       sectionsMap.put( aId, content );
-      genericChangeEventer.fireChangeEvent();
+      genericChangeEventer().fireChangeEvent();
     }
   }
 
   @Override
   public void removeSection( String aId ) {
     if( sectionsMap.removeByKey( aId ) != null ) {
-      genericChangeEventer.fireChangeEvent();
+      genericChangeEventer().fireChangeEvent();
     }
   }
 

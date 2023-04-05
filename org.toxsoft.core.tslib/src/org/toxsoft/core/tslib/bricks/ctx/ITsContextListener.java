@@ -8,26 +8,22 @@ import org.toxsoft.core.tslib.av.*;
  * Note on listener methods invocation: the change event initially is fired by the context for which mutator method was
  * called, like {@link ITsContext#put(Class, Object)}. The same about options editing. This is called source context and
  * reference to the source context is send as <code>aSource</code> argument of the <code>onXxx()</code> methods of this
- * interface.
+ * interface. Thsu, subscribers to the child or parent contexts does <b>not</b> receive any notifications.
  *
  * @author hazard157
  */
 public interface ITsContextListener {
 
   /**
-   * FIXME what happens when refs are added or removed?
-   */
-
-  /**
    * Informs about context reference change.
    * <p>
-   * Listener is called every time when client sets the value of the reference, even if new value is equal to the old
-   * one.
+   * Listener is called every time when client removes the reference of sets the value of the reference, even if new
+   * value is equal to the old one.
    *
    * @param <C> - context type
    * @param aSource {@link ITsContextRo} - the source
-   * @param aName String - changed reference name or <code>null</code> on batch changes
-   * @param aRef {@link IAtomicValue} - the changed reference or <code>null</code> on batch changes
+   * @param aName String - changed reference name
+   * @param aRef {@link IAtomicValue} - the changed reference or <code>null</code> when removed
    */
   <C extends ITsContextRo> void onContextRefChanged( C aSource, String aName, Object aRef );
 

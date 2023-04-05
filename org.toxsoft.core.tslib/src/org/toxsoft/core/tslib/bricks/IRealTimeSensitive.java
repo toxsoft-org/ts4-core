@@ -1,7 +1,7 @@
 package org.toxsoft.core.tslib.bricks;
 
 /**
- * Mixin interface of time-dependent entities.
+ * Mix-in interface of time-dependent entities.
  * <p>
  * Interface assumes that it will be called periodically for all time-dependent entities.
  *

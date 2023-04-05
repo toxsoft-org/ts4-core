@@ -4,32 +4,29 @@ import java.util.*;
 
 import org.toxsoft.core.tslib.utils.errors.*;
 
-// TRANSLATE
-
 /**
- * Интерфейс логирования (журналирования) событий.
+ * Event logging interface.
  * <p>
- * Этот интерфейс включает минимальный набор методов логирования. Реализации логеров на в разных системах могут (и
- * будут) существенно отличатся, однако этот интерфейс позволяет использовать один код в общих подсистемах, в том числе,
- * в подсистемах TsLib.
+ * This interface includes a minimal set of logging methods. Implementations of loggers on different systems can (and
+ * will) differ significantly, but this interface allows you to use one code in common subsystems, including TsLib
+ * subsystems.
  * <p>
- * В общем случае, логер может иметь несколько мест размещения логов, но этот логер подразумевает работу только с одным
- * местом логирования.
+ * In general, a logger can have multiple log locations, but this logger only works with one logging location.
  * <p>
- * Некоторые логеры могут иметь понятие "закрывания" (например, лог-файл). Если происходит вызов методов "закрытого"
- * логера, то любой из нижеприведенных методов выбрасывает ислючение {@link TsIllegalStateRtException}. "Закрываемый"
- * логер описывается интерфейсом {@link ICloseableLogger}.
- * <p>
- * Реализация логера должна обеспечивать потоко-безопасность, если иное специально не оговорено.
+ * Some loggers may have the concept of "closing" (for example, a log file). If a "private" logger method is called,
+ * then any of the following methods throws an exception {@link TsIllegalStateRtException}. A "closable" logger is
+ * described by the {@link ICloseableLogger} interface. *
  *
  * @author hazard157
  */
 public interface ILogger {
 
   /**
-   * Нулевой логер, пишет в "никуда", игнорирует логи.
+   * Singleton of the logger the ignores log messages.
    */
   ILogger NULL = new InternalNullLogger();
+
+  // TODO TRANSLATE
 
   /**
    * Определяет, физически логируются ли сообщаения запрошенной важности.

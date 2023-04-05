@@ -1,9 +1,9 @@
 package org.toxsoft.core.tslib.coll.impl;
 
-import java.io.Serializable;
+import java.io.*;
 
-import org.toxsoft.core.tslib.coll.IMapEdit;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Простой список целых индексов - содержимое крзин.
@@ -66,6 +66,14 @@ class ElemMapInternalIntList
     for( int i = 0; i < size; i++ ) {
       if( items[i] > aThreshold ) {
         --items[i];
+      }
+    }
+  }
+
+  void increaseAllAboveThreshold( int aThreshold ) {
+    for( int i = 0; i < size; i++ ) {
+      if( items[i] >= aThreshold ) {
+        ++items[i];
       }
     }
   }

@@ -1,8 +1,8 @@
 package org.toxsoft.core.tsgui.graphics.image;
 
-import java.io.File;
+import java.io.*;
 
-import org.toxsoft.core.tsgui.graphics.icons.ITsIconManager;
+import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -28,6 +28,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * <p>
  * Внимание: для работы функционала создания файлового кеша миниатюр в системе должна быть установлена программа <a
  * href=http://www.graphicsmagick.org>graphicsmagic</a>.
+ * <p>
+ * TODO maybe use common (application level) cache for all instances of image manager?
  *
  * @author hazard157
  */

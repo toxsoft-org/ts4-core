@@ -1,68 +1,60 @@
-package org.toxsoft.core.tsgui.mws.bases;
+package org.toxsoft.core.tsgui.mws.bases_old;
 
 import static org.toxsoft.core.tsgui.mws.bases.ITsResources.*;
 
-import javax.annotation.*;
-import javax.inject.*;
+import javax.annotation.PostConstruct;
 
-import org.eclipse.e4.core.contexts.*;
-import org.eclipse.e4.ui.model.application.*;
-import org.eclipse.e4.ui.model.application.ui.basic.*;
-import org.osgi.framework.*;
-import org.toxsoft.core.tsgui.*;
+import org.eclipse.e4.core.contexts.IEclipseContext;
+import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
+import org.toxsoft.core.tsgui.Activator;
 import org.toxsoft.core.tsgui.bricks.quant.*;
-import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.logs.impl.*;
+import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
 
 /**
- * MWS plugin addon base class.
+ * MWS plugin addons base class.
  *
  * @author hazard157
  */
 public abstract class MwsAbstractAddon {
 
-  /**
-   * Class allows to registered this addon as quant to the application-wide quant manager.
-   *
-   * @author hazard157
-   */
-  class ThisAddonAsQuant
-      extends AbstractQuant {
+  IMainWindowLifeCylceListener windowsInterceptor = new IMainWindowLifeCylceListener() {
 
-    ThisAddonAsQuant( String aName ) {
-      super( aName );
+    @Override
+    public void beforeMainWindowOpen( IEclipseContext aWinContext, MWindow aWindow ) {
+      try {
+        quantManager.initWin( aWinContext );
+        LoggerUtils.defaultLogger().info( FMT_INFO_ADDON_INIT_WIN, nameForLog );
+        initWin( aWinContext );
+      }
+      catch( Exception ex ) {
+        LoggerUtils.errorLogger().error( ex );
+        throw ex;
+      }
     }
 
     @Override
-    protected void doInitApp( IEclipseContext aAppContext ) {
-      MwsAbstractAddon.this.initApp( aAppContext );
+    public void beforeMainWindowClose( IEclipseContext aWinContext, MWindow aWindow ) {
+      quantManager.close();
+      doBeforeMainWindowClose( aWinContext, aWindow );
     }
 
     @Override
-    protected void doInitWin( IEclipseContext aWinContext ) {
-      LoggerUtils.defaultLogger().info( FMT_INFO_ADDON_INIT_WIN, nameForLog );
-      MwsAbstractAddon.this.initWin( aWinContext );
+    public boolean canCloseMainWindow( IEclipseContext aWinContext, MWindow aWindow ) {
+      if( quantManager.canCloseMainWindow( aWinContext, aWindow ) ) {
+        return doCanCloseMainWindow( aWinContext, aWindow );
+      }
+      return false;
     }
 
-    @Override
-    protected void doCloseWin( MWindow aWindow ) {
-      LoggerUtils.defaultLogger().info( FMT_INFO_ADDON_CLOSE_WIN, nameForLog );
-      MwsAbstractAddon.this.doBeforeMainWindowClose( aWindow.getContext(), aWindow );
-    }
-
-    @Override
-    protected void doClose() {
-      MwsAbstractAddon.this.doClose();
-    }
-
-  }
-
-  @Inject
-  MApplication e4Application;
+  };
 
   final String pluginId;
   final String nameForLog;
+  final IQuant quantManager;
 
   /**
    * Constructor for subclasses.
@@ -76,20 +68,20 @@ public abstract class MwsAbstractAddon {
   public MwsAbstractAddon( String aPluginId ) {
     pluginId = StridUtils.checkValidIdPath( aPluginId );
     nameForLog = this.getClass().getSimpleName();
+    quantManager = new QuantBase( super.getClass().getName() );
   }
 
   @PostConstruct
   final void init( IEclipseContext aAppContext ) {
     LoggerUtils.defaultLogger().info( FMT_INFO_ADDON_STARTING, nameForLog );
     try {
-      // create temporary quant manager to a) register quants, b) call #initApp()
-      IQuant tmpQuantManager = new ThisAddonAsQuant( getClass().getName() );
-      doRegisterQuants( tmpQuantManager );
-      tmpQuantManager.initApp( aAppContext );
-      // now move quants to the application-wide quant manager - windows lifecycle methods will be called on them
-      IApplicationWideQuantManager appQM = e4Application.getContext().get( IApplicationWideQuantManager.class );
-      appQM.registerQuant( tmpQuantManager );
+      MwsMainWindowStaff mainWindowStaff = aAppContext.get( MwsMainWindowStaff.class );
+      TsInternalErrorRtException.checkNull( mainWindowStaff );
+      mainWindowStaff.addMainWindowLifecycleInterceptor( windowsInterceptor );
+      doRegisterQuants( quantManager );
       LoggerUtils.defaultLogger().info( FMT_INFO_ADDON_INIT_APP, nameForLog );
+      quantManager.initApp( aAppContext );
+      initApp( aAppContext );
     }
     catch( Exception ex ) {
       LoggerUtils.errorLogger().error( ex );
@@ -102,18 +94,18 @@ public abstract class MwsAbstractAddon {
   //
 
   /**
-   * Finds registered OSGi service.
+   * Находит зарегистрированный в OSGi сервис по его типу.
    *
-   * @param <S> - the expected type of the service
-   * @param aSeviceClass {@link Class}&lt;S&gt; - the expected type of the service
-   * @return &lt;S&gt; - found service or <code>null</code>
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIllegalStateRtException method is called when plugin is stopped
+   * @param <S> - тип (класс) сервиса
+   * @param aSeviceClass {@link Class}&lt;S&gt; - класс сервиса
+   * @return &lt;S&gt; - сервис или <code>null</code>
+   * @throws TsIllegalStateRtException метод вызван при остановленном плагине
+   * @throws TsNullArgumentRtException любой аргумент = <code>null</code>
    */
   public <S> S findOsgiService( Class<S> aSeviceClass ) {
     BundleContext context = Activator.getInstance().getBundle().getBundleContext();
-    TsNullArgumentRtException.checkNull( aSeviceClass );
     TsIllegalStateRtException.checkNull( context );
+    TsNullArgumentRtException.checkNull( aSeviceClass );
     ServiceReference<S> ref = context.getServiceReference( aSeviceClass );
     if( ref != null ) {
       return context.getService( ref );
@@ -122,14 +114,14 @@ public abstract class MwsAbstractAddon {
   }
 
   /**
-   * Returns registered OSGi service.
+   * Возвращает зарегистрированный в OSGi сервис по его типу.
    *
-   * @param <S> - the expected type of the service
-   * @param aSeviceClass {@link Class}&lt;S&gt; - the expected type of the service
-   * @return &lt;S&gt; - found service
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIllegalStateRtException method is called when plugin is stopped
-   * @throws TsItemNotFoundRtException no such service
+   * @param <S> - тип (класс) сервиса
+   * @param aSeviceClass {@link Class}&lt;S&gt; - класс сервиса
+   * @return &lt;S&gt; - сервис или <code>null</code>
+   * @throws TsIllegalStateRtException метод вызван при остановленном плагине
+   * @throws TsNullArgumentRtException любой аргумент = <code>null</code>
+   * @throws TsItemNotFoundRtException нет такого сервиса
    */
   public <S> S getOsgiService( Class<S> aSeviceClass ) {
     S service = findOsgiService( aSeviceClass );
@@ -160,11 +152,11 @@ public abstract class MwsAbstractAddon {
    * Subclass may perform additional clean-up before window is closed.
    * <p>
    * Note: #{@link #doCanCloseMainWindow(IEclipseContext, MWindow)} may not be called if someone already declined
-   * windows closing so use only this method if clean-up must be done unconditionally.
+   * windows closeing so use only this method if clean-up must be done unconditionally.
    * <p>
    * In base class does nothing, there is no need to call superclass method in subclasses.
    *
-   * @param aWinContext {@link IEclipseContext} - window level context
+   * @param aWinContext {@link IEclipseContext} - контекст уровня главного окна
    * @param aWindow {@link MWindow} - the window to be closed
    */
   protected void doBeforeMainWindowClose( IEclipseContext aWinContext, MWindow aWindow ) {
@@ -172,16 +164,7 @@ public abstract class MwsAbstractAddon {
   }
 
   /**
-   * Called before application quits, after all windows are closed.
-   * <p>
-   * In base class does nothing, there is no need to call superclass method in subclasses.
-   */
-  protected void doClose() {
-    // nop
-  }
-
-  /**
-   * Subclasses may register quants before initialization {@link #initApp(IEclipseContext)} starts.
+   * Subclasses may register quants before inititialization {@link #initApp(IEclipseContext)} starts.
    * <p>
    * In base class does nothing, there is no need to call superclass method in subclasses.
    *
@@ -190,10 +173,6 @@ public abstract class MwsAbstractAddon {
   protected void doRegisterQuants( IQuantRegistrator aQuantRegistrator ) {
     // nop
   }
-
-  // ------------------------------------------------------------------------------------
-  // IQuant
-  //
 
   /**
    * Is called one per application.

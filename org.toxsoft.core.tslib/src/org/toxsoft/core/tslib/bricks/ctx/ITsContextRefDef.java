@@ -24,7 +24,7 @@ public interface ITsContextRefDef<T>
   /**
    * Returns the reference type.
    *
-   * @return {@link Class}&lt;T&gt; - the refernce type, never is <code>null</code>
+   * @return {@link Class}&lt;T&gt; - the reference type, never is <code>null</code>
    */
   Class<T> refClass();
 

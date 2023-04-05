@@ -2,16 +2,10 @@ package org.toxsoft.core.tslib.gw;
 
 import static org.toxsoft.core.tslib.gw.ITsResources.*;
 
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.bricks.validator.ITsValidator;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.gw.gwid.Gwid;
-import org.toxsoft.core.tslib.gw.gwid.GwidList;
-import org.toxsoft.core.tslib.gw.skid.Skid;
-import org.toxsoft.core.tslib.gw.skid.SkidListKeeper;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.gw.gwid.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Green world utility methods.
@@ -20,17 +14,10 @@ import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
  */
 public final class GwUtils {
 
-  // TODO TRANSLATE
-
   /**
-   * OPTIMIZE в валидаторах надо делать прямое чтение строки и выдачу более вразумительных ошибок, учитывая, что
-   * пользователь набирает Gwid по частям
-   */
-
-  /**
-   * Валидатор формата канонической строки {@link Gwid}.
+   * GWID canonical representation validator for values packed as {@link String}.
    * <p>
-   * Валидатор не допускает <code>null</code> на входе - выбрасывает исключение.
+   * Validator throws an {@link TsNullArgumentRtException} for <code>null</code> arguments.
    */
   public static final ITsValidator<String> GWID_STR_VALIDATOR = aValue -> {
     TsNullArgumentRtException.checkNull( aValue );
@@ -47,14 +34,13 @@ public final class GwUtils {
   };
 
   /**
-   * Валидатор формата канонической строки {@link Gwid}, представленной в виде атомарного значения
+   * GWID canonical representation validator for values packed as {@link IAtomicValue} of type
    * {@link EAtomicType#STRING}.
    * <p>
-   * Валидатор не допускает <code>null</code> на входе - выбрасывает исключение.
+   * Validator throws an {@link TsNullArgumentRtException} for <code>null</code> arguments.
    * <p>
-   * Рассматриваются только атомарные значения типа {@link EAtomicType#STRING}, остальные типы кроме
-   * {@link EAtomicType#NONE} возвращают сообщение о неверном типе. {@link EAtomicType#NONE}, и что то же самое
-   * {@link IAtomicValue#NULL} рассматриваются как пустая строка с соответствующим текстом сообщения.
+   * For arguments of type other than {@link EAtomicType#STRING STRING} and {@link EAtomicType#NONE} returns error. NONE
+   * type value {@link IAtomicValue#NULL} is considered as an empty string and also returns error.
    */
   public static final ITsValidator<IAtomicValue> GWID_STR_AV_VALIDATOR = aValue -> {
     TsNullArgumentRtException.checkNull( aValue );
@@ -66,18 +52,6 @@ public final class GwUtils {
     }
     return GWID_STR_VALIDATOR.validate( aValue.asString() );
   };
-
-  /**
-   * Регистрирует известные в библиотеке объекты-значения в {@link TsValobjUtils}.
-   * <p>
-   * Внимание: метод следуе вызывать в программе ровно один раз, как можно на ранней стадии работы.
-   */
-  public static void registerKnownValobjs() {
-    TsValobjUtils.registerKeeperIfNone( Skid.KEEPER_ID, Skid.KEEPER );
-    TsValobjUtils.registerKeeperIfNone( SkidListKeeper.KEEPER_ID, SkidListKeeper.KEEPER );
-    TsValobjUtils.registerKeeperIfNone( Gwid.KEEPER_ID, Gwid.KEEPER );
-    TsValobjUtils.registerKeeperIfNone( GwidList.KEEPER_ID, GwidList.KEEPER );
-  }
 
   /**
    * Запрет на создание экземпляров.

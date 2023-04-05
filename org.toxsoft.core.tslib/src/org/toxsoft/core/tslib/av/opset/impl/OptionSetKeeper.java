@@ -2,12 +2,17 @@ package org.toxsoft.core.tslib.av.opset.impl;
 
 import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 
+import java.util.*;
+
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
@@ -29,12 +34,12 @@ public class OptionSetKeeper
   /**
    * Keeper singleton.
    */
-  public static final IEntityKeeper<IOptionSet> KEEPER = new OptionSetKeeper( false );
+  public static final OptionSetKeeper KEEPER = new OptionSetKeeper( false );
 
   /**
    * Indented keeper singleton.
    */
-  public static final IEntityKeeper<IOptionSet> KEEPER_INDENTED = new OptionSetKeeper( true );
+  public static final OptionSetKeeper KEEPER_INDENTED = new OptionSetKeeper( true );
 
   /**
    * An empty {@link IOptionSet} keeped text representation.
@@ -42,9 +47,22 @@ public class OptionSetKeeper
   public static final String STR_EMPTY_OPSET_REPRESENTATION = KEEPER.ent2str( IOptionSet.NULL );
 
   /**
-   * An empty {@link IOptionSet} keeped atomic value representation.
+   * An empty {@link IOptionSet} kept atomic value representation.
    */
   public static final IAtomicValue AV_EMPTY_OPSET = AvUtils.avValobj( IOptionSet.NULL, KEEPER, KEEPER_ID );
+
+  /**
+   * Returns {@link #KEEPER_INDENTED} or {@link #KEEPER} depending on argument.
+   *
+   * @param aIndented boolean - <code>true</code> to choose indenting keeper
+   * @return {@link IEntityKeeper}&lt;{@link IOptionSet}&gt; - the choosen keeper
+   */
+  public static final IEntityKeeper<IOptionSet> getInstance( boolean aIndented ) {
+    if( aIndented ) {
+      return KEEPER_INDENTED;
+    }
+    return KEEPER;
+  }
 
   private final boolean indented;
 
@@ -97,6 +115,64 @@ public class OptionSetKeeper
       } while( aSr.readSetNext() );
     }
     return opset;
+  }
+
+  /**
+   * Writes option set omitting options with default values.
+   * <p>
+   * Any option present both in <code>aEntity</code> and <code>aDefaults</code> with the same values are <b>not</b>
+   * written to the output stream.
+   * <p>
+   * This method is kind of optimization, reducing size of output data. It is assumed that at option set reader knows
+   * default values of omitted options and resores them.
+   *
+   * @param aSw {@link IStrioWriter} - output stream
+   * @param aEntity {@link IOptionSet} - the entity to write
+   * @param aDefaults {@link IStringMap}&lt;{@link IAtomicValue}&gt; - default values
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIoRtException stream I/O error
+   */
+  public void writeWithDefaults( IStrioWriter aSw, IOptionSet aEntity, IStringMap<IAtomicValue> aDefaults ) {
+    TsNullArgumentRtException.checkNulls( aSw, aEntity, aDefaults );
+    IOptionSetEdit opset = new OptionSet();
+    for( String opId : aEntity.keys() ) {
+      IAtomicValue opVal = aEntity.getByKey( opId );
+      IAtomicValue defVal = aDefaults.findByKey( opId );
+      if( !Objects.equals( opVal, defVal ) ) {
+        opset.put( opId, opVal );
+      }
+    }
+    write( aSw, aEntity );
+  }
+
+  /**
+   * Writes option set omitting options with default values.
+   * <p>
+   * See comments for {@link #writeWithDefaults(IStrioWriter, IOptionSet, IStringMap)}.
+   *
+   * @param aSw {@link IStrioWriter} - output stream
+   * @param aEntity {@link IOptionSet} - the entity to write
+   * @param aDefaults {@link IStridablesList}&lt;{@link IDataDef}&gt; - defaults are in {@link IDataDef#defaultValue()}
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIoRtException stream I/O error
+   */
+  public void writeWithDefaults( IStrioWriter aSw, IOptionSet aEntity, IStridablesList<IDataDef> aDefaults ) {
+    TsNullArgumentRtException.checkNulls( aSw, aEntity, aDefaults );
+    IOptionSetEdit opset = new OptionSet();
+    for( String opId : aEntity.keys() ) {
+      IAtomicValue opVal = aEntity.getByKey( opId );
+      IDataDef opDef = aDefaults.findByKey( opId );
+      if( opDef != null ) {
+        IAtomicValue defVal = opDef.defaultValue();
+        if( !Objects.equals( opVal, defVal ) ) {
+          opset.put( opId, opVal );
+        }
+      }
+      else {
+        opset.put( opId, opVal );
+      }
+    }
+    write( aSw, aEntity );
   }
 
 }
