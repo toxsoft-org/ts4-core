@@ -18,7 +18,7 @@ public interface IQNodeChildsContributor {
   /**
    * Creates child nodes for a given node.
    * <p>
-   * Implementaton must not remove or reorder existing content of <code>aChildNodes</code>. Only adding newly created
+   * Implementation must not remove or reorder existing content of <code>aChildNodes</code>. Only adding newly created
    * nodes is allowed. Created nodes must have the given node as parent, that is the equality {@link IQNode#parent()} =
    * <code>aNode</code> must be true.
    *

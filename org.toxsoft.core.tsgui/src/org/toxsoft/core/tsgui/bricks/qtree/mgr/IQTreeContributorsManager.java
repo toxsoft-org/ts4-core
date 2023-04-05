@@ -7,11 +7,11 @@ import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Manages {@link IQNode} based tree content and visualisation contributors.
+ * Manages {@link IQNode} based tree content and visualization contributors.
  * <p>
  * TODO comment usage and what is "tree visualization" (including node-related actions)<br>
  * Not all kinds of nodes may have contributions, most of them have no such capabilities<br>
- * This manager does not defines how node contributors and action prividers are used
+ * This manager does not defines how node contributors and action providers are used
  * <p>
  * There may my several different managers in the applications for several different QTrees.
  *
@@ -20,7 +20,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public interface IQTreeContributorsManager {
 
   // ------------------------------------------------------------------------------------
-  // node childs contributon
+  // node childs contribution
 
   /**
    * Registers node child contributor.

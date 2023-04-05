@@ -62,16 +62,36 @@ class AbstractElemMap<K, E>
    *
    * @param aRemovedIndex int - index of key removed from {@link #keyList}
    */
-  private void adjustIndexesAfterRemove( int aRemovedIndex ) {
+  private void adjustIndicesAfterRemove( int aRemovedIndex ) {
     for( int bIndex = 0; bIndex < buckets.length; bIndex++ ) {
       ElemMapInternalIntList elemIndexList = buckets[bIndex];
       if( elemIndexList != null ) {
-        for( int i = 0, n = elemIndexList.size(); i < n; i++ ) {
-          int elemIndex = elemIndexList.get( i );
-          if( elemIndex > aRemovedIndex ) {
-            elemIndexList.set( i, elemIndex - 1 );
-          }
-        }
+        // --- GOGA 2023-04-01
+        elemIndexList.decreaseAllAboveThreshold( aRemovedIndex );
+        // for( int i = 0, n = elemIndexList.size(); i < n; i++ ) {
+        // int elemIndex = elemIndexList.get( i );
+        // if( elemIndex > aRemovedIndex ) {
+        // elemIndexList.set( i, elemIndex - 1 );
+        // }
+        // }
+        // ---
+      }
+    }
+  }
+
+  /**
+   * Updates indexes in hash table before element insertion.
+   * <p>
+   * After inserting key to {@link #keyList} at index aIndexToInsert all index elements in hash table above
+   * aRemovedIndex are incremented by 1.
+   *
+   * @param aIndexToInsert int - index of key removed from {@link #keyList}
+   */
+  private void adjustIndicesBeforeInsert( int aIndexToInsert ) {
+    for( int bIndex = 0; bIndex < buckets.length; bIndex++ ) {
+      ElemMapInternalIntList elemIndexList = buckets[bIndex];
+      if( elemIndexList != null ) {
+        elemIndexList.increaseAllAboveThreshold( aIndexToInsert );
       }
     }
   }
@@ -220,9 +240,12 @@ class AbstractElemMap<K, E>
         return elemList.set( eIndex, aElem );
       }
     }
-    // add key/value pair at coorect place either for sorted or unsorted maps
+    // add key/value pair at correct place either for sorted or unsorted maps
     int index = keyList.add( aKey );
     elemList.insert( index, aElem );
+    if( index < keyList.size() - 1 ) {
+      adjustIndicesBeforeInsert( index );
+    }
     elemIndexList.add( index );
     ++changeCount;
     return null;
@@ -238,7 +261,7 @@ class AbstractElemMap<K, E>
         if( keyList.get( eIndex ).equals( aKey ) ) {
           keyList.removeByIndex( eIndex );
           elemIndexList.remove( i );
-          adjustIndexesAfterRemove( eIndex );
+          adjustIndicesAfterRemove( eIndex );
           ++changeCount;
           return elemList.removeByIndex( eIndex );
         }

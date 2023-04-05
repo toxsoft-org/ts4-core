@@ -68,8 +68,8 @@ public class ProgramArgs {
   /**
    * Determines if argument value was specified in command line.
    * <p>
-   * Please not thet it is impossible to distinguish between absent value and emty string ("") specified as value in
-   * command line.
+   * Note: it is impossible to distinguish between absent value and an empty string ("") specified as value in command
+   * line.
    *
    * @param aArgName String - argument name (without dash)
    * @return boolean - <code>true</code> if argument value was specified in command line
@@ -82,7 +82,7 @@ public class ProgramArgs {
   /**
    * Returns the argument value or if no such argument was specified returns an empty string.
    *
-   * @param aArgName String - имя аргумента командной строки
+   * @param aArgName String - command line argument
    * @return String - argument value or an empty string
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
@@ -97,8 +97,8 @@ public class ProgramArgs {
   /**
    * Returns the argument value or if no such argument was specified returns ste specified string.
    *
-   * @param aArgName String - имя аргумента командной строки
-   * @param aDefaultValue String - value in absence of the argument , may be <code>null</code>
+   * @param aArgName String - command line argument
+   * @param aDefaultValue String - value in absence of the argument, may be <code>null</code>
    * @return String - argument value or aDefaultValue
    * @throws TsNullArgumentRtException aArgName = null
    */

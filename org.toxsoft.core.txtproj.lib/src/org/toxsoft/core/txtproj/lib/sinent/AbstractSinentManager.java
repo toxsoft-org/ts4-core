@@ -2,23 +2,19 @@ package org.toxsoft.core.txtproj.lib.sinent;
 
 import static org.toxsoft.core.txtproj.lib.sinent.ITsResources.*;
 
-import org.toxsoft.core.tslib.bricks.events.change.GenericChangeEventer;
-import org.toxsoft.core.tslib.bricks.events.change.IGenericChangeListener;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.NotifierStridablesListBasicEditWrapper;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.SortedStridablesList;
-import org.toxsoft.core.tslib.bricks.strid.coll.notifier.INotifierStridablesListBasicEdit;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
-import org.toxsoft.core.tslib.bricks.strio.IStrioReader;
-import org.toxsoft.core.tslib.bricks.strio.IStrioWriter;
-import org.toxsoft.core.tslib.bricks.strio.impl.StrioUtils;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.bricks.validator.impl.TsValidationFailedRtException;
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.coll.helpers.ECrudOp;
-import org.toxsoft.core.tslib.coll.notifier.basis.ITsCollectionChangeListener;
+import org.toxsoft.core.tslib.bricks.events.change.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.notifier.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.bricks.strio.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.notifier.basis.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.txtproj.lib.impl.AbstractProjDataUnit;
+import org.toxsoft.core.txtproj.lib.impl.*;
 
 /**
  * Абстрактная базовая реализация {@link ISinentManager}.
@@ -38,22 +34,13 @@ public abstract class AbstractSinentManager<E extends ISinentity<F>, F>
    * <p>
    * Просто делегирует вызов {@link IGenericChangeListener#onGenericChangeEvent(Object)}.
    */
-  protected final IGenericChangeListener genericChangeListener = new IGenericChangeListener() {
-
-    @Override
-    public void onGenericChangeEvent( Object aSource ) {
-      items.fireItemByRefChangeEvent( aSource );
-      helper().fireChangeEvent();
-    }
+  protected final IGenericChangeListener genericChangeListener = aSource -> {
+    this.items.fireItemByRefChangeEvent( aSource );
+    genericChangeEventer().fireChangeEvent();
   };
 
-  private final ITsCollectionChangeListener itemsChangeListener = new ITsCollectionChangeListener() {
-
-    @Override
-    public void onCollectionChanged( Object aSource, ECrudOp aOp, Object aItem ) {
-      helper().fireChangeEvent();
-    }
-  };
+  private final ITsCollectionChangeListener itemsChangeListener =
+      ( s, o, i ) -> genericChangeEventer().fireChangeEvent();
 
   private final String                      keyword;
   private IEntityKeeper<E>                  sinentKeeper = null;
@@ -177,7 +164,7 @@ public abstract class AbstractSinentManager<E extends ISinentity<F>, F>
   @Override
   protected void doRead( IStrioReader aSr ) {
     TsIllegalStateRtException.checkNull( sinentKeeper );
-    genericChangeEventer.pauseFiring();
+    genericChangeEventer().pauseFiring();
     try {
       items.clear();
       items.addAll( StrioUtils.readCollection( aSr, keyword, sinentKeeper ) );
@@ -186,7 +173,7 @@ public abstract class AbstractSinentManager<E extends ISinentity<F>, F>
       }
     }
     finally {
-      genericChangeEventer.resumeFiring( true );
+      genericChangeEventer().resumeFiring( true );
     }
   }
 
@@ -198,15 +185,6 @@ public abstract class AbstractSinentManager<E extends ISinentity<F>, F>
   // ------------------------------------------------------------------------------------
   // Методы для наследников
   //
-
-  /**
-   * Возвращает внутренный помощник работы с извещениями.
-   *
-   * @return {@link GenericChangeEventer} - внутренный помощник работы с извещениями
-   */
-  public GenericChangeEventer helper() {
-    return genericChangeEventer;
-  }
 
   /**
    * Задает хранитель элементов.

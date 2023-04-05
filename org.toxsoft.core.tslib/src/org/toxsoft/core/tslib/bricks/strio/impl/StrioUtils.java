@@ -583,30 +583,30 @@ public class StrioUtils {
   }
 
   /**
-   * Записывает карту "целое" - "сущность" в текстовое представление.
+   * Writes the map "integer" - "entity" to the output stream..
    * <p>
-   * Запись проиходит в виде <code>KEYWORD = { key1=ENTITY, key=ENTITY, ... keyM=ENTITY }</code>, где keyN - ключ в
-   * карте, а ENTITY - записанная с помощью <code>aKeeper</code> сущность. Если aKeyword пустая строка, то часть записы
-   * "KEYWORD = " отсуствет.
+   * Output form is <code>KEYWORD = { key1=ENTITY, key=ENTITY, ... keyM=ENTITY }</code>, where keyN - is a key in a map,
+   * ENTITY - an entity written using thw <code>aKeeper</code>. If <code>aKeyword</code> is an empty string, then part
+   * "KEYWORD = " is not written.
    *
-   * @param <E> - тип хранимых сущностей
-   * @param aSw {@link IStrioWriter} - писатель к текстовое прдставление
-   * @param aKeyword String - ключевое слово (ИД-путь), предваряющее коллекцию или пустая строка
-   * @param aMap {@link IIntMap} - записываемая карта "целое" - "сущность"
-   * @param aKeeper {@link IEntityKeeper} - хранитель элемсентов коллекции
-   * @param aIndent boolean - признак переноса строк<br>
-   *          <b>true</b> - каждая пана keyN=ENTITY записывается на отдельной строке;<br>
-   *          <b>false</b> - вся карта записывается в одну строку, без переноса.
-   * @throws TsNullArgumentRtException любой аргумент = null
-   * @throws TsIllegalArgumentRtException aKeyword не ИД-путь
-   * @throws TsIoRtException ошибка записи в выходной поток
+   * @param <E> - type of the entities in the map
+   * @param aSw {@link IStrioWriter} - output stream
+   * @param aKeyword String - keyword (an IDpath or an empty string)
+   * @param aMap {@link IIntMap} - the map "integer" - "entity" to write
+   * @param aKeeper {@link IEntityKeeper} - entities keeper
+   * @param aIndent boolean - the indentation flag<br>
+   *          <b>true</b> - each pair keyN=ENTITY will be written indented on a new line;<br>
+   *          <b>false</b> - whole map will be written in on line.
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException aKeyword is not an IDpath and not an empty string
+   * @throws TsIoRtException stream I/O error
    */
   public static <E> void writeIntMap( IStrioWriter aSw, String aKeyword, IIntMap<E> aMap, IEntityKeeper<E> aKeeper,
       boolean aIndent ) {
     TsNullArgumentRtException.checkNulls( aSw, aMap, aKeeper );
-    // запись "KEYWORD = "
+    // "KEYWORD = "
     writeKeywordHeader( aSw, aKeyword );
-    // запись пустой карты
+    // an empty map
     if( aMap.isEmpty() ) {
       aSw.writeChars( CHAR_SET_BEGIN, CHAR_SET_END );
       return;
@@ -641,20 +641,20 @@ public class StrioUtils {
   }
 
   /**
-   * Считывает карту "целое" - "сущность" из текстового представления, записанную методом
+   * Reads the map "integer" - "entity" previously written by
    * {@link #writeIntMap(IStrioWriter, String, IIntMap, IEntityKeeper, boolean)}.
    * <p>
-   * Возвращаемое значение можно безопасно приводить к {@link IIntMapEdit}.
+   * Returned value may safely cast to {@link IIntMapEdit}.
    *
-   * @param <E> - тип хранимых сущностей
-   * @param aSr {@link IStrioReader} - читатель из текстового прдставления
-   * @param aKeyword String - ключевое слово (ИД-путь), предваряющее коллекцию или пустая строка
-   * @param aKeeper {@link IEntityKeeper} - хранитель элемсентов коллекции
-   * @return {@link IIntMap} - считанная карта
-   * @throws TsNullArgumentRtException любой аргумент = null
-   * @throws TsIllegalArgumentRtException aKeyword не ИД-путь
-   * @throws StrioRtException синтаксическая ошибка текстового представления
-   * @throws TsIoRtException ошибка чтения из входного потока
+   * @param <E> - type of the entities in the map
+   * @param aSr {@link IStrioReader} - input stream
+   * @param aKeyword String - keyword (an IDpath or an empty string)
+   * @param aKeeper {@link IEntityKeeper} - entities keeper
+   * @return {@link IIntMap} - read map
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException aKeyword is not an IDpath and not an empty string
+   * @throws StrioRtException syntax violation in input stream
+   * @throws TsIoRtException stream I/O error
    */
   public static <E> IIntMap<E> readIntMap( IStrioReader aSr, String aKeyword, IEntityKeeper<E> aKeeper ) {
     TsNullArgumentRtException.checkNulls( aSr, aKeeper );
