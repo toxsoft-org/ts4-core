@@ -26,7 +26,7 @@ public abstract class TsStdEventsProducerPanel<E>
   /**
    * Constructor.
    * <p>
-   * Constructos stores reference to the context, does not creates copy.
+   * Constructor stores reference to the context, does not creates copy.
    *
    * @param aParent {@link Composite} - parent component
    * @param aContext {@link ITsGuiContext} - the context
@@ -34,6 +34,23 @@ public abstract class TsStdEventsProducerPanel<E>
    */
   public TsStdEventsProducerPanel( Composite aParent, ITsGuiContext aContext ) {
     super( aParent, aContext );
+    genericChangeEventer = new GenericChangeEventer( this );
+    selectionChangeEventHelper = new TsSelectionChangeEventHelper<>( this );
+    doubleClickEventHelper = new TsDoubleClickEventHelper<>( this );
+  }
+
+  /**
+   * Constructor.
+   * <p>
+   * Constructor stores reference to the context, does not creates copy.
+   *
+   * @param aParent {@link Composite} - parent component
+   * @param aContext {@link ITsGuiContext} - the context
+   * @param aStyle int - SWT style of composite to be created
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public TsStdEventsProducerPanel( Composite aParent, ITsGuiContext aContext, int aStyle ) {
+    super( aParent, aContext, aStyle );
     genericChangeEventer = new GenericChangeEventer( this );
     selectionChangeEventHelper = new TsSelectionChangeEventHelper<>( this );
     doubleClickEventHelper = new TsDoubleClickEventHelper<>( this );
