@@ -71,7 +71,7 @@ public final class InplaceEditorPanel
   /**
    * Constructor.
    * <p>
-   * Constructos stores reference to the context, does not creates copy.
+   * Constructor stores reference to the context, does not creates copy.
    *
    * @param aContext {@link ITsGuiContext} - контекст панели
    * @param aContentPanel {@link AbstractInplaceContentPanel} - content panel

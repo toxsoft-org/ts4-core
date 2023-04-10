@@ -8,16 +8,16 @@ import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Class parses and incapsulates program simple command line arguments.
+ * Class parses and encapsulates program simple command line arguments.
  * <p>
- * Simple command line must contains pairs of argument names followed with otional value: <br>
+ * Simple command line must contains pairs of argument names followed with optional value: <br>
  * <code><b>progarm.exe -arg1name arg1val -arg2name arg2val -arg3name -arg4name -arg5name arg5val</code></b> <br>
  * Note that arguments 3 and 4 has no values. Argument name is prepended with dash '-' character.
  * <p>
  * Command line arguments are represented as the map {@link #argValues()}. Keys are argument names (without dash). This
- * class interpres absent value as an empty string.
+ * class interprets absent value as an empty string.
  * <p>
- * Please not thet it is impossible to distinguish between absent value and emty string ("") specified as value in
+ * Please note that it is impossible to distinguish between absent value and empty string ("") specified as value in
  * command line.
  *
  * @author hazard157

@@ -103,7 +103,7 @@ public class OptionSetPanel
   /**
    * Constructor.
    * <p>
-   * Constructos stores reference to the context, does not creates copy.
+   * Constructor stores reference to the context, does not creates copy.
    *
    * @param aContext {@link ITsGuiContext} - контекст панели
    * @param aIsViewer boolean - determines if panel will be created in viewer mode

@@ -142,7 +142,7 @@ public class TsFileFilter
   @Override
   public boolean accept( File aPathName ) {
     boolean isFile = false;
-    // consider filesystem object
+    // consider file system object
     if( aPathName.isDirectory() ) {
       if( !whatAccepted.isDir() ) {
         return false;
@@ -160,7 +160,7 @@ public class TsFileFilter
         return false;
       }
     }
-    // consider the hidden filesystem object
+    // consider the hidden file system object
     if( aPathName.isHidden() && !acceptHidden ) {
       return false;
     }
@@ -172,6 +172,27 @@ public class TsFileFilter
       }
       return extensionsLowerCase.hasElem( ext.toLowerCase() );
     }
+    return doAccept( aPathName, isFile );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Override
+  //
+
+  /**
+   * Subclass may perform additional checks to accept denoted file system object.
+   * <p>
+   * This method is called at the end of {@link #accept(File)}, when all built-in are passed successfully.
+   * <p>
+   * Returns <code>true</code> in base class there is no need to call superclass method when overriding.
+   *
+   * @param aPathName {@link File} - file system object already accepted by built-in checks
+   * @param aIsFile boolean - <code>aPathName</code> type flag: <code>true</code> for a file, <code>false</code> for a
+   *          directory
+   * @return boolean - <code>true</code> if argument should be included
+   */
+  protected boolean doAccept( File aPathName, boolean aIsFile ) {
     return true;
   }
+
 }

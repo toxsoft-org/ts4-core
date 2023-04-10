@@ -29,7 +29,7 @@ public abstract class AbstractGenericCollPanel<T>
   /**
    * Constructor.
    * <p>
-   * Constructos stores reference to the context, does not creates copy.
+   * Constructor stores reference to the context, does not creates copy.
    *
    * @param aContext {@link ITsGuiContext} - контекст панели
    * @throws TsNullArgumentRtException аргумент = null
@@ -41,7 +41,7 @@ public abstract class AbstractGenericCollPanel<T>
   /**
    * Constructor.
    * <p>
-   * Constructos stores reference to the context, does not creates copy.
+   * Constructor stores reference to the context, does not creates copy.
    *
    * @param aContext {@link ITsGuiContext} - контекст панели
    * @param aIsViewer boolean - the viewer (read-only) panel flag

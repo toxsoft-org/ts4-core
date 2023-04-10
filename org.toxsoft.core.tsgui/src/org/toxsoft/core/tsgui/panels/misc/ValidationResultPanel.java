@@ -87,7 +87,7 @@ public class ValidationResultPanel
   /**
    * Constructor.
    * <p>
-   * Constructos stores reference to the context, does not creates copy.
+   * Constructor stores reference to the context, does not creates copy.
    *
    * @param aParent {@link Composite} - parent component
    * @param aContext {@link ITsGuiContext} - the context

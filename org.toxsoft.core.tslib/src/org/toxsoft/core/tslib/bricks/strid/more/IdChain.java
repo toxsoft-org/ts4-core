@@ -159,7 +159,7 @@ public final class IdChain
    * @param aFoo int - unused argument to have method signature different from {@link #IdChain(IStringList)}
    * @param aBranches {@link IStringList} - reference to this argument will became field {@link #branches}
    */
-  private IdChain( int aFoo, IStringList aBranches ) {
+  IdChain( int aFoo, IStringList aBranches ) {
     branches = aBranches;
   }
 

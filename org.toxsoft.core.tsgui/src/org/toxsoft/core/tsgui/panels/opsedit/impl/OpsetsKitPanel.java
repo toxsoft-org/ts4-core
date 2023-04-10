@@ -148,7 +148,7 @@ public class OpsetsKitPanel
   /**
    * Constructor.
    * <p>
-   * Constructos stores reference to the context, does not creates copy.
+   * Constructor stores reference to the context, does not creates copy.
    *
    * @param aContext {@link ITsGuiContext} - контекст панели
    * @throws TsNullArgumentRtException аргумент = null

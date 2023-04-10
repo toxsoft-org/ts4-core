@@ -40,7 +40,7 @@ public final class TreeModeInfo<T>
    * @throws TsIllegalArgumentRtException aId не ИД-путь
    */
   public TreeModeInfo( String aId, String aName, String aDescription, String aIconId, ITsTreeMaker<T> aTreeMaker ) {
-    super( aId, aDescription, aName );
+    super( aId, aName, aDescription );
     iconId = aIconId;
     treeMaker = TsNullArgumentRtException.checkNull( aTreeMaker );
   }
