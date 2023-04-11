@@ -92,12 +92,12 @@ public class TsGraphicsUtils {
   }
 
   /**
-   * Рисует рамку (границу).
+   * Draws the border (rectangle surrounding of something).
    *
    * @param aGc {@link GC} - the graphics context to draw on
    * @param aBorderInfo {@link TsBorderInfo} - the border (frame) drawing info
    * @param aRect ITsRectangle - frame coordinates
-   * @param aColorManager ITsColorManager - the colcor manager
+   * @param aColorManager ITsColorManager - the color manager
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static void drawBorder( GC aGc, TsBorderInfo aBorderInfo, ITsRectangle aRect, ITsColorManager aColorManager ) {

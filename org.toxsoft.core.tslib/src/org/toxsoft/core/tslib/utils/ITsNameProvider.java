@@ -19,7 +19,7 @@ public interface ITsNameProvider<T> {
   ITsNameProvider DEFAULT = new InternalDefaultItemNameProvider();
 
   /**
-   * Returns the short name of the atem.
+   * Returns the short name of the item.
    * <p>
    * This method may return <code>null</code> indicating that no name is provided for specific item. Other way is needed
    * to be used to get the name of the item.
@@ -30,7 +30,7 @@ public interface ITsNameProvider<T> {
   String getName( T aItem );
 
   /**
-   * Returns the description of the atem.
+   * Returns the description of the item.
    * <p>
    * This method may return <code>null</code> indicating that no description is provided for specific item. Other way is
    * needed to be used to get the description of the item.

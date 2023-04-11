@@ -22,8 +22,7 @@ import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * All attributes to draw rectangular border.
- * <p>
+ * All options determining how to draw rectangular border.
  *
  * @author vs
  */
@@ -85,7 +84,7 @@ public final class TsBorderInfo {
   );
 
   /**
-   * Все описания опций
+   * All options as one list.
    */
   public static IStridablesList<IDataDef> ALL_DEFS = new StridablesList<>( //
       OPDEF_BORDER_KIND, //
@@ -164,7 +163,7 @@ public final class TsBorderInfo {
   }
 
   /**
-   * Simply returns {@link #NONE}.
+   * Simply Returns {@link #NONE}.
    *
    * @return {@link TsBorderInfo} - no border info
    */
@@ -291,37 +290,35 @@ public final class TsBorderInfo {
     return OPDEF_BORDER_KIND.getValue( options ).asValobj();
   }
 
-  // TODO TRANSLATE
-
   /**
-   * Возвращает свойства границы в виде {@link IOptionSet}.
+   * Returns border drawing parameters as {@link IOptionSet} with options listed in {@link #ALL_DEFS}.
    *
-   * @return IOptionSet - свойства границы
+   * @return {@link IOptionSet} - border drawing parameters
    */
   public IOptionSet options() {
     return options;
   }
 
   /**
-   * Возвращает параметры цвета для левой и верхней линии границы.<br>
+   * Returns the color settings for the left and top border lines.
    *
-   * @return RGBA - параметры цвета для левой и верхней линии границы
+   * @return RGBA - left and top line color
    */
   public RGBA leftTopRGBA() {
     return options.getValobj( OPDEF_LEFT_RGBA );
   }
 
   /**
-   * Возвращает параметры цвета для правой и нижней линии границы.<br>
+   * Returns the color settings for the right and bottom border lines.
    *
-   * @return RGBA - параметры цвета для правой и нижней линии границы
+   * @return RGBA - right and bottom line color
    */
   public RGBA rightBottomRGBA() {
     return options.getValobj( OPDEF_RIGHT_RGBA );
   }
 
   /**
-   * returns the line width.
+   * Returns the line width.
    *
    * @return int - the line width in pixels
    */
@@ -340,50 +337,48 @@ public final class TsBorderInfo {
   }
 
   /**
-   * Возвращет признак того, нужно ли рисовать левую сторону границы.
+   * Determines whether to draw the left side of the border.
    *
-   * @return <b>true</b> - нужно рисовать<br>
-   *         <b>false</b> - рисовать не нужно
+   * @return boolean - <code>true</code> to draw
    */
   public boolean shouldPaintLeft() {
     return options.getBool( OPDEF_PAINT_LEFT );
   }
 
   /**
-   * Возвращет признак того, нужно ли рисовать верхнюю сторону границы.
+   * Determines whether to draw the top side of the border.
    *
-   * @return <b>true</b> - нужно рисовать<br>
-   *         <b>false</b> - рисовать не нужно
+   * @return boolean - <code>true</code> to draw
    */
   public boolean shouldPaintTop() {
     return options.getBool( OPDEF_PAINT_TOP );
   }
 
   /**
-   * Возвращет признак того, нужно ли рисовать правую сторону границы.
+   * Determines whether to draw the right side of the border.
    *
-   * @return <b>true</b> - нужно рисовать<br>
-   *         <b>false</b> - рисовать не нужно
+   * @return boolean - <code>true</code> to draw
    */
   public boolean shouldPaintRight() {
     return options.getBool( OPDEF_PAINT_RIGHT );
   }
 
   /**
-   * Возвращет признак того, нужно ли рисовать нижнюю сторону границы.
+   * Determines whether to draw the bottom side of the border.
    *
-   * @return <b>true</b> - нужно рисовать<br>
-   *         <b>false</b> - рисовать не нужно
+   * @return boolean - <code>true</code> to draw
    */
   public boolean shouldPaintBottom() {
     return options.getBool( OPDEF_PAINT_BOTTOM );
   }
 
   /**
-   * Возвращет признак того, нужно ли рисовать все стороны границы.
+   * Determines whether to draw the left side of the border.
+   * <p>
+   * Returns simply ANDed flags {@link #shouldPaintLeft()}, {@link #shouldPaintTop()}, {@link #shouldPaintRight()} and
+   * {@link #shouldPaintBottom()}.
    *
-   * @return <b>true</b> - нужно рисовать все стороны<br>
-   *         <b>false</b> - рисовать нужно не все стороны
+   * @return boolean - <code>true</code> to draw
    */
   public boolean shouldPaintAll() {
     return shouldPaintLeft() && shouldPaintTop() && shouldPaintRight() && shouldPaintBottom();

@@ -59,7 +59,7 @@ public class TsTreeLabelProvider
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация методов класса TableLabelProviderAdapter
+  // TableLabelProviderAdapter
   //
 
   @Override
