@@ -1,5 +1,8 @@
 package org.toxsoft.core.tsgui.utils;
 
+import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
+import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
+
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.fonts.impl.*;
@@ -14,9 +17,15 @@ import org.toxsoft.core.tsgui.utils.swt.*;
 import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tsgui.valed.controls.av.*;
 import org.toxsoft.core.tsgui.valed.controls.basic.*;
+import org.toxsoft.core.tsgui.valed.impl.*;
 import org.toxsoft.core.tsgui.widgets.mpv.*;
+import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
@@ -70,6 +79,33 @@ public class TsGuiUtils {
     dd.params().setStr( IValedControlConstants.OPDEF_EDITOR_FACTORY_NAME, ValedAvStringText.FACTORY_NAME );
     dd.params().setBool( ValedStringText.OPDEF_IS_MULTI_LINE, true );
 
+  }
+
+  /**
+   * Prepares data definitions for the specified options values.
+   * <p>
+   * The simplest possible data definitions are created for unknown option, for known option IDs the default data
+   * definitions are used.
+   *
+   * @param aValues {@link IOptionSet} - the option values
+   * @return {@link IStridablesList}&lt;{@link IDataDef}&gt; - data definitions
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static IStridablesList<IDataDef> prepareDefaultDefs( IOptionSet aValues ) {
+    IStridablesListEdit<IDataDef> ll = new StridablesList<>();
+    for( String id : aValues.keys() ) {
+      IAtomicValue av = aValues.getValue( id );
+      IDataDef def = switch( id ) {
+        case TSID_NAME -> DDEF_NAME;
+        case TSID_DESCRIPTION -> DDEF_DESCRIPTION;
+        default -> DataDef.create( id, av.atomicType(), //
+            TSID_NAME, id, //
+            OPDEF_EDITOR_FACTORY_NAME, ValedControlUtils.getDefaultFactoryName( av.atomicType() ) //
+          );
+      };
+      ll.add( def );
+    }
+    return ll;
   }
 
   // /**

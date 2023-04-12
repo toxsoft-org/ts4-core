@@ -12,7 +12,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Option set view/edit panel.
  * <p>
  * Only the options listed in {@link #listOptionDefs()} are displayed. Panel retains unlisted option unchanged. Panel
- * can con change list of options, neither remove nor add an option, only values may be edited.
+ * can not change list of options, neither remove nor add an option, only values may be edited.
  *
  * @author hazard157
  */

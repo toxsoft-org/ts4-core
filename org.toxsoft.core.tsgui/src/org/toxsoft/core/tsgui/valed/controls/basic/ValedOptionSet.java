@@ -2,21 +2,18 @@ package org.toxsoft.core.tsgui.valed.controls.basic;
 
 import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
-import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.panels.opsedit.*;
 import org.toxsoft.core.tsgui.panels.opsedit.impl.*;
+import org.toxsoft.core.tsgui.utils.*;
 import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tsgui.valed.impl.*;
-import org.toxsoft.core.tslib.av.*;
-import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -104,19 +101,6 @@ public class ValedOptionSet
     panel.genericChangeEventer().addListener( widgetValueChangeListener );
   }
 
-  private static IStridablesList<IDataDef> prepareDefaultDefs( IOptionSet aValues ) {
-    IStridablesListEdit<IDataDef> ll = new StridablesList<>();
-    for( String id : aValues.keys() ) {
-      IAtomicValue av = aValues.getValue( id );
-      IDataDef def = DataDef.create( id, av.atomicType(), //
-          TSID_NAME, id, //
-          OPDEF_EDITOR_FACTORY_NAME, ValedControlUtils.getDefaultFactoryName( av.atomicType() ) //
-      );
-      ll.add( def );
-    }
-    return ll;
-  }
-
   // ------------------------------------------------------------------------------------
   // AbstractValedControl
   //
@@ -146,7 +130,7 @@ public class ValedOptionSet
     if( aValue != null ) {
       // auto-generate options definitions if not set previously
       if( !isOptionDefsSet ) {
-        panel.setOptionDefs( prepareDefaultDefs( aValue ) );
+        panel.setOptionDefs( TsGuiUtils.prepareDefaultDefs( aValue ) );
       }
       panel.setEntity( aValue );
     }

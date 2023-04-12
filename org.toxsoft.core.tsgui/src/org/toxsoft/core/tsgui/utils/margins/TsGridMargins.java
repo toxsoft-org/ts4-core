@@ -142,7 +142,7 @@ public final class TsGridMargins
    */
   public void copyFrom( ITsGridMargins aSource ) {
     super.copyFrom( aSource );
-    horGap = ITsMargins.VALUES_RANGE.inRange( aSource.hashCode() );
+    horGap = ITsMargins.VALUES_RANGE.inRange( aSource.horGap() );
     verGap = ITsMargins.VALUES_RANGE.inRange( aSource.verGap() );
     borderWidth = ITsMargins.VALUES_RANGE.inRange( aSource.borderWidth() );
   }

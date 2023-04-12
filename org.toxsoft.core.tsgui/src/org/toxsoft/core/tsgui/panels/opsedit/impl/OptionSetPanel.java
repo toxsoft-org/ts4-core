@@ -167,7 +167,7 @@ public class OptionSetPanel
       // create one row per option
       for( IDataDef dd : optionDefs ) {
         // Label - option name
-        Label l = new Label( valedsGrid, SWT.LEFT );
+        CLabel l = new CLabel( valedsGrid, SWT.CENTER );
         l.setText( dd.nmName() );
         l.setToolTipText( printf( FORMAT_DESCRIPTION_ID, dd ) );
         // VALED - option value editor

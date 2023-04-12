@@ -1,7 +1,7 @@
 package org.toxsoft.core.tsgui.panels.generic;
 
 /**
- * Generci panel to display propertis of one entity.
+ * Generic panel to display properties of one entity.
  *
  * @author hazard157
  * @param <T> - the entity type
