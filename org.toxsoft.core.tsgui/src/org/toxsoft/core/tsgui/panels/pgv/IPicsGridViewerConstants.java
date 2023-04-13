@@ -10,6 +10,8 @@ import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.graphics.lines.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 
 /**
  * Package constants.
@@ -65,6 +67,27 @@ public interface IPicsGridViewerConstants {
       TSID_DESCRIPTION, STR_D_SELECTION_BORDER_SETTINGS, //
       TSID_KEEPER_ID, TsBorderInfo.KEEPER_ID, //
       TSID_DEFAULT_VALUE, avValobj( TsBorderInfo.createSimpleBorder( 1, ETsColor.DARK_GRAY.rgba() ) ) //
+  );
+
+  /**
+   * The flag for displaying pop-up hints for the image.
+   */
+  IDataDef OPDEF_IS_ICONS_INSTEAD_OF_THUMBS = DataDef.create( "isIconsInsteadOfThumbs", BOOLEAN, //$NON-NLS-1$
+      TSID_NAME, STR_N_IS_ICONS_INSTEAD_OF_THUMBS, //
+      TSID_DESCRIPTION, STR_D_IS_ICONS_INSTEAD_OF_THUMBS, //
+      TSID_DEFAULT_VALUE, AV_FALSE //
+  );
+
+  /**
+   * All options as one list.
+   */
+  IStridablesList<IDataDef> ALL_OPDEFS = new StridablesList<>( //
+      OPDEF_IS_LABELS_SHOWN, //
+      OPDEF_LABEL_LINES, //
+      OPDEF_IS_TOOLTIPS_SHOWN, //
+      OPDEF_DEFAULT_THUMB_SIZE, //
+      OPDEF_SELECTION_BORDER_SETTINGS, //
+      OPDEF_IS_ICONS_INSTEAD_OF_THUMBS //
   );
 
 }

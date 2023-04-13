@@ -13,6 +13,7 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
+import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.graphics.lines.*;
 import org.toxsoft.core.tsgui.graphics.txtsplit.*;
@@ -55,7 +56,8 @@ class PgvCanvas<V>
     private IList<TextLine> labelLines = IList.EMPTY;
 
     private IImageAnimator iman         = null;
-    private TsImage        mi           = null;
+    private TsImage        tsimg        = null;
+    private ITsPoint       imgSize      = ITsPoint.ZERO;
     private int            currentIndex = 0;
 
     public PgvItem( V aEntity, int aCellIndex ) {
@@ -69,10 +71,12 @@ class PgvCanvas<V>
 
     void paintItem( GC aGc, ITsRectangle aRect ) {
       boolean isLabels = OPDEF_IS_LABELS_SHOWN.getValue( tsContext().params() ).asBool();
-      // draw image
+      // draw image centered
       Image image = getCurrFrame();
       if( image != null ) {
-        aGc.drawImage( image, aRect.x1(), aRect.y1() );
+        int x = aRect.x1() + aRect.width() / 2;
+        int y = aRect.y1() + aRect.width() / 2; // use Width() for square part
+        aGc.drawImage( image, x - imgSize.x() / 2, y - imgSize.y() / 2 );
       }
       // draw labels
       if( isLabels ) {
@@ -97,8 +101,8 @@ class PgvCanvas<V>
     }
 
     Image getCurrFrame() {
-      if( mi != null && currentIndex >= 0 && currentIndex < mi.count() && !mi.isDisposed() ) {
-        return mi.frames().get( currentIndex );
+      if( tsimg != null && currentIndex >= 0 && currentIndex < tsimg.count() && !tsimg.isDisposed() ) {
+        return tsimg.frames().get( currentIndex );
       }
       return null;
     }
@@ -114,14 +118,29 @@ class PgvCanvas<V>
      * sequential call of these methods for a sequence of {@link PgvItem} items via {@link Display#asyncExec(Runnable)}.
      * This is what is done in {@link PgvCanvas#loadNextImage()}. *
      */
-    void loadImage() {
-      // image upload and animation if needed
-      mi = visualsProvider.getThumb( entity, thumbSize() );
-      if( mi != null ) {
-        if( mi.isAnimated() ) {
-          iman = animationSupport.registerImage( mi, PgvItem.this, entity );
-          iman.resume();
+    void reloadImage() {
+      if( iman != null ) {
+        animationSupport.unregister( iman );
+        iman = null;
+        currentIndex = 0;
+      }
+      if( OPDEF_IS_ICONS_INSTEAD_OF_THUMBS.getValue( tsContext().params() ).asBool() ) {
+        EIconSize iconSize = EIconSize.findIncluding( thumbSize.size(), thumbSize.size() );
+        Image swtImage = visualsProvider.getIcon( entity, iconSize );
+        tsimg = TsImage.create( swtImage );
+        imgSize = iconSize.pointSize();
+      }
+      else {
+        tsimg = visualsProvider.getThumb( entity, thumbSize );
+        if( tsimg != null ) {
+          if( tsimg.isAnimated() ) {
+            iman = animationSupport.registerImage( tsimg, PgvItem.this, entity );
+            iman.resume();
+          }
         }
+        imgSize = thumbSize.pointSize();
+      }
+      if( tsimg != null ) {
         redrawCell( cellIndex );
       }
     }
@@ -289,6 +308,7 @@ class PgvCanvas<V>
 
   @Override
   public void paint( GC aGc, ITsRectangle aPaintBounds ) {
+    TsBorderInfo borderInfo = OPDEF_SELECTION_BORDER_SETTINGS.getValue( tsContext().params() ).asValobj();
     // draw loop over all cells
     for( int i = 0, count = cellsGrid.getCellsCount(); i < count; i++ ) {
       PgvItem item = items.get( i );
@@ -297,16 +317,7 @@ class PgvCanvas<V>
       // draw border on selected cell only
       if( i == selectedIndex ) {
         Color oldFg = aGc.getForeground();
-        TsBorderInfo borderInfo = OPDEF_SELECTION_BORDER_SETTINGS.getValue( tsContext().params() ).asValobj();
-
-        // Color selBorderColor = colorManager().getColor( rgbSelBorder );
-        // aGc.setForeground( selBorderColor );
-        // for( int b = 1; b < cellsGrid.margins().borderWidth(); b++ ) {
-        // aGc.drawRectangle( r.x1() - b, r.y1() - b, r.width() + 2 * b - 1, r.height() + 2 * b - 1 );
-        // }
-
         TsGraphicsUtils.drawBorder( aGc, borderInfo, r, colorManager() );
-
         aGc.setForeground( oldFg );
       }
     }
@@ -449,7 +460,7 @@ class PgvCanvas<V>
         return;
       }
       // image upload and animation if needed
-      next.loadImage();
+      next.reloadImage();
       // load next image
       loadNextImage();
     } );
@@ -608,6 +619,17 @@ class PgvCanvas<V>
     initializeItems( aEntities );
     cellsGrid.setCellsCount( items.size() );
     selectedIndex = -1;
+    redraw();
+  }
+
+  public void refresh() {
+    // reload all images - fill again #itemsWithImagesToLoadQueue and start loading
+    itemsWithImagesToLoadQueue.clear();
+    for( PgvItem i : items ) {
+      itemsWithImagesToLoadQueue.putTail( i );
+    }
+    reinititlizeSlittedTexts();
+    loadNextImage();
     redraw();
   }
 

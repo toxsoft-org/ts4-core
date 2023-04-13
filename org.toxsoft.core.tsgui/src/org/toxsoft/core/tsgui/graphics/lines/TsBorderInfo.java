@@ -222,7 +222,7 @@ public final class TsBorderInfo {
     }
     IAtomicValue avLineInfo = avValobj( aLineInfo );
     if( !avLineInfo.equals( OPDEF_LINE_INFO.defaultValue() ) ) {
-      OPDEF_LEFT_RGBA.setValue( ops, avLineInfo );
+      OPDEF_LINE_INFO.setValue( ops, avLineInfo );
     }
     if( OPDEF_PAINT_LEFT.defaultValue().asBool() != aIsLeft ) {
       OPDEF_PAINT_LEFT.setValue( ops, avBool( aIsLeft ) );

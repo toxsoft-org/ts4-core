@@ -130,7 +130,7 @@ public class PicsGridViewer<V>
     else {
       items.clear();
     }
-    refresh();
+    canvas.pgvSetEntities( items );
   }
 
   @Override
@@ -155,7 +155,8 @@ public class PicsGridViewer<V>
 
   @Override
   public void refresh() {
-    canvas.pgvSetEntities( items );
+    canvas.refresh();
+    // canvas.pgvSetEntities( items );
   }
 
   @Override

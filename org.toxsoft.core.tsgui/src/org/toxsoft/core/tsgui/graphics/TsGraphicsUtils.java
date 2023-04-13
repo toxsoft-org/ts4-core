@@ -134,6 +134,7 @@ public class TsGraphicsUtils {
     // draw
     if( aBinf.shouldPaintAll() ) { // нужно рисовать все стороны
       if( aBinf.leftTopRGBA().equals( aBinf.rightBottomRGBA() ) ) { // одноцветный прямоугольник
+        aGc.setForeground( aColorMan.getColor( rgbaLeft.rgb ) );
         aGc.drawRectangle( x1 + thick / 2, y1 + thick / 2, aRect.width() - thick, aRect.height() - thick );
       }
       else { // двухцветная граница

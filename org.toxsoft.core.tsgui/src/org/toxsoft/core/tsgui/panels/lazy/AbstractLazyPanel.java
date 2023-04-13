@@ -10,7 +10,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * {@link ILazyControl} base implementation.
  *
  * @author hazard157
- * @param <C> - type of the impementin SWT control
+ * @param <C> - type of the implementing SWT control
  */
 public abstract class AbstractLazyPanel<C extends Control>
     implements ILazyControl<C>, ITsGuiContextable {
