@@ -169,7 +169,7 @@ public class HmsUtils {
   }
 
   /**
-   * Makes string in either "HH:MM:SS" or "MM:S" form depensing on seconds value.
+   * Makes string in either "HH:MM:SS" or "MM:SS" form depending on seconds value.
    *
    * @param aSecs int - the number of seconds
    * @return String - the string "HH:MM:SS" or "MM:SS"

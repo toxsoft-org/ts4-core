@@ -1,10 +1,9 @@
 package org.toxsoft.core.tslib.bricks.filter;
 
-import java.io.ObjectStreamException;
-import java.io.Serializable;
+import java.io.*;
 
-import org.toxsoft.core.tslib.math.logicop.ELogicalOp;
-import org.toxsoft.core.tslib.utils.errors.TsUnsupportedFeatureRtException;
+import org.toxsoft.core.tslib.math.logicop.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Parameters for combined filter creation.
@@ -75,7 +74,7 @@ public interface ITsCombiFilterParams {
   ITsCombiFilterParams right();
 
   /**
-   * Determones if filter operation must be inverted (NOT applied).
+   * Determines if filter operation must be inverted (NOT applied).
    *
    * @return boolean - the flag of the NOT unary operation
    */
