@@ -16,6 +16,7 @@ import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 import net.sf.jasperreports.engine.*;
@@ -32,54 +33,130 @@ public class ReportGenerator {
   /**
    * формат для отображения метки времени
    */
-  private static final String     timestampFormatString = "dd.MM.yy HH:mm:ss";                          //$NON-NLS-1$
-  private static final DateFormat timestampFormat       = new SimpleDateFormat( timestampFormatString );
+  private static final String timestampFormatString = "dd.MM.yy HH:mm:ss"; //$NON-NLS-1$
+
+  private static final DateFormat timestampFormat = new SimpleDateFormat( timestampFormatString );
 
   /**
    * Ширина страницы типа пейзаж
    */
-  private static final int LANDSCAPE_PAGE_WIDTH   = 842;
+  private static final int LANDSCAPE_PAGE_WIDTH = 842;
+
   /**
    * Ширина страницы типа портрет
    */
-  private static final int PORTRAIT_PAGE_WIDTH    = 595;
+  private static final int PORTRAIT_PAGE_WIDTH = 595;
+
   /**
    * Вертикальный отступ
    */
-  private static final int VERTICAL_PAGE_MARGIN   = 20;
+  private static final int VERTICAL_PAGE_MARGIN = 20;
+
   /**
    * Горизонтальный отступ
    */
   private static final int HORIZONTAL_PAGE_MARGIN = 30;
 
+  // private static final int REPORT_TITLE_HEIGHT = 32; // 70;
+
+  private static final int REPORT_VERTICAL_COLUMN_HEADER_HEIGHT   = 64; // Высота при вертикальном расположении названия
+                                                                        // колонок
+  private static final int REPORT_HORIZONTAL_COLUMN_HEADER_HEIGHT = 15; // Высота при горизонтальном расположении
+
+  /**
+   * заголовка таблицы
+   */
+  // private static final int PROTOCOL_PAGE_HEADER_HEIGHT = 0;
+
+  /**
+   * ширина первой колонки (метка времени данных)
+   */
+  private static final int TIMESTAMP_COLUMN_WIDTH = 40;
+
+  private static final int REPORT_DETAIL_HEIGHT = 12;
+
+  // private static final int REPORT_SUMMARY_HEIGHT = 45;
+
+  private static final int PERFORMER_NAME_WIDTH = 60;
+
+  private static final int SUMMARY_ROW_HEIGHT = 20;
+
+  // private static final int COLUMN_SPACE = 10;
+
+  /**
+   * Нименование стиля Arial Italic
+   */
+  private static final String ARIAL_ITALIC_STYLE = "Arial_Italic";
+
+  /**
+   * Нименование стиля Arial Header
+   */
+  private static final String ARIAL_HEADER_STYLE = "Arial_Header";
+
+  /**
+   * Нименование стиля Arial Normal
+   */
+  private static final String ARIAL_NORMAL_STYLE = "Arial_Normal";
+
+  /**
+   * Нименование стиля Arial Bold
+   */
+  private static final String ARIAL_BOLD_STYLE = "Arial_Bold";
+
+  /**
+   * Наименование шрифта Serif
+   */
+  private static final String FONT_NAME_SERIF = "Serif";
+
+  /**
+   * Шрифт arial.ttf
+   */
+  private static final String FONT_ARIAL_TTF = "arial.ttf";
+
+  /**
+   * Кодировка Cp1251
+   */
+  private static final String ENCODING_CP1251 = "Cp1251";
+
   /**
    * Дата создания отчета
    */
   public static final String GENERATION_DATE = "generation_date";
+
   /**
-   * Поле метки времени (для отчетов типа МП-ИВ)
+   * Поле номера строки (авто заполнение)
    */
-  public static final String TIMESTAMP       = "timestamp_field";
+  public static final String ROW_NUMBER_FILED = "row_number_field";
+
   /**
    * Поле названия объекта (для отчетов типа МП-МО-ТВ)
    */
-  public static final String OBJ_NAME        = "obj_name_field";
+  public static final String OBJ_NAME = "obj_name_field";
+
   /**
    * Поле названия метода агрегации (для summary)
    */
-  public static final String AGGR_FUNC_NAME  = "aggr_func_field";
+  public static final String AGGR_FUNC_NAME = "aggr_func_field";
+
   /**
    * Динамически создаваемая колонка с данными
    */
-  public static final String DATA_COLUMN_    = "data_column_";
+  public static final String DATA_COLUMN_ = "data_column_";
+
+  /**
+   * Динамически создаваемая строка верхнего колонтитула
+   */
+  public static final String PAGE_HEADER_ = "page_header_";
+
   /**
    * ФИО создаетля отчета
    */
-  public static final String PERFORMER_NAME  = "performer_name";
+  public static final String PERFORMER_NAME = "performer_name";
+
   /**
    * Заголовок отчета
    */
-  public static final String REPORT_TITLE    = "report_title";
+  public static final String REPORT_TITLE = "report_title";
 
   /**
    * Нижняя левая надпись
@@ -95,30 +172,41 @@ public class ReportGenerator {
    * Левая граница интервала отчета
    */
   public static final String DATE_FROM = "date_from";
+
   /**
    * Правая граница интервала отчета
    */
-  public static final String DATE_TO   = "date_to";
+  public static final String DATE_TO = "date_to";
 
-  private static final int REPORT_TITLE_HEIGHT                    = 32; // 70;
-  private static final int REPORT_VERTICAL_COLUMN_HEADER_HEIGHT   = 64; // Высота при вертикальном расположении названия
-                                                                        // колонок
-  private static final int REPORT_HORIZONTAL_COLUMN_HEADER_HEIGHT = 15; // Высота при горизонтальном расположении
-  // заголовка
-  // таблицы
-  private static final int PROTOCOL_PAGE_HEADER_HEIGHT = 0;
   /**
-   * ширина первой колонки (метка времени данных)
+   * Системная переменная: номер страницы
    */
-  private static final int TIMESTAMP_COLUMN_WIDTH      = 40;
-  private static final int REPORT_DETAIL_HEIGHT        = 12;
-  private static final int REPORT_SUMMARY_HEIGHT       = 45;
-  private static final int PERFORMER_NAME_WIDTH        = 60;
-  private static final int SUMMARY_ROW_HEIGHT          = 20;
-  private static final int COLUMN_SPACE                = 10;
+  private static final String SYS_VAR_PAGE_NUMBER = "PAGE_NUMBER";
 
-  static final String SUBREPORT_DS = "subreport_ds";
-  static final String SUBREPORT_JR = "subreport_jr";
+  /**
+   * Формат текста, задающегося параметром.
+   */
+  private static final String PARAM_TEXT_FORMAT = "$P{%s}";
+
+  /**
+   * Формат текста, задающегося функцией.
+   */
+  private static final String FUNC_TEXT_FORMAT = "$F{%s}";
+
+  /**
+   * Формат текста, задающегося переменной.
+   */
+  private static final String VAR_TEXT_FORMAT = "$V{%s}";
+
+  /**
+   * Формат текста выражения, задающегося параметром.
+   */
+  private static final String PARAM_EXPR_FORMAT = "\"( \" + String.valueOf($P{%s}) + \" ) \"";
+
+  /**
+   * Формат текста выражения, задающегося функцией.
+   */
+  private static final String FUNC_EXPR_FORMAT = "($F{%s})";
 
   /**
    * Создает шрифт стиля "курсив"
@@ -128,12 +216,12 @@ public class ReportGenerator {
   @SuppressWarnings( "boxing" )
   private static JRDesignStyle getItalicStyle() {
     JRDesignStyle italicStyle = new JRDesignStyle();
-    italicStyle.setName( "Arial_Italic" );
-    italicStyle.setFontName( "Serif" );
+    italicStyle.setName( ARIAL_ITALIC_STYLE );
+    italicStyle.setFontName( FONT_NAME_SERIF );
     italicStyle.setFontSize( 8f );
     italicStyle.setItalic( true );
-    italicStyle.setPdfFontName( "arial.ttf" );
-    italicStyle.setPdfEncoding( "Cp1251" );
+    italicStyle.setPdfFontName( FONT_ARIAL_TTF );
+    italicStyle.setPdfEncoding( ENCODING_CP1251 );
     italicStyle.setPdfEmbedded( false );
     return italicStyle;
   }
@@ -146,12 +234,12 @@ public class ReportGenerator {
   @SuppressWarnings( "boxing" )
   private static JRDesignStyle getTitleStyle() {
     JRDesignStyle boldStyle = new JRDesignStyle();
-    boldStyle.setName( "Arial_Bold" );
-    boldStyle.setFontName( "Serif" );
+    boldStyle.setName( ARIAL_BOLD_STYLE );
+    boldStyle.setFontName( FONT_NAME_SERIF );
     boldStyle.setFontSize( 12f );
     boldStyle.setBold( true );
-    boldStyle.setPdfFontName( "arial.ttf" );
-    boldStyle.setPdfEncoding( "Cp1251" );
+    boldStyle.setPdfFontName( FONT_ARIAL_TTF );
+    boldStyle.setPdfEncoding( ENCODING_CP1251 );
     boldStyle.setPdfEmbedded( false );
     return boldStyle;
   }
@@ -164,13 +252,13 @@ public class ReportGenerator {
   @SuppressWarnings( "boxing" )
   private static JRDesignStyle getHeaderStyle() {
     JRDesignStyle boldStyle = new JRDesignStyle();
-    boldStyle.setName( "Arial_Header" );
-    boldStyle.setFontName( "Serif" );
+    boldStyle.setName( ARIAL_HEADER_STYLE );
+    boldStyle.setFontName( FONT_NAME_SERIF );
     boldStyle.setFontSize( 10f );
     boldStyle.setBold( true );
     // boldStyle.setItalic( true );
-    boldStyle.setPdfFontName( "arial.ttf" );
-    boldStyle.setPdfEncoding( "Cp1251" );
+    boldStyle.setPdfFontName( FONT_ARIAL_TTF );
+    boldStyle.setPdfEncoding( ENCODING_CP1251 );
     boldStyle.setPdfEmbedded( false );
     JRLineBox lineBox = boldStyle.getLineBox();
     lineBox.getTopPen().setLineWidth( 0.1f );
@@ -190,15 +278,15 @@ public class ReportGenerator {
    *
    * @return объект типа JRDesignStyle
    */
-  @SuppressWarnings( "boxing" )
+  @SuppressWarnings( { "boxing", "unused" } )
   private static JRDesignStyle getSummaryStyle() {
     JRDesignStyle boldStyle = new JRDesignStyle();
-    boldStyle.setName( "Arial_Bold" );
-    boldStyle.setFontName( "Serif" );
+    boldStyle.setName( ARIAL_BOLD_STYLE );
+    boldStyle.setFontName( FONT_NAME_SERIF );
     boldStyle.setFontSize( 10f );
     boldStyle.setBold( true );
-    boldStyle.setPdfFontName( "arial.ttf" );
-    boldStyle.setPdfEncoding( "Cp1251" );
+    boldStyle.setPdfFontName( FONT_ARIAL_TTF );
+    boldStyle.setPdfEncoding( ENCODING_CP1251 );
     boldStyle.setPdfEmbedded( false );
     JRLineBox lineBox = boldStyle.getLineBox();
     lineBox.getTopPen().setLineWidth( 0.5f );
@@ -216,12 +304,12 @@ public class ReportGenerator {
   @SuppressWarnings( "boxing" )
   private static JRDesignStyle getNormalStyle() {
     JRDesignStyle normalStyle = new JRDesignStyle();
-    normalStyle.setName( "Arial_Normal" );
+    normalStyle.setName( ARIAL_NORMAL_STYLE );
     normalStyle.setDefault( true );
-    normalStyle.setFontName( "Serif" );
+    normalStyle.setFontName( FONT_NAME_SERIF );
     normalStyle.setFontSize( 10f );
-    normalStyle.setPdfFontName( "arial.ttf" );
-    normalStyle.setPdfEncoding( "Cp1251" );
+    normalStyle.setPdfFontName( FONT_ARIAL_TTF );
+    normalStyle.setPdfEncoding( ENCODING_CP1251 );
     normalStyle.setPdfEmbedded( false );
 
     JRLineBox lineBox = normalStyle.getLineBox();
@@ -250,23 +338,7 @@ public class ReportGenerator {
   public static <T> JasperPrint generateJasperPrint( ITsGuiContext aContext, IM5Model<T> aModel,
       IM5ItemsProvider<T> aItemsProvider )
       throws JRException {
-    return jasperPrint( aContext, aModel, aItemsProvider, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, 0, false );
-  }
-
-  /**
-   * На основе описания модели и провайдера данных создает объект для печати из JasperReport
-   *
-   * @param <T> тип данных
-   * @param aContext контекст
-   * @param aModel модель данных
-   * @param aItemsProvider поставщик данных
-   * @return объект для печати
-   * @throws JRException исключение при создании печатной формы
-   */
-  public static <T> JasperPrint generateJasperPrint2( ITsGuiContext aContext, IM5Model<T> aModel,
-      IM5ItemsProvider<T> aItemsProvider )
-      throws JRException {
-    return jasperPrintDima( aContext, aModel, aItemsProvider );
+    return jasperPrint( aContext, aModel, aItemsProvider, false, false );
   }
 
   /**
@@ -282,27 +354,23 @@ public class ReportGenerator {
   public static <T> JasperPrint jasperPrint4Xls( ITsGuiContext aContext, IM5Model<T> aModel,
       IM5ItemsProvider<T> aItemsProvider )
       throws JRException {
-    return jasperPrint( aContext, aModel, aItemsProvider, Boolean.FALSE, Boolean.TRUE, Boolean.FALSE, 0, true );
+    return jasperPrint( aContext, aModel, aItemsProvider, true, true );
   }
 
   /**
    * Создает объект готовый для печати/экспорта из Jasper
    *
-   * @param <T>
+   * @param <T> - класс сущностей модели
    * @param aContext контекст
    * @param aModel модель данных
    * @param aItemsProvider поставщик данных
-   * @param aNumberColumn если true, вставляет первую колонку № (номер строки)
    * @param aIgnorePagination если true, то не разделяет отчет на страницы
-   * @param aColumnHeaderVertical если true, то загловки колонок пишгутся вертикально
-   * @param aFirstColWeigth вес первой ширины колонки с данными, например, 0.1 означает 10% от всей доступной ширины.
-   *          Значение 0 (ноль) означает что ширина первой колонки равна ширине остальных
+   * @param aForExcelExport - если true, то отчёт для экспорта в Excel
    * @return объект для печати
    * @throws JRException исключение при создании печатной формы
    */
   private static <T> JasperPrint jasperPrint( ITsGuiContext aContext, IM5Model<T> aModel,
-      IM5ItemsProvider<T> aItemsProvider, Boolean aNumberColumn, Boolean aIgnorePagination,
-      Boolean aColumnHeaderVertical, float aFirstColWeigth, boolean aForExcelExport )
+      IM5ItemsProvider<T> aItemsProvider, boolean aIgnorePagination, boolean aForExcelExport )
       throws JRException {
     JasperPrint retVal = null;
     // Генерируем дизайн отчета по переданному шаблону
@@ -310,12 +378,11 @@ public class ReportGenerator {
 
     // IStringMap<EAtomicType> paramsAtomicTypes = getAtomicTypes( aReportTemplate, aReportAnswer );
 
-    JasperDesign reportDesign = reportDesign( aContext, aModel, aNumberColumn.booleanValue(),
-        aColumnHeaderVertical.booleanValue(), aFirstColWeigth, aForExcelExport );
+    JasperDesign reportDesign = reportDesign( aContext, aModel, aForExcelExport );
     // Параметры отчета
     Map<String, Object> reportParameters = new HashMap<>();
     // Запрещаем разбиние на страницы
-    reportParameters.put( JRParameter.IS_IGNORE_PAGINATION, aIgnorePagination );
+    reportParameters.put( JRParameter.IS_IGNORE_PAGINATION, Boolean.valueOf( aIgnorePagination ) );
     // Дата распечатки
     reportParameters.put( GENERATION_DATE, timestampFormat.format( new Date() ) );
     reportParameters.put( REPORT_TITLE, reportTitle );
@@ -329,7 +396,7 @@ public class ReportGenerator {
     IStringList pageHeaderStrs = aContext.params().getValobj( IJasperReportConstants.PAGE_HEADER_STRINGS );
 
     for( int s = 0; s < pageHeaderStrs.size(); s++ ) {
-      reportParameters.put( "page_header_" + s, pageHeaderStrs.get( s ) );
+      reportParameters.put( PAGE_HEADER_ + s, pageHeaderStrs.get( s ) );
     }
 
     // reportParameters.put( DATE_FROM,
@@ -367,80 +434,36 @@ public class ReportGenerator {
     return retVal;
   }
 
-  /**
-   * Создает объект готовый для печати/экспорта из Jasper
-   *
-   * @param <T>
-   * @param aContext контекст
-   * @param aModel модель данных
-   * @param aItemsProvider поставщик данных
-   * @return объект для печати
-   * @throws JRException исключение при создании печатной формы
-   */
-  private static <T> JasperPrint jasperPrintDima( ITsGuiContext aContext, IM5Model<T> aModel,
-      IM5ItemsProvider<T> aItemsProvider )
-      throws JRException {
-    JasperPrint retVal = null;
-    // Генерируем дизайн отчета по переданному шаблону
-    String reportTitle = IJasperReportConstants.REPORT_TITLE_M5_ID.getValue( aContext.params() ).asString();
-
-    JasperDesign reportDesign = reportDesignDima( aContext, aModel );
-    // Параметры отчета
-    Map<String, Object> reportParameters = new HashMap<>();
-    // Запрещаем разбиние на страницы
-    reportParameters.put( JRParameter.IS_IGNORE_PAGINATION, false );
-    // Дата распечатки
-    reportParameters.put( GENERATION_DATE, timestampFormat.format( new Date() ) );
-    reportParameters.put( REPORT_TITLE, reportTitle );
-
-    reportParameters.put( LEFT_BOTTOM_STR,
-        IJasperReportConstants.LEFT_BOTTOM_STR_M5_ID.getValue( aContext.params() ).asString() );
-    reportParameters.put( RIGHT_BOTTOM_STR,
-        IJasperReportConstants.RIGHT_BOTTOM_STR_M5_ID.getValue( aContext.params() ).asString() );
-
-    // Название колонок (парамеров отчета)
-    // Получаем список id колонок и названий
-    for( IM5FieldDef<T, ?> fieldDef : aModel.fieldDefs() ) {
-      reportParameters.put( DATA_COLUMN_ + fieldDef.id(), fieldDef.nmName() );
-    }
-
-    Collection<JRValidationFault> faults = JasperCompileManager.verifyDesign( reportDesign );
-    for( JRValidationFault fault : faults ) {
-      System.err.println( fault );
-    }
-    JasperReport jasperReport = JasperCompileManager.compileReport( reportDesign );
-    retVal = JasperFillManager.fillReport( jasperReport, reportParameters, detailDataSource( aModel, aItemsProvider ) );
-
-    setJasperProps( retVal );
-    return retVal;
-  }
-
   private static void setJasperProps( JasperPrint retVal ) {
     // Remove the pageHeader from pages except starting page
-    retVal.setProperty( "net.sf.jasperreports.export.xlsx.exclude.origin.keep.first.band.1", "pageHeader" );
-    retVal.setProperty( "net.sf.jasperreports.export.xls.exclude.origin.keep.first.band.1", "pageHeader" );
+    retVal.setProperty( "net.sf.jasperreports.export.xlsx.exclude.origin.keep.first.band.1", "pageHeader" ); //$NON-NLS-1$ //$NON-NLS-2$
+    retVal.setProperty( "net.sf.jasperreports.export.xls.exclude.origin.keep.first.band.1", "pageHeader" ); //$NON-NLS-1$ //$NON-NLS-2$
 
     // Remove the column headers except the first one
-    retVal.setProperty( "net.sf.jasperreports.export.xlsx.exclude.origin.keep.first.band.2", "columnHeader" );
-    retVal.setProperty( "net.sf.jasperreports.export.xls.exclude.origin.keep.first.band.2", "columnHeader" );
+    retVal.setProperty( "net.sf.jasperreports.export.xlsx.exclude.origin.keep.first.band.2", "columnHeader" ); //$NON-NLS-1$ //$NON-NLS-2$
+    retVal.setProperty( "net.sf.jasperreports.export.xls.exclude.origin.keep.first.band.2", "columnHeader" ); //$NON-NLS-1$ //$NON-NLS-2$
 
-    retVal.setProperty( "net.sf.jasperreports.export.xlsx.exclude.origin.band.3", "pageFooter" );
-    retVal.setProperty( "net.sf.jasperreports.export.xls.exclude.origin.band.3", "pageFooter" );
+    retVal.setProperty( "net.sf.jasperreports.export.xlsx.exclude.origin.band.3", "pageFooter" ); //$NON-NLS-1$ //$NON-NLS-2$
+    retVal.setProperty( "net.sf.jasperreports.export.xls.exclude.origin.band.3", "pageFooter" ); //$NON-NLS-1$ //$NON-NLS-2$
 
-    retVal.setProperty( "net.sf.jasperreports.export.xlsx.remove.empty.space.between.rows", "true" );// для единообразия
-                                                                                                     // (на случай если
-                                                                                                     // в обновлённой
-                                                                                                     // библиотеке что
-                                                                                                     // то изменится
-    retVal.setProperty( "net.sf.jasperreports.export.xls.remove.empty.space.between.rows", "true" );// вот эта строка
-                                                                                                    // обязательна -
-                                                                                                    // именно "xls"
-                                                                                                    // (xlsx - не
-                                                                                                    // работает)
+    // для единообразия (на случай если в обновлённой библиотеке что то изменится)
+    retVal.setProperty( "net.sf.jasperreports.export.xlsx.remove.empty.space.between.rows", Boolean.TRUE.toString() ); //$NON-NLS-1$
+
+    // вот эта строка обязательна - именно "xls" (xlsx - не работает)
+    retVal.setProperty( "net.sf.jasperreports.export.xls.remove.empty.space.between.rows", Boolean.TRUE.toString() ); //$NON-NLS-1$
   }
 
-  private static <T> JasperDesign reportDesign( ITsGuiContext aContext, IM5Model<T> aModel, boolean hasNumberColumn,
-      boolean aColumHeaderVertical, float aFirstColWeigth, boolean aForExcelExport )
+  /**
+   * Создаёт шаблон отчёта на лету
+   *
+   * @param <T> - класс сущностей модели
+   * @param aContext ITsGuiContext - контекст выполнения (параметры содержат настройки отчёта)
+   * @param aModel IM5Model - m5 модель данных отчёта
+   * @param aForExcelExport boolean - признак формирования отчёта для экспорта в Excel
+   * @return JasperDesign - созданный шаблон отчёта.
+   * @throws JRException - ошибка формирования шаблона отчёта.
+   */
+  private static <T> JasperDesign reportDesign( ITsGuiContext aContext, IM5Model<T> aModel, boolean aForExcelExport )
       throws JRException {
 
     // Сразу запомним кол-во параметров
@@ -448,8 +471,67 @@ public class ReportGenerator {
     // Настройки отчета в целом
     JasperDesign jasperDesign = new JasperDesign();
     jasperDesign.setPrintOrder( PrintOrderEnum.VERTICAL );
-    boolean isLandscape = true;
+
+    IIntList integerColumnsWeigths = aContext.params().getValobj( IJasperReportConstants.COLUMNS_WEIGTHS );
+    // В случае если массив пустой, то просто все колонки делаем одинаковой ширины
+    IListEdit<Float> columnsWeigths = new ElemArrayList<>();
+
+    if( integerColumnsWeigths.size() == 0 ) {
+      for( int i = 0; i < paramQtty; i++ ) {
+        columnsWeigths.add( Float.valueOf( 1.0f / paramQtty ) );
+      }
+    }
+    else {
+      // Если массив весов имеет размерность меньше количества столбцов - считать значения процентами
+      if( integerColumnsWeigths.size() < paramQtty ) {
+        IIntListEdit fullPercantageColumnsWeigths = new IntArrayList();
+        int intTotalPercantWeight = 0;
+        for( int i = 0; i < integerColumnsWeigths.size(); i++ ) {
+          intTotalPercantWeight += integerColumnsWeigths.getValue( i );
+          fullPercantageColumnsWeigths.add( integerColumnsWeigths.getValue( i ) );
+        }
+
+        // если общее число - больше 100% - заполнить остальные столбцы средним значением (вычисленным по предыдущим)
+        if( intTotalPercantWeight > 100 ) {
+          for( int i = integerColumnsWeigths.size(); i < paramQtty; i++ ) {
+            fullPercantageColumnsWeigths.add( intTotalPercantWeight / integerColumnsWeigths.size() );
+          }
+        }
+        else {
+          // если меньше 100% - заполнить остальные средней разницей
+          for( int i = integerColumnsWeigths.size(); i < paramQtty; i++ ) {
+            fullPercantageColumnsWeigths
+                .add( (100 - intTotalPercantWeight) / (paramQtty - integerColumnsWeigths.size()) );
+          }
+        }
+
+        integerColumnsWeigths = fullPercantageColumnsWeigths;
+      }
+
+      int intTotalWeight = 0;
+      for( int i = 0; i < paramQtty; i++ ) {
+        intTotalWeight += integerColumnsWeigths.getValue( i );
+      }
+
+      for( int i = 0; i < paramQtty; i++ ) {
+        columnsWeigths.add( Float.valueOf( (float)integerColumnsWeigths.getValue( i ) / (float)intTotalWeight ) );
+      }
+
+      float totalWeigth = 0;
+      for( float colWeigth : columnsWeigths ) {
+        totalWeigth += colWeigth;
+      }
+      TsIllegalArgumentRtException.checkFalse( (0.95 < totalWeigth) && (totalWeigth < 1.05),
+          "Total column size weigth must be in 0.95 < totalWeigth < 1.05" ); //$NON-NLS-1$
+    }
+    // Настройки отчета в целом
+    jasperDesign.setPrintOrder( PrintOrderEnum.VERTICAL );
+    // Получаем настройки дизайна отчета
+    boolean isLandscape = IJasperReportConstants.LANDSCAPE_ORIENTATION_M5_ID.getValue( aContext.params() ).asBool();
     jasperDesign.setOrientation( !isLandscape ? OrientationEnum.PORTRAIT : OrientationEnum.LANDSCAPE );
+    boolean columnHeaderVertical =
+        IJasperReportConstants.COLUM_HEADER_VERTICAL_M5_ID.getValue( aContext.params() ).asBool();
+    boolean hasNumberColumn = IJasperReportConstants.HAS_NUMBER_COLUMN_M5_ID.getValue( aContext.params() ).asBool();
 
     jasperDesign.setName( "M5ModelDynamicDesignReport" ); //$NON-NLS-1$
     if( !isLandscape ) {
@@ -538,7 +620,7 @@ public class ReportGenerator {
     // TODO
     // для отчета МП-МО-ТВ здесь нужно OBJ_NAME (название объекта)
     // field.setName( OBJ_NAME );
-    field.setName( TIMESTAMP );
+    field.setName( ROW_NUMBER_FILED );
     // TODO: mvk
     // field.setValueClass( java.lang.String.class );
     field.setValueClass( Object.class );
@@ -589,7 +671,7 @@ public class ReportGenerator {
       textField.setVerticalTextAlign( VerticalTextAlignEnum.MIDDLE );
       textField.setStretchWithOverflow( false );
       expression = new JRDesignExpression();
-      expression.setText( "$P{" + REPORT_TITLE + "}" ); //$NON-NLS-1$ //$NON-NLS-2$
+      expression.setText( String.format( PARAM_TEXT_FORMAT, REPORT_TITLE ) );
       textField.setExpression( expression );
       band.addElement( textField );
     }
@@ -612,7 +694,7 @@ public class ReportGenerator {
     for( int s = 0; s < pageHeaderStrsCount; s++ ) {
       // регистрация параметра
       parameter = new JRDesignParameter();
-      parameter.setName( "page_header_" + s );
+      parameter.setName( PAGE_HEADER_ + s );
       parameter.setValueClass( java.lang.String.class );
       jasperDesign.addParameter( parameter );
 
@@ -628,7 +710,7 @@ public class ReportGenerator {
       textField.setVerticalTextAlign( VerticalTextAlignEnum.MIDDLE );
       textField.setStretchWithOverflow( true );
       expression = new JRDesignExpression();
-      expression.setText( "$P{page_header_" + s + "}" ); //$NON-NLS-1$ //$NON-NLS-2$
+      expression.setText( String.format( PARAM_TEXT_FORMAT, PAGE_HEADER_ + s ) );
       textField.setExpression( expression );
       band.addElement( textField );
     }
@@ -639,7 +721,7 @@ public class ReportGenerator {
     // Заголовок таблицы
     band = new JRDesignBand();
     band.setHeight( REPORT_HORIZONTAL_COLUMN_HEADER_HEIGHT );
-    if( aColumHeaderVertical ) {
+    if( columnHeaderVertical ) {
       band.setHeight( REPORT_VERTICAL_COLUMN_HEADER_HEIGHT );
     }
     // Растягиваем ячейку, чтобы уместить полное название
@@ -652,7 +734,7 @@ public class ReportGenerator {
     staticText.setY( 0 );
     staticText.setWidth( TIMESTAMP_COLUMN_WIDTH );
     staticText.setHeight( REPORT_HORIZONTAL_COLUMN_HEADER_HEIGHT );
-    if( aColumHeaderVertical ) {
+    if( columnHeaderVertical ) {
       staticText.setHeight( REPORT_VERTICAL_COLUMN_HEADER_HEIGHT );
     }
 
@@ -676,16 +758,16 @@ public class ReportGenerator {
       band.addElement( staticText );
     }
     // Рассчет ширины динамических колонок
-    int dynamicColumnWidth = (jasperDesign.getColumnWidth() - (hasNumberColumn ? TIMESTAMP_COLUMN_WIDTH : 0))
-        / (paramQtty > 0 ? paramQtty : 1);
+    int allDataColumnsWidth = jasperDesign.getColumnWidth() - (hasNumberColumn ? TIMESTAMP_COLUMN_WIDTH : 0);
+    int dynamicColumnWidth = allDataColumnsWidth / (paramQtty > 0 ? paramQtty : 1);
     // Dima, 12.08.19
-    // Реализуем возможность регулировать длину первой колонки
-    int firstColumnWidth = dynamicColumnWidth;
-    if( aFirstColWeigth > 0 ) {
-      firstColumnWidth = (int)(jasperDesign.getColumnWidth() * aFirstColWeigth);
-      dynamicColumnWidth =
-          (jasperDesign.getColumnWidth() - (hasNumberColumn ? TIMESTAMP_COLUMN_WIDTH : 0) - firstColumnWidth)
-              / (paramQtty > 0 ? paramQtty - 1 : 1);
+    // Реализуем возможность регулировать длину колонок
+
+    int[] colWidth = new int[paramQtty];
+    Arrays.fill( colWidth, dynamicColumnWidth );
+    // Массив весов
+    for( int i = 0; i < colWidth.length; i++ ) {
+      colWidth[i] = (int)(allDataColumnsWidth * columnsWeigths.get( i ).floatValue());
     }
 
     // titleTextField.setWidth( hasNumberColumn ? TIMESTAMP_COLUMN_WIDTH : firstColumnWidth );
@@ -694,14 +776,14 @@ public class ReportGenerator {
     staticText = new JRDesignStaticText();
     staticText.setX( 0 );// TIMESTAMP_COLUMN_WIDTH );
     staticText.setY( 0 );
-    staticText.setWidth( dynamicColumnWidth * paramQtty );
+    staticText.setWidth( allDataColumnsWidth );
     staticText.setHeight( REPORT_HORIZONTAL_COLUMN_HEADER_HEIGHT / 2 );
-    if( aColumHeaderVertical ) {
+    if( columnHeaderVertical ) {
       staticText.setHeight( REPORT_VERTICAL_COLUMN_HEADER_HEIGHT / 2 );
     }
     staticText.setHorizontalTextAlign( HorizontalTextAlignEnum.CENTER );
     staticText.setVerticalTextAlign( VerticalTextAlignEnum.MIDDLE );
-    staticText.setText( "SELECTED_PARAMS" );
+    staticText.setText( TsLibUtils.EMPTY_STRING ); // "SELECTED_PARAMS"
     staticText.setStyle( headerStyle );
     // band.addElement( staticText );
 
@@ -709,18 +791,15 @@ public class ReportGenerator {
 
     // Теперь динамические колонки
     int start_x = (hasNumberColumn ? TIMESTAMP_COLUMN_WIDTH : 0);
+    int currWidth = 0;
     for( IM5FieldDef<T, ?> fieldDef : aModel.fieldDefs() ) {
       textField = new JRDesignTextField();
       textField.setX( start_x );
       textField.setY( 0 );// REPORT_COLUMN_HEADER_HEIGHT / 2 );
-      if( fieldDef.id().equals( aModel.fieldDefs().first().id() ) ) {
-        textField.setWidth( firstColumnWidth );
-      }
-      else {
-        textField.setWidth( dynamicColumnWidth );
-      }
+      currWidth = colWidth[aModel.fieldDefs().indexOf( fieldDef )];
+      textField.setWidth( currWidth );
       textField.setHeight( REPORT_HORIZONTAL_COLUMN_HEADER_HEIGHT );
-      if( aColumHeaderVertical ) {
+      if( columnHeaderVertical ) {
         textField.setHeight( REPORT_VERTICAL_COLUMN_HEADER_HEIGHT );
       }
       textField.setHorizontalTextAlign( HorizontalTextAlignEnum.CENTER );
@@ -733,28 +812,20 @@ public class ReportGenerator {
       textField.setForecolor( Color.WHITE );
 
       expression = new JRDesignExpression();
-      expression.setText( "$P{" + DATA_COLUMN_ + String.valueOf( fieldDef.id() ) + "}" );
+      expression.setText( String.format( PARAM_TEXT_FORMAT, DATA_COLUMN_ + String.valueOf( fieldDef.id() ) ) );
       textField.setExpression( expression );
-      if( aColumHeaderVertical && !fieldDef.id().equals( aModel.fieldDefs().first().id() ) ) {
+      if( columnHeaderVertical && !fieldDef.id().equals( aModel.fieldDefs().first().id() ) ) {
         textField.setRotation( RotationEnum.LEFT );
       }
       // band.setSplitType( SplitTypeEnum.IMMEDIATE );
       band.addElement( textField );
-      // old version
-      // start_x += dynamicColumnWidth;
-      // new version
-      if( fieldDef.id().equals( aModel.fieldDefs().first().id() ) ) {
-        start_x += firstColumnWidth;
-      }
-      else {
-        start_x += dynamicColumnWidth;
-      }
+      start_x += currWidth;
 
       // textField.setElementGroup( headerGroup );
     }
 
     // последнюю колонку добить до края
-    int lastColumnWidth = jasperDesign.getColumnWidth() - (start_x - dynamicColumnWidth);
+    int lastColumnWidth = jasperDesign.getColumnWidth() - (start_x - currWidth);
     textField.setWidth( lastColumnWidth );
 
     // Устанавливаем область заголовок таблицы
@@ -780,10 +851,10 @@ public class ReportGenerator {
     expression = new JRDesignExpression();
     // TODO
     // в отчете типа MP_MO_T здесь название объекта
-    // expression.setText( "$F{" + OBJ_NAME + "}" ); //$NON-NLS-1$ //$NON-NLS-2$
+    // expression.setText( "$F{" + OBJ_NAME + "}" );
     // длинные имена переносим, а не отрезаем
     textField.setStretchWithOverflow( true );
-    expression.setText( "$F{" + TIMESTAMP + "}" ); //$NON-NLS-1$ //$NON-NLS-2$
+    expression.setText( String.format( FUNC_TEXT_FORMAT, ROW_NUMBER_FILED ) );
     textField.setExpression( expression );
     // textField.setPattern( timestampFormatString );
 
@@ -811,12 +882,10 @@ public class ReportGenerator {
       textField = new JRDesignTextField();
       textField.setX( start_x );
       textField.setY( 0 );
-      if( fieldDef.id().equals( aModel.fieldDefs().first().id() ) ) {
-        textField.setWidth( firstColumnWidth );
-      }
-      else {
-        textField.setWidth( dynamicColumnWidth );
-      }
+
+      currWidth = colWidth[aModel.fieldDefs().indexOf( fieldDef )];
+      textField.setWidth( currWidth );
+
       textField.setHeight( REPORT_DETAIL_HEIGHT );
       textField.setStyle( normalStyle );
       textField.setHorizontalTextAlign( dataHorizontalTextAlign );
@@ -828,10 +897,15 @@ public class ReportGenerator {
       // EAtomicType type = EAtomicType.STRING;// aParamsAtomicTypes.get( paramId );
       // String typeStr = convertToJavaClass( type ).getSimpleName();
       // TODO: mvk ???
-      String rawValue = "$F{" + DATA_COLUMN_ + String.valueOf( paramId ) + "}";
+
       expression = new JRDesignExpression();
       // expression.setText( "(" + rawValue + "!= null )?(new " + typeStr + "(" + rawValue + ")):( null )" );
-      expression.setText( "(" + rawValue + ")" );
+
+      // String rawValue = "$F{" + DATA_COLUMN_ + String.valueOf( paramId ) + "}";
+      // expression.setText( "(" + rawValue + ")" );
+
+      expression.setText( String.format( FUNC_EXPR_FORMAT, DATA_COLUMN_ + String.valueOf( paramId ) ) );
+
       textField.setExpression( expression );
       // TODO: mvk ???
       // if( type == EAtomicType.FLOATING ) {
@@ -839,15 +913,7 @@ public class ReportGenerator {
       // textField.setPattern( formatter );
       // }
       band.addElement( textField );
-      // old version
-      // start_x += dynamicColumnWidth;
-      // new version
-      if( fieldDef.id().equals( aModel.fieldDefs().first().id() ) ) {
-        start_x += firstColumnWidth;
-      }
-      else {
-        start_x += dynamicColumnWidth;
-      }
+      start_x += currWidth;
     }
 
     // последнюю колонку добить до края
@@ -869,7 +935,7 @@ public class ReportGenerator {
     textField.getLineBox().getPen().setLineWidth( 0 );
     textField.setHorizontalTextAlign( HorizontalTextAlignEnum.CENTER );
     expression = new JRDesignExpression();
-    expression.setText( "$V{PAGE_NUMBER}" );
+    expression.setText( String.format( VAR_TEXT_FORMAT, SYS_VAR_PAGE_NUMBER ) );
     textField.setExpression( expression );
     if( !aForExcelExport ) {
       band.addElement( textField );
@@ -889,7 +955,7 @@ public class ReportGenerator {
     staticText.setHeight( SUMMARY_ROW_HEIGHT );
     staticText.setStyle( italicStyle );
     staticText.getLineBox().getPen().setLineWidth( 0 );
-    staticText.setText( "PERFORMER" );
+    staticText.setText( TsLibUtils.EMPTY_STRING ); // PERFORMER
     staticText.getLineBox().getPen().setLineWidth( 0 );
     staticText.setHorizontalTextAlign( HorizontalTextAlignEnum.LEFT );
     band.setHeight( offsetCounter + REPORT_DETAIL_HEIGHT );
@@ -904,7 +970,7 @@ public class ReportGenerator {
     textField.getLineBox().getPen().setLineWidth( 0 );
     textField.setHorizontalTextAlign( HorizontalTextAlignEnum.RIGHT );
     expression = new JRDesignExpression();
-    expression.setText( "\"( \" + String.valueOf($P{" + PERFORMER_NAME + "}) + \" ) \"" ); //$NON-NLS-1$ //$NON-NLS-2$
+    expression.setText( String.format( PARAM_EXPR_FORMAT, PERFORMER_NAME ) );
     textField.setExpression( expression );
     // band.addElement( textField );
     // Текст "Сгенерирован: "
@@ -915,7 +981,7 @@ public class ReportGenerator {
     staticText.setHeight( SUMMARY_ROW_HEIGHT );
     staticText.setStyle( italicStyle );
     staticText.getLineBox().getPen().setLineWidth( 0 );
-    staticText.setText( "REPORT_GENERATED" );
+    staticText.setText( TsLibUtils.EMPTY_STRING ); // REPORT_GENERATED
     staticText.setHorizontalTextAlign( HorizontalTextAlignEnum.LEFT );
     band.setHeight( 2 * offsetCounter + 2 * REPORT_DETAIL_HEIGHT );
     // band.addElement( staticText );
@@ -929,7 +995,7 @@ public class ReportGenerator {
     textField.getLineBox().getPen().setLineWidth( 0 );
     textField.setHorizontalTextAlign( HorizontalTextAlignEnum.RIGHT );
     expression = new JRDesignExpression();
-    expression.setText( "\"( \" + String.valueOf($P{" + GENERATION_DATE + "}) + \" ) \"" );
+    expression.setText( String.format( PARAM_EXPR_FORMAT, GENERATION_DATE ) );
     textField.setExpression( expression );
     // band.addElement( textField );
 
@@ -942,7 +1008,7 @@ public class ReportGenerator {
     textField.getLineBox().getPen().setLineWidth( 0 );
     textField.setHorizontalTextAlign( HorizontalTextAlignEnum.LEFT );
     expression = new JRDesignExpression();
-    expression.setText( "$P{" + LEFT_BOTTOM_STR + "}" );
+    expression.setText( String.format( PARAM_TEXT_FORMAT, LEFT_BOTTOM_STR ) );
     textField.setExpression( expression );
     if( !aForExcelExport ) {
       band.addElement( textField );
@@ -957,7 +1023,7 @@ public class ReportGenerator {
     textField.getLineBox().getPen().setLineWidth( 0 );
     textField.setHorizontalTextAlign( HorizontalTextAlignEnum.RIGHT );
     expression = new JRDesignExpression();
-    expression.setText( "$P{" + RIGHT_BOTTOM_STR + "}" );
+    expression.setText( String.format( PARAM_TEXT_FORMAT, RIGHT_BOTTOM_STR ) );
     textField.setExpression( expression );
     if( !aForExcelExport ) {
       band.addElement( textField );
@@ -1001,7 +1067,7 @@ public class ReportGenerator {
         }
       }
 
-      rowValues.put( TIMESTAMP, AvUtils.avInt( number ) );
+      rowValues.put( ROW_NUMBER_FILED, AvUtils.avInt( number ) );
       number++;
     }
 
@@ -1009,431 +1075,6 @@ public class ReportGenerator {
     retValue = new ReportDetailDataSource( mapList );
 
     return retValue;
-  }
-
-  private static <T> IStringMap<EAtomicType> getAtomicTypes( IM5Model<T> aModel, IM5ItemsProvider<T> aItemsProvider ) {
-
-    IStringMapEdit<EAtomicType> typesMap = new StringMap<>();
-
-    IList<T> items = aItemsProvider.listItems();
-
-    for( IM5FieldDef<T, ?> fieldDef : aModel.fieldDefs() ) {
-      if( fieldDef.valueClass() != IAtomicValue.class ) {
-        typesMap.put( DATA_COLUMN_ + fieldDef.id(), EAtomicType.NONE );
-        continue;
-      }
-
-      EAtomicType currType = null;
-
-      for( T item : items ) {
-        Object value = fieldDef.getFieldValue( item );
-        if( value != null ) {
-          if( currType != null && currType != ((IAtomicValue)value).atomicType() ) {
-            typesMap.put( DATA_COLUMN_ + fieldDef.id(), EAtomicType.NONE );
-            break;
-          }
-          currType = ((IAtomicValue)value).atomicType();
-        }
-      }
-      typesMap.put( DATA_COLUMN_ + fieldDef.id(), currType == null ? EAtomicType.NONE : currType );
-    }
-
-    return typesMap;
-  }
-
-  /**
-   * @param <T>
-   * @param aContext контекст
-   * @param aModel описание модели данных
-   * @return дизайн отчета
-   * @throws JRException
-   */
-  private static <T> JasperDesign reportDesignDima( ITsGuiContext aContext, IM5Model<T> aModel )
-      throws JRException {
-    // Сразу запомним кол-во параметров
-    int paramQtty = aModel.fieldDefs().size();
-    // Настройки отчета в целом
-    JasperDesign jasperDesign = new JasperDesign();
-    jasperDesign.setPrintOrder( PrintOrderEnum.VERTICAL );
-    IIntList integerColumnsWeigths = aContext.params().getValobj( IJasperReportConstants.COLUMNS_WEIGTHS );
-    // В случае если массив пустой, то просто все колонки делаем одинаковой ширины
-    IListEdit<Float> columnsWeigths = new ElemArrayList<>();
-
-    if( integerColumnsWeigths.size() == 0 ) {
-      for( int i = 0; i < paramQtty; i++ ) {
-        columnsWeigths.add( Float.valueOf( 1.0f / paramQtty ) );
-      }
-    }
-    else {
-      // Проверяем что кол-во колонок равно кол-ву параметров
-      TsIllegalArgumentRtException.checkFalse( integerColumnsWeigths.size() == paramQtty,
-          "Size of column weigth array size must be equal parameters qtty" );
-
-      int intTotalWeight = 0;
-      for( int i = 0; i < paramQtty; i++ ) {
-        intTotalWeight += integerColumnsWeigths.getValue( i );
-      }
-
-      for( int i = 0; i < paramQtty; i++ ) {
-        columnsWeigths.add( Float.valueOf( (float)integerColumnsWeigths.getValue( i ) / (float)intTotalWeight ) );
-      }
-
-      float totalWeigth = 0;
-      for( float colWeigth : columnsWeigths ) {
-        totalWeigth += colWeigth;
-      }
-      TsIllegalArgumentRtException.checkFalse( (0.95 < totalWeigth) && (totalWeigth < 1.05),
-          "Total column size weigth must be in 0.95 < totalWeigth < 1.05" );
-    }
-    // Настройки отчета в целом
-    jasperDesign.setPrintOrder( PrintOrderEnum.VERTICAL );
-    // Получаем настройки дизайна отчета
-    boolean isLandscape = IJasperReportConstants.LANDSCAPE_ORIENTATION_M5_ID.getValue( aContext.params() ).asBool();
-    jasperDesign.setOrientation( !isLandscape ? OrientationEnum.PORTRAIT : OrientationEnum.LANDSCAPE );
-    boolean columnHeaderVertical =
-        IJasperReportConstants.COLUM_HEADER_VERTICAL_M5_ID.getValue( aContext.params() ).asBool();
-    boolean hasNumberColumn = IJasperReportConstants.HAS_NUMBER_COLUMN_M5_ID.getValue( aContext.params() ).asBool();
-
-    jasperDesign.setName( "M5ModelDynamicDesignReport" ); //$NON-NLS-1$
-    if( !isLandscape ) {
-      jasperDesign.setPageWidth( PORTRAIT_PAGE_WIDTH );
-      jasperDesign.setPageHeight( LANDSCAPE_PAGE_WIDTH );
-    }
-    else {
-      jasperDesign.setPageWidth( LANDSCAPE_PAGE_WIDTH );
-      jasperDesign.setPageHeight( PORTRAIT_PAGE_WIDTH );
-    }
-    jasperDesign.setColumnWidth( jasperDesign.getPageWidth() - 2 * HORIZONTAL_PAGE_MARGIN );
-    jasperDesign.setColumnSpacing( 0 );
-    jasperDesign.setLeftMargin( HORIZONTAL_PAGE_MARGIN );
-    jasperDesign.setRightMargin( HORIZONTAL_PAGE_MARGIN );
-    jasperDesign.setTopMargin( VERTICAL_PAGE_MARGIN );
-    jasperDesign.setBottomMargin( VERTICAL_PAGE_MARGIN );
-
-    JRDesignStyle titleStyle = getTitleStyle();
-    jasperDesign.addStyle( titleStyle );
-
-    JRDesignStyle headerStyle = getHeaderStyle();
-    jasperDesign.addStyle( headerStyle );
-
-    JRDesignStyle normalStyle = getNormalStyle();
-    jasperDesign.addStyle( normalStyle );
-
-    JRDesignStyle italicStyle = getItalicStyle();
-    jasperDesign.addStyle( italicStyle );
-
-    // Parameters
-    // Дата генерации отчета
-    JRDesignParameter parameter = new JRDesignParameter();
-    parameter.setName( GENERATION_DATE );
-    parameter.setValueClass( java.lang.String.class );
-    jasperDesign.addParameter( parameter );
-
-    // Заголовок отчета
-    parameter = new JRDesignParameter();
-    parameter.setName( REPORT_TITLE );
-    parameter.setValueClass( java.lang.String.class );
-    jasperDesign.addParameter( parameter );
-
-    // левая нижняя надпись
-    parameter = new JRDesignParameter();
-    parameter.setName( LEFT_BOTTOM_STR );
-    parameter.setValueClass( java.lang.String.class );
-    jasperDesign.addParameter( parameter );
-
-    // правая нижняя надпись
-    parameter = new JRDesignParameter();
-    parameter.setName( RIGHT_BOTTOM_STR );
-    parameter.setValueClass( java.lang.String.class );
-    jasperDesign.addParameter( parameter );
-
-    // Создаем динамические названия колонок
-    for( IM5FieldDef<T, ?> fieldDef : aModel.fieldDefs() ) {
-      parameter = new JRDesignParameter();
-      parameter.setName( DATA_COLUMN_ + fieldDef.id() );
-      parameter.setValueClass( Object.class );
-      jasperDesign.addParameter( parameter );
-    }
-
-    // fields
-    // Метка времени
-    JRDesignField field = new JRDesignField();
-    field.setName( TIMESTAMP );
-    field.setValueClass( Object.class );
-    jasperDesign.addField( field );
-
-    // Создаем динамические поля колонок
-    for( IM5FieldDef<T, ?> fieldDef : aModel.fieldDefs() ) {
-      field = new JRDesignField();
-      field.setName( DATA_COLUMN_ + fieldDef.id() );
-      field.setValueClass( Object.class );
-      jasperDesign.addField( field );
-    }
-
-    // Заголовок отчета.
-    JRDesignBand band = new JRDesignBand();
-    band.setHeight( REPORT_TITLE_HEIGHT );
-    JRDesignStaticText staticText;
-    JRDesignTextField textField;
-
-    int tempHeight = 0;
-    textField = new JRDesignTextField();
-    textField.setX( 0 );
-    textField.setY( tempHeight );
-    textField.setWidth( jasperDesign.getColumnWidth() );
-    textField.setHeight( 16 );
-    textField.setStyle( italicStyle );
-    textField.getLineBox().getPen().setLineWidth( 0 );
-    textField.setHorizontalTextAlign( HorizontalTextAlignEnum.LEFT );
-    textField.setVerticalTextAlign( VerticalTextAlignEnum.MIDDLE );
-    JRDesignExpression expression = new JRDesignExpression();
-
-    // Описание отчета
-    textField = new JRDesignTextField();
-    textField.setX( 0 );
-    textField.setY( tempHeight );
-    textField.setWidth( jasperDesign.getColumnWidth() );
-    textField.setHeight( 16 );
-    textField.setStyle( titleStyle );
-    textField.getLineBox().getPen().setLineWidth( 0 );
-    textField.setHorizontalTextAlign( HorizontalTextAlignEnum.CENTER );
-    textField.setVerticalTextAlign( VerticalTextAlignEnum.MIDDLE );
-    textField.setStretchWithOverflow( true );
-    expression = new JRDesignExpression();
-    expression.setText( "$P{" + REPORT_TITLE + "}" ); //$NON-NLS-1$ //$NON-NLS-2$
-    textField.setExpression( expression );
-    band.addElement( textField );
-    tempHeight += 16;
-
-    band.setHeight( REPORT_TITLE_HEIGHT - 16 );
-
-    jasperDesign.setTitle( band );
-
-    // Заголовок страницы
-    // Page header
-    // Оставляем пустым
-    band = new JRDesignBand();
-    band.setHeight( PROTOCOL_PAGE_HEADER_HEIGHT );
-    jasperDesign.setPageHeader( band );
-
-    // Создаем дизайн динамической таблицы
-    // Заголовок таблицы
-    band = new JRDesignBand();
-    band.setHeight( REPORT_HORIZONTAL_COLUMN_HEADER_HEIGHT );
-    if( columnHeaderVertical ) {
-      band.setHeight( REPORT_VERTICAL_COLUMN_HEADER_HEIGHT );
-    }
-    // Растягиваем ячейку, чтобы уместить полное название
-    // band.setSplitType( SplitTypeEnum.IMMEDIATE );
-    band.setSplitType( SplitTypeEnum.STRETCH );
-
-    // Создаем стандартную колонку отчета ("Время")
-    staticText = new JRDesignStaticText();
-    staticText.setX( 0 );
-    staticText.setY( 0 );
-    staticText.setWidth( TIMESTAMP_COLUMN_WIDTH );
-    staticText.setHeight( REPORT_HORIZONTAL_COLUMN_HEADER_HEIGHT );
-    if( columnHeaderVertical ) {
-      staticText.setHeight( REPORT_VERTICAL_COLUMN_HEADER_HEIGHT );
-    }
-
-    staticText.setHorizontalTextAlign( HorizontalTextAlignEnum.CENTER );
-    staticText.setVerticalTextAlign( VerticalTextAlignEnum.MIDDLE );
-    staticText.setStretchType( StretchTypeEnum.CONTAINER_HEIGHT );
-    staticText.setText( STR_NUMBER_SYMBOL );
-    staticText.setStyle( headerStyle );
-
-    staticText.setBackcolor( Color.GRAY );
-    staticText.setForecolor( Color.WHITE );
-
-    // Чтобы работал HTML
-    // band.setSplitType( SplitTypeEnum.PREVENT );
-
-    if( hasNumberColumn ) {
-      band.addElement( staticText );
-    }
-    // Рассчет ширины динамических колонок
-    int defaultColumnWidth = (jasperDesign.getColumnWidth() - (hasNumberColumn ? TIMESTAMP_COLUMN_WIDTH : 0))
-        / (paramQtty > 0 ? paramQtty : 1);
-    // Dima, 12.08.19
-    // Реализуем возможность регулировать длину колонок
-    int[] colWidth = new int[paramQtty];
-    Arrays.fill( colWidth, defaultColumnWidth );
-    // Массив весов
-    for( int i = 0; i < colWidth.length; i++ ) {
-      colWidth[i] = (int)((jasperDesign.getColumnWidth() - (hasNumberColumn ? TIMESTAMP_COLUMN_WIDTH : 0))
-          * columnsWeigths.get( i ));
-    }
-
-    // Теперь динамические колонки
-    int start_x = (hasNumberColumn ? TIMESTAMP_COLUMN_WIDTH : 0);
-    for( IM5FieldDef<T, ?> fieldDef : aModel.fieldDefs() ) {
-      textField = new JRDesignTextField();
-      textField.setX( start_x );
-      textField.setY( 0 );// REPORT_COLUMN_HEADER_HEIGHT / 2 );
-      int currWidth = colWidth[aModel.fieldDefs().indexOf( fieldDef )];
-      textField.setWidth( currWidth );
-
-      textField.setHeight( REPORT_HORIZONTAL_COLUMN_HEADER_HEIGHT );
-      if( columnHeaderVertical ) {
-        textField.setHeight( REPORT_VERTICAL_COLUMN_HEADER_HEIGHT );
-      }
-      textField.setHorizontalTextAlign( HorizontalTextAlignEnum.CENTER );
-      textField.setVerticalTextAlign( VerticalTextAlignEnum.MIDDLE );
-      textField.setStretchWithOverflow( true );
-      textField.setStretchType( StretchTypeEnum.CONTAINER_BOTTOM );
-      textField.setStyle( headerStyle );
-
-      textField.setBackcolor( Color.GRAY );
-      textField.setForecolor( Color.WHITE );
-
-      expression = new JRDesignExpression();
-      expression.setText( "$P{" + DATA_COLUMN_ + String.valueOf( fieldDef.id() ) + "}" );
-      textField.setExpression( expression );
-      if( columnHeaderVertical && !fieldDef.id().equals( aModel.fieldDefs().first().id() ) ) {
-        textField.setRotation( RotationEnum.LEFT );
-      }
-      // band.setSplitType( SplitTypeEnum.IMMEDIATE );
-      band.addElement( textField );
-      start_x += currWidth;
-    }
-
-    // Устанавливаем область заголовок таблицы
-    jasperDesign.setColumnHeader( band );
-
-    // Тело таблицы
-    band = new JRDesignBand();
-    band.setHeight( REPORT_DETAIL_HEIGHT );
-    band.setSplitType( SplitTypeEnum.IMMEDIATE );
-
-    // Создаем стандартное поле отчета (timestamp)
-    textField = new JRDesignTextField();
-    textField.setX( 0 );
-    textField.setY( 0 );
-    textField.setWidth( TIMESTAMP_COLUMN_WIDTH );
-    textField.setHeight( REPORT_DETAIL_HEIGHT );
-    textField.setStyle( normalStyle );
-    textField.setHorizontalTextAlign( HorizontalTextAlignEnum.CENTER );
-    textField.setVerticalTextAlign( VerticalTextAlignEnum.MIDDLE );
-    textField.setStretchWithOverflow( true );
-    textField.setStretchType( StretchTypeEnum.CONTAINER_BOTTOM );
-    expression = new JRDesignExpression();
-    // длинные имена переносим, а не отрезаем
-    textField.setStretchWithOverflow( true );
-    expression.setText( "$F{" + TIMESTAMP + "}" ); //$NON-NLS-1$ //$NON-NLS-2$
-    textField.setExpression( expression );
-    // textField.setPattern( timestampFormatString );
-
-    if( hasNumberColumn ) {
-      band.addElement( textField );
-    }
-
-    // HorizontalTextAlignEnum dataHorizontalTextAlign =
-    // aContext.params().hasKey( IJasperReportConstants.REPORT_DATA_HORIZONTAL_TEXT_ALIGN_ID )
-    // ? HorizontalTextAlignEnum
-    // .getByName( aContext.params().getStr( IJasperReportConstants.REPORT_DATA_HORIZONTAL_TEXT_ALIGN_ID ) )
-    // : HorizontalTextAlignEnum.CENTER;
-
-    HorizontalTextAlignEnum dataHorizontalTextAlign = HorizontalTextAlignEnum.getByName(
-        IJasperReportConstants.REPORT_DATA_HORIZONTAL_TEXT_ALIGN_ID.getValue( aContext.params() ).asString() );
-
-    // Теперь динамические колонки
-    start_x = (hasNumberColumn ? TIMESTAMP_COLUMN_WIDTH : 0);
-    // TODO: mvk
-    // IStringList detailColFormats = IReportParamsDefinitions.MAIN_COL_FORMATS.getValue( aReportTemplate.params() );
-    for( int index = 0; index < paramQtty; index++ ) {
-      IM5FieldDef<T, ?> fieldDef = aModel.fieldDefs().get( index );
-      String paramId = fieldDef.id();
-      // String formatter = detailColFormats.get( index );
-      textField = new JRDesignTextField();
-      textField.setX( start_x );
-      textField.setY( 0 );
-
-      int currWidth = colWidth[aModel.fieldDefs().indexOf( fieldDef )];
-      textField.setWidth( currWidth );
-
-      textField.setHeight( REPORT_DETAIL_HEIGHT );
-      textField.setStyle( normalStyle );
-      textField.setHorizontalTextAlign( dataHorizontalTextAlign );
-      textField.setVerticalTextAlign( VerticalTextAlignEnum.MIDDLE );
-      textField.setStretchWithOverflow( true );
-      textField.setStretchType( StretchTypeEnum.CONTAINER_BOTTOM );
-
-      // by Max - тип колонки
-      // EAtomicType type = EAtomicType.STRING;// aParamsAtomicTypes.get( paramId );
-      // String typeStr = convertToJavaClass( type ).getSimpleName();
-      // TODO: mvk ???
-      String rawValue = "$F{" + DATA_COLUMN_ + String.valueOf( paramId ) + "}";
-      expression = new JRDesignExpression();
-      // expression.setText( "(" + rawValue + "!= null )?(new " + typeStr + "(" + rawValue + ")):( null )" );
-      expression.setText( "(" + rawValue + ")" );
-      textField.setExpression( expression );
-      band.addElement( textField );
-      start_x += currWidth;
-    }
-
-    // Устанавливаем область detail
-    ((JRDesignSection)jasperDesign.getDetailSection()).addBand( band );
-
-    // Page footer
-    // Оставляем пустым
-    band = new JRDesignBand();
-    band.setHeight( SUMMARY_ROW_HEIGHT );
-    textField = new JRDesignTextField();
-    textField.setX( 10 );
-    textField.setY( 0 );
-    textField.setWidth( jasperDesign.getColumnWidth() - 20 );
-    textField.setHeight( SUMMARY_ROW_HEIGHT );
-    textField.setStyle( headerStyle );
-    textField.getLineBox().getPen().setLineWidth( 0 );
-    textField.setHorizontalTextAlign( HorizontalTextAlignEnum.CENTER );
-    expression = new JRDesignExpression();
-    expression.setText( "$V{PAGE_NUMBER}" );
-    textField.setExpression( expression );
-    band.addElement( textField );
-    jasperDesign.setPageFooter( band );
-
-    // Column footer
-    band = new JRDesignBand();
-    int offsetCounter = 3;
-    band.setHeight( SUMMARY_ROW_HEIGHT + (2 * offsetCounter) );// REPORT_SUMMARY_HEIGHT );
-
-    textField = new JRDesignTextField();
-    textField.setX( 10 );
-    textField.setY( offsetCounter );
-    textField.setWidth( (jasperDesign.getColumnWidth() / 2) - 10 );
-    textField.setHeight( SUMMARY_ROW_HEIGHT );
-    textField.setStyle( headerStyle );
-    textField.getLineBox().getPen().setLineWidth( 0 );
-    textField.setHorizontalTextAlign( HorizontalTextAlignEnum.LEFT );
-    expression = new JRDesignExpression();
-    expression.setText( "$P{" + LEFT_BOTTOM_STR + "}" );
-    textField.setExpression( expression );
-    band.addElement( textField );
-
-    textField = new JRDesignTextField();
-    textField.setX( jasperDesign.getColumnWidth() / 2 );
-    textField.setY( offsetCounter );
-    textField.setWidth( (jasperDesign.getColumnWidth() / 2) - 10 );
-    textField.setHeight( SUMMARY_ROW_HEIGHT );
-    textField.setStyle( headerStyle );
-    textField.getLineBox().getPen().setLineWidth( 0 );
-    textField.setHorizontalTextAlign( HorizontalTextAlignEnum.RIGHT );
-    expression = new JRDesignExpression();
-    expression.setText( "$P{" + RIGHT_BOTTOM_STR + "}" );
-    textField.setExpression( expression );
-    band.addElement( textField );
-
-    JRDesignLine line = new JRDesignLine();
-    line.setX( 0 );
-    line.setY( band.getHeight() - 1 );
-    line.setWidth( start_x );
-    line.setHeight( 0 );
-    band.addElement( line );
-
-    jasperDesign.setLastPageFooter( band );
-
-    return jasperDesign;
   }
 
 }
