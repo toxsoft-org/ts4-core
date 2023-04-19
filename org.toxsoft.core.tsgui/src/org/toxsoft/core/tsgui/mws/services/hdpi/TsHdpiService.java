@@ -98,7 +98,7 @@ public final class TsHdpiService
   public TsHdpiService( IEclipseContext aAppContext ) {
     appContext = TsNullArgumentRtException.checkNull( aAppContext );
     defaultIconSize = determineDefaultIconSize( getScreenWidth() );
-    // register builtin categories
+    // register built-in categories
     defineIconCategory( ICON_CATEG_ID_TOOLBAR, -1 );
     defineIconCategory( ICON_CATEG_ID_MENU, 0 );
     defineIconCategory( ICON_CATEG_ID_JFACE_CELL, 0 );

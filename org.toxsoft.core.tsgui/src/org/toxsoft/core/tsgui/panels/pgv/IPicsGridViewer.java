@@ -6,6 +6,7 @@ import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.utils.*;
 import org.toxsoft.core.tsgui.utils.margins.*;
 import org.toxsoft.core.tsgui.widgets.*;
+import org.toxsoft.core.tslib.bricks.ctx.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -19,7 +20,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  */
 public interface IPicsGridViewer<V>
     extends ITsDoubleClickEventProducer<V>, ITsSelectionProvider<V>, IThumbSizeableEx, ITsUserInputProducer,
-    ITsKeyInputProducer, ITsMouseInputProducer {
+    ITsKeyInputProducer, ITsMouseInputProducer, ITsContextable {
 
   // TODO item popup menu support
 

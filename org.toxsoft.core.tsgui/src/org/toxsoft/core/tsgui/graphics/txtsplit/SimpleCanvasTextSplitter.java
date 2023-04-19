@@ -36,7 +36,7 @@ public class SimpleCanvasTextSplitter
   protected void doSplitText( String aText, int aWidth, int aLinesNum, IListEdit<TextLine> aLines ) {
     for( String s : aText.split( "" + CHAR_EOL ) ) { //$NON-NLS-1$
       Point p = gc().textExtent( s );
-      aLines.add( new TextLine( new TsPoint( p.x, p.y ), aText ) );
+      aLines.add( new TextLine( new TsPoint( p.x, p.y ), s ) );
     }
   }
 

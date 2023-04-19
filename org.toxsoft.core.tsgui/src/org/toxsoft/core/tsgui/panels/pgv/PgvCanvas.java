@@ -233,6 +233,8 @@ class PgvCanvas<V>
 
   /**
    * Constructor with no style bits.
+   * <p>
+   * Stores reference to context.
    *
    * @param aParent {@link Composite} - parent composite
    * @param aContext {@link ITsGuiContext} - the context
