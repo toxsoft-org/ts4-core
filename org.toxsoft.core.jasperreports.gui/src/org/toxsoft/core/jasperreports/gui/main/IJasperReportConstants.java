@@ -100,13 +100,16 @@ public interface IJasperReportConstants {
       TSID_DEFAULT_VALUE, AvUtils.avBool( true ), TSID_IS_MANDATORY, Boolean.FALSE );
 
   /**
-   * Параметр - список содержащий значения весов колонок отчета.
+   * Параметр - список содержащий значения весов колонок отчета, желательно указывать веса в процентах, длина списка
+   * может быть меньше количества столбцов (например, только ширину первого столбца) - тогда значения автоматически
+   * интерпретируются как проценты, а оставшиеся столбцы равномерно заполняют оставленное для них пространство.
    */
   IDataDef COLUMNS_WEIGTHS = create( PAR_ID_COLUMNS_WEIGTHS, VALOBJ, TSID_NAME, STR_N_PAR_COLUMNS_WEIGTHS,
       TSID_DEFAULT_VALUE, avValobj( new IntArrayList() ), TSID_IS_MANDATORY, Boolean.FALSE );
 
   /**
-   * Параметр - список содержащий значения строк верхнего колонтитула.
+   * Параметр - список содержащий значения строк верхнего колонтитула (Многострочный заголовок страницы (на каждой
+   * странице)).
    */
   IDataDef PAGE_HEADER_STRINGS = create( PAR_ID_PAGE_HEADER_STRINGS, VALOBJ, TSID_NAME, STR_N_PAR_PAGE_HEADER_STRINGS,
       TSID_DEFAULT_VALUE, avValobj( new StringArrayList() ), TSID_IS_MANDATORY, Boolean.FALSE );
