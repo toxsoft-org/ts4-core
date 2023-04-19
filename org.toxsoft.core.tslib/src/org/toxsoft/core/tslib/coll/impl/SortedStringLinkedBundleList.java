@@ -361,6 +361,7 @@ public class SortedStringLinkedBundleList
       size = 1;
       b.count = 1;
       b.elems[0] = aValue;
+      ++changeCount;
       return 0;
     }
     Bundle bPrev = null;

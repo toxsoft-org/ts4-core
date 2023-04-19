@@ -12,7 +12,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-class ElemMapInternalIntList
+public class ElemMapInternalIntList
     implements Serializable {
 
   private static final long serialVersionUID = 157157L;
@@ -25,28 +25,28 @@ class ElemMapInternalIntList
     items = new int[aInitialSize];
   }
 
-  int size() {
+  public int size() {
     return size;
   }
 
-  int get( int aIndex ) {
+  public int get( int aIndex ) {
     return items[aIndex];
   }
 
-  void set( int aIndex, int aValue ) {
+  public void set( int aIndex, int aValue ) {
     items[aIndex] = aValue;
   }
 
-  void remove( int aIndex ) {
+  public void remove( int aIndex ) {
     System.arraycopy( items, aIndex + 1, items, aIndex, size - aIndex - 1 );
     --size;
   }
 
-  void clear() {
+  public void clear() {
     size = 0;
   }
 
-  int add( int aValue ) {
+  public int add( int aValue ) {
     // reallocate bigger array
     if( size == items.length ) {
       int[] newItems = new int[2 * items.length];
@@ -62,7 +62,7 @@ class ElemMapInternalIntList
    *
    * @param aThreshold int - порговое значение элементов к уменьшению
    */
-  void decreaseAllAboveThreshold( int aThreshold ) {
+  public void decreaseAllAboveThreshold( int aThreshold ) {
     for( int i = 0; i < size; i++ ) {
       if( items[i] > aThreshold ) {
         --items[i];
@@ -70,7 +70,7 @@ class ElemMapInternalIntList
     }
   }
 
-  void increaseAllAboveThreshold( int aThreshold ) {
+  public void increaseAllAboveThreshold( int aThreshold ) {
     for( int i = 0; i < size; i++ ) {
       if( items[i] >= aThreshold ) {
         ++items[i];

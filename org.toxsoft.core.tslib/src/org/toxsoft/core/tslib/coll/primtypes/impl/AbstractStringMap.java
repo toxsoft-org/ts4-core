@@ -22,9 +22,11 @@ public class AbstractStringMap<E>
 
   private static final long serialVersionUID = 157157L;
 
-  private final IStringListBasicEdit keyList;
-  private final IListEdit<E>         elemList;
-  private final IIntListEdit[]       buckets;
+  private final IStringListBasicEdit     keyList;
+  private final IListEdit<E>             elemList;
+  private final ElemMapInternalIntList[] buckets;
+
+  private final int bucketArrayLength;
 
   transient int changeCount = 0; // Counter of list editing operations used for concurrent access detection
 
@@ -41,7 +43,12 @@ public class AbstractStringMap<E>
     TsNullArgumentRtException.checkNulls( aKeysList, aElemList );
     keyList = aKeysList;
     elemList = aElemList;
-    buckets = new IIntListEdit[bucketsCount];
+    int bal = (int)Math.sqrt( bucketsCount );
+    if( bal < 4 ) {
+      bal = 4;
+    }
+    bucketArrayLength = bal;
+    buckets = new ElemMapInternalIntList[bucketsCount];
     Arrays.fill( buckets, null );
   }
 
@@ -57,16 +64,50 @@ public class AbstractStringMap<E>
    *
    * @param aRemovedIndex int - index of key removed from {@link #keyList}
    */
-  private void adjustIndexesAfterRemove( int aRemovedIndex ) {
+  private void adjustIndicesAfterRemove( int aRemovedIndex ) {
     for( int bIndex = 0; bIndex < buckets.length; bIndex++ ) {
-      IIntListEdit elemIndexList = buckets[bIndex];
+      ElemMapInternalIntList elemIndexList = buckets[bIndex];
       if( elemIndexList != null ) {
-        for( int i = 0, n = elemIndexList.size(); i < n; i++ ) {
-          int elemIndex = elemIndexList.getValue( i );
-          if( elemIndex > aRemovedIndex ) {
-            elemIndexList.set( i, elemIndex - 1 );
-          }
-        }
+        elemIndexList.decreaseAllAboveThreshold( aRemovedIndex );
+      }
+    }
+  }
+
+  // /**
+  // * Updates indexes in hash table after element removal.
+  // * <p>
+  // * After removing key from {@link #keyList} with index aRemovedIndex all index elements in hash table above
+  // * aRemovedIndex are decremented by 1.
+  // *
+  // * @param aRemovedIndex int - index of key removed from {@link #keyList}
+  // */
+  // private void adjustIndexesAfterRemove( int aRemovedIndex ) {
+  // for( int bIndex = 0; bIndex < buckets.length; bIndex++ ) {
+  // IIntListEdit elemIndexList = buckets[bIndex];
+  // if( elemIndexList != null ) {
+  // for( int i = 0, n = elemIndexList.size(); i < n; i++ ) {
+  // int elemIndex = elemIndexList.getValue( i );
+  // if( elemIndex > aRemovedIndex ) {
+  // elemIndexList.set( i, elemIndex - 1 );
+  // }
+  // }
+  // }
+  // }
+  // }
+
+  /**
+   * Updates indexes in hash table before element insertion.
+   * <p>
+   * After inserting key to {@link #keyList} at index aIndexToInsert all index elements in hash table above
+   * aRemovedIndex are incremented by 1.
+   *
+   * @param aIndexToInsert int - index of key removed from {@link #keyList}
+   */
+  private void adjustIndicesBeforeInsert( int aIndexToInsert ) {
+    for( int bIndex = 0; bIndex < buckets.length; bIndex++ ) {
+      ElemMapInternalIntList elemIndexList = buckets[bIndex];
+      if( elemIndexList != null ) {
+        elemIndexList.increaseAllAboveThreshold( aIndexToInsert );
       }
     }
   }
@@ -134,10 +175,10 @@ public class AbstractStringMap<E>
   @Override
   public boolean hasKey( String aKey ) {
     TsNullArgumentRtException.checkNull( aKey );
-    IIntList elemIndexList = buckets[bucketIndex( aKey.hashCode() )];
+    ElemMapInternalIntList elemIndexList = buckets[bucketIndex( aKey.hashCode() )];
     if( elemIndexList != null ) {
       for( int i = 0, n = elemIndexList.size(); i < n; i++ ) {
-        int eIndex = elemIndexList.getValue( i );
+        int eIndex = elemIndexList.get( i );
         if( keyList.get( eIndex ).equals( aKey ) ) {
           return true;
         }
@@ -151,10 +192,10 @@ public class AbstractStringMap<E>
     if( aKey == null ) {
       throw new TsNullArgumentRtException();
     }
-    IIntList elemIndexList = buckets[bucketIndex( aKey.hashCode() )];
+    ElemMapInternalIntList elemIndexList = buckets[bucketIndex( aKey.hashCode() )];
     if( elemIndexList != null ) {
       for( int i = 0, n = elemIndexList.size(); i < n; i++ ) {
-        int eIndex = elemIndexList.getValue( i );
+        int eIndex = elemIndexList.get( i );
         if( keyList.get( eIndex ).equals( aKey ) ) {
           return elemList.get( eIndex );
         }
@@ -207,14 +248,14 @@ public class AbstractStringMap<E>
     checkArgsValidity( aKey, aElem );
     // find bucket and ensure it exists
     int bIndex = bucketIndex( aKey.hashCode() );
-    IIntListEdit elemIndexList = buckets[bIndex];
+    ElemMapInternalIntList elemIndexList = buckets[bIndex];
     if( elemIndexList == null ) {
-      elemIndexList = new IntLinkedBundleList();
+      elemIndexList = new ElemMapInternalIntList( bucketArrayLength );
       buckets[bIndex] = elemIndexList;
     }
     // if key is already in map, just set new value
     for( int i = 0, n = elemIndexList.size(); i < n; i++ ) {
-      int eIndex = elemIndexList.getValue( i );
+      int eIndex = elemIndexList.get( i );
       if( keyList.get( eIndex ).equals( aKey ) ) {
         ++changeCount;
         return elemList.set( eIndex, aElem );
@@ -223,6 +264,9 @@ public class AbstractStringMap<E>
     // add key/value pair at coorect place either for sorted or unsorted maps
     int index = keyList.add( aKey );
     elemList.insert( index, aElem );
+    if( index < keyList.size() - 1 ) {
+      adjustIndicesBeforeInsert( index );
+    }
     elemIndexList.add( index );
     ++changeCount;
     return null;
@@ -231,14 +275,14 @@ public class AbstractStringMap<E>
   @Override
   public E removeByKey( String aKey ) {
     TsNullArgumentRtException.checkNull( aKey );
-    IIntListEdit elemIndexList = buckets[bucketIndex( aKey.hashCode() )];
+    ElemMapInternalIntList elemIndexList = buckets[bucketIndex( aKey.hashCode() )];
     if( elemIndexList != null ) {
       for( int i = 0, n = elemIndexList.size(); i < n; i++ ) {
-        int eIndex = elemIndexList.getValue( i );
+        int eIndex = elemIndexList.get( i );
         if( keyList.get( eIndex ).equals( aKey ) ) {
           keyList.removeByIndex( eIndex );
-          elemIndexList.removeByIndex( i );
-          adjustIndexesAfterRemove( eIndex );
+          elemIndexList.remove( i );
+          adjustIndicesAfterRemove( eIndex );
           ++changeCount;
           return elemList.removeByIndex( eIndex );
         }

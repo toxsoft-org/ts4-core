@@ -166,7 +166,7 @@ public final class TsCollectionsUtils {
    * Returns string representation for {@link Object#toString()} of collection.
    *
    * @param aColl {@link ITsCollection} - collection with known number of elements
-   * @return String - text representationof collection
+   * @return String - text representation of collection
    */
   @SuppressWarnings( "boxing" )
   public static String countableCollectionToString( ITsCollection<?> aColl ) {
