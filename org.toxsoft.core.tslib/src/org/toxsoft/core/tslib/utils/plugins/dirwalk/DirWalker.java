@@ -12,7 +12,7 @@ import org.toxsoft.core.tslib.utils.files.*;
 
 /**
  * Рекурсивный обходчик директории и файлов. Работает совместно с обработчиком файлов (реализация интерфейса
- * {@link IDirWalkerCallback}.
+ * {@link IDirWalkerCallback}).
  * <p>
  * Обладает следующими возможностьями:
  * <ul>
