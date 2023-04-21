@@ -20,7 +20,11 @@ import net.sf.jasperreports.engine.type.*;
 @SuppressWarnings( { "javadoc", "nls" } )
 public interface IJasperReportConstants {
 
+  String STR_N_PAR_SUBTITLE_STRINGS = "Subtitle strings";
+
   String STR_N_PAR_PAGE_HEADER_STRINGS = "Page header strings";
+
+  String PAR_ID_SUBTITLE_STRINGS = "subtitle.strings.id";
 
   String PAR_ID_PAGE_HEADER_STRINGS = "page.header.strings.id";
 
@@ -112,6 +116,12 @@ public interface IJasperReportConstants {
    * странице)).
    */
   IDataDef PAGE_HEADER_STRINGS = create( PAR_ID_PAGE_HEADER_STRINGS, VALOBJ, TSID_NAME, STR_N_PAR_PAGE_HEADER_STRINGS,
+      TSID_DEFAULT_VALUE, avValobj( new StringArrayList() ), TSID_IS_MANDATORY, Boolean.FALSE );
+
+  /**
+   * Параметр - список содержащий значения строк подзаголовка (Многострочный подзаголовок отчёта)).
+   */
+  IDataDef SUBTITLE_STRINGS = create( PAR_ID_SUBTITLE_STRINGS, VALOBJ, TSID_NAME, STR_N_PAR_SUBTITLE_STRINGS,
       TSID_DEFAULT_VALUE, avValobj( new StringArrayList() ), TSID_IS_MANDATORY, Boolean.FALSE );
 
 }

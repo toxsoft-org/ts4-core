@@ -57,7 +57,7 @@ public class ReportGenerator {
    */
   private static final int HORIZONTAL_PAGE_MARGIN = 30;
 
-  // private static final int REPORT_TITLE_HEIGHT = 32; // 70;
+  private static final int REPORT_TITLE_STR_HEIGHT = 25; // высота одной строки заголовка
 
   private static final int REPORT_VERTICAL_COLUMN_HEADER_HEIGHT   = 64; // Высота при вертикальном расположении названия
                                                                         // колонок
@@ -147,6 +147,11 @@ public class ReportGenerator {
    * Динамически создаваемая строка верхнего колонтитула
    */
   public static final String PAGE_HEADER_ = "page_header_";
+
+  /**
+   * Динамически создаваемая строка подзаголовка
+   */
+  public static final String SUBTITLE_ = "subtitle_";
 
   /**
    * ФИО создаетля отчета
@@ -373,14 +378,23 @@ public class ReportGenerator {
       IM5ItemsProvider<T> aItemsProvider, boolean aIgnorePagination, boolean aForExcelExport )
       throws JRException {
     JasperPrint retVal = null;
-    // Генерируем дизайн отчета по переданному шаблону
-    String reportTitle = IJasperReportConstants.REPORT_TITLE_M5_ID.getValue( aContext.params() ).asString();
-
-    // IStringMap<EAtomicType> paramsAtomicTypes = getAtomicTypes( aReportTemplate, aReportAnswer );
 
     JasperDesign reportDesign = reportDesign( aContext, aModel, aForExcelExport );
     // Параметры отчета
     Map<String, Object> reportParameters = new HashMap<>();
+
+    // Генерируем дизайн отчета по переданному шаблону
+    String reportTitle = IJasperReportConstants.REPORT_TITLE_M5_ID.getValue( aContext.params() ).asString();
+
+    // строки подзаголовка отчёта
+    IStringList subtitleStrs = aContext.params().getValobj( IJasperReportConstants.SUBTITLE_STRINGS );
+
+    for( int s = 0; s < subtitleStrs.size(); s++ ) {
+      reportParameters.put( SUBTITLE_ + s, subtitleStrs.get( s ) );
+    }
+
+    // IStringMap<EAtomicType> paramsAtomicTypes = getAtomicTypes( aReportTemplate, aReportAnswer );
+
     // Запрещаем разбиние на страницы
     reportParameters.put( JRParameter.IS_IGNORE_PAGINATION, Boolean.valueOf( aIgnorePagination ) );
     // Дата распечатки
@@ -657,14 +671,20 @@ public class ReportGenerator {
     int sizeOfTitleStr =
         IJasperReportConstants.REPORT_TITLE_M5_ID.getValue( aContext.params() ).asString().trim().length();
 
-    band.setHeight( sizeOfTitleStr > 0 ? 25 : 0 );// REPORT_TITLE_HEIGHT / 2 );
+    // количество строк подзаголовка
+    IStringList subtitleStrs = aContext.params().getValobj( IJasperReportConstants.SUBTITLE_STRINGS );
+    int subtitleStrsCount = subtitleStrs.size();
+    // высота подзаголовка
+    int subtitleHeight = REPORT_TITLE_STR_HEIGHT * subtitleStrsCount;
+
+    band.setHeight( sizeOfTitleStr > 0 ? REPORT_TITLE_STR_HEIGHT + subtitleHeight : subtitleHeight );
 
     if( sizeOfTitleStr > 0 ) {
       textField = new JRDesignTextField();
       textField.setX( 0 );
       textField.setY( 0 );
       textField.setWidth( jasperDesign.getColumnWidth() );
-      textField.setHeight( 25 );
+      textField.setHeight( REPORT_TITLE_STR_HEIGHT );
       textField.setStyle( titleStyle );
       textField.getLineBox().getPen().setLineWidth( 0 );
       textField.setHorizontalTextAlign( HorizontalTextAlignEnum.CENTER );
@@ -676,7 +696,29 @@ public class ReportGenerator {
       band.addElement( textField );
     }
 
-    // JRDesignTextField titleTextField = textField;
+    for( int s = 0; s < subtitleStrsCount; s++ ) {
+      // регистрация параметра
+      parameter = new JRDesignParameter();
+      parameter.setName( SUBTITLE_ + s );
+      parameter.setValueClass( java.lang.String.class );
+      jasperDesign.addParameter( parameter );
+
+      // регистрация поля
+      textField = new JRDesignTextField();
+      textField.setX( 0 );
+      textField.setY( s * REPORT_TITLE_STR_HEIGHT + (sizeOfTitleStr > 0 ? REPORT_TITLE_STR_HEIGHT : 0) );
+      textField.setWidth( jasperDesign.getColumnWidth() );
+      textField.setHeight( REPORT_TITLE_STR_HEIGHT );
+      textField.setStyle( titleStyle );
+      textField.getLineBox().getPen().setLineWidth( 0 );
+      textField.setHorizontalTextAlign( HorizontalTextAlignEnum.CENTER );
+      textField.setVerticalTextAlign( VerticalTextAlignEnum.MIDDLE );
+      textField.setStretchWithOverflow( true );
+      expression = new JRDesignExpression();
+      expression.setText( String.format( PARAM_TEXT_FORMAT, SUBTITLE_ + s ) );
+      textField.setExpression( expression );
+      band.addElement( textField );
+    }
 
     jasperDesign.setTitle( band );
 
