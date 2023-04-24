@@ -40,7 +40,7 @@ public class OptionSetUtils {
   }
 
   /**
-   * Creates an editable option set from exsiting opset extended with optional id / value pairs array.
+   * Creates an editable option set from existing opset extended with optional id / value pairs array.
    * <p>
    * Values from <code>aIdsAndValues</code> override initial values specified in <code>aOps</code>.
    *
@@ -143,12 +143,30 @@ public class OptionSetUtils {
    * The method {@link #validateOptionSet(IOptionSet, IStridablesList)} is used for checking.
    *
    * @param aOpValues {@link IOptionSet} - option values
-   * @param aOpDefs {@link IStridablesList}&lt;{@link IDataDef}&gt; - optiondefinitions
+   * @param aOpDefs {@link IStridablesList}&lt;{@link IDataDef}&gt; - option definitions
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsValidationFailedRtException on error
    */
   public static void checkOptionSet( IOptionSet aOpValues, IStridablesList<IDataDef> aOpDefs ) {
     TsValidationFailedRtException.checkError( validateOptionSet( aOpValues, aOpDefs ) );
+  }
+
+  /**
+   * Initializes the option set from the options definitions.
+   * <p>
+   * After this method <code>aOpValues</code> will contain exactly the same keys as {@link IStridablesList#keys()
+   * aOpDefs.keys()}. The values will be corresponding definition's {@link IDataDef#defaultValue() defaultValue()}.
+   *
+   * @param aOpValues {@link IOptionSetEdit} - option set to initialize
+   * @param aOpDefs {@link IStridablesList}&lt;{@link IDataDef}&gt; - option definitions
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static void initOptionSet( IOptionSetEdit aOpValues, IStridablesList<IDataDef> aOpDefs ) {
+    TsNullArgumentRtException.checkNulls( aOpValues, aOpDefs );
+    aOpValues.clear();
+    for( String opId : aOpDefs.keys() ) {
+      aOpValues.setValue( opId, aOpDefs.getByKey( opId ).defaultValue() );
+    }
   }
 
   // ------------------------------------------------------------------------------------
