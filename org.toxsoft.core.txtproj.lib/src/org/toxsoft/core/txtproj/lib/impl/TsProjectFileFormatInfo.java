@@ -66,6 +66,7 @@ public final class TsProjectFileFormatInfo {
       TSID_IS_MANDATORY, AV_TRUE //
   );
 
+  @SuppressWarnings( "unused" )
   private static final IStridablesList<IDataDef> ALL_PARAM_INFOES = new StridablesList<>( //
       TS_PROJ_FILE_VERSION, //
       APP_PROJ_FILE_VERSION, //

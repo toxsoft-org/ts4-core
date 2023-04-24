@@ -1,7 +1,6 @@
 package org.toxsoft.core.txtproj.lib.categs.pdu;
 
 import org.toxsoft.core.tslib.bricks.strio.*;
-import org.toxsoft.core.tslib.coll.helpers.*;
 import org.toxsoft.core.txtproj.lib.categs.*;
 import org.toxsoft.core.txtproj.lib.categs.impl.*;
 import org.toxsoft.core.txtproj.lib.impl.*;

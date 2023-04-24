@@ -103,7 +103,7 @@ public class Category<T extends ICategory<T>>
     if( aThat == this ) {
       return true;
     }
-    if( aThat instanceof ICategory that ) {
+    if( aThat instanceof @SuppressWarnings( "rawtypes" ) ICategory that ) {
       return id.equals( that.id() ) && params.equals( that.params() );
     }
     return false;
