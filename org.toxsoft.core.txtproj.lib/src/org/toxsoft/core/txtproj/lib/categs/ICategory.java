@@ -2,9 +2,10 @@ package org.toxsoft.core.txtproj.lib.categs;
 
 import static org.toxsoft.core.txtproj.lib.categs.ICatalogueParamOptions.*;
 
-import org.toxsoft.core.tslib.av.utils.IParameterized;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
+import org.toxsoft.core.tslib.av.utils.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.utils.icons.*;
 
 /**
  * Категория - элемент древовидного каталога.
@@ -13,7 +14,7 @@ import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
  * @param <T> - конкретный наследник (реализация) категории (но не каталога)
  */
 public interface ICategory<T extends ICategory<T>>
-    extends IStridable, IParameterized, Comparable<ICategory<?>> {
+    extends IStridable, IParameterized, Comparable<ICategory<?>>, IIconIdable {
 
   /**
    * Возвращает локальный (дочерний) идентификатор категории.

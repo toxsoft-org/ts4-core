@@ -1,14 +1,13 @@
 package org.toxsoft.core.txtproj.lib.categs;
 
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.bricks.events.ITsEventer;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
-import org.toxsoft.core.tslib.bricks.validator.ITsValidationSupport;
-import org.toxsoft.core.tslib.bricks.validator.impl.TsValidationFailedRtException;
-import org.toxsoft.core.tslib.coll.basis.ITsClearable;
-import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.bricks.events.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Каталог - дерево категории.
@@ -21,7 +20,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * всегда пустые строки {@link #nmName()} и {@link #description()}.
  *
  * @author hazard157
- * @param <T> - конкретный наследник (реализация) категори (но не каталога)
+ * @param <T> - concrete type of the category items (not the catalogue)
  */
 public interface ICatalogue<T extends ICategory<T>>
     extends ICategory<T>, ITsClearable {

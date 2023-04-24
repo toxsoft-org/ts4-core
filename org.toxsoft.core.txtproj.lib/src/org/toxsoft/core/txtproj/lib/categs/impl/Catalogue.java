@@ -5,40 +5,35 @@ import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 import static org.toxsoft.core.txtproj.lib.categs.impl.ITsResources.*;
 
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.av.opset.impl.OptionSetKeeper;
-import org.toxsoft.core.tslib.bricks.events.AbstractTsEventer;
-import org.toxsoft.core.tslib.bricks.events.ITsEventer;
-import org.toxsoft.core.tslib.bricks.keeper.IKeepableEntity;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.bricks.events.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.SortedStridablesList;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.StridablesList;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
-import org.toxsoft.core.tslib.bricks.validator.ITsValidationSupport;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.bricks.validator.impl.AbstractTsValidationSupport;
-import org.toxsoft.core.tslib.bricks.validator.impl.TsValidationFailedRtException;
-import org.toxsoft.core.tslib.coll.helpers.ECrudOp;
-import org.toxsoft.core.tslib.coll.impl.SortedStringLinkedBundleList;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.coll.helpers.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringArrayList;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 import org.toxsoft.core.txtproj.lib.categs.*;
 
 /**
- * Реализация {@link ICatalogue}.
+ * {@link ICatalogue} implementation.
  *
  * @author hazard157
- * @param <T> - конкретный наследник (реализация) категори (но не каталога)
+ * @param <T> - concrete type of the category items (not the catalogue)
  */
 public class Catalogue<T extends ICategory<T>>
     implements ICatalogue<T>, IKeepableEntity {
 
   /**
-   * Класс для реализации {@link ICatalogue#eventer()}.
+   * {@link ICatalogue#eventer()} implementation.
    *
    * @author hazard157
    */
@@ -81,7 +76,7 @@ public class Catalogue<T extends ICategory<T>>
   }
 
   /**
-   * Реализация {@link ICatalogue#svs()}.
+   * {@link ICatalogue#svs()} implementation.
    *
    * @author hazard157
    */
@@ -137,22 +132,22 @@ public class Catalogue<T extends ICategory<T>>
   }
 
   /**
-   * Встроенный, неудаляемый валидатор редактирования каталога.
+   * Built-in validator.
    */
   private final ICatalogueEditValidator builtinValidator = new ICatalogueEditValidator() {
 
     @Override
     public ValidationResult canCreateCategory( String aParentId, String aLocalId, IOptionSet aParams ) {
-      // родитель существует?
+      // does the parent exists?
       ICategory<T> parent = findCategory( aParentId );
       if( parent == null ) {
         return ValidationResult.error( FMT_ERR_NO_PARENT, aParentId );
       }
-      // проверка локального идентификатора
+      // check local ID
       if( !StridUtils.isValidIdName( aLocalId ) ) {
         return ValidationResult.error( FMT_ERR_INV_LOCAL_ID, aLocalId );
       }
-      // создаваемая категория уже сущестует?
+      // does category already exists?
       String id = CatalogueUtils.makeCategoryId( aParentId, aLocalId );
       if( categsList.hasKey( id ) ) {
         return ValidationResult.error( FMT_ERR_CATEG_ALREADY_EXISTS, id );
@@ -162,11 +157,11 @@ public class Catalogue<T extends ICategory<T>>
 
     @Override
     public ValidationResult canEditCategory( String aId, IOptionSet aParams ) {
-      // нельзя редактировать корневой каталог
+      // can't edit root catalog
       if( aId.isEmpty() ) {
         return ValidationResult.error( MSG_ERR_CANT_EDIT_ROOT );
       }
-      // проверка существования редактируемой категории
+      // check edited category existence
       ICategory<T> c = findCategory( aId );
       if( c == null ) {
         return ValidationResult.error( FMT_ERR_NO_CATEG, aId );
@@ -176,20 +171,20 @@ public class Catalogue<T extends ICategory<T>>
 
     @Override
     public ValidationResult canChangeCaregoryLocalId( String aId, String aNewLocalId ) {
-      // нельзя редактировать корневой каталог
+      // can't edit root catalog
       if( aId.isEmpty() ) {
         return ValidationResult.error( MSG_ERR_CANT_EDIT_ROOT );
       }
-      // проверка существования редактируемой категории
+      // check edited category existence
       ICategory<T> c = findCategory( aId );
       if( c == null ) {
         return ValidationResult.error( FMT_ERR_NO_CATEG, aId );
       }
-      // проверка локального идентификатора
+      // check local ID
       if( !StridUtils.isValidIdName( aNewLocalId ) ) {
         return ValidationResult.error( FMT_ERR_INV_LOCAL_ID, aNewLocalId );
       }
-      // проверка отсутствия категории с новым идентификатором
+      // check tah category with new ID does not exists
       String newId = CatalogueUtils.makeCategoryId( aId, aNewLocalId );
       c = findCategory( newId );
       if( c != null && !newId.equals( aId ) ) {
@@ -232,7 +227,9 @@ public class Catalogue<T extends ICategory<T>>
   final IStridablesListBasicEdit<T> categsList = new SortedStridablesList<>();
 
   /**
-   * Конструктор.
+   * Constructor.
+   * <p>
+   * Creates items directly of type {@link Category} not a subclass
    */
   public Catalogue() {
     svs.addValidator( builtinValidator );
@@ -240,9 +237,10 @@ public class Catalogue<T extends ICategory<T>>
   }
 
   /**
-   * Конструктор с указанием создателя других реализаций категории.
+   * Constructor.
    *
-   * @param aCreator {@link ICategoryCreator} - создатель экземпляров
+   * @param aCreator {@link ICategoryCreator} - category items creator
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public Catalogue( ICategoryCreator aCreator ) {
     svs.addValidator( builtinValidator );
@@ -278,6 +276,15 @@ public class Catalogue<T extends ICategory<T>>
   }
 
   // ------------------------------------------------------------------------------------
+  // IIconIdable
+  //
+
+  @Override
+  public String iconId() {
+    return null;
+  }
+
+  // ------------------------------------------------------------------------------------
   // IKeepableEntity
   //
 
@@ -286,7 +293,7 @@ public class Catalogue<T extends ICategory<T>>
     TsNullArgumentRtException.checkNull( aSw );
     aSw.writeChar( CHAR_ARRAY_BEGIN );
     aSw.incNewLine();
-    // запишем категории в виде id = { params }
+    // write categories as "id = { params }"
     for( int i = 0, count = categsList.size(); i < count; i++ ) {
       T c = categsList.get( i );
       aSw.writeAsIs( c.id() );
@@ -304,7 +311,7 @@ public class Catalogue<T extends ICategory<T>>
   @Override
   public void read( IStrioReader aSr ) {
     TsNullArgumentRtException.checkNull( aSr );
-    // сначала считаем во временную коллекцию
+    // read in the temporary collection
     IStringMapEdit<IOptionSet> map = new StringMap<>();
     if( aSr.readArrayBegin() ) {
       do {
@@ -314,17 +321,16 @@ public class Catalogue<T extends ICategory<T>>
         map.put( id, params );
       } while( aSr.readArrayNext() );
     }
-    // теперь атомарно и с проверкой перенесем в categsList
-    // сначала создадим копию существующего списка и приостановим извещения
+    // move read data atomically to the new instance (wicth a validity check)
     IStridablesList<T> saved = new StridablesList<>( categsList );
     eventer.pauseFiring();
-    // теперь в сортированном порядке добавим новые элементы
+    // add new items in a sorted order
     try {
       IStringListBasicEdit sortedIds = new SortedStringLinkedBundleList( map.keys() );
       for( String id : sortedIds ) {
         String parentId = CatalogueUtils.extractParentId( id );
         String localId = CatalogueUtils.extractLocalId( id );
-        // надо ли отключать не встроенные валидаторы?
+        // do we need to turn off non built-in validators?
         createCategory( parentId, localId, map.getByKey( id ) );
       }
     }
@@ -336,7 +342,7 @@ public class Catalogue<T extends ICategory<T>>
     finally {
       eventer.resumeFiring( false ); // молча восстановим извещения, если есть успех, ниже будет извещение для клиентов
     }
-    // все, содержимое успешно загружено, известим
+    // reading OK, fire an event
     eventer.fireEvent( ECrudOp.LIST, EMPTY_STRING );
   }
 
@@ -490,7 +496,7 @@ public class Catalogue<T extends ICategory<T>>
   }
 
   // ------------------------------------------------------------------------------------
-  // API класса
+  // API
   //
 
   IStridablesList<T> childCategories( String aCategoryId ) {

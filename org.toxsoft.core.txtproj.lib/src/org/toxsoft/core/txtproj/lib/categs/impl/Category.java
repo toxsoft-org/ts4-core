@@ -2,16 +2,14 @@ package org.toxsoft.core.txtproj.lib.categs.impl;
 
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.av.opset.IOptionSetEdit;
-import org.toxsoft.core.tslib.av.opset.impl.OptionSet;
-import org.toxsoft.core.tslib.av.utils.IParameterizedEdit;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.txtproj.lib.categs.ICatalogue;
-import org.toxsoft.core.txtproj.lib.categs.ICategory;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.av.utils.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.txtproj.lib.categs.*;
 
 /**
  * Редактируемая реализация {@link ICategory}.
@@ -66,6 +64,15 @@ public class Category<T extends ICategory<T>>
   }
 
   // ------------------------------------------------------------------------------------
+  // IIconIdable
+  //
+
+  @Override
+  public String iconId() {
+    return params.getStr( TSID_ICON_ID, null );
+  }
+
+  // ------------------------------------------------------------------------------------
   // ICategory
   //
 
@@ -75,7 +82,7 @@ public class Category<T extends ICategory<T>>
   }
 
   // ------------------------------------------------------------------------------------
-  // API класса
+  // API
   //
 
   String parentId() {
@@ -96,9 +103,7 @@ public class Category<T extends ICategory<T>>
     if( aThat == this ) {
       return true;
     }
-    if( aThat instanceof ICategory ) {
-      @SuppressWarnings( "rawtypes" )
-      ICategory that = (ICategory)aThat;
+    if( aThat instanceof ICategory that ) {
       return id.equals( that.id() ) && params.equals( that.params() );
     }
     return false;
