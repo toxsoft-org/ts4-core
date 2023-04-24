@@ -7,9 +7,9 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Panel to view and edit some content.
  * <p>
- * Contains inplace content panel, optional validation result pane and the button bar. Initially there is only "Edit"
- * button in button bar. Presing "Edit" switches content to the editing state and "OK", "Cancel", "Revert", "Apply",
- * "Restore" buttons appear on button bar. "OK" and "Cancel" button finishes the editing and returns inplace editor to
+ * Contains in-place content panel, optional validation result pane and the button bar. Initially there is only "Edit"
+ * button in button bar. Pressing "Edit" switches content to the editing state and "OK", "Cancel", "Revert", "Apply",
+ * "Restore" buttons appear on button bar. "OK" and "Cancel" button finishes the editing and returns in-place editor to
  * the viewer mode.
  * <p>
  * For validation message panel respects {@link ValidationResultPanel} options.
@@ -17,12 +17,13 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public sealed interface IInplaceEditorPanel
-    extends IGenericContentPanel permits InplaceEditorPanel {
+    extends IGenericContentPanel
+    permits InplaceEditorPanel {
 
   /**
-   * Determinies current state of the panel.
+   * Determines current state of the panel.
    *
-   * @return boolean <code>true</code> for editing statem, <code>false</code> for viewer mode
+   * @return boolean <code>true</code> for editing state, <code>false</code> for viewer mode
    */
   boolean isEditing();
 
@@ -48,7 +49,7 @@ public sealed interface IInplaceEditorPanel
   void applyAndFinishEditing();
 
   /**
-   * Cancels edting, restores initial values and finishes editing.
+   * Cancels editing, restores initial values and finishes editing.
    * <p>
    * Has no effect in the viewer mode.
    */

@@ -8,7 +8,6 @@ import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.m5.model.impl.*;
 import org.toxsoft.core.tslib.av.*;
-import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.icons.*;
 
@@ -52,7 +51,10 @@ public class M5StdFieldDefIconId<T extends IIconIdable>
 
   @Override
   protected Image doGetFieldValueIcon( T aEntity, EIconSize aIconSize ) {
-    return iconManager().loadStdIcon( aEntity.iconId(), aIconSize );
+    if( aEntity.iconId() != null ) {
+      return iconManager().loadStdIcon( aEntity.iconId(), aIconSize );
+    }
+    return null;
   }
 
 }
