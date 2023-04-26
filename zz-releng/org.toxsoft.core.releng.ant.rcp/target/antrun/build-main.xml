@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="maven-antrun-" default="main">
+  <target name="main">
+    <echo level="info" message="call ant task: delete old plugins from ts4-targets (rcp)" />
+    <delete failonerror="false">
+      <fileset includes="*.*" dir="../../../ts4-targets/ts4-target-core/rcp/plugins" />
+    </delete>
+    <echo level="info" message="call ant task: copy new plugins to ts4-targets (rcp)" />
+    <copy todir="../../../ts4-targets/ts4-target-core/rcp/plugins" failonerror="false">
+      <fileset file="../org.toxsoft.core.releng.p2.rcp/target/repository/plugins/*.*" />
+    </copy>
+  </target>
+</project>
