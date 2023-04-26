@@ -1,15 +1,18 @@
 package org.toxsoft.core.tsgui.widgets.mpv;
 
-import org.eclipse.swt.*;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.*;
-import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.singlesrc.rcp.*;
-import org.toxsoft.core.tsgui.widgets.mpv.impl.*;
+import org.toxsoft.core.singlesrc.ISingleSourcing_MouseWheelListener;
+import org.toxsoft.core.singlesrc.TsSinglesourcingUtils;
+//import org.toxsoft.core.singlesrc.rcp.*;
+import org.toxsoft.core.tsgui.widgets.mpv.impl.VertTwoButtonsPane;
 import org.toxsoft.core.tslib.bricks.events.change.*;
-import org.toxsoft.core.tslib.bricks.validator.*;
-import org.toxsoft.core.tslib.coll.primtypes.*;
-import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
+import org.toxsoft.core.tslib.coll.primtypes.IIntListEdit;
+import org.toxsoft.core.tslib.coll.primtypes.impl.IntArrayList;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**

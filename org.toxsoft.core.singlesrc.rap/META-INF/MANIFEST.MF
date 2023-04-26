@@ -1,14 +1,14 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Rcp
-Bundle-SymbolicName: org.toxsoft.core.singlesrc.rcp
+Bundle-Name: Rap
+Bundle-SymbolicName: org.toxsoft.core.singlesrc.rap
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.toxsoft.core.singlesrc.rcp.Activator
+Bundle-Activator: org.toxsoft.core.singlesrc.rap.Activator
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.ui,
+ org.eclipse.rap.ui,
  org.toxsoft.core.tslib
 Bundle-RequiredExecutionEnvironment: JavaSE-17
-Automatic-Module-Name: org.toxsoft.core.singlesrc.rcp
+Automatic-Module-Name: org.toxsoft.core.singlesrc.rap
 Bundle-ActivationPolicy: lazy
 Export-Package: org.toxsoft.core.singlesrc,
- org.toxsoft.core.singlesrc.rcp
+ org.toxsoft.core.singlesrc.rap

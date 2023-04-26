@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.bricks.swtevents;
 
 import org.eclipse.swt.events.*;
+import org.toxsoft.core.singlesrc.ISingleSourcing_MouseWheelListener;
 import org.toxsoft.core.singlesrc.rcp.*;
 
 /**

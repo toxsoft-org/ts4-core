@@ -20,9 +20,11 @@ Require-Bundle: javax.inject,
  org.toxsoft.core.tslib,
  org.toxsoft.core.tsgui,
  org.toxsoft.extlibs.jasperreports,
+ org.toxsoft.core.singlesrc.rap;resolution:=optional,
  org.toxsoft.core.singlesrc.rcp;resolution:=optional
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: org.toxsoft.core.jasperreports.gui
 Bundle-ActivationPolicy: lazy
 Export-Package: org.toxsoft.core.jasperreports.gui,
  org.toxsoft.core.jasperreports.gui.main
+Import-Package: org.toxsoft.core.singlesrc

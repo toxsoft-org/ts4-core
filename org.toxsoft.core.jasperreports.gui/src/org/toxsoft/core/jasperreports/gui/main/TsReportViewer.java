@@ -6,34 +6,37 @@ import static org.toxsoft.core.tsgui.graphics.icons.ITsStdIconIds.*;
 import static org.toxsoft.core.tslib.ITsHardConstants.*;
 
 import java.awt.image.*;
-import java.io.*;
+import java.io.File;
 
-import org.eclipse.swt.*;
-import org.eclipse.swt.custom.*;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.singlesrc.rcp.*;
-import org.toxsoft.core.tsgui.bricks.actions.*;
-import org.toxsoft.core.tsgui.bricks.ctx.*;
-import org.toxsoft.core.tsgui.dialogs.*;
-import org.toxsoft.core.tsgui.graphics.colors.*;
-import org.toxsoft.core.tsgui.graphics.icons.*;
-import org.toxsoft.core.tsgui.panels.toolbar.*;
-import org.toxsoft.core.tsgui.utils.layout.*;
-import org.toxsoft.core.tsgui.utils.swt.*;
-import org.toxsoft.core.tslib.coll.*;
-import org.toxsoft.core.tslib.coll.impl.*;
-import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.logs.impl.*;
+import org.toxsoft.core.singlesrc.TsSinglesourcingUtils;
+import org.toxsoft.core.tsgui.bricks.actions.ITsActionDef;
+import org.toxsoft.core.tsgui.bricks.actions.TsActionDef;
+import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
+import org.toxsoft.core.tsgui.dialogs.ETsDialogCode;
+import org.toxsoft.core.tsgui.dialogs.TsDialogUtils;
+import org.toxsoft.core.tsgui.graphics.colors.ITsColorManager;
+import org.toxsoft.core.tsgui.graphics.icons.EIconSize;
+import org.toxsoft.core.tsgui.panels.toolbar.TsToolbar;
+import org.toxsoft.core.tsgui.utils.layout.BorderLayout;
+import org.toxsoft.core.tsgui.utils.swt.AbstractMenuCreator;
+import org.toxsoft.core.tslib.coll.IListEdit;
+import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
+import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
 
-import com.jasperassistant.designer.viewer.*;
+import com.jasperassistant.designer.viewer.IReportViewer;
+import com.jasperassistant.designer.viewer.IReportViewerListener;
 
 import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.export.*;
-import net.sf.jasperreports.engine.export.ooxml.*;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.export.*;
-import net.sf.jasperreports.view.*;
+import net.sf.jasperreports.view.JRHyperlinkListener;
 
 /**
  * Панель отображения сформированного отчёта, готового для печати и экспорта.

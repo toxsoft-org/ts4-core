@@ -8,10 +8,9 @@ Bundle-Vendor: toxsoft.org
 Require-Bundle: javax.inject,
  javax.annotation,
  org.eclipse.core.runtime,
- org.eclipse.ui,
- org.eclipse.swt,
+ org.eclipse.ui;resolution:=optional,
+ org.eclipse.rap.ui;resolution:=optional,
  org.eclipse.equinox.registry,
- org.eclipse.jface,
  org.eclipse.e4.core.commands,
  org.eclipse.e4.core.contexts,
  org.eclipse.e4.core.di.annotations,
@@ -19,7 +18,8 @@ Require-Bundle: javax.inject,
  org.eclipse.e4.ui.workbench,
  org.eclipse.e4.ui.model.workbench,
  org.toxsoft.core.tslib,
- org.toxsoft.core.singlesrc.rcp
+ org.toxsoft.core.singlesrc.rap;resolution:=optional,
+ org.toxsoft.core.singlesrc.rcp;resolution:=optional
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: org.toxsoft.core.tsgui
 Bundle-ActivationPolicy: lazy
@@ -122,3 +122,4 @@ Export-Package: org.toxsoft.core.tsgui,
  org.toxsoft.core.tsgui.widgets.mpv,
  org.toxsoft.core.tsgui.widgets.mpv.impl,
  org.toxsoft.core.tsgui.widgets.pdw
+Import-Package: org.toxsoft.core.singlesrc

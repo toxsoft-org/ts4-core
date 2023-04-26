@@ -1,10 +1,12 @@
 package org.toxsoft.core.tsgui.chart.impl;
 
-import org.eclipse.swt.*;
-import org.eclipse.swt.events.*;
-import org.toxsoft.core.singlesrc.rcp.*;
-import org.toxsoft.core.tsgui.chart.api.*;
-import org.toxsoft.core.tslib.utils.errors.*;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
+import org.toxsoft.core.singlesrc.ISingleSourcing_MouseWheelListener;
+import org.toxsoft.core.singlesrc.TsSinglesourcingUtils;
+import org.toxsoft.core.tsgui.chart.api.IG2Console;
+import org.toxsoft.core.tsgui.chart.api.IYAxisDef;
+import org.toxsoft.core.tslib.utils.errors.TsNotAllEnumsUsedRtException;
 
 /**
  * Реализация обработчика событий мыши для графической копоненты.

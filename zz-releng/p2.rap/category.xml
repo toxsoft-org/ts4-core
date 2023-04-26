@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <category-def name="org.toxsoft.core.releng.category" label="org.toxsoft.core.releng Category">
+      <description>
+         org.toxsoft.core.releng Category
+      </description>
+   </category-def>
+   <!-- TODO: -->
+   <bundle id="org.toxsoft.core.singlesrc.rap"/>
+   <bundle id="org.toxsoft.core.tsgui.rap"/>
+
+   <!-- sources -->
+   <!-- TODO: -->
+   <bundle id="org.toxsoft.core.singlesrc.rap.source"/>
+   <bundle id="org.toxsoft.core.tsgui.rap.source"/>
+
+</site>
