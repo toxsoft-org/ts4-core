@@ -62,7 +62,7 @@ public class PasClient<CHANNEL extends PasClientChannel>
    *
    * @param aContext {@link ITsContextRo} - контекст приложения, использующего (запускающего) мост.
    * @param aChannelCreator {@link IPasClientChannelCreator} - создатель канала.
-   * @param aExternalDoJobCall boolean <b>true</b> {@link #doJob()} вызывается клиентом;<b>false</b> для вызова
+   * @param aExternalDoJobCall boolean <b>true</b> {@link #doJob()} вызывается клиентом;<b>false</b> для вызова.
    *          {@link #doJob()} создается внутрениий поток
    * @throws TsNullArgumentRtException любой аргумент = null
    */
