@@ -7,11 +7,9 @@
    </category-def>
    <!-- TODO: -->
    <bundle id="org.toxsoft.core.singlesrc.rap"/>
-   <bundle id="org.toxsoft.core.tsgui.rap"/>
 
    <!-- sources -->
    <!-- TODO: -->
    <bundle id="org.toxsoft.core.singlesrc.rap.source"/>
-   <bundle id="org.toxsoft.core.tsgui.rap.source"/>
 
 </site>

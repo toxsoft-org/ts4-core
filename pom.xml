@@ -515,8 +515,13 @@
       <modules>
         <!-- TODO rcp-библиотеки -->
         <module>org.toxsoft.core.singlesrc.rcp</module>
+        <module>org.toxsoft.core.tsgui</module>
+        <module>org.toxsoft.core.tsgui.mws</module>
+        <module>org.toxsoft.core.tsgui.chart</module>
         <module>org.toxsoft.core.tsgui.rcp</module>
         <module>org.toxsoft.core.p2</module>
+
+        <module>org.toxsoft.core.txtproj.mws</module>
 
         <module>zz-releng/p2.rcp</module>
         <module>zz-releng/ant.rcp</module>
@@ -569,15 +574,11 @@
   </profiles>
   <modules>
     <module>org.toxsoft.core.tslib</module>
-    <module>org.toxsoft.core.tsgui</module>
-    <module>org.toxsoft.core.tsgui.mws</module>
-    <module>org.toxsoft.core.tsgui.chart</module>
     <module>org.toxsoft.core.jasperreports.gui</module>
     <module>org.toxsoft.core.log4j</module>
     <module>org.toxsoft.core.pas</module>
     <module>org.toxsoft.core.txtproj.lib</module>
     <module>org.toxsoft.core.txtproj.gui</module>
-    <module>org.toxsoft.core.txtproj.mws</module>
     <module>org.toxsoft.core.git.parser</module>
  
     <module>zz-releng/p2.main</module>

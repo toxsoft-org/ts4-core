@@ -6,12 +6,20 @@
       </description>
    </category-def>
    <bundle id="org.toxsoft.core.singlesrc.rcp"/>
+   <bundle id="org.toxsoft.core.tsgui"/>
+   <bundle id="org.toxsoft.core.tsgui.mws"/>
+   <bundle id="org.toxsoft.core.tsgui.chart"/>
    <bundle id="org.toxsoft.core.tsgui.rcp"/>
    <bundle id="org.toxsoft.core.p2"/>
+   <bundle id="org.toxsoft.core.txtproj.mws"/>
 
    <!-- sources -->
    <bundle id="org.toxsoft.core.singlesrc.rcp.source"/>
+   <bundle id="org.toxsoft.core.tsgui.source"/>
+   <bundle id="org.toxsoft.core.tsgui.mws.source"/>
+   <bundle id="org.toxsoft.core.tsgui.chart.source"/>
    <bundle id="org.toxsoft.core.tsgui.rcp.source"/>
    <bundle id="org.toxsoft.core.p2.source"/>
+   <bundle id="org.toxsoft.core.txtproj.mws.source"/>
 
 </site>
