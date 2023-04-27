@@ -42,7 +42,7 @@ public class IdChainUtils {
    */
 
   /**
-   * Constructs new IdChain concatenating tho arguments.
+   * Constructs new IdChain concatenating two arguments.
    * <p>
    * If ID is an empty string that the chain argument is returned. If chain argument is {@link IdChain#NULL} then either
    * chain of string ID or {@link IdChain#NULL} (iuf aId is an empty string) is returned.
@@ -121,6 +121,31 @@ public class IdChainUtils {
     branches.addAll( aChain1.branches() );
     branches.addAll( aChain2.branches() );
     return new IdChain( 0, branches );
+  }
+
+  /**
+   * Determines if <code>aChain</code> starts with the chain <code>aPrefix</code>.
+   * <p>
+   * Returns true if the arguments are the same.
+   *
+   * @param aChain {@link IdChain} - the IDchain
+   * @param aPrefix {@link IdChain} - the probable prefix
+   * @return boolean - <code>true</code> if <code>aChain</code> is the same or starts with <code>aPrefix</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static boolean startsWith( IdChain aChain, IdChain aPrefix ) {
+    TsNullArgumentRtException.checkNulls( aChain, aPrefix );
+    if( aChain.branches().size() < aPrefix.branches().size() ) {
+      return false;
+    }
+    for( int i = 0; i < aPrefix.branches().size(); i++ ) {
+      String b1 = aChain.branches().get( i );
+      String b2 = aPrefix.branches().get( i );
+      if( !b1.equals( b2 ) ) {
+        return false;
+      }
+    }
+    return true;
   }
 
   /**
