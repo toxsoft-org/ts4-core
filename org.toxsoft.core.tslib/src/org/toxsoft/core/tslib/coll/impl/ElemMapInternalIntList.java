@@ -6,7 +6,7 @@ import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Простой список целых индексов - содержимое крзин.
+ * Simple integers list used as indexes in map's buckets.
  * <p>
  * 2019-05-31 Список введен с целью оптимизации метода {@link IMapEdit#removeByKey(Object)}.
  *
