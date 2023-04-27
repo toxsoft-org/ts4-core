@@ -38,7 +38,7 @@ public class PasClient<CHANNEL extends PasClientChannel>
 
   /**
    * Признак того что {@link #doJob()} вызвается клиентом. Если признак не установлен (false), то для вызова
-   * {@link #doJob()} создается внутренний поток
+   * {@link #doJob()} создается внутренний поток.
    */
   private final boolean externalDoJobCall;
 
