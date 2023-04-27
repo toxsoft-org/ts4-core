@@ -77,7 +77,7 @@ public class PasClient<CHANNEL extends PasClientChannel>
   /**
    * Конструктор.
    *
-   * @param aContext {@link ITsContextRo} - контекст приложения, использующего (запускающего) мост
+   * @param aContext {@link ITsContextRo} - контекст приложения, использующего (запускающего) мост.
    * @param aChannelCreator {@link IPasClientChannelCreator} - создатель канала
    * @param aExternalDoJobCall boolean <b>true</b> {@link #doJob()} вызывается клиентом;<b>false</b> для вызова
    *          {@link #doJob()} создается внутрениий поток
