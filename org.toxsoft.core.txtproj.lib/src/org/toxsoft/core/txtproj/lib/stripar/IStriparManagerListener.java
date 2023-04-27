@@ -1,21 +1,21 @@
 package org.toxsoft.core.txtproj.lib.stripar;
 
-import org.toxsoft.core.tslib.coll.helpers.ECrudOp;
+import org.toxsoft.core.tslib.coll.helpers.*;
 
 /**
- * Слушатель событий {@link IStriparManager}.
+ * {@link IStriparManager} event listener.
  *
  * @author hazard157
  */
 public interface IStriparManagerListener {
 
   /**
-   * Вызывается при изменениях в списке {@link IStriparManager#items()}.
+   * Called when any change in the list {@link IStriparManager#items()} happens.
    *
-   * @param aSource {@link IStriparManager} - истоник сообщения
-   * @param aOp {@link ECrudOp} - вид измненения
-   * @param aId String - идентификатор измененного элемента или <code>null</code> при пактеных изменениях
+   * @param aSource {@link IStriparManagerApi} - the event source
+   * @param aOp {@link ECrudOp} - change type
+   * @param aId String - changed item ID or <code>null</code> for batch change
    */
-  void onChanged( IStriparManager<?> aSource, ECrudOp aOp, String aId );
+  void onChanged( IStriparManagerApi<?> aSource, ECrudOp aOp, String aId );
 
 }

@@ -1,43 +1,45 @@
 package org.toxsoft.core.txtproj.lib.stripar;
 
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Влидатор редактирования {@link IStriparManager}.
+ * STRIPAR management validator.
  *
  * @author hazard157
  */
 public interface IStriparManagerValidator {
 
   /**
-   * Проверяет врозможность создания элемента.
+   * Checks if the new instance of the entity may be created.
    *
-   * @param aId String - идентификатор (ИД-путь) элемента
-   * @param aInfo IOptionSet - описание элемента
-   * @return {@link ValidationResult} - результат проверки
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aId String - the entity ID (an IDpath)
+   * @param aParams {@link IOptionSet} - entity parameters initial values
+   * @return {@link ValidationResult} - the check result
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  ValidationResult canCreateItem( String aId, IOptionSet aInfo );
+  ValidationResult canCreateItem( String aId, IOptionSet aParams );
 
   /**
-   * Проверяет возможность редактирования существующийй элемента.
+   * Checks if the existing entity may be edited.
    *
-   * @param aOldId String - идентификатор существующего элемента
-   * @param aId String - новый идентификатор (ИД-путь) элемента (может совпадать со старым)
-   * @param aInfo IOptionSet - описание элемента
-   * @return {@link ValidationResult} - результат проверки
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aOldId String - the existing entity ID
+   * @param aId String - new ID of the edited entity (may be the same as old ID)
+   * @param aParams {@link IOptionSet} - new values of the parameters subset
+   * @return {@link ValidationResult} - the check result
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  ValidationResult canEditItem( String aOldId, String aId, IOptionSet aInfo );
+  ValidationResult canEditItem( String aOldId, String aId, IOptionSet aParams );
 
   /**
-   * Проверяет возможность удаления элемента.
+   * Checks if item may be removed.
+   * <p>
+   * Absence of the STRIPAR with the specified ID is a warning, not an error.
    *
-   * @param aId String - идентификатор удаляемого элемента
-   * @return {@link ValidationResult} - результат проверки
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aId String - the ID of the removed entity
+   * @return {@link ValidationResult} - the check result
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   ValidationResult canRemoveItem( String aId );
 
