@@ -25,7 +25,7 @@ import org.toxsoft.core.tslib.utils.logs.ILogger;
  * Реализация клиента Сервера Публичного Доступа (СПД) {@link PasServer}.
  *
  * @author mvk
- * @param <CHANNEL> тип двунаправленного канала обмена между клиентом и сервером
+ * @param <CHANNEL> тип двунаправленного канала обмена между клиентом и сервером.
  */
 public class PasClient<CHANNEL extends PasClientChannel>
     extends PasHandlerHolder<CHANNEL>
