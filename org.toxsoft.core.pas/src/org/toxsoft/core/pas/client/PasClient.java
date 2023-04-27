@@ -43,7 +43,7 @@ public class PasClient<CHANNEL extends PasClientChannel>
   private final boolean externalDoJobCall;
 
   /**
-   * Список открытых каналов (в списке всегда должен быть один)
+   * Список открытых каналов (в списке всегда должен быть один).
    */
   private final IListEdit<CHANNEL> channels = new SynchronizedListEdit<>( new ElemLinkedList<CHANNEL>() );
 
