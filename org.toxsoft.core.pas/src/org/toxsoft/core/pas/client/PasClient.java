@@ -53,7 +53,7 @@ public class PasClient<CHANNEL extends PasClientChannel>
   private volatile boolean channelFail = false;
 
   /**
-   * Сокет созданный вовремя инициализации null: сокет создается только на {@link #run()}
+   * Сокет созданный вовремя инициализации null: сокет создается только на {@link #run()}.
    */
   private volatile Socket initSocket;
 
