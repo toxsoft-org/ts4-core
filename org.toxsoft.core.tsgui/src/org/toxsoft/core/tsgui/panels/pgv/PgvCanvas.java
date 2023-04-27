@@ -127,7 +127,9 @@ class PgvCanvas<V>
       if( OPDEF_IS_ICONS_INSTEAD_OF_THUMBS.getValue( tsContext().params() ).asBool() ) {
         EIconSize iconSize = EIconSize.findIncluding( thumbSize.size(), thumbSize.size() );
         Image swtImage = visualsProvider.getIcon( entity, iconSize );
-        tsimg = TsImage.create( swtImage );
+        if( swtImage != null ) {
+          tsimg = TsImage.create( swtImage );
+        }
         imgSize = iconSize.pointSize();
       }
       else {
@@ -256,6 +258,11 @@ class PgvCanvas<V>
     cellsGrid.eventer().addListener( aSource -> adjustCanvasHeight() );
     adjustCellSize();
     adjustCanvasHeight();
+  }
+
+  @Override
+  protected void doDispose() {
+    animationSupport.dispose();
   }
 
   // ------------------------------------------------------------------------------------

@@ -40,6 +40,7 @@ public abstract class TsAbstractCanvas
     tsContext = TsNullArgumentRtException.checkNull( aContext );
     this.addPaintListener( aE -> paint( aE.gc, new TsRectangle( aE.x, aE.y, aE.width, aE.height ) ) );
     this.addControlListener( resizeListener );
+    this.addDisposeListener( aE -> doDispose() );
   }
 
   /**
