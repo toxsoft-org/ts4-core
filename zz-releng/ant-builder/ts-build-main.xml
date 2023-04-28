@@ -17,7 +17,6 @@
   <!-- TODO: -->
   <target name="build-lib-jar" depends="clean" description="Сборка общих плагинов">
     <ant dir="../../org.toxsoft.core.tslib" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
-    <ant dir="../../org.toxsoft.core.jasperreports.gui" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
     <ant dir="../../org.toxsoft.core.log4j" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
     <ant dir="../../org.toxsoft.core.pas" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
     <ant dir="../../org.toxsoft.core.txtproj.lib" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
@@ -34,7 +33,6 @@
                        exportSourceBundle="false"
                        exportType="directory"
                        plugins="org.toxsoft.core.tslib,
-                                org.toxsoft.core.jasperreports.gui,
                                 org.toxsoft.core.log4j,
                                 org.toxsoft.core.p2,
                                 org.toxsoft.core.pas,

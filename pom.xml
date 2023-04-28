@@ -522,8 +522,9 @@
         <module>org.toxsoft.core.p2</module>
 
         <module>org.toxsoft.core.txtproj.mws</module>
-
-        <module>zz-releng/p2.rcp</module>
+        <module>org.toxsoft.core.jasperreports.gui</module>
+    
+         <module>zz-releng/p2.rcp</module>
         <module>zz-releng/ant.rcp</module>
       </modules>
     </profile>
@@ -574,7 +575,6 @@
   </profiles>
   <modules>
     <module>org.toxsoft.core.tslib</module>
-    <module>org.toxsoft.core.jasperreports.gui</module>
     <module>org.toxsoft.core.log4j</module>
     <module>org.toxsoft.core.pas</module>
     <module>org.toxsoft.core.txtproj.lib</module>

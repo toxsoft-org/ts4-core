@@ -7,7 +7,6 @@
    </category-def>
    <!-- TODO: -->
    <bundle id="org.toxsoft.core.tslib"/>
-   <bundle id="org.toxsoft.core.jasperreports.gui"/>
    <bundle id="org.toxsoft.core.log4j"/>
    <bundle id="org.toxsoft.core.pas"/>
    <bundle id="org.toxsoft.core.txtproj.lib"/>
@@ -17,7 +16,6 @@
    <!-- sources -->
    <!-- TODO: -->
    <bundle id="org.toxsoft.core.tslib.source"/>
-   <bundle id="org.toxsoft.core.jasperreports.gui.source"/>
    <bundle id="org.toxsoft.core.log4j.source"/>
    <bundle id="org.toxsoft.core.pas.source"/>
    <bundle id="org.toxsoft.core.txtproj.lib.source"/>
