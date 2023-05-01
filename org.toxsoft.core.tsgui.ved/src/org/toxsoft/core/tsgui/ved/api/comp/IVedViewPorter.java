@@ -1,7 +1,7 @@
 package org.toxsoft.core.tsgui.ved.api.comp;
 
 /**
- * The means to manipulate components geometrical visualization properties.
+ * The means to manipulate components geometry visualization properties.
  *
  * @author hazard157
  */

@@ -16,13 +16,13 @@ public interface IPropertiesSet
     extends IPropertiesSetRo, IOpsSetter {
 
   /**
-   * Set several properies values at once.
+   * Set several properties values at once.
    * <p>
    * Unknown property ID in argument are silently ignored.
    *
    * @param aNewValues {@link IStringMap}&lt;{@link IAtomicValue}&gt; - map "property ID" - "property value"
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws AvTypeCastRtException incomatibe value type for any property
+   * @throws AvTypeCastRtException incompatible value type for any property
    */
   void setProps( IStringMap<IAtomicValue> aNewValues );
 

@@ -3,6 +3,7 @@ package org.toxsoft.core.txtproj.lib.stripar;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import static org.toxsoft.core.txtproj.lib.stripar.ITsResources.*;
 
+import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.av.utils.*;
@@ -14,6 +15,7 @@ import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.coll.helpers.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -171,7 +173,7 @@ public class StriparManagerApiImpl<E extends IStridable & IParameterized>
 
     @Override
     public ValidationResult canRemoveItem( String aId ) {
-      // can't remove unexisting item
+      // can't remove non-existing item
       if( !items.hasKey( aId ) ) {
         return ValidationResult.error( FMT_ERR_NO_SUCH_ID, aId );
       }
@@ -179,11 +181,12 @@ public class StriparManagerApiImpl<E extends IStridable & IParameterized>
     }
   };
 
-  private final GenericChangeEventer genericChangeEventer;
-  protected final Eventer            eventer           = new Eventer();
-  private final ValidationSupport    validationSupport = new ValidationSupport();
-
+  private final GenericChangeEventer          genericChangeEventer;
+  private final ValidationSupport             validationSupport = new ValidationSupport();
   private final IStriparCreator<E>            creator;
+  private final IStridablesListEdit<IDataDef> paramDefs         = new StridablesList<>();
+
+  protected final Eventer                     eventer = new Eventer();
   protected final IStridablesListBasicEdit<E> items;
 
   /**
@@ -203,6 +206,8 @@ public class StriparManagerApiImpl<E extends IStridable & IParameterized>
     else {
       items = new StridablesList<>();
     }
+    paramDefs.addAll( DDEF_NAME );
+    paramDefs.addAll( DDEF_DESCRIPTION );
   }
 
   /**
@@ -260,6 +265,11 @@ public class StriparManagerApiImpl<E extends IStridable & IParameterized>
     TsValidationFailedRtException.checkError( validationSupport.canRemoveItem( aId ) );
     items.removeById( aId );
     eventer.fireChangeEvent( ECrudOp.REMOVE, aId );
+  }
+
+  @Override
+  public IStridablesList<IDataDef> listParamDefs() {
+    return paramDefs;
   }
 
   @Override
@@ -341,6 +351,32 @@ public class StriparManagerApiImpl<E extends IStridable & IParameterized>
       eventer.resumeFiring( false );
       eventer.fireChangeEvent( ECrudOp.LIST, null );
     }
+  }
+
+  /**
+   * Add option definitions to the {@link #listParamDefs()}.
+   * <p>
+   * Existing options with the same IDs will be replaced.
+   *
+   * @param aOptionDefs {@link IDataDef}[] - array of options definitions
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  protected void defineOptions( IDataDef... aOptionDefs ) {
+    TsErrorUtils.checkArrayArg( aOptionDefs );
+    paramDefs.addAll( aOptionDefs );
+  }
+
+  /**
+   * Add option definitions to the {@link #listParamDefs()}.
+   * <p>
+   * Existing options with the same IDs will be replaced.
+   *
+   * @param aOptionDefs {@link IList}&lt;{@link IDataDef}&gt; - list of options definitions
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  protected void defineOptions( IList<IDataDef> aOptionDefs ) {
+    TsNullArgumentRtException.checkNull( aOptionDefs );
+    paramDefs.addAll( aOptionDefs );
   }
 
 }

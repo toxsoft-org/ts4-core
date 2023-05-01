@@ -10,6 +10,7 @@ import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -127,6 +128,33 @@ public class KeepablesStorageAsKeepable
   @Override
   public void removeSection( String aId ) {
     sectionsMap.removeByKey( aId );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Object
+  //
+
+  @Override
+  public String toString() {
+    return sectionsMap.keys().toString();
+  }
+
+  @Override
+  public int hashCode() {
+    int result = TsLibUtils.INITIAL_HASH_CODE;
+    result = TsLibUtils.PRIME * result + sectionsMap.hashCode();
+    return result;
+  }
+
+  @Override
+  public boolean equals( Object aThat ) {
+    if( aThat == this ) {
+      return true;
+    }
+    if( aThat instanceof KeepablesStorageAsKeepable that ) {
+      return this.sectionsMap.equals( that.sectionsMap );
+    }
+    return false;
   }
 
 }

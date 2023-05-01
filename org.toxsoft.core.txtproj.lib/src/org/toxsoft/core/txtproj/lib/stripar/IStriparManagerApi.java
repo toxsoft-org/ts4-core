@@ -1,5 +1,6 @@
 package org.toxsoft.core.txtproj.lib.stripar;
 
+import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.bricks.events.*;
@@ -80,6 +81,18 @@ public interface IStriparManagerApi<E extends IStridable & IParameterized>
    * @throws TsValidationFailedRtException не прошла {@link IStriparManagerValidator#canRemoveItem(String)}
    */
   void removeItem( String aId );
+
+  /**
+   * Returns definitions of the TSRIPAR {@link IParameterized#params()} options.
+   * <p>
+   * Note: returned list contain at least two options with the IDs {@link IAvMetaConstants#TSID_NAME} and
+   * {@link IAvMetaConstants#TSID_DESCRIPTION}.
+   * <p>
+   * All options from this list are checked by built-in validator of the {@link #svs()}.
+   *
+   * @return {@link IStridablesList}&lt;{@link IDataDef}&gt; - list of option definitions
+   */
+  IStridablesList<IDataDef> listParamDefs();
 
   /**
    * Returns the service eventer.

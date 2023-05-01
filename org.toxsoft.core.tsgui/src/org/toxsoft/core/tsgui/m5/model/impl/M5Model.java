@@ -20,7 +20,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * {@link IM5Model} implementation.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public class M5Model<T>
     extends Stridable
@@ -48,7 +48,7 @@ public class M5Model<T>
    * Constructor.
    *
    * @param aId String - model ID
-   * @param aEntityClass {@link Class}&lt;T&gt; - modelled entity type
+   * @param aEntityClass {@link Class}&lt;T&gt; - modeled entity type
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException identifier is not an IDpath
    * @throws TsItemAlreadyExistsRtException model with specified ID already exists in domain
@@ -304,7 +304,7 @@ public class M5Model<T>
   }
 
   /**
-   * If Java type check is not sufficient, subclass must perform additional check on if entity is modelled one.
+   * If Java type check is not sufficient, subclass must perform additional check on if entity is modeled one.
    * <p>
    * This method is called from {@link #isModelledObject(Object)} after ensuring entity is of Java type
    * {@link #entityClass()}.
@@ -312,7 +312,7 @@ public class M5Model<T>
    * In base class returns <code>true</code>, there is no need to call superclass method when overriding.
    *
    * @param aEntity &lt;T&gt; - non-null entity of type {@link #entityClass}
-   * @return boolean - <code>true</code> if entity is modelled by this model
+   * @return boolean - <code>true</code> if entity is modeled by this model
    */
   protected boolean doCheckIsModelledClass( T aEntity ) {
     return true;

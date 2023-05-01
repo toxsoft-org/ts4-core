@@ -5,7 +5,6 @@ import static org.toxsoft.core.tsgui.ved.api.entity.ITsResources.*;
 
 import org.toxsoft.core.tsgui.ved.api.comp.*;
 import org.toxsoft.core.tsgui.ved.api.doc.*;
-import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.std.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
@@ -35,7 +34,7 @@ public enum EVedEntityKind
       ICON_VED_ACTOR, IVedActor.class ),
 
   /**
-   * {@link IVedActor}.
+   * {@link IVedTailor}.
    */
   TAILOR( "tailor", STR_N_TAILOR, STR_D_TAILOR, //$NON-NLS-1$
       ICON_VED_TAILOR, IVedTailor.class );

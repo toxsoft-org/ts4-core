@@ -191,6 +191,15 @@ public final class IdChain
   }
 
   /**
+   * Determines if chain is empty.
+   *
+   * @return boolean - <code>true</code> - an empty chain, normally only {@link #NULL} is an empty chain
+   */
+  public boolean isEmpty() {
+    return branches.isEmpty();
+  }
+
+  /**
    * Returns the canonical representation of the {@link IdChain}.
    * <p>
    * Canonical representation is branches separated by the {@link #CHAR_BRANCH_SEPARATOR}, eg
