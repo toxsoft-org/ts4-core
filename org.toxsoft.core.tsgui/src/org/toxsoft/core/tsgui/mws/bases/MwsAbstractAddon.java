@@ -82,6 +82,19 @@ public abstract class MwsAbstractAddon {
   final void init( IEclipseContext aAppContext ) {
     LoggerUtils.defaultLogger().info( FMT_INFO_ADDON_STARTING, nameForLog );
     try {
+      /**
+       * FIXME I'don't know if is it a feature or a bug?...<br>
+       * AddonXxx.initApp() are processed BEFORE quants processing starts.<br>
+       * AddonXxx.initWin() are processed TOGETHER with quants processing.<br>
+       * This happens because initApp() is called by E4 container @PostConstruct method (actual constructor of addon).
+       * While initWin() is called from the quant processing sequence, because this addon is registered as quant.
+       * <p>
+       * Having initApp() run before quants is sometimes necessary to setup the plugin. However, most time it is
+       * confusing for user who had set up the sequence of initialization via Quants - the code from addon's initApp()
+       * runs BEFORE the quants sequence starts. Even more - only addon's initApp() behaves the 'bad' way, while
+       * initWin() works as expected. The only way to avoid such misunderstanding - not to use addon's initApp() but to
+       * create own quant and register it instead.
+       */
       // create temporary quant manager to a) register quants, b) call #initApp()
       IQuant tmpQuantManager = new ThisAddonAsQuant( getClass().getName() );
       doRegisterQuants( tmpQuantManager );

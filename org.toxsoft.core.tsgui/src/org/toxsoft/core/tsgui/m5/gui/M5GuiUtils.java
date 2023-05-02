@@ -567,6 +567,30 @@ public class M5GuiUtils {
   }
 
   /**
+   * Shows the specified panel in the dialog.
+   * <p>
+   * If dialog flags {@link ITsDialogInfo#flags()} requires OK button then returns the selected item.
+   *
+   * @param <T> - M5-modeled entity type
+   * @param aDialogInfo {@link ITsDialogInfo} - dialog window properties
+   * @param aPanel {@link IM5CollectionPanel} - the panel to show in dialog
+   * @return &lt;T&gt; - selected item or <code>null</code> if no selection or no OK button
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static <T> T showCollPanel( ITsDialogInfo aDialogInfo, IM5CollectionPanel<T> aPanel ) {
+    TsNullArgumentRtException.checkNulls( aDialogInfo, aPanel );
+    IDialogPanelCreator<T, Object> creator =
+        ( aParent, aOwnerDlg ) -> new SelectItemDialogContentPanel<>( aParent, aOwnerDlg, aPanel );
+    TsDialog<T, Object> d = new TsDialog<>( aDialogInfo, null, null, creator );
+    if( (aDialogInfo.flags() & ITsDialogConstants.DF_NO_APPROVE) != 0 ) { // no OK buttin
+      d.execDialog();
+      return null;
+    }
+    // there is an OK button
+    return d.execData();
+  }
+
+  /**
    * No subclasses.
    */
   private M5GuiUtils() {
