@@ -7,55 +7,59 @@ import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.std.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Опорная точка (точка привяки) прямоугольника.
+ * Anchor point (snap point) of the rectangle.
  * <p>
- * От слова Fulcrum - точка опоры рычага.
+ * Comes from the word Fulcrum - the fulcrum of the lever.
  *
  * @author hazard157
  */
-@SuppressWarnings( { "nls", "javadoc" } )
+@SuppressWarnings( "javadoc" )
 public enum ETsFulcrum
     implements IStridable {
 
-  CENTER( "Center", STR_D_ERP_CENTER, STR_N_ERP_CENTER ),
+  CENTER( "Center", STR_ETF_CENTER, STR_ETF_CENTER_D ), //$NON-NLS-1$
 
-  LEFT_TOP( "LeftTop", STR_D_ERP_LEFT_TOP, STR_N_ERP_LEFT_TOP ),
+  LEFT_TOP( "LeftTop", STR_ETF_LEFT_TOP, STR_ETF_LEFT_TOP_D ), //$NON-NLS-1$
 
-  LEFT_BOTTOM( "LeftBottom", STR_D_ERP_LEFT_BOTTOM, STR_N_ERP_LEFT_BOTTOM ),
+  LEFT_BOTTOM( "LeftBottom", STR_ETF_LEFT_BOTTOM, STR_ETF_LEFT_BOTTOM_D ), //$NON-NLS-1$
 
-  LEFT_CENTER( "LeftCenter", STR_D_ERP_LEFT_CENTER, STR_N_ERP_LEFT_CENTER ),
+  LEFT_CENTER( "LeftCenter", STR_ETF_LEFT_CENTER, STR_ETF_LEFT_CENTER_D ), //$NON-NLS-1$
 
-  RIGHT_TOP( "RightTop", STR_D_ERP_RIGHT_TOP, STR_N_ERP_RIGHT_TOP ),
+  RIGHT_TOP( "RightTop", STR_ETF_RIGHT_TOP, STR_ETF_RIGHT_TOP_D ), //$NON-NLS-1$
 
-  RIGHT_BOTTOM( "RightBottom", STR_D_ERP_RIGHT_BOTTOM, STR_N_ERP_RIGHT_BOTTOM ),
+  RIGHT_BOTTOM( "RightBottom", STR_ETF_RIGHT_BOTTOM, STR_ETF_RIGHT_BOTTOM_D ), //$NON-NLS-1$
 
-  RIGHT_CENTER( "RightCenter", STR_D_ERP_RIGHT_CENTER, STR_N_ERP_RIGHT_CENTER ),
+  RIGHT_CENTER( "RightCenter", STR_ETF_RIGHT_CENTER, STR_ETF_RIGHT_CENTER_D ), //$NON-NLS-1$
 
-  TOP_CENTER( "TopCenter", STR_D_ERP_TOP_CENTER, STR_N_ERP_TOP_CENTER ),
+  TOP_CENTER( "TopCenter", STR_ETF_TOP_CENTER, STR_ETF_TOP_CENTER_D ), //$NON-NLS-1$
 
-  BOTTOM_CENTER( "BottomCenter", STR_D_ERP_BOTTOM_CENTER, STR_N_ERP_BOTTOM_CENTER );
+  BOTTOM_CENTER( "BottomCenter", STR_ETF_BOTTOM_CENTER, STR_ETF_BOTTOM_CENTER_D ); //$NON-NLS-1$
 
   /**
-   * Keeper ID.
+   * The keeper ID.
    */
   public static final String KEEPER_ID = "TsFulcrum"; //$NON-NLS-1$
 
   /**
    * Keeper singleton.
    */
-  public static IEntityKeeper<ETsFulcrum> KEEPER = new StridableEnumKeeper<>( ETsFulcrum.class );
+  public static final IEntityKeeper<ETsFulcrum> KEEPER = new StridableEnumKeeper<>( ETsFulcrum.class );
+
+  private static IStridablesListEdit<ETsFulcrum> list = null;
 
   private final String id;
-  private final String description;
   private final String name;
+  private final String description;
 
-  ETsFulcrum( String aId, String aDescr, String aName ) {
+  ETsFulcrum( String aId, String aName, String aDescription ) {
     id = aId;
-    description = aDescr;
     name = aName;
+    description = aDescription;
   }
 
   // --------------------------------------------------------------------------
@@ -68,40 +72,40 @@ public enum ETsFulcrum
   }
 
   @Override
-  public String description() {
-    return description;
-  }
-
-  @Override
   public String nmName() {
     return name;
   }
 
-  // ------------------------------------------------------------------------------------
+  @Override
+  public String description() {
+    return description;
+  }
+
+  // ----------------------------------------------------------------------------------
   // API
   //
 
   /**
-   * Рассчитывает координаты левого верхнего угла прямоугольника указанной ширины и высоты при указанной точке привязки.
+   * Calculates the coordinates of a rectangle of the specified width and height at the specified fulcrum point.
    *
-   * @param aFulcrumX int - X координата точки привязки
-   * @param aFulcrumY int - Y координата точки привязки
-   * @param aWidth int - ширина прямоугольника
-   * @param aHeight int - ширина прямоугольника
-   * @return {@link ITsRectangle} - рассчитанный прямоугольник
-   * @throws TsIllegalArgumentRtException ширина или высота < 0
+   * @param aFulcrumX int - X coordinate of the fulcrum point
+   * @param aFulcrumY int - Y coordinate of the fulcrum point
+   * @param aWidth int - the rectangle width
+   * @param aHeight int - the rectangle height
+   * @return {@link ITsRectangle} - calculated rectangle
+   * @throws TsIllegalArgumentRtException width or height < 0
    */
   public ITsRectangle calcRect( int aFulcrumX, int aFulcrumY, int aWidth, int aHeight ) {
     return new TsRectangle( calcSegmentX( aFulcrumX, aWidth ), calcSegmentY( aFulcrumY, aHeight ), aWidth, aHeight );
   }
 
   /**
-   * Рассчитывает x координату левого конца горизонтального отрезка указанной длины при указанной точке привязки.
+   * Calculates the x-coordinate of the left end of a horizontal segment at the specified fulcrum point.
    *
-   * @param aFulcrumX int - x координата точки привязки
-   * @param aSegmentLength int - длина отрезка
-   * @return int - x координата левого конца
-   * @throws TsIllegalArgumentRtException длина отрезка < 0
+   * @param aFulcrumX int - x coordinate of the fulcrum point
+   * @param aSegmentLength int - the segment length
+   * @return int - X coordinate of the left end
+   * @throws TsIllegalArgumentRtException length < 0
    */
   public int calcSegmentX( int aFulcrumX, int aSegmentLength ) {
     TsIllegalArgumentRtException.checkTrue( aSegmentLength < 0 );
@@ -115,12 +119,12 @@ public enum ETsFulcrum
   }
 
   /**
-   * Рассчитывает y координату верхнего конца вертикального отрезка указанной длины при указанной точке привязки.
+   * Calculates the x-coordinate of the top end of a vertical segment at the specified fulcrum point.
    *
-   * @param aFulcrumY int - Y координата точки привязки
-   * @param aSegmentLength int - длина отрезка
-   * @return int - y координата верхнего конца
-   * @throws TsIllegalArgumentRtException длина отрезка < 0
+   * @param aFulcrumY int - Y coordinate of the fulcrum point
+   * @param aSegmentLength int - the segment length
+   * @return int - Y coordinate of the top end
+   * @throws TsIllegalArgumentRtException length < 0
    */
   public int calcSegmentY( int aFulcrumY, int aSegmentLength ) {
     TsIllegalArgumentRtException.checkTrue( aSegmentLength < 0 );
@@ -134,262 +138,121 @@ public enum ETsFulcrum
   }
 
   /**
-   * Рассчитывает X координату прямогуольника в обрасти отображения.
+   * Calculates the X coordinate of a rectangle in the display area.
    *
-   * @param aCanvasWidth int - ширина области отображения
-   * @param aRectWidth int - ширина прямоугольника
-   * @return int - X координата левого верхнего угла
+   * @param aCanvasWidth int - the display area width
+   * @param aRectWidth int - the rectangle width
+   * @return int - X coordinate of the top-left corner
    */
   public int calcTopleftX( int aCanvasWidth, int aRectWidth ) {
-    switch( this ) {
-      case CENTER:
-      case TOP_CENTER:
-      case BOTTOM_CENTER:
-        return (aCanvasWidth - aRectWidth) / 2;
-      case LEFT_TOP:
-      case LEFT_CENTER:
-      case LEFT_BOTTOM:
-        return 0;
-      case RIGHT_TOP:
-      case RIGHT_CENTER:
-      case RIGHT_BOTTOM:
-        return aCanvasWidth - aRectWidth;
-      default:
-        throw new TsNotAllEnumsUsedRtException();
-    }
+    return switch( this ) {
+      case CENTER, TOP_CENTER, BOTTOM_CENTER -> (aCanvasWidth - aRectWidth) / 2;
+      case LEFT_TOP, LEFT_CENTER, LEFT_BOTTOM -> 0;
+      case RIGHT_TOP, RIGHT_CENTER, RIGHT_BOTTOM -> aCanvasWidth - aRectWidth;
+      default -> throw new TsNotAllEnumsUsedRtException();
+    };
   }
 
   /**
-   * Рассчитывает Y координату прямогуольника в обрасти отображения.
+   * Calculates the Y coordinate of a rectangle in the display area.
    *
-   * @param aCanvasHeight int - высота области отображения
-   * @param aRectHeight int - высота прямоугольника
-   * @return int - Y координата левого верхнего угла
+   * @param aCanvasHeight int - the display area height
+   * @param aRectHeight int - the rectangle height
+   * @return int - Y coordinate of the top-left corner
    */
   public int calcTopleftY( int aCanvasHeight, int aRectHeight ) {
-    switch( this ) {
-      case CENTER:
-      case LEFT_CENTER:
-      case RIGHT_CENTER:
-        return (aCanvasHeight - aRectHeight) / 2;
-      case LEFT_TOP:
-      case RIGHT_TOP:
-      case TOP_CENTER:
-        return 0;
-      case LEFT_BOTTOM:
-      case RIGHT_BOTTOM:
-      case BOTTOM_CENTER:
-        return aCanvasHeight - aRectHeight;
-      default:
-        throw new TsNotAllEnumsUsedRtException();
-    }
+    return switch( this ) {
+      case CENTER, LEFT_CENTER, RIGHT_CENTER -> (aCanvasHeight - aRectHeight) / 2;
+      case LEFT_TOP, RIGHT_TOP, TOP_CENTER -> 0;
+      case LEFT_BOTTOM, RIGHT_BOTTOM, BOTTOM_CENTER -> aCanvasHeight - aRectHeight;
+      default -> throw new TsNotAllEnumsUsedRtException();
+    };
   }
 
   /**
-   * Определяет, расположена ли точка привязки по левому краю прямоугольника.
+   * Determines whether the fulcrum point is located on the left edge of the rectangle.
    *
-   * @return boolean - призак, что точка привязки находится слева
+   * @return boolean - <code>true</code> fulcrum is on the left, <code>false</code> - somewhere else
    */
   public boolean isLeft() {
-    switch( this ) {
-      case CENTER:
-      case RIGHT_CENTER:
-      case RIGHT_TOP:
-      case TOP_CENTER:
-      case RIGHT_BOTTOM:
-      case BOTTOM_CENTER:
-        return false;
-      case LEFT_CENTER:
-      case LEFT_TOP:
-      case LEFT_BOTTOM:
-        return true;
-      default:
-        throw new TsNotAllEnumsUsedRtException();
-    }
+    return switch( this ) {
+      case CENTER, RIGHT_CENTER, RIGHT_TOP, TOP_CENTER, RIGHT_BOTTOM, BOTTOM_CENTER -> false;
+      case LEFT_CENTER, LEFT_TOP, LEFT_BOTTOM -> true;
+      default -> throw new TsNotAllEnumsUsedRtException();
+    };
   }
 
   /**
-   * Определяет, расположена ли точка привязки по правому краю прямоугольника.
+   * Determines whether the fulcrum point is located on the right edge of the rectangle.
    *
-   * @return boolean - призак, что точка привязки находится справа
+   * @return boolean - <code>true</code> fulcrum is on the right, <code>false</code> - somewhere else
    */
   public boolean isRight() {
-    switch( this ) {
-      case CENTER:
-      case LEFT_CENTER:
-      case LEFT_TOP:
-      case TOP_CENTER:
-      case LEFT_BOTTOM:
-      case BOTTOM_CENTER:
-        return false;
-      case RIGHT_CENTER:
-      case RIGHT_TOP:
-      case RIGHT_BOTTOM:
-        return true;
-      default:
-        throw new TsNotAllEnumsUsedRtException();
-    }
+    return switch( this ) {
+      case CENTER, LEFT_CENTER, LEFT_TOP, TOP_CENTER, LEFT_BOTTOM, BOTTOM_CENTER -> false;
+      case RIGHT_CENTER, RIGHT_TOP, RIGHT_BOTTOM -> true;
+      default -> throw new TsNotAllEnumsUsedRtException();
+    };
   }
 
   /**
-   * Определяет, расположена ли точка привязки по верхнему краю прямоугольника.
+   * Determines whether the fulcrum point is located on the top edge of the rectangle.
    *
-   * @return boolean - призак, что точка привязки находится сверху
+   * @return boolean - <code>true</code> fulcrum is on the top, <code>false</code> - somewhere else
    */
   public boolean isTop() {
-    switch( this ) {
-      case CENTER:
-      case LEFT_CENTER:
-      case RIGHT_CENTER:
-      case LEFT_BOTTOM:
-      case RIGHT_BOTTOM:
-      case BOTTOM_CENTER:
-        return false;
-      case LEFT_TOP:
-      case RIGHT_TOP:
-      case TOP_CENTER:
-        return true;
-      default:
-        throw new TsNotAllEnumsUsedRtException();
-    }
+    return switch( this ) {
+      case CENTER, LEFT_CENTER, RIGHT_CENTER, LEFT_BOTTOM, RIGHT_BOTTOM, BOTTOM_CENTER -> false;
+      case LEFT_TOP, RIGHT_TOP, TOP_CENTER -> true;
+      default -> throw new TsNotAllEnumsUsedRtException();
+    };
   }
 
   /**
-   * Определяет, расположена ли точка привязки по нижнему краю прямоугольника.
+   * Determines whether the fulcrum point is located on the bottom edge of the rectangle.
    *
-   * @return boolean - призак, что точка привязки находится снизу
+   * @return boolean - <code>true</code> fulcrum is on the bottom, <code>false</code> - somewhere else
    */
   public boolean isBottom() {
-    switch( this ) {
-      case CENTER:
-      case LEFT_CENTER:
-      case RIGHT_CENTER:
-      case LEFT_TOP:
-      case RIGHT_TOP:
-      case TOP_CENTER:
-        return false;
-      case LEFT_BOTTOM:
-      case RIGHT_BOTTOM:
-      case BOTTOM_CENTER:
-        return true;
-      default:
-        throw new TsNotAllEnumsUsedRtException();
+    return switch( this ) {
+      case CENTER, LEFT_CENTER, RIGHT_CENTER, LEFT_TOP, RIGHT_TOP, TOP_CENTER -> false;
+      case LEFT_BOTTOM, RIGHT_BOTTOM, BOTTOM_CENTER -> true;
+      default -> throw new TsNotAllEnumsUsedRtException();
+    };
+  }
+
+  /**
+   * Returns all constants in single list.
+   *
+   * @return {@link IStridablesList}&lt; {@link ETsFulcrum} &gt; - list of constants in order of declaraion
+   */
+  public static IStridablesList<ETsFulcrum> asList() {
+    if( list == null ) {
+      list = new StridablesList<>( values() );
     }
-  }
-
-  // ----------------------------------------------------------------------------------
-  // Методы проверки
-  //
-
-  /**
-   * Определяет, существует ли константа перечисления с заданным идентификатором.
-   *
-   * @param aId String - идентификатор искомой константы
-   * @return boolean - признак существования константы <br>
-   *         <b>true</b> - константа с заданным идентификатором существует;<br>
-   *         <b>false</b> - неет константы с таким идентификатором.
-   * @throws TsNullArgumentRtException аргумент = null
-   */
-  public static boolean isItemById( String aId ) {
-    return findByIdOrNull( aId ) != null;
+    return list;
   }
 
   /**
-   * Определяет, существует ли константа перечисления с заданным описанием.
+   * Returns the constant by the ID.
    *
-   * @param aDescription String - описание искомой константы
-   * @return boolean - признак существования константы <br>
-   *         <b>true</b> - константа с заданным описанием существует;<br>
-   *         <b>false</b> - неет константы с таким описанием.
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aId String - the ID
+   * @return {@link ETsFulcrum} - found constant
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException no constant found by specified ID
    */
-  public static boolean isItemByDescription( String aDescription ) {
-    return findByDescriptionOrNull( aDescription ) != null;
+  public static ETsFulcrum getById( String aId ) {
+    return asList().getByKey( aId );
   }
 
   /**
-   * Определяет, существует ли константа перечисления с заданным именем.
+   * Finds the constant by the name.
    *
-   * @param aName String - имя (название) искомой константы
-   * @return boolean - признак существования константы <br>
-   *         <b>true</b> - константа с заданным именем существует;<br>
-   *         <b>false</b> - неет константы с таким именем.
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aName String - the name
+   * @return {@link ETsFulcrum} - found constant or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public static boolean isItemByName( String aName ) {
-    return findByNameOrNull( aName ) != null;
-  }
-
-  // ----------------------------------------------------------------------------------
-  // Методы поиска
-  //
-
-  /**
-   * Возвращает константу по идентификатору или null.
-   *
-   * @param aId String - идентификатор искомой константы
-   * @return ETsRectFulcrum - найденная константа, или null если нет константы с таимк идентификатором
-   * @throws TsNullArgumentRtException аргумент = null
-   */
-  public static ETsFulcrum findByIdOrNull( String aId ) {
-    TsNullArgumentRtException.checkNull( aId );
-    for( ETsFulcrum item : values() ) {
-      if( item.id.equals( aId ) ) {
-        return item;
-      }
-    }
-    return null;
-  }
-
-  /**
-   * Возвращает константу по идентификатору или выбрасывает исключение.
-   *
-   * @param aId String - идентификатор искомой константы
-   * @return ETsRectFulcrum - найденная константа
-   * @throws TsNullArgumentRtException аргумент = null
-   * @throws TsItemNotFoundRtException нет константы с таким идентификатором
-   */
-  public static ETsFulcrum findById( String aId ) {
-    return TsItemNotFoundRtException.checkNull( findByIdOrNull( aId ) );
-  }
-
-  /**
-   * Возвращает константу по описанию или null.
-   *
-   * @param aDescription String - описание искомой константы
-   * @return ETsRectFulcrum - найденная константа, или null если нет константы с таким описанием
-   * @throws TsNullArgumentRtException аргумент = null
-   */
-  public static ETsFulcrum findByDescriptionOrNull( String aDescription ) {
-    TsNullArgumentRtException.checkNull( aDescription );
-    for( ETsFulcrum item : values() ) {
-      if( item.description.equals( aDescription ) ) {
-        return item;
-      }
-    }
-    return null;
-  }
-
-  /**
-   * Возвращает константу по описанию или выбрасывает исключение.
-   *
-   * @param aDescription String - описание искомой константы
-   * @return ETsRectFulcrum - найденная константа
-   * @throws TsNullArgumentRtException аргумент = null
-   * @throws TsItemNotFoundRtException нет константы с таким описанием
-   */
-  public static ETsFulcrum findByDescription( String aDescription ) {
-    return TsItemNotFoundRtException.checkNull( findByDescriptionOrNull( aDescription ) );
-  }
-
-  /**
-   * Возвращает константу по имени или null.
-   *
-   * @param aName String - имя искомой константы
-   * @return ETsRectFulcrum - найденная константа, или null если нет константы с таким именем
-   * @throws TsNullArgumentRtException аргумент = null
-   */
-  public static ETsFulcrum findByNameOrNull( String aName ) {
+  public static ETsFulcrum findByName( String aName ) {
     TsNullArgumentRtException.checkNull( aName );
     for( ETsFulcrum item : values() ) {
       if( item.name.equals( aName ) ) {
@@ -400,15 +263,15 @@ public enum ETsFulcrum
   }
 
   /**
-   * Возвращает константу по имени или выбрасывает исключение.
+   * Returns the constant by the name.
    *
-   * @param aName String - имя искомой константы
-   * @return ETsRectFulcrum - найденная константа
-   * @throws TsNullArgumentRtException аргумент = null
-   * @throws TsItemNotFoundRtException нет константы с таким именем
+   * @param aName String - the name
+   * @return {@link ETsFulcrum} - found constant
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException no constant found by specified name
    */
-  public static ETsFulcrum findByName( String aName ) {
-    return TsItemNotFoundRtException.checkNull( findByNameOrNull( aName ) );
+  public static ETsFulcrum getByName( String aName ) {
+    return TsItemNotFoundRtException.checkNull( findByName( aName ) );
   }
 
 }

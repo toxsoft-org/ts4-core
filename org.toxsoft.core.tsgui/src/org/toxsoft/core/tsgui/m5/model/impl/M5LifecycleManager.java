@@ -40,9 +40,15 @@ public class M5LifecycleManager<T, M>
   protected class InternalItemsProvider
       implements IM5ItemsProvider<T> {
 
+    private final GenericChangeEventer eventer;
+
+    public InternalItemsProvider() {
+      eventer = new GenericChangeEventer( this );
+    }
+
     @Override
     public IGenericChangeEventer genericChangeEventer() {
-      return NoneGenericChangeEventer.INSTANCE;
+      return eventer;
     }
 
     @Override
@@ -53,6 +59,11 @@ public class M5LifecycleManager<T, M>
     @Override
     public IListReorderer<T> reorderer() {
       return doGetItemsReorderer();
+    }
+
+    @Override
+    public void informOnItemsListChange() {
+      eventer.fireChangeEvent();
     }
 
   }

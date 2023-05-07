@@ -5,7 +5,6 @@ package org.toxsoft.core.tsgui.graphics;
  *
  * @author hazard157
  */
-@SuppressWarnings( "nls" )
 interface ITsResources {
 
   /**
@@ -37,28 +36,6 @@ interface ITsResources {
   String STR_D_HA_FILL   = "В ширину";
 
   /**
-   * {@link ETsFulcrum}
-   */
-  String STR_D_ERP_BOTTOM_CENTER = "Центр нижней стороны";
-  String STR_D_ERP_CENTER        = "Цент прямоугольника";
-  String STR_D_ERP_LEFT_BOTTOM   = "Левый нижний угол";
-  String STR_D_ERP_LEFT_CENTER   = "Центр левой стороны";
-  String STR_D_ERP_LEFT_TOP      = "Левый верхний угол";
-  String STR_D_ERP_RIGHT_BOTTOM  = "Правый нижний угол";
-  String STR_D_ERP_RIGHT_CENTER  = "Центр правой стороны";
-  String STR_D_ERP_RIGHT_TOP     = "Правый верхний угол";
-  String STR_D_ERP_TOP_CENTER    = "Цент верхней стороны";
-  String STR_N_ERP_BOTTOM_CENTER = "Низ-центр";
-  String STR_N_ERP_CENTER        = "Центр";
-  String STR_N_ERP_LEFT_BOTTOM   = "Лево-низ";
-  String STR_N_ERP_LEFT_CENTER   = "Лево-центр";
-  String STR_N_ERP_LEFT_TOP      = "Лево-верх";
-  String STR_N_ERP_RIGHT_BOTTOM  = "Право-низ";
-  String STR_N_ERP_RIGHT_CENTER  = "Право-центр";
-  String STR_N_ERP_RIGHT_TOP     = "Право-верх";
-  String STR_N_ERP_TOP_CENTER    = "Верх-центр";
-
-  /**
    * {@link ETsOrientation}
    */
   String STR_N_TSO_HORIZONTAL = "Горизонтально";
@@ -77,5 +54,27 @@ interface ITsResources {
   String STR_D_VA_BOTTOM = "Вниз";
   String STR_N_VA_FILL   = "В высоту";
   String STR_D_VA_FILL   = "В высоту";
+
+  /**
+   * {@link ETsFulcrum}
+   */
+  String STR_ETF_BOTTOM_CENTER   = Messages.getString( "ETsFulcrum.STR_ETF_BOTTOM_CENTER" );   //$NON-NLS-1$
+  String STR_ETF_BOTTOM_CENTER_D = Messages.getString( "ETsFulcrum.STR_ETF_BOTTOM_CENTER_D" ); //$NON-NLS-1$
+  String STR_ETF_CENTER          = Messages.getString( "ETsFulcrum.STR_ETF_CENTER" );          //$NON-NLS-1$
+  String STR_ETF_CENTER_D        = Messages.getString( "ETsFulcrum.STR_ETF_CENTER_D" );        //$NON-NLS-1$
+  String STR_ETF_LEFT_BOTTOM     = Messages.getString( "ETsFulcrum.STR_ETF_LEFT_BOTTOM" );     //$NON-NLS-1$
+  String STR_ETF_LEFT_BOTTOM_D   = Messages.getString( "ETsFulcrum.STR_ETF_LEFT_BOTTOM_D" );   //$NON-NLS-1$
+  String STR_ETF_LEFT_CENTER     = Messages.getString( "ETsFulcrum.STR_ETF_LEFT_CENTER" );     //$NON-NLS-1$
+  String STR_ETF_LEFT_CENTER_D   = Messages.getString( "ETsFulcrum.STR_ETF_LEFT_CENTER_D" );   //$NON-NLS-1$
+  String STR_ETF_LEFT_TOP        = Messages.getString( "ETsFulcrum.STR_ETF_LEFT_TOP" );        //$NON-NLS-1$
+  String STR_ETF_LEFT_TOP_D      = Messages.getString( "ETsFulcrum.STR_ETF_LEFT_TOP_D" );      //$NON-NLS-1$
+  String STR_ETF_RIGHT_BOTTOM    = Messages.getString( "ETsFulcrum.STR_ETF_RIGHT_BOTTOM" );    //$NON-NLS-1$
+  String STR_ETF_RIGHT_BOTTOM_D  = Messages.getString( "ETsFulcrum.STR_ETF_RIGHT_BOTTOM_D" );  //$NON-NLS-1$
+  String STR_ETF_RIGHT_CENTER    = Messages.getString( "ETsFulcrum.STR_ETF_RIGHT_CENTER" );    //$NON-NLS-1$
+  String STR_ETF_RIGHT_CENTER_D  = Messages.getString( "ETsFulcrum.STR_ETF_RIGHT_CENTER_D" );  //$NON-NLS-1$
+  String STR_ETF_RIGHT_TOP       = Messages.getString( "ETsFulcrum.STR_ETF_RIGHT_TOP" );       //$NON-NLS-1$
+  String STR_ETF_RIGHT_TOP_D     = Messages.getString( "ETsFulcrum.STR_ETF_RIGHT_TOP_D" );     //$NON-NLS-1$
+  String STR_ETF_TOP_CENTER      = Messages.getString( "ETsFulcrum.STR_ETF_TOP_CENTER" );      //$NON-NLS-1$
+  String STR_ETF_TOP_CENTER_D    = Messages.getString( "ETsFulcrum.STR_ETF_TOP_CENTER_D" );    //$NON-NLS-1$
 
 }

@@ -9,7 +9,7 @@ import org.toxsoft.core.tslib.utils.*;
  * Items provider for M5 GUI components.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public interface IM5ItemsProvider<T>
     extends ITsItemsProvider<T>, IGenericChangeEventCapable {
@@ -39,6 +39,15 @@ public interface IM5ItemsProvider<T>
    */
   default IListReorderer<T> reorderer() {
     return null;
+  }
+
+  /**
+   * Forces {@link #genericChangeEventer()} to fire an event if supported.
+   * <p>
+   * Default implementation does nothing.
+   */
+  default void informOnItemsListChange() {
+    // nop
   }
 
   @Override

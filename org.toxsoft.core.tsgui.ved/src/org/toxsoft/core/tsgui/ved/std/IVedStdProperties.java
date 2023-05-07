@@ -18,6 +18,7 @@ import org.toxsoft.core.tsgui.ved.api.entity.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
+import org.toxsoft.core.tslib.bricks.geometry.*;
 
 /**
  * Standard properties for all components.
