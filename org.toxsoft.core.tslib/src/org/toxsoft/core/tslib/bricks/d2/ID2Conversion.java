@@ -46,6 +46,14 @@ public sealed interface ID2Conversion
 
   /**
    * Determines if this instance specifies real conversion.
+   * <p>
+   * This method simply analyzes parameters of the conversion and returns true if all of the following conditions are
+   * met:
+   * <ul>
+   * <li>{@link #rotation()} == {@link ID2Rotation#NONE};</li>
+   * <li>{@link #zoomFactor()} == 1.0;</li>
+   * <li>{@link #origin()} == {@link ID2Point#ZERO}.</li>
+   * </ul>
    *
    * @return boolean - <code>true</code> if conversion parameters makes any changes
    */

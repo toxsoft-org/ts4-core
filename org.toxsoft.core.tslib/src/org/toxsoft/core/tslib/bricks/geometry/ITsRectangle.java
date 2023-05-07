@@ -1,9 +1,7 @@
 package org.toxsoft.core.tslib.bricks.geometry;
 
-import org.toxsoft.core.tslib.bricks.geometry.impl.TsRectangle;
-import org.toxsoft.core.tslib.bricks.geometry.impl.TsRectangleEdit;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullObjectErrorRtException;
+import org.toxsoft.core.tslib.bricks.geometry.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Прямоугольник, реализация абстракции "прямоугольник паралелльный осям на координатной плоскости".

@@ -6,7 +6,7 @@ import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Редактируемая реализация {@link ID2Rectangle}.
+ * {@link ID2Rectangle} immutabimplementation.
  *
  * @author hazard157
  */
@@ -17,7 +17,9 @@ public final class D2Rectangle
 
   private final D2Point a;
   private final D2Point b;
-  private final D2Point size;
+  private final D2Size  size;
+
+  // TODO TRANSLATE
 
   /**
    * Создает прямугольник двумя точками.
@@ -32,7 +34,7 @@ public final class D2Rectangle
     }
     a = new D2Point( Math.min( aP1.x(), aP2.x() ), Math.min( aP1.y(), aP2.y() ) );
     b = new D2Point( Math.max( aP1.x(), aP2.x() ), Math.max( aP1.y(), aP2.y() ) );
-    size = new D2Point( b.x() - a.x(), b.y() - a.y() );
+    size = new D2Size( b.x() - a.x(), b.y() - a.y() );
   }
 
   /**
@@ -53,7 +55,7 @@ public final class D2Rectangle
     TsIllegalArgumentRtException.checkTrue( aWidth < 0.0 || aHeight < 0.0 );
     a = new D2Point( aX, aY );
     b = new D2Point( aX + aWidth - 1, aY + aHeight - 1 );
-    size = new D2Point( aWidth, aHeight );
+    size = new D2Size( aWidth, aHeight );
   }
 
   /**
@@ -66,7 +68,7 @@ public final class D2Rectangle
     TsNullArgumentRtException.checkNull( aSource );
     a = new D2Point( aSource.a() );
     b = new D2Point( aSource.b() );
-    size = new D2Point( b.x() - a.x(), b.y() - a.y() );
+    size = new D2Size( b.x() - a.x(), b.y() - a.y() );
   }
 
   // ------------------------------------------------------------------------------------
@@ -105,16 +107,16 @@ public final class D2Rectangle
 
   @Override
   public double width() {
-    return size.x();
+    return size.width();
   }
 
   @Override
   public double height() {
-    return size.y();
+    return size.height();
   }
 
   @Override
-  public ID2Point size() {
+  public ID2Size size() {
     return size;
   }
 
@@ -125,7 +127,7 @@ public final class D2Rectangle
   @SuppressWarnings( "nls" )
   @Override
   public String toString() {
-    return "[" + a().toString() + "," + size.x() + "," + size.y() + "]";
+    return "[" + a().toString() + "," + size.toString() + "]";
   }
 
   @Override

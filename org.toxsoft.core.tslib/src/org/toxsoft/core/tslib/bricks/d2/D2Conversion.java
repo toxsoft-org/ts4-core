@@ -5,6 +5,9 @@ import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
 import java.io.*;
 
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -16,6 +19,39 @@ public final class D2Conversion
     implements ID2Conversion, Serializable {
 
   private static final long serialVersionUID = 1501632436869409292L;
+
+  /**
+   * The registered keeper ID.
+   */
+  public static final String KEEPER_ID = "D2Conversion"; //$NON-NLS-1$
+
+  /**
+   * The keeper singleton.
+   * <p>
+   * Returned value may be safely casted to {@link D2ConversionEdit} (but not to {@link D2Conversion}).
+   */
+  public static final IEntityKeeper<ID2Conversion> KEEPER =
+      new AbstractEntityKeeper<>( ID2Conversion.class, EEncloseMode.ENCLOSES_BASE_CLASS, ID2Conversion.NONE ) {
+
+        @Override
+        protected void doWrite( IStrioWriter aSw, ID2Conversion aEntity ) {
+          D2Angle.KEEPER.write( aSw, aEntity.rotation() );
+          aSw.writeSeparatorChar();
+          aSw.writeDouble( aEntity.zoomFactor() );
+          aSw.writeSeparatorChar();
+          D2Point.KEEPER.write( aSw, aEntity.origin() );
+        }
+
+        @Override
+        protected ID2Conversion doRead( IStrioReader aSr ) {
+          ID2Angle angle = D2Angle.KEEPER.read( aSr );
+          aSr.ensureSeparatorChar();
+          double zoomFactor = aSr.readDouble();
+          aSr.ensureSeparatorChar();
+          ID2Point origin = D2Point.KEEPER.read( aSr );
+          return new D2Conversion( angle, zoomFactor, origin );
+        }
+      };
 
   private final ID2Angle rotation;
   private final double   zoomFactor;

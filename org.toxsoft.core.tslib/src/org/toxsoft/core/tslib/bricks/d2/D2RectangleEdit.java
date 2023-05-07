@@ -6,7 +6,7 @@ import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Редактируемая реализация {@link ID2Rectangle}.
+ * {@link ID2Rectangle} editable implementation.
  *
  * @author hazard157
  */
@@ -17,7 +17,7 @@ public final class D2RectangleEdit
 
   private final D2PointEdit a    = new D2PointEdit( 0.0, 0.0 );
   private final D2PointEdit b    = new D2PointEdit( 100.0, 100.0 );
-  private final D2PointEdit size = new D2PointEdit( 0.0, 0.0 );
+  private final D2SizeEdit  size = new D2SizeEdit( 0.0, 0.0 );
 
   /**
    * Создает прямоугольник с левой верхней точкой в (0,0) и размерами (1,1).
@@ -101,27 +101,27 @@ public final class D2RectangleEdit
 
   @Override
   public double width() {
-    return size.x();
+    return size.width();
   }
 
   @Override
   public double height() {
-    return size.y();
+    return size.height();
   }
 
   @Override
-  public ID2Point size() {
+  public ID2Size size() {
     return size;
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация методов класса Object
+  // Object
   //
 
   @SuppressWarnings( "nls" )
   @Override
   public String toString() {
-    return "[" + a().toString() + "," + size.x() + "," + size.y() + "]";
+    return "[" + a().toString() + "," + size.toString() + "]";
   }
 
   @Override
@@ -156,8 +156,8 @@ public final class D2RectangleEdit
    */
   public void moveTo( double aNewX, double aNewY ) {
     a.setPoint( aNewX, aNewY );
-    b.setX( a.x() + size.x() );
-    b.setY( a.y() + size.y() );
+    b.setX( a.x() + size.width() );
+    b.setY( a.y() + size.height() );
   }
 
   /**
@@ -197,10 +197,9 @@ public final class D2RectangleEdit
    * @throws TsIllegalArgumentRtException правая нижняя точка выходат за {@link Integer#MAX_VALUE} значения
    */
   public void setSize( double aWidth, double aHeight ) {
-    TsIllegalArgumentRtException.checkTrue( aWidth < 0.0 || aHeight < 0.0 );
-    size.setPoint( a );
-    b.setX( a.x() + aWidth - 1 );
-    b.setY( a.y() + aHeight - 1 );
+    size.setSize( aWidth, aHeight );
+    b.setX( a.x() + size.width() );
+    b.setY( a.y() + size.height() );
   }
 
   /**
@@ -227,8 +226,8 @@ public final class D2RectangleEdit
    * @throws TsIllegalArgumentRtException правая нижняя точка выходат за {@link Integer#MAX_VALUE} значения
    */
   public void changeSize( double aDeltaW, double aDeltaH ) {
-    double newWidth = size.x() + aDeltaW;
-    double mewHeight = size.y() + aDeltaH;
+    double newWidth = size.width() + aDeltaW;
+    double mewHeight = size.height() + aDeltaH;
     setSize( newWidth, mewHeight );
   }
 
@@ -244,9 +243,8 @@ public final class D2RectangleEdit
    */
   public void setRect( double aX, double aY, double aWidth, double aHeight ) {
     TsIllegalArgumentRtException.checkTrue( aWidth < 0.0 || aHeight < 0.0 );
+    setSize( aWidth, aHeight );
     a.setPoint( aX, aY );
-    b.setPoint( aX + aWidth - 1, aY + aHeight - 1 );
-    size.setPoint( aWidth, aHeight );
   }
 
   /**
@@ -267,15 +265,15 @@ public final class D2RectangleEdit
     a.setY( Math.min( aP1.y(), aP2.y() ) );
     b.setX( Math.max( aP1.x(), aP2.x() ) );
     b.setY( Math.max( aP1.y(), aP2.y() ) );
-    size.setX( b.x() - a.x() );
-    size.setY( b.y() - a.y() );
+    size.setWidth( b.x() - a.x() );
+    size.setHeight( b.y() - a.y() );
   }
 
   /**
-   * Конструктор копирования.
+   * Copy rectangle from the source.
    *
-   * @param aSource {@link ID2Rectangle} - исходный прямоугольник
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aSource {@link ID2Rectangle} - the source
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public void setRect( ID2Rectangle aSource ) {
     TsNullArgumentRtException.checkNull( aSource );

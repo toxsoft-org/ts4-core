@@ -1,11 +1,9 @@
 package org.toxsoft.core.tslib.bricks.geometry;
 
-import java.io.ObjectStreamException;
-import java.io.Serializable;
+import java.io.*;
 
-import org.toxsoft.core.tslib.bricks.geometry.impl.TsPoint;
-import org.toxsoft.core.tslib.bricks.geometry.impl.TsPointEdit;
-import org.toxsoft.core.tslib.utils.errors.TsNullObjectErrorRtException;
+import org.toxsoft.core.tslib.bricks.geometry.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 // TODO TRANSLATE
 

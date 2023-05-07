@@ -7,7 +7,7 @@ import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Utility methods to hangle 2D geometry.
+ * Utility methods to handle 2D geometry.
  *
  * @author hazard157
  */
@@ -314,7 +314,11 @@ public class D2Utils {
   }
 
   /**
-   * No subclassing.
+   * TODO add here fulcrum-related methods (as in {@link ETsFulcrum} API) with double arguments
+   */
+
+  /**
+   * No subclasses.
    */
   private D2Utils() {
     // nop

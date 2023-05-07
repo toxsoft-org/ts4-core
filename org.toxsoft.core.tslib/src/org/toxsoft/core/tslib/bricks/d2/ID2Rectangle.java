@@ -69,10 +69,10 @@ public sealed interface ID2Rectangle permits D2Rectangle,D2RectangleEdit {
   double height();
 
   /**
-   * returns the size of rectangle.
+   * Returns the size of rectangle.
    *
-   * @return {@link ID2Point} - size ({@link ID2Point#x()} is witdh, {@link ID2Point#y() - height})
+   * @return {@link ID2Size} - the size
    */
-  ID2Point size();
+  ID2Size size();
 
 }

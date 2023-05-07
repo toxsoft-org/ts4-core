@@ -104,10 +104,10 @@ public final class D2Point
     if( object == this ) {
       return true;
     }
-    if( !(object instanceof ID2Point p) ) {
-      return false;
+    if( object instanceof ID2Point p ) {
+      return (p.x() == this.x) && (p.y() == this.y);
     }
-    return (p.x() == this.x) && (p.y() == this.y);
+    return false;
   }
 
   @Override
