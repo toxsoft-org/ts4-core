@@ -10,7 +10,6 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tsgui.panels.*;
-import org.toxsoft.core.tsgui.utils.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tsgui.valed.controls.enums.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
@@ -74,18 +73,13 @@ public class PanelTsFillInfoSelector
 
   @Override
   protected TsFillInfo doGetDataRecord() {
-    switch( fillKindCombo.getValue() ) {
-      case NONE:
-        return TsFillInfo.NONE;
-      case GRADIENT:
-        return new TsFillInfo( gradientPanel.fillInfo() );
-      case IMAGE:
-        return TsFillInfo.NONE;
-      case SOLID:
-        return new TsFillInfo( colorPanel.rgba() );
-      default:
-        throw new TsNotAllEnumsUsedRtException();
-    }
+    return switch( fillKindCombo.getValue() ) {
+      case NONE -> TsFillInfo.NONE;
+      case GRADIENT -> new TsFillInfo( gradientPanel.fillInfo() );
+      case IMAGE -> TsFillInfo.NONE;
+      case SOLID -> new TsFillInfo( colorPanel.rgba() );
+      default -> throw new TsNotAllEnumsUsedRtException();
+    };
   }
 
   // ------------------------------------------------------------------------------------
@@ -98,8 +92,6 @@ public class PanelTsFillInfoSelector
   PanelImageFillInfo    imagePanel;
   PanelGradientFillInfo gradientPanel;
 
-  ITsVisualsProvider<? extends IStridable> visualsProvider = IStridable::nmName;
-
   ValedEnumCombo<ETsFillKind> fillKindCombo;
 
   void init() {
@@ -109,26 +101,17 @@ public class PanelTsFillInfoSelector
 
     CLabel l = new CLabel( topPanel, SWT.NONE );
     l.setText( STR_L_FILL_TYPE );
-    fillKindCombo = new ValedEnumCombo( tsContext(), ETsFillKind.class, visualsProvider );
+    fillKindCombo = new ValedEnumCombo<>( tsContext(), ETsFillKind.class, IStridable::nmName );
     fillKindCombo.createControl( topPanel );
     fillKindCombo.setValue( ETsFillKind.SOLID );
     fillKindCombo.eventer().addListener( ( aSource, aEditFinished ) -> {
-      ETsFillKind kind = fillKindCombo.getValue();
-      switch( kind ) {
-        case NONE:
-          break;
-        case GRADIENT:
-          stackLayout.topControl = gradientPanel;
-          break;
-        case IMAGE:
-          stackLayout.topControl = imagePanel;
-          break;
-        case SOLID:
-          stackLayout.topControl = colorPanel;
-          break;
-        default:
-          throw new TsNotAllEnumsUsedRtException();
-      }
+      stackLayout.topControl = switch( fillKindCombo.getValue() ) {
+        case NONE -> null;
+        case GRADIENT -> gradientPanel;
+        case IMAGE -> imagePanel;
+        case SOLID -> colorPanel;
+        default -> throw new TsNotAllEnumsUsedRtException();
+      };
       contentHolder.layout( true );
     } );
 

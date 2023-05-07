@@ -2,9 +2,7 @@ package org.toxsoft.core.tsgui.bricks.swtevents;
 
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.singlesrc.ISingleSourcing_MouseWheelListener;
-import org.toxsoft.core.singlesrc.TsSinglesourcingUtils;
-import org.toxsoft.core.singlesrc.rcp.*;
+import org.toxsoft.core.singlesrc.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;

@@ -9,8 +9,7 @@ package org.toxsoft.core.tslib.utils;
  * @param <L> - left object type
  * @param <R> - right object type
  */
-@SuppressWarnings ( "hiding" )
-public record Pair<L, R> (L left, R right ) {
+public record Pair<L, R> ( L left, R right ) {
 
   // nop
 

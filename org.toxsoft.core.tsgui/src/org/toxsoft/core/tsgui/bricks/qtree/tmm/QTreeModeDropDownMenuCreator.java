@@ -5,8 +5,7 @@ import java.util.*;
 import org.eclipse.swt.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.singlesrc.TsSinglesourcingUtils;
-import org.toxsoft.core.singlesrc.rcp.*;
+import org.toxsoft.core.singlesrc.*;
 import org.toxsoft.core.tsgui.bricks.actions.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
@@ -23,7 +22,7 @@ public class QTreeModeDropDownMenuCreator<T>
     extends AbstractMenuCreator
     implements ITsGuiContextable {
 
-  private final ITsGuiContext       tsContext;
+  private final ITsGuiContext        tsContext;
   private final IQTreeModeManager<T> qTreeModeManager;
 
   /**

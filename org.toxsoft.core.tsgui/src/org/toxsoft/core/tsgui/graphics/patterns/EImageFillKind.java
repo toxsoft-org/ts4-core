@@ -1,54 +1,49 @@
 package org.toxsoft.core.tsgui.graphics.patterns;
 
+import static org.toxsoft.core.tsgui.graphics.patterns.ITsResources.*;
+
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.std.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Типы заполнения фона при заливке изображением.
- * <p>
+ * Types of background filling when filling with an image.
  *
  * @author vs
  */
+@SuppressWarnings( "javadoc" )
 public enum EImageFillKind
     implements IStridable {
 
-  /**
-   * Без заливки
-   */
-  CENTER( "center", "по центру без масштабирования", "по центру" ),
+  CENTER( "center", STR_EIFK_CENTER, STR_EIFK_CENTER_D ), //$NON-NLS-1$
+
+  FIT( "fit", STR_EIFK_FIT, STR_EIFK_FIT_D ), //$NON-NLS-1$
+
+  TILE( "tile", STR_EIFK_TILE, STR_EIFK_TILE_D ); //$NON-NLS-1$
 
   /**
-   * Цвет (RGBA)
+   * The keeper ID.
    */
-  FIT( "fit", "увеличить изображение для масимального заполнения области", "заполнить" ),
+  public static final String KEEPER_ID = "EImageFillKind"; //$NON-NLS-1$
 
   /**
-   * Изображение
-   */
-  TILE( "tile", "заполнение фона изображениями состыковывая их по горизонтали и вертикали", "плитка" );
-
-  /**
-   * Экземпляр-синглтон хранителя.
+   * Keeper singleton.
    */
   public static final IEntityKeeper<EImageFillKind> KEEPER = new StridableEnumKeeper<>( EImageFillKind.class );
 
-  private final String id;
-  private final String description;
-  private final String name;
+  private static IStridablesListEdit<EImageFillKind> list = null;
 
-  /**
-   * Создать константу с заданием всех инвариантов.
-   *
-   * @param aId String - идентифицирующее название константы
-   * @param aDescr String - отображаемое описание константы
-   * @param aName String - краткое название константы
-   */
-  EImageFillKind( String aId, String aDescr, String aName ) {
+  private final String id;
+  private final String name;
+  private final String description;
+
+  EImageFillKind( String aId, String aName, String aDescription ) {
     id = aId;
-    description = aDescr;
     name = aName;
+    description = aDescription;
   }
 
   // --------------------------------------------------------------------------
@@ -61,128 +56,51 @@ public enum EImageFillKind
   }
 
   @Override
-  public String description() {
-    return description;
-  }
-
-  @Override
   public String nmName() {
     return name;
   }
 
-  // ----------------------------------------------------------------------------------
-  // Методы проверки
-  //
-
-  /**
-   * Определяет, существует ли константа перечисления с заданным идентификатором.
-   *
-   * @param aId String - идентификатор искомой константы
-   * @return boolean - признак существования константы <br>
-   *         <b>true</b> - константа с заданным идентификатором существует;<br>
-   *         <b>false</b> - неет константы с таким идентификатором.
-   * @throws TsNullArgumentRtException аргумент = null
-   */
-  public static boolean isItemById( String aId ) {
-    return findByIdOrNull( aId ) != null;
-  }
-
-  /**
-   * Определяет, существует ли константа перечисления с заданным описанием.
-   *
-   * @param aDescription String - описание искомой константы
-   * @return boolean - признак существования константы <br>
-   *         <b>true</b> - константа с заданным описанием существует;<br>
-   *         <b>false</b> - неет константы с таким описанием.
-   * @throws TsNullArgumentRtException аргумент = null
-   */
-  public static boolean isItemByDescription( String aDescription ) {
-    return findByDescriptionOrNull( aDescription ) != null;
-  }
-
-  /**
-   * Определяет, существует ли константа перечисления с заданным именем.
-   *
-   * @param aName String - имя (название) искомой константы
-   * @return boolean - признак существования константы <br>
-   *         <b>true</b> - константа с заданным именем существует;<br>
-   *         <b>false</b> - неет константы с таким именем.
-   * @throws TsNullArgumentRtException аргумент = null
-   */
-  public static boolean isItemByName( String aName ) {
-    return findByNameOrNull( aName ) != null;
+  @Override
+  public String description() {
+    return description;
   }
 
   // ----------------------------------------------------------------------------------
-  // Методы поиска
+  // API
   //
 
   /**
-   * Возвращает константу по идентификатору или null.
+   * Returns all constants in single list.
    *
-   * @param aId String - идентификатор искомой константы
-   * @return EDragState - найденная константа, или null если нет константы с таимк идентификатором
-   * @throws TsNullArgumentRtException аргумент = null
+   * @return {@link IStridablesList}&lt; {@link EImageFillKind} &gt; - list of constants in order of declaraion
    */
-  public static EImageFillKind findByIdOrNull( String aId ) {
-    TsNullArgumentRtException.checkNull( aId );
-    for( EImageFillKind item : values() ) {
-      if( item.id.equals( aId ) ) {
-        return item;
-      }
+  public static IStridablesList<EImageFillKind> asList() {
+    if( list == null ) {
+      list = new StridablesList<>( values() );
     }
-    return null;
+    return list;
   }
 
   /**
-   * Возвращает константу по идентификатору или выбрасывает исключение.
+   * Returns the constant by the ID.
    *
-   * @param aId String - идентификатор искомой константы
-   * @return EDragState - найденная константа
-   * @throws TsNullArgumentRtException аргумент = null
-   * @throws TsItemNotFoundRtException нет константы с таким идентификатором
+   * @param aId String - the ID
+   * @return {@link EImageFillKind} - found constant
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException no constant found by specified ID
    */
-  public static EImageFillKind findById( String aId ) {
-    return TsItemNotFoundRtException.checkNull( findByIdOrNull( aId ) );
+  public static EImageFillKind getById( String aId ) {
+    return asList().getByKey( aId );
   }
 
   /**
-   * Возвращает константу по описанию или null.
+   * Finds the constant by the name.
    *
-   * @param aDescription String - описание искомой константы
-   * @return EDragState - найденная константа, или null если нет константы с таким описанием
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aName String - the name
+   * @return {@link EImageFillKind} - found constant or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public static EImageFillKind findByDescriptionOrNull( String aDescription ) {
-    TsNullArgumentRtException.checkNull( aDescription );
-    for( EImageFillKind item : values() ) {
-      if( item.description.equals( aDescription ) ) {
-        return item;
-      }
-    }
-    return null;
-  }
-
-  /**
-   * Возвращает константу по описанию или выбрасывает исключение.
-   *
-   * @param aDescription String - описание искомой константы
-   * @return EDragState - найденная константа
-   * @throws TsNullArgumentRtException аргумент = null
-   * @throws TsItemNotFoundRtException нет константы с таким описанием
-   */
-  public static EImageFillKind findByDescription( String aDescription ) {
-    return TsItemNotFoundRtException.checkNull( findByDescriptionOrNull( aDescription ) );
-  }
-
-  /**
-   * Возвращает константу по имени или null.
-   *
-   * @param aName String - имя искомой константы
-   * @return EDragState - найденная константа, или null если нет константы с таким именем
-   * @throws TsNullArgumentRtException аргумент = null
-   */
-  public static EImageFillKind findByNameOrNull( String aName ) {
+  public static EImageFillKind findByName( String aName ) {
     TsNullArgumentRtException.checkNull( aName );
     for( EImageFillKind item : values() ) {
       if( item.name.equals( aName ) ) {
@@ -193,15 +111,15 @@ public enum EImageFillKind
   }
 
   /**
-   * Возвращает константу по имени или выбрасывает исключение.
+   * Returns the constant by the name.
    *
-   * @param aName String - имя искомой константы
-   * @return EDragState - найденная константа
-   * @throws TsNullArgumentRtException аргумент = null
-   * @throws TsItemNotFoundRtException нет константы с таким именем
+   * @param aName String - the name
+   * @return {@link EImageFillKind} - found constant
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException no constant found by specified name
    */
-  public static EImageFillKind findByName( String aName ) {
-    return TsItemNotFoundRtException.checkNull( findByNameOrNull( aName ) );
+  public static EImageFillKind getByName( String aName ) {
+    return TsItemNotFoundRtException.checkNull( findByName( aName ) );
   }
 
 }

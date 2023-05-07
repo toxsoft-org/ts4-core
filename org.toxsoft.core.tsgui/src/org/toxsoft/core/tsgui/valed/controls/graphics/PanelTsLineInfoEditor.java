@@ -11,7 +11,6 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.lines.*;
-import org.toxsoft.core.tsgui.utils.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tsgui.valed.controls.basic.*;
 import org.toxsoft.core.tsgui.valed.controls.enums.*;
@@ -64,8 +63,6 @@ public class PanelTsLineInfoEditor
   // implementation
   //
 
-  ITsVisualsProvider<? extends IStridable> visualsProvider = IStridable::nmName;
-
   void init() {
     setLayout( new GridLayout( 2, false ) );
 
@@ -77,19 +74,19 @@ public class PanelTsLineInfoEditor
     widthSpiner.createControl( this );
     widthSpiner.setLimits( 1, 1, 1, 100 );
 
-    lineTypeCombo = new ValedEnumCombo( tsContext(), ETsLineType.class, visualsProvider );
+    lineTypeCombo = new ValedEnumCombo<>( tsContext(), ETsLineType.class, IStridable::nmName );
     l = new CLabel( this, SWT.NONE );
     l.setText( STR_L_LINE_TYPE );
     lineTypeCombo.createControl( this );
     lineTypeCombo.setValue( ETsLineType.SOLID );
 
-    capStyleCombo = new ValedEnumCombo( tsContext(), ETsLineCapStyle.class, visualsProvider );
+    capStyleCombo = new ValedEnumCombo<>( tsContext(), ETsLineCapStyle.class, IStridable::nmName );
     l = new CLabel( this, SWT.NONE );
     l.setText( STR_L_CAP_TYPE );
     capStyleCombo.createControl( this );
     capStyleCombo.setValue( ETsLineCapStyle.FLAT );
 
-    joinStyleCombo = new ValedEnumCombo( tsContext(), ETsLineJoinStyle.class, visualsProvider );
+    joinStyleCombo = new ValedEnumCombo<>( tsContext(), ETsLineJoinStyle.class, IStridable::nmName );
     l = new CLabel( this, SWT.NONE );
     l.setText( STR_L_JOIN_TYPE );
     joinStyleCombo.createControl( this );

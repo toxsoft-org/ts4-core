@@ -3,9 +3,7 @@ package org.toxsoft.core.tsgui.bricks.uievents;
 import org.eclipse.swt.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.singlesrc.ISingleSourcing_MouseWheelListener;
-import org.toxsoft.core.singlesrc.TsSinglesourcingUtils;
-import org.toxsoft.core.singlesrc.rcp.*;
+import org.toxsoft.core.singlesrc.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.coll.*;
@@ -233,16 +231,12 @@ public class TsUserInputEventsBinder
   }
 
   private static ETsMouseButton bfe( MouseEvent aEvent ) {
-    switch( aEvent.button ) {
-      case 1:
-        return ETsMouseButton.LEFT;
-      case 2:
-        return ETsMouseButton.MIDDLE;
-      case 3:
-        return ETsMouseButton.RIGHT;
-      default:
-        return ETsMouseButton.OTHER;
-    }
+    return switch( aEvent.button ) {
+      case 1 -> ETsMouseButton.LEFT;
+      case 2 -> ETsMouseButton.MIDDLE;
+      case 3 -> ETsMouseButton.RIGHT;
+      default -> ETsMouseButton.OTHER;
+    };
   }
 
   private boolean isDragging() {

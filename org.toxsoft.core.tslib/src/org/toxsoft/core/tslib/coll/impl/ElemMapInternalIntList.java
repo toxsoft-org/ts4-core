@@ -8,10 +8,11 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Simple integers list used as indexes in map's buckets.
  * <p>
- * 2019-05-31 Список введен с целью оптимизации метода {@link IMapEdit#removeByKey(Object)}.
+ * 2019-05-31 The list was introduced to optimize the {@link IMapEdit#removeByKey(Object)} method.
  *
  * @author hazard157
  */
+@SuppressWarnings( "javadoc" )
 public class ElemMapInternalIntList
     implements Serializable {
 
