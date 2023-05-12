@@ -22,6 +22,9 @@
     <ant dir="../../org.toxsoft.core.txtproj.lib" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
     <ant dir="../../org.toxsoft.core.txtproj.gui" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
     <ant dir="../../org.toxsoft.core.git.parser" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
+    <ant dir="../../org.toxsoft.core.tsgui" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
+    <ant dir="../../org.toxsoft.core.tsgui.mws" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
+
   </target>
 
   <!-- ЦЕЛЬ: сборка plugin-ов -->
@@ -38,6 +41,8 @@
                                 org.toxsoft.core.pas,
                                 org.toxsoft.core.unit.txtproj.lib,
                                 org.toxsoft.core.unit.txtproj.gui,
+                                org.toxsoft.core.tsgui,
+                                org.toxsoft.core.tsgui.mws,
                                 org.toxsoft.core.git.parser"
                        useworkspacecompiledclasses="true"
                        useJARFormat="true" />

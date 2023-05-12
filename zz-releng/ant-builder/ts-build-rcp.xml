@@ -17,8 +17,6 @@
   <target name="build-lib-jar" depends="clean" description="Сборка общих плагинов">
     <!-- TODO: -->
     <ant dir="../../org.toxsoft.core.singlesrc.rcp" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
-    <ant dir="../../org.toxsoft.core.tsgui" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
-    <ant dir="../../org.toxsoft.core.tsgui.mws" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
     <ant dir="../../org.toxsoft.core.tsgui.chart" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
     <ant dir="../../org.toxsoft.core.tsgui.rcp" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
     <ant dir="../../org.toxsoft.core.tsgui.rcp" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
@@ -35,8 +33,6 @@
                        exportSourceBundle="false"
                        exportType="directory"
                        plugins="org.toxsoft.core.singlesrc.rcp,
-                                org.toxsoft.core.tsgui,
-                                org.toxsoft.core.tsgui.mws,
                                 org.toxsoft.core.tsgui.chart,
                                 org.toxsoft.core.tsgui.rcp,
                                 org.toxsoft.core.txtproj.mws,
