@@ -6,12 +6,12 @@ import static org.toxsoft.core.tslib.utils.errors.TsErrorUtils.*;
 import java.net.*;
 
 import org.eclipse.core.runtime.*;
-import org.eclipse.e4.ui.model.application.ui.menu.MHandledMenuItem;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.graphics.Device;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.toxsoft.core.tsgui.Activator;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.e4.ui.model.application.ui.menu.*;
+import org.eclipse.jface.resource.*;
+import org.eclipse.swt.graphics.*;
+import org.eclipse.ui.plugin.*;
+import org.toxsoft.core.tsgui.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -38,15 +38,15 @@ public class TsIconManagerUtils {
    * @param aPluginId String - the plugin ID
    * @param aStdIconId String - icon ID
    * @param aIconSize {@link EIconSize} - icon size
-   * @return String - URI to access icon reource in plugin
+   * @return String - URI to access icon resource in plugin
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIllegalArgumentRtException any argument is an empty string
+   * @throws TsIllegalArgumentRtException any argument is a blank string
    */
   public static String makeStdIconUriString( String aPluginId, String aStdIconId, EIconSize aIconSize ) {
     if( aPluginId == null || aStdIconId == null || aIconSize == null ) {
       throw new TsNullArgumentRtException();
     }
-    if( aPluginId.isEmpty() || aStdIconId.isEmpty() ) {
+    if( aPluginId.isBlank() || aStdIconId.isBlank() ) {
       throw new TsIllegalArgumentRtException();
     }
     return "platform:/plugin/" + aPluginId + //$NON-NLS-1$
