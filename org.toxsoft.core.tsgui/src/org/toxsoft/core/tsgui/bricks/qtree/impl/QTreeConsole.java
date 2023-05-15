@@ -1,11 +1,12 @@
 package org.toxsoft.core.tsgui.bricks.qtree.impl;
 
 import org.eclipse.jface.viewers.*;
-import org.toxsoft.core.tsgui.bricks.qtree.*;
-import org.toxsoft.core.tslib.bricks.qnodes.*;
-import org.toxsoft.core.tslib.coll.*;
-import org.toxsoft.core.tslib.coll.impl.*;
-import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tsgui.bricks.qtree.IQTreeConsole;
+import org.toxsoft.core.tslib.bricks.qnodes.IQNode;
+import org.toxsoft.core.tslib.coll.IList;
+import org.toxsoft.core.tslib.coll.IListEdit;
+import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
+import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 
 /**
  * {@link IQTreeConsole} implementation.
@@ -96,7 +97,11 @@ public class QTreeConsole
       return null;
     }
     IListEdit<IQNode> ll = new ElemArrayList<>( ss.size() );
-    for( Object o : ss ) {
+    // 2023-05-15 mvk rap support
+    // for( Object o : ss ) {
+    // ll.add( IQNode.class.cast( o ) );
+    // }
+    for( Object o : ss.toList() ) {
       ll.add( IQNode.class.cast( o ) );
     }
     return ll;
