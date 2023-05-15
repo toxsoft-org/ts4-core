@@ -22,11 +22,18 @@ import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * {@link IInplaceEditorPanel} implementation.
+ * TODO ??? {@link IInplaceEditorPanel} implementation.
+ * <p>
+ * Contains in-place content panel {@link AbstractInplaceContentPanel}, optional validation result pane and the button
+ * bar. Initially there is only "Edit" button in button bar. Pressing "Edit" switches content to the editing state and
+ * "OK", "Cancel", "Revert", "Apply", "Restore" buttons appear on button bar. "OK" and "Cancel" button finishes the
+ * editing and returns in-place editor to the viewer mode.
+ * <p>
+ * For validation message panel respects {@link ValidationResultPanel} options.
  *
  * @author hazard157
  */
-public final class InplaceEditorPanel
+public final class InplaceContainerPanel
     extends AbstractLazyPanel<Control>
     implements IInplaceEditorPanel {
 
@@ -77,7 +84,7 @@ public final class InplaceEditorPanel
    * @param aContentPanel {@link AbstractInplaceContentPanel} - content panel
    * @throws TsNullArgumentRtException аргумент = null
    */
-  public InplaceEditorPanel( ITsGuiContext aContext, AbstractInplaceContentPanel aContentPanel ) {
+  public InplaceContainerPanel( ITsGuiContext aContext, AbstractInplaceContentPanel aContentPanel ) {
     super( aContext );
     TsNullArgumentRtException.checkNull( aContentPanel );
     TsIllegalArgumentRtException.checkTrue( aContentPanel.getControl() != null );
