@@ -141,7 +141,7 @@ public class DialogItemsList {
   }
 
   // ------------------------------------------------------------------------------------
-  // Dialog invokation
+  // Dialog invocation
   //
 
   /**
@@ -162,7 +162,7 @@ public class DialogItemsList {
   }
 
   /**
-   * Simple displays items dialog with single close button.
+   * Displays items selection dialog and returns the selected item.
    *
    * @param <T> - items type
    * @param aDialogInfo {@link ITsDialogInfo} - dialog window parameters
@@ -179,6 +179,26 @@ public class DialogItemsList {
     IDialogPanelCreator<Object, Object> creator =
         ( aParent, aOwnerDialog ) -> new ContentPanel( aParent, aOwnerDialog, (IList)aItems, aNameProvider );
     TsDialog<Object, Object> d = new TsDialog<>( aDialogInfo, aSel, aNameProvider, creator );
+    return (T)d.execData();
+  }
+
+  /**
+   * Displays items selection dialog with default name provider and returns the selected item.
+   *
+   * @param <T> - items type
+   * @param aDialogInfo {@link ITsDialogInfo} - dialog window parameters
+   * @param aItems IList&lt;T&gt; - list of items to display
+   * @param aSel {@link Object} - initially selected item or <code>null</code>
+   * @return &lt;T&gt; - user selected item or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  @SuppressWarnings( { "unchecked", "rawtypes" } )
+  public static <T> T select( ITsDialogInfo aDialogInfo, final IList<T> aItems, Object aSel ) {
+    TsNullArgumentRtException.checkNulls( aDialogInfo, aItems );
+    ITsNameProvider np = ITsNameProvider.DEFAULT;
+    IDialogPanelCreator<Object, Object> creator =
+        ( aParent, aOwnerDialog ) -> new ContentPanel( aParent, aOwnerDialog, (IList)aItems, np );
+    TsDialog<Object, Object> d = new TsDialog<>( aDialogInfo, aSel, np, creator );
     return (T)d.execData();
   }
 
