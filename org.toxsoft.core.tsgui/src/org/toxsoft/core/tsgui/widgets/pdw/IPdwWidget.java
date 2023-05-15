@@ -16,7 +16,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * <p>
  * {@link IPausableAnimation} methods has no effect if no image is set or image is {@link TsImage#isSingleFrame()}.
  * <p>
- * TODO describe how widget size is managed depending on settings and image existance and size
+ * TODO describe how widget size is managed depending on settings and image existence and size
  *
  * @author hazard157
  */
@@ -83,14 +83,14 @@ public interface IPdwWidget
   void setFitInfo( RectFitInfo aInfo );
 
   /**
-   * Returns preffered size of the image display area.
+   * Returns preferred size of the image display area.
    *
    * @return {@link ITsPoint} - the area size in pixels
    */
   ITsPoint getAreaPreferredSize();
 
   /**
-   * Sets preffered size of the image display area.
+   * Sets preferred size of the image display area.
    * <p>
    * Has no visual effect until {@link #redraw()}.
    *
@@ -101,16 +101,16 @@ public interface IPdwWidget
   void setAreaPreferredSize( ITsPoint aSize );
 
   /**
-   * Determines if preffered size of the widget is fixed.
+   * Determines if preferred size of the widget is fixed.
    *
-   * @return boolean - the flag that preffered size of the widget is fixed
+   * @return boolean - the flag that preferred size of the widget is fixed
    */
   boolean isPreferredSizeFixed();
 
   /**
    * Sets value of the {@link #isPreferredSizeFixed()}.
    *
-   * @param aFixed boolean - the flag that preffered size of the widget is fixed
+   * @param aFixed boolean - the flag that preferred size of the widget is fixed
    */
   void setPreferredSizeFixed( boolean aFixed );
 
