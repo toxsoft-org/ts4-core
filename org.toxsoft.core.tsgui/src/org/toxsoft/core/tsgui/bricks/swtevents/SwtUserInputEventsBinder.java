@@ -1,10 +1,10 @@
 package org.toxsoft.core.tsgui.bricks.swtevents;
 
 import org.eclipse.swt.events.*;
-import org.eclipse.swt.widgets.*;
+import org.eclipse.swt.widgets.Control;
 import org.toxsoft.core.singlesrc.*;
-import org.toxsoft.core.tslib.coll.*;
-import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.IListEdit;
+import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -107,29 +107,30 @@ public class SwtUserInputEventsBinder
   /**
    * Listens mouse traversal events from the control and delegates to the registred listeners.
    */
-  private final MouseTrackListener delegatorMouseTrackListener = new MouseTrackListener() {
+  private final ISingleSourcing_MouseTrackListener delegatorMouseTrackListener =
+      new ISingleSourcing_MouseTrackListener() {
 
-    @Override
-    public void mouseHover( MouseEvent aEvent ) {
-      for( ISwtMouseListener l : mouseListeners ) {
-        l.mouseHover( aEvent );
-      }
-    }
+        @Override
+        public void mouseHover( MouseEvent aEvent ) {
+          for( ISwtMouseListener l : mouseListeners ) {
+            l.mouseHover( aEvent );
+          }
+        }
 
-    @Override
-    public void mouseExit( MouseEvent aEvent ) {
-      for( ISwtMouseListener l : mouseListeners ) {
-        l.mouseExit( aEvent );
-      }
-    }
+        @Override
+        public void mouseExit( MouseEvent aEvent ) {
+          for( ISwtMouseListener l : mouseListeners ) {
+            l.mouseExit( aEvent );
+          }
+        }
 
-    @Override
-    public void mouseEnter( MouseEvent aEvent ) {
-      for( ISwtMouseListener l : mouseListeners ) {
-        l.mouseEnter( aEvent );
-      }
-    }
-  };
+        @Override
+        public void mouseEnter( MouseEvent aEvent ) {
+          for( ISwtMouseListener l : mouseListeners ) {
+            l.mouseEnter( aEvent );
+          }
+        }
+      };
 
   /**
    * Listens keyboard keys press and release events from the control and delegates to the registred listeners.
@@ -219,7 +220,7 @@ public class SwtUserInputEventsBinder
       TsSinglesourcingUtils.Control_addMouseWheelListener( bindControl, delegatorMouseWheelListener );
     }
     if( (bindFlags & BIND_MOUSE_TRACK) != 0 ) {
-      bindControl.addMouseTrackListener( delegatorMouseTrackListener );
+      TsSinglesourcingUtils.Control_addMouseTrackListener( bindControl, delegatorMouseTrackListener );
     }
     // keyboard
     if( (bindFlags & BIND_KEY_DOWN_UP) != 0 ) {
@@ -247,7 +248,7 @@ public class SwtUserInputEventsBinder
         TsSinglesourcingUtils.Control_removeMouseWheelListener( bindControl, delegatorMouseWheelListener );
       }
       if( (bindFlags & BIND_MOUSE_TRACK) != 0 ) {
-        bindControl.removeMouseTrackListener( delegatorMouseTrackListener );
+        TsSinglesourcingUtils.Control_removeMouseTrackListener( bindControl, delegatorMouseTrackListener );
       }
       if( (bindFlags & BIND_KEY_DOWN_UP) != 0 ) {
         bindControl.removeKeyListener( delegatorKeyListener );

@@ -2,37 +2,44 @@ package org.toxsoft.core.tsgui.panels.opsedit.impl;
 
 import static org.toxsoft.core.tsgui.panels.opsedit.impl.ITsResources.*;
 
-import java.util.*;
+import java.util.Objects;
 
-import org.eclipse.swt.*;
-import org.eclipse.swt.custom.*;
-import org.eclipse.swt.graphics.*;
-import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tsgui.bricks.ctx.*;
-import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
-import org.toxsoft.core.tsgui.bricks.stdevents.*;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.toxsoft.core.singlesrc.TsSinglesourcingUtils;
+import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
+import org.toxsoft.core.tsgui.bricks.ctx.impl.TsGuiContext;
+import org.toxsoft.core.tsgui.bricks.stdevents.ITsSelectionChangeListener;
 import org.toxsoft.core.tsgui.bricks.tsnodes.*;
-import org.toxsoft.core.tsgui.bricks.tstree.*;
-import org.toxsoft.core.tsgui.bricks.tstree.impl.*;
-import org.toxsoft.core.tsgui.graphics.*;
-import org.toxsoft.core.tsgui.graphics.icons.*;
-import org.toxsoft.core.tsgui.mws.services.hdpi.*;
-import org.toxsoft.core.tsgui.panels.lazy.*;
+import org.toxsoft.core.tsgui.bricks.tstree.ITsTreeViewer;
+import org.toxsoft.core.tsgui.bricks.tstree.impl.TsTreeViewer;
+import org.toxsoft.core.tsgui.graphics.EHorAlignment;
+import org.toxsoft.core.tsgui.graphics.icons.EIconSize;
+import org.toxsoft.core.tsgui.mws.services.hdpi.ITsHdpiServiceConstants;
+import org.toxsoft.core.tsgui.panels.lazy.AbstractLazyPanel;
 import org.toxsoft.core.tsgui.panels.opsedit.*;
-import org.toxsoft.core.tsgui.utils.*;
-import org.toxsoft.core.tslib.av.*;
-import org.toxsoft.core.tslib.av.metainfo.*;
-import org.toxsoft.core.tslib.av.opset.*;
-import org.toxsoft.core.tslib.av.opset.impl.*;
-import org.toxsoft.core.tslib.bricks.events.*;
-import org.toxsoft.core.tslib.bricks.strid.coll.*;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
-import org.toxsoft.core.tslib.bricks.strid.impl.*;
-import org.toxsoft.core.tslib.coll.*;
-import org.toxsoft.core.tslib.coll.impl.*;
-import org.toxsoft.core.tslib.coll.primtypes.*;
-import org.toxsoft.core.tslib.coll.primtypes.impl.*;
-import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tsgui.utils.ITsVisualsProvider;
+import org.toxsoft.core.tslib.av.IAtomicValue;
+import org.toxsoft.core.tslib.av.metainfo.IDataDef;
+import org.toxsoft.core.tslib.av.opset.IOptionSet;
+import org.toxsoft.core.tslib.av.opset.IOptionSetEdit;
+import org.toxsoft.core.tslib.av.opset.impl.OptionSet;
+import org.toxsoft.core.tslib.bricks.events.ITsEventer;
+import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
+import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesListEdit;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.StridablesList;
+import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
+import org.toxsoft.core.tslib.coll.IList;
+import org.toxsoft.core.tslib.coll.IListEdit;
+import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
+import org.toxsoft.core.tslib.coll.primtypes.IStringMap;
+import org.toxsoft.core.tslib.coll.primtypes.IStringMapEdit;
+import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
+import org.toxsoft.core.tslib.utils.errors.TsInternalErrorRtException;
+import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 
 /**
  * {@link IOpsetsKitPanel} implementation.
@@ -234,7 +241,7 @@ public class OpsetsKitPanel
     itemsTree.createControl( backplane );
     itemsTree.addColumn( STR_N_KIT_ITEM_COLUMN_HEADER, EHorAlignment.CENTER, new KitItemNodeVisualsProvider() );
     valedsPanel.createControl( backplane );
-    backplane.setWeights( 3500, 6500 );
+    TsSinglesourcingUtils.SashForm_setWeights( backplane, 3500, 6500 );
     setControl( backplane );
     if( !kitItemDefs.isEmpty() ) {
       setCurrentSelectedKitItemId( kitItemDefs.first().id() );

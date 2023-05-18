@@ -2,13 +2,16 @@ package org.toxsoft.core.tsgui.graphics.icons.impl;
 
 import static org.toxsoft.core.tsgui.bricks.actions.ITsStdActionDefs.*;
 
-import org.eclipse.e4.core.contexts.*;
-import org.eclipse.swt.*;
-import org.eclipse.swt.events.*;
-import org.eclipse.swt.widgets.*;
+import org.eclipse.e4.core.contexts.IEclipseContext;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
+import org.toxsoft.core.singlesrc.TsSinglesourcingUtils;
 import org.toxsoft.core.tsgui.graphics.icons.*;
-import org.toxsoft.core.tsgui.utils.swt.*;
-import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tsgui.utils.swt.AbstractMenuCreator;
+import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 
 /**
  * Создатель выпадающего меню управления размерами значков {@link IIconSizeable} сущностей.
@@ -59,7 +62,7 @@ public class IconSizeableZoomDropDownMenuCreator<T extends IIconSizeable>
     // zoom original
     MenuItem mItem = new MenuItem( aMenu, SWT.PUSH );
     mItem.setText( ACDEF_ZOOM_ORIGINAL.nmName() );
-    mItem.setToolTipText( ACDEF_ZOOM_ORIGINAL.description() );
+    TsSinglesourcingUtils.MenuItem_setToolTipText( mItem, ACDEF_ZOOM_ORIGINAL.description() );
     mItem.setImage( iconManager.loadStdIcon( ACDEF_ZOOM_ORIGINAL.iconId(), menuIconSize ) );
     mItem.addSelectionListener( new SelectionAdapter() {
 
@@ -74,7 +77,7 @@ public class IconSizeableZoomDropDownMenuCreator<T extends IIconSizeable>
     // zoom out
     mItem = new MenuItem( aMenu, SWT.PUSH );
     mItem.setText( ACDEF_ZOOM_OUT.nmName() );
-    mItem.setToolTipText( ACDEF_ZOOM_OUT.description() );
+    TsSinglesourcingUtils.MenuItem_setToolTipText( mItem, ACDEF_ZOOM_OUT.description() );
     mItem.setImage( iconManager.loadStdIcon( ACDEF_ZOOM_OUT.iconId(), menuIconSize ) );
     mItem.addSelectionListener( new SelectionAdapter() {
 
@@ -87,7 +90,8 @@ public class IconSizeableZoomDropDownMenuCreator<T extends IIconSizeable>
     // zoom in
     mItem = new MenuItem( aMenu, SWT.PUSH );
     mItem.setText( ACDEF_ZOOM_IN.nmName() );
-    mItem.setToolTipText( ACDEF_ZOOM_IN.description() );
+    TsSinglesourcingUtils.MenuItem_setToolTipText( mItem, ACDEF_ZOOM_IN.description() );
+
     mItem.setImage( iconManager.loadStdIcon( ACDEF_ZOOM_IN.iconId(), menuIconSize ) );
     mItem.addSelectionListener( new SelectionAdapter() {
 

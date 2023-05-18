@@ -1,9 +1,13 @@
 package org.toxsoft.core.singlesrc;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.MouseMoveListener;
+import org.eclipse.swt.events.MouseTrackListener;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tslib.coll.IMapEdit;
+import org.toxsoft.core.tslib.coll.impl.ElemMap;
 import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 import org.toxsoft.core.tslib.utils.errors.TsUnderDevelopmentRtException;
 
@@ -104,6 +108,16 @@ public class TsSinglesourcingUtils {
     // fileDialog.setFileName( aFileName );
     // fileDialog.setFilterExtensions( aExtensions );
     // return fileDialog.open();
+  }
+
+  /**
+   * Аналог aText.getCaretPosition().
+   *
+   * @param aText {@link Text} текст
+   * @return int текущая позиция
+   */
+  public static int Text_getCaretPosition( Text aText ) {
+    return aText.getCaretPosition();
   }
 
   /**
@@ -276,7 +290,82 @@ public class TsSinglesourcingUtils {
     // }
   }
 
-  // 2021-05-18 mvk
+  // TODO: 2023-05-15 mvk
+  private static final IMapEdit<ISingleSourcing_MouseTrackListener, MouseTrackListener> mtlMap = new ElemMap<>();
+
+  /**
+   * Аналог <code>Control.addMouseTrackListener(MouseTrackListener)</code>.
+   * <p>
+   * Вместо отсутствующего в RAP <code>MouseTrackListener</code> используется
+   * {@link ISingleSourcing_MouseTrackListener}.
+   *
+   * @param aControl {@link Control} - контроль
+   * @param aListener {@link ISingleSourcing_MouseTrackListener} - слушатель
+   */
+  public static void Control_addMouseTrackListener( Control aControl, ISingleSourcing_MouseTrackListener aListener ) {
+    // TODO: 2023-05-15 mvk
+    throw new TsUnderDevelopmentRtException();
+    // MouseTrackListener mtl;
+    // synchronized (mtlMap) {
+    // mtl = mtlMap.findByKey( aListener );
+    // if( mtl == null ) {
+    // mtl = new MouseTrackListener() {
+    //
+    // @Override
+    // public void mouseEnter( MouseEvent aEvent ) {
+    // aListener.mouseEnter( aEvent );
+    // }
+    //
+    // @Override
+    // public void mouseExit( MouseEvent aEvent ) {
+    // aListener.mouseExit( aEvent );
+    // }
+    //
+    // @Override
+    // public void mouseHover( MouseEvent aEvent ) {
+    // aListener.mouseHover( aEvent );
+    // }
+    //
+    // };
+    // mtlMap.put( aListener, mtl );
+    // }
+    // }
+    // aControl.addMouseTrackListener( mtl );
+  }
+
+  /**
+   * Аналог <code>Control.addMouseTrackListener(MouseMoveListener)</code>.
+   * <p>
+   * Вместо отсутствующего в RAP <code>MouseTrackListener</code> используется
+   * {@link ISingleSourcing_MouseTrackListener}.
+   *
+   * @param aControl {@link Control} - контроль
+   * @param aListener {@link ISingleSourcing_MouseTrackListener} - слушатель
+   */
+  public static void Control_removeMouseTrackListener( Control aControl,
+      ISingleSourcing_MouseTrackListener aListener ) {
+    // TODO: 2023-05-15 mvk
+    throw new TsUnderDevelopmentRtException();
+    // MouseTrackListener mtl;
+    // synchronized (mtlMap) {
+    // mtl = mtlMap.findByKey( aListener );
+    // }
+    // if( mtl != null ) {
+    // aControl.removeMouseTrackListener( mtl );
+    // }
+  }
+
+  /**
+   * Аналог SashForm.setWeights(int,int).
+   *
+   * @param aForm {@link SashForm} - форма
+   * @param aWeight1 int размер первой панели
+   * @param aWeight2 int размер первой панели
+   */
+  public static void SashForm_setWeights( SashForm aForm, int aWeight1, int aWeight2 ) {
+    aForm.setWeights( new int[] { aWeight1, aWeight2 } );
+  }
+
   /**
    * Возвращает состояние режима принудительной перерисовки {@link Canvas} для RAP
    * <p>

@@ -4,21 +4,27 @@ import static org.toxsoft.core.tsgui.graphics.icons.ITsStdIconIds.*;
 import static org.toxsoft.core.tsgui.graphics.image.impl.ITsResources.*;
 import static org.toxsoft.core.tslib.ITsHardConstants.*;
 
-import java.util.*;
+import java.util.Arrays;
 
-import org.eclipse.jface.action.*;
-import org.eclipse.swt.*;
-import org.eclipse.swt.events.*;
-import org.eclipse.swt.widgets.*;
+import org.eclipse.jface.action.IMenuCreator;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
+import org.toxsoft.core.singlesrc.TsSinglesourcingUtils;
 import org.toxsoft.core.tsgui.bricks.actions.*;
-import org.toxsoft.core.tsgui.bricks.ctx.*;
-import org.toxsoft.core.tsgui.graphics.icons.*;
-import org.toxsoft.core.tsgui.graphics.image.*;
-import org.toxsoft.core.tsgui.mws.services.hdpi.*;
-import org.toxsoft.core.tsgui.panels.toolbar.*;
-import org.toxsoft.core.tsgui.utils.swt.*;
-import org.toxsoft.core.tslib.coll.*;
-import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
+import org.toxsoft.core.tsgui.graphics.icons.EIconSize;
+import org.toxsoft.core.tsgui.graphics.icons.ITsIconManager;
+import org.toxsoft.core.tsgui.graphics.image.EThumbSize;
+import org.toxsoft.core.tsgui.graphics.image.IThumbSizeable;
+import org.toxsoft.core.tsgui.mws.services.hdpi.ITsHdpiService;
+import org.toxsoft.core.tsgui.panels.toolbar.TsToolbar;
+import org.toxsoft.core.tsgui.utils.swt.AbstractMenuCreator;
+import org.toxsoft.core.tslib.coll.IList;
+import org.toxsoft.core.tslib.coll.IListEdit;
+import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -152,7 +158,8 @@ public class ThumbSizeableDropDownMenuCreator
     // zoom original
     MenuItem mItem = new MenuItem( aMenu, SWT.PUSH );
     mItem.setText( String.format( FMT_N_ORIGINAL_SIZE, subject.defaultThumbSize().nmName() ) );
-    mItem.setToolTipText( String.format( FMT_D_ORIGINAL_SIZE, subject.defaultThumbSize().nmName() ) );
+    TsSinglesourcingUtils.MenuItem_setToolTipText( mItem,
+        String.format( FMT_D_ORIGINAL_SIZE, subject.defaultThumbSize().nmName() ) );
     mItem.setImage( iconManager.loadStdIcon( AI_THUMB_SIZEABLE_ZOOM_MENU.iconId(), menuIconSize ) );
     mItem.addSelectionListener( new SelectionAdapter() {
 
@@ -167,7 +174,8 @@ public class ThumbSizeableDropDownMenuCreator
     // zoom out
     mItem = new MenuItem( aMenu, SWT.PUSH );
     mItem.setText( AI_THUMB_SIZEABLE_ZOOM_OUT.nmName() );
-    mItem.setToolTipText( AI_THUMB_SIZEABLE_ZOOM_OUT.description() );
+    TsSinglesourcingUtils.MenuItem_setToolTipText( mItem, AI_THUMB_SIZEABLE_ZOOM_OUT.description() );
+
     mItem.setImage( iconManager.loadStdIcon( AI_THUMB_SIZEABLE_ZOOM_OUT.iconId(), menuIconSize ) );
     mItem.addSelectionListener( new SelectionAdapter() {
 
@@ -180,7 +188,8 @@ public class ThumbSizeableDropDownMenuCreator
     // zoom in
     mItem = new MenuItem( aMenu, SWT.PUSH );
     mItem.setText( AI_THUMB_SIZEABLE_ZOOM_IN.nmName() );
-    mItem.setToolTipText( AI_THUMB_SIZEABLE_ZOOM_IN.description() );
+    TsSinglesourcingUtils.MenuItem_setToolTipText( mItem, AI_THUMB_SIZEABLE_ZOOM_IN.description() );
+
     mItem.setImage( iconManager.loadStdIcon( AI_THUMB_SIZEABLE_ZOOM_IN.iconId(), menuIconSize ) );
     mItem.addSelectionListener( new SelectionAdapter() {
 
@@ -197,7 +206,7 @@ public class ThumbSizeableDropDownMenuCreator
       for( EThumbSize sz : availableThumbSizes ) {
         mItem = new MenuItem( aMenu, SWT.CHECK );
         mItem.setText( sz.nmName() );
-        mItem.setToolTipText( sz.description() );
+        TsSinglesourcingUtils.MenuItem_setToolTipText( mItem, sz.description() );
         mItem.addSelectionListener( new SelectionAdapter() {
 
           @Override
