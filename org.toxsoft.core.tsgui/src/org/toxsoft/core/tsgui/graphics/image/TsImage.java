@@ -12,6 +12,8 @@ import org.toxsoft.core.tslib.coll.wrappers.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.logs.impl.*;
 
+// TODO TRANSLATE
+
 /**
  * Изображение, в общем случае состояшее из нескольких кадров наимации.
  * <p>
@@ -23,6 +25,9 @@ public final class TsImage {
 
   private final IList<Image> frames;
   private final ILongList    delays;
+  private final long         cycleDuration;
+  private final long         minDelay;
+  private final long         maxDelay;
   private final int          imageIndex;
 
   private ITsPoint imageSize;
@@ -31,7 +36,7 @@ public final class TsImage {
   private boolean disposed = false;
 
   // ------------------------------------------------------------------------------------
-  // Создание экземпляров
+  // Creation
   //
 
   /**
@@ -46,6 +51,7 @@ public final class TsImage {
    * @throws TsIllegalArgumentRtException aFrames argument is empty
    * @throws TsIllegalArgumentRtException aDelays size is not equal to aFrames size
    * @throws TsIllegalArgumentRtException aImageIndex is out of range
+   * @throws TsIllegalArgumentRtException any delay value < 0
    */
   public TsImage( IList<Image> aFrames, ILongList aDelays, int aImageIndex ) {
     // предусловия
@@ -56,6 +62,9 @@ public final class TsImage {
     frames = new ElemArrayList<>( aFrames );
     delays = new LongArrayList( aDelays );
     imageIndex = aImageIndex;
+    cycleDuration = calcSum( delays );
+    minDelay = calcMinDelay();
+    maxDelay = calcMaxDelay();
     internalInit();
   }
 
@@ -71,6 +80,7 @@ public final class TsImage {
    * @throws TsIllegalArgumentRtException aFrames argument is empty
    * @throws TsIllegalArgumentRtException aDelays size is not equal to aFrames size
    * @throws TsIllegalArgumentRtException aImageIndex is out of range
+   * @throws TsIllegalArgumentRtException any delay value < 0
    */
   public TsImage( Image[] aFrames, long[] aDelays, int aImageIndex ) {
     TsErrorUtils.checkArrayArg( aFrames, 1 );
@@ -79,16 +89,25 @@ public final class TsImage {
     frames = new ElemArrayWrapper<>( aFrames );
     delays = new LongArrayWrapper( aDelays );
     imageIndex = aImageIndex;
+    cycleDuration = calcSum( delays );
+    minDelay = calcMinDelay();
+    maxDelay = calcMaxDelay();
     internalInit();
   }
 
   private void internalInit() {
-    // изображения должны быть валидными
+    // frame must the valid images
     for( int i = 0, n = frames.size(); i < n; i++ ) {
       Image img = frames.get( i );
       TsIllegalArgumentRtException.checkTrue( img.isDisposed() );
     }
-    // инициализация внутренностей
+    // check delays are not negative
+    for( int i = 0; i < delays.size(); i++ ) {
+      if( delays.getValue( i ) < 0 ) {
+        throw new TsIllegalArgumentRtException();
+      }
+    }
+    // initialize internals
     ImageData imgdata = frames.first().getImageData();
     imageSize = new TsPoint( imgdata.width, imgdata.height );
     boolean isEven = true;
@@ -101,6 +120,30 @@ public final class TsImage {
       }
     }
     evenAnimation = isEven && frames.size() > 1;
+  }
+
+  private static long calcSum( ILongList aLongs ) {
+    long sum = 0L;
+    for( int i = 0; i < aLongs.size(); i++ ) {
+      sum += aLongs.getValue( i );
+    }
+    return sum;
+  }
+
+  private long calcMinDelay() {
+    long s = Long.MAX_VALUE;
+    for( int i = 0; i < delays.size(); i++ ) {
+      s = Math.min( s, delays.getValue( i ) );
+    }
+    return s;
+  }
+
+  private long calcMaxDelay() {
+    long s = 0L;
+    for( int i = 0; i < delays.size(); i++ ) {
+      s = Math.max( s, delays.getValue( i ) );
+    }
+    return s;
   }
 
   /**
@@ -226,16 +269,16 @@ public final class TsImage {
   }
 
   /**
-   * Возвращает значение задержки после отображания очередного кадра и до отображения следующего кадра.
+   * Returns delays to display Nth frame.
    * <p>
-   * Элменты этого массива соответствуют задержке после отображения кадра из {@link #frames()} с соответствующим
-   * индексом.
+   * The Nth index in this list determines how many milliseconds th Nth frame from {@link #frames()} must be displayed
+   * for animation.
+   * <p>
+   * Note: any value in the list is non-negative integer, that is >= 0.
    *
-   * @return long[] - значение задержек омежду кадрами в милисекундах
-   * @throws TsIllegalStateRtException ресурсы уже были освобождены {@link #isDisposed()} = true
+   * @return {@link ILongList} - delays to display Nth frame
    */
   public ILongList delays() {
-    TsIllegalStateRtException.checkTrue( disposed );
     return delays;
   }
 
@@ -316,8 +359,37 @@ public final class TsImage {
     return disposed;
   }
 
+  /**
+   * Returns the duration of the animation cycle.
+   * <p>
+   * The cycle duration is sum of all delays from {@link #delays()} list.
+   *
+   * @return long - animation cycle duration in milliseconds
+   */
+  public long cycleDuration() {
+    return cycleDuration;
+  }
+
+  /**
+   * Finds the minimal value in {@link #delays()}.
+   *
+   * @return long - minimal delay
+   */
+  public long minDelay() {
+    return minDelay;
+  }
+
+  /**
+   * Finds the maximal value in {@link #delays()}.
+   *
+   * @return long - maximal delay
+   */
+  public long maxDelay() {
+    return maxDelay;
+  }
+
   // ------------------------------------------------------------------------------------
-  // Реализация методов Object
+  // Object
   //
 
   @SuppressWarnings( "nls" )
