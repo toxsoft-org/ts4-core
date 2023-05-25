@@ -98,8 +98,6 @@ public interface IM5FieldDef<T, V>
 
   /**
    * Returns the field value of the specified entity.
-   * <p>
-   * If <code>aEntity</code> is <code>null</code>, method returns {@link #defaultValue()}.
    *
    * @param aEntity &lt;T&gt; - the entity, may be <code>null</code>
    * @return &lt;&gt; - the field value, may be <code>null</code>

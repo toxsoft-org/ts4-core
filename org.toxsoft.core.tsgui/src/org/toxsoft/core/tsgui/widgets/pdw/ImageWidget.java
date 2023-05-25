@@ -34,10 +34,10 @@ class ImageWidget
       if( isSizeFixed || image == null ) {
         return new Point( defaultSize.x(), defaultSize.y() );
       }
-      // current image size (either reeal image size or default size)
+      // current image size (either real image size or default size)
       int w = imageSize.x();
       int h = imageSize.y();
-      // which dimension (X or Y or both) we need to cumpute?
+      // which dimension (X or Y or both) we need to compute?
       boolean calcW = aHHint != SWT.DEFAULT;
       boolean calcH = aWHint != SWT.DEFAULT;
       // asked both dimension's default size - return current image size
@@ -48,7 +48,7 @@ class ImageWidget
       if( calcW && calcH ) {
         return new Point( aWHint, aHHint );
       }
-      // one dimansion is asked while another is specified - copmute asked one based on image aspect ratio and fit mode
+      // one dimension is asked while another is specified - compute asked one based on image aspect ratio and fit mode
       double aspect = ((double)w) / ((double)h);
       ERectFitMode fitMode = fitInfo.fitMode();
       if( calcW ) {

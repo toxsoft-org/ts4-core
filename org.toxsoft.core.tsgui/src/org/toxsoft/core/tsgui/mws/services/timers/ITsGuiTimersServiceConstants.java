@@ -20,7 +20,7 @@ public interface ITsGuiTimersServiceConstants {
   String OPID_GRANULARITY_DIVIDER = "GranularityDivider"; //$NON-NLS-1$
 
   IDataDef OPDEF_QUICK_TIMER_PERIOD = DataDef.create( OPID_QUICK_TIMER_PERIOD, INTEGER, //
-      TSID_DEFAULT_VALUE, avInt( 40 ) //
+      TSID_DEFAULT_VALUE, avInt( 20 ) //
   );
 
   IDataDef OPDEF_SLOW_TIMER_PERIOD = DataDef.create( OPID_SLOW_TIMER_PERIOD, INTEGER, //

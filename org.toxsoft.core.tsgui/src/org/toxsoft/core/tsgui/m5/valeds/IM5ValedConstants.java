@@ -77,7 +77,7 @@ public interface IM5ValedConstants {
   String M5VWTID_COMBO = "Combo"; //$NON-NLS-1$
 
   /**
-   * Table with editing toolbar contaions list of linked objects. <br>
+   * Table with editing toolbar contains list of linked objects. <br>
    * This is widget type ID to be specified in {@link #M5_VALED_OPDEF_WIDGET_TYPE_ID}.
    */
   String M5VWTID_TABLE = "Table"; //$NON-NLS-1$

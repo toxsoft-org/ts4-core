@@ -15,14 +15,12 @@ import org.toxsoft.core.tslib.utils.files.*;
 import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
- * Реализация {@link ITsImageManager}.
+ * {@link ITsImageManager} implementation.
  *
  * @author hazard157
  */
 public class TsImageManager
     implements ITsImageManager {
-
-  // TODO change to thread-safe implementation
 
   private static final String DEFAULT_ROOT_PATH        = "/home/zcache"; //$NON-NLS-1$
   private static final int    MIN_MAX_IMAGES_IN_MEMORY = 8;
@@ -32,11 +30,11 @@ public class TsImageManager
   private static final int    DEF_MAX_THUMBS_IN_MEMORY = 64 * 1024;
   private static final int    MAX_MAX_THUMBS_IN_MEMORY = 64 * 1024;
 
-  // кеши
+  // caches
   private final IMapEdit<File, TsImage>                       imagesMap    = new ElemMap<>();
   private final IMapEdit<EThumbSize, IMapEdit<File, TsImage>> thumbsMapMap = new ElemMap<>();
 
-  // параметры кеширования
+  // caching parameters
   private int maxImagesInMemory = DEF_MAX_IMAGES_IN_MEMORY;
   private int maxThumbsInMemory = DEF_MAX_THUMBS_IN_MEMORY;
 
@@ -45,12 +43,10 @@ public class TsImageManager
   private final Display         display;
 
   /**
-   * Конструктор.
-   * <p>
-   * В контексте ожидает ссылку на {@link Display}.
+   * Constructor.
    *
-   * @param aAppContext {@link IEclipseContext} - контекст приложения
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aAppContext {@link IEclipseContext} - the context
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public TsImageManager( IEclipseContext aAppContext ) {
     TsNullArgumentRtException.checkNull( aAppContext );
@@ -60,7 +56,7 @@ public class TsImageManager
   }
 
   // ------------------------------------------------------------------------------------
-  // Внутренные методы
+  // implementation
   //
 
   private File makeThumbFileName( File aImageFile, EThumbSize aThumbSize ) {
@@ -280,7 +276,7 @@ public class TsImageManager
       return false;
     }
     File thumbFile = makeThumbFileName( aImageFile, aThumbSize );
-    // не нужно (пере)создавать файл значка
+    // no need to (re)create thumbnail file
     if( thumbFile.exists() && !aForceCreate && thumbFile.lastModified() > aImageFile.lastModified() ) {
       return true;
     }

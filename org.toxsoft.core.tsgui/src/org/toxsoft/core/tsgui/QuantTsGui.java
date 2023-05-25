@@ -74,12 +74,10 @@ public class QuantTsGui
     ITsImageManager imageManager = winContext.get( ITsImageManager.class );
     if( imageManager != null ) {
       imageManager.clearCache();
-      imageManager = null;
     }
     TsGuiTimersService timerService = (TsGuiTimersService)winContext.get( ITsGuiTimersService.class );
     if( timerService != null ) {
       timerService.close();
-      timerService = null;
     }
   }
 

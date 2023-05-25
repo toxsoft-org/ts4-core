@@ -6,7 +6,7 @@ import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Менеджер работы со картинками в файловой системе.
+ * Mages images and files and caches.
  * <p>
  * О терминологии: "значок", "картинка", "изображение" - смотри комментарии к {@link ITsIconManager}. Дополнительно
  * менеджер картинок вводит поянтие "<b><i>миниатюра</i></b>" (thumbnail). Миниатюра - уменьшенное изображение

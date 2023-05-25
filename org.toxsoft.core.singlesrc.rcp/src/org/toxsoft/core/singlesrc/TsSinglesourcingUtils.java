@@ -19,7 +19,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * RCP/RAP приложения входили соответственно RCP/RAP версии этого плагина.
  * <p>
  *
- * @author goga
+ * @author hazard157
  */
 public class TsSinglesourcingUtils {
 
