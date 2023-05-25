@@ -464,7 +464,10 @@ public final class StridUtils {
   //
 
   /**
-   * Returns all compmonents of the argument.
+   * Returns all components of the argument IDpath.
+   * <p>
+   * The only difference between {@link #getComponents(String)} and <{@link #getComponentsOrEmpty(String)} is that
+   * second one accepts an empty string.
    *
    * @param aIdPath String - an IDpath
    * @return {@link IStringList} - components (IDnames) of the argument
@@ -472,6 +475,45 @@ public final class StridUtils {
    * @throws TsIllegalArgumentRtException aIdPath is not an IDpath
    */
   public static IStringList getComponents( String aIdPath ) {
+    IStringListEdit result = new StringArrayList();
+    if( isIdAPath( aIdPath ) ) {
+      int ind1 = -1, ind2 = 0;
+      do {
+        ind2 = aIdPath.indexOf( CHAR_ID_PATH_DELIMITER, ind1 + 1 );
+        if( ind2 == -1 ) {
+          if( ind1 != 0 ) {
+            result.add( aIdPath.substring( ind1 + 1 ) );
+          }
+        }
+        else {
+          result.add( aIdPath.substring( ind1 + 1, ind2 ) );
+        }
+        ind1 = ind2;
+      } while( ind2 >= 0 );
+    }
+    else {
+      result.add( aIdPath );
+    }
+    return result;
+  }
+
+  /**
+   * Returns all components of the argument IDpath.
+   * <p>
+   * For an empty string returns the empty list.
+   * <p>
+   * The only difference between {@link #getComponents(String)} and <{@link #getComponentsOrEmpty(String)} is that
+   * second one accepts an empty string.
+   *
+   * @param aIdPath String - an IDpath
+   * @return {@link IStringList} - components (IDnames) of the argument
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static IStringList getComponentsOrEmpty( String aIdPath ) {
+    TsNullArgumentRtException.checkNull( aIdPath );
+    if( aIdPath.isEmpty() ) {
+      return IStringList.EMPTY;
+    }
     IStringListEdit result = new StringArrayList();
     if( isIdAPath( aIdPath ) ) {
       int ind1 = -1, ind2 = 0;
@@ -569,7 +611,7 @@ public final class StridUtils {
    *
    * @param aIdPath String - an IDpath
    * @param aCount int - number of components to remove
-   * @return String - remianing IDpath or the empty string
+   * @return String - remianing IDpath or an empty string
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException aCount < 0
    * @throws TsIllegalArgumentRtException aIdPath is not an IDpath
