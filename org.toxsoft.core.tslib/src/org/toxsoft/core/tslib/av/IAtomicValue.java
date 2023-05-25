@@ -39,7 +39,7 @@ public interface IAtomicValue
   /**
    * Determines if implementation contains any value.
    * <p>
-   * Reading from unssaigned {@link IAtomicValue} throws an {@link AvUnassignedValueRtException}.
+   * Reading from unassigned {@link IAtomicValue} throws an {@link AvUnassignedValueRtException}.
    * <p>
    * The only tslib implementation on {@link IAtomicValue} with unassigned value is singleton {@link IAtomicValue#NULL}.
    *
@@ -107,10 +107,10 @@ public interface IAtomicValue
    * {@link Double}, etc).
    *
    * @param <T> - requested type value-object
-   * @return &lt;Tgt; - value-object, may be <code>null</code>
+   * @return &lt;T&gt; - value-object, may be <code>null</code>
    * @throws AvTypeCastRtException value is not of requested type
    * @throws TsItemNotFoundRtException no keeper was registered for value-object class
-   * @throws ClassCastException tha value-object is not of expected type &lt;T&gt;
+   * @throws ClassCastException the value-object is not of expected type &lt;T&gt;
    */
   <T> T asValobj();
 
@@ -175,12 +175,12 @@ final class InternalNoneAtomicValue
 
   @SuppressWarnings( "unchecked" )
   @Override
-  public IAtomicValue asValobj() {
-    return IAtomicValue.NULL;
+  public Object asValobj() {
+    throw new AvUnassignedValueRtException();
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация методов Object
+  // Object
   //
 
   @Override
