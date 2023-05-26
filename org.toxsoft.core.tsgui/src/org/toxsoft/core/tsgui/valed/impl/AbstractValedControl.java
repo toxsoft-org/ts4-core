@@ -136,7 +136,7 @@ public abstract class AbstractValedControl<V, C extends Control>
    * Этот слушатель типа {@link ModifyListener} нужно ставить тем виджетам в панели, с которыми работает пользователь
    * для внесения изменений в отображаемой структуре данных T.
    */
-  protected ModifyListener notificationModifyListener = e -> fireModifyEvent( false );
+  protected ModifyListener notificationModifyListener = e -> fireModifyEvent( true );
 
   /**
    * Слушатель изменений в виджетах, извещающий диалог о правках пользовтеля.

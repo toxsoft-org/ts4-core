@@ -77,10 +77,19 @@ public class StringM5Model
   }
 
   /**
-   * Конструктор встроенной модели.
+   * Constructor for builtin model.
    */
   public StringM5Model() {
-    super( MODEL_ID, String.class );
+    this( MODEL_ID );
+  }
+
+  /**
+   * Constructor for subclass.
+   *
+   * @param aModelId String - the model ID.
+   */
+  protected StringM5Model( String aModelId ) {
+    super( aModelId, String.class );
     setNameAndDescription( STR_N_M5M_STRING, STR_D_M5M_STRING );
     addFieldDefs( STR );
   }

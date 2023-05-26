@@ -165,14 +165,20 @@ public class TsFileFilter
       return false;
     }
     // consider file extensions
+    boolean isAccepted = true;
     if( isFile && !extensions.isEmpty() ) {
       String ext = TsFileUtils.extractExtension( aPathName.getName() );
       if( caseSensitive ) {
-        return extensions.hasElem( ext );
+        isAccepted = extensions.hasElem( ext );
       }
-      return extensionsLowerCase.hasElem( ext.toLowerCase() );
+      else {
+        isAccepted = extensionsLowerCase.hasElem( ext.toLowerCase() );
+      }
     }
-    return doAccept( aPathName, isFile );
+    if( isAccepted ) {
+      isAccepted = doAccept( aPathName, isFile );
+    }
+    return isAccepted;
   }
 
   // ------------------------------------------------------------------------------------

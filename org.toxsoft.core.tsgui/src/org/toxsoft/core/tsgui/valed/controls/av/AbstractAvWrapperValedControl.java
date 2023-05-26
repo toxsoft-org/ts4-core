@@ -154,7 +154,8 @@ public abstract class AbstractAvWrapperValedControl<T>
     }
     AvTypeCastRtException.checkCanAssign( atomicType, aValue.atomicType() );
     T tv = av2tv( aValue );
-    TsInternalErrorRtException.checkNull( tv );
+    // GOGA 2023-05-25 it IS allowed to set null to the wrapped Valed
+    // TsInternalErrorRtException.checkNull( tv );
     source.setValue( tv );
   }
 
