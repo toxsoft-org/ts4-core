@@ -11,6 +11,7 @@ import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * Базовый класс визуальных компонент для отображения шкал.
@@ -156,8 +157,8 @@ abstract class G2AxisViewBase
           bounds.width() - markingMargins.left() - markingMargins.right(), //
           bounds.height() - markingMargins.top() - markingMargins.bottom() );
     }
-    catch( Throwable e ) {
-      e.printStackTrace();
+    catch( Throwable ex ) {
+      LoggerUtils.errorLogger().error( ex );
       return new TsRectangle( 0, 0, 1, 1 );
     }
   }
