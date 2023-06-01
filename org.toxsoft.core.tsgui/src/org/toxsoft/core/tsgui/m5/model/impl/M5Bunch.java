@@ -17,15 +17,15 @@ public class M5Bunch<T>
   /**
    * Constructor.
    * <p>
-   * Preferrable way to create the values bunch of the entity is {@link IM5Model#valuesOf(Object)}. So this constructor
-   * is package private.
+   * Preferable way to create the values bunch of the entity is {@link IM5Model#valuesOf(Object)}. So this constructor
+   * is <code>public</code> just to be used in {@link IM5ValuesCache} implementation.
    *
    * @param aModel {@link IM5Model}&lt;T&gt; - entity model
    * @param aOriginalEntity &lt;T&gt; - modelled entity or <code>null</code> for field default field values
    * @throws TsNullArgumentRtException aModel = null
    * @throws TsIllegalArgumentRtException aObject is modelled by aModel
    */
-  M5Bunch( IM5Model<T> aModel, T aOriginalEntity ) {
+  public M5Bunch( IM5Model<T> aModel, T aOriginalEntity ) {
     super( aModel );
     if( aOriginalEntity != null ) {
       TsIllegalArgumentRtException.checkFalse( aModel.isModelledObject( aOriginalEntity ) );

@@ -4,10 +4,10 @@ import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tslib.coll.basis.*;
 
 /**
- * {@link IM5Bunch} caching starategy for {@link M5Model}.
+ * {@link IM5Bunch} caching strategy for {@link M5Model}.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public interface IM5ValuesCache<T>
     extends ITsClearable {
@@ -15,7 +15,7 @@ public interface IM5ValuesCache<T>
   /**
    * Returns the bunch for specified entity.
    * <p>
-   * Method alwayes returns the bunch for specified entity. Depending on implementation method may create new instance
+   * Method always returns the bunch for specified entity. Depending on implementation method may create new instance
    * and cache it for first time and for following calls return the bunch from the cache.
    *
    * @param aEntity &lt;T&gt; - the entity, may be <code>null</code>
