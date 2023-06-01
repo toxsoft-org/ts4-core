@@ -10,6 +10,7 @@ import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * Холст для отображения графиков.
@@ -107,8 +108,8 @@ public class G2Canvas
           bounds.width() - margins.left() - margins.right(), //
           bounds.height() - margins.top() - margins.bottom() );
     }
-    catch( Throwable e ) {
-      e.printStackTrace();
+    catch( Throwable ex ) {
+      LoggerUtils.errorLogger().error( ex );
       clientRect = new TsRectangle( 0, 0, 1, 1 );
     }
   }

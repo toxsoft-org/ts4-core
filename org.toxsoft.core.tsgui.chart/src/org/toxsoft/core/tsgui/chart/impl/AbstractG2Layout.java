@@ -12,6 +12,7 @@ import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * Базовый класс, от которого должны наследоваться конкретные менеджеры размещения.
@@ -71,7 +72,13 @@ public abstract class AbstractG2Layout
     if( panel.getClientArea().width <= 0 || panel.getClientArea().height <= 0 ) {
       return;
     }
-    doLayout();
+    // dima 31.05.23 в этом месте может прилететь исключение
+    try {
+      doLayout();
+    }
+    catch( Exception ex ) {
+      LoggerUtils.errorLogger().error( ex );
+    }
   }
 
   public final void setXAxisDef( IXAxisDef aXAxisDef ) {
