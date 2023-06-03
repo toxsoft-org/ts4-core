@@ -9,6 +9,7 @@ import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -18,6 +19,10 @@ import org.toxsoft.core.tslib.utils.errors.*;
  */
 public class SkidList
     implements ISkidList, IListEdit<Skid>, IKeepableEntity, Serializable {
+
+  /**
+   * FIXME add caching of the generated lists
+   */
 
   private static final long serialVersionUID = 157157L;
 
@@ -274,6 +279,18 @@ public class SkidList
     for( Skid skid : list ) {
       if( skid.classId().equals( aClassId ) ) {
         ll.add( skid );
+      }
+    }
+    return ll;
+  }
+
+  @Override
+  public IStringList listStridsOfClass( String aClassId ) {
+    TsNullArgumentRtException.checkNull( aClassId );
+    IStringListEdit ll = new StringLinkedBundleList();
+    for( Skid skid : list ) {
+      if( skid.classId().equals( aClassId ) ) {
+        ll.add( skid.strid() );
       }
     }
     return ll;

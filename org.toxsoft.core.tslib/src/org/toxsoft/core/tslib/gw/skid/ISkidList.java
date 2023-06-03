@@ -35,13 +35,26 @@ public interface ISkidList
   IStringList classIds();
 
   /**
-   * Creates and returns object STRIDs of the specified class.
+   * Creates and returns object SKIDs of the specified class.
+   * <p>
+   * If no SKID in the list is of the specified class, then returns and empty list.
    *
    * @param aClassId String - the class ID
-   * @return {@link IList}&lt;{@link Skid}&gt; - STRIDs of SKIDs of the specified class
+   * @return {@link IList}&lt;{@link Skid}&gt; - SKIDs of the specified class
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   IList<Skid> listSkidsOfClass( String aClassId );
+
+  /**
+   * Creates and returns object STRIDs of the specified class.
+   * <p>
+   * If no SKID in the list is of the specified class, then returns and empty list.
+   *
+   * @param aClassId String - the class ID
+   * @return {@link IStringList} - STRIDs of SKIDs of the specified class
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  IStringList listStridsOfClass( String aClassId );
 
   /**
    * Finds first duplicate SKID in the list.
@@ -81,6 +94,12 @@ final class InternalEmptySkidList
   public IList<Skid> listSkidsOfClass( String aClassId ) {
     TsNullArgumentRtException.checkNull( aClassId );
     return IList.EMPTY;
+  }
+
+  @Override
+  public IStringList listStridsOfClass( String aClassId ) {
+    TsNullArgumentRtException.checkNull( aClassId );
+    return IStringList.EMPTY;
   }
 
   @Override
