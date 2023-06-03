@@ -59,9 +59,10 @@ public class Main {
             continue;
           }
           String artefactId = t[1].trim();
-          if( !isBuildModule( artefactId ) ) {
-            continue;
-          }
+          // 2023-06-03 mvk---: пересобираем при ЛЮБОМ изменении в репозитории
+          // if( !isBuildModule( artefactId ) ) {
+          // continue;
+          // }
           // System.out.println( "append: " + artefactId );
           artefacts.add( artefactId );
           Thread.yield();
@@ -83,6 +84,7 @@ public class Main {
     System.out.println( sb.toString() );
   }
 
+  @SuppressWarnings( "unused" )
   private static boolean isBuildModule( String aArtefactId ) {
     for( String prefix : ARTEFACT_MODULE_PEFFIXS ) {
       if( aArtefactId.startsWith( prefix ) ) {
