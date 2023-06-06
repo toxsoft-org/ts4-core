@@ -3,6 +3,8 @@ package org.toxsoft.core.tslib.bricks.validator;
 import static org.toxsoft.core.tslib.bricks.validator.ITsResources.*;
 import static org.toxsoft.core.tslib.utils.icons.ITsLibIconIds.*;
 
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.std.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
@@ -33,6 +35,17 @@ public enum EValidationResultType
    * Validation failure with error.
    */
   ERROR( "Error", STR_N_ERROR, STR_D_ERROR, TSLIB_ICONID_ERROR ); //$NON-NLS-1$
+
+  /**
+   * The registered keeper ID.
+   */
+  public static final String KEEPER_ID = "EValResType"; //$NON-NLS-1$
+
+  /**
+   * Keeper singleton.
+   */
+  public static final IEntityKeeper<EValidationResultType> KEEPER =
+      new StridableEnumKeeper<>( EValidationResultType.class );
 
   private static IStridablesList<EValidationResultType> list = null;
 

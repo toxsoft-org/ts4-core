@@ -16,6 +16,7 @@ import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.std.*;
 import org.toxsoft.core.tslib.bricks.strid.more.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.helpers.*;
 import org.toxsoft.core.tslib.coll.impl.*;
@@ -97,6 +98,8 @@ public class TsValobjUtils {
     registerKeeper( D2GeomData.KEEPER_ID, D2GeomData.KEEPER );
     registerKeeper( IntListKeeper.KEEPER_ID, IntListKeeper.KEEPER );
     registerKeeper( LongListKeeper.KEEPER_ID, LongListKeeper.KEEPER );
+    registerKeeper( EValidationResultType.KEEPER_ID, EValidationResultType.KEEPER );
+    registerKeeper( ValidationResult.KEEPER_ID, ValidationResult.KEEPER );
   }
 
   // ------------------------------------------------------------------------------------

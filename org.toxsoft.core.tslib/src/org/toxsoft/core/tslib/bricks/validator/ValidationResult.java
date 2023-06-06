@@ -2,6 +2,9 @@ package org.toxsoft.core.tslib.bricks.validator;
 
 import java.io.*;
 
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.logs.*;
@@ -23,6 +26,37 @@ public final class ValidationResult
    */
   public static final ValidationResult SUCCESS =
       new ValidationResult( EValidationResultType.OK, TsLibUtils.EMPTY_STRING );
+
+  /**
+   * The registered keeper ID.
+   */
+  public static final String KEEPER_ID = "ValidationResult"; //$NON-NLS-1$
+
+  /**
+   * The keeper singleton.
+   */
+  public static final IEntityKeeper<ValidationResult> KEEPER =
+      new AbstractEntityKeeper<>( ValidationResult.class, EEncloseMode.ENCLOSES_KEEPER_IMPLEMENTATION, SUCCESS ) {
+
+        @Override
+        protected void doWrite( IStrioWriter aSw, ValidationResult aEntity ) {
+          aSw.writeAsIs( aEntity.type.id() );
+          aSw.writeSeparatorChar();
+          aSw.writeQuotedString( aEntity.msg );
+        }
+
+        @Override
+        protected ValidationResult doRead( IStrioReader aSr ) {
+          EValidationResultType type = EValidationResultType.getById( aSr.readIdName() );
+          aSr.ensureSeparatorChar();
+          String msg = aSr.readQuotedString();
+          if( type == EValidationResultType.OK && msg.isEmpty() ) {
+            return SUCCESS;
+          }
+          return new ValidationResult( type, msg );
+        }
+
+      };
 
   private final EValidationResultType type;
   private final String                msg;
