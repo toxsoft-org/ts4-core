@@ -38,12 +38,12 @@ public final class RectFitInfo {
   public static final String KEEPER_ID = "RectFitInfo"; //$NON-NLS-1$
 
   /**
-   * Convinience constant of no special fitting - display original object clipped in vieweport.
+   * Convenience constant of no special fitting - display original object clipped in viewport.
    */
   public static final RectFitInfo NONE = new RectFitInfo( ERectFitMode.NONE, false, DEFAULT_ZOOM );
 
   /**
-   * Convinience constant best fitting - fit original object in vieweport but not increase if it's small.
+   * Convenience constant best fitting - fit original object in viewport but not increase if it's small.
    */
   public static final RectFitInfo BEST = new RectFitInfo( ERectFitMode.FIT_BOTH, false, DEFAULT_ZOOM );
 
@@ -89,11 +89,11 @@ public final class RectFitInfo {
   private final boolean      expandToFit;
 
   /**
-   * Constrictor.
+   * Constructor.
    *
    * @param aFitMode {@link ERectFitMode} - fit mode
    * @param aIsExpandToFit boolean - specifies to expand small images to fit in viewport
-   * @param aZoomFactor double - zoom factor for {@link ERectFitMode#ZOOMED} mode
+   * @param aZoomFactor double - zoom factor for {@link ERectFitMode#ZOOMED} mode, 1.0 means oridinal size (100% zoom)
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException zoom factor is out of range
    */
@@ -132,7 +132,7 @@ public final class RectFitInfo {
    * <p>
    * Original size (100%) is represented by value 1.0.
    *
-   * @return doublt - the zoom factor in range {@link #MIN_ZOOM_FACTOR} .. {@link #MAX_ZOOM_FACTOR}
+   * @return double - the zoom factor in range {@link #MIN_ZOOM_FACTOR} .. {@link #MAX_ZOOM_FACTOR}
    */
   public double zoomFactor() {
     return zoomFactor;
