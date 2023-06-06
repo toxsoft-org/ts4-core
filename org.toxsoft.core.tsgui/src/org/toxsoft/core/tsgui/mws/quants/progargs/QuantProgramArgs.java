@@ -12,12 +12,13 @@ import org.toxsoft.core.tslib.bricks.ctx.impl.*;
 import org.toxsoft.core.tslib.utils.progargs.*;
 
 /**
- * Квант разборщика командной строки.
+ * Quant parses command line and puts resulting {@link ProgramArgs} into the application level context.
  * <p>
- * Предназначен для разбора командной строки вида<br>
+ * Designed to parse the command line like<br>
  * <code>program -arg1 [value1] -arg2 [value2] ... -argN [valueN]</code>
  * <p>
- * Результаты {@link ProgramArgs} размещаются в контексте приложения в ссылке {@link #REFDEF_PROGRAM_ARGS}.
+ * There is constant {@link #REFDEF_PROGRAM_ARGS} describing the reference to the {@link ProgramArgs} instance in the
+ * context.
  *
  * @author hazard157
  */
@@ -25,7 +26,9 @@ public class QuantProgramArgs
     extends AbstractQuant {
 
   /**
-   * Ссылка на аргументы команной строки в контексте приложения.
+   * Reference to the instance of {@link ProgramArgs}.
+   * <p>
+   * Reference is also accessible simple by class via {@link IEclipseContext#get(Class)}.
    */
   public static final ITsContextRefDef<ProgramArgs> REFDEF_PROGRAM_ARGS = TsContextRefDef.create( ProgramArgs.class, //
       TSID_NAME, STR_N_CTX_REF_PROGRAM_ARGS, //
@@ -33,7 +36,7 @@ public class QuantProgramArgs
   );
 
   /**
-   * Конструктор.
+   * Constructor.
    */
   public QuantProgramArgs() {
     super( QuantProgramArgs.class.getSimpleName() );

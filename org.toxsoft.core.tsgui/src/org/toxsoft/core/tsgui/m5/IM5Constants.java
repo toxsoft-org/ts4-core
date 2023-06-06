@@ -12,7 +12,7 @@ import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 
 /**
- * M5 GUI modelling framework constants.
+ * M5 GUI modeling framework constants.
  *
  * @author hazard157
  */

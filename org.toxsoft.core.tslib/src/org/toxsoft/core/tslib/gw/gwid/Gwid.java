@@ -32,7 +32,7 @@ public final class Gwid
   private static final long serialVersionUID = 157157L;
 
   /**
-   * Multi object/propery/subproperty identifier sign.
+   * Multi object/property/sub-property identifier sign.
    */
   public static final char KEYCH_MULTI_ID = '*';
 
@@ -103,7 +103,6 @@ public final class Gwid
 
   private Gwid( String aClassId, String aStrid, String aPropSectId, String aPropId, String aSubPropSectId,
       String aSubPropId ) {
-
     classId = StridUtils.checkValidIdPath( aClassId );
     strid = checkValidIdPathMulti( aStrid, false, true );
     if( strid != null && !strid.equals( STR_MULTI_ID ) ) {
@@ -127,55 +126,6 @@ public final class Gwid
     if( !kind.hasSubProp() && isSubProp() ) {
       throw new TsIllegalArgumentRtException();
     }
-    //
-    //
-    // classId = StridUtils.checkValidIdPath( aClassId );
-    // // process abstract/concrete GWID (determine if there is a SKID specofoed)
-    // strid = checkValidIdPathMulti( aStrid, false, true );
-    // if( strid != null && !strid.equals( STR_MULTI_ID ) ) {
-    // skid = new Skid( classId, strid );
-    // }
-    // else {
-    // skid = null;
-    // }
-    // // process property
-    // if( aPropSectId != null ) {
-    // switch( aPropSectId ) {
-    // case GW_KEYWORD_ATTR:
-    // case GW_KEYWORD_RIVET:
-    // case GW_KEYWORD_CLOB:
-    // case GW_KEYWORD_RTDATA:
-    // case GW_KEYWORD_LINK:
-    // case GW_KEYWORD_CMD:
-    // case GW_KEYWORD_EVENT:
-    // break;
-    // default: // invalid property section ID
-    // throw new TsIllegalArgumentRtException();
-    // }
-    // propSectId = aPropSectId;
-    // propId = checkValidIdPathMulti( aPropId, false, false );
-    // subPropSectId = checkValidIdPath( aSubPropSectId, false, true );
-    // if( subPropSectId != null ) {
-    // subPropId = checkValidIdPathMulti( aSubPropId, false, false );
-    // }
-    // else {
-    // throw new TsIllegalArgumentRtException();
-    // }
-    // }
-    // else {
-    // kind = GW_CLASS;
-    // propSectId = null;
-    // propId = null;
-    // }
-    // kind = determineKind();
-    // canonicalString = makeCanonicalString();
-    // // ensure validity
-    // if( !kind.hasProp() && isProp() ) {
-    // throw new TsIllegalArgumentRtException();
-    // }
-    // if( !kind.hasSubProp() && isSubProp() ) {
-    // throw new TsIllegalArgumentRtException();
-    // }
   }
 
   // ------------------------------------------------------------------------------------
@@ -273,7 +223,6 @@ public final class Gwid
   }
 
   public static Gwid of( String aCanonicalString ) {
-    // OPTIMIZE надо переделать на прямое чтение строки
     ICharInputStream chIn = new CharInputStreamString( aCanonicalString );
     IStrioReader sr = new StrioReader( chIn );
     return readGwid( sr );
@@ -360,10 +309,10 @@ public final class Gwid
       throws IOException,
       ClassNotFoundException {
     aIns.defaultReadObject(); // only canonicalString is read
-    // сейчас разберем строку canonicalString, исходя из того, чо оибок в нем не может быть
+    // now let's parse the canonicalString string, based on the fact that there can be no errors in it
     int lp = 0, plp = 0, len = canonicalString.length();
     char ch;
-    // считываем classId
+    // read classId
     while( StridUtils.isIdPathPart( ch = canonicalString.charAt( lp ) ) ) {
       ++lp;
       if( lp == len ) {
@@ -373,9 +322,9 @@ public final class Gwid
       }
     }
     classId = canonicalString.substring( plp, lp );
-    ++lp; // пропустим KEYCH_STRID_LEFT или KEYCH_PART_DELIM
+    ++lp; // bypass KEYCH_STRID_LEFT or KEYCH_PART_DELIM
     plp = lp;
-    // считываем strid, если есть
+    // read strid, if any
     if( ch == KEYCH_STRID_LEFT ) {
       while( StridUtils.isIdPathPart( ch = canonicalString.charAt( lp ) ) || (ch == KEYCH_MULTI_ID && plp == lp) ) {
         ++lp;
@@ -388,47 +337,47 @@ public final class Gwid
       }
       strid = canonicalString.substring( plp, lp );
       skid = !strid.equals( STR_MULTI_ID ) ? new Skid( classId, strid ) : null;
-      ++lp; // пропустим KEYCH_STRID_RIGHT
-      ++lp; // пропустим KEYCH_PART_DELIM
+      ++lp; // bypass KEYCH_STRID_RIGHT
+      ++lp; // bypass KEYCH_PART_DELIM
       plp = lp;
     }
 
-    // for gwid with class & strid only
+    // for GWID with class & strid only
     if( lp > len ) {
       kind = determineKind();
       return;
     }
 
-    // считаем пару "propSectId(propId)"
+    // read pair "propSectId(propId)"
     while( StridUtils.isIdPathPart( ch = canonicalString.charAt( lp ) ) ) {
-      ++lp; // здесь не может быть конца строки
+      ++lp; // no EOL here
     }
     propSectId = canonicalString.substring( plp, lp );
-    ++lp; // пропустим KEYCH_PRID_LEFT
+    ++lp; // bypass KEYCH_PRID_LEFT
     plp = lp;
     while( StridUtils.isIdPathPart( ch = canonicalString.charAt( lp ) ) || (ch == KEYCH_MULTI_ID && plp == lp) ) {
-      ++lp; // здесь не может быть конца строки
+      ++lp; // no EOL here
     }
     propId = canonicalString.substring( plp, lp );
-    ++lp; // пропустим KEYCH_PRID_RIGHT
-    ++lp; // пропустим KEYCH_PART_DELIM
+    ++lp; // bypass KEYCH_PRID_RIGHT
+    ++lp; // bypass KEYCH_PART_DELIM
     plp = lp;
     if( lp > len ) {
       kind = determineKind();
       return;
     }
-    // считаем пару "subPropSectId(subPropId)"
+    // read pair "subPropSectId(subPropId)"
     while( StridUtils.isIdPathPart( ch = canonicalString.charAt( lp ) ) ) {
-      ++lp; // здесь не может быть конца строки
+      ++lp; // no EOL here
     }
     subPropSectId = canonicalString.substring( plp, lp );
-    ++lp; // пропустим KEYCH_PRID_LEFT
+    ++lp; // bypass KEYCH_PRID_LEFT
     plp = lp;
     while( StridUtils.isIdPathPart( ch = canonicalString.charAt( lp ) ) || (ch == KEYCH_MULTI_ID && plp == lp) ) {
-      ++lp; // здесь не может быть конца строки
+      ++lp; // no EOL here
     }
     subPropId = canonicalString.substring( plp, lp );
-    // ++lp; // пропустим KEYCH_PRID_RIGHT
+    // ++lp; // bypass KEYCH_PRID_RIGHT
     kind = determineKind();
   }
 
@@ -516,7 +465,7 @@ public final class Gwid
   /**
    * Returns the canonical string representation of the GWID.
    *
-   * @return String - GWID canpnical string
+   * @return String - GWID canonical string
    */
   public String asString() {
     return canonicalString;
@@ -543,7 +492,7 @@ public final class Gwid
   }
 
   /**
-   * Determines if any part od the GWID refers to multi entities.
+   * Determines if any part of the GWID refers to multi entities.
    *
    * @return boolean - <code>true</code> if {@link #isStridMulti()} or {@link #isPropMulti()} returns <code>true</code>:
    */
@@ -566,7 +515,7 @@ public final class Gwid
   }
 
   /**
-   * Determines if thid GWID refers to many objects.
+   * Determines if this GWID refers to many objects.
    *
    * @return boolean - <code>true</code> only if {@link #strid()} equals to {@link #STR_MULTI_ID}
    */
@@ -581,7 +530,7 @@ public final class Gwid
    * <p>
    * For multi-objects {@link #isStridMulti()} = <code>true</code> returns {@link Gwid#STR_MULTI_ID}.
    *
-   * @return String - obbject strid or <code>null</code> or {@link Gwid#STR_MULTI_ID}
+   * @return String - object strid or <code>null</code> or {@link Gwid#STR_MULTI_ID}
    */
   public String strid() {
     return strid;
@@ -603,12 +552,12 @@ public final class Gwid
   }
 
   /**
-   * Determines if there is the property (and possibly sub-propery) part in this GWID.
+   * Determines if there is the property (and possibly sub-property) part in this GWID.
    * <p>
    * When this method return <code>false</code> the following methods return <code>null</code>: {@link #propSectId()},
    * {@link #propId()}, {@link #subPropSectId()}, {@link #subPropId()}.
    *
-   * @return boolean - <code>true</code> if GWID has subproperty part
+   * @return boolean - <code>true</code> if GWID has sub-property part
    */
   public boolean isProp() {
     return propId != null;
@@ -633,16 +582,16 @@ public final class Gwid
   }
 
   /**
-   * Returns the propery identifier.
+   * Returns the property identifier.
    *
-   * @return String - the propery identifier IDpath or <code>null</code> or {@link #STR_MULTI_ID}
+   * @return String - the property identifier IDpath or <code>null</code> or {@link #STR_MULTI_ID}
    */
   public String propId() {
     return propId;
   }
 
   /**
-   * Determines if there is the sub-propery part in this GWID.
+   * Determines if there is the sub-property part in this GWID.
    * <p>
    * When this method return <code>false</code> the following methods return <code>null</code>:
    * {@link #subPropSectId()}, {@link #subPropId()}.
@@ -672,9 +621,9 @@ public final class Gwid
   }
 
   /**
-   * Returns the sub-propery identifier.
+   * Returns the sub-property identifier.
    *
-   * @return String - the sub-propery identifier IDpath or <code>null</code> or {@link #STR_MULTI_ID}
+   * @return String - the sub-property identifier IDpath or <code>null</code> or {@link #STR_MULTI_ID}
    */
   public String subPropId() {
     return subPropId;

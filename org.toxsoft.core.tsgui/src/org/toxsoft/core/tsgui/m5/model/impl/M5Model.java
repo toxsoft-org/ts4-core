@@ -51,7 +51,6 @@ public class M5Model<T>
    * @param aEntityClass {@link Class}&lt;T&gt; - modeled entity type
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException identifier is not an IDpath
-   * @throws TsItemAlreadyExistsRtException model with specified ID already exists in domain
    */
   public M5Model( String aId, Class<T> aEntityClass ) {
     super( aId );

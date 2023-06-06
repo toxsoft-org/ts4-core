@@ -1,8 +1,10 @@
 package org.toxsoft.core.tslib.gw.gwid;
 
+import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.gw.IGwHardConstants.*;
 import static org.toxsoft.core.tslib.gw.gwid.ITsResources.*;
 
+import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.std.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
@@ -58,6 +60,8 @@ public enum EGwidKind
   private final String  description;
   private final boolean hasProp;
   private final boolean hasSubProp;
+
+  private IAtomicValue av = null;
 
   /**
    * Constructor.
@@ -127,6 +131,18 @@ public enum EGwidKind
       list = new StridablesList<>( values() );
     }
     return list;
+  }
+
+  /**
+   * Returns the {@link EAtomicType#VALOBJ} atomic value of this constant.
+   *
+   * @return {@link IAtomicValue} - atomic value of this constant
+   */
+  public IAtomicValue atomicValue() {
+    if( av == null ) {
+      av = avValobj( this );
+    }
+    return av;
   }
 
   // ----------------------------------------------------------------------------------

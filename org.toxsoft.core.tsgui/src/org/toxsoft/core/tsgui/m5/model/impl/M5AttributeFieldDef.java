@@ -49,14 +49,16 @@ public abstract class M5AttributeFieldDef<T>
    *
    * @param aId String - the field ID
    * @param aDataType {@link IDataDef} - the template for attribute data definition
+   * @param aIdsAndValues Object[] - identifier / value pairs overrides {@link IDataType#params()}
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException the ID is not an IDpath
    */
-  public M5AttributeFieldDef( String aId, IDataType aDataType ) {
+  public M5AttributeFieldDef( String aId, IDataType aDataType, Object... aIdsAndValues ) {
     super( aId, IAtomicValue.class, null );
     TsNullArgumentRtException.checkNull( aDataType );
     attrType = aDataType.atomicType();
     params().addAll( aDataType.params() );
+    params().addAll( OptionSetUtils.createOpSet( aIdsAndValues ) );
     if( aDataType instanceof IDataDef ddef ) {
       validator().addValidator( ddef.validator() );
       setComparator( ddef.comparator() );
