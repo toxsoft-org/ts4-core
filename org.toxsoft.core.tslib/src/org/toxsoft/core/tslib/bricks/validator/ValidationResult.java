@@ -36,7 +36,7 @@ public final class ValidationResult
    * The keeper singleton.
    */
   public static final IEntityKeeper<ValidationResult> KEEPER =
-      new AbstractEntityKeeper<>( ValidationResult.class, EEncloseMode.ENCLOSES_KEEPER_IMPLEMENTATION, SUCCESS ) {
+      new AbstractEntityKeeper<>( ValidationResult.class, EEncloseMode.ENCLOSES_BASE_CLASS, SUCCESS ) {
 
         @Override
         protected void doWrite( IStrioWriter aSw, ValidationResult aEntity ) {
