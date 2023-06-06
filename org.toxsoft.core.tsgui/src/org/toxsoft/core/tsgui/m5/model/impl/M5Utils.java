@@ -5,6 +5,7 @@ import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import org.eclipse.e4.core.contexts.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
+import org.toxsoft.core.tsgui.bricks.gw.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.std.models.av.*;
 import org.toxsoft.core.tsgui.m5.std.models.misc.*;
@@ -63,6 +64,8 @@ public class M5Utils {
     aDomain.addModel( new DataTypeM5Model() );
     aDomain.addModel( new DataDefM5Model() );
     aDomain.addModel( new ValidationResultM5Model() );
+    aDomain.addModel( new SkidM5Model() );
+    aDomain.addModel( new GwidM5Model() );
     // aDomain.addModel( new SectionDefM5Model() );
     // TODO aDomain.addModel( new LongM5Model() );
     // TODO aDomain.addModel( new TsVersionM5Model() );
