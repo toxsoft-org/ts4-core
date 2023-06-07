@@ -12,10 +12,11 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * M5 tree viewer.
  * <p>
  * Tree viewer unlike {@link IM5TableViewer} contains not entities &lt;T&gt; but nodes {@link ITsNode} which themself
- * contains modelled entities as described in comments to the method {@link ITsTreeMaker#makeRoots(ITsNode, IList)}.
+ * contains either modeled entities as described in comments to the method
+ * {@link ITsTreeMaker#makeRoots(ITsNode, IList)}.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public interface IM5TreeViewer<T>
     extends IM5CollectionViewer<T> {
@@ -47,7 +48,7 @@ public interface IM5TreeViewer<T>
   ITsNode rootNode();
 
   /**
-   * Returns tree visualisation control console.
+   * Returns tree visualization control console.
    * <p>
    * Note: items in console (like returned by {@link ITsTreeViewerConsole#selectedNode()} are {@link ITsNode}.
    *

@@ -100,20 +100,41 @@ public class OptionSetPanel
    */
   private final IStringMapEdit<IValedControl<IAtomicValue>> mapValeds = new StringMap<>();
 
+  private final boolean onlyUserEvents;
+
+  /**
+   * Constructor.
+   * <p>
+   * Constructor stores reference to the context, does not creates copy.
+   * <p>
+   * Panel generates change events every time when something changes, either by user in widgets or by programmer via
+   * panel API. Setting argument <code>aOnlyUserEvents</code> to <code>true</code> will cause only user input to
+   * generate events.
+   *
+   * @param aContext {@link ITsGuiContext} - the context
+   * @param aIsViewer boolean - determines if panel will be created in viewer mode
+   * @param aOnlyUserEvents boolean - determines which events to generate
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public OptionSetPanel( ITsGuiContext aContext, boolean aIsViewer, boolean aOnlyUserEvents ) {
+    super( aContext );
+    genericEventer = new GenericChangeEventer( this );
+    optionEventer = new OptionValueChangeEventer( this );
+    viewerMode = aIsViewer;
+    onlyUserEvents = aOnlyUserEvents;
+  }
+
   /**
    * Constructor.
    * <p>
    * Constructor stores reference to the context, does not creates copy.
    *
-   * @param aContext {@link ITsGuiContext} - контекст панели
+   * @param aContext {@link ITsGuiContext} - the context
    * @param aIsViewer boolean - determines if panel will be created in viewer mode
-   * @throws TsNullArgumentRtException аргумент = null
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public OptionSetPanel( ITsGuiContext aContext, boolean aIsViewer ) {
-    super( aContext );
-    genericEventer = new GenericChangeEventer( this );
-    optionEventer = new OptionValueChangeEventer( this );
-    viewerMode = aIsViewer;
+    this( aContext, aIsViewer, false );
   }
 
   // ------------------------------------------------------------------------------------
@@ -311,7 +332,9 @@ public class OptionSetPanel
     }
     // initialize VALEDs with #currValues
     copyCurrValuesToValeds();
-    genericEventer.fireChangeEvent();
+    if( !onlyUserEvents ) {
+      genericEventer.fireChangeEvent();
+    }
   }
 
   // ------------------------------------------------------------------------------------
@@ -345,7 +368,9 @@ public class OptionSetPanel
     reinitPanelContent();
     initCurrValuesFromOptionDefs();
     copyCurrValuesToValeds();
-    genericEventer.fireChangeEvent();
+    if( !onlyUserEvents ) {
+      genericEventer.fireChangeEvent();
+    }
   }
 
   @Override

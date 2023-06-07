@@ -89,6 +89,8 @@ interface ITsResources {
   String STR_P_ZOOM_IN              = Messages.getString( "STR_P_ZOOM_IN" );
   String STR_T_ZOOM_OUT             = Messages.getString( "STR_T_ZOOM_OUT" );
   String STR_P_ZOOM_OUT             = Messages.getString( "STR_P_ZOOM_OUT" );
+  String STR_ZOOM_EXPAND_TO_FIT     = Messages.getString( "STR_ZOOM_EXPAND_TO_FIT" );
+  String STR_ZOOM_EXPAND_TO_FIT_D   = Messages.getString( "STR_ZOOM_EXPAND_TO_FIT_D" );
   String STR_T_ZOOM_FIT_BEST        = Messages.getString( "STR_T_ZOOM_FIT_BEST" );
   String STR_P_ZOOM_FIT_BEST        = Messages.getString( "STR_P_ZOOM_FIT_BEST" );
   String STR_T_ZOOM_FIT_WIDTH       = Messages.getString( "STR_T_ZOOM_FIT_WIDTH" );

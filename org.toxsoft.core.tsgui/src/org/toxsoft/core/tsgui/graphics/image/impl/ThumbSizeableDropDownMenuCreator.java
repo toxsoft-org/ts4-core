@@ -4,27 +4,22 @@ import static org.toxsoft.core.tsgui.graphics.icons.ITsStdIconIds.*;
 import static org.toxsoft.core.tsgui.graphics.image.impl.ITsResources.*;
 import static org.toxsoft.core.tslib.ITsHardConstants.*;
 
-import java.util.Arrays;
+import java.util.*;
 
-import org.eclipse.jface.action.IMenuCreator;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
-import org.toxsoft.core.singlesrc.TsSinglesourcingUtils;
+import org.eclipse.jface.action.*;
+import org.eclipse.swt.*;
+import org.eclipse.swt.events.*;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.singlesrc.*;
 import org.toxsoft.core.tsgui.bricks.actions.*;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.graphics.icons.EIconSize;
-import org.toxsoft.core.tsgui.graphics.icons.ITsIconManager;
-import org.toxsoft.core.tsgui.graphics.image.EThumbSize;
-import org.toxsoft.core.tsgui.graphics.image.IThumbSizeable;
-import org.toxsoft.core.tsgui.mws.services.hdpi.ITsHdpiService;
-import org.toxsoft.core.tsgui.panels.toolbar.TsToolbar;
-import org.toxsoft.core.tsgui.utils.swt.AbstractMenuCreator;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tsgui.graphics.image.*;
+import org.toxsoft.core.tsgui.mws.services.hdpi.*;
+import org.toxsoft.core.tsgui.panels.toolbar.*;
+import org.toxsoft.core.tsgui.utils.swt.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -34,7 +29,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * <ul>
  * <li>add the action {@link #AI_THUMB_SIZEABLE_ZOOM_MENU} to the toolbar;</li>
  * <li>create instance of thei class
- * <code>IMenuCreator thumbSizeMenuCreator = new ThumbSizeableExZoomDropDownMenuCreator(...)</code>;</li>
+ * <code>IMenuCreator thumbSizeMenuCreator = new {@link ThumbSizeableDropDownMenuCreator}(...)</code>;</li>
  * <li>add menu to the action by the method {@link TsToolbar#setActionMenu(String, IMenuCreator) toolbar.setActionMenu(
  * AID_THUMB_SIZEABLE_ZOOM_MENU, thumbSizeMenuCreator )};</li>
  * <li>in the toolbar handler {@link ITsActionHandler#handleAction(String)} handle action with ID

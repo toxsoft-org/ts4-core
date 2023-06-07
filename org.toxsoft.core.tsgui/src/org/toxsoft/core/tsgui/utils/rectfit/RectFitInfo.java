@@ -93,7 +93,7 @@ public final class RectFitInfo {
    *
    * @param aFitMode {@link ERectFitMode} - fit mode
    * @param aIsExpandToFit boolean - specifies to expand small images to fit in viewport
-   * @param aZoomFactor double - zoom factor for {@link ERectFitMode#ZOOMED} mode, 1.0 means oridinal size (100% zoom)
+   * @param aZoomFactor double - zoom factor for {@link ERectFitMode#ZOOMED} mode, 1.0 means original size (100% zoom)
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException zoom factor is out of range
    */

@@ -229,6 +229,11 @@ public interface ITsStdActionDefs {
   String ACTID_ZOOM_OUT = STD_ACTION_DEF_PREFIX + ".zoom_out"; //$NON-NLS-1$
 
   /**
+   * ID of action {@link #ACDEF_ZOOM_EXPAND_TO_FIT}.
+   */
+  String ACTID_ZOOM_EXPAND_TO_FIT = STD_ACTION_DEF_PREFIX + ".zoom_expand_to_fit"; //$NON-NLS-1$
+
+  /**
    * ID of action {@link #ACDEF_LIST_ELEM_MOVE_UP}.
    */
   String ACTID_LIST_ELEM_MOVE_UP = STD_ACTION_DEF_PREFIX + ".list_elem_move_up"; //$NON-NLS-1$
@@ -587,16 +592,22 @@ public interface ITsStdActionDefs {
       STR_T_ZOOM_FIT_HEIGHT, STR_P_ZOOM_FIT_HEIGHT, ICONID_ZOOM_FIT_HEIGHT );
 
   /**
-   * Action: увеличить масштаб.
+   * Action: zoom in.
    */
   ITsActionDef ACDEF_ZOOM_IN = ofPush2( ACTID_ZOOM_IN, //
       STR_T_ZOOM_IN, STR_P_ZOOM_IN, ICONID_ZOOM_IN );
 
   /**
-   * Action: уменьшить масштаб.
+   * Action: zoom out.
    */
   ITsActionDef ACDEF_ZOOM_OUT = ofPush2( ACTID_ZOOM_OUT, //
       STR_T_ZOOM_OUT, STR_P_ZOOM_OUT, ICONID_ZOOM_OUT );
+
+  /**
+   * Action: toggle "zoom small image to fit" mode.
+   */
+  ITsActionDef ACDEF_ZOOM_EXPAND_TO_FIT = ofCheck2( ACTID_ZOOM_EXPAND_TO_FIT, //
+      STR_ZOOM_EXPAND_TO_FIT, STR_ZOOM_EXPAND_TO_FIT_D, ICONID_VIEW_FULLSCREEN );
 
   /**
    * Action: Переместить элемент вверх по списку.
