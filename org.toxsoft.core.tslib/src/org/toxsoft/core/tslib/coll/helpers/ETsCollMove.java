@@ -243,9 +243,9 @@ public enum ETsCollMove
     @Override
     protected int doMoveToIndexOnlyColl( int aStartIndex, int aCollSize, int aJumpDistance ) {
       int jumpDist = aJumpDistance % aCollSize;
-      int newIndex = aStartIndex + jumpDist;
-      if( newIndex >= aCollSize ) {
-        newIndex -= aCollSize;
+      int newIndex = aStartIndex - jumpDist;
+      if( newIndex < 0 ) {
+        newIndex = 0;
       }
       return newIndex;
     }
@@ -253,9 +253,9 @@ public enum ETsCollMove
     @Override
     protected int doWrapToIndexOnlyColl( int aStartIndex, int aCollSize, int aJumpDistance ) {
       int jumpDist = aJumpDistance % aCollSize;
-      int newIndex = aStartIndex + jumpDist;
-      if( newIndex >= aCollSize ) {
-        newIndex -= aCollSize;
+      int newIndex = aStartIndex - jumpDist;
+      if( newIndex < 0 ) {
+        newIndex += aCollSize;
       }
       return newIndex;
     }
@@ -294,9 +294,9 @@ public enum ETsCollMove
     @Override
     protected int doMoveToIndexOnlyColl( int aStartIndex, int aCollSize, int aJumpDistance ) {
       int jumpDist = aJumpDistance % aCollSize;
-      int newIndex = aStartIndex - jumpDist;
-      if( newIndex < 0 ) {
-        newIndex = 0;
+      int newIndex = aStartIndex + jumpDist;
+      if( newIndex >= aCollSize ) {
+        newIndex = aCollSize - 1;
       }
       return newIndex;
     }
@@ -304,9 +304,9 @@ public enum ETsCollMove
     @Override
     protected int doWrapToIndexOnlyColl( int aStartIndex, int aCollSize, int aJumpDistance ) {
       int jumpDist = aJumpDistance % aCollSize;
-      int newIndex = aStartIndex - jumpDist;
-      if( newIndex < 0 ) {
-        newIndex += aCollSize;
+      int newIndex = aStartIndex + jumpDist;
+      if( newIndex >= aCollSize ) {
+        newIndex -= aCollSize;
       }
       return newIndex;
     }

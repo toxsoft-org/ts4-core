@@ -39,7 +39,7 @@ public class AvUtils {
   public static final IAtomicValue AV_TRUE        = new AvBooleanTrueImpl();
   public static final IAtomicValue AV_0           = new AvIntegerShortImpl( 0 );
   public static final IAtomicValue AV_1           = new AvIntegerShortImpl( 1 );
-  public static final IAtomicValue AV_N1          = new AvIntegerShortImpl( 1 );
+  public static final IAtomicValue AV_N1          = new AvIntegerShortImpl( -1 );
   public static final IAtomicValue AV_F_0         = new AvFloatingImpl( 0.0 );
   public static final IAtomicValue AV_F_1         = new AvFloatingImpl( 1.0 );
   public static final IAtomicValue AV_NAN         = new AvFloatingImpl( Double.NaN );
