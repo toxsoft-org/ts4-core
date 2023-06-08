@@ -13,5 +13,6 @@ public interface ITsSharedResources {
   String FMT_ERR_INV_CAPACITY                      = Messages.getString( "FMT_ERR_INV_CAPACITY" );                      //$NON-NLS-1$
   String FMT_ERR_INDEX_OUT_OF_RANGE                = Messages.getString( "FMT_ERR_INDEX_OUT_OF_RANGE" );                //$NON-NLS-1$
   String FMT_ERR_REMOVING_ITEMS_COUNT_OUT_OF_RANGE = Messages.getString( "FMT_ERR_REMOVING_ITEMS_COUNT_OUT_OF_RANGE" ); //$NON-NLS-1$
+  String FMT_ERR_CAUSE                             = Messages.getString( "FMT_ERR_CAUSE" );                             //$NON-NLS-1$
 
 }

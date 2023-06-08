@@ -1,14 +1,17 @@
 package org.toxsoft.core.tslib.coll.impl;
 
+import static org.toxsoft.core.tslib.coll.ITsSharedResources.*;
 import static org.toxsoft.core.tslib.coll.impl.TsCollectionsUtils.*;
 
 import java.io.*;
-import java.lang.reflect.*;
+import java.lang.reflect.Array;
 import java.util.*;
 
-import org.toxsoft.core.tslib.coll.*;
-import org.toxsoft.core.tslib.coll.basis.*;
-import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.coll.IList;
+import org.toxsoft.core.tslib.coll.IListEdit;
+import org.toxsoft.core.tslib.coll.basis.ITsCollection;
+import org.toxsoft.core.tslib.coll.basis.ITsFastIndexListTag;
+import org.toxsoft.core.tslib.utils.TsLibUtils;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -174,7 +177,7 @@ public class ElemLinkedBundleList<E>
         val = aIn.readObject();
       }
       catch( ClassNotFoundException ex ) {
-        throw new TsIoRtException( ex );
+        throw new TsIoRtException( FMT_ERR_CAUSE, this.getClass().getSimpleName(), ex );
       }
       add( (E)val );
     }
