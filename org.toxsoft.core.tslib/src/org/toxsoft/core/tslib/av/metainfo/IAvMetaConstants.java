@@ -8,12 +8,15 @@ import static org.toxsoft.core.tslib.av.metainfo.ITsResources.*;
 
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.validators.*;
 import org.toxsoft.core.tslib.bricks.keeper.std.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.math.*;
 import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Miscallenous meta information constants.
@@ -208,5 +211,84 @@ public interface IAvMetaConstants {
       TSID_DESCRIPTION, STR_N_LOCAL_DATE_TIME, //
       TSID_KEEPER_ID, LocalDateTimeKeeper.KEEPER_ID //
   );
+
+  // ------------------------------------------------------------------------------------
+  // helper methods
+  //
+
+  /**
+   * Creates {@link IntRange} from the constraints.
+   * <p>
+   * This methods defines official strategy to use {@link #TSID_MIN_INCLUSIVE}, {@link #TSID_MIN_EXCLUSIVE},
+   * {@link #TSID_MAX_EXCLUSIVE}, {@link #TSID_MAX_INCLUSIVE} constants. INCLUSIVE constants have precedence over
+   * EXCLUSIVE constants.
+   * <p>
+   * If any of MIN or MAX limit is not defined, {@link Integer#MIN_VALUE} and {@link Integer#MAX_VALUE} will be used
+   * respectively. If constraints are invalid (MIN > MAX) then {@link IntRange#FULL} will return.
+   *
+   * @param aConstraints {@link IOptionSet} - the set of constatraints
+   * @return {@link IntRange} - created range
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  static IntRange makeIntRangeFromConstraints( IOptionSet aConstraints ) {
+    TsNullArgumentRtException.checkNull( aConstraints );
+    int minValue = Integer.MIN_VALUE;
+    if( aConstraints.hasValue( TSID_MIN_INCLUSIVE ) ) {
+      minValue = aConstraints.getInt( TSID_MIN_INCLUSIVE );
+    }
+    else {
+      if( aConstraints.hasValue( TSID_MIN_EXCLUSIVE ) ) {
+        minValue = aConstraints.getInt( TSID_MIN_EXCLUSIVE ) + 1;
+      }
+    }
+    int maxValue = Integer.MAX_VALUE;
+    if( aConstraints.hasValue( TSID_MAX_INCLUSIVE ) ) {
+      maxValue = aConstraints.getInt( TSID_MAX_INCLUSIVE );
+    }
+    else {
+      if( aConstraints.hasValue( TSID_MAX_EXCLUSIVE ) ) {
+        maxValue = aConstraints.getInt( TSID_MAX_EXCLUSIVE ) - 1;
+      }
+    }
+    if( minValue <= maxValue ) {
+      return new IntRange( minValue, maxValue );
+    }
+    return IntRange.FULL;
+  }
+
+  /**
+   * Creates {@link LongRange} from the constraints.
+   * <p>
+   * Behaves like {@link #makeIntRangeFromConstraints(IOptionSet)} but for <code>long</code> values.
+   *
+   * @param aConstraints {@link IOptionSet} - the set of constatraints
+   * @return {@link LongRange} - created range
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  static LongRange makeLongRangeFromConstraints( IOptionSet aConstraints ) {
+    TsNullArgumentRtException.checkNull( aConstraints );
+    long minValue = Long.MIN_VALUE;
+    if( aConstraints.hasValue( TSID_MIN_INCLUSIVE ) ) {
+      minValue = aConstraints.getLong( TSID_MIN_INCLUSIVE );
+    }
+    else {
+      if( aConstraints.hasValue( TSID_MIN_EXCLUSIVE ) ) {
+        minValue = aConstraints.getLong( TSID_MIN_EXCLUSIVE ) + 1;
+      }
+    }
+    long maxValue = Long.MAX_VALUE;
+    if( aConstraints.hasValue( TSID_MAX_INCLUSIVE ) ) {
+      maxValue = aConstraints.getLong( TSID_MAX_INCLUSIVE );
+    }
+    else {
+      if( aConstraints.hasValue( TSID_MAX_EXCLUSIVE ) ) {
+        maxValue = aConstraints.getLong( TSID_MAX_EXCLUSIVE ) - 1;
+      }
+    }
+    if( minValue <= maxValue ) {
+      return new LongRange( minValue, maxValue );
+    }
+    return LongRange.FULL;
+  }
 
 }

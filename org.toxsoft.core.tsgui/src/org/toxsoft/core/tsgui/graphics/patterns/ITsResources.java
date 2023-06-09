@@ -29,4 +29,16 @@ interface ITsResources {
   String STR_EIFK_TILE     = Messages.getString( "EImageFillKind.STR_EIFK_TILE" );     //$NON-NLS-1$
   String STR_EIFK_TILE_D   = Messages.getString( "EImageFillKind.STR_EIFK_TILE_D" );   //$NON-NLS-1$
 
+  /**
+   * {@link ETsFillKind}
+   */
+  String STR_TFK_NONE       = Messages.getString( "ETsFillKind.STR_TFK_NONE" );       //$NON-NLS-1$
+  String STR_TFK_NONE_D     = Messages.getString( "ETsFillKind.STR_TFK_NONE_D" );     //$NON-NLS-1$
+  String STR_TFK_SOLID      = Messages.getString( "ETsFillKind.STR_TFK_SOLID" );      //$NON-NLS-1$
+  String STR_TFK_SOLID_D    = Messages.getString( "ETsFillKind.STR_TFK_SOLID_D" );    //$NON-NLS-1$
+  String STR_TFK_IMAGE      = Messages.getString( "ETsFillKind.STR_TFK_IMAGE" );      //$NON-NLS-1$
+  String STR_TFK_IMAGE_D    = Messages.getString( "ETsFillKind.STR_TFK_IMAGE_D" );    //$NON-NLS-1$
+  String STR_TFK_GRADIENT   = Messages.getString( "ETsFillKind.STR_TFK_GRADIENT" );   //$NON-NLS-1$
+  String STR_TFK_GRADIENT_D = Messages.getString( "ETsFillKind.STR_TFK_GRADIENT_D" ); //$NON-NLS-1$
+
 }

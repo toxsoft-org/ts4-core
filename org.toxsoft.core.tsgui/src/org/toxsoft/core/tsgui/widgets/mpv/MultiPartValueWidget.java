@@ -1,17 +1,15 @@
 package org.toxsoft.core.tsgui.widgets.mpv;
 
-import org.eclipse.swt.SWT;
+import org.eclipse.swt.*;
 import org.eclipse.swt.events.*;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.singlesrc.ISingleSourcing_MouseWheelListener;
-import org.toxsoft.core.singlesrc.TsSinglesourcingUtils;
-import org.toxsoft.core.tsgui.widgets.mpv.impl.VertTwoButtonsPane;
+import org.toxsoft.core.singlesrc.*;
+import org.toxsoft.core.tsgui.widgets.mpv.impl.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.coll.primtypes.IIntListEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.IntArrayList;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -195,18 +193,16 @@ public class MultiPartValueWidget
   private int arrowStep = INITIAL_ARROW_STEP;
   private int pageStep  = INITIAL_PAGE_STEP;
 
-  // TODO TRANSLATE
-
   /**
-   * Конструктор для наследников.
+   * Constructor.
    * <p>
-   * Кроме используемых родительским {@link Composite} битами стиля aStyle, использует следующие биты:
+   * In addition to those used by the parent {@link Composite} aStyle style bits, uses the following bits:
    * <ul>
-   * <li>{@link SWT#READ_ONLY} - не позволяет редактировать значение;</li>
+   * <li>{@link SWT#READ_ONLY} - only displays value, no editing is alloed;</li>
    * </ul>
    *
-   * @param aParent {@link Composite} - родительская панель
-   * @param aStyle int - стиль контроля, биты <code>SWT.XXX</code>, собранные по ИЛИ
+   * @param aParent {@link Composite} - the parent
+   * @param aStyle int - SWT style bits
    * @param aMpv {@link IMultiPartValue} - the edited value
    */
   public MultiPartValueWidget( Composite aParent, int aStyle, IMultiPartValue aMpv ) {
@@ -323,6 +319,8 @@ public class MultiPartValueWidget
     }
     return -1;
   }
+
+  // TODO TRANSLATE
 
   /**
    * Проверяет корректность всех редактирований текста в виджете {@link #text}.

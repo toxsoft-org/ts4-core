@@ -2,23 +2,20 @@ package org.toxsoft.core.tsgui.widgets.mpv.impl;
 
 import static org.toxsoft.core.tsgui.widgets.mpv.impl.ITsResources.*;
 
-import org.eclipse.swt.widgets.Text;
-import org.toxsoft.core.tsgui.widgets.mpv.IMultiPartValue;
-import org.toxsoft.core.tsgui.widgets.mpv.IPart;
-import org.toxsoft.core.tslib.bricks.events.change.GenericChangeEventer;
-import org.toxsoft.core.tslib.bricks.strio.IStrioReader;
-import org.toxsoft.core.tslib.bricks.strio.chario.impl.CharInputStreamString;
-import org.toxsoft.core.tslib.bricks.strio.impl.StrioReader;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.bricks.validator.impl.TsValidationFailedRtException;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
-import org.toxsoft.core.tslib.coll.primtypes.IIntList;
-import org.toxsoft.core.tslib.coll.primtypes.IIntListEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.IntArrayList;
-import org.toxsoft.core.tslib.math.IntRange;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.widgets.mpv.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.bricks.strio.chario.impl.*;
+import org.toxsoft.core.tslib.bricks.strio.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.math.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link IMultiPartValue} base implementation.
@@ -310,7 +307,7 @@ public class MultiPartValueBase
    * @param aNewValue int - calculated value to be set in part
    * @param aOverflow int - >0 is overflow amount (<0 underflow), never is 0
    */
-  void doProcessOverflow( int aPartIndex, int aNewValue, int aOverflow ) {
+  protected void doProcessOverflow( int aPartIndex, int aNewValue, int aOverflow ) {
     Part p = parts.get( aPartIndex );
     p.setValue( aNewValue );
   }

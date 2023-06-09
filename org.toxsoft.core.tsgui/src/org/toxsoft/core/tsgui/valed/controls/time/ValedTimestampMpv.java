@@ -18,6 +18,7 @@ import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.ctx.*;
 import org.toxsoft.core.tslib.bricks.time.impl.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.math.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -104,26 +105,9 @@ public class ValedTimestampMpv
   //
 
   private void updateAllowedRange() {
-    long minValue = Long.MIN_VALUE;
-    if( params().hasValue( TSID_MIN_INCLUSIVE ) ) {
-      minValue = params().getTime( TSID_MIN_INCLUSIVE );
-    }
-    else {
-      if( params().hasValue( TSID_MIN_EXCLUSIVE ) ) {
-        minValue = params().getTime( TSID_MIN_EXCLUSIVE ) + 1;
-      }
-    }
-    long maxValue = Long.MAX_VALUE;
-    if( params().hasValue( TSID_MAX_INCLUSIVE ) ) {
-      maxValue = params().getTime( TSID_MAX_INCLUSIVE );
-    }
-    else {
-      if( params().hasValue( TSID_MAX_EXCLUSIVE ) ) {
-        maxValue = params().getTime( TSID_MAX_EXCLUSIVE ) - 1;
-      }
-    }
-    if( minValue < maxValue ) {
-      mpv.setInterval( new TimeInterval( minValue, maxValue ) );
+    LongRange r = IAvMetaConstants.makeLongRangeFromConstraints( params() );
+    if( r != LongRange.FULL ) {
+      mpv.setInterval( new TimeInterval( r.minValue(), r.maxValue() ) );
     }
   }
 

@@ -2,13 +2,13 @@ package org.toxsoft.core.tsgui.widgets.mpv.impl;
 
 import java.time.*;
 
-import org.toxsoft.core.tsgui.widgets.mpv.IMpvTimestamp;
-import org.toxsoft.core.tslib.bricks.time.ITimeInterval;
-import org.toxsoft.core.tslib.bricks.time.impl.TimeInterval;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.coll.primtypes.IIntList;
-import org.toxsoft.core.tslib.math.IntRange;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.widgets.mpv.*;
+import org.toxsoft.core.tslib.bricks.time.*;
+import org.toxsoft.core.tslib.bricks.time.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.math.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link IMpvTimestamp} implementation in form "YYYY-MM-DD HH:MM:SS.uuu".
@@ -61,14 +61,13 @@ public abstract class AbstractMpvTimestamp
 
   @Override
   protected int doGetPartMaxValue( int aPartIndex ) {
-    switch( aPartIndex ) {
-      case IDX_DAY: { // вернем кол-во дней в месяце YYYY-MM
+    return switch( aPartIndex ) {
+      case IDX_DAY -> {
         YearMonth yearMonthObject = YearMonth.of( pval( IDX_YEAR ), pval( IDX_MONTH ) );
-        return yearMonthObject.lengthOfMonth();
+        yield yearMonthObject.lengthOfMonth();
       }
-      default:
-        return super.doGetPartMaxValue( aPartIndex );
-    }
+      default -> super.doGetPartMaxValue( aPartIndex );
+    };
   }
 
   @Override
@@ -77,7 +76,7 @@ public abstract class AbstractMpvTimestamp
   }
 
   @Override
-  void doProcessOverflow( int aPartIndex, int aNewValue, int aOverflow ) {
+  protected void doProcessOverflow( int aPartIndex, int aNewValue, int aOverflow ) {
     super.doProcessOverflow( aPartIndex, aNewValue, aOverflow );
   }
 

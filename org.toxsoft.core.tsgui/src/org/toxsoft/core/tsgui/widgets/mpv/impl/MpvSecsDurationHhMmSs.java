@@ -1,10 +1,9 @@
 package org.toxsoft.core.tsgui.widgets.mpv.impl;
 
-import org.toxsoft.core.tsgui.widgets.mpv.IMpvLocalTime;
-import org.toxsoft.core.tsgui.widgets.mpv.IMpvSecsDuration;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.coll.primtypes.IIntList;
-import org.toxsoft.core.tslib.math.IntRange;
+import org.toxsoft.core.tsgui.widgets.mpv.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.math.*;
 
 /**
  * {@link IMpvLocalTime} implementation in form "HH:MM:SS.mmm".
@@ -43,7 +42,7 @@ public class MpvSecsDurationHhMmSs
   }
 
   @Override
-  void doProcessOverflow( int aPartIndex, int aNewValue, int aOverflow ) {
+  protected void doProcessOverflow( int aPartIndex, int aNewValue, int aOverflow ) {
     super.doProcessOverflow( aPartIndex, aNewValue, aOverflow );
   }
 

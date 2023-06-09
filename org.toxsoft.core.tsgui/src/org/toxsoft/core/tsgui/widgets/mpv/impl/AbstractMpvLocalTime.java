@@ -1,12 +1,12 @@
 package org.toxsoft.core.tsgui.widgets.mpv.impl;
 
-import java.time.LocalTime;
+import java.time.*;
 
-import org.toxsoft.core.tsgui.widgets.mpv.IMpvLocalTime;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.coll.primtypes.IIntList;
-import org.toxsoft.core.tslib.math.IntRange;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.widgets.mpv.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.math.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link IMpvLocalTime} implementation in form "HH:MM:SS.mmm".
@@ -62,7 +62,7 @@ public abstract class AbstractMpvLocalTime
   }
 
   @Override
-  void doProcessOverflow( int aPartIndex, int aNewValue, int aOverflow ) {
+  protected void doProcessOverflow( int aPartIndex, int aNewValue, int aOverflow ) {
     super.doProcessOverflow( aPartIndex, aNewValue, aOverflow );
   }
 

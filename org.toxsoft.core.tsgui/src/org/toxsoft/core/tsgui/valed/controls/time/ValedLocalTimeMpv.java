@@ -108,26 +108,9 @@ public class ValedLocalTimeMpv
   //
 
   private void updateAllowedRange() {
-    int minValue = Integer.MIN_VALUE;
-    if( params().hasValue( TSID_MIN_INCLUSIVE ) ) {
-      minValue = params().getInt( TSID_MIN_INCLUSIVE );
-    }
-    else {
-      if( params().hasValue( TSID_MIN_EXCLUSIVE ) ) {
-        minValue = params().getInt( TSID_MIN_EXCLUSIVE ) + 1;
-      }
-    }
-    int maxValue = Integer.MAX_VALUE;
-    if( params().hasValue( TSID_MAX_INCLUSIVE ) ) {
-      maxValue = params().getInt( TSID_MAX_INCLUSIVE );
-    }
-    else {
-      if( params().hasValue( TSID_MAX_EXCLUSIVE ) ) {
-        maxValue = params().getInt( TSID_MAX_EXCLUSIVE ) - 1;
-      }
-    }
-    if( minValue <= maxValue ) {
-      mpv.setRangeSecs( new IntRange( minValue, maxValue ) );
+    IntRange r = IAvMetaConstants.makeIntRangeFromConstraints( params() );
+    if( r != IntRange.FULL ) {
+      mpv.setRangeSecs( r );
     }
   }
 
