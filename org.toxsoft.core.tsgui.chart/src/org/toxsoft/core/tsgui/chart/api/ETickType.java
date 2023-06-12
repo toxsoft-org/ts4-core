@@ -2,7 +2,7 @@ package org.toxsoft.core.tsgui.chart.api;
 
 /**
  * Тип засечки.
- * 
+ *
  * @author vs
  */
 public enum ETickType {

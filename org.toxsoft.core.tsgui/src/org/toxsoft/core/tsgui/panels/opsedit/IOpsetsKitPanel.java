@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Panel to edit kit of option sets at once.
  * <p>
- * Kit items are IOptSe Each option set to be edited shall be accompanied with {@link IStridable} description.
+ * Kit items are option sets. Each option set to be edited shall be accompanied with {@link IStridable} description.
  * <p>
  * Panel consists of:
  * <ul>

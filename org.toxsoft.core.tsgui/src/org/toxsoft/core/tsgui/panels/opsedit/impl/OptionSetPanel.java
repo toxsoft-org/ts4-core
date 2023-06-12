@@ -151,21 +151,21 @@ public class OptionSetPanel
   }
 
   /**
-   * Создает редактор значения для параметра aInfo.
+   * Creates the VALED editor for option <code>aOpDef</code>.
    *
-   * @param aParent {@link Composite} - родительска панель
-   * @param aDef {@link IDataDef} - описание параметра, на основании которого создается редактор
-   * @return {@link IValedControl} - созданный редактор
+   * @param aParent {@link Composite} - the parent composite
+   * @param aOpDef {@link IDataDef} - the option definition
+   * @return {@link IValedControl} - created VALED editor
    */
-  private IValedControl<IAtomicValue> createValedControl( Composite aParent, IDataDef aDef ) {
+  private IValedControl<IAtomicValue> createValedControl( Composite aParent, IDataDef aOpDef ) {
     ITsGuiContext ctx = new TsGuiContext( tsContext() );
-    ctx.params().addAll( aDef.params() );
-    ctx.params().setValueIfNull( OPDEF_TOOLTIP_TEXT.id(), avStr( aDef.description() ) );
+    ctx.params().addAll( aOpDef.params() );
+    ctx.params().setValueIfNull( OPDEF_TOOLTIP_TEXT.id(), avStr( aOpDef.description() ) );
     boolean isReadOnly = ctx.params().getBool( TSID_IS_READ_ONLY, false );
     if( isViewer() || isReadOnly ) {
       ctx.params().setBool( OPDEF_CREATE_UNEDITABLE.id(), true );
     }
-    IValedControlFactory factory = ValedControlUtils.guessAvEditorFactory( aDef.atomicType(), ctx );
+    IValedControlFactory factory = ValedControlUtils.guessAvEditorFactory( aOpDef.atomicType(), ctx );
     IValedControl<IAtomicValue> valed = factory.createEditor( ctx );
     valed.createControl( aParent );
     return valed;
@@ -221,7 +221,7 @@ public class OptionSetPanel
   }
 
   /**
-   * Inititlizes {@link #currValues} with default values from {@link #optionDefs}.
+   * Initializes {@link #currValues} with default values from {@link #optionDefs}.
    */
   private void initCurrValuesFromOptionDefs() {
     currValues.clear();
@@ -245,8 +245,7 @@ public class OptionSetPanel
   /**
    * Copies values contained in VALEDs to the {@link #currValues}.<br>
    * Some VALEDs may contain illegal values (ie {@link IValedControl#canGetValue()} returns error. If any VALED can not
-   * supply value corrresponding eroor will be returned and not all values copied from VALEDs to
-   * {@link #currValues}.<br>
+   * supply value corresponding error will be returned and not all values copied from VALEDs to {@link #currValues}.<br>
    * It is assumed that {@link #mapValeds}, {@link #currValues} and {@link #optionDefs} has same set of options.
    *
    * @return {@link ValidationResult} - operation result
@@ -266,7 +265,7 @@ public class OptionSetPanel
   }
 
   /**
-   * Updates VALEDs in {@link #mapValeds} editable statis depending on {@link #editable} and value of the
+   * Updates VALEDs in {@link #mapValeds} editable status depending on {@link #editable} and value of the
    * {@link IAvMetaConstants#TSID_IS_READ_ONLY} option in VALEDs context parameters.
    */
   private void updateValedEditableStatus() {

@@ -280,16 +280,12 @@ public class M5EntityPanelWithValeds<T>
    * @return {@link ValidationResult} - сообщение с замененным текстом
    */
   public static ValidationResult repackFieldVr( ValidationResult aVr, IM5FieldDef<?, ?> aFieldDef ) {
-    switch( aVr.type() ) {
-      case OK:
-        return ValidationResult.SUCCESS;
-      case WARNING:
-        return ValidationResult.warn( FMT_ERR_FIELD_VALIDATION_FAIL, aFieldDef.nmName(), aVr.message() );
-      case ERROR:
-        return ValidationResult.error( FMT_ERR_FIELD_VALIDATION_FAIL, aFieldDef.nmName(), aVr.message() );
-      default:
-        throw new TsNotAllEnumsUsedRtException();
-    }
+    return switch( aVr.type() ) {
+      case OK -> ValidationResult.SUCCESS;
+      case WARNING -> ValidationResult.warn( FMT_ERR_FIELD_VALIDATION_FAIL, aFieldDef.nmName(), aVr.message() );
+      case ERROR -> ValidationResult.error( FMT_ERR_FIELD_VALIDATION_FAIL, aFieldDef.nmName(), aVr.message() );
+      default -> throw new TsNotAllEnumsUsedRtException();
+    };
   }
 
   /**
@@ -492,7 +488,10 @@ public class M5EntityPanelWithValeds<T>
         label = fd.nmName() + ": "; //$NON-NLS-1$
       }
       String tooltip = fd.description();
-      IVecLadderLayoutData layoutData = new VecLadderLayoutData( useLabel, false, verSpan, label, tooltip, ha, va );
+
+      // TODO need option OPDEF_FULL_WIDTH_CONTROL ???
+
+      IVecLadderLayoutData layoutData = new VecLadderLayoutData( useLabel, !useLabel, verSpan, label, tooltip, ha, va );
       ll.addControl( varEditor, layoutData );
     }
     return ll;

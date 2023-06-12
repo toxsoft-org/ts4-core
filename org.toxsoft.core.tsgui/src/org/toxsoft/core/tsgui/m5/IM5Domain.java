@@ -7,7 +7,7 @@ import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * M5 modelling domain.
+ * M5 modeling domain.
  *
  * @author hazard157
  */
@@ -33,7 +33,7 @@ public interface IM5Domain
   /**
    * Finds model by ID.
    *
-   * @param <T> - expected type of modelled entity
+   * @param <T> - expected type of modeled entity
    * @param aModelId String - the model ID
    * @return {@link IM5Model} - the model or <code>null</code> if no such model exsists
    * @throws TsNullArgumentRtException any argument = <code>null</code>
@@ -43,9 +43,9 @@ public interface IM5Domain
   /**
    * Returns model by ID.
    *
-   * @param <T> - expected type of modelled entity
+   * @param <T> - expected type of modeled entity
    * @param aModelId String - the model ID
-   * @param aEntityClass {@link Class}&lt;T&gt; - expected type of modelled entity
+   * @param aEntityClass {@link Class}&lt;T&gt; - expected type of modeled entity
    * @return {@link IM5Model} - the model
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsItemNotFoundRtException no model with specified ID found
@@ -61,7 +61,7 @@ public interface IM5Domain
    * model will be found and returned by ID either by {@link #findModel(String)}, {@link #getModel(String, Class)} or
    * found in {@link #models()} and {@link #selfModels()} lists.
    *
-   * @param <T> - type of modelled entity
+   * @param <T> - type of modeled entity
    * @param aModel {@link M5Model}&lt;T&gt; - the model to add
    * @return {@link IM5Model}&lt;T&gt; - always returns the argument
    * @throws TsNullArgumentRtException any argument = <code>null</code>
@@ -75,7 +75,7 @@ public interface IM5Domain
    * Еhis method, in contrast to the method {@link #addModel(M5Model)} does not throws exception but replaces existing
    * model with the same ID.
    *
-   * @param <T> - type of modelled entity
+   * @param <T> - type of modeled entity
    * @param aModel {@link M5Model}&lt;T&gt; - the model to add
    * @return {@link IM5Model}&lt;T&gt; - always returns the argument
    * @throws TsNullArgumentRtException any argument = <code>null</code>
@@ -95,7 +95,7 @@ public interface IM5Domain
   /**
    * Initializes the model but does not adds model to the list {@link #models()}.
    *
-   * @param <T> - type of modelled entity
+   * @param <T> - type of modeled entity
    * @param aModel {@link M5Model}&lt;T&gt; - the model to add
    * @return {@link IM5Model}&lt;T&gt; - always returns the argument
    * @throws TsNullArgumentRtException any argument = <code>null</code>

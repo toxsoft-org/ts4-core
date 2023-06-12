@@ -291,4 +291,39 @@ public interface IAvMetaConstants {
     return LongRange.FULL;
   }
 
+  /**
+   * Creates {@link LongRange} from the TIMESTAMP constraints.
+   * <p>
+   * Behaves like {@link #makeIntRangeFromConstraints(IOptionSet)} but for <code>long</code> values of TMESTAMP.
+   *
+   * @param aConstraints {@link IOptionSet} - the set of constraints
+   * @return {@link LongRange} - created range
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  static LongRange makeTimestampRangeFromConstraints( IOptionSet aConstraints ) {
+    TsNullArgumentRtException.checkNull( aConstraints );
+    long minValue = Long.MIN_VALUE;
+    if( aConstraints.hasValue( TSID_MIN_INCLUSIVE ) ) {
+      minValue = aConstraints.getTime( TSID_MIN_INCLUSIVE );
+    }
+    else {
+      if( aConstraints.hasValue( TSID_MIN_EXCLUSIVE ) ) {
+        minValue = aConstraints.getTime( TSID_MIN_EXCLUSIVE ) + 1;
+      }
+    }
+    long maxValue = Long.MAX_VALUE;
+    if( aConstraints.hasValue( TSID_MAX_INCLUSIVE ) ) {
+      maxValue = aConstraints.getTime( TSID_MAX_INCLUSIVE );
+    }
+    else {
+      if( aConstraints.hasValue( TSID_MAX_EXCLUSIVE ) ) {
+        maxValue = aConstraints.getTime( TSID_MAX_EXCLUSIVE ) - 1;
+      }
+    }
+    if( minValue <= maxValue ) {
+      return new LongRange( minValue, maxValue );
+    }
+    return LongRange.FULL;
+  }
+
 }

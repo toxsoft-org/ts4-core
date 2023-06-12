@@ -60,17 +60,17 @@ public interface IPicsGridViewer<V>
   void setMargins( ITsGridMargins aMargins );
 
   /**
-   * Возвращает поставщик текстов к миниатюрам.
+   * Return the means to display texts, thumbnails and tooltips of the items.
    *
-   * @return {@link ITsVisualsProvider} - поставщик текстов к миниатюрам
+   * @return {@link ITsVisualsProvider} - the visuals provider, never is <code>null</code>
    */
   ITsVisualsProvider<V> getVisualsProvider();
 
   /**
-   * Задает поставщик текстов к миниатюрам.
+   * Sets the visuals provider.
    *
-   * @param aVisualsProvider {@link ITsVisualsProvider} - поставщик текстов к миниатюрам
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aVisualsProvider {@link ITsVisualsProvider} - the visuals provider
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void setVisualsProvider( ITsVisualsProvider<V> aVisualsProvider );
 

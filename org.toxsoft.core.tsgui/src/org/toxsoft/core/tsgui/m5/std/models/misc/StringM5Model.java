@@ -1,13 +1,20 @@
 package org.toxsoft.core.tsgui.m5.std.models.misc;
 
 import static org.toxsoft.core.tsgui.m5.IM5Constants.*;
+import static org.toxsoft.core.tsgui.m5.gui.mpc.IMultiPaneComponentConstants.*;
 import static org.toxsoft.core.tsgui.m5.std.models.misc.ITsResources.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.m5.*;
+import org.toxsoft.core.tsgui.m5.gui.mpc.impl.*;
+import org.toxsoft.core.tsgui.m5.gui.panels.*;
+import org.toxsoft.core.tsgui.m5.gui.panels.impl.*;
 import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.m5.model.impl.*;
+import org.toxsoft.core.tsgui.valed.controls.av.*;
+import org.toxsoft.core.tsgui.valed.controls.basic.*;
 import org.toxsoft.core.tslib.av.*;
 
 /**
@@ -37,7 +44,9 @@ public class StringM5Model
     protected void doInit() {
       setNameAndDescription( STR_N_STRING_STR, STR_D_STRING_STR );
       setDefaultValue( AV_STR_EMPTY );
-      setFlags( M5FF_COLUMN );
+      setValedEditor( ValedAvStringText.FACTORY_NAME );
+      ValedStringText.OPDEF_IS_MULTI_LINE.setValue( params(), AV_TRUE );
+      setFlags( M5FF_COLUMN | M5FF_DETAIL );
     }
 
     @Override
@@ -92,6 +101,19 @@ public class StringM5Model
     super( aModelId, String.class );
     setNameAndDescription( STR_N_M5M_STRING, STR_D_M5M_STRING );
     addFieldDefs( STR );
+    setPanelCreator( new M5DefaultPanelCreator<>() {
+
+      @Override
+      protected IM5CollectionPanel<String> doCreateCollViewerPanel( ITsGuiContext aContext,
+          IM5ItemsProvider<String> aItemsProvider ) {
+        OPDEF_IS_ACTIONS_CRUD.setValue( aContext.params(), AV_FALSE );
+        OPDEF_IS_DETAILS_PANE.setValue( aContext.params(), AV_TRUE );
+        OPDEF_IS_DETAILS_PANE_HIDDEN.setValue( aContext.params(), AV_FALSE );
+        OPDEF_IS_TOOLBAR.setValue( aContext.params(), AV_FALSE );
+        MultiPaneComponentModown<String> mpc = new MultiPaneComponentModown<>( aContext, model(), aItemsProvider );
+        return new M5CollectionPanelMpcModownWrapper<>( mpc, true );
+      }
+    } );
   }
 
   @Override

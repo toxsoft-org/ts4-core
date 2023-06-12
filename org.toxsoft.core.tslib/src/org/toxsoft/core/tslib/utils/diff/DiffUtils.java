@@ -20,6 +20,10 @@ public class DiffUtils {
    * Compares two lists and returns difference.
    * <p>
    * <code>null</code> argument of left/right collection is considered as an empty collection.
+   * <p>
+   * Returned map always contains entries for all {@link EDiffNature} constants. However, by definition of the
+   * comparison algorithm, the list of elements with the keys {@link EDiffNature#NONE} and {@link EDiffNature#DIFF} are
+   * always empty.
    *
    * @param <E> - element type of the collection
    * @param aLeft {@link IList} - the left list of comparison, may be <code>null</code>

@@ -1,6 +1,6 @@
 package org.toxsoft.core.tsgui.chart.api;
 
-import static org.toxsoft.core.tsgui.chart.api.ITgResources.*;
+import static org.toxsoft.core.tsgui.chart.api.ITsResources.*;
 
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.std.*;
@@ -8,22 +8,17 @@ import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Типы отрисовки аналогового графика.
+ * Analog graph drawing types.
  *
  * @author vs
  */
+@SuppressWarnings( "javadoc" )
 public enum EGraphicRenderingKind
     implements IStridable {
 
-  /**
-   * Точки соединяются линией.
-   */
-  LINE( "Line", E_D_GRK_LINE, E_N_GRK_LINE ), //$NON-NLS-1$
+  LINE( "Line", STR_GRK_LINE, STR_GRK_LINE_D ), //$NON-NLS-1$
 
-  /**
-   * Точки соединяются ступенькой.
-   */
-  LADDER( "Ladder", E_D_GRK_LADDER, E_N_GRK_LADDER ); //$NON-NLS-1$
+  LADDER( "Ladder", STR_GRK_LADDER, STR_GRK_LADDER_D ); //$NON-NLS-1$
 
   /**
    * The keeper ID.
@@ -37,24 +32,17 @@ public enum EGraphicRenderingKind
       new StridableEnumKeeper<>( EGraphicRenderingKind.class );
 
   private final String id;
-  private final String description;
   private final String nmName;
+  private final String description;
 
-  /**
-   * Создать константу с заданием всех инвариантов.
-   *
-   * @param aId String - идентифицирующее название константы
-   * @param aDescr String - отображаемое описание константы
-   * @param aName String - отображаемое название константы
-   */
-  EGraphicRenderingKind( String aId, String aDescr, String aName ) {
+  EGraphicRenderingKind( String aId, String aName, String aDescr ) {
     id = aId;
-    description = aDescr;
     nmName = aName;
+    description = aDescr;
   }
 
   // --------------------------------------------------------------------------
-  // Реализация интерфейса IStridable
+  // IStridable
   //
 
   @Override

@@ -105,7 +105,7 @@ public class ValedTimestampMpv
   //
 
   private void updateAllowedRange() {
-    LongRange r = IAvMetaConstants.makeLongRangeFromConstraints( params() );
+    LongRange r = IAvMetaConstants.makeTimestampRangeFromConstraints( params() );
     if( r != LongRange.FULL ) {
       mpv.setInterval( new TimeInterval( r.minValue(), r.maxValue() ) );
     }

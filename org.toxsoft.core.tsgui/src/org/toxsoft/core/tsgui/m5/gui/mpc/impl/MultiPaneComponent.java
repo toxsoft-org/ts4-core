@@ -244,7 +244,7 @@ public class MultiPaneComponent<T>
    */
   public void processAction( String aActionId ) {
     if( board == null || (toolbar.findAction( aActionId ) != null && !toolbar.isActionEnabled( aActionId )) ) {
-      // TODO when CRUD actions are disabled whis check does not works so double click ACTID_EDIT leads to error
+      // TODO when CRUD actions are disabled this check does not works so double click ACTID_EDIT leads to error
       return;
     }
     T sel = tree.selectedItem();
@@ -999,11 +999,12 @@ public class MultiPaneComponent<T>
   /**
    * Subclass must (if allowed) implement new item addition to the collection.
    * <p>
-   * Common usage is to display some dialog for item creation and then add item to collection.
+   * Common usage is to display some dialog for item creation and then add item to collection. In other words, method
+   * must create the new (or select an existing) item, add it to the used items provider and return newly created item.
    * <p>
    * Throws exceptions in the base class; when overridden, it is not allowed to call the parent method.
    *
-   * @return &lt;T&gt; - created and/or adde item or <code>null</code> if no item was added
+   * @return &lt;T&gt; - created and/or added item or <code>null</code> if no item was added
    * @throws TsUnsupportedFeatureRtException in base class
    */
   protected T doAddItem() {

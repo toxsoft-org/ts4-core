@@ -1,6 +1,6 @@
 package org.toxsoft.core.tsgui.chart.api;
 
-import static org.toxsoft.core.tsgui.chart.api.ITgResources.*;
+import static org.toxsoft.core.tsgui.chart.api.ITsResources.*;
 
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.std.*;
@@ -20,27 +20,27 @@ public enum EDisplayFormat
   /**
    * As integer
    */
-  AS_INTEGER( "AS_INTEGER", STR_N_AS_INTEGER, STR_D_AS_INTEGER, "%.0f" ), //$NON-NLS-1$ //$NON-NLS-2$
+  AS_INTEGER( "AS_INTEGER", STR_EDF_AS_INTEGER, STR_EDF_AS_INTEGER_D, "%.0f" ), //$NON-NLS-1$ //$NON-NLS-2$
 
   /**
    * As float with 1 digit after point.
    */
-  ONE_DIGIT( "ONE_DIGIT", STR_N_ONE_DIGIT, STR_D_ONE_DIGIT, "%.1f" ), //$NON-NLS-1$ //$NON-NLS-2$
+  ONE_DIGIT( "ONE_DIGIT", STR_EDF_ONE_DIGIT, STR_EDF_ONE_DIGIT_D, "%.1f" ), //$NON-NLS-1$ //$NON-NLS-2$
 
   /**
    * As float with 2 digit after point.
    */
-  TWO_DIGIT( "TWO_DIGIT", STR_N_TWO_DIGIT, STR_D_TWO_DIGIT, "%.2f" ), //$NON-NLS-1$ //$NON-NLS-2$
+  TWO_DIGIT( "TWO_DIGIT", STR_EDF_TWO_DIGIT, STR_EDF_TWO_DIGIT_D, "%.2f" ), //$NON-NLS-1$ //$NON-NLS-2$
 
   /**
    * As float with 3 digit after point.
    */
-  THREE_DIGIT( "THREE_DIGIT", STR_N_THREE_DIGIT, STR_D_THREE_DIGIT, "%.3f" ), //$NON-NLS-1$ //$NON-NLS-2$
+  THREE_DIGIT( "THREE_DIGIT", STR_EDF_THREE_DIGIT, STR_EDF_THREE_DIGIT_D, "%.3f" ), //$NON-NLS-1$ //$NON-NLS-2$
 
   /**
    * As float.
    */
-  AS_FLOAT( "AS_FLOAT", STR_N_AS_FLOAT, STR_D_AS_FLOAT, "%f" ); //$NON-NLS-1$ //$NON-NLS-2$
+  AS_FLOAT( "AS_FLOAT", STR_EDF_AS_FLOAT, STR_EDF_AS_FLOAT_D, "%f" ); //$NON-NLS-1$ //$NON-NLS-2$
 
   /**
    * The keeper ID.

@@ -13,7 +13,6 @@ import org.toxsoft.core.tsgui.mws.services.e4helper.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.synch.*;
-import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.logs.impl.*;
 
@@ -79,11 +78,6 @@ public class MwsWindowStaff {
   public MwsWindowStaff( MWindow aWindow ) {
     window = TsNullArgumentRtException.checkNull( aWindow );
     IEclipseContext winCtx = window.getContext();
-
-    // DEBUG
-    Display d = winCtx.get( Display.class );
-    TsTestUtils.pl( "====== Display: %s", d );
-
     // put instance into the context
     TsInternalErrorRtException.checkNoNull( winCtx.get( MwsWindowStaff.class ) );
     window.getContext().set( MwsWindowStaff.class, this );
