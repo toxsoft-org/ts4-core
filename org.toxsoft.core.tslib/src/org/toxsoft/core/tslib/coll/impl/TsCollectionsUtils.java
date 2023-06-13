@@ -415,12 +415,12 @@ public final class TsCollectionsUtils {
     int order = estimateOrder( aL1.size() + aL2.size() );
     IListEdit<E> ll = new ElemLinkedBundleList<>( getListInitialCapacity( order ), true );
     for( E e : aL1 ) {
-      if( ll.hasElem( e ) ) {
+      if( !ll.hasElem( e ) ) {
         ll.add( e );
       }
     }
     for( E e : aL2 ) {
-      if( ll.hasElem( e ) ) {
+      if( !ll.hasElem( e ) ) {
         ll.add( e );
       }
     }
@@ -444,12 +444,12 @@ public final class TsCollectionsUtils {
     int order = estimateOrder( aL1.size() + aL2.size() );
     IStringListEdit ll = new StringLinkedBundleList( getListInitialCapacity( order ), true );
     for( String e : aL1 ) {
-      if( ll.hasElem( e ) ) {
+      if( !ll.hasElem( e ) ) {
         ll.add( e );
       }
     }
     for( String e : aL2 ) {
-      if( ll.hasElem( e ) ) {
+      if( !ll.hasElem( e ) ) {
         ll.add( e );
       }
     }
