@@ -25,52 +25,52 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public enum ETsColor
     implements IStridable {
 
-  BLACK( "Black", STR_N_BLACK, STR_D_BLACK, //$NON-NLS-1$
+  BLACK( "Black", STR_BLACK, STR_BLACK_D, //$NON-NLS-1$
       new RGB( 0x00, 0x00, 0x00 ), SWT.COLOR_BLACK ),
 
-  DARK_RED( "DarkRed", STR_N_DARK_RED, STR_D_DARK_RED, //$NON-NLS-1$
+  DARK_RED( "DarkRed", STR_DARK_RED, STR_DARK_RED_D, //$NON-NLS-1$
       new RGB( 0x80, 0x00, 0x00 ), SWT.COLOR_DARK_RED ),
 
-  DARK_GREEN( "DarkGreen", STR_N_DARK_GREEN, STR_D_DARK_GREEN, //$NON-NLS-1$
+  DARK_GREEN( "DarkGreen", STR_DARK_GREEN, STR_DARK_GREEN_D, //$NON-NLS-1$
       new RGB( 0x00, 0x80, 0x00 ), SWT.COLOR_DARK_GREEN ),
 
-  DARK_YELLOW( "DarkYellow", STR_N_DARK_YELLOW, STR_D_DARK_YELLOW, //$NON-NLS-1$
+  DARK_YELLOW( "DarkYellow", STR_DARK_YELLOW, STR_DARK_YELLOW_D, //$NON-NLS-1$
       new RGB( 0x80, 0x80, 0x00 ), SWT.COLOR_DARK_YELLOW ),
 
-  DARK_BLUE( "DarkBlue", STR_N_DARK_BLUE, STR_D_DARK_BLUE, //$NON-NLS-1$
+  DARK_BLUE( "DarkBlue", STR_DARK_BLUE, STR_DARK_BLUE_D, //$NON-NLS-1$
       new RGB( 0x00, 0x00, 0x80 ), SWT.COLOR_DARK_BLUE ),
 
-  DARK_MAGENTA( "DarkMagenta", STR_N_DARK_MAGENTA, STR_D_DARK_MAGENTA, //$NON-NLS-1$
+  DARK_MAGENTA( "DarkMagenta", STR_DARK_MAGENTA, STR_DARK_MAGENTA_D, //$NON-NLS-1$
       new RGB( 0x80, 0x00, 0x80 ), SWT.COLOR_DARK_MAGENTA ),
 
-  DARK_CYAN( "DarkCyan", STR_N_DARK_CYAN, STR_D_DARK_CYAN, //$NON-NLS-1$
+  DARK_CYAN( "DarkCyan", STR_DARK_CYAN, STR_DARK_CYAN_D, //$NON-NLS-1$
       new RGB( 0x00, 0x80, 0x80 ), SWT.COLOR_DARK_CYAN ),
 
-  GRAY( "Gray", STR_N_GRAY, STR_D_GRAY, //$NON-NLS-1$
+  GRAY( "Gray", STR_GRAY, STR_GRAY_D, //$NON-NLS-1$
       new RGB( 0xC0, 0xC0, 0xC0 ), SWT.COLOR_GRAY ),
 
-  DARK_GRAY( "DarkGray", STR_N_DARK_GRAY, STR_D_DARK_GRAY, //$NON-NLS-1$
+  DARK_GRAY( "DarkGray", STR_DARK_GRAY, STR_DARK_GRAY_D, //$NON-NLS-1$
       new RGB( 0x80, 0x80, 0x80 ), SWT.COLOR_DARK_GRAY ),
 
-  RED( "Red", STR_N_RED, STR_D_RED, //$NON-NLS-1$
+  RED( "Red", STR_RED, STR_RED_D, //$NON-NLS-1$
       new RGB( 0xFF, 0x00, 0x00 ), SWT.COLOR_RED ),
 
-  GREEN( "Green", STR_N_GREEN, STR_D_GREEN, //$NON-NLS-1$
+  GREEN( "Green", STR_GREEN, STR_GREEN_D, //$NON-NLS-1$
       new RGB( 0x00, 0xFF, 0x00 ), SWT.COLOR_GREEN ),
 
-  YELLOW( "Yellow", STR_N_YELLOW, STR_D_YELLOW, //$NON-NLS-1$
+  YELLOW( "Yellow", STR_YELLOW, STR_YELLOW_D, //$NON-NLS-1$
       new RGB( 0xFF, 0xFF, 0x00 ), SWT.COLOR_YELLOW ),
 
-  BLUE( "Blue", STR_N_BLUE, STR_D_BLUE, //$NON-NLS-1$
+  BLUE( "Blue", STR_BLUE, STR_BLUE_D, //$NON-NLS-1$
       new RGB( 0x00, 0x00, 0xFF ), SWT.COLOR_BLUE ),
 
-  MAGENTA( "Magenta", STR_N_MAGENTA, STR_D_MAGENTA, //$NON-NLS-1$
+  MAGENTA( "Magenta", STR_MAGENTA, STR_MAGENTA_D, //$NON-NLS-1$
       new RGB( 0xFF, 0x00, 0xFF ), SWT.COLOR_MAGENTA ),
 
-  CYAN( "Cyan", STR_N_CYAN, STR_D_CYAN, //$NON-NLS-1$
+  CYAN( "Cyan", STR_CYAN, STR_CYAN_D, //$NON-NLS-1$
       new RGB( 0x00, 0xFF, 0xFF ), SWT.COLOR_CYAN ),
 
-  WHITE( "White", STR_N_WHITE, STR_D_WHITE, //$NON-NLS-1$
+  WHITE( "White", STR_WHITE, STR_WHITE_D, //$NON-NLS-1$
       new RGB( 0xFF, 0xFF, 0xFF ), SWT.COLOR_WHITE );
 
   /**
