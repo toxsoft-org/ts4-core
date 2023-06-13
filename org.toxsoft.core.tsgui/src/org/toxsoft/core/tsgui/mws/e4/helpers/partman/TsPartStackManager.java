@@ -38,10 +38,10 @@ public class TsPartStackManager
     TsNullArgumentRtException.checkNulls( aWinContext, aPartStackId );
     modelService = aWinContext.get( EModelService.class );
     TsInternalErrorRtException.checkNull( modelService );
-    partService = aWinContext.get( EPartService.class );
-    TsInternalErrorRtException.checkNull( partService );
     application = aWinContext.get( MApplication.class );
     TsInternalErrorRtException.checkNull( application );
+    partService = application.getContext().get( EPartService.class );
+    TsInternalErrorRtException.checkNull( partService );
     //
     partStack = (MPartStack)modelService.find( aPartStackId, application );
     if( partStack == null ) {
@@ -63,15 +63,10 @@ public class TsPartStackManager
     // remove closed UIparts from stackParts if any
     IStringListEdit llClosedPartIds = new StringArrayList();
     for( String pid : stackParts.keys() ) {
-      MPart part = stackParts.getByKey( pid );
-      // --- GOGA 2023-05-07 user may create part without content, so change 'closed' algorithm
-      if( !part.isVisible() ) { // because of REMOVE_ON_HIDE_TAG - non-visible parts are closed
+      MPart found = partService.findPart( pid );
+      if( found == null ) {
         llClosedPartIds.add( pid );
       }
-      // if( part.getObject() == null ) { // no content - means part is closed
-      // llClosedPartIds.add( pid );
-      // }
-      // ---
     }
     for( String pid : llClosedPartIds ) {
       stackParts.removeByKey( pid );
@@ -95,7 +90,7 @@ public class TsPartStackManager
     part.setCloseable( aInfo.isCloseable() );
     part.getTags().add( EPartService.REMOVE_ON_HIDE_TAG );
     partStack.getChildren().add( part );
-    MPart createdPart = partService.showPart( part, PartState.ACTIVATE );
+    MPart createdPart = partService.showPart( part, PartState.VISIBLE );
     stackParts.put( aInfo.partId(), createdPart );
     return createdPart;
   }

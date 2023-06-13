@@ -2,11 +2,15 @@ package org.toxsoft.core.tsgui.mws.e4.helpers.partman;
 
 import org.eclipse.e4.ui.model.application.ui.basic.*;
 import org.eclipse.e4.ui.workbench.modeling.*;
+import org.eclipse.e4.ui.workbench.modeling.EPartService.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Simplifies {@link MPartStack} usage for dynamic parts management.
+ * <p>
+ * <b>Warning</b>: the managed part stack must be marked with tag <code>NoAutoCollapse</code>, otherwise part stack will
+ * disappear when last part closes.
  *
  * @author hazard157
  */
@@ -31,7 +35,11 @@ public interface ITsPartStackManager {
   /**
    * Creates new managed part in {@link #getPartStack()}.
    * <p>
-   * Created part becomes the active one.
+   * <b>WARNING:</b> due to E4 part is always created in the current perspective even if {@link #getPartStack()} is in
+   * other perspective switch to destination perspective before part creation. Otherwise part will be created not in
+   * destination part stack but in active part stack of the current perspective.
+   * <p>
+   * Created part becomes the the visible, as described for {@link PartState#VISIBLE}.
    * <p>
    * Part is created with {@link EPartService#REMOVE_ON_HIDE_TAG} tag so when close part will be disposed.
    *
