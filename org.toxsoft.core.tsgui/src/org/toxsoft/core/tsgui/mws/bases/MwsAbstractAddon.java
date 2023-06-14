@@ -46,6 +46,11 @@ public abstract class MwsAbstractAddon {
     }
 
     @Override
+    protected boolean doCanCloseMainWindow( IEclipseContext aWinContext, MWindow aWindow ) {
+      return MwsAbstractAddon.this.doCanCloseMainWindow( aWinContext, aWindow );
+    }
+
+    @Override
     protected void doCloseWin( MWindow aWindow ) {
       LoggerUtils.defaultLogger().info( FMT_INFO_ADDON_CLOSE_WIN, nameForLog );
       MwsAbstractAddon.this.doBeforeMainWindowClose( aWindow.getContext(), aWindow );

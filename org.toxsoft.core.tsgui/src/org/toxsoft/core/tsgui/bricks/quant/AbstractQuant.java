@@ -167,7 +167,7 @@ public abstract class AbstractQuant
         LoggerUtils.errorLogger().error( ex );
       }
     }
-    return true;
+    return doCanCloseMainWindow( aWinContext, aWindow );
   }
 
   @Override
@@ -223,7 +223,24 @@ public abstract class AbstractQuant
   protected abstract void doInitWin( IEclipseContext aWinContext );
 
   /**
+   * The implementation may intercept and, if necessary, prevent the attempt to close the window.
+   * <p>
+   * Returns <code>true</code> in the base class there is need to call parent method when overriding.
+   *
+   * @param aWinContext {@link IEclipseContext} - the window context
+   * @param aWindow {@link MWindow} - the window to be closed
+   * @return boolean - permission to close the window<br>
+   *         <b>true</b> - the window will be closed;<br>
+   *         <b>false</b> - the window will remain open.
+   */
+  protected boolean doCanCloseMainWindow( IEclipseContext aWinContext, MWindow aWindow ) {
+    return true;
+  }
+
+  /**
    * Subclass may process window closing, eg release resources allocated in {@link #doInitWin(IEclipseContext)}.
+   * <p>
+   * Does nothing in the base class there is need to call parent method when overriding.
    *
    * @param aWindow {@link MWindow} - the window to be closed
    */
@@ -234,7 +251,7 @@ public abstract class AbstractQuant
   /**
    * Subclass may perform clean-up before application quits.
    * <p>
-   * Does nothing in the base class there is need to call parent method whem overriding.
+   * Does nothing in the base class there is need to call parent method when overriding.
    */
   protected void doClose() {
     // nop
