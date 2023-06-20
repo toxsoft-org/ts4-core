@@ -16,7 +16,7 @@ import org.toxsoft.core.tslib.utils.icons.*;
  * Node identifier {@link #id()} must be unique among siblings, that is among {@link #childs()} or {@link #parent()}
  * node.
  * <p>
- * An editable user-defined node options in {@link #nodeData()} are hold individualy for each node. Default
+ * An editable user-defined node options in {@link #nodeData()} are hold individually for each node. Default
  * implementation of {@link AbstractQNode} uses options {@link IAvMetaConstants#TSID_NAME},
  * {@link IAvMetaConstants#TSID_DESCRIPTION} and {@link IAvMetaConstants#TSID_ICON_ID} are used to store
  * {@link #nmName()}, {@link #description()} and {@link #iconId()} values respectively.
@@ -25,7 +25,8 @@ import org.toxsoft.core.tslib.utils.icons.*;
  */
 @SuppressWarnings( "rawtypes" )
 public sealed interface IQNode
-    extends IStridable, IIconIdable permits IQRootNode,AbstractQNode {
+    extends IStridable, IIconIdable
+    permits IQRootNode, AbstractQNode {
 
   /**
    * Returns the node kind.
@@ -53,7 +54,7 @@ public sealed interface IQNode
    * {@link AbstractQNode} uses corresponding options (as in {@link IAvMetaConstants}) to store values of
    * {@link #nmName()}, {@link #description()} and {@link #iconId()}.
    *
-   * @return {@link ITsContext} - supplemetary references and options
+   * @return {@link ITsContext} - supplementary references and options
    */
   ITsContext nodeData();
 
@@ -63,9 +64,9 @@ public sealed interface IQNode
   /**
    * Return an entity hold by this node.
    * <p>
-   * It is common practic to represent hierarchical tree of entites with node {@link IQNode}. For such usage node holds
-   * corresponding entity, {@link #parent()} node holds parent entity and so on. Anyway, non-<code>null</code> entity
-   * always is held by node.
+   * It is common practice to represent hierarchical tree of entities with node {@link IQNode}. For such usage node
+   * holds corresponding entity, {@link #parent()} node holds parent entity and so on. Anyway, non-<code>null</code>
+   * entity always is held by node.
    *
    * @param <T> - expected type of entity
    * @return &lt;T&gt; - entity held by node, never is <code>null</code>
@@ -94,7 +95,7 @@ public sealed interface IQNode
   /**
    * Returns the child nodes.
    * <p>
-   * If childs are not alreaty created, requests node creation and returns created nodes. See note to
+   * If childs are not already created, requests node creation and returns created nodes. See note to
    * {@link #listExistingChilds()}.
    * <p>
    * For nodes that can node have childs {@link IQNodeKind#canHaveChilds()} = <code>false</code> returns an empty list.

@@ -5,6 +5,7 @@ import java.util.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.notifier.*;
+import org.toxsoft.core.tslib.coll.helpers.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -67,6 +68,7 @@ public class TreeModeManager<T>
     TsItemAlreadyExistsRtException.checkTrue( treeModeInfoes.hasKey( aModeInfo.id() ) );
     treeModeInfoes.add( aModeInfo );
     onModeInfoesChanged();
+    eventer.fireChangeEvent();
   }
 
   @Override
@@ -78,6 +80,7 @@ public class TreeModeManager<T>
         onCurrentModeIdChanged();
       }
       onModeInfoesChanged();
+      eventer.fireChangeEvent();
       lastModeId = null;
     }
   }
@@ -111,6 +114,16 @@ public class TreeModeManager<T>
       onCurrentModeIdChanged();
       eventer.fireChangeEvent();
     }
+  }
+
+  @Override
+  public void setNextMode() {
+    if( treeModeInfoes.isEmpty() || !hasTreeMode ) {
+      setCurrentMode( null );
+      return;
+    }
+    String nextId = ETsCollMove.NEXT.findElemAtWni( modeId, treeModeInfoes.keys(), 1, true );
+    setCurrentMode( nextId );
   }
 
   protected void onModeInfoesChanged() {

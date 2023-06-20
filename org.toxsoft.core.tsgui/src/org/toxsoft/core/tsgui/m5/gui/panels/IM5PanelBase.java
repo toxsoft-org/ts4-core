@@ -1,16 +1,16 @@
 package org.toxsoft.core.tsgui.m5.gui.panels;
 
-import org.eclipse.swt.widgets.Control;
-import org.toxsoft.core.tsgui.m5.model.IM5ModelRelated;
-import org.toxsoft.core.tsgui.panels.lazy.ILazyControl;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContextable;
-import org.toxsoft.core.tslib.bricks.events.change.IGenericChangeEventCapable;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.m5.model.*;
+import org.toxsoft.core.tsgui.panels.lazy.*;
+import org.toxsoft.core.tslib.bricks.ctx.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
 
 /**
  * Base interface of all panels to view and/or edit entities of one model.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public interface IM5PanelBase<T>
     extends IM5ModelRelated<T>, ILazyControl<Control>, ITsContextable, IGenericChangeEventCapable {

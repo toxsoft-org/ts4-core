@@ -5,19 +5,19 @@ import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.notifier.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
-// TODO TRANSLATE
-
 /**
- * Управление показом элементов в режиме таблицы или дерева с различными группировками.
+ * Manage the display of elements in the table or tree mode, with different groupings.
  * <p>
- * При смене текущего режима {@link #currModeId()} или наличия режима дерева {@link #hasTreeMode()} генерируется
- * сообщение {@link IGenericChangeListener}.
+ * On ant change ( mode change, add/remove tree mode, enable/disable tree mode) the event
+ * {@link IGenericChangeListener#onGenericChangeEvent(Object)} is generated.
  *
  * @author hazard157
- * @param <T> - displayed M5-modelled entity type
+ * @param <T> - displayed M5-modeled entity type
  */
 public interface ITreeModeManager<T>
     extends IGenericChangeEventCapable {
+
+  // TODO TRANSLATE
 
   /**
    * Определяет, есть ли поддержка режимов показа в виде дерева.
@@ -93,5 +93,13 @@ public interface ITreeModeManager<T>
    * @throws TsItemNotFoundRtException идентификатор не соответствут ни одному режиму дерева
    */
   void setCurrentMode( String aModeId );
+
+  /**
+   * Sets the next available mode.
+   * <p>
+   * Modes are considered in the following looped sequence: <br>
+   * <code>tableMode -> treeMode1 -> treeMode2 ... -> treeModeN -> tableMode </code>
+   */
+  void setNextMode();
 
 }

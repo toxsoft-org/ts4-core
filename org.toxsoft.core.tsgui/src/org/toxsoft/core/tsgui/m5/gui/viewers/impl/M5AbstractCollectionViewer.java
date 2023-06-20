@@ -33,7 +33,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * {@link IM5CollectionViewer} base implementation.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public abstract class M5AbstractCollectionViewer<T>
     implements IM5CollectionViewer<T> {
@@ -828,6 +828,7 @@ public abstract class M5AbstractCollectionViewer<T>
       items().removeCollectionChangeListener( itemsChangeListener );
     } );
     items.addCollectionChangeListener( itemsChangeListener );
+    doProcessAfterControlsCreated();
     doRefreshAll();
     return columnViewer.getControl();
   }
@@ -1039,6 +1040,17 @@ public abstract class M5AbstractCollectionViewer<T>
   // ------------------------------------------------------------------------------------
   // To implement
   //
+
+  /**
+   * Subclass may perform additional actions on control creation.
+   * <p>
+   * Called from {@link #createControl(Composite)} afetr controls are created.
+   * <p>
+   * Does nothing in base class, there is no nedd to call superclass method when overriding.
+   */
+  protected void doProcessAfterControlsCreated() {
+    // nop
+  }
 
   /**
    * Неследник должен создать JFace просмотрщик {@link TableViewer} или {@link TreeViewer}.

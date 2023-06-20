@@ -1,7 +1,7 @@
 package org.toxsoft.core.txtproj.lib.categs;
 
 /**
- * Локализуемые ресурсы.
+ * Localizable resources.
  *
  * @author hazard157
  */

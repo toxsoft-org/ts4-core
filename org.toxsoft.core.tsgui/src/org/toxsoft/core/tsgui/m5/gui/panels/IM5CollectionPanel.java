@@ -1,15 +1,14 @@
 package org.toxsoft.core.tsgui.m5.gui.panels;
 
-import org.toxsoft.core.tsgui.m5.model.IM5ItemsProvider;
-import org.toxsoft.core.tsgui.m5.model.IM5LifecycleManager;
-import org.toxsoft.core.tsgui.panels.generic.IGenericCollPanel;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.m5.model.*;
+import org.toxsoft.core.tsgui.panels.generic.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * The entities list viewer/editor panel.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public interface IM5CollectionPanel<T>
     extends IGenericCollPanel<T>, IM5PanelBase<T> {

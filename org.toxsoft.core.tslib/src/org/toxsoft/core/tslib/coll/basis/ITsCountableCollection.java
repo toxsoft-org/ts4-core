@@ -12,7 +12,7 @@ package org.toxsoft.core.tslib.coll.basis;
 public interface ITsCountableCollection {
 
   /**
-   * Checks is collection is empty.
+   * Determines if collection is empty (contains no elements).
    *
    * @return boolean - empty collection flag<br>
    *         <b>true</b> - collection is empty, so {@link #size()}=0 ;<br>

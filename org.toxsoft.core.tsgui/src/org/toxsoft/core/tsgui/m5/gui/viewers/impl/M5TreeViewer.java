@@ -27,7 +27,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * An {@link IM5TreeViewer} implementation.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public class M5TreeViewer<T>
     extends M5AbstractCollectionViewer<T>
@@ -216,7 +216,7 @@ public class M5TreeViewer<T>
           IM5Column<T> col = columnManager().columns().values().get( aColumnIndex );
           return col.getCellText( (T)node.entity() );
         }
-        // for nodes that does not contains modelled entities use only first column
+        // for nodes that does not contains modeled entities use only first column
         if( aColumnIndex == 0 ) {
           return node.name();
         }
@@ -230,7 +230,7 @@ public class M5TreeViewer<T>
       if( !(aElement instanceof ITsNode node) ) {
         return null;
       }
-      // for nodes that contains modelled entities each cell may have icon
+      // for nodes that contains modeled entities each cell may have icon
       if( treeMaker.isItemNode( node ) ) {
         IM5Column<T> col = columnManager().columns().values().get( aColumnIndex );
         if( col.isUseThumb() ) {
