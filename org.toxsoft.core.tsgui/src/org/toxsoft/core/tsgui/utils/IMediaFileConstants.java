@@ -44,11 +44,6 @@ public interface IMediaFileConstants {
   boolean[] IS_ANIM_IMAGE_EXT = { false, false, false, true, true, false };
 
   /**
-   * Фильтр для отбора файлов изображений (файлов с расширениями {@link #IMAGE_FILE_EXTENSIONS}).
-   */
-  TsFileFilter IMAGE_FILES_FILTER = new TsFileFilter( FILE, IMAGE_FILE_EXT_LIST );
-
-  /**
    * Перечень расширении в нижнем регистре (без первой точки) видео-файлов, распознаваемых программой.
    * <p>
    * Расширения в общем случае (например, в Linux) чувствительны к регистру.
@@ -65,7 +60,7 @@ public interface IMediaFileConstants {
   /**
    * Фильтр для отбора файлов видео (файлов с расширениями {@link #VIDEO_FILE_EXTENSIONS}).
    */
-  TsFileFilter VIDEO_FILES_FILTER = new TsFileFilter( FILE, VIDEO_FILE_EXT_LIST );
+  TsFileFilter FF_VIDEOS = new TsFileFilter( FILE, VIDEO_FILE_EXT_LIST );
 
   /**
    * Перечень расширении в нижнем регистре (без первой точки) видео-файлов, распознаваемых программой.
@@ -84,7 +79,7 @@ public interface IMediaFileConstants {
   /**
    * Фильтр для отбора файлов изображений (файлов с расширениями {@link #AUDIO_FILE_EXTENSIONS}).
    */
-  TsFileFilter AUDIO_FILES_FILTER = new TsFileFilter( FILE, AUDIO_FILE_EXT_LIST );
+  TsFileFilter FF_AUDIO = new TsFileFilter( FILE, AUDIO_FILE_EXT_LIST );
 
   /**
    * Возвращает все расширения медия-файлов, перечисленные ранее.

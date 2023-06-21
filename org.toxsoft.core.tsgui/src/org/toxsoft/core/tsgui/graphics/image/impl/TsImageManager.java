@@ -190,7 +190,7 @@ public class TsImageManager
     }
     else {
       if( aFileOrDir.isDirectory() ) {
-        File[] files = aFileOrDir.listFiles( IMediaFileConstants.IMAGE_FILES_FILTER );
+        File[] files = aFileOrDir.listFiles( IMediaFileConstants.FF_IMAGES );
         for( File f : files ) {
           internalRefreshFile( f );
         }
