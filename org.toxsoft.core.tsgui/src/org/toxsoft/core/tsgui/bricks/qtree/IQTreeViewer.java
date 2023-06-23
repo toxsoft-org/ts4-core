@@ -11,11 +11,11 @@ import org.toxsoft.core.tslib.bricks.qnodes.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Viewer for {@link IQRootNode} tree structore.
+ * Viewer for {@link IQRootNode} tree structure.
  * <p>
  * TODO under development! For each cell there is a flag {@link IQTreeColumn#isUseThumb()} determining what to show:
  * either an icon {@link ITsVisualsProvider#getIcon(Object, EIconSize)} or still image
- * {@link ITsVisualsProvider#getThumb(Object, EThumbSize)}. However, there is some restirctions from the SWT side:
+ * {@link ITsVisualsProvider#getThumb(Object, EThumbSize)}. However, there is some restrictions from the SWT side:
  * <ul>
  * <li>all rows have same size of images;</li>
  * <li>size of row images are determined by first row's first cell image size;</li>
@@ -30,7 +30,7 @@ public interface IQTreeViewer
     IThumbSizeableEx, ILazyControl<Control> {
 
   /**
-   * Retruns the invisible root node of the tree.
+   * Returns the invisible root node of the tree.
    *
    * @return {@link IQRootNode} - the invisible root node
    */

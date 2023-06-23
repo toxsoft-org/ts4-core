@@ -87,6 +87,14 @@ public interface ITsGuiContextable
     return appPrefs().getBundle( aBundleId );
   }
 
+  default IAtomicValue apprefValue( String aBundleId, String aPrefId ) {
+    return prefBundle( aBundleId ).prefs().getByKey( aPrefId );
+  }
+
+  default IAtomicValue apprefValue( String aBundleId, IDataDef aPrefDef ) {
+    return aPrefDef.getValue( prefBundle( aBundleId ).prefs() );
+  }
+
   default IM5Domain m5() {
     return tsContext().get( IM5Domain.class );
   }

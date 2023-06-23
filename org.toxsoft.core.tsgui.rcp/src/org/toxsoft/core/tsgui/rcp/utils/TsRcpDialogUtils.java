@@ -2,15 +2,16 @@ package org.toxsoft.core.tsgui.rcp.utils;
 
 import static org.toxsoft.core.tsgui.rcp.utils.ITsResources.*;
 
-import java.io.File;
+import java.io.*;
 
-import org.eclipse.swt.SWT;
+import org.eclipse.swt.*;
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tsgui.dialogs.TsDialogUtils;
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.files.TsFileUtils;
+import org.toxsoft.core.tsgui.dialogs.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.files.*;
 
 // TODO TRANSLATE
 
@@ -27,6 +28,8 @@ import org.toxsoft.core.tslib.utils.files.TsFileUtils;
  * @author hazard157
  */
 public final class TsRcpDialogUtils {
+
+  private static final IStringList ALL_FILE_EXTS_LIST = new SingleStringList( "*.*" ); //$NON-NLS-1$
 
   // ------------------------------------------------------------------------------------
   // Диалоги работы с файлами
@@ -193,6 +196,37 @@ public final class TsRcpDialogUtils {
       return new File( dirName );
     }
     return null;
+  }
+
+  /**
+   * Prepares multi-extension string for {@link FileDialog#setFilterExtensions(String[])}.
+   * <p>
+   * For empty list returns "*.*" extension filter.
+   *
+   * @param aExtensions {@link IStringList} - extensions without dots
+   * @return {@link IStringList} - listwith string of multi-extensions and strings for each extension
+   */
+  public static IStringList makeMultiExtensions( IStringList aExtensions ) {
+    TsNullArgumentRtException.checkNull( aExtensions );
+    if( aExtensions.isEmpty() ) {
+      return ALL_FILE_EXTS_LIST;
+    }
+    IStringListEdit ss = new StringArrayList();
+    // all extension as one multi-extension
+    StringBuilder sb = new StringBuilder();
+    for( String s : aExtensions ) {
+      sb.append( "*." ); //$NON-NLS-1$
+      sb.append( s );
+      if( s != aExtensions.last() ) {
+        sb.append( ';' );
+      }
+    }
+    ss.add( sb.toString() );
+    // all extensions one-by-one
+    for( String s : aExtensions ) {
+      ss.add( "*." + s ); //$NON-NLS-1$
+    }
+    return ss;
   }
 
   private TsRcpDialogUtils() {
