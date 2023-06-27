@@ -46,7 +46,6 @@ public class MultiPartValueWidget
       Point rightSize = twoButtonsPane.computeSize( SWT.DEFAULT, textSize.y, true );
       // widget height is determined by the text field height
       // widget width is determined by the text field width and button pane width
-      // ширина контроля - ширина текста + предпочтительная ширина панели кнопок
       return new Point( textSize.x + rightSize.x, textSize.y );
     }
 
@@ -224,7 +223,7 @@ public class MultiPartValueWidget
     else {
       twoButtonsPane = null;
     }
-    editable = isReadOnly();
+    editable = !isReadOnly();
     text.setEditable( editable );
     text.setText( mpv.getValueString() );
     internalCalibrateCoorsToCaret();

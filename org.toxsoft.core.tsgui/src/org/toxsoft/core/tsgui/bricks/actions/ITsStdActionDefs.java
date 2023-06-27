@@ -636,7 +636,7 @@ public interface ITsStdActionDefs {
   /**
    * Action: изначальный размер (1:1).
    */
-  ITsActionDef ACDEF_ZOOM_ORIGINAL = ofPush2( ACTID_ZOOM_ORIGINAL, //
+  ITsActionDef ACDEF_ZOOM_ORIGINAL = ofCheck2( ACTID_ZOOM_ORIGINAL, //
       STR_T_ZOOM_ORIGINAL, STR_P_ZOOM_ORIGINAL, ICONID_ZOOM_ORIGINAL );
 
   /**

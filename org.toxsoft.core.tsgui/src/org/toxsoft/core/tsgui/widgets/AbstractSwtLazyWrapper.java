@@ -46,7 +46,7 @@ public abstract class AbstractSwtLazyWrapper<C extends Control>
   //
 
   /**
-   * Subclass must create the SWT coontrol.
+   * Subclass must create the SWT control.
    *
    * @param aParent {@link Composite} - the parent composite
    * @return &lt;C&gt; - create control, must not be <code>null</code>

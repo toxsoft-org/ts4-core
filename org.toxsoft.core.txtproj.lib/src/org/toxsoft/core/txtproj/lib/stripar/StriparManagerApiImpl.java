@@ -315,7 +315,7 @@ public class StriparManagerApiImpl<E extends IStridable & IParameterized>
   /**
    * Replaces current content of {@link #items()} by the entities from the argument.
    * <p>
-   * Fires single event of kind {@link ECrudOp#LIST}.
+   * Does <b>not</b> generates generic change event.
    *
    * @param aNewContent {@link IStridablesList}&lt;E&gt; - the list of entities
    * @throws TsNullArgumentRtException any argument = <code>null</code>
@@ -324,14 +324,13 @@ public class StriparManagerApiImpl<E extends IStridable & IParameterized>
     TsNullArgumentRtException.checkNull( aNewContent );
     if( !items.equals( aNewContent ) ) {
       items.setAll( aNewContent );
-      eventer.fireChangeEvent( ECrudOp.LIST, null );
     }
   }
 
   /**
    * Replaces current content of {@link #items()} by the entities created from the supplied data.
    * <p>
-   * Fires single event of kind {@link ECrudOp#LIST}.
+   * Does <b>not</b> generates generic change event.
    *
    * @param <T> - the type of {@link IStridable} and {@link IParameterized} data item
    * @param aItemsData {@link ITsCollection}&lt;T&gt; - the data items
@@ -349,7 +348,6 @@ public class StriparManagerApiImpl<E extends IStridable & IParameterized>
     }
     finally {
       eventer.resumeFiring( false );
-      eventer.fireChangeEvent( ECrudOp.LIST, null );
     }
   }
 

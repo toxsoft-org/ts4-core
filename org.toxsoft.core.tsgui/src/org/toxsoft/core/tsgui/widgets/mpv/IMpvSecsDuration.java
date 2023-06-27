@@ -1,9 +1,8 @@
 package org.toxsoft.core.tsgui.widgets.mpv;
 
 import org.toxsoft.core.tsgui.widgets.mpv.impl.*;
-import org.toxsoft.core.tslib.math.IntRange;
-import org.toxsoft.core.tslib.utils.errors.TsInternalErrorRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.math.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link IMultiPartValue} extension for non-negative durations in seconds.
@@ -26,16 +25,16 @@ public interface IMpvSecsDuration
    *
    * @return int - duration seconds
    */
-  int getDurationSecs();
+  int getValueSecs();
 
   /**
    * Sets value value as <code>int</code>.
    * <p>
    * The argument will be fitted in {@link #getRange()}.
    *
-   * @param aDuration int - duration seconds
+   * @param aSecs int - duration seconds
    */
-  void setDurationSecs( int aDuration );
+  void setValueSecs( int aSecs );
 
   /**
    * Returns the widest possible range of the value.
@@ -76,18 +75,13 @@ public interface IMpvSecsDuration
    * @return {@link IMpvSecsDuration} - created instance
    */
   static IMpvSecsDuration create( boolean aIsHoursPart, boolean aIsSecondsPart ) {
-    switch( (aIsHoursPart ? 0x10 : 0x00) | (aIsSecondsPart ? 0x01 : 0x00) ) {
-      case 0x00:
-        return new MpvSecsDurationMm();
-      case 0x01:
-        return new MpvSecsDurationMmSs();
-      case 0x10:
-        return new MpvSecsDurationHhMm();
-      case 0x11:
-        return new MpvSecsDurationHhMmSs();
-      default:
-        throw new TsInternalErrorRtException();
-    }
+    return switch( (aIsHoursPart ? 0x10 : 0x00) | (aIsSecondsPart ? 0x01 : 0x00) ) {
+      case 0x00 -> new MpvSecsDurationMm();
+      case 0x01 -> new MpvSecsDurationMmSs();
+      case 0x10 -> new MpvSecsDurationHhMm();
+      case 0x11 -> new MpvSecsDurationHhMmSs();
+      default -> throw new TsInternalErrorRtException();
+    };
 
   }
 

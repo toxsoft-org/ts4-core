@@ -28,7 +28,7 @@ public final class RectFitInfo {
   public static final double MAX_ZOOM_FACTOR = 1_000_000.0;
 
   /**
-   * Default zoom factor.
+   * Default zoom factor - original size, means 100%, the <code>double</code> value is <code>1.0</code>.
    */
   public static final double DEFAULT_ZOOM = 1.0;
 
@@ -46,6 +46,11 @@ public final class RectFitInfo {
    * Convenience constant best fitting - fit original object in viewport but not increase if it's small.
    */
   public static final RectFitInfo BEST = new RectFitInfo( ERectFitMode.FIT_BOTH, false, DEFAULT_ZOOM );
+
+  /**
+   * Convenience constant best fitting - fit original object in viewport and increase if it's small.
+   */
+  public static final RectFitInfo BEST_FILL = new RectFitInfo( ERectFitMode.FIT_BOTH, true, DEFAULT_ZOOM );
 
   /**
    * Keeper singleton.
@@ -136,6 +141,57 @@ public final class RectFitInfo {
    */
   public double zoomFactor() {
     return zoomFactor;
+  }
+
+  /**
+   * Returns instance with changed zoom factor.
+   * <p>
+   * Argument will be forced to "fit" in range {@link #MIN_ZOOM_FACTOR} .. {@link #MAX_ZOOM_FACTOR}.
+   *
+   * @param aNewZoom double - new zoom factor
+   * @return {@link RectFitInfo} - new instance
+   */
+  public RectFitInfo changeZoomFactor( double aNewZoom ) {
+    double zoom = aNewZoom;
+    if( zoom < MIN_ZOOM_FACTOR ) {
+      zoom = MIN_ZOOM_FACTOR;
+    }
+    if( zoom > MAX_ZOOM_FACTOR ) {
+      zoom = MAX_ZOOM_FACTOR;
+    }
+    return new RectFitInfo( ERectFitMode.ZOOMED, expandToFit, zoom );
+  }
+
+  /**
+   * Returns instance with changed zoom factor.
+   * <p>
+   * If argument is the same as {@link #isExpandToFit()}, <code>this</code> instance will be returned.
+   *
+   * @param aNewExpandToFit boolean new value for {@link #isExpandToFit()}
+   * @return {@link RectFitInfo} - instance with new fit mode
+   */
+  public RectFitInfo changeExpandToFit( boolean aNewExpandToFit ) {
+    if( aNewExpandToFit == expandToFit ) {
+      return this;
+    }
+    return new RectFitInfo( fitMode, aNewExpandToFit, zoomFactor );
+  }
+
+  /**
+   * Returns instance with changed zoom factor.
+   * <p>
+   * If argument is the same as {@link #fitMode()}, <code>this</code> instance will be returned.
+   *
+   * @param aNewMode {@link ERectFitMode} - new fit mode
+   * @return {@link RectFitInfo} - instance with new fit mode
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public RectFitInfo changeFitMode( ERectFitMode aNewMode ) {
+    TsNullArgumentRtException.checkNull( aNewMode );
+    if( aNewMode == fitMode ) {
+      return this;
+    }
+    return new RectFitInfo( aNewMode, expandToFit, zoomFactor );
   }
 
   /**

@@ -194,6 +194,11 @@ public class PdwWidgetSimple
   }
 
   @Override
+  public double getRealZoomFactor() {
+    return imageWidget.getRealZoomFactor();
+  }
+
+  @Override
   public void redraw() {
     imageWidget.redraw();
   }

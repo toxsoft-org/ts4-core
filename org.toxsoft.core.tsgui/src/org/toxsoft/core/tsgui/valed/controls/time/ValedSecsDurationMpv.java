@@ -170,18 +170,18 @@ public class ValedSecsDurationMpv
 
   @Override
   protected Integer doGetUnvalidatedValue() {
-    return Integer.valueOf( mpv.getDurationSecs() );
+    return Integer.valueOf( mpv.getValueSecs() );
   }
 
   @Override
   protected void doSetUnvalidatedValue( Integer aValue ) {
     int val = aValue != null ? aValue.intValue() : 0;
-    mpv.setDurationSecs( val );
+    mpv.setValueSecs( val );
   }
 
   @Override
   protected void doClearValue() {
-    mpv.setDurationSecs( 0 );
+    mpv.setValueSecs( 0 );
   }
 
 }

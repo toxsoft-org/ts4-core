@@ -1,8 +1,8 @@
 package org.toxsoft.core.txtproj.lib;
 
-import org.toxsoft.core.tslib.bricks.events.change.IGenericChangeEventCapable;
-import org.toxsoft.core.tslib.bricks.keeper.IKeepableEntity;
-import org.toxsoft.core.tslib.coll.basis.ITsClearable;
+import org.toxsoft.core.tslib.bricks.events.change.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.coll.basis.*;
 
 /**
  * The textual project file unit.

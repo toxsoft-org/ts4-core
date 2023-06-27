@@ -1,18 +1,14 @@
 package org.toxsoft.core.txtproj.lib.tdfile;
 
 import org.toxsoft.core.tslib.bricks.events.change.*;
-import org.toxsoft.core.tslib.bricks.keeper.IKeepableEntity;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
-import org.toxsoft.core.tslib.bricks.strio.chario.ICharInputStream;
-import org.toxsoft.core.tslib.bricks.strio.chario.ICharOutputStream;
-import org.toxsoft.core.tslib.bricks.strio.chario.impl.CharInputStreamString;
-import org.toxsoft.core.tslib.bricks.strio.chario.impl.CharOutputStreamAppendable;
-import org.toxsoft.core.tslib.bricks.strio.impl.StrioReader;
-import org.toxsoft.core.tslib.bricks.strio.impl.StrioWriter;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.bricks.strio.chario.*;
+import org.toxsoft.core.tslib.bricks.strio.chario.impl.*;
+import org.toxsoft.core.tslib.bricks.strio.impl.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Раздел файла {@link ITdFile}.
@@ -59,22 +55,6 @@ public class TdfSection {
   }
 
   // ------------------------------------------------------------------------------------
-  // API пакета
-  //
-
-  /**
-   * Возвращает содержимое раздела в текстовом виде.
-   * <p>
-   * Содержимым раздела считается текст обрамленный скобками после ключевого слова раздела. Скобки включаются в
-   * содержимое.
-   *
-   * @return String - содержимое раздела в текстовом виде
-   */
-  String getContent() {
-    return content;
-  }
-
-  // ------------------------------------------------------------------------------------
   // API класса
   //
 
@@ -85,6 +65,18 @@ public class TdfSection {
    */
   final public String keyword() {
     return keyword;
+  }
+
+  /**
+   * Возвращает содержимое раздела в текстовом виде.
+   * <p>
+   * Содержимым раздела считается текст обрамленный скобками после ключевого слова раздела. Скобки включаются в
+   * содержимое.
+   *
+   * @return String - содержимое раздела в текстовом виде
+   */
+  public String getContent() {
+    return content;
   }
 
   /**

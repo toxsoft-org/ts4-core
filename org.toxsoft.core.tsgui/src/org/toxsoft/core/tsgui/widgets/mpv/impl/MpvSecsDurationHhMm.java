@@ -58,12 +58,12 @@ public class MpvSecsDurationHhMm
   //
 
   @Override
-  public int getDurationSecs() {
+  public int getValueSecs() {
     return pval( IDX_HOUR ) * 3600 + pval( IDX_MIN ) * 60;
   }
 
   @Override
-  public void setDurationSecs( int aDuration ) {
+  public void setValueSecs( int aDuration ) {
     int dur = range.inRange( aDuration );
     int hh = dur / 3600;
     dur -= hh * 3600;
@@ -90,9 +90,9 @@ public class MpvSecsDurationHhMm
   @Override
   public void setRange( IntRange aRange ) {
     range = WIDEST_RANGE.inRange( aRange );
-    int val = getDurationSecs();
+    int val = getValueSecs();
     if( !range.isInRange( val ) ) {
-      setDurationSecs( val );
+      setValueSecs( val );
     }
   }
 

@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.panels.pgv;
 
+import java.util.ResourceBundle.*;
+
 import org.toxsoft.core.tsgui.bricks.stdevents.*;
 import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
@@ -22,7 +24,7 @@ public interface IPicsGridViewer<V>
     extends ITsDoubleClickEventProducer<V>, ITsSelectionProvider<V>, IThumbSizeableEx, ITsUserInputProducer,
     ITsKeyInputProducer, ITsMouseInputProducer, ITsContextable {
 
-  // TODO item popup menu support
+  // TODO item pop-up menu support
 
   /**
    * Returns the displayed items.
@@ -31,31 +33,29 @@ public interface IPicsGridViewer<V>
    */
   IList<V> items();
 
-  // TODO TRANSLATE
-
   /**
-   * Задает отображаемые сущности.
+   * Sets the items to be displayed.
    * <p>
-   * Для очистки следует задать пустой список или <code>null</code>.
+   * To clear the content both an empty list or <code>null</code> may be passed.
    *
-   * @param aItems {@link IList}&lt;V&gt; - список отображаемых сущностей, может быть <code>null</code>
+   * @param aItems {@link IList}&lt;V&gt; - the list of items to display or <code>null</code>
    */
   void setItems( IList<V> aItems );
 
   /**
-   * Возвращает параметры настройки сетки миниатюр.
+   * Returns the thumbnail grid geometric parameters.
    *
-   * @return {@link ITsGridMargins} - параметры настройка границ и интервалов рисования сетки значков
+   * @return {@link ITsGridMargins} - grid parameters
    */
   ITsGridMargins getMargins();
 
   /**
-   * Задает параметры настройки сетки миниатюр.
+   * Sets the thumbnail grid geometric parameters.
    * <p>
-   * Изменение параметров применяется немедленно.
+   * The changes are applied immediately.
    *
-   * @param aMargins {@link ITsGridMargins} - параметры настройка границ и интервалов рисования сетки значков
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aMargins {@link ITsGridMargins} - gird parameters
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void setMargins( ITsGridMargins aMargins );
 
@@ -75,14 +75,14 @@ public interface IPicsGridViewer<V>
   void setVisualsProvider( ITsVisualsProvider<V> aVisualsProvider );
 
   /**
-   * Обновляет панель, включая применение измененных параметров контекста.
+   * Refreshes the panel content.
    */
   void refresh();
 
   /**
-   * Возвращает SWT контрол реализации интерфейса.
+   * Return SWT {@link Control} implementing the viewer.
    *
-   * @return {@link TsComposite} - SWT-контроль
+   * @return {@link TsComposite} - SWT-control
    */
   TsComposite getControl();
 

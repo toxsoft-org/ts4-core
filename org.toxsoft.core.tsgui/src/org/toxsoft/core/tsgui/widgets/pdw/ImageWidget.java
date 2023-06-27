@@ -77,6 +77,7 @@ class ImageWidget
      * @param aEvent {@link PaintEvent} - drawing surface in event
      */
     void doPaint( PaintEvent aEvent ) {
+      currentZoomFactor = RectFitInfo.DEFAULT_ZOOM;
       if( image == null || image.isDisposed() || imageSize == ITsPoint.ZERO ) {
         return;
       }
@@ -86,22 +87,24 @@ class ImageWidget
         return;
       }
       ITsPoint sizeToPaint = fitInfo.calcSize( imageSize.x(), imageSize.y(), canvasSize.x(), canvasSize.y() );
-      // вычислим координаты левого верхнего угла рисования
+      // calculate the coordinates of the upper left corner of the drawing
       int dbX = fulcrum.calcTopleftX( canvasSize.x(), sizeToPaint.x() );
       int dbY = fulcrum.calcTopleftY( canvasSize.y(), sizeToPaint.y() );
       aEvent.gc.drawImage( image, 0, 0, imageSize.x(), imageSize.y(), dbX, dbY, sizeToPaint.x(), sizeToPaint.y() );
+      currentZoomFactor = ((double)sizeToPaint.x()) / ((double)imageSize.x());
     }
 
   }
 
-  Image       image        = null;
-  boolean     isSizeFixed  = false;
-  ITsPoint    defaultSize  = new TsPoint( 256, 256 );
-  ITsPoint    imageSize    = defaultSize;            // for image = null is equal to defaultSize
-  ETsFulcrum  fulcrum      = ETsFulcrum.LEFT_TOP;
-  RectFitInfo fitInfo      = RectFitInfo.BEST;
-  ImageCanvas canvas       = null;
-  boolean     needRelayout = false;
+  Image       image             = null;
+  boolean     isSizeFixed       = false;
+  ITsPoint    defaultSize       = new TsPoint( 256, 256 );
+  ITsPoint    imageSize         = defaultSize;             // for image = null is equal to defaultSize
+  ETsFulcrum  fulcrum           = ETsFulcrum.LEFT_TOP;
+  RectFitInfo fitInfo           = RectFitInfo.BEST;
+  ImageCanvas canvas            = null;
+  boolean     needRelayout      = false;
+  double      currentZoomFactor = RectFitInfo.DEFAULT_ZOOM;
 
   /**
    * Constructor.
@@ -206,6 +209,10 @@ class ImageWidget
       fitInfo = aFitInfo;
       needRelayout = true;
     }
+  }
+
+  public double getRealZoomFactor() {
+    return currentZoomFactor;
   }
 
   public void redraw() {

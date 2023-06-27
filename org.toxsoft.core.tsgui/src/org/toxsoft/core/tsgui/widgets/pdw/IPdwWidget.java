@@ -115,6 +115,15 @@ public interface IPdwWidget
   void setPreferredSizeFixed( boolean aFixed );
 
   /**
+   * Return the real zoom factor of last drawn image.
+   * <p>
+   * If image was not drawn returns {@link RectFitInfo#DEFAULT_ZOOM};
+   *
+   * @return double - real zoom factor
+   */
+  double getRealZoomFactor();
+
+  /**
    * Refreshes and redraws.
    */
   void redraw();
