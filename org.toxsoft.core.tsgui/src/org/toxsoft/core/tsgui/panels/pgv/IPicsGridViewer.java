@@ -60,6 +60,27 @@ public interface IPicsGridViewer<V>
   void setMargins( ITsGridMargins aMargins );
 
   /**
+   * Determines if still image display is forced.
+   * <p>
+   * When "force still" mode is activated for all animated images the still image {@link TsImage#image()} is displayed,
+   * as soon as mode is deactivated image animation continues.
+   * <p>
+   * Initially the mode is deactiveted, so animations are turned on.
+   *
+   * @return boolean - <code>true</code> no animation, still images are displayed, <code>false</code> - animation is on
+   */
+  boolean isForceStill();
+
+  /**
+   * Sets {@link #isForceStill()} mode.
+   * <p>
+   * The changes are applied immediately.
+   *
+   * @param aForceStill boolean - <code>true</code> to turn off animation
+   */
+  void setFocreStill( boolean aForceStill );
+
+  /**
    * Return the means to display texts, thumbnails and tooltips of the items.
    *
    * @return {@link ITsVisualsProvider} - the visuals provider, never is <code>null</code>

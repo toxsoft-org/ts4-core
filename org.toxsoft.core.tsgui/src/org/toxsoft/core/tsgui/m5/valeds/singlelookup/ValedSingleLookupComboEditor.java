@@ -1,7 +1,9 @@
 package org.toxsoft.core.tsgui.m5.valeds.singlelookup;
 
+import static org.toxsoft.core.tsgui.m5.valeds.singlelookup.ITsResources.*;
 import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
+import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
 import org.eclipse.swt.*;
@@ -10,6 +12,7 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.m5.model.impl.*;
 import org.toxsoft.core.tsgui.m5.valeds.*;
 import org.toxsoft.core.tsgui.valed.api.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -65,6 +68,25 @@ public class ValedSingleLookupComboEditor<V>
     doSetUnvalidatedValue( value ); // update drop-down list and select value if possible
   }
 
+  private V internalGetValueFromCombo() {
+    V val = null;
+    int selIndex = combo.getSelectionIndex();
+    // if there is a selected item in list then return it otherwise return value
+    if( selIndex >= 0 ) {
+      // if null selection is allowed then first item in the drop-down list always is an empty text item
+      if( fieldDef().canUserSelectNull() ) {
+        if( selIndex != 0 ) {
+          val = items.get( selIndex - 1 );
+        }
+      }
+      // the drop-down list is the same as 'items' list, simply return selected item
+      else {
+        val = items.get( selIndex );
+      }
+    }
+    return val;
+  }
+
   // ------------------------------------------------------------------------------------
   // AbstractValedSingleLookupEditor
   //
@@ -87,24 +109,18 @@ public class ValedSingleLookupComboEditor<V>
 
   @Override
   protected V doGetUnvalidatedValue() {
-    int selIndex = combo.getSelectionIndex();
-    // if there is aselected item in list then return it otherwise return value
-    if( selIndex >= 0 ) {
-      // if null selection is allowed then first item in the drop-down list always is an empty text item
-      if( fieldDef().canUserSelectNull() ) {
-        if( selIndex == 0 ) {
-          value = null;
-        }
-        else {
-          value = items.get( selIndex - 1 );
-        }
-      }
-      // the drop-down list is the same as 'items' list, simply return selected item
-      else {
-        value = items.get( selIndex );
-      }
-    }
+    value = internalGetValueFromCombo();
     return value;
+  }
+
+  @Override
+  public ValidationResult canGetValue() {
+    value = internalGetValueFromCombo();
+    boolean isNullAllowed = tsContext().params().getBool( TSID_IS_NULL_ALLOWED, false );
+    if( value == null && !isNullAllowed ) {
+      return ValidationResult.error( MSG_ERR_CANT_GET_NULL_VALUE );
+    }
+    return ValidationResult.SUCCESS;
   }
 
   @Override
@@ -158,6 +174,7 @@ public class ValedSingleLookupComboEditor<V>
 
   @Override
   protected void doRefreshOnLookupProviderChange() {
+    updateDropDownList();
     refreshOnSomethingChanged();
   }
 

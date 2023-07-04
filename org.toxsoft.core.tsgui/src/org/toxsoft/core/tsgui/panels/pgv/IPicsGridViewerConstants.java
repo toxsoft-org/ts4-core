@@ -6,8 +6,10 @@ import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.toxsoft.core.tsgui.graphics.colors.*;
+import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.graphics.lines.*;
+import org.toxsoft.core.tsgui.utils.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
@@ -70,7 +72,7 @@ public interface IPicsGridViewerConstants {
   );
 
   /**
-   * The flag for displaying pop-up hints for the image.
+   * The flag to display {@link ITsVisualsProvider#getIcon(Object, EIconSize)} instead of thumbs.
    */
   IDataDef OPDEF_IS_ICONS_INSTEAD_OF_THUMBS = DataDef.create( "isIconsInsteadOfThumbs", BOOLEAN, //$NON-NLS-1$
       TSID_NAME, STR_N_IS_ICONS_INSTEAD_OF_THUMBS, //

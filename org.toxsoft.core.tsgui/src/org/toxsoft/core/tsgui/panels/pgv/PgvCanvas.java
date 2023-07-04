@@ -102,6 +102,9 @@ class PgvCanvas<V>
 
     Image getCurrFrame() {
       if( tsimg != null && currentIndex >= 0 && currentIndex < tsimg.count() && !tsimg.isDisposed() ) {
+        if( forceStill ) {
+          return tsimg.image();
+        }
         return tsimg.frames().get( currentIndex );
       }
       return null;
@@ -232,6 +235,7 @@ class PgvCanvas<V>
   int selectedIndex = -1;
 
   private boolean selfResize = false;
+  private boolean forceStill = false;
 
   /**
    * Constructor with no style bits.
@@ -659,6 +663,17 @@ class PgvCanvas<V>
     if( !visualsProvider.equals( aProvider ) ) {
       visualsProvider = aProvider;
       initializeItems( getEntities() );
+    }
+  }
+
+  public boolean isForceStill() {
+    return forceStill;
+  }
+
+  public void setFocreStill( boolean aForceStill ) {
+    if( forceStill != aForceStill ) {
+      forceStill = aForceStill;
+      redraw();
     }
   }
 

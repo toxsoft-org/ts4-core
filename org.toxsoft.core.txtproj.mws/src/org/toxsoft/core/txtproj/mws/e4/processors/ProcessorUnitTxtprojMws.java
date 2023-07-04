@@ -16,7 +16,7 @@ import org.toxsoft.core.txtproj.mws.*;
  * <p>
  * Unit config option values must be set as MWS context parameters in application EXE plugin's Activator.doStart()
  *
- * @author goga
+ * @author hazard157
  */
 public class ProcessorUnitTxtprojMws
     extends MwsAbstractProcessor {

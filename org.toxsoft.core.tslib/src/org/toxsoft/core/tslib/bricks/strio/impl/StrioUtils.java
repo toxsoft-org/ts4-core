@@ -791,14 +791,18 @@ public class StrioUtils {
           StrioRtException.checkTrue( ch == CHAR_EOF, MSG_ERR_UNEXPECTED_EOF );
           sb.append( ch );
           // bypass comment
-          if( ch == CHAR_LINE_COMMENT_SHELL ) {
-            while( ch != CHAR_EOL ) {
-              ch = aSr.nextChar( EStrioSkipMode.SKIP_NONE );
-              StrioRtException.checkTrue( ch == CHAR_EOF, MSG_ERR_UNEXPECTED_EOF );
-              sb.append( ch );
-            }
-            continue;
-          }
+
+          // GOGA 20203-01-07 --- do NOT process in the quoted string
+          // if( ch == CHAR_LINE_COMMENT_SHELL ) {
+          // while( ch != CHAR_EOL ) {
+          // ch = aSr.nextChar( EStrioSkipMode.SKIP_NONE );
+          // StrioRtException.checkTrue( ch == CHAR_EOF, MSG_ERR_UNEXPECTED_EOF );
+          // sb.append( ch );
+          // }
+          // continue;
+          // }
+          // ---
+
           // process quote char (either escaped one or end of quoted string)
           if( ch == CHAR_QUOTE ) {
             if( !prevWasEscape ) {

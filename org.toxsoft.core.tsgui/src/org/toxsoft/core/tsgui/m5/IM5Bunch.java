@@ -1,7 +1,7 @@
 package org.toxsoft.core.tsgui.m5;
 
-import org.toxsoft.core.tsgui.m5.model.IM5ModelRelated;
-import org.toxsoft.core.tslib.av.IAtomicValue;
+import org.toxsoft.core.tsgui.m5.model.*;
+import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -63,7 +63,7 @@ public interface IM5Bunch<T>
   <V> V getAs( String aFieldId, Class<V> aValueClass );
 
   // ------------------------------------------------------------------------------------
-  // Convinience inline methods
+  // Convenience inline methods
   //
 
   @SuppressWarnings( "javadoc" )

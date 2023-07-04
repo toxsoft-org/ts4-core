@@ -105,7 +105,7 @@ public class PicsGridViewer<V>
 
   @Override
   public EThumbSize defaultThumbSize() {
-    return canvas.defaultThumbSize();
+    return IPicsGridViewerConstants.OPDEF_DEFAULT_THUMB_SIZE.getValue( tsContext().params() ).asValobj();
   }
 
   @Override
@@ -144,6 +144,16 @@ public class PicsGridViewer<V>
   }
 
   @Override
+  public boolean isForceStill() {
+    return canvas.isForceStill();
+  }
+
+  @Override
+  public void setFocreStill( boolean aForceStill ) {
+    canvas.setFocreStill( aForceStill );
+  }
+
+  @Override
   public ITsVisualsProvider<V> getVisualsProvider() {
     return canvas.pgvGetVisualsProvider();
   }
@@ -156,7 +166,6 @@ public class PicsGridViewer<V>
   @Override
   public void refresh() {
     canvas.refresh();
-    // canvas.pgvSetEntities( items );
   }
 
   @Override
