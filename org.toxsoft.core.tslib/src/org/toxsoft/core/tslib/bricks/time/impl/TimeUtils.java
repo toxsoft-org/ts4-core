@@ -2,17 +2,17 @@ package org.toxsoft.core.tslib.bricks.time.impl;
 
 import static org.toxsoft.core.tslib.bricks.time.impl.ITsResources.*;
 
-import java.util.Comparator;
+import java.util.*;
 
 import org.toxsoft.core.tslib.bricks.strio.*;
-import org.toxsoft.core.tslib.bricks.strio.chario.ICharInputStream;
-import org.toxsoft.core.tslib.bricks.strio.chario.impl.CharInputStreamString;
-import org.toxsoft.core.tslib.bricks.strio.impl.StrioReader;
-import org.toxsoft.core.tslib.bricks.time.ITimeInterval;
-import org.toxsoft.core.tslib.utils.Pair;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.bricks.strio.chario.*;
+import org.toxsoft.core.tslib.bricks.strio.chario.impl.*;
+import org.toxsoft.core.tslib.bricks.strio.impl.*;
+import org.toxsoft.core.tslib.bricks.time.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Вспомогательные методы работы с метками и интервалами времени.
@@ -66,24 +66,12 @@ public class TimeUtils {
   /**
    * Сравнение интервалов по возрастанию начала, а потом окончания интервала.
    */
-  public static Comparator<ITimeInterval> COMPARATOR_ASC = new Comparator<>() {
-
-    @Override
-    public int compare( ITimeInterval aO1, ITimeInterval aO2 ) {
-      return compareAsc( aO1, aO2 );
-    }
-  };
+  public static Comparator<ITimeInterval> COMPARATOR_ASC = TimeUtils::compareAsc;
 
   /**
    * Сравнение интервалов по убыванию начала, а потом окончания интервала.
    */
-  public static Comparator<ITimeInterval> COMPARATOR_DESC = new Comparator<>() {
-
-    @Override
-    public int compare( ITimeInterval aO1, ITimeInterval aO2 ) {
-      return compareDesc( aO1, aO2 );
-    }
-  };
+  public static Comparator<ITimeInterval> COMPARATOR_DESC = TimeUtils::compareDesc;
 
   /**
    * Суффиксы для неполного определения меток времени
@@ -305,7 +293,7 @@ public class TimeUtils {
   public static boolean intersects( ITimeInterval aInterval, long aStart, long aEnd ) {
     TsNullArgumentRtException.checkNull( aInterval );
     TsIllegalArgumentRtException.checkTrue( aEnd < aStart );
-    return !(aEnd < aInterval.startTime() || aStart > aInterval.endTime());
+    return ((aEnd >= aInterval.startTime()) && (aStart <= aInterval.endTime()));
   }
 
   /**
@@ -496,6 +484,86 @@ public class TimeUtils {
       c = -Long.compare( aIn1.endTime(), aIn2.endTime() );
     }
     return c;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Optimized methods for performance
+  //
+
+  /**
+   * Объединяет списки темпоральных значений в один список
+   *
+   * @param aInputs {@link IList}&lt;{@link ITimedList}&gt; входные списки темпоральных значений.
+   * @param <T> тип занчений
+   * @return {@link ITimedList} выходной список
+   * @throws TsNullArgumentRtException аргумент = null
+   */
+  public static <T extends ITemporal<T>> TimedList<T> uniteTimeporaLists( IList<ITimedList<T>> aInputs ) {
+    TsNullArgumentRtException.checkNull( aInputs );
+    int size = 0;
+    ElemArrayList<TemporalListWrapper<T>> wrappers = new ElemArrayList<>();
+    for( ITimedList<T> list : aInputs ) {
+      size = list.size();
+      wrappers.add( new TemporalListWrapper<>( list ) );
+    }
+    int bundleSize =
+        Math.max( TsCollectionsUtils.MIN_BUNDLE_CAPACITY, Math.min( TsCollectionsUtils.MAX_BUNDLE_CAPACITY, size ) );
+    TimedList<T> retValue = new TimedList<>( bundleSize );
+    // Объединение значений по времени
+    for( T value = nextValueOrNull( wrappers ); value != null; value = nextValueOrNull( wrappers ) ) {
+      retValue.add( value );
+    }
+    return retValue;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // implementation
+  //
+
+  @SuppressWarnings( "unchecked" )
+  private static <T extends ITemporal<T>> T nextValueOrNull( ElemArrayList<TemporalListWrapper<T>> aWrappers ) {
+    TsNullArgumentRtException.checkNull( aWrappers );
+    int foundIndex = -1;
+    T foundValue = null;
+    for( int index = 0, n = aWrappers.size(); index < n; index++ ) {
+      TemporalListWrapper<T> wrapper = aWrappers.get( index );
+      T value = (T)wrapper.value();
+      if( value == null ) {
+        continue;
+      }
+      if( foundValue != null && foundValue.timestamp() < value.timestamp() ) {
+        continue;
+      }
+      foundValue = value;
+      foundIndex = index;
+    }
+    if( foundValue != null ) {
+      aWrappers.get( foundIndex ).next();
+    }
+    return foundValue;
+  }
+
+  private static class TemporalListWrapper<T extends ITemporal<T>> {
+
+    private final Iterator<T> it;
+    private T                 value;
+
+    TemporalListWrapper( ITimedList<T> aList ) {
+      TsNullArgumentRtException.checkNull( aList );
+      it = aList.iterator();
+      next();
+    }
+
+    ITemporal<T> value() {
+      return value;
+    }
+
+    void next() {
+      value = null;
+      if( it.hasNext() ) {
+        value = it.next();
+      }
+    }
   }
 
   /**
