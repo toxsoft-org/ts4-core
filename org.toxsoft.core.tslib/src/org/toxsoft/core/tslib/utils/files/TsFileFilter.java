@@ -17,7 +17,7 @@ public class TsFileFilter
     implements java.io.FileFilter {
 
   /**
-   * Accept only unhidden directories.
+   * Accept only non-hidden directories.
    */
   public static final TsFileFilter FF_DIRS = new TsFileFilter( DIR, IStringList.EMPTY, false, false );
 
@@ -27,7 +27,7 @@ public class TsFileFilter
   public static final TsFileFilter FF_DIRS_HIDDEN = new TsFileFilter( DIR, IStringList.EMPTY, true, false );
 
   /**
-   * Accept only unhidden files.
+   * Accept only non-hidden files.
    */
   public static final TsFileFilter FF_FILES = new TsFileFilter( FILE, IStringList.EMPTY, false, false );
 
@@ -37,7 +37,7 @@ public class TsFileFilter
   public static final TsFileFilter FF_FILES_HIDDEN = new TsFileFilter( FILE, IStringList.EMPTY, true, false );
 
   /**
-   * Accept unhidden files and directories.
+   * Accept non-hidden files and directories.
    */
   public static final TsFileFilter FF_ALL = new TsFileFilter( BOTH, IStringList.EMPTY, false, false );
 
@@ -86,13 +86,23 @@ public class TsFileFilter
   }
 
   /**
-   * Creates filter for unhidden files of specified case-insensitive extension.
+   * Creates filter for non-hidden files of specified case-insensitive extension.
    *
    * @param aExt String - an extension without dot
-   * @return {@link TsFileFilter} - cretaed instance
+   * @return {@link TsFileFilter} - created instance
    */
   public static TsFileFilter ofFileExt( String aExt ) {
     return new TsFileFilter( FILE, new SingleStringList( aExt ), false, false );
+  }
+
+  /**
+   * Creates filter for non-hidden files of specified case-insensitive extensions.
+   *
+   * @param aExtensions {@link IStringList} - an extensions without dot
+   * @return {@link TsFileFilter} - created instance
+   */
+  public static TsFileFilter ofFileExts( IStringList aExtensions ) {
+    return new TsFileFilter( FILE, aExtensions, false, false );
   }
 
   // ------------------------------------------------------------------------------------
