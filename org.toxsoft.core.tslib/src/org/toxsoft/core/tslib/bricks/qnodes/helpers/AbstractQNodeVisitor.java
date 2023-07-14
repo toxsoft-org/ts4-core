@@ -80,7 +80,7 @@ public abstract non-sealed class AbstractQNodeVisitor
   protected abstract boolean doVisitNode( IQNode aNode );
 
   /**
-   * Called from {@link #visitSubtree(IQNode)} before anynode is visited.
+   * Called from {@link #visitSubtree(IQNode)} before any node is visited.
    *
    * @param aSubtreeRoot {@link IQNode} - root of subtree to be visited, necver is <code>null</code>
    * @return boolean - visiting cancellation flag<br>
@@ -97,8 +97,8 @@ public abstract non-sealed class AbstractQNodeVisitor
    * If iteration was cancelled either by user returned value or by exception, argument <code>aWasCancelled</code> is
    * true. In case of exception <code>aException</code> is not <code>null</code>.
    * <p>
-   * In base class throws {@link TsRuntimeException} wrapped over <code>aException</code> if exception was catched.
-   * Otherwise does nothig. It's up to subclass to call superclass method when overriding.
+   * In base class throws {@link TsRuntimeException} wrapped over <code>aException</code> if exception was catch.
+   * Otherwise does nothing. It's up to subclass to call superclass method when overriding.
    *
    * @param aSubtreeRoot {@link IQNode} - root of subtree to be visited, never is <code>null</code>
    * @param aWasCancelled boolean - <code>true</code> if iteration was cancelled

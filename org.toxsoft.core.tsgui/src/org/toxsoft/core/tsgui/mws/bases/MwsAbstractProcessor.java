@@ -149,7 +149,7 @@ public abstract class MwsAbstractProcessor {
   }
 
   /**
-   * Fings an OSGi service by type.
+   * Finds an OSGi service by type.
    *
    * @param <S> - the type of service being searched for
    * @param aSeviceClass {@link Class}&lt;S&gt; - the type of service being searched for

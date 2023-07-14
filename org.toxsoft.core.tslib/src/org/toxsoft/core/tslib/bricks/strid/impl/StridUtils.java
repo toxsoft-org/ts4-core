@@ -460,7 +460,7 @@ public final class StridUtils {
   }
 
   // ------------------------------------------------------------------------------------
-  // Disassemple IDpaths/names
+  // Disassemble IDpaths/names
   //
 
   /**

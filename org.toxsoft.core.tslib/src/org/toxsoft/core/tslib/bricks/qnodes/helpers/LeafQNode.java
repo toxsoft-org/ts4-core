@@ -1,5 +1,7 @@
 package org.toxsoft.core.tslib.bricks.qnodes.helpers;
 
+import static org.toxsoft.core.tslib.bricks.qnodes.helpers.ITsResources.*;
+
 import org.toxsoft.core.tslib.bricks.qnodes.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -7,7 +9,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Leaf node default implementation.
  * <p>
- * This is a helper class. Helper classis not used by QNodes package, rather it is kind of design pattern how to
+ * This is a helper class. Helper class is not used by QNodes package, rather it is kind of design pattern how to
  * implement frequently needed functionality related to QNodes.
  *
  * @author hazard157
@@ -29,7 +31,7 @@ public class LeafQNode<T>
    */
   public LeafQNode( String aId, IQNodeKind<T> aKind, IQNode aParent, T aEntity ) {
     super( aId, aKind, aParent, aEntity );
-    TsIllegalArgumentRtException.checkTrue( aKind.canHaveChilds() );
+    TsIllegalArgumentRtException.checkTrue( aKind.canHaveChilds(), FMT_LEAF_NODE_KIND_CANT_HAVE_CHILDREN, aId );
   }
 
   // ------------------------------------------------------------------------------------
