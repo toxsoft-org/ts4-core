@@ -54,6 +54,9 @@ public interface IMultiPaneComponentConstants {
   IDataDef OPDEF_IS_SUPPORTS_TREE = bdd( "IsSupportsTree", false, //$NON-NLS-1$
       STR_N_IS_, STR_D_IS_ );
 
+  IDataDef OPDEF_IS_ACTIONS_TREE_MODES = bdd( "IsActionsTreeMODES", true, //$NON-NLS-1$
+      STR_N_IS_, STR_D_IS_ );
+
   IDataDef OPDEF_IS_ACTIONS_CRUD = bdd( "IsActionsCrud", false, //$NON-NLS-1$
       STR_N_IS_, STR_D_IS_ );
 

@@ -165,6 +165,7 @@ public class MultiPaneComponent<T>
     boolean hasRefreshActions = OPDEF_IS_ACTIONS_REFRESH.getValue( tsContext().params() ).asBool();
     boolean hasCheckSupport = OPDEF_IS_SUPPORTS_CHECKS.getValue( tsContext().params() ).asBool();
     boolean hasTreeSupport = OPDEF_IS_SUPPORTS_TREE.getValue( tsContext().params() ).asBool();
+    boolean hasTreeModesActions = OPDEF_IS_ACTIONS_TREE_MODES.getValue( tsContext().params() ).asBool();
     // CRUD buttons
     if( hasEditActions ) {
       actDefs.add( ACDEF_ADD );
@@ -180,9 +181,11 @@ public class MultiPaneComponent<T>
       if( hasEditActions ) {
         actDefs.add( ACDEF_SEPARATOR );
       }
-      actDefs.add( ACDEF_VIEW_AS_TREE_MENU );
-      actDefs.add( ACDEF_VIEW_AS_LIST );
-      actDefs.add( ACDEF_SEPARATOR );
+      if( hasTreeModesActions ) {
+        actDefs.add( ACDEF_VIEW_AS_TREE_MENU );
+        actDefs.add( ACDEF_VIEW_AS_LIST );
+        actDefs.add( ACDEF_SEPARATOR );
+      }
       actDefs.add( ACDEF_COLLAPSE_ALL );
       actDefs.add( ACDEF_EXPAND_ALL );
     }
@@ -279,9 +282,7 @@ public class MultiPaneComponent<T>
         break;
       }
       case ACTID_REFRESH: {
-        if( OPDEF_IS_ACTIONS_REFRESH.getValue( tsContext().params() ).asBool() ) {
-          refresh();
-        }
+        refresh();
         break;
       }
       case ACTID_EXPAND_ALL: {
@@ -414,8 +415,7 @@ public class MultiPaneComponent<T>
     toolbar.setActionEnabled( ACTID_ADD, editable && isCreationAllowed );
     toolbar.setActionEnabled( ACTID_EDIT, editable && isEditingAllowed );
     toolbar.setActionEnabled( ACTID_REMOVE, editable && isRemovalAllowed );
-    toolbar.setActionEnabled( ACTID_REFRESH,
-        isAlive && OPDEF_IS_ACTIONS_REFRESH.getValue( tsContext().params() ).asBool() );
+    toolbar.setActionEnabled( ACTID_REFRESH, itemsProvider() != IM5ItemsProvider.EMPTY );
     toolbar.setActionEnabled( ACTID_VIEW_AS_TREE, tmm.hasTreeMode() );
     toolbar.setActionEnabled( ACTID_VIEW_AS_LIST, tmm.hasTreeMode() );
     toolbar.setActionEnabled( ACTID_EXPAND_ALL, tmm.isCurrentTreeMode() );

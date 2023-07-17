@@ -7,10 +7,10 @@ import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.m5.*;
 
 /**
- * Column of the viewerr {@link IM5CollectionViewer}.
+ * Column of the viewer {@link IM5CollectionViewer}.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public interface IM5Column<T>
     extends ITsViewerColumn {

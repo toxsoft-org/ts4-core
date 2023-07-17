@@ -38,7 +38,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public class TsTreeViewer
-    implements ITsTreeViewer {
+    implements ITsTreeViewer, ITsGuiContextable {
 
   /**
    * ID of option {@link #OPDEF_IS_HEADER_SHOWN}.
@@ -61,7 +61,7 @@ public class TsTreeViewer
    *
    * @author hazard157
    */
-  static class Column
+  class Column
       extends AbstractTsTreeColumn {
 
     // private static final int MAX_RC = 100;
@@ -95,6 +95,12 @@ public class TsTreeViewer
     @Override
     void doJfacePack() {
       tvColumn.getColumn().pack();
+    }
+
+    @Override
+    public void setValedEditingSupport( ITsNodeValedProvider aValedProvider ) {
+      TsNullArgumentRtException.checkNull( aValedProvider );
+      tvColumn.setEditingSupport( new TsNodeEditingSupport( treeViewer, tsContext, aValedProvider ) );
     }
 
   }
@@ -153,7 +159,7 @@ public class TsTreeViewer
   private final GenericChangeEventer iconSizeEventer;
   private final GenericChangeEventer thumbSizeEventer;
 
-  private final ITsGuiContext              context;
+  private final ITsGuiContext              tsContext;
   private final TsTreeContentProvider      contentProvider = new TsTreeContentProvider();
   private final IListEdit<ITsNode>         rootNodes       = new ElemLinkedBundleList<>();
   private final IListEdit<ITsViewerColumn> columns         = new ElemLinkedBundleList<>();
@@ -170,12 +176,21 @@ public class TsTreeViewer
    */
   public TsTreeViewer( ITsGuiContext aContext ) {
     TsNullArgumentRtException.checkNull( aContext );
-    context = aContext;
+    tsContext = aContext;
     selectionChangeEventHelper = new TsSelectionChangeEventHelper<>( this );
     doubleClickEventHelper = new TsDoubleClickEventHelper<>( this );
     keyInputEventsBinder = new TsUserInputEventsBinder( this );
     iconSizeEventer = new GenericChangeEventer( this );
     thumbSizeEventer = new GenericChangeEventer( this );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // ITsGuiContextable
+  //
+
+  @Override
+  public ITsGuiContext tsContext() {
+    return tsContext;
   }
 
   // ------------------------------------------------------------------------------------
@@ -190,7 +205,7 @@ public class TsTreeViewer
     treeViewer.setLabelProvider( labelProvider );
     treeViewer.addSelectionChangedListener( treeSelectionChangedListener );
     treeViewer.addDoubleClickListener( treeDoubleClickListener );
-    boolean isHeaderVisible = OPDEF_IS_HEADER_SHOWN.getValue( context.params() ).asBool();
+    boolean isHeaderVisible = OPDEF_IS_HEADER_SHOWN.getValue( params() ).asBool();
     treeViewer.getTree().setHeaderVisible( isHeaderVisible );
     treeViewer.getTree().setLinesVisible( true );
     treeViewer.setInput( this );
@@ -285,7 +300,7 @@ public class TsTreeViewer
 
   @Override
   public IOptionSetEdit params() {
-    return context.params();
+    return tsContext.params();
   }
 
   // ------------------------------------------------------------------------------------
@@ -294,7 +309,7 @@ public class TsTreeViewer
 
   @Override
   public ITsGuiContext context() {
-    return context;
+    return tsContext;
   }
 
   @Override
@@ -374,7 +389,7 @@ public class TsTreeViewer
     tvCol.getColumn().setAlignment( aAlignment.swtStyle() );
     tvCol.getColumn().setWidth( 50 );
     // добавление столбца меняет состояние показа заголовка - восстановим
-    boolean isHeaderVisible = OPDEF_IS_HEADER_SHOWN.getValue( context.params() ).asBool();
+    boolean isHeaderVisible = OPDEF_IS_HEADER_SHOWN.getValue( params() ).asBool();
     treeViewer.getTree().setHeaderVisible( isHeaderVisible );
     return col;
   }
@@ -568,7 +583,7 @@ public class TsTreeViewer
   }
 
   // ------------------------------------------------------------------------------------
-  // Дополнительное API класса
+  // Class API
   //
 
   /**

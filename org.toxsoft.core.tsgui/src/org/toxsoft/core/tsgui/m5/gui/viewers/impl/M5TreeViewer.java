@@ -55,6 +55,12 @@ public class M5TreeViewer<T>
     }
 
     @Override
+    public void setValedEditingSupport( ITsNodeValedProvider aValedProvider ) {
+      TsNullArgumentRtException.checkNull( aValedProvider );
+      tvColumn.setEditingSupport( new TsNodeEditingSupport( treeViewer, tsContext(), aValedProvider ) );
+    }
+
+    @Override
     void doSetJfaceColumnWidth( int aWidth ) {
       tvColumn.getColumn().setWidth( aWidth );
     }

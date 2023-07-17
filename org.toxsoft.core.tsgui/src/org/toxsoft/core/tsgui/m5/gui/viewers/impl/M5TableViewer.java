@@ -6,6 +6,7 @@ import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.tsnodes.*;
+import org.toxsoft.core.tsgui.bricks.tstree.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.gui.viewers.*;
@@ -20,7 +21,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * {@link IM5TableViewer} implementation.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public class M5TableViewer<T>
     extends M5AbstractCollectionViewer<T>
@@ -30,7 +31,7 @@ public class M5TableViewer<T>
    * Table column, an {@link IM5Column} implementation.
    *
    * @author hazard157
-   * @param <T> - modelled entity type
+   * @param <T> - modeled entity type
    */
   static class Column<T>
       extends M5AbstractColumn<T> {
@@ -46,6 +47,11 @@ public class M5TableViewer<T>
 
     TableViewerColumn getTableViewerColumn() {
       return tvColumn;
+    }
+
+    @Override
+    public void setValedEditingSupport( ITsNodeValedProvider aValedProvider ) {
+      throw new TsUnsupportedFeatureRtException();
     }
 
     @Override

@@ -2,7 +2,9 @@ package org.toxsoft.core.tsgui.bricks.tstree;
 
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.tsnodes.*;
 import org.toxsoft.core.tsgui.graphics.*;
+import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -149,8 +151,19 @@ public interface ITsViewerColumn {
   /**
    * Sets if in column cells the thumb (not icon) images will be drawn.
    *
-   * @param aUseThumb boolean - thibs instead of icons flag
+   * @param aUseThumb boolean - icons instead of icons flag
    */
   void setUseThumb( boolean aUseThumb );
+
+  /**
+   * Adds support for in-cell editing values using the {@link IValedControl}-based editors.
+   * <p>
+   * Note: table (not tree) based implementations does <b>not</b> support {@link ITsNode}-based in-cell editing.
+   *
+   * @param aValedProvider {@link ITsNodeValedProvider} - the VALED provider for node
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsUnsupportedFeatureRtException implementation does not supports in-cell editing
+   */
+  void setValedEditingSupport( ITsNodeValedProvider aValedProvider );
 
 }

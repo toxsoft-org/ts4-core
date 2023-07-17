@@ -11,7 +11,16 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public sealed interface IQNodeVisitor permits AbstractQNodeVisitor {
+public sealed interface IQNodeVisitor
+    permits AbstractQNodeVisitor {
+
+  /**
+   * TODO need some convenience functionality either here or in {@link AbstractQNodeVisitor}:
+   * <ul>
+   * <li>supply parent nodes when calling visitNode();</li>
+   * <li>a mechanism to propagate down on subtree the results of parent nodes visit;</li>
+   * </ul>
+   */
 
   /**
    * Iterates over subtree starting from root <code>aNode</code> visiting each node by {@link #visitNode(IQNode)}.

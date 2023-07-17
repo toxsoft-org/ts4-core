@@ -24,7 +24,7 @@ public class MultiPaneComponentModown<T>
     extends MultiPaneComponent<T> {
 
   /**
-   * The lifecycle mnagaer for CRUD operations and items enumeration.
+   * The lifecycle manager for CRUD operations, for item enumeration {@link #itemsProvider()} is used
    */
   private IM5LifecycleManager<T> lifecycleManager = null;
 
