@@ -30,6 +30,22 @@ public class AddonMainWindowDebugSize
     super( AddonMainWindowDebugSize.class.getSimpleName() );
   }
 
+  // ------------------------------------------------------------------------------------
+  // implementation
+  //
+
+  private static boolean getMainWindowDebugSizeArgValue( ProgramArgs aProgramArgs ) {
+    if( aProgramArgs.hasArg( CMDLINEARG_MAIN_WINDOW_DEBUG_SIZE ) ) {
+      String argValue = aProgramArgs.getArgValue( CMDLINEARG_MAIN_WINDOW_DEBUG_SIZE, Boolean.TRUE.toString() );
+      return Boolean.parseBoolean( argValue );
+    }
+    return false;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // MwsAbstractAddon
+  //
+
   @Override
   protected void initApp( IEclipseContext aAppContext ) {
     // window and application icon
@@ -37,7 +53,7 @@ public class AddonMainWindowDebugSize
     EModelService modelService = aAppContext.get( EModelService.class );
     MTrimmedWindow mainWindow = (MTrimmedWindow)modelService.find( IMwsCoreConstants.MWSID_WINDOW_MAIN, app );
     ProgramArgs programArgs = aAppContext.get( ProgramArgs.class );
-    if( programArgs.hasArg( CMDLINEARG_MAIN_WINDOW_DEBUG_SIZE ) ) { // initial size of the window SMALL
+    if( getMainWindowDebugSizeArgValue( programArgs ) ) { // initial size of the window SMALL
       Display display = aAppContext.get( Display.class );
       Rectangle dBounds = display.getBounds();
       int dx = dBounds.width / 8;

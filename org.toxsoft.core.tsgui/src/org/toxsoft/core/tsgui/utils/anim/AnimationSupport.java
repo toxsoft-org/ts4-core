@@ -1,14 +1,12 @@
 package org.toxsoft.core.tsgui.utils.anim;
 
-import org.eclipse.swt.widgets.Display;
-import org.toxsoft.core.tsgui.graphics.image.TsImage;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.graphics.image.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * Поддержка использования анимированных изображения (GIF, MNG).
@@ -120,13 +118,7 @@ public class AnimationSupport
     TsIllegalArgumentRtException.checkTrue( aGranularity < MIN_GRANULARITY || aGranularity > MAX_GRANULARITY );
     granularity = aGranularity;
     pauseWaitingCyclesCount = (int)(granularity / PAUSE_WAITING_CYCLE_SLEEP_MSEC) + 2;
-    display.disposeExec( new Runnable() {
-
-      @Override
-      public void run() {
-        dispose();
-      }
-    } );
+    display.disposeExec( this::dispose );
   }
 
   /**
@@ -227,7 +219,7 @@ public class AnimationSupport
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса Runnable
+  // Runnable
   //
 
   @Override

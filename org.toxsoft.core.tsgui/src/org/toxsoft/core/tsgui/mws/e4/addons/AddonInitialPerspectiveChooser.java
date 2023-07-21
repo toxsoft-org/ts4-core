@@ -17,7 +17,7 @@ public class AddonInitialPerspectiveChooser
     extends MwsAbstractAddon {
 
   /**
-   * If this command line argument is specified, application will switch into the specified prespective at startup.
+   * If this command line argument is specified, application will switch into the specified perspective at startup.
    */
   public static final String CMDLINEARG_INITIAL_PERSP_ID = "InitialPerspectiveId"; //$NON-NLS-1$
 

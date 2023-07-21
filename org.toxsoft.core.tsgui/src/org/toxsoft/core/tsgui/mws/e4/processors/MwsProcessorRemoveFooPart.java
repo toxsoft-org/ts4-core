@@ -12,7 +12,7 @@ import org.toxsoft.core.tsgui.mws.*;
 import org.toxsoft.core.tsgui.mws.bases.*;
 
 /**
- * Processor removes uipart {@link IMwsCoreConstants#MWSID_PART_FOO} from the e4 model.
+ * Processor removes UIpart {@link IMwsCoreConstants#MWSID_PART_FOO} from the e4 model.
  * <p>
  * Processor should be added to the plugin.xml - Extensions - org.rclipse.e4.workbench.model processors. Specify
  * <code>beforefragment = false</code>, and <code>apply = always</code>.
