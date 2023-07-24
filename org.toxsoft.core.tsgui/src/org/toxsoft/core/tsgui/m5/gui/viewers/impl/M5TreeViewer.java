@@ -280,7 +280,7 @@ public class M5TreeViewer<T>
 
   }
 
-  private static final String ROTT_KIND_ID       = "M5TreeViewerRoot";           //$NON-NLS-1$
+  private static final String ROOT_KIND_ID       = "M5TreeViewerRoot";           //$NON-NLS-1$
   /**
    * Стиль создаваемой таблицы.
    */
@@ -291,7 +291,7 @@ public class M5TreeViewer<T>
 
   @SuppressWarnings( "rawtypes" )
   private final ITsNodeKind<M5TreeViewer> ROOT_KIND =
-      new TsNodeKind<>( ROTT_KIND_ID, EMPTY_STRING, EMPTY_STRING, M5TreeViewer.class, true, null );
+      new TsNodeKind<>( ROOT_KIND_ID, EMPTY_STRING, EMPTY_STRING, M5TreeViewer.class, true, null );
 
   private TreeViewer                  treeViewer         = null;
   private CheckboxTreeViewer          checkboxTreeViewer = null;
@@ -302,43 +302,41 @@ public class M5TreeViewer<T>
   private ITsTreeMaker<T>             treeMaker;
 
   /**
-   * Конструктор.
+   * Constructor.
    *
-   * @param aContext {@link ITsGuiContext} - контекст просмотрщика (включает контекст приложения и параметры)
-   * @param aObjModel {@link IM5Model} - модель отображаемых объектов
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aContext {@link ITsGuiContext} - the context
+   * @param aModel {@link IM5Model} - the model
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public M5TreeViewer( ITsGuiContext aContext, IM5Model<T> aObjModel ) {
-    this( aContext, aObjModel, new NotifierListEditWrapper<>( new ElemLinkedBundleList<T>() ), false );
+  public M5TreeViewer( ITsGuiContext aContext, IM5Model<T> aModel ) {
+    this( aContext, aModel, new NotifierListEditWrapper<>( new ElemLinkedBundleList<>() ), false );
   }
 
   /**
-   * Конструктор.
+   * Constructor.
    *
-   * @param aContext {@link ITsGuiContext} - контекст просмотрщика (включает контекст приложения и параметры)
-   * @param aObjModel {@link IM5Model} - модель отображаемых объектов
-   * @param aIsChecksSupported boolean - признак, что наследник поддерживает состояние отмеченности элементов
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aContext {@link ITsGuiContext} - the context
+   * @param aModel {@link IM5Model} - the model
+   * @param aIsChecksSupported boolean - a sign that the implementation supports the checked state of elements
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public M5TreeViewer( ITsGuiContext aContext, IM5Model<T> aObjModel, boolean aIsChecksSupported ) {
-    this( aContext, aObjModel, new NotifierListEditWrapper<>( new ElemLinkedBundleList<T>() ), aIsChecksSupported );
+  public M5TreeViewer( ITsGuiContext aContext, IM5Model<T> aModel, boolean aIsChecksSupported ) {
+    this( aContext, aModel, new NotifierListEditWrapper<>( new ElemLinkedBundleList<>() ), aIsChecksSupported );
   }
 
   /**
-   * Конструктор для наследников.
-   * <p>
-   * Этот конструктор не создает копию списка-аргумента, а просто хзапоминает ссылку на него.
+   * Constructor for subclass.
    *
-   * @param aContext {@link ITsGuiContext} - контекст просмотрщика (включает контекст приложения и параметры)
-   * @param aObjModel {@link IM5Model} - модель отображаемых объектов
-   * @param aItems {@link INotifierListEdit}&lt;T&gt; - список элементов
-   * @param aIsChecksSupported boolean - признак, что наследник поддерживает состояние отмеченности элементов
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aContext {@link ITsGuiContext} - the context
+   * @param aModel {@link IM5Model} - the model
+   * @param aItems {@link INotifierListEdit}&lt;T&gt; - the list used to store elements
+   * @param aIsChecksSupported boolean - a sign that the implementation supports the checked state of elements
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  protected M5TreeViewer( ITsGuiContext aContext, IM5Model<T> aObjModel, INotifierListEdit<T> aItems,
+  protected M5TreeViewer( ITsGuiContext aContext, IM5Model<T> aModel, INotifierListEdit<T> aItems,
       boolean aIsChecksSupported ) {
-    super( aContext, aObjModel, aItems, aIsChecksSupported );
-    DEFAULT_TREE_MAKER = new M5DefaultTreeMaker<>( aObjModel.entityClass() );
+    super( aContext, aModel, aItems, aIsChecksSupported );
+    DEFAULT_TREE_MAKER = new M5DefaultTreeMaker<>( aModel.entityClass() );
     treeMaker = DEFAULT_TREE_MAKER;
     rootNode = new DefaultTsNode<>( ROOT_KIND, this, aContext );
     columnManager = new ColumnManager( this );

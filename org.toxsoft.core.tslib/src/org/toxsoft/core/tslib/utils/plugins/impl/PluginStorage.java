@@ -67,7 +67,6 @@ class PluginStorage
     private DirScanner jarScanner;
 
     public PluginDir( File aPath, boolean aIsIncludeSubDirs ) {
-      super();
       this.path = aPath;
       jarScanner = new DirScanner( aPath, DirScanner.JAR_FILTER, aIsIncludeSubDirs, null );
     }
@@ -299,7 +298,6 @@ class PluginStorage
           registerPluginInfo( addedPluginInfo );
           // Заносим в изменения
           getChangedModulesInfo().addAddedPlugin( addedPluginInfo );
-          retVal = true;
         }
         else {
           // Есть такой плагин, смотрим его версию и если она свежее, то обновляем
@@ -316,8 +314,8 @@ class PluginStorage
               break;
             }
           }
-          retVal = true;
         }
+        retVal = true;
       }
       // Оставшиеся в контрольном списке плагины разрегистрируем и добавляем в список
       // удаленных

@@ -301,7 +301,7 @@ public class M5TableViewer<T>
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public M5TableViewer( ITsGuiContext aContext, IM5Model<T> aModel ) {
-    this( aContext, aModel, new NotifierListEditWrapper<>( new ElemLinkedBundleList<T>() ) );
+    this( aContext, aModel, new NotifierListEditWrapper<>( new ElemLinkedBundleList<>() ) );
   }
 
   // ------------------------------------------------------------------------------------

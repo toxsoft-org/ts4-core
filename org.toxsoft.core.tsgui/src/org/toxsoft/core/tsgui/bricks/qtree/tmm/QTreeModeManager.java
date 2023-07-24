@@ -19,7 +19,7 @@ public class QTreeModeManager<T>
   private final GenericChangeEventer eventer;
 
   private final INotifierStridablesListEdit<QTreeModeInfo<T>> treeModeInfoes =
-      new NotifierStridablesListEditWrapper<>( new StridablesList<QTreeModeInfo<T>>() );
+      new NotifierStridablesListEditWrapper<>( new StridablesList<>() );
 
   private boolean hasTreeMode;
 
