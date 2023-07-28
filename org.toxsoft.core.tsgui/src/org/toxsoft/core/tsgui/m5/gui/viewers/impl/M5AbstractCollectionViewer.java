@@ -666,7 +666,7 @@ public abstract class M5AbstractCollectionViewer<T>
    *
    * @param aContext {@link ITsGuiContext} - the context
    * @param aObjModel {@link IM5Model} - M5-model of elements
-   * @param aItems {@link INotifierListEdit}&lt;T&gt; - elements list
+   * @param aItems {@link INotifierListEdit}&lt;T&gt; - the list used to store elements
    * @param aIsChecksSupported boolean - informs that subclass will support check states visualization
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */

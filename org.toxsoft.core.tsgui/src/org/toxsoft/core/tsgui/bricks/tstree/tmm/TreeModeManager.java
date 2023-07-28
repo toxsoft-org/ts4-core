@@ -20,7 +20,7 @@ public class TreeModeManager<T>
   private final GenericChangeEventer eventer;
 
   private final INotifierStridablesListEdit<TreeModeInfo<T>> treeModeInfoes =
-      new NotifierStridablesListEditWrapper<>( new StridablesList<TreeModeInfo<T>>() );
+      new NotifierStridablesListEditWrapper<>( new StridablesList<>() );
 
   private boolean hasTreeMode;
 

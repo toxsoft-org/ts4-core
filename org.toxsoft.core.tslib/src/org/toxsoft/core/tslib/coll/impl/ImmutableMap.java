@@ -1,9 +1,9 @@
 package org.toxsoft.core.tslib.coll.impl;
 
-import java.io.Serializable;
+import java.io.*;
 
 import org.toxsoft.core.tslib.coll.*;
-import org.toxsoft.core.tslib.utils.errors.TsNullObjectErrorRtException;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Empty immutable implementation of {@link IMapEdit}.

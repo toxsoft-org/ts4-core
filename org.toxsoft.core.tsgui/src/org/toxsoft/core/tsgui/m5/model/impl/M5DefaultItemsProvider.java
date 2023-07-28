@@ -26,7 +26,7 @@ public class M5DefaultItemsProvider<T>
    */
   public M5DefaultItemsProvider() {
     eventer = new GenericChangeEventer( this );
-    items = new NotifierListEditWrapper<>( new ElemLinkedBundleList<T>() );
+    items = new NotifierListEditWrapper<>( new ElemLinkedBundleList<>() );
     items.addCollectionChangeListener( ( aSource, aOp, aItem ) -> eventer.fireChangeEvent() );
     listReorderer = new ListReorderer<>( items );
   }
