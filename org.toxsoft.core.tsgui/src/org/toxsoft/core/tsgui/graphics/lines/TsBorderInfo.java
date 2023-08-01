@@ -155,7 +155,7 @@ public final class TsBorderInfo {
     TsNullArgumentRtException.checkNull( aOptions );
     IOptionSetEdit ops = new OptionSet();
     for( String opId : aOptions.keys() ) {
-      if( ALL_DDEFS.hasKey( opId ) ) {
+      if( ALL_DEFS.hasKey( opId ) ) {
         ops.setValue( opId, aOptions.getByKey( opId ) );
       }
     }

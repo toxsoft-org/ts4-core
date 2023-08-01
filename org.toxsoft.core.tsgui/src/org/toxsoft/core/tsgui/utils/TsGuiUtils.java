@@ -72,6 +72,7 @@ public class TsGuiUtils {
     // Sol
     // TsValobjUtils.registerKeeper( AbstractSwtPatternInfo.KEEPER_ID, AbstractSwtPatternInfo.KEEPER );
     TsValobjUtils.registerKeeper( TsFillInfo.KEEPER_ID, TsFillInfo.KEEPER );
+    TsValobjUtils.registerKeeper( ETsBorderKind.KEEPER_ID, ETsBorderKind.KEEPER );
 
     // following this is some hacking!
     DataDef dd = (DataDef)IAvMetaConstants.DDEF_DESCRIPTION;
