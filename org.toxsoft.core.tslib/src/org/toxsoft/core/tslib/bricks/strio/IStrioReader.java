@@ -1,6 +1,7 @@
 package org.toxsoft.core.tslib.bricks.strio;
 
 import java.io.*;
+import java.time.*;
 
 import org.toxsoft.core.tslib.bricks.strio.impl.*;
 import org.toxsoft.core.tslib.utils.*;
@@ -252,15 +253,37 @@ public interface IStrioReader
   double readDouble();
 
   /**
-   * Reads time as specified in {@link IStrioHardConstants#TIMESTAMP_FMT}.
+   * Reads timestamp as milliseconds after epoch.
    * <p>
-   * Timestamp also may have shorter format like {@link IStrioWriter#writeDate(long)} and
-   * {@link IStrioWriter#writeDateTime(long)}. For short notation absent components will be set to 0.
+   * Timestamp format is specified in {@link IStrioHardConstants#TIMESTAMP_FMT}. Timestamp also may have shorter format.
+   * For short notation absent components will be set to 0.
    *
    * @return long - read timestamp (milliseconds since epoch start 01.01.1970 00:00:00)
    * @throws StrioRtException invalid timestamp representation format
    */
   long readTimestamp();
+
+  /**
+   * Reads timestamp as a date {@link LocalDate} .
+   * <p>
+   * Timestamp format is specified in {@link IStrioHardConstants#TIMESTAMP_FMT}. Timestamp also may have shorter format.
+   * For short notation absent components will be set to 0.
+   *
+   * @return {@link LocalDate} - the read date
+   * @throws StrioRtException invalid timestamp representation format
+   */
+  LocalDate readTimestampAsDate();
+
+  /**
+   * Reads timestamp as {@link LocalDateTime} with milliseconds accuracy.
+   * <p>
+   * Timestamp format is specified in {@link IStrioHardConstants#TIMESTAMP_FMT}. Timestamp also may have shorter format.
+   * For short notation absent components will be set to 0.
+   *
+   * @return {@link LocalDateTime} - the read timestamp
+   * @throws StrioRtException invalid timestamp representation format
+   */
+  LocalDateTime readTimestampAsDateTime();
 
   /**
    * Reads quoted string.

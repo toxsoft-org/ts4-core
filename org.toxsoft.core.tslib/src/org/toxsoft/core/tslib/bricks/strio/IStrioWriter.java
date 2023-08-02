@@ -1,8 +1,9 @@
 package org.toxsoft.core.tslib.bricks.strio;
 
-import org.toxsoft.core.tslib.utils.TsMiscUtils;
-import org.toxsoft.core.tslib.utils.errors.TsIoRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import java.time.*;
+
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Text representation writer stream.
@@ -213,6 +214,26 @@ public interface IStrioWriter
    * @throws TsIoRtException I/O error
    */
   void writeTimestamp( long aTimestamp );
+
+  /**
+   * Writes timestamp as a date.
+   * <p>
+   * Writes the timestamp representation in the same format as the method {@link #writeDate(long)}.
+   *
+   * @param aTime {@link LocalDate} - the date timestamp
+   */
+  void writeTime( LocalDate aTime );
+
+  /**
+   * Writes timestamp as a timestamp of milliseconds accuracy.
+   * <p>
+   * Writes the timestamp representation in the same format as the method {@link #writeDateTime(long)}.
+   * <p>
+   * Note: nanoseconds accuracy of {@link LocalDateTime} is truncated to milliseconds.
+   *
+   * @param aTime {@link LocalDateTime} - the timestamp
+   */
+  void writeTime( LocalDateTime aTime );
 
   /**
    * Записывает переданную строку "как есть", без дополнительной обработки.

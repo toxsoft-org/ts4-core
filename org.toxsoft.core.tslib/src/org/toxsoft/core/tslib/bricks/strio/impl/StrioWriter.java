@@ -3,19 +3,16 @@ package org.toxsoft.core.tslib.bricks.strio.impl;
 import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 import static org.toxsoft.core.tslib.bricks.strio.impl.ITsResources.*;
 
-import java.io.IOException;
-import java.util.Calendar;
-import java.util.Locale;
+import java.io.*;
+import java.time.*;
+import java.util.*;
 
-import org.toxsoft.core.tslib.bricks.strio.IStrioWriter;
-import org.toxsoft.core.tslib.bricks.strio.StrioRtException;
-import org.toxsoft.core.tslib.bricks.strio.chario.ICharOutputStream;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.bricks.strio.chario.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
-// TRANSLATE
-
 /**
- * Реализация писателя IStridWriter в выходной символьный поток.
+ * {@link IStrioWriter} implementation.
  *
  * @author hazard157
  */
@@ -24,24 +21,34 @@ public class StrioWriter
     implements IStrioWriter {
 
   /**
-   * Префикс при записи 16-ричных чисел методами {@link #writeIntHex(int)} и {@link #writeLongHex(long)}.
+   * Prefix when writing hexadecimal numbers using the <code>writeXxxHex()</code> methods.
    */
   private static final String HEX_NUMBER_PREFIX = "0x"; //$NON-NLS-1$
 
   /**
-   * Минимально допустимое записываемое методом {@link #writeTimestamp(long)} значение метки времени.
+   * The minimum allowed timestamp value written by the {@link #writeTimestamp(long)} method.
    */
   private static final long MIN_WRITREABLE_TIMESTAMP = -30609806400000L; // 1000-01-01 00:00:00.000
 
   /**
-   * Максимаьлно допустимое записываемое методом {@link #writeTimestamp(long)} значение метки времени.
+   * The maximum allowed timestamp value written by the {@link #writeTimestamp(long)} method.
    */
   private static final long MAX_WRITREABLE_TIMESTAMP = 253402286399999L; // 9999-12-31 23:59:59.999
 
   /**
-   * Строки форматирования для {@link #writeDouble(double, int)}
+   * The minimum allowed timestamp value written by the <code>writeTime()</code> methods.
    */
-  private static final String[] DOUBLE_FMT_STRS = new String[] { "%.0f", //$NON-NLS-1$
+  private static final LocalDate MIN_WRITREABLE_TIME_DATE = LocalDate.of( 1000, Month.JANUARY, 1 );
+
+  /**
+   * The maximum allowed timestamp value written by the <code>writeTime()</code> methods.
+   */
+  private static final LocalDate MAX_WRITREABLE_TIME_DATE = LocalDate.of( 9999, Month.DECEMBER, 31 );
+
+  /**
+   * Format strings for {@link #writeDouble(double, int)}
+   */
+  private static final String[] DOUBLE_FMT_STRS = { "%.0f", //$NON-NLS-1$
       "%.1f", //$NON-NLS-1$
       "%.2f", //$NON-NLS-1$
       "%.3f", //$NON-NLS-1$
@@ -55,41 +62,41 @@ public class StrioWriter
   private ICharOutputStream charOut = ICharOutputStream.NONE;
 
   /**
-   * Буфер для вывода целых чисел.
+   * Buffer for outputting integers.
    * <p>
-   * Использование этого буфера является оптимизацией метода {@link #outZeroPaddedInt(int, int)}, но делает невозможным
-   * вызывать методы класса из разных потоков.
+   * Using this buffer is an optimization of the {@link #outZeroPaddedInt(int, int)} method.
    */
   private char[] numBuf = new char[32];
 
   /**
-   * Количество пробелов в отступе.
+   * The number of spaces in the indent.
    */
   private int indentSpaces = 2;
 
   /**
-   * Количество отстутпов в начале строки.
+   * Number of indents at the beginning of a line.
    */
   private int indentLevel = 0;
 
   /**
-   * Создает писатель с привязкой с выходному символьному потоку.
+   * Constructor.
    *
-   * @param aSource ICharOutputStream - выхродной потока
+   * @param aSource {@link ICharOutputStream} - output char stream
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public StrioWriter( ICharOutputStream aSource ) {
     charOut = TsNullArgumentRtException.checkNull( aSource );
   }
 
   // --------------------------------------------------------------------------
-  // Внутренные операции вывода базовых примитивов
+  // Internal operations for outputting basic primitives to a stream
   //
 
   /**
-   * Записывает символ в место назначение.
+   * Outputs the single char.
    *
-   * @param aCh char - записываемый символ
-   * @throws StrioRtException - при ошибке ввода/вывода
+   * @param aCh char - the char to write
+   * @throws StrioRtException the I/O error
    */
   private void outChar( char aCh )
       throws StrioRtException {
@@ -102,11 +109,11 @@ public class StrioWriter
   }
 
   /**
-   * Записывает строку (без каких-либо изменений) в место назначения.
+   * Outputs the string (the sequence of chars).
    *
-   * @param aString String - записываемая строка
-   * @throws TsNullArgumentRtException - аргумент = null
-   * @throws StrioRtException - при ошибке ввода/вывода
+   * @param aString String - the string to write
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws StrioRtException the I/O error
    */
   private void outString( String aString ) {
     TsNullArgumentRtException.checkNull( aString );
@@ -121,10 +128,11 @@ public class StrioWriter
   }
 
   /**
-   * Записывает целое число с дополнением слева нулями до заданного количества цифр.
+   * Writes an integer padded with zeros on the left up to the specified number of digits.
    *
-   * @param aValue int - записываемое значение
-   * @param aDigits int - количество цифр, включая знак '-'
+   * @param aValue int - the value to write
+   * @param aDigits int - the number of digits (including minus '-' sign)
+   * @throws StrioRtException the I/O error
    */
   private void outZeroPaddedInt( int aValue, int aDigits ) {
     int val = aValue;
@@ -149,7 +157,7 @@ public class StrioWriter
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация методов IStridWriter
+  // IStridWriter
   //
 
   @Override
@@ -317,9 +325,8 @@ public class StrioWriter
 
   @Override
   public void writeDateTime( long aTimestamp ) {
-    // проверить, в допустимом ли диапазоне метка времени
     TsIllegalArgumentRtException
-        .checkFalse( aTimestamp >= MIN_WRITREABLE_TIMESTAMP && aTimestamp <= MAX_WRITREABLE_TIMESTAMP );
+        .checkTrue( aTimestamp < MIN_WRITREABLE_TIMESTAMP || aTimestamp > MAX_WRITREABLE_TIMESTAMP );
     calendar().setTimeInMillis( aTimestamp );
     outZeroPaddedInt( calendar().get( Calendar.YEAR ), 4 );
     outChar( CHAR_TIMESTAMP_YMD_SEPARATOR );
@@ -336,9 +343,8 @@ public class StrioWriter
 
   @Override
   public void writeTimestamp( long aTimestamp ) {
-    // проверить, в допустимом ли диапазоне метка времени
     TsIllegalArgumentRtException
-        .checkFalse( aTimestamp >= MIN_WRITREABLE_TIMESTAMP && aTimestamp <= MAX_WRITREABLE_TIMESTAMP );
+        .checkTrue( aTimestamp < MIN_WRITREABLE_TIMESTAMP || aTimestamp > MAX_WRITREABLE_TIMESTAMP );
     calendar().setTimeInMillis( aTimestamp );
     outZeroPaddedInt( calendar().get( Calendar.YEAR ), 4 );
     outChar( CHAR_TIMESTAMP_YMD_SEPARATOR );
@@ -353,6 +359,38 @@ public class StrioWriter
     outZeroPaddedInt( calendar().get( Calendar.SECOND ), 2 );
     outChar( CHAR_TIMESTAMP_MILLISEC_SEPARATOR );
     outZeroPaddedInt( calendar().get( Calendar.MILLISECOND ), 3 );
+  }
+
+  @Override
+  public void writeTime( LocalDate aTime ) {
+    TsNullArgumentRtException.checkNull( aTime );
+    TsIllegalArgumentRtException.checkTrue( aTime.isBefore( MIN_WRITREABLE_TIME_DATE ) );
+    TsIllegalArgumentRtException.checkTrue( aTime.isAfter( MAX_WRITREABLE_TIME_DATE ) );
+    outZeroPaddedInt( aTime.getYear(), 4 );
+    outChar( CHAR_TIMESTAMP_YMD_SEPARATOR );
+    outZeroPaddedInt( aTime.getMonthValue(), 2 );
+    outChar( CHAR_TIMESTAMP_YMD_SEPARATOR );
+    outZeroPaddedInt( aTime.getDayOfMonth(), 2 );
+  }
+
+  @Override
+  public void writeTime( LocalDateTime aTime ) {
+    TsNullArgumentRtException.checkNull( aTime );
+    TsIllegalArgumentRtException.checkTrue( aTime.toLocalDate().isBefore( MIN_WRITREABLE_TIME_DATE ) );
+    TsIllegalArgumentRtException.checkTrue( aTime.toLocalDate().isAfter( MAX_WRITREABLE_TIME_DATE ) );
+    outZeroPaddedInt( aTime.getYear(), 4 );
+    outChar( CHAR_TIMESTAMP_YMD_SEPARATOR );
+    outZeroPaddedInt( aTime.getMonthValue(), 2 );
+    outChar( CHAR_TIMESTAMP_YMD_SEPARATOR );
+    outZeroPaddedInt( aTime.getDayOfMonth(), 2 );
+    outChar( CHAR_TIMESTAMP_DATETIME_SEPARATOR );
+    outZeroPaddedInt( aTime.getHour(), 2 );
+    outChar( CHAR_TIMESTAMP_HMS_SEPARATOR );
+    outZeroPaddedInt( aTime.getMinute(), 2 );
+    outChar( CHAR_TIMESTAMP_HMS_SEPARATOR );
+    outZeroPaddedInt( aTime.getSecond(), 2 );
+    outChar( CHAR_TIMESTAMP_MILLISEC_SEPARATOR );
+    outZeroPaddedInt( aTime.getNano() / 1000, 3 );
   }
 
   @Override

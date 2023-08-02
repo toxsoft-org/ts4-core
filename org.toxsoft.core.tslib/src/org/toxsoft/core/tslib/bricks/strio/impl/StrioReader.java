@@ -5,6 +5,7 @@ import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 import static org.toxsoft.core.tslib.bricks.strio.impl.ITsResources.*;
 import static org.toxsoft.core.tslib.bricks.strio.impl.StrioUtils.*;
 
+import java.time.*;
 import java.util.*;
 
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
@@ -372,14 +373,11 @@ public class StrioReader
   @Override
   public boolean readBoolean() {
     String token = readUntilDelimiter();
-    switch( token ) {
-      case STR_BOOLEAN_TRUE:
-        return true;
-      case STR_BOOLEAN_FALSE:
-        return false;
-      default:
-        throw new StrioRtException( FMT_ERR_INV_BOOL_NAME, token );
-    }
+    return switch( token ) {
+      case STR_BOOLEAN_TRUE -> true;
+      case STR_BOOLEAN_FALSE -> false;
+      default -> throw new StrioRtException( FMT_ERR_INV_BOOL_NAME, token );
+    };
   }
 
   @Override
@@ -586,13 +584,13 @@ public class StrioReader
       if( ch == CHAR_TIMESTAMP_MILLISEC_SEPARATOR ) {
         msec = readExactDigitUint( 3, 0, 999 );
       }
-      else { // дата_время должна завершаться разделителем
-        putCharBack(); // вернем - это не наш символ
+      else { // "YYYY-DD--MM_HH:MM:SS.mmm" string must be terminated by the delimiter
+        putCharBack(); // return the unneeded char
         StrioRtException.checkFalse( isDelimiterChar( ch ), MSG_ERR_INV_TIMESTAMP );
       }
     }
-    else { // только дата должна завершаться разделителем
-      putCharBack(); // вернем - это не наш символ
+    else { // "YYYY-DD-MM" string must be terminated by the delimiter
+      putCharBack(); // return the unneeded char
       StrioRtException.checkFalse( isDelimiterChar( ch ), MSG_ERR_INV_TIMESTAMP );
     }
     calendar().set( Calendar.YEAR, year );
@@ -603,6 +601,44 @@ public class StrioReader
     calendar().set( Calendar.SECOND, sec );
     calendar().set( Calendar.MILLISECOND, msec );
     return calendar().getTimeInMillis();
+  }
+
+  @Override
+  public LocalDate readTimestampAsDate() {
+    return readTimestampAsDateTime().toLocalDate();
+  }
+
+  @Override
+  public LocalDateTime readTimestampAsDateTime() {
+    peekChar( currentSkipMode );
+    int year = 0, month = 0, day = 0, hour = 0, min = 0, sec = 0, msec = 0;
+    year = readExactDigitUint( 4, 0, 9999 );
+    ensureChar( CHAR_TIMESTAMP_YMD_SEPARATOR );
+    month = readExactDigitUint( 2, 1, 12 ) - 1;
+    ensureChar( CHAR_TIMESTAMP_YMD_SEPARATOR );
+    day = readExactDigitUint( 2, 1, 31 );
+    char ch = nextChar();
+    if( ch == CHAR_TIMESTAMP_DATETIME_SEPARATOR ) {
+      hour = readExactDigitUint( 2, 0, 23 );
+      ensureChar( CHAR_TIMESTAMP_HMS_SEPARATOR );
+      min = readExactDigitUint( 2, 0, 59 );
+      ensureChar( CHAR_TIMESTAMP_HMS_SEPARATOR );
+      sec = readExactDigitUint( 2, 0, 59 );
+      ch = nextChar();
+      if( ch == CHAR_TIMESTAMP_MILLISEC_SEPARATOR ) {
+        msec = readExactDigitUint( 3, 0, 999 );
+      }
+      else { // "YYYY-DD--MM_HH:MM:SS.mmm" string must be terminated by the delimiter
+        putCharBack(); // return the unneeded char
+        StrioRtException.checkFalse( isDelimiterChar( ch ), MSG_ERR_INV_TIMESTAMP );
+      }
+    }
+    else { // "YYYY-DD-MM" string must be terminated by the delimiter
+      putCharBack(); // return the unneeded char
+      StrioRtException.checkFalse( isDelimiterChar( ch ), MSG_ERR_INV_TIMESTAMP );
+    }
+    int nano = msec * 1000;
+    return LocalDateTime.of( year, month, day, hour, min, sec, nano );
   }
 
   @Override
