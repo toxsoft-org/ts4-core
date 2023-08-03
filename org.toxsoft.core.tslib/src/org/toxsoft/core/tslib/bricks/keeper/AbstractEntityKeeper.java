@@ -15,10 +15,10 @@ import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * {@link IEntityKeeper} implementaion base.
+ * {@link IEntityKeeper} implementation base.
  *
  * @author hazard157
- * @param <E> - type of keeped elements
+ * @param <E> - type of kept elements
  */
 public abstract class AbstractEntityKeeper<E>
     implements IEntityKeeper<E> {

@@ -1,9 +1,11 @@
 package org.toxsoft.core.tslib.bricks.keeper;
 
+import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 
 import java.io.*;
 
+import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.basis.*;
@@ -28,17 +30,22 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * is used for "null-object" detection rather than {@link Object#equals(Object)} method.
  *
  * @author hazard157
- * @param <E> - type of keeped elements
+ * @param <E> - type of kept elements
  */
 public interface IEntityKeeper<E> {
 
   /**
-   * The text representaton of empty collection of any kind of the entities.
+   * The text representation of empty collection of any kind of the entities.
    */
   String STR_EMPTY_COLLECTION_REPRESENTATION = "[]"; //$NON-NLS-1$
 
   /**
-   * Returns the class of the keeped entity.
+   * {@link #STR_EMPTY_COLLECTION_REPRESENTATION} as a {@link EAtomicType#STRING} atomic value.
+   */
+  IAtomicValue STR_EMPTY_COLLECTION_REPRESENTATION_AV = avStr( STR_EMPTY_COLLECTION_REPRESENTATION );
+
+  /**
+   * Returns the class of the kept entity.
    *
    * @return {@link Class}&lt;E&gt; - an entity class
    */
