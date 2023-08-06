@@ -22,6 +22,11 @@ public class AddonInitialPerspectiveChooser
   public static final String CMDLINEARG_INITIAL_PERSP_ID = "InitialPerspectiveId"; //$NON-NLS-1$
 
   /**
+   * Optional UIPart ID to be selected in {@link #CMDLINEARG_INITIAL_PERSP_ID}.
+   */
+  public static final String CMDLINEARG_INITIAL_UIPART_ID = "InitialUipartId"; //$NON-NLS-1$
+
+  /**
    * Constructor.
    */
   public AddonInitialPerspectiveChooser() {
@@ -41,7 +46,8 @@ public class AddonInitialPerspectiveChooser
     if( !perspId.isBlank() ) {
       ITsE4Helper e4Helper = aWinContext.get( ITsE4Helper.class );
       Display display = aWinContext.get( Display.class );
-      display.asyncExec( () -> e4Helper.switchToPerspective( perspId, null ) );
+      String uipartId = programArgs.getArgValue( CMDLINEARG_INITIAL_UIPART_ID, null );
+      display.asyncExec( () -> e4Helper.switchToPerspective( perspId, uipartId ) );
     }
   }
 
