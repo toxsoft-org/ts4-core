@@ -98,7 +98,13 @@ public abstract class PersistentDataModel<C extends IPdmContent, M extends IPdmM
   }
 
   @Override
+  public boolean isMemetoSupported() {
+    return doIsMementoSupported();
+  }
+
+  @Override
   public IPdmMemento getMemento() {
+    TsUnsupportedFeatureRtException.checkFalse( isMemetoSupported() );
     Object memento = doGetPdmMemento();
     TsInternalErrorRtException.checkNull( memento );
     TsInternalErrorRtException.checkFalse( mementoClass.isInstance( memento ) );
@@ -107,6 +113,7 @@ public abstract class PersistentDataModel<C extends IPdmContent, M extends IPdmM
 
   @Override
   public void setMemento( IPdmMemento aMemento ) {
+    TsUnsupportedFeatureRtException.checkFalse( isMemetoSupported() );
     TsNullArgumentRtException.checkNull( aMemento );
     TsInternalErrorRtException.checkFalse( mementoClass.isInstance( aMemento ) );
     doSetPdmMemento( mementoClass.cast( aMemento ) );
@@ -147,20 +154,40 @@ public abstract class PersistentDataModel<C extends IPdmContent, M extends IPdmM
   protected abstract void doSetPdmContent( C aContent );
 
   /**
-   * Subclass must create the instance of the memento.
+   * Determines if memento is supported.
+   * <p>
+   * If memento is supported then {@link #doGetPdmMemento()} and {@link #doSetPdmMemento(IPdmMemento)} methods must be
+   * implemented by the subclass.
+   *
+   * @return boolean - <code>true</code> memento can be used
+   */
+  protected abstract boolean doIsMementoSupported();
+
+  /**
+   * When overriding subclass must create the instance of the memento.
+   * <p>
+   * Throws exception {@link TsUnsupportedFeatureRtException} in base class, parent methods must not be called when
+   * overriding.
    *
    * @return &lt;M&gt; - the memento, not <code>null</code>
    */
-  protected abstract M doGetPdmMemento();
+  protected M doGetPdmMemento() {
+    throw new TsUnderDevelopmentRtException();
+  }
 
   /**
-   * Subclass must set content from the specified memento.
+   * When overriding subclass must set content from the specified memento.
    * <p>
    * Subclass must generate change event on any change.
+   * <p>
+   * Throws exception {@link TsUnsupportedFeatureRtException} in base class, parent methods must not be called when
+   * overriding.
    *
    * @param aMemento &lt;M&gt; - the memento, not <code>null</code>
    */
-  protected abstract void doSetPdmMemento( M aMemento );
+  protected void doSetPdmMemento( M aMemento ) {
+    throw new TsUnderDevelopmentRtException();
+  }
 
   /**
    * Called every time when model changes.
