@@ -42,6 +42,12 @@ public class KeepablesStorageAsKeepable
     TsNullArgumentRtException.checkNull( aSr );
     IStringMapEdit<String> map = new StringMap<>();
     aSr.ensureChar( CHAR_SET_BEGIN );
+    // an empty map
+    if( aSr.peekChar( EStrioSkipMode.SKIP_COMMENTS ) == CHAR_SET_END ) {
+      sectionsMap.clear();
+      return;
+    }
+    // non-empty map
     while( aSr.peekChar( EStrioSkipMode.SKIP_COMMENTS ) != CHAR_EOF ) {
       String keywrod = aSr.readIdPath();
       aSr.ensureChar( CHAR_EQUAL );
@@ -56,10 +62,12 @@ public class KeepablesStorageAsKeepable
   public void write( IStrioWriter aSw ) {
     TsNullArgumentRtException.checkNull( aSw );
     aSw.writeChar( CHAR_SET_BEGIN );
+    // an empty map
     if( sectionsMap.isEmpty() ) {
       aSw.writeChar( CHAR_SET_END );
       return;
     }
+    // non-empty map
     aSw.incNewLine();
     for( String keyword : sectionsMap.keys() ) {
       aSw.writeAsIs( keyword );
