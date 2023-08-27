@@ -10,7 +10,7 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tsgui.panels.*;
-import org.toxsoft.core.tsgui.utils.layout.BorderLayout;
+import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tsgui.valed.controls.enums.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -37,6 +37,19 @@ public class PanelTsFillInfoSelector
    */
   public PanelTsFillInfoSelector( Composite aParent, TsDialog<TsFillInfo, ITsGuiContext> aOwnerDialog ) {
     super( aParent, aOwnerDialog );
+    this.setLayout( new BorderLayout() );
+    init();
+  }
+
+  /**
+   * Конструктор для использовани вне диалога.<br>
+   *
+   * @param aParent {@link Composite} - родительская компонента
+   * @param aContext {@link ITsGuiContext} - соответствующий контекст
+   * @param aData {@link TsFillInfo} - информация о заливке м.б. <b>null</b>
+   */
+  public PanelTsFillInfoSelector( Composite aParent, ITsGuiContext aContext, TsFillInfo aData ) {
+    super( aParent, aContext, aData, aContext, 0 );
     this.setLayout( new BorderLayout() );
     init();
   }
@@ -80,6 +93,28 @@ public class PanelTsFillInfoSelector
       case SOLID -> new TsFillInfo( colorPanel.rgba() );
       default -> throw new TsNotAllEnumsUsedRtException();
     };
+  }
+
+  // ------------------------------------------------------------------------------------
+  // API
+  //
+
+  /**
+   * Задает параметры заливки.<br>
+   *
+   * @param aFillInfo {@link TsFillInfo} - информация о заливке
+   */
+  public void setFillInfo( TsFillInfo aFillInfo ) {
+    doSetDataRecord( aFillInfo );
+  }
+
+  /**
+   * Возвращает информацию о заливке.<br>
+   *
+   * @return {@link TsFillInfo} - информацию о заливке
+   */
+  public TsFillInfo getFillInfo() {
+    return doGetDataRecord();
   }
 
   // ------------------------------------------------------------------------------------
