@@ -649,6 +649,24 @@ public class TsFileUtils {
   }
 
   /**
+   * Recursively finds files matching the specified filter.
+   * <p>
+   * The filter applies only to files.
+   * <p>
+   * If specified root is not a readable directory then method returns an empty list,
+   *
+   * @param aDir {@link File} - the root directory of the subtree to search
+   * @param aFileFilter {@link TsFileFilter} - the files filter
+   * @return {@link IList}&lt;{@link File}&gt; - the list of found files
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static IList<File> listFilesInSubtree( File aDir, FileFilter aFileFilter ) {
+    IListEdit<File> llFiles = new ElemLinkedBundleList<>( TsCollectionsUtils.getListInitialCapacity( 10_000 ), true );
+    collectFilesInSubtree( aDir, aFileFilter, llFiles );
+    return llFiles;
+  }
+
+  /**
    * Returns all directories in the subtree under the specified root directory.
    * <p>
    * If specified root is not a readable directory then method does nothing,
