@@ -33,7 +33,7 @@ public class ValedStringText
   public static final String OPID_IS_MULTI_LINE = VALED_OPID_PREFIX + ".ValedStringText.IsMultiLine"; //$NON-NLS-1$
 
   /**
-   * The flag detrimes if multi-line text will be edited is widget.
+   * The flag determines if multi-line text will be edited is widget.
    */
   public static final IDataDef OPDEF_IS_MULTI_LINE = DataDef.create( OPID_IS_MULTI_LINE, BOOLEAN, //
       TSID_NAME, STR_N_IS_MULTI_LINE, //
@@ -71,6 +71,8 @@ public class ValedStringText
 
   }
 
+  static final int DEFAULT_MULTI_LINE_WIDGET_VERTICAL_SPAN = 3;
+
   /**
    * The factory singleton.
    */
@@ -89,13 +91,17 @@ public class ValedStringText
    */
   public ValedStringText( ITsGuiContext aContext ) {
     super( aContext );
-    setParamIfNull( OPDEF_IS_WIDTH_FIXED, AV_FALSE );
-    setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
-    if( getIsMultiLine() ) {
-      setParamIfNull( OPDEF_VERTICAL_SPAN, avInt( 3 ) );
+    prepareContext( tsContext() );
+  }
+
+  static void prepareContext( ITsGuiContext aContext ) {
+    aContext.params().setValueIfNull( OPID_IS_WIDTH_FIXED, AV_FALSE );
+    aContext.params().setValueIfNull( OPID_IS_HEIGHT_FIXED, AV_TRUE );
+    if( OPDEF_IS_MULTI_LINE.getValue( aContext.params() ).asBool() ) {
+      aContext.params().setValueIfNull( OPID_VERTICAL_SPAN, avInt( DEFAULT_MULTI_LINE_WIDGET_VERTICAL_SPAN ) );
     }
     else {
-      setParamIfNull( OPDEF_VERTICAL_SPAN, AV_1 );
+      aContext.params().setValueIfNull( OPID_VERTICAL_SPAN, AV_1 );
     }
   }
 

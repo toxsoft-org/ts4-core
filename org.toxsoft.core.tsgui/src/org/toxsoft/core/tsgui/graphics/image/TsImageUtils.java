@@ -2,14 +2,14 @@ package org.toxsoft.core.tsgui.graphics.image;
 
 import java.io.*;
 
-import org.eclipse.swt.SWTException;
+import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.*;
-import org.eclipse.swt.internal.image.FileFormat;
+import org.eclipse.swt.internal.image.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.files.TsFileUtils;
+import org.toxsoft.core.tslib.utils.files.*;
 
 /**
- * Helper methos to work with {@link TsImage}.
+ * Helper methods to work with {@link TsImage}.
  *
  * @author hazard157
  */
@@ -19,6 +19,8 @@ public class TsImageUtils {
   // ------------------------------------------------------------------------------------
   // Load images from file
   //
+
+  // TODO TRANSLATE
 
   /**
    * Загружает набор кадров для анимированного изображения из файла.

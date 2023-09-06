@@ -9,7 +9,7 @@ import org.toxsoft.core.tsgui.panels.vecboard.*;
 import org.toxsoft.core.tsgui.utils.layout.BorderLayout;
 
 /**
- * Реализация раскладки {@link IVecLadderLayout}.
+ * {@link IVecLadderLayout} implementation.
  *
  * @author hazard157
  */
@@ -29,7 +29,7 @@ public class VecLadderLayout
   }
 
   // ------------------------------------------------------------------------------------
-  // Внутренные методы
+  // Implementation
   //
 
   private void fillNoLabels( Composite aParent ) {
@@ -67,18 +67,13 @@ public class VecLadderLayout
 
   private void fillWithLabels( Composite aParent ) {
     aParent.setLayout( new GridLayout( 2, false ) );
-    // вычислим высоту одного SPAN в пикселях
+    // calculate height of one SPAN ion pixels
     FontData fontData = aParent.getFont().getFontData()[0];
     int spanHeight = 2 * fontData.getHeight();
-    /**
-     * В дальнейшем настройка высоты строк сетки размеки происходит следующим образом:<br>
-     * если предолагаемая высота 1 SPAN, то используем высоту по умолчанию;<br>
-     * если 2 или более SPAN-ов, то задаем высоту с помощью GridData.heightHint<br>
-     */
-    // пройдем по всем контролям
+    // iterate over all items on the layout
     for( int i = 0, n = items().size(); i < n; i++ ) {
       Item<IVecLadderLayoutData> item = items().get( i );
-      if( item.cb() == null ) { // нет контроля - идем дальше
+      if( item.cb() == null ) { // bypass non-control item
         continue;
       }
       IVecLadderLayoutData ld = item.layoutData();
@@ -103,16 +98,10 @@ public class VecLadderLayout
         c.setLayoutData( BorderLayout.CENTER );
         container.setLayoutData( gd( ld, true, spanHeight ) );
       }
-      else { // label -> left, valed -> right side
+      else { // label -> left, VALED -> right side
         Label l = new Label( aParent, SWT.NONE );
         l.setText( ld.labelText() );
         l.setToolTipText( ld.tooltip() );
-        // GOGA 06.07.2015
-        // int labelVerAlign = SWT.CENTER;
-        // if( ld.verticalSpan() > 1 ) {
-        // labelVerAlign = SWT.TOP;
-        // }
-        // boolean isVerGrab = ld.verticalSpan() > 1;
         GridData labelGd = new GridData( SWT.FILL, SWT.CENTER, false, false, 1, ld.verticalSpan() );
         l.setLayoutData( labelGd );
         Control c = item.cb().createControl( aParent );
@@ -122,54 +111,8 @@ public class VecLadderLayout
     }
   }
 
-  // static GridData gd( IVecLadderLayoutData aLayoutData, boolean aIsLastControl, boolean aIsSingleInRow ) {
-  // int horAlign = aLayoutData.horAlignment().swtStyle();
-  // int verAlign = aLayoutData.verAlignment().swtStyle();
-  // boolean isVerGrab = aIsLastControl;
-  // int horSpan = 1;
-  // if( aIsSingleInRow ) {
-  // horSpan = 2;
-  // }
-  // return new GridData( horAlign, verAlign, true, isVerGrab, horSpan, aLayoutData.verticalSpan() );
-  // }
-  //
-  // private void fillWithLabels( Composite aParent ) {
-  // aParent.setLayout( new GridLayout( 2, false ) );
-  // for( int i = 0, n = items().size(); i < n; i++ ) {
-  // Item<IVecLadderLayoutData> item = items().get( i );
-  // if( item.cb() == null ) { // нет контроля - идем дальше
-  // continue;
-  // }
-  // IVecLadderLayoutData ld = item.layoutData();
-  // boolean isLastControl = (i == (n - 1));
-  // if( !ld.isLabelShown() ) { // нет подписи - расположим во всю ширину строки
-  // Control c = item.cb().createControl( aParent );
-  // c.setLayoutData( gd( ld, isLastControl, true ) );
-  // continue;
-  // }
-  // // отображение с подписью
-  // if( ld.isFullWidthControl() ) { // подпись сверху - контроль ведь во всю ширину
-  // Composite container = new Composite( aParent, SWT.NONE );
-  // container.setLayout( new BorderLayout() );
-  // Label l = new Label( container, SWT.LEFT );
-  // l.setText( ld.labelText() );
-  // l.setLayoutData( BorderLayout.NORTH );
-  // Control c = item.cb().createControl( container );
-  // c.setLayoutData( BorderLayout.CENTER );
-  // container.setLayoutData( gd( ld, isLastControl, true ) );
-  // }
-  // else { // подпись слева - контроль справа
-  // Label l = new Label( aParent, SWT.NONE );
-  // l.setText( ld.labelText() );
-  // l.setLayoutData( new GridData( SWT.FILL, SWT.TOP, false, false, 1, 1 ) );
-  // Control c = item.cb().createControl( aParent );
-  // c.setLayoutData( gd( ld, isLastControl, false ) );
-  // }
-  // }
-  // }
-
   // ------------------------------------------------------------------------------------
-  // Реализация методов AbstractVecLayout
+  // AbstractVecLayout
   //
 
   @Override

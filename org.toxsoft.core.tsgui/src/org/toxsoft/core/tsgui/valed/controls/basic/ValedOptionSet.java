@@ -93,7 +93,7 @@ public class ValedOptionSet
    */
   public ValedOptionSet( ITsGuiContext aContext ) {
     super( aContext );
-    setParamIfNull( OPDEF_IS_WIDTH_FIXED, AV_TRUE );
+    setParamIfNull( OPDEF_IS_WIDTH_FIXED, AV_FALSE );
     setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_FALSE );
     setParamIfNull( OPDEF_VERTICAL_SPAN, AV_1 );
     boolean isViewer = OPDEF_CREATE_UNEDITABLE.getValue( params() ).asBool();

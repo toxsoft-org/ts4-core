@@ -7,10 +7,12 @@ import static org.toxsoft.core.tslib.bricks.strid.impl.StridUtils.*;
 
 import org.eclipse.swt.*;
 import org.eclipse.swt.custom.*;
+import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
+import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.panels.lazy.*;
 import org.toxsoft.core.tsgui.panels.opsedit.*;
 import org.toxsoft.core.tsgui.valed.api.*;
@@ -159,6 +161,7 @@ public class OptionSetPanel
    */
   private IValedControl<IAtomicValue> createValedControl( Composite aParent, IDataDef aOpDef ) {
     ITsGuiContext ctx = new TsGuiContext( tsContext() );
+    IValedControlConstants.inhibitParamsOfParentContext( ctx );
     ctx.params().addAll( aOpDef.params() );
     ctx.params().setValueIfNull( OPDEF_TOOLTIP_TEXT.id(), avStr( aOpDef.description() ) );
     boolean isReadOnly = ctx.params().getBool( TSID_IS_READ_ONLY, false );
@@ -184,6 +187,11 @@ public class OptionSetPanel
       }
       // create grid with 2 columns
       valedsGrid = new TsComposite( backplane );
+
+      // --- DEBUG
+      valedsGrid.setBackground( colorManager().getColor( ETsColor.DARK_CYAN ) );
+      // ---
+
       valedsGrid.setLayout( new GridLayout( 2, false ) );
       // create one row per option
       for( IDataDef dd : optionDefs ) {
@@ -212,7 +220,9 @@ public class OptionSetPanel
       }
       updateValedEditableStatus();
       backplane.setContent( valedsGrid );
-      valedsGrid.setSize( valedsGrid.computeSize( SWT.DEFAULT, SWT.DEFAULT ) );
+      Point valedsGrisSize = valedsGrid.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+      valedsGrid.setSize( valedsGrisSize );
+      backplane.setMinSize( valedsGrisSize );
     }
     finally {
       backplane.setLayoutDeferred( false );

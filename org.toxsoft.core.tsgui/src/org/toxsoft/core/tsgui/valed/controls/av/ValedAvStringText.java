@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.valed.controls.av;
 
 import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
+import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.valed.api.*;
@@ -61,6 +62,17 @@ public class ValedAvStringText
    */
   public ValedAvStringText( ITsGuiContext aTsContext ) {
     super( aTsContext, EAtomicType.STRING, ValedStringText.FACTORY );
+    prepareContext( aTsContext );
+  }
+
+  static void prepareContext( ITsGuiContext aContext ) {
+    aContext.params().setValueIfNull( OPID_IS_HEIGHT_FIXED, AV_TRUE );
+    if( ValedStringText.OPDEF_IS_MULTI_LINE.getValue( aContext.params() ).asBool() ) {
+      aContext.params().setValueIfNull( OPID_VERTICAL_SPAN, avInt( 3 ) );
+    }
+    else {
+      aContext.params().setValueIfNull( OPID_VERTICAL_SPAN, AV_1 );
+    }
   }
 
   @Override

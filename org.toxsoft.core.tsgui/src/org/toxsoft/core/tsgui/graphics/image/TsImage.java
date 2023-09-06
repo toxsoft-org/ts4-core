@@ -12,12 +12,10 @@ import org.toxsoft.core.tslib.coll.wrappers.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.logs.impl.*;
 
-// TODO TRANSLATE
-
 /**
- * Изображение, в общем случае состояшее из нескольких кадров наимации.
+ * An image that generally consists of several frames of animation.
  * <p>
- * Не бывает экземпляра этого класса без хотя бы одного кадра.
+ * There is no instance of this class without at least one frame.
  *
  * @author hazard157
  */
@@ -54,7 +52,6 @@ public final class TsImage {
    * @throws TsIllegalArgumentRtException any delay value < 0
    */
   public TsImage( IList<Image> aFrames, ILongList aDelays, int aImageIndex ) {
-    // предусловия
     TsNullArgumentRtException.checkNulls( aFrames, aDelays );
     TsIllegalArgumentRtException.checkTrue( aFrames.isEmpty() );
     TsIllegalArgumentRtException.checkTrue( aFrames.size() != aDelays.size() );
@@ -147,16 +144,16 @@ public final class TsImage {
   }
 
   /**
-   * Создает {@link TsImage} с равномерной анимацией.
+   * Creates a {@link TsImage} with even animation.
    *
-   * @param aFrames {@link IList}&lt;{@link Image}&gt; - упорядовенный список кадров
-   * @param aDelay long - межкадровая задержка в миллисекундах
-   * @param aImageIndex int - индекс выделенного кдра {@link #image()}
-   * @return {@link TsImage} - созданный экземпляр
-   * @throws TsNullArgumentRtException любой аргумент = null
-   * @throws TsIllegalArgumentRtException аргумент содержит уничтноженное (disposed) изображение
-   * @throws TsIllegalArgumentRtException список - пустой
-   * @throws TsIllegalArgumentRtException индекс выделенного кадра выходит за заданные пределы
+   * @param aFrames {@link IList}&lt;{@link Image}&gt; - ordered list of frames
+   * @param aDelay long - interframe delay in milliseconds
+   * @param aImageIndex int - index of the selected frame {@link #image()}
+   * @return {@link TsImage} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException the argument contains the disposed image
+   * @throws TsIllegalArgumentRtException the frames list is empty
+   * @throws TsIllegalArgumentRtException selected frame index is out of range
    */
   public static TsImage create( IList<Image> aFrames, long aDelay, int aImageIndex ) {
     TsNullArgumentRtException.checkNull( aFrames );
@@ -169,41 +166,41 @@ public final class TsImage {
   }
 
   /**
-   * Создает {@link TsImage} с первым выделенным кадром.
+   * Creates a {@link TsImage} with the first selected frame.
    *
-   * @param aFrames {@link IList}&lt;{@link Image}&gt; - упорядовенный список кадров
-   * @param aDelays {@link ILongList} - список межкадровых задержек в миллисекундах
-   * @return {@link TsImage} - созданный экземпляр
-   * @throws TsNullArgumentRtException любой аргумент = null
-   * @throws TsIllegalArgumentRtException аргумент содержит уничтноженное (disposed) изображение
-   * @throws TsIllegalArgumentRtException любой список - пустой
-   * @throws TsIllegalArgumentRtException списки кадров и задержек имеют разнюю длину
+   * @param aFrames {@link IList}&lt;{@link Image}&gt; - ordered list of frames
+   * @param aDelays {@link ILongList} - list of interframe delays in milliseconds
+   * @return {@link TsImage} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException the argument contains the disposed image
+   * @throws TsIllegalArgumentRtException the frames list is empty
+   * @throws TsIllegalArgumentRtException frame and delay lists have different lengths
    */
   public static TsImage create( IList<Image> aFrames, ILongList aDelays ) {
     return new TsImage( aFrames, aDelays, 0 );
   }
 
   /**
-   * Создает {@link TsImage} с равномерной анимацией с первым выделенным кадром.
+   * Creates a {@link TsImage} with even animation with the first selected frame.
    *
-   * @param aFrames {@link IList}&lt;{@link Image}&gt; - упорядовенный список кадров
-   * @param aDelay long - межкадровая задержка в миллисекундах
-   * @return {@link TsImage} - созданный экземпляр
-   * @throws TsNullArgumentRtException любой аргумент = null
-   * @throws TsIllegalArgumentRtException аргумент содержит уничтноженное (disposed) изображение
-   * @throws TsIllegalArgumentRtException список - пустой
+   * @param aFrames {@link IList}&lt;{@link Image}&gt; - ordered list of frames
+   * @param aDelay long - interframe delay in milliseconds
+   * @return {@link TsImage} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException the argument contains the disposed image
+   * @throws TsIllegalArgumentRtException the frames list is empty
    */
   public static TsImage create( IList<Image> aFrames, long aDelay ) {
     return create( aFrames, aDelay, 0 );
   }
 
   /**
-   * Создает неанимированное {@link TsImage}.
+   * Creates an unanimated {@link TsImage}.
    *
-   * @param aImage {@link Image} - единственный кадр
-   * @return {@link TsImage} - созданный экземпляр
-   * @throws TsNullArgumentRtException любой аргумент = null
-   * @throws TsIllegalArgumentRtException аргумент содержит уничтноженное (disposed) изображение
+   * @param aImage {@link Image} - the single frame
+   * @return {@link TsImage} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException the argument contains the disposed image
    */
   public static TsImage create( Image aImage ) {
     return create( new SingleItemList<>( aImage ), 0L, 0 );
@@ -214,54 +211,52 @@ public final class TsImage {
   //
 
   /**
-   * Определяет, состоит ли картинка из единственного кадра.
+   * Determines if the image consists of a single frame.
    * <p>
-   * Равнозначно проверке <code>{@link #count()} == 1</code>.
+   * Equivalent to checking <code>{@link #count()} == 1</code>.
    *
-   * @return boolean - состоит ли картинка из единственного кадра<br>
-   *         <b>true</b> - да, в картинке один кадр, и {@link #frames()}.size() = 1;<br>
-   *         <b>false</b> - в картинке более одного кадра, это явно анимация.
+   * @return boolean - whether the picture image of a single frame<br>
+   *         <b>true</b> - yes, there is one frame in the image, and {@link #frames()}.size() = 1;<br>
+   *         <b>false</b> - there is more than one frame in the image, this is clearly an animation.
    */
   public boolean isSingleFrame() {
     return frames.size() == 1;
   }
 
   /**
-   * Определяет, является ли изображение анимируемым (то есть, количество кадров больше 1).
+   * Determines if the image is animated (that is, the number of frames is greater than 1).
    * <p>
-   * Равнозначно проверке <code>{@link #count()} > 1</code>.
+   * Equivalent to checking <code>{@link #count()} > 1</code>.
    *
-   * @return boolean - признак анимируемого изображения
+   * @return boolean - a sign of the animated image
    */
   public boolean isAnimated() {
     return frames.size() > 1;
   }
 
   /**
-   * Возвращает количество кадров.
+   * Returns the number of frames.
    *
-   * @return int - количество кадров, всегда > 0
+   * @return int - number of frames, always > 0
    */
   public int count() {
     return frames.size();
   }
 
   /**
-   * Возвращаеть размер первого изображения.
-   * <p>
-   * Если список кадров пустой, возвращает {@link ITsPoint#ZERO}.
+   * Return the size of the first frame.
    *
-   * @return {@link ITsPoint} - размер изображения в пикселях или {@link ITsPoint#ZERO} для пустого изображения
+   * @return {@link ITsPoint} - first frame size in pixels
    */
   public ITsPoint imageSize() {
     return imageSize;
   }
 
   /**
-   * Возвращает кадры анимированного изображения в порядке их отображения.
+   * Returns the frames of the image in the order in which they are displayed.
    *
-   * @return Images[] - непустой массив изображении - кадров анимации
-   * @throws TsIllegalStateRtException ресурсы уже были освобождены {@link #isDisposed()} = true
+   * @return {@link IList}&lt;{@link Image}&gt; - non-empty list of frames
+   * @throws TsIllegalStateRtException resources have already been disposed {@link #isDisposed()} = true
    */
   public IList<Image> frames() {
     TsIllegalStateRtException.checkTrue( disposed );
@@ -283,47 +278,46 @@ public final class TsImage {
   }
 
   /**
-   * Возвращает заданный (или единственный) кадр набора кадров.
+   * Returns the selected (or single) frame of the frameset.
    * <p>
-   * Для анимированных изображении имеет смысл как "характерное" изображение, которое отображается в режиме
-   * не-анимированной визуализации.
+   * For animated images, it makes sense as a "characteristic" image that is displayed in the mode non-animated
+   * renderings.
    *
-   * @return {@link Image} - заданный (или единственный) кадр набора кадров, для пустого изображения возвращает null
-   * @throws TsIllegalStateRtException ресурсы уже были освобождены {@link #isDisposed()} = true
+   * @return {@link Image} - the specified (or only) frame of the frameset
+   * @throws TsIllegalStateRtException resources have already been disposed {@link #isDisposed()} = true
    */
   public Image image() {
     return frames().get( imageIndex );
   }
 
   /**
-   * Возвращает индекс кадра, используемого как неподвижное изображение {@link #image()}.
+   * Returns the index of the frame used as the still (selected) image {@link #image()}.
    *
-   * @return int - индекс кадра {@link #image()} или 0 для пустого изобрадения
+   * @return int - frame index {@link #image()} or 0 for an empty image
    */
   public int imageIndex() {
     return imageIndex;
   }
 
   /**
-   * Определяет, является ли изображение равномерной анимацией.
+   * Determines if the image is an even animation.
    * <p>
-   * Равномерной считается анимация, все кадры {@link #frames()} которого имеют одинаковый размер (ширина x высота) и
-   * все задержки между кадрами {@link #delays()}имеют одинаковое значение. Единичное и пустое изображение <b>не</b>
-   * считается равномерно анимированным, посколько оно вообще не анимировано.
+   * An animation is considered even if all {@link #frames()} have the same size (width x height) and all delays between
+   * frames {@link #delays()} have the same value. Single image is <b>not</b> considered evenly animated because it is
+   * not animated at all.
    *
-   * @return boolean - признак равномерной анимации
+   * @return boolean - sign of uniform animation
    */
   public boolean isEvenAnimation() {
     return evenAnimation;
   }
 
   /**
-   * Возвращает межкадровую задержку в миллисекундах.
+   * Returns the interframe delay in milliseconds.
    * <p>
-   * Для неравномерной анимации возвращает первый элемент списка {@link #delays()}, для пустого или единичного
-   * изображения возвращает 0;
+   * For non-even animation, returns the first element of the list {@link #delays()}, for single images returns 0;
    *
-   * @return long - межкадровая задержка в миллисекундах или 0 для неанимированных изображений
+   * @return long - frame delay in milliseconds or 0 for non-animated images
    * @throws TsUnsupportedFeatureRtException {@link #isEvenAnimation()} = <code>false</code>
    */
   public long delay() {
@@ -331,9 +325,9 @@ public final class TsImage {
   }
 
   /**
-   * Освобождает все ресурсы, занятые изображениями.
+   * Releases all resources occupied by images.
    * <p>
-   * Есди ресурсы уже были освобождены ({@link #isDisposed()} = true), то ничего не делает.
+   * If the resources have already been released ({@link #isDisposed()} = true), it does nothing.
    */
   public void dispose() {
     if( !disposed ) {
