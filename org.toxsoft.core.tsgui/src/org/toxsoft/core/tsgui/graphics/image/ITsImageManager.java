@@ -6,7 +6,9 @@ import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Mages images and files and caches.
+ * Manages images and files and caches.
+ * <p>
+ * FIXME update comments
  * <p>
  * О терминологии: "значок", "картинка", "изображение" - смотри комментарии к {@link ITsIconManager}. Дополнительно
  * менеджер картинок вводит поянтие "<b><i>миниатюра</i></b>" (thumbnail). Миниатюра - уменьшенное изображение
@@ -36,24 +38,6 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public interface ITsImageManager {
 
   /**
-   * Возвращает директорию размещения файлов значков.
-   *
-   * @return {@link File} - директория размещения файлов значков
-   */
-  File getThumbsRoot();
-
-  /**
-   * Задает директорию размещения файлов значков.
-   * <p>
-   * Изменение корневой директории приводит к сбросу кеша.
-   *
-   * @param aDir {@link File} - директория размещения файлов значков
-   * @throws TsNullArgumentRtException аргумент = null
-   * @throws TsIoRtException директория не является доступным каталогом для чтения/записи
-   */
-  void setThumbsRoot( File aDir );
-
-  /**
    * Задает параметры кеширования.
    * <p>
    * Изменение параметров приводит к сбросу кеша.
@@ -62,10 +46,9 @@ public interface ITsImageManager {
    * ограничители.
    *
    * @param aMaxImagesInMemory int - максимальное количество изображений в памяти
-   * @param aMaxThumbsInMemory int - максимальное количество значков в памяти
    * @throws TsNullArgumentRtException любой аргумент = null
    */
-  void setup( int aMaxImagesInMemory, int aMaxThumbsInMemory );
+  void setup( int aMaxImagesInMemory );
 
   /**
    * Определяет, есть ли изображение в кеше.
@@ -96,62 +79,6 @@ public interface ITsImageManager {
   TsImage getImage( File aImageFile );
 
   /**
-   * Ищет кешированное изображение значка файла.
-   * <p>
-   * Если изображения нет в кеше, создает и кеширует его.
-   *
-   * @param aImageFile {@link File} - файл изображения
-   * @param aThumbSize {@link EThumbSize} - запрашиваемый размер миниатюры
-   * @return {@link TsImage} - кешированное изображение значка или null, если нет такого файла или его нельзя загрузить
-   * @throws TsNullArgumentRtException любой аргумент = null
-   */
-  TsImage findThumb( File aImageFile, EThumbSize aThumbSize );
-
-  /**
-   * Определяет путь к файлу миниатюры, не создавая ее.
-   *
-   * @param aImageFile {@link File} - файл изображения
-   * @param aThumbSize {@link EThumbSize} - запрашиваемый размер миниатюры
-   * @return {@link File} - файл миниатюры
-   * @throws TsNullArgumentRtException любой аргумент = null
-   */
-  File getThumbFile( File aImageFile, EThumbSize aThumbSize );
-
-  /**
-   * Удостоверяется в существование файла значка изображения.
-   * <p>
-   * Если файла изображения значка нет существует, создает его
-   *
-   * @param aImageFile {@link File} - файл изображения
-   * @param aThumbSize {@link EThumbSize} - запрашиваемый размер миниатюры
-   * @param aForceCreate boolean - <code>true</code> пересоздать файл значка, вне зависимости от его существования
-   * @return boolean - признак, что файл значка был создан или существовал ранее
-   * @throws TsNullArgumentRtException любой аргумент = null
-   */
-  boolean ensureThumb( File aImageFile, EThumbSize aThumbSize, boolean aForceCreate );
-
-  /**
-   * Определяет, находится ли миниатюра в кеше.
-   * <p>
-   * Если изображение в кеше, то метод {@link #findThumb(File, EThumbSize)} вернет результат сразу, иначе запустит
-   * длительный процесс кеширования.
-   *
-   * @param aImageFile {@link File} - файл изображения
-   * @param aThumbSize {@link EThumbSize} - запрашиваемый размер миниатюры
-   * @return boolean - признак нахождения изображения в кеше
-   */
-  boolean isThumbCached( File aImageFile, EThumbSize aThumbSize );
-
-  /**
-   * Определяет, существует ли файл миниатюры указанного изображения.
-   *
-   * @param aImageFile {@link File} - файл изображения
-   * @param aThumbSize {@link EThumbSize} - запрашиваемый размер миниатюры
-   * @return boolean - признак существования файла миниатюры
-   */
-  boolean isThumbFile( File aImageFile, EThumbSize aThumbSize );
-
-  /**
    * Обновляет кеш значков и изображений для указанного файла или директория.
    * <p>
    * Если указанный файловый объект не существует, он отрабатывается как только что удаленный из фйловой системы.
@@ -167,7 +94,5 @@ public interface ITsImageManager {
    * TODO Что c дисковым кешем?
    */
   void clearCache();
-
-  // TODO void syncFilesCache(File aRoot, IProgressCallbacl);
 
 }

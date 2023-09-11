@@ -6,6 +6,22 @@ import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * The icon manager.
+ * <p>
+ * TODO concepts, usage, icons/ directory in plugins.
+ * <p>
+ * Concepts and terms:
+ * <ul>
+ * <li><b>icon</b> - in general, the icon is a square image identified by the {@link String} name;</li>
+ * <li><b><code>"icons/"</code></b> directory - TODO ???;</li>
+ * <li><b>standard</b> icon - TODO ???;</li>
+ * <li><b>free</b> icon - TODO ???;</li>
+ * <li>icon <b>identifier</b> - TODO ???;</li>
+ * <li><b>symbolic name</b> - TODO ???;</li>
+ * <li><b>registering</b> the icon- TODO ???;</li>
+ * </ul>
+ * TODO how icon manager works
+ * <p>
+ * TODO usage
  *
  * @author hazard157
  */
@@ -17,9 +33,11 @@ public interface ITsIconManager {
   String PATH_TO_ICONS = "icons/"; //$NON-NLS-1$
 
   /**
-   * Icon file name extention.
+   * Icon file name extension.
    */
   String ICON_FILE_EXTENSION = ".png"; //$NON-NLS-1$
+
+  // TODO TRANSLATE
 
   /**
    * Создает символьное имя значка из идентификатора и указания размера.

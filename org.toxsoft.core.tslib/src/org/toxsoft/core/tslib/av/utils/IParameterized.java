@@ -1,6 +1,6 @@
 package org.toxsoft.core.tslib.av.utils;
 
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
+import org.toxsoft.core.tslib.av.opset.*;
 
 /**
  * Mixin interface for entities with {@link IOptionSet} parameters.
@@ -10,7 +10,7 @@ import org.toxsoft.core.tslib.av.opset.IOptionSet;
 public interface IParameterized {
 
   /**
-   * Return the parameters.
+   * Returns the parameters - the value of the options.
    *
    * @return {@link IOptionSet} - the parameters
    */

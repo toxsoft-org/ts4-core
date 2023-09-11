@@ -53,8 +53,8 @@ public class QuantTsGui
     //
     Display display = aWinContext.get( Display.class );
     aWinContext.set( ITsIconManager.class, new TsIconManager( aWinContext ) );
-    ITsImageManager imageManager = new TsImageManager( aWinContext );
-    aWinContext.set( ITsImageManager.class, imageManager );
+    aWinContext.set( ITsImageManager.class, new TsImageManager( aWinContext ) );
+    aWinContext.set( ITsThumbManager.class, new TsThumbManager( aWinContext ) );
     ITsGuiContext ctx1 = new TsGuiContext( aWinContext );
     ITsGuiTimersService timerService = new TsGuiTimersService( ctx1 );
     // HERE may set up timer service periods

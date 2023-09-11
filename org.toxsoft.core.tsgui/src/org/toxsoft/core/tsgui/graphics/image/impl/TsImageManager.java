@@ -105,44 +105,12 @@ public class TsImageManager
     }
   }
 
-  // private void internalRefreshOnRemove( File aFsObj ) {
-  // IListEdit<File> toRemove = new ElemLinkedBundleList<>();
-  // String fsObjPath = TsFileUtils.removeEndingSeparator( aFsObj.getAbsolutePath() );
-  // for( File f : imagesMap.keys() ) {
-  // String fPath = TsFileUtils.removeEndingSeparator( f.getAbsolutePath() );
-  // if( fPath.startsWith( fsObjPath ) ) {
-  // toRemove.add( f );
-  // }
-  // }
-  // for( File f : toRemove ) {
-  // imagesMap.remove( f );
-  // for( EThumbSize thumbSize : EThumbSize.values() ) {
-  // File thumbFile = makeThumbFileName( f, thumbSize );
-  // thumbFile.delete();
-  // }
-  // }
-  // }
-
   // ------------------------------------------------------------------------------------
   // API
   //
 
   @Override
-  public File getThumbsRoot() {
-    return thumbsRoot;
-  }
-
-  @Override
-  public void setThumbsRoot( File aDir ) {
-    TsFileUtils.checkDirReadable( aDir );
-    if( !thumbsRoot.equals( aDir ) ) {
-      thumbsRoot = aDir;
-      clearCache();
-    }
-  }
-
-  @Override
-  public void setup( int aMaxImagesInMemory, int aMaxThumbsInMemory ) {
+  public void setup( int aMaxImagesInMemory ) {
     // setup maxImagesInMemory
     int mim = aMaxImagesInMemory;
     if( mim < MIN_MAX_IMAGES_IN_MEMORY ) {
@@ -158,25 +126,6 @@ public class TsImageManager
       }
     }
     maxImagesInMemory = mim;
-    // setup maxThumbsInMemory
-    int mtm = aMaxThumbsInMemory;
-    if( mtm < MIN_MAX_THUMBS_IN_MEMORY ) {
-      mtm = MIN_MAX_THUMBS_IN_MEMORY;
-    }
-    if( mtm > MAX_MAX_THUMBS_IN_MEMORY ) {
-      mtm = MAX_MAX_THUMBS_IN_MEMORY;
-    }
-    if( maxThumbsInMemory > mtm ) {
-      for( EThumbSize ths : EThumbSize.values() ) {
-        IMapEdit<File, TsImage> thumbsMap = getThumbsMap( ths );
-        while( thumbsMap.size() > mtm ) {
-          TsImage mi = thumbsMap.removeByKey( thumbsMap.keys().get( 0 ) );
-          mi.dispose();
-        }
-      }
-      System.gc();
-    }
-    maxThumbsInMemory = mtm;
   }
 
   @Override
@@ -227,84 +176,6 @@ public class TsImageManager
     TsImage mi = findImage( aImageFile );
     TsItemNotFoundRtException.checkNull( mi );
     return mi;
-  }
-
-  @Override
-  public TsImage findThumb( File aImageFile, EThumbSize aThumbSize ) {
-    TsNullArgumentRtException.checkNulls( aImageFile, aThumbSize );
-    IMapEdit<File, TsImage> thumbsMap = getThumbsMap( aThumbSize );
-    TsImage mi = thumbsMap.findByKey( aImageFile );
-    if( mi != null ) {
-      return mi;
-    }
-    if( !TsFileUtils.isFileReadable( aImageFile ) ) {
-      return null;
-    }
-    File thumbFile = makeThumbFileName( aImageFile, aThumbSize );
-    if( !thumbFile.exists() || aImageFile.lastModified() >= thumbFile.lastModified() ) {
-      try {
-        createThumbFile( aImageFile, thumbFile, aThumbSize );
-      }
-      catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
-        return null;
-      }
-    }
-    try {
-      mi = TsImageUtils.loadTsImage( thumbFile, display );
-      thumbsMap.put( aImageFile, mi );
-      if( thumbsMap.size() > maxThumbsInMemory ) {
-        thumbsMap.removeByKey( thumbsMap.keys().get( 0 ) ).dispose();
-      }
-    }
-    catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
-    }
-    return mi;
-  }
-
-  @Override
-  public File getThumbFile( File aImageFile, EThumbSize aThumbSize ) {
-    TsNullArgumentRtException.checkNulls( aImageFile, aThumbSize );
-    return makeThumbFileName( aImageFile, aThumbSize );
-  }
-
-  @Override
-  public boolean ensureThumb( File aImageFile, EThumbSize aThumbSize, boolean aForceCreate ) {
-    TsNullArgumentRtException.checkNulls( aImageFile, aThumbSize );
-    if( !TsFileUtils.isFileReadable( aImageFile ) ) {
-      return false;
-    }
-    File thumbFile = makeThumbFileName( aImageFile, aThumbSize );
-    // no need to (re)create thumbnail file
-    if( thumbFile.exists() && !aForceCreate && thumbFile.lastModified() > aImageFile.lastModified() ) {
-      return true;
-    }
-    try {
-      createThumbFile( aImageFile, thumbFile, aThumbSize );
-      return true;
-    }
-    catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
-      return false;
-    }
-  }
-
-  @Override
-  public boolean isThumbCached( File aImageFile, EThumbSize aThumbSize ) {
-    TsNullArgumentRtException.checkNulls( aImageFile, aThumbSize );
-    IMapEdit<File, TsImage> thumbsMap = getThumbsMap( aThumbSize );
-    return thumbsMap.hasKey( aImageFile );
-  }
-
-  @Override
-  public boolean isThumbFile( File aImageFile, EThumbSize aThumbSize ) {
-    TsNullArgumentRtException.checkNulls( aImageFile, aThumbSize );
-    if( !TsFileUtils.isFileReadable( aImageFile ) ) {
-      return false;
-    }
-    File thumbFile = makeThumbFileName( aImageFile, aThumbSize );
-    return thumbFile.exists();
   }
 
   @Override

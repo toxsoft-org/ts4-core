@@ -75,6 +75,10 @@ public interface ITsGuiContextable
     return tsContext().get( ITsImageManager.class );
   }
 
+  default ITsThumbManager thumbManager() {
+    return tsContext().get( ITsThumbManager.class );
+  }
+
   default ITsCursorManager cursorManager() {
     return tsContext().get( ITsCursorManager.class );
   }
