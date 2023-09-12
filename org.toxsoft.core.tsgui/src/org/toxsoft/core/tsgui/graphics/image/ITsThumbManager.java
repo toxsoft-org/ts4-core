@@ -2,6 +2,7 @@ package org.toxsoft.core.tsgui.graphics.image;
 
 import java.io.*;
 
+import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -10,6 +11,31 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * TODO concepts, usage, need GraphicsMagic
  * <p>
  * TODO warning: old entries are disposed or dispose manually
+ * <p>
+ * FIXME update comments
+ * <p>
+ * О терминологии: "значок", "картинка", "изображение" - смотри комментарии к {@link ITsIconManager}. Дополнительно
+ * менеджер картинок вводит поянтие "<b><i>миниатюра</i></b>" (thumbnail). Миниатюра - уменьшенное изображение
+ * оргинальной картинки и имеет размеры из ряда {@link EThumbSize}.
+ * <p>
+ * Изображения значков представлены в виде виде {@link TsImage}, что позволяет работать анимированными изображениями.
+ * <p>
+ * Менеджер имеет слудующую функциональность:
+ * <ul>
+ * <li>управление ресурсами - созданные с помощью менеджера изображения уничтожаются самим менеджером;</li>
+ * <li>кеширование - изображения кешируются в памяти, и при необходимости удаляются из памяти. Из-за келирования,
+ * <b>никогда не запоминайте ссылки на {@link TsImage}</b>, созданные с кешированием.</li>
+ * <li>загрузка - можно загрузить изображения методами loadXxx()</li>
+ * <li>файлы миниатюр - TODO ???</li>
+ * <li></li>
+ * </ul>
+ * <p>
+ * Ссылка на экземпляр этого класса должен находится в контексте приложения.
+ * <p>
+ * Внимание: для работы функционала создания файлового кеша миниатюр в системе должна быть установлена программа <a
+ * href=http://www.graphicsmagick.org>graphicsmagick</a>.
+ * <p>
+ * TODO maybe use common (application level) cache for all instances of image manager?
  *
  * @author hazard157
  */
@@ -105,15 +131,16 @@ public interface ITsThumbManager {
   /**
    * Checks existing thumbnail files and cached images and refreshes them.
    * <p>
-   * Method recreates thumbnail files of existing thumb sizes and reloads cached images if image file is newer than
-   * thumbnail files. However, the update occurs without checking file times if the argument <code>aForceCreate</code>
-   * is set to <code>true</code>.
+   * For directories all files in directory will be processed non-recursively. If the specified file object does not
+   * exist, it is treated as if it had just been removed from the file system.
+   * <p>
+   * The method clears the cached images from memory and deletes thumb files so next thumbnail request will recreate the
+   * thumbnail file and reload the image.
    *
-   * @param aImageFile {@link File} - the image file
-   * @param aForceCreate boolean - <code>true</code> = refresh if if not needed
+   * @param aFileOrDir {@link File} - file or directory of images whose cache will be updated
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  void refreshThumbs( File aImageFile, boolean aForceCreate );
+  void refreshCache( File aFileOrDir );
 
   /**
    * Clears the cache disposing all cached images.

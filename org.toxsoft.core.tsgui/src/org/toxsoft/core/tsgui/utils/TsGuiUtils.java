@@ -68,13 +68,11 @@ public class TsGuiUtils {
     TsValobjUtils.registerKeeper( EGradientType.KEEPER_ID, EGradientType.KEEPER );
     TsValobjUtils.registerKeeper( TsMargins.KEEPER_ID, TsMargins.KEEPER );
     TsValobjUtils.registerKeeper( TsGridMargins.KEEPER_ID, TsGridMargins.KEEPER );
-
-    // Sol
-    // TsValobjUtils.registerKeeper( AbstractSwtPatternInfo.KEEPER_ID, AbstractSwtPatternInfo.KEEPER );
+    TsValobjUtils.registerKeeper( TsImageDescriptor.KEEPER_ID, TsImageDescriptor.KEEPER );
     TsValobjUtils.registerKeeper( TsFillInfo.KEEPER_ID, TsFillInfo.KEEPER );
     TsValobjUtils.registerKeeper( ETsBorderKind.KEEPER_ID, ETsBorderKind.KEEPER );
 
-    // following this is some hacking!
+    // following this is some kind of hacking!
     DataDef dd = (DataDef)IAvMetaConstants.DDEF_DESCRIPTION;
     dd.params().setInt( IValedControlConstants.OPDEF_VERTICAL_SPAN, 3 );
     dd.params().setStr( IValedControlConstants.OPDEF_EDITOR_FACTORY_NAME, ValedAvStringText.FACTORY_NAME );

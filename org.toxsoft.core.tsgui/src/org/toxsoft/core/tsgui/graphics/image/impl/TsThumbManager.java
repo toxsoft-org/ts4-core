@@ -1,12 +1,14 @@
 package org.toxsoft.core.tsgui.graphics.image.impl;
 
-import static org.toxsoft.core.tsgui.graphics.image.impl.TsImageManagerUtils.*;
+import static org.toxsoft.core.tsgui.graphics.image.impl.TsThumbManagerUtils.*;
 
 import java.io.*;
 
 import org.eclipse.e4.core.contexts.*;
 import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.graphics.icons.impl.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
+import org.toxsoft.core.tsgui.utils.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -27,6 +29,9 @@ public class TsThumbManager
   private static final int    MAX_MAX_THUMBS_IN_MEMORY = 64 * 1024;
 
   // caches
+  /**
+   * The map "thumb size" - "map of loaded images by image file".
+   */
   private final IMapEdit<EThumbSize, IMapEdit<File, TsImage>> thumbsMapMap = new ElemMap<>();
 
   // caching parameters
@@ -57,7 +62,6 @@ public class TsThumbManager
     String thumbFileName = formatImageThumbFileName( aImageFile, aThumbSize );
     String absDirString = aImageFile.getParentFile().getAbsolutePath();
     File absDirFile = new File( thumbsRoot, TsFileUtils.removeStartingSeparator( absDirString ) );
-    // absDirFile.mkdirs();
     return new File( absDirFile, thumbFileName );
   }
 
@@ -70,34 +74,36 @@ public class TsThumbManager
     return map;
   }
 
-  // private void deleteThumbFiles( File aFileOrDir ) {
-  // String absString = aFileOrDir.getAbsolutePath();
-  // File absFile = new File( thumbsRoot, TsFileUtils.removeStartingSeparator( absString ) );
-  // if( !absFile.exists() ) {
-  // return;
-  // }
-  // if( absFile.isDirectory() ) {
-  // TsFileUtils.deleteDirectory( absFile, IFileOperationProgressCallback.NULL );
-  // return;
-  // }
-  // for( EThumbSize thumbSize : EThumbSize.values() ) {
-  // File f = makeThumbFileName( aFileOrDir, thumbSize );
-  // if( f.exists() ) {
-  // f.delete();
-  // }
-  // }
-  // }
+  private void deleteThumbFiles( File aFileOrDir ) {
+    String absString = aFileOrDir.getAbsolutePath();
+    // TODO check if line below works for Windows file system with drive letters
+    File absPath = new File( thumbsRoot, TsFileUtils.removeStartingSeparator( absString ) );
+    if( !absPath.exists() ) {
+      return;
+    }
+    // #absPath is a directory - remove everything
+    if( absPath.isDirectory() ) {
+      TsFileUtils.deleteDirectory( absPath, IFileOperationProgressCallback.NULL );
+      return;
+    }
+    // #absPath denotes to the file, remove it's thumb files of all sizes
+    for( EThumbSize thumbSize : EThumbSize.values() ) {
+      File f = makeThumbFileName( aFileOrDir, thumbSize );
+      if( f.exists() ) {
+        f.delete();
+      }
+    }
+  }
 
-  // private void internalRefreshFile( File aFile ) {
-  // imagesMap.removeByKey( aFile );
-  // for( EThumbSize ths : EThumbSize.values() ) {
-  // getThumbsMap( ths ).removeByKey( aFile );
-  // File thumbFile = makeThumbFileName( aFile, ths );
-  // if( thumbFile.exists() ) {
-  // thumbFile.delete();
-  // }
-  // }
-  // }
+  private void removeDirFromCache( File aImageFile ) {
+    // TODO TsThumbManager.removeDirFromCache()
+  }
+
+  private void removeFileFromCache( File aImageFile ) {
+    // TODO TsThumbManager.removeFileFromCache()
+  }
+
+  
 
   // ------------------------------------------------------------------------------------
   // API
@@ -217,10 +223,17 @@ public class TsThumbManager
   }
 
   @Override
-  public void refreshThumbs( File aImageFile, boolean aForceCreate ) {
-
-    // TODO Auto-generated method stub
-
+  public void refreshCache( File aFileOrDir ) {
+    TsNullArgumentRtException.checkNull( aFileOrDir );
+    // delete all related thumb files
+    deleteThumbFiles( aFileOrDir );
+    // remove images from cache
+    if( TsThumbManagerUtils.isDir( aFileOrDir ) ) {
+      removeDirFromCache( aFileOrDir );
+    }
+    else {
+      removeFileFromCache( aFileOrDir );
+    }
   }
 
   @Override

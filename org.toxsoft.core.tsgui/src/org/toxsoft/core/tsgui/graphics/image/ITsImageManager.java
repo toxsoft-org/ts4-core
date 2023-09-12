@@ -29,7 +29,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Ссылка на экземпляр этого класса должен находится в контексте приложения.
  * <p>
  * Внимание: для работы функционала создания файлового кеша миниатюр в системе должна быть установлена программа <a
- * href=http://www.graphicsmagick.org>graphicsmagic</a>.
+ * href=http://www.graphicsmagick.org>graphicsmagick</a>.
  * <p>
  * TODO maybe use common (application level) cache for all instances of image manager?
  *
@@ -37,62 +37,108 @@ import org.toxsoft.core.tslib.utils.errors.*;
  */
 public interface ITsImageManager {
 
-  /**
-   * Задает параметры кеширования.
-   * <p>
-   * Изменение параметров приводит к сбросу кеша.
-   * <p>
-   * Если задать слишком большое или маленькое количество элементов кеша в памяти, они будут сброшены во внутренные
-   * ограничители.
-   *
-   * @param aMaxImagesInMemory int - максимальное количество изображений в памяти
-   * @throws TsNullArgumentRtException любой аргумент = null
-   */
-  void setup( int aMaxImagesInMemory );
+  // ------------------------------------------------------------------------------------
+  // API with image descriptors
+  //
 
   /**
-   * Определяет, есть ли изображение в кеше.
+   * Determines if image is already created and cached.
    *
-   * @param aImageFile {@link File} - файл изображения
-   * @return boolean - признак находждения изображения в кеше
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aDescriptor {@link TsImageDescriptor} - the image descriptor
+   * @return boolean - <code>true</code> if image is cached
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  boolean isCached( TsImageDescriptor aDescriptor );
+
+  /**
+   * Returns the cached image.
+   * <p>
+   * If the image source does not exists then method returns the default "unknown" image.
+   *
+   * @param aDescriptor {@link TsImageDescriptor} - the image descriptor
+   * @return {@link TsImage} - cached image or the unknown image
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException unknown kind of image source
+   * @throws TsRuntimeException various exceptions specific to the image source kind
+   */
+  TsImage getImage( TsImageDescriptor aDescriptor );
+
+  // ------------------------------------------------------------------------------------
+  // API with File
+  //
+
+  /**
+   * Determines if image is already created and cached.
+   *
+   * @param aImageFile {@link File} - the image file
+   * @return boolean - <code>true</code> if image is cached
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   boolean isCached( File aImageFile );
 
   /**
-   * Возвращает кешированное изображение файла.
+   * Returns the cached image.
    *
-   * @param aImageFile {@link File} - файл изображения
-   * @return {@link TsImage} - кешированное изображение или null, если нет такого файла или его нельзя загрузить
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aImageFile {@link File} - the image file
+   * @return {@link TsImage} - cached image or <code>null</code> if file can't be loaded or cached
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   TsImage findImage( File aImageFile );
 
   /**
-   * Возвращает кешированное изображение файла.
+   * Returns the cached image.
    *
-   * @param aImageFile {@link File} - файл изображения
-   * @return {@link TsImage} - кешированное изображение
-   * @throws TsNullArgumentRtException аргумент = null
-   * @throws TsNotAllEnumsUsedRtException нет такого файла или его нельзя загрузить
+   * @param aImageFile {@link File} - the image file
+   * @return {@link TsImage} - cached image
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException file can't be loaded or cached
    */
   TsImage getImage( File aImageFile );
 
   /**
-   * Обновляет кеш значков и изображений для указанного файла или директория.
+   * Updates the image cache for the specified file or directory.
    * <p>
-   * Если указанный файловый объект не существует, он отрабатывается как только что удаленный из фйловой системы.
+   * For directories all files in directory will be processed non-recursively.
+   * <p>
+   * If the specified file object does not exist, it is treated as if it had just been removed from the file system.
    *
-   * @param aFileOrDir {@link File} - файл или директория изображений, чей кеш будет обновлен
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aFileOrDir {@link File} - file or directory of images whose cache will be updated
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void refreshCache( File aFileOrDir );
 
+  // ------------------------------------------------------------------------------------
+  // common API
+  //
+
   /**
-   * Сбрасывает кеш.
+   * Sets the manager configuration.
    * <p>
-   * TODO Что c дисковым кешем?
+   * Reducing the maximum number of images in memory will cause "old" images to be disposed.
+   * <p>
+   * The argument value is "fit" to the reasonable range.
+   *
+   * @param aMaxImagesInMemory int - maximum number of images in the cache
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  void setup( int aMaxImagesInMemory );
+
+  /**
+   * Resets (clears) the cache disposing all previously loaded images.
    */
   void clearCache();
+
+  /**
+   * Creates the new instance of the small image, to be used if any requested image can not be created.
+   * <p>
+   * Unknown image is a red square on the white background. Image is of specified size and red square edges will be half
+   * of the image size. Too big or too small image size will be fit in the reasonable range.
+   * <p>
+   * Call is responsible for returned image disposal.
+   *
+   * @param aImageSize int - size in pixels of the creates square image
+   * @return {@link TsImage} - new instance of the "unknown" image
+   */
+  TsImage createUnknownImage( int aImageSize );
 
 }

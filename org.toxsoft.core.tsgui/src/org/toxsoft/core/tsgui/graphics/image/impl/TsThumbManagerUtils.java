@@ -1,13 +1,12 @@
 package org.toxsoft.core.tsgui.graphics.image.impl;
 
-import java.io.File;
+import java.io.*;
 
 import org.toxsoft.core.tsgui.graphics.image.*;
-import org.toxsoft.core.tsgui.utils.IMediaFileConstants;
-import org.toxsoft.core.tslib.utils.TsMiscUtils;
-import org.toxsoft.core.tslib.utils.errors.TsIoRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.files.TsFileUtils;
+import org.toxsoft.core.tsgui.utils.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.files.*;
 
 /**
  * Вспомогательные методы для {@link ITsImageManager}.
@@ -16,7 +15,7 @@ import org.toxsoft.core.tslib.utils.files.TsFileUtils;
  *
  * @author hazard157
  */
-public class TsImageManagerUtils {
+public class TsThumbManagerUtils {
 
   /**
    * Название исполняемой программы GraphicsMagick.
@@ -201,10 +200,27 @@ public class TsImageManagerUtils {
     return true;
   }
 
+  static boolean isDir( File aFileOrDir ) {
+    if( aFileOrDir.exists() ) {
+      return aFileOrDir.isDirectory();
+    }
+    String fodName = aFileOrDir.getName();
+    if( fodName.isBlank() ) {
+      return false;
+    }
+    if( fodName.charAt( fodName.length() - 1 ) == File.separatorChar ) {
+      return true;
+    }
+    if( IMediaFileConstants.hasImageExtension( fodName ) ) {
+      return false;
+    }
+    return true;
+  }
+
   /**
-   * Запрет на создание экземпляров.
+   * No subclasses.
    */
-  private TsImageManagerUtils() {
+  private TsThumbManagerUtils() {
     // nop
   }
 

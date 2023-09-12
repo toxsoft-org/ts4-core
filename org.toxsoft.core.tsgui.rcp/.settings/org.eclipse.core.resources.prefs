@@ -1,4 +1,6 @@
 eclipse.preferences.version=1
+encoding//src/org/toxsoft/core/tsgui/rcp/graphics/images/messages_ka_GE.properties=UTF-8
+encoding//src/org/toxsoft/core/tsgui/rcp/graphics/images/messages_ru_RU.properties=UTF-8
 encoding//src/org/toxsoft/core/tsgui/rcp/utils/messages_ka_GE.properties=UTF-8
 encoding//src/org/toxsoft/core/tsgui/rcp/utils/messages_ru_RU.properties=UTF-8
 encoding//src/org/toxsoft/core/tsgui/rcp/valed/messages.properties=UTF-8

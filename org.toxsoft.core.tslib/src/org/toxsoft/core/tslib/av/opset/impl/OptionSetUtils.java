@@ -25,7 +25,7 @@ public class OptionSetUtils {
   /**
    * Creates an editable option set from id / value pairs array.
    * <p>
-   * Argumnet must be the array of even number of elements. For each entry in option set first element is {@link String}
+   * Argument must be the array of even number of elements. For each entry in option set first element is {@link String}
    * or {@link IStridable} identifier. Second element must be an {@link IAtomicValue} or object converable to the atomic
    * value via {@link AvUtils#avFromObj(Object)}.
    *

@@ -2,6 +2,8 @@ package org.toxsoft.core.tsgui.rcp;
 
 import org.eclipse.e4.core.contexts.*;
 import org.toxsoft.core.tsgui.bricks.quant.*;
+import org.toxsoft.core.tsgui.graphics.image.*;
+import org.toxsoft.core.tsgui.rcp.graphics.images.*;
 import org.toxsoft.core.tsgui.rcp.valed.*;
 import org.toxsoft.core.tsgui.valed.api.*;
 
@@ -18,7 +20,7 @@ public class QuantTsGuiRcp
    */
   public QuantTsGuiRcp() {
     super( QuantTsGuiRcp.class.getSimpleName() );
-    // HERE any Valobj registrations
+    TsImageDescriptor.registerImageSourceKind( TsImageSourceKindFile.INSTANCE );
   }
 
   @Override

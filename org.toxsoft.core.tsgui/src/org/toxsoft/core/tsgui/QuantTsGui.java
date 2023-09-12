@@ -52,11 +52,11 @@ public class QuantTsGui
     aWinContext.set( ValedControlFactoriesRegistry.class, registry );
     //
     Display display = aWinContext.get( Display.class );
+    ITsGuiContext ctx = new TsGuiContext( aWinContext );
     aWinContext.set( ITsIconManager.class, new TsIconManager( aWinContext ) );
-    aWinContext.set( ITsImageManager.class, new TsImageManager( aWinContext ) );
+    aWinContext.set( ITsImageManager.class, new TsImageManager( ctx ) );
     aWinContext.set( ITsThumbManager.class, new TsThumbManager( aWinContext ) );
-    ITsGuiContext ctx1 = new TsGuiContext( aWinContext );
-    ITsGuiTimersService timerService = new TsGuiTimersService( ctx1 );
+    ITsGuiTimersService timerService = new TsGuiTimersService( ctx );
     // HERE may set up timer service periods
     aWinContext.set( ITsGuiTimersService.class, timerService );
     aWinContext.set( ITsColorManager.class, new TsColorManager( display ) );

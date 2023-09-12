@@ -3,6 +3,7 @@ package org.toxsoft.core.tsgui.graphics.icons.impl;
 import static org.toxsoft.core.tsgui.graphics.icons.ITsIconManager.*;
 import static org.toxsoft.core.tslib.utils.errors.TsErrorUtils.*;
 
+import java.io.*;
 import java.net.*;
 
 import org.eclipse.core.runtime.*;
@@ -13,6 +14,7 @@ import org.eclipse.swt.graphics.*;
 import org.eclipse.ui.plugin.*;
 import org.toxsoft.core.tsgui.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tsgui.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 // TODO TRANSLATE

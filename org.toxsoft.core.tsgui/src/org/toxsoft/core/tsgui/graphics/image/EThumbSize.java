@@ -62,8 +62,8 @@ public enum EThumbSize
     id = aId;
     size = aSize;
     Integer sz = Integer.valueOf( size );
-    name = String.format( FMT_N_THUMB_SIZE, sz, sz );
-    description = String.format( FMT_D_THUMB_SIZE, sz, sz );
+    name = String.format( FMT_THUMB_SIZE, sz, sz );
+    description = String.format( FMT_THUMB_SIZE_D, sz, sz );
     pointSize = new TsPoint( aSize, aSize );
   }
 
