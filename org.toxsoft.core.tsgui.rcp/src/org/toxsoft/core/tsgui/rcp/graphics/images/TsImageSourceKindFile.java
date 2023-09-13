@@ -26,16 +26,6 @@ public class TsImageSourceKindFile
     extends AbstractTsImageSourceKind {
 
   /**
-   * The kind ID.
-   */
-  public static final String KIND_ID = "file"; //$NON-NLS-1$
-
-  /**
-   * The singleton instance.
-   */
-  public static final ITsImageSourceKind INSTANCE = new TsImageSourceKindFile();
-
-  /**
    * Option: path to the image file.
    */
   public static final IDataDef OPDEF_FILE_PATH = DataDef.create( "path", STRING, //$NON-NLS-1$
@@ -45,6 +35,16 @@ public class TsImageSourceKindFile
       IValedFileConstants.OPDEF_IS_OPEN_DIALOG, AV_TRUE, //
       TSID_DEFAULT_VALUE, AV_STR_EMPTY //
   );
+
+  /**
+   * The kind ID.
+   */
+  public static final String KIND_ID = "file"; //$NON-NLS-1$
+
+  /**
+   * The singleton instance.
+   */
+  public static final ITsImageSourceKind INSTANCE = new TsImageSourceKindFile();
 
   private static final int SIZE_OF_THE_MISSING_FILE_IMAGE = 32;
 

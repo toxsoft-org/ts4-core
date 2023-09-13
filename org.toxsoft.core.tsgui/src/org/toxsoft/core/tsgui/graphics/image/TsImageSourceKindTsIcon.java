@@ -27,16 +27,6 @@ public class TsImageSourceKindTsIcon
     extends AbstractTsImageSourceKind {
 
   /**
-   * The kind ID.
-   */
-  public static final String KIND_ID = "tsicon"; //$NON-NLS-1$
-
-  /**
-   * The singleton instance.
-   */
-  public static final ITsImageSourceKind INSTANCE = new TsImageSourceKindTsIcon();
-
-  /**
    * Option: the icon ID.
    */
   public static final IDataDef OPDEF_ICON_ID = DataDef.create( "iconId", STRING, //$NON-NLS-1$
@@ -58,6 +48,16 @@ public class TsImageSourceKindTsIcon
       TSID_IS_NULL_ALLOWED, AV_FALSE, //
       TSID_DEFAULT_VALUE, avValobj( EIconSize.IS_48X48 ) //
   );
+
+  /**
+   * The kind ID.
+   */
+  public static final String KIND_ID = "tsicon"; //$NON-NLS-1$
+
+  /**
+   * The singleton instance.
+   */
+  public static final ITsImageSourceKind INSTANCE = new TsImageSourceKindTsIcon();
 
   private TsImageSourceKindTsIcon() {
     super( KIND_ID, OptionSetUtils.createOpSet( //

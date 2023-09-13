@@ -29,16 +29,6 @@ public class TsImageSourceKindPlugin
     extends AbstractTsImageSourceKind {
 
   /**
-   * The kind ID.
-   */
-  public static final String KIND_ID = "plugin"; //$NON-NLS-1$
-
-  /**
-   * The singleton instance.
-   */
-  public static final ITsImageSourceKind INSTANCE = new TsImageSourceKindPlugin();
-
-  /**
    * Option: the plugin ID.
    */
   public static final IDataDef OPDEF_PLUGIN_ID = DataDef.create( "pluginId", STRING, //$NON-NLS-1$
@@ -59,6 +49,16 @@ public class TsImageSourceKindPlugin
       TSID_IS_NULL_ALLOWED, AV_FALSE, //
       TSID_DEFAULT_VALUE, IAtomicValue.NULL //
   );
+
+  /**
+   * The kind ID.
+   */
+  public static final String KIND_ID = "plugin"; //$NON-NLS-1$
+
+  /**
+   * The singleton instance.
+   */
+  public static final ITsImageSourceKind INSTANCE = new TsImageSourceKindPlugin();
 
   private static final int SIZE_OF_THE_MISSING_RESOURCE_IMAGE = 32;
 

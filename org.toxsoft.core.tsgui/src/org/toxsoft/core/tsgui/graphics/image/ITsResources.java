@@ -21,6 +21,12 @@ interface ITsResources {
   String FMT_THUMB_SIZE_D = Messages.getString( "FMT_THUMB_SIZE_D" ); //$NON-NLS-1$
 
   /**
+   * {@link TsImageSourceKindNone}
+   */
+  String STR_SRCKIND_NONE   = Messages.getString( "STR_SRCKIND_NONE" );   //$NON-NLS-1$
+  String STR_SRCKIND_NONE_D = Messages.getString( "STR_SRCKIND_NONE_D" ); //$NON-NLS-1$
+
+  /**
    * {@link TsImageSourceKindPlugin}
    */
   String STR_SRCKIND_PLUGIN         = Messages.getString( "STR_SRCKIND_PLUGIN" );         //$NON-NLS-1$

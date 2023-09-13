@@ -26,16 +26,6 @@ public class TsImageSourceKindUrl
     extends AbstractTsImageSourceKind {
 
   /**
-   * The kind ID.
-   */
-  public static final String KIND_ID = "url"; //$NON-NLS-1$
-
-  /**
-   * The singleton instance.
-   */
-  public static final ITsImageSourceKind INSTANCE = new TsImageSourceKindUrl();
-
-  /**
    * Option: .
    */
   public static final IDataDef OPDEF_URL_STRING = DataDef.create( "url", STRING, //$NON-NLS-1$
@@ -45,6 +35,16 @@ public class TsImageSourceKindUrl
       TSID_IS_NULL_ALLOWED, AV_FALSE, //
       TSID_DEFAULT_VALUE, IAtomicValue.NULL //
   );
+
+  /**
+   * The kind ID.
+   */
+  public static final String KIND_ID = "url"; //$NON-NLS-1$
+
+  /**
+   * The singleton instance.
+   */
+  public static final ITsImageSourceKind INSTANCE = new TsImageSourceKindUrl();
 
   private TsImageSourceKindUrl() {
     super( KIND_ID, OptionSetUtils.createOpSet( //
