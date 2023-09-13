@@ -26,13 +26,6 @@ public final class TsImageDescriptor
   private static final long serialVersionUID = 8007296849090328037L;
 
   /**
-   * Constant of the absent image.
-   * <p>
-   * In fact the unknown image {@link ITsImageManager#createUnknownImage(int)} will be displayed.
-   */
-  public static final TsImageDescriptor NONE = new TsImageDescriptor( TsImageSourceKindNone.KIND_ID, IOptionSet.NULL );
-
-  /**
    * Registered keeper ID.
    */
   public static final String KEEPER_ID = "TsImageDescriptor"; //$NON-NLS-1$
@@ -67,6 +60,13 @@ public final class TsImageDescriptor
     kindsById.put( TsImageSourceKindTsIcon.KIND_ID, TsImageSourceKindTsIcon.INSTANCE );
     kindsById.put( TsImageSourceKindUrl.KIND_ID, TsImageSourceKindUrl.INSTANCE );
   }
+
+  /**
+   * Constant of the absent image.
+   * <p>
+   * In fact the unknown image {@link ITsImageManager#createUnknownImage(int)} will be displayed.
+   */
+  public static final TsImageDescriptor NONE = new TsImageDescriptor( TsImageSourceKindNone.KIND_ID, IOptionSet.NULL );
 
   private final String     kindId;
   private final IOptionSet params;
