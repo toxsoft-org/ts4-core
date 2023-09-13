@@ -62,6 +62,7 @@ public final class TsImageDescriptor
   private static final IStringMapEdit<ITsImageSourceKind> kindsById = new SynchronizedStringMap<>( new StringMap<>() );
 
   {
+    kindsById.put( TsImageSourceKindNone.KIND_ID, TsImageSourceKindNone.INSTANCE );
     kindsById.put( TsImageSourceKindPlugin.KIND_ID, TsImageSourceKindPlugin.INSTANCE );
     kindsById.put( TsImageSourceKindTsIcon.KIND_ID, TsImageSourceKindTsIcon.INSTANCE );
     kindsById.put( TsImageSourceKindUrl.KIND_ID, TsImageSourceKindUrl.INSTANCE );
