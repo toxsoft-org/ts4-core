@@ -56,4 +56,12 @@ interface ITsResources {
   String STR_L_LINE_TYPE   = "тип линии: ";
   String STR_L_CAP_TYPE    = "тип окончания: ";
   String STR_L_JOIN_TYPE   = "тип соедиения: ";
+
+  /**
+   * {@link PanelTsImageDescriptorEditor}
+   */
+  String DLG_T_IMAGE_DESCRIPTOR   = "Параметры дескриптора изображения";
+  String STR_MSG_IMAGE_DESCRIPTOR = "Задайте требуемые значения и нажмите \"OK\"";
+  String STR_L_IMG_FILL_KIND      = "Тип: ";
+  String STR_B_IMG_DESCR_EDIT     = "Изменить...";
 }
