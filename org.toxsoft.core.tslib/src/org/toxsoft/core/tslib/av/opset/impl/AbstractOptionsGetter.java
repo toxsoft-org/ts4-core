@@ -33,9 +33,16 @@ public abstract class AbstractOptionsGetter
   protected abstract IAtomicValue doInternalFind( String aId );
 
   // ------------------------------------------------------------------------------------
-  // Implementation
+  // implementation
   //
 
+  /**
+   * Wraps over {@link #doInternalFind(String)} just adding <code>null</code> argument check.
+   *
+   * @param aId String - the option ID
+   * @return {@link IAtomicValue} - result of {@link #doInternalFind(String)}
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
   final protected IAtomicValue internalFind( String aId ) {
     if( aId == null ) {
       throw new TsNullArgumentRtException();
@@ -43,6 +50,14 @@ public abstract class AbstractOptionsGetter
     return doInternalFind( aId );
   }
 
+  /**
+   * Wraps over {@link #internalFind(String)} just adding <code>null</code> return value check.
+   *
+   * @param aId String - the option ID
+   * @return {@link IAtomicValue} - result of {@link #doInternalFind(String)}, never is null
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException if {@link #internalFind(String)} returns <code>null</code>
+   */
   final protected IAtomicValue internalGet( String aId ) {
     IAtomicValue av = internalFind( aId );
     if( av == null ) {
@@ -51,20 +66,43 @@ public abstract class AbstractOptionsGetter
     return av;
   }
 
+  /**
+   * Wraps over {@link #internalFind(String)} adding returned value atomic type check.
+   * <p>
+   * If returned value is not <code>null</code> and is not {@link IAtomicValue#NULL NULL}, then checks if returned value
+   * type is of expected type <code>aAtomicType</code>.
+   *
+   * @param aId String - the option ID
+   * @param aAtomicType {@link EAtomicType} - the expected type
+   * @return {@link IAtomicValue} - found value of expected type or <code>null</code> or {@link IAtomicValue#NULL NULL}
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws AvTypeCastRtException returned meaningful value is not of expected type
+   */
   final protected IAtomicValue internalFindAs( String aId, EAtomicType aAtomicType ) {
     if( aAtomicType == null ) {
       throw new TsNullArgumentRtException();
     }
     IAtomicValue av = internalFind( aId );
-    if( av != null ) {
-      if( av != IAtomicValue.NULL ) {
-        AvTypeCastRtException.checkFalse( av.atomicType() == aAtomicType, FMT_ERR_CANT_CAST_OPSET_VALUE, aId,
-            av.atomicType().id(), aAtomicType.id() );
-      }
+    if( av != null && av != IAtomicValue.NULL ) {
+      AvTypeCastRtException.checkFalse( av.atomicType() == aAtomicType, FMT_ERR_CANT_CAST_OPSET_VALUE, aId,
+          av.atomicType().id(), aAtomicType.id() );
     }
     return av;
   }
 
+  /**
+   * Wraps over {@link #internalGet(String)} adding returned value atomic type check.
+   * <p>
+   * If returned value is not {@link IAtomicValue#NULL NULL}, then checks if returned value type is of expected type
+   * <code>aAtomicType</code>.
+   *
+   * @param aId String - the option ID
+   * @param aAtomicType {@link EAtomicType} - the expected type
+   * @return {@link IAtomicValue} - found value of expected type or <code>null</code> or {@link IAtomicValue#NULL NULL}
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException if {@link #internalFind(String)} returns <code>null</code>
+   * @throws AvTypeCastRtException returned meaningful value is not of expected type
+   */
   final protected IAtomicValue internalGetAs( String aId, EAtomicType aAtomicType ) {
     if( aAtomicType == null ) {
       throw new TsNullArgumentRtException();
@@ -77,6 +115,18 @@ public abstract class AbstractOptionsGetter
     return av;
   }
 
+  /**
+   * Wraps over {@link #internalFindAs(String, EAtomicType)} adding argument check for <code>null</code>.
+   * <p>
+   * If returned value is not <code>null</code> and is not {@link IAtomicValue#NULL NULL}, then checks if returned value
+   * type is of expected type <code>aAtomicType</code>.
+   *
+   * @param aOpId {@link IStridable} - the option ID
+   * @param aAtomicType {@link EAtomicType} - the expected type
+   * @return {@link IAtomicValue} - found value of expected type or <code>null</code> or {@link IAtomicValue#NULL NULL}
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws AvTypeCastRtException returned meaningful value is not of expected type
+   */
   final protected IAtomicValue internalFindAs( IStridable aOpId, EAtomicType aAtomicType ) {
     if( aOpId == null ) {
       throw new TsNullArgumentRtException();
@@ -84,6 +134,19 @@ public abstract class AbstractOptionsGetter
     return internalFindAs( aOpId.id(), aAtomicType );
   }
 
+  /**
+   * Wraps over {@link #internalGetAs(IStridable, EAtomicType)} adding argument check for <code>null</code>.
+   * <p>
+   * If returned value is not {@link IAtomicValue#NULL NULL}, then checks if returned value type is of expected type
+   * <code>aAtomicType</code>.
+   *
+   * @param aOpId {@link IStridable} - the option ID
+   * @param aAtomicType {@link EAtomicType} - the expected type
+   * @return {@link IAtomicValue} - found value of expected type or {@link IAtomicValue#NULL NULL}
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException if {@link #internalFind(String)} returns <code>null</code>
+   * @throws AvTypeCastRtException returned meaningful value is not of expected type
+   */
   final protected IAtomicValue internalGetAs( IStridable aOpId, EAtomicType aAtomicType ) {
     if( aOpId == null ) {
       throw new TsNullArgumentRtException();
@@ -134,6 +197,9 @@ public abstract class AbstractOptionsGetter
     return internalFind( aOpId.id() );
   }
 
+  // ------------------------------------------------------------------------------------
+  // getValue
+
   @Override
   public IAtomicValue getValue( String aId ) {
     return internalGet( aId );
@@ -157,6 +223,9 @@ public abstract class AbstractOptionsGetter
     return av;
   }
 
+  // ------------------------------------------------------------------------------------
+  // getBool
+
   @Override
   public boolean getBool( String aId ) {
     return internalGetAs( aId, EAtomicType.BOOLEAN ).asBool();
@@ -165,7 +234,8 @@ public abstract class AbstractOptionsGetter
   @Override
   public boolean getBool( String aId, boolean aDefaultValue ) {
     IAtomicValue av = internalFindAs( aId, EAtomicType.BOOLEAN );
-    if( av == null ) {
+    // the same check as #isNull(aId)
+    if( av == null || av == IAtomicValue.NULL ) {
       return aDefaultValue;
     }
     return av.asBool();
@@ -174,11 +244,17 @@ public abstract class AbstractOptionsGetter
   @Override
   public boolean getBool( IDataDef aOpId ) {
     IAtomicValue av = internalFindAs( aOpId, EAtomicType.BOOLEAN );
-    if( av == null ) {
-      return aOpId.defaultValue().asBool();
+    if( av != null && av != IAtomicValue.NULL ) {
+      return av.asBool();
     }
-    return av.asBool();
+    if( av == null && aOpId.isMandatory() ) {
+      throw new TsItemNotFoundRtException( FMT_ERR_NO_MANDATORY_OP, aOpId.id(), aOpId.nmName() );
+    }
+    return aOpId.defaultValue().asBool();
   }
+
+  // ------------------------------------------------------------------------------------
+  // getInt
 
   @Override
   public int getInt( String aId ) {
@@ -197,11 +273,17 @@ public abstract class AbstractOptionsGetter
   @Override
   public int getInt( IDataDef aOpId ) {
     IAtomicValue av = internalFindAs( aOpId, EAtomicType.INTEGER );
-    if( av == null ) {
-      return aOpId.defaultValue().asInt();
+    if( av != null && av != IAtomicValue.NULL ) {
+      return av.asInt();
     }
-    return av.asInt();
+    if( av == null && aOpId.isMandatory() ) {
+      throw new TsItemNotFoundRtException( FMT_ERR_NO_MANDATORY_OP, aOpId.id(), aOpId.nmName() );
+    }
+    return aOpId.defaultValue().asInt();
   }
+
+  // ------------------------------------------------------------------------------------
+  // getLong
 
   @Override
   public long getLong( String aId ) {
@@ -220,11 +302,17 @@ public abstract class AbstractOptionsGetter
   @Override
   public long getLong( IDataDef aOpId ) {
     IAtomicValue av = internalFindAs( aOpId, EAtomicType.INTEGER );
-    if( av == null ) {
-      return aOpId.defaultValue().asLong();
+    if( av != null && av != IAtomicValue.NULL ) {
+      return av.asLong();
     }
-    return av.asLong();
+    if( av == null && aOpId.isMandatory() ) {
+      throw new TsItemNotFoundRtException( FMT_ERR_NO_MANDATORY_OP, aOpId.id(), aOpId.nmName() );
+    }
+    return aOpId.defaultValue().asLong();
   }
+
+  // ------------------------------------------------------------------------------------
+  // getFloat
 
   @Override
   public float getFloat( String aId ) {
@@ -243,11 +331,17 @@ public abstract class AbstractOptionsGetter
   @Override
   public float getFloat( IDataDef aOpId ) {
     IAtomicValue av = internalFindAs( aOpId, EAtomicType.FLOATING );
-    if( av == null ) {
-      return aOpId.defaultValue().asFloat();
+    if( av != null && av != IAtomicValue.NULL ) {
+      return av.asFloat();
     }
-    return av.asFloat();
+    if( av == null && aOpId.isMandatory() ) {
+      throw new TsItemNotFoundRtException( FMT_ERR_NO_MANDATORY_OP, aOpId.id(), aOpId.nmName() );
+    }
+    return aOpId.defaultValue().asFloat();
   }
+
+  // ------------------------------------------------------------------------------------
+  // getDouble
 
   @Override
   public double getDouble( String aId ) {
@@ -266,11 +360,17 @@ public abstract class AbstractOptionsGetter
   @Override
   public double getDouble( IDataDef aOpId ) {
     IAtomicValue av = internalFindAs( aOpId, EAtomicType.FLOATING );
-    if( av == null ) {
-      return aOpId.defaultValue().asDouble();
+    if( av != null && av != IAtomicValue.NULL ) {
+      return av.asDouble();
     }
-    return av.asDouble();
+    if( av == null && aOpId.isMandatory() ) {
+      throw new TsItemNotFoundRtException( FMT_ERR_NO_MANDATORY_OP, aOpId.id(), aOpId.nmName() );
+    }
+    return aOpId.defaultValue().asDouble();
   }
+
+  // ------------------------------------------------------------------------------------
+  // getTime
 
   @Override
   public long getTime( String aId ) {
@@ -289,11 +389,17 @@ public abstract class AbstractOptionsGetter
   @Override
   public long getTime( IDataDef aOpId ) {
     IAtomicValue av = internalFindAs( aOpId, EAtomicType.INTEGER );
-    if( av == null ) {
-      return aOpId.defaultValue().asLong();
+    if( av != null && av != IAtomicValue.NULL ) {
+      return av.asLong();
     }
-    return av.asLong();
+    if( av == null && aOpId.isMandatory() ) {
+      throw new TsItemNotFoundRtException( FMT_ERR_NO_MANDATORY_OP, aOpId.id(), aOpId.nmName() );
+    }
+    return aOpId.defaultValue().asLong();
   }
+
+  // ------------------------------------------------------------------------------------
+  // getStr
 
   @Override
   public String getStr( String aId ) {
@@ -312,11 +418,17 @@ public abstract class AbstractOptionsGetter
   @Override
   public String getStr( IDataDef aOpId ) {
     IAtomicValue av = internalFindAs( aOpId, EAtomicType.STRING );
-    if( av == null ) {
-      return aOpId.defaultValue().asString();
+    if( av != null && av != IAtomicValue.NULL ) {
+      return av.asString();
     }
-    return av.asString();
+    if( av == null && aOpId.isMandatory() ) {
+      throw new TsItemNotFoundRtException( FMT_ERR_NO_MANDATORY_OP, aOpId.id(), aOpId.nmName() );
+    }
+    return aOpId.defaultValue().asString();
   }
+
+  // ------------------------------------------------------------------------------------
+  // getValobj
 
   @Override
   public <T> T getValobj( String aId ) {
@@ -335,10 +447,13 @@ public abstract class AbstractOptionsGetter
   @Override
   public <T> T getValobj( IDataDef aOpId ) {
     IAtomicValue av = internalFindAs( aOpId, EAtomicType.VALOBJ );
-    if( av == null ) {
-      return aOpId.defaultValue().asValobj();
+    if( av != null && av != IAtomicValue.NULL ) {
+      return av.asValobj();
     }
-    return av.asValobj();
+    if( av == null && aOpId.isMandatory() ) {
+      throw new TsItemNotFoundRtException( FMT_ERR_NO_MANDATORY_OP, aOpId.id(), aOpId.nmName() );
+    }
+    return aOpId.defaultValue().asValobj();
   }
 
 }

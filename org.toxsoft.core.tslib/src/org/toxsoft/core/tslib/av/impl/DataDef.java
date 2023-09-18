@@ -422,7 +422,7 @@ public final class DataDef
     if( value == null ) {
       value = IAtomicValue.NULL;
     }
-    AvTypeCastRtException.checkCanAssign( atomicType(), aValue.atomicType() );
+    AvTypeCastRtException.checkCanAssign( atomicType(), value.atomicType() );
     aOps.setValue( id(), aValue );
   }
 

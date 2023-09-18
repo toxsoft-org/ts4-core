@@ -1,11 +1,9 @@
 package org.toxsoft.core.tslib.av.opset;
 
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.errors.AvTypeCastRtException;
-import org.toxsoft.core.tslib.av.metainfo.IDataDef;
-import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.errors.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Mixin interface to extract different kind of identified values from the set.
@@ -52,7 +50,7 @@ public interface IOpsGetter {
    * @return boolean - NULL option flag<br>
    *         <b>true</b> - either set does not contains specified option, or option value is
    *         {@link IAtomicValue#NULL};<br>
-   *         <b>false</b> - set contains specsified option with value not {@link IAtomicValue#NULL}.
+   *         <b>false</b> - set contains specified option with value not {@link IAtomicValue#NULL}.
    */
   boolean isNull( IDataDef aOpId );
 

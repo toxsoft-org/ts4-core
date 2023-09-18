@@ -96,8 +96,8 @@ public interface IDataDef
   /**
    * Returns the value of the option with identifier {@link #id()}.
    * <p>
-   * Method behavior when set does not contains the value with identifier {@link #id()} depends on the mandatory flag
-   * {@link #isMandatory()} state:
+   * Method behavior when option set does not contains the value with identifier {@link #id()} depends on the mandatory
+   * flag {@link #isMandatory()} state:
    * <ul>
    * <li>for mandatory options throws an exception {@link TsItemNotFoundRtException};</li>
    * <li>for non-mandatory options returns {@link #defaultValue()}.</li>
