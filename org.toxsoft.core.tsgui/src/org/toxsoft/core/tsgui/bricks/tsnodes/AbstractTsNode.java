@@ -108,13 +108,10 @@ public abstract class AbstractTsNode<T>
   // API
   //
 
-  // TODO TRANSLATE
-
   /**
-   * Задает отображаемое имя узла.
+   * Sets the node display name.
    *
-   * @param aName String - название узла, может быть null
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aName String - the node display name, may be <code>null</code>
    */
   public void setName( String aName ) {
     name = aName;
@@ -130,10 +127,10 @@ public abstract class AbstractTsNode<T>
   }
 
   /**
-   * Задает новую сущность.
+   * Changes the reference to the entity stored in the node.
    *
-   * @param aEntity &lt;T&gt; - новая сущность
-   * @throws ClassCastException аргумент не явлсетя экземпляром класса {@link ITsNodeKind#entityClass()}
+   * @param aEntity &lt;T&gt; - new referemce, may be <code>null</code>
+   * @throws ClassCastException non-<code>null</code> argument is not of class {@link ITsNodeKind#entityClass()}
    */
   public final void setEntity( Object aEntity ) {
     entity = kind.entityClass().cast( aEntity );
@@ -144,7 +141,10 @@ public abstract class AbstractTsNode<T>
   //
 
   /**
-   * Указывает на необходимость обновть кеш дочерных узлов.
+   * Indicates that the cache of child nodes needs to be updated.
+   * <p>
+   * After call of this method list of childs will be requested to fill the cache, that is method {@link #doGetNodes()}
+   * will be called inside the {@link #childs()}.
    */
   protected void invalidateCache() {
     isChildsCached = false;
@@ -191,6 +191,18 @@ public abstract class AbstractTsNode<T>
     return parent;
   }
 
+  /**
+   * Returns the text to be displayed in the tree node.
+   * <p>
+   * The display name is determined in the following order:
+   * <ul>
+   * <li>string returned by {@link #doGetName()}, if not <code>null</code>;</li>
+   * <li>the {@link #name} field, if not <code>null</code>;</li>
+   * <li>{@link ITsNodeKind#getEntityName(Object)}, if not <code>null</code>;</li>
+   * <li>{@link Object#toString() entity.toString()} if {@link #entity} is not <code>null</code>;</li>
+   * <li>an empty string if everything above is <code>null</code>.</li>
+   * </ul>
+   */
   @Override
   public String name() {
     String s = doGetName();
@@ -250,7 +262,7 @@ public abstract class AbstractTsNode<T>
     if( Objects.equals( entity, aEntity ) ) {
       return this;
     }
-    // строим кеш только при запросе глубокого поиска
+    // rebuild the cache only when requesting a deep search
     if( aQuerySubtree ) {
       cacheChilds( true );
     }
@@ -277,50 +289,48 @@ public abstract class AbstractTsNode<T>
   }
 
   // ------------------------------------------------------------------------------------
-  // Для переопределения
+  // To override
   //
 
   /**
-   * Наследник должен сформировать список дочерних узлов.
+   * Subclass must create to list of child nodes.
    * <p>
-   * Метод вызывается ровно один раз за время жизни тех узлов, у которых {@link ITsNodeKind#canHaveChilds()} =
-   * <code>true</code>, для остальных узлов он вообще не вызывается.
+   * Never is called for nodes with {@link ITsNodeKind#canHaveChilds()} = <code>true</code>.
+   * <p>
+   * Returned childs are hold in the internal cache. Method {@link #childs()} returns cached nodes. However, cache
+   * rebuild may be explicitly queried with the methods {@link #invalidateCache()},
+   * {@link #rebuildSubtree(boolean, boolean)}, {@link #findByEntity(Object, boolean)}.
    *
    * @return IList&lt;{@link ITsNode}&gt; - список дочерних узлов
    */
   protected abstract IList<ITsNode> doGetNodes();
 
   /**
-   * Наследник может переопределить и вернуть отображаемое изображение.
+   * The subclass may override and return the display image.
    * <p>
-   * Аргумент является рекомендацией. Метод может вернуть изображение другого размера, что соответственно, отразится в
-   * отображении дерева.
-   * <p>
-   * В базовом классе возвращает null, при переопределении вызываеть не надо.
+   * Returns <code>null</code> in the base class; no need to call it when overridden.
    *
-   * @param aIconSize {@link EIconSize} - запрашиваемый размер изображения
-   * @return {@link Image} - изображение узла или <code>null</code>
+   * @param aIconSize {@link EIconSize} - requested image size
+   * @return {@link Image} - the image or null <code>null</code>
    */
   protected Image doGetImage( EIconSize aIconSize ) {
     return null;
   }
 
   /**
-   * Наследник может переопределить и вернуть отображаемое название.
+   * The subclass may override and return the display name.
    * <p>
-   * Возвращаемое значение не изменяет заданное методом {@link #setName(String)} имя. Как только этот метод вернет null,
-   * то метод {@link #name()} вернет заданное методом {@link #setName(String)} название.
-   * <p>
-   * В базовом классе возвращает null, при переопределении вызываеть не надо.
+   * Returns <code>null</code> in the base class; no need to call it when overridden.
    *
-   * @return String - название узла или null
+   * @return String - the node display name or <code>null</code>
+   * @see #name()
    */
   protected String doGetName() {
     return null;
   }
 
   // ------------------------------------------------------------------------------------
-  // Методы класса Object
+  // Object
   //
 
   @SuppressWarnings( "nls" )
@@ -330,28 +340,9 @@ public abstract class AbstractTsNode<T>
   }
 
   /**
-   * GOGA 2019-04-15 не следует переопределять equals() и hashCode(), два разных узла никогда не равны между собой, даже
-   * если содержат одну и ту же сущность. Ведь ITsNode всего-то оболочка, и, например, в узле вполне можно иметь два
-   * подузла с одинаковой текстовой строкой.
+   * GOGA 2019-04-15 equals() and hashCode() should not be overridden. Two different nodes are never equal, even if they
+   * contain the same entity. After all, ITsNode is just a wrapper, and, for example, in a node it is quite possible to
+   * have two sub-nodes with the same text string.
    */
-  // @Override
-  // public boolean equals( Object aThat ) {
-  // if( aThat == this ) {
-  // return true;
-  // }
-  // if( aThat instanceof ITsNode ) {
-  // ITsNode that = (ITsNode)aThat;
-  // return this.kind.equals( that.kind() ) && Objects.equals( this.entity, that.entity() );
-  // }
-  // return false;
-  // }
-  //
-  // @Override
-  // public int hashCode() {
-  // int result = CollectionsUtils.INITIAL_HASH_CODE;
-  // result = CollectionsUtils.PRIME * result + kind.hashCode();
-  // result = CollectionsUtils.PRIME * result + Objects.hashCode( entity );
-  // return result;
-  // }
 
 }
