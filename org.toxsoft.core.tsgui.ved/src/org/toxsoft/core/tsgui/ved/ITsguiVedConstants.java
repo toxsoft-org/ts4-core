@@ -21,11 +21,10 @@ public interface ITsguiVedConstants {
   // ------------------------------------------------------------------------------------
   // Icons
 
-  String PREFIX_OF_ICON_FIELD_NAME = "ICON_";         //$NON-NLS-1$
-  String ICON_VED_LOGO             = "ved-logo";      //$NON-NLS-1$
-  String ICON_VED_COMPONENT        = "ved-component"; //$NON-NLS-1$
-  String ICON_VED_ACTOR            = "ved-actor";     //$NON-NLS-1$
-  String ICON_VED_TAILOR           = "ved-tailor";    //$NON-NLS-1$
+  String PREFIX_OF_ICON_FIELD_NAME = "ICON_";     //$NON-NLS-1$
+  String ICON_VED_LOGO             = "ved-logo";  //$NON-NLS-1$
+  String ICON_VED_VISEL            = "ved-visel"; //$NON-NLS-1$
+  String ICON_VED_ACTOR            = "ved-actor"; //$NON-NLS-1$
 
   /**
    * Constants registration.
