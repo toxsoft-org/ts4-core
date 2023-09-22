@@ -135,10 +135,27 @@ public final class DataDef
    * @see OptionSetUtils#createOpSet(Object...)
    */
   public static DataDef create3( String aId, IDataType aDataType, Object... aIdsAndValues ) {
-    TsNullArgumentRtException.checkNulls( aDataType );
+    TsNullArgumentRtException.checkNull( aDataType );
     DataDef dd = new DataDef( aId, aDataType.atomicType(), aDataType.params() );
     IOptionSetEdit p = OptionSetUtils.createOpSet( aIdsAndValues );
     dd.params().addAll( p );
+    return dd;
+  }
+
+  /**
+   * Static constructor from {@link IDataType}.
+   *
+   * @param aId String - data identifier (IDpath)
+   * @param aDataType {@link IDataType} - data type
+   * @param aOverriddenParams {@link IOptionSet} - overriding and additional parameters
+   * @return {@link DataDef} - new instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException identifier is not an IDpath
+   */
+  public static DataDef create4( String aId, IDataType aDataType, IOptionSet aOverriddenParams ) {
+    TsNullArgumentRtException.checkNulls( aDataType, aOverriddenParams );
+    DataDef dd = new DataDef( aId, aDataType.atomicType(), aDataType.params() );
+    dd.params().addAll( aOverriddenParams );
     return dd;
   }
 
