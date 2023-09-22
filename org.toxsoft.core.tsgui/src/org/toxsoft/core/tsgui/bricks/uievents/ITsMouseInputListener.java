@@ -7,7 +7,7 @@ import org.toxsoft.core.tslib.bricks.geometry.*;
 /**
  * Mouse input event listener.
  * <p>
- * Note: implementation in tsgui is desgned to bind listener only to the SWT {@link Control}.
+ * Note: implementation in TsGUI is designed to bind listener only to the SWT {@link Control}.
  * <p>
  * Each method returns boolean flag. <code>true</code> means that event was handled by listener so there is no need to
  * call other listeners of the same event. All default implementations return <code>false</code>.
@@ -107,7 +107,7 @@ public interface ITsMouseInputListener {
    * <p>
    * On drag start {@link DragOperationInfo} instance is created and passed to all subsequent move, finish and cancel
    * events. Next drag will create next instance of {@link DragOperationInfo} class. User may set arbitrary reference as
-   * "cargo" of {@link DragOperationInfo} instance. For exaple, {@link DragOperationInfo#cargo()} may be an item user
+   * "cargo" of {@link DragOperationInfo} instance. For example, {@link DragOperationInfo#cargo()} may be an item user
    * may drag from one place to another.
    *
    * @param aSource Object - the event source
@@ -119,7 +119,7 @@ public interface ITsMouseInputListener {
   }
 
   /**
-   * Called when dragging is continueing - that is mouse is moving with button pressed.
+   * Called when dragging is continuing - that is mouse is moving with button pressed.
    *
    * @param aSource Object - the event source
    * @param aDragInfo {@link DragOperationInfo} - dragging information as introduced at start
@@ -147,8 +147,8 @@ public interface ITsMouseInputListener {
   /**
    * Called when dragging is cancelled by some action.
    * <p>
-   * In fact mouse may montinue moving with button pressed however dragging logical operation is cancelled. The\reason
-   * may be both programmatical and user action like pressing ESC key on keyboard.
+   * In fact mouse may continue moving with button pressed however dragging logical operation is cancelled. The\reason
+   * may be both programmatically and user action like pressing ESC key on keyboard.
    *
    * @param aSource Object - the event source
    * @param aDragInfo {@link DragOperationInfo} - dragging information as introduced at start

@@ -65,7 +65,7 @@ public interface ITinTypeInfo {
    * <p>
    * The <code>null</code> argument means default, that is initial value of the field must be returned.
    * <p>
-   * The argument mau contain only subset of the field values.
+   * The argument may contain only subset of the field values.
    *
    * @param aChildValues {@link IStringMap}&lt;{@link ITinValue}&gt; - map "field ID" - "value" or <code>null</code>
    * @return {@link IAtomicValue} - composed atomic value representation of the field value
