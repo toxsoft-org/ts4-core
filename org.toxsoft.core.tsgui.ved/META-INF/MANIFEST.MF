@@ -22,4 +22,8 @@ Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: org.toxsoft.core.tsgui.ved
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: toxsoft.org
-Export-Package: org.toxsoft.core.tsgui.ved
+Export-Package: org.toxsoft.core.tsgui.ved,
+ org.toxsoft.core.tsgui.ved.api,
+ org.toxsoft.core.tsgui.ved.api.cfg,
+ org.toxsoft.core.tsgui.ved.api.helpers,
+ org.toxsoft.core.tsgui.ved.api.items
