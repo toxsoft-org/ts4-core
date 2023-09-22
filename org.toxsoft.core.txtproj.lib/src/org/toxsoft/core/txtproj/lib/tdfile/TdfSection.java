@@ -52,10 +52,11 @@ public class TdfSection {
     eventer = new GenericChangeEventer( this );
     keyword = StridUtils.checkValidIdPath( aKeyword );
     content = TsNullArgumentRtException.checkNull( aContent );
+    // TODO check that content is something, surrounded with {} or []
   }
 
   // ------------------------------------------------------------------------------------
-  // API класса
+  // API
   //
 
   /**
@@ -90,6 +91,7 @@ public class TdfSection {
     TsNullArgumentRtException.checkNull( aEntity );
     ICharInputStream chIn = new CharInputStreamString( getContent() );
     IStrioReader dr = new StrioReader( chIn );
+    // TODO surround with {} for keeper isEnclosed()=false
     aEntity.read( dr );
   }
 
@@ -104,6 +106,7 @@ public class TdfSection {
     StringBuilder sb = new StringBuilder();
     ICharOutputStream chOut = new CharOutputStreamAppendable( sb );
     IStrioWriter dv = new StrioWriter( chOut );
+    // TODO surround with {} for keeper isEnclosed()=false
     aEntity.write( dv );
     String newContent = sb.toString();
     if( !newContent.equals( content ) ) {
@@ -122,7 +125,7 @@ public class TdfSection {
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация методоы Object
+  // Object
   //
 
   @SuppressWarnings( "nls" )

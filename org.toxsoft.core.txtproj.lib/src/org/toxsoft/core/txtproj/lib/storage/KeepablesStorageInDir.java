@@ -1,15 +1,21 @@
 package org.toxsoft.core.txtproj.lib.storage;
 
 import java.io.*;
+import java.util.*;
 
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.bricks.strio.chario.*;
+import org.toxsoft.core.tslib.bricks.strio.chario.impl.*;
+import org.toxsoft.core.tslib.bricks.strio.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.files.*;
+import org.toxsoft.core.txtproj.lib.tdfile.*;
 
 /**
  * {@link IKeepablesStorage} implemented as the files in the single directory.
@@ -68,6 +74,33 @@ public class KeepablesStorageInDir
   }
 
   // ------------------------------------------------------------------------------------
+  // Iterable
+  //
+
+  @Override
+  public Iterator<TdfSection> iterator() {
+    return new Iterator<>() {
+
+      Iterator<File> fileIterator = listProbableSectionFiles().iterator();
+
+      @Override
+      public TdfSection next() {
+        File f = fileIterator.next();
+        try( ICharInputStreamCloseable chIn = new CharInputStreamFile( f ) ) {
+          IStrioReader sr = new StrioReader( chIn );
+          String content = sr.readUntilChar( IStrioHardConstants.CHAR_EOF );
+          return new TdfSection( content, content );
+        }
+      }
+
+      @Override
+      public boolean hasNext() {
+        return fileIterator.hasNext();
+      }
+    };
+  }
+
+  // ------------------------------------------------------------------------------------
   // IKeepablesStorage
   //
 
@@ -82,14 +115,20 @@ public class KeepablesStorageInDir
     if( f == null ) {
       return aDefault;
     }
-    return aKeeper.read( f );
+    try( ICharInputStreamCloseable chIn = new CharInputStreamFile( f ) ) {
+      IStrioReader sr = new StrioReader( chIn );
+      return aKeeper.readEnclosed( sr );
+    }
   }
 
   @Override
   public <T> void writeItem( String aId, T aItem, IEntityKeeper<T> aKeeper ) {
     TsNullArgumentRtException.checkNulls( aItem, aKeeper );
     File f = makeSectionFile( aId );
-    aKeeper.write( f, aItem );
+    try( ICharOutputStreamCloseable chOut = new CharOutputStreamFile( f ) ) {
+      IStrioWriter sw = new StrioWriter( chOut );
+      aKeeper.writeEnclosed( sw, aItem );
+    }
   }
 
   @Override
@@ -109,10 +148,28 @@ public class KeepablesStorageInDir
   }
 
   @Override
+  public void writeSection( TdfSection aSection ) {
+    TsNullArgumentRtException.checkNull( aSection );
+    File f = makeSectionFile( aSection.keyword() );
+    try( ICharOutputStreamCloseable chOut = new CharOutputStreamFile( f ) ) {
+      IStrioWriter sw = new StrioWriter( chOut );
+      sw.writeAsIs( aSection.getContent() );
+    }
+  }
+
+  @Override
   public void removeSection( String aId ) {
     File f = listProbableSectionFiles().findByKey( aId );
     if( f != null ) {
       f.delete();
+    }
+  }
+
+  @Override
+  public void copyFrom( IKeepablesStorageRo aSource ) {
+    TsNullArgumentRtException.checkNull( aSource );
+    for( TdfSection s : aSource ) {
+      writeSection( s );
     }
   }
 

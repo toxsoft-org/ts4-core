@@ -4,6 +4,7 @@ import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.txtproj.lib.*;
+import org.toxsoft.core.txtproj.lib.tdfile.*;
 
 // TODO TRANSLATE
 
@@ -44,6 +45,14 @@ public interface IKeepablesStorage
   <T> void writeColl( String aId, ITsCollection<T> aColl, IEntityKeeper<T> aKeeper );
 
   /**
+   * Writes (creates new or overwrites existing) section.
+   *
+   * @param aSection {@link TdfSection} - the section to write
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  void writeSection( TdfSection aSection );
+
+  /**
    * Удаляет раздел из хранилища.
    * <p>
    * Если такого раздела нет в хранилище, метод ничего не делает.
@@ -52,5 +61,13 @@ public interface IKeepablesStorage
    * @throws TsNullArgumentRtException любой аргумент = null
    */
   void removeSection( String aId );
+
+  /**
+   * Copies content from source storage to this storage.
+   *
+   * @param aSource {@link IKeepablesStorageRo} - the source storage
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  void copyFrom( IKeepablesStorageRo aSource );
 
 }

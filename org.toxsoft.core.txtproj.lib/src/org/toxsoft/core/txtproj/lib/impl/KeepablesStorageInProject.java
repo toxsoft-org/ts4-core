@@ -15,6 +15,7 @@ import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.txtproj.lib.*;
 import org.toxsoft.core.txtproj.lib.storage.*;
+import org.toxsoft.core.txtproj.lib.tdfile.*;
 
 /**
  * Реализация хранилище {@link IKeepablesStorage} как компоненты проекта {@link IProjDataUnit}.
@@ -83,7 +84,31 @@ public class KeepablesStorageInProject
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса
+  // Iterable
+  //
+
+  @Override
+  public Iterator<TdfSection> iterator() {
+    return new Iterator<>() {
+
+      Iterator<String> keyIterator = sectionsMap.keys().iterator();
+
+      @Override
+      public TdfSection next() {
+        String key = keyIterator.next();
+        String content = sectionsMap.getByKey( key );
+        return new TdfSection( key, content );
+      }
+
+      @Override
+      public boolean hasNext() {
+        return keyIterator.hasNext();
+      }
+    };
+  }
+
+  // ------------------------------------------------------------------------------------
+  // IKeepablesStorage
   //
 
   @Override
@@ -132,8 +157,34 @@ public class KeepablesStorageInProject
   }
 
   @Override
+  public void writeSection( TdfSection aSection ) {
+    TsNullArgumentRtException.checkNull( aSection );
+    String oldContent = sectionsMap.findByKey( aSection.keyword() );
+    if( !Objects.equals( aSection.getContent(), oldContent ) ) {
+      sectionsMap.put( aSection.keyword(), aSection.getContent() );
+      genericChangeEventer().fireChangeEvent();
+    }
+  }
+
+  @Override
   public void removeSection( String aId ) {
     if( sectionsMap.removeByKey( aId ) != null ) {
+      genericChangeEventer().fireChangeEvent();
+    }
+  }
+
+  @Override
+  public void copyFrom( IKeepablesStorageRo aSource ) {
+    TsNullArgumentRtException.checkNull( aSource );
+    boolean wasChange = false;
+    for( TdfSection s : aSource ) {
+      String oldContent = sectionsMap.findByKey( s.keyword() );
+      if( !Objects.equals( s.getContent(), oldContent ) ) {
+        sectionsMap.put( s.keyword(), s.getContent() );
+        wasChange = true;
+      }
+    }
+    if( wasChange ) {
       genericChangeEventer().fireChangeEvent();
     }
   }

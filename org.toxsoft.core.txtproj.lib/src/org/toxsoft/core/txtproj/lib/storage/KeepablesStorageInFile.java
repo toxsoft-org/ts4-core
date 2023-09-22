@@ -3,6 +3,7 @@ package org.toxsoft.core.txtproj.lib.storage;
 import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 
 import java.io.*;
+import java.util.*;
 
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
@@ -16,6 +17,7 @@ import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.files.*;
+import org.toxsoft.core.txtproj.lib.tdfile.*;
 
 /**
  * {@link IKeepablesStorage} is implemented as the single file containing all data.
@@ -94,7 +96,31 @@ public class KeepablesStorageInFile
   }
 
   // ------------------------------------------------------------------------------------
-  // IStorage
+  // Iterable
+  //
+
+  @Override
+  public Iterator<TdfSection> iterator() {
+    return new Iterator<>() {
+
+      Iterator<String> keyIterator = sectionsMap.keys().iterator();
+
+      @Override
+      public TdfSection next() {
+        String key = keyIterator.next();
+        String content = sectionsMap.getByKey( key );
+        return new TdfSection( key, content );
+      }
+
+      @Override
+      public boolean hasNext() {
+        return keyIterator.hasNext();
+      }
+    };
+  }
+
+  // ------------------------------------------------------------------------------------
+  // IKeepablesStorage
   //
 
   @Override
@@ -108,15 +134,18 @@ public class KeepablesStorageInFile
     if( !sectionsMap.hasKey( aId ) ) {
       return aDefault;
     }
-    return aKeeper.str2ent( sectionsMap.getByKey( aId ) );
+    IStrioReader sr = new StrioReader( new CharInputStreamString( sectionsMap.getByKey( aId ) ) );
+    return aKeeper.readEnclosed( sr );
   }
 
   @Override
   public <T> void writeItem( String aId, T aItem, IEntityKeeper<T> aKeeper ) {
     StridUtils.checkValidIdPath( aId );
     TsNullArgumentRtException.checkNulls( aItem, aKeeper );
-    String content = aKeeper.ent2str( aItem );
-    sectionsMap.put( aId, content );
+    StringBuilder sb = new StringBuilder();
+    IStrioWriter sw = new StrioWriter( new CharOutputStreamAppendable( sb ) );
+    aKeeper.writeEnclosed( sw, aItem );
+    sectionsMap.put( aId, sb.toString() );
     save();
   }
 
@@ -139,8 +168,31 @@ public class KeepablesStorageInFile
   }
 
   @Override
+  public void writeSection( TdfSection aSection ) {
+    TsNullArgumentRtException.checkNull( aSection );
+    sectionsMap.put( aSection.keyword(), aSection.getContent() );
+    save();
+  }
+
+  @Override
   public void removeSection( String aId ) {
     if( sectionsMap.removeByKey( aId ) != null ) {
+      save();
+    }
+  }
+
+  @Override
+  public void copyFrom( IKeepablesStorageRo aSource ) {
+    TsNullArgumentRtException.checkNull( aSource );
+    boolean wasChange = false;
+    for( TdfSection s : aSource ) {
+      String oldContent = sectionsMap.findByKey( s.keyword() );
+      if( !Objects.equals( s.getContent(), oldContent ) ) {
+        sectionsMap.put( s.keyword(), s.getContent() );
+        wasChange = true;
+      }
+    }
+    if( wasChange ) {
       save();
     }
   }

@@ -2,6 +2,8 @@ package org.toxsoft.core.txtproj.lib.storage;
 
 import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 
+import java.util.*;
+
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
@@ -12,6 +14,7 @@ import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.txtproj.lib.tdfile.*;
 
 /**
  * {@link IKeepablesStorage} implemented as the {@link IKeepableEntity}.
@@ -91,7 +94,31 @@ public class KeepablesStorageAsKeepable
   }
 
   // ------------------------------------------------------------------------------------
-  // IStorage
+  // Iterable
+  //
+
+  @Override
+  public Iterator<TdfSection> iterator() {
+    return new Iterator<>() {
+
+      Iterator<String> keyIterator = sectionsMap.keys().iterator();
+
+      @Override
+      public TdfSection next() {
+        String key = keyIterator.next();
+        String content = sectionsMap.getByKey( key );
+        return new TdfSection( key, content );
+      }
+
+      @Override
+      public boolean hasNext() {
+        return keyIterator.hasNext();
+      }
+    };
+  }
+
+  // ------------------------------------------------------------------------------------
+  // IKeepablesStorage
   //
 
   @Override
@@ -134,8 +161,25 @@ public class KeepablesStorageAsKeepable
   }
 
   @Override
+  public void writeSection( TdfSection aSection ) {
+    TsNullArgumentRtException.checkNull( aSection );
+    sectionsMap.put( aSection.keyword(), aSection.getContent() );
+  }
+
+  @Override
   public void removeSection( String aId ) {
     sectionsMap.removeByKey( aId );
+  }
+
+  @Override
+  public void copyFrom( IKeepablesStorageRo aSource ) {
+    TsNullArgumentRtException.checkNull( aSource );
+    for( TdfSection s : aSource ) {
+      String oldContent = sectionsMap.findByKey( s.keyword() );
+      if( !Objects.equals( s.getContent(), oldContent ) ) {
+        sectionsMap.put( s.keyword(), s.getContent() );
+      }
+    }
   }
 
   // ------------------------------------------------------------------------------------

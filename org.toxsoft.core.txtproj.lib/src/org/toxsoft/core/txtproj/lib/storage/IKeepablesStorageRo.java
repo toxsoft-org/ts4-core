@@ -4,13 +4,15 @@ import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.txtproj.lib.tdfile.*;
 
 /**
  * Read-only methods of the {@link IKeepablesStorage} interface.
  *
  * @author hazard157
  */
-public interface IKeepablesStorageRo {
+public interface IKeepablesStorageRo
+    extends Iterable<TdfSection> {
 
   /**
    * Determines if the storage contains the section with specified ID.
