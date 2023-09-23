@@ -5,6 +5,7 @@ import org.toxsoft.core.tsgui.ved.api.cfg.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -16,6 +17,10 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class VedAbstractVisel
     extends VedAbstractItem
     implements IVedVisel {
+
+  private ID2Conversion d2Conv = ID2Conversion.NONE;
+
+  private TsRectangleEdit tsRect = new TsRectangleEdit( 0, 0, 1, 1 );
 
   /**
    * Constructor.
@@ -51,8 +56,7 @@ public class VedAbstractVisel
 
   @Override
   public ITsRectangle bounds() {
-    // TODO Auto-generated method stub
-    return null;
+    return tsRect;
   }
 
   // ------------------------------------------------------------------------------------
@@ -61,14 +65,12 @@ public class VedAbstractVisel
 
   @Override
   public ID2Conversion getConversion() {
-    // TODO Auto-generated method stub
-    return null;
+    return d2Conv;
   }
 
   @Override
   public void setConversion( ID2Conversion aConversion ) {
-    // TODO Auto-generated method stub
-
+    d2Conv = new D2Conversion( aConversion );
   }
 
   // ------------------------------------------------------------------------------------
