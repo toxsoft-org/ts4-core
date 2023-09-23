@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.ved.api;
+package org.toxsoft.core.tsgui.ved.l10n;
 
 import java.util.*;
 

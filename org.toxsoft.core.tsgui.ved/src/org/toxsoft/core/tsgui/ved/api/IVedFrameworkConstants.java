@@ -1,7 +1,7 @@
 package org.toxsoft.core.tsgui.ved.api;
 
 import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
-import static org.toxsoft.core.tsgui.ved.api.ITsResources.*;
+import static org.toxsoft.core.tsgui.ved.l10n.ITsguiVedSharedResources.*;
 import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;

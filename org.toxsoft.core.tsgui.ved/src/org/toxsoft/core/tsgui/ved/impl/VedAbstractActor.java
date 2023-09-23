@@ -1,6 +1,7 @@
-package org.toxsoft.core.tsgui.ved.api.items;
+package org.toxsoft.core.tsgui.ved.impl;
 
 import org.toxsoft.core.tsgui.ved.api.cfg.*;
+import org.toxsoft.core.tsgui.ved.api.items.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;

@@ -1,18 +1,19 @@
-package org.toxsoft.core.tsgui.ved.api.items;
+package org.toxsoft.core.tsgui.ved.impl;
 
 import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.cfg.*;
+import org.toxsoft.core.tsgui.ved.api.items.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * {@link IVedActorFactory} base implementation.
+ * {@link IVedViselFactory} base implementation.
  *
  * @author hazard157
  */
-public abstract class VedAcotrAbstractFactory
-    extends VedAbstractItemFactory<VedAbstractActor>
-    implements IVedActorFactory {
+public abstract class VedAbstractViselFactory
+    extends VedAbstractItemFactory<VedAbstractVisel>
+    implements IVedViselFactory {
 
   /**
    * Constructor.
@@ -23,7 +24,7 @@ public abstract class VedAcotrAbstractFactory
    * @throws TsIllegalArgumentRtException number of elements in array is uneven
    * @throws ClassCastException argument types convention is violated
    */
-  public VedAcotrAbstractFactory( String aId, Object... aIdsAndValues ) {
+  public VedAbstractViselFactory( String aId, Object... aIdsAndValues ) {
     super( aId, OptionSetUtils.createOpSet( aIdsAndValues ) );
   }
 
@@ -32,6 +33,6 @@ public abstract class VedAcotrAbstractFactory
   //
 
   @Override
-  protected abstract VedAbstractActor doCreate( IVedItemCfg aCfg, IVedEnvironment aEnv );
+  protected abstract VedAbstractVisel doCreate( IVedItemCfg aCfg, IVedEnvironment aEnv );
 
 }

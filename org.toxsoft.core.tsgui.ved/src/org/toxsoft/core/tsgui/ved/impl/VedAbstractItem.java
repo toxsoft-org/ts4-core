@@ -1,8 +1,9 @@
-package org.toxsoft.core.tsgui.ved.api.items;
+package org.toxsoft.core.tsgui.ved.impl;
 
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.toxsoft.core.tsgui.ved.api.cfg.*;
+import org.toxsoft.core.tsgui.ved.api.items.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;

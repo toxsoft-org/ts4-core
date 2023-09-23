@@ -3,6 +3,7 @@ package org.toxsoft.core.tsgui.ved.api.items;
 import org.toxsoft.core.tsgui.bricks.tin.*;
 import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.cfg.*;
+import org.toxsoft.core.tsgui.ved.impl.*;
 import org.toxsoft.core.tslib.av.errors.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
