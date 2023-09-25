@@ -26,4 +26,7 @@ Export-Package: org.toxsoft.core.tsgui.ved,
  org.toxsoft.core.tsgui.ved.api,
  org.toxsoft.core.tsgui.ved.api.cfg,
  org.toxsoft.core.tsgui.ved.api.helpers,
- org.toxsoft.core.tsgui.ved.api.items
+ org.toxsoft.core.tsgui.ved.api.items,
+ org.toxsoft.core.tsgui.ved.impl,
+ org.toxsoft.core.tsgui.ved.l10n,
+ org.toxsoft.core.tsgui.ved.runtime

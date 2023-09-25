@@ -13,6 +13,11 @@ public sealed interface IVedScreenCfg
     extends IStridableParameterized permits VedScreenCfg {
 
   /**
+   * An empty screen singleton.
+   */
+  IVedScreenCfg NONE = new VedScreenCfg( IStridable.NONE_ID );
+
+  /**
    * Returns the configuration data of all VISELs in the screen.
    *
    * @return {@link IStridablesList}&lt;{@link IVedItemCfg}&gt; - the VISEL configurations list
