@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.ved.l10n_template.l10n;
+package org.toxsoft.core.tsgui.ved.comps;
 
 import java.util.*;
 

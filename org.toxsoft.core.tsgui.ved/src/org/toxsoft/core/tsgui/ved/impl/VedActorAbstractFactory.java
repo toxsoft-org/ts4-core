@@ -11,7 +11,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public abstract class VedAcotrAbstractFactory
+public abstract class VedActorAbstractFactory
     extends VedAbstractItemFactory<VedAbstractActor>
     implements IVedActorFactory {
 
@@ -24,7 +24,7 @@ public abstract class VedAcotrAbstractFactory
    * @throws TsIllegalArgumentRtException number of elements in array is uneven
    * @throws ClassCastException argument types convention is violated
    */
-  public VedAcotrAbstractFactory( String aId, Object... aIdsAndValues ) {
+  public VedActorAbstractFactory( String aId, Object... aIdsAndValues ) {
     super( aId, OptionSetUtils.createOpSet( aIdsAndValues ) );
   }
 
