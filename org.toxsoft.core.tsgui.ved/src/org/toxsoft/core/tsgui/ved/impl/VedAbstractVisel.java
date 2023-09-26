@@ -120,6 +120,7 @@ public abstract class VedAbstractVisel
     originY = aY;
     d2rect = new D2Rectangle( aX, aY, d2rect.width(), d2rect.height() );
     updateTsRect();
+    doOnLocationChanged();
 
     IStringMapEdit<IAtomicValue> values = new StringMap<>();
     values.put( VedAbstractViselFactory.FID_VISEL_X, AvUtils.avFloat( originX ) );
@@ -234,8 +235,9 @@ public abstract class VedAbstractVisel
     height = props().getDouble( VedAbstractViselFactory.FID_VISEL_HEIGHT );
     d2rect = new D2Rectangle( originX, originY, width, height );
     updateTsRect();
+    doOnLocationChanged();
     doOnSizeChanged();
-    props().propsEventer().resumeFiring( false );
+    props().propsEventer().resumeFiring( true );
   }
 
   /**
@@ -251,6 +253,10 @@ public abstract class VedAbstractVisel
   // ------------------------------------------------------------------------------------
   // To override
   //
+
+  protected void doOnLocationChanged() {
+    // nop
+  }
 
   protected void doOnSizeChanged() {
     // nop

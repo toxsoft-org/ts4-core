@@ -1,6 +1,8 @@
 package org.toxsoft.core.tsgui.ved.comps;
 
+import static org.toxsoft.core.tsgui.ved.comps.ITsResources.*;
 import static org.toxsoft.core.tsgui.ved.tintypes.InspFieldTypeConstants.*;
+import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.toxsoft.core.tsgui.bricks.tin.*;
@@ -22,27 +24,37 @@ import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 public class RectViselFactory
     extends VedAbstractViselFactory {
 
+  /**
+   * ИД фабрики содания прямоугольников
+   */
+  public static final String FACTORY_ID = "rectViselFactory"; //$NON-NLS-1$
+
   IDataDef DDEF_X = DataDef.create3( "visel.rect.x", TTI_FLOATING.dataType(), // //$NON-NLS-1$
-      TSID_DESCRIPTION, "X координата левого верхнего угла прямоугольника" );
+      TSID_NAME, STR_N_VISEL_X, //
+      TSID_DESCRIPTION, STR_D_VISEL_X );
 
   IDataDef DDEF_Y = DataDef.create3( "visel.rect.y", TTI_FLOATING.dataType(), // //$NON-NLS-1$
-      TSID_DESCRIPTION, "Y координата левого верхнего угла прямоугольника" );
+      TSID_NAME, STR_N_VISEL_Y, //
+      TSID_DESCRIPTION, STR_D_VISEL_Y );
 
   IDataDef DDEF_WIDTH = DataDef.create3( "visel.rect.width", TTI_FLOATING.dataType(), // //$NON-NLS-1$
-      TSID_DESCRIPTION, "Ширина прямоугольника" );
+      TSID_NAME, STR_N_VISEL_WIDTH, //
+      TSID_DESCRIPTION, STR_D_RECT_WIDTH, TSID_DEFAULT_VALUE, avFloat( 100 ) );
 
   IDataDef DDEF_HEIGHT = DataDef.create3( "visel.rect.height", TTI_FLOATING.dataType(), // //$NON-NLS-1$
-      TSID_DESCRIPTION, "Высота прямоугольника" );
+      TSID_NAME, STR_N_VISEL_HEIGHT, //
+      TSID_DESCRIPTION, STR_D_RECT_HEIGHT, TSID_DEFAULT_VALUE, avFloat( 100 ) );
 
-  public RectViselFactory( String aId, Object[] aIdsAndValues ) {
-    super( aId, aIdsAndValues );
-    // TODO Auto-generated constructor stub
+  /**
+   * Конструктор.
+   */
+  public RectViselFactory() {
+    super( FACTORY_ID, TSID_NAME, STR_N_RECT_FACTORY, TSID_DESCRIPTION, STR_D_RECT_FACTORY );
   }
 
   @Override
   protected VedAbstractVisel doCreate( IVedItemCfg aCfg, IVedEnvironment aEnv ) {
-    // TODO Auto-generated method stub
-    return null;
+    return new RectVisel( aCfg, propDefs(), aEnv.tsContext() );
   }
 
   @Override

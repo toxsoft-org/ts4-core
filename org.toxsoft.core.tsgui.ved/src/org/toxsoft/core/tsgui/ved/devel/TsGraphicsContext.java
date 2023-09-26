@@ -58,10 +58,10 @@ public class TsGraphicsContext
 
   @Override
   public void drawRect( int aX, int aY, int aWidth, int aHeight ) {
-    if( lineInfo == null ) {
-      gc.drawRectangle( aX, aY, aWidth, aHeight );
-      return;
+    if( lineInfo != null ) {
+      lineInfo.setToGc( gc );
     }
+    gc.drawRectangle( aX, aY, aWidth, aHeight );
   }
 
   @Override

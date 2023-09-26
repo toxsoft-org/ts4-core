@@ -4,7 +4,6 @@ import org.toxsoft.core.tsgui.bricks.tin.*;
 import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.cfg.*;
 import org.toxsoft.core.tsgui.ved.api.items.*;
-import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -46,7 +45,7 @@ public abstract class VedAbstractViselFactory
    * @throws ClassCastException argument types convention is violated
    */
   public VedAbstractViselFactory( String aId, Object... aIdsAndValues ) {
-    super( aId, OptionSetUtils.createOpSet( aIdsAndValues ) );
+    super( aId, aIdsAndValues );
   }
 
   // ------------------------------------------------------------------------------------

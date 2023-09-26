@@ -23,10 +23,23 @@ public class RectVisel
     updateSwtRect();
   }
 
+  // ------------------------------------------------------------------------------------
+  // VedAbstractVisel
+  //
+
   @Override
   public void paint( ITsGraphicsContext aPaintContext ) {
-    // TODO Auto-generated method stub
+    aPaintContext.gc().drawRectangle( swtRect );
+  }
 
+  @Override
+  protected void doOnLocationChanged() {
+    updateSwtRect();
+  }
+
+  @Override
+  protected void doOnSizeChanged() {
+    updateSwtRect();
   }
 
   // ------------------------------------------------------------------------------------
