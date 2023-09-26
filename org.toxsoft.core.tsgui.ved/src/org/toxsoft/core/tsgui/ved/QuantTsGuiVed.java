@@ -2,6 +2,8 @@ package org.toxsoft.core.tsgui.ved;
 
 import org.eclipse.e4.core.contexts.*;
 import org.toxsoft.core.tsgui.bricks.quant.*;
+import org.toxsoft.core.tsgui.ved.api.items.*;
+import org.toxsoft.core.tsgui.ved.impl.*;
 
 /**
  * The library quant.
@@ -20,7 +22,8 @@ public class QuantTsGuiVed
 
   @Override
   protected void doInitApp( IEclipseContext aAppContext ) {
-    // nop
+    aAppContext.set( IVedViselFactoriesRegistry.class, new VedViselFactoriesRegistry() );
+    aAppContext.set( IVedActorFactoriesRegistry.class, new VedActorFactoriesRegistry() );
   }
 
   @Override
