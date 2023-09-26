@@ -7,7 +7,7 @@ import org.toxsoft.core.tsgui.graphics.lines.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 
-public interface ITsPaintEvent
+public interface ITsPaintContext
     extends ITsGuiContextable {
 
   PaintEvent event();
