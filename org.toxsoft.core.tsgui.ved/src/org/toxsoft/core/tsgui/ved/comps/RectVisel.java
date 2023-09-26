@@ -5,6 +5,7 @@ import static org.toxsoft.core.tsgui.ved.impl.VedAbstractViselFactory.*;
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.ved.api.cfg.*;
+import org.toxsoft.core.tsgui.ved.devel.*;
 import org.toxsoft.core.tsgui.ved.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
@@ -23,7 +24,7 @@ public class RectVisel
   }
 
   @Override
-  public void paint( GC aGc ) {
+  public void paint( ITsGraphicsContext aPaintContext ) {
     // TODO Auto-generated method stub
 
   }

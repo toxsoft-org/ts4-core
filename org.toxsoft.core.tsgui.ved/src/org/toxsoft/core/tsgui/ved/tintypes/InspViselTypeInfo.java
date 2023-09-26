@@ -5,14 +5,24 @@ import org.toxsoft.core.tsgui.bricks.tin.impl.*;
 import org.toxsoft.core.tsgui.ved.api.items.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 
-public class VedViselTypeInfo
+/**
+ * Группа {@link ITinTypeInfo} для {@link IVedVisel}.
+ *
+ * @author vs
+ */
+public class InspViselTypeInfo
     extends AbstractTinTypeInfo<IVedVisel> {
 
   // ------------------------------------------------------------------------------------
   // AbstractTinTypeInfo
   //
 
-  public VedViselTypeInfo( IStridablesList<ITinFieldInfo> aFieldInfoes ) {
+  /**
+   * Конструктор.
+   *
+   * @param aFieldInfoes IStridablesList&lt;ITinFieldInfo> - список полей
+   */
+  public InspViselTypeInfo( IStridablesList<ITinFieldInfo> aFieldInfoes ) {
     super( ETinTypeKind.GROUP, null, IVedVisel.class );
     for( ITinFieldInfo fieldInfo : aFieldInfoes ) {
       fieldInfos().add( fieldInfo );

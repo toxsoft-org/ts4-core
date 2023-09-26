@@ -2,6 +2,6 @@ package org.toxsoft.core.tsgui.ved.devel;
 
 public interface ITsPaintable {
 
-  void paint( ITsPaintContext aPaintContext );
+  void paint( ITsGraphicsContext aPaintContext );
 
 }

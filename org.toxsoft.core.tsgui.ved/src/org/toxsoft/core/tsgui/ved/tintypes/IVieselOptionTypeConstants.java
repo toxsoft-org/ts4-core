@@ -94,6 +94,18 @@ public interface IVieselOptionTypeConstants {
   );
 
   /**
+   * Описание типа данных {@link ID2Angle}
+   */
+  IDataType DT_D2ANGLE = DataType.create( VALOBJ, //
+      TSID_NAME, STR_N_D2ANGLE, //
+      TSID_DESCRIPTION, STR_D_D2ANGLE, //
+      TSID_KEEPER_ID, D2Angle.KEEPER_ID, //
+      // FIXME - указать редактор для D2Angle
+      // OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleFontInfo.FACTORY.factoryName(), //
+      TSID_DEFAULT_VALUE, avValobj( ID2Angle.ZERO ) //
+  );
+
+  /**
    * Описание типа данных {@link ID2Conversion}
    */
   IDataType DT_D2CONVERSION = DataType.create( VALOBJ, //

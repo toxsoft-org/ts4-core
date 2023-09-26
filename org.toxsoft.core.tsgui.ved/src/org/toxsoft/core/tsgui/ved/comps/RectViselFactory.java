@@ -52,7 +52,7 @@ public class RectViselFactory
     fields.add( new TinFieldInfo( FID_VISEL_Y, TTI_FLOATING, DDEF_Y.params() ) );
     fields.add( new TinFieldInfo( FID_VISEL_WIDTH, TTI_FLOATING, DDEF_WIDTH.params() ) );
     fields.add( new TinFieldInfo( FID_VISEL_HEIGHT, TTI_FLOATING, DDEF_HEIGHT.params() ) );
-    VedViselTypeInfo typeinfo = new VedViselTypeInfo( fields );
+    InspViselTypeInfo typeinfo = new InspViselTypeInfo( fields );
     return typeinfo;
   }
 

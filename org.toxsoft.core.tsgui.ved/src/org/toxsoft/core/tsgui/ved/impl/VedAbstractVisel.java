@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.ved.impl;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.bricks.tin.*;
 import org.toxsoft.core.tsgui.ved.api.cfg.*;
 import org.toxsoft.core.tsgui.ved.api.helpers.*;
 import org.toxsoft.core.tsgui.ved.api.items.*;
@@ -40,6 +41,10 @@ public abstract class VedAbstractVisel
 
   private final ITsGuiContext tsContext;
 
+  private final String factoryId;
+
+  private final IVedViselFactory factory;
+
   /**
    * Constructor.
    *
@@ -51,7 +56,11 @@ public abstract class VedAbstractVisel
    */
   public VedAbstractVisel( IVedItemCfg aConfig, IStridablesList<IDataDef> aPropDefs, ITsGuiContext aTsContext ) {
     super( aConfig, aPropDefs );
+    factoryId = aConfig.factoryId();
     tsContext = aTsContext;
+    // FIXME найти фабрику
+    IVedViselFactoriesRegistry fr = tsContext.get( IVedViselFactoriesRegistry.class );
+    factory = fr.get( factoryId );
   }
 
   // ------------------------------------------------------------------------------------
@@ -154,6 +163,33 @@ public abstract class VedAbstractVisel
   //
 
   /**
+   * Возвращает ИД фабрики создания.
+   *
+   * @return String - ИД фабрики создания
+   */
+  public String factoryId() {
+    return factoryId;
+  }
+
+  /**
+   * Возвращает фабрику создания.
+   *
+   * @return {@link IVedViselFactory} - фабрика создания
+   */
+  public IVedViselFactory viselFactory() {
+    return factory;
+  }
+
+  /**
+   * Возвращает информацию о типе для инспектора свойств.
+   *
+   * @return {@link ITinTypeInfo} - информацию о типе для инспектора свойств
+   */
+  public ITinTypeInfo tinTypeInfo() {
+    return factory.typeInfo();
+  }
+
+  /**
    * Возвращает элемент, который может быть размещен на плоскости или <b>null</b>
    *
    * @return {@link ID2Portable} - элемент, который может быть размещен на плоскости или <b>null</b>
@@ -169,6 +205,47 @@ public abstract class VedAbstractVisel
    */
   public ID2Resizable asResizable() {
     return this;
+  }
+
+  /**
+   * Возвращает значение для инспектора свойств.
+   *
+   * @return {@link ITinValue} - значение для инспектора свойств
+   */
+  public final ITinValue value() {
+    ITinTypeInfo typeInfo = factory.typeInfo();
+    return typeInfo.makeValue( this );
+  }
+
+  /**
+   * Задает новые значения свойств.
+   *
+   * @param aValue {@link ITinValue} - новые значения свойств
+   */
+  public final void setValue( ITinValue aValue ) {
+    props().propsEventer().pauseFiring();
+    for( String vid : aValue.childValues().keys() ) {
+      props().setValue( vid, aValue.childValues().getByKey( vid ).atomicValue() );
+    }
+
+    originX = props().getDouble( VedAbstractViselFactory.FID_VISEL_X );
+    originY = props().getDouble( VedAbstractViselFactory.FID_VISEL_Y );
+    width = props().getDouble( VedAbstractViselFactory.FID_VISEL_WIDTH );
+    height = props().getDouble( VedAbstractViselFactory.FID_VISEL_HEIGHT );
+    d2rect = new D2Rectangle( originX, originY, width, height );
+    updateTsRect();
+    doOnSizeChanged();
+    props().propsEventer().resumeFiring( false );
+  }
+
+  /**
+   * Возвращает конфигурацию визуального элемента.<br>
+   *
+   * @return {@link IVedItemCfg} - конфигурация визуального элемента
+   */
+  public final IVedItemCfg config() {
+    IVedItemCfg cfg = new VedItemCfg( id(), factoryId, props() );
+    return cfg;
   }
 
   // ------------------------------------------------------------------------------------

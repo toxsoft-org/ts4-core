@@ -30,6 +30,9 @@ public interface ITsResources {
   String STR_N_D2POINT = "2d-точка";              // "2d-точка";
   String STR_D_D2POINT = "Точка на 2d-плоскости"; // "Точка на 2d-плоскости"
 
+  String STR_N_D2ANGLE = "2d-угол"; // "2d-угол";
+  String STR_D_D2ANGLE = "2d-угол"; // "2d-угол";
+
   String STR_N_D2CONVERSION = "2d-конверсия";                           // "2d-конверсия";
   String STR_D_D2CONVERSION = "Параметры конвертирования 2d-координат"; // "Параметры конвертирования 2d-координат"
 
