@@ -1,13 +1,16 @@
 package org.toxsoft.core.tsgui.ved.devel;
 
+import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.graphics.lines.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 
-public interface ITsPaintEventWrapper
+public interface ITsPaintEvent
     extends ITsGuiContextable {
+
+  PaintEvent event();
 
   GC gc();
 
