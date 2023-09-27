@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.ved.comps;
 
 import static org.toxsoft.core.tsgui.ved.comps.ITsResources.*;
+import static org.toxsoft.core.tsgui.ved.tintypes.IVieselOptionTypeConstants.*;
 import static org.toxsoft.core.tsgui.ved.tintypes.InspFieldTypeConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
@@ -29,6 +30,10 @@ public class RectViselFactory
    */
   public static final String FACTORY_ID = "rectViselFactory"; //$NON-NLS-1$
 
+  static final String FID_FILL_INFO = "rect.fillInfo"; //$NON-NLS-1$
+
+  static final String FID_LINE_INFO = "rect.kineInfo"; //$NON-NLS-1$
+
   IDataDef DDEF_X = DataDef.create3( "visel.rect.x", TTI_FLOATING.dataType(), // //$NON-NLS-1$
       TSID_NAME, STR_N_VISEL_X, //
       TSID_DESCRIPTION, STR_D_VISEL_X );
@@ -44,6 +49,10 @@ public class RectViselFactory
   IDataDef DDEF_HEIGHT = DataDef.create3( "visel.rect.height", TTI_FLOATING.dataType(), // //$NON-NLS-1$
       TSID_NAME, STR_N_VISEL_HEIGHT, //
       TSID_DESCRIPTION, STR_D_RECT_HEIGHT, TSID_DEFAULT_VALUE, avFloat( 100 ) );
+
+  IDataDef DDEF_FILL_INFO = DataDef.create3( "visel.rect.fillInfo", DT_FILL_INFO ); //$NON-NLS-1$
+
+  IDataDef DDEF_LINE_INFO = DataDef.create3( "visel.rect.lineInfo", DT_LINE_INFO ); //$NON-NLS-1$
 
   /**
    * Конструктор.
@@ -64,6 +73,8 @@ public class RectViselFactory
     fields.add( new TinFieldInfo( FID_VISEL_Y, TTI_FLOATING, DDEF_Y.params() ) );
     fields.add( new TinFieldInfo( FID_VISEL_WIDTH, TTI_FLOATING, DDEF_WIDTH.params() ) );
     fields.add( new TinFieldInfo( FID_VISEL_HEIGHT, TTI_FLOATING, DDEF_HEIGHT.params() ) );
+    fields.add( new TinFieldInfo( FID_FILL_INFO, InspFillTypeInfo.INSTANCE, DDEF_FILL_INFO.params() ) );
+    fields.add( new TinFieldInfo( FID_LINE_INFO, InspLineTypeInfo.INSTANCE, DDEF_LINE_INFO.params() ) );
     InspViselTypeInfo typeinfo = new InspViselTypeInfo( fields );
     return typeinfo;
   }

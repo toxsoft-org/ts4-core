@@ -91,6 +91,11 @@ public interface InspFieldTypeConstants {
    */
   ITinTypeInfo TTI_RGB_COLOR = InspRgbTypeInfo.INSP_TYPE_INFO;
 
+  // /**
+  // * Информация о поле инспектора для значений типа {@link RGBA}.
+  // */
+  // ITinTypeInfo TTI_RGBA_COLOR = InspRgbaTypeInfo.INSP_TYPE_INFO;
+
   /**
    * Информация о поле инспектора для значений типа {@link TsFillInfo}.
    */

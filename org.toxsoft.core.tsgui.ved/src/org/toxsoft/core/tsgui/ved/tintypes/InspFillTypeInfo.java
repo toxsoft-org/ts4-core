@@ -2,7 +2,6 @@ package org.toxsoft.core.tsgui.ved.tintypes;
 
 import static org.toxsoft.core.tsgui.ved.tintypes.ITsResources.*;
 import static org.toxsoft.core.tsgui.ved.tintypes.IVieselOptionTypeConstants.*;
-import static org.toxsoft.core.tsgui.ved.tintypes.InspFieldTypeConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
@@ -41,7 +40,7 @@ public class InspFillTypeInfo
         TSID_KEEPER_ID, ETsFillKind.KEEPER_ID //
     ) );
 
-    fieldInfos().add( new TinFieldInfo( FID_FILL_COLOR, TTI_RGB_COLOR, //
+    fieldInfos().add( new TinFieldInfo( FID_FILL_COLOR, RGBATypeInfo.TIN_TYPE_INFO, //
         TSID_NAME, STR_N_FILL_COLOR, //
         TSID_DESCRIPTION, STR_D_FILL_COLOR //
     ) );
@@ -132,6 +131,7 @@ public class InspFillTypeInfo
         result.add( FID_FILL_COLOR );
         return result;
       case IMAGE:
+        result.add( FID_FILL_TYPE );
         result.add( FID_FILL_IMAGE );
         return result;
       case GRADIENT:

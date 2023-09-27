@@ -29,7 +29,10 @@ public class RectVisel
 
   @Override
   public void paint( ITsGraphicsContext aPaintContext ) {
-    aPaintContext.gc().drawRectangle( swtRect );
+    aPaintContext.setFillInfo( props().getValobj( RectViselFactory.FID_FILL_INFO ) );
+    aPaintContext.fillRect( swtRect.x, swtRect.y, swtRect.width, swtRect.height );
+    aPaintContext.setLineInfo( props().getValobj( RectViselFactory.FID_LINE_INFO ) );
+    aPaintContext.drawRect( swtRect.x, swtRect.y, swtRect.width, swtRect.height );
   }
 
   @Override
