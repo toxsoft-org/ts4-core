@@ -20,6 +20,10 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class VedAbstractItem
     implements IVedItem, IParameterizedEdit {
 
+  /**
+   * FIXME add dispose()
+   */
+
   private final String         id;
   private final IOptionSetEdit params;
   private final IPropertiesSet propSet;

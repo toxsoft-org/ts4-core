@@ -16,6 +16,10 @@ public class VedAbstractActor
     implements IVedActor {
 
   /**
+   * FIXME add disable()
+   */
+
+  /**
    * Constructor.
    *
    * @param aConfig {@link IVedItemCfg} - the item config
