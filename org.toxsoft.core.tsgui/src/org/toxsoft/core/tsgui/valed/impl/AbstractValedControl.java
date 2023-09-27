@@ -383,12 +383,7 @@ public abstract class AbstractValedControl<V, C extends Control>
    */
   public final void setParamIfNull( IStridable aParamId, IAtomicValue aValue ) {
     TsNullArgumentRtException.checkNulls( aParamId, aValue );
-    // DEBUG ---
-    // if( !tsContext().isSelfOption( aParamId.id() ) ) {
-    if( !tsContext().params().isNull( aParamId.id() ) ) {
-      // ---
-      params().setValue( aParamId.id(), aValue );
-    }
+    setParamIfNull( aParamId.id(), aValue );
   }
 
   // ------------------------------------------------------------------------------------

@@ -41,7 +41,7 @@ public class TsGuiUtils {
   // private static final ThreadLocal<IEclipseContext> guiThreadWinContext = new ThreadLocal<>();
 
   /**
-   * Performs tsgui core library initializtion.
+   * Performs TsGUI core library initialization.
    */
   public static void initializeTsGuiCore() {
     TsValobjUtils.registerKeeper( FontInfo.KEEPER_ID, FontInfo.KEEPER );

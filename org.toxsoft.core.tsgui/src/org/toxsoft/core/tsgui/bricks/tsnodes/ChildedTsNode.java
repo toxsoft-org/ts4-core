@@ -22,7 +22,7 @@ public abstract class ChildedTsNode<T>
    * @param aParent {@link ITsNode} - parent node
    * @param aEntity &lt;T&gt - entity in the node, may be <code>null</code>
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws ClassCastException aEntity type is not compatibvle with {@link ITsNodeKind#entityClass()}
+   * @throws ClassCastException aEntity type is not compatible with {@link ITsNodeKind#entityClass()}
    * @throws TsIllegalArgumentRtException {@link ITsNodeKind#canHaveChilds()} = <code>true</code>
    */
   public ChildedTsNode( ITsNodeKind<T> aKind, ITsNode aParent, T aEntity ) {
