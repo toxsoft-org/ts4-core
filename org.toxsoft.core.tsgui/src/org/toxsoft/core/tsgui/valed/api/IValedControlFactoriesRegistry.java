@@ -65,8 +65,8 @@ public interface IValedControlFactoriesRegistry {
   /**
    * Chooses an editor factory based on atomic type and context parameters.
    * <p>
-   * The argument <code>aEditorContext</code> must the context used to create an editor instance. This method may change
-   * context parameters and/or references.
+   * The argument <code>aEditorContext</code> must be the context used to create an editor instance. This method may
+   * change context parameters and/or references.
    * <p>
    * Initially tries to create an editor as it is intended: using the factory name from option
    * {@link IValedControlConstants#OPID_EDITOR_FACTORY_NAME} if it is present in the context.

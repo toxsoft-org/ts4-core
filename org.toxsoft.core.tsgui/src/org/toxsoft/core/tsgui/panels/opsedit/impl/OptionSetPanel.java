@@ -16,7 +16,6 @@ import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.panels.lazy.*;
 import org.toxsoft.core.tsgui.panels.opsedit.*;
 import org.toxsoft.core.tsgui.valed.api.*;
-import org.toxsoft.core.tsgui.valed.impl.*;
 import org.toxsoft.core.tsgui.widgets.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
@@ -168,7 +167,8 @@ public class OptionSetPanel
     if( isViewer() || isReadOnly ) {
       ctx.params().setBool( OPDEF_CREATE_UNEDITABLE.id(), true );
     }
-    IValedControlFactory factory = ValedControlUtils.guessAvEditorFactory( aOpDef.atomicType(), ctx );
+    IValedControlFactoriesRegistry vcfRegistry = ctx.get( IValedControlFactoriesRegistry.class );
+    IValedControlFactory factory = vcfRegistry.getSuitableAvEditor( aOpDef.atomicType(), ctx );
     IValedControl<IAtomicValue> valed = factory.createEditor( ctx );
     valed.createControl( aParent );
     return valed;
