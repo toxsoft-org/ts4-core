@@ -3,11 +3,12 @@ package org.toxsoft.core.tsgui.ved.devel;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.graphics.*;
+import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.graphics.lines.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
-import org.toxsoft.core.tslib.utils.errors.*;
 
 public class TsGraphicsContext
     implements ITsGraphicsContext {
@@ -22,10 +23,19 @@ public class TsGraphicsContext
 
   private TsFillInfo fillInfo = null;
 
+  private TsBorderInfo borderInfo = TsBorderInfo.NONE;
+
+  private TsImage bkImage = null;
+
+  private TsImage unknownImage = null;
+
+  private int unknownImageSize = 32;
+
   public TsGraphicsContext( PaintEvent aEvent, ITsGuiContext aTsContext ) {
     tsContext = aTsContext;
     gc = aEvent.gc;
     drawingArea = new TsRectangle( aEvent.x, aEvent.y, aEvent.width, aEvent.height );
+    unknownImage = imageManager().createUnknownImage( unknownImageSize );
   }
 
   // ------------------------------------------------------------------------------------
@@ -71,6 +81,7 @@ public class TsGraphicsContext
 
   @Override
   public void fillRect( int aX, int aY, int aWidth, int aHeight ) {
+    Pattern pattern = null;
     if( fillInfo != null ) {
       switch( fillInfo.kind() ) {
         case SOLID:
@@ -81,14 +92,47 @@ public class TsGraphicsContext
         case NONE:
           return;
         case GRADIENT:
-          throw new TsUnderDevelopmentRtException();
+          IGradient grad = fillInfo.gradientFillInfo().createGradient( tsContext );
+          pattern = grad.pattern( gc, aWidth, aHeight );
+          gc.setBackgroundPattern( pattern );
+          break;
         case IMAGE:
-          throw new TsUnderDevelopmentRtException();
+          TsImageFillInfo imgInfo = fillInfo.imageFillInfo();
+          if( imgInfo.imageDescriptor() == TsImageDescriptor.NONE ) {
+            bkImage = unknownImage;
+          }
+          if( imgInfo.kind() == EImageFillKind.TILE ) {
+            fillTileImage( bkImage, aX, aY, aWidth, aHeight );
+          }
+          break;
+        // throw new TsUnderDevelopmentRtException();
         default:
           throw new IllegalArgumentException( "Unexpected value: " + fillInfo.kind() ); //$NON-NLS-1$
       }
     }
     gc.fillRectangle( aX, aY, aWidth, aHeight );
+    if( pattern != null ) {
+      pattern.dispose();
+    }
+  }
+
+  @Override
+  public void setBorderInfo( TsBorderInfo aBorderInfo ) {
+    borderInfo = aBorderInfo;
+  }
+
+  @Override
+  public void drawRectBorder( int aX, int aY, int aWidth, int aHeight ) {
+    ITsRectangle r = new TsRectangle( aX, aY, aWidth, aHeight );
+    TsGraphicsUtils.drawBorder( gc, borderInfo, r, colorManager() );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Implementation
+  //
+
+  private void fillTileImage( TsImage aImage, int aX, int aY, int aWidth, int aHeight ) {
+
   }
 
 }

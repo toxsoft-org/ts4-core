@@ -23,4 +23,7 @@ public interface ITsGraphicsContext
 
   void fillRect( int aX, int aY, int aWidth, int aHeight );
 
+  void setBorderInfo( TsBorderInfo aBorderInfo );
+
+  void drawRectBorder( int aX, int aY, int aWidth, int aHeight );
 }

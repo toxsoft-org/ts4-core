@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.ved.impl;
 
+import static org.toxsoft.core.tsgui.ved.impl.VedAbstractViselFactory.*;
+
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.tin.*;
 import org.toxsoft.core.tsgui.ved.api.cfg.*;
@@ -61,6 +63,7 @@ public abstract class VedAbstractVisel
     // FIXME найти фабрику
     IVedViselFactoriesRegistry fr = tsContext.get( IVedViselFactoriesRegistry.class );
     factory = fr.get( factoryId );
+    d2Conv = aConfig.propValues().getValobj( FID_D2CONVERSION );
   }
 
   // ------------------------------------------------------------------------------------
@@ -234,6 +237,7 @@ public abstract class VedAbstractVisel
     width = props().getDouble( VedAbstractViselFactory.FID_VISEL_WIDTH );
     height = props().getDouble( VedAbstractViselFactory.FID_VISEL_HEIGHT );
     d2rect = new D2Rectangle( originX, originY, width, height );
+    d2Conv = props().getValobj( FID_D2CONVERSION );
     updateTsRect();
     doOnLocationChanged();
     doOnSizeChanged();

@@ -22,9 +22,10 @@ import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 public class InspFillTypeInfo
     extends AbstractTinTypeInfo<TsFillInfo> {
 
-  private static final String FID_FILL_TYPE  = "fillType";  //$NON-NLS-1$
-  private static final String FID_FILL_COLOR = "fillColor"; //$NON-NLS-1$
-  private static final String FID_FILL_IMAGE = "fillImage"; //$NON-NLS-1$
+  private static final String FID_FILL_TYPE     = "fillType";     //$NON-NLS-1$
+  private static final String FID_FILL_COLOR    = "fillColor";    //$NON-NLS-1$
+  private static final String FID_FILL_GRADIENT = "fillGradient"; //$NON-NLS-1$
+  private static final String FID_FILL_IMAGE    = "fillImage";    //$NON-NLS-1$
 
   /**
    * The type information singleton.
@@ -45,10 +46,16 @@ public class InspFillTypeInfo
         TSID_DESCRIPTION, STR_D_FILL_COLOR //
     ) );
 
+    // fieldInfos().add( new TinFieldInfo( FID_FILL_GRADIENT, InspGradientFillTypeInfo.INSTANCE, //
+    // TSID_NAME, STR_N_GRADIENT, //
+    // TSID_DESCRIPTION, STR_D_GRADIENT, //
+    // TSID_KEEPER_ID, TsGradientFillInfo.KEEPER_ID //
+    // ) );
+
     fieldInfos().add( new TinFieldInfo( FID_FILL_IMAGE, InspImageFillTypeInfo.INSTANCE, //
         TSID_NAME, STR_N_IMAGE, //
         TSID_DESCRIPTION, STR_D_IMAGE, //
-        TSID_KEEPER_ID, ETsFillKind.KEEPER_ID //
+        TSID_KEEPER_ID, TsImageFillInfo.KEEPER_ID //
     ) );
 
   }
