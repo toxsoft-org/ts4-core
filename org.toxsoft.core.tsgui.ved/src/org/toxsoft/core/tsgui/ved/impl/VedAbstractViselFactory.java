@@ -36,6 +36,11 @@ public abstract class VedAbstractViselFactory
   public static final String FID_VISEL_HEIGHT = "visel.height"; //$NON-NLS-1$
 
   /**
+   * ИД поля в {@link ITinTypeInfo} для преобразования координат
+   */
+  public static final String FID_D2CONVERSION = "visel.d2conversion"; //$NON-NLS-1$
+
+  /**
    * Constructor.
    *
    * @param aId String - the

@@ -54,6 +54,8 @@ public class RectViselFactory
 
   IDataDef DDEF_LINE_INFO = DataDef.create3( "visel.rect.lineInfo", DT_LINE_INFO ); //$NON-NLS-1$
 
+  IDataDef DDEF_D2CONVERSION = DataDef.create3( "visel.d2conversion", DT_D2CONVERSION ); //$NON-NLS-1$
+
   /**
    * Конструктор.
    */
@@ -75,7 +77,8 @@ public class RectViselFactory
     fields.add( new TinFieldInfo( FID_VISEL_HEIGHT, TTI_FLOATING, DDEF_HEIGHT.params() ) );
     fields.add( new TinFieldInfo( FID_FILL_INFO, InspFillTypeInfo.INSTANCE, DDEF_FILL_INFO.params() ) );
     fields.add( new TinFieldInfo( FID_LINE_INFO, InspLineTypeInfo.INSTANCE, DDEF_LINE_INFO.params() ) );
-    InspViselTypeInfo typeinfo = new InspViselTypeInfo( fields );
+    fields.add( new TinFieldInfo( FID_D2CONVERSION, InspD2ConversionTypeInfo.INSTANCE, DDEF_D2CONVERSION.params() ) );
+    InspVedItemTypeInfo typeinfo = new InspVedItemTypeInfo( fields );
     return typeinfo;
   }
 

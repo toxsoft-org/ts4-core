@@ -10,11 +10,11 @@ import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 
 /**
- * Группа {@link ITinTypeInfo} для {@link IVedVisel}.
+ * Группа {@link ITinTypeInfo} для {@link IVedItem}.
  *
  * @author vs
  */
-public class InspViselTypeInfo
+public class InspVedItemTypeInfo
     extends AbstractTinTypeInfo<IVedVisel> {
 
   // ------------------------------------------------------------------------------------
@@ -26,7 +26,7 @@ public class InspViselTypeInfo
    *
    * @param aFieldInfoes IStridablesList&lt;ITinFieldInfo> - список полей
    */
-  public InspViselTypeInfo( IStridablesList<ITinFieldInfo> aFieldInfoes ) {
+  public InspVedItemTypeInfo( IStridablesList<ITinFieldInfo> aFieldInfoes ) {
     super( ETinTypeKind.GROUP, null, IVedVisel.class );
     for( ITinFieldInfo fieldInfo : aFieldInfoes ) {
       fieldInfos().add( fieldInfo );

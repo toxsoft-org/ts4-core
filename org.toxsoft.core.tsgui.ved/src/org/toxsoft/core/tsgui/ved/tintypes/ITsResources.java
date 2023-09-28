@@ -81,4 +81,6 @@ public interface ITsResources {
   String STR_N_FILL_INFO = "Заливка";           // "Заливка";
   String STR_D_FILL_INFO = "Параметры заливки"; // "Параметры заливки";
 
+  String STR_N_GRADIENT = "Градиент";           // Градиент
+  String STR_D_GRADIENT = "Заливка градиентом"; // Заливка градиентом
 }
