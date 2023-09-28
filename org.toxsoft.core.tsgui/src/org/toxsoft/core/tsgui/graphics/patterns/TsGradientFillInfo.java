@@ -17,9 +17,9 @@ public class TsGradientFillInfo
     implements IGradientInfo {
 
   /**
-   * Параметры заливки изображением по-умолчанию.
+   * Параметры заливки градиентом по-умолчанию.
    */
-  public static final TsGradientFillInfo DEFAULT = new TsGradientFillInfo( EGradientType.LINEAR );
+  public static final TsGradientFillInfo DEFAULT = new TsGradientFillInfo( EGradientType.NONE );
 
   /**
    * Value-object registration identifier for {@link TsValobjUtils}.

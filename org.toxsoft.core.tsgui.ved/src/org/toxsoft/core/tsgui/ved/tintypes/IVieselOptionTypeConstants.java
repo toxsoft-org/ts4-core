@@ -168,9 +168,19 @@ public interface IVieselOptionTypeConstants {
       TSID_NAME, STR_N_IMAGE_FILL_INFO, //
       TSID_DESCRIPTION, STR_D_IMAGE_FILL_INFO, //
       TSID_KEEPER_ID, TsImageFillInfo.KEEPER_ID, //
-      // FIXME указать редактор для TsImageFillInfo
-      // OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgb.FACTORY_NAME, //
+      OPID_EDITOR_FACTORY_NAME, ValedAvValobjTsImageDescriptor.FACTORY_NAME, //
       TSID_DEFAULT_VALUE, avValobj( new TsImageFillInfo( TsImageDescriptor.NONE, EImageFillKind.FIT ) ) //
+  );
+
+  /**
+   * Описание типа данных {@link TsGradientFillInfo}
+   */
+  IDataType DT_GRADIENT_FILL_INFO = DataType.create( VALOBJ, //
+      TSID_NAME, STR_N_GRADIENT_FILL_INFO, //
+      TSID_DESCRIPTION, STR_D_GRADIENT_FILL_INFO, //
+      TSID_KEEPER_ID, TsGradientFillInfo.KEEPER_ID, //
+      OPID_EDITOR_FACTORY_NAME, ValedAvValobjGradientInfo.FACTORY_NAME, //
+      TSID_DEFAULT_VALUE, avValobj( TsGradientFillInfo.DEFAULT ) //
   );
 
   /**
@@ -180,7 +190,7 @@ public interface IVieselOptionTypeConstants {
       TSID_NAME, STR_N_FILL_INFO, //
       TSID_DESCRIPTION, STR_D_FILL_INFO, //
       TSID_KEEPER_ID, TsFillInfo.KEEPER_ID, //
-      // OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgb.FACTORY_NAME, //
+      OPID_EDITOR_FACTORY_NAME, ValedAvValobjTsFillInfo.FACTORY_NAME, //
       TSID_DEFAULT_VALUE, avValobj( new TsFillInfo( new RGBA( 255, 255, 255, 255 ) ) ) //
   );
 

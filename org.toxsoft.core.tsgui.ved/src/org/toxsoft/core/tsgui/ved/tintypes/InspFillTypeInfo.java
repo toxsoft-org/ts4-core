@@ -1,7 +1,9 @@
 package org.toxsoft.core.tsgui.ved.tintypes;
 
+import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
 import static org.toxsoft.core.tsgui.ved.tintypes.ITsResources.*;
 import static org.toxsoft.core.tsgui.ved.tintypes.IVieselOptionTypeConstants.*;
+import static org.toxsoft.core.tsgui.ved.tintypes.InspFieldTypeConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
@@ -10,6 +12,7 @@ import org.toxsoft.core.tsgui.bricks.tin.*;
 import org.toxsoft.core.tsgui.bricks.tin.helpers.*;
 import org.toxsoft.core.tsgui.bricks.tin.impl.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
+import org.toxsoft.core.tsgui.valed.controls.graphics.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
@@ -46,11 +49,12 @@ public class InspFillTypeInfo
         TSID_DESCRIPTION, STR_D_FILL_COLOR //
     ) );
 
-    // fieldInfos().add( new TinFieldInfo( FID_FILL_GRADIENT, InspGradientFillTypeInfo.INSTANCE, //
-    // TSID_NAME, STR_N_GRADIENT, //
-    // TSID_DESCRIPTION, STR_D_GRADIENT, //
-    // TSID_KEEPER_ID, TsGradientFillInfo.KEEPER_ID //
-    // ) );
+    fieldInfos().add( new TinFieldInfo( FID_FILL_GRADIENT, TTI_GRADIENT_FILL_INFO, //
+        TSID_NAME, STR_N_GRADIENT, //
+        TSID_DESCRIPTION, STR_D_GRADIENT, //
+        OPID_EDITOR_FACTORY_NAME, ValedAvValobjGradientInfo.FACTORY_NAME, //
+        TSID_KEEPER_ID, TsGradientFillInfo.KEEPER_ID //
+    ) );
 
     fieldInfos().add( new TinFieldInfo( FID_FILL_IMAGE, InspImageFillTypeInfo.INSTANCE, //
         TSID_NAME, STR_N_IMAGE, //
@@ -91,7 +95,11 @@ public class InspFillTypeInfo
         ifi = TinTools.getValue( FID_FILL_IMAGE, aChildValues, avValobj( TsImageFillInfo.DEFAULT ) ).asValobj();
         return avValobj( new TsFillInfo( ifi ) );
       }
-      case GRADIENT:
+      case GRADIENT: {
+        TsGradientFillInfo gfi;
+        gfi = TinTools.getValue( FID_FILL_GRADIENT, aChildValues, avValobj( TsGradientFillInfo.DEFAULT ) ).asValobj();
+        return avValobj( new TsFillInfo( gfi ) );
+      }
       default:
         throw new IllegalArgumentException( "Unexpected value: " + kind ); //$NON-NLS-1$
     }
@@ -114,6 +122,8 @@ public class InspFillTypeInfo
         aChildValues.put( FID_FILL_IMAGE, InspImageFillTypeInfo.INSTANCE.makeValue( fi.imageFillInfo() ) );
         break;
       case GRADIENT:
+        aChildValues.put( FID_FILL_GRADIENT, TTI_GRADIENT_FILL_INFO.makeValue( fi.gradientFillInfo() ) );
+        break;
       default:
         throw new IllegalArgumentException( "Unexpected value: " + fi.kind() ); //$NON-NLS-1$
     }
@@ -142,6 +152,9 @@ public class InspFillTypeInfo
         result.add( FID_FILL_IMAGE );
         return result;
       case GRADIENT:
+        result.add( FID_FILL_TYPE );
+        result.add( FID_FILL_GRADIENT );
+        return result;
       default:
         throw new IllegalArgumentException( "Unexpected value: " + fi.kind() ); //$NON-NLS-1$
     }

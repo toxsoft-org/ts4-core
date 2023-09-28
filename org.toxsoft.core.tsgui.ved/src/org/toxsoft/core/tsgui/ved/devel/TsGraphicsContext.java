@@ -84,36 +84,51 @@ public class TsGraphicsContext
     Pattern pattern = null;
     if( fillInfo != null ) {
       switch( fillInfo.kind() ) {
+        case NONE:
+          return;
         case SOLID:
           RGBA rgba = fillInfo.fillColor();
           gc.setBackground( colorManager().getColor( rgba.rgb ) );
           gc.setAlpha( rgba.alpha );
           break;
-        case NONE:
-          return;
         case GRADIENT:
           IGradient grad = fillInfo.gradientFillInfo().createGradient( tsContext );
-          pattern = grad.pattern( gc, aWidth, aHeight );
-          gc.setBackgroundPattern( pattern );
+          if( grad != null ) {
+            pattern = grad.pattern( gc, aWidth, aHeight );
+            gc.setBackgroundPattern( pattern );
+          }
           break;
         case IMAGE:
           TsImageFillInfo imgInfo = fillInfo.imageFillInfo();
           if( imgInfo.imageDescriptor() == TsImageDescriptor.NONE ) {
             bkImage = unknownImage;
           }
+          else {
+            bkImage = imageManager().getImage( imgInfo.imageDescriptor() );
+          }
           if( imgInfo.kind() == EImageFillKind.TILE ) {
             fillTileImage( bkImage, aX, aY, aWidth, aHeight );
           }
-          break;
+          return;
         // throw new TsUnderDevelopmentRtException();
         default:
           throw new IllegalArgumentException( "Unexpected value: " + fillInfo.kind() ); //$NON-NLS-1$
       }
     }
-    gc.fillRectangle( aX, aY, aWidth, aHeight );
+    Transform oldTransform = new Transform( gc.getDevice() );
+    gc.getTransform( oldTransform );
+    Transform tr = new Transform( gc.getDevice() );
+    gc.getTransform( tr );
+    tr.translate( aX, aY );
+    gc.setTransform( tr );
+    tr.dispose();
+    // gc.fillRectangle( aX, aY, aWidth, aHeight );
+    gc.fillRectangle( 0, 0, aWidth, aHeight );
     if( pattern != null ) {
       pattern.dispose();
     }
+    gc.setTransform( oldTransform );
+    oldTransform.dispose();
   }
 
   @Override
@@ -132,7 +147,25 @@ public class TsGraphicsContext
   //
 
   private void fillTileImage( TsImage aImage, int aX, int aY, int aWidth, int aHeight ) {
+    gc.setClipping( new Rectangle( aX, aY, aWidth, aHeight ) );
 
+    ImageData imd = aImage.image().getImageData();
+    int width = imd.width;
+    int height = imd.height;
+
+    int x = aX;
+    int y = aY;
+
+    while( x < aX + aWidth ) {
+      y = aY;
+      while( y < aY + aHeight ) {
+        gc.drawImage( aImage.image(), x, y );
+        y += height;
+      }
+      x += width;
+    }
+
+    gc.setClipping( (Rectangle)null );
   }
 
 }

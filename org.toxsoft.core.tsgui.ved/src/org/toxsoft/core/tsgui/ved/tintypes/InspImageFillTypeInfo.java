@@ -23,7 +23,7 @@ public class InspImageFillTypeInfo
 
   private static final String FID_FILL_TYPE = "fillType"; //$NON-NLS-1$
 
-  private static final String FID_IMAGE_DESCRIPTOR = "imageDescriptor"; //$NON-NLS-1$
+  private static final String FID_IMAGE_DESCRIPTOR = "gradientInfo"; //$NON-NLS-1$
 
   /**
    * The type information singleton.
