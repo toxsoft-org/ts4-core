@@ -16,10 +16,6 @@ public class VedAbstractActor
     implements IVedActor {
 
   /**
-   * FIXME add setEnanbled()
-   */
-
-  /**
    * Constructor.
    *
    * @param aConfig {@link IVedItemCfg} - the item config

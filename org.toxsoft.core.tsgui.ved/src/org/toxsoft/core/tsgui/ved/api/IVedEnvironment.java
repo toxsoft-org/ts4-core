@@ -13,17 +13,31 @@ public interface IVedEnvironment
     extends ITsGuiContextable {
 
   /**
-   * Returns the VISELs.
+   * Returns all VISELs.
    *
-   * @return {@link IStridablesList}&lt;{@link IVedVisel}&gt; - the ordered list of VISELs
+   * @return {@link IStridablesList}&lt;{@link IVedVisel}&gt; - the ordered list of all VISELs
    */
   IStridablesList<IVedVisel> visels();
 
   /**
-   * Returns the actors.
+   * Returns all actors.
    *
-   * @return {@link IStridablesList}&lt;{@link IVedActor}&gt; - the ordered list of actors
+   * @return {@link IStridablesList}&lt;{@link IVedActor}&gt; - the ordered list of all actors
    */
   IStridablesList<IVedActor> actors();
+
+  /**
+   * Returns active VISELs, the subset of {@link #visels()}.
+   *
+   * @return {@link IStridablesList}&lt;{@link IVedVisel}&gt; - the ordered list of active VISELs
+   */
+  IStridablesList<IVedVisel> activeVisels();
+
+  /**
+   * Returns all actors, the subset of {@link #activeActors()}.
+   *
+   * @return {@link IStridablesList}&lt;{@link IVedActor}&gt; - the ordered list of active actors
+   */
+  IStridablesList<IVedActor> activeActors();
 
 }

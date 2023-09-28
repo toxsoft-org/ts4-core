@@ -26,6 +26,9 @@ public class VedEnvironment
   private final IStridablesListEdit<VedAbstractVisel> viselsList = new StridablesList<>();
   private final IStridablesListEdit<VedAbstractActor> actorsList = new StridablesList<>();
 
+  private final IStridablesListEdit<VedAbstractVisel> activeViselsList = new StridablesList<>();
+  private final IStridablesListEdit<VedAbstractActor> activeActorsList = new StridablesList<>();
+
   /**
    * Constructor.
    *
@@ -61,6 +64,18 @@ public class VedEnvironment
     return (IStridablesList)actorsList;
   }
 
+  @SuppressWarnings( { "unchecked", "rawtypes" } )
+  @Override
+  public IStridablesList<IVedVisel> activeVisels() {
+    return (IStridablesList)activeViselsList;
+  }
+
+  @SuppressWarnings( { "unchecked", "rawtypes" } )
+  @Override
+  public IStridablesList<IVedActor> activeActors() {
+    return (IStridablesList)activeActorsList;
+  }
+
   // ------------------------------------------------------------------------------------
   // API
   //
@@ -84,9 +99,33 @@ public class VedEnvironment
   }
 
   /**
+   * Returns the list of the active VISELs.
+   * <p>
+   * This list can not be directly manipulated, instead, invoke {@link #updateAciveItemsList()} after changing VISELs
+   * activity state or VISELs list {@link #viselsList()}.
+   *
+   * @return {@link IStridablesList}&lt;{@link VedAbstractVisel}&gt; - the ordered list of active VISELs
+   */
+  public IStridablesList<VedAbstractVisel> activeViselsList() {
+    return activeViselsList;
+  }
+
+  /**
+   * Returns the list of the active actors.
+   * <p>
+   * This list can not be directly manipulated, instead, invoke {@link #updateAciveItemsList()} after changing actors
+   * activity state or actors list {@link #actorsList()}.
+   *
+   * @return {@link IStridablesList}&lt;{@link VedAbstractActor}&gt; - the ordered list of active actors
+   */
+  public IStridablesList<VedAbstractActor> activeActorsList() {
+    return activeActorsList;
+  }
+
+  /**
    * Creates items and adds them to the internal lists.
    *
-   * @param aScreenCfg {@link IVedScreenCfg} - configurationfor items creation
+   * @param aScreenCfg {@link IVedScreenCfg} - configuration for items creation
    */
   public void createItems( IVedScreenCfg aScreenCfg ) {
     // create the VISELs and add to the VED environment
@@ -123,6 +162,28 @@ public class VedEnvironment
         LoggerUtils.errorLogger().warning( FMT_WARN_UNKNON_ACTOR_FACTORY, cfg.factoryId() );
       }
     }
+    //
+    updateAciveItemsList();
+  }
+
+  /**
+   * Updates lists of active actors and VISELs depending on items {@link VedAbstractItem#isActive()} state.
+   */
+  public void updateAciveItemsList() {
+    // VISELs
+    activeViselsList.clear();
+    for( VedAbstractVisel item : viselsList ) {
+      if( item.isActive() ) {
+        activeViselsList.add( item );
+      }
+    }
+    // actors
+    activeActorsList.clear();
+    for( VedAbstractActor item : actorsList ) {
+      if( item.isActive() ) {
+        activeActorsList.add( item );
+      }
+    }
   }
 
   // ------------------------------------------------------------------------------------
@@ -134,7 +195,6 @@ public class VedEnvironment
    * <p>
    * {@inheritDoc}
    */
-
   @Override
   public void clear() {
     // remove and dispose actors
@@ -151,6 +211,8 @@ public class VedEnvironment
       visel.dispose();
       viselsList.remove( visel );
     }
+    //
+    updateAciveItemsList();
   }
 
 }

@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.ved.impl;
 
+import static org.toxsoft.core.tsgui.ved.api.IVedFrameworkConstants.*;
 import static org.toxsoft.core.tsgui.ved.l10n.ITsguiVedSharedResources.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
@@ -99,6 +100,15 @@ public class VedAbstractItem
     else {
       LoggerUtils.errorLogger().warning( STR_WARN_DUPLICATE_DIPOSAL, toString() );
     }
+  }
+
+  // ------------------------------------------------------------------------------------
+  // IVedItem
+  //
+
+  @Override
+  final public boolean isActive() {
+    return props().getBool( PROP_IS_ACTIVE );
   }
 
   // ------------------------------------------------------------------------------------
