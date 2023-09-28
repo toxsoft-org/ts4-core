@@ -1,13 +1,17 @@
 package org.toxsoft.core.tsgui.ved.impl;
 
+import static org.toxsoft.core.tsgui.ved.l10n.ITsguiVedSharedResources.*;
+
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.cfg.*;
+import org.toxsoft.core.tsgui.ved.api.helpers.*;
 import org.toxsoft.core.tsgui.ved.api.items.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * {@link IVedEnvironment} implementation.
@@ -79,13 +83,57 @@ public class VedEnvironment
     return actorsList;
   }
 
+  /**
+   * Creates items and adds them to the internal lists.
+   *
+   * @param aScreenCfg {@link IVedScreenCfg} - configurationfor items creation
+   */
   public void createItems( IVedScreenCfg aScreenCfg ) {
-
+    // create the VISELs and add to the VED environment
+    IVedViselFactoriesRegistry vfReg = tsContext().get( IVedViselFactoriesRegistry.class );
+    for( IVedItemCfg cfg : aScreenCfg.viselCfgs() ) {
+      IVedViselFactory factory = vfReg.find( cfg.factoryId() );
+      if( factory != null ) {
+        try {
+          VedAbstractVisel visel = factory.create( cfg, this );
+          viselsList.add( visel );
+        }
+        catch( Exception ex ) {
+          LoggerUtils.errorLogger().error( ex, FMT_ERR_CAN_CREATE_VISEL, ex.getMessage() );
+        }
+      }
+      else {
+        LoggerUtils.errorLogger().warning( FMT_WARN_UNKNON_VISEL_FACTORY, cfg.factoryId() );
+      }
+    }
+    // create the actors and add to the VED environment
+    IVedActorFactoriesRegistry afReg = tsContext().get( IVedActorFactoriesRegistry.class );
+    for( IVedItemCfg cfg : aScreenCfg.actorCfgs() ) {
+      IVedActorFactory factory = afReg.find( cfg.factoryId() );
+      if( factory != null ) {
+        try {
+          VedAbstractActor actor = factory.create( cfg, this );
+          actorsList.add( actor );
+        }
+        catch( Exception ex ) {
+          LoggerUtils.errorLogger().error( ex, FMT_ERR_CAN_CREATE_ACTOR, ex.getMessage() );
+        }
+      }
+      else {
+        LoggerUtils.errorLogger().warning( FMT_WARN_UNKNON_ACTOR_FACTORY, cfg.factoryId() );
+      }
+    }
   }
 
   // ------------------------------------------------------------------------------------
   // ITsClearable
   //
+
+  /**
+   * Removes all items and calls {@link IDisposable#dispose() item.dispose()} on them.
+   * <p>
+   * {@inheritDoc}
+   */
 
   @Override
   public void clear() {
@@ -93,19 +141,16 @@ public class VedEnvironment
     while( !actorsList.isEmpty() ) {
       VedAbstractActor actor = actorsList.last();
       // actor.disable();
-      // actor.dispose();
+      actor.dispose();
       actorsList.remove( actor );
     }
     // remove and dispose VISELs
     while( !viselsList.isEmpty() ) {
       VedAbstractVisel visel = viselsList.last();
-      // visel.disable();
-      // visel.dispose();
+      // visel.hide();
+      visel.dispose();
       viselsList.remove( visel );
     }
-
-    // TODO Auto-generated method stub
-
   }
 
 }

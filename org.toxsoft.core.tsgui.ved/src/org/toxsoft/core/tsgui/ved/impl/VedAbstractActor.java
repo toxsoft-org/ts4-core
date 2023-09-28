@@ -16,7 +16,7 @@ public class VedAbstractActor
     implements IVedActor {
 
   /**
-   * FIXME add disable()
+   * FIXME add setEnanbled()
    */
 
   /**

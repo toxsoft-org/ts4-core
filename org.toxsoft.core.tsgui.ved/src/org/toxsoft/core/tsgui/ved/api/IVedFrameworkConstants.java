@@ -33,9 +33,9 @@ public interface IVedFrameworkConstants {
    * Entity operation is allowed.<br>
    * Type: {@link EAtomicType#BOOLEAN}
    */
-  IDataDef PROP_IS_ENABLED = DataDef.create( VED_ID + ".isEnabled", BOOLEAN, //$NON-NLS-1$
-      TSID_NAME, STR_IS_ENABLED, //
-      TSID_DESCRIPTION, STR_IS_ENABLED_D, //
+  IDataDef PROP_IS_ACTIVE = DataDef.create( VED_ID + ".isActive", BOOLEAN, //$NON-NLS-1$
+      TSID_NAME, STR_IS_ACTIVE, //
+      TSID_DESCRIPTION, STR_IS_ACTIVE_D, //
       TSID_DEFAULT_VALUE, AV_TRUE //
   );
 
