@@ -91,10 +91,16 @@ public interface InspFieldTypeConstants {
    */
   ITinTypeInfo TTI_RGB_COLOR = InspRgbTypeInfo.INSP_TYPE_INFO;
 
-  // /**
-  // * Информация о поле инспектора для значений типа {@link RGBA}.
-  // */
-  // ITinTypeInfo TTI_RGBA_COLOR = InspRgbaTypeInfo.INSP_TYPE_INFO;
+  /**
+   * Информация о поле инспектора для значений типа {@link TsGradientFillInfo}.
+   */
+  ITinTypeInfo TTI_GRADIENT_FILL_INFO = new TinAtomicTypeInfo<>( DT_GRADIENT_FILL_INFO, TsGradientFillInfo.class ) {
+
+    @Override
+    protected IAtomicValue doGetAtomicValue( TsGradientFillInfo aEntity ) {
+      return avValobj( aEntity );
+    }
+  };
 
   /**
    * Информация о поле инспектора для значений типа {@link TsFillInfo}.

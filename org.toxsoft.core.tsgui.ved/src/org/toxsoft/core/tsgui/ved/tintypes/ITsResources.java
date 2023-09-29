@@ -78,6 +78,9 @@ public interface ITsResources {
   String STR_N_IMAGE_FILL_INFO = "Заливка изображением";           // "Заливка изображением";
   String STR_D_IMAGE_FILL_INFO = "Параметры заливки изображением"; // "Параметры заливки изображением";
 
+  String STR_N_GRADIENT_FILL_INFO = "Градиент";           // Градиент
+  String STR_D_GRADIENT_FILL_INFO = "Заливка градиентом"; // Заливка градиентом
+
   String STR_N_FILL_INFO = "Заливка";           // "Заливка";
   String STR_D_FILL_INFO = "Параметры заливки"; // "Параметры заливки";
 

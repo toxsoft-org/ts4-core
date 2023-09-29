@@ -81,6 +81,7 @@ public class ValedControlFactoriesRegistry
     registerFactory( ValedAvValobjTsFillInfo.FACTORY );
     registerFactory( ValedOptionSet.FACTORY );
     registerFactory( ValedAvValobjTsImageDescriptor.FACTORY );
+    registerFactory( ValedAvValobjGradientInfo.FACTORY );
 
   }
 
