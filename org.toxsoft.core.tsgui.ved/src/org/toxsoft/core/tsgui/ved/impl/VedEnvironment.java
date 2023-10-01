@@ -9,7 +9,10 @@ import org.toxsoft.core.tsgui.ved.api.helpers.*;
 import org.toxsoft.core.tsgui.ved.api.items.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.logs.impl.*;
 
@@ -25,6 +28,9 @@ public class VedEnvironment
 
   private final IStridablesListEdit<VedAbstractVisel> viselsList = new StridablesList<>();
   private final IStridablesListEdit<VedAbstractActor> actorsList = new StridablesList<>();
+
+  private final IStringMap<IList<IVedDecorator>> viselDecoratorsBefore = new StringMap<>();
+  private final IStringMap<IList<IVedDecorator>> viselDecoratorsAfter  = new StringMap<>();
 
   private final IStridablesListEdit<VedAbstractVisel> activeViselsList = new StridablesList<>();
   private final IStridablesListEdit<VedAbstractActor> activeActorsList = new StridablesList<>();
@@ -56,6 +62,16 @@ public class VedEnvironment
   @Override
   public IStridablesList<IVedVisel> visels() {
     return (IStridablesList)viselsList;
+  }
+
+  @Override
+  public IStringMap<IList<IVedDecorator>> viselDecoratorsBefore() {
+    return viselDecoratorsBefore;
+  }
+
+  @Override
+  public IStringMap<IList<IVedDecorator>> viselDecoratorsAfter() {
+    return viselDecoratorsAfter;
   }
 
   @SuppressWarnings( { "unchecked", "rawtypes" } )
