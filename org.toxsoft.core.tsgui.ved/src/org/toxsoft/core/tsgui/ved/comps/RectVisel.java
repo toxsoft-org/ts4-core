@@ -11,7 +11,7 @@ import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 
-public class RectVisel
+class RectVisel
     extends VedAbstractVisel {
 
   private Rectangle swtRect = new Rectangle( 0, 0, 1, 1 );
