@@ -45,4 +45,8 @@ public interface IVedEnvironment
    */
   IStridablesList<IVedActor> activeActors();
 
+  IList<IVedDecorator> screenDecoratorsBefore();
+
+  IList<IVedDecorator> screenDecoratorsAfter();
+
 }

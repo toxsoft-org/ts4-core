@@ -11,6 +11,7 @@ import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -34,6 +35,9 @@ public class VedEnvironment
 
   private final IStridablesListEdit<VedAbstractVisel> activeViselsList = new StridablesList<>();
   private final IStridablesListEdit<VedAbstractActor> activeActorsList = new StridablesList<>();
+
+  private final IListEdit<IVedDecorator> screenDecoratorsBefore = new ElemArrayList<>();
+  private final IListEdit<IVedDecorator> screenDecoratorsAfter  = new ElemArrayList<>();
 
   /**
    * Constructor.
@@ -94,6 +98,16 @@ public class VedEnvironment
   @Override
   public IStridablesList<IVedActor> activeActors() {
     return (IStridablesList)activeActorsList;
+  }
+
+  @Override
+  public IListEdit<IVedDecorator> screenDecoratorsBefore() {
+    return screenDecoratorsBefore;
+  }
+
+  @Override
+  public IList<IVedDecorator> screenDecoratorsAfter() {
+    return screenDecoratorsAfter;
   }
 
   // ------------------------------------------------------------------------------------
