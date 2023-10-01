@@ -66,12 +66,16 @@ public class VedEnvironment
 
   @Override
   public IList<IVedDecorator> viselDecoratorsBefore( String aViselId ) {
-    return viselDecoratorsBefore;
+    TsItemNotFoundRtException.checkFalse( viselsList.hasKey( aViselId ) );
+    IList<IVedDecorator> ll = viselDecoratorsBefore.findByKey( aViselId );
+    return ll != null ? ll : IList.EMPTY;
   }
 
   @Override
   public IList<IVedDecorator> viselDecoratorsAfter( String aViselId ) {
-    return viselDecoratorsAfter;
+    TsItemNotFoundRtException.checkFalse( viselsList.hasKey( aViselId ) );
+    IList<IVedDecorator> ll = viselDecoratorsAfter.findByKey( aViselId );
+    return ll != null ? ll : IList.EMPTY;
   }
 
   @SuppressWarnings( { "unchecked", "rawtypes" } )
