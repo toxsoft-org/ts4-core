@@ -4,7 +4,6 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.ved.api.items.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.coll.*;
-import org.toxsoft.core.tslib.coll.primtypes.*;
 
 /**
  * The environment shared between all components of the mnemo editor.
@@ -21,9 +20,9 @@ public interface IVedEnvironment
    */
   IStridablesList<IVedVisel> visels();
 
-  IStringMap<IList<IVedDecorator>> viselDecoratorsBefore();
+  IList<IVedDecorator> viselDecoratorsBefore( String aViselId );
 
-  IStringMap<IList<IVedDecorator>> viselDecoratorsAfter();
+  IList<IVedDecorator> viselDecoratorsAfter( String aViselId );
 
   /**
    * Returns all actors.

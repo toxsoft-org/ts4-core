@@ -65,12 +65,12 @@ public class VedEnvironment
   }
 
   @Override
-  public IStringMap<IList<IVedDecorator>> viselDecoratorsBefore() {
+  public IList<IVedDecorator> viselDecoratorsBefore( String aViselId ) {
     return viselDecoratorsBefore;
   }
 
   @Override
-  public IStringMap<IList<IVedDecorator>> viselDecoratorsAfter() {
+  public IList<IVedDecorator> viselDecoratorsAfter( String aViselId ) {
     return viselDecoratorsAfter;
   }
 
