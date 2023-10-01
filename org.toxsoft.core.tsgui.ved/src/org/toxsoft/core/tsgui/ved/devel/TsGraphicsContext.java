@@ -38,6 +38,13 @@ public class TsGraphicsContext
     unknownImage = imageManager().createUnknownImage( unknownImageSize );
   }
 
+  public TsGraphicsContext( GC aGc, ITsGuiContext aTsContext ) {
+    tsContext = aTsContext;
+    gc = aGc;
+    drawingArea = new TsRectangle( 0, 0, 1, 1 );
+    unknownImage = imageManager().createUnknownImage( unknownImageSize );
+  }
+
   // ------------------------------------------------------------------------------------
   // ITsGuiContextable
   //
