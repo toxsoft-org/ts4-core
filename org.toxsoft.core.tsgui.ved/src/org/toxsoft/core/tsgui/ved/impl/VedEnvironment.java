@@ -106,7 +106,7 @@ public class VedEnvironment
   }
 
   @Override
-  public IList<IVedDecorator> screenDecoratorsAfter() {
+  public IListEdit<IVedDecorator> screenDecoratorsAfter() {
     return screenDecoratorsAfter;
   }
 
