@@ -6,4 +6,6 @@ import org.toxsoft.core.tsgui.ved.devel.*;
 public interface IVedDecorator
     extends ITsPaintable, IPointsHost {
 
+  String viselId();
+
 }
