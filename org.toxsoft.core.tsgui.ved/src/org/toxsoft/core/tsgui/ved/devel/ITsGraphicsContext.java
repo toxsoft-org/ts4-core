@@ -5,6 +5,7 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.graphics.lines.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * TS graphics context wraps over {@link GC} and adds some TsGUI specific functionality.
@@ -38,4 +39,21 @@ public interface ITsGraphicsContext
   void setBorderInfo( TsBorderInfo aBorderInfo );
 
   void drawRectBorder( int aX, int aY, int aWidth, int aHeight );
+
+  // ------------------------------------------------------------------------------------
+  // Inline methods for convenience
+  //
+
+  @SuppressWarnings( "javadoc" )
+  default void drawRect( ITsRectangle aRect ) {
+    TsNullArgumentRtException.checkNull( aRect );
+    drawRect( aRect.x1(), aRect.y1(), aRect.width(), aRect.height() );
+  }
+
+  @SuppressWarnings( "javadoc" )
+  default void fillRect( ITsRectangle aRect ) {
+    TsNullArgumentRtException.checkNull( aRect );
+    fillRect( aRect.x1(), aRect.y1(), aRect.width(), aRect.height() );
+  }
+
 }

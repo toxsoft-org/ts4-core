@@ -28,4 +28,11 @@ public sealed interface IVedCanvasCfg
    */
   ID2Point size();
 
+  /**
+   * Returns the canvas conversion settings.
+   *
+   * @return {@link ID2Conversion} - conversion settings
+   */
+  ID2Conversion conversion();
+
 }

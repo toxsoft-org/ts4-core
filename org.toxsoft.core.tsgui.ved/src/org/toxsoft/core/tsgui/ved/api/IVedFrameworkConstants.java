@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.ved.api;
 
 import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
+import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
 import static org.toxsoft.core.tsgui.ved.l10n.ITsguiVedSharedResources.*;
 import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
@@ -23,11 +24,6 @@ import org.toxsoft.core.tslib.av.metainfo.*;
  * @author hazard157
  */
 public interface IVedFrameworkConstants {
-
-  /**
-   * Framework specific identifiers prefix.
-   */
-  String VED_ID = "ts.gef"; //$NON-NLS-1$
 
   /**
    * Entity operation is allowed.<br>
