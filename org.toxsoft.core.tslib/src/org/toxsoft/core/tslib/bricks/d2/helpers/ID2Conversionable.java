@@ -17,7 +17,7 @@ public interface ID2Conversionable {
   ID2Conversion getConversion();
 
   /**
-   * Sets coordinate speces conversion parameters .
+   * Sets coordinate spaces conversion parameters .
    *
    * @param aConversion {@link ID2Conversion} - conversion parameters
    */
