@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.ved.api.items;
 
 import org.toxsoft.core.tsgui.ved.api.helpers.*;
+import org.toxsoft.core.tsgui.ved.devel.*;
 import org.toxsoft.core.tslib.av.props.*;
 import org.toxsoft.core.tslib.bricks.d2.helpers.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
@@ -13,7 +14,7 @@ import org.toxsoft.core.tslib.bricks.strid.*;
  * @author vs
  */
 public interface IVedVisel
-    extends IStridableParameterized, IPropertable, IPointsHost, IDisplayable, ID2Conversionable {
+    extends IStridableParameterized, IPropertable, IPointsHost, ITsPaintable, ID2Conversionable {
 
   // nop
 
