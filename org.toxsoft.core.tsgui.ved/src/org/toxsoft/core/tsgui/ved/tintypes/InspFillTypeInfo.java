@@ -44,7 +44,7 @@ public class InspFillTypeInfo
         TSID_KEEPER_ID, ETsFillKind.KEEPER_ID //
     ) );
 
-    fieldInfos().add( new TinFieldInfo( FID_FILL_COLOR, RGBATypeInfo.TIN_TYPE_INFO, //
+    fieldInfos().add( new TinFieldInfo( FID_FILL_COLOR, RGBATypeInfo.INSTANCE, //
         TSID_NAME, STR_N_FILL_COLOR, //
         TSID_DESCRIPTION, STR_D_FILL_COLOR //
     ) );
@@ -116,7 +116,7 @@ public class InspFillTypeInfo
       case NONE:
         break;
       case SOLID:
-        aChildValues.put( FID_FILL_COLOR, RGBATypeInfo.TIN_TYPE_INFO.makeValue( fi.fillColor() ) );
+        aChildValues.put( FID_FILL_COLOR, RGBATypeInfo.INSTANCE.makeValue( fi.fillColor() ) );
         break;
       case IMAGE:
         aChildValues.put( FID_FILL_IMAGE, InspImageFillTypeInfo.INSTANCE.makeValue( fi.imageFillInfo() ) );

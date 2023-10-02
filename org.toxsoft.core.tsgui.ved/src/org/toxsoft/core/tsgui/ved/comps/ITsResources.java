@@ -30,6 +30,8 @@ interface ITsResources {
    */
   String STR_N_LABEL_TEXT = "Текст";
   String STR_D_LABEL_TEXT = "Текст";
+  String STR_N_TEXT_COLOR = "Цвет";
+  String STR_D_TEXT_COLOR = "Цвет текста";
 
   String STR_N_LABEL_FACTORY = "Текст";
   String STR_D_LABEL_FACTORY = "Фабрика создания элемента отображающего текст";

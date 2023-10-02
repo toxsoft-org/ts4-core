@@ -149,6 +149,18 @@ public class TsGraphicsContext
     TsGraphicsUtils.drawBorder( gc, borderInfo, r, colorManager() );
   }
 
+  @Override
+  public void setForegroundRgba( RGBA aRgba ) {
+    gc.setAlpha( aRgba.alpha );
+    gc.setForeground( colorManager().getColor( aRgba.rgb ) );
+  }
+
+  @Override
+  public void setForegroundRgb( RGB aRgb ) {
+    gc.setAlpha( 255 );
+    gc.setForeground( colorManager().getColor( aRgb ) );
+  }
+
   // ------------------------------------------------------------------------------------
   // Implementation
   //

@@ -27,7 +27,7 @@ public class RGBATypeInfo
   /**
    * The type information singleton.
    */
-  public static final ITinTypeInfo TIN_TYPE_INFO = new RGBATypeInfo();
+  public static final ITinTypeInfo INSTANCE = new RGBATypeInfo();
 
   private RGBATypeInfo() {
     super( ETinTypeKind.FULL, DT_COLOR_RGBA, RGBA.class );
@@ -80,7 +80,7 @@ public class RGBATypeInfo
   @Override
   protected ITinValue doGetTinValue( RGBA aEntity ) {
     IAtomicValue av = avValobj( aEntity );
-    IStringMap<ITinValue> cv = TIN_TYPE_INFO.decompose( av );
+    IStringMap<ITinValue> cv = INSTANCE.decompose( av );
     return TinValue.ofFull( av, cv );
   }
 

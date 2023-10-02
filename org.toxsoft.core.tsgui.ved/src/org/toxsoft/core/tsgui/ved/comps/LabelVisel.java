@@ -34,14 +34,19 @@ public class LabelVisel
   public LabelVisel( IVedItemCfg aConfig, IStridablesList<IDataDef> aPropDefs, ITsGuiContext aTsContext ) {
     super( aConfig, aPropDefs, aTsContext );
     setLocation( aConfig.propValues().getDouble( FID_VISEL_X ), aConfig.propValues().getDouble( FID_VISEL_Y ) );
+    setSize( aConfig.propValues().getDouble( FID_VISEL_WIDTH ), aConfig.propValues().getDouble( FID_VISEL_HEIGHT ) );
   }
 
   @Override
   public void paint( ITsGraphicsContext aPaintContext ) {
     aPaintContext.setFillInfo( props().getValobj( FID_FILL_INFO ) );
     ITsRectangle r = bounds();
-    aPaintContext.fillRect( r.x1(), r.x2(), r.width(), r.height() );
-    aPaintContext.gc().drawText( "FID_D2CONVERSION", r.x1(), r.x2() );
+    aPaintContext.fillRect( r.x1(), r.y1(), r.width(), r.height() );
+
+    aPaintContext.setForegroundRgba( props().getValobj( FID_TEXT_COLOR ) );
+    aPaintContext.gc().drawText( props().getStr( FID_TEXT ), r.x1(), r.y1() );
+    aPaintContext.setBorderInfo( props().getValobj( FID_BORDER_INFO ) );
+    aPaintContext.drawRectBorder( r.x1(), r.y1(), r.width(), r.height() );
   }
 
 }

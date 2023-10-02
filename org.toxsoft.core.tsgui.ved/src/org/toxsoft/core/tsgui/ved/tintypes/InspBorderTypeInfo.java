@@ -68,8 +68,8 @@ public class InspBorderTypeInfo
     IStridablesList<IDataDef> allDefs = TsBorderInfo.ALL_DEFS;
 
     addField( FID_BORDER_KIND, InspEnumTypeInfo.INSP_TYPE_INFO, allDefs );
-    addField( FID_LEFT_RGBA, RGBATypeInfo.TIN_TYPE_INFO, allDefs );
-    addField( FID_RIGHT_RGBA, RGBATypeInfo.TIN_TYPE_INFO, allDefs );
+    addField( FID_LEFT_RGBA, RGBATypeInfo.INSTANCE, allDefs );
+    addField( FID_RIGHT_RGBA, RGBATypeInfo.INSTANCE, allDefs );
     addField( FID_LINE_INFO, InspLineTypeInfo.INSTANCE, allDefs );
     addField( FID_PAINT_LEFT, TTI_BOOLEAN, allDefs );
     addField( FID_PAINT_TOP, TTI_BOOLEAN, allDefs );

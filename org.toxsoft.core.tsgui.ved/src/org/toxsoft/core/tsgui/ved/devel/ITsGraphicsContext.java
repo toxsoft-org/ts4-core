@@ -40,6 +40,10 @@ public interface ITsGraphicsContext
 
   void drawRectBorder( int aX, int aY, int aWidth, int aHeight );
 
+  void setForegroundRgba( RGBA aRgba );
+
+  void setForegroundRgb( RGB aRgb );
+
   // ------------------------------------------------------------------------------------
   // Inline methods for convenience
   //
