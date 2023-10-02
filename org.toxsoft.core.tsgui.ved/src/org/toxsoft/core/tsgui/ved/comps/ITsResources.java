@@ -28,10 +28,18 @@ interface ITsResources {
   /**
    * LabelVisel
    */
-  String STR_N_LABEL_TEXT = "Текст";
-  String STR_D_LABEL_TEXT = "Текст";
-  String STR_N_TEXT_COLOR = "Цвет";
-  String STR_D_TEXT_COLOR = "Цвет текста";
+  String STR_N_LABEL_TEXT  = "Текст";
+  String STR_D_LABEL_TEXT  = "Текст";
+  String STR_N_TEXT_COLOR  = "Цвет";
+  String STR_D_TEXT_COLOR  = "Цвет текста";
+  String STR_N_FONT        = "Шрифт";
+  String STR_D_FONT        = "Шрифт текста";
+  String STR_N_TRANSPARENT = "Прозрачный фон";
+  String STR_D_TRANSPARENT = "Прозрачный фон";
+  String STR_N_HOR_ALIGN   = "Выравнивание по горизонтали";
+  String STR_D_HOR_ALIGN   = "Выравнивание по горизонтали";
+  String STR_N_VER_ALIGN   = "Выравнивание по вертикали";
+  String STR_D_VER_ALIGN   = "Выравнивание по вертикали";
 
   String STR_N_LABEL_FACTORY = "Текст";
   String STR_D_LABEL_FACTORY = "Фабрика создания элемента отображающего текст";

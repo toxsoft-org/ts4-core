@@ -241,6 +241,7 @@ public abstract class VedAbstractVisel
     updateTsRect();
     doOnLocationChanged();
     doOnSizeChanged();
+    doOnPropsChanged();
     props().propsEventer().resumeFiring( true );
   }
 
@@ -267,6 +268,10 @@ public abstract class VedAbstractVisel
   }
 
   protected void doOnSizeChanged() {
+    // nop
+  }
+
+  protected void doOnPropsChanged() {
     // nop
   }
 
