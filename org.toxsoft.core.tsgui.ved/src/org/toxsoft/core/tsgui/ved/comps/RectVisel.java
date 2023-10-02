@@ -11,11 +11,24 @@ import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 
+/**
+ * Визуальный элемент - "Прямоугольник".
+ * <p>
+ *
+ * @author vs
+ */
 class RectVisel
     extends VedAbstractVisel {
 
   private Rectangle swtRect = new Rectangle( 0, 0, 1, 1 );
 
+  /**
+   * Конструктор.<br>
+   *
+   * @param aConfig {@link IVedItemCfg} - configuration data of the individual visel
+   * @param aPropDefs IStridablesList&lt;IDataDef> - список описаний данных свойств визеля
+   * @param aTsContext {@link ITsGuiContext} - соответствующий контекст
+   */
   public RectVisel( IVedItemCfg aConfig, IStridablesList<IDataDef> aPropDefs, ITsGuiContext aTsContext ) {
     super( aConfig, aPropDefs, aTsContext );
     setLocation( aConfig.propValues().getDouble( FID_VISEL_X ), aConfig.propValues().getDouble( FID_VISEL_Y ) );

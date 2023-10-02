@@ -25,4 +25,13 @@ interface ITsResources {
   String STR_N_RECT_FACTORY = Messages.getString( "STR_N_RECT_FACTORY" ); // "Прямоугольник"; //$NON-NLS-1$
   String STR_D_RECT_FACTORY = Messages.getString( "STR_D_RECT_FACTORY" ); // "Фабрика для создания прямоугольников
 
+  /**
+   * LabelVisel
+   */
+  String STR_N_LABEL_TEXT = "Текст";
+  String STR_D_LABEL_TEXT = "Текст";
+
+  String STR_N_LABEL_FACTORY = "Текст";
+  String STR_D_LABEL_FACTORY = "Фабрика создания элемента отображающего текст";
+
 }

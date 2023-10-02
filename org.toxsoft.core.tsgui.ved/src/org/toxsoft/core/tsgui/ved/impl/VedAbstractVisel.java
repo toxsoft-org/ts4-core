@@ -254,6 +254,10 @@ public abstract class VedAbstractVisel
     return cfg;
   }
 
+  // public IViVertexSet createVertexSet() {
+  //
+  // }
+
   // ------------------------------------------------------------------------------------
   // To override
   //

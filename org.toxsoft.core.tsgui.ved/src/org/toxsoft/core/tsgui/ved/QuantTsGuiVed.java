@@ -26,6 +26,7 @@ public class QuantTsGuiVed
     VedViselFactoriesRegistry visFact = new VedViselFactoriesRegistry();
 
     visFact.register( new RectViselFactory() );
+    visFact.register( new LabelViselFactory() );
 
     aAppContext.set( IVedViselFactoriesRegistry.class, visFact );
     aAppContext.set( IVedActorFactoriesRegistry.class, new VedActorFactoriesRegistry() );

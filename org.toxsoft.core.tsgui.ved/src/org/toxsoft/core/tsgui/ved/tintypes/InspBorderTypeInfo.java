@@ -38,7 +38,7 @@ public class InspBorderTypeInfo
   /**
    * The type information singleton.
    */
-  public static final ITinTypeInfo INSP_TYPE_INFO = new InspBorderTypeInfo();
+  public static final ITinTypeInfo INSTANCE = new InspBorderTypeInfo();
 
   void addField( String aId, ITinTypeInfo aTinType, IStridablesList<IDataDef> aDefs ) {
     IDataDef dataDef = aDefs.getByKey( aId );
