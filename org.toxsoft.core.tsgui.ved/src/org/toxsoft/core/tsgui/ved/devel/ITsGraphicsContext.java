@@ -60,4 +60,10 @@ public interface ITsGraphicsContext
     fillRect( aRect.x1(), aRect.y1(), aRect.width(), aRect.height() );
   }
 
+  @SuppressWarnings( "javadoc" )
+  default void drawRectBorder( ITsRectangle aRect ) {
+    TsNullArgumentRtException.checkNull( aRect );
+    drawRectBorder( aRect.x1(), aRect.y1(), aRect.width(), aRect.height() );
+  }
+
 }
