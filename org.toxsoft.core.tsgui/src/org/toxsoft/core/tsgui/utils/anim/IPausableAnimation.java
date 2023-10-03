@@ -1,32 +1,34 @@
 package org.toxsoft.core.tsgui.utils.anim;
 
 /**
- * Общий интерфейс аниматоров, предусматривающий возможность приостановления анимирования.
+ * General mix-in implementation of the entities capable of "playing" some kind of content.
+ * <p>
+ * Interface introduces the concept of "pausing" the runtime activity like media play, animation, etc.
  *
  * @author hazard157
  */
 public interface IPausableAnimation {
 
   /**
-   * Возвращает текущее состояние анимирования.
+   * Determines the current state of the runtime activity.
    *
-   * @return boolean - текущее состояние анимирования<br>
-   *         <b>true</b> - анимирование включено, методы обратного вызова периодически вызываются;<br>
-   *         <b>false</b> - анимирование приостановлено, для продолжения надо вызвать {@link #resume()}.
+   * @return boolean - current state of pause<br>
+   *         <b>true</b> - runtime activity is <b>off</b>, the entity is "still";<br>
+   *         <b>false</b> - runtime activity is <b>on</b>, the entity is "alive".
    */
   boolean isPaused();
 
   /**
-   * Приостановливает анимирование.
+   * Pauses (temporarily stops) the runtime activity.
    * <p>
-   * Eсли анимирование уже приостановлено (то есть {@link #isPaused()}=true), то метод ничего не делает.
+   * On already paused entities, when {@link #isPaused()}=<code>true</code>, method does nothing.
    */
   void pause();
 
   /**
-   * Продолжает ранее пристановленное анимирование.
+   * Resumes previously paused runtime activity.
    * <p>
-   * Eсли анимирование работает (то есть {@link #isPaused()}=false), то метод ничего не делает.
+   * On already active entities, when {@link #isPaused()}=<code>false</code>, method does nothing.
    */
   void resume();
 

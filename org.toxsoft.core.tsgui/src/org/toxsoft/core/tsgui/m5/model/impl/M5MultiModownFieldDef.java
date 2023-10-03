@@ -1,7 +1,10 @@
 package org.toxsoft.core.tsgui.m5.model.impl;
 
+import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
+
 import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.m5.valeds.multimodown.*;
+import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -33,6 +36,9 @@ public class M5MultiModownFieldDef<T, V>
     super( aId, aItemModelId );
     setDefaultValue( IList.EMPTY );
     setValedEditor( ValedMultiModownEditor.FACTORY_NAME );
+
+    // FIXME 2023-09-27 !!!
+    params().setValueIfNull( IValedControlConstants.OPID_VERTICAL_SPAN, avInt( 1 ) );
   }
 
   // ------------------------------------------------------------------------------------

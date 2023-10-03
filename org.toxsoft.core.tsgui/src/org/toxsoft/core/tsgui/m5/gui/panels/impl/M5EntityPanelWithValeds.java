@@ -152,16 +152,17 @@ public class M5EntityPanelWithValeds<T>
      * parent OPDEF_EDITOR_FACTORY_NAME option.
      */
     OPDEF_EDITOR_FACTORY_NAME.setValue( ctx.params(), IAtomicValue.NULL );
+    IValedControlFactoriesRegistry vcfRegistry = ctx.get( IValedControlFactoriesRegistry.class );
     // for the attributes an IAtmicValue editor always may be found
     if( aFieldDef instanceof IM5AttributeFieldDef afd ) {
       EAtomicType atomicType = afd.atomicType();
-      IValedControlFactory factory = ValedControlUtils.guessAvEditorFactory( atomicType, ctx );
+      IValedControlFactory factory = vcfRegistry.getSuitableAvEditor( atomicType, ctx );
       IValedControl editor = doCreateEditor( factory, aFieldDef, ctx );
       editor.clearValue();
       return editor;
     }
     // use ValedControlUtils heuristics to find VALED for the field
-    IValedControlFactory factory = ValedControlUtils.guessRawEditorFactory( aFieldDef.valueClass(), ctx );
+    IValedControlFactory factory = vcfRegistry.findSuitableRawEditor( aFieldDef.valueClass(), ctx );
     if( factory != null ) {
       IValedControl editor = doCreateEditor( factory, aFieldDef, ctx );
       editor.clearValue();

@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.ved.api.helpers;
 
+import org.toxsoft.core.tslib.bricks.geometry.*;
+
 /**
  * "Хозяин" 2d-точек
  *
@@ -17,4 +19,12 @@ public interface IPointsHost {
    *         <b>false</b> - точка не принадлежит объекту
    */
   boolean isYours( double aX, double aY );
+
+  /**
+   * Возвращает описывающий прямоугольник.<br>
+   *
+   * @return Rectangle - описывающий прямоугольник
+   */
+  ITsRectangle bounds();
+
 }

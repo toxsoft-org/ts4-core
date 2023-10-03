@@ -31,19 +31,22 @@ public final class VedItemCfg
 
         @Override
         protected void doWrite( IStrioWriter aSw, IVedItemCfg aEntity ) {
+          // item ID and factory ID
           aSw.writeAsIs( aEntity.id() );
           aSw.writeSeparatorChar();
           aSw.writeAsIs( aEntity.factoryId() );
           aSw.writeSeparatorChar();
           aSw.writeEol();
+          // properties values
           OptionSetKeeper.KEEPER_INDENTED.write( aSw, aEntity.propValues() );
           aSw.writeSeparatorChar();
           aSw.writeEol();
-          aSw.writeSeparatorChar();
+          // parameters values
           StrioUtils.writeKeywordHeader( aSw, KW_PARAMS, true );
           OptionSetKeeper.KEEPER.write( aSw, aEntity.params() );
           aSw.writeSeparatorChar();
           aSw.writeEol();
+          // extra data
           StrioUtils.writeKeywordHeader( aSw, KW_EXTRA, true );
           ((VedItemCfg)aEntity).extraData().write( aSw );
           aSw.writeEol();
@@ -51,17 +54,22 @@ public final class VedItemCfg
 
         @Override
         protected IVedItemCfg doRead( IStrioReader aSr ) {
+          // item ID and factory ID
           String id = aSr.readIdPath();
           aSr.ensureSeparatorChar();
           String factoryId = aSr.readIdPath();
           aSr.ensureSeparatorChar();
+          // properties values
           IOptionSet propValues = OptionSetKeeper.KEEPER.read( aSr );
           aSr.ensureSeparatorChar();
+          // parameters values
           StrioUtils.ensureKeywordHeader( aSr, KW_PARAMS );
           IOptionSet params = OptionSetKeeper.KEEPER.read( aSr );
+          aSr.ensureSeparatorChar();
+          // create an item to read extra data into it
           VedItemCfg itemCfg = new VedItemCfg( id, factoryId, params );
           itemCfg.propValues().setAll( propValues );
-          aSr.ensureSeparatorChar();
+          // extra data
           StrioUtils.ensureKeywordHeader( aSr, KW_EXTRA );
           itemCfg.extraData().read( aSr );
           return itemCfg;

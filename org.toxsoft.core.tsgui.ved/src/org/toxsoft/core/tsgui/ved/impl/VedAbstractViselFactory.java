@@ -1,9 +1,9 @@
 package org.toxsoft.core.tsgui.ved.impl;
 
+import org.toxsoft.core.tsgui.bricks.tin.*;
 import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.cfg.*;
 import org.toxsoft.core.tsgui.ved.api.items.*;
-import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -16,6 +16,31 @@ public abstract class VedAbstractViselFactory
     implements IVedViselFactory {
 
   /**
+   * ИД поля в {@link ITinTypeInfo} для координаты X
+   */
+  public static final String FID_VISEL_X = "visel.originX"; //$NON-NLS-1$
+
+  /**
+   * ИД поля в {@link ITinTypeInfo} для координаты X
+   */
+  public static final String FID_VISEL_Y = "visel.originY"; //$NON-NLS-1$
+
+  /**
+   * ИД поля в {@link ITinTypeInfo} для ширины
+   */
+  public static final String FID_VISEL_WIDTH = "visel.width"; //$NON-NLS-1$
+
+  /**
+   * ИД поля в {@link ITinTypeInfo} для высоты
+   */
+  public static final String FID_VISEL_HEIGHT = "visel.height"; //$NON-NLS-1$
+
+  /**
+   * ИД поля в {@link ITinTypeInfo} для преобразования координат
+   */
+  public static final String FID_D2CONVERSION = "visel.d2conversion"; //$NON-NLS-1$
+
+  /**
    * Constructor.
    *
    * @param aId String - the
@@ -25,7 +50,7 @@ public abstract class VedAbstractViselFactory
    * @throws ClassCastException argument types convention is violated
    */
   public VedAbstractViselFactory( String aId, Object... aIdsAndValues ) {
-    super( aId, OptionSetUtils.createOpSet( aIdsAndValues ) );
+    super( aId, aIdsAndValues );
   }
 
   // ------------------------------------------------------------------------------------

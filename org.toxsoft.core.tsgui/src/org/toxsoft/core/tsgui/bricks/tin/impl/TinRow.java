@@ -7,7 +7,6 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.bricks.tin.*;
 import org.toxsoft.core.tsgui.valed.api.*;
-import org.toxsoft.core.tsgui.valed.impl.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
@@ -213,8 +212,8 @@ public class TinRow
     ITsGuiContext ctx = new TsGuiContext( aContext );
     ctx.params().addAll( typeInfo().dataType().params() );
     ctx.params().addAll( fieldInfo.params() );
-    IValedControlFactory valedFactory =
-        ValedControlUtils.guessAvEditorFactory( typeInfo().dataType().atomicType(), ctx );
+    IValedControlFactoriesRegistry vcfRegistry = ctx.get( IValedControlFactoriesRegistry.class );
+    IValedControlFactory valedFactory = vcfRegistry.getSuitableAvEditor( typeInfo().dataType().atomicType(), ctx );
     return valedFactory.createEditor( ctx );
   }
 

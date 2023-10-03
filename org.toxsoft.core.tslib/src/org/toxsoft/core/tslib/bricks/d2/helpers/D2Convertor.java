@@ -8,11 +8,11 @@ import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 
 /**
- * Con
+ * {@link ID2Conversion} implementation.
  *
  * @author hazard157
  */
-public final class D2Convertor
+public class D2Convertor
     implements ID2Convertor, ID2Conversionable {
 
   private final ID2ConversionEdit d2Conv = new D2ConversionEdit();
@@ -46,28 +46,16 @@ public final class D2Convertor
   public double convertX( double aX, double aY ) {
     checkCoor( aX );
     checkCoor( aY );
-    // zoom from origin
-    double x1 = aX * d2Conv.zoomFactor();
-    double y1 = aY * d2Conv.zoomFactor();
+
+    // Аналог Transform.translate
+    double x1 = aX - d2Conv.origin().x();// x координата вектора радиуса поворота
+    double y1 = aY - d2Conv.origin().y();// y координата вектора радиуса поворота
     // rotate around origin
     double beta = d2Conv.rotation().radians();
     double x2 = x1 * cos( beta ) - y1 * sin( beta );
-    // change origin
-    return x2 + d2Conv.origin().x();
-  }
-
-  @Override
-  public double convertY( double aX, double aY ) {
-    checkCoor( aX );
-    checkCoor( aY );
-    // zoom from origin
-    double x1 = aX * d2Conv.zoomFactor();
-    double y1 = aY * d2Conv.zoomFactor();
-    // rotate around origin
-    double beta = d2Conv.rotation().radians();
-    double y2 = y1 * cos( beta ) + x1 * sin( beta );
-    // change origin
-    return y2 + d2Conv.origin().y();
+    // zoom
+    // точка поворота остается на месте, а расстояние до искомой масштабируется
+    return d2Conv.origin().x() + x2 * d2Conv.zoomFactor();
   }
 
   @Override
@@ -77,11 +65,42 @@ public final class D2Convertor
     // reverse origin
     double x1 = aX - d2Conv.origin().x();
     double y1 = aY - d2Conv.origin().y();
+    // double x1 = (aX - d2Conv.origin().x()) / d2Conv.zoomFactor();
+    // double y1 = (aY - d2Conv.origin().y()) / d2Conv.zoomFactor();
     // reverse rotation (just change angle sign)
     double beta = -d2Conv.rotation().radians();
     double x2 = x1 * cos( beta ) - y1 * sin( beta );
     // reverse zoom (divide rather than multiply on zoom factor)
-    return x2 / d2Conv.zoomFactor();
+    return d2Conv.origin().x() + x2 / d2Conv.zoomFactor();
+    // return x2;
+  }
+
+  @Override
+  public double convertY( double aX, double aY ) {
+    checkCoor( aX );
+    checkCoor( aY );
+    double x1 = aX - d2Conv.origin().x();// x координата вектора радиуса поворота
+    double y1 = aY - d2Conv.origin().y();// y координата вектора радиуса поворота
+    // rotate around origin
+    double beta = d2Conv.rotation().radians();
+    double y2 = y1 * cos( beta ) + x1 * sin( beta );
+    // zoom
+    // точка поворота остается на месте, а расстояние до искомой масштабируется
+    return d2Conv.origin().y() + y2 * d2Conv.zoomFactor();
+  }
+
+  @Override
+  public double reverseY( double aX, double aY ) {
+    checkCoor( aX );
+    checkCoor( aY );
+    // reverse origin
+    double x1 = aX - d2Conv.origin().x();
+    double y1 = aY - d2Conv.origin().y();
+    // reverse rotation (just change angle sign)
+    double beta = -d2Conv.rotation().radians();
+    double y2 = y1 * cos( beta ) + x1 * sin( beta );
+    // reverse zoom (divide rather than multiply on zoom factor)
+    return d2Conv.origin().y() + y2 / d2Conv.zoomFactor();
   }
 
   @Override
@@ -99,20 +118,6 @@ public final class D2Convertor
     double x3 = x2 + d2Conv.origin().x();
     double y3 = y2 + d2Conv.origin().y();
     return new D2Point( x3, y3 );
-  }
-
-  @Override
-  public double reverseY( double aX, double aY ) {
-    checkCoor( aX );
-    checkCoor( aY );
-    // reverse origin
-    double x1 = aX - d2Conv.origin().x();
-    double y1 = aY - d2Conv.origin().y();
-    // reverse rotation (just change angle sign)
-    double beta = -d2Conv.rotation().radians();
-    double y2 = y1 * cos( beta ) + x1 * sin( beta );
-    // reverse zoom (divide rather than multiply on zoom factor)
-    return y2 / d2Conv.zoomFactor();
   }
 
   @Override
