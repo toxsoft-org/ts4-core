@@ -5,11 +5,14 @@ import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.items.*;
 import org.toxsoft.core.tsgui.ved.api.screen.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.notifier.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.notifier.*;
+import org.toxsoft.core.tslib.coll.notifier.basis.*;
 import org.toxsoft.core.tslib.coll.notifier.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
@@ -23,10 +26,29 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class VedScreenModel
     implements IVedScreenModel, ITsGuiContextable, ITsClearable {
 
-  // static class ViselsValidator
-  // implements ITsMapValidator<String, IStridable> {
-  //
-  // }
+  static class ViselsValidator
+      implements ITsMapValidator<String, IStridable> {
+
+    @Override
+    public ValidationResult canPut( INotifierMap<String, IStridable> aSource, String aKey, IStridable aExistingItem,
+        IStridable aNewItem ) {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public ValidationResult canRemove( INotifierMap<String, IStridable> aSource, String aKey ) {
+      return ValidationResult.SUCCESS;
+    }
+
+    @Override
+    public ValidationResult canAdd( INotifierMap<String, IStridable> aSource, String aKey, IStridable aExistingItem,
+        IStridable aNewItem ) {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+  }
 
   private final ITsGuiContext tsContext;
 
