@@ -40,7 +40,9 @@ public class DataDefM5Model
     @Override
     protected void doInit() {
       setNameAndDescription( STR_N_DATA_DEF_ID, STR_D_DATA_DEF_ID );
-      setFlags( M5FF_READ_ONLY | M5FF_COLUMN );
+      // dima 12.09.23 при ручном создании невозможно задать id
+      // setFlags( M5FF_READ_ONLY | M5FF_COLUMN );
+      setFlags( M5FF_COLUMN );
     }
 
     protected IAtomicValue doGetFieldValue( IDataDef aEntity ) {
