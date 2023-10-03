@@ -1,6 +1,6 @@
 package org.toxsoft.core.tsgui.ved.impl;
 
-import static org.toxsoft.core.tsgui.ved.impl.VedAbstractViselFactory.*;
+import static org.toxsoft.core.tsgui.ved.api.IVedFrameworkConstants.*;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.tin.*;
@@ -63,7 +63,7 @@ public abstract class VedAbstractVisel
     // FIXME найти фабрику
     IVedViselFactoriesRegistry fr = tsContext.get( IVedViselFactoriesRegistry.class );
     factory = fr.get( factoryId );
-    d2Conv = aConfig.propValues().getValobj( FID_D2CONVERSION );
+    d2Conv = aConfig.propValues().getValobj( PROP_D2CONVERSION );
   }
 
   // ------------------------------------------------------------------------------------
@@ -126,8 +126,8 @@ public abstract class VedAbstractVisel
     doOnLocationChanged();
 
     IStringMapEdit<IAtomicValue> values = new StringMap<>();
-    values.put( VedAbstractViselFactory.FID_VISEL_X, AvUtils.avFloat( originX ) );
-    values.put( VedAbstractViselFactory.FID_VISEL_Y, AvUtils.avFloat( originY ) );
+    values.put( PROP_X.id(), AvUtils.avFloat( originX ) );
+    values.put( PROP_Y.id(), AvUtils.avFloat( originY ) );
     props().setProps( values );
   }
 
@@ -153,8 +153,8 @@ public abstract class VedAbstractVisel
     updateTsRect();
     doOnSizeChanged();
     IStringMapEdit<IAtomicValue> values = new StringMap<>();
-    values.put( VedAbstractViselFactory.FID_VISEL_WIDTH, AvUtils.avFloat( width ) );
-    values.put( VedAbstractViselFactory.FID_VISEL_HEIGHT, AvUtils.avFloat( height ) );
+    values.put( PROP_WIDTH.id(), AvUtils.avFloat( width ) );
+    values.put( PROP_HEIGHT.id(), AvUtils.avFloat( height ) );
     props().setProps( values );
   }
 
@@ -232,12 +232,12 @@ public abstract class VedAbstractVisel
       props().setValue( vid, aValue.childValues().getByKey( vid ).atomicValue() );
     }
 
-    originX = props().getDouble( VedAbstractViselFactory.FID_VISEL_X );
-    originY = props().getDouble( VedAbstractViselFactory.FID_VISEL_Y );
-    width = props().getDouble( VedAbstractViselFactory.FID_VISEL_WIDTH );
-    height = props().getDouble( VedAbstractViselFactory.FID_VISEL_HEIGHT );
+    originX = props().getDouble( PROP_X );
+    originY = props().getDouble( PROP_Y );
+    width = props().getDouble( PROP_WIDTH );
+    height = props().getDouble( PROP_HEIGHT );
     d2rect = new D2Rectangle( originX, originY, width, height );
-    d2Conv = props().getValobj( FID_D2CONVERSION );
+    d2Conv = props().getValobj( PROP_D2CONVERSION );
     updateTsRect();
     doOnLocationChanged();
     doOnSizeChanged();

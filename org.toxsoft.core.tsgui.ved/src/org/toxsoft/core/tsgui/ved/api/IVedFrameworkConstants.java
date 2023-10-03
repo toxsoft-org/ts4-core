@@ -17,6 +17,7 @@ import org.toxsoft.core.tsgui.valed.controls.graphics.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.bricks.d2.*;
 
 /**
  * Package constants.
@@ -70,40 +71,40 @@ public interface IVedFrameworkConstants {
    * X coordinate of the primitive in pixels.<br>
    * Type: {@link EAtomicType#INTEGER}
    */
-  IDataDef PROP_X = DataDef.create( VED_ID + ".x", INTEGER, //$NON-NLS-1$
+  IDataDef PROP_X = DataDef.create( VED_ID + ".x", FLOATING, //$NON-NLS-1$
       TSID_NAME, STR_X, //
       TSID_DESCRIPTION, STR_X_D, //
-      TSID_DEFAULT_VALUE, AV_0 //
+      TSID_DEFAULT_VALUE, avFloat( 0.0 ) //
   );
 
   /**
    * Y coordinate of the primitive in pixels.<br>
    * Type: {@link EAtomicType#INTEGER}
    */
-  IDataDef PROP_Y = DataDef.create( VED_ID + ".y", INTEGER, //$NON-NLS-1$
+  IDataDef PROP_Y = DataDef.create( VED_ID + ".y", FLOATING, //$NON-NLS-1$
       TSID_NAME, STR_Y, //
       TSID_DESCRIPTION, STR_Y_D, //
-      TSID_DEFAULT_VALUE, AV_0 //
+      TSID_DEFAULT_VALUE, avFloat( 0.0 ) //
   );
 
   /**
    * Width of the bounding rectangle in pixels.<br>
    * Type: {@link EAtomicType#INTEGER}
    */
-  IDataDef PROP_WIDTH = DataDef.create( VED_ID + ".width", INTEGER, //$NON-NLS-1$
+  IDataDef PROP_WIDTH = DataDef.create( VED_ID + ".width", FLOATING, //$NON-NLS-1$
       TSID_NAME, STR_WIDTH, //
       TSID_DESCRIPTION, STR_WIDTH_D, //
-      TSID_DEFAULT_VALUE, avInt( 100 ) //
+      TSID_DEFAULT_VALUE, avFloat( 100 ) //
   );
 
   /**
    * Height of the bounding rectangle in pixels.<br>
    * Type: {@link EAtomicType#INTEGER}
    */
-  IDataDef PROP_HEIGHT = DataDef.create( VED_ID + ".height", INTEGER, //$NON-NLS-1$
+  IDataDef PROP_HEIGHT = DataDef.create( VED_ID + ".height", FLOATING, //$NON-NLS-1$
       TSID_NAME, STR_HEIGHT, //
       TSID_DESCRIPTION, STR_HEIGHT_D, //
-      TSID_DEFAULT_VALUE, avInt( 100 ) //
+      TSID_DEFAULT_VALUE, avFloat( 100 ) //
   );
 
   /**
@@ -151,6 +152,19 @@ public interface IVedFrameworkConstants {
       TSID_NAME, STR_FONT, //
       TSID_DESCRIPTION, STR_FONT_D, //
       TSID_DEFAULT_VALUE, avValobj( new FontInfo( "Arial", 10, false, false ) ) //$NON-NLS-1$
+  );
+
+  /**
+   * Coordinates transformation using for drawing graphic primitive.<br>
+   * Type: {@link ID2Conversion}
+   */
+  IDataDef PROP_D2CONVERSION = DataDef.create( VED_ID + ".d2conv", VALOBJ, // //$NON-NLS-1$
+      TSID_NAME, STR_N_D2CONVERSION, //
+      TSID_DESCRIPTION, STR_D_D2CONVERSION, //
+      TSID_KEEPER_ID, D2Conversion.KEEPER_ID, //
+      // FIXME - указать редактор для D2Conversion
+      // OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleFontInfo.FACTORY.factoryName(), //
+      TSID_DEFAULT_VALUE, avValobj( ID2Conversion.NONE ) //
   );
 
 }
