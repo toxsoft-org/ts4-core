@@ -5,11 +5,11 @@ import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.ved.api.*;
 import org.toxsoft.core.tsgui.ved.api.items.*;
 import org.toxsoft.core.tsgui.ved.api.screen.*;
-import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.notifier.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.helpers.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.notifier.*;
 import org.toxsoft.core.tslib.coll.notifier.basis.*;
@@ -23,29 +23,123 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public class VedScreenModel
-    implements IVedScreenModel, ITsGuiContextable, ITsClearable {
+public class VedScreenModel2
+    implements IVedScreenModel2, ITsGuiContextable, ITsClearable {
 
   static class ViselsValidator
-      implements ITsMapValidator<String, IStridable> {
+      implements ITsMapValidator<String, VedAbstractVisel> {
 
     @Override
-    public ValidationResult canPut( INotifierMap<String, IStridable> aSource, String aKey, IStridable aExistingItem,
-        IStridable aNewItem ) {
-      // TODO Auto-generated method stub
-      return null;
-    }
+    public ValidationResult canPut( INotifierMap<String, VedAbstractVisel> aSource, String aKey,
+        VedAbstractVisel aExistingItem, VedAbstractVisel aNewItem ) {
 
-    @Override
-    public ValidationResult canRemove( INotifierMap<String, IStridable> aSource, String aKey ) {
+      // TODO check can't put with existing ID
+
       return ValidationResult.SUCCESS;
     }
 
     @Override
-    public ValidationResult canAdd( INotifierMap<String, IStridable> aSource, String aKey, IStridable aExistingItem,
-        IStridable aNewItem ) {
-      // TODO Auto-generated method stub
-      return null;
+    public ValidationResult canAdd( INotifierMap<String, VedAbstractVisel> aSource, String aKey,
+        VedAbstractVisel aExistingItem, VedAbstractVisel aNewItem ) {
+
+      // TODO check can't add with existing ID
+
+      return ValidationResult.SUCCESS;
+    }
+
+    @Override
+    public ValidationResult canRemove( INotifierMap<String, VedAbstractVisel> aSource, String aKey ) {
+      return ValidationResult.SUCCESS;
+    }
+
+  }
+
+  static class ActorsValidator
+      implements ITsMapValidator<String, VedAbstractActor> {
+
+    @Override
+    public ValidationResult canPut( INotifierMap<String, VedAbstractActor> aSource, String aKey,
+        VedAbstractActor aExistingItem, VedAbstractActor aNewItem ) {
+
+      // TODO check can't put with existing ID
+
+      return ValidationResult.SUCCESS;
+    }
+
+    @Override
+    public ValidationResult canAdd( INotifierMap<String, VedAbstractActor> aSource, String aKey,
+        VedAbstractActor aExistingItem, VedAbstractActor aNewItem ) {
+
+      // TODO check can't add with existing ID
+
+      return ValidationResult.SUCCESS;
+    }
+
+    @Override
+    public ValidationResult canRemove( INotifierMap<String, VedAbstractActor> aSource, String aKey ) {
+      return ValidationResult.SUCCESS;
+    }
+
+  }
+
+  class ViselsChangeListener
+      implements ITsCollectionChangeListener {
+
+    @Override
+    public void onCollectionChanged( Object aSource, ECrudOp aOp, Object aItem ) {
+      String key = (String)aItem;
+      switch( aOp ) {
+        case CREATE: {
+          activeVisels.add( allVisels.getByKey( key ) );
+          break;
+        }
+        case EDIT: {
+          activeVisels.put( allVisels.getByKey( key ) );
+          break;
+        }
+        case REMOVE: {
+          activeVisels.removeByKey( key );
+          break;
+        }
+        case LIST: {
+          updateAciveViselsList();
+          break;
+        }
+        default:
+          throw new TsNotAllEnumsUsedRtException( aOp.id() );
+      }
+
+    }
+
+  }
+
+  class ActorsChangeListener
+      implements ITsCollectionChangeListener {
+
+    @Override
+    public void onCollectionChanged( Object aSource, ECrudOp aOp, Object aItem ) {
+      String key = (String)aItem;
+      switch( aOp ) {
+        case CREATE: {
+          activeActors.add( allActors.getByKey( key ) );
+          break;
+        }
+        case EDIT: {
+          activeActors.put( allActors.getByKey( key ) );
+          break;
+        }
+        case REMOVE: {
+          activeActors.removeByKey( key );
+          break;
+        }
+        case LIST: {
+          updateAciveActorsList();
+          break;
+        }
+        default:
+          throw new TsNotAllEnumsUsedRtException( aOp.id() );
+      }
+
     }
 
   }
@@ -81,11 +175,50 @@ public class VedScreenModel
   /**
    * Constructor.
    *
-   * @param aTsContext {@link ITsGuiContext} - the context
+   * @param aContext {@link ITsGuiContext} - the context
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public VedScreenModel( ITsGuiContext aTsContext ) {
-    tsContext = aTsContext;
+  public VedScreenModel2( ITsGuiContext aContext ) {
+    TsNullArgumentRtException.checkNull( aContext );
+    tsContext = aContext;
+    allVisels.addCollectionChangeValidator( new ViselsValidator() );
+    allVisels.addCollectionChangeListener( new ViselsChangeListener() );
+    allActors.addCollectionChangeValidator( new ActorsValidator() );
+    allActors.addCollectionChangeListener( new ActorsChangeListener() );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // implementation
+  //
+
+  private void updateAciveViselsList() {
+    activeVisels.pauseFiring();
+    try {
+      activeVisels.clear();
+      for( VedAbstractVisel item : allVisels ) {
+        if( item.isActive() ) {
+          activeVisels.add( item );
+        }
+      }
+    }
+    finally {
+      activeVisels.resumeFiring( true );
+    }
+  }
+
+  private void updateAciveActorsList() {
+    activeActors.pauseFiring();
+    try {
+      activeActors.clear();
+      for( VedAbstractActor item : allActors ) {
+        if( item.isActive() ) {
+          activeActors.add( item );
+        }
+      }
+    }
+    finally {
+      activeActors.resumeFiring( true );
+    }
   }
 
   // ------------------------------------------------------------------------------------
@@ -115,7 +248,9 @@ public class VedScreenModel
   public INotifierListEdit<IVedDecorator> viselDecoratorsBefore( String aViselId ) {
     TsItemNotFoundRtException.checkFalse( allVisels.hasKey( aViselId ) );
     INotifierListEdit<IVedDecorator> ll = viselDecoratorsBefore.findByKey( aViselId );
-    TsInternalErrorRtException.checkNull( ll );
+    if( ll == null ) {
+
+    }
     return ll;
   }
 
@@ -172,6 +307,12 @@ public class VedScreenModel
     activeActors.pauseFiring();
     allVisels.pauseFiring();
     activeVisels.pauseFiring();
+
+    // viselDecoratorsBefore.pauseFiring();
+    // viselDecoratorsAfter.pauseFiring();
+    // screenDecoratorsBefore.pauseFiring();
+    // screenDecoratorsAfter.pauseFiring();
+
     try {
       // remove and dispose actors
       activeActors.clear();

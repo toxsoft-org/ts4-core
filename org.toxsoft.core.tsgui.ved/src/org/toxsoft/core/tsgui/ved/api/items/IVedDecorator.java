@@ -21,16 +21,20 @@ import org.toxsoft.core.tslib.bricks.d2.*;
  * ;</li>
  * <li>canvas transform selection - VED canvas and each VISEL have their specific {@link ID2Conversion} (rotation, zoom,
  * displacement) settings. When painting on SWT {@link Canvas} specific to screen and VISEL affine transforms are
- * applied before the paint methods are called. The {@link #getViselIdOfDrawingTransform()} method determines which transform to be set
- * before the {@link #paint(ITsGraphicsContext)} method is called. Returning an existing VISEL ID will set the
- * respective VISEL transform. Returning an empty string or any other string not matching existing VISEL ID will use the
- * screen transform.</li>
+ * applied before the paint methods are called. The {@link #getViselIdOfDrawingTransform()} method determines which
+ * transform to be set before the {@link #paint(ITsGraphicsContext)} method is called. Returning an existing VISEL ID
+ * will set the respective VISEL transform. Returning an empty string or any other string not matching existing VISEL ID
+ * will use the screen transform.</li>
  * </ul>
  *
  * @author hazard157
  */
 public interface IVedDecorator
     extends ITsPaintable, IPointsHost {
+
+  // FIXME add this methods!
+  // boolean isVisible();
+  // void setVisible( boolean aVisible );
 
   /**
    * Determines screen or VISEL transform to use.

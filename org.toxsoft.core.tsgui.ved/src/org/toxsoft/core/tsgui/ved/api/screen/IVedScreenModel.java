@@ -4,8 +4,6 @@ import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.ved.api.cfg.*;
 import org.toxsoft.core.tsgui.ved.api.items.*;
 import org.toxsoft.core.tsgui.ved.impl.*;
-import org.toxsoft.core.tslib.bricks.strid.coll.notifier.*;
-import org.toxsoft.core.tslib.coll.notifier.*;
 
 /**
  * An editable model of the VED screen content.
@@ -16,39 +14,23 @@ import org.toxsoft.core.tslib.coll.notifier.*;
  *
  * @author hazard157
  */
-@SuppressWarnings( "javadoc" ) // TODO comment methods
+@SuppressWarnings( "javadoc" ) // TODO comments
 public interface IVedScreenModel {
 
-  // ------------------------------------------------------------------------------------
-  // VISELs
+  IVedItemsManager<VedAbstractVisel> visels();
 
-  INotifierStridablesList<VedAbstractVisel> activeVisels();
+  IVedItemsManager<VedAbstractActor> actors();
 
-  INotifierStridablesListEdit<VedAbstractVisel> allVisels();
+  IVedHelpersModel<IVedDecorator> viselDecoratorsBefore( String aViselId );
 
-  // ------------------------------------------------------------------------------------
-  // Decorators
+  IVedHelpersModel<IVedDecorator> viselDecoratorsAfter( String aViselId );
 
-  INotifierListEdit<IVedDecorator> viselDecoratorsBefore( String aViselId );
+  IVedHelpersModel<IVedDecorator> screenDecoratorsBefore();
 
-  INotifierListEdit<IVedDecorator> viselDecoratorsAfter( String aViselId );
+  IVedHelpersModel<IVedDecorator> screenDecoratorsAfter();
 
-  INotifierListEdit<IVedDecorator> screenDecoratorsBefore();
+  IVedHelpersModel<ITsUserInputListener> screenHandlersBefore();
 
-  INotifierListEdit<IVedDecorator> screenDecoratorsAfter();
-
-  // ------------------------------------------------------------------------------------
-  // Actors
-
-  INotifierStridablesList<VedAbstractActor> activeActors();
-
-  INotifierStridablesListEdit<VedAbstractActor> allActors();
-
-  // ------------------------------------------------------------------------------------
-  // Input handlers
-
-  INotifierListEdit<ITsUserInputListener> screenHandlersBefore();
-
-  INotifierListEdit<ITsUserInputListener> screenHandlersAfter();
+  IVedHelpersModel<ITsUserInputListener> screenHandlersAfter();
 
 }
