@@ -1,7 +1,9 @@
 package org.toxsoft.core.tslib.av.props;
 
+import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
-import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.bricks.events.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
 
 /**
  * The read-only set of identifiable properties.
@@ -11,15 +13,23 @@ import org.toxsoft.core.tslib.coll.primtypes.*;
  * the difference lies in editing interface {@link IPropertiesSet}.
  *
  * @author hazard157
+ * @param <S> - event source type, the entity characterized by the properties
  */
-public interface IPropertiesSetRo
+public interface IPropertiesSetRo<S>
     extends IOptionSet {
 
   /**
-   * Returns list if property identifiers.
+   * Returns the information about properties defined in this set.
    *
-   * @return {@link IStringList} - property IDs list
+   * @return {@link IStridablesList}&lt;{@link IDataDef}&gt; - properties definitions
    */
-  IStringList ids();
+  IStridablesList<IDataDef> propDefs();
+
+  /**
+   * Returns the properties values change eventer.
+   *
+   * @return {@link ITsEventer}&lt;{@link IPropertyChangeListener}&gt; - the eventer
+   */
+  ITsEventer<IPropertyChangeListener<S>> propsEventer();
 
 }

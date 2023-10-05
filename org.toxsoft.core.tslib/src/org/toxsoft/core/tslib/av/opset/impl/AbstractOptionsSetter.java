@@ -196,9 +196,10 @@ public abstract class AbstractOptionsSetter
       throw new TsNullArgumentRtException();
     }
     IAtomicValue oldValue = internalFind( aId );
-    doBeforeSet( aId, oldValue, aValue );
-    doInternalSet( aId, aValue );
-    doAfterSet( aId, oldValue, aValue );
+    if( !doBeforeSet( aId, oldValue, aValue ) ) {
+      doInternalSet( aId, aValue );
+      doAfterSet( aId, oldValue, aValue );
+    }
   }
 
   final protected void internalSet( IDataDef aOpId, IAtomicValue aValue ) {
@@ -207,9 +208,10 @@ public abstract class AbstractOptionsSetter
     }
     String id = StridUtils.checkValidIdPath( aOpId.id() );
     IAtomicValue oldValue = internalFind( id );
-    doBeforeSet( id, oldValue, aValue );
-    doInternalSet( id, aValue );
-    doAfterSet( id, oldValue, aValue );
+    if( !doBeforeSet( id, oldValue, aValue ) ) {
+      doInternalSet( id, aValue );
+      doAfterSet( id, oldValue, aValue );
+    }
   }
 
   // ------------------------------------------------------------------------------------
@@ -217,22 +219,23 @@ public abstract class AbstractOptionsSetter
   //
 
   /**
-   * Subclass may perform additional action just before value optionis set.
+   * Subclass may perform additional action just before value options set.
    * <p>
-   * Does nothing in base class there, is not no need to call superclass method when overriding.
+   * Returns <code>false</code> in base class there, no need to call superclass method when overriding.
    *
    * @param aId String - option ID
    * @param aOldValue {@link IAtomicValue} - old value or <code>null</code> if there was no option with such ID
    * @param aNewValue {@link IAtomicValue} - new value, never is <code>null</code>
+   * @return boolean - <code>true</code> to cancel values set, <code>false</code> - really change option value
    */
-  protected void doBeforeSet( String aId, IAtomicValue aOldValue, IAtomicValue aNewValue ) {
-    // nop
+  protected boolean doBeforeSet( String aId, IAtomicValue aOldValue, IAtomicValue aNewValue ) {
+    return false;
   }
 
   /**
    * Subclass may perform additional action immediately after option value is set.
    * <p>
-   * Does nothing in base class there, is not no need to call superclass method when overriding.
+   * Does nothing in base class there, no need to call superclass method when overriding.
    *
    * @param aId String - option ID
    * @param aOldValue {@link IAtomicValue} - old value or <code>null</code> if there was no option with such ID

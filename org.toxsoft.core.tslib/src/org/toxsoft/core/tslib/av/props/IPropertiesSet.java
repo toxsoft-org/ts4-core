@@ -4,7 +4,6 @@ import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.errors.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
-import org.toxsoft.core.tslib.bricks.events.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -12,9 +11,10 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * An editable extension of the properties set {@link IPropertiesSetRo}.
  *
  * @author hazard157
+ * @param <S> - event source type, the entity characterized by the properties
  */
-public interface IPropertiesSet
-    extends IPropertiesSetRo, IOpsSetter {
+public interface IPropertiesSet<S>
+    extends IPropertiesSetRo<S>, IOpsSetter {
 
   /**
    * Set several properties values at once.
@@ -33,11 +33,13 @@ public interface IPropertiesSet
   void resetToDefaults();
 
   /**
-   * Returns the properties values change eventer.
+   * Sets the value change interceptor.
+   * <p>
+   * <code>null</code> argument turns off interception.
    *
-   * @return {@link ITsEventer}&lt;{@link IPropertyChangeListener}&gt; - the eventer
+   * @param aInterceptor {@link IPropertyChangeInterceptor} - the interceptor or <code>null</code>
    */
-  ITsEventer<IPropertyChangeListener> propsEventer();
+  void setInterceptor( IPropertyChangeInterceptor<S> aInterceptor );
 
   // ------------------------------------------------------------------------------------
   // Inline method for convenience

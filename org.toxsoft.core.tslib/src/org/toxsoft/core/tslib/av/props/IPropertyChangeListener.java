@@ -1,44 +1,29 @@
 package org.toxsoft.core.tslib.av.props;
 
-import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.opset.*;
 
 /**
- * Listens to the property value changed event.
+ * Listens to the properties values change event.
+ * <p>
+ * Properties characterize the entity of interest to the client. Such entity is declared to be source of the event.
+ * Usually the entity implements {@link IPropertable} interface, so the &lt;S&gt; type is the type of the reference to
+ * the {@link IPropertable} Java object.
  *
  * @author hazard157
+ * @param <S> - event source type, the entity characterized by the properties
  */
-public interface IPropertyChangeListener {
+public interface IPropertyChangeListener<S> {
 
   /**
-   * Called when single or multiple proprty value changes.
+   * Called when properties values changes.
    * <p>
-   * If more whan one property changes at once <code>aPropId</code>, <code>aOldValue</code> and <code>aNewValue</code>
-   * are <code>null</code> and {@link #onSeveralPropsChanged(IPropertiesSetRo, IOptionSet, IOptionSet)} is called after
-   * this method.
+   * Argument <code>aNewValues</code> contain only changed properties while <code>aOldValues</code> contains all values
+   * as listed by {@link IPropertiesSetRo#propDefs()}.
    *
-   * @param aSource {@link IPropertiesSetRo} - the event source
-   * @param aPropId String changed property ID or <code>null</code> for batch changes
-   * @param aOldValue {@link IAtomicValue} - property value before change or <code>null</code> for batch changes
-   * @param aNewValue {@link IAtomicValue} - property value after change or <code>null</code> for batch changes
-   */
-  void onPropertyChanged( IPropertiesSetRo aSource, String aPropId, IAtomicValue aOldValue, IAtomicValue aNewValue );
-
-  /**
-   * Called when more than one properties values changes at once.
-   * <p>
-   * Argument <code>aNewValues</code> contain only changed properties while <code>aOldValues</code> is not limited to
-   * contain only changed values.
-   * <p>
-   * This method is called after {@link #onPropertyChanged(IPropertiesSetRo, String, IAtomicValue, IAtomicValue)} with
-   * <code>null</code> arguments.
-   *
-   * @param aSource {@link IPropertiesSetRo} - the event source
-   * @param aOldValues {@link IOptionSet} - changed properties values before change
+   * @param aSource &lt;S&gt; - the event source
    * @param aNewValues {@link IOptionSet} - changed properties values after change
+   * @param aOldValues {@link IOptionSet} - all properties values before change
    */
-  default void onSeveralPropsChanged( IPropertiesSetRo aSource, IOptionSet aOldValues, IOptionSet aNewValues ) {
-    // nop
-  }
+  void onPropsChanged( S aSource, IOptionSet aNewValues, IOptionSet aOldValues );
 
 }

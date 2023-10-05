@@ -12,19 +12,20 @@ import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.events.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link IPropertiesSet} implementation.
  *
  * @author hazard157
+ * @param <S> - event source type, the entity characterized by the properties
  */
-public class PropertiesSet
-    extends OptionSet
-    implements IPropertiesSet {
-
-  private static final long serialVersionUID = 3102088694406134027L;
+public class PropertiesSet<S>
+    extends AbstractOptionsSetter
+    implements IPropertiesSet<S> {
 
   /**
    * {@link IPropertiesSet#propsEventer()} implementation.
@@ -32,112 +33,75 @@ public class PropertiesSet
    * @author hazard157
    */
   class Eventer
-      extends AbstractTsEventer<IPropertyChangeListener> {
+      extends AbstractTsEventer<IPropertyChangeListener<S>> {
 
-    private IOptionSetEdit oldValues = new OptionSet();
-    private IOptionSetEdit newValues = new OptionSet();
-    private String         propId    = null;
-    private IAtomicValue   oldValue  = null;
-    private IAtomicValue   newValue  = null;
-
-    private boolean wasSingle = false;
-    private boolean wasMulti  = false;
+    private IStringMapEdit<IAtomicValue> oldValMap = new StringMap<>();
+    private IStringMapEdit<IAtomicValue> newValMap = new StringMap<>();
 
     @Override
     protected boolean doIsPendingEvents() {
-      return wasMulti || wasSingle;
+      return !newValMap.isEmpty();
     }
 
     @Override
     protected void doFirePendingEvents() {
-      // single event will be fire anyway, for multi changes with null arguments
-      reallyFireSingleEvent( propId, oldValue, newValue );
-      if( wasMulti ) {
-        reallyFireSeveralPropsEvent( oldValues, newValues );
-      }
+      reallyFirePropsEvent( oldValMap, newValMap );
     }
 
     @Override
     protected void doClearPendingEvents() {
-      wasSingle = false;
-      wasMulti = false;
-      oldValues.clear();
-      newValues.clear();
-      propId = null;
-      oldValue = null;
-      newValue = null;
+      oldValMap.clear();
+      newValMap.clear();
     }
 
     @Override
     protected void doStartEventsAccrual() {
-      oldValues.setAll( PropertiesSet.this );
+      oldValMap.setAll( valuesMap );
     }
 
-    private void reallyFireSingleEvent( String aPropId, IAtomicValue aOld, IAtomicValue aNew ) {
+    @SuppressWarnings( { "rawtypes", "unchecked" } )
+    private void reallyFirePropsEvent( IStringMap<IAtomicValue> aOldValues, IStringMap<IAtomicValue> aNewValues ) {
+      IOptionSetEdit oldOps = new OptionSet();
+      IOptionSetEdit newOps = new OptionSet();
+      oldOps.addAll( aOldValues );
+      newOps.addAll( aNewValues );
       for( IPropertyChangeListener l : listeners() ) {
-        l.onPropertyChanged( PropertiesSet.this, aPropId, aOld, aNew );
+        l.onPropsChanged( source, oldOps, newOps );
       }
     }
 
-    private void reallyFireSeveralPropsEvent( IOptionSet aOldValues, IOptionSet aNewValues ) {
-      for( IPropertyChangeListener l : listeners() ) {
-        l.onSeveralPropsChanged( PropertiesSet.this, aOldValues, aNewValues );
-      }
-    }
-
-    void fireSinglePropChange( String aPropId, IAtomicValue aOld, IAtomicValue aNew ) {
-      if( isFiringPaused() ) {
-        if( !wasMulti ) {
-          propId = aPropId;
-          oldValue = aOld;
-          newValue = aNew;
-        }
-        else {
-          propId = null;
-          oldValue = null;
-          newValue = null;
-        }
-        wasMulti = true;
-        return;
-      }
-      reallyFireSingleEvent( aPropId, aOld, aNew );
-    }
-
-    void fireSeveralPropsChanged( IOptionSet aOldValues, IOptionSet aNewValues ) {
+    void firePropsChanged( IStringMap<IAtomicValue> aOldValues, IStringMap<IAtomicValue> aNewValues ) {
       if( isFiringPaused() ) {
         // old values were already saved in doStartEventsAccrual()
-        newValues.addAll( aNewValues );
-        wasMulti = true;
+        newValMap.putAll( aNewValues );
         return;
       }
-      reallyFireSeveralPropsEvent( aOldValues, aNewValues );
+      reallyFirePropsEvent( aOldValues, aNewValues );
     }
 
   }
 
+  private final S       source;
   private final Eventer eventer = new Eventer();
 
-  private final IStridablesListEdit<IDataDef> propDefs = new StridablesList<>();
+  private final IStringMapEdit<IAtomicValue>  valuesMap = new StringMap<>();
+  private final IStridablesListEdit<IDataDef> propDefs  = new StridablesList<>();
 
-  /**
-   * Flag to temporary disable single change event in {@link #doAfterSet(String, IAtomicValue, IAtomicValue)}.
-   * <p>
-   * Used on batch changes methods like {@link #setProps(IStringMap)} because they generate several properties change
-   * event.
-   */
-  private boolean disableSingleChangeEvent = false;
+  private IPropertyChangeInterceptor<S> interceptor = null;
 
   /**
    * Constructor.
    *
+   * @param aSource &lt;S&gt; - the event source
    * @param aPropsDefs {@link IStridablesList}&lt;{@link IDataDef}&gt; - properties definitions
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public PropertiesSet( IStridablesList<IDataDef> aPropsDefs ) {
+  public PropertiesSet( S aSource, IStridablesList<IDataDef> aPropsDefs ) {
+    TsNullArgumentRtException.checkNulls( aSource, aPropsDefs );
+    source = aSource;
     propDefs.setAll( aPropsDefs );
-    // initialize default values
     for( IDataDef dd : propDefs ) {
-      setValue( dd.id(), dd.defaultValue() );
+      valuesMap.put( dd.id(), dd.defaultValue() );
     }
   }
 
@@ -145,37 +109,159 @@ public class PropertiesSet
   // implementation
   //
 
-  private static void checkPropertyValueIsCompatibleToDefinition( IDataDef aPropDef, IAtomicValue aNewValue ) {
-    if( !AvTypeCastRtException.canAssign( aPropDef.atomicType(), aNewValue.atomicType() ) ) {
-      throw new AvTypeCastRtException( FMT_ERR_INV_PROP_TYPE, aPropDef.id(), aPropDef.atomicType().id(),
-          aNewValue.atomicType().id() );
+  private void checkValuesMap( IStringMap<IAtomicValue> aValues ) {
+    for( String pid : aValues.keys() ) {
+      // check property ID is known
+      IDataDef pdef = propDefs.findByKey( pid );
+      if( pdef == null ) {
+        throw new TsItemNotFoundRtException( FMT_ERR_NO_SUCH_PROP, pid );
+      }
+      // check property value is compatible with definition
+      IAtomicValue av = aValues.getByKey( pid );
+      if( !AvTypeCastRtException.canAssign( pdef.atomicType(), av.atomicType() ) ) {
+        throw new AvTypeCastRtException( FMT_ERR_INV_PROP_TYPE, pdef.id(), pdef.atomicType().id(),
+            av.atomicType().id() );
+      }
     }
+  }
+
+  /**
+   * The single method to really change properties values.
+   *
+   * @param aNewValues {@link IStringMap}&lt;{@link IAtomicValue}&gt; - the new values, must not be <code>null</code>
+   */
+  private void internalSetProps( IStringMap<IAtomicValue> aNewValues ) {
+    checkValuesMap( aNewValues );
+    // intercept changes
+    IOptionSetEdit opsToSet = new OptionSet();
+    opsToSet.addAll( aNewValues );
+    if( interceptor != null ) {
+      IOptionSetEdit newOps = new OptionSet();
+      newOps.addAll( aNewValues );
+      interceptor.interceptPropsChange( source, newOps, opsToSet );
+      checkValuesMap( opsToSet );
+    }
+    if( opsToSet.isEmpty() ) {
+      return;
+    }
+    // create map of really values that really changed
+    IOptionSetEdit reallyNewValues = new OptionSet();
+    for( String pid : opsToSet.keys() ) {
+      IAtomicValue avNew = opsToSet.getValue( pid );
+      IAtomicValue avOld = valuesMap.getByKey( pid );
+      if( !avNew.equals( avOld ) ) {
+        reallyNewValues.put( pid, avNew );
+      }
+    }
+    if( reallyNewValues.isEmpty() ) {
+      return;
+    }
+    valuesMap.putAll( reallyNewValues );
+    eventer.firePropsChanged( new StringMap<>( valuesMap ), reallyNewValues );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // AbstractOptionsGetter
+  //
+
+  @Override
+  protected IAtomicValue doInternalFind( String aId ) {
+    return valuesMap.findByKey( aId );
   }
 
   // ------------------------------------------------------------------------------------
   // AbstractOptionsSetter
   //
 
-  /**
-   * Checks if property exists and value is of compatible type.
-   */
   @Override
-  protected void doBeforeSet( String aId, IAtomicValue aOldValue, IAtomicValue aNewValue ) {
+  protected boolean doBeforeSet( String aId, IAtomicValue aOldValue, IAtomicValue aNewValue ) {
+    // check property ID is known
     IDataDef pdef = propDefs.findByKey( aId );
     if( pdef == null ) {
       throw new TsItemNotFoundRtException( FMT_ERR_NO_SUCH_PROP, aId );
     }
-    checkPropertyValueIsCompatibleToDefinition( pdef, aNewValue );
+    // if value does not really changes simply ignore
+    if( aNewValue.equals( valuesMap.getByKey( aId ) ) ) {
+      return true;
+    }
+    // check property value is compatible with definition
+    if( !AvTypeCastRtException.canAssign( pdef.atomicType(), aNewValue.atomicType() ) ) {
+      throw new AvTypeCastRtException( FMT_ERR_INV_PROP_TYPE, pdef.id(), pdef.atomicType().id(),
+          aNewValue.atomicType().id() );
+    }
+    // intercept
+    if( interceptor != null ) {
+      IOptionSetEdit newVals = new OptionSet();
+      IOptionSetEdit valsToSet = new OptionSet();
+      newVals.put( aId, aNewValue );
+      valsToSet.put( aId, aNewValue );
+      interceptor.interceptPropsChange( source, newVals, valsToSet );
+      if( valsToSet.isEmpty() ) {
+        return true; // no changes
+      }
+    }
+    return false;
   }
 
-  /**
-   * Fire change event if value was really changed.
-   */
+  @Override
+  protected void doInternalSet( String aId, IAtomicValue aValue ) {
+    valuesMap.put( aId, aValue );
+  }
+
   @Override
   protected void doAfterSet( String aId, IAtomicValue aOldValue, IAtomicValue aNewValue ) {
-    if( !disableSingleChangeEvent && !Objects.equals( aOldValue, aNewValue ) ) {
-      eventer.fireSinglePropChange( aId, aOldValue, aNewValue );
-    }
+    IOptionSetEdit newVals = new OptionSet();
+    newVals.put( aId, aNewValue );
+    eventer.firePropsChanged( new StringMap<>( valuesMap ), newVals );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // IStringMap
+  //
+
+  @Override
+  public IStringList keys() {
+    return valuesMap.keys();
+  }
+
+  @Override
+  public boolean hasKey( String aKey ) {
+    return valuesMap.hasKey( aKey );
+  }
+
+  @Override
+  public IAtomicValue findByKey( String aKey ) {
+    return valuesMap.findByKey( aKey );
+  }
+
+  @Override
+  public IList<IAtomicValue> values() {
+    return valuesMap.values();
+  }
+
+  @Override
+  public boolean hasElem( IAtomicValue aElem ) {
+    return valuesMap.hasElem( aElem );
+  }
+
+  @Override
+  public IAtomicValue[] toArray( IAtomicValue[] aSrcArray ) {
+    return valuesMap.toArray( aSrcArray );
+  }
+
+  @Override
+  public Object[] toArray() {
+    return valuesMap.toArray();
+  }
+
+  @Override
+  public Iterator<IAtomicValue> iterator() {
+    return valuesMap.iterator();
+  }
+
+  @Override
+  public int size() {
+    return valuesMap.size();
   }
 
   // ------------------------------------------------------------------------------------
@@ -183,12 +269,12 @@ public class PropertiesSet
   //
 
   @Override
-  public IStringList ids() {
-    return keys();
+  public IStridablesList<IDataDef> propDefs() {
+    return propDefs;
   }
 
   @Override
-  public ITsEventer<IPropertyChangeListener> propsEventer() {
+  public ITsEventer<IPropertyChangeListener<S>> propsEventer() {
     return eventer;
   }
 
@@ -198,70 +284,22 @@ public class PropertiesSet
 
   @Override
   public void setProps( IStringMap<IAtomicValue> aNewValues ) {
-    disableSingleChangeEvent = true;
-    try {
-      IOptionSetEdit newValues = new OptionSet(); // only changed new values
-      // check arguments
-      for( IDataDef pdef : propDefs ) {
-        IAtomicValue newValue = aNewValues.findByKey( pdef.id() );
-        if( newValue != null ) {
-          checkPropertyValueIsCompatibleToDefinition( pdef, newValue );
-          if( !Objects.equals( newValue, findValue( pdef.id() ) ) ) {
-            newValues.setValue( pdef, newValue );
-          }
-        }
-      }
-      IOptionSetEdit oldValues = new OptionSet( this );
-      // really set values
-      putAll( newValues );
-      // fire events
-      eventer.fireSinglePropChange( null, null, null );
-      eventer.fireSeveralPropsChanged( oldValues, newValues );
-    }
-    finally {
-      disableSingleChangeEvent = false;
-    }
+    TsNullArgumentRtException.checkNull( aNewValues );
+    internalSetProps( aNewValues );
   }
 
   @Override
   public void resetToDefaults() {
-    boolean wasChange = false;
-    IOptionSetEdit oldValues = null;
-    IOptionSetEdit newValues = null;
-    for( IDataDef pdef : propDefs ) {
-      if( !pdef.defaultValue().equals( getValue( pdef ) ) ) {
-        setValue( pdef, pdef.defaultValue() );
-        if( newValues == null ) {
-          oldValues = new OptionSet( this );
-          newValues = new OptionSet();
-        }
-        newValues.setValue( pdef, pdef.defaultValue() );
-        wasChange = true;
-      }
+    IStringMapEdit<IAtomicValue> mm = new StringMap<>();
+    for( IDataDef dd : propDefs ) {
+      mm.put( dd.id(), dd.defaultValue() );
     }
-    if( wasChange ) {
-      eventer.fireSinglePropChange( null, null, null );
-      eventer.fireSeveralPropsChanged( oldValues, newValues );
-    }
+    setProps( mm );
   }
 
-  // ------------------------------------------------------------------------------------
-  // class API
-  //
-
-  /**
-   * Changes properties set definitions.
-   *
-   * @param aPropsDefs {@link IStridablesList}&lt;{@link IDataDef}&gt; - properties definitions
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   */
-  public void defineProperties( IStridablesList<IDataDef> aPropsDefs ) {
-    propDefs.setAll( aPropsDefs );
-    clear();
-    // initialize default values
-    for( IDataDef dd : propDefs ) {
-      setValue( dd.id(), dd.defaultValue() );
-    }
+  @Override
+  public void setInterceptor( IPropertyChangeInterceptor<S> aInterceptor ) {
+    interceptor = aInterceptor;
   }
 
 }
