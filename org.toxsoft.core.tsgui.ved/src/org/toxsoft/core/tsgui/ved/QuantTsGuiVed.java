@@ -2,8 +2,8 @@ package org.toxsoft.core.tsgui.ved;
 
 import org.eclipse.e4.core.contexts.*;
 import org.toxsoft.core.tsgui.bricks.quant.*;
-import org.toxsoft.core.tsgui.ved.api.items.*;
-import org.toxsoft.core.tsgui.ved.impl.*;
+import org.toxsoft.core.tsgui.ved.screen.impl.*;
+import org.toxsoft.core.tsgui.ved.screen.items.*;
 
 /**
  * The library quant.

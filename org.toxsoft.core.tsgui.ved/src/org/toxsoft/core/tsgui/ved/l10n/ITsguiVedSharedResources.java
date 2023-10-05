@@ -1,7 +1,6 @@
 package org.toxsoft.core.tsgui.ved.l10n;
 
-import org.toxsoft.core.tsgui.ved.api.*;
-import org.toxsoft.core.tsgui.ved.impl.*;
+import org.toxsoft.core.tsgui.ved.screen.impl.*;
 
 /**
  * Localizable resources.
@@ -49,9 +48,7 @@ public interface ITsguiVedSharedResources {
   /**
    * {@link VedEnvironment}
    */
-  String FMT_WARN_UNKNON_VISEL_FACTORY = Messages.getString( "FMT_WARN_UNKNON_VISEL_FACTORY" ); //$NON-NLS-1$
-  String FMT_ERR_CAN_CREATE_VISEL      = Messages.getString( "FMT_ERR_CAN_CREATE_VISEL" );      //$NON-NLS-1$
-  String FMT_WARN_UNKNON_ACTOR_FACTORY = Messages.getString( "FMT_WARN_UNKNON_ACTOR_FACTORY" ); //$NON-NLS-1$
-  String FMT_ERR_CAN_CREATE_ACTOR      = Messages.getString( "FMT_ERR_CAN_CREATE_ACTOR" );      //$NON-NLS-1$
+  String FMT_WARN_UNKNON_ITEM_FACTORY = Messages.getString( "FMT_WARN_UNKNON_ITEM_FACTORY" ); //$NON-NLS-1$
+  String FMT_ERR_CAN_CREATE_ITEM      = Messages.getString( "FMT_ERR_CAN_CREATE_ITEM" );      //$NON-NLS-1$
 
 }
