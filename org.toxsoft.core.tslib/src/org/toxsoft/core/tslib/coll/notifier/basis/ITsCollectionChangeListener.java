@@ -1,10 +1,8 @@
 package org.toxsoft.core.tslib.coll.notifier.basis;
 
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IMap;
-import org.toxsoft.core.tslib.coll.helpers.ECrudOp;
-import org.toxsoft.core.tslib.coll.primtypes.IIntMap;
-import org.toxsoft.core.tslib.coll.primtypes.ILongList;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.helpers.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
 
 /**
  * Collection change listener.
@@ -20,7 +18,7 @@ public interface ITsCollectionChangeListener {
    * the element:
    * <ul>
    * <li>for maps {@link IMap} it contains the key, not the value. For maps with primitive type keys <b>aItem</b> is
-   * correponding object type (eg for {@link IIntMap} it has {@link Integer} type);</li>
+   * corresponding object type (eg for {@link IIntMap} it has {@link Integer} type);</li>
    * <li>for linear collections {@link IList} of primitive type <b>aItem</b> is correponding object type (eg for
    * {@link ILongList} it has {@link Long} type)</li>
    * <li>for other linear collections {@link IList} <code>aItem</code> is changed element itself.</li>

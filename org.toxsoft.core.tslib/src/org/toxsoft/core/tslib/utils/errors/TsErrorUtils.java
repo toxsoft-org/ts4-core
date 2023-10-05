@@ -145,6 +145,34 @@ public final class TsErrorUtils {
   }
 
   /**
+   * Checks if index can be applied to a collection with the specified maximum index value.
+   * <p>
+   * throw error (in the order of checks):
+   * <ul>
+   * <li>if <code>aIndex</code> has negative value - in collections/arrays index must start from 0 and up;</li>
+   * <li>if <code>aMaxIndex</code> has negative value - collection is empty and no index can by applied to it;</li>
+   * <li>if <code>aIndex</code> is greater than <code>aMaxIndex</code>.</li>
+   * </ul>
+   * Note: <code>aMaxIndex</code> is maximum allowed value of index, not the size of a collection. Usually index maximal
+   * value is one less than the collection size. However sometime (eg {@link IListEdit#insert(int, Object)}) index
+   * maximum value is equal to the collection size.
+   *
+   * @param aMaxIndex int - maximal allowed value of the index, or negative value
+   * @param aIndex int - the index to check
+   */
+  public static void checkCollIndex( int aMaxIndex, int aIndex ) {
+    if( aIndex < 0 ) {
+      throw new TsIllegalArgumentRtException( MSG_ERR_INV_INDEX_NEGATIVE );
+    }
+    if( aMaxIndex < 0 ) {
+      throw new TsIllegalArgumentRtException( MSG_ERR_INV_INDEX_ON_EMPTY_COLL );
+    }
+    if( aIndex > aMaxIndex ) {
+      throw new TsIllegalArgumentRtException( FMT_ERR_INV_INDEX_OUT_OF_RANGE, Integer.valueOf( aMaxIndex ) );
+    }
+  }
+
+  /**
    * Prohibition of descendants creation.
    */
   private TsErrorUtils() {
