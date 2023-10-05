@@ -71,7 +71,9 @@ public abstract class AbstractTsPausabeEventsProducer
   //
 
   /**
-   * Subclass may prepare to accumulate events.
+   * Subclass may prepare to accumulate events when firing is became paused.
+   * <p>
+   * This method is called when {@link #pauseFiring()} is called when firing is not paused.
    * <p>
    * In base class does nothing, there is no need to call superclass method in subclasses.
    */

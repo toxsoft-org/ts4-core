@@ -1,12 +1,11 @@
 package org.toxsoft.core.tslib.av.opset.impl;
 
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.opset.IOpsSetter;
-import org.toxsoft.core.tslib.av.opset.IOptionSetEdit;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * {@link IOpsSetter} implementaion wrapped over existing {@link IOptionSetEdit} instance.
+ * {@link IOpsSetter} implementation wrapped over existing {@link IOptionSetEdit} instance.
  *
  * @author hazard157
  */
