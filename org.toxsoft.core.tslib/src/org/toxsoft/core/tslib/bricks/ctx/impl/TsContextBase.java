@@ -3,6 +3,7 @@ package org.toxsoft.core.tslib.bricks.ctx.impl;
 import static org.toxsoft.core.tslib.bricks.ctx.impl.ITsResources.*;
 
 import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.ctx.*;
@@ -199,6 +200,14 @@ public class TsContextBase<P extends ITsContextRo>
   @Override
   public boolean isSelfOption( String aOptionId ) {
     return ops.isSelfOption( aOptionId );
+  }
+
+  @Override
+  public IAtomicValue getSelfOption( IDataDef aOptionDef ) {
+    if( ops.isSelfOption( aOptionDef.id() ) ) {
+      return ops.getValue( aOptionDef );
+    }
+    return aOptionDef.defaultValue();
   }
 
   @Override

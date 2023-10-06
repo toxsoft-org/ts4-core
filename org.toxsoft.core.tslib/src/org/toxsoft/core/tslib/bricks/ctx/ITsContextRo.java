@@ -1,5 +1,7 @@
 package org.toxsoft.core.tslib.bricks.ctx;
 
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.bricks.events.*;
@@ -104,6 +106,14 @@ public interface ITsContextRo
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   boolean isSelfOption( String aOptionId );
+
+  /**
+   * Returns the option value from context if it is the self option (not retrieved from the parent context).
+   *
+   * @param aOptionDef {@link IDataDef} - option definition
+   * @return {@link IAtomicValue} - self value of the option of default from definition
+   */
+  IAtomicValue getSelfOption( IDataDef aOptionDef );
 
   /**
    * Adds the listener.

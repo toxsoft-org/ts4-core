@@ -217,10 +217,13 @@ public abstract class AbstractOptionsGetter
   @Override
   public IAtomicValue getValue( IDataDef aOpId ) {
     IAtomicValue av = internalFindAs( aOpId, aOpId.atomicType() );
-    if( av == null ) {
-      throw new TsItemNotFoundRtException();
+    if( av != null && av != IAtomicValue.NULL ) {
+      return av;
     }
-    return av;
+    if( av == null && aOpId.isMandatory() ) {
+      throw new TsItemNotFoundRtException( FMT_ERR_NO_MANDATORY_OP, aOpId.id(), aOpId.nmName() );
+    }
+    return aOpId.defaultValue();
   }
 
   // ------------------------------------------------------------------------------------
