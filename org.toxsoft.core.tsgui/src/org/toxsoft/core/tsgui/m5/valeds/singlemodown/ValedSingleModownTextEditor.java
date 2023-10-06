@@ -88,7 +88,7 @@ public class ValedSingleModownTextEditor<V>
     btnEdit.setLayoutData( BorderLayout.EAST );
     btnEdit.setText( STR_ELLIPSIS );
     btnEdit.addSelectionListener( btnEditSelectionListener );
-    return text;
+    return board;
   }
 
   @Override

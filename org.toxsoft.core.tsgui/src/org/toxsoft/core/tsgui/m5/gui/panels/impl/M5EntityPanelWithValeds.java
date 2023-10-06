@@ -121,6 +121,7 @@ public class M5EntityPanelWithValeds<T>
     TsNullArgumentRtException.checkNull( aFieldDef );
     // each editor needs own instance of the context
     ITsGuiContext ctx = new TsGuiContext( tsContext() );
+    // copy options and references from field definition to context used for editor creation
     ctx.params().addAll( aFieldDef.params() );
     for( String refId : aFieldDef.valedRefs().keys() ) {
       ctx.put( refId, aFieldDef.valedRefs().getByKey( refId ) );
@@ -132,20 +133,14 @@ public class M5EntityPanelWithValeds<T>
     // use explicitly specified VALED
     IAtomicValue avEdName = aFieldDef.params().findValue( OPDEF_EDITOR_FACTORY_NAME );
     if( avEdName != null && avEdName != IAtomicValue.NULL ) {
-      // необходим реестр фабрик
       IValedControlFactoriesRegistry registry = tsContext().get( IValedControlFactoriesRegistry.class );
-      // найдем фабрику редактора
-      IValedControlFactory factory = null;
       String edName = avEdName.asString();
-      factory = registry.getFactory( edName );
+      IValedControlFactory factory = registry.getFactory( edName );
       IValedControl editor = doCreateEditor( factory, aFieldDef, ctx );
       editor.clearValue();
       return editor;
     }
     //
-    // GOGA 2020-11-24 в контексте уровнем выше может быть EDITOR_FACTORY_NAME, обнулим для себя
-    // reset OPDEF_EDITOR_FACTORY_NAME option if it is defined
-
     /**
      * At this point #ctx does NOT contains OPDEF_EDITOR_FACTORY_NAME option from the field definition. However,
      * somewhere in the parent contexts there may be the same option defined. To avoid misunderstanding we'll "hide"
@@ -168,7 +163,7 @@ public class M5EntityPanelWithValeds<T>
       editor.clearValue();
       return editor;
     }
-    // heuritics faild, we can't create fiedl editor
+    // heuristics failed, we can't create field editor
     throw new TsItemNotFoundRtException( FMT_ERR_NO_FACTORY_IN_PARAMS, aFieldDef.id() );
   }
 
@@ -235,6 +230,10 @@ public class M5EntityPanelWithValeds<T>
     }
     return valResult;
   }
+
+  // ------------------------------------------------------------------------------------
+  // API for subclasses
+  //
 
   /**
    * Возвращает описание поля, редактиромое запрошенным редактором.
@@ -477,10 +476,10 @@ public class M5EntityPanelWithValeds<T>
     IVecLadderLayout ll = new VecLadderLayout( true );
     for( String fieldId : aEditors.keys() ) {
       IValedControl<?> varEditor = aEditors.getByKey( fieldId );
-      int verSpan = varEditor.params().getInt( OPDEF_VERTICAL_SPAN );
-      boolean isPrefWidthFixed = varEditor.params().getBool( OPDEF_IS_WIDTH_FIXED );
-      boolean isPrefHeighFixed = varEditor.params().getBool( OPDEF_IS_HEIGHT_FIXED );
-      boolean useLabel = !varEditor.params().getBool( OPDEF_NO_FIELD_LABEL );
+      int verSpan = varEditor.tsContext().getSelfOption( OPDEF_VERTICAL_SPAN ).asInt();
+      boolean isPrefWidthFixed = varEditor.tsContext().getSelfOption( OPDEF_IS_WIDTH_FIXED ).asBool();
+      boolean isPrefHeighFixed = varEditor.tsContext().getSelfOption( OPDEF_IS_HEIGHT_FIXED ).asBool();
+      boolean useLabel = !varEditor.tsContext().getSelfOption( OPDEF_NO_FIELD_LABEL ).asBool();
       EHorAlignment ha = isPrefWidthFixed ? EHorAlignment.LEFT : EHorAlignment.FILL;
       EVerAlignment va = isPrefHeighFixed ? EVerAlignment.TOP : EVerAlignment.FILL;
       IM5FieldDef<?, ?> fd = aModel.fieldDefs().getByKey( fieldId );
@@ -489,13 +488,34 @@ public class M5EntityPanelWithValeds<T>
         label = fd.nmName() + ": "; //$NON-NLS-1$
       }
       String tooltip = fd.description();
-
-      // TODO need option OPDEF_FULL_WIDTH_CONTROL ???
-
       IVecLadderLayoutData layoutData = new VecLadderLayoutData( useLabel, !useLabel, verSpan, label, tooltip, ha, va );
       ll.addControl( varEditor, layoutData );
     }
     return ll;
+    // GOGA 2023-10-06 remove the influence of parent context parameters
+    // IVecLadderLayout ll = new VecLadderLayout( true );
+    // for( String fieldId : aEditors.keys() ) {
+    // IValedControl<?> varEditor = aEditors.getByKey( fieldId );
+    // int verSpan = varEditor.params().getInt( OPDEF_VERTICAL_SPAN );
+    // boolean isPrefWidthFixed = varEditor.params().getBool( OPDEF_IS_WIDTH_FIXED );
+    // boolean isPrefHeighFixed = varEditor.params().getBool( OPDEF_IS_HEIGHT_FIXED );
+    // boolean useLabel = !varEditor.params().getBool( OPDEF_NO_FIELD_LABEL );
+    // EHorAlignment ha = isPrefWidthFixed ? EHorAlignment.LEFT : EHorAlignment.FILL;
+    // EVerAlignment va = isPrefHeighFixed ? EVerAlignment.TOP : EVerAlignment.FILL;
+    // IM5FieldDef<?, ?> fd = aModel.fieldDefs().getByKey( fieldId );
+    // String label = TsLibUtils.EMPTY_STRING;
+    // if( !fd.nmName().isEmpty() ) {
+    // label = fd.nmName() + ": "; //$NON-NLS-1$
+    // }
+    // String tooltip = fd.description();
+    //
+    // // TODO need option OPDEF_FULL_WIDTH_CONTROL ???
+    //
+    // IVecLadderLayoutData layoutData = new VecLadderLayoutData( useLabel, !useLabel, verSpan, label, tooltip, ha, va
+    // );
+    // ll.addControl( varEditor, layoutData );
+    // }
+    // return ll;
   }
 
 }

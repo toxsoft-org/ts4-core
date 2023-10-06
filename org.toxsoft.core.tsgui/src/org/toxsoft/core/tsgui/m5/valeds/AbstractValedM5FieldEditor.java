@@ -9,7 +9,6 @@ import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.valed.impl.*;
-import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.bricks.ctx.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -31,24 +30,6 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public abstract class AbstractValedM5FieldEditor<V>
     extends AbstractValedControl<V, Control> {
 
-  private final ITsContextListener contextListener = new ITsContextListener() {
-
-    @Override
-    public <C extends ITsContextRo> void onContextRefChanged( C aSource, String aName, Object aRef ) {
-      Object newMasterObject = findMasterObject();
-      if( !Objects.equals( lastMasterObject, newMasterObject ) ) {
-        Object oldMaster = lastMasterObject;
-        lastMasterObject = newMasterObject;
-        onMasterObjectChanged( newMasterObject, oldMaster );
-      }
-    }
-
-    @Override
-    public <C extends ITsContextRo> void onContextOpChanged( C aSource, String aId, IAtomicValue aValue ) {
-      // nop
-    }
-  };
-
   @SuppressWarnings( "rawtypes" )
   private final IM5FieldDef fieldDef;
 
@@ -66,7 +47,26 @@ public abstract class AbstractValedM5FieldEditor<V>
     super( aContext );
     fieldDef = IM5ValedConstants.M5_VALED_REFDEF_FIELD_DEF.getRef( aContext );
     lastMasterObject = findMasterObject();
-    tsContext().addContextListener( contextListener );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // AbstractValedControl
+  //
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * In {@link AbstractValedM5FieldEditor} handles master object reference change, subclass <b>must</b> call superclass
+   * method.
+   */
+  @Override
+  public <X extends ITsContextRo> void onContextRefChanged( X aSource, String aName, Object aRef ) {
+    Object newMasterObject = findMasterObject();
+    if( !Objects.equals( lastMasterObject, newMasterObject ) ) {
+      Object oldMaster = lastMasterObject;
+      lastMasterObject = newMasterObject;
+      onMasterObjectChanged( newMasterObject, oldMaster );
+    }
   }
 
   // ------------------------------------------------------------------------------------
