@@ -11,13 +11,13 @@ import org.toxsoft.core.tslib.av.opset.*;
 public interface IPropertyChangeInterceptor<S> {
 
   /**
-   * Called when properties values changes.
+   * Called when properties values change is requested.
    * <p>
    * Editable argument <code>aValuesToSet</code> is the values, that will be set to properties. It initially contains
    * the same vales as <code>aNewValues</code>. Interceptor may remove values from <code>aValuesToSet</code> edit
    * existing, add any other properties values or event clear to cancel changes.
    * <p>
-   * Cuurrent values of the properties may be accessed via <code>aSource</code> argument.
+   * Current values of the properties may be accessed via <code>aSource</code> argument.
    *
    * @param aSource &lt;S&gt; - the event source
    * @param aNewValues {@link IOptionSetEdit} - changed properties values after change

@@ -157,6 +157,7 @@ public class PropertiesSet<S>
       return;
     }
     valuesMap.putAll( reallyNewValues );
+    doAfterPropValuesSet( reallyNewValues );
     eventer.firePropsChanged( new StringMap<>( valuesMap ), reallyNewValues );
   }
 
@@ -173,6 +174,12 @@ public class PropertiesSet<S>
   // AbstractOptionsSetter
   //
 
+  /**
+   * Note of implementation: this method is NOT called from batch change method {@link #setProps(IStringMap)}, rather
+   * only called when setting individual properties via {@link IOpsSetter} interface.
+   * <p>
+   * {@inheritDoc}
+   */
   @Override
   protected boolean doBeforeSet( String aId, IAtomicValue aOldValue, IAtomicValue aNewValue ) {
     // check property ID is known
@@ -203,15 +210,28 @@ public class PropertiesSet<S>
     return false;
   }
 
+  /**
+   * Note of implementation: this method is NOT called from batch change method {@link #setProps(IStringMap)}, rather
+   * only called when setting individual properties via {@link IOpsSetter} interface.
+   * <p>
+   * {@inheritDoc}
+   */
   @Override
   protected void doInternalSet( String aId, IAtomicValue aValue ) {
     valuesMap.put( aId, aValue );
   }
 
+  /**
+   * Note of implementation: this method is NOT called from batch change method {@link #setProps(IStringMap)}, rather
+   * only called when setting individual properties via {@link IOpsSetter} interface.
+   * <p>
+   * {@inheritDoc}
+   */
   @Override
   protected void doAfterSet( String aId, IAtomicValue aOldValue, IAtomicValue aNewValue ) {
     IOptionSetEdit newVals = new OptionSet();
     newVals.put( aId, aNewValue );
+    doAfterPropValuesSet( newVals );
     eventer.firePropsChanged( new StringMap<>( valuesMap ), newVals );
   }
 
@@ -300,6 +320,26 @@ public class PropertiesSet<S>
   @Override
   public void setInterceptor( IPropertyChangeInterceptor<S> aInterceptor ) {
     interceptor = aInterceptor;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // To override
+  //
+
+  /**
+   * Subclass may perform additional actions after properties are updated but before change event fired.
+   * <p>
+   * The main and probably the only purpose of this method is to update internal caches based on changed values.
+   * <p>
+   * <b>WARNING:</b> properties may be read but it is prohibited to <b>set</b> properties values as it may cause errors
+   * and infinite loops.
+   * <p>
+   * Note: old values are are lost at this time and can <b>not</b> be accessed.
+   *
+   * @param aChangedValues {@link IOptionSet} - really changed values
+   */
+  protected void doAfterPropValuesSet( IOptionSet aChangedValues ) {
+    // nop
   }
 
 }
