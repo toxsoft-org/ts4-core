@@ -319,6 +319,11 @@ public interface ITsStdActionDefs {
   String ACTID_ADD_COPY = STD_ACTION_DEF_PREFIX + ".add_copy"; //$NON-NLS-1$
 
   /**
+   * ID of action {@link #ACDEF_RUN_TEST}.
+   */
+  String ACTID_RUN_TEST = STD_ACTION_DEF_PREFIX + ".run_test"; //$NON-NLS-1$
+
+  /**
    * THis is "pseudo" action to insert separators in menus, tollbars, etc.
    */
   ITsActionDef ACDEF_SEPARATOR = ofUnspec1( ACTID_SEPARATOR );
@@ -728,5 +733,11 @@ public interface ITsStdActionDefs {
    */
   ITsActionDef ACDEF_PRINT_PREVIEW = ofPush2( ACTID_PRINT_PREVIEW, //
       STR_T_PRINT_PREVIEW, STR_P_PRINT_PREVIEW, ICONID_DOCUMENT_PRINT_PREVIEW );
+
+  /**
+   * Action: Run test action for development purposes.
+   */
+  ITsActionDef ACDEF_RUN_TEST = ofPush2( ACTID_RUN_TEST, //
+      STR_RUN_TEST, STR_RUN_TEST_D, ICONID_RUN_TEST );
 
 }

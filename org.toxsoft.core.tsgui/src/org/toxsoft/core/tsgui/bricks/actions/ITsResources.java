@@ -129,5 +129,7 @@ interface ITsResources {
   String STR_P_PRINT                = Messages.getString( "STR_P_PRINT" );
   String STR_T_PRINT_PREVIEW        = Messages.getString( "STR_T_PRINT_PREVIEW" );
   String STR_P_PRINT_PREVIEW        = Messages.getString( "STR_P_PRINT_PREVIEW" );
+  String STR_RUN_TEST               = Messages.getString( "STR_RUN_TEST" );
+  String STR_RUN_TEST_D             = Messages.getString( "STR_RUN_TEST_D" );
 
 }
