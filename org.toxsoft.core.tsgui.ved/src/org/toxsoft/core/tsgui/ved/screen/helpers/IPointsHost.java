@@ -1,6 +1,6 @@
 package org.toxsoft.core.tsgui.ved.screen.helpers;
 
-import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.bricks.d2.*;
 
 /**
  * "Хозяин" 2d-точек
@@ -20,11 +20,15 @@ public interface IPointsHost {
    */
   boolean isYours( double aX, double aY );
 
+  default boolean isYours( ID2Point aPoint ) {
+    return isYours( aPoint.x(), aPoint.y() );
+  }
+
   /**
    * Возвращает описывающий прямоугольник.<br>
    *
-   * @return Rectangle - описывающий прямоугольник
+   * @return {@link ID2Rectangle} - описывающий прямоугольник
    */
-  ITsRectangle bounds();
+  ID2Rectangle bounds();
 
 }

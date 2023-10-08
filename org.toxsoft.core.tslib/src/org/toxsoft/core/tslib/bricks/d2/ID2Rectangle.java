@@ -75,4 +75,8 @@ public sealed interface ID2Rectangle permits D2Rectangle,D2RectangleEdit {
    */
   ID2Size size();
 
+  boolean contains( double aX, double aY );
+
+  boolean contains( ID2Point aPoint );
+
 }

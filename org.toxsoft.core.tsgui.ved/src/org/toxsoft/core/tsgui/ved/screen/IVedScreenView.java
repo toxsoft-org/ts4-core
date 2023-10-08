@@ -3,8 +3,8 @@ package org.toxsoft.core.tsgui.ved.screen;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
+import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.d2.helpers.*;
-import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -76,9 +76,9 @@ public interface IVedScreenView
   /**
    * Redraws the region of the screen.
    *
-   * @param aScreenRect {@link ITsRectangle} - screen region to redraw in pixels
+   * @param aScreenRect {@link ID2Rectangle} - screen region to redraw in pixels
    */
-  void redrawRect( ITsRectangle aScreenRect );
+  void redrawRect( ID2Rectangle aScreenRect );
 
   /**
    * Sets mouse cursor shape on screen.

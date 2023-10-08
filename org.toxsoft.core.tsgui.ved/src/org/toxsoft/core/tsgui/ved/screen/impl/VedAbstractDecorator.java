@@ -2,7 +2,7 @@ package org.toxsoft.core.tsgui.ved.screen.impl;
 
 import org.toxsoft.core.tsgui.ved.incub.tsg.*;
 import org.toxsoft.core.tsgui.ved.screen.snippets.*;
-import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -40,7 +40,7 @@ public abstract class VedAbstractDecorator
   public abstract boolean isYours( double aX, double aY );
 
   @Override
-  public abstract ITsRectangle bounds();
+  public abstract ID2Rectangle bounds();
 
   // ------------------------------------------------------------------------------------
   // IVedDecorator

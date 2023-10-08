@@ -12,6 +12,11 @@ public sealed interface ID2Angle permits ID2AngleEdit,D2Angle {
    */
   ID2Angle ZERO = D2Angle.ofDegrees( 0.0 );
 
+  // TODO add common angles constants
+  ID2Angle DEG_15 = D2Angle.ofDegrees( 15.0 );
+
+  ID2Angle DEG_45 = D2Angle.ofDegrees( 45.0 );
+
   /**
    * Returns angle in radians.
    *

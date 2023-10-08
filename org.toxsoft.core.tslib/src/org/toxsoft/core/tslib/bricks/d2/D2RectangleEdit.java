@@ -114,6 +114,19 @@ public final class D2RectangleEdit
     return size;
   }
 
+  @Override
+  public boolean contains( double aX, double aY ) {
+    return aX >= x1() && aX <= x2() && aY >= y1() && aY <= y2();
+  }
+
+  @Override
+  public boolean contains( ID2Point aPoint ) {
+    if( aPoint == null ) {
+      throw new TsNullArgumentRtException();
+    }
+    return aPoint.x() >= x1() && aPoint.x() <= x2() && aPoint.y() >= y1() && aPoint.y() <= y2();
+  }
+
   // ------------------------------------------------------------------------------------
   // Object
   //

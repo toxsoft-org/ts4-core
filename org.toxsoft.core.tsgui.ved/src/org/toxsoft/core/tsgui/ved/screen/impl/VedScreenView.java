@@ -7,7 +7,6 @@ import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
-import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.utils.*;
 
 /**
@@ -111,8 +110,12 @@ class VedScreenView
   }
 
   @Override
-  public void redrawRect( ITsRectangle aScreenRect ) {
-    theCanvas.redraw( aScreenRect.x1(), aScreenRect.y1(), aScreenRect.width(), aScreenRect.height(), true );
+  public void redrawRect( ID2Rectangle aScreenRect ) {
+
+    theCanvas.redraw();
+
+    // FIXME theCanvas.redraw( aScreenRect.x1(), aScreenRect.y1(), aScreenRect.width(), aScreenRect.height(), true );
+
   }
 
   @Override

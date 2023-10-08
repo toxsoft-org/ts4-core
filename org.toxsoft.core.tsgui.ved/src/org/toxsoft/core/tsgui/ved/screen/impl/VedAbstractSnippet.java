@@ -2,7 +2,6 @@ package org.toxsoft.core.tsgui.ved.screen.impl;
 
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.helpers.*;
-import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tsgui.ved.screen.snippets.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -89,10 +88,10 @@ public abstract class VedAbstractSnippet
    * Finds the VISEL on screen by ID.
    *
    * @param aViselId String - the VISEL ID
-   * @return {@link IVedVisel} - found VISEL or <code>null</code>
+   * @return {@link VedAbstractVisel} - found VISEL or <code>null</code>
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public IVedVisel findVisel( String aViselId ) {
+  public VedAbstractVisel findVisel( String aViselId ) {
     return vedScreen().model().visels().list().findByKey( aViselId );
   }
 
@@ -100,11 +99,11 @@ public abstract class VedAbstractSnippet
    * Returns the VISEL on screen by ID.
    *
    * @param aViselId String - the VISEL ID
-   * @return {@link IVedVisel} - found VISEL
+   * @return {@link VedAbstractVisel} - found VISEL
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsItemNotFoundRtException no such VISEL found
    */
-  public IVedVisel getVisel( String aViselId ) {
+  public VedAbstractVisel getVisel( String aViselId ) {
     return vedScreen().model().visels().list().getByKey( aViselId );
   }
 
@@ -112,10 +111,10 @@ public abstract class VedAbstractSnippet
    * Finds the actor on screen by ID.
    *
    * @param aActorId String - the actor ID
-   * @return {@link IVedActor} - found actor or <code>null</code>
+   * @return {@link VedAbstractActor} - found actor or <code>null</code>
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public IVedActor findActor( String aActorId ) {
+  public VedAbstractActor findActor( String aActorId ) {
     return vedScreen().model().actors().list().findByKey( aActorId );
   }
 
@@ -123,11 +122,11 @@ public abstract class VedAbstractSnippet
    * Returns the actor on screen by ID.
    *
    * @param aActorId String - the actor ID
-   * @return {@link IVedActor} - found actor
+   * @return {@link VedAbstractActor} - found actor
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsItemNotFoundRtException no such actor found
    */
-  public IVedActor getActor( String aActorId ) {
+  public VedAbstractActor getActor( String aActorId ) {
     return vedScreen().model().actors().list().getByKey( aActorId );
   }
 

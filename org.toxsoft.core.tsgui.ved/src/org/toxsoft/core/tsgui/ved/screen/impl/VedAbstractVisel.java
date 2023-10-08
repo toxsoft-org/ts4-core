@@ -9,8 +9,6 @@ import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
-import org.toxsoft.core.tslib.bricks.geometry.*;
-import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
@@ -27,7 +25,7 @@ public abstract class VedAbstractVisel
 
   private static final IAtomicValue MIN_DIMENSION_AV = avFloat( 1.0 );
 
-  private final TsRectangleEdit boundsRect = new TsRectangleEdit( 0, 0, 100, 100 );
+  private final D2RectangleEdit boundsRect = new D2RectangleEdit( 0.0, 0.0, 100.0, 100.0 );
 
   /**
    * Constructor.
@@ -58,17 +56,17 @@ public abstract class VedAbstractVisel
   }
 
   // ------------------------------------------------------------------------------------
-  // IDisplayable
+  // IPointsHost
   //
 
   @Override
-  public ITsRectangle bounds() {
+  public ID2Rectangle bounds() {
     return boundsRect;
   }
 
   @Override
   public boolean isYours( double aX, double aY ) {
-    return bounds().contains( (int)aX, (int)aY );
+    return boundsRect.contains( aX, aY );
   }
 
   // ------------------------------------------------------------------------------------
