@@ -159,14 +159,16 @@ public class OptionSetUtils {
    *
    * @param aOpValues {@link IOptionSetEdit} - option set to initialize
    * @param aOpDefs {@link IStridablesList}&lt;{@link IDataDef}&gt; - option definitions
+   * @return {@link IOptionSetEdit} - the argument <code>aOpValues</code>
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public static void initOptionSet( IOptionSetEdit aOpValues, IStridablesList<IDataDef> aOpDefs ) {
+  public static IOptionSetEdit initOptionSet( IOptionSetEdit aOpValues, IStridablesList<IDataDef> aOpDefs ) {
     TsNullArgumentRtException.checkNulls( aOpValues, aOpDefs );
     aOpValues.clear();
     for( String opId : aOpDefs.keys() ) {
       aOpValues.setValue( opId, aOpDefs.getByKey( opId ).defaultValue() );
     }
+    return aOpValues;
   }
 
   // ------------------------------------------------------------------------------------
