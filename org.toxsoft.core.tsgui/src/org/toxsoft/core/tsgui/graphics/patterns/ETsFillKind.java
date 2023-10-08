@@ -10,7 +10,7 @@ import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Types of background filling when filling drawn shapes.
+ * Types of filling drawn shapes.
  *
  * @author vs
  */

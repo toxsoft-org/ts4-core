@@ -8,20 +8,19 @@ import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Параметры заливки.
- * <p>
+ * The shapes filling parameters.
  *
  * @author vs
  */
 public class TsFillInfo {
 
   /**
-   * Отстутсвие заливки
+   * Singleton of the no fill.
    */
   public static final TsFillInfo NONE = new TsFillInfo();
 
   /**
-   * The registsred keeper ID.
+   * The registered keeper ID.
    */
   public static final String KEEPER_ID = "TsFillInfo"; //$NON-NLS-1$
 
@@ -37,7 +36,7 @@ public class TsFillInfo {
           ETsFillKind.KEEPER.write( aSw, kind );
           aSw.writeSeparatorChar();
           switch( kind ) {
-            case NONE: // ничего не записываем
+            case NONE:
               break;
             case SOLID:
               RGBAKeeper.KEEPER.write( aSw, aEntity.fillColor() );
@@ -118,37 +117,41 @@ public class TsFillInfo {
     kind = ETsFillKind.GRADIENT;
   }
 
+  // ------------------------------------------------------------------------------------
+  // API
+  //
+
   /**
-   * Возвращает тип заливки.<br>
+   * Returns the filling kind.
    *
-   * @return ETsFillKind - тип заливки
+   * @return {@link ETsFillKind} - the filling kind
    */
   public ETsFillKind kind() {
     return kind;
   }
 
   /**
-   * Возвращает параметры цвета при сплошной заливке.
+   * Returns the color of the solid fill (kind {@link ETsFillKind#SOLID}).
    *
-   * @return RGBA - параметры цвета при сплошной заливке
+   * @return {@link RGB} - solid fill color
    */
   public RGBA fillColor() {
     return fillRgba;
   }
 
   /**
-   * Возвращает параметры при заливке изображением.
+   * Returns the image filling information (kind {@link ETsFillKind#IMAGE}).
    *
-   * @return TsImageFillInfo - параметры при заливке изображением
+   * @return {@link TsImageFillInfo} - the image filling parameters
    */
   public TsImageFillInfo imageFillInfo() {
     return imageFillInfo;
   }
 
   /**
-   * Возвращает параметры при градиентной заливки.
+   * Returns the gradient filling information (kind {@link ETsFillKind#GRADIENT}).
    *
-   * @return TsGradientFillInfo - параметры градиентной заливки
+   * @return {@link TsGradientFillInfo} - the gradient filling parameters
    */
   public TsGradientFillInfo gradientFillInfo() {
     return gradientFillInfo;
