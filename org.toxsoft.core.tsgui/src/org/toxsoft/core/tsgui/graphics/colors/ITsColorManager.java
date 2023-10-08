@@ -92,6 +92,8 @@ public interface ITsColorManager {
    */
   Color getColor( int aR, int aG, int aB );
 
+  Color getColor( int aRed, int aGreen, int aBlue, int aAlpha );
+
   /**
    * Возвращает цвет по заданному сочетанию красного, зеленого, синего.
    * <p>
@@ -102,6 +104,8 @@ public interface ITsColorManager {
    * @throws TsNullArgumentRtException аргумент = null
    */
   Color getColor( RGB aRgb );
+
+  Color getColor( RGBA aRgba );
 
   /**
    * Returns human-readable name of the RGB color.

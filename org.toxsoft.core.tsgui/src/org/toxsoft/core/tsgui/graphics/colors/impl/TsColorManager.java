@@ -18,6 +18,10 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class TsColorManager
     implements ITsColorManager {
 
+  /**
+   * TODO the manager needs to be completely redesigned since SWT Color is no longer a disposable resource.
+   */
+
   private final Display display;
 
   /**
@@ -40,7 +44,7 @@ public class TsColorManager
     display = TsNullArgumentRtException.checkNull( aDisplay );
     TsItemNotFoundRtException.checkNull( display );
     // запланируем освобождение ресурсов
-    display.disposeExec( () -> releaseResources() );
+    display.disposeExec( this::releaseResources );
     // разместим в карте имен стандартные имена цветов ETsColor
     for( ETsColor tsc : ETsColor.values() ) {
       String rgbName = rgb2name( tsc.rgb() );
@@ -160,8 +164,19 @@ public class TsColorManager
   }
 
   @Override
+  public Color getColor( int aRed, int aGreen, int aBlue, int aAlpha ) {
+    return new Color( aRed, aGreen, aBlue, aAlpha );
+  }
+
+  @Override
   public Color getColor( RGB aRgb ) {
     return getColor( aRgb.red, aRgb.green, aRgb.blue );
+  }
+
+  @Override
+  public Color getColor( RGBA aRgba ) {
+    TsNullArgumentRtException.checkNull( aRgba );
+    return new Color( aRgba );
   }
 
   @SuppressWarnings( "boxing" )
