@@ -15,7 +15,7 @@ import org.toxsoft.core.tslib.utils.*;
  *
  * @author hazard157
  */
-class VedScreenView
+public class VedScreenView
     implements IVedScreenView, ICloseable {
 
   private final VedScreen               vedScreen;
@@ -25,6 +25,12 @@ class VedScreenView
   private final VedCanvasHandler        canvasHandler;
   private final IVedCoorsConverter      coorsConverter;
 
+  /**
+   * Constructor.
+   *
+   * @param aParent {@link Composite} - parent composite
+   * @param aScreen {@link VedScreenCfg} - the owner screen
+   */
   VedScreenView( Composite aParent, VedScreen aScreen ) {
     vedScreen = aScreen;
     coorsConverter = new VedCoorsConverter( vedScreen );
