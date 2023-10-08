@@ -1,6 +1,6 @@
 package org.toxsoft.core.tsgui.ved.screen.impl;
 
-import org.toxsoft.core.tsgui.ved.devel.*;
+import org.toxsoft.core.tsgui.ved.incub.tsg.*;
 import org.toxsoft.core.tsgui.ved.screen.snippets.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.utils.*;

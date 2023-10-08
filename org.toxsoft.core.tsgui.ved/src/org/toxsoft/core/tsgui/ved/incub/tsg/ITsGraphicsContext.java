@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.ved.devel;
+package org.toxsoft.core.tsgui.ved.incub.tsg;
 
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;

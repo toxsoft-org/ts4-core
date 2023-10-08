@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.ved.devel;
+package org.toxsoft.core.tsgui.ved.incub.tsg;
 
 /**
  * Mixin interface of entities capable to be painted on TS graphics context.

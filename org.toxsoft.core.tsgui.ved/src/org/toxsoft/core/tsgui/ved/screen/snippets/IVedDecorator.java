@@ -1,7 +1,7 @@
 package org.toxsoft.core.tsgui.ved.screen.snippets;
 
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tsgui.ved.devel.*;
+import org.toxsoft.core.tsgui.ved.incub.tsg.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.helpers.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
