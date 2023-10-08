@@ -9,6 +9,7 @@ import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.toxsoft.core.tsgui.bricks.tin.*;
 import org.toxsoft.core.tsgui.bricks.tin.impl.*;
+import org.toxsoft.core.tsgui.bricks.tin.tti.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
@@ -98,8 +99,8 @@ public interface IVedScreenConstants {
   ITinFieldInfo TFI_WIDTH         = new TinFieldInfo( PROP_WIDTH, TTI_AT_FLOATING );
   ITinFieldInfo TFI_HEIGHT        = new TinFieldInfo( PROP_HEIGHT, TTI_AT_FLOATING );
   ITinFieldInfo TFI_TRANSFORM     = new TinFieldInfo( PROP_TRANSFORM, TTI_D2CONVERSION );
-  ITinFieldInfo TFI_BK_COLOR      = new TinFieldInfo( PROP_BK_COLOR, TTI_RGBA );
-  ITinFieldInfo TFI_FG_COLOR      = new TinFieldInfo( PROP_FG_COLOR, TTI_RGBA );
+  ITinFieldInfo TFI_BK_COLOR      = new TinFieldInfo( PROP_BK_COLOR, RGBATypeInfo.INSTANCE );
+  ITinFieldInfo TFI_FG_COLOR      = new TinFieldInfo( PROP_FG_COLOR, RGBATypeInfo.INSTANCE );
   ITinFieldInfo TFI_VISEL_ID      = new TinFieldInfo( PROP_VISEL_ID, TTI_IDPATH );
   ITinFieldInfo TFI_VISEL_PROP_ID = new TinFieldInfo( PROP_VISEL_PROP_ID, TTI_IDPATH );
 

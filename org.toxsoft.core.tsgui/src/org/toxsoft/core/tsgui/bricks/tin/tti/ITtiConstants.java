@@ -117,8 +117,6 @@ public interface ITtiConstants {
   );
 
   ITinTypeInfo TTI_COLOR_COMPONENT = new TinAtomicTypeInfo.TtiInteger( DT_COLOR_COMPONENT );
-  ITinTypeInfo TTI_RGB             = RGBTypeInfo.INSTANCE;
-  ITinTypeInfo TTI_RGBA            = RGBATypeInfo.INSTANCE;
 
   // ------------------------------------------------------------------------------------
   // Geometry
