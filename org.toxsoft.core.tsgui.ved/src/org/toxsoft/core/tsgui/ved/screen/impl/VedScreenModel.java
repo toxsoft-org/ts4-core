@@ -18,16 +18,16 @@ class VedScreenModel
     implements IVedScreenModel, ITsGuiContextable, ICloseable {
 
   /**
-   * TODO add change event generator anl listen to the published collections
+   * TODO add change event generator and listen to the published collections
    */
 
-  private final IVedItemsManager<VedAbstractVisel> visels;
-  private final IVedItemsManager<VedAbstractActor> actors;
+  private final AbstractVedItemsManager<VedAbstractVisel> visels;
+  private final AbstractVedItemsManager<VedAbstractActor> actors;
 
-  private final IVedSnippetManager<VedAbstractDecorator>        screenDecoratorsBefore = new VedSnippetManager<>();
-  private final IVedSnippetManager<VedAbstractDecorator>        screenDecoratorsAfter  = new VedSnippetManager<>();
-  private final IVedSnippetManager<VedAbstractUserInputHandler> screenHandlersBefore   = new VedSnippetManager<>();
-  private final IVedSnippetManager<VedAbstractUserInputHandler> screenHandlersAfter    = new VedSnippetManager<>();
+  private final VedSnippetManager<VedAbstractDecorator>        screenDecoratorsBefore = new VedSnippetManager<>();
+  private final VedSnippetManager<VedAbstractDecorator>        screenDecoratorsAfter  = new VedSnippetManager<>();
+  private final VedSnippetManager<VedAbstractUserInputHandler> screenHandlersBefore   = new VedSnippetManager<>();
+  private final VedSnippetManager<VedAbstractUserInputHandler> screenHandlersAfter    = new VedSnippetManager<>();
 
   private final IStringMapEdit<VedSnippetManager<VedAbstractDecorator>> viselDecoratorsBefore = new StringMap<>();
   private final IStringMapEdit<VedSnippetManager<VedAbstractDecorator>> viselDecoratorsAfter  = new StringMap<>();
@@ -53,7 +53,7 @@ class VedScreenModel
       }
     };
     // setup
-    visels.allItemsEventer().addListener( ( src, op, id ) -> {
+    visels.eventer().addListener( ( src, op, id ) -> {
       refreshMapOfViselDecoratorsManagers( viselDecoratorsBefore );
       refreshMapOfViselDecoratorsManagers( viselDecoratorsAfter );
     } );
@@ -71,7 +71,7 @@ class VedScreenModel
   private void refreshMapOfViselDecoratorsManagers( IStringMapEdit<VedSnippetManager<VedAbstractDecorator>> aMap ) {
     // new map with actual managers
     IStringMapEdit<VedSnippetManager<VedAbstractDecorator>> map = new StringMap<>();
-    for( VedAbstractVisel v : visels.listAllItems() ) {
+    for( VedAbstractVisel v : visels.list() ) {
       VedSnippetManager<VedAbstractDecorator> sm = aMap.removeByKey( v.id() );
       if( sm == null ) {
         sm = new VedSnippetManager<>();
@@ -146,8 +146,22 @@ class VedScreenModel
 
   @Override
   public void close() {
-    // TODO Auto-generated method stub
-
+    screenHandlersAfter.close();
+    screenHandlersBefore.close();
+    screenDecoratorsAfter.close();
+    screenDecoratorsBefore.close();
+    while( !viselDecoratorsAfter.isEmpty() ) {
+      VedSnippetManager<VedAbstractDecorator> sm =
+          viselDecoratorsAfter.removeByKey( viselDecoratorsAfter.keys().first() );
+      sm.close();
+    }
+    while( !viselDecoratorsBefore.isEmpty() ) {
+      VedSnippetManager<VedAbstractDecorator> sm =
+          viselDecoratorsBefore.removeByKey( viselDecoratorsBefore.keys().first() );
+      sm.close();
+    }
+    actors.close();
+    visels.close();
   }
 
 }

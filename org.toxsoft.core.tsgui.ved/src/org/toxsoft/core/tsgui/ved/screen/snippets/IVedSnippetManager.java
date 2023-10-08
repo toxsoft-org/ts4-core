@@ -21,17 +21,6 @@ public interface IVedSnippetManager<T extends VedAbstractSnippet> {
    */
   IList<T> list();
 
-  /**
-   * Returns all snippets, active and inactive.
-   *
-   * @return {@link IList}&lt;T&gt; - all snippets list
-   */
-  IList<T> listAll();
-
-  boolean isActive( T aSnippet );
-
-  void setActive( T aSnippet, boolean aActive );
-
   IListReorderer<T> reorderer();
 
   void insert( int aIndex, T aSnippet );
@@ -45,7 +34,7 @@ public interface IVedSnippetManager<T extends VedAbstractSnippet> {
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   default void add( T aSnippet ) {
-    insert( listAll().size(), aSnippet );
+    insert( list().size(), aSnippet );
   }
 
 }

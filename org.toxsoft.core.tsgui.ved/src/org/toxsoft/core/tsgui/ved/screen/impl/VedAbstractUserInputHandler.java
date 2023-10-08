@@ -26,26 +26,6 @@ public class VedAbstractUserInputHandler
   }
 
   // ------------------------------------------------------------------------------------
-  // VedAbstractSnippet
-  //
-
-  @Override
-  final public boolean isActive() {
-    if( !vedScreen().model().screenHandlersBefore().isActive( this ) ) {
-      if( !vedScreen().model().screenHandlersAfter().isActive( this ) ) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  @Override
-  final public void setActive( boolean aActive ) {
-    vedScreen().model().screenHandlersBefore().setActive( this, aActive );
-    vedScreen().model().screenHandlersAfter().setActive( this, aActive );
-  }
-
-  // ------------------------------------------------------------------------------------
   // IVedUserInputHandler
   //
 

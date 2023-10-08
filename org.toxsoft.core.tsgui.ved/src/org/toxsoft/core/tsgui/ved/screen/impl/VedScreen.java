@@ -73,13 +73,19 @@ public class VedScreen
       return;
     }
     for( VedAbstractUserInputHandler h : model.screenHandlersBefore().list() ) {
-      h.whenGwTimePassed( aGwTime );
+      if( h.isActive() ) {
+        h.whenGwTimePassed( aGwTime );
+      }
     }
     for( VedAbstractActor a : model.actors().list() ) {
-      a.whenGwTimePassed( aGwTime );
+      if( a.isActive() ) {
+        a.whenGwTimePassed( aGwTime );
+      }
     }
     for( VedAbstractUserInputHandler h : model.screenHandlersAfter().list() ) {
-      h.whenGwTimePassed( aGwTime );
+      if( h.isActive() ) {
+        h.whenGwTimePassed( aGwTime );
+      }
     }
   }
 
@@ -93,13 +99,19 @@ public class VedScreen
       return;
     }
     for( VedAbstractUserInputHandler h : model.screenHandlersBefore().list() ) {
-      h.whenRealTimePassed( aRtTime );
+      if( h.isActive() ) {
+        h.whenRealTimePassed( aRtTime );
+      }
     }
     for( VedAbstractActor a : model.actors().list() ) {
-      a.whenRealTimePassed( aRtTime );
+      if( a.isActive() ) {
+        a.whenRealTimePassed( aRtTime );
+      }
     }
     for( VedAbstractUserInputHandler h : model.screenHandlersAfter().list() ) {
-      h.whenRealTimePassed( aRtTime );
+      if( h.isActive() ) {
+        h.whenRealTimePassed( aRtTime );
+      }
     }
   }
 

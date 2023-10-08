@@ -100,7 +100,7 @@ class VedCanvasRenderer
     // draw screen decorators BEFORE
     for( VedAbstractDecorator d : screenModel.screenDecoratorsBefore().list() ) {
       if( d.isActive() ) {
-        VedAbstractVisel visel = visels.listAllItems().findByKey( d.getViselIdOfDrawingTransform() );
+        VedAbstractVisel visel = visels.list().findByKey( d.getViselIdOfDrawingTransform() );
         if( visel != null ) {
           setViselTransform( tsg, visel, screenTransform );
         }
@@ -133,7 +133,7 @@ class VedCanvasRenderer
     // draw screen decorators AFTER
     for( VedAbstractDecorator d : screenModel.screenDecoratorsAfter().list() ) {
       if( d.isActive() ) {
-        VedAbstractVisel visel = visels.listAllItems().findByKey( d.getViselIdOfDrawingTransform() );
+        VedAbstractVisel visel = visels.list().findByKey( d.getViselIdOfDrawingTransform() );
         if( visel != null ) {
           setViselTransform( tsg, visel, screenTransform );
         }

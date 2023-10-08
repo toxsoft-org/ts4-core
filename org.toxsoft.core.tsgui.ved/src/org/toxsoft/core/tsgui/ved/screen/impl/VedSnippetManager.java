@@ -21,32 +21,13 @@ class VedSnippetManager<T extends VedAbstractSnippet>
 
   private final GenericChangeEventer genericEventer;
 
-  private final IListEdit<T>         activeList = new ElemArrayList<>();
-  private final INotifierListEdit<T> allList    = new NotifierListEditWrapper<>( new ElemArrayList<>() );
+  private final INotifierListEdit<T> snippetsList = new NotifierListEditWrapper<>( new ElemArrayList<>() );
   private final IListReorderer<T>    reorderer;
 
   public VedSnippetManager() {
-    reorderer = new ListReorderer<>( allList );
+    reorderer = new ListReorderer<>( snippetsList );
     genericEventer = new GenericChangeEventer( this );
-    allList.addCollectionChangeListener( ( aSource, aOp, aItem ) -> {
-      refreshActiveSnippetsList( null );
-      genericEventer.fireChangeEvent();
-
-    } );
-  }
-
-  // ------------------------------------------------------------------------------------
-  // implementation
-  //
-
-  private void refreshActiveSnippetsList( T aAddedSnippet ) {
-    IListEdit<T> ll = new ElemArrayList<>( allList.size() );
-    for( T e : allList ) {
-      if( e == aAddedSnippet || activeList.hasElem( e ) ) {
-        ll.add( e );
-      }
-    }
-    activeList.addAll( ll );
+    snippetsList.addCollectionChangeListener( ( src, op, item ) -> genericEventer.fireChangeEvent() );
   }
 
   // ------------------------------------------------------------------------------------
@@ -55,33 +36,7 @@ class VedSnippetManager<T extends VedAbstractSnippet>
 
   @Override
   public IList<T> list() {
-    return activeList;
-  }
-
-  @Override
-  public IList<T> listAll() {
-    return allList;
-  }
-
-  @Override
-  public boolean isActive( T aSnippet ) {
-    return activeList.hasElem( aSnippet );
-  }
-
-  @Override
-  public void setActive( T aSnippet, boolean aActive ) {
-    if( allList.hasElem( aSnippet ) ) {
-      if( isActive( aSnippet ) == aActive ) {
-        return;
-      }
-      if( aActive ) {
-        refreshActiveSnippetsList( aSnippet );
-      }
-      else {
-        activeList.remove( aSnippet );
-      }
-      genericEventer.fireChangeEvent();
-    }
+    return snippetsList;
   }
 
   @Override
@@ -92,20 +47,14 @@ class VedSnippetManager<T extends VedAbstractSnippet>
   @Override
   public void insert( int aIndex, T aSnippet ) {
     TsNullArgumentRtException.checkNull( aSnippet );
-    TsErrorUtils.checkCollIndex( allList.size(), aIndex );
-    TsItemAlreadyExistsRtException.checkTrue( allList.hasElem( aSnippet ) );
-    try {
-      allList.add( aSnippet );
-      refreshActiveSnippetsList( aSnippet );
-    }
-    finally {
-      allList.resumeFiring( true );
-    }
+    TsErrorUtils.checkCollIndex( snippetsList.size(), aIndex );
+    TsItemAlreadyExistsRtException.checkTrue( snippetsList.hasElem( aSnippet ) );
+    snippetsList.add( aSnippet );
   }
 
   @Override
   public void remove( T aSnippet ) {
-    if( allList.remove( aSnippet ) >= 0 ) {
+    if( snippetsList.remove( aSnippet ) >= 0 ) {
       aSnippet.dispose();
     }
   }
@@ -125,13 +74,12 @@ class VedSnippetManager<T extends VedAbstractSnippet>
 
   @Override
   public void close() {
-    allList.pauseFiring();
-    activeList.clear();
-    while( !allList.isEmpty() ) {
-      T e = allList.removeByIndex( allList.size() - 1 );
+    snippetsList.pauseFiring();
+    while( !snippetsList.isEmpty() ) {
+      T e = snippetsList.removeByIndex( snippetsList.size() - 1 );
       e.dispose();
     }
-    allList.resumeFiring( true );
+    snippetsList.resumeFiring( true );
   }
 
 }

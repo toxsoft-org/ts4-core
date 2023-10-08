@@ -36,19 +36,16 @@ abstract class AbstractVedItemsManager<T extends VedAbstractItem>
 
   }
 
-  private final IStridablesListEdit<T> activeList = new StridablesList<>();
-  private final IStridablesListEdit<T> allList    = new StridablesList<>();
+  private final IStridablesListEdit<T> itemsList = new StridablesList<>();
   private final IListReorderer<T>      reorderer;
 
-  private final Eventer   activeItemsEventer;
-  private final Eventer   allItemsEventer;
+  private final Eventer   eventer;
   private final VedScreen screen;
 
   AbstractVedItemsManager( VedScreen aScreen ) {
     screen = aScreen;
-    reorderer = new ListReorderer<>( allList );
-    activeItemsEventer = new Eventer( this );
-    allItemsEventer = new Eventer( this );
+    reorderer = new ListReorderer<>( itemsList );
+    eventer = new Eventer( this );
   }
 
   // ------------------------------------------------------------------------------------
@@ -57,18 +54,14 @@ abstract class AbstractVedItemsManager<T extends VedAbstractItem>
 
   @Override
   public void close() {
-    if( allList.isEmpty() ) {
+    if( itemsList.isEmpty() ) {
       return;
     }
-    while( !allList.isEmpty() ) {
-      T item = allList.removeByIndex( 0 );
+    while( !itemsList.isEmpty() ) {
+      T item = itemsList.removeByIndex( 0 );
       item.dispose();
     }
-    if( !activeList.isEmpty() ) {
-      activeList.clear();
-      activeItemsEventer.fireEvent( ECrudOp.LIST, null );
-    }
-    allItemsEventer.fireEvent( ECrudOp.LIST, null );
+    eventer.fireEvent( ECrudOp.LIST, null );
   }
 
   // ------------------------------------------------------------------------------------
@@ -77,12 +70,7 @@ abstract class AbstractVedItemsManager<T extends VedAbstractItem>
 
   @Override
   public IStridablesList<T> list() {
-    return activeList;
-  }
-
-  @Override
-  public IStridablesList<T> listAllItems() {
-    return allList;
+    return itemsList;
   }
 
   @Override
@@ -93,8 +81,8 @@ abstract class AbstractVedItemsManager<T extends VedAbstractItem>
   @Override
   public T create( int aIndex, IVedItemCfg aCfg ) {
     TsNullArgumentRtException.checkNull( aCfg );
-    TsErrorUtils.checkCollIndex( allList.size(), aIndex );
-    if( allList.hasKey( aCfg.id() ) ) {
+    TsErrorUtils.checkCollIndex( itemsList.size(), aIndex );
+    if( itemsList.hasKey( aCfg.id() ) ) {
       throw new TsItemAlreadyExistsRtException( FMT_ERR_ITEM_ALREADY_EXISTS, aCfg.id() );
     }
     IVedItemFactoryBase<T> factory = doFindFactory( aCfg );
@@ -102,45 +90,30 @@ abstract class AbstractVedItemsManager<T extends VedAbstractItem>
     T item = factory.create( aCfg, screen );
     TsInternalErrorRtException.checkNull( item );
     item.props().propsEventer().addListener( ( src, news, olds ) -> {
-      if( allList.hasKey( item.id() ) ) {
-        allItemsEventer.fireEvent( ECrudOp.EDIT, item.id() );
-        if( activeList.hasKey( item.id() ) ) {
-          activeItemsEventer.fireEvent( ECrudOp.EDIT, item.id() );
-        }
+      if( itemsList.hasKey( item.id() ) ) {
+        eventer.fireEvent( ECrudOp.EDIT, item.id() );
       }
       else {
-        throw new TsInternalErrorRtException();
+        throw new TsInternalErrorRtException(); // just in case some is working with removed item
       }
     } );
-    allList.add( item );
-    allItemsEventer.fireEvent( ECrudOp.CREATE, item.id() );
-    if( item.isActive() ) {
-      activeList.add( item );
-      activeItemsEventer.fireEvent( ECrudOp.CREATE, item.id() );
-    }
+    itemsList.add( item );
+    eventer.fireEvent( ECrudOp.CREATE, item.id() );
     return item;
   }
 
   @Override
   public void remove( String aId ) {
-    T item = allList.removeById( aId );
+    T item = itemsList.removeById( aId );
     if( item != null ) {
-      if( activeList.remove( item ) >= 0 ) {
-        activeItemsEventer.fireEvent( ECrudOp.REMOVE, aId );
-      }
-      allItemsEventer.fireEvent( ECrudOp.REMOVE, aId );
+      eventer.fireEvent( ECrudOp.REMOVE, aId );
       item.dispose();
     }
   }
 
   @Override
-  public ITsEventer<IVedItemsManagerListener<T>> activeItemsEventer() {
-    return activeItemsEventer;
-  }
-
-  @Override
-  public ITsEventer<IVedItemsManagerListener<T>> allItemsEventer() {
-    return allItemsEventer;
+  public ITsEventer<IVedItemsManagerListener<T>> eventer() {
+    return eventer;
   }
 
   // ------------------------------------------------------------------------------------

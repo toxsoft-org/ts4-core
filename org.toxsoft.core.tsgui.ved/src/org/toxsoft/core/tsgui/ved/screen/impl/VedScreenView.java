@@ -35,10 +35,8 @@ class VedScreenView
     userInputBinder.addTsUserInputListener( canvasHandler );
     //
     // TODO need more precious event handling
-    vedScreen.model().visels().activeItemsEventer().addListener( ( src, op, id ) -> whenVedItemsChanged() );
-    vedScreen.model().visels().allItemsEventer().addListener( ( src, op, id ) -> whenVedItemsChanged() );
-    vedScreen.model().actors().activeItemsEventer().addListener( ( src, op, id ) -> whenVedItemsChanged() );
-    vedScreen.model().actors().allItemsEventer().addListener( ( src, op, id ) -> whenVedItemsChanged() );
+    vedScreen.model().visels().eventer().addListener( ( src, op, id ) -> whenVedItemsChanged() );
+    vedScreen.model().actors().eventer().addListener( ( src, op, id ) -> whenVedItemsChanged() );
   }
 
   // ------------------------------------------------------------------------------------
@@ -46,12 +44,6 @@ class VedScreenView
   //
 
   private void whenVedItemsChanged() {
-    /**
-     * TODO check and if any VISEL active state changes refresh the active items list
-     * <p>
-     * FIXME maybe change design& remove active lists from the model rather bypass inactive entities from drawing and
-     * user input handling
-     */
     redraw();
   }
 
@@ -114,7 +106,7 @@ class VedScreenView
 
   @Override
   public void redrawVisel( String aViselId ) {
-    VedAbstractVisel visel = vedScreen.model().visels().listAllItems().getByKey( aViselId );
+    VedAbstractVisel visel = vedScreen.model().visels().list().getByKey( aViselId );
     redrawRect( visel.bounds() );
   }
 

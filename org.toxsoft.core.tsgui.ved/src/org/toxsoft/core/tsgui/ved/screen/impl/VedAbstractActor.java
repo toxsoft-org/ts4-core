@@ -49,7 +49,7 @@ public class VedAbstractActor
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public IVedVisel findVisel( String aViselId ) {
-    return vedScreen().model().visels().listAllItems().findByKey( aViselId );
+    return vedScreen().model().visels().list().findByKey( aViselId );
   }
 
   /**
@@ -61,7 +61,7 @@ public class VedAbstractActor
    * @throws TsItemNotFoundRtException no such VISEL found
    */
   public IVedVisel getVisel( String aViselId ) {
-    return vedScreen().model().visels().listAllItems().getByKey( aViselId );
+    return vedScreen().model().visels().list().getByKey( aViselId );
   }
 
   /**

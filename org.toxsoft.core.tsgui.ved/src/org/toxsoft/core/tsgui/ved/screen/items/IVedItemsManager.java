@@ -18,8 +18,6 @@ public interface IVedItemsManager<T extends VedAbstractItem> {
 
   IStridablesList<T> list();
 
-  IStridablesList<T> listAllItems();
-
   IListReorderer<T> reorderer();
 
   /**
@@ -36,12 +34,10 @@ public interface IVedItemsManager<T extends VedAbstractItem> {
 
   void remove( String aId );
 
-  ITsEventer<IVedItemsManagerListener<T>> activeItemsEventer();
-
-  ITsEventer<IVedItemsManagerListener<T>> allItemsEventer();
+  ITsEventer<IVedItemsManagerListener<T>> eventer();
 
   default T create( IVedItemCfg aCfg ) {
-    return create( listAllItems().size(), aCfg );
+    return create( list().size(), aCfg );
   }
 
 }
