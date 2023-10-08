@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.bricks.tin.helpers;
+package org.toxsoft.core.tsgui.bricks.tin.tti;
 
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
@@ -9,7 +9,7 @@ import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * {@link ITinTypeInfo} implementation base for TIN type infoe of kind {@link ETinTypeKind#ATOMIC}.
+ * {@link ITinTypeInfo} implementation base for TIN type info of kind {@link ETinTypeKind#ATOMIC}.
  *
  * @author hazard157
  * @param <T> - the Java class of this type

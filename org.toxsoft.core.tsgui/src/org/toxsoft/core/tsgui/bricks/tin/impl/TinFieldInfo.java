@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.bricks.tin.impl;
 
 import org.toxsoft.core.tsgui.bricks.tin.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
@@ -58,6 +59,18 @@ public class TinFieldInfo
     super( aId, aOpSet );
     TsNullArgumentRtException.checkNulls( aTypeInfo, aOpSet );
     typeInfo = aTypeInfo;
+  }
+
+  /**
+   * Constructor.
+   *
+   * @param aDef {@link IDataDef} - the option definition determining the field
+   * @param aTypeInfo {@link ITinTypeInfo} - the field type info
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public TinFieldInfo( IDataDef aDef, ITinTypeInfo aTypeInfo ) {
+    super( aDef );
+    typeInfo = TsNullArgumentRtException.checkNull( aTypeInfo );
   }
 
   // ------------------------------------------------------------------------------------

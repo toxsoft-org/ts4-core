@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.bricks.tin.helpers;
+package org.toxsoft.core.tsgui.bricks.tin.tti;
 
 import java.util.*;
 

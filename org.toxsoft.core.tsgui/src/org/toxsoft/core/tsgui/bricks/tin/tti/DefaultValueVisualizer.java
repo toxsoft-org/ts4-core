@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.bricks.tin.helpers;
+package org.toxsoft.core.tsgui.bricks.tin.tti;
 
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;

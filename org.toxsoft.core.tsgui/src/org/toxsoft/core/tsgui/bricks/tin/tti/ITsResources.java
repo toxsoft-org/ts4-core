@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.bricks.tin.helpers;
+package org.toxsoft.core.tsgui.bricks.tin.tti;
 
 /**
  * Localizable resources.
@@ -20,7 +20,7 @@ interface ITsResources {
   String TSID_COLOR_FIELD_APLHA_D = Messages.getString( "TSID_COLOR_FIELD_APLHA_D" ); //$NON-NLS-1$
 
   /**
-   * {@link ITinConstants}
+   * {@link ITtiConstants}
    */
   String STR_COLOR_COMPONENT   = Messages.getString( "STR_COLOR_COMPONENT" );   //$NON-NLS-1$ aAAA
   String STR_COLOR_COMPONENT_D = Messages.getString( "STR_COLOR_COMPONENT_D" ); //$NON-NLS-1$ aAAA

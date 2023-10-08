@@ -3,7 +3,7 @@ package org.toxsoft.core.tsgui.bricks.tin.impl;
 import static org.toxsoft.core.tsgui.bricks.tin.impl.ITsResources.*;
 
 import org.toxsoft.core.tsgui.bricks.tin.*;
-import org.toxsoft.core.tsgui.bricks.tin.helpers.*;
+import org.toxsoft.core.tsgui.bricks.tin.tti.*;
 import org.toxsoft.core.tsgui.utils.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.errors.*;
