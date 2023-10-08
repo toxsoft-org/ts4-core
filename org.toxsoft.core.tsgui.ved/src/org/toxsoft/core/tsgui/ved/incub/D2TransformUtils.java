@@ -83,7 +83,11 @@ public class D2TransformUtils {
     return new TsPoint( x, y );
   }
 
+  /**
+   * No subclasses.
+   */
   private D2TransformUtils() {
-    // запрет на создание экземпляров
+    // nop
   }
+
 }

@@ -10,6 +10,11 @@ import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 
+/**
+ * {@link ITsGraphicsContext} implementation.
+ *
+ * @author hazard157
+ */
 public class TsGraphicsContext
     implements ITsGraphicsContext {
 
@@ -31,6 +36,12 @@ public class TsGraphicsContext
 
   private int unknownImageSize = 32;
 
+  /**
+   * Constructor for paint event drawing.
+   *
+   * @param aEvent {@link PaintEvent} - the paint event
+   * @param aTsContext {@link ITsGuiContext} - the context
+   */
   public TsGraphicsContext( PaintEvent aEvent, ITsGuiContext aTsContext ) {
     tsContext = aTsContext;
     gc = aEvent.gc;
@@ -38,11 +49,43 @@ public class TsGraphicsContext
     unknownImage = imageManager().createUnknownImage( unknownImageSize );
   }
 
+  /**
+   * Constructor to draw on an existing SWT drawing context.
+   *
+   * @param aGc {@link GC} - the SWT drawing context
+   * @param aTsContext {@link ITsGuiContext} - the context
+   */
   public TsGraphicsContext( GC aGc, ITsGuiContext aTsContext ) {
     tsContext = aTsContext;
     gc = aGc;
     drawingArea = new TsRectangle( 0, 0, 1, 1 );
     unknownImage = imageManager().createUnknownImage( unknownImageSize );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Implementation
+  //
+
+  private void fillTileImage( TsImage aImage, int aX, int aY, int aWidth, int aHeight ) {
+    gc.setClipping( new Rectangle( aX, aY, aWidth, aHeight ) );
+
+    ImageData imd = aImage.image().getImageData();
+    int width = imd.width;
+    int height = imd.height;
+
+    int x = aX;
+    int y = aY;
+
+    while( x < aX + aWidth ) {
+      y = aY;
+      while( y < aY + aHeight ) {
+        gc.drawImage( aImage.image(), x, y );
+        y += height;
+      }
+      x += width;
+    }
+
+    gc.setClipping( (Rectangle)null );
   }
 
   // ------------------------------------------------------------------------------------
@@ -159,32 +202,6 @@ public class TsGraphicsContext
   public void setForegroundRgb( RGB aRgb ) {
     gc.setAlpha( 255 );
     gc.setForeground( colorManager().getColor( aRgb ) );
-  }
-
-  // ------------------------------------------------------------------------------------
-  // Implementation
-  //
-
-  private void fillTileImage( TsImage aImage, int aX, int aY, int aWidth, int aHeight ) {
-    gc.setClipping( new Rectangle( aX, aY, aWidth, aHeight ) );
-
-    ImageData imd = aImage.image().getImageData();
-    int width = imd.width;
-    int height = imd.height;
-
-    int x = aX;
-    int y = aY;
-
-    while( x < aX + aWidth ) {
-      y = aY;
-      while( y < aY + aHeight ) {
-        gc.drawImage( aImage.image(), x, y );
-        y += height;
-      }
-      x += width;
-    }
-
-    gc.setClipping( (Rectangle)null );
   }
 
 }

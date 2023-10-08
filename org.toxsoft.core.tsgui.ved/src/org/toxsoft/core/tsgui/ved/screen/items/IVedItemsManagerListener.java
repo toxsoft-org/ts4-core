@@ -11,6 +11,13 @@ import org.toxsoft.core.tslib.coll.helpers.*;
  */
 public interface IVedItemsManagerListener<T extends VedAbstractItem> {
 
+  /**
+   * Called when items list or item fields changes.
+   *
+   * @param aSource {@link IVedItemsManager} - the event source
+   * @param aOp {@link ECrudOp} - the operation kind
+   * @param aId String - affected item ID or <code>null</code> for {@link ECrudOp#LIST}
+   */
   void onVedItemsListChange( IVedItemsManager<T> aSource, ECrudOp aOp, String aId );
 
 }
