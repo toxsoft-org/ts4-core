@@ -168,6 +168,19 @@ public abstract class VedAbstractVisel
   //
 
   /**
+   * Returns the vertex set used for VISEL editing.
+   * <p>
+   * By default returns an instance of the {@link VedFulcrumVertexSet} with all fulcrums created.
+   * <p>
+   * Subclass may override to return it's own implementation of the {@link IVedVertexSet}.
+   *
+   * @return {@link IVedVertexSet} - created vertex set, never is <code>null</code>
+   */
+  public IVedVertexSet createVertexSet() {
+    return VedFulcrumVertexSet.createWithFulcrums( this, vedScreen() );
+  }
+
+  /**
    * In {@link VedAbstractVisel} updates internal caches.
    * <p>
    * {@inheritDoc}

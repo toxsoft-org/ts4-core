@@ -155,7 +155,7 @@ public class VedAbstractItem
    *
    * @return {@link IVedScreen} - the owner VED screen
    */
-  public IVedScreen vedScreen() {
+  public VedScreen vedScreen() {
     return vedScreen;
   }
 
