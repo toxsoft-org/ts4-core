@@ -21,6 +21,7 @@ import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
@@ -127,13 +128,18 @@ public class ActorSimpleColorBlinker
     boolean isInVisel = true;
     double x = 30.0 + visel.props().getDouble( PROP_X );
     double y = 20.0 + visel.props().getDouble( PROP_Y );
+    ID2Conversion d2c = visel.getConversion();
+    d2c = new D2Conversion( D2Angle.ofDegrees( d2c.rotation().degrees() + 16 ), d2c.zoomFactor() * 1.1,
+        new D2Point( x, y ) );
     if( x > 300.0 ) {
       x = 180.0;
       y = 100.0;
+      d2c = ID2Conversion.NONE;
     }
     visel.props().setPropPairs( //
         PROP_X, x, //
-        PROP_Y, y //
+        PROP_Y, y, //
+        PROP_TRANSFORM, avValobj( d2c ) //
     );
 
     // TODO Auto-generated method stub
