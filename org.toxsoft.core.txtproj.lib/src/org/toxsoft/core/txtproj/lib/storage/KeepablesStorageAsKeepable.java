@@ -47,6 +47,7 @@ public class KeepablesStorageAsKeepable
     aSr.ensureChar( CHAR_SET_BEGIN );
     // an empty map
     if( aSr.peekChar( EStrioSkipMode.SKIP_COMMENTS ) == CHAR_SET_END ) {
+      aSr.ensureChar( CHAR_SET_END );
       sectionsMap.clear();
       return;
     }
