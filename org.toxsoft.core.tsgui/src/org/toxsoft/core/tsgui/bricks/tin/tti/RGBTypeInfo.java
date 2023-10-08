@@ -1,7 +1,7 @@
 package org.toxsoft.core.tsgui.bricks.tin.tti;
 
-import static org.toxsoft.core.tsgui.bricks.tin.tti.ITtiConstants.*;
 import static org.toxsoft.core.tsgui.bricks.tin.tti.ITsResources.*;
+import static org.toxsoft.core.tsgui.bricks.tin.tti.ITtiConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
@@ -26,7 +26,7 @@ public class RGBTypeInfo
   /**
    * The type information singleton.
    */
-  public static final ITinTypeInfo TIN_TYPE_INFO = new RGBTypeInfo();
+  public static final ITinTypeInfo INSTANCE = new RGBTypeInfo();
 
   private RGBTypeInfo() {
     super( ETinTypeKind.FULL, DT_COLOR_RGB, RGB.class );
@@ -73,7 +73,7 @@ public class RGBTypeInfo
   @Override
   protected ITinValue doGetTinValue( RGB aEntity ) {
     IAtomicValue av = avValobj( aEntity );
-    IStringMap<ITinValue> cv = TIN_TYPE_INFO.decompose( av );
+    IStringMap<ITinValue> cv = INSTANCE.decompose( av );
     return TinValue.ofFull( av, cv );
   }
 

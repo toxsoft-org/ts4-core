@@ -89,37 +89,18 @@ public interface ITtiConstants {
   // ------------------------------------------------------------------------------------
   // Colors
 
-  /**
-   * Data type: {@link EAtomicType#INTEGER INTEGER} R/G/B/A color component in range 0..255.
-   */
+  int  DEFAULT_COLOR_COMPONENT_VALUE = 255;
+  RGB  DEFAULT_RGB_VALUE             = ETsColor.GRAY.rgb();
+  RGBA DEFAULT_RGBA_VALUE            = ETsColor.GRAY.rgba();
+
   IDataType DT_COLOR_COMPONENT = DataType.create( EAtomicType.INTEGER, //
       TSID_NAME, STR_COLOR_COMPONENT, //
       TSID_DEFAULT_VALUE, STR_COLOR_COMPONENT_D, //
       TSID_MIN_INCLUSIVE, AV_0, //
-      TSID_MAX_INCLUSIVE, avInt( 255 ), //
+      TSID_MAX_INCLUSIVE, avInt( DEFAULT_COLOR_COMPONENT_VALUE ), //
       TSID_DEFAULT_VALUE, AV_0 //
   );
 
-  /**
-   * TIN type info of {@link #DT_COLOR_COMPONENT}.
-   */
-  ITinTypeInfo TTI_COLOR_COMPONENT = new TinAtomicTypeInfo<>( DT_COLOR_COMPONENT, Integer.class ) {
-
-    @Override
-    protected IAtomicValue doGetAtomicValue( Integer aEntity ) {
-      return avInt( aEntity.intValue() );
-    }
-
-  };
-
-  /**
-   * Default value for {@link #DT_COLOR_RGB}.
-   */
-  RGB DEFAULT_RGB_VALUE = ETsColor.GRAY.rgb();
-
-  /**
-   * Data type: color as {@link RGB} {@link EAtomicType#VALOBJ VALOBJ}.
-   */
   IDataType DT_COLOR_RGB = DataType.create( VALOBJ, //
       TSID_NAME, STR_COLOR_RGB, //
       TSID_DESCRIPTION, STR_COLOR_RGB_D, //
@@ -127,22 +108,6 @@ public interface ITtiConstants {
       TSID_DEFAULT_VALUE, avValobj( DEFAULT_RGB_VALUE ) //
   );
 
-  /**
-   * Default value for {@link #DT_COLOR_RGBA}.
-   */
-  RGBA DEFAULT_RGBA_VALUE = ETsColor.GRAY.rgba();
-
-  ITinTypeInfo TTI_RGB = new TinAtomicTypeInfo<>( DT_COLOR_RGB, RGB.class ) {
-
-    @Override
-    protected IAtomicValue doGetAtomicValue( RGB aEntity ) {
-      return avValobj( aEntity );
-    }
-  };
-
-  /**
-   * Data type: color as {@link RGBA} {@link EAtomicType#VALOBJ VALOBJ}.
-   */
   IDataType DT_COLOR_RGBA = DataType.create( VALOBJ, //
       TSID_NAME, STR_COLOR_RGBA, //
       TSID_DESCRIPTION, STR_COLOR_RGBA_D, //
@@ -151,13 +116,9 @@ public interface ITtiConstants {
       TSID_DEFAULT_VALUE, avValobj( DEFAULT_RGBA_VALUE ) //
   );
 
-  ITinTypeInfo TTI_RGBA = new TinAtomicTypeInfo<>( DT_COLOR_RGBA, RGBA.class ) {
-
-    @Override
-    protected IAtomicValue doGetAtomicValue( RGBA aEntity ) {
-      return avValobj( aEntity );
-    }
-  };
+  ITinTypeInfo TTI_COLOR_COMPONENT = new TinAtomicTypeInfo.TtiInteger( DT_COLOR_COMPONENT );
+  ITinTypeInfo TTI_RGB             = RGBTypeInfo.INSTANCE;
+  ITinTypeInfo TTI_RGBA            = RGBATypeInfo.INSTANCE;
 
   // ------------------------------------------------------------------------------------
   // Geometry
