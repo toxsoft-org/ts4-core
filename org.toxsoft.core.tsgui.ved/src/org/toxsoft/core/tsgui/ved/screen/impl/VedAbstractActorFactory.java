@@ -1,9 +1,7 @@
 package org.toxsoft.core.tsgui.ved.screen.impl;
 
-import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
-import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -25,7 +23,7 @@ public abstract class VedAbstractActorFactory
    * @throws ClassCastException argument types convention is violated
    */
   public VedAbstractActorFactory( String aId, Object... aIdsAndValues ) {
-    super( aId, OptionSetUtils.createOpSet( aIdsAndValues ) );
+    super( aId, aIdsAndValues );
   }
 
   // ------------------------------------------------------------------------------------
@@ -33,6 +31,6 @@ public abstract class VedAbstractActorFactory
   //
 
   @Override
-  protected abstract VedAbstractActor doCreate( IVedItemCfg aCfg, IVedScreen aVedScreen );
+  protected abstract VedAbstractActor doCreate( IVedItemCfg aCfg, VedScreen aVedScreen );
 
 }

@@ -2,8 +2,12 @@ package org.toxsoft.core.tsgui.ved.screen.impl;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
+import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tsgui.ved.screen.snippets.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 
 /**
  * {@link IVedScreenModel} implementation.
@@ -11,12 +15,76 @@ import org.toxsoft.core.tsgui.ved.screen.snippets.*;
  * @author hazard157
  */
 class VedScreenModel
-    implements IVedScreenModel, ITsGuiContextable {
+    implements IVedScreenModel, ITsGuiContextable, ICloseable {
+
+  /**
+   * TODO add change event generator anl listen to the published collections
+   */
+
+  private final IVedItemsManager<VedAbstractVisel> visels;
+  private final IVedItemsManager<VedAbstractActor> actors;
+
+  private final IVedSnippetManager<VedAbstractDecorator>        screenDecoratorsBefore = new VedSnippetManager<>();
+  private final IVedSnippetManager<VedAbstractDecorator>        screenDecoratorsAfter  = new VedSnippetManager<>();
+  private final IVedSnippetManager<VedAbstractUserInputHandler> screenHandlersBefore   = new VedSnippetManager<>();
+  private final IVedSnippetManager<VedAbstractUserInputHandler> screenHandlersAfter    = new VedSnippetManager<>();
+
+  private final IStringMapEdit<VedSnippetManager<VedAbstractDecorator>> viselDecoratorsBefore = new StringMap<>();
+  private final IStringMapEdit<VedSnippetManager<VedAbstractDecorator>> viselDecoratorsAfter  = new StringMap<>();
 
   private final VedScreen screen;
 
   VedScreenModel( VedScreen aScreen ) {
     screen = aScreen;
+    IVedViselFactoriesRegistry viselFactoriesRegistry = tsContext().get( IVedViselFactoriesRegistry.class );
+    visels = new AbstractVedItemsManager<>( screen ) {
+
+      @Override
+      protected IVedItemFactoryBase<VedAbstractVisel> doFindFactory( IVedItemCfg aCfg ) {
+        return viselFactoriesRegistry.find( aCfg.factoryId() );
+      }
+    };
+    IVedActorFactoriesRegistry actorFactoriesRegistry = tsContext().get( IVedActorFactoriesRegistry.class );
+    actors = new AbstractVedItemsManager<>( screen ) {
+
+      @Override
+      protected IVedItemFactoryBase<VedAbstractActor> doFindFactory( IVedItemCfg aCfg ) {
+        return actorFactoriesRegistry.find( aCfg.factoryId() );
+      }
+    };
+    // setup
+    visels.allItemsEventer().addListener( ( src, op, id ) -> {
+      refreshMapOfViselDecoratorsManagers( viselDecoratorsBefore );
+      refreshMapOfViselDecoratorsManagers( viselDecoratorsAfter );
+    } );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // implementation
+  //
+
+  /**
+   * Updates VISEL decorator managers map to contain only managers for VISELs listed in {@link #visels}.
+   *
+   * @param aMap {@link IStringMapEdit}&lt;{@link VedSnippetManager}&gt; - the map to update
+   */
+  private void refreshMapOfViselDecoratorsManagers( IStringMapEdit<VedSnippetManager<VedAbstractDecorator>> aMap ) {
+    // new map with actual managers
+    IStringMapEdit<VedSnippetManager<VedAbstractDecorator>> map = new StringMap<>();
+    for( VedAbstractVisel v : visels.listAllItems() ) {
+      VedSnippetManager<VedAbstractDecorator> sm = aMap.removeByKey( v.id() );
+      if( sm == null ) {
+        sm = new VedSnippetManager<>();
+      }
+      map.put( v.id(), sm );
+    }
+    // dispose unneeded managers
+    while( !aMap.isEmpty() ) {
+      VedSnippetManager<VedAbstractDecorator> sm = aMap.removeByKey( aMap.keys().first() );
+      sm.close();
+    }
+    //
+    aMap.putAll( map );
   }
 
   // ------------------------------------------------------------------------------------
@@ -34,50 +102,52 @@ class VedScreenModel
 
   @Override
   public IVedItemsManager<VedAbstractVisel> visels() {
-    // TODO Auto-generated method stub
-    return null;
+    return visels;
   }
 
   @Override
   public IVedItemsManager<VedAbstractActor> actors() {
-    // TODO Auto-generated method stub
-    return null;
+    return actors;
   }
 
   @Override
   public IVedSnippetManager<VedAbstractDecorator> screenDecoratorsBefore() {
-    // TODO Auto-generated method stub
-    return null;
+    return screenDecoratorsBefore;
   }
 
   @Override
   public IVedSnippetManager<VedAbstractDecorator> viselDecoratorsBefore( String aViselId ) {
-    // TODO Auto-generated method stub
-    return null;
+    return viselDecoratorsBefore.getByKey( aViselId );
   }
 
   @Override
   public IVedSnippetManager<VedAbstractDecorator> viselDecoratorsAfter( String aViselId ) {
-    // TODO Auto-generated method stub
-    return null;
+    return viselDecoratorsAfter.getByKey( aViselId );
   }
 
   @Override
   public IVedSnippetManager<VedAbstractDecorator> screenDecoratorsAfter() {
-    // TODO Auto-generated method stub
-    return null;
+    return screenDecoratorsAfter;
   }
 
   @Override
   public IVedSnippetManager<VedAbstractUserInputHandler> screenHandlersBefore() {
-    // TODO Auto-generated method stub
-    return null;
+    return screenHandlersBefore;
   }
 
   @Override
   public IVedSnippetManager<VedAbstractUserInputHandler> screenHandlersAfter() {
+    return screenHandlersAfter;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // ICloseable
+  //
+
+  @Override
+  public void close() {
     // TODO Auto-generated method stub
-    return null;
+
   }
 
 }

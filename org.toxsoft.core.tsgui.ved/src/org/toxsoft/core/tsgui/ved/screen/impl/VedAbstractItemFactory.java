@@ -1,12 +1,12 @@
 package org.toxsoft.core.tsgui.ved.screen.impl;
 
 import org.toxsoft.core.tsgui.bricks.tin.*;
-import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.av.errors.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
@@ -59,6 +59,13 @@ public abstract class VedAbstractItemFactory<T extends VedAbstractItem>
   }
 
   @Override
+  public VedItemCfg makeDefaultCfg( String aItemId ) {
+    VedItemCfg cfg = new VedItemCfg( aItemId, id(), IOptionSet.NULL );
+    OptionSetUtils.initOptionSet( cfg.propValues(), propDefs() );
+    return cfg;
+  }
+
+  @Override
   public ITinTypeInfo typeInfo() {
     if( tinTypeInfo == null ) {
       tinTypeInfo = doCreateTypeInfo();
@@ -72,12 +79,15 @@ public abstract class VedAbstractItemFactory<T extends VedAbstractItem>
   }
 
   @Override
-  public T create( IVedItemCfg aCfg, IVedScreen aVedScreen ) {
+  public T create( IVedItemCfg aCfg, VedScreen aVedScreen ) {
     TsNullArgumentRtException.checkNulls( aCfg, aVedScreen );
     TsIllegalArgumentRtException.checkFalse( aCfg.factoryId().equals( id() ) );
     OptionSetUtils.checkOptionSet( aCfg.propValues(), propDefs() );
     T item = doCreate( aCfg, aVedScreen );
     TsInternalErrorRtException.checkNull( item );
+    item.params().setAll( aCfg.params() );
+    item.props().setProps( aCfg.propValues() );
+    item.doUpdateCachesAfterPropsChange( new OptionSet( item.props() ) );
     return item;
   }
 
@@ -103,12 +113,12 @@ public abstract class VedAbstractItemFactory<T extends VedAbstractItem>
    * Subclass must create the VED item.
    *
    * @param aCfg {@link IVedItemCfg} - the configuration data
-   * @param aVedScreen {@link IVedScreen} - the owner VED screen
+   * @param aVedScreen {@link VedScreen} - the owner screen
    * @return &lt;T&gt; - created instance
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException config entity kind does not matches provided entity kind
    * @throws AvTypeCastRtException any property value is not compatible to the property definition
    */
-  protected abstract T doCreate( IVedItemCfg aCfg, IVedScreen aVedScreen );
+  protected abstract T doCreate( IVedItemCfg aCfg, VedScreen aVedScreen );
 
 }

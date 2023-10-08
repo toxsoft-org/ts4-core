@@ -16,7 +16,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  * @param <T> - the snippet type
  */
-class VedSnippetsManager<T extends VedAbstractSnippet>
+class VedSnippetManager<T extends VedAbstractSnippet>
     implements IVedSnippetManager<T>, IGenericChangeEventCapable, ICloseable {
 
   private final GenericChangeEventer genericEventer;
@@ -25,7 +25,7 @@ class VedSnippetsManager<T extends VedAbstractSnippet>
   private final INotifierListEdit<T> allList    = new NotifierListEditWrapper<>( new ElemArrayList<>() );
   private final IListReorderer<T>    reorderer;
 
-  public VedSnippetsManager() {
+  public VedSnippetManager() {
     reorderer = new ListReorderer<>( allList );
     genericEventer = new GenericChangeEventer( this );
     allList.addCollectionChangeListener( ( aSource, aOp, aItem ) -> {

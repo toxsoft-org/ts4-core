@@ -12,7 +12,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Manages VED entities (items of VISELs, actors) in the {@link IVedScreenModel}.
  *
  * @author hazard157
- * @param <T> - the type of the VED items
+ * @param <T> - the type of the managed VED items
  */
 public interface IVedItemsManager<T extends VedAbstractItem> {
 
@@ -36,7 +36,9 @@ public interface IVedItemsManager<T extends VedAbstractItem> {
 
   void remove( String aId );
 
-  ITsEventer<IVedItemsManagerListener<T>> eventer();
+  ITsEventer<IVedItemsManagerListener<T>> activeItemsEventer();
+
+  ITsEventer<IVedItemsManagerListener<T>> allItemsEventer();
 
   default T create( IVedItemCfg aCfg ) {
     return create( listAllItems().size(), aCfg );

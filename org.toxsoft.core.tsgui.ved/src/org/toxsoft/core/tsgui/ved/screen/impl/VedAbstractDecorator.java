@@ -3,6 +3,7 @@ package org.toxsoft.core.tsgui.ved.screen.impl;
 import org.toxsoft.core.tsgui.ved.devel.*;
 import org.toxsoft.core.tsgui.ved.screen.snippets.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -89,8 +90,7 @@ public class VedAbstractDecorator
 
   @Override
   public String getViselIdOfDrawingTransform() {
-    // TODO Auto-generated method stub
-    return null;
+    return TsLibUtils.EMPTY_STRING;
   }
 
 }

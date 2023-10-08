@@ -1,6 +1,5 @@
 package org.toxsoft.core.tsgui.ved.screen.impl;
 
-import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -32,6 +31,6 @@ public abstract class VedAbstractViselFactory
   //
 
   @Override
-  protected abstract VedAbstractVisel doCreate( IVedItemCfg aCfg, IVedScreen aVedScreen );
+  protected abstract VedAbstractVisel doCreate( IVedItemCfg aCfg, VedScreen aVedScreen );
 
 }

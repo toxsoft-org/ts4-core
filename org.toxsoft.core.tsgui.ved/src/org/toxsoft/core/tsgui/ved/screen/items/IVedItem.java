@@ -12,7 +12,7 @@ import org.toxsoft.core.tslib.bricks.strid.*;
  * @author hazard157
  */
 public interface IVedItem
-    extends IStridableParameterized, IPropertable {
+    extends IStridableParameterized, IPropertable<IVedItem> {
 
   /**
    * Determines if item operation is enabled.

@@ -32,7 +32,7 @@ class VedCanvasRenderer
    */
 
   private final VedScreenModel screenModel;
-  private IVedCanvasCfg        canvasCfg;
+  private IVedCanvasCfg        canvasCfg           = new VedCanvasCfg();
   private boolean              isBackgroundFilling = true;
 
   /**

@@ -3,6 +3,7 @@ package org.toxsoft.core.tsgui.ved.screen.impl;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -11,7 +12,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public class VedScreen
-    implements IVedScreen, ITsGuiContextable {
+    implements IVedScreen, ITsGuiContextable, ICloseable {
 
   private final ITsGuiContext  tsContext;
   private final VedScreenModel model;
@@ -31,6 +32,7 @@ public class VedScreen
     tsContext = aContext;
     model = new VedScreenModel( this );
     view = new VedScreenView( aParent, this );
+    view.getControl().addDisposeListener( e -> close() );
   }
 
   // ------------------------------------------------------------------------------------
@@ -99,6 +101,16 @@ public class VedScreen
     for( VedAbstractUserInputHandler h : model.screenHandlersAfter().list() ) {
       h.whenRealTimePassed( aRtTime );
     }
+  }
+
+  // ------------------------------------------------------------------------------------
+  // ICloseable
+  //
+
+  @Override
+  public void close() {
+    view.close();
+    model.close();
   }
 
   // ------------------------------------------------------------------------------------

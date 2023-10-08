@@ -2,6 +2,7 @@ package org.toxsoft.core.tsgui.ved;
 
 import org.eclipse.e4.core.contexts.*;
 import org.toxsoft.core.tsgui.bricks.quant.*;
+import org.toxsoft.core.tsgui.ved.comps.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
 
@@ -23,8 +24,13 @@ public class QuantTsGuiVed
   @Override
   protected void doInitApp( IEclipseContext aAppContext ) {
     VedViselFactoriesRegistry visFact = new VedViselFactoriesRegistry();
+    VedActorFactoriesRegistry actFact = new VedActorFactoriesRegistry();
     aAppContext.set( IVedViselFactoriesRegistry.class, visFact );
-    aAppContext.set( IVedActorFactoriesRegistry.class, new VedActorFactoriesRegistry() );
+    aAppContext.set( IVedActorFactoriesRegistry.class, actFact );
+
+    //
+    visFact.register( ViselSimpleRect.FACTORY );
+    actFact.register( ActorSimpleColorBlinker.FACTORY );
   }
 
   @Override

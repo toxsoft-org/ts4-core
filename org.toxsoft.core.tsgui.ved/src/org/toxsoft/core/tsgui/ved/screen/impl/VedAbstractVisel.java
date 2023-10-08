@@ -1,16 +1,16 @@
 package org.toxsoft.core.tsgui.ved.screen.impl;
 
 import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
+import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 
-import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
-import org.toxsoft.core.tsgui.ved.screen.helpers.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.av.*;
-import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
@@ -23,31 +23,38 @@ import org.toxsoft.core.tslib.utils.errors.*;
  */
 public abstract class VedAbstractVisel
     extends VedAbstractItem
-    implements IVedVisel, ID2Portable, ID2Resizable, ITsGuiContextable {
+    implements IVedVisel {
 
-  private final ITsGuiContext tsContext;
+  private static final IAtomicValue MIN_DIMENSION_AV = avFloat( 1.0 );
+
+  private final TsRectangleEdit boundsRect = new TsRectangleEdit( 0, 0, 100, 100 );
 
   /**
    * Constructor.
    *
    * @param aConfig {@link IVedItemCfg} - the item config
    * @param aPropDefs {@link IStridablesList}&lt;{@link IDataDef}&gt; - properties definitions
-   * @param aTsContext {@link ITsGuiContext} - the corresponding context
+   * @param aVedScreen {@link VedScreen} - the owner screen
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException ID is not an IDpath
    */
-  public VedAbstractVisel( IVedItemCfg aConfig, IStridablesList<IDataDef> aPropDefs, ITsGuiContext aTsContext ) {
-    super( aConfig, aPropDefs );
-    tsContext = aTsContext;
+  public VedAbstractVisel( IVedItemCfg aConfig, IStridablesList<IDataDef> aPropDefs, VedScreen aVedScreen ) {
+    super( aConfig, aPropDefs, aVedScreen );
+    /**
+     * TODO check that mandatory properties exists in the VISEL
+     */
   }
 
   // ------------------------------------------------------------------------------------
-  // ITsGuiContextable
+  // implementation
   //
 
-  @Override
-  public ITsGuiContext tsContext() {
-    return tsContext;
+  private void internalUpdateBoundsRect() {
+    int x = (int)props().getFloat( PROP_X );
+    int y = (int)props().getFloat( PROP_Y );
+    int w = (int)props().getFloat( PROP_WIDTH );
+    int h = (int)props().getFloat( PROP_HEIGHT );
+    boundsRect.setRect( x, y, w, h );
   }
 
   // ------------------------------------------------------------------------------------
@@ -56,7 +63,7 @@ public abstract class VedAbstractVisel
 
   @Override
   public ITsRectangle bounds() {
-    return tsRect;
+    return boundsRect;
   }
 
   @Override
@@ -70,12 +77,12 @@ public abstract class VedAbstractVisel
 
   @Override
   public ID2Conversion getConversion() {
-    return d2Conv;
+    return props().getValobj( PROP_TRANSFORM );
   }
 
   @Override
   public void setConversion( ID2Conversion aConversion ) {
-    d2Conv = new D2Conversion( aConversion );
+    props().setValobj( PROP_TRANSFORM, aConversion );
   }
 
   // ------------------------------------------------------------------------------------
@@ -84,25 +91,19 @@ public abstract class VedAbstractVisel
 
   @Override
   public double originX() {
-    return originX;
+    return props().getDouble( PROP_X );
   }
 
   @Override
   public double originY() {
-    return originY;
+    return props().getDouble( PROP_Y );
   }
 
   @Override
   public void setLocation( double aX, double aY ) {
-    originX = aX;
-    originY = aY;
-    d2rect = new D2Rectangle( aX, aY, d2rect.width(), d2rect.height() );
-    updateTsRect();
-    doOnLocationChanged();
-
     IStringMapEdit<IAtomicValue> values = new StringMap<>();
-    values.put( PROP_X.id(), AvUtils.avFloat( originX ) );
-    values.put( PROP_Y.id(), AvUtils.avFloat( originY ) );
+    values.put( PROPID_X, avFloat( aX ) );
+    values.put( PROPID_Y, avFloat( aY ) );
     props().setProps( values );
   }
 
@@ -122,14 +123,9 @@ public abstract class VedAbstractVisel
 
   @Override
   public void setSize( double aWidth, double aHeight ) {
-    props().propsEventer().props().setDouble( PROP_WIDTH, aWidth );
-    props().setDouble( PROP_HEIGHT, aHeight );
-    d2rect = new D2Rectangle( d2rect.x1(), d2rect.y1(), aWidth, aHeight );
-    updateTsRect();
-    doOnSizeChanged();
     IStringMapEdit<IAtomicValue> values = new StringMap<>();
-    values.put( PROP_WIDTH.id(), AvUtils.avFloat( width ) );
-    values.put( PROP_HEIGHT.id(), AvUtils.avFloat( height ) );
+    values.put( PROPID_WIDTH, avFloat( aWidth ) );
+    values.put( PROPID_HEIGHT, avFloat( aHeight ) );
     props().setProps( values );
   }
 
@@ -138,27 +134,66 @@ public abstract class VedAbstractVisel
   //
 
   // ------------------------------------------------------------------------------------
-  // To override
+  // VedAbstractItem
   //
 
-  protected void doOnLocationChanged() {
-    // nop
-  }
-
-  protected void doOnSizeChanged() {
-    // nop
-  }
-
-  protected void doOnPropsChanged() {
-    // nop
+  @Override
+  final protected void doInterceptPropsChange( IOptionSet aNewValues, IOptionSetEdit aValuesToSet ) {
+    // ensure width and height always are greater or equal to 1.0
+    if( aNewValues.hasKey( PROPID_WIDTH ) ) {
+      double width = aNewValues.getDouble( PROP_WIDTH );
+      if( width < MIN_DIMENSION_AV.asDouble() ) {
+        aValuesToSet.setValobj( PROP_WIDTH, MIN_DIMENSION_AV );
+      }
+    }
+    if( aNewValues.hasKey( PROPID_HEIGHT ) ) {
+      double height = aNewValues.getDouble( PROP_HEIGHT );
+      if( height < MIN_DIMENSION_AV.asDouble() ) {
+        aValuesToSet.setValobj( PROP_HEIGHT, MIN_DIMENSION_AV );
+      }
+    }
+    // subclasses
+    doDoInterceptPropsChange( aNewValues, aValuesToSet );
+    // check after subclass
+    if( aValuesToSet.hasKey( PROPID_WIDTH ) ) {
+      double width = aValuesToSet.getDouble( PROP_WIDTH );
+      TsInternalErrorRtException.checkTrue( width < MIN_DIMENSION_AV.asDouble() );
+    }
+    if( aValuesToSet.hasKey( PROPID_HEIGHT ) ) {
+      double height = aValuesToSet.getDouble( PROP_HEIGHT );
+      TsInternalErrorRtException.checkTrue( height < MIN_DIMENSION_AV.asDouble() );
+    }
   }
 
   // ------------------------------------------------------------------------------------
-  // Implementation
+  // To override
   //
 
-  private void updateTsRect() {
-    tsRect.setRect( (int)d2rect.x1(), (int)d2rect.y1(), (int)d2rect.width(), (int)d2rect.height() );
+  /**
+   * In {@link VedAbstractVisel} updates internal caches.
+   * <p>
+   * {@inheritDoc}
+   */
+  @Override
+  protected void doUpdateCachesAfterPropsChange( IOptionSet aChangedValue ) {
+    internalUpdateBoundsRect();
+  }
+
+  /**
+   * Subclass may process property values change request.
+   * <p>
+   * Editable argument <code>aValuesToSet</code> is the values, that will be set to properties. It initially contains
+   * the same vales as <code>aNewValues</code>. Interceptor may remove values from <code>aValuesToSet</code> edit
+   * existing, add any other properties values or event clear to cancel changes. Current values of the properties may be
+   * accessed via {@link #props()}.
+   * <p>
+   * Does nothing in the base class, but in the inheritance tree, subclasses must call the superclass method.
+   *
+   * @param aNewValues {@link IOptionSetEdit} - changed properties values after change
+   * @param aValuesToSet {@link IOptionSet} - the values to be set after interception
+   */
+  protected void doDoInterceptPropsChange( IOptionSet aNewValues, IOptionSetEdit aValuesToSet ) {
+    // nop
   }
 
 }

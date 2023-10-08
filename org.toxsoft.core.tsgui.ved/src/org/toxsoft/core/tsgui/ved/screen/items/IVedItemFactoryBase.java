@@ -1,7 +1,6 @@
 package org.toxsoft.core.tsgui.ved.screen.items;
 
 import org.toxsoft.core.tsgui.bricks.tin.*;
-import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tslib.av.errors.*;
@@ -36,15 +35,25 @@ public interface IVedItemFactoryBase<T extends VedAbstractItem>
   IStridablesList<IDataDef> propDefs();
 
   /**
+   * Creates item configuration filled with default properties values.
+   *
+   * @param aItemId String - the item ID
+   * @return {@link VedItemCfg} - created config
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException argument is not an IDpath
+   */
+  VedItemCfg makeDefaultCfg( String aItemId );
+
+  /**
    * Creates the entity instance with default values of fields.
    *
    * @param aCfg {@link IVedItemCfg} - the configuration data
-   * @param aVedScreen {@link IVedScreen} - the owner VED screen
+   * @param aVedScreen {@link VedScreen} - the owner screen
    * @return &lt;T&gt; - created instance of the item
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException config entity kind does not matches provided entity kind
    * @throws AvTypeCastRtException any property value is not compatible to the property definition
    */
-  T create( IVedItemCfg aCfg, IVedScreen aVedScreen );
+  T create( IVedItemCfg aCfg, VedScreen aVedScreen );
 
 }

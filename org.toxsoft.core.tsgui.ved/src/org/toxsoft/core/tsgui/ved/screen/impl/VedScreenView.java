@@ -8,6 +8,7 @@ import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.utils.*;
 
 /**
  * {@link IVedScreenView} implementation.
@@ -15,7 +16,7 @@ import org.toxsoft.core.tslib.bricks.geometry.*;
  * @author hazard157
  */
 class VedScreenView
-    implements IVedScreenView {
+    implements IVedScreenView, ICloseable {
 
   private final VedScreen               vedScreen;
   private final Canvas                  theCanvas;
@@ -32,6 +33,35 @@ class VedScreenView
     userInputBinder = new TsUserInputEventsBinder( vedScreen );
     userInputBinder.bindToControl( theCanvas, TsUserInputEventsBinder.BIND_ALL_INPUT_EVENTS );
     userInputBinder.addTsUserInputListener( canvasHandler );
+    //
+    // TODO need more precious event handling
+    vedScreen.model().visels().activeItemsEventer().addListener( ( src, op, id ) -> whenVedItemsChanged() );
+    vedScreen.model().visels().allItemsEventer().addListener( ( src, op, id ) -> whenVedItemsChanged() );
+    vedScreen.model().actors().activeItemsEventer().addListener( ( src, op, id ) -> whenVedItemsChanged() );
+    vedScreen.model().actors().allItemsEventer().addListener( ( src, op, id ) -> whenVedItemsChanged() );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // implementation
+  //
+
+  private void whenVedItemsChanged() {
+    /**
+     * TODO check and if any VISEL active state changes refresh the active items list
+     * <p>
+     * FIXME maybe change design& remove active lists from the model rather bypass inactive entities from drawing and
+     * user input handling
+     */
+    redraw();
+  }
+
+  // ------------------------------------------------------------------------------------
+  // ICloseable
+  //
+
+  @Override
+  public void close() {
+    userInputBinder.unbind();
   }
 
   // ------------------------------------------------------------------------------------
