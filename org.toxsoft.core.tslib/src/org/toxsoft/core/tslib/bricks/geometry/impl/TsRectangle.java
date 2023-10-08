@@ -1,10 +1,8 @@
 package org.toxsoft.core.tslib.bricks.geometry.impl;
 
-import org.toxsoft.core.tslib.bricks.geometry.ITsPoint;
-import org.toxsoft.core.tslib.bricks.geometry.ITsRectangle;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Неизменяемая реализация {@link ITsRectangle}.
@@ -63,47 +61,47 @@ public final class TsRectangle
   //
 
   @Override
-  public final ITsPoint a() {
+  public ITsPoint a() {
     return a;
   }
 
   @Override
-  public final ITsPoint b() {
+  public ITsPoint b() {
     return b;
   }
 
   @Override
-  public final int x1() {
+  public int x1() {
     return a.x();
   }
 
   @Override
-  public final int y1() {
+  public int y1() {
     return a.y();
   }
 
   @Override
-  public final int x2() {
+  public int x2() {
     return b.x();
   }
 
   @Override
-  public final int y2() {
+  public int y2() {
     return b.y();
   }
 
   @Override
-  public final int width() {
+  public int width() {
     return size.x();
   }
 
   @Override
-  public final int height() {
+  public int height() {
     return size.y();
   }
 
   @Override
-  public final ITsPoint size() {
+  public ITsPoint size() {
     return size;
   }
 
@@ -122,8 +120,7 @@ public final class TsRectangle
     if( aObj == this ) {
       return true;
     }
-    if( aObj instanceof ITsRectangle ) {
-      ITsRectangle that = (ITsRectangle)aObj;
+    if( aObj instanceof ITsRectangle that ) {
       return this.x1() == that.x1() && this.x2() == that.x2() && this.y1() == that.y1() && this.y2() == that.y2();
     }
     return false;

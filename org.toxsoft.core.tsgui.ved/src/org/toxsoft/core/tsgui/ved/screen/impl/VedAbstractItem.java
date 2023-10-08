@@ -159,6 +159,15 @@ public class VedAbstractItem
     return vedScreen;
   }
 
+  /**
+   * Returns the coordinates converter between VED coordinates spaces.
+   *
+   * @return {@link IVedCoorsConverter} - the converter
+   */
+  public IVedCoorsConverter coorsConverter() {
+    return vedScreen.view().coorsConverter();
+  }
+
   // ------------------------------------------------------------------------------------
   // To override
   //

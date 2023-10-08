@@ -99,37 +99,37 @@ public class VedAbstractActor
     return new D2Point( x, y );
   }
 
-  /**
-   * Converts SWT related coordinates of the specified VISEL to the VED screen virtual coordinates.
-   *
-   * @param aX int - SWT X-coordinates
-   * @param aY int - SWT Y-coordinates
-   * @param aItem {@link VedAbstractVisel} - the VISEL
-   * @return {@link ID2Point} - the point in the VED screen virtual coordinates space
-   */
-  public ID2Point toVisel( int aX, int aY, VedAbstractVisel aItem ) {
-    convertor.setConversion( vedScreen().view().getConversion() );
-    double x1 = convertor.reverseX( aX, aY );
-    double y1 = convertor.reverseY( aX, aY );
-    convertor.setConversion( aItem.getConversion() );
-    double x = convertor.reverseX( x1, y1 );
-    double y = convertor.reverseY( x1, y1 );
-    return new D2Point( x, y );
-  }
-
-  /**
-   * Converts SWT related coordinates to the VED screen virtual coordinates.
-   *
-   * @param aX int - SWT X-coordinates
-   * @param aY int - SWT Y-coordinates
-   * @return {@link ID2Point} - the point in the VED screen virtual coordinates space
-   */
-  public ID2Point toVedScreen( int aX, int aY ) {
-    convertor.setConversion( vedScreen().view().getConversion() );
-    double x = convertor.reverseX( aX, aY );
-    double y = convertor.reverseY( aX, aY );
-    return new D2Point( x, y );
-  }
+  // /**
+  // * Converts SWT related coordinates of the specified VISEL to the VED screen virtual coordinates.
+  // *
+  // * @param aX int - SWT X-coordinates
+  // * @param aY int - SWT Y-coordinates
+  // * @param aItem {@link VedAbstractVisel} - the VISEL
+  // * @return {@link ID2Point} - the point in the VED screen virtual coordinates space
+  // */
+  // public ID2Point toVisel( int aX, int aY, VedAbstractVisel aItem ) {
+  // convertor.setConversion( vedScreen().view().getConversion() );
+  // double x1 = convertor.reverseX( aX, aY );
+  // double y1 = convertor.reverseY( aX, aY );
+  // convertor.setConversion( aItem.getConversion() );
+  // double x = convertor.reverseX( x1, y1 );
+  // double y = convertor.reverseY( x1, y1 );
+  // return new D2Point( x, y );
+  // }
+  //
+  // /**
+  // * Converts SWT related coordinates to the VED screen virtual coordinates.
+  // *
+  // * @param aX int - SWT X-coordinates
+  // * @param aY int - SWT Y-coordinates
+  // * @return {@link ID2Point} - the point in the VED screen virtual coordinates space
+  // */
+  // public ID2Point toVedScreen( int aX, int aY ) {
+  // convertor.setConversion( vedScreen().view().getConversion() );
+  // double x = convertor.reverseX( aX, aY );
+  // double y = convertor.reverseY( aX, aY );
+  // return new D2Point( x, y );
+  // }
 
   // ------------------------------------------------------------------------------------
   // package API

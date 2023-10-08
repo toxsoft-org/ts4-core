@@ -7,6 +7,7 @@ import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
+import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.utils.*;
 
 /**
@@ -22,9 +23,11 @@ class VedScreenView
   private final VedCanvasRenderer       canvasRenderer;
   private final TsUserInputEventsBinder userInputBinder;
   private final VedCanvasHandler        canvasHandler;
+  private final IVedCoorsConverter      coorsConverter;
 
   VedScreenView( Composite aParent, VedScreen aScreen ) {
     vedScreen = aScreen;
+    coorsConverter = new VedCoorsConverter( vedScreen );
     theCanvas = new Canvas( aParent, SWT.NONE );
     canvasRenderer = new VedCanvasRenderer( vedScreen.model() );
     theCanvas.addPaintListener( canvasRenderer );
@@ -104,18 +107,20 @@ class VedScreenView
   }
 
   @Override
-  public void redrawVisel( String aViselId ) {
-    VedAbstractVisel visel = vedScreen.model().visels().list().getByKey( aViselId );
-    redrawRect( visel.bounds() );
+  public IVedCoorsConverter coorsConverter() {
+    return coorsConverter;
   }
 
   @Override
-  public void redrawRect( ID2Rectangle aScreenRect ) {
+  public void redrawVisel( String aViselId ) {
+    VedAbstractVisel visel = vedScreen.model().visels().list().getByKey( aViselId );
+    ITsRectangle swtRect = coorsConverter.visel2Swt( visel.bounds(), visel );
+    redrawSwtRect( swtRect );
+  }
 
-    theCanvas.redraw();
-
-    // FIXME theCanvas.redraw( aScreenRect.x1(), aScreenRect.y1(), aScreenRect.width(), aScreenRect.height(), true );
-
+  @Override
+  public void redrawSwtRect( ITsRectangle aSwtRect ) {
+    theCanvas.redraw( aSwtRect.x1(), aSwtRect.y1(), aSwtRect.width(), aSwtRect.height(), true );
   }
 
   @Override

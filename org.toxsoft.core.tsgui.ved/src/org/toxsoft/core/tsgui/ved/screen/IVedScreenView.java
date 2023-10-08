@@ -3,8 +3,8 @@ package org.toxsoft.core.tsgui.ved.screen;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
-import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.d2.helpers.*;
+import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -65,7 +65,17 @@ public interface IVedScreenView
   void update();
 
   /**
-   * Redraws the specified view in its bounds.
+   * Returns the coordinates converter between VED coordinates spaces.
+   *
+   * @return {@link IVedCoorsConverter} - the converter
+   */
+  IVedCoorsConverter coorsConverter();
+
+  /**
+   * Redraws the specified VISEL.
+   * <p>
+   * More precisely redraws the region the VISEL is responsible for. Default behavior is to redraw rectangular SWT area
+   * containing VISEL. But for optimization VISEL may request redraw of the complex shaped area.
    *
    * @param aViselId String - the view ID
    * @throws TsNullArgumentRtException any argument = <code>null</code>
@@ -76,9 +86,9 @@ public interface IVedScreenView
   /**
    * Redraws the region of the screen.
    *
-   * @param aScreenRect {@link ID2Rectangle} - screen region to redraw in pixels
+   * @param aScreenRect {@link ITsRectangle} - SWT rectangular area to redraw, specified in pixels
    */
-  void redrawRect( ID2Rectangle aScreenRect );
+  void redrawSwtRect( ITsRectangle aScreenRect );
 
   /**
    * Sets mouse cursor shape on screen.
