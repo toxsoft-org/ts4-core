@@ -16,9 +16,9 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Note: default value is stored in {@link #params()}, not in internal field as in superclass.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
-public abstract class M5AttributeFieldDef<T>
+public class M5AttributeFieldDef<T>
     extends M5FieldDef<T, IAtomicValue>
     implements IM5AttributeFieldDef<T> {
 

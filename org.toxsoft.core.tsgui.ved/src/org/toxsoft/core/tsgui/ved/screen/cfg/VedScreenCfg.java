@@ -63,6 +63,7 @@ public final class VedScreenCfg
           StrioUtils.writeKeywordHeader( aSw, KW_EXTRA_DATA, true );
           VedScreenCfg scrCfg = VedScreenCfg.class.cast( aEntity );
           scrCfg.extraData.write( aSw );
+          aSw.decNewLine();
         }
 
         @Override

@@ -5,6 +5,7 @@ import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tslib.bricks.events.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.coll.helpers.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -14,7 +15,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  * @param <T> - the type of the managed VED items
  */
-public interface IVedItemsManager<T extends VedAbstractItem> {
+public interface IVedItemsManager<T extends VedAbstractItem>
+    extends ITsClearable {
 
   /**
    * Returns the managed items.

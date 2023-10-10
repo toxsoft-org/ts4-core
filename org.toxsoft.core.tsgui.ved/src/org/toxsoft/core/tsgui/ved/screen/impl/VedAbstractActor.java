@@ -8,8 +8,10 @@ import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.*;
-import org.toxsoft.core.tslib.bricks.d2.helpers.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.gw.time.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -21,8 +23,6 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class VedAbstractActor
     extends VedAbstractItem
     implements IVedActor, ITsUserInputListener, IGwTimeFleetable, IRealTimeSensitive {
-
-  private final D2Convertor convertor = new D2Convertor();
 
   /**
    * Constructor.
@@ -107,9 +107,50 @@ public class VedAbstractActor
   }
 
   // ------------------------------------------------------------------------------------
+  // IVedItem
+  //
+
+  @Override
+  final public EVedItemKind kind() {
+    return EVedItemKind.ACTOR;
+  }
+
+  // ------------------------------------------------------------------------------------
   // IVedActor
   //
 
-  // nop
+  @Override
+  final public IStringList listBoundViselIds() {
+    IStringList ll = doLstBoundViselIds();
+    TsInternalErrorRtException.checkNull( ll );
+    for( String vid : ll ) {
+      TsInternalErrorRtException.checkFalse( StridUtils.isValidIdPath( vid ) );
+    }
+    return ll;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // To override
+  //
+
+  /**
+   * If bound to VISEL other than {@link IVedScreenConstants#PROP_VISEL_ID}, subclass must return bound VISEL IDs.
+   * <p>
+   * In the base class returns the value of the property {@link IVedScreenConstants#PROP_VISEL_ID}, if such property
+   * exists in actor and contains valid IDpath value. No need to call superclass method when overriding.
+   * <p>
+   * Returned list must contain only valid IDpaths, however it is <b>not</b> necessary the VISEL with the ID exists.
+   *
+   * @return {@link IStringList} - list of bound VISEL IDs
+   */
+  protected IStringList doLstBoundViselIds() {
+    if( props().hasKey( PROPID_VISEL_ID ) ) {
+      String viselId = props().getStr( PROPID_VISEL_ID );
+      if( StridUtils.isValidIdPath( viselId ) ) {
+        return new SingleStringList( viselId );
+      }
+    }
+    return IStringList.EMPTY;
+  }
 
 }

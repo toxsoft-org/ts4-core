@@ -5,10 +5,10 @@ import static org.toxsoft.core.tsgui.m5.std.fields.ITsResources.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import org.toxsoft.core.tsgui.m5.model.impl.M5AttributeFieldDef;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.m5.model.impl.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Attribute {@link IStridable#id()}.
@@ -23,20 +23,21 @@ public class M5StdFieldDefDescription<T extends IStridable>
    * Constructor.
    */
   public M5StdFieldDefDescription() {
-    this( STR_N_DESCRIPTION, STR_D_DESCRIPTION );
+    super( FID_DESCRIPTION, DDEF_DESCRIPTION );
+    setNameAndDescription( STR_N_DESCRIPTION, STR_D_DESCRIPTION );
+    setFlags( M5FF_DETAIL );
   }
 
   /**
    * Constructor.
    *
-   * @param aName String - field name
-   * @param aDescription String - field description
+   * @param aIdsAndValues Object[] - identifier / value pairs for {@link #params()}
    * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException number of elements in array is uneven
+   * @throws ClassCastException argument types convention is violated
    */
-  public M5StdFieldDefDescription( String aName, String aDescription ) {
-    super( FID_DESCRIPTION, DDEF_DESCRIPTION );
-    setNameAndDescription( aName, aDescription );
-    setFlags( M5FF_DETAIL );
+  public M5StdFieldDefDescription( Object... aIdsAndValues ) {
+    super( FID_DESCRIPTION, DDEF_DESCRIPTION, aIdsAndValues );
   }
 
   // ------------------------------------------------------------------------------------

@@ -6,6 +6,7 @@ import static org.toxsoft.core.tsgui.panels.toolbar.ITsResources.*;
 import org.eclipse.jface.action.*;
 import org.eclipse.jface.resource.*;
 import org.eclipse.swt.*;
+import org.eclipse.swt.custom.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.actions.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
@@ -38,7 +39,7 @@ public class TsToolbar
   private TsComposite    panel     = null;
   private ToolBar        tbControl = null;
   private ToolBarManager tbManager = null;
-  private Label          nameLabel = null;
+  private CLabel         nameLabel = null;
 
   private String nameLabelText = TsLibUtils.EMPTY_STRING;
   private String tooltipText   = TsLibUtils.EMPTY_STRING;
@@ -99,12 +100,12 @@ public class TsToolbar
    * @param aContext {@link ITsGuiContext} - the context
    * @param aName String - toolbar name, may be <code>null</code>
    * @param aIconSize {@link EIconSize} - icons size or <code>null</code> for default size
-   * @param aActionDefs {@link ITsActionDef} - action buttons on toolbar
+   * @param aActionDefs {@link ITsActionDef}[] - action buttons on toolbar
    * @return {@link TsToolbar} - created instance
    */
   public static TsToolbar create( Composite aParent, ITsGuiContext aContext, String aName, EIconSize aIconSize,
       ITsActionDef... aActionDefs ) {
-    return create( aParent, aContext, TsErrorUtils.checkArrayArg( aActionDefs ) );
+    return create( aParent, aContext, aName, aIconSize, new ElemArrayList<>( aActionDefs ) );
   }
 
   /**
@@ -193,11 +194,12 @@ public class TsToolbar
     BorderLayout layout = new BorderLayout();
     panel.setLayout( layout );
     // nameLabel
-    nameLabel = new Label( panel, SWT.LEFT );
     if( vertical ) {
+      nameLabel = new CLabel( panel, SWT.LEFT );
       nameLabel.setLayoutData( BorderLayout.NORTH );
     }
     else {
+      nameLabel = new CLabel( panel, SWT.CENTER );
       nameLabel.setLayoutData( BorderLayout.WEST );
     }
     nameLabel.setText( nameLabelText );

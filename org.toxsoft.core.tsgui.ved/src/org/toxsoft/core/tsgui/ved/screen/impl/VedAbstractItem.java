@@ -23,7 +23,7 @@ import org.toxsoft.core.tslib.utils.logs.impl.*;
  *
  * @author hazard157
  */
-public class VedAbstractItem
+public abstract class VedAbstractItem
     implements IVedItem, IParameterizedEdit, IDisposable, ITsGuiContextable {
 
   private final IVedItemCfg              initialConfig;
@@ -126,6 +126,9 @@ public class VedAbstractItem
   // ------------------------------------------------------------------------------------
   // IVedItem
   //
+
+  @Override
+  public abstract EVedItemKind kind();
 
   @Override
   final public boolean isActive() {
