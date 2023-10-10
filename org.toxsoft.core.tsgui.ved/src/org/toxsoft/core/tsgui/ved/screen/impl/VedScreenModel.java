@@ -14,7 +14,7 @@ import org.toxsoft.core.tslib.utils.*;
  *
  * @author hazard157
  */
-class VedScreenModel
+public class VedScreenModel
     implements IVedScreenModel, ITsGuiContextable, ICloseable {
 
   /**
