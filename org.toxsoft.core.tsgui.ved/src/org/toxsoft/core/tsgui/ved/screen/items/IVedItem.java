@@ -15,6 +15,13 @@ public interface IVedItem
     extends IStridableParameterized, IPropertable<IVedItem> {
 
   /**
+   * Returns the item kind.
+   *
+   * @return {@link EVedItemKind} - the item kind
+   */
+  EVedItemKind kind();
+
+  /**
    * Determines if item operation is enabled.
    * <p>
    * Disabled visual elements became invisible, disabled actors stop responding to any events or time flow.

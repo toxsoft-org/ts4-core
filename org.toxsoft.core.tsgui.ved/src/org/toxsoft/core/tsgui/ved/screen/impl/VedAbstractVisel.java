@@ -128,6 +128,15 @@ public abstract class VedAbstractVisel
   }
 
   // ------------------------------------------------------------------------------------
+  // IVedItem
+  //
+
+  @Override
+  final public EVedItemKind kind() {
+    return EVedItemKind.VISEL;
+  }
+
+  // ------------------------------------------------------------------------------------
   // IVisel
   //
 
