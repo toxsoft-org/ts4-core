@@ -34,7 +34,7 @@ public class VedFulcrumVertex
 
   @Override
   public boolean isYours( double aX, double aY ) {
-    return bounds().contains( (int)aX, (int)aY );
+    return bounds().contains( aX, aY );
   }
 
   @Override

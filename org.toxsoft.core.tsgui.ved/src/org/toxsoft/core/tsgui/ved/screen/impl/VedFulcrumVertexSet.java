@@ -67,6 +67,9 @@ public class VedFulcrumVertexSet
   protected VedFulcrumVertexSet( VedAbstractVisel aVisel, IStridablesList<? extends IVedVertex> aVertexes,
       VedScreen aVedScreen ) {
     super( aVisel, aVertexes, aVedScreen );
+    if( aVertexes.size() > 0 ) {
+      update( 0.0, 0.0, aVertexes.get( 0 ).id() );
+    }
     updateVertexes();
     updateSwtRect();
   }
