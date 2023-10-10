@@ -256,8 +256,8 @@ public final class D2RectangleEdit
    */
   public void setRect( double aX, double aY, double aWidth, double aHeight ) {
     TsIllegalArgumentRtException.checkTrue( aWidth < 0.0 || aHeight < 0.0 );
-    setSize( aWidth, aHeight );
     a.setPoint( aX, aY );
+    setSize( aWidth, aHeight );
   }
 
   /**
