@@ -12,7 +12,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public class VedScreen
-    implements IVedScreen, ITsGuiContextable, ICloseable {
+    implements IVedScreen, ICloseable {
 
   private final ITsGuiContext  tsContext;
   private final VedScreenModel model;

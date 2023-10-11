@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.ved.screen;
 
 import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.utils.anim.*;
 import org.toxsoft.core.tslib.bricks.*;
 import org.toxsoft.core.tslib.gw.time.*;
@@ -18,7 +19,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public interface IVedScreen
-    extends IGwTimeFleetable, IRealTimeSensitive, IPausableAnimation {
+    extends IGwTimeFleetable, IRealTimeSensitive, IPausableAnimation, ITsGuiContextable {
 
   /**
    * Returns the content of the screen - the displayable and interactive entities.
