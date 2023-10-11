@@ -7,6 +7,7 @@ import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -145,11 +146,17 @@ public class VedScreenView
 
   @Override
   public void removeViselVertexSet() {
-    if(viselVertexSet != null) {
+    if( viselVertexSet != null ) {
       vedScreen.model().screenHandlersBefore().remove( viselVertexSet.inputHandler() );
       vedScreen.model().screenDecoratorsAfter().remove( viselVertexSet );
       viselVertexSet = null;
     }
+  }
+
+  @Override
+  public IStringList listViselIdsAtPoint( ITsPoint aSwtCoors ) {
+    TsNullArgumentRtException.checkNull( aSwtCoors );
+    // TODO Auto-generated method stub
   }
 
   @Override
