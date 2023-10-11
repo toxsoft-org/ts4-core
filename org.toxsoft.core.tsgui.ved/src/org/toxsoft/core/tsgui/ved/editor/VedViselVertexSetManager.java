@@ -5,6 +5,7 @@ import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 
@@ -17,13 +18,34 @@ import org.toxsoft.core.tslib.coll.primtypes.*;
 public class VedViselVertexSetManager
     extends VedAbstractUserInputHandler {
 
+  class SelectionListener
+      implements IGenericChangeListener {
+
+    @Override
+    public void onGenericChangeEvent( Object aSource ) {
+      String viselId = selectionManager.singleSelectedViselId();
+      vedScreen().view().removeViselVertexSet();
+      if( viselId != null ) {
+        vedScreen().view().createViselVertexSet( viselId );
+      }
+    }
+
+  }
+
+  private final IVedViselSelectionManager selectionManager;
+
+  private final SelectionListener selectionListener;
+
   /**
    * Конструктор.
    *
    * @param aScreen {@link VedScreen} - экран
    */
-  public VedViselVertexSetManager( VedScreen aScreen ) {
+  public VedViselVertexSetManager( VedScreen aScreen, IVedViselSelectionManager aSelectionManager ) {
     super( aScreen );
+    selectionManager = aSelectionManager;
+    selectionListener = new SelectionListener();
+    selectionManager.genericChangeEventer().addListener( selectionListener );
   }
 
   // ------------------------------------------------------------------------------------
@@ -34,10 +56,9 @@ public class VedViselVertexSetManager
   public boolean onMouseDoubleClick( Object aSource, ETsMouseButton aButton, int aState, ITsPoint aCoors,
       Control aWidget ) {
     if( aButton == ETsMouseButton.LEFT ) {
-      vedScreen().view().removeViselVertexSet();
       IStringList viselIds = vedScreen().view().listViselIdsAtPoint( aCoors );
       if( viselIds.size() > 0 ) {
-        vedScreen().view().createViselVertexSet( viselIds.first() );
+        selectionManager.setSingleSelectedViselId( viselIds.first() );
       }
       return true;
     }
@@ -47,7 +68,10 @@ public class VedViselVertexSetManager
   @Override
   public boolean onMouseDown( Object aSource, ETsMouseButton aButton, int aState, ITsPoint aCoors, Control aWidget ) {
     if( aButton == ETsMouseButton.LEFT ) {
-      vedScreen().view().removeViselVertexSet();
+      IStringList viselIds = vedScreen().view().listViselIdsAtPoint( aCoors );
+      if( viselIds.size() <= 0 ) {
+        selectionManager.deselectAll();
+      }
       return true;
     }
     return false;
