@@ -30,12 +30,13 @@ public class VedItemsSimplePaletteBar
    * @param aParent {@link Composite} - родительская панель
    * @param aSwtStyle int - стиль
    * @param aScreen {@link VedScreen} - экран
+   * @param aVertical boolean - признак расположения патитры (вертикально/горизонтально)
    */
-  public VedItemsSimplePaletteBar( Composite aParent, int aSwtStyle, VedScreen aScreen ) {
+  public VedItemsSimplePaletteBar( Composite aParent, int aSwtStyle, VedScreen aScreen, boolean aVertical ) {
     vScreen = aScreen;
     paletteComp = new TsPanel( aParent, aScreen.tsContext(), aSwtStyle );
 
-    if( (aSwtStyle & SWT.HORIZONTAL) != 0 ) {
+    if( !aVertical ) {
       paletteComp.setLayout( new RowLayout( SWT.HORIZONTAL ) );
     }
     else {
@@ -73,7 +74,7 @@ public class VedItemsSimplePaletteBar
 
       @Override
       public void dragSetData( DragSourceEvent aEvent ) {
-        IVedItemCfg itemCfg = ((IVedItemsPaletteEntry)source).itemCfg();
+        IVedItemCfg itemCfg = ((IVedItemsPaletteEntry)source.getData()).itemCfg();
         aEvent.data = VedItemCfg.KEEPER.ent2str( itemCfg );
       }
     } );
