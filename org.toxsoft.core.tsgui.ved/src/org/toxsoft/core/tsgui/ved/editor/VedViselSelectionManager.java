@@ -2,6 +2,7 @@ package org.toxsoft.core.tsgui.ved.editor;
 
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
+import org.toxsoft.core.tslib.coll.helpers.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
@@ -30,6 +31,7 @@ public class VedViselSelectionManager
     TsNullArgumentRtException.checkNull( aVedScreen );
     vedScreen = aVedScreen;
     eventer = new GenericChangeEventer( this );
+    vedScreen.model().visels().eventer().addListener( ( src, op, vid ) -> updateOnViselsListChange( op, vid ) );
   }
 
   // ------------------------------------------------------------------------------------
@@ -49,6 +51,19 @@ public class VedViselSelectionManager
   private void checkViselsExists( IStringList aViselIds ) {
     for( String vid : aViselIds ) {
       checkViselExists( vid );
+    }
+  }
+
+  @SuppressWarnings( "unused" )
+  private void updateOnViselsListChange( ECrudOp aOp, String aViselId ) {
+    IStringListEdit viselIdsToDeselect = new StringArrayList();
+    for( String vid : selIdsList ) {
+      if( !vedScreen.model().visels().list().hasKey( vid ) ) {
+        viselIdsToDeselect.add( vid );
+      }
+    }
+    if( !viselIdsToDeselect.isEmpty() ) {
+      setViselsSelection( viselIdsToDeselect, false );
     }
   }
 
@@ -86,6 +101,10 @@ public class VedViselSelectionManager
 
   @Override
   public void setSingleSelectedViselId( String aViselId ) {
+    if( aViselId == null ) {
+      deselectAll();
+      return;
+    }
     checkViselExists( aViselId );
     if( !selIdsList.hasElem( aViselId ) ) {
       selIdsList.add( aViselId );
@@ -108,7 +127,10 @@ public class VedViselSelectionManager
 
   @Override
   public void setViselsSelection( IStringList aViselIds, boolean aSelection ) {
-    checkViselsExists( aViselIds );
+    TsNullArgumentRtException.checkNull( aViselIds );
+    if( aSelection ) {
+      checkViselsExists( aViselIds );
+    }
     boolean wasChange = false;
     for( String vid : aViselIds ) {
       boolean alreadyHas = selIdsList.hasElem( vid );

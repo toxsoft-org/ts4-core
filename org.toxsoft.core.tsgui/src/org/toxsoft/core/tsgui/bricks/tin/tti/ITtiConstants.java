@@ -105,6 +105,7 @@ public interface ITtiConstants {
       TSID_NAME, STR_COLOR_RGB, //
       TSID_DESCRIPTION, STR_COLOR_RGB_D, //
       TSID_KEEPER_ID, RGBKeeper.KEEPER_ID, //
+      OPDEF_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgb.FACTORY_NAME, //
       TSID_DEFAULT_VALUE, avValobj( DEFAULT_RGB_VALUE ) //
   );
 
@@ -112,7 +113,7 @@ public interface ITtiConstants {
       TSID_NAME, STR_COLOR_RGBA, //
       TSID_DESCRIPTION, STR_COLOR_RGBA_D, //
       TSID_KEEPER_ID, RGBAKeeper.KEEPER_ID, //
-      OPDEF_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgb.FACTORY_NAME, //
+      OPDEF_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, //
       TSID_DEFAULT_VALUE, avValobj( DEFAULT_RGBA_VALUE ) //
   );
 

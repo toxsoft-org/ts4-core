@@ -71,7 +71,7 @@ public abstract class AbstractSimpleCrudOpTsEventer<L, T, S>
     TsIllegalArgumentRtException.checkTrue( aItem == null && aOp != ECrudOp.LIST );
     if( !isFiringPaused() ) {
       for( L l : listeners() ) {
-        doReallyFireEvent( l, source, op, item );
+        doReallyFireEvent( l, source, aOp, aItem );
       }
     }
     // save event to fire after resume

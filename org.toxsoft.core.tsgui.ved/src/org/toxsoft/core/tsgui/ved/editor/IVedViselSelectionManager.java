@@ -87,7 +87,6 @@ public interface IVedViselSelectionManager
    * effect as {@link #deselectAll()}.
    *
    * @param aViselId String - ID of the only VISEL to be set as selected or <code>null</code>
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsItemNotFoundRtException no such VISEL exists in the VED model
    */
   void setSingleSelectedViselId( String aViselId );
