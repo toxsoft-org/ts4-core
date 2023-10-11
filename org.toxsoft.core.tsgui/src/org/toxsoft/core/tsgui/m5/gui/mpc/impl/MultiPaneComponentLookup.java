@@ -26,7 +26,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Generates {@link IGenericChangeListener#onGenericChangeEvent(Object)} when {@link #items()} list changes.
  *
  * @author hazard157
- * @param <T> - displayed M5-modelled entity type
+ * @param <T> - displayed M5-modeled entity type
  */
 public class MultiPaneComponentLookup<T>
     extends MultiPaneComponent<T>
@@ -83,7 +83,7 @@ public class MultiPaneComponentLookup<T>
 
   @Override
   protected T doAddItem() {
-    ITsDialogInfo cdi = TsDialogInfo.forSelectEntity( tsContext() );
+    ITsDialogInfo cdi = doCreateDialogInfoToAddItem();
     T item = M5GuiUtils.askSelectLookupItem( cdi, model(), null, lookupProvider );
     if( item != null ) {
       containedItemsProvider.items().add( item );
@@ -93,7 +93,7 @@ public class MultiPaneComponentLookup<T>
 
   @Override
   protected T doEditItem( T aItem ) {
-    ITsDialogInfo cdi = TsDialogInfo.forSelectEntity( tsContext() );
+    ITsDialogInfo cdi = doCreateDialogInfoToEditItem( aItem );
     T item = M5GuiUtils.askSelectLookupItem( cdi, model(), aItem, lookupProvider );
     if( item != null ) {
       int index = containedItemsProvider.items().indexOf( aItem );
@@ -194,6 +194,35 @@ public class MultiPaneComponentLookup<T>
    */
   protected void doAdjustEntityCreationInitialValues( IM5BunchEdit<T> aValues ) {
     // nop
+  }
+
+  /**
+   * Subclass may set own parameters for item adding dialog {@link M5GuiUtils}<code>.askSelectLookupItem()</code>.
+   * <p>
+   * In base class returns {@link TsDialogInfo#forCreateEntity(ITsGuiContext)}, there is no need to call parent method
+   * when overriding.
+   * <p>
+   * Note: method is called from {@link #doAddItem()}.
+   *
+   * @return {@link ITsDialogInfo} - editing dialog window parameters
+   */
+  protected ITsDialogInfo doCreateDialogInfoToAddItem() {
+    return TsDialogInfo.forSelectEntity( tsContext() );
+  }
+
+  /**
+   * Subclass may set own parameters for item editing dialog {@link M5GuiUtils}<code>.askSelectLookupItem()</code>..
+   * <p>
+   * In base class returns {@link TsDialogInfo#forEditEntity(ITsGuiContext)}, there is no need to call parent method
+   * when overriding.
+   * <p>
+   * Note: method is called from {@link #doEditItem(Object)}.
+   *
+   * @param aItem &lt;T&gt; - the item to be edited
+   * @return {@link ITsDialogInfo} - editing dialog window parameters
+   */
+  protected ITsDialogInfo doCreateDialogInfoToEditItem( T aItem ) {
+    return TsDialogInfo.forSelectEntity( tsContext() );
   }
 
 }

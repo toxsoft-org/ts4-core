@@ -18,7 +18,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * {@link IMultiPaneComponent} implementation uses lifecycle manager for CRUD operations.
  *
  * @author hazard157
- * @param <T> - displayed M5-modelled entity type
+ * @param <T> - displayed M5-modeled entity type
  */
 public class MultiPaneComponentModown<T>
     extends MultiPaneComponent<T> {
@@ -104,7 +104,7 @@ public class MultiPaneComponentModown<T>
 
   @Override
   protected T doAddItem() {
-    ITsDialogInfo cdi = TsDialogInfo.forCreateEntity( tsContext() );
+    ITsDialogInfo cdi = doCreateDialogInfoToAddItem();
     IM5LifecycleManager<T> lm = getNonNullLM();
     IM5BunchEdit<T> initVals = lm.createNewItemValues();
     doAdjustEntityCreationInitialValues( initVals );
@@ -113,7 +113,7 @@ public class MultiPaneComponentModown<T>
 
   @Override
   protected T doEditItem( T aItem ) {
-    ITsDialogInfo cdi = TsDialogInfo.forEditEntity( tsContext() );
+    ITsDialogInfo cdi = doCreateDialogInfoToEditItem( aItem );
     return M5GuiUtils.askEdit( tsContext(), model(), aItem, cdi, getNonNullLM() );
   }
 
@@ -157,6 +157,35 @@ public class MultiPaneComponentModown<T>
    */
   protected void doAdjustEntityCreationInitialValues( IM5BunchEdit<T> aValues ) {
     // nop
+  }
+
+  /**
+   * Subclass may set own parameters for item adding dialog {@link M5GuiUtils}<code>.askCreate()</code>.
+   * <p>
+   * In base class returns {@link TsDialogInfo#forCreateEntity(ITsGuiContext)}, there is no need to call parent method
+   * when overriding.
+   * <p>
+   * Note: method is called from {@link #doAddItem()}.
+   *
+   * @return {@link ITsDialogInfo} - editing dialog window parameters
+   */
+  protected ITsDialogInfo doCreateDialogInfoToAddItem() {
+    return TsDialogInfo.forCreateEntity( tsContext() );
+  }
+
+  /**
+   * Subclass may set own parameters for item editing dialog {@link M5GuiUtils}<code>.askEdit()</code>..
+   * <p>
+   * In base class returns {@link TsDialogInfo#forEditEntity(ITsGuiContext)}, there is no need to call parent method
+   * when overriding.
+   * <p>
+   * Note: method is called from {@link #doEditItem(Object)}.
+   *
+   * @param aItem &lt;T&gt; - the item to be edited
+   * @return {@link ITsDialogInfo} - editing dialog window parameters
+   */
+  protected ITsDialogInfo doCreateDialogInfoToEditItem( T aItem ) {
+    return TsDialogInfo.forEditEntity( tsContext() );
   }
 
 }
