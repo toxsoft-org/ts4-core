@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.ved.screen.cfg;
 
+import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
@@ -34,6 +35,8 @@ public final class VedItemCfg
           // item ID and factory ID
           aSw.writeAsIs( aEntity.id() );
           aSw.writeSeparatorChar();
+          aSw.writeAsIs( aEntity.kind().id() );
+          aSw.writeSeparatorChar();
           aSw.writeAsIs( aEntity.factoryId() );
           aSw.writeSeparatorChar();
           aSw.writeEol();
@@ -57,6 +60,8 @@ public final class VedItemCfg
           // item ID and factory ID
           String id = aSr.readIdPath();
           aSr.ensureSeparatorChar();
+          EVedItemKind kind = EVedItemKind.getById( aSr.readIdName() );
+          aSr.ensureSeparatorChar();
           String factoryId = aSr.readIdPath();
           aSr.ensureSeparatorChar();
           // properties values
@@ -67,7 +72,7 @@ public final class VedItemCfg
           IOptionSet params = OptionSetKeeper.KEEPER.read( aSr );
           aSr.ensureSeparatorChar();
           // create an item to read extra data into it
-          VedItemCfg itemCfg = new VedItemCfg( id, factoryId, params );
+          VedItemCfg itemCfg = new VedItemCfg( id, kind, factoryId, params );
           itemCfg.propValues().setAll( propValues );
           // extra data
           StrioUtils.ensureKeywordHeader( aSr, KW_EXTRA );
@@ -76,6 +81,7 @@ public final class VedItemCfg
         }
       };
 
+  private final EVedItemKind               kind;
   private final String                     factoryId;
   private final IOptionSetEdit             propValues = new OptionSet();
   private final KeepablesStorageAsKeepable extraData  = new KeepablesStorageAsKeepable();
@@ -83,13 +89,16 @@ public final class VedItemCfg
   /**
    * Constructor.
    *
-   * @param aId String - VISEL identifier
-   * @param aFactoryId {@link String} - the VISEL factory ID
+   * @param aId String - item identifier
+   * @param aKind {@link EVedItemKind} - the item kind
+   * @param aFactoryId {@link String} - the item factory ID
    * @param aParams {@link IOptionSet} - initial values of {@link #params()}
    * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException ID is not an IDpath
    */
-  public VedItemCfg( String aId, String aFactoryId, IOptionSet aParams ) {
+  public VedItemCfg( String aId, EVedItemKind aKind, String aFactoryId, IOptionSet aParams ) {
     super( aId, aParams );
+    kind = TsNullArgumentRtException.checkNull( aKind );
     factoryId = StridUtils.checkValidIdPath( aFactoryId );
   }
 
@@ -101,6 +110,7 @@ public final class VedItemCfg
    */
   public VedItemCfg( IVedItemCfg aSource ) {
     super( TsNullArgumentRtException.checkNull( aSource ).id(), aSource.params() );
+    kind = aSource.kind();
     factoryId = aSource.factoryId();
     propValues.setAll( aSource.propValues() );
     extraData.copyFrom( aSource.extraData() );
@@ -116,14 +126,54 @@ public final class VedItemCfg
    */
   public VedItemCfg( String aItemId, IVedItemCfg aSource ) {
     super( aItemId, aSource.params() );
+    kind = aSource.kind();
     factoryId = aSource.factoryId();
     propValues.setAll( aSource.propValues() );
     extraData.copyFrom( aSource.extraData() );
   }
 
+  /**
+   * Creates config for VISEL.
+   *
+   * @param aId String - VISEL identifier
+   * @param aFactoryId {@link String} - the VISEL factory ID
+   * @param aParams {@link IOptionSet} - initial values of {@link #params()}
+   * @param aProps {@link IOptionSet} - initial values of {@link #propValues()}
+   * @return {@link VedItemCfg} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException ID is not an IDpath
+   */
+  public static VedItemCfg ofVisel( String aId, String aFactoryId, IOptionSet aParams, IOptionSet aProps ) {
+    VedItemCfg cfg = new VedItemCfg( aId, EVedItemKind.VISEL, aFactoryId, aParams );
+    cfg.propValues.setAll( aProps );
+    return cfg;
+  }
+
+  /**
+   * Creates config for actor.
+   *
+   * @param aId String - actor identifier
+   * @param aFactoryId {@link String} - the actor factory ID
+   * @param aParams {@link IOptionSet} - initial values of {@link #params()}
+   * @param aProps {@link IOptionSet} - initial values of {@link #propValues()}
+   * @return {@link VedItemCfg} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException ID is not an IDpath
+   */
+  public static VedItemCfg ofActor( String aId, String aFactoryId, IOptionSet aParams, IOptionSet aProps ) {
+    VedItemCfg cfg = new VedItemCfg( aId, EVedItemKind.ACTOR, aFactoryId, aParams );
+    cfg.propValues.setAll( aProps );
+    return cfg;
+  }
+
   // ------------------------------------------------------------------------------------
   // IViselCfg
   //
+
+  @Override
+  public EVedItemKind kind() {
+    return kind;
+  }
 
   @Override
   public String factoryId() {

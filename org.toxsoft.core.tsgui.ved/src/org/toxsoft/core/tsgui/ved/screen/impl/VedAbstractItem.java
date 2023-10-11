@@ -2,7 +2,6 @@ package org.toxsoft.core.tsgui.ved.screen.impl;
 
 import static org.toxsoft.core.tsgui.ved.l10n.ITsguiVedSharedResources.*;
 import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
-import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
@@ -77,12 +76,12 @@ public abstract class VedAbstractItem
 
   @Override
   final public String nmName() {
-    return DDEF_NAME.getValue( propSet ).asString();
+    return PROP_NAME.getValue( propSet ).asString();
   }
 
   @Override
   final public String description() {
-    return DDEF_DESCRIPTION.getValue( propSet ).asString();
+    return PROP_DESCRIPTION.getValue( propSet ).asString();
   }
 
   // ------------------------------------------------------------------------------------

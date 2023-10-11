@@ -27,6 +27,15 @@ public abstract class VedAbstractViselFactory
   }
 
   // ------------------------------------------------------------------------------------
+  // IVedItemFactoryBase
+  //
+
+  @Override
+  final public EVedItemKind kind() {
+    return EVedItemKind.VISEL;
+  }
+
+  // ------------------------------------------------------------------------------------
   // To override
   //
 

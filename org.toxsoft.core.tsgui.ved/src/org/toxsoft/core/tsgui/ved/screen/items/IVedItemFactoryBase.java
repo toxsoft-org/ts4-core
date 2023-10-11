@@ -20,6 +20,13 @@ public interface IVedItemFactoryBase<T extends VedAbstractItem>
     extends IStridableParameterized {
 
   /**
+   * Returns the kind od the managed items.
+   *
+   * @return {@link EVedItemKind} - the item kind
+   */
+  EVedItemKind kind();
+
+  /**
    * Returns the type information for item to be viewed and edited in object inspector.
    *
    * @return {@link ITinTypeInfo} - the information for inspecting the VED item instance

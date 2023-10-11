@@ -118,7 +118,7 @@ public abstract class VedAbstractItemFactory<T extends VedAbstractItem>
    * @return {@link StridablesList}&lt;{@link IVedItemsPaletteEntry}&gt; - an editable list
    */
   protected StridablesList<IVedItemsPaletteEntry> doCreatePaletteEntries() {
-    VedItemCfg cfg = new VedItemCfg( id(), id(), IOptionSet.NULL );
+    VedItemCfg cfg = new VedItemCfg( id(), kind(), id(), IOptionSet.NULL );
     OptionSetUtils.initOptionSet( cfg.propValues(), propDefs() );
     IVedItemsPaletteEntry entry = new VedItemPaletteEntry( id(), params(), cfg );
     return new StridablesList<>( entry );

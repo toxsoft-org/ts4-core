@@ -7,6 +7,7 @@ import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.panels.*;
+import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 
@@ -22,7 +23,7 @@ public class VedItemsSimplePaletteBar
 
   private final TsPanel paletteComp;
 
-  private final VedScreen vScreen;
+  private final IVedScreen vScreen;
 
   /**
    * Конструктор.
@@ -32,7 +33,7 @@ public class VedItemsSimplePaletteBar
    * @param aScreen {@link VedScreen} - экран
    * @param aVertical boolean - признак расположения патитры (вертикально/горизонтально)
    */
-  public VedItemsSimplePaletteBar( Composite aParent, int aSwtStyle, VedScreen aScreen, boolean aVertical ) {
+  public VedItemsSimplePaletteBar( Composite aParent, int aSwtStyle, IVedScreen aScreen, boolean aVertical ) {
     vScreen = aScreen;
     paletteComp = new TsPanel( aParent, aScreen.tsContext(), aSwtStyle );
 

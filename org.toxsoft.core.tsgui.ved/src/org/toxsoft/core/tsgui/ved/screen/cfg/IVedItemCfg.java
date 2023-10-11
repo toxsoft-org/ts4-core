@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.ved.screen.cfg;
 
+import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
@@ -17,6 +18,13 @@ import org.toxsoft.core.txtproj.lib.storage.*;
  */
 public sealed interface IVedItemCfg
     extends IStridableParameterized permits VedItemCfg {
+
+  /**
+   * Returns the item kind.
+   *
+   * @return {@link EVedItemKind} - the item kind
+   */
+  EVedItemKind kind();
 
   /**
    * Returns the ID of the factory used to create the actor from the configuration data {@link IVedItemCfg}.

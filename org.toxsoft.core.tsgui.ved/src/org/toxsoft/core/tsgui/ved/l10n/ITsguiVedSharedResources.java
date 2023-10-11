@@ -14,8 +14,12 @@ public interface ITsguiVedSharedResources {
   /**
    * {@link IVedFrameworkConstants}
    */
-  String STR_IS_ACTIVE       = Messages.getString( "STR_IS_ACTIVE" );         //$NON-NLS-1$
-  String STR_IS_ACTIVE_D     = Messages.getString( "STR_IS_ACTIVE_D" );       //$NON-NLS-1$
+  String STR_IS_ACTIVE   = Messages.getString( "STR_IS_ACTIVE" );   //$NON-NLS-1$
+  String STR_IS_ACTIVE_D = Messages.getString( "STR_IS_ACTIVE_D" ); //$NON-NLS-1$
+  // String STR_NAME = Messages.getString( "STR_NAME" ); //$NON-NLS-1$
+  // String STR_NAME_D = Messages.getString( "STR_NAME_D" ); //$NON-NLS-1$
+  // String STR_DESCRIPTION = Messages.getString( "STR_DESCRIPTION" ); //$NON-NLS-1$
+  // String STR_DESCRIPTION_D = Messages.getString( "STR_DESCRIPTION_D" ); //$NON-NLS-1$
   String STR_IS_HOVERED      = Messages.getString( "STR_IS_HOVERED" );        //$NON-NLS-1$
   String STR_IS_HOVERED_D    = Messages.getString( "STR_IS_HOVERED_D" );      //$NON-NLS-1$
   String STR_IS_SELECTED     = Messages.getString( "STR_IS_SELECTED" );       //$NON-NLS-1$
@@ -66,7 +70,7 @@ public interface ITsguiVedSharedResources {
   String STR_ITEMKIND_ACTOR_D = Messages.getString( "STR_ITEMKIND_ACTOR_D" ); //$NON-NLS-1$
 
   /**
-   * M5-models
+   * General
    */
   String STR_ITEM_ID            = Messages.getString( "STR_ITEM_ID" );            //$NON-NLS-1$
   String STR_ITEM_ID_D          = Messages.getString( "STR_ITEM_ID_D" );          //$NON-NLS-1$

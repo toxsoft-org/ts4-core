@@ -24,6 +24,8 @@ import org.toxsoft.core.tslib.bricks.d2.*;
 public interface IVedScreenConstants {
 
   String PROPID_IS_ACTIVE     = VED_ID + ".isActive";    //$NON-NLS-1$
+  String PROPID_NAME          = TSID_NAME;
+  String PROPID_DESCRIPTION   = TSID_DESCRIPTION;
   String PROPID_X             = VED_ID + ".x";           //$NON-NLS-1$
   String PROPID_Y             = VED_ID + ".y";           //$NON-NLS-1$
   String PROPID_WIDTH         = VED_ID + ".width";       //$NON-NLS-1$
@@ -34,9 +36,20 @@ public interface IVedScreenConstants {
   String PROPID_VISEL_ID      = VED_ID + ".viselId";     //$NON-NLS-1$
   String PROPID_VISEL_PROP_ID = VED_ID + ".viselPropId"; //$NON-NLS-1$
 
-  IDataDef PROP_IS_ACTIVE = DataDef.create( PROPID_IS_ACTIVE, BOOLEAN, TSID_NAME, STR_IS_ACTIVE, //
+  IDataDef PROP_IS_ACTIVE = DataDef.create( PROPID_IS_ACTIVE, BOOLEAN, //
+      TSID_NAME, STR_IS_ACTIVE, //
       TSID_DESCRIPTION, STR_IS_ACTIVE_D, //
       TSID_DEFAULT_VALUE, AV_TRUE //
+  );
+
+  IDataDef PROP_NAME = DataDef.create3( PROPID_NAME, DDEF_NAME, //
+      TSID_NAME, STR_ITEM_NAME, //
+      TSID_DESCRIPTION, STR_ITEM_NAME_D //
+  );
+
+  IDataDef PROP_DESCRIPTION = DataDef.create3( PROPID_DESCRIPTION, DDEF_DESCRIPTION, //
+      TSID_DESCRIPTION, STR_ITEM_DESCRIPTION, //
+      TSID_DESCRIPTION, STR_ITEM_DESCRIPTION_D //
   );
 
   IDataDef PROP_X = DataDef.create( PROPID_X, FLOATING, //
@@ -94,6 +107,8 @@ public interface IVedScreenConstants {
   );
 
   ITinFieldInfo TFI_IS_ACTIVE     = new TinFieldInfo( PROP_IS_ACTIVE, TTI_AT_BOOLEAN );
+  ITinFieldInfo TFI_NAME          = new TinFieldInfo( PROP_NAME, TTI_AT_STRING );
+  ITinFieldInfo TFI_DESCRIPTION   = new TinFieldInfo( PROP_DESCRIPTION, TTI_AT_STRING );
   ITinFieldInfo TFI_X             = new TinFieldInfo( PROP_X, TTI_AT_FLOATING );
   ITinFieldInfo TFI_Y             = new TinFieldInfo( PROP_Y, TTI_AT_FLOATING );
   ITinFieldInfo TFI_WIDTH         = new TinFieldInfo( PROP_WIDTH, TTI_AT_FLOATING );

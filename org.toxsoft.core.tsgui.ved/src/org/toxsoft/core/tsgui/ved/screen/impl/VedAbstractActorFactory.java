@@ -27,6 +27,15 @@ public abstract class VedAbstractActorFactory
   }
 
   // ------------------------------------------------------------------------------------
+  // IVedItemFactoryBase
+  //
+
+  @Override
+  final public EVedItemKind kind() {
+    return EVedItemKind.ACTOR;
+  }
+
+  // ------------------------------------------------------------------------------------
   // To override
   //
 
