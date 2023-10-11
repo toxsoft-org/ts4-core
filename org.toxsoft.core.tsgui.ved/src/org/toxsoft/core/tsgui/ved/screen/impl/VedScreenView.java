@@ -152,6 +152,7 @@ public class VedScreenView
       vedScreen.model().screenHandlersBefore().remove( viselVertexSet.inputHandler() );
       vedScreen.model().screenDecoratorsAfter().remove( viselVertexSet );
       viselVertexSet = null;
+      redraw();
     }
   }
 
