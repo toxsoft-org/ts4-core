@@ -35,6 +35,7 @@ public class VedAbstractActor
    */
   public VedAbstractActor( IVedItemCfg aConfig, IStridablesList<IDataDef> aPropDefs, VedScreen aVedScreen ) {
     super( aConfig, aPropDefs, aVedScreen );
+    TsIllegalArgumentRtException.checkTrue( aConfig.kind() != EVedItemKind.VISEL );
     /**
      * TODO check that mandatory properties exists in the actor
      */
