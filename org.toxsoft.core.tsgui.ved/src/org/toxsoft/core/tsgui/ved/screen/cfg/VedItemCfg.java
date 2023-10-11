@@ -93,6 +93,34 @@ public final class VedItemCfg
     factoryId = StridUtils.checkValidIdPath( aFactoryId );
   }
 
+  /**
+   * Copy constructor.
+   *
+   * @param aSource {@link IVedItemCfg} - the source
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public VedItemCfg( IVedItemCfg aSource ) {
+    super( TsNullArgumentRtException.checkNull( aSource ).id(), aSource.params() );
+    factoryId = aSource.factoryId();
+    propValues.setAll( aSource.propValues() );
+    extraData.copyFrom( aSource.extraData() );
+  }
+
+  /**
+   * Copy constructor with specifying an ID.
+   *
+   * @param aItemId String - the ID of the created item
+   * @param aSource {@link IVedItemCfg} - the source
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException ID is not an IDpath
+   */
+  public VedItemCfg( String aItemId, IVedItemCfg aSource ) {
+    super( aItemId, aSource.params() );
+    factoryId = aSource.factoryId();
+    propValues.setAll( aSource.propValues() );
+    extraData.copyFrom( aSource.extraData() );
+  }
+
   // ------------------------------------------------------------------------------------
   // IViselCfg
   //

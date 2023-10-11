@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.ved.screen.items;
 
 import org.toxsoft.core.tsgui.bricks.tin.*;
+import org.toxsoft.core.tsgui.ved.editor.palette.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tslib.av.errors.*;
@@ -35,14 +36,13 @@ public interface IVedItemFactoryBase<T extends VedAbstractItem>
   IStridablesList<IDataDef> propDefs();
 
   /**
-   * Creates item configuration filled with default properties values.
+   * Returns the palette entries.
+   * <p>
+   * The list returns at least one entry.
    *
-   * @param aItemId String - the item ID
-   * @return {@link VedItemCfg} - created config
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIllegalArgumentRtException argument is not an IDpath
+   * @return {@link IStridablesList}&lt;{@link IVedItemsPaletteEntry}&gt; - entries list
    */
-  VedItemCfg makeDefaultCfg( String aItemId );
+  IStridablesList<IVedItemsPaletteEntry> paletteEntries();
 
   /**
    * Creates the entity instance with default values of fields.

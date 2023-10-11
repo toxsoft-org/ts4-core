@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.ved.screen.impl;
 
 import org.toxsoft.core.tsgui.bricks.tin.*;
+import org.toxsoft.core.tsgui.ved.editor.palette.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.av.errors.*;
@@ -23,8 +24,9 @@ public abstract class VedAbstractItemFactory<T extends VedAbstractItem>
     extends StridableParameterized
     implements IVedItemFactoryBase<T> {
 
-  private ITinTypeInfo              tinTypeInfo = null;
-  private IStridablesList<IDataDef> propDefs    = null;
+  private ITinTypeInfo                           tinTypeInfo    = null;
+  private IStridablesList<IDataDef>              propDefs       = null;
+  private IStridablesList<IVedItemsPaletteEntry> paletteEntries = null;
 
   /**
    * Constructor.
@@ -59,10 +61,20 @@ public abstract class VedAbstractItemFactory<T extends VedAbstractItem>
   }
 
   @Override
-  public VedItemCfg makeDefaultCfg( String aItemId ) {
-    VedItemCfg cfg = new VedItemCfg( aItemId, id(), IOptionSet.NULL );
-    OptionSetUtils.initOptionSet( cfg.propValues(), propDefs() );
-    return cfg;
+  public IStridablesList<IVedItemsPaletteEntry> paletteEntries() {
+    if( paletteEntries == null ) {
+      IStridablesList<IVedItemsPaletteEntry> ll = doCreatePaletteEntries();
+      // check the returned list
+      TsInternalErrorRtException.checkNull( ll );
+      TsInternalErrorRtException.checkTrue( ll.isEmpty() );
+      for( IVedItemsPaletteEntry entry : ll ) {
+        if( !entry.itemCfg().factoryId().equals( id() ) ) {
+          throw new TsInternalErrorRtException();
+        }
+      }
+      paletteEntries = ll;
+    }
+    return paletteEntries;
   }
 
   @Override
@@ -94,6 +106,23 @@ public abstract class VedAbstractItemFactory<T extends VedAbstractItem>
   // ------------------------------------------------------------------------------------
   // To override
   //
+
+  /**
+   * Subclass may create own set of the palette entries.
+   * <p>
+   * Method is called once, on first call to {@link #paletteEntries()}.
+   * <p>
+   * In the base class creates the list with one entry with the default {@link #propDefs()} item configuration. Subclass
+   * may call base class method and add new entries or create own list without calling parent method.
+   *
+   * @return {@link StridablesList}&lt;{@link IVedItemsPaletteEntry}&gt; - an editable list
+   */
+  protected StridablesList<IVedItemsPaletteEntry> doCreatePaletteEntries() {
+    VedItemCfg cfg = new VedItemCfg( id(), id(), IOptionSet.NULL );
+    OptionSetUtils.initOptionSet( cfg.propValues(), propDefs() );
+    IVedItemsPaletteEntry entry = new VedItemPaletteEntry( id(), IOptionSet.NULL, cfg );
+    return new StridablesList<>( entry );
+  }
 
   /**
    * Subclass must create (once in a lifetime) the type info used as {@link #typeInfo()}.
