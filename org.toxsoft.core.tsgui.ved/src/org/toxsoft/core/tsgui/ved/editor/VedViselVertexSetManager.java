@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.ved.editor;
 
+import org.eclipse.swt.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
@@ -13,7 +14,7 @@ import org.toxsoft.core.tslib.coll.primtypes.*;
  *
  * @author vs
  */
-public class VedVertexSetManager
+public class VedViselVertexSetManager
     extends VedAbstractUserInputHandler {
 
   /**
@@ -21,7 +22,7 @@ public class VedVertexSetManager
    *
    * @param aScreen {@link VedScreen} - экран
    */
-  public VedVertexSetManager( VedScreen aScreen ) {
+  public VedViselVertexSetManager( VedScreen aScreen ) {
     super( aScreen );
   }
 
@@ -58,7 +59,7 @@ public class VedVertexSetManager
 
   @Override
   public boolean onKeyDown( Object aSource, int aCode, char aChar, int aState ) {
-    if( aCode == 27 ) {
+    if( aCode == SWT.ESC ) {
       vedScreen().view().removeViselVertexSet();
       return true;
     }
