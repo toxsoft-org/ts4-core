@@ -6,6 +6,8 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.ved.incub.tsg.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.props.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.d2.helpers.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
@@ -183,6 +185,16 @@ public abstract class VedAbstractVertexSet
 
   }
 
+  class ViselListener
+      implements IPropertyChangeListener<IVedItem> {
+
+    @Override
+    public void onPropsChanged( IVedItem aSource, IOptionSet aNewValues, IOptionSet aOldValues ) {
+      doOnViselPropsChanged( aSource, aNewValues, aOldValues );
+    }
+
+  }
+
   private final VedAbstractVisel visel;
 
   VedScreen     vedScreen;
@@ -194,6 +206,8 @@ public abstract class VedAbstractVertexSet
 
   private final InputHandler inputHandler;
 
+  private final ViselListener viselListener;
+
   public VedAbstractVertexSet( VedAbstractVisel aVisel, IStridablesList<? extends IVedVertex> aVertexes,
       VedScreen aVedScreen ) {
     super( aVedScreen );
@@ -203,6 +217,8 @@ public abstract class VedAbstractVertexSet
     vertexes = new StridablesList<>( aVertexes );
     inputHandler = new InputHandler( aVedScreen );
     convertor.setConversion( screenView.getConversion() );
+    viselListener = new ViselListener();
+    visel.props().propsEventer().addListener( viselListener );
     // screen.genericChangeEventer().addListener( aSource -> convertor.setConversion( screen.getConversion() ) );
   }
 
@@ -213,6 +229,11 @@ public abstract class VedAbstractVertexSet
   @Override
   public ITsGuiContext tsContext() {
     return vedScreen.tsContext();
+  }
+
+  @Override
+  protected void doDispose() {
+
   }
 
   // ------------------------------------------------------------------------------------
@@ -314,6 +335,8 @@ public abstract class VedAbstractVertexSet
   protected abstract boolean doOnVertexDrag( IVedVertex aVertex, double aDx, double aDy, EVedDragState aDragState );
 
   protected abstract void doPaint( GC aGc );
+
+  protected abstract void doOnViselPropsChanged( IVedItem aSource, IOptionSet aNewVals, IOptionSet aOldVals );
 
   // ------------------------------------------------------------------------------------
   // Implementation

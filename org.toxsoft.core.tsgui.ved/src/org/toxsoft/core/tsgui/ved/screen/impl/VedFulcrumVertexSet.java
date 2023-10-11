@@ -5,6 +5,7 @@ import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.ved.incub.tsg.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
+import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
@@ -101,6 +102,12 @@ public class VedFulcrumVertexSet
         v.paint( tgc );
       }
     }
+  }
+
+  @Override
+  protected void doOnViselPropsChanged( IVedItem aSource, IOptionSet aNewVals, IOptionSet aOldVals ) {
+    updateVertexes();
+    updateSwtRect();
   }
 
   // ------------------------------------------------------------------------------------
