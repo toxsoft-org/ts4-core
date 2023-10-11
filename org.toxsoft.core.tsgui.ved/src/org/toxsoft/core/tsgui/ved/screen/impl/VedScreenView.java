@@ -7,7 +7,9 @@ import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -156,7 +158,20 @@ public class VedScreenView
   @Override
   public IStringList listViselIdsAtPoint( ITsPoint aSwtCoors ) {
     TsNullArgumentRtException.checkNull( aSwtCoors );
-    // TODO Auto-generated method stub
+    IStridablesList<VedAbstractVisel> visels = vedScreen.model().visels().list();
+    IStringListEdit result = IStringList.EMPTY;
+    if( visels.size() > 0 ) {
+      result = new StringArrayList();
+      IVedCoorsConverter conv = vedScreen.view().coorsConverter();
+      for( int i = visels.size() - 1; i >= 0; i-- ) {
+        VedAbstractVisel visel = visels.get( i );
+        ID2Point p = conv.swt2Visel( aSwtCoors, visel );
+        if( visel.isYours( p.x(), p.y() ) ) {
+          result.add( visel.id() );
+        }
+      }
+    }
+    return result;
   }
 
   @Override
