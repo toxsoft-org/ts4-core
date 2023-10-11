@@ -2,6 +2,8 @@ package org.toxsoft.core.tsgui.ved;
 
 import org.eclipse.e4.core.contexts.*;
 import org.toxsoft.core.tsgui.bricks.quant.*;
+import org.toxsoft.core.tsgui.m5.*;
+import org.toxsoft.core.tsgui.ved.m5.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
 
@@ -33,6 +35,9 @@ public class QuantTsGuiVed
   @Override
   protected void doInitWin( IEclipseContext aWinContext ) {
     ITsguiVedConstants.init( aWinContext );
+    //
+    IM5Domain m5 = aWinContext.get( IM5Domain.class );
+    m5.addModel( new VedItemM5Model() );
   }
 
 }

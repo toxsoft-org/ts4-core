@@ -5,6 +5,7 @@ import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.ved.incub.tsg.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
+import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
@@ -67,6 +68,9 @@ public class VedFulcrumVertexSet
   protected VedFulcrumVertexSet( VedAbstractVisel aVisel, IStridablesList<? extends IVedVertex> aVertexes,
       VedScreen aVedScreen ) {
     super( aVisel, aVertexes, aVedScreen );
+    if( aVertexes.size() > 0 ) {
+      update( 0.0, 0.0, aVertexes.get( 0 ).id() );
+    }
     updateVertexes();
     updateSwtRect();
   }
@@ -98,6 +102,12 @@ public class VedFulcrumVertexSet
         v.paint( tgc );
       }
     }
+  }
+
+  @Override
+  protected void doOnViselPropsChanged( IVedItem aSource, IOptionSet aNewVals, IOptionSet aOldVals ) {
+    updateVertexes();
+    updateSwtRect();
   }
 
   // ------------------------------------------------------------------------------------

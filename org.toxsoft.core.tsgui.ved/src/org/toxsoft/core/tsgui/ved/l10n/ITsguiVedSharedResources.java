@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.ved.l10n;
 
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
+import org.toxsoft.core.tsgui.ved.screen.items.*;
 
 /**
  * Localizable resources.
@@ -55,5 +56,25 @@ public interface ITsguiVedSharedResources {
   String FMT_ERR_ITEM_ALREADY_EXISTS  = Messages.getString( "FMT_ERR_ITEM_ALREADY_EXISTS" );  //$NON-NLS-1$
   String FMT_WARN_UNKNON_ITEM_FACTORY = Messages.getString( "FMT_WARN_UNKNON_ITEM_FACTORY" ); //$NON-NLS-1$
   String FMT_ERR_CAN_CREATE_ITEM      = Messages.getString( "FMT_ERR_CAN_CREATE_ITEM" );      //$NON-NLS-1$
+
+  /**
+   * {@link EVedItemKind}
+   */
+  String STR_ITEMKIND_VISEL   = Messages.getString( "STR_ITEMKIND_VISEL" );   //$NON-NLS-1$
+  String STR_ITEMKIND_VISEL_D = Messages.getString( "STR_ITEMKIND_VISEL_D" ); //$NON-NLS-1$
+  String STR_ITEMKIND_ACTOR   = Messages.getString( "STR_ITEMKIND_ACTOR" );   //$NON-NLS-1$
+  String STR_ITEMKIND_ACTOR_D = Messages.getString( "STR_ITEMKIND_ACTOR_D" ); //$NON-NLS-1$
+
+  /**
+   * M5-models
+   */
+  String STR_ITEM_ID            = Messages.getString( "STR_ITEM_ID" );            //$NON-NLS-1$
+  String STR_ITEM_ID_D          = Messages.getString( "STR_ITEM_ID_D" );          //$NON-NLS-1$
+  String STR_ITEM_FACTORY_ID    = Messages.getString( "STR_ITEM_FACTORY_ID" );    //$NON-NLS-1$
+  String STR_ITEM_FACTORY_ID_D  = Messages.getString( "STR_ITEM_FACTORY_ID_D" );  //$NON-NLS-1$
+  String STR_ITEM_NAME          = Messages.getString( "STR_ITEM_NAME" );          //$NON-NLS-1$
+  String STR_ITEM_NAME_D        = Messages.getString( "STR_ITEM_NAME_D" );        //$NON-NLS-1$
+  String STR_ITEM_DESCRIPTION   = Messages.getString( "STR_ITEM_DESCRIPTION" );   //$NON-NLS-1$
+  String STR_ITEM_DESCRIPTION_D = Messages.getString( "STR_ITEM_DESCRIPTION_D" ); //$NON-NLS-1$
 
 }

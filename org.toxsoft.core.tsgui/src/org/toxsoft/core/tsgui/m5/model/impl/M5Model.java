@@ -275,7 +275,7 @@ public class M5Model<T>
   /**
    * Subclass may create default lifecycle manager if possible.
    * <p>
-   * Defualt lifecycle manager is that one with <code>null</code> master object.
+   * Default lifecycle manager is that one with <code>null</code> master object.
    * <p>
    * Note: this method creates default LM only once. Created LM is stored and returned by subsequent calls to
    * {@link #getLifecycleManager(Object) getLifecycleManager(null)}.

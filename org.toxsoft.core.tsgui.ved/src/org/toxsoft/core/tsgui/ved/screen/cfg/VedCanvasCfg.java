@@ -1,7 +1,5 @@
 package org.toxsoft.core.tsgui.ved.screen.cfg;
 
-import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
-
 import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.opset.*;
@@ -44,9 +42,9 @@ public final class VedCanvasCfg
         }
       };
 
-  static final String OPID_FILL_INFO  = VED_ID + ".CanvasCfg.FillInfo";   //$NON-NLS-1$
-  static final String OPID_SIZE       = VED_ID + ".CanvasCfg.Size";       //$NON-NLS-1$
-  static final String OPID_CONVERSION = VED_ID + ".CanvasCfg.Conversion"; //$NON-NLS-1$
+  static final String OPID_FILL_INFO  = "FillInfo";   //$NON-NLS-1$
+  static final String OPID_SIZE       = "Size";       //$NON-NLS-1$
+  static final String OPID_CONVERSION = "Conversion"; //$NON-NLS-1$
 
   static final IStringList ALL_OP_IDS = new StringArrayList( //
       OPID_FILL_INFO, //

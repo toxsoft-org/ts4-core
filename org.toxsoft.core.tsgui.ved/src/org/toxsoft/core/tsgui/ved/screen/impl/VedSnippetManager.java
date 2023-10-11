@@ -49,7 +49,7 @@ class VedSnippetManager<T extends VedAbstractSnippet>
     TsNullArgumentRtException.checkNull( aSnippet );
     TsErrorUtils.checkCollIndex( snippetsList.size(), aIndex );
     TsItemAlreadyExistsRtException.checkTrue( snippetsList.hasElem( aSnippet ) );
-    snippetsList.add( aSnippet );
+    snippetsList.insert( aIndex, aSnippet );
   }
 
   @Override

@@ -49,11 +49,11 @@ abstract class AbstractVedItemsManager<T extends VedAbstractItem>
   }
 
   // ------------------------------------------------------------------------------------
-  // ICloseable
+  // ITsClearable
   //
 
   @Override
-  public void close() {
+  public void clear() {
     if( itemsList.isEmpty() ) {
       return;
     }
@@ -62,6 +62,15 @@ abstract class AbstractVedItemsManager<T extends VedAbstractItem>
       item.dispose();
     }
     eventer.fireEvent( ECrudOp.LIST, null );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // ICloseable
+  //
+
+  @Override
+  public void close() {
+    clear();
   }
 
   // ------------------------------------------------------------------------------------

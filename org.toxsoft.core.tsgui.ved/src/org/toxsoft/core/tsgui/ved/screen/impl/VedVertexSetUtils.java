@@ -70,10 +70,13 @@ public class VedVertexSetUtils {
   public static ID2Rectangle union( ID2Rectangle r1, ID2Rectangle r2 ) {
     double minX = Math.min( r1.a().x(), r2.a().x() );
     double minY = Math.min( r1.a().y(), r2.a().y() );
-    double maxX = Math.max( r1.b().x(), r2.b().x() );
-    double maxY = Math.max( r1.b().y(), r2.b().y() );
+    // double maxX = Math.max( r1.b().x(), r2.b().x() );
+    // double maxY = Math.max( r1.b().y(), r2.b().y() );
+    double maxX = Math.max( r1.x1() + r1.width(), r2.x1() + r2.width() );
+    double maxY = Math.max( r1.y1() + r1.height(), r2.y1() + r2.height() );
 
-    return new D2Rectangle( minX, minY, maxX - minX + 1, maxY - minY + 1 );
+    // return new D2Rectangle( minX, minY, maxX - minX + 1, maxY - minY + 1 );
+    return new D2Rectangle( minX, minY, maxX - minX, maxY - minY );
   }
 
   private VedVertexSetUtils() {

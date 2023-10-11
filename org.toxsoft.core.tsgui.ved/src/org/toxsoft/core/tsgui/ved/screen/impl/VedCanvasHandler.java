@@ -6,6 +6,7 @@ import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tsgui.ved.screen.snippets.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 
 /**
  * Implementation of the VED canvas user input handling.
@@ -41,17 +42,17 @@ class VedCanvasHandler
 
   @Override
   public boolean onKeyDown( Object aSource, int aCode, char aChar, int aState ) {
-    for( VedAbstractUserInputHandler h : handlersBefore.list() ) {
+    for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersBefore.list() ) ) {
       if( h.isActive() && h.userInputListener().onKeyDown( aSource, aCode, aChar, aState ) ) {
         return true;
       }
     }
-    for( VedAbstractActor a : actors.list() ) {
+    for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
       if( a.isActive() && a.userInputListener().onKeyDown( aSource, aCode, aChar, aState ) ) {
         return true;
       }
     }
-    for( VedAbstractUserInputHandler h : handlersAfter.list() ) {
+    for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersAfter.list() ) ) {
       if( h.isActive() && h.userInputListener().onKeyDown( aSource, aCode, aChar, aState ) ) {
         return true;
       }
@@ -61,17 +62,17 @@ class VedCanvasHandler
 
   @Override
   public boolean onKeyUp( Object aSource, int aCode, char aChar, int aState ) {
-    for( VedAbstractUserInputHandler h : handlersBefore.list() ) {
+    for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersBefore.list() ) ) {
       if( h.isActive() && h.userInputListener().onKeyUp( aSource, aCode, aChar, aState ) ) {
         return true;
       }
     }
-    for( VedAbstractActor a : actors.list() ) {
+    for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
       if( a.isActive() && a.userInputListener().onKeyUp( aSource, aCode, aChar, aState ) ) {
         return true;
       }
     }
-    for( VedAbstractUserInputHandler h : handlersAfter.list() ) {
+    for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersAfter.list() ) ) {
       if( h.isActive() && h.userInputListener().onKeyUp( aSource, aCode, aChar, aState ) ) {
         return true;
       }
@@ -85,17 +86,17 @@ class VedCanvasHandler
 
   @Override
   public boolean onMouseDown( Object aSource, ETsMouseButton aButton, int aState, ITsPoint aCoors, Control aWidget ) {
-    for( VedAbstractUserInputHandler h : handlersBefore.list() ) {
+    for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersBefore.list() ) ) {
       if( h.isActive() && h.userInputListener().onMouseDown( aSource, aButton, aState, aCoors, aWidget ) ) {
         return true;
       }
     }
-    for( VedAbstractActor a : actors.list() ) {
+    for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
       if( a.isActive() && a.userInputListener().onMouseDown( aSource, aButton, aState, aCoors, aWidget ) ) {
         return true;
       }
     }
-    for( VedAbstractUserInputHandler h : handlersAfter.list() ) {
+    for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersAfter.list() ) ) {
       if( h.isActive() && h.userInputListener().onMouseDown( aSource, aButton, aState, aCoors, aWidget ) ) {
         return true;
       }
@@ -105,17 +106,17 @@ class VedCanvasHandler
 
   @Override
   public boolean onMouseUp( Object aSource, ETsMouseButton aButton, int aState, ITsPoint aCoors, Control aWidget ) {
-    for( VedAbstractUserInputHandler h : handlersBefore.list() ) {
+    for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersBefore.list() ) ) {
       if( h.isActive() && h.userInputListener().onMouseUp( aSource, aButton, aState, aCoors, aWidget ) ) {
         return true;
       }
     }
-    for( VedAbstractActor a : actors.list() ) {
+    for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
       if( a.isActive() && a.userInputListener().onMouseUp( aSource, aButton, aState, aCoors, aWidget ) ) {
         return true;
       }
     }
-    for( VedAbstractUserInputHandler h : handlersAfter.list() ) {
+    for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersAfter.list() ) ) {
       if( h.isActive() && h.userInputListener().onMouseUp( aSource, aButton, aState, aCoors, aWidget ) ) {
         return true;
       }
@@ -125,17 +126,17 @@ class VedCanvasHandler
 
   @Override
   public boolean onMouseClick( Object aSource, ETsMouseButton aButton, int aState, ITsPoint aCoors, Control aWidget ) {
-    for( VedAbstractUserInputHandler h : handlersBefore.list() ) {
+    for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersBefore.list() ) ) {
       if( h.isActive() && h.userInputListener().onMouseClick( aSource, aButton, aState, aCoors, aWidget ) ) {
         return true;
       }
     }
-    for( VedAbstractActor a : actors.list() ) {
+    for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
       if( a.isActive() && a.userInputListener().onMouseClick( aSource, aButton, aState, aCoors, aWidget ) ) {
         return true;
       }
     }
-    for( VedAbstractUserInputHandler h : handlersAfter.list() ) {
+    for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersAfter.list() ) ) {
       if( h.isActive() && h.userInputListener().onMouseClick( aSource, aButton, aState, aCoors, aWidget ) ) {
         return true;
       }
@@ -146,17 +147,17 @@ class VedCanvasHandler
   @Override
   public boolean onMouseDoubleClick( Object aSource, ETsMouseButton aButton, int aState, ITsPoint aCoors,
       Control aWidget ) {
-    for( VedAbstractUserInputHandler h : handlersBefore.list() ) {
+    for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersBefore.list() ) ) {
       if( h.isActive() && h.userInputListener().onMouseDoubleClick( aSource, aButton, aState, aCoors, aWidget ) ) {
         return true;
       }
     }
-    for( VedAbstractActor a : actors.list() ) {
+    for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
       if( a.isActive() && a.userInputListener().onMouseDoubleClick( aSource, aButton, aState, aCoors, aWidget ) ) {
         return true;
       }
     }
-    for( VedAbstractUserInputHandler h : handlersAfter.list() ) {
+    for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersAfter.list() ) ) {
       if( h.isActive() && h.userInputListener().onMouseDoubleClick( aSource, aButton, aState, aCoors, aWidget ) ) {
         return true;
       }
@@ -166,17 +167,17 @@ class VedCanvasHandler
 
   @Override
   public boolean onMouseMove( Object aSource, int aState, ITsPoint aCoors, Control aWidget ) {
-    for( VedAbstractUserInputHandler h : handlersBefore.list() ) {
+    for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersBefore.list() ) ) {
       if( h.isActive() && h.userInputListener().onMouseMove( aSource, aState, aCoors, aWidget ) ) {
         return true;
       }
     }
-    for( VedAbstractActor a : actors.list() ) {
+    for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
       if( a.isActive() && a.userInputListener().onMouseMove( aSource, aState, aCoors, aWidget ) ) {
         return true;
       }
     }
-    for( VedAbstractUserInputHandler h : handlersAfter.list() ) {
+    for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersAfter.list() ) ) {
       if( h.isActive() && h.userInputListener().onMouseMove( aSource, aState, aCoors, aWidget ) ) {
         return true;
       }
@@ -186,17 +187,17 @@ class VedCanvasHandler
 
   @Override
   public boolean onMouseWheel( Object aSource, int aState, ITsPoint aCoors, Control aWidget, int aScrollLines ) {
-    for( VedAbstractUserInputHandler h : handlersBefore.list() ) {
+    for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersBefore.list() ) ) {
       if( h.isActive() && h.userInputListener().onMouseWheel( aSource, aState, aCoors, aWidget, aScrollLines ) ) {
         return true;
       }
     }
-    for( VedAbstractActor a : actors.list() ) {
+    for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
       if( a.isActive() && a.userInputListener().onMouseWheel( aSource, aState, aCoors, aWidget, aScrollLines ) ) {
         return true;
       }
     }
-    for( VedAbstractUserInputHandler h : handlersAfter.list() ) {
+    for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersAfter.list() ) ) {
       if( h.isActive() && h.userInputListener().onMouseWheel( aSource, aState, aCoors, aWidget, aScrollLines ) ) {
         return true;
       }
@@ -206,17 +207,17 @@ class VedCanvasHandler
 
   @Override
   public boolean onMouseDragStart( Object aSource, DragOperationInfo aDragInfo ) {
-    for( VedAbstractUserInputHandler h : handlersBefore.list() ) {
+    for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersBefore.list() ) ) {
       if( h.isActive() && h.userInputListener().onMouseDragStart( aSource, aDragInfo ) ) {
         return true;
       }
     }
-    for( VedAbstractActor a : actors.list() ) {
+    for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
       if( a.isActive() && a.userInputListener().onMouseDragStart( aSource, aDragInfo ) ) {
         return true;
       }
     }
-    for( VedAbstractUserInputHandler h : handlersAfter.list() ) {
+    for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersAfter.list() ) ) {
       if( h.isActive() && h.userInputListener().onMouseDragStart( aSource, aDragInfo ) ) {
         return true;
       }
@@ -226,17 +227,17 @@ class VedCanvasHandler
 
   @Override
   public boolean onMouseDragMove( Object aSource, DragOperationInfo aDragInfo, int aState, ITsPoint aCoors ) {
-    for( VedAbstractUserInputHandler h : handlersBefore.list() ) {
+    for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersBefore.list() ) ) {
       if( h.isActive() && h.userInputListener().onMouseDragMove( aSource, aDragInfo, aState, aCoors ) ) {
         return true;
       }
     }
-    for( VedAbstractActor a : actors.list() ) {
+    for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
       if( a.isActive() && a.userInputListener().onMouseDragMove( aSource, aDragInfo, aState, aCoors ) ) {
         return true;
       }
     }
-    for( VedAbstractUserInputHandler h : handlersAfter.list() ) {
+    for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersAfter.list() ) ) {
       if( h.isActive() && h.userInputListener().onMouseDragMove( aSource, aDragInfo, aState, aCoors ) ) {
         return true;
       }
@@ -246,17 +247,17 @@ class VedCanvasHandler
 
   @Override
   public boolean onMouseDragFinish( Object aSource, DragOperationInfo aDragInfo, int aState, ITsPoint aCoors ) {
-    for( VedAbstractUserInputHandler h : handlersBefore.list() ) {
+    for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersBefore.list() ) ) {
       if( h.isActive() && h.userInputListener().onMouseDragFinish( aSource, aDragInfo, aState, aCoors ) ) {
         return true;
       }
     }
-    for( VedAbstractActor a : actors.list() ) {
+    for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
       if( a.isActive() && a.userInputListener().onMouseDragFinish( aSource, aDragInfo, aState, aCoors ) ) {
         return true;
       }
     }
-    for( VedAbstractUserInputHandler h : handlersAfter.list() ) {
+    for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersAfter.list() ) ) {
       if( h.isActive() && h.userInputListener().onMouseDragFinish( aSource, aDragInfo, aState, aCoors ) ) {
         return true;
       }
@@ -266,17 +267,17 @@ class VedCanvasHandler
 
   @Override
   public boolean onMouseDragCancel( Object aSource, DragOperationInfo aDragInfo ) {
-    for( VedAbstractUserInputHandler h : handlersBefore.list() ) {
+    for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersBefore.list() ) ) {
       if( h.isActive() && h.userInputListener().onMouseDragCancel( aSource, aDragInfo ) ) {
         return true;
       }
     }
-    for( VedAbstractActor a : actors.list() ) {
+    for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
       if( a.isActive() && a.userInputListener().onMouseDragCancel( aSource, aDragInfo ) ) {
         return true;
       }
     }
-    for( VedAbstractUserInputHandler h : handlersAfter.list() ) {
+    for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersAfter.list() ) ) {
       if( h.isActive() && h.userInputListener().onMouseDragCancel( aSource, aDragInfo ) ) {
         return true;
       }
