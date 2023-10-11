@@ -23,6 +23,7 @@ Automatic-Module-Name: org.toxsoft.core.tsgui.ved
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: toxsoft.org
 Export-Package: org.toxsoft.core.tsgui.ved,
+ org.toxsoft.core.tsgui.ved.editor,
  org.toxsoft.core.tsgui.ved.incub,
  org.toxsoft.core.tsgui.ved.incub.tsg,
  org.toxsoft.core.tsgui.ved.incub.tti,

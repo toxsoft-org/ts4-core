@@ -183,9 +183,9 @@ public abstract class VedAbstractVisel
    * <p>
    * Subclass may override to return it's own implementation of the {@link IVedVertexSet}.
    *
-   * @return {@link IVedVertexSet} - created vertex set, never is <code>null</code>
+   * @return {@link VedAbstractVertexSet} - created vertex set, never is <code>null</code>
    */
-  public IVedVertexSet createVertexSet() {
+  public VedAbstractVertexSet createVertexSet() {
     return VedFulcrumVertexSet.createWithFulcrums( this, vedScreen() );
   }
 

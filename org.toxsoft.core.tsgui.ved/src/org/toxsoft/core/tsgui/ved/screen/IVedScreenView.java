@@ -71,6 +71,10 @@ public interface IVedScreenView
    */
   IVedCoorsConverter coorsConverter();
 
+  boolean createViselVertexSet( String aViselId );
+
+  void removeViselVertexSet();
+
   /**
    * Redraws the specified VISEL.
    * <p>
