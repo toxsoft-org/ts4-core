@@ -230,6 +230,9 @@ public abstract class AbstractEntityKeeper<E>
       IStrioReader sr = new StrioReader( chIn );
       return internalReadEntity( sr );
     }
+    catch( StrioRtException ex1 ) {
+      throw ex1;
+    }
     catch( Exception ex ) {
       throw new TsIoRtException( ex );
     }
