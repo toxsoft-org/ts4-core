@@ -5,6 +5,7 @@ import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tslib.bricks.d2.helpers.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -74,6 +75,16 @@ public interface IVedScreenView
   boolean createViselVertexSet( String aViselId );
 
   void removeViselVertexSet();
+
+  /**
+   * Returns VISEL IDs under the point specified in the SWT coordinates space.
+   * <p>
+   * Returns the ordered list: topmost VISEL is the first element, Z-order lowest VISEL is last in the list.
+   *
+   * @param aSwtCoors {@link ITsPoint} - the SWT coordinates on VED screen
+   * @return {@link IStringList} - the VISEL IDs
+   */
+  IStringList listViselIdsAtPoint( ITsPoint aSwtCoors );
 
   /**
    * Redraws the specified VISEL.
