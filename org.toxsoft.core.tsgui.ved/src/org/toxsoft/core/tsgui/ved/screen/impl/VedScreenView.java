@@ -1,6 +1,5 @@
 package org.toxsoft.core.tsgui.ved.screen.impl;
 
-import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.uievents.*;
@@ -9,6 +8,7 @@ import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link IVedScreenView} implementation.
@@ -19,40 +19,40 @@ public class VedScreenView
     implements IVedScreenView, ICloseable {
 
   private final VedScreen               vedScreen;
-  private final Canvas                  theCanvas;
   private final VedCanvasRenderer       canvasRenderer;
   private final TsUserInputEventsBinder userInputBinder;
   private final VedCanvasHandler        canvasHandler;
   private final IVedCoorsConverter      coorsConverter;
 
+  private Canvas theCanvas = null;
+
   /**
    * Constructor.
    *
-   * @param aParent {@link Composite} - parent composite
    * @param aScreen {@link VedScreenCfg} - the owner screen
    */
-  VedScreenView( Composite aParent, VedScreen aScreen ) {
+  VedScreenView( VedScreen aScreen ) {
     vedScreen = aScreen;
     coorsConverter = new VedCoorsConverter( vedScreen );
-    theCanvas = new Canvas( aParent, SWT.NONE );
     canvasRenderer = new VedCanvasRenderer( vedScreen.model() );
-    theCanvas.addPaintListener( canvasRenderer );
     canvasHandler = new VedCanvasHandler( vedScreen );
     userInputBinder = new TsUserInputEventsBinder( vedScreen );
-    userInputBinder.bindToControl( theCanvas, TsUserInputEventsBinder.BIND_ALL_INPUT_EVENTS );
     userInputBinder.addTsUserInputListener( canvasHandler );
     //
-    // TODO need more precious event handling
+    // TODO do we need more precious event handling ?
     vedScreen.model().visels().eventer().addListener( ( src, op, id ) -> whenVedItemsChanged() );
     vedScreen.model().actors().eventer().addListener( ( src, op, id ) -> whenVedItemsChanged() );
   }
 
   // ------------------------------------------------------------------------------------
-  // implementation
+  // package API
   //
 
-  private void whenVedItemsChanged() {
-    redraw();
+  void attachCanvas( Canvas aCanvas ) {
+    TsNullArgumentRtException.checkNull( aCanvas );
+    theCanvas = aCanvas;
+    theCanvas.addPaintListener( canvasRenderer );
+    userInputBinder.bindToControl( theCanvas, TsUserInputEventsBinder.BIND_ALL_INPUT_EVENTS );
   }
 
   // ------------------------------------------------------------------------------------
@@ -62,6 +62,14 @@ public class VedScreenView
   @Override
   public void close() {
     userInputBinder.unbind();
+  }
+
+  // ------------------------------------------------------------------------------------
+  // implementation
+  //
+
+  private void whenVedItemsChanged() {
+    redraw();
   }
 
   // ------------------------------------------------------------------------------------
@@ -104,12 +112,16 @@ public class VedScreenView
 
   @Override
   public void redraw() {
-    theCanvas.redraw();
+    if( theCanvas != null ) {
+      theCanvas.redraw();
+    }
   }
 
   @Override
   public void update() {
-    theCanvas.update();
+    if( theCanvas != null ) {
+      theCanvas.update();
+    }
   }
 
   @Override
@@ -126,12 +138,16 @@ public class VedScreenView
 
   @Override
   public void redrawSwtRect( ITsRectangle aSwtRect ) {
-    theCanvas.redraw( aSwtRect.x1(), aSwtRect.y1(), aSwtRect.width(), aSwtRect.height(), true );
+    if( theCanvas != null ) {
+      theCanvas.redraw( aSwtRect.x1(), aSwtRect.y1(), aSwtRect.width(), aSwtRect.height(), true );
+    }
   }
 
   @Override
   public void setCursor( Cursor aCursor ) {
-    theCanvas.setCursor( aCursor );
+    if( theCanvas != null ) {
+      theCanvas.setCursor( aCursor );
+    }
   }
 
   @Override

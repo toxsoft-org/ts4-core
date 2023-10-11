@@ -23,16 +23,14 @@ public class VedScreen
   /**
    * Constructor. Constructor.
    *
-   * @param aParent {@link Composite} - the SWT parent
    * @param aContext {@link ITsGuiContext} - the context
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public VedScreen( Composite aParent, ITsGuiContext aContext ) {
-    TsNullArgumentRtException.checkNulls( aParent, aContext );
+  public VedScreen( ITsGuiContext aContext ) {
+    TsNullArgumentRtException.checkNull( aContext );
     tsContext = aContext;
     model = new VedScreenModel( this );
-    view = new VedScreenView( aParent, this );
-    view.getControl().addDisposeListener( e -> close() );
+    view = new VedScreenView( this );
   }
 
   // ------------------------------------------------------------------------------------
@@ -137,6 +135,13 @@ public class VedScreen
   @Override
   public VedScreenView view() {
     return view;
+  }
+
+  @Override
+  public void attachTo( Canvas aCanvas ) {
+    TsNullArgumentRtException.checkNull( aCanvas );
+    view.attachCanvas( aCanvas );
+    view.getControl().addDisposeListener( e -> close() );
   }
 
 }
