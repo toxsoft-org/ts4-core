@@ -120,7 +120,7 @@ public abstract class VedAbstractItemFactory<T extends VedAbstractItem>
   protected StridablesList<IVedItemsPaletteEntry> doCreatePaletteEntries() {
     VedItemCfg cfg = new VedItemCfg( id(), id(), IOptionSet.NULL );
     OptionSetUtils.initOptionSet( cfg.propValues(), propDefs() );
-    IVedItemsPaletteEntry entry = new VedItemPaletteEntry( id(), IOptionSet.NULL, cfg );
+    IVedItemsPaletteEntry entry = new VedItemPaletteEntry( id(), params(), cfg );
     return new StridablesList<>( entry );
   }
 
