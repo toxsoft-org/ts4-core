@@ -63,7 +63,7 @@ public class VedItemsSimplePaletteBar
     Image image = im.loadStdIcon( aEntry.iconId(), EIconSize.IS_32X32 );
 
     btn.setImage( image );
-    btn.setText( aEntry.nmName() );
+    // btn.setText( aEntry.nmName() );
     btn.setToolTipText( aEntry.description() );
 
     DragSource source = new DragSource( btn, DND.DROP_MOVE | DND.DROP_COPY );

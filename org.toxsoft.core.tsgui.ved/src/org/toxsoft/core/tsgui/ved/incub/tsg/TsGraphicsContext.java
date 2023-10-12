@@ -125,6 +125,14 @@ public class TsGraphicsContext
   }
 
   @Override
+  public void drawRoundRect( int aX, int aY, int aWidth, int aHeight, int aArcWdth, int aArcHeight ) {
+    if( lineInfo != null ) {
+      lineInfo.setToGc( gc );
+    }
+    gc.drawRoundRectangle( aX, aY, aWidth, aHeight, aArcWdth, aArcHeight );
+  }
+
+  @Override
   public void setFillInfo( TsFillInfo aFillInfo ) {
     fillInfo = aFillInfo;
   }
@@ -160,7 +168,6 @@ public class TsGraphicsContext
             fillTileImage( bkImage, aX, aY, aWidth, aHeight );
           }
           return;
-        // throw new TsUnderDevelopmentRtException();
         default:
           throw new IllegalArgumentException( "Unexpected value: " + fillInfo.kind() ); //$NON-NLS-1$
       }
@@ -174,6 +181,56 @@ public class TsGraphicsContext
     tr.dispose();
     // gc.fillRectangle( aX, aY, aWidth, aHeight );
     gc.fillRectangle( 0, 0, aWidth, aHeight );
+    if( pattern != null ) {
+      pattern.dispose();
+    }
+    gc.setTransform( oldTransform );
+    oldTransform.dispose();
+  }
+
+  @Override
+  public void fillRoundRect( int aX, int aY, int aWidth, int aHeight, int aArcWidth, int aArcHeight ) {
+    Pattern pattern = null;
+    if( fillInfo != null ) {
+      switch( fillInfo.kind() ) {
+        case NONE:
+          return;
+        case SOLID:
+          RGBA rgba = fillInfo.fillColor();
+          gc.setBackground( colorManager().getColor( rgba.rgb ) );
+          gc.setAlpha( rgba.alpha );
+          break;
+        case GRADIENT:
+          IGradient grad = fillInfo.gradientFillInfo().createGradient( tsContext );
+          if( grad != null ) {
+            pattern = grad.pattern( gc, aWidth, aHeight );
+            gc.setBackgroundPattern( pattern );
+          }
+          break;
+        case IMAGE:
+          TsImageFillInfo imgInfo = fillInfo.imageFillInfo();
+          if( imgInfo.imageDescriptor() == TsImageDescriptor.NONE ) {
+            bkImage = unknownImage;
+          }
+          else {
+            bkImage = imageManager().getImage( imgInfo.imageDescriptor() );
+          }
+          if( imgInfo.kind() == EImageFillKind.TILE ) {
+            fillTileImage( bkImage, aX, aY, aWidth, aHeight );
+          }
+          return;
+        default:
+          throw new IllegalArgumentException( "Unexpected value: " + fillInfo.kind() ); //$NON-NLS-1$
+      }
+    }
+    Transform oldTransform = new Transform( gc.getDevice() );
+    gc.getTransform( oldTransform );
+    Transform tr = new Transform( gc.getDevice() );
+    gc.getTransform( tr );
+    tr.translate( aX, aY );
+    gc.setTransform( tr );
+    tr.dispose();
+    gc.fillRoundRectangle( 0, 0, aWidth, aHeight, aArcWidth, aArcHeight );
     if( pattern != null ) {
       pattern.dispose();
     }
