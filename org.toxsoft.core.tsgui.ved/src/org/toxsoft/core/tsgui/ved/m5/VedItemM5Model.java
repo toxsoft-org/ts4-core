@@ -9,6 +9,7 @@ import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.bricks.tstree.tmm.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.m5.gui.mpc.impl.*;
 import org.toxsoft.core.tsgui.m5.gui.panels.*;
@@ -104,9 +105,15 @@ public class VedItemM5Model
         OPDEF_IS_ACTIONS_CRUD.setValue( aContext.params(), AV_TRUE );
         OPDEF_IS_ACTIONS_REORDER.setValue( aContext.params(), AV_TRUE );
         OPDEF_IS_ACTIONS_TREE_MODES.setValue( aContext.params(), AV_FALSE );
+        OPDEF_IS_SUPPORTS_TREE.setValue( aContext.params(), AV_TRUE );
         MultiPaneComponentModown<IVedItem> mpc =
             new MultiPaneComponentModown<>( aContext, model(), aItemsProvider, aLifecycleManager );
-
+        VedItemM5TreeMakeByKind treeMakerByKind = new VedItemM5TreeMakeByKind();
+        TreeModeInfo<IVedItem> tmiByKind = new TreeModeInfo<>( "ByKind", //$NON-NLS-1$
+            STR_TMI_ITEM_BY_KIND, STR_TMI_ITEM_BY_KIND_D, null, treeMakerByKind );
+        mpc.treeModeManager().setHasTreeMode( true );
+        mpc.treeModeManager().addTreeMode( tmiByKind );
+        mpc.treeModeManager().setCurrentMode( tmiByKind.id() );
         return new M5CollectionPanelMpcModownWrapper<>( mpc, false );
       }
     } );

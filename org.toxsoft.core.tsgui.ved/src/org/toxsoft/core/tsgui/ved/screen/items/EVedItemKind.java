@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.ved.screen.items;
 
+import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
 import static org.toxsoft.core.tsgui.ved.l10n.ITsguiVedSharedResources.*;
 
 import org.toxsoft.core.tslib.bricks.keeper.*;
@@ -8,6 +9,7 @@ import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.icons.*;
 
 /**
  * The kind of the {@link IVedItem}.
@@ -18,17 +20,17 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public enum EVedItemKind
-    implements IStridable {
+    implements IStridable, IIconIdable {
 
   /**
    * The VISEL, implements {@link IVedVisel}.
    */
-  VISEL( "visel", STR_ITEMKIND_VISEL, STR_ITEMKIND_VISEL_D ), //$NON-NLS-1$
+  VISEL( "visel", STR_ITEMKIND_VISEL, STR_ITEMKIND_VISEL_D, ICONID_VED_VISEL ), //$NON-NLS-1$
 
   /**
    * The actor, implements {@link IVedActor}.
    */
-  ACTOR( "actor", STR_ITEMKIND_ACTOR, STR_ITEMKIND_ACTOR_D ); //$NON-NLS-1$
+  ACTOR( "actor", STR_ITEMKIND_ACTOR, STR_ITEMKIND_ACTOR_D, ICONID_VED_ACTOR ); //$NON-NLS-1$
 
   /**
    * The keeper ID.
@@ -45,11 +47,13 @@ public enum EVedItemKind
   private final String id;
   private final String name;
   private final String description;
+  private final String iconId;
 
-  EVedItemKind( String aId, String aName, String aDescription ) {
+  EVedItemKind( String aId, String aName, String aDescription, String aIconId ) {
     id = aId;
     name = aName;
     description = aDescription;
+    iconId = aIconId;
   }
 
   // --------------------------------------------------------------------------
@@ -69,6 +73,15 @@ public enum EVedItemKind
   @Override
   public String description() {
     return description;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // IIconIdable
+  //
+
+  @Override
+  public String iconId() {
+    return iconId;
   }
 
   // ----------------------------------------------------------------------------------

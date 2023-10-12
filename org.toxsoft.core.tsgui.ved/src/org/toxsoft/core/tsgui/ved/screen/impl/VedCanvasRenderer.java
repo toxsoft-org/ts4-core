@@ -94,7 +94,8 @@ class VedCanvasRenderer
     // fill canvas - draw canvas background if needed
     if( isBackgroundFilling ) {
       tsg.setFillInfo( canvasCfg.fillInfo() );
-      tsg.fillRect( tsg.drawArea() ); // TODO maybe draw from the canvas (0,0) to (canvas_width,canvas_height) ?
+      // tsg.fillRect( tsg.drawArea() ); // TODO maybe draw from the canvas (0,0) to (canvas_width,canvas_height) ?
+      tsg.fillRect( 0, 0, (int)canvasCfg.size().x(), (int)canvasCfg.size().y() );
     }
 
     // draw screen decorators BEFORE
