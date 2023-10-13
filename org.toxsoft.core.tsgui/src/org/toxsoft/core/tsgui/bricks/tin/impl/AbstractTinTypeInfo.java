@@ -27,7 +27,10 @@ public abstract class AbstractTinTypeInfo<T>
 
   private final IStridablesListEdit<ITinFieldInfo> fieldInfos = new StridablesList<>();
 
-  private ITsVisualsProvider<ITinValue> valueVisualizer;
+  /**
+   * Field with lazy initialization in {@link #valueVisualizer()}.
+   */
+  private ITsVisualsProvider<ITinValue> valueVisualizer = null;
 
   private final ETinTypeKind kind;
   private final IDataType    dataType;
@@ -53,7 +56,6 @@ public abstract class AbstractTinTypeInfo<T>
     }
     dataType = aDataType;
     entityClass = aEntityClass;
-    valueVisualizer = new DefaultValueVisualizer( this );
   }
 
   // ------------------------------------------------------------------------------------
@@ -89,6 +91,9 @@ public abstract class AbstractTinTypeInfo<T>
 
   @Override
   public ITsVisualsProvider<ITinValue> valueVisualizer() {
+    if( valueVisualizer == null ) {
+      valueVisualizer = new DefaultValueVisualizer( this );
+    }
     return valueVisualizer;
   }
 

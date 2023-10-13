@@ -53,10 +53,10 @@ public interface ITinTypeInfo {
   /**
    * Returns the visualizer of the field value.
    * <p>
-   * The string {@link ITsVisualsProvider#getName(Object)} is used as text displayed in the "Value" cell of the
-   * inspector row.
+   * This TIN type's value visualizer is used as a default value visualizer of TIN fields
+   * {@link ITinFieldInfo#valueVisualizer()}.
    *
-   * @return {@link ITsVisualsProvider}&lt;{@link ITinValue}&gt; - field value vosualizer
+   * @return {@link ITsVisualsProvider}&lt;{@link ITinValue}&gt; - field value visualizer, never is <code>null</code>
    */
   ITsVisualsProvider<ITinValue> valueVisualizer();
 

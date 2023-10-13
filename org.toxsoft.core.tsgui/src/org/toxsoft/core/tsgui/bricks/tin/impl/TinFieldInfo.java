@@ -1,6 +1,8 @@
 package org.toxsoft.core.tsgui.bricks.tin.impl;
 
 import org.toxsoft.core.tsgui.bricks.tin.*;
+import org.toxsoft.core.tsgui.bricks.tin.tti.*;
+import org.toxsoft.core.tsgui.utils.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
@@ -19,6 +21,11 @@ public class TinFieldInfo
   private final ITinTypeInfo typeInfo;
 
   /**
+   * <code>null</code> means to use {@link ITinTypeInfo#valueVisualizer()}.
+   */
+  private ITsVisualsProvider<ITinValue> valueVisualizer;
+
+  /**
    * Constructor.
    *
    * @param aId String - the ID (IDpath)
@@ -30,6 +37,7 @@ public class TinFieldInfo
   public TinFieldInfo( String aId, IOptionSet aParams, ITinTypeInfo aTypeInfo ) {
     super( aId, aParams );
     typeInfo = TsNullArgumentRtException.checkNull( aTypeInfo );
+    valueVisualizer = new DefaultValueVisualizer( this );
   }
 
   /**
@@ -44,6 +52,7 @@ public class TinFieldInfo
   public TinFieldInfo( String aId, ITinTypeInfo aTypeInfo, Object... aIdsAndValues ) {
     super( aId, OptionSetUtils.createOpSet( aIdsAndValues ) );
     typeInfo = TsNullArgumentRtException.checkNull( aTypeInfo );
+    valueVisualizer = new DefaultValueVisualizer( this );
   }
 
   /**
@@ -59,6 +68,7 @@ public class TinFieldInfo
     super( aId, aOpSet );
     TsNullArgumentRtException.checkNulls( aTypeInfo, aOpSet );
     typeInfo = aTypeInfo;
+    valueVisualizer = new DefaultValueVisualizer( this );
   }
 
   /**
@@ -71,6 +81,7 @@ public class TinFieldInfo
   public TinFieldInfo( IDataDef aDef, ITinTypeInfo aTypeInfo ) {
     super( aDef );
     typeInfo = TsNullArgumentRtException.checkNull( aTypeInfo );
+    valueVisualizer = new DefaultValueVisualizer( this );
   }
 
   // ------------------------------------------------------------------------------------
@@ -80,6 +91,30 @@ public class TinFieldInfo
   @Override
   public ITinTypeInfo typeInfo() {
     return typeInfo;
+  }
+
+  @Override
+  public ITsVisualsProvider<ITinValue> valueVisualizer() {
+    if( valueVisualizer == null ) {
+      return typeInfo.valueVisualizer();
+    }
+    return valueVisualizer;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // API for subclass
+  //
+
+  /**
+   * Sets the {@link #valueVisualizer()}.
+   * <p>
+   * Specifying <code>null</code> argument sets {@link ITinFieldInfo#valueVisualizer()} to return type default
+   * visualizer {@link ITinTypeInfo#valueVisualizer()}.
+   *
+   * @param aVisualizer {@link ITsVisualsProvider}&lt;{@link ITinValue}&gt; - value visualizer or <code>null</code>
+   */
+  protected void setValueVisualizer( ITsVisualsProvider<ITinValue> aVisualizer ) {
+    valueVisualizer = aVisualizer;
   }
 
 }

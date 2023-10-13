@@ -1,11 +1,17 @@
 package org.toxsoft.core.tsgui.bricks.tin;
 
 import org.toxsoft.core.tsgui.panels.generic.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Inspector widget.
+ * <p>
+ * TODO about properties and subtrees of properties
+ * <p>
+ * TODO about two kind of listenetrs: {@link IGenericChangeListener} and {@link ITinWidgetPropertyChangeListener}
  *
  * @author hazard157
  */
@@ -52,5 +58,21 @@ public interface ITinWidget
    * @throws TsValidationFailedRtException failed {@link #canGetValue()}
    */
   ITinValue getValue();
+
+  /**
+   * Remove the property change listener.
+   *
+   * @param aListener {@link ITinWidgetPropertyChangeListener} - the listener
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  void addPropertyChangeListener( ITinWidgetPropertyChangeListener aListener );
+
+  /**
+   * Removes the property change listener.
+   *
+   * @param aListener {@link ITinWidgetPropertyChangeListener} - the listener
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  void removePropertyChangeListener( ITinWidgetPropertyChangeListener aListener );
 
 }

@@ -2,7 +2,6 @@ package org.toxsoft.core.tsgui.bricks.tin.impl;
 
 import org.eclipse.jface.viewers.*;
 import org.toxsoft.core.tsgui.bricks.tin.*;
-import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
@@ -14,23 +13,23 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public class TinTopRow
-    extends TinRow
-    implements IGenericChangeEventCapable {
+    extends TinRow {
 
   private static final String TOP_ROW_FIELD_INFO_ID = "TinTopRow"; //$NON-NLS-1$
 
-  private final GenericChangeEventer genericChangeEventer;
+  private final TinWidget tinWidget;
 
   /**
    * Constructor.
    *
+   * @param aOwnerWidget {@link TinWidget} - the owner widget
    * @param aFieldInfo {@link ITinFieldInfo} - the field info of this node
    * @param aTreeViewer {@link TreeViewer} - the owner viewer
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public TinTopRow( ITinTypeInfo aFieldInfo, TreeViewer aTreeViewer ) {
+  public TinTopRow( TinWidget aOwnerWidget, ITinTypeInfo aFieldInfo, TreeViewer aTreeViewer ) {
     super( new TinFieldInfo( TOP_ROW_FIELD_INFO_ID, aFieldInfo ), aTreeViewer );
-    genericChangeEventer = new GenericChangeEventer( this );
+    tinWidget = aOwnerWidget;
   }
 
   // ------------------------------------------------------------------------------------
@@ -63,7 +62,7 @@ public class TinTopRow
   @Override
   void papiChildValueChangedByValed( String aFieldId ) {
     super.papiChildValueChangedByValed( aFieldId );
-    genericChangeEventer.fireChangeEvent();
+    tinWidget.papiFireProperyChangeEvent( aFieldId );
   }
 
   @Override
@@ -92,9 +91,9 @@ public class TinTopRow
   // IGenericChangeEventCapable
   //
 
-  @Override
-  public IGenericChangeEventer genericChangeEventer() {
-    return genericChangeEventer;
-  }
-
+  // @Override
+  // public IGenericChangeEventer genericChangeEventer() {
+  // return genericChangeEventer;
+  // }
+  //
 }

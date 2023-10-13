@@ -5,6 +5,8 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.tin.*;
 import org.toxsoft.core.tsgui.panels.lazy.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -16,10 +18,11 @@ public class TinWidget
     extends AbstractTsStdEventsProducerLazyPanel<Object, Control>
     implements ITinWidget {
 
+  private final IListEdit<ITinWidgetPropertyChangeListener> propListeners = new ElemArrayList<>();
+
   private ITinTypeInfo typeInfo = null;
 
-  private TinTree   tinTree;
-  private TinTopRow topRow = null;
+  private TinTree tinTree;
 
   /**
    * Constructor.
@@ -31,6 +34,19 @@ public class TinWidget
    */
   public TinWidget( ITsGuiContext aContext ) {
     super( aContext );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // package API
+  //
+
+  final void papiFireProperyChangeEvent( String aPropId ) {
+    if( !propListeners.isEmpty() ) {
+      for( ITinWidgetPropertyChangeListener l : new ElemArrayList<>( propListeners ) ) {
+        l.onPropertyChange( this, aPropId );
+      }
+    }
+    genericChangeEventer().fireChangeEvent();
   }
 
   // ------------------------------------------------------------------------------------
@@ -54,7 +70,7 @@ public class TinWidget
 
   @Override
   protected Control doCreateControl( Composite aParent ) {
-    tinTree = new TinTree( aParent, tsContext() );
+    tinTree = new TinTree( aParent, this );
     return tinTree;
   }
 
@@ -74,16 +90,9 @@ public class TinWidget
   @Override
   public void setEntityInfo( ITinTypeInfo aEntityInfo ) {
     typeInfo = aEntityInfo;
-    if( topRow != null ) {
-      topRow.genericChangeEventer().removeListener( genericChangeEventer );
-    }
+    TinTopRow topRow = null;
     if( aEntityInfo != null ) {
       topRow = tinTree.papiCreateTopRow( aEntityInfo );
-      // topRow.setTinValue( typeInfo.makeValue( null ) );
-      topRow.genericChangeEventer().addListener( genericChangeEventer );
-    }
-    else {
-      topRow = null;
     }
     tinTree.papiSetRoot( topRow );
   }
@@ -114,6 +123,18 @@ public class TinWidget
       tv = tinTree.papiGetRoot().getTinValue();
     }
     return tv;
+  }
+
+  @Override
+  public void addPropertyChangeListener( ITinWidgetPropertyChangeListener aListener ) {
+    if( !propListeners.hasElem( aListener ) ) {
+      propListeners.add( aListener );
+    }
+  }
+
+  @Override
+  public void removePropertyChangeListener( ITinWidgetPropertyChangeListener aListener ) {
+    propListeners.remove( aListener );
   }
 
 }

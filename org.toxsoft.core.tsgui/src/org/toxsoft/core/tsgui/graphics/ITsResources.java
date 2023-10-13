@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.graphics;
 
+import org.toxsoft.core.tsgui.bricks.tin.tti.Messages;
+
 /**
  * Localizable resources.
  *
@@ -76,5 +78,21 @@ interface ITsResources {
   String STR_ETF_RIGHT_TOP_D     = Messages.getString( "ETsFulcrum.STR_ETF_RIGHT_TOP_D" );     //$NON-NLS-1$
   String STR_ETF_TOP_CENTER      = Messages.getString( "ETsFulcrum.STR_ETF_TOP_CENTER" );      //$NON-NLS-1$
   String STR_ETF_TOP_CENTER_D    = Messages.getString( "ETsFulcrum.STR_ETF_TOP_CENTER_D" );    //$NON-NLS-1$
+
+  /**
+   * {@link ITsGraphicsConstants}
+   */
+  String STR_COLOR_COMPONENT   = Messages.getString( "STR_COLOR_COMPONENT" );   //$NON-NLS-1$ aAAA
+  String STR_COLOR_COMPONENT_D = Messages.getString( "STR_COLOR_COMPONENT_D" ); //$NON-NLS-1$ aAAA
+  String STR_COLOR_RGB         = Messages.getString( "STR_COLOR_RGB" );         //$NON-NLS-1$ aAAA
+  String STR_COLOR_RGB_D       = Messages.getString( "STR_COLOR_RGB_D" );       //$NON-NLS-1$ aAAA
+  String STR_COLOR_RGBA        = Messages.getString( "STR_COLOR_RGBA" );        //$NON-NLS-1$ aAAA
+  String STR_COLOR_RGBA_D      = Messages.getString( "STR_COLOR_RGBA_D" );      //$NON-NLS-1$ aAAA
+  String STR_DT_D2CONVERSION   = Messages.getString( "STR_DT_D2CONVERSION" );   //$NON-NLS-1$ aAAA
+  String STR_DT_D2CONVERSION_D = Messages.getString( "STR_DT_D2CONVERSION_D" ); //$NON-NLS-1$ aAAA
+  String STR_TS_FILL_INFO      = Messages.getString( "STR_TS_FILL_INFO" );      //$NON-NLS-1$ aAAA
+  String STR_TS_FILL_INFO_D    = Messages.getString( "STR_TS_FILL_INFO_D" );    //$NON-NLS-1$ aAAA
+  String STR_TS_BORDER_INFO    = Messages.getString( "STR_TS_BORDER_INFO" );    //$NON-NLS-1$ aAAA
+  String STR_TS_BORDER_INFO_D  = Messages.getString( "STR_TS_BORDER_INFO_D" );  //$NON-NLS-1$ aAAA
 
 }

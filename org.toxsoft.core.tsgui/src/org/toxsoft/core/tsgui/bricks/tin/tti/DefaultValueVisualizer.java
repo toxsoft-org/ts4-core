@@ -8,6 +8,7 @@ import org.toxsoft.core.tsgui.utils.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -16,6 +17,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Formats atomic value using {@link AvUtils#printAv(String, IAtomicValue)} where the format string is the constraint
  * {@link IAvMetaConstants#TSID_FORMAT_STRING} found in field or type info. Non-atomic {@link ETinTypeKind#GROUP} kind
  * value is formatted something like pairs "{fieldID1=value,fieldID2=value,...,fieldIdN=value}".
+ * <p>
+ * Used as default value visualizer both for TIN fields ant TIN types, depending on used constructor.
  *
  * @author hazard157
  */
@@ -71,6 +74,9 @@ public class DefaultValueVisualizer
 
   @Override
   public String getName( ITinValue aItem ) {
+    if( aItem == ITinValue.NULL ) {
+      return TsLibUtils.EMPTY_STRING;
+    }
     IAtomicValue avFmtStr = getConstraint( TSID_FORMAT_STRING, null );
     String fmtStr = avFmtStr != null ? avFmtStr.asString() : null;
     switch( aItem.kind() ) {

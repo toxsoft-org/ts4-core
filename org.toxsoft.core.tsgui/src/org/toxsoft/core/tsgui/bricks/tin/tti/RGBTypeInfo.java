@@ -2,6 +2,7 @@ package org.toxsoft.core.tsgui.bricks.tin.tti;
 
 import static org.toxsoft.core.tsgui.bricks.tin.tti.ITsResources.*;
 import static org.toxsoft.core.tsgui.bricks.tin.tti.ITtiConstants.*;
+import static org.toxsoft.core.tsgui.graphics.ITsGraphicsConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
@@ -31,16 +32,16 @@ public class RGBTypeInfo
   private RGBTypeInfo() {
     super( ETinTypeKind.FULL, DT_COLOR_RGB, RGB.class );
     fieldInfos().add( new TinFieldInfo( FID_RED, TTI_COLOR_COMPONENT, //
-        TSID_NAME, TSID_COLOR_FIELD_RED, //
-        TSID_DESCRIPTION, TSID_COLOR_FIELD_RED_D //
+        TSID_NAME, STR_COLOR_FIELD_RED, //
+        TSID_DESCRIPTION, STR_COLOR_FIELD_RED_D //
     ) );
     fieldInfos().add( new TinFieldInfo( FID_GREEN, TTI_COLOR_COMPONENT, //
-        TSID_NAME, TSID_COLOR_FIELD_GREEN, //
-        TSID_DESCRIPTION, TSID_COLOR_FIELD_GREEN_D //
+        TSID_NAME, STR_COLOR_FIELD_GREEN, //
+        TSID_DESCRIPTION, STR_COLOR_FIELD_GREEN_D //
     ) );
     fieldInfos().add( new TinFieldInfo( FID_BLUE, TTI_COLOR_COMPONENT, //
-        TSID_NAME, TSID_COLOR_FIELD_BLUE, //
-        TSID_DESCRIPTION, TSID_COLOR_FIELD_BLUE_D //
+        TSID_NAME, STR_COLOR_FIELD_BLUE, //
+        TSID_DESCRIPTION, STR_COLOR_FIELD_BLUE_D //
     ) );
   }
 

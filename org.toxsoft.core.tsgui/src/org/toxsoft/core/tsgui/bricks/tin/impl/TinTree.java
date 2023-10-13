@@ -5,9 +5,9 @@ import static org.toxsoft.core.tsgui.bricks.tin.impl.ITsResources.*;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.*;
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.tin.*;
 import org.toxsoft.core.tsgui.panels.*;
+import org.toxsoft.core.tsgui.utils.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -51,6 +51,7 @@ class TinTree
 
   };
 
+  private TinWidget  tinWidget;
   private TreeViewer treeViewer;
   private TinTopRow  rootNode = null;
 
@@ -58,11 +59,12 @@ class TinTree
    * Constructor.
    *
    * @param aParent {@link Composite} - the SWT parent
-   * @param aContext {@link ITsGuiContext} - the context
+   * @param aOwnerWidget {@link TinWidget} - the owner inspector widget
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public TinTree( Composite aParent, ITsGuiContext aContext ) {
-    super( aParent, aContext );
+  public TinTree( Composite aParent, TinWidget aOwnerWidget ) {
+    super( aParent, aOwnerWidget.tsContext() );
+    tinWidget = aOwnerWidget;
 
     setLayout( new BorderLayout() );
 
@@ -93,7 +95,8 @@ class TinTree
       @Override
       public void update( ViewerCell aCell ) {
         ITinRow node = (ITinRow)aCell.getElement();
-        aCell.setText( node.fieldInfo().typeInfo().valueVisualizer().getName( node.getTinValue() ) );
+        ITsVisualsProvider<ITinValue> vv = node.fieldInfo().valueVisualizer();
+        aCell.setText( vv.getName( node.getTinValue() ) );
       }
     } );
 
@@ -110,7 +113,7 @@ class TinTree
   }
 
   TinTopRow papiCreateTopRow( ITinTypeInfo aEntityInfo ) {
-    return new TinTopRow( aEntityInfo, treeViewer );
+    return new TinTopRow( tinWidget, aEntityInfo, treeViewer );
   }
 
   void papiSetRoot( TinTopRow aNode ) {
