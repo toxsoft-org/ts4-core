@@ -1,5 +1,8 @@
 package org.toxsoft.core.tsgui.ved.screen.impl;
 
+import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
+import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
+
 import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.graphics.*;
@@ -26,7 +29,7 @@ public class VedFulcrumVertexSet
     return new VedFulcrumVertexSet( aVisel, listVertexesWithFulcrums( aFulcrums ), aVedScreen );
   }
 
-  protected static IStridablesListEdit<VedFulcrumVertex> listVertexesWithFulcrums( ETsFulcrum... aFulcrums ) {
+  protected static IStridablesListEdit<IVedVertex> listVertexesWithFulcrums( ETsFulcrum... aFulcrums ) {
     ETsFulcrum[] fulcrums;
     if( aFulcrums.length <= 0 ) {
       fulcrums = ETsFulcrum.values();
@@ -35,7 +38,7 @@ public class VedFulcrumVertexSet
       fulcrums = new ETsFulcrum[aFulcrums.length];
     }
 
-    IStridablesListEdit<VedFulcrumVertex> verts = new StridablesList<>();
+    IStridablesListEdit<IVedVertex> verts = new StridablesList<>();
     for( ETsFulcrum f : fulcrums ) {
       verts.add( new VedFulcrumVertex( f ) );
     }
@@ -115,11 +118,10 @@ public class VedFulcrumVertexSet
   //
 
   protected void update( double aDx, double aDy, String aVertexId ) {
-    org.toxsoft.core.tsgui.ved.screen.helpers.ID2Portable d2p = visel();
-    if( d2p == null ) {
+    IVedVisel visel = visel();
+    if( visel == null ) {
       return;
     }
-    org.toxsoft.core.tsgui.ved.screen.helpers.ID2Resizable d2r = visel();
 
     ID2Rectangle rect = visel().bounds();
 
@@ -127,60 +129,50 @@ public class VedFulcrumVertexSet
       ETsFulcrum fulcrum = ETsFulcrum.getById( aVertexId );
       switch( fulcrum ) {
         case TOP_CENTER: {
-          d2p.setLocation( rect.x1(), rect.y1() + aDy );
-          if( d2r != null ) {
-            d2r.setSize( rect.width(), rect.height() - aDy );
-          }
+          // visel.setLocation( rect.x1(), rect.y1() + aDy );
+          // visel.setSize( rect.width(), rect.height() - aDy );
+          visel.props().setPropPairs( PROP_Y, avFloat( rect.y1() + aDy ) );
+          visel.props().setPropPairs( PROP_HEIGHT, avFloat( rect.height() - aDy ) );
           break;
         }
         case BOTTOM_CENTER: {
-          if( d2r != null ) {
-            d2r.setSize( rect.width(), rect.height() + aDy );
-          }
+          // visel.setSize( rect.width(), rect.height() + aDy );
+          visel.props().setPropPairs( PROP_HEIGHT, avFloat( rect.height() + aDy ) );
           break;
         }
         case LEFT_CENTER: {
-          d2p.setLocation( rect.x1() + aDx, rect.y1() );
-          if( d2r != null ) {
-            d2r.setSize( rect.width() - aDx, rect.height() );
-          }
+          // visel.setLocation( rect.x1() + aDx, rect.y1() );
+          // visel.setSize( rect.width() - aDx, rect.height() );
+          visel.props().setPropPairs( PROP_X, avFloat( rect.x1() + aDx ) );
+          visel.props().setPropPairs( PROP_WIDTH, avFloat( rect.width() - aDx ) );
           break;
         }
         case RIGHT_CENTER: {
-          if( d2r != null ) {
-            d2r.setSize( rect.width() + aDx, rect.height() );
-          }
+          // visel.setSize( rect.width() + aDx, rect.height() );
+          visel.props().setPropPairs( PROP_WIDTH, avFloat( rect.width() + aDx ) );
           break;
         }
         case LEFT_TOP: {
-          d2p.setLocation( rect.x1() + aDx, rect.y1() + aDy );
-          if( d2r != null ) {
-            d2r.setSize( rect.width() - aDx, rect.height() - aDy );
-          }
+          visel.setLocation( rect.x1() + aDx, rect.y1() + aDy );
+          visel.setSize( rect.width() - aDx, rect.height() - aDy );
           break;
         }
         case RIGHT_BOTTOM: {
-          if( d2r != null ) {
-            d2r.setSize( rect.width() + aDx, rect.height() + aDy );
-          }
+          visel.setSize( rect.width() + aDx, rect.height() + aDy );
           break;
         }
         case RIGHT_TOP: {
-          d2p.setLocation( rect.x1(), rect.y1() + aDy );
-          if( d2r != null ) {
-            d2r.setSize( rect.width() + aDx, rect.height() - aDy );
-          }
+          visel.setLocation( rect.x1(), rect.y1() + aDy );
+          visel.setSize( rect.width() + aDx, rect.height() - aDy );
           break;
         }
         case LEFT_BOTTOM: {
-          d2p.setLocation( rect.x1() + aDx, rect.y1() );
-          if( d2r != null ) {
-            d2r.setSize( rect.width() - aDx, rect.height() + aDy );
-          }
+          visel.setLocation( rect.x1() + aDx, rect.y1() );
+          visel.setSize( rect.width() - aDx, rect.height() + aDy );
           break;
         }
         case CENTER: {
-          d2p.setLocation( rect.x1() + aDx, rect.y1() + aDy );
+          visel.setLocation( rect.x1() + aDx, rect.y1() + aDy );
           break;
         }
         default:

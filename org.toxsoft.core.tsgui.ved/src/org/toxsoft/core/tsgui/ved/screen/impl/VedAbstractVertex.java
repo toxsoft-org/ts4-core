@@ -95,4 +95,12 @@ public abstract class VedAbstractVertex
     bounds.setRect( aX, aY, bounds.width(), bounds.height() );
   }
 
+  // ------------------------------------------------------------------------------------
+  // To use
+  //
+
+  protected void setSize( double aWidth, double aHeight ) {
+    bounds.setRect( originX, originY, aWidth, aHeight );
+  }
+
 }

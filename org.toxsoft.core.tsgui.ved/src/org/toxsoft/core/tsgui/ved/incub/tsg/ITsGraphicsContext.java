@@ -32,9 +32,13 @@ public interface ITsGraphicsContext
 
   void drawRect( int aX, int aY, int aWidth, int aHeight );
 
+  void drawRoundRect( int aX, int aY, int aWidth, int aHeight, int aArcWdth, int aArcHeight );
+
   void setFillInfo( TsFillInfo aFillInfo );
 
   void fillRect( int aX, int aY, int aWidth, int aHeight );
+
+  void fillRoundRect( int aX, int aY, int aWidth, int aHeight, int aArcWidth, int aArcHeight );
 
   void setBorderInfo( TsBorderInfo aBorderInfo );
 
