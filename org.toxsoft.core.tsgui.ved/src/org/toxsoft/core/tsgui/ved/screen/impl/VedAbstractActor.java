@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.ved.screen.impl;
 
+import static org.toxsoft.core.tsgui.ved.l10n.ITsguiVedSharedResources.*;
 import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
 
 import org.toxsoft.core.tsgui.bricks.uievents.*;
@@ -36,9 +37,11 @@ public class VedAbstractActor
   public VedAbstractActor( IVedItemCfg aConfig, IStridablesList<IDataDef> aPropDefs, VedScreen aVedScreen ) {
     super( aConfig, aPropDefs, aVedScreen );
     TsIllegalArgumentRtException.checkTrue( aConfig.kind() != EVedItemKind.ACTOR );
-    /**
-     * TODO check that mandatory properties exists in the actor
-     */
+    for( String pid : ACTOR_MANDATORY_PROP_IDS ) {
+      if( !aPropDefs.hasKey( pid ) ) {
+        throw new TsIllegalArgumentRtException( FMT_ERR_NO_MANDATORY_ACTOR_PROP, pid );
+      }
+    }
   }
 
   // ------------------------------------------------------------------------------------

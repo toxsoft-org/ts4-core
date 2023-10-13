@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.ved.screen;
 
 import static org.toxsoft.core.tsgui.bricks.tin.tti.ITtiConstants.*;
+import static org.toxsoft.core.tsgui.graphics.ITsGraphicsConstants.*;
 import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
 import static org.toxsoft.core.tsgui.ved.l10n.ITsguiVedSharedResources.*;
 import static org.toxsoft.core.tslib.av.EAtomicType.*;
@@ -11,9 +12,13 @@ import org.toxsoft.core.tsgui.bricks.tin.*;
 import org.toxsoft.core.tsgui.bricks.tin.impl.*;
 import org.toxsoft.core.tsgui.bricks.tin.tti.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
+import org.toxsoft.core.tsgui.valed.controls.basic.*;
+import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 
 /**
  * Package constants.
@@ -23,18 +28,18 @@ import org.toxsoft.core.tslib.bricks.d2.*;
 @SuppressWarnings( "javadoc" )
 public interface IVedScreenConstants {
 
-  String PROPID_IS_ACTIVE     = VED_ID + ".isActive";    //$NON-NLS-1$
-  String PROPID_NAME          = TSID_NAME;
-  String PROPID_DESCRIPTION   = TSID_DESCRIPTION;
-  String PROPID_X             = VED_ID + ".x";           //$NON-NLS-1$
-  String PROPID_Y             = VED_ID + ".y";           //$NON-NLS-1$
-  String PROPID_WIDTH         = VED_ID + ".width";       //$NON-NLS-1$
-  String PROPID_HEIGHT        = VED_ID + ".height";      //$NON-NLS-1$
-  String PROPID_TRANSFORM     = VED_ID + ".transform";   //$NON-NLS-1$
-  String PROPID_BK_COLOR      = VED_ID + ".bkColor";     //$NON-NLS-1$
-  String PROPID_FG_COLOR      = VED_ID + ".fgColor";     //$NON-NLS-1$
-  String PROPID_VISEL_ID      = VED_ID + ".viselId";     //$NON-NLS-1$
-  String PROPID_VISEL_PROP_ID = VED_ID + ".viselPropId"; //$NON-NLS-1$
+  // ------------------------------------------------------------------------------------
+  // Mandatory properties
+  //
+
+  String PROPID_IS_ACTIVE   = VED_ID + ".isActive";  //$NON-NLS-1$
+  String PROPID_NAME        = TSID_NAME;
+  String PROPID_DESCRIPTION = TSID_DESCRIPTION;
+  String PROPID_X           = VED_ID + ".x";         //$NON-NLS-1$
+  String PROPID_Y           = VED_ID + ".y";         //$NON-NLS-1$
+  String PROPID_WIDTH       = VED_ID + ".width";     //$NON-NLS-1$
+  String PROPID_HEIGHT      = VED_ID + ".height";    //$NON-NLS-1$
+  String PROPID_TRANSFORM   = VED_ID + ".transform"; //$NON-NLS-1$
 
   IDataDef PROP_IS_ACTIVE = DataDef.create( PROPID_IS_ACTIVE, BOOLEAN, //
       TSID_NAME, STR_IS_ACTIVE, //
@@ -82,6 +87,42 @@ public interface IVedScreenConstants {
       TSID_DEFAULT_VALUE, avValobj( ID2Conversion.NONE ) //
   );
 
+  /**
+   * List of mandatory properties IDs for the VISELS.
+   */
+  IStringList VISEL_MANDATORY_PROP_IDS = new StringArrayList( //
+      PROPID_IS_ACTIVE, //
+      PROPID_NAME, //
+      PROPID_DESCRIPTION, //
+      PROPID_X, //
+      PROPID_Y, //
+      PROPID_WIDTH, //
+      PROPID_HEIGHT, //
+      PROPID_TRANSFORM //
+  );
+
+  /**
+   * List of mandatory properties IDs for the actors.
+   * <p>
+   * These option must be listed by {@link IVedItemFactoryBase#propDefs()} in any order. Moreover the returned property
+   * definition must match elements of this list with <code>==</code> operator, not by {@link Object#equals(Object)}
+   * method.
+   */
+  IStringList ACTOR_MANDATORY_PROP_IDS = new StringArrayList( //
+      PROPID_IS_ACTIVE //
+  );
+
+  // ------------------------------------------------------------------------------------
+  // Optional VISEL properties
+  //
+
+  String PROPID_BK_COLOR        = VED_ID + ".bkColor";       //$NON-NLS-1$
+  String PROPID_FG_COLOR        = VED_ID + ".fgColor";       //$NON-NLS-1$
+  String PROPID_BK_FILL         = VED_ID + ".bkFill";        //$NON-NLS-1$
+  String PROPID_BORDER_INFO     = VED_ID + ".borderInfo";    //$NON-NLS-1$
+  String PROPID_IS_ASPECT_FIXED = VED_ID + ".isAspectFixed"; //$NON-NLS-1$
+  String PROPID_ASPECT_RATIO    = VED_ID + ".aspectRatio";   //$NON-NLS-1$
+
   IDataDef PROP_BK_COLOR = DataDef.create3( PROPID_BK_COLOR, DT_COLOR_RGBA, //
       TSID_NAME, STR_BK_COLOR, //
       TSID_DESCRIPTION, STR_BK_COLOR_D, //
@@ -93,6 +134,37 @@ public interface IVedScreenConstants {
       TSID_DESCRIPTION, STR_FG_COLOR_D, //
       TSID_DEFAULT_VALUE, avValobj( ETsColor.BLACK.rgba() ) //
   );
+
+  IDataDef PROP_BK_FILL = DataDef.create3( PROPID_BK_FILL, DT_TS_FILL_INFO, //
+      TSID_NAME, STR_BK_FILL, //
+      TSID_DESCRIPTION, STR_BK_FILL_D //
+  );
+
+  IDataDef PROP_BORDER_INFO = DataDef.create3( PROPID_BORDER_INFO, DT_TS_BORDER_INFO, //
+      TSID_NAME, STR_BORDER_INFO, //
+      TSID_DESCRIPTION, STR_BORDER_INFO_D //
+  );
+
+  IDataDef PROP_IS_ASPECT_FIXED = DataDef.create3( PROPID_IS_ASPECT_FIXED, DDEF_TS_BOOL, //
+      TSID_NAME, STR_IS_ASPECT_FIXED, //
+      TSID_DESCRIPTION, STR_IS_ASPECT_FIXED_D, //
+      TSID_DEFAULT_VALUE, AV_FALSE //
+  );
+
+  IDataDef PROP_ASPECT_RATIO = DataDef.create3( PROPID_ASPECT_RATIO, DDEF_FLOATING, //
+      TSID_NAME, STR_ASPECT_RATIO, //
+      TSID_DESCRIPTION, STR_ASPECT_RATIO_D, //
+      TSID_FORMAT_STRING, "%.3f", //$NON-NLS-1$
+      ValedDoubleSpinner.OPID_FLOATING_DIGITS, avInt( 3 ), //
+      TSID_DEFAULT_VALUE, avFloat( 1.0 ) //
+  );
+
+  // ------------------------------------------------------------------------------------
+  // Optional actor properties
+  //
+
+  String PROPID_VISEL_ID      = VED_ID + ".viselId";     //$NON-NLS-1$
+  String PROPID_VISEL_PROP_ID = VED_ID + ".viselPropId"; //$NON-NLS-1$
 
   IDataDef PROP_VISEL_ID = DataDef.create3( PROPID_VISEL_ID, DDEF_IDPATH, //
       TSID_NAME, STR_VISEL_ID, //
@@ -106,18 +178,26 @@ public interface IVedScreenConstants {
       TSID_DEFAULT_VALUE, DEFAULT_ID_AV //
   );
 
-  ITinFieldInfo TFI_IS_ACTIVE     = new TinFieldInfo( PROP_IS_ACTIVE, TTI_AT_BOOLEAN );
-  ITinFieldInfo TFI_NAME          = new TinFieldInfo( PROP_NAME, TTI_AT_STRING );
-  ITinFieldInfo TFI_DESCRIPTION   = new TinFieldInfo( PROP_DESCRIPTION, TTI_AT_STRING );
-  ITinFieldInfo TFI_X             = new TinFieldInfo( PROP_X, TTI_AT_FLOATING );
-  ITinFieldInfo TFI_Y             = new TinFieldInfo( PROP_Y, TTI_AT_FLOATING );
-  ITinFieldInfo TFI_WIDTH         = new TinFieldInfo( PROP_WIDTH, TTI_AT_FLOATING );
-  ITinFieldInfo TFI_HEIGHT        = new TinFieldInfo( PROP_HEIGHT, TTI_AT_FLOATING );
-  ITinFieldInfo TFI_TRANSFORM     = new TinFieldInfo( PROP_TRANSFORM, TTI_D2CONVERSION );
-  ITinFieldInfo TFI_BK_COLOR      = new TinFieldInfo( PROP_BK_COLOR, RGBATypeInfo.INSTANCE );
-  ITinFieldInfo TFI_FG_COLOR      = new TinFieldInfo( PROP_FG_COLOR, RGBATypeInfo.INSTANCE );
-  ITinFieldInfo TFI_VISEL_ID      = new TinFieldInfo( PROP_VISEL_ID, TTI_IDPATH );
-  ITinFieldInfo TFI_VISEL_PROP_ID = new TinFieldInfo( PROP_VISEL_PROP_ID, TTI_IDPATH );
+  // ------------------------------------------------------------------------------------
+  // TIN field infos corresponding to the properties
+  //
+
+  ITinFieldInfo TFI_IS_ACTIVE       = new TinFieldInfo( PROP_IS_ACTIVE, TTI_AT_BOOLEAN );
+  ITinFieldInfo TFI_NAME            = new TinFieldInfo( PROP_NAME, TTI_AT_STRING );
+  ITinFieldInfo TFI_DESCRIPTION     = new TinFieldInfo( PROP_DESCRIPTION, TTI_AT_STRING );
+  ITinFieldInfo TFI_X               = new TinFieldInfo( PROP_X, TTI_AT_FLOATING );
+  ITinFieldInfo TFI_Y               = new TinFieldInfo( PROP_Y, TTI_AT_FLOATING );
+  ITinFieldInfo TFI_WIDTH           = new TinFieldInfo( PROP_WIDTH, TTI_AT_FLOATING );
+  ITinFieldInfo TFI_HEIGHT          = new TinFieldInfo( PROP_HEIGHT, TTI_AT_FLOATING );
+  ITinFieldInfo TFI_TRANSFORM       = new TinFieldInfo( PROP_TRANSFORM, TTI_D2CONVERSION );
+  ITinFieldInfo TFI_BK_COLOR        = new TinFieldInfo( PROP_BK_COLOR, RGBATypeInfo.INSTANCE );
+  ITinFieldInfo TFI_FG_COLOR        = new TinFieldInfo( PROP_FG_COLOR, RGBATypeInfo.INSTANCE );
+  ITinFieldInfo TFI_BK_FILL         = new TinFieldInfo( PROP_BK_FILL, TTI_TS_FILL_INFO );
+  ITinFieldInfo TFI_BORDER_INFO     = new TinFieldInfo( PROP_BORDER_INFO, TTI_TS_BORDER_INFO );
+  ITinFieldInfo TFI_IS_ASPECT_FIXED = new TinFieldInfo( PROP_IS_ASPECT_FIXED, TTI_AT_BOOLEAN );
+  ITinFieldInfo TFI_ASPECT_RATIO    = new TinFieldInfo( PROP_ASPECT_RATIO, TTI_AT_FLOATING );
+  ITinFieldInfo TFI_VISEL_ID        = new TinFieldInfo( PROP_VISEL_ID, TTI_IDPATH );
+  ITinFieldInfo TFI_VISEL_PROP_ID   = new TinFieldInfo( PROP_VISEL_PROP_ID, TTI_IDPATH );
 
   // ------------------------------------------------------------------------------------
   // Yet undone

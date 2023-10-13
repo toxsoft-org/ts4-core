@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.ved.screen.impl;
 
+import static org.toxsoft.core.tsgui.ved.l10n.ITsguiVedSharedResources.*;
 import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 
@@ -39,9 +40,11 @@ public abstract class VedAbstractVisel
   public VedAbstractVisel( IVedItemCfg aConfig, IStridablesList<IDataDef> aPropDefs, VedScreen aVedScreen ) {
     super( aConfig, aPropDefs, aVedScreen );
     TsIllegalArgumentRtException.checkTrue( aConfig.kind() != EVedItemKind.VISEL );
-    /**
-     * TODO check that mandatory properties exists in the VISEL
-     */
+    for( String pid : VISEL_MANDATORY_PROP_IDS ) {
+      if( !aPropDefs.hasKey( pid ) ) {
+        throw new TsIllegalArgumentRtException( FMT_ERR_NO_MANDATORY_VISEL_PROP, pid );
+      }
+    }
   }
 
   // ------------------------------------------------------------------------------------
@@ -151,13 +154,13 @@ public abstract class VedAbstractVisel
     if( aNewValues.hasKey( PROPID_WIDTH ) ) {
       double width = aNewValues.getDouble( PROP_WIDTH );
       if( width < MIN_DIMENSION_AV.asDouble() ) {
-        aValuesToSet.setValobj( PROP_WIDTH, MIN_DIMENSION_AV );
+        aValuesToSet.setValue( PROP_WIDTH, MIN_DIMENSION_AV );
       }
     }
     if( aNewValues.hasKey( PROPID_HEIGHT ) ) {
       double height = aNewValues.getDouble( PROP_HEIGHT );
       if( height < MIN_DIMENSION_AV.asDouble() ) {
-        aValuesToSet.setValobj( PROP_HEIGHT, MIN_DIMENSION_AV );
+        aValuesToSet.setValue( PROP_HEIGHT, MIN_DIMENSION_AV );
       }
     }
     // subclasses

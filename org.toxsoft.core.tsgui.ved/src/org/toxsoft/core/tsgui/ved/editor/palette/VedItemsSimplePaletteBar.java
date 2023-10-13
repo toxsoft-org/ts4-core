@@ -36,7 +36,6 @@ public class VedItemsSimplePaletteBar
   public VedItemsSimplePaletteBar( Composite aParent, int aSwtStyle, IVedScreen aScreen, boolean aVertical ) {
     vScreen = aScreen;
     paletteComp = new TsPanel( aParent, aScreen.tsContext(), aSwtStyle );
-
     if( !aVertical ) {
       paletteComp.setLayout( new RowLayout( SWT.HORIZONTAL ) );
     }
@@ -60,11 +59,10 @@ public class VedItemsSimplePaletteBar
     Button btn = new Button( paletteComp, SWT.FLAT );
 
     ITsIconManager im = vScreen.tsContext().get( ITsIconManager.class );
-    Image image = im.loadStdIcon( aEntry.iconId(), EIconSize.IS_32X32 );
+    Image image = im.loadStdIcon( aEntry.iconId(), EIconSize.IS_24X24 );
 
     btn.setImage( image );
-    btn.setText( aEntry.nmName() );
-    btn.setToolTipText( aEntry.description() );
+    btn.setToolTipText( aEntry.nmName() + '\n' + aEntry.description() );
 
     DragSource source = new DragSource( btn, DND.DROP_MOVE | DND.DROP_COPY );
     source.setData( aEntry );
