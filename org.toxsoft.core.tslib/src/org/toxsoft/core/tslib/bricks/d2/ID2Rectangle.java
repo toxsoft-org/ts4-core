@@ -1,11 +1,13 @@
 package org.toxsoft.core.tslib.bricks.d2;
 
 /**
- * The rectangleon a plane with <code>double</code> coordinates.
+ * The rectangle on a plane with <code>double</code> coordinates.
  *
  * @author hazard157
  */
 public sealed interface ID2Rectangle permits D2Rectangle,D2RectangleEdit {
+
+  // TODO ID2RectangleEdit
 
   /**
    * Rectangle of 0 size at (0.0,0.0).
