@@ -26,7 +26,7 @@ public class VedFulcrumVertexSet
     return new VedFulcrumVertexSet( aVisel, listVertexesWithFulcrums( aFulcrums ), aVedScreen );
   }
 
-  protected static IStridablesListEdit<VedFulcrumVertex> listVertexesWithFulcrums( ETsFulcrum... aFulcrums ) {
+  protected static IStridablesListEdit<IVedVertex> listVertexesWithFulcrums( ETsFulcrum... aFulcrums ) {
     ETsFulcrum[] fulcrums;
     if( aFulcrums.length <= 0 ) {
       fulcrums = ETsFulcrum.values();
@@ -35,7 +35,7 @@ public class VedFulcrumVertexSet
       fulcrums = new ETsFulcrum[aFulcrums.length];
     }
 
-    IStridablesListEdit<VedFulcrumVertex> verts = new StridablesList<>();
+    IStridablesListEdit<IVedVertex> verts = new StridablesList<>();
     for( ETsFulcrum f : fulcrums ) {
       verts.add( new VedFulcrumVertex( f ) );
     }
