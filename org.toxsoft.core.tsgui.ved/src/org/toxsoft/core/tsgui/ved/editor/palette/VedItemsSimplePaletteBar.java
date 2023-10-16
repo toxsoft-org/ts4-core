@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.ved.editor.palette;
 
+import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
+
 import org.eclipse.swt.*;
 import org.eclipse.swt.dnd.*;
 import org.eclipse.swt.graphics.*;
@@ -21,11 +23,20 @@ import org.toxsoft.core.tsgui.ved.screen.impl.*;
 public class VedItemsSimplePaletteBar
     extends VedAbstractItemsPalette {
 
-  private final TsPanel paletteComp;
-
-  private final IVedScreen vScreen;
-
+  private final TsPanel   paletteComp;
   private final EIconSize iconSize;
+
+  /**
+   * Конструктор.
+   *
+   * @param aParent {@link Composite} - родительская панель
+   * @param aSwtStyle int - стиль
+   * @param aScreen {@link VedScreen} - экран
+   * @param aVertical boolean - признак расположения патитры (вертикально/горизонтально)
+   */
+  public VedItemsSimplePaletteBar( Composite aParent, int aSwtStyle, IVedScreen aScreen, boolean aVertical ) {
+    this( aParent, aSwtStyle, aScreen, aVertical, null );
+  }
 
   /**
    * Конструктор.
@@ -38,8 +49,13 @@ public class VedItemsSimplePaletteBar
    */
   public VedItemsSimplePaletteBar( Composite aParent, int aSwtStyle, IVedScreen aScreen, boolean aVertical,
       EIconSize aIconSize ) {
-    vScreen = aScreen;
-    iconSize = aIconSize;
+    super( aScreen );
+    if( aIconSize == null ) {
+      iconSize = hdpiService().getIconsSize( VED_EDITOR_PALETTE_ICON_SIZE_CATEGORY );
+    }
+    else {
+      iconSize = aIconSize;
+    }
     paletteComp = new TsPanel( aParent, aScreen.tsContext(), aSwtStyle );
     if( !aVertical ) {
       paletteComp.setLayout( new RowLayout( SWT.HORIZONTAL ) );
@@ -63,8 +79,7 @@ public class VedItemsSimplePaletteBar
   protected void doOnEntryAdded( IVedItemsPaletteEntry aEntry, String aCategoryId ) {
     Button btn = new Button( paletteComp, SWT.FLAT );
 
-    ITsIconManager im = vScreen.tsContext().get( ITsIconManager.class );
-    Image image = im.loadStdIcon( aEntry.iconId(), iconSize );
+    Image image = iconManager().loadStdIcon( aEntry.iconId(), iconSize );
 
     btn.setImage( image );
     btn.setToolTipText( aEntry.nmName() + '\n' + aEntry.description() );

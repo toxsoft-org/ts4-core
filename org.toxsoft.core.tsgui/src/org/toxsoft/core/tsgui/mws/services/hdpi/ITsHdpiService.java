@@ -2,8 +2,8 @@ package org.toxsoft.core.tsgui.mws.services.hdpi;
 
 import static org.toxsoft.core.tsgui.mws.services.hdpi.ITsHdpiServiceConstants.*;
 
-import org.toxsoft.core.tsgui.graphics.icons.EIconSize;
-import org.toxsoft.core.tslib.bricks.events.ITsEventer;
+import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tslib.bricks.events.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -38,9 +38,9 @@ public interface ITsHdpiService {
    * Creates new category of icons.
    * <p>
    * Icon scale factor determines icon size relative to the {@link #getDefaultIconSize()}. It is a number of steps to
-   * increase/decrase icon size in the {@link EIconSize} constants sequence. Value of 0 means the default size, +1 means
-   * {@link EIconSize#nextSize()}, -1 - {@link EIconSize#prevSize()}, +2 - two times {@link EIconSize#nextSize()} an so
-   * on.
+   * increase/decrease icon size in the {@link EIconSize} constants sequence. Value of 0 means the default size, +1
+   * means {@link EIconSize#nextSize()}, -1 - {@link EIconSize#prevSize()}, +2 - two times {@link EIconSize#nextSize()}
+   * an so on.
    *
    * @param aCategoryId String - category ID (must be an IDpath)
    * @param aIconScale int - icon scale factor

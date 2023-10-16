@@ -4,6 +4,7 @@ import static org.toxsoft.core.tslib.ITsHardConstants.*;
 
 import org.eclipse.e4.core.contexts.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tsgui.mws.services.hdpi.*;
 
 /**
  * Plugin constants.
@@ -17,6 +18,16 @@ public interface ITsguiVedConstants {
    * VED specific IDs prefix.
    */
   String VED_ID = TS_ID + ".gui.ved"; //$NON-NLS-1$
+
+  /**
+   * The editor palette icon size category ID used in {@link ITsHdpiService}.
+   */
+  String VED_EDITOR_PALETTE_ICON_SIZE_CATEGORY = VED_ID + ".PaletteIconSizeCategory"; //$NON-NLS-1$
+
+  /**
+   * The editor palette icon size category scale factor used in {@link ITsHdpiService#defineIconCategory(String, int)}.
+   */
+  int VED_EDITOR_PALETTE_ICON_SIZE_SCALE = 2;
 
   // ------------------------------------------------------------------------------------
   // Icons

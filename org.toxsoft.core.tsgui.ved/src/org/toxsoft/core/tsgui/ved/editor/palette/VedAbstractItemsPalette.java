@@ -1,6 +1,8 @@
 package org.toxsoft.core.tsgui.ved.editor.palette;
 
 import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
@@ -14,11 +16,33 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author vs
  */
 public abstract class VedAbstractItemsPalette
-    implements IVedItemsPalette {
+    implements IVedItemsPalette, ITsGuiContextable {
 
   private final IStridablesListEdit<IVedItemsPaletteEntry> entries = new StridablesList<>();
 
   private final IStridablesList<IVedItemsPaletteCategory> categories = new StridablesList<>();
+
+  private final IVedScreen vedScreen;
+
+  /**
+   * Constructor.
+   *
+   * @param aVedScreen {@link IVedScreen} - the VED screen palette is bound to
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public VedAbstractItemsPalette( IVedScreen aVedScreen ) {
+    TsNullArgumentRtException.checkNull( aVedScreen );
+    vedScreen = aVedScreen;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // ITsGuiContextable
+  //
+
+  @Override
+  public ITsGuiContext tsContext() {
+    return vedScreen.tsContext();
+  }
 
   // ------------------------------------------------------------------------------------
   // IVedItemsPalette
@@ -55,6 +79,15 @@ public abstract class VedAbstractItemsPalette
     TsItemAlreadyExistsRtException.checkTrue( entries.hasElem( aEntry ) );
     entries.add( aEntry );
     doOnEntryAdded( aEntry, aCategoryId );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // API for subclasses
+  //
+
+  @SuppressWarnings( "javadoc" )
+  public IVedScreen vedScreen() {
+    return vedScreen;
   }
 
   // ------------------------------------------------------------------------------------
