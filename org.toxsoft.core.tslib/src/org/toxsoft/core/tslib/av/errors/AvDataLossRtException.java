@@ -45,14 +45,14 @@ public class AvDataLossRtException
    * @param aCause Throwable - cause, may be <code>null</code>
    */
   public AvDataLossRtException( Throwable aCause ) {
-    super( ERR_MSG_STD_DATA_LOSS, aCause );
+    super( LOG_STR_ERR_STD_DATA_LOSS, aCause );
   }
 
   /**
    * Constructor with preset message.
    */
   public AvDataLossRtException() {
-    super( ERR_MSG_STD_DATA_LOSS );
+    super( LOG_STR_ERR_STD_DATA_LOSS );
   }
 
   // ------------------------------------------------------------------------------------
@@ -83,7 +83,7 @@ public class AvDataLossRtException
   public static void checkFalse( boolean aCondition )
       throws AvDataLossRtException {
     if( !aCondition ) {
-      throw new AvDataLossRtException( ERR_MSG_STD_DATA_LOSS );
+      throw new AvDataLossRtException( LOG_STR_ERR_STD_DATA_LOSS );
     }
   }
 
@@ -111,7 +111,7 @@ public class AvDataLossRtException
   public static void checkTrue( boolean aCondition )
       throws AvDataLossRtException {
     if( aCondition ) {
-      throw new AvDataLossRtException( ERR_MSG_STD_DATA_LOSS );
+      throw new AvDataLossRtException( LOG_STR_ERR_STD_DATA_LOSS );
     }
   }
 
@@ -125,11 +125,11 @@ public class AvDataLossRtException
   public static void checkNulls( Object... aRefs )
       throws AvDataLossRtException {
     if( aRefs == null ) {
-      throw new AvDataLossRtException( ERR_MSG_STD_DATA_LOSS );
+      throw new AvDataLossRtException( LOG_STR_ERR_STD_DATA_LOSS );
     }
     for( int i = aRefs.length - 1; i >= 0; i-- ) {
       if( aRefs[i] == null ) {
-        throw new AvDataLossRtException( ERR_MSG_STD_DATA_LOSS );
+        throw new AvDataLossRtException( LOG_STR_ERR_STD_DATA_LOSS );
       }
     }
   }
@@ -163,7 +163,7 @@ public class AvDataLossRtException
   public static <E> E checkNull( E aRef )
       throws AvDataLossRtException {
     if( aRef == null ) {
-      throw new AvDataLossRtException( ERR_MSG_STD_DATA_LOSS );
+      throw new AvDataLossRtException( LOG_STR_ERR_STD_DATA_LOSS );
     }
     return aRef;
   }

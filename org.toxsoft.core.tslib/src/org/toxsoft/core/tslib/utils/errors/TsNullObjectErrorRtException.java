@@ -49,7 +49,7 @@ public class TsNullObjectErrorRtException
    * @param aNullObjClass {@link Class} - the class of the special-case object
    */
   public TsNullObjectErrorRtException( Class<?> aNullObjClass ) {
-    super( String.format( FMT_MSG_NULL_OBJECT_ERROR, aNullObjClass.getName() ) );
+    super( String.format( LOG_FMT_ERR_NULL_OBJECT_ERROR, aNullObjClass.getName() ) );
   }
 
   /**
@@ -58,14 +58,14 @@ public class TsNullObjectErrorRtException
    * @param aCause Throwable - cause, mey be <code>null</code>
    */
   public TsNullObjectErrorRtException( Throwable aCause ) {
-    super( MSG_ERR_NULL_OBJECT_ERROR, aCause );
+    super( LOG_STR_ERR_NULL_OBJECT_ERROR, aCause );
   }
 
   /**
    * Constructor with preset message.
    */
   public TsNullObjectErrorRtException() {
-    super( MSG_ERR_NULL_OBJECT_ERROR );
+    super( LOG_STR_ERR_NULL_OBJECT_ERROR );
   }
 
   // ------------------------------------------------------------------------------------
@@ -96,7 +96,7 @@ public class TsNullObjectErrorRtException
   public static void checkFalse( boolean aCondition )
       throws TsNullObjectErrorRtException {
     if( !aCondition ) {
-      throw new TsNullObjectErrorRtException( MSG_ERR_NULL_OBJECT_ERROR );
+      throw new TsNullObjectErrorRtException( LOG_STR_ERR_NULL_OBJECT_ERROR );
     }
   }
 
@@ -124,7 +124,7 @@ public class TsNullObjectErrorRtException
   public static void checkTrue( boolean aCondition )
       throws TsNullObjectErrorRtException {
     if( aCondition ) {
-      throw new TsNullObjectErrorRtException( MSG_ERR_NULL_OBJECT_ERROR );
+      throw new TsNullObjectErrorRtException( LOG_STR_ERR_NULL_OBJECT_ERROR );
     }
   }
 
@@ -157,7 +157,7 @@ public class TsNullObjectErrorRtException
   public static <E> E checkNull( E aRef )
       throws TsNullObjectErrorRtException {
     if( aRef == null ) {
-      throw new TsNullObjectErrorRtException( MSG_ERR_NULL_OBJECT_ERROR );
+      throw new TsNullObjectErrorRtException( LOG_STR_ERR_NULL_OBJECT_ERROR );
     }
     return aRef;
   }
@@ -191,7 +191,7 @@ public class TsNullObjectErrorRtException
   public static <E> E checkNoNull( E aRef )
       throws TsNullObjectErrorRtException {
     if( aRef != null ) {
-      throw new TsNullObjectErrorRtException( MSG_ERR_NULL_OBJECT_ERROR );
+      throw new TsNullObjectErrorRtException( LOG_STR_ERR_NULL_OBJECT_ERROR );
     }
     return aRef;
   }

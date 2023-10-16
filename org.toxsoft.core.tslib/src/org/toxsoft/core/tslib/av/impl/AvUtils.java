@@ -423,9 +423,9 @@ public class AvUtils {
   //
 
   /**
-   * Converts argumnet to the atomic value {@link IAtomicValue}.
+   * Converts argument to the atomic value {@link IAtomicValue}.
    * <p>
-   * The classes of argumnet is converted to the corresponding atomic types:
+   * The classes of argument is converted to the corresponding atomic types:
    * <ul>
    * <li>{@link String} as {@link EAtomicType#STRING};</li>
    * <li>{@link Boolean} as {@link EAtomicType#BOOLEAN};</li>
@@ -433,7 +433,7 @@ public class AvUtils {
    * <li>{@link Float}, {@link Double} as {@link EAtomicType#FLOATING};</li>
    * <li>{@link Date} as {@link EAtomicType#TIMESTAMP};</li>
    * <li>{@link IAtomicValue} is returned as is;</li>
-   * <li>Any other Object is analysed by the {@link TsValobjUtils#findByClass(Class)} for being an value-object.
+   * <li>Any other Object is analyzed by the {@link TsValobjUtils#findByClass(Class)} for being an value-object.
    * Value-objects are returned as {@link EAtomicType#VALOBJ}.</li>
    * </ul>
    * <p>
@@ -495,7 +495,9 @@ public class AvUtils {
    * @param aKeeper {@link IEntityKeeper} - entity keeper
    * @return {@link IAtomicValue} - atomic value of the type {@link EAtomicType#STRING}
    * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @deprecated storing atomic value as {@link EAtomicType#STRING} is deprecated, use {@link EAtomicType#VALOBJ}
    */
+  @Deprecated
   public static <T> IAtomicValue keepable2av( T aEntity, IEntityKeeper<T> aKeeper ) {
     if( aEntity == null || aKeeper == null ) {
       throw new TsNullArgumentRtException();
@@ -516,7 +518,9 @@ public class AvUtils {
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws AvTypeCastRtException value is not of type {@link EAtomicType#STRING}
    * @throws StrioRtException text invalid text representation
+   * @deprecated storing atomic value as {@link EAtomicType#STRING} is deprecated, use {@link EAtomicType#VALOBJ}
    */
+  @Deprecated
   public static <T> T av2keepable( IAtomicValue aValue, IEntityKeeper<T> aKeeper ) {
     TsNullArgumentRtException.checkNull( aValue );
     if( aKeeper.noneObject() != null && aValue == IAtomicValue.NULL ) {

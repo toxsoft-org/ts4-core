@@ -45,14 +45,14 @@ public class TsItemAlreadyExistsRtException
    * @param aCause Throwable - cause, mey be <code>null</code>
    */
   public TsItemAlreadyExistsRtException( Throwable aCause ) {
-    super( MSG_ERR_ITEM_ALREADY_EXIST, aCause );
+    super( LOG_STR_ERR_ITEM_ALREADY_EXIST, aCause );
   }
 
   /**
    * Constructor with preset message.
    */
   public TsItemAlreadyExistsRtException() {
-    super( MSG_ERR_ITEM_ALREADY_EXIST );
+    super( LOG_STR_ERR_ITEM_ALREADY_EXIST );
   }
 
   // ------------------------------------------------------------------------------------
@@ -83,7 +83,7 @@ public class TsItemAlreadyExistsRtException
   public static void checkFalse( boolean aCondition )
       throws TsItemAlreadyExistsRtException {
     if( !aCondition ) {
-      throw new TsItemAlreadyExistsRtException( MSG_ERR_ITEM_ALREADY_EXIST );
+      throw new TsItemAlreadyExistsRtException( LOG_STR_ERR_ITEM_ALREADY_EXIST );
     }
   }
 
@@ -111,7 +111,7 @@ public class TsItemAlreadyExistsRtException
   public static void checkTrue( boolean aCondition )
       throws TsItemAlreadyExistsRtException {
     if( aCondition ) {
-      throw new TsItemAlreadyExistsRtException( MSG_ERR_ITEM_ALREADY_EXIST );
+      throw new TsItemAlreadyExistsRtException( LOG_STR_ERR_ITEM_ALREADY_EXIST );
     }
   }
 
@@ -144,7 +144,7 @@ public class TsItemAlreadyExistsRtException
   public static <E> E checkNull( E aRef )
       throws TsItemAlreadyExistsRtException {
     if( aRef == null ) {
-      throw new TsItemAlreadyExistsRtException( MSG_ERR_ITEM_ALREADY_EXIST );
+      throw new TsItemAlreadyExistsRtException( LOG_STR_ERR_ITEM_ALREADY_EXIST );
     }
     return aRef;
   }
@@ -178,7 +178,7 @@ public class TsItemAlreadyExistsRtException
   public static <E> E checkNoNull( E aRef )
       throws TsItemAlreadyExistsRtException {
     if( aRef != null ) {
-      throw new TsItemAlreadyExistsRtException( MSG_ERR_ITEM_ALREADY_EXIST );
+      throw new TsItemAlreadyExistsRtException( LOG_STR_ERR_ITEM_ALREADY_EXIST );
     }
     return aRef;
   }

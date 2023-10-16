@@ -3,23 +3,21 @@ package org.toxsoft.core.tslib.av;
 import static org.toxsoft.core.tslib.av.ITsResources.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 
-import org.toxsoft.core.tslib.bricks.keeper.std.StridableEnumKeeper;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesListEdit;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.StridablesList;
-import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
+import org.toxsoft.core.tslib.bricks.keeper.std.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
  * Atomic data type.
  * <p>
- * Atomic data type is modelling real (red) world data, eg. real data exisеing outside program code. The introduction of
+ * Atomic data type is modeling real (red) world data, eg. real data exisеing outside program code. The introduction of
  * this enumeration with interface {@link IAtomicValue} serves as "bridge" between the real world and the computer
  * (Java-software) model.
  * <p>
- * Atomic types are modelling following real world concepts:
+ * Atomic types are modeling following real world concepts:
  * <ul>
  * <li>{@link #BOOLEAN} - logical assessment (yes/no. true/false, etc.);</li>
  * <li>{@link #INTEGER} - the counted number of something;</li>
@@ -31,15 +29,15 @@ import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
  * <p>
  * This class implements {@link IStridable}, with following meaning of it's fields:
  * <ul>
- * <li>{@link #id()} - uinque type identifier (IDname);</li>
+ * <li>{@link #id()} - unique type identifier (IDname);</li>
  * <li>{@link #nmName()} - short name of the type;</li>
  * <li>{@link #description()} - brief description of the type.</li>
  * </ul>
  * <p>
  * It is important how the {@link #NONE} type is used:<br>
  * <ul>
- * <li>for <b>valiables (Lvalues)</b> {@link #NONE} - means that <b>any</b> type may be assigned to the variable;</li>
- * <li>for <b>values (Rvalues)</b> {@link #NONE} means that there is no value, so it is {@link IAtomicValue#NULL}
+ * <li>for <b>variables (L-values)</b> {@link #NONE} - means that <b>any</b> type may be assigned to the variable;</li>
+ * <li>for <b>values (R-values)</b> {@link #NONE} means that there is no value, so it is {@link IAtomicValue#NULL}
  * constant</b>.</li>
  * </ul>
  *
@@ -51,37 +49,37 @@ public enum EAtomicType
   /**
    * Unknown, none type of the vale or any type for the variable.
    */
-  NONE( DDID_NONE, STR_N_AT_NONE, STR_D_AT_NONE, IAtomicValue.NULL ),
+  NONE( DDID_NONE, STR_AT_NONE, STR_AT_NONE_D, IAtomicValue.NULL ),
 
   /**
    * Boolean type.
    */
-  BOOLEAN( DDID_BOOLEAN, STR_N_AT_BOOL, STR_D_AT_BOOL, AV_FALSE ),
+  BOOLEAN( DDID_BOOLEAN, STR_AT_BOOL, STR_AT_BOOL_D, AV_FALSE ),
 
   /**
    * Integer type with no value limits.
    */
-  INTEGER( DDID_INTEGER, STR_N_AT_INTEGER, STR_D_AT_INTEGER, AV_0 ),
+  INTEGER( DDID_INTEGER, STR_AT_INTEGER, STR_AT_INTEGER_D, AV_0 ),
 
   /**
    * Real type with no value limits.
    */
-  FLOATING( DDID_FLOATING, STR_N_AT_FLOATING, STR_D_AT_FLOATING, AV_F_0 ),
+  FLOATING( DDID_FLOATING, STR_AT_FLOATING, STR_AT_FLOATING_D, AV_F_0 ),
 
   /**
    * Text string with no length limit.
    */
-  STRING( DDID_STRING, STR_N_AT_STRING, STR_D_AT_STRING, AV_STR_EMPTY ),
+  STRING( DDID_STRING, STR_AT_STRING, STR_AT_STRING_D, AV_STR_EMPTY ),
 
   /**
    * Timestamp.
    */
-  TIMESTAMP( DDID_TIMESTAMP, STR_N_AT_TIMESTAMP, STR_D_AT_TIMESTAMP, AV_TIME_0 ),
+  TIMESTAMP( DDID_TIMESTAMP, STR_AT_TIMESTAMP, STR_AT_TIMESTAMP_D, AV_TIME_0 ),
 
   /**
    * Embedded value object.
    */
-  VALOBJ( DDID_VALOBJ, STR_N_AT_VALOBJ, STR_D_AT_VALOBJ, AV_VALOBJ_NULL );
+  VALOBJ( DDID_VALOBJ, STR_AT_VALOBJ, STR_AT_VALOBJ_D, AV_VALOBJ_NULL );
 
   /**
    * Value-object registration identifier for {@link TsValobjUtils}.
@@ -135,7 +133,7 @@ public enum EAtomicType
    * <p>
    * This method is intended to make code more self-documentory when chacking variables.
    *
-   * @return boolean - эта константа есть {@link #NONE}
+   * @return boolean - this constant is {@link #NONE}
    */
   public boolean isAny() {
     return this == NONE;
@@ -159,85 +157,44 @@ public enum EAtomicType
     return nmName;
   }
 
-  // ------------------------------------------------------------------------------------
-  // static API
+  // ----------------------------------------------------------------------------------
+  // Stridable enum common API
   //
 
   /**
-   * Returns all constants as ordered {@link IStridablesList}.
+   * Returns all constants in single list.
    *
-   * @return {@link IStridablesList}&lt; {@link EAtomicType} &gt; - list of all constants in order of declaration
+   * @return {@link IStridablesList}&lt; {@link EAtomicType} &gt; - list of constants in order of declaraion
    */
-  public static IStridablesList<EAtomicType> asStridablesList() {
+  public static IStridablesList<EAtomicType> asList() {
     if( list == null ) {
       list = new StridablesList<>( values() );
     }
     return list;
   }
 
-  // ----------------------------------------------------------------------------------
-  // Check for constants existance
-  //
-
   /**
-   * Determines if constant with specified identifier ({@link #id()}) exists.
+   * Returns the constant by the ID.
    *
-   * @param aId String - identifier of constant to search for
-   * @return boolean - <code>true</code> if constant exists
-   * @throws TsNullArgumentRtException argument = <code>null</code>
-   */
-  public static boolean isItemById( String aId ) {
-    return findById( aId ) != null;
-  }
-
-  /**
-   * Determines if constant with specified name ({@link #nmName()}) exists.
-   *
-   * @param aName String - name of constant to search for
-   * @return boolean - <code>true</code> if constant exists
-   * @throws TsNullArgumentRtException argument = <code>null</code>
-   */
-  public static boolean isItemByName( String aName ) {
-    return findByName( aName ) != null;
-  }
-
-  // ----------------------------------------------------------------------------------
-  // Find & get
-  //
-
-  /**
-   * Finds constant with specified identifier ({@link #id()}).
-   *
-   * @param aId String - identifier of constant to search for
-   * @return EAtomicType - found constant or <code>null</code> if no constant exists with specified identifier
-   * @throws TsNullArgumentRtException argument = <code>null</code>
-   */
-  public static EAtomicType findById( String aId ) {
-    return asStridablesList().findByKey( aId );
-  }
-
-  /**
-   * Returns constant with specified identifier ({@link #id()}).
-   *
-   * @param aId String - identifier of constant to search for
-   * @return EAtomicType - found constant
-   * @throws TsNullArgumentRtException argument = <code>null</code>
-   * @throws TsItemNotFoundRtException no such constant
+   * @param aId String - the ID
+   * @return {@link EAtomicType} - found constant
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException no constant found by specified ID
    */
   public static EAtomicType getById( String aId ) {
-    return asStridablesList().getByKey( aId );
+    return asList().getByKey( aId );
   }
 
   /**
-   * Finds constant with specified name ({@link #nmName()}) exists.
+   * Finds the constant by the name.
    *
-   * @param aName String - identifier of constant to search for
-   * @return EAtomicType - found constant or <code>null</code> if no constant exists with specified name
-   * @throws TsNullArgumentRtException argument = <code>null</code>
+   * @param aName String - the name
+   * @return {@link EAtomicType} - found constant or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static EAtomicType findByName( String aName ) {
     TsNullArgumentRtException.checkNull( aName );
-    for( EAtomicType item : asStridablesList() ) {
+    for( EAtomicType item : values() ) {
       if( item.nmName.equals( aName ) ) {
         return item;
       }
@@ -246,12 +203,12 @@ public enum EAtomicType
   }
 
   /**
-   * Returns constant with specified name ({@link #nmName()}).
+   * Returns the constant by the name.
    *
-   * @param aName String - identifier of constant to search for
-   * @return EAtomicType - found constant
-   * @throws TsNullArgumentRtException argument = <code>null</code>
-   * @throws TsItemNotFoundRtException no such constant
+   * @param aName String - the name
+   * @return {@link EAtomicType} - found constant
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException no constant found by specified name
    */
   public static EAtomicType getByName( String aName ) {
     return TsItemNotFoundRtException.checkNull( findByName( aName ) );

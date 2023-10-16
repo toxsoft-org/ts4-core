@@ -43,14 +43,14 @@ public class TsInternalErrorRtException
    * @param aCause Throwable - cause, may be <code>null</code>
    */
   public TsInternalErrorRtException( Throwable aCause ) {
-    super( ERR_MSG_INTERNAL_ERROR, aCause );
+    super( LOG_STR_ERR_INTERNAL_ERROR, aCause );
   }
 
   /**
    * Constructor with preset message.
    */
   public TsInternalErrorRtException() {
-    super( ERR_MSG_INTERNAL_ERROR );
+    super( LOG_STR_ERR_INTERNAL_ERROR );
   }
 
   // ------------------------------------------------------------------------------------
@@ -81,7 +81,7 @@ public class TsInternalErrorRtException
   public static void checkFalse( boolean aCondition )
       throws TsInternalErrorRtException {
     if( !aCondition ) {
-      throw new TsInternalErrorRtException( ERR_MSG_INTERNAL_ERROR );
+      throw new TsInternalErrorRtException( LOG_STR_ERR_INTERNAL_ERROR );
     }
   }
 
@@ -109,7 +109,7 @@ public class TsInternalErrorRtException
   public static void checkTrue( boolean aCondition )
       throws TsInternalErrorRtException {
     if( aCondition ) {
-      throw new TsInternalErrorRtException( ERR_MSG_INTERNAL_ERROR );
+      throw new TsInternalErrorRtException( LOG_STR_ERR_INTERNAL_ERROR );
     }
   }
 
@@ -142,7 +142,7 @@ public class TsInternalErrorRtException
   public static <E> E checkNull( E aRef )
       throws TsInternalErrorRtException {
     if( aRef == null ) {
-      throw new TsInternalErrorRtException( ERR_MSG_INTERNAL_ERROR );
+      throw new TsInternalErrorRtException( LOG_STR_ERR_INTERNAL_ERROR );
     }
     return aRef;
   }
@@ -176,7 +176,7 @@ public class TsInternalErrorRtException
   public static <E> E checkNoNull( E aRef )
       throws TsInternalErrorRtException {
     if( aRef != null ) {
-      throw new TsInternalErrorRtException( ERR_MSG_INTERNAL_ERROR );
+      throw new TsInternalErrorRtException( LOG_STR_ERR_INTERNAL_ERROR );
     }
     return aRef;
   }

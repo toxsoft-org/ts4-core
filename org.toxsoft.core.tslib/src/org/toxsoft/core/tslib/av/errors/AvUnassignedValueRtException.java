@@ -5,16 +5,12 @@ import static org.toxsoft.core.tslib.av.errors.ITsResources.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
-//TODO TRANSLATE
-
 /**
- * Ошибка доступа к значению в неинициализированном данном.
+ * Error accessing unassigned atomic value.
  * <p>
- * Данное исключение выбрасывается при попытке прочитать занчение из, которому не присвоено значение, то есть, для
- * которого {@link IAtomicValue#isAssigned()}=false.
- * <p>
- * Следует иметь в виду, что допустимо сущствование таких реализации интерфейса {@link IAtomicValue}, которые при вызове
- * методов asXxx() вместо выбрасываения исключения могут возвращать предопределенные значения.
+ * This exception is thrown when attempting to read a value using any <code>asXxx()</code> method other than
+ * {@link IAtomicValue#asString()} from the {@link IAtomicValue#NULL} constant. Recall that {@link IAtomicValue#NULL} is
+ * the only instance of the atomic data of the type {@link EAtomicType#NONE}.
  *
  * @author hazard157
  */
@@ -24,168 +20,172 @@ public class AvUnassignedValueRtException
   private static final long serialVersionUID = 157157L;
 
   /**
-   * Создает трансилирующее исключение.
+   * Constructor for wrapper exception.
+   * <p>
+   * Message string is created using {@link String#format(String, Object...)}.
    *
-   * @param aCause Throwable - ошибка, вызвавшее данное исключние
-   * @param aMessageFormat String - форматирующее сообщение о сути исключения
-   * @param aMsgArgs Object[] - аргументы форматированного сообщения
+   * @param aCause Throwable - cause, may be <code>null</code>
+   * @param aMessageFormat String - message format string
+   * @param aMsgArgs Object[] - optional arguments for message string
    */
   public AvUnassignedValueRtException( Throwable aCause, String aMessageFormat, Object... aMsgArgs ) {
     super( aCause, aMessageFormat, aMsgArgs );
   }
 
   /**
-   * Создает исключение ТоксСофт, происшедшее в коде.
+   * Constructor.
+   * <p>
+   * Message string is created using {@link String#format(String, Object...)}.
    *
-   * @param aMessageFormat String - форматирующее сообщение о сути исключения
-   * @param aMsgArgs Object[] - аргументы форматированного сообщения
+   * @param aMessageFormat String - message format string
+   * @param aMsgArgs Object[] - optional arguments for message string
    */
   public AvUnassignedValueRtException( String aMessageFormat, Object... aMsgArgs ) {
     super( aMessageFormat, aMsgArgs );
   }
 
   /**
-   * Создает трансилирующее исключение ТоксСофт, с предопределенным текстом сообщения.
+   * Constructor for wrapper exception with preset message.
    *
-   * @param aCause Throwable - ошибка, вызвавшее данное исключние
+   * @param aCause Throwable - cause, may be <code>null</code>
    */
   public AvUnassignedValueRtException( Throwable aCause ) {
-    super( ERR_MSG_STD_UNASSIGNED_VALUE, aCause );
+    super( LOG_STR_ERR_STD_UNASSIGNED_VALUE, aCause );
   }
 
   /**
-   * Создает исключение ТоксСофт, с предопределенным текстом сообщения.
+   * Constructor with preset message.
    */
   public AvUnassignedValueRtException() {
-    super( ERR_MSG_STD_UNASSIGNED_VALUE );
+    super( LOG_STR_ERR_STD_UNASSIGNED_VALUE );
   }
 
+  // ------------------------------------------------------------------------------------
+  // Check & throw methods
+  //
+
   /**
-   * Проверяет выражение, и если оно не верно, выбрасывает исключение.
+   * Throws an exception if condition is <code>false</code>.
    *
-   * @param aExpression boolean - проверяемое выражение
-   * @param aMessageFormat String - форматирующее сообщение о сути исключения
-   * @param aMsgArgs Object[] - аргументы форматированного сообщения
-   * @throws AvUnassignedValueRtException - если aExpression == false
+   * @param aCondition boolean - checked condition
+   * @param aMessageFormat String - message format string
+   * @param aMsgArgs Object[] - optional arguments for message string
+   * @throws AvUnassignedValueRtException aCondition == <code>false</code>
    */
-  public static void checkFalse( boolean aExpression, String aMessageFormat, Object... aMsgArgs )
+  public static void checkFalse( boolean aCondition, String aMessageFormat, Object... aMsgArgs )
       throws AvUnassignedValueRtException {
-    if( !aExpression ) {
+    if( !aCondition ) {
       throw new AvUnassignedValueRtException( aMessageFormat, aMsgArgs );
     }
   }
 
   /**
-   * Проверяет выражение, и если оно не верно, выбрасывает исключение с предопределенным текстом сообщения.
+   * Throws an exception with preset message if condition is <code>false</code>.
    *
-   * @param aExpression boolean - проверяемое выражение
-   * @throws AvUnassignedValueRtException - если aExpression == false
+   * @param aCondition boolean - checked condition
+   * @throws AvUnassignedValueRtException aCondition == <code>false</code>
    */
-  public static void checkFalse( boolean aExpression )
+  public static void checkFalse( boolean aCondition )
       throws AvUnassignedValueRtException {
-    if( !aExpression ) {
-      throw new AvUnassignedValueRtException( ERR_MSG_STD_UNASSIGNED_VALUE );
+    if( !aCondition ) {
+      throw new AvUnassignedValueRtException( LOG_STR_ERR_STD_UNASSIGNED_VALUE );
     }
   }
 
   /**
-   * Проверяет выражение, и если оно верно, выбрасывает исключение.
+   * Throws an exception if condition is <code>true</code>.
    *
-   * @param aExpression boolean - проверяемое выражение
-   * @param aMessageFormat String - форматирующее сообщение о сути исключения
-   * @param aMsgArgs Object[] - аргументы форматированного сообщения
-   * @throws AvUnassignedValueRtException - если aExpression == true
+   * @param aCondition boolean - checked condition
+   * @param aMessageFormat String - message format string
+   * @param aMsgArgs Object[] - optional arguments for message string
+   * @throws AvUnassignedValueRtException aCondition == <code>true</code>
    */
-  public static void checkTrue( boolean aExpression, String aMessageFormat, Object... aMsgArgs )
+  public static void checkTrue( boolean aCondition, String aMessageFormat, Object... aMsgArgs )
       throws AvUnassignedValueRtException {
-    if( aExpression ) {
+    if( aCondition ) {
       throw new AvUnassignedValueRtException( aMessageFormat, aMsgArgs );
     }
   }
 
   /**
-   * Проверяет выражение, и если оно верно, выбрасывает исключение с заданным текстом сообщения.
+   * Throws an exception with preset message if condition is <code>true</code>.
    *
-   * @param aExpression boolean - проверяемое выражение
-   * @throws AvUnassignedValueRtException - если aExpression == true
+   * @param aCondition boolean - checked condition
+   * @throws AvUnassignedValueRtException aCondition == <code>true</code>
    */
-  public static void checkTrue( boolean aExpression )
+  public static void checkTrue( boolean aCondition )
       throws AvUnassignedValueRtException {
-    if( aExpression ) {
-      throw new AvUnassignedValueRtException( ERR_MSG_STD_UNASSIGNED_VALUE );
+    if( aCondition ) {
+      throw new AvUnassignedValueRtException( LOG_STR_ERR_STD_UNASSIGNED_VALUE );
     }
   }
 
   /**
-   * Проверяет ссылку, и если она не нулевая, выбрасывает исключение.<br>
-   * Для удобаства использования, возвращает переданную ссылку.
+   * Throws an exception if reference is <b>not</b> <code>null</code>.
    *
-   * @param <E> - необязательная типизация по переданной ссылке
-   * @param aReference Object - проверяемая ссылка
-   * @param aMessageFormat String - форматирующее сообщение о сути исключения
-   * @param aMsgArgs Object[] - аргументы форматированного сообщения
-   * @return E - переданная ссылка
-   * @throws AvUnassignedValueRtException - проверяемая ссылка не равна null
+   * @param <E> - reference type
+   * @param aRef &lt;E&gt; - checked reference
+   * @param aMessageFormat String - message format string
+   * @param aMsgArgs Object[] - optional arguments for message string
+   * @return &lt;E&gt; - always returns aRef
+   * @throws AvUnassignedValueRtException aRef == <code>null</code>
    */
-  public static <E> E checkNoNull( E aReference, String aMessageFormat, Object... aMsgArgs )
+  public static <E> E checkNoNull( E aRef, String aMessageFormat, Object... aMsgArgs )
       throws AvUnassignedValueRtException {
-    if( aReference != null ) {
+    if( aRef != null ) {
       throw new AvUnassignedValueRtException( aMessageFormat, aMsgArgs );
     }
-    return aReference;
+    return aRef;
   }
 
   /**
-   * Проверяет ссылку, и если она не нулевая, выбрасывает исключение с заданным текстом сообщения.<br>
-   * Для удобаства использования, возвращает переданную ссылку.
+   * Throws an exception with preset message if reference is <b>not</b> <code>null</code>.
    *
-   * @param <E> - необязательная типизация по переданной ссылке
-   * @param aReference Object - проверяемая ссылка
-   * @return E - переданная ссылка
-   * @throws AvUnassignedValueRtException - проверяемая ссылка не равна null
+   * @param <E> - reference type
+   * @param aRef &lt;E&gt; - checked reference
+   * @return &lt;E&gt; - always returns aRef
+   * @throws AvUnassignedValueRtException aRef == <code>null</code>
    */
-  public static <E> E checkNoNull( E aReference )
+  public static <E> E checkNoNull( E aRef )
       throws AvUnassignedValueRtException {
-    if( aReference != null ) {
-      throw new AvUnassignedValueRtException( ERR_MSG_STD_UNASSIGNED_VALUE );
+    if( aRef != null ) {
+      throw new AvUnassignedValueRtException( LOG_STR_ERR_STD_UNASSIGNED_VALUE );
     }
-    return aReference;
+    return aRef;
   }
 
   /**
-   * Проверяет ссылку, и если она нулевая, выбрасывает исключение.<br>
-   * Для удобаства использования, возвращает переданную ссылку.
+   * Throws an exception if reference is <code>null</code>.
    *
-   * @param <E> - необязательная типизация по переданной ссылке
-   * @param aReference Object - проверяемая ссылка
-   * @param aMessageFormat String - форматирующее сообщение о сути исключения
-   * @param aMsgArgs Object[] - аргументы форматированного сообщения
-   * @return E - переданная ссылка
-   * @throws AvUnassignedValueRtException - проверяемая ссылка равна null
+   * @param <E> - reference type
+   * @param aRef &lt;E&gt; - checked reference
+   * @param aMessageFormat String - message format string
+   * @param aMsgArgs Object[] - optional arguments for message string
+   * @return &lt;E&gt; - always returns aRef
+   * @throws AvUnassignedValueRtException aRef == <code>null</code>
    */
-  public static <E> E checkNull( E aReference, String aMessageFormat, Object... aMsgArgs )
+  public static <E> E checkNull( E aRef, String aMessageFormat, Object... aMsgArgs )
       throws AvUnassignedValueRtException {
-    if( aReference == null ) {
+    if( aRef == null ) {
       throw new AvUnassignedValueRtException( aMessageFormat, aMsgArgs );
     }
-    return aReference;
+    return aRef;
   }
 
   /**
-   * Проверяет ссылку, и если она нулевая, выбрасывает исключение с заданным текстом сообщения.<br>
-   * Для удобаства использования, возвращает переданную ссылку.
+   * Throws an exception with preset message if reference is <code>null</code>.
    *
-   * @param <E> - необязательная типизация по переданной ссылке
-   * @param aReference Object - проверяемая ссылка
-   * @return E - переданная ссылка
-   * @throws AvUnassignedValueRtException - проверяемая ссылка равна null
+   * @param <E> - reference type
+   * @param aRef &lt;E&gt; - checked reference
+   * @return &lt;E&gt; - always returns aRef
+   * @throws AvUnassignedValueRtException aRef == <code>null</code>
    */
-  public static <E> E checkNull( E aReference )
+  public static <E> E checkNull( E aRef )
       throws AvUnassignedValueRtException {
-    if( aReference == null ) {
-      throw new AvUnassignedValueRtException( ERR_MSG_STD_UNASSIGNED_VALUE );
+    if( aRef == null ) {
+      throw new AvUnassignedValueRtException( LOG_STR_ERR_STD_UNASSIGNED_VALUE );
     }
-    return aReference;
+    return aRef;
   }
 
 }

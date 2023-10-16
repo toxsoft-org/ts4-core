@@ -5,14 +5,11 @@ import static org.toxsoft.core.tslib.av.errors.ITsResources.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
-// TODO TRANSLATE
-
 /**
- * Ошибка преобразования типизированного значения или нетипизированного хранилища к конкретному типу.
+ * Error converting one type to other (atomic type incompatibility error).
  * <p>
- * Реальные данные по сути имеют какой либо тип ({@link EAtomicType} - целое, вещественное, дата/время и т.п.) или
- * хранится в нетипизированном виде, и не всегда возмжно представить их в любом другом виде. Например, строку чаще всего
- * нельзя получить как целое число. В таких случаях и возникает эта ошибка.
+ * Real data in atomic value has some {@link EAtomicType} that cannot be converted to other atomic type.For example it
+ * is an error try to access {@link EAtomicType#INTEGER} as a {@link EAtomicType#FLOATING}.
  *
  * @author hazard157
  */
@@ -22,180 +19,182 @@ public class AvTypeCastRtException
   private static final long serialVersionUID = 157157L;
 
   /**
-   * Создает трансилирующее исключение.
+   * Constructor for wrapper exception.
+   * <p>
+   * Message string is created using {@link String#format(String, Object...)}.
    *
-   * @param aCause Throwable - ошибка, вызвавшее данное исключние
-   * @param aMessageFormat String - форматирующее сообщение о сути исключения
-   * @param aMsgArgs Object[] - аргументы форматированного сообщения
+   * @param aCause Throwable - cause, may be <code>null</code>
+   * @param aMessageFormat String - message format string
+   * @param aMsgArgs Object[] - optional arguments for message string
    */
   public AvTypeCastRtException( Throwable aCause, String aMessageFormat, Object... aMsgArgs ) {
     super( aCause, aMessageFormat, aMsgArgs );
   }
 
   /**
-   * Создает исключение ТоксСофт, происшедшее в коде.
+   * Constructor.
+   * <p>
+   * Message string is created using {@link String#format(String, Object...)}.
    *
-   * @param aMessageFormat String - форматирующее сообщение о сути исключения
-   * @param aMsgArgs Object[] - аргументы форматированного сообщения
+   * @param aMessageFormat String - message format string
+   * @param aMsgArgs Object[] - optional arguments for message string
    */
   public AvTypeCastRtException( String aMessageFormat, Object... aMsgArgs ) {
     super( aMessageFormat, aMsgArgs );
   }
 
   /**
-   * Создает трансилирующее исключение ТоксСофт, с предопределенным текстом сообщения.
+   * Constructor for wrapper exception with preset message.
    *
-   * @param aCause Throwable - ошибка, вызвавшее данное исключние
+   * @param aCause Throwable - cause, may be <code>null</code>
    */
   public AvTypeCastRtException( Throwable aCause ) {
-    super( ERR_MSG_STD_TYPE_CAST, aCause );
+    super( LOG_STR_ERR_STD_TYPE_CAST, aCause );
   }
 
   /**
-   * Создает исключение ТоксСофт, с предопределенным текстом сообщения.
+   * Constructor with preset message.
    */
   public AvTypeCastRtException() {
-    super( ERR_MSG_STD_TYPE_CAST );
+    super( LOG_STR_ERR_STD_TYPE_CAST );
   }
 
+  // ------------------------------------------------------------------------------------
+  // Check & throw methods
+  //
+
   /**
-   * Проверяет выражение, и если оно не верно, выбрасывает исключение.
+   * Throws an exception if condition is <code>false</code>.
    *
-   * @param aExpression boolean - проверяемое выражение
-   * @param aMessageFormat String - форматирующее сообщение о сути исключения
-   * @param aMsgArgs Object[] - аргументы форматированного сообщения
-   * @throws AvTypeCastRtException - если aExpression == false
+   * @param aCondition boolean - checked condition
+   * @param aMessageFormat String - message format string
+   * @param aMsgArgs Object[] - optional arguments for message string
+   * @throws AvTypeCastRtException aCondition == <code>false</code>
    */
-  public static void checkFalse( boolean aExpression, String aMessageFormat, Object... aMsgArgs )
+  public static void checkFalse( boolean aCondition, String aMessageFormat, Object... aMsgArgs )
       throws AvTypeCastRtException {
-    if( !aExpression ) {
+    if( !aCondition ) {
       throw new AvTypeCastRtException( aMessageFormat, aMsgArgs );
     }
   }
 
   /**
-   * Проверяет выражение, и если оно не верно, выбрасывает исключение с предопределенным текстом сообщения.
+   * Throws an exception with preset message if condition is <code>false</code>.
    *
-   * @param aExpression boolean - проверяемое выражение
-   * @throws AvTypeCastRtException - если aExpression == false
+   * @param aCondition boolean - checked condition
+   * @throws AvTypeCastRtException aCondition == <code>false</code>
    */
-  public static void checkFalse( boolean aExpression )
+  public static void checkFalse( boolean aCondition )
       throws AvTypeCastRtException {
-    if( !aExpression ) {
-      throw new AvTypeCastRtException( ERR_MSG_STD_TYPE_CAST );
+    if( !aCondition ) {
+      throw new AvTypeCastRtException( LOG_STR_ERR_STD_TYPE_CAST );
     }
   }
 
   /**
-   * Проверяет выражение, и если оно верно, выбрасывает исключение.
+   * Throws an exception if condition is <code>true</code>.
    *
-   * @param aExpression boolean - проверяемое выражение
-   * @param aMessageFormat String - форматирующее сообщение о сути исключения
-   * @param aMsgArgs Object[] - аргументы форматированного сообщения
-   * @throws AvTypeCastRtException - если aExpression == true
+   * @param aCondition boolean - checked condition
+   * @param aMessageFormat String - message format string
+   * @param aMsgArgs Object[] - optional arguments for message string
+   * @throws AvTypeCastRtException aCondition == <code>true</code>
    */
-  public static void checkTrue( boolean aExpression, String aMessageFormat, Object... aMsgArgs )
+  public static void checkTrue( boolean aCondition, String aMessageFormat, Object... aMsgArgs )
       throws AvTypeCastRtException {
-    if( aExpression ) {
+    if( aCondition ) {
       throw new AvTypeCastRtException( aMessageFormat, aMsgArgs );
     }
   }
 
   /**
-   * Проверяет выражение, и если оно верно, выбрасывает исключение с заданным текстом сообщения.
+   * Throws an exception with preset message if condition is <code>true</code>.
    *
-   * @param aExpression boolean - проверяемое выражение
-   * @throws AvTypeCastRtException - если aExpression == true
+   * @param aCondition boolean - checked condition
+   * @throws AvTypeCastRtException aCondition == <code>true</code>
    */
-  public static void checkTrue( boolean aExpression )
+  public static void checkTrue( boolean aCondition )
       throws AvTypeCastRtException {
-    if( aExpression ) {
-      throw new AvTypeCastRtException( ERR_MSG_STD_TYPE_CAST );
+    if( aCondition ) {
+      throw new AvTypeCastRtException( LOG_STR_ERR_STD_TYPE_CAST );
     }
   }
 
   /**
-   * Проверяет ссылку, и если она не нулевая, выбрасывает исключение.<br>
-   * Для удобаства использования, возвращает переданную ссылку.
+   * Throws an exception if reference is <b>not</b> <code>null</code>.
    *
-   * @param <E> - необязательная типизация по переданной ссылке
-   * @param aReference Object - проверяемая ссылка
-   * @param aMessageFormat String - форматирующее сообщение о сути исключения
-   * @param aMsgArgs Object[] - аргументы форматированного сообщения
-   * @return E - переданная ссылка
-   * @throws AvTypeCastRtException - проверяемая ссылка не равна null
+   * @param <E> - reference type
+   * @param aRef &lt;E&gt; - checked reference
+   * @param aMessageFormat String - message format string
+   * @param aMsgArgs Object[] - optional arguments for message string
+   * @return &lt;E&gt; - always returns aRef
+   * @throws AvTypeCastRtException aRef == <code>null</code>
    */
-  public static <E> E checkNoNull( E aReference, String aMessageFormat, Object... aMsgArgs )
+  public static <E> E checkNoNull( E aRef, String aMessageFormat, Object... aMsgArgs )
       throws AvTypeCastRtException {
-    if( aReference != null ) {
+    if( aRef != null ) {
       throw new AvTypeCastRtException( aMessageFormat, aMsgArgs );
     }
-    return aReference;
+    return aRef;
   }
 
   /**
-   * Проверяет ссылку, и если она не нулевая, выбрасывает исключение с заданным текстом сообщения.<br>
-   * Для удобаства использования, возвращает переданную ссылку.
+   * Throws an exception with preset message if reference is <b>not</b> <code>null</code>.
    *
-   * @param <E> - необязательная типизация по переданной ссылке
-   * @param aReference Object - проверяемая ссылка
-   * @return E - переданная ссылка
-   * @throws AvTypeCastRtException - проверяемая ссылка не равна null
+   * @param <E> - reference type
+   * @param aRef &lt;E&gt; - checked reference
+   * @return &lt;E&gt; - always returns aRef
+   * @throws AvTypeCastRtException aRef == <code>null</code>
    */
-  public static <E> E checkNoNull( E aReference )
+  public static <E> E checkNoNull( E aRef )
       throws AvTypeCastRtException {
-    if( aReference != null ) {
-      throw new AvTypeCastRtException( ERR_MSG_STD_TYPE_CAST );
+    if( aRef != null ) {
+      throw new AvTypeCastRtException( LOG_STR_ERR_STD_TYPE_CAST );
     }
-    return aReference;
+    return aRef;
   }
 
   /**
-   * Проверяет ссылку, и если она нулевая, выбрасывает исключение.<br>
-   * Для удобаства использования, возвращает переданную ссылку.
+   * Throws an exception if reference is <code>null</code>.
    *
-   * @param <E> - необязательная типизация по переданной ссылке
-   * @param aReference Object - проверяемая ссылка
-   * @param aMessageFormat String - форматирующее сообщение о сути исключения
-   * @param aMsgArgs Object[] - аргументы форматированного сообщения
-   * @return E - переданная ссылка
-   * @throws AvTypeCastRtException - проверяемая ссылка равна null
+   * @param <E> - reference type
+   * @param aRef &lt;E&gt; - checked reference
+   * @param aMessageFormat String - message format string
+   * @param aMsgArgs Object[] - optional arguments for message string
+   * @return &lt;E&gt; - always returns aRef
+   * @throws AvTypeCastRtException aRef == <code>null</code>
    */
-  public static <E> E checkNull( E aReference, String aMessageFormat, Object... aMsgArgs )
+  public static <E> E checkNull( E aRef, String aMessageFormat, Object... aMsgArgs )
       throws AvTypeCastRtException {
-    if( aReference == null ) {
+    if( aRef == null ) {
       throw new AvTypeCastRtException( aMessageFormat, aMsgArgs );
     }
-    return aReference;
+    return aRef;
   }
 
   /**
-   * Проверяет ссылку, и если она нулевая, выбрасывает исключение с заданным текстом сообщения.<br>
-   * Для удобаства использования, возвращает переданную ссылку.
+   * Throws an exception with preset message if reference is <code>null</code>.
    *
-   * @param <E> - необязательная типизация по переданной ссылке
-   * @param aReference Object - проверяемая ссылка
-   * @return E - переданная ссылка
-   * @throws AvTypeCastRtException - проверяемая ссылка равна null
+   * @param <E> - reference type
+   * @param aRef &lt;E&gt; - checked reference
+   * @return &lt;E&gt; - always returns aRef
+   * @throws AvTypeCastRtException aRef == <code>null</code>
    */
-  public static <E> E checkNull( E aReference )
+  public static <E> E checkNull( E aRef )
       throws AvTypeCastRtException {
-    if( aReference == null ) {
-      throw new AvTypeCastRtException( ERR_MSG_STD_TYPE_CAST );
+    if( aRef == null ) {
+      throw new AvTypeCastRtException( LOG_STR_ERR_STD_TYPE_CAST );
     }
-    return aReference;
+    return aRef;
   }
 
   /**
-   * Проверят, можно ли перемнной указанного типа присвоить значение указанного типа.
+   * Checks if left-value of the specified atomic type can be assigned the value.
    *
-   * @param aLvalType {@link EAtomicType} - тип переменной
-   * @param aRvalType {@link EAtomicType} - тип значение
-   * @return boolean - результат проверки
-   * @throws AvTypeCastRtException типы не равны между собой и ни один из них не {@link EAtomicType#NONE}
+   * @param aLvalType {@link EAtomicType} - atomic type of the variable (left-value)
+   * @param aRvalType {@link EAtomicType} - atomic type of the value to assign (right-value)
+   * @return boolean - the check result, <code>true</code> if assignment can be done
    */
-  public static boolean canAssign( EAtomicType aLvalType, EAtomicType aRvalType )
-      throws AvTypeCastRtException {
+  public static boolean canAssign( EAtomicType aLvalType, EAtomicType aRvalType ) {
     if( aLvalType != EAtomicType.NONE && aRvalType != EAtomicType.NONE ) {
       if( aLvalType != aRvalType ) {
         return false;
@@ -205,29 +204,27 @@ public class AvTypeCastRtException
   }
 
   /**
-   * Проверят, можно ли перемнной указанного типа присвоить значение указанного типа.
+   * Throws an exception if left-value of the specified atomic type can <b>not</b> be assigned the value.
    *
-   * @param aLvalType {@link EAtomicType} - тип переменной
-   * @param aRvalType {@link EAtomicType} - тип значение
-   * @throws AvTypeCastRtException типы не равны между собой и ни один из них не {@link EAtomicType#NONE}
+   * @param aLvalType {@link EAtomicType} - atomic type of the variable (left-value)
+   * @param aRvalType {@link EAtomicType} - atomic type of the value to assign (right-value)
+   * @throws AvTypeCastRtException check {@link #canAssign(EAtomicType, EAtomicType)} failed
    */
   public static void checkCanAssign( EAtomicType aLvalType, EAtomicType aRvalType )
       throws AvTypeCastRtException {
-    if( aLvalType != EAtomicType.NONE && aRvalType != EAtomicType.NONE ) {
-      if( aLvalType != aRvalType ) {
-        throw new AvTypeCastRtException( FMT_ERR_CANT_ASSIGN, aLvalType.id(), aRvalType.id() );
-      }
+    if( !canAssign( aLvalType, aRvalType ) ) {
+      throw new AvTypeCastRtException( LOG_FMT_ERR_CANT_ASSIGN, aLvalType.id(), aRvalType.id() );
     }
   }
 
   /**
-   * Проверят, можно ли перемнной указанного типа присвоить значение указанного типа.
+   * Throws an exception if left-value of the specified atomic type can <b>not</b> be assigned the value.
    *
-   * @param aLvalType {@link EAtomicType} - тип переменной
-   * @param aRvalType {@link EAtomicType} - тип значение
-   * @param aMessageFormat String - форматирующее сообщение о сути исключения
-   * @param aMsgArgs Object[] - аргументы форматированного сообщения
-   * @throws AvTypeCastRtException типы не равны между собой и ни один из них не {@link EAtomicType#NONE}
+   * @param aLvalType {@link EAtomicType} - atomic type of the variable (left-value)
+   * @param aRvalType {@link EAtomicType} - atomic type of the value to assign (right-value)
+   * @param aMessageFormat String - message format string
+   * @param aMsgArgs Object[] - optional arguments for message string
+   * @throws AvTypeCastRtException check {@link #canAssign(EAtomicType, EAtomicType)} failed
    */
   public static void checkCanAssign( EAtomicType aLvalType, EAtomicType aRvalType, String aMessageFormat,
       Object... aMsgArgs )

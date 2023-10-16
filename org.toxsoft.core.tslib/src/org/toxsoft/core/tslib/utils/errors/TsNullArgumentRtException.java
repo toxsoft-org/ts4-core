@@ -42,7 +42,7 @@ public class TsNullArgumentRtException
    * Constructor with preset message.
    */
   public TsNullArgumentRtException() {
-    super( MSG_ERR_NULL_ARGUMENT );
+    super( LOG_STR_ERR_NULL_ARGUMENT );
   }
 
   // ------------------------------------------------------------------------------------
@@ -59,7 +59,7 @@ public class TsNullArgumentRtException
   public static void checkNulls( Object aRef1 )
       throws TsNullArgumentRtException {
     if( aRef1 == null ) {
-      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+      throw new TsNullArgumentRtException( LOG_STR_ERR_NULL_ARGUMENT );
     }
   }
 
@@ -74,10 +74,10 @@ public class TsNullArgumentRtException
   public static void checkNulls( Object aRef1, Object aRef2 )
       throws TsNullArgumentRtException {
     if( aRef1 == null ) {
-      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+      throw new TsNullArgumentRtException( LOG_STR_ERR_NULL_ARGUMENT );
     }
     if( aRef2 == null ) {
-      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+      throw new TsNullArgumentRtException( LOG_STR_ERR_NULL_ARGUMENT );
     }
   }
 
@@ -93,13 +93,13 @@ public class TsNullArgumentRtException
   public static void checkNulls( Object aRef1, Object aRef2, Object aRef3 )
       throws TsNullArgumentRtException {
     if( aRef1 == null ) {
-      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+      throw new TsNullArgumentRtException( LOG_STR_ERR_NULL_ARGUMENT );
     }
     if( aRef2 == null ) {
-      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+      throw new TsNullArgumentRtException( LOG_STR_ERR_NULL_ARGUMENT );
     }
     if( aRef3 == null ) {
-      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+      throw new TsNullArgumentRtException( LOG_STR_ERR_NULL_ARGUMENT );
     }
   }
 
@@ -116,16 +116,16 @@ public class TsNullArgumentRtException
   public static void checkNulls( Object aRef1, Object aRef2, Object aRef3, Object aRef4 )
       throws TsNullArgumentRtException {
     if( aRef1 == null ) {
-      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+      throw new TsNullArgumentRtException( LOG_STR_ERR_NULL_ARGUMENT );
     }
     if( aRef2 == null ) {
-      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+      throw new TsNullArgumentRtException( LOG_STR_ERR_NULL_ARGUMENT );
     }
     if( aRef3 == null ) {
-      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+      throw new TsNullArgumentRtException( LOG_STR_ERR_NULL_ARGUMENT );
     }
     if( aRef4 == null ) {
-      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+      throw new TsNullArgumentRtException( LOG_STR_ERR_NULL_ARGUMENT );
     }
   }
 
@@ -143,19 +143,19 @@ public class TsNullArgumentRtException
   public static void checkNulls( Object aRef1, Object aRef2, Object aRef3, Object aRef4, Object aRef5 )
       throws TsNullArgumentRtException {
     if( aRef1 == null ) {
-      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+      throw new TsNullArgumentRtException( LOG_STR_ERR_NULL_ARGUMENT );
     }
     if( aRef2 == null ) {
-      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+      throw new TsNullArgumentRtException( LOG_STR_ERR_NULL_ARGUMENT );
     }
     if( aRef3 == null ) {
-      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+      throw new TsNullArgumentRtException( LOG_STR_ERR_NULL_ARGUMENT );
     }
     if( aRef4 == null ) {
-      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+      throw new TsNullArgumentRtException( LOG_STR_ERR_NULL_ARGUMENT );
     }
     if( aRef5 == null ) {
-      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+      throw new TsNullArgumentRtException( LOG_STR_ERR_NULL_ARGUMENT );
     }
   }
 
@@ -176,26 +176,26 @@ public class TsNullArgumentRtException
       Object... aRefs )
       throws TsNullArgumentRtException {
     if( aRef1 == null ) {
-      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+      throw new TsNullArgumentRtException( LOG_STR_ERR_NULL_ARGUMENT );
     }
     if( aRef2 == null ) {
-      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+      throw new TsNullArgumentRtException( LOG_STR_ERR_NULL_ARGUMENT );
     }
     if( aRef3 == null ) {
-      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+      throw new TsNullArgumentRtException( LOG_STR_ERR_NULL_ARGUMENT );
     }
     if( aRef4 == null ) {
-      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+      throw new TsNullArgumentRtException( LOG_STR_ERR_NULL_ARGUMENT );
     }
     if( aRef5 == null ) {
-      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+      throw new TsNullArgumentRtException( LOG_STR_ERR_NULL_ARGUMENT );
     }
     if( aRef6 == null ) {
-      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+      throw new TsNullArgumentRtException( LOG_STR_ERR_NULL_ARGUMENT );
     }
     for( int i = aRefs.length - 1; i >= 0; i-- ) {
       if( aRefs[i] == null ) {
-        throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+        throw new TsNullArgumentRtException( LOG_STR_ERR_NULL_ARGUMENT );
       }
     }
   }
@@ -229,7 +229,7 @@ public class TsNullArgumentRtException
   public static <E> E checkNull( E aRef )
       throws TsNullArgumentRtException {
     if( aRef == null ) {
-      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+      throw new TsNullArgumentRtException( LOG_STR_ERR_NULL_ARGUMENT );
     }
     return aRef;
   }
@@ -258,7 +258,7 @@ public class TsNullArgumentRtException
   public static void checkFalse( boolean aCondition )
       throws TsNullArgumentRtException {
     if( !aCondition ) {
-      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+      throw new TsNullArgumentRtException( LOG_STR_ERR_NULL_ARGUMENT );
     }
   }
 
@@ -286,7 +286,7 @@ public class TsNullArgumentRtException
   public static void checkTrue( boolean aCondition )
       throws TsNullArgumentRtException {
     if( aCondition ) {
-      throw new TsNullArgumentRtException( MSG_ERR_NULL_ARGUMENT );
+      throw new TsNullArgumentRtException( LOG_STR_ERR_NULL_ARGUMENT );
     }
   }
 

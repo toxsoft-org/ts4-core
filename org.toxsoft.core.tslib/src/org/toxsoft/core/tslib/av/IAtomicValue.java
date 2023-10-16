@@ -13,6 +13,10 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * asXxx() are way to transfer the values of the real (red) world to the Java programming code (blue world).
  * <p>
  * Any two values may be compared to each other - this interface extends {@link Comparable}.
+ * <p>
+ * Note: this interface is not intended to be implemented by users. The only reason it is <b>not</b> declared as
+ * <code>sealed interface</code> Java and OSGi implementations does not allow to have <code>sealed</code> interface and
+ * <code>permit</code> class in different packages.
  *
  * @author hazard157
  */

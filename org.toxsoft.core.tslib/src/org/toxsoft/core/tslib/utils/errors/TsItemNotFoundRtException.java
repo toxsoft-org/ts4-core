@@ -45,14 +45,14 @@ public class TsItemNotFoundRtException
    * @param aCause Throwable - cause, mey be <code>null</code>
    */
   public TsItemNotFoundRtException( Throwable aCause ) {
-    super( ERR_MSG_ITEM_NOT_FOUND, aCause );
+    super( LOG_STR_ERR_ITEM_NOT_FOUND, aCause );
   }
 
   /**
    * Constructor with preset message.
    */
   public TsItemNotFoundRtException() {
-    super( ERR_MSG_ITEM_NOT_FOUND );
+    super( LOG_STR_ERR_ITEM_NOT_FOUND );
   }
 
   // ------------------------------------------------------------------------------------
@@ -83,7 +83,7 @@ public class TsItemNotFoundRtException
   public static void checkFalse( boolean aCondition )
       throws TsItemNotFoundRtException {
     if( !aCondition ) {
-      throw new TsItemNotFoundRtException( ERR_MSG_ITEM_NOT_FOUND );
+      throw new TsItemNotFoundRtException( LOG_STR_ERR_ITEM_NOT_FOUND );
     }
   }
 
@@ -111,7 +111,7 @@ public class TsItemNotFoundRtException
   public static void checkTrue( boolean aCondition )
       throws TsItemNotFoundRtException {
     if( aCondition ) {
-      throw new TsItemNotFoundRtException( ERR_MSG_ITEM_NOT_FOUND );
+      throw new TsItemNotFoundRtException( LOG_STR_ERR_ITEM_NOT_FOUND );
     }
   }
 
@@ -144,7 +144,7 @@ public class TsItemNotFoundRtException
   public static <E> E checkNull( E aRef )
       throws TsItemNotFoundRtException {
     if( aRef == null ) {
-      throw new TsItemNotFoundRtException( ERR_MSG_ITEM_NOT_FOUND );
+      throw new TsItemNotFoundRtException( LOG_STR_ERR_ITEM_NOT_FOUND );
     }
     return aRef;
   }
@@ -178,7 +178,7 @@ public class TsItemNotFoundRtException
   public static <E> E checkNoNull( E aRef )
       throws TsItemNotFoundRtException {
     if( aRef != null ) {
-      throw new TsItemNotFoundRtException( ERR_MSG_ITEM_NOT_FOUND );
+      throw new TsItemNotFoundRtException( LOG_STR_ERR_ITEM_NOT_FOUND );
     }
     return aRef;
   }

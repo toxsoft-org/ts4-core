@@ -47,14 +47,14 @@ public class TsIoRtException
    * @param aCause Throwable - cause, mey be <code>null</code>
    */
   public TsIoRtException( Throwable aCause ) {
-    super( ERR_MSG_FILE_IO_EXCEPTION, aCause );
+    super( LOG_STR_ERR_FILE_IO_EXCEPTION, aCause );
   }
 
   /**
    * Constructor with preset message.
    */
   public TsIoRtException() {
-    super( ERR_MSG_FILE_IO_EXCEPTION );
+    super( LOG_STR_ERR_FILE_IO_EXCEPTION );
   }
 
   // ------------------------------------------------------------------------------------
@@ -85,7 +85,7 @@ public class TsIoRtException
   public static void checkFalse( boolean aCondition )
       throws TsIoRtException {
     if( !aCondition ) {
-      throw new TsIoRtException( ERR_MSG_FILE_IO_EXCEPTION );
+      throw new TsIoRtException( LOG_STR_ERR_FILE_IO_EXCEPTION );
     }
   }
 
@@ -113,7 +113,7 @@ public class TsIoRtException
   public static void checkTrue( boolean aCondition )
       throws TsIoRtException {
     if( aCondition ) {
-      throw new TsIoRtException( ERR_MSG_FILE_IO_EXCEPTION );
+      throw new TsIoRtException( LOG_STR_ERR_FILE_IO_EXCEPTION );
     }
   }
 
@@ -146,7 +146,7 @@ public class TsIoRtException
   public static <E> E checkNull( E aRef )
       throws TsIoRtException {
     if( aRef == null ) {
-      throw new TsIoRtException( ERR_MSG_FILE_IO_EXCEPTION );
+      throw new TsIoRtException( LOG_STR_ERR_FILE_IO_EXCEPTION );
     }
     return aRef;
   }
@@ -180,7 +180,7 @@ public class TsIoRtException
   public static <E> E checkNoNull( E aRef )
       throws TsIoRtException {
     if( aRef != null ) {
-      throw new TsIoRtException( ERR_MSG_FILE_IO_EXCEPTION );
+      throw new TsIoRtException( LOG_STR_ERR_FILE_IO_EXCEPTION );
     }
     return aRef;
   }

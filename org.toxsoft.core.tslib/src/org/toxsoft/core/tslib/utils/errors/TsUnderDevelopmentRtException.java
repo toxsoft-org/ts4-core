@@ -3,7 +3,7 @@ package org.toxsoft.core.tslib.utils.errors;
 import static org.toxsoft.core.tslib.utils.errors.ITsResources.*;
 
 /**
- * This code is not written and is under development yet.
+ * Error when code is not written and is under development yet.
  *
  * @author hazard157
  */
@@ -43,14 +43,14 @@ public class TsUnderDevelopmentRtException
    * @param aCause Throwable - cause, mey be <code>null</code>
    */
   public TsUnderDevelopmentRtException( Throwable aCause ) {
-    super( ERR_MSG_UNDER_DEVELOPMENT, aCause );
+    super( LOG_STR_ERR_UNDER_DEVELOPMENT, aCause );
   }
 
   /**
    * Constructor with preset message.
    */
   public TsUnderDevelopmentRtException() {
-    super( ERR_MSG_UNDER_DEVELOPMENT );
+    super( LOG_STR_ERR_UNDER_DEVELOPMENT );
   }
 
 }

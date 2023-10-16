@@ -46,14 +46,14 @@ public class TsIllegalStateRtException
    * @param aCause Throwable - cause, mey be <code>null</code>
    */
   public TsIllegalStateRtException( Throwable aCause ) {
-    super( ERR_MSG_ILLEGAL_STATE, aCause );
+    super( LOG_STR_ERR_ILLEGAL_STATE, aCause );
   }
 
   /**
    * Constructor with preset message.
    */
   public TsIllegalStateRtException() {
-    super( ERR_MSG_ILLEGAL_STATE );
+    super( LOG_STR_ERR_ILLEGAL_STATE );
   }
 
   // ------------------------------------------------------------------------------------
@@ -84,7 +84,7 @@ public class TsIllegalStateRtException
   public static void checkFalse( boolean aCondition )
       throws TsIllegalStateRtException {
     if( !aCondition ) {
-      throw new TsIllegalStateRtException( ERR_MSG_ILLEGAL_STATE );
+      throw new TsIllegalStateRtException( LOG_STR_ERR_ILLEGAL_STATE );
     }
   }
 
@@ -112,7 +112,7 @@ public class TsIllegalStateRtException
   public static void checkTrue( boolean aCondition )
       throws TsIllegalStateRtException {
     if( aCondition ) {
-      throw new TsIllegalStateRtException( ERR_MSG_ILLEGAL_STATE );
+      throw new TsIllegalStateRtException( LOG_STR_ERR_ILLEGAL_STATE );
     }
   }
 
@@ -145,7 +145,7 @@ public class TsIllegalStateRtException
   public static <E> E checkNull( E aRef )
       throws TsIllegalStateRtException {
     if( aRef == null ) {
-      throw new TsIllegalStateRtException( ERR_MSG_ILLEGAL_STATE );
+      throw new TsIllegalStateRtException( LOG_STR_ERR_ILLEGAL_STATE );
     }
     return aRef;
   }
@@ -179,7 +179,7 @@ public class TsIllegalStateRtException
   public static <E> E checkNoNull( E aRef )
       throws TsIllegalStateRtException {
     if( aRef != null ) {
-      throw new TsIllegalStateRtException( ERR_MSG_ILLEGAL_STATE );
+      throw new TsIllegalStateRtException( LOG_STR_ERR_ILLEGAL_STATE );
     }
     return aRef;
   }

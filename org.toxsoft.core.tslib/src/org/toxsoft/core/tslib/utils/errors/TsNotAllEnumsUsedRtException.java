@@ -3,11 +3,11 @@ package org.toxsoft.core.tslib.utils.errors;
 import static org.toxsoft.core.tslib.utils.errors.ITsResources.*;
 
 /**
- * Unchecked excetion for <code>default</code> of <code>switch</code> on <code>enum</code> values.
+ * Unchecked exception for <code>default</code> of <code>switch</code> on <code>enum</code> values.
  * <p>
- * Useful in <code>switch</code> exression where all <code>enum</code> cnstants must have corresponding
- * <code>case</code>. Throwing this exception in <code>default</code> case locates an error when new enum constant is
- * declared but correspondent switch <code>case</code> was not introduced.
+ * Useful in <code>switch</code> expression where all <code>enum</code> constants must have corresponding
+ * <code>case</code>. Throwing this exception in <code>default</code> case locates an error when new <code>enum</code>
+ * constant is declared but correspondent switch <code>case</code> was not introduced.
  *
  * @author hazard157
  */
@@ -47,14 +47,14 @@ public class TsNotAllEnumsUsedRtException
    * @param aCause Throwable - cause, mey be <code>null</code>
    */
   public TsNotAllEnumsUsedRtException( Throwable aCause ) {
-    super( ERR_MSG_NOT_ALL_ENUMS_USED, aCause );
+    super( LOG_STR_ERR_NOT_ALL_ENUMS_USED, aCause );
   }
 
   /**
    * Constructor with preset message.
    */
   public TsNotAllEnumsUsedRtException() {
-    super( ERR_MSG_NOT_ALL_ENUMS_USED );
+    super( LOG_STR_ERR_NOT_ALL_ENUMS_USED );
   }
 
   // ------------------------------------------------------------------------------------
@@ -85,7 +85,7 @@ public class TsNotAllEnumsUsedRtException
   public static void checkFalse( boolean aCondition )
       throws TsNotAllEnumsUsedRtException {
     if( !aCondition ) {
-      throw new TsNotAllEnumsUsedRtException( ERR_MSG_NOT_ALL_ENUMS_USED );
+      throw new TsNotAllEnumsUsedRtException( LOG_STR_ERR_NOT_ALL_ENUMS_USED );
     }
   }
 
@@ -113,7 +113,7 @@ public class TsNotAllEnumsUsedRtException
   public static void checkTrue( boolean aCondition )
       throws TsNotAllEnumsUsedRtException {
     if( aCondition ) {
-      throw new TsNotAllEnumsUsedRtException( ERR_MSG_NOT_ALL_ENUMS_USED );
+      throw new TsNotAllEnumsUsedRtException( LOG_STR_ERR_NOT_ALL_ENUMS_USED );
     }
   }
 
@@ -146,7 +146,7 @@ public class TsNotAllEnumsUsedRtException
   public static <E> E checkNull( E aRef )
       throws TsNotAllEnumsUsedRtException {
     if( aRef == null ) {
-      throw new TsNotAllEnumsUsedRtException( ERR_MSG_NOT_ALL_ENUMS_USED );
+      throw new TsNotAllEnumsUsedRtException( LOG_STR_ERR_NOT_ALL_ENUMS_USED );
     }
     return aRef;
   }
@@ -180,7 +180,7 @@ public class TsNotAllEnumsUsedRtException
   public static <E> E checkNoNull( E aRef )
       throws TsNotAllEnumsUsedRtException {
     if( aRef != null ) {
-      throw new TsNotAllEnumsUsedRtException( ERR_MSG_NOT_ALL_ENUMS_USED );
+      throw new TsNotAllEnumsUsedRtException( LOG_STR_ERR_NOT_ALL_ENUMS_USED );
     }
     return aRef;
   }

@@ -50,14 +50,14 @@ public class TsUnsupportedFeatureRtException
    * @param aCause Throwable - cause, mey be <code>null</code>
    */
   public TsUnsupportedFeatureRtException( Throwable aCause ) {
-    super( ERR_MSG_UNSUPPORTED_FEATURE, aCause );
+    super( LOG_STR_ERR_UNSUPPORTED_FEATURE, aCause );
   }
 
   /**
    * Constructor with preset message.
    */
   public TsUnsupportedFeatureRtException() {
-    super( ERR_MSG_UNSUPPORTED_FEATURE );
+    super( LOG_STR_ERR_UNSUPPORTED_FEATURE );
   }
 
   // ------------------------------------------------------------------------------------
@@ -88,7 +88,7 @@ public class TsUnsupportedFeatureRtException
   public static void checkFalse( boolean aCondition )
       throws TsUnsupportedFeatureRtException {
     if( !aCondition ) {
-      throw new TsUnsupportedFeatureRtException( ERR_MSG_UNSUPPORTED_FEATURE );
+      throw new TsUnsupportedFeatureRtException( LOG_STR_ERR_UNSUPPORTED_FEATURE );
     }
   }
 
@@ -116,7 +116,7 @@ public class TsUnsupportedFeatureRtException
   public static void checkTrue( boolean aCondition )
       throws TsUnsupportedFeatureRtException {
     if( aCondition ) {
-      throw new TsUnsupportedFeatureRtException( ERR_MSG_UNSUPPORTED_FEATURE );
+      throw new TsUnsupportedFeatureRtException( LOG_STR_ERR_UNSUPPORTED_FEATURE );
     }
   }
 
@@ -149,7 +149,7 @@ public class TsUnsupportedFeatureRtException
   public static <E> E checkNull( E aRef )
       throws TsUnsupportedFeatureRtException {
     if( aRef == null ) {
-      throw new TsUnsupportedFeatureRtException( ERR_MSG_UNSUPPORTED_FEATURE );
+      throw new TsUnsupportedFeatureRtException( LOG_STR_ERR_UNSUPPORTED_FEATURE );
     }
     return aRef;
   }
@@ -183,7 +183,7 @@ public class TsUnsupportedFeatureRtException
   public static <E> E checkNoNull( E aRef )
       throws TsUnsupportedFeatureRtException {
     if( aRef != null ) {
-      throw new TsUnsupportedFeatureRtException( ERR_MSG_UNSUPPORTED_FEATURE );
+      throw new TsUnsupportedFeatureRtException( LOG_STR_ERR_UNSUPPORTED_FEATURE );
     }
     return aRef;
   }

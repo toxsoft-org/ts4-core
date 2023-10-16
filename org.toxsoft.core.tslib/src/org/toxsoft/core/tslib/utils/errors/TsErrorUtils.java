@@ -136,12 +136,12 @@ public final class TsErrorUtils {
       int count = ll.size();
       if( count > 0 ) {
         if( !aItemClass.isInstance( ll.first() ) ) {
-          throw new ClassCastException( String.format( FMT_ERR_LIST_HAS_INV_ITEM, aItemClass.getName() ) );
+          throw new ClassCastException( String.format( LOG_FMT_ERR_LIST_HAS_INV_ITEM, aItemClass.getName() ) );
         }
       }
       return ll;
     }
-    throw new ClassCastException( String.format( FMT_ERR_ARG_IS_NOT_LIST, aList.toString() ) );
+    throw new ClassCastException( String.format( LOG_FMT_ERR_ARG_IS_NOT_LIST, aList.toString() ) );
   }
 
   /**
@@ -162,13 +162,13 @@ public final class TsErrorUtils {
    */
   public static void checkCollIndex( int aMaxIndex, int aIndex ) {
     if( aIndex < 0 ) {
-      throw new TsIllegalArgumentRtException( MSG_ERR_INV_INDEX_NEGATIVE );
+      throw new TsIllegalArgumentRtException( LOG_STR_ERR_INV_INDEX_NEGATIVE );
     }
     if( aMaxIndex < 0 ) {
-      throw new TsIllegalArgumentRtException( MSG_ERR_INV_INDEX_ON_EMPTY_COLL );
+      throw new TsIllegalArgumentRtException( LOG_STR_ERR_INV_INDEX_ON_EMPTY_COLL );
     }
     if( aIndex > aMaxIndex ) {
-      throw new TsIllegalArgumentRtException( FMT_ERR_INV_INDEX_OUT_OF_RANGE, Integer.valueOf( aMaxIndex ) );
+      throw new TsIllegalArgumentRtException( LOG_FMT_ERR_INV_INDEX_OUT_OF_RANGE, Integer.valueOf( aMaxIndex ) );
     }
   }
 

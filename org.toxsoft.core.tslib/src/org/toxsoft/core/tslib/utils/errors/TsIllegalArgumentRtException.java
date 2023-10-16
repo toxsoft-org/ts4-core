@@ -69,14 +69,14 @@ public class TsIllegalArgumentRtException
    * @param aCause Throwable - cause, mey be <code>null</code>
    */
   public TsIllegalArgumentRtException( Throwable aCause ) {
-    super( MSG_ERR_ILLEGAL_ARG, aCause );
+    super( LOG_STR_ERR_ILLEGAL_ARG, aCause );
   }
 
   /**
    * Constructor with preset message.
    */
   public TsIllegalArgumentRtException() {
-    super( MSG_ERR_ILLEGAL_ARG );
+    super( LOG_STR_ERR_ILLEGAL_ARG );
   }
 
   // ------------------------------------------------------------------------------------
@@ -107,7 +107,7 @@ public class TsIllegalArgumentRtException
   public static void checkFalse( boolean aCondition )
       throws TsIllegalArgumentRtException {
     if( !aCondition ) {
-      throw new TsIllegalArgumentRtException( MSG_ERR_ILLEGAL_ARG );
+      throw new TsIllegalArgumentRtException( LOG_STR_ERR_ILLEGAL_ARG );
     }
   }
 
@@ -135,7 +135,7 @@ public class TsIllegalArgumentRtException
   public static void checkTrue( boolean aCondition )
       throws TsIllegalArgumentRtException {
     if( aCondition ) {
-      throw new TsIllegalArgumentRtException( MSG_ERR_ILLEGAL_ARG );
+      throw new TsIllegalArgumentRtException( LOG_STR_ERR_ILLEGAL_ARG );
     }
   }
 
@@ -149,11 +149,11 @@ public class TsIllegalArgumentRtException
   public static void checkNulls( Object... aRefs )
       throws TsIllegalArgumentRtException {
     if( aRefs == null ) {
-      throw new TsIllegalArgumentRtException( MSG_ERR_ILLEGAL_ARG );
+      throw new TsIllegalArgumentRtException( LOG_STR_ERR_ILLEGAL_ARG );
     }
     for( int i = aRefs.length - 1; i >= 0; i-- ) {
       if( aRefs[i] == null ) {
-        throw new TsIllegalArgumentRtException( MSG_ERR_ILLEGAL_ARG );
+        throw new TsIllegalArgumentRtException( LOG_STR_ERR_ILLEGAL_ARG );
       }
     }
   }
@@ -187,7 +187,7 @@ public class TsIllegalArgumentRtException
   public static <E> E checkNull( E aRef )
       throws TsIllegalArgumentRtException {
     if( aRef == null ) {
-      throw new TsIllegalArgumentRtException( MSG_ERR_ILLEGAL_ARG );
+      throw new TsIllegalArgumentRtException( LOG_STR_ERR_ILLEGAL_ARG );
     }
     return aRef;
   }
@@ -221,7 +221,7 @@ public class TsIllegalArgumentRtException
   public static <E> E checkNoNull( E aRef )
       throws TsIllegalArgumentRtException {
     if( aRef != null ) {
-      throw new TsIllegalArgumentRtException( MSG_ERR_ILLEGAL_ARG );
+      throw new TsIllegalArgumentRtException( LOG_STR_ERR_ILLEGAL_ARG );
     }
     return aRef;
   }

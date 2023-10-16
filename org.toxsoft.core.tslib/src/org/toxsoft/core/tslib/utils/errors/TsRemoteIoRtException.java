@@ -19,7 +19,7 @@ public class TsRemoteIoRtException
    * <p>
    * Message string is created using {@link String#format(String, Object...)}.
    *
-   * @param aCause Throwable - cause, mey be <code>null</code>
+   * @param aCause Throwable - cause, may be <code>null</code>
    * @param aMessageFormat String - message format string
    * @param aMsgArgs Object[] - optional arguments for message string
    */
@@ -42,17 +42,17 @@ public class TsRemoteIoRtException
   /**
    * Constructor for wrapper exception with preset message.
    *
-   * @param aCause Throwable - cause, mey be <code>null</code>
+   * @param aCause Throwable - cause, may be <code>null</code>
    */
   public TsRemoteIoRtException( Throwable aCause ) {
-    super( aCause, ERR_MSG_REMOTE );
+    super( aCause, LOG_STR_ERR_REMOTE );
   }
 
   /**
    * Constructor with preset message.
    */
   public TsRemoteIoRtException() {
-    super( ERR_MSG_REMOTE );
+    super( LOG_STR_ERR_REMOTE );
   }
 
   // ------------------------------------------------------------------------------------
@@ -83,7 +83,7 @@ public class TsRemoteIoRtException
   public static void checkFalse( boolean aCondition )
       throws TsRemoteIoRtException {
     if( !aCondition ) {
-      throw new TsRemoteIoRtException( ERR_MSG_REMOTE );
+      throw new TsRemoteIoRtException( LOG_STR_ERR_REMOTE );
     }
   }
 
@@ -111,7 +111,7 @@ public class TsRemoteIoRtException
   public static void checkTrue( boolean aCondition )
       throws TsRemoteIoRtException {
     if( aCondition ) {
-      throw new TsRemoteIoRtException( ERR_MSG_REMOTE );
+      throw new TsRemoteIoRtException( LOG_STR_ERR_REMOTE );
     }
   }
 
