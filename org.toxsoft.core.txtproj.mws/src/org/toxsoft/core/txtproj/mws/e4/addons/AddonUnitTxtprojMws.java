@@ -44,7 +44,7 @@ public class AddonUnitTxtprojMws
   /**
    * Main windows title format string when changes are saved to the file.
    * <p>
-   * Format arguemnts are: 1) project file path, 2) {@link ITsApplicationInfo#nmName()}
+   * Format arguments are: 1) project file path, 2) {@link ITsApplicationInfo#nmName()}
    */
   private static final String FMT_WIN_TITLE_SAVED = "%s - %s"; //$NON-NLS-1$
 
