@@ -25,6 +25,8 @@ public class TinFieldInfo
    */
   private ITsVisualsProvider<ITinValue> valueVisualizer;
 
+  private ITinValue defaultValue = null;
+
   /**
    * Constructor.
    *
@@ -35,9 +37,25 @@ public class TinFieldInfo
    * @throws TsIllegalArgumentRtException ID is not an IDpath
    */
   public TinFieldInfo( String aId, IOptionSet aParams, ITinTypeInfo aTypeInfo ) {
+    this( aId, aParams, aTypeInfo, null );
+  }
+
+  /**
+   * Constructor.
+   *
+   * @param aId String - the ID (IDpath)
+   * @param aParams {@link IOptionSet} - {@link #params()} initial values
+   * @param aTypeInfo {@link ITinTypeInfo} - the field type info
+   * @param aDefaultValue {@link ITinValue} - default field value or <code>null</code> for
+   *          {@link ITinTypeInfo#defaultValue()}
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException ID is not an IDpath
+   */
+  public TinFieldInfo( String aId, IOptionSet aParams, ITinTypeInfo aTypeInfo, ITinValue aDefaultValue ) {
     super( aId, aParams );
     typeInfo = TsNullArgumentRtException.checkNull( aTypeInfo );
     valueVisualizer = new DefaultValueVisualizer( this );
+    defaultValue = aDefaultValue;
   }
 
   /**
@@ -94,6 +112,14 @@ public class TinFieldInfo
   }
 
   @Override
+  public ITinValue defaultValue() {
+    if( defaultValue == null ) {
+      return typeInfo.defaultValue();
+    }
+    return defaultValue;
+  }
+
+  @Override
   public ITsVisualsProvider<ITinValue> valueVisualizer() {
     if( valueVisualizer == null ) {
       return typeInfo.valueVisualizer();
@@ -115,6 +141,18 @@ public class TinFieldInfo
    */
   protected void setValueVisualizer( ITsVisualsProvider<ITinValue> aVisualizer ) {
     valueVisualizer = aVisualizer;
+  }
+
+  /**
+   * Sets the {@link #defaultValue()}.
+   * <p>
+   * Specifying <code>null</code> argument sets {@link ITinFieldInfo#defaultValue()} to return type default value
+   * {@link ITinTypeInfo#defaultValue()}.
+   *
+   * @param aDefaultValue {@link ITinValue} - default value or <code>null</code>
+   */
+  protected void setDefaultValue( ITinValue aDefaultValue ) {
+    defaultValue = aDefaultValue;
   }
 
 }

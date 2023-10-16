@@ -115,4 +115,12 @@ public interface ITinTypeInfo {
    */
   Object makeEntity( ITinValue aValue );
 
+  // ------------------------------------------------------------------------------------
+  // inline methods for convenience
+
+  @SuppressWarnings( "javadoc" )
+  default ITinValue defaultValue() {
+    return makeValue( null );
+  }
+
 }

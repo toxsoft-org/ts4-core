@@ -7,7 +7,6 @@ import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.tin.*;
 import org.toxsoft.core.tsgui.graphics.lines.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
-import org.toxsoft.core.tslib.bricks.d2.*;
 
 /**
  * Object inspector helper constants.
@@ -17,18 +16,19 @@ import org.toxsoft.core.tslib.bricks.d2.*;
 @SuppressWarnings( "javadoc" )
 public interface ITtiConstants {
 
-  ITinTypeInfo TTI_AT_BOOLEAN      = new TinAtomicTypeInfo.TtiBoolean( DDEF_BOOLEAN );
-  ITinTypeInfo TTI_AT_INTEGER      = new TinAtomicTypeInfo.TtiInteger( DDEF_INTEGER );
-  ITinTypeInfo TTI_AT_FLOATING     = new TinAtomicTypeInfo.TtiDouble( DDEF_FLOATING );
-  ITinTypeInfo TTI_AT_STRING       = new TinAtomicTypeInfo.TtiString( DDEF_STRING );
-  ITinTypeInfo TTI_AT_TIMESTAMP    = new TinAtomicTypeInfo.TtiLong( DDEF_TIMESTAMP );
-  ITinTypeInfo TTI_IDNAME          = new TinAtomicTypeInfo.TtiString( DDEF_IDNAME );
-  ITinTypeInfo TTI_IDPATH          = new TinAtomicTypeInfo.TtiString( DDEF_IDPATH );
+  ITinTypeInfo TTI_AT_BOOLEAN   = new TinAtomicTypeInfo.TtiBoolean( DDEF_BOOLEAN );
+  ITinTypeInfo TTI_AT_INTEGER   = new TinAtomicTypeInfo.TtiInteger( DDEF_INTEGER );
+  ITinTypeInfo TTI_AT_FLOATING  = new TinAtomicTypeInfo.TtiDouble( DDEF_FLOATING );
+  ITinTypeInfo TTI_AT_STRING    = new TinAtomicTypeInfo.TtiString( DDEF_STRING );
+  ITinTypeInfo TTI_AT_TIMESTAMP = new TinAtomicTypeInfo.TtiLong( DDEF_TIMESTAMP );
+  ITinTypeInfo TTI_IDNAME       = new TinAtomicTypeInfo.TtiString( DDEF_IDNAME );
+  ITinTypeInfo TTI_IDPATH       = new TinAtomicTypeInfo.TtiString( DDEF_IDPATH );
+
   ITinTypeInfo TTI_COLOR_COMPONENT = new TinAtomicTypeInfo.TtiInteger( DT_COLOR_COMPONENT );
   ITinTypeInfo TTI_COLOR_RGB       = new TinAtomicTypeInfo.TtiValobj<>( DT_COLOR_RGB, RGB.class );
   ITinTypeInfo TTI_COLOR_RGBA      = new TinAtomicTypeInfo.TtiValobj<>( DT_COLOR_RGBA, RGBA.class );
-  ITinTypeInfo TTI_D2CONVERSION    = new TinAtomicTypeInfo.TtiValobj<>( DT_D2CONVERSION, ID2Conversion.class );
-  ITinTypeInfo TTI_TS_FILL_INFO    = new TinAtomicTypeInfo.TtiValobj<>( DT_TS_FILL_INFO, TsFillInfo.class );
-  ITinTypeInfo TTI_TS_BORDER_INFO  = new TinAtomicTypeInfo.TtiValobj<>( DT_TS_BORDER_INFO, TsBorderInfo.class );
+  // ITinTypeInfo TTI_D2CONVERSION = new TinAtomicTypeInfo.TtiValobj<>( DT_D2CONVERSION, ID2Conversion.class );
+  ITinTypeInfo TTI_TS_FILL_INFO   = new TinAtomicTypeInfo.TtiValobj<>( DT_TS_FILL_INFO, TsFillInfo.class );
+  ITinTypeInfo TTI_TS_BORDER_INFO = new TinAtomicTypeInfo.TtiValobj<>( DT_TS_BORDER_INFO, TsBorderInfo.class );
 
 }

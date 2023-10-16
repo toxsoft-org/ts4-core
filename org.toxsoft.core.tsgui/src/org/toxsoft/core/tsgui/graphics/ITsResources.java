@@ -48,14 +48,14 @@ interface ITsResources {
   /**
    * {@link EVerAlignment}
    */
-  String STR_N_VA_TOP    = "Вверх";
-  String STR_D_VA_TOP    = "Вверх";
-  String STR_N_VA_CENTER = "По центру";
-  String STR_D_VA_CENTER = "По центру";
-  String STR_N_VA_BOTTOM = "Вниз";
-  String STR_D_VA_BOTTOM = "Вниз";
-  String STR_N_VA_FILL   = "В высоту";
-  String STR_D_VA_FILL   = "В высоту";
+  String STR_VA_TOP      = "Вверх";
+  String STR_VA_TOP_D    = "Вверх";
+  String STR_VA_CENTER   = "По центру";
+  String STR_VA_CENTER_D = "По центру";
+  String STR_VA_BOTTOM   = "Вниз";
+  String STR_VA_BOTTOM_D = "Вниз";
+  String STR_VA_FILL     = "В высоту";
+  String STR_VA_FILL_D   = "В высоту";
 
   /**
    * {@link ETsFulcrum}
@@ -88,6 +88,8 @@ interface ITsResources {
   String STR_COLOR_RGB_D       = Messages.getString( "STR_COLOR_RGB_D" );       //$NON-NLS-1$ aAAA
   String STR_COLOR_RGBA        = Messages.getString( "STR_COLOR_RGBA" );        //$NON-NLS-1$ aAAA
   String STR_COLOR_RGBA_D      = Messages.getString( "STR_COLOR_RGBA_D" );      //$NON-NLS-1$ aAAA
+  String STR_DT_D2POINT        = Messages.getString( "STR_DT_D2POINT" );        //$NON-NLS-1$ aAAA
+  String STR_DT_D2POINT_D      = Messages.getString( "STR_DT_D2POINT_D" );      //$NON-NLS-1$ aAAA
   String STR_DT_D2CONVERSION   = Messages.getString( "STR_DT_D2CONVERSION" );   //$NON-NLS-1$ aAAA
   String STR_DT_D2CONVERSION_D = Messages.getString( "STR_DT_D2CONVERSION_D" ); //$NON-NLS-1$ aAAA
   String STR_TS_FILL_INFO      = Messages.getString( "STR_TS_FILL_INFO" );      //$NON-NLS-1$ aAAA

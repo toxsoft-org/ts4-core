@@ -2,13 +2,13 @@ package org.toxsoft.core.tsgui.graphics;
 
 import static org.toxsoft.core.tsgui.graphics.ITsResources.*;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.std.StridableEnumKeeper;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
+import org.eclipse.swt.*;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.std.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
+import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
  * Тип выравнивания по вертикали (по верху, по центру, по низу).
@@ -21,22 +21,22 @@ public enum EVerAlignment
   /**
    * Выравнивание по вертикали по верху.
    */
-  TOP( "Top", STR_N_VA_TOP, STR_D_VA_TOP, SWT.TOP ), //$NON-NLS-1$
+  TOP( "Top", STR_VA_TOP, STR_VA_TOP_D, SWT.TOP ), //$NON-NLS-1$
 
   /**
    * Выравнивание по вертикали по центру.
    */
-  CENTER( "Center", STR_N_VA_CENTER, STR_D_VA_CENTER, SWT.CENTER ), //$NON-NLS-1$
+  CENTER( "Center", STR_VA_CENTER, STR_VA_CENTER_D, SWT.CENTER ), //$NON-NLS-1$
 
   /**
    * Выравнивание по вертикали по низу.
    */
-  BOTTOM( "Bottom", STR_N_VA_BOTTOM, STR_D_VA_BOTTOM, SWT.BOTTOM ), //$NON-NLS-1$
+  BOTTOM( "Bottom", STR_VA_BOTTOM, STR_VA_BOTTOM_D, SWT.BOTTOM ), //$NON-NLS-1$
 
   /**
    * Выравнивание по вертикали по низу.
    */
-  FILL( "Fill", STR_N_VA_FILL, STR_D_VA_FILL, SWT.FILL ), //$NON-NLS-1$
+  FILL( "Fill", STR_VA_FILL, STR_VA_FILL_D, SWT.FILL ), //$NON-NLS-1$
 
   ;
 

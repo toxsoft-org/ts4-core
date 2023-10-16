@@ -131,7 +131,8 @@ public class TinRow
     tinValue = newValue;
     treeViewer.update( this, null );
     if( parent != null ) {
-      parent.papiChildValueChangedByValed( aFieldId );
+      // convert from child field ID to this field ID
+      parent.papiChildValueChangedByValed( fieldInfo.id() );
     }
   }
 

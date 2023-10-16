@@ -13,25 +13,24 @@ import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 
 /**
- * {@link ITinTypeInfo} implementation for {@link RGBA} entities.
+ * {@link ITinTypeInfo} implementation for {@link RGB} entities.
  *
  * @author hazard157
  */
-public class RGBATypeInfo
-    extends AbstractTinTypeInfo<RGBA> {
+public class TtiRGB
+    extends AbstractTinTypeInfo<RGB> {
 
   private static final String FID_RED   = "red";   //$NON-NLS-1$
   private static final String FID_GREEN = "green"; //$NON-NLS-1$
   private static final String FID_BLUE  = "blue";  //$NON-NLS-1$
-  private static final String FID_APLHA = "aplha"; //$NON-NLS-1$
 
   /**
    * The type information singleton.
    */
-  public static final ITinTypeInfo INSTANCE = new RGBATypeInfo();
+  public static final ITinTypeInfo INSTANCE = new TtiRGB();
 
-  private RGBATypeInfo() {
-    super( ETinTypeKind.FULL, DT_COLOR_RGBA, RGBA.class );
+  private TtiRGB() {
+    super( ETinTypeKind.FULL, DT_COLOR_RGB, RGB.class );
     fieldInfos().add( new TinFieldInfo( FID_RED, TTI_COLOR_COMPONENT, //
         TSID_NAME, STR_COLOR_FIELD_RED, //
         TSID_DESCRIPTION, STR_COLOR_FIELD_RED_D //
@@ -44,10 +43,6 @@ public class RGBATypeInfo
         TSID_NAME, STR_COLOR_FIELD_BLUE, //
         TSID_DESCRIPTION, STR_COLOR_FIELD_BLUE_D //
     ) );
-    fieldInfos().add( new TinFieldInfo( FID_APLHA, TTI_COLOR_COMPONENT, //
-        TSID_NAME, STR_COLOR_FIELD_APLHA, //
-        TSID_DESCRIPTION, STR_COLOR_FIELD_APLHA_D //
-    ) );
   }
 
   // ------------------------------------------------------------------------------------
@@ -56,37 +51,35 @@ public class RGBATypeInfo
 
   @Override
   protected IAtomicValue doCompose( IStringMap<ITinValue> aChildValues ) {
-    int red = extractChildInt( FID_RED, aChildValues, DEFAULT_RGBA_VALUE.rgb.red );
-    int green = extractChildInt( FID_GREEN, aChildValues, DEFAULT_RGBA_VALUE.rgb.green );
-    int blue = extractChildInt( FID_BLUE, aChildValues, DEFAULT_RGBA_VALUE.rgb.blue );
-    int alpha = extractChildInt( FID_APLHA, aChildValues, DEFAULT_RGBA_VALUE.alpha );
-    RGBA rgb = new RGBA( red, green, blue, alpha );
+    int red = extractChildInt( FID_RED, aChildValues, DEFAULT_RGB_VALUE.red );
+    int green = extractChildInt( FID_GREEN, aChildValues, DEFAULT_RGB_VALUE.green );
+    int blue = extractChildInt( FID_BLUE, aChildValues, DEFAULT_RGB_VALUE.blue );
+    RGB rgb = new RGB( red, green, blue );
     return avValobj( rgb );
   }
 
   @Override
   protected void doDecompose( IAtomicValue aValue, IStringMapEdit<ITinValue> aChildValues ) {
-    RGBA rgba = aValue != null ? aValue.asValobj() : DEFAULT_RGBA_VALUE;
-    aChildValues.put( FID_RED, TinValue.ofAtomic( avInt( rgba.rgb.red ) ) );
-    aChildValues.put( FID_GREEN, TinValue.ofAtomic( avInt( rgba.rgb.green ) ) );
-    aChildValues.put( FID_BLUE, TinValue.ofAtomic( avInt( rgba.rgb.blue ) ) );
-    aChildValues.put( FID_APLHA, TinValue.ofAtomic( avInt( rgba.alpha ) ) );
+    RGB rgb = aValue != null ? aValue.asValobj() : DEFAULT_RGB_VALUE;
+    aChildValues.put( FID_RED, TinValue.ofAtomic( avInt( rgb.red ) ) );
+    aChildValues.put( FID_GREEN, TinValue.ofAtomic( avInt( rgb.green ) ) );
+    aChildValues.put( FID_BLUE, TinValue.ofAtomic( avInt( rgb.blue ) ) );
   }
 
   @Override
   protected ITinValue doGetNullTinValue() {
-    return doGetTinValue( DEFAULT_RGBA_VALUE );
+    return doGetTinValue( DEFAULT_RGB_VALUE );
   }
 
   @Override
-  protected ITinValue doGetTinValue( RGBA aEntity ) {
+  protected ITinValue doGetTinValue( RGB aEntity ) {
     IAtomicValue av = avValobj( aEntity );
     IStringMap<ITinValue> cv = INSTANCE.decompose( av );
     return TinValue.ofFull( av, cv );
   }
 
   @Override
-  protected RGBA doCreateEntity( ITinValue aValue ) {
+  protected RGB doCreateEntity( ITinValue aValue ) {
     return aValue.atomicValue().asValobj();
   }
 

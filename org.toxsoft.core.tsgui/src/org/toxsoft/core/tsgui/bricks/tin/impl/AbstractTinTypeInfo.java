@@ -99,11 +99,19 @@ public abstract class AbstractTinTypeInfo<T>
 
   @Override
   public IAtomicValue compose( IStringMap<ITinValue> aChildValues ) {
-    IStringMap<ITinValue> childValues = IStringMap.EMPTY;
-    if( aChildValues != null && !aChildValues.isEmpty() ) {
-      childValues = aChildValues;
+    TsUnsupportedFeatureRtException.checkFalse( kind.hasAtomic() );
+    IStringMapEdit<ITinValue> childVals = new StringMap<>();
+    for( ITinFieldInfo finf : fieldInfos ) {
+      ITinValue fieldVal;
+      if( aChildValues != null && aChildValues.hasKey( finf.id() ) ) {
+        fieldVal = aChildValues.getByKey( finf.id() );
+      }
+      else {
+        fieldVal = finf.defaultValue();
+      }
+      childVals.put( finf.id(), fieldVal );
     }
-    return doCompose( childValues );
+    return doCompose( childVals );
   }
 
   @Override
@@ -280,10 +288,12 @@ public abstract class AbstractTinTypeInfo<T>
    * <p>
    * Called only for types with atomic values, ie {@link ETinTypeKind#hasAtomic()} = <code>true</code>.
    * <p>
+   * The argument contains all child field values.
+   * <p>
    * In base class simply throws an exception {@link TsUnsupportedFeatureRtException}, so superclass method must not be
    * called when overriding.
    *
-   * @param aChildValues {@link IStringMap}&lt;{@link ITinValue}&gt; - map "field ID" - "value" or <code>null</code>
+   * @param aChildValues {@link IStringMap}&lt;{@link ITinValue}&gt; - all child values as the map "field ID" - "value"
    * @return {@link IAtomicValue} - composed atomic value representation of the field value
    */
   protected IAtomicValue doCompose( IStringMap<ITinValue> aChildValues ) {

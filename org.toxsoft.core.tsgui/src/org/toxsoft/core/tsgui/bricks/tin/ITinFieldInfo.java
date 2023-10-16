@@ -24,6 +24,16 @@ public interface ITinFieldInfo
   ITinTypeInfo typeInfo();
 
   /**
+   * Returns the default value of the field.
+   * <p>
+   * Default value is used to create the TIN value hierarchy from scratch. If not specified for field the TIN type
+   * {@link ITinTypeInfo#defaultValue()} is returned.
+   *
+   * @return {@link ITinValue} - field default value
+   */
+  ITinValue defaultValue();
+
+  /**
    * Returns the visualizer of the field value.
    * <p>
    * The string {@link ITsVisualsProvider#getName(Object)} is used as text displayed in the "Value" cell of the

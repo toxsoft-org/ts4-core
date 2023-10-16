@@ -58,12 +58,22 @@ public interface ITsGraphicsConstants {
   /**
    * Data type: {@link ID2Conversion} as {@link EAtomicType#VALOBJ VALOBJ}.
    */
+  IDataType DT_D2POINT = DataType.create( VALOBJ, //
+      TSID_NAME, STR_DT_D2POINT, //
+      TSID_DESCRIPTION, STR_DT_D2POINT_D, //
+      TSID_KEEPER_ID, D2Conversion.KEEPER_ID, //
+      // FIXME OPID_EDITOR_FACTORY_NAME, ValedAvValobjD2Point.FACTORY.factoryName(), //
+      TSID_DEFAULT_VALUE, avValobj( ID2Point.ZERO ) //
+  );
+
+  /**
+   * Data type: {@link ID2Conversion} as {@link EAtomicType#VALOBJ VALOBJ}.
+   */
   IDataType DT_D2CONVERSION = DataType.create( VALOBJ, //
       TSID_NAME, STR_DT_D2CONVERSION, //
       TSID_DESCRIPTION, STR_DT_D2CONVERSION_D, //
       TSID_KEEPER_ID, D2Conversion.KEEPER_ID, //
-      // FIXME - указать редактор для D2Conversion
-      // OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleFontInfo.FACTORY.factoryName(), //
+      // FIXME OPID_EDITOR_FACTORY_NAME, ValedAvValobjD2Conversion.FACTORY.factoryName(), //
       TSID_DEFAULT_VALUE, avValobj( ID2Conversion.NONE ) //
   );
 

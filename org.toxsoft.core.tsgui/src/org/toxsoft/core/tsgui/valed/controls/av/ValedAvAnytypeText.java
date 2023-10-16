@@ -214,7 +214,7 @@ public class ValedAvAnytypeText
     IStringList atIds = OPDEF_ALLOWED_TYPES.getValue( params() ).asValobj();
     IListEdit<EAtomicType> types = new ElemArrayList<>( atIds.size() );
     for( String s : atIds ) {
-      types.add( EAtomicType.findById( s ) );
+      types.add( EAtomicType.asList().findByKey( s ) );
     }
     return types;
   }

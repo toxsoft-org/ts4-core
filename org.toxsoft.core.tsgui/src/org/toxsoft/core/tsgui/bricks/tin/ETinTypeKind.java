@@ -2,6 +2,7 @@ package org.toxsoft.core.tsgui.bricks.tin;
 
 import static org.toxsoft.core.tsgui.bricks.tin.ITsResources.*;
 
+import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.std.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
@@ -10,18 +11,40 @@ import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * The enumeration of XXX.
+ * The kind of the value (kind of the node in value tree).
+ * <p>
+ * The kind determines two things:
+ * <ul>
+ * <li>{@link #hasChildren()} - determines if the particular node is leaf or node with children;</li>
+ * <li>{@link #hasAtomic()} - determines if the particular node has atomic value representation.</li>
+ * </ul>
+ * Because leaf nodes could be only the atomic values, only three of possible combination of the above flags may exist.
+ * So this enumeration has 3 constants.
  *
  * @author hazard157
  */
-@SuppressWarnings( "javadoc" )
 public enum ETinTypeKind
     implements IStridable {
 
+  /**
+   * The node is single atomic value.
+   * <p>
+   * {@link #hasAtomic()} = <code>true</code>, {@link #hasChildren()} = <code>false</code>.
+   */
   ATOMIC( "identifier", STR_TNK_ATOMIC, STR_TNK_ATOMIC_D, true, false ), //$NON-NLS-1$
 
+  /**
+   * The node is group of child fields without atomic representation of the node value.
+   * <p>
+   * {@link #hasAtomic()} = <code>false</code>, {@link #hasChildren()} = <code>true</code>.
+   */
   GROUP( "group", STR_TNK_GROUP, STR_TNK_GROUP_D, false, true ), //$NON-NLS-1$
 
+  /**
+   * The node is group of child fields with the atomic representation of the node value.
+   * <p>
+   * {@link #hasAtomic()} = <code>true</code>, {@link #hasChildren()} = <code>true</code>.
+   */
   FULL( "full", STR_TNK_FULL, STR_TNK_FULL_D, true, true ), //$NON-NLS-1$
 
   ;
@@ -75,14 +98,29 @@ public enum ETinTypeKind
   // API
   //
 
+  /**
+   * Determines if this node value may be represented as {@link IAtomicValue}.
+   *
+   * @return boolean - <code>true</code> there node value may be retrieved via {@link ITinValue#atomicValue()}
+   */
   public boolean hasAtomic() {
     return hasAtomic;
   }
 
+  /**
+   * Determines if this node has child sub-nodes.
+   *
+   * @return boolean - <code>true</code> there is at least one child node in {@link ITinValue#childValues()}
+   */
   public boolean hasChildren() {
     return hasChildren;
   }
 
+  /**
+   * Determines if this is a leaf node.
+   *
+   * @return boolean - <code>true</code> if node is a leaf
+   */
   public boolean isLeaf() {
     return hasAtomic && !hasChildren;
   }
