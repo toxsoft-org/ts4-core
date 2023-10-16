@@ -38,7 +38,7 @@ public class ViselRectangle
   public static final IVedViselFactory FACTORY = new VedAbstractViselFactory( FACTORY_ID, //
       TSID_NAME, STR_VISEL_RECTANGLE, //
       TSID_DESCRIPTION, STR_VISEL_RECTANGLE_D, //
-      TSID_ICON_ID, ICONID_SIMPLE_RECT //
+      TSID_ICON_ID, ICONID_VISEL_RECTANGLE //
   ) {
 
     @Override
