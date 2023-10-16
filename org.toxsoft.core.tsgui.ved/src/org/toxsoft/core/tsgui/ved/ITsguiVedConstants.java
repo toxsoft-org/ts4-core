@@ -27,7 +27,7 @@ public interface ITsguiVedConstants {
   /**
    * The editor palette icon size category scale factor used in {@link ITsHdpiService#defineIconCategory(String, int)}.
    */
-  int VED_EDITOR_PALETTE_ICON_SIZE_SCALE = 3;
+  int VED_EDITOR_PALETTE_ICON_SIZE_SCALE = 1;
 
   // ------------------------------------------------------------------------------------
   // Icons
