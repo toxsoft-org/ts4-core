@@ -25,6 +25,8 @@ public class VedItemsSimplePaletteBar
 
   private final IVedScreen vScreen;
 
+  private final EIconSize iconSize;
+
   /**
    * Конструктор.
    *
@@ -32,9 +34,12 @@ public class VedItemsSimplePaletteBar
    * @param aSwtStyle int - стиль
    * @param aScreen {@link VedScreen} - экран
    * @param aVertical boolean - признак расположения патитры (вертикально/горизонтально)
+   * @param aIconSize {@link EIconSize} - размер значка
    */
-  public VedItemsSimplePaletteBar( Composite aParent, int aSwtStyle, IVedScreen aScreen, boolean aVertical ) {
+  public VedItemsSimplePaletteBar( Composite aParent, int aSwtStyle, IVedScreen aScreen, boolean aVertical,
+      EIconSize aIconSize ) {
     vScreen = aScreen;
+    iconSize = aIconSize;
     paletteComp = new TsPanel( aParent, aScreen.tsContext(), aSwtStyle );
     if( !aVertical ) {
       paletteComp.setLayout( new RowLayout( SWT.HORIZONTAL ) );
@@ -59,7 +64,7 @@ public class VedItemsSimplePaletteBar
     Button btn = new Button( paletteComp, SWT.FLAT );
 
     ITsIconManager im = vScreen.tsContext().get( ITsIconManager.class );
-    Image image = im.loadStdIcon( aEntry.iconId(), EIconSize.IS_24X24 );
+    Image image = im.loadStdIcon( aEntry.iconId(), iconSize );
 
     btn.setImage( image );
     btn.setToolTipText( aEntry.nmName() + '\n' + aEntry.description() );
