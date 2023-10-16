@@ -59,7 +59,7 @@ public class DataMetaInfoBasicM5Model<T extends IDataType>
         protected void doInit() {
           setNameAndDescription( STR_N_CONSTRAINTS, STR_D_CONSTRAINTS );
           setFlags( M5FF_DETAIL );
-          params().setInt( IValedControlConstants.OPDEF_VERTICAL_SPAN, 4 );
+          params().setInt( IValedControlConstants.OPDEF_VERTICAL_SPAN, 5 );
         }
 
         protected IList<IdValue> doGetFieldValue( T aEntity ) {
