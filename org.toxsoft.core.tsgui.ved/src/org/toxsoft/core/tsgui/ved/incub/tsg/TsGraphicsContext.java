@@ -244,6 +244,117 @@ public class TsGraphicsContext
   }
 
   @Override
+  public void fillOval( int aX, int aY, int aWidth, int aHeight ) {
+    Pattern pattern = null;
+    if( fillInfo != null ) {
+      switch( fillInfo.kind() ) {
+        case NONE:
+          return;
+        case SOLID:
+          RGBA rgba = fillInfo.fillColor();
+          gc.setBackground( colorManager().getColor( rgba.rgb ) );
+          gc.setAlpha( rgba.alpha );
+          break;
+        case GRADIENT:
+          IGradient grad = fillInfo.gradientFillInfo().createGradient( tsContext );
+          if( grad != null ) {
+            pattern = grad.pattern( gc, aWidth, aHeight );
+            gc.setBackgroundPattern( pattern );
+          }
+          break;
+        case IMAGE:
+          TsImageFillInfo imgInfo = fillInfo.imageFillInfo();
+          if( imgInfo.imageDescriptor() == TsImageDescriptor.NONE ) {
+            unknownImage = imageManager().createUnknownImage( unknownImageSize );
+            bkImage = unknownImage;
+          }
+          else {
+            bkImage = imageManager().getImage( imgInfo.imageDescriptor() );
+          }
+          if( imgInfo.kind() == EImageFillKind.TILE ) {
+            fillTileImage( bkImage, aX, aY, aWidth, aHeight );
+          }
+          if( unknownImage != null ) {
+            unknownImage.dispose();
+            unknownImage = null;
+          }
+          return;
+        default:
+          throw new IllegalArgumentException( "Unexpected value: " + fillInfo.kind() ); //$NON-NLS-1$
+      }
+    }
+    Transform oldTransform = new Transform( gc.getDevice() );
+    gc.getTransform( oldTransform );
+    Transform tr = new Transform( gc.getDevice() );
+    gc.getTransform( tr );
+    tr.translate( aX, aY );
+    gc.setTransform( tr );
+    tr.dispose();
+    gc.fillOval( 0, 0, aWidth, aHeight );
+    if( pattern != null ) {
+      pattern.dispose();
+    }
+    gc.setTransform( oldTransform );
+    oldTransform.dispose();
+  }
+
+  @Override
+  public void fillPath( Path aPath, int aX, int aY, int aWidth, int aHeight ) {
+    Pattern pattern = null;
+
+    if( fillInfo != null ) {
+      switch( fillInfo.kind() ) {
+        case NONE:
+          return;
+        case SOLID:
+          RGBA rgba = fillInfo.fillColor();
+          gc.setBackground( colorManager().getColor( rgba.rgb ) );
+          gc.setAlpha( rgba.alpha );
+          break;
+        case GRADIENT:
+          IGradient grad = fillInfo.gradientFillInfo().createGradient( tsContext );
+          if( grad != null ) {
+            pattern = grad.pattern( gc, aWidth, aHeight );
+            gc.setBackgroundPattern( pattern );
+          }
+          break;
+        case IMAGE:
+          TsImageFillInfo imgInfo = fillInfo.imageFillInfo();
+          if( imgInfo.imageDescriptor() == TsImageDescriptor.NONE ) {
+            unknownImage = imageManager().createUnknownImage( unknownImageSize );
+            bkImage = unknownImage;
+          }
+          else {
+            bkImage = imageManager().getImage( imgInfo.imageDescriptor() );
+          }
+          if( imgInfo.kind() == EImageFillKind.TILE ) {
+            fillTileImage( bkImage, aX, aY, aWidth, aHeight );
+          }
+          if( unknownImage != null ) {
+            unknownImage.dispose();
+            unknownImage = null;
+          }
+          return;
+        default:
+          throw new IllegalArgumentException( "Unexpected value: " + fillInfo.kind() ); //$NON-NLS-1$
+      }
+    }
+    Transform oldTransform = new Transform( gc.getDevice() );
+    gc.getTransform( oldTransform );
+    Transform tr = new Transform( gc.getDevice() );
+    gc.getTransform( tr );
+    tr.translate( aX, aY );
+    gc.setTransform( tr );
+    tr.dispose();
+    gc.fillPath( aPath );
+    if( pattern != null ) {
+      pattern.dispose();
+    }
+    gc.setTransform( oldTransform );
+    oldTransform.dispose();
+  }
+
+  @Override
   public void setBorderInfo( TsBorderInfo aBorderInfo ) {
     borderInfo = aBorderInfo;
   }
