@@ -46,7 +46,7 @@ public class TsGraphicsContext
     tsContext = aTsContext;
     gc = aEvent.gc;
     drawingArea = new TsRectangle( aEvent.x, aEvent.y, aEvent.width, aEvent.height );
-    unknownImage = imageManager().createUnknownImage( unknownImageSize );
+    // unknownImage = imageManager().createUnknownImage( unknownImageSize );
   }
 
   /**
@@ -159,6 +159,7 @@ public class TsGraphicsContext
         case IMAGE:
           TsImageFillInfo imgInfo = fillInfo.imageFillInfo();
           if( imgInfo.imageDescriptor() == TsImageDescriptor.NONE ) {
+            unknownImage = imageManager().createUnknownImage( unknownImageSize );
             bkImage = unknownImage;
           }
           else {
@@ -166,6 +167,10 @@ public class TsGraphicsContext
           }
           if( imgInfo.kind() == EImageFillKind.TILE ) {
             fillTileImage( bkImage, aX, aY, aWidth, aHeight );
+          }
+          if( unknownImage != null ) {
+            unknownImage.dispose();
+            unknownImage = null;
           }
           return;
         default:
