@@ -40,6 +40,10 @@ public interface ITsGraphicsContext
 
   void fillRoundRect( int aX, int aY, int aWidth, int aHeight, int aArcWidth, int aArcHeight );
 
+  void fillOval( int aX, int aY, int aWidth, int aHeight );
+
+  void fillPath( Path aPath, int aX, int aY, int aWidth, int aHeight );
+
   void setBorderInfo( TsBorderInfo aBorderInfo );
 
   void drawRectBorder( int aX, int aY, int aWidth, int aHeight );
