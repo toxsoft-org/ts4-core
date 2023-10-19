@@ -237,7 +237,7 @@ public abstract class TinAtomicTypeInfo<T>
    */
   public TinAtomicTypeInfo( IDataType aDataType, Class<T> aEntityClass ) {
     super( ETinTypeKind.ATOMIC, aDataType, aEntityClass );
-    IAtomicValue defVal = aDataType.params().getValue( TSID_DEFAULT_VALUE, IAtomicValue.NULL );
+    IAtomicValue defVal = aDataType.params().getValue( TSID_DEFAULT_VALUE, aDataType.atomicType().defaultValue() );
     tinNullVal = TinValue.ofAtomic( defVal );
   }
 

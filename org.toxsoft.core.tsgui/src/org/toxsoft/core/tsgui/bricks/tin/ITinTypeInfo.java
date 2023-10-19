@@ -51,6 +51,18 @@ public interface ITinTypeInfo {
   IStringList visibleFieldIds( ITinValue aValue );
 
   /**
+   * Allies change of the single child field to the existing value.
+   * <p>
+   * TODO comment the motivation of the method existence
+   *
+   * @param aOldValue {@link ITinValue} - an old value to by updates
+   * @param aFieldId String - changed child field ID
+   * @param aChildFieldNewValue {@link ITinValue} - new value of the child field
+   * @return {@link ITinValue} - new, updated value
+   */
+  ITinValue applyFieldChange( ITinValue aOldValue, String aFieldId, ITinValue aChildFieldNewValue );
+
+  /**
    * Returns the visualizer of the field value.
    * <p>
    * This TIN type's value visualizer is used as a default value visualizer of TIN fields
@@ -77,7 +89,7 @@ public interface ITinTypeInfo {
    * Determines if atomic value can be decomposed.
    * <p>
    * Test at least the kind (that {@link ETinTypeKind#hasAtomic()} = <code>true</code>) and atomic type compiance with
-   * {@link #dataType()}. Additionaly implementation may perform additional check such as value is in allowed range,
+   * {@link #dataType()}. Additionally implementation may perform additional check such as value is in allowed range,
    * etc.
    *
    * @param aValue {@link IAtomicValue} - field atomic value or <code>null</code>
@@ -87,6 +99,8 @@ public interface ITinTypeInfo {
 
   /**
    * Decomposes (creates child fields values) from the atomic value representation of the field.
+   * <p>
+   * TODO only meaningfull fields!
    * <p>
    * The <code>null</code> argument means default, that is initial value of the field.
    *

@@ -9,9 +9,9 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Inspector widget.
  * <p>
- * TODO about properties and subtrees of properties
+ * TODO comment about properties and subtrees of properties
  * <p>
- * TODO about two kind of listenetrs: {@link IGenericChangeListener} and {@link ITinWidgetPropertyChangeListener}
+ * TODO comment about two kind of listeners: {@link IGenericChangeListener} and {@link ITinWidgetPropertyChangeListener}
  *
  * @author hazard157
  */

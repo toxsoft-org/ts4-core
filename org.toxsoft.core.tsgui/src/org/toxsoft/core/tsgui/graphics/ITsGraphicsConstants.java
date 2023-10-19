@@ -61,9 +61,20 @@ public interface ITsGraphicsConstants {
   IDataType DT_D2POINT = DataType.create( VALOBJ, //
       TSID_NAME, STR_DT_D2POINT, //
       TSID_DESCRIPTION, STR_DT_D2POINT_D, //
-      TSID_KEEPER_ID, D2Conversion.KEEPER_ID, //
+      TSID_KEEPER_ID, D2Point.KEEPER_ID, //
       // FIXME OPID_EDITOR_FACTORY_NAME, ValedAvValobjD2Point.FACTORY.factoryName(), //
       TSID_DEFAULT_VALUE, avValobj( ID2Point.ZERO ) //
+  );
+
+  /**
+   * Data type: {@link ID2Conversion} as {@link EAtomicType#VALOBJ VALOBJ}.
+   */
+  IDataType DT_D2ANGLE = DataType.create( VALOBJ, //
+      TSID_NAME, STR_DT_D2ANGLE, //
+      TSID_DESCRIPTION, STR_DT_D2ANGLE_D, //
+      TSID_KEEPER_ID, D2Point.KEEPER_ID, //
+      // FIXME OPID_EDITOR_FACTORY_NAME, ValedAvValobjD2Point.FACTORY.factoryName(), //
+      TSID_DEFAULT_VALUE, avValobj( ID2Angle.ZERO ) //
   );
 
   /**

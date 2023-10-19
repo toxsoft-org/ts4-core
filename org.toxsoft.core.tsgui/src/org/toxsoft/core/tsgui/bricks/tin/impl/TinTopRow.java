@@ -36,6 +36,15 @@ public class TinTopRow
   // implementation
   //
 
+  /**
+   * Recursively collects rows with changed subtree structure <b>after</b> values changed in tree but <b>before</b>
+   * {@link TinRow#visibleChildren()} list is updated.
+   * <p>
+   * The result is used to visually refresh only changed set of rows in {@link #refreshSubtreeStructure()}.
+   *
+   * @param aRow {@link ITinRow} - root of subtree to collect changed rows from
+   * @param aRowsToRefresh {@link IListEdit}&lt;{@link ITinRow}&gt; - editable list where the rows are collected
+   */
   private static void processRowForSubtreeRefresh( ITinRow aRow, IListEdit<ITinRow> aRowsToRefresh ) {
     if( !aRow.fieldInfo().typeInfo().kind().hasChildren() ) {
       return;
@@ -75,6 +84,11 @@ public class TinTopRow
   // API
   //
 
+  /**
+   * Updates {@link TinRow#visibleChildren()} list in whole subtree according to current values in nodes (rows).
+   * <p>
+   * Also visually updates the nodes with changed subtree structure.
+   */
   void refreshSubtreeStructure() {
     // remember which row to refresh BEFORE update child rows lists
     IListEdit<ITinRow> rowsToRefresh = new ElemArrayList<>();

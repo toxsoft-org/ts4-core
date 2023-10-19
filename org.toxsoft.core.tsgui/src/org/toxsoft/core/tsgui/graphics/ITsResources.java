@@ -1,7 +1,5 @@
 package org.toxsoft.core.tsgui.graphics;
 
-import org.toxsoft.core.tsgui.bricks.tin.tti.Messages;
-
 /**
  * Localizable resources.
  *
@@ -90,6 +88,8 @@ interface ITsResources {
   String STR_COLOR_RGBA_D      = Messages.getString( "STR_COLOR_RGBA_D" );      //$NON-NLS-1$ aAAA
   String STR_DT_D2POINT        = Messages.getString( "STR_DT_D2POINT" );        //$NON-NLS-1$ aAAA
   String STR_DT_D2POINT_D      = Messages.getString( "STR_DT_D2POINT_D" );      //$NON-NLS-1$ aAAA
+  String STR_DT_D2ANGLE        = Messages.getString( "STR_DT_D2ANGLE" );        //$NON-NLS-1$ aAAA
+  String STR_DT_D2ANGLE_D      = Messages.getString( "STR_DT_D2ANGLE_D" );      //$NON-NLS-1$ aAAA
   String STR_DT_D2CONVERSION   = Messages.getString( "STR_DT_D2CONVERSION" );   //$NON-NLS-1$ aAAA
   String STR_DT_D2CONVERSION_D = Messages.getString( "STR_DT_D2CONVERSION_D" ); //$NON-NLS-1$ aAAA
   String STR_TS_FILL_INFO      = Messages.getString( "STR_TS_FILL_INFO" );      //$NON-NLS-1$ aAAA

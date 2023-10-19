@@ -82,6 +82,9 @@ class TinTree
       @Override
       public void update( ViewerCell aCell ) {
         ITinRow node = (ITinRow)aCell.getElement();
+        /**
+         * FIMXE формализовать отображение поля
+         */
         aCell.setText( node.nmName() );
       }
     } );

@@ -10,7 +10,6 @@ import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
-import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
@@ -51,7 +50,7 @@ public class TinRow
   }
 
   /**
-   * Constructor for root node.
+   * Constructor for root node (top row).
    *
    * @param aFieldInfo {@link ITinFieldInfo} - the field info of this node
    * @param aTreeViewer {@link TreeViewer} - the owner viewer
@@ -74,6 +73,11 @@ public class TinRow
     return fieldInfo.typeInfo();
   }
 
+  /**
+   * Creates all child rows as listed in {@link ITinTypeInfo#fieldInfos()}.
+   *
+   * @return {@link IStridablesList}&lt;{@link TinRow}&gt; - all child rows
+   */
   private IStridablesList<TinRow> internalCreateAllChildNodes() {
     IStridablesListEdit<TinRow> ll = new StridablesList<>();
     for( ITinFieldInfo finf : typeInfo().fieldInfos() ) {
@@ -83,12 +87,23 @@ public class TinRow
     return ll;
   }
 
-  private void internalPropagateValueDownSubtree( ITinValue aValue ) {
+  /**
+   * Sets this node's {@link #tinValue} and updates child rows (if any)1: redraws and updates their values.
+   * <p>
+   * This method does <b>not</b> affects parent row so caller is responsible to ensure that parent (and upper) rows have
+   * correct values.
+   * <p>
+   * Does <b>not</b> generates any event.
+   *
+   * @param aValue {@link ITinValue} - new value in node
+   * @return boolean - <code>true</code> if node value actually changes
+   */
+  private boolean internalPropagateValueDownSubtree( ITinValue aValue ) {
     if( Objects.equals( tinValue, aValue ) ) {
-      return;
+      return false;
     }
     tinValue = aValue;
-    treeViewer.update( this, null ); // TODO maybe remember rows and update at once?
+    treeViewer.update( this, null ); // OPTIMIZE maybe remember rows and update at once?
     if( tinValue.kind().hasChildren() ) {
       for( String fId : tinValue.childValues().keys() ) {
         TinRow childNode = allChildRows.getByKey( fId );
@@ -96,6 +111,7 @@ public class TinRow
         childNode.setTinValue( childValue );
       }
     }
+    return true;
   }
 
   // ------------------------------------------------------------------------------------
@@ -103,11 +119,15 @@ public class TinRow
   //
 
   /**
-   * Method informs this node that child field value has been changed by in-cell editor.
+   * Method informs this node that child or any grand-child field value has been changed by in-cell editor.
    * <p>
-   * Called by the child node when it's value changes due to user editing in the inspector widget.
+   * Implementation creates and sets this node's TIN value (without propagating down or up on tree) then calls
+   * {@link #parent} node's {@link #papiChildValueChangedByValed(String)} passing this node's {@link #id()} as an
+   * argument.
    * <p>
-   * TODO describe what is done by implementation
+   * {@link TinTopRow#papiChildValueChangedByValed(String)} add TIN widget event firing.
+   * <p>
+   * First call in the recursion is done by the method {@link #setAtomicValueFromValed(IAtomicValue)}.
    *
    * @param aFieldId String - ID of field with changed value
    */
@@ -136,6 +156,10 @@ public class TinRow
     }
   }
 
+  /**
+   * Updates {@link #visibleChildRows} as subset of {@link #allChildRows} as defined by
+   * {@link ITinTypeInfo#visibleFieldIds(ITinValue)}.
+   */
   void papiRecursivelyUpdateVisibleChildNodesFromCurrentNodeValue() {
     visibleChildRows.clear();
     IStringList newVisibleChildIds = typeInfo().visibleFieldIds( tinValue );
@@ -221,34 +245,38 @@ public class TinRow
   @Override
   public IAtomicValue getAtomicValueForValed() {
     TsUnsupportedFeatureRtException.checkFalse( canEdit() );
-    // do we need to check if value is up to date - no, value must be up to date
+    // do we need to check if #tinValue is up to date? - no, #tinValue must be up to date
     return tinValue.atomicValue();
   }
 
   @Override
-  public ValidationResult canSetAtomicValueFromValed( IAtomicValue aValue ) {
-    ValidationResult vr = typeInfo().canDecompose( aValue );
-    return vr;
-  }
-
-  @Override
   public void setAtomicValueFromValed( IAtomicValue aValue ) {
-    TsValidationFailedRtException.checkError( canSetAtomicValueFromValed( aValue ) );
-    if( typeInfo().kind().hasChildren() ) {
-      IStringMap<ITinValue> childValues = typeInfo().decompose( aValue );
-      internalPropagateValueDownSubtree( TinValue.ofFull( aValue, childValues ) );
+    TsUnsupportedFeatureRtException.checkFalse( typeInfo().kind().hasAtomic() );
+    TsValidationFailedRtException.checkError( typeInfo().canDecompose( aValue ) );
+    // prepare new TIN value from atomic value
+    ITinValue newValue;
+    switch( typeInfo().kind() ) {
+      case ATOMIC: {
+        newValue = TinValue.ofAtomic( aValue );
+        break;
+      }
+      case FULL: {
+        IStringMap<ITinValue> childValues = typeInfo().decompose( aValue );
+        newValue = TinValue.ofFull( aValue, childValues );
+        break;
+      }
+      case GROUP:
+        throw new TsInternalErrorRtException(); // doe to check above can't be here
+      default:
+        throw new TsNotAllEnumsUsedRtException( typeInfo().kind().id() );
     }
-    else {
-      ITinValue newValue = TinValue.ofAtomic( aValue );
-      if( !Objects.equals( tinValue, newValue ) ) {
-        tinValue = newValue;
-        treeViewer.update( this, null ); // TODO maybe remember rows and update at once?
+    // apply value to node and children (if any)
+    if( internalPropagateValueDownSubtree( newValue ) ) {
+      if( parent != null ) { // instead of calling parent top row in TinTopRow will fire TIN widget event
+        parent.papiChildValueChangedByValed( fieldInfo.id() );
       }
     }
-    if( parent != null ) {
-      // TODO what if this node is root?
-      parent.papiChildValueChangedByValed( fieldInfo.id() );
-    }
+    // tree structure
     root().refreshSubtreeStructure();
   }
 

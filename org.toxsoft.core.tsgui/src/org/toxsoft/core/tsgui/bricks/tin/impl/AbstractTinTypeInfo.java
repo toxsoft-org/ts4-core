@@ -79,7 +79,6 @@ public abstract class AbstractTinTypeInfo<T>
     return fieldInfos;
   }
 
-  @Override
   final public IStringList visibleFieldIds( ITinValue aValue ) {
     TsNullArgumentRtException.checkNull( aValue );
     IStringList vfIds = doGetVisibleFieldIds( aValue );
@@ -87,6 +86,12 @@ public abstract class AbstractTinTypeInfo<T>
       TsInternalErrorRtException.checkFalse( fieldInfos.hasKey( vfId ) );
     }
     return vfIds;
+  }
+
+  @Override
+  public ITinValue applyFieldChange( ITinValue aOldValue, String aFieldId, ITinValue aChildFieldNewValue ) {
+    // TODO Auto-generated method stub
+    return null;
   }
 
   @Override
@@ -205,7 +210,7 @@ public abstract class AbstractTinTypeInfo<T>
    * @param aFieldId String - the field ID
    * @param aChildValues {@link IStringMap}&lt;{@link ITinValue}&gt; - the child values
    * @param aDefaultValue int - the value returned when no child found
-   * @return {@link IAtomicValue} - atomic value of the specified child field
+   * @return int - value of the specified child field
    * @throws TsIllegalArgumentRtException found child kind {@link ETinTypeKind#hasAtomic()} != <code>true</code>
    */
   public int extractChildInt( String aFieldId, IStringMap<ITinValue> aChildValues, int aDefaultValue ) {
@@ -222,7 +227,7 @@ public abstract class AbstractTinTypeInfo<T>
    * @param aFieldId String - the field ID
    * @param aChildValues {@link IStringMap}&lt;{@link ITinValue}&gt; - the child values
    * @param aDefaultValue long - the value returned when no child found
-   * @return {@link IAtomicValue} - atomic value of the specified child field
+   * @return long - value of the specified child field
    * @throws TsIllegalArgumentRtException found child kind {@link ETinTypeKind#hasAtomic()} != <code>true</code>
    */
   public long extractChildLong( String aFieldId, IStringMap<ITinValue> aChildValues, long aDefaultValue ) {
@@ -239,7 +244,7 @@ public abstract class AbstractTinTypeInfo<T>
    * @param aFieldId String - the field ID
    * @param aChildValues {@link IStringMap}&lt;{@link ITinValue}&gt; - the child values
    * @param aDefaultValue String - the value returned when no child found
-   * @return {@link IAtomicValue} - atomic value of the specified child field
+   * @return String - value of the specified child field
    * @throws TsIllegalArgumentRtException found child kind {@link ETinTypeKind#hasAtomic()} != <code>true</code>
    */
   public String extractChildString( String aFieldId, IStringMap<ITinValue> aChildValues, String aDefaultValue ) {
@@ -248,6 +253,24 @@ public abstract class AbstractTinTypeInfo<T>
       return aDefaultValue;
     }
     return av.asString();
+  }
+
+  /**
+   * Extracts atomic value from {@link ETinTypeKind#ATOMIC} child field as a value object.
+   *
+   * @param <V> - expected type of value-object
+   * @param aFieldId String - the field ID
+   * @param aChildValues {@link IStringMap}&lt;{@link ITinValue}&gt; - the child values
+   * @param aDefaultValue &lt;V&gt; - the value returned when no child found
+   * @return &lt;V&gt; - value of the specified child field
+   * @throws TsIllegalArgumentRtException found child kind {@link ETinTypeKind#hasAtomic()} != <code>true</code>
+   */
+  public <V> V extractChildValobj( String aFieldId, IStringMap<ITinValue> aChildValues, V aDefaultValue ) {
+    IAtomicValue av = extractChildAtomic( aFieldId, aChildValues, null );
+    if( av == null || av == IAtomicValue.NULL ) {
+      return aDefaultValue;
+    }
+    return av.asValobj();
   }
 
   // ------------------------------------------------------------------------------------
