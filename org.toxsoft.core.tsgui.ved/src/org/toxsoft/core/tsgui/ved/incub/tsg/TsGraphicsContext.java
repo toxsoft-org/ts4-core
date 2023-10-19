@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.ved.incub.tsg;
 
+import java.util.function.*;
+
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
@@ -17,6 +19,17 @@ import org.toxsoft.core.tslib.bricks.geometry.impl.*;
  */
 public class TsGraphicsContext
     implements ITsGraphicsContext {
+
+  static class ErrorHandler
+      implements Consumer<Error> {
+
+    @Override
+    public void accept( Error aError ) {
+      System.out.println( ">>>>> SWT Resource error: " + aError ); //$NON-NLS-1$
+    }
+  }
+
+  static final ErrorHandler errorHandler = new ErrorHandler();
 
   private final GC gc;
 
@@ -46,7 +59,7 @@ public class TsGraphicsContext
     tsContext = aTsContext;
     gc = aEvent.gc;
     drawingArea = new TsRectangle( aEvent.x, aEvent.y, aEvent.width, aEvent.height );
-    // unknownImage = imageManager().createUnknownImage( unknownImageSize );
+    gc.setNonDisposeHandler( errorHandler );
   }
 
   /**
@@ -59,7 +72,7 @@ public class TsGraphicsContext
     tsContext = aTsContext;
     gc = aGc;
     drawingArea = new TsRectangle( 0, 0, 1, 1 );
-    unknownImage = imageManager().createUnknownImage( unknownImageSize );
+    gc.setNonDisposeHandler( errorHandler );
   }
 
   // ------------------------------------------------------------------------------------
@@ -209,6 +222,7 @@ public class TsGraphicsContext
           IGradient grad = fillInfo.gradientFillInfo().createGradient( tsContext );
           if( grad != null ) {
             pattern = grad.pattern( gc, aWidth, aHeight );
+            pattern.setNonDisposeHandler( errorHandler );
             gc.setBackgroundPattern( pattern );
           }
           break;
@@ -229,8 +243,10 @@ public class TsGraphicsContext
       }
     }
     Transform oldTransform = new Transform( gc.getDevice() );
+    oldTransform.setNonDisposeHandler( errorHandler );
     gc.getTransform( oldTransform );
     Transform tr = new Transform( gc.getDevice() );
+    tr.setNonDisposeHandler( errorHandler );
     gc.getTransform( tr );
     tr.translate( aX, aY );
     gc.setTransform( tr );
