@@ -5,7 +5,7 @@ import static org.toxsoft.core.tslib.utils.errors.ITsResources.*;
 /**
  * Method call is illegal - particular instance does not support called method.
  * <p>
- * In most cases this exception means that caller does not perforemed mandatory check on called object. Unlike
+ * In most cases this exception means that caller does not performed mandatory check on called object. Unlike
  * {@link TsIllegalStateRtException}, for the particular instance, call of method will never succeed.
  * <p>
  * This exception is rarely used. Most useful use case happens when the same interface is used for different kind of

@@ -106,7 +106,7 @@ public final class D2ConversionEdit
   @SuppressWarnings( "boxing" )
   @Override
   public String toString() {
-    return String.format( "%s %.4f %s", rotation.toString(), zoomFactor, origin.toString() ); //$NON-NLS-1$
+    return String.format( "%s %.3f %s", rotation.toString(), zoomFactor, origin.toString() ); //$NON-NLS-1$
   }
 
   @Override

@@ -123,9 +123,10 @@ public final class D2Angle
   // Object
   //
 
+  @SuppressWarnings( "boxing" )
   @Override
   public String toString() {
-    return "∠" + radians + " (" + degrees + CHAR_DEGREE_SIGN + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    return String.format( "∠%.2f (%.1f" + CHAR_DEGREE_SIGN + ")", radians, degrees ); //$NON-NLS-1$ //$NON-NLS-2$
   }
 
   @Override
