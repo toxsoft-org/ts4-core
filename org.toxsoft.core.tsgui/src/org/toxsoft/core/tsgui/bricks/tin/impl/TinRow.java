@@ -12,7 +12,6 @@ import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
-import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -132,22 +131,26 @@ public class TinRow
    * @param aFieldId String - ID of field with changed value
    */
   void papiChildValueChangedByValed( String aFieldId ) {
-    // prepare changed child values
-    IStringMapEdit<ITinValue> childValues = new StringMap<>();
-    for( String fid : allChildRows.keys() ) {
-      ITinRow childRow = allChildRows.getByKey( fid );
-      ITinValue childValue = childRow.getTinValue();
-      childValues.put( fid, childValue );
-    }
+    ITinValue newValue =
+        typeInfo().applyFieldChange( tinValue, aFieldId, allChildRows.getByKey( aFieldId ).getTinValue() );
+
+    // // prepare changed child values
+    // IStringMapEdit<ITinValue> childValues = new StringMap<>();
+    // for( String fid : allChildRows.keys() ) {
+    // ITinRow childRow = allChildRows.getByKey( fid );
+    // ITinValue childValue = childRow.getTinValue();
+    // childValues.put( fid, childValue );
+    // }
+    // calculate new value
+    // ITinValue newValue;
+    // if( typeInfo().kind().hasAtomic() ) {
+    // IAtomicValue av = typeInfo().compose( childValues );
+    // newValue = TinValue.ofFull( av, childValues );
+    // }
+    // else {
+    // newValue = TinValue.ofGroup( childValues );
+    // }
     // set new value of this node (without propagating down subtree)
-    ITinValue newValue;
-    if( typeInfo().kind().hasAtomic() ) {
-      IAtomicValue av = typeInfo().compose( childValues );
-      newValue = TinValue.ofFull( av, childValues );
-    }
-    else {
-      newValue = TinValue.ofGroup( childValues );
-    }
     tinValue = newValue;
     treeViewer.update( this, null );
     if( parent != null ) {

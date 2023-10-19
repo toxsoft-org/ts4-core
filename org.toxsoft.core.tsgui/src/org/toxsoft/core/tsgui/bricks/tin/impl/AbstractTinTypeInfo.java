@@ -79,6 +79,7 @@ public abstract class AbstractTinTypeInfo<T>
     return fieldInfos;
   }
 
+  @Override
   final public IStringList visibleFieldIds( ITinValue aValue ) {
     TsNullArgumentRtException.checkNull( aValue );
     IStringList vfIds = doGetVisibleFieldIds( aValue );
@@ -89,9 +90,12 @@ public abstract class AbstractTinTypeInfo<T>
   }
 
   @Override
-  public ITinValue applyFieldChange( ITinValue aOldValue, String aFieldId, ITinValue aChildFieldNewValue ) {
-    // TODO Auto-generated method stub
-    return null;
+  final public ITinValue applyFieldChange( ITinValue aOldValue, String aFieldId, ITinValue aChildFieldNewValue ) {
+    IStringMapEdit<ITinValue> childValues = new StringMap<>( aOldValue.childValues() );
+    ITinValue newValue = doApplyFieldChange( childValues, aFieldId, aChildFieldNewValue );
+    TsInternalErrorRtException.checkNull( newValue );
+    TsInternalErrorRtException.checkTrue( newValue.kind() != kind() );
+    return newValue;
   }
 
   @Override
@@ -103,7 +107,7 @@ public abstract class AbstractTinTypeInfo<T>
   }
 
   @Override
-  public IAtomicValue compose( IStringMap<ITinValue> aChildValues ) {
+  final public IAtomicValue compose( IStringMap<ITinValue> aChildValues ) {
     TsUnsupportedFeatureRtException.checkFalse( kind.hasAtomic() );
     IStringMapEdit<ITinValue> childVals = new StringMap<>();
     for( ITinFieldInfo finf : fieldInfos ) {
@@ -120,7 +124,7 @@ public abstract class AbstractTinTypeInfo<T>
   }
 
   @Override
-  public ValidationResult canDecompose( IAtomicValue aValue ) {
+  final public ValidationResult canDecompose( IAtomicValue aValue ) {
     if( !kind.hasAtomic() ) {
       return ValidationResult.error( MSG_ERR_NOT_ATOMIC_TI );
     }
@@ -134,7 +138,7 @@ public abstract class AbstractTinTypeInfo<T>
   }
 
   @Override
-  public IStringMap<ITinValue> decompose( IAtomicValue aValue ) {
+  final public IStringMap<ITinValue> decompose( IAtomicValue aValue ) {
     TsValidationFailedRtException.checkError( canDecompose( aValue ) );
     IStringMapEdit<ITinValue> childValues = new StringMap<>();
     doDecompose( aValue, childValues );
@@ -142,7 +146,7 @@ public abstract class AbstractTinTypeInfo<T>
   }
 
   @Override
-  public ITinValue makeValue( Object aEntity ) {
+  final public ITinValue makeValue( Object aEntity ) {
     ITinValue tinValue;
     if( aEntity != null ) {
       T entity = entityClass.cast( aEntity );
@@ -306,12 +310,23 @@ public abstract class AbstractTinTypeInfo<T>
     return ValidationResult.SUCCESS;
   }
 
+  // FIXME comment
+  protected ITinValue doApplyFieldChange( IStringMapEdit<ITinValue> aCurrValues, String aFieldId,
+      ITinValue aChildFieldNewValue ) {
+    aCurrValues.put( aFieldId, aChildFieldNewValue );
+    if( kind().hasAtomic() ) {
+      IAtomicValue av = compose( aCurrValues );
+      return TinValue.ofFull( av, aCurrValues );
+    }
+    return TinValue.ofGroup( aCurrValues );
+  }
+
   /**
    * Implementation must create atomic value representation from the child fields values.
    * <p>
    * Called only for types with atomic values, ie {@link ETinTypeKind#hasAtomic()} = <code>true</code>.
    * <p>
-   * The argument contains all child field values.
+   * The argument may contains subset of the child fields but enough to create the aotmic value.
    * <p>
    * In base class simply throws an exception {@link TsUnsupportedFeatureRtException}, so superclass method must not be
    * called when overriding.

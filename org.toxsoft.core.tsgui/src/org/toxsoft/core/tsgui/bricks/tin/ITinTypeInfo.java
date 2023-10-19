@@ -75,9 +75,9 @@ public interface ITinTypeInfo {
   /**
    * Creates atomic value representation from the child fields values.
    * <p>
-   * The <code>null</code> argument means default, that is initial value of the field must be returned.
+   * The <code>null</code> argument means default, that is initial value of the instance must be returned.
    * <p>
-   * The argument may contain only subset of the field values.
+   * The argument may contain only subset of the field values, but enough to create the atomic value.
    *
    * @param aChildValues {@link IStringMap}&lt;{@link ITinValue}&gt; - map "field ID" - "value" or <code>null</code>
    * @return {@link IAtomicValue} - composed atomic value representation of the field value
@@ -100,9 +100,10 @@ public interface ITinTypeInfo {
   /**
    * Decomposes (creates child fields values) from the atomic value representation of the field.
    * <p>
-   * TODO only meaningfull fields!
+   * The <code>null</code> argument means default, that is initial value of the fields.
    * <p>
-   * The <code>null</code> argument means default, that is initial value of the field.
+   * The returned map may contain only subset of the fields, but enough to create the atomic value
+   * {@link #compose(IStringMap)}.
    *
    * @param aValue {@link IAtomicValue} - field atomic value or <code>null</code>
    * @return {@link IStringMap}&lt;{@link ITinValue}&gt; - child field values

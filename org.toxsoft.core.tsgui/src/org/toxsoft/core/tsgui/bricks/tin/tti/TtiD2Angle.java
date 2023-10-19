@@ -13,6 +13,7 @@ import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link ITinTypeInfo} implementation for {@link ID2Angle} entities.
@@ -58,6 +59,28 @@ public class TtiD2Angle
     values.put( FID_RADIANS, TinValue.ofAtomic( avFloat( aEntity.radians() ) ) );
 
     return TinValue.ofFull( avValobj( aEntity ), values );
+  }
+
+  @Override
+  protected ITinValue doApplyFieldChange( IStringMapEdit<ITinValue> aCurrValues, String aFieldId,
+      ITinValue aChildFieldNewValue ) {
+    D2Angle angle;
+    switch( aFieldId ) {
+      case FID_DEGREES: {
+        double degrees = aChildFieldNewValue.atomicValue().asDouble();
+        angle = D2Angle.ofDegrees( degrees );
+        break;
+      }
+      case FID_RADIANS: {
+        double radians = aChildFieldNewValue.atomicValue().asDouble();
+        angle = D2Angle.ofRadians( radians );
+        break;
+      }
+      default:
+        throw new TsNotAllEnumsUsedRtException( aFieldId );
+    }
+    aCurrValues.put( aFieldId, aChildFieldNewValue );
+    return TinValue.ofFull( avValobj( angle ), aCurrValues );
   }
 
   @Override
