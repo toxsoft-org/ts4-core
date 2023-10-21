@@ -198,7 +198,7 @@ public interface IList<E>
    * Elements with indexes from aFromIndex to aToIndex-1 are copied in resulting list. If aFromIndex = aToIndex, than
    * resulting list is empty.
    *
-   * @param aFromIndex int - index of first copiend element
+   * @param aFromIndex int - index of first copied element
    * @param aToIndex int - index of element after last copied element
    * @return IList&lt;E&gt; - list with selected elements
    * @throws TsIllegalArgumentRtException any index is out of range

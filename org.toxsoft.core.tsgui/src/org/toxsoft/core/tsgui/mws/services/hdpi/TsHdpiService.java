@@ -99,7 +99,7 @@ public final class TsHdpiService
     appContext = TsNullArgumentRtException.checkNull( aAppContext );
     defaultIconSize = determineDefaultIconSize( getScreenWidth() );
     // register built-in categories
-    defineIconCategory( ICON_CATEG_ID_TOOLBAR, -1 );
+    defineIconCategory( ICON_CATEG_ID_TOOLBAR, 0 );
     defineIconCategory( ICON_CATEG_ID_MENU, 0 );
     defineIconCategory( ICON_CATEG_ID_JFACE_CELL, 0 );
     defineIconCategory( ICON_CATEG_ID_UIPART_TAB, 1 );

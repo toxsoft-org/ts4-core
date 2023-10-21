@@ -104,11 +104,25 @@ public final class SimpleStridGenaretor
    * Creates generator with specified state
    *
    * @param aInitialState {@link IOptionSet} - initial state
-   * @throws TsNullArgumentRtException aContextPrefix = 0
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsValidationFailedRtException failed {@link #validateState(IOptionSet)}
    */
   public SimpleStridGenaretor( IOptionSet aInitialState ) {
     initialState = new OptionSet( aInitialState );
+    setState( initialState );
+  }
+
+  /**
+   * Constructor.
+   *
+   * @param aPrefix String - prefix (an IDname)
+   * @param aSeed long - counter initial value
+   * @param aPadWidth int - zero padded number text width, see {@link #OPDEF_PAD_WIDTH} for explaination
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsValidationFailedRtException failed {@link #validateState(IOptionSet)}
+   */
+  public SimpleStridGenaretor( String aPrefix, long aSeed, int aPadWidth ) {
+    initialState = createState( aPrefix, aSeed, aPadWidth );
     setState( initialState );
   }
 
