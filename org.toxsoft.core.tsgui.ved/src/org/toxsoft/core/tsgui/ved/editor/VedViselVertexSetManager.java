@@ -74,10 +74,10 @@ public class VedViselVertexSetManager
   public boolean onMouseDown( Object aSource, ETsMouseButton aButton, int aState, ITsPoint aCoors, Control aWidget ) {
     if( aButton == ETsMouseButton.LEFT ) {
       IStringList viselIds = vedScreen().view().listViselIdsAtPoint( aCoors );
-      if( viselIds.size() <= 0 ) {
+      if( viselIds.size() <= 0 && selectionManager.selectedViselIds().size() > 0 ) {
         selectionManager.deselectAll();
+        return true;
       }
-      return true;
     }
     return false;
   }
