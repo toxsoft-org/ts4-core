@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public abstract class VedAbstractSnippet
     implements IVedSnippet, IDisposable {
 
-  private final VedScreen vedScreen;
+  private final IVedScreen vedScreen;
 
   private boolean active   = true;
   private boolean disposed = false;
@@ -21,10 +21,10 @@ public abstract class VedAbstractSnippet
   /**
    * Constructor.
    *
-   * @param aScreen {@link VedScreen} - the owner screen
+   * @param aScreen {@link IVedScreen} - the owner screen
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public VedAbstractSnippet( VedScreen aScreen ) {
+  public VedAbstractSnippet( IVedScreen aScreen ) {
     TsNullArgumentRtException.checkNull( aScreen );
     vedScreen = aScreen;
   }

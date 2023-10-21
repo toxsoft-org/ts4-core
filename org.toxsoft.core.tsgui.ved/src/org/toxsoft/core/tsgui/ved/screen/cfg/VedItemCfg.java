@@ -1,5 +1,8 @@
 package org.toxsoft.core.tsgui.ved.screen.cfg;
 
+import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
+import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
+
 import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
@@ -17,7 +20,6 @@ import org.toxsoft.core.txtproj.lib.storage.*;
  * @author hazard157
  */
 public final class VedItemCfg
-    extends StridableParameterized
     implements IVedItemCfg {
 
   private static final String KW_PARAMS = "params"; //$NON-NLS-1$
@@ -26,7 +28,6 @@ public final class VedItemCfg
   /**
    * The keeper singleton.
    */
-  @SuppressWarnings( "hiding" )
   public static final IEntityKeeper<IVedItemCfg> KEEPER =
       new AbstractEntityKeeper<>( IVedItemCfg.class, EEncloseMode.ENCLOSES_KEEPER_IMPLEMENTATION, null ) {
 
@@ -81,6 +82,9 @@ public final class VedItemCfg
         }
       };
 
+  private final String         id;
+  private final IOptionSetEdit params = new OptionSet();
+
   private final EVedItemKind               kind;
   private final String                     factoryId;
   private final IOptionSetEdit             propValues = new OptionSet();
@@ -97,7 +101,8 @@ public final class VedItemCfg
    * @throws TsIllegalArgumentRtException ID is not an IDpath
    */
   public VedItemCfg( String aId, EVedItemKind aKind, String aFactoryId, IOptionSet aParams ) {
-    super( aId, aParams );
+    id = StridUtils.checkValidIdPath( aId );
+    params.setAll( aParams );
     kind = TsNullArgumentRtException.checkNull( aKind );
     factoryId = StridUtils.checkValidIdPath( aFactoryId );
   }
@@ -109,7 +114,8 @@ public final class VedItemCfg
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public VedItemCfg( IVedItemCfg aSource ) {
-    super( TsNullArgumentRtException.checkNull( aSource ).id(), aSource.params() );
+    id = aSource.id();
+    params.setAll( aSource.params() );
     kind = aSource.kind();
     factoryId = aSource.factoryId();
     propValues.setAll( aSource.propValues() );
@@ -119,13 +125,14 @@ public final class VedItemCfg
   /**
    * Copy constructor with specifying an ID.
    *
-   * @param aItemId String - the ID of the created item
+   * @param aId String - the ID of the created item
    * @param aSource {@link IVedItemCfg} - the source
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException ID is not an IDpath
    */
-  public VedItemCfg( String aItemId, IVedItemCfg aSource ) {
-    super( aItemId, aSource.params() );
+  public VedItemCfg( String aId, IVedItemCfg aSource ) {
+    id = StridUtils.checkValidIdPath( aId );
+    params.setAll( aSource.params() );
     kind = aSource.kind();
     factoryId = aSource.factoryId();
     propValues.setAll( aSource.propValues() );
@@ -164,6 +171,43 @@ public final class VedItemCfg
     VedItemCfg cfg = new VedItemCfg( aId, EVedItemKind.ACTOR, aFactoryId, aParams );
     cfg.propValues.setAll( aProps );
     return cfg;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // IStridable
+  //
+
+  @Override
+  public String id() {
+    return id;
+  }
+
+  @Override
+  public String nmName() {
+    return propValues().getStr( PROP_NAME );
+  }
+
+  @Override
+  public String description() {
+    return propValues().getStr( PROP_DESCRIPTION );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // IParameterized
+  //
+
+  @Override
+  public IOptionSet params() {
+    return params;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // IIconIdable
+  //
+
+  @Override
+  public String iconId() {
+    return params().getStr( TSID_ICON_ID, null );
   }
 
   // ------------------------------------------------------------------------------------

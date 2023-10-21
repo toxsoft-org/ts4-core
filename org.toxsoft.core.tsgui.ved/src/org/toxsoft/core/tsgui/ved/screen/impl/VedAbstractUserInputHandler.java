@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.ved.screen.impl;
 
 import org.toxsoft.core.tsgui.bricks.uievents.*;
+import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.snippets.*;
 import org.toxsoft.core.tslib.bricks.*;
 import org.toxsoft.core.tslib.gw.time.*;
@@ -18,10 +19,10 @@ public class VedAbstractUserInputHandler
   /**
    * Constructor.
    *
-   * @param aScreen {@link VedScreen} - the owner screen
+   * @param aScreen {@link IVedScreen} - the owner screen
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public VedAbstractUserInputHandler( VedScreen aScreen ) {
+  public VedAbstractUserInputHandler( IVedScreen aScreen ) {
     super( aScreen );
   }
 

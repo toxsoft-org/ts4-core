@@ -3,11 +3,13 @@ package org.toxsoft.core.tsgui.ved.editor;
 import org.eclipse.swt.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.uievents.*;
+import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Менеджер по созданию и удалению набора вершин {@link IVedVertexSet}.
@@ -37,12 +39,15 @@ public class VedViselVertexSetManager
   private final SelectionListener selectionListener;
 
   /**
-   * Конструктор.
+   * Constructor.
    *
-   * @param aScreen {@link VedScreen} - экран
+   * @param aScreen {@link IVedScreen} - the owner VED screen
+   * @param aSelectionManager {@link IVedViselSelectionManager} - selection manager for VISELs
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public VedViselVertexSetManager( VedScreen aScreen, IVedViselSelectionManager aSelectionManager ) {
+  public VedViselVertexSetManager( IVedScreen aScreen, IVedViselSelectionManager aSelectionManager ) {
     super( aScreen );
+    TsNullArgumentRtException.checkNull( aSelectionManager );
     selectionManager = aSelectionManager;
     selectionListener = new SelectionListener();
     selectionManager.genericChangeEventer().addListener( selectionListener );

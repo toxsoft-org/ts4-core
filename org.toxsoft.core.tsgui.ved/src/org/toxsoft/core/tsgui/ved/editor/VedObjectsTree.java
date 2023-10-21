@@ -1,7 +1,6 @@
 package org.toxsoft.core.tsgui.ved.editor;
 
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.stdevents.*;
 import org.toxsoft.core.tsgui.bricks.stdevents.impl.*;
 import org.toxsoft.core.tsgui.m5.*;
@@ -49,11 +48,10 @@ public class VedObjectsTree
    *
    * @param aParent {@link Composite} - parent component
    * @param aVedScreen {@link IVedScreen} - the VED screen to display it's model's content
-   * @param aContext {@link ITsGuiContext} - the context
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public VedObjectsTree( Composite aParent, IVedScreen aVedScreen, ITsGuiContext aContext ) {
-    super( aParent, aContext );
+  public VedObjectsTree( Composite aParent, IVedScreen aVedScreen ) {
+    super( aParent, TsNullArgumentRtException.checkNull( aVedScreen ).tsContext() );
     selectionHelper = new TsSelectionChangeEventHelper<>( this );
     this.setLayout( new BorderLayout() );
     TsNullArgumentRtException.checkNull( aVedScreen );
