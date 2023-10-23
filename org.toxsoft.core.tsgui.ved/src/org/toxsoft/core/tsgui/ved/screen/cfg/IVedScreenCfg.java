@@ -1,6 +1,6 @@
 package org.toxsoft.core.tsgui.ved.screen.cfg;
 
-import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.txtproj.lib.storage.*;
 
@@ -10,12 +10,12 @@ import org.toxsoft.core.txtproj.lib.storage.*;
  * @author hazard157
  */
 public sealed interface IVedScreenCfg
-    extends IStridableParameterized permits VedScreenCfg {
+    extends IParameterized permits VedScreenCfg {
 
   /**
    * An empty screen singleton.
    */
-  IVedScreenCfg NONE = new VedScreenCfg( IStridable.NONE_ID );
+  IVedScreenCfg NONE = new VedScreenCfg();
 
   /**
    * Returns the configuration data of all VISELs in the screen.

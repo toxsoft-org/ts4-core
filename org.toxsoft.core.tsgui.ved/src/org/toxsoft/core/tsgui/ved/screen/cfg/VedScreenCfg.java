@@ -2,15 +2,14 @@ package org.toxsoft.core.tsgui.ved.screen.cfg;
 
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
-import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.bricks.strio.impl.*;
 import org.toxsoft.core.tslib.coll.*;
-import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.txtproj.lib.storage.*;
 
 /**
@@ -19,13 +18,13 @@ import org.toxsoft.core.txtproj.lib.storage.*;
  * @author hazard157
  */
 public final class VedScreenCfg
-    extends StridableParameterized
-    implements IVedScreenCfg {
+    implements IVedScreenCfg, IParameterizedEdit {
 
   /**
    * The keeper singleton.
+   * <p>
+   * Read configuration may safely be casted to {@link VedScreenCfg}.
    */
-  @SuppressWarnings( "hiding" )
   public static final IEntityKeeper<IVedScreenCfg> KEEPER =
       new AbstractEntityKeeper<>( IVedScreenCfg.class, EEncloseMode.ENCLOSES_BASE_CLASS, null ) {
 
@@ -37,11 +36,8 @@ public final class VedScreenCfg
 
         @Override
         protected void doWrite( IStrioWriter aSw, IVedScreenCfg aEntity ) {
-          // StridableParameterized
+          // Parameterized
           aSw.incNewLine();
-          aSw.writeAsIs( aEntity.id() );
-          aSw.writeSeparatorChar();
-          aSw.writeEol();
           StrioUtils.writeKeywordHeader( aSw, KW_PARAMS, true );
           OptionSetKeeper.KEEPER_INDENTED.write( aSw, aEntity.params() );
           aSw.writeSeparatorChar();
@@ -68,10 +64,8 @@ public final class VedScreenCfg
 
         @Override
         protected IVedScreenCfg doRead( IStrioReader aSr ) {
-          // StridableParameterized
-          String id = aSr.readIdPath();
-          VedScreenCfg scrCfg = new VedScreenCfg( id );
-          aSr.ensureSeparatorChar();
+          // Parameterized
+          VedScreenCfg scrCfg = new VedScreenCfg();
           StrioUtils.ensureKeywordHeader( aSr, KW_PARAMS );
           IOptionSet params = OptionSetKeeper.KEEPER.read( aSr );
           scrCfg.params().setAll( params );
@@ -99,18 +93,24 @@ public final class VedScreenCfg
   private final IStridablesListEdit<IVedItemCfg> viselCfgs = new StridablesList<>();
   private final IStridablesListEdit<IVedItemCfg> actorCfgs = new StridablesList<>();
 
+  private final IOptionSetEdit       params    = new OptionSet();
   private VedCanvasCfg               canvasCfg = new VedCanvasCfg();
   private KeepablesStorageAsKeepable extraData = new KeepablesStorageAsKeepable();
 
   /**
    * Constructor.
-   *
-   * @param aId String - the screen ID
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIllegalArgumentRtException ID is not an IDpath
    */
-  public VedScreenCfg( String aId ) {
-    super( aId );
+  public VedScreenCfg() {
+    // nop
+  }
+
+  // ------------------------------------------------------------------------------------
+  // IParameterizedEdit
+  //
+
+  @Override
+  public IOptionSetEdit params() {
+    return params;
   }
 
   // ------------------------------------------------------------------------------------
