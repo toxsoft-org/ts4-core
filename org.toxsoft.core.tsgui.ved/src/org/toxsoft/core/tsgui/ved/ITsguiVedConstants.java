@@ -32,12 +32,15 @@ public interface ITsguiVedConstants {
   // ------------------------------------------------------------------------------------
   // Icons
 
-  String PREFIX_OF_ICON_FIELD_NAME = "ICONID_";         //$NON-NLS-1$
-  String ICONID_VED_LOGO           = "ved-logo";        //$NON-NLS-1$
-  String ICONID_VED_VISEL          = "ved-visel";       //$NON-NLS-1$
-  String ICONID_VED_ACTOR          = "ved-actor";       //$NON-NLS-1$
-  String ICONID_SIMPLE_RECT        = "simple-rect";     //$NON-NLS-1$
-  String ICONID_VISEL_RECTANGLE    = "visel-rectangle"; //$NON-NLS-1$
+  String PREFIX_OF_ICON_FIELD_NAME = "ICONID_";           //$NON-NLS-1$
+  String ICONID_VED_LOGO           = "ved-logo";          //$NON-NLS-1$
+  String ICONID_VED_VISEL          = "ved-visel";         //$NON-NLS-1$
+  String ICONID_VED_ACTOR          = "ved-actor";         //$NON-NLS-1$
+  String ICONID_SIMPLE_RECT        = "simple-rect";       //$NON-NLS-1$
+  String ICONID_VISEL_CIRCLE_LAMP  = "visel-circle-lamp"; //$NON-NLS-1$
+  String ICONID_VISEL_LABEL        = "visel-label";       //$NON-NLS-1$
+  String ICONID_VISEL_RECTANGLE    = "visel-rectangle";   //$NON-NLS-1$
+  String ICONID_VISEL_ROUND_RECT   = "visel-round-rect";  //$NON-NLS-1$
 
   /**
    * Constants registration.

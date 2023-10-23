@@ -150,6 +150,9 @@ public abstract class VedAbstractVisel
 
   @Override
   final protected void doInterceptPropsChange( IOptionSet aNewValues, IOptionSetEdit aValuesToSet ) {
+    // TODO use MIN_INCL/EXCL of width/height
+    // TODO use MAX_INCL/EXCL of width/height
+
     // ensure width and height always are greater or equal to 1.0
     if( aNewValues.hasKey( PROPID_WIDTH ) ) {
       double width = aNewValues.getDouble( PROP_WIDTH );

@@ -6,6 +6,7 @@ import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
@@ -15,12 +16,12 @@ import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.txtproj.lib.storage.*;
 
 /**
- * {@link IVedItemCfg} implementation.
+ * {@link IVedItemCfg} editable implementation.
  *
  * @author hazard157
  */
 public final class VedItemCfg
-    implements IVedItemCfg {
+    implements IVedItemCfg, IParameterizedEdit {
 
   private static final String KW_PARAMS = "params"; //$NON-NLS-1$
   private static final String KW_EXTRA  = "extra";  //$NON-NLS-1$
@@ -193,11 +194,11 @@ public final class VedItemCfg
   }
 
   // ------------------------------------------------------------------------------------
-  // IParameterized
+  // IParameterizedEdit
   //
 
   @Override
-  public IOptionSet params() {
+  public IOptionSetEdit params() {
     return params;
   }
 

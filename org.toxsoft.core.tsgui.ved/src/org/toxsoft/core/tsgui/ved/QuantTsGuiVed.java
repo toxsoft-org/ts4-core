@@ -31,6 +31,7 @@ public class QuantTsGuiVed
     VedViselFactoriesRegistry visFact = new VedViselFactoriesRegistry();
     aAppContext.set( IVedViselFactoriesRegistry.class, visFact );
     visFact.register( ViselRectangle.FACTORY );
+    visFact.register( ViselLabel.FACTORY );
     //
     VedActorFactoriesRegistry actFact = new VedActorFactoriesRegistry();
     aAppContext.set( IVedActorFactoriesRegistry.class, actFact );

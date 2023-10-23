@@ -121,7 +121,7 @@ public class ViselRectangle
     double currAspectRatio = props().getDouble( PROPID_WIDTH ) / props().getDouble( PROPID_HEIGHT );
     boolean wasWidthChangeRequested = aValuesToSet.hasKey( PROPID_WIDTH );
     boolean wasHeightChangeRequested = aValuesToSet.hasKey( PROPID_HEIGHT );
-    // when changing both width and height, ignore height change resuset
+    // when changing both width and height, ignore height change requset
     if( wasWidthChangeRequested && wasHeightChangeRequested ) {
       wasHeightChangeRequested = false;
     }

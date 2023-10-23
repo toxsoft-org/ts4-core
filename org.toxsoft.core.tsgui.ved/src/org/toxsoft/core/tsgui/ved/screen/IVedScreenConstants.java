@@ -2,6 +2,7 @@ package org.toxsoft.core.tsgui.ved.screen;
 
 import static org.toxsoft.core.tsgui.bricks.tin.tti.ITtiConstants.*;
 import static org.toxsoft.core.tsgui.graphics.ITsGraphicsConstants.*;
+import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
 import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
 import static org.toxsoft.core.tsgui.ved.l10n.ITsguiVedSharedResources.*;
 import static org.toxsoft.core.tslib.av.EAtomicType.*;
@@ -11,8 +12,12 @@ import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import org.toxsoft.core.tsgui.bricks.tin.*;
 import org.toxsoft.core.tsgui.bricks.tin.impl.*;
 import org.toxsoft.core.tsgui.bricks.tin.tti.*;
+import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
+import org.toxsoft.core.tsgui.graphics.fonts.*;
+import org.toxsoft.core.tsgui.graphics.fonts.impl.*;
 import org.toxsoft.core.tsgui.valed.controls.basic.*;
+import org.toxsoft.core.tsgui.valed.controls.graphics.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
@@ -27,6 +32,11 @@ import org.toxsoft.core.tslib.coll.primtypes.impl.*;
  */
 @SuppressWarnings( "javadoc" )
 public interface IVedScreenConstants {
+
+  /**
+   * TODO make properties read-only<br>
+   * TODO make properties invisible (like Width.Height for circle<br>
+   */
 
   // ------------------------------------------------------------------------------------
   // Mandatory properties
@@ -116,12 +126,44 @@ public interface IVedScreenConstants {
   // Optional VISEL properties
   //
 
+  String PROPID_TEXT            = VED_ID + ".text";          //$NON-NLS-1$
+  String PROPID_FONT            = VED_ID + ".font";          //$NON-NLS-1$
+  String PROPID_HOR_ALIGNMENT   = VED_ID + ".horAlign";      //$NON-NLS-1$
+  String PROPID_VER_ALIGNMENT   = VED_ID + ".verAlign";      //$NON-NLS-1$
   String PROPID_BK_COLOR        = VED_ID + ".bkColor";       //$NON-NLS-1$
   String PROPID_FG_COLOR        = VED_ID + ".fgColor";       //$NON-NLS-1$
   String PROPID_BK_FILL         = VED_ID + ".bkFill";        //$NON-NLS-1$
   String PROPID_BORDER_INFO     = VED_ID + ".borderInfo";    //$NON-NLS-1$
   String PROPID_IS_ASPECT_FIXED = VED_ID + ".isAspectFixed"; //$NON-NLS-1$
   String PROPID_ASPECT_RATIO    = VED_ID + ".aspectRatio";   //$NON-NLS-1$
+
+  IDataDef PROP_TEXT = DataDef.create3( PROPID_TEXT, DDEF_STRING, //
+      TSID_NAME, STR_TEXT, //
+      TSID_DESCRIPTION, STR_TEXT_D, //
+      TSID_DEFAULT_VALUE, avStr( "Abc123" ) // //$NON-NLS-1$
+  );
+
+  IDataDef PROP_FONT = DataDef.create3( PROPID_FONT, DDEF_STRING, //
+      TSID_NAME, STR_FONT, //
+      TSID_DESCRIPTION, STR_FONT_D, //
+      TSID_KEEPER_ID, FontInfo.KEEPER_ID, //
+      OPDEF_EDITOR_FACTORY_NAME, ValedAvValobjSimpleFontInfo.FACTORY_NAME, //
+      TSID_DEFAULT_VALUE, avValobj( IFontInfo.DEFAULT ) //
+  );
+
+  IDataDef PROP_HOR_ALIGNMENT = DataDef.create3( PROPID_HOR_ALIGNMENT, DT_AV_ENUM, //
+      TSID_NAME, STR_HOR_ALIGN, //
+      TSID_DESCRIPTION, STR_HOR_ALIGN_D, //
+      TSID_KEEPER_ID, EHorAlignment.KEEPER_ID, //
+      TSID_DEFAULT_VALUE, avValobj( EHorAlignment.LEFT ) //
+  );
+
+  IDataDef PROP_VER_ALIGNMENT = DataDef.create3( PROPID_VER_ALIGNMENT, DT_AV_ENUM, //
+      TSID_NAME, STR_VER_ALIGN, //
+      TSID_DESCRIPTION, STR_VER_ALIGN_D, //
+      TSID_KEEPER_ID, EVerAlignment.KEEPER_ID, //
+      TSID_DEFAULT_VALUE, avValobj( EVerAlignment.CENTER ) //
+  );
 
   IDataDef PROP_BK_COLOR = DataDef.create3( PROPID_BK_COLOR, DT_COLOR_RGBA, //
       TSID_NAME, STR_BK_COLOR, //
@@ -179,7 +221,7 @@ public interface IVedScreenConstants {
   );
 
   // ------------------------------------------------------------------------------------
-  // TIN field infos corresponding to the properties
+  // TIN field info corresponding to the properties
   //
 
   ITinFieldInfo TFI_IS_ACTIVE       = new TinFieldInfo( PROP_IS_ACTIVE, TTI_AT_BOOLEAN );
@@ -190,6 +232,10 @@ public interface IVedScreenConstants {
   ITinFieldInfo TFI_WIDTH           = new TinFieldInfo( PROP_WIDTH, TTI_AT_FLOATING );
   ITinFieldInfo TFI_HEIGHT          = new TinFieldInfo( PROP_HEIGHT, TTI_AT_FLOATING );
   ITinFieldInfo TFI_TRANSFORM       = new TinFieldInfo( PROP_TRANSFORM, TtiD2Conversion.INSTANCE );
+  ITinFieldInfo TFI_TEXT            = new TinFieldInfo( PROP_TEXT, TTI_AT_STRING );
+  ITinFieldInfo TFI_FONT            = new TinFieldInfo( PROP_FONT, TtiTsFontInfo.INSTANCE );
+  ITinFieldInfo TFI_HOR_ALIGNMENT   = new TinFieldInfo( PROP_HOR_ALIGNMENT, TtiAvEnum.INSTANCE );
+  ITinFieldInfo TFI_VER_ALIGNMENT   = new TinFieldInfo( PROP_VER_ALIGNMENT, TtiAvEnum.INSTANCE );
   ITinFieldInfo TFI_BK_COLOR        = new TinFieldInfo( PROP_BK_COLOR, TtiRGBA.INSTANCE );
   ITinFieldInfo TFI_FG_COLOR        = new TinFieldInfo( PROP_FG_COLOR, TtiRGBA.INSTANCE );
   ITinFieldInfo TFI_BK_FILL         = new TinFieldInfo( PROP_BK_FILL, TTI_TS_FILL_INFO );
