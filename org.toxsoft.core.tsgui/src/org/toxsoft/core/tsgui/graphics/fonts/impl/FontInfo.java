@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
- * Неизменяемая реализация описания шрифта {@link IFontInfo}.
+ * {@link IFontInfo} immutable implementation.
  *
  * @author hazard157
  */
@@ -67,14 +67,14 @@ public class FontInfo
   private final int     hashCode;
 
   /**
-   * Создает описание шрифта со всеми инвариантами.
+   * Constructor.
    *
-   * @param aFontName String - название шрифта
-   * @param aSize int - размер шрифта в пунктах (1/72 дюйма)
-   * @param aBold boolean - признак жирного шрифта
-   * @param aItalic boolean - признак курсива
-   * @throws TsNullArgumentRtException aFontName = null
-   * @throws TsIllegalArgumentRtException название шрифта - пустая строка
+   * @param aFontName String - font typeface name
+   * @param aSize int - font size in points (1/72 inch)
+   * @param aBold boolean - <code>true</code> bold font
+   * @param aItalic boolean - <code>true</code> italic font
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException font name is a blank string
    * @throws TsIllegalArgumentRtException aSize < 0
    */
   public FontInfo( String aFontName, int aSize, boolean aBold, boolean aItalic ) {
@@ -92,13 +92,13 @@ public class FontInfo
   }
 
   /**
-   * Создает описание шрифта со всеми инвариантами.
+   * Constructor.
    *
-   * @param aFontName String - название шрифта
-   * @param aSize int - размер шрифта в пунктах (1/72 дюйма)
-   * @param aFontStyleSwtBits int - SWT-биты типа шрифта {@link SWT#BOLD} и {@link SWT#ITALIC} собранные по или
-   * @throws TsNullArgumentRtException aFontName = null
-   * @throws TsIllegalArgumentRtException название шрифта - пустая строка
+   * @param aFontName String - font typeface name
+   * @param aSize int - font size in points (1/72 inch)
+   * @param aFontStyleSwtBits int - ORed SWT bits {@link SWT#BOLD}, {@link SWT#ITALIC}
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException font name is a blank string
    * @throws TsIllegalArgumentRtException aSize < 0
    */
   public FontInfo( String aFontName, int aSize, int aFontStyleSwtBits ) {
@@ -106,10 +106,10 @@ public class FontInfo
   }
 
   /**
-   * Создает описание шрифта, созданный на основе {@link FontData}.
+   * Constructor.
    *
-   * @param aFontData {@link FontData} - SWT-данные о шрифте
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aFontData {@link FontData} - SWT font data
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public FontInfo( FontData aFontData ) {
     this( TsNullArgumentRtException.checkNull( aFontData ).getName(), aFontData.getHeight(),
@@ -117,13 +117,13 @@ public class FontInfo
   }
 
   /**
-   * Создает новое описание шрифта на основе заданного, изменяя его размер и стиль
+   * Constructor based on sample.
    *
-   * @param aFontInfo {@link IFontInfo} - образец шрифта
-   * @param aZoomFactor float - коэффициент масштабирования (умножается)
-   * @param aNewStyle int - стиль, комбинация констант {@link SWT#BOLD}, {@link SWT#ITALIC}
-   * @return {@link Font} - созданный (кешированный) шрифт
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aFontInfo {@link IFontInfo} - the sample font info
+   * @param aZoomFactor float - the font size zoom factor (1.0 = original size)
+   * @param aNewStyle int - ORed SWT bits {@link SWT#BOLD}, {@link SWT#ITALIC}
+   * @return {@link Font} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException aZoomFactor <= 0.0
    */
   public static IFontInfo createAdjusted( IFontInfo aFontInfo, float aZoomFactor, int aNewStyle ) {
@@ -137,14 +137,14 @@ public class FontInfo
   }
 
   /**
-   * Создает новое описание шрифта на основе заданного, изменяя его размер и стиль
+   * Constructor based on source.
    *
    * @param aFontInfo {@link IFontInfo} - образец шрифта
-   * @param aZoomFactor float - коэффициент масштабирования (умножается)
-   * @param aBold boolean - признак жирного шрифта
-   * @param aItalic boolean - признак курсива
-   * @return {@link Font} - созданный (кешированный) шрифт
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aZoomFactor float - the font size zoom factor (1.0 = original size)
+   * @param aBold boolean - <code>true</code> bold font
+   * @param aItalic boolean - <code>true</code> italic font
+   * @return {@link Font} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException aZoomFactor <= 0.0
    */
   public static IFontInfo createAdjusted( IFontInfo aFontInfo, float aZoomFactor, boolean aBold, boolean aItalic ) {
@@ -158,7 +158,7 @@ public class FontInfo
   }
 
   // ------------------------------------------------------------------------------------
-  // Раелизация методов класса Object
+  // Object
   //
 
   @Override
@@ -197,7 +197,7 @@ public class FontInfo
   }
 
   // --------------------------------------------------------------------------
-  // Реализация методов IFontInfo
+  // IFontInfo
   //
 
   @Override

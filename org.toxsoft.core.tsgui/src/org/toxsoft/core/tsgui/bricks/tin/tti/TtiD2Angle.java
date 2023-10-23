@@ -12,7 +12,6 @@ import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
-import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -89,11 +88,12 @@ public class TtiD2Angle
     double degrees = extractChildAtomic( FID_DEGREES, aChildValues, defVal ).asDouble();
     double radians = extractChildAtomic( FID_RADIANS, aChildValues, defVal ).asDouble();
     /**
-     * FIXME - here is the problem - which one to choose?
+     * FIXME - here is the problem - which one to choose?<br>
+     * Change D2Anle to the pair EAngleUnit/degrees
      */
 
     // DEBUG ---
-    TsTestUtils.pl( "\n\n===deg = %.4f, rad = %.4f\n", degrees, radians );
+    // TsTestUtils.pl( "\n\n===deg = %.4f, rad = %.4f\n", degrees, radians );
     // ---
 
     return avValobj( D2Angle.ofDegrees( degrees ) );

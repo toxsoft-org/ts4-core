@@ -8,6 +8,7 @@ import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
+import org.toxsoft.core.tsgui.graphics.fonts.impl.*;
 import org.toxsoft.core.tsgui.graphics.lines.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tsgui.utils.swt.*;
@@ -73,8 +74,19 @@ public interface ITsGraphicsConstants {
       TSID_NAME, STR_DT_D2ANGLE, //
       TSID_DESCRIPTION, STR_DT_D2ANGLE_D, //
       TSID_KEEPER_ID, D2Point.KEEPER_ID, //
-      // FIXME OPID_EDITOR_FACTORY_NAME, ValedAvValobjD2Point.FACTORY.factoryName(), //
+      // TODO OPID_EDITOR_FACTORY_NAME, ValedAvValobjD2Angle.FACTORY.factoryName(), //
       TSID_DEFAULT_VALUE, avValobj( ID2Angle.ZERO ) //
+  );
+
+  /**
+   * Data type: {@link TsLineInfo} as {@link EAtomicType#VALOBJ VALOBJ}.
+   */
+  IDataType DT_TS_LINE_INFO = DataType.create( VALOBJ, //
+      TSID_NAME, STR_TS_LINE_INFO, //
+      TSID_DESCRIPTION, STR_TS_LINE_INFO_D, //
+      TSID_KEEPER_ID, TsLineInfo.KEEPER_ID, //
+      OPID_EDITOR_FACTORY_NAME, ValedAvValobjTsLineInfo.FACTORY_NAME, //
+      TSID_DEFAULT_VALUE, avValobj( TsLineInfo.DEFAULT ) //
   );
 
   /**
@@ -84,7 +96,7 @@ public interface ITsGraphicsConstants {
       TSID_NAME, STR_DT_D2CONVERSION, //
       TSID_DESCRIPTION, STR_DT_D2CONVERSION_D, //
       TSID_KEEPER_ID, D2Conversion.KEEPER_ID, //
-      // FIXME OPID_EDITOR_FACTORY_NAME, ValedAvValobjD2Conversion.FACTORY.factoryName(), //
+      // TODO OPID_EDITOR_FACTORY_NAME, ValedAvValobjD2Conversion.FACTORY.factoryName(), //
       TSID_DEFAULT_VALUE, avValobj( ID2Conversion.NONE ) //
   );
 
@@ -108,6 +120,17 @@ public interface ITsGraphicsConstants {
       TSID_KEEPER_ID, TsBorderInfo.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjTsBorderInfo.FACTORY.factoryName(), //
       TSID_DEFAULT_VALUE, avValobj( TsBorderInfo.createSimpleBorder( 1, DEFAULT_SIMPLE_BORDER_COLOR ) ) //
+  );
+
+  /**
+   * Data type: {@link ITsFontInfo} as {@link EAtomicType#VALOBJ VALOBJ}.
+   */
+  IDataType DT_TS_FONT_INFO = DataType.create( VALOBJ, //
+      TSID_NAME, STR_TS_FONT_INFO, //
+      TSID_DESCRIPTION, STR_TS_FONT_INFO_D, //
+      TSID_KEEPER_ID, FontInfo.KEEPER_ID, //
+      OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleFontInfo.FACTORY.factoryName(), //
+      TSID_DEFAULT_VALUE, avValobj( new FontInfo( "Arial", 14, 0 ) ) // //$NON-NLS-1$
   );
 
 }

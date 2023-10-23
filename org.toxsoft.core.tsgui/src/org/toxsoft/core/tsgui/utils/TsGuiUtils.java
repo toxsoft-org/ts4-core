@@ -72,12 +72,14 @@ public class TsGuiUtils {
     TsValobjUtils.registerKeeper( TsFillInfo.KEEPER_ID, TsFillInfo.KEEPER );
     TsValobjUtils.registerKeeper( ETsBorderKind.KEEPER_ID, ETsBorderKind.KEEPER );
 
-    // following this is some kind of hacking!
+    // following this is some kind of hacking! ---
     DataDef dd = (DataDef)IAvMetaConstants.DDEF_DESCRIPTION;
     dd.params().setInt( IValedControlConstants.OPDEF_VERTICAL_SPAN, 3 );
     dd.params().setStr( IValedControlConstants.OPDEF_EDITOR_FACTORY_NAME, ValedAvStringText.FACTORY_NAME );
     dd.params().setBool( ValedStringText.OPDEF_IS_MULTI_LINE, true );
-
+    DataType dt = (DataType)IAvMetaConstants.DT_AV_ENUM;
+    dt.params().setStr( IValedControlConstants.OPDEF_EDITOR_FACTORY_NAME, ValedAvValobjEnumCombo.FACTORY_NAME );
+    // ---
   }
 
   /**

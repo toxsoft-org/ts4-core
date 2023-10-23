@@ -72,7 +72,7 @@ public class TtiD2Conversion
   @Override
   protected IAtomicValue doCompose( IStringMap<ITinValue> aChildValues ) {
     ID2Angle angle = extractChildValobj( FID_ANGLE, aChildValues, ID2Angle.ZERO );
-    double zoomFactor = extractChildAtomic( FID_ZOOM, aChildValues, avFloat( 0 ) ).asDouble();
+    double zoomFactor = extractChildAtomic( FID_ZOOM, aChildValues, avFloat( 1.0 ) ).asDouble();
     ID2Point origin = DT_D2POINT.defaultValue().asValobj();
     IAtomicValue originVal = aChildValues.getByKey( FID_ORIGIN ).atomicValue();
     if( originVal.isAssigned() ) {

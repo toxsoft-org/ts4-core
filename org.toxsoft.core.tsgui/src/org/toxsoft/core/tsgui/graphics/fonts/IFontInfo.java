@@ -1,54 +1,58 @@
 package org.toxsoft.core.tsgui.graphics.fonts;
 
-import org.eclipse.swt.SWT;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
+import org.eclipse.swt.*;
+import org.toxsoft.core.tsgui.graphics.fonts.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 
 /**
- * Информация о шрифте, которым рисуется текст.
+ * Information about font for text drawing.
  *
  * @author hazard157
  */
 public interface IFontInfo {
 
   /**
-   * "Нулевой" шрифт (без имени, размер 0), испольуется вместо null и для обозначения шрифта по умочанию.
+   * "Zero" font (no name, size 0), used instead of <code>null</code>.
    */
   IFontInfo NULL = new InternalNullFontInfo();
 
   /**
-   * Возвращает название шрифта.
+   * Some default font (regular Arial, size 10).
+   */
+  IFontInfo DEFAULT = new FontInfo( "Arial", 10, 0 ); //$NON-NLS-1$
+
+  /**
+   * Returns the font typeface name.
    *
-   * @return String - название шрифта
+   * @return String - the font typeface name
    */
   String fontName();
 
   /**
-   * Возвращает размер шрифта.
+   * Returns the font size.
    *
-   * @return int - размер шрифта в TODO в каких единицах указывается размер шрифта?
+   * @return int - the font size in points (1/72 inch)
    */
   int fontSize();
 
   /**
-   * Возвращает признак жирного шрифта.
+   * Determines if font is bold.
    *
-   * @return boolean - признак жирного шрифта
+   * @return boolean - <code>true</code> for bold font
    */
   boolean isBold();
 
   /**
-   * Возвращает признак курсива.
+   * Determines if font is italic.
    *
-   * @return boolean - признак курсива
+   * @return boolean - <code>true</code> for italic font
    */
   boolean isItalic();
 
   /**
-   * Возвращает признаки шрифта в виде набора по ИЛИ битов {@link SWT#BOLD} и {@link SWT#ITALIC}.
-   * <p>
-   * Если шрифт нормальный (т.е. не жирный, и не курсив), возвращает 0.
+   * Returns the SWT bits of a font style, ORed bits {@link SWT#BOLD} and {@link SWT#ITALIC}.
    *
-   * @return int - биты SWT.BOLD и/или SWT.ITALIC или 0
+   * @return int - bits {@link SWT#BOLD} and {@link SWT#ITALIC}, 0 for regular font
    * @see SWT#BOLD
    * @see SWT#ITALIC
    */
