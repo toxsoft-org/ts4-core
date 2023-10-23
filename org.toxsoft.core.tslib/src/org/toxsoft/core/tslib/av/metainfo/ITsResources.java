@@ -32,6 +32,8 @@ interface ITsResources {
   String STR_LOCAL_TIME_D                  = Messages.getString( "STR_LOCAL_TIME_D" );                  //$NON-NLS-1$
   String STR_LOCAL_DATE_TIME               = Messages.getString( "STR_LOCAL_DATE_TIME" );               //$NON-NLS-1$
   String STR_LOCAL_DATE_TIME_D             = Messages.getString( "STR_LOCAL_DATE_TIME_D" );             //$NON-NLS-1$
+  String STR_AV_ENUM                       = Messages.getString( "STR_AV_ENUM" );                       //$NON-NLS-1$
+  String STR_AV_ENUM_D                     = Messages.getString( "STR_AV_ENUM_D" );                     //$NON-NLS-1$
   String FMT_ERR_NO_MANDATORY_OPTION       = Messages.getString( "FMT_ERR_NO_MANDATORY_OPTION" );       //$NON-NLS-1$
   String FMT_ERR_NO_REGISTERED_DATA_DEF    = Messages.getString( "FMT_ERR_NO_REGISTERED_DATA_DEF" );    //$NON-NLS-1$
   String FMT_ERR_PARENT_DATA_DEF_AT_CHANGE = Messages.getString( "FMT_ERR_PARENT_DATA_DEF_AT_CHANGE" ); //$NON-NLS-1$

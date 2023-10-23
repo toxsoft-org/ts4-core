@@ -8,6 +8,10 @@ package org.toxsoft.core.tslib.bricks.d2;
 public sealed interface ID2Angle permits ID2AngleEdit,D2Angle {
 
   /**
+   * FIXME instead radians/degrees use unit(EAngleUnit)/value pair
+   */
+
+  /**
    * The 0.0 angle singleton.
    */
   ID2Angle ZERO = D2Angle.ofDegrees( 0.0 );

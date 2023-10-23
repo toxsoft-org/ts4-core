@@ -95,7 +95,7 @@ public interface IDataType
    * <p>
    * For non-enumeration types returns an empty list.
    *
-   * @return {@link IList}&lt;{@link IAtomicValue}&gt; - the list of the enum values or an empty list
+   * @return {@link IList}&lt;{@link IAtomicValue}&gt; - the list of the <code>enum</code> values or an empty list
    */
   default IList<IAtomicValue> enumerateValues() {
     if( !isEnumeration() ) {
