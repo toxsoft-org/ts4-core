@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.ved.screen.helpers;
+package org.toxsoft.core.tsgui.ved.incub;
 
 /**
  * Interface of entities that require the release of OS and other resources.

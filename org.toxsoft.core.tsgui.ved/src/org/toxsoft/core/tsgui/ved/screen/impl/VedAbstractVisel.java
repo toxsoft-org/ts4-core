@@ -13,6 +13,7 @@ import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.math.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -24,7 +25,7 @@ public abstract class VedAbstractVisel
     extends VedAbstractItem
     implements IVedVisel {
 
-  private static final IAtomicValue MIN_DIMENSION_AV = avFloat( 1.0 );
+  private static final DoubleRange DIMENSION_RANGE = new DoubleRange( 1.0, Double.MAX_VALUE );
 
   private final D2RectangleEdit boundsRect = new D2RectangleEdit( 0.0, 0.0, 100.0, 100.0 );
 
@@ -45,6 +46,8 @@ public abstract class VedAbstractVisel
         throw new TsIllegalArgumentRtException( FMT_ERR_NO_MANDATORY_VISEL_PROP, pid );
       }
     }
+    // built-in interceptors
+    addInterceptor( new VedViselInterceptorMinWidthHeight( this ) );
   }
 
   // ------------------------------------------------------------------------------------
@@ -150,32 +153,14 @@ public abstract class VedAbstractVisel
 
   @Override
   final protected void doInterceptPropsChange( IOptionSet aNewValues, IOptionSetEdit aValuesToSet ) {
-    // TODO use MIN_INCL/EXCL of width/height
-    // TODO use MAX_INCL/EXCL of width/height
-
-    // ensure width and height always are greater or equal to 1.0
-    if( aNewValues.hasKey( PROPID_WIDTH ) ) {
-      double width = aNewValues.getDouble( PROP_WIDTH );
-      if( width < MIN_DIMENSION_AV.asDouble() ) {
-        aValuesToSet.setValue( PROP_WIDTH, MIN_DIMENSION_AV );
-      }
-    }
-    if( aNewValues.hasKey( PROPID_HEIGHT ) ) {
-      double height = aNewValues.getDouble( PROP_HEIGHT );
-      if( height < MIN_DIMENSION_AV.asDouble() ) {
-        aValuesToSet.setValue( PROP_HEIGHT, MIN_DIMENSION_AV );
-      }
-    }
     // subclasses
     doDoInterceptPropsChange( aNewValues, aValuesToSet );
     // check after subclass
     if( aValuesToSet.hasKey( PROPID_WIDTH ) ) {
-      double width = aValuesToSet.getDouble( PROP_WIDTH );
-      TsInternalErrorRtException.checkTrue( width < MIN_DIMENSION_AV.asDouble() );
+      DIMENSION_RANGE.checkInRange( aValuesToSet.getDouble( PROP_WIDTH ) );
     }
     if( aValuesToSet.hasKey( PROPID_HEIGHT ) ) {
-      double height = aValuesToSet.getDouble( PROP_HEIGHT );
-      TsInternalErrorRtException.checkTrue( height < MIN_DIMENSION_AV.asDouble() );
+      DIMENSION_RANGE.checkInRange( aValuesToSet.getDouble( PROP_HEIGHT ) );
     }
   }
 

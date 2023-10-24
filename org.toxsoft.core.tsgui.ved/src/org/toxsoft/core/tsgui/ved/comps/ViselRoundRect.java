@@ -99,6 +99,7 @@ public class ViselRoundRect
     setLocation( aConfig.propValues().getDouble( PROP_X.id() ), aConfig.propValues().getDouble( PROP_Y.id() ) );
     setSize( aConfig.propValues().getDouble( PROP_WIDTH.id() ), aConfig.propValues().getDouble( PROP_HEIGHT.id() ) );
     updateSwtRect();
+    addInterceptor( VedViselInterceptorAspectRatio.INSTANCE );
   }
 
   // ------------------------------------------------------------------------------------
@@ -107,7 +108,6 @@ public class ViselRoundRect
 
   private void updateSwtRect() {
     ID2Rectangle r = bounds();
-
     swtRect.x = (int)Math.round( r.x1() );
     swtRect.y = (int)Math.round( r.y1() );
     swtRect.width = (int)Math.round( r.width() );
@@ -132,12 +132,6 @@ public class ViselRoundRect
   protected void doUpdateCachesAfterPropsChange( IOptionSet aChangedValue ) {
     super.doUpdateCachesAfterPropsChange( aChangedValue );
     updateSwtRect();
-  }
-
-  @Override
-  protected void doDoInterceptPropsChange( IOptionSet aNewValues, IOptionSetEdit aValuesToSet ) {
-    super.doDoInterceptPropsChange( aNewValues, aValuesToSet );
-    VedItemUtils.interceptAspectRatio( this, aNewValues, aValuesToSet );
   }
 
   @Override

@@ -4,6 +4,7 @@ import static org.toxsoft.core.tsgui.ved.l10n.ITsguiVedSharedResources.*;
 import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.ved.incub.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.helpers.*;
@@ -14,6 +15,8 @@ import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.av.props.*;
 import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.logs.impl.*;
 
@@ -24,6 +27,8 @@ import org.toxsoft.core.tslib.utils.logs.impl.*;
  */
 public abstract class VedAbstractItem
     implements IVedItem, IParameterizedEdit, IDisposable, ITsGuiContextable {
+
+  private final IListEdit<IVedItemPropertyChangeInterceptor<VedAbstractItem>> interseptors = new ElemArrayList<>();
 
   private final IVedItemCfg              initialConfig;
   private final IOptionSetEdit           params;
@@ -53,7 +58,19 @@ public abstract class VedAbstractItem
         doUpdateCachesAfterPropsChange( aChangedValues );
       }
     };
-    props().setInterceptor( ( s, aNewValues, aValuesToSet ) -> doInterceptPropsChange( aNewValues, aValuesToSet ) );
+    props().setInterceptor( ( s, aNewValues, aValuesToSet ) -> interceptPropsChange( aNewValues, aValuesToSet ) );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // implementation
+  //
+
+  final private void interceptPropsChange( IOptionSet aNewValues, IOptionSetEdit aValuesToSet ) {
+    for( IVedItemPropertyChangeInterceptor<VedAbstractItem> l : new ElemArrayList<>( interseptors ) ) {
+      l.interceptPropsChange( this, aNewValues, aValuesToSet );
+    }
+    // call subclass interceptor
+    doInterceptPropsChange( aNewValues, aValuesToSet );
   }
 
   // ------------------------------------------------------------------------------------
@@ -168,6 +185,18 @@ public abstract class VedAbstractItem
    */
   public IVedCoorsConverter coorsConverter() {
     return vedScreen.view().coorsConverter();
+  }
+
+  /**
+   * Adds interceptor of itemproperty changes.
+   *
+   * @param aInterseptor {@link IVedItemPropertyChangeInterceptor} - the interceptor
+   */
+  @SuppressWarnings( { "rawtypes", "unchecked" } )
+  public void addInterceptor( IVedItemPropertyChangeInterceptor aInterseptor ) {
+    if( !interseptors.hasElem( aInterseptor ) ) {
+      interseptors.add( aInterseptor );
+    }
   }
 
   // ------------------------------------------------------------------------------------

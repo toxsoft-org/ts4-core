@@ -79,6 +79,7 @@ public class ViselRectangle
    */
   public ViselRectangle( IVedItemCfg aConfig, IStridablesList<IDataDef> aPropDefs, VedScreen aVedScreen ) {
     super( aConfig, aPropDefs, aVedScreen );
+    addInterceptor( VedViselInterceptorAspectRatio.INSTANCE );
   }
 
   // ------------------------------------------------------------------------------------
@@ -91,12 +92,6 @@ public class ViselRectangle
     aPaintContext.fillRect( swtRect );
     aPaintContext.setBorderInfo( props().getValobj( PROPID_BORDER_INFO ) );
     aPaintContext.drawRectBorder( swtRect );
-  }
-
-  @Override
-  protected void doDoInterceptPropsChange( IOptionSet aNewValues, IOptionSetEdit aValuesToSet ) {
-    super.doDoInterceptPropsChange( aNewValues, aValuesToSet );
-    VedItemUtils.interceptAspectRatio( this, aNewValues, aValuesToSet );
   }
 
   @Override
