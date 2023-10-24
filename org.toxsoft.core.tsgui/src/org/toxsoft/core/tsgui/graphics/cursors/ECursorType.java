@@ -3,6 +3,7 @@ package org.toxsoft.core.tsgui.graphics.cursors;
 import static org.toxsoft.core.tsgui.graphics.cursors.ITsResources.*;
 
 import org.eclipse.swt.*;
+import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.std.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
@@ -201,6 +202,40 @@ public enum ECursorType
       list = new StridablesList<>( values() );
     }
     return list;
+  }
+
+  /**
+   * Returns the cursor type for rectangular area resising.
+   * <p>
+   * The argument describes which edge or corner will be dragged fro rectangle resizing. {@link ETsFulcrum#CENTER}
+   * assumes cursor for object moving, not resizing.
+   *
+   * @param aFulcrum {@link ETsFulcrum} - the drag start point
+   * @return {@link ECursorType} - the cursor kind
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static ECursorType cursorForFulcrum( ETsFulcrum aFulcrum ) {
+    TsNullArgumentRtException.checkNull( aFulcrum );
+    switch( aFulcrum ) {
+      case TOP_CENTER:
+      case BOTTOM_CENTER:
+        return ECursorType.SIZSTR_N_NORTH_SOUTH;
+      case CENTER:
+        return ECursorType.SIZSTR_N_ALL;
+      case LEFT_CENTER:
+      case RIGHT_CENTER:
+        return ECursorType.SIZSTR_N_WEST_EAST;
+      case LEFT_TOP:
+        return ECursorType.SIZSTR_N_NORTH_WEST;
+      case RIGHT_BOTTOM:
+        return ECursorType.SIZSTR_N_SOUTH_EAST;
+      case RIGHT_TOP:
+        return ECursorType.SIZSTR_N_NORTH_EAST;
+      case LEFT_BOTTOM:
+        return ECursorType.SIZSTR_N_SOUTH_WEST;
+      default:
+        throw new TsNotAllEnumsUsedRtException();
+    }
   }
 
   /**
