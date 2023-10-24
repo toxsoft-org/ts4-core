@@ -113,8 +113,6 @@ public abstract class VedAbstractVertexSet
 
     @Override
     public boolean onMouseDragMove( Object aSource, DragOperationInfo aDragInfo, int aState, ITsPoint aCoors ) {
-      ID2Rectangle rectBefore = bounds();
-
       DragCargo dc = aDragInfo.cargo();
       if( dc == null ) {
         return false;
@@ -128,25 +126,13 @@ public abstract class VedAbstractVertexSet
 
       dc.prevPoint.setPoint( aCoors.x(), aCoors.y() );
 
-      ID2Rectangle rectAfter = bounds();
-
-      // ITsRectangle ur = VedVertexSetUtils.union( rectBefore, rectAfter );
-      // TsRectangleEdit ure = new TsRectangleEdit( ur );
-      // ure.setRect( ur.x1() - 5, ur.y1() - 5, ur.width() + 30, ur.height() + 30 );
-      // screen.redrawRect( ure );
       screenView.redraw();
       screenView.update();
-      // screen.redraw();
-      // System.out.println( "Rect before: " + rectBefore.toString() );
-      // System.out.println( "Rect after: " + rectAfter.toString() );
-      // System.out.println( "Union rect: " + ur.toString() );
-      // System.out.println();
       return result;
     }
 
     @Override
     public boolean onMouseDragFinish( Object aSource, DragOperationInfo aDragInfo, int aState, ITsPoint aCoors ) {
-      ID2Rectangle rectBefore = bounds();
 
       DragCargo dc = aDragInfo.cargo();
       if( dc == null ) {
@@ -159,9 +145,7 @@ public abstract class VedAbstractVertexSet
 
       boolean result = doOnVertexDrag( dc.vertex, dx, dy, EVedDragState.FINISH );
 
-      ID2Rectangle rectAfter = bounds();
       visible = true;
-      // screen.redrawRect( VedVertexSetUtils.union( rectBefore, rectAfter ) );
       screenView.redraw();
       return result;
     }
@@ -179,9 +163,7 @@ public abstract class VedAbstractVertexSet
         return false;
       }
       boolean result = doOnVertexDrag( dc.vertex, dx, dy, EVedDragState.CANCEL );
-      ID2Rectangle rectAfter = bounds();
       visible = true;
-      // screen.redrawRect( VedVertexSetUtils.union( rectBefore, rectAfter ) );
       screenView.redraw();
       return result;
     }
@@ -211,6 +193,13 @@ public abstract class VedAbstractVertexSet
 
   private final ViselListener viselListener;
 
+  /**
+   * Конструктор.
+   *
+   * @param aVisel {@link VedAbstractVisel} - визуальный элемент
+   * @param aVertexes IStridablesList&lt? extends IVedVertex> - список вершин
+   * @param aVedScreen {@link VedScreen} - экран
+   */
   public VedAbstractVertexSet( VedAbstractVisel aVisel, IStridablesList<? extends IVedVertex> aVertexes,
       VedScreen aVedScreen ) {
     super( aVedScreen );
@@ -222,7 +211,6 @@ public abstract class VedAbstractVertexSet
     convertor.setConversion( screenView.getConversion() );
     viselListener = new ViselListener();
     visel.props().propsEventer().addListener( viselListener );
-    // screen.genericChangeEventer().addListener( aSource -> convertor.setConversion( screen.getConversion() ) );
   }
 
   // ------------------------------------------------------------------------------------
@@ -236,7 +224,7 @@ public abstract class VedAbstractVertexSet
 
   @Override
   protected void doDispose() {
-    // TODO VedAbstractVertexSet.doDispose()
+    // nop
   }
 
   // ------------------------------------------------------------------------------------

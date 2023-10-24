@@ -55,10 +55,10 @@ public abstract class VedAbstractVisel
   //
 
   private void internalUpdateBoundsRect() {
-    int x = (int)props().getFloat( PROP_X );
-    int y = (int)props().getFloat( PROP_Y );
-    int w = (int)props().getFloat( PROP_WIDTH );
-    int h = (int)props().getFloat( PROP_HEIGHT );
+    double x = props().getFloat( PROP_X );
+    double y = props().getFloat( PROP_Y );
+    double w = props().getFloat( PROP_WIDTH );
+    double h = props().getFloat( PROP_HEIGHT );
     boundsRect.setRect( x, y, w, h );
   }
 

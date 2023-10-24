@@ -183,7 +183,16 @@ public class VedFulcrumVertexSet
 
   protected void updateVertexes() {
     ID2Rectangle r = visel().bounds();
-    ITsRectangle rect = new TsRectangle( (int)r.x1() + 1, (int)r.y1() + 1, (int)r.width() - 2, (int)r.height() - 2 );
+    int w = (int)r.width() - 2;
+    if( w < 1 ) {
+      w = 1;
+    }
+    int h = (int)r.height() - 2;
+    if( h < 1 ) {
+      h = 1;
+    }
+
+    ITsRectangle rect = new TsRectangle( (int)r.x1() + 1, (int)r.y1() + 1, w, h );
     for( IVedVertex v : vertexes() ) {
       if( ETsFulcrum.asList().hasKey( v.id() ) ) {
         ETsFulcrum fulcrum = ETsFulcrum.getById( v.id() );
