@@ -6,6 +6,7 @@ import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import org.toxsoft.core.tsgui.bricks.tin.*;
 import org.toxsoft.core.tsgui.bricks.tin.impl.*;
 import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -30,12 +31,16 @@ public abstract class TinAtomicTypeInfo<T>
      * Constructor.
      *
      * @param aDataType {@link IDataType} - the data type
+     * @param aIdsAndValues Object[] - identifier / value pairs of additional {@link IDataType#params()} options
      * @throws TsNullArgumentRtException any argument = <code>null</code>
      * @throws TsIllegalArgumentRtException argument atomic type is not compatible with the entity class
+     * @throws TsIllegalArgumentRtException number of elements in array is uneven
+     * @throws ClassCastException argument types convention is violated
      */
-    public TtiBoolean( IDataType aDataType ) {
-      super( aDataType, Boolean.class );
+    public TtiBoolean( IDataType aDataType, Object... aIdsAndValues ) {
+      super( DataType.create( aDataType, aIdsAndValues ), Boolean.class );
       TsIllegalArgumentRtException.checkTrue( aDataType.atomicType() != EAtomicType.BOOLEAN );
+
     }
 
     @Override
@@ -57,11 +62,14 @@ public abstract class TinAtomicTypeInfo<T>
      * Constructor.
      *
      * @param aDataType {@link IDataType} - the data type
+     * @param aIdsAndValues Object[] - identifier / value pairs of additional {@link IDataType#params()} options
      * @throws TsNullArgumentRtException any argument = <code>null</code>
      * @throws TsIllegalArgumentRtException argument atomic type is not compatible with the entity class
+     * @throws TsIllegalArgumentRtException number of elements in array is uneven
+     * @throws ClassCastException argument types convention is violated
      */
-    public TtiInteger( IDataType aDataType ) {
-      super( aDataType, Integer.class );
+    public TtiInteger( IDataType aDataType, Object... aIdsAndValues ) {
+      super( DataType.create( aDataType, aIdsAndValues ), Integer.class );
       TsIllegalArgumentRtException.checkTrue( aDataType.atomicType() != EAtomicType.INTEGER );
     }
 
@@ -84,11 +92,14 @@ public abstract class TinAtomicTypeInfo<T>
      * Constructor.
      *
      * @param aDataType {@link IDataType} - the data type
+     * @param aIdsAndValues Object[] - identifier / value pairs of additional {@link IDataType#params()} options
      * @throws TsNullArgumentRtException any argument = <code>null</code>
      * @throws TsIllegalArgumentRtException argument atomic type is not compatible with the entity class
+     * @throws TsIllegalArgumentRtException number of elements in array is uneven
+     * @throws ClassCastException argument types convention is violated
      */
-    public TtiLong( IDataType aDataType ) {
-      super( aDataType, Long.class );
+    public TtiLong( IDataType aDataType, Object... aIdsAndValues ) {
+      super( DataType.create( aDataType, aIdsAndValues ), Long.class );
       TsIllegalArgumentRtException.checkTrue(
           aDataType.atomicType() != EAtomicType.INTEGER && aDataType.atomicType() != EAtomicType.TIMESTAMP );
     }
@@ -112,11 +123,14 @@ public abstract class TinAtomicTypeInfo<T>
      * Constructor.
      *
      * @param aDataType {@link IDataType} - the data type
+     * @param aIdsAndValues Object[] - identifier / value pairs of additional {@link IDataType#params()} options
      * @throws TsNullArgumentRtException any argument = <code>null</code>
      * @throws TsIllegalArgumentRtException argument atomic type is not compatible with the entity class
+     * @throws TsIllegalArgumentRtException number of elements in array is uneven
+     * @throws ClassCastException argument types convention is violated
      */
-    public TtiFloat( IDataType aDataType ) {
-      super( aDataType, Float.class );
+    public TtiFloat( IDataType aDataType, Object... aIdsAndValues ) {
+      super( DataType.create( aDataType, aIdsAndValues ), Float.class );
       TsIllegalArgumentRtException.checkTrue( aDataType.atomicType() != EAtomicType.FLOATING );
     }
 
@@ -139,11 +153,14 @@ public abstract class TinAtomicTypeInfo<T>
      * Constructor.
      *
      * @param aDataType {@link IDataType} - the data type
+     * @param aIdsAndValues Object[] - identifier / value pairs of additional {@link IDataType#params()} options
      * @throws TsNullArgumentRtException any argument = <code>null</code>
      * @throws TsIllegalArgumentRtException argument atomic type is not compatible with the entity class
+     * @throws TsIllegalArgumentRtException number of elements in array is uneven
+     * @throws ClassCastException argument types convention is violated
      */
-    public TtiDouble( IDataType aDataType ) {
-      super( aDataType, Double.class );
+    public TtiDouble( IDataType aDataType, Object... aIdsAndValues ) {
+      super( DataType.create( aDataType, aIdsAndValues ), Double.class );
       TsIllegalArgumentRtException.checkTrue( aDataType.atomicType() != EAtomicType.FLOATING );
     }
 
@@ -166,11 +183,14 @@ public abstract class TinAtomicTypeInfo<T>
      * Constructor.
      *
      * @param aDataType {@link IDataType} - the data type
+     * @param aIdsAndValues Object[] - identifier / value pairs of additional {@link IDataType#params()} options
      * @throws TsNullArgumentRtException any argument = <code>null</code>
      * @throws TsIllegalArgumentRtException argument atomic type is not compatible with the entity class
+     * @throws TsIllegalArgumentRtException number of elements in array is uneven
+     * @throws ClassCastException argument types convention is violated
      */
-    public TtiString( IDataType aDataType ) {
-      super( aDataType, String.class );
+    public TtiString( IDataType aDataType, Object... aIdsAndValues ) {
+      super( DataType.create( aDataType, aIdsAndValues ), String.class );
       TsIllegalArgumentRtException.checkTrue( aDataType.atomicType() != EAtomicType.STRING );
     }
 
@@ -195,11 +215,14 @@ public abstract class TinAtomicTypeInfo<T>
      *
      * @param aDataType {@link IDataType} - the data type
      * @param aValueObjectClass {@link Class} - class of value-object
+     * @param aIdsAndValues Object[] - identifier / value pairs of additional {@link IDataType#params()} options
      * @throws TsNullArgumentRtException any argument = <code>null</code>
      * @throws TsIllegalArgumentRtException argument atomic type is not compatible with the entity class
+     * @throws TsIllegalArgumentRtException number of elements in array is uneven
+     * @throws ClassCastException argument types convention is violated
      */
-    public TtiValobj( IDataType aDataType, Class<T> aValueObjectClass ) {
-      super( aDataType, aValueObjectClass );
+    public TtiValobj( IDataType aDataType, Class<T> aValueObjectClass, Object... aIdsAndValues ) {
+      super( DataType.create( aDataType, aIdsAndValues ), aValueObjectClass );
       TsIllegalArgumentRtException.checkTrue( aDataType.atomicType() != EAtomicType.VALOBJ );
     }
 

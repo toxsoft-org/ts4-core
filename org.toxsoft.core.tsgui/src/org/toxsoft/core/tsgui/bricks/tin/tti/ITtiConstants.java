@@ -26,6 +26,15 @@ public interface ITtiConstants {
   ITinTypeInfo TTI_IDNAME       = new TinAtomicTypeInfo.TtiString( DDEF_IDNAME );
   ITinTypeInfo TTI_IDPATH       = new TinAtomicTypeInfo.TtiString( DDEF_IDPATH );
 
+  ITinTypeInfo TTI_POSITIVE_INTEGER = new TinAtomicTypeInfo.TtiInteger( DDEF_INTEGER, //
+      TSID_MIN_INCLUSIVE, AV_1, //
+      TSID_MIN_EXCLUSIVE, AV_0 //
+  );
+
+  ITinTypeInfo TTI_POSITIVE_FLOATING = new TinAtomicTypeInfo.TtiDouble( DDEF_FLOATING, //
+      TSID_MIN_INCLUSIVE, AV_F_1 //
+  );
+
   ITinTypeInfo TTI_ENUM_INFO = new TinAtomicTypeInfo<>( DT_AV_ENUM, Enum.class ) {
 
     @Override
