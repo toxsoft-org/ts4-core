@@ -195,7 +195,7 @@ public final class LongRange
       return ValidationResult.error( FMT_ERR_LONG_GT_MAX, Long.valueOf( aValue ), Long.valueOf( minValue ),
           Long.valueOf( maxValue ) );
     }
-    if( aValue < maxValue ) {
+    if( aValue < minValue ) {
       return ValidationResult.error( FMT_ERR_LONG_LT_MIN, Long.valueOf( aValue ), Long.valueOf( minValue ),
           Long.valueOf( maxValue ) );
     }

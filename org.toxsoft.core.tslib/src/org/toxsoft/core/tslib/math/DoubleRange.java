@@ -125,10 +125,10 @@ public final class DoubleRange
    * @return double - value always in range
    */
   public double inRange( double aValue ) {
-    if( Double.compare( minValue, aValue ) < 0 ) {
+    if( Double.compare( aValue, minValue ) < 0 ) {
       return minValue;
     }
-    if( Double.compare( maxValue, aValue ) > 0 ) {
+    if( Double.compare( aValue, maxValue ) > 0 ) {
       return maxValue;
     }
     return aValue;
@@ -211,7 +211,7 @@ public final class DoubleRange
       return ValidationResult.error( FMT_ERR_DOUBLE_GT_MAX, Double.valueOf( aValue ), Double.valueOf( minValue ),
           Double.valueOf( maxValue ) );
     }
-    if( aValue < maxValue ) {
+    if( aValue < minValue ) {
       return ValidationResult.error( FMT_ERR_DOUBLE_LT_MIN, Double.valueOf( aValue ), Double.valueOf( minValue ),
           Double.valueOf( maxValue ) );
     }

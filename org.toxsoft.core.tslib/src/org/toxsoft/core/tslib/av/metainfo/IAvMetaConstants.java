@@ -231,7 +231,7 @@ public interface IAvMetaConstants {
    * If any of MIN or MAX limit is not defined, {@link Integer#MIN_VALUE} and {@link Integer#MAX_VALUE} will be used
    * respectively. If constraints are invalid (MIN > MAX) then {@link IntRange#FULL} will return.
    *
-   * @param aConstraints {@link IOptionSet} - the set of constatraints
+   * @param aConstraints {@link IOptionSet} - the set of constraints
    * @return {@link IntRange} - created range
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
@@ -266,7 +266,7 @@ public interface IAvMetaConstants {
    * <p>
    * Behaves like {@link #makeIntRangeFromConstraints(IOptionSet)} but for <code>long</code> values.
    *
-   * @param aConstraints {@link IOptionSet} - the set of constatraints
+   * @param aConstraints {@link IOptionSet} - the set of constraints
    * @return {@link LongRange} - created range
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
@@ -294,6 +294,46 @@ public interface IAvMetaConstants {
       return new LongRange( minValue, maxValue );
     }
     return LongRange.FULL;
+  }
+
+  /**
+   * Creates {@link DoubleRange} from the constraints.
+   * <p>
+   * This methods defines official strategy to use {@link #TSID_MIN_INCLUSIVE}, {@link #TSID_MIN_EXCLUSIVE},
+   * {@link #TSID_MAX_EXCLUSIVE}, {@link #TSID_MAX_INCLUSIVE} constants. INCLUSIVE constants have precedence over
+   * EXCLUSIVE constants.
+   * <p>
+   * If any of MIN or MAX limit is not defined, {@link Double#MIN_VALUE} and {@link Double#MAX_VALUE} will be used
+   * respectively. If constraints are invalid (MIN > MAX) then {@link IntRange#FULL} will return.
+   *
+   * @param aConstraints {@link IOptionSet} - the set of constraints
+   * @return {@link DoubleRange} - created range
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  static DoubleRange makeDoubleRangeFromConstraints( IOptionSet aConstraints ) {
+    TsNullArgumentRtException.checkNull( aConstraints );
+    double minValue = Double.MIN_VALUE;
+    if( aConstraints.hasValue( TSID_MIN_INCLUSIVE ) ) {
+      minValue = aConstraints.getDouble( TSID_MIN_INCLUSIVE );
+    }
+    else {
+      if( aConstraints.hasValue( TSID_MIN_EXCLUSIVE ) ) {
+        minValue = aConstraints.getDouble( TSID_MIN_EXCLUSIVE ) + 1;
+      }
+    }
+    double maxValue = Double.MAX_VALUE;
+    if( aConstraints.hasValue( TSID_MAX_INCLUSIVE ) ) {
+      maxValue = aConstraints.getDouble( TSID_MAX_INCLUSIVE );
+    }
+    else {
+      if( aConstraints.hasValue( TSID_MAX_EXCLUSIVE ) ) {
+        maxValue = aConstraints.getDouble( TSID_MAX_EXCLUSIVE ) - 1;
+      }
+    }
+    if( minValue <= maxValue ) {
+      return new DoubleRange( minValue, maxValue );
+    }
+    return DoubleRange.FULL;
   }
 
   /**

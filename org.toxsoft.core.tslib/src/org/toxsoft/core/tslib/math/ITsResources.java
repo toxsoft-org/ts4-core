@@ -16,8 +16,8 @@ interface ITsResources {
   /**
    * {@link DoubleRange}
    */
-  String FMT_ERR_DOUBLE_GT_MAX     = "The value %f is over allowed range %f..%f";
-  String FMT_ERR_DOUBLE_LT_MIN     = "The value %f is below allowed range %f..%f";
+  String FMT_ERR_DOUBLE_GT_MAX     = "The value %f is over allowed range %.2g .. %.2g";
+  String FMT_ERR_DOUBLE_LT_MIN     = "The value %f is below allowed range %.2g .. %.2g";
   String FMT_ERR_DOUBLE_NOT_FINITE = "The value %f is not a finite number";
 
   /**
