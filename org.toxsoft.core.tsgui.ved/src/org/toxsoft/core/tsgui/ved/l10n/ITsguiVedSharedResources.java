@@ -50,6 +50,8 @@ public interface ITsguiVedSharedResources {
   String STR_BK_FILL_D         = Messages.getString( "STR_BK_FILL_D" );         //$NON-NLS-1$
   String STR_BORDER_INFO       = Messages.getString( "STR_BORDER_INFO" );       //$NON-NLS-1$
   String STR_BORDER_INFO_D     = Messages.getString( "STR_BORDER_INFO_D" );     //$NON-NLS-1$
+  String STR_LINE_INFO         = Messages.getString( "STR_LINE_INFO" );         //$NON-NLS-1$
+  String STR_LINE_INFO_D       = Messages.getString( "STR_LINE_INFO_D" );       //$NON-NLS-1$
   String STR_IS_ASPECT_FIXED   = Messages.getString( "STR_IS_ASPECT_FIXED" );   //$NON-NLS-1$
   String STR_IS_ASPECT_FIXED_D = Messages.getString( "STR_IS_ASPECT_FIXED_D" ); //$NON-NLS-1$
   String STR_ASPECT_RATIO      = Messages.getString( "STR_ASPECT_RATIO" );      //$NON-NLS-1$
@@ -62,6 +64,10 @@ public interface ITsguiVedSharedResources {
   String STR_VISEL_ID_D        = Messages.getString( "STR_VISEL_ID_D" );        //$NON-NLS-1$
   String STR_VISEL_PROP_ID     = Messages.getString( "STR_VISEL_PROP_ID" );     //$NON-NLS-1$
   String STR_VISEL_PROP_ID_D   = Messages.getString( "STR_VISEL_PROP_ID_D" );   //$NON-NLS-1$
+  String STR_RADIUS            = Messages.getString( "STR_RADIUS" );            //$NON-NLS-1$
+  String STR_RADIUS_D          = Messages.getString( "STR_RADIUS_D" );          //$NON-NLS-1$
+  String STR_ON_OFF_STATE      = Messages.getString( "STR_ON_OFF_STATE" );      //$NON-NLS-1$
+  String STR_ON_OFF_STATE_D    = Messages.getString( "STR_ON_OFF_STATE_D" );    //$NON-NLS-1$
 
   /**
    * {@link VedAbstractActor}

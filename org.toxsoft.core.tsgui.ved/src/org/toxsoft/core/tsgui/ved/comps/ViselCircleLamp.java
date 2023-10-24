@@ -1,8 +1,8 @@
 package org.toxsoft.core.tsgui.ved.comps;
 
 import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
+import static org.toxsoft.core.tsgui.ved.comps.ITsResources.*;
 import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
-import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.impl.DataDef.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
@@ -30,7 +30,7 @@ import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Идикатор в виде круглой лампочки.
+ * The VISEL: circular lamp with optional edging.
  * <p>
  *
  * @author vs
@@ -43,10 +43,8 @@ public class ViselCircleLamp
    */
   public static final String FACTORY_ID = VED_ID + ".visel.CirceleLamp"; //$NON-NLS-1$
 
-  private static final String PROPID_ON_OFF_STATE = "onOffState";  //$NON-NLS-1$
-  private static final String PROPID_RADIUS       = "radius";      //$NON-NLS-1$
-  private static final String PROPID_BORDER_WIDTH = "borderWidth"; //$NON-NLS-1$
-  private static final String PROPID_SHOW_BORDER  = "showBorder";  //$NON-NLS-1$
+  private static final String PROPID_EDGING_WIDTH = "edgingWidth"; //$NON-NLS-1$
+  private static final String PROPID_SHOW_EDGING  = "showEdging";  //$NON-NLS-1$
   private static final String PROPID_USE_GRADIENT = "useGradient"; //$NON-NLS-1$
 
   /**
@@ -58,47 +56,32 @@ public class ViselCircleLamp
       TSID_ICON_ID, ICONID_VISEL_CIRCLE_LAMP //
   ) {
 
-    private static final IDataDef PROP_ON_OF_STATE = create3( PROPID_ON_OFF_STATE, DDEF_BOOLEAN, //
-        TSID_NAME, STR_N_ON_OFF_STATE, //
-        TSID_DESCRIPTION, STR_D_ON_OFF_STATE, //
-        TSID_DEFAULT_VALUE, BOOLEAN.defaultValue() //
-    );
-
-    private static final IDataDef PROP_RADIUS = create3( PROPID_RADIUS, DDEF_FLOATING, //
-        TSID_NAME, STR_N_RADIUS, //
-        TSID_DESCRIPTION, STR_D_RADIUS, //
-        TSID_DEFAULT_VALUE, FLOATING.defaultValue() //
-    );
-
-    private static final IDataDef PROP_BORDER_WIDTH = create3( PROPID_BORDER_WIDTH, DDEF_FLOATING, //
-        TSID_NAME, STR_N_BORDER_WIDTH, //
-        TSID_DESCRIPTION, STR_D_BORDER_WIDTH, //
+    private static final IDataDef PROP_EDGING_WIDTH = create3( PROPID_EDGING_WIDTH, DDEF_FLOATING, //
+        TSID_NAME, STR_EDGING_WIDTH, //
+        TSID_DESCRIPTION, STR_EDGING_WIDTH_D, //
         TSID_DEFAULT_VALUE, AvUtils.avFloat( 4 ) //
     );
 
-    private static final IDataDef PROP_SHOW_BORDER = create3( PROPID_SHOW_BORDER, DDEF_BOOLEAN, //
-        TSID_NAME, STR_N_SHOW_BORDER, //
-        TSID_DESCRIPTION, STR_D_SHOW_BORDER, //
+    private static final IDataDef PROP_SHOW_EDGING = create3( PROPID_SHOW_EDGING, DDEF_BOOLEAN, //
+        TSID_NAME, STR_SHOW_EDGING, //
+        TSID_DESCRIPTION, STR_SHOW_EDGING_D, //
         TSID_DEFAULT_VALUE, AV_TRUE //
     );
 
     private static final IDataDef PROP_USE_GRADIENT = create3( PROPID_USE_GRADIENT, DDEF_BOOLEAN, //
-        TSID_NAME, STR_N_USE_GRADIENT, //
-        TSID_DESCRIPTION, STR_D_USE_GRADIENT, //
+        TSID_NAME, STR_USE_GRADIENT, //
+        TSID_DESCRIPTION, STR_USE_GRADIENT_D, //
         TSID_DEFAULT_VALUE, AV_TRUE //
     );
 
     private static final ITinTypeInfo  TTI_ON_OFF_STATE = new TinAtomicTypeInfo.TtiBoolean( PROP_ON_OF_STATE );
     private static final ITinFieldInfo TFI_ON_OFF_STATE = new TinFieldInfo( PROP_ON_OF_STATE, TTI_ON_OFF_STATE );
 
-    private static final ITinTypeInfo  TTI_RADIUS = new TinAtomicTypeInfo.TtiDouble( PROP_RADIUS );
-    private static final ITinFieldInfo TFI_RADIUS = new TinFieldInfo( PROP_RADIUS, TTI_RADIUS );
+    private static final ITinTypeInfo  TTI_EDGING_WIDTH = new TinAtomicTypeInfo.TtiDouble( PROP_EDGING_WIDTH );
+    private static final ITinFieldInfo TFI_EDGING_WIDTH = new TinFieldInfo( PROP_EDGING_WIDTH, TTI_EDGING_WIDTH );
 
-    private static final ITinTypeInfo  TTI_BORDER_WIDTH = new TinAtomicTypeInfo.TtiDouble( PROP_BORDER_WIDTH );
-    private static final ITinFieldInfo TFI_BORDER_WIDTH = new TinFieldInfo( PROP_BORDER_WIDTH, TTI_BORDER_WIDTH );
-
-    private static final ITinTypeInfo  TTI_SHOW_BORDER = new TinAtomicTypeInfo.TtiBoolean( PROP_SHOW_BORDER );
-    private static final ITinFieldInfo TFI_SHOW_BORDER = new TinFieldInfo( PROP_SHOW_BORDER, TTI_SHOW_BORDER );
+    private static final ITinTypeInfo  TTI_SHOW_EDGING = new TinAtomicTypeInfo.TtiBoolean( PROP_SHOW_EDGING );
+    private static final ITinFieldInfo TFI_SHOW_EDGING = new TinFieldInfo( PROP_SHOW_EDGING, TTI_SHOW_EDGING );
 
     private static final ITinTypeInfo  TTI_USE_GRADIENT = new TinAtomicTypeInfo.TtiBoolean( PROP_USE_GRADIENT );
     private static final ITinFieldInfo TFI_USE_GRADIENT = new TinFieldInfo( PROP_USE_GRADIENT, TTI_USE_GRADIENT );
@@ -119,8 +102,8 @@ public class ViselCircleLamp
       fields.add( TFI_BK_COLOR );
       fields.add( TFI_ON_OFF_STATE );
       fields.add( TFI_RADIUS );
-      fields.add( TFI_BORDER_WIDTH );
-      fields.add( TFI_SHOW_BORDER );
+      fields.add( TFI_EDGING_WIDTH );
+      fields.add( TFI_SHOW_EDGING );
       fields.add( TFI_USE_GRADIENT );
       return new PropertableEntitiesTinTypeInfo<>( fields, ViselCircleLamp.class );
     }
@@ -136,7 +119,7 @@ public class ViselCircleLamp
 
   TsFillInfo offGradientInfo;
   TsFillInfo onGradientInfo;
-  TsFillInfo borderGradientInfo;
+  TsFillInfo edgingGradientInfo;
   TsFillInfo flatOnGradientInfo;
   TsFillInfo flatOffGradientInfo;
 
@@ -163,7 +146,7 @@ public class ViselCircleLamp
     flatOffGradientInfo = new TsFillInfo( new RGBA( 0, 0, 0, 255 ) );
     offGradientInfo = new TsFillInfo( GradientUtils.halfSphereFillInfo( new RGBA( 0, 0, 0, 255 ) ) );
     onGradientInfo = new TsFillInfo( GradientUtils.halfSphereFillInfo( props().getValobj( PROPID_BK_COLOR ) ) );
-    borderGradientInfo = new TsFillInfo( new TsGradientFillInfo( gi ) );
+    edgingGradientInfo = new TsFillInfo( new TsGradientFillInfo( gi ) );
   }
 
   // ------------------------------------------------------------------------------------
@@ -189,8 +172,8 @@ public class ViselCircleLamp
       }
     }
 
-    int d = (int)props().getDouble( PROPID_BORDER_WIDTH );
-    if( !props().getBool( PROPID_SHOW_BORDER ) ) {
+    int d = (int)props().getDouble( PROPID_EDGING_WIDTH );
+    if( !props().getBool( PROPID_SHOW_EDGING ) ) {
       d = 0;
     }
 
@@ -201,7 +184,7 @@ public class ViselCircleLamp
     p.addArc( 0, 0, swtRect.width(), swtRect.height(), 0, 360 );
     p.addArc( d, d, swtRect.width() - 2 * d, swtRect.height() - 2 * d, 0, 360 );
 
-    aPaintContext.setFillInfo( borderGradientInfo );
+    aPaintContext.setFillInfo( edgingGradientInfo );
     aPaintContext.fillPath( p, swtRect.x1(), swtRect.y1(), swtRect.width(), swtRect.height() );
 
     p.dispose();

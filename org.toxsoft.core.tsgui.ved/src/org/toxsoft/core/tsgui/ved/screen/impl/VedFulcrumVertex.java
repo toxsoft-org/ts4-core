@@ -29,7 +29,7 @@ public class VedFulcrumVertex
 
   @Override
   public ECursorType cursorType() {
-    return VedVertexSetUtils.cursorType( fulcrum );
+    return ECursorType.cursorForFulcrum( fulcrum );
   }
 
   @Override

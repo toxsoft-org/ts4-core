@@ -18,14 +18,17 @@ import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 
 /**
- * Абстрактный "Набор вершин", от которого должны наследоваться конкретные.
- * <p>
+ * {@link IVedVertexSet} basic abstract implementation.
  *
  * @author vs
  */
 public abstract class VedAbstractVertexSet
     extends VedAbstractDecorator
     implements IVedVertexSet, ITsGuiContextable {
+
+  /**
+   * FIXME подчистить код!!!
+   */
 
   private final IStridablesList<? extends IVedVertex> vertexes;
 
@@ -233,7 +236,7 @@ public abstract class VedAbstractVertexSet
 
   @Override
   protected void doDispose() {
-
+    // TODO VedAbstractVertexSet.doDispose()
   }
 
   // ------------------------------------------------------------------------------------
@@ -248,7 +251,7 @@ public abstract class VedAbstractVertexSet
         bounds = vertex.bounds();
       }
       else {
-        bounds = VedVertexSetUtils.union( bounds, vertex.bounds() );
+        bounds = D2GeometryUtils.union( bounds, vertex.bounds() );
       }
     }
     return bounds;

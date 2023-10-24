@@ -96,43 +96,7 @@ public class ViselRectangle
   @Override
   protected void doDoInterceptPropsChange( IOptionSet aNewValues, IOptionSetEdit aValuesToSet ) {
     super.doDoInterceptPropsChange( aNewValues, aValuesToSet );
-    // get actual width and height
-    double width;
-    if( aValuesToSet.hasKey( PROPID_WIDTH ) ) {
-      width = aValuesToSet.getDouble( PROPID_WIDTH );
-    }
-    else {
-      width = props().getDouble( PROPID_WIDTH );
-    }
-    double height;
-    if( aValuesToSet.hasKey( PROPID_HEIGHT ) ) {
-      height = aValuesToSet.getDouble( PROPID_HEIGHT );
-    }
-    else {
-      height = props().getDouble( PROPID_HEIGHT );
-    }
-    // update PROP_ASPECT_RATIO for non-fixed aspect
-    if( !props().getBool( PROP_IS_ASPECT_FIXED ) ) {
-      double aspectRatio = width / height;
-      aValuesToSet.setDouble( PROPID_ASPECT_RATIO, aspectRatio );
-      return;
-    }
-    // keep current aspect ratio
-    double currAspectRatio = props().getDouble( PROPID_WIDTH ) / props().getDouble( PROPID_HEIGHT );
-    boolean wasWidthChangeRequested = aValuesToSet.hasKey( PROPID_WIDTH );
-    boolean wasHeightChangeRequested = aValuesToSet.hasKey( PROPID_HEIGHT );
-    // when changing both width and height, ignore height change requset
-    if( wasWidthChangeRequested && wasHeightChangeRequested ) {
-      wasHeightChangeRequested = false;
-    }
-    if( wasWidthChangeRequested ) {
-      aValuesToSet.setDouble( PROPID_HEIGHT, width / currAspectRatio );
-      return;
-    }
-    if( wasHeightChangeRequested ) {
-      aValuesToSet.setDouble( PROPID_HEIGHT, height * currAspectRatio );
-      return;
-    }
+    VedItemUtils.interceptAspectRatio( this, aNewValues, aValuesToSet );
   }
 
   @Override

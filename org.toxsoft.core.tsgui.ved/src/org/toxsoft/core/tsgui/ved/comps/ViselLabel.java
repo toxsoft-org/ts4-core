@@ -90,14 +90,16 @@ public class ViselLabel
   private Font font = null;
 
   /**
-   * Конструктор.<br>
+   * Constructor.
    *
-   * @param aConfig {@link IVedItemCfg} - configuration data of the individual visel
-   * @param aPropDefs IStridablesList&lt;IDataDef> - список описаний данных свойств визеля
-   * @param aScreen {@link VedScreen} - экран
+   * @param aConfig {@link IVedItemCfg} - the item config
+   * @param aPropDefs {@link IStridablesList}&lt;{@link IDataDef}&gt; - properties definitions
+   * @param aVedScreen {@link VedScreen} - the owner screen
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException ID is not an IDpath
    */
-  public ViselLabel( IVedItemCfg aConfig, IStridablesList<IDataDef> aPropDefs, VedScreen aScreen ) {
-    super( aConfig, aPropDefs, aScreen );
+  public ViselLabel( IVedItemCfg aConfig, IStridablesList<IDataDef> aPropDefs, VedScreen aVedScreen ) {
+    super( aConfig, aPropDefs, aVedScreen );
   }
 
   // ------------------------------------------------------------------------------------

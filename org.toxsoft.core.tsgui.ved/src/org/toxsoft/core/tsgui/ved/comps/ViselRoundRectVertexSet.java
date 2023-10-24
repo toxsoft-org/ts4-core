@@ -13,13 +13,11 @@ import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 
 /**
- * Набор вершин, представляющих собой подмножество опорных точек прямоугольника и двух вершин изменения ширины и высоты
- * скругления.
- * <p>
+ * {@link IVedVertexSet} implementation for {@link ViselRoundRect} editing.
  *
  * @author vs
  */
-public class ViselRoundRectVertexSet
+class ViselRoundRectVertexSet
     extends VedFulcrumVertexSet {
 
   private static final String VID_ARC_WIDTH  = "arcWidth";  //$NON-NLS-1$
@@ -28,13 +26,13 @@ public class ViselRoundRectVertexSet
   private Rectangle thisSwtRect = new Rectangle( 0, 0, 1, 1 );
 
   /**
-   * Метод создания набора вершин.<br>
+   * Creates the vertex set.
    *
-   * @param aVisel {@link VedAbstractVisel} - визуальный элемент
-   * @param aVedScreen {@link VedScreen} - экран
-   * @return {@link ViselRoundRectVertexSet} - набор вершин
+   * @param aVisel {@link VedAbstractVisel} - owner VISEL
+   * @param aVedScreen {@link VedScreen} - the VED screen
+   * @return {@link ViselRoundRectVertexSet} - created instance of {@link IVedVertexSet}
    */
-  public static ViselRoundRectVertexSet create( VedAbstractVisel aVisel, VedScreen aVedScreen ) {
+  static ViselRoundRectVertexSet create( VedAbstractVisel aVisel, VedScreen aVedScreen ) {
     ITsColorManager cm = aVedScreen.tsContext().get( ITsColorManager.class );
     IStridablesListEdit<IVedVertex> vertexes;
     vertexes = VedFulcrumVertexSet.listVertexesWithoutFulcrums( ETsFulcrum.RIGHT_TOP, ETsFulcrum.RIGHT_CENTER,
@@ -69,24 +67,24 @@ public class ViselRoundRectVertexSet
     super.update( aDx, aDy, aVertexId );
     ViselRoundRect roundRect = (ViselRoundRect)visel();
     if( aVertexId.equals( VID_ARC_WIDTH ) ) {
-      double arcW = roundRect.props().getDouble( FID_ARC_WIDTH ) - 2 * aDx;
+      double arcW = roundRect.props().getDouble( PROPID_ARC_WIDTH ) - 2 * aDx;
       if( arcW < 0 ) {
         arcW = 0;
       }
       if( arcW > roundRect.bounds().width() ) {
         arcW = roundRect.bounds().width();
       }
-      roundRect.props().setDouble( FID_ARC_WIDTH, arcW );
+      roundRect.props().setDouble( PROPID_ARC_WIDTH, arcW );
     }
     if( aVertexId.equals( VID_ARC_HEIGHT ) ) {
-      double arcH = roundRect.props().getDouble( FID_ARC_HEIGHT ) + 2 * aDy;
+      double arcH = roundRect.props().getDouble( PROPID_ARC_HEIGHT ) + 2 * aDy;
       if( arcH < 0 ) {
         arcH = 0;
       }
       if( arcH > roundRect.bounds().height() ) {
         arcH = roundRect.bounds().height();
       }
-      roundRect.props().setDouble( FID_ARC_HEIGHT, arcH );
+      roundRect.props().setDouble( PROPID_ARC_HEIGHT, arcH );
     }
   }
 
@@ -98,11 +96,11 @@ public class ViselRoundRectVertexSet
     ID2Rectangle br = visel().bounds();
     for( IVedVertex v : vertexes() ) {
       if( v.id().equals( VID_ARC_WIDTH ) ) {
-        int x = (int)(br.x1() + br.width() - baloon.props().getDouble( FID_ARC_WIDTH ) / 2.);
+        int x = (int)(br.x1() + br.width() - baloon.props().getDouble( PROPID_ARC_WIDTH ) / 2.);
         v.setLocation( x - v.bounds().width() / 2., br.y1() - v.bounds().height() / 2. );
       }
       if( v.id().equals( VID_ARC_HEIGHT ) ) {
-        double arcH = baloon.props().getDouble( FID_ARC_HEIGHT );
+        double arcH = baloon.props().getDouble( PROPID_ARC_HEIGHT );
         int x = (int)(br.x1() + br.width());
         v.setLocation( x - v.bounds().width() / 2., (int)(br.y1() + arcH / 2. - v.bounds().height() / 2.) );
       }

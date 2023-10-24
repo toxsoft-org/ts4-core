@@ -7,6 +7,7 @@ import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
 import static org.toxsoft.core.tsgui.ved.l10n.ITsguiVedSharedResources.*;
 import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
+import static org.toxsoft.core.tslib.av.impl.DataDef.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.toxsoft.core.tsgui.bricks.tin.*;
@@ -133,9 +134,12 @@ public interface IVedScreenConstants {
   String PROPID_BK_COLOR        = VED_ID + ".bkColor";       //$NON-NLS-1$
   String PROPID_FG_COLOR        = VED_ID + ".fgColor";       //$NON-NLS-1$
   String PROPID_BK_FILL         = VED_ID + ".bkFill";        //$NON-NLS-1$
+  String PROPID_LINE_INFO       = VED_ID + ".lineInfo";      //$NON-NLS-1$
   String PROPID_BORDER_INFO     = VED_ID + ".borderInfo";    //$NON-NLS-1$
   String PROPID_IS_ASPECT_FIXED = VED_ID + ".isAspectFixed"; //$NON-NLS-1$
   String PROPID_ASPECT_RATIO    = VED_ID + ".aspectRatio";   //$NON-NLS-1$
+  String PROPID_RADIUS          = VED_ID + ".radius";        //$NON-NLS-1$
+  String PROPID_ON_OFF_STATE    = VED_ID + ".onOffState";    //$NON-NLS-1$
 
   IDataDef PROP_TEXT = DataDef.create3( PROPID_TEXT, DDEF_STRING, //
       TSID_NAME, STR_TEXT, //
@@ -187,6 +191,11 @@ public interface IVedScreenConstants {
       TSID_DESCRIPTION, STR_BORDER_INFO_D //
   );
 
+  IDataDef PROP_LINE_INFO = DataDef.create3( PROPID_LINE_INFO, DT_TS_LINE_INFO, //
+      TSID_NAME, STR_LINE_INFO, //
+      TSID_DESCRIPTION, STR_LINE_INFO_D //
+  );
+
   IDataDef PROP_IS_ASPECT_FIXED = DataDef.create3( PROPID_IS_ASPECT_FIXED, DDEF_TS_BOOL, //
       TSID_NAME, STR_IS_ASPECT_FIXED, //
       TSID_DESCRIPTION, STR_IS_ASPECT_FIXED_D, //
@@ -199,6 +208,19 @@ public interface IVedScreenConstants {
       TSID_FORMAT_STRING, "%.3f", //$NON-NLS-1$
       ValedDoubleSpinner.OPID_FLOATING_DIGITS, avInt( 3 ), //
       TSID_DEFAULT_VALUE, avFloat( 1.0 ) //
+  );
+
+  IDataDef PROP_RADIUS = DataDef.create3( PROPID_RADIUS, DDEF_FLOATING, //
+      TSID_NAME, STR_RADIUS, //
+      TSID_DESCRIPTION, STR_RADIUS_D, //
+      TSID_MIN_INCLUSIVE, AV_F_1, //
+      TSID_DEFAULT_VALUE, FLOATING.defaultValue() //
+  );
+
+  IDataDef PROP_ON_OF_STATE = create3( PROPID_ON_OFF_STATE, DDEF_BOOLEAN, //
+      TSID_NAME, STR_ON_OFF_STATE, //
+      TSID_DESCRIPTION, STR_ON_OFF_STATE_D, //
+      TSID_DEFAULT_VALUE, AV_FALSE //
   );
 
   // ------------------------------------------------------------------------------------
@@ -229,8 +251,8 @@ public interface IVedScreenConstants {
   ITinFieldInfo TFI_DESCRIPTION     = new TinFieldInfo( PROP_DESCRIPTION, TTI_AT_STRING );
   ITinFieldInfo TFI_X               = new TinFieldInfo( PROP_X, TTI_AT_FLOATING );
   ITinFieldInfo TFI_Y               = new TinFieldInfo( PROP_Y, TTI_AT_FLOATING );
-  ITinFieldInfo TFI_WIDTH           = new TinFieldInfo( PROP_WIDTH, TTI_AT_FLOATING );
-  ITinFieldInfo TFI_HEIGHT          = new TinFieldInfo( PROP_HEIGHT, TTI_AT_FLOATING );
+  ITinFieldInfo TFI_WIDTH           = new TinFieldInfo( PROP_WIDTH, TTI_POSITIVE_FLOATING );
+  ITinFieldInfo TFI_HEIGHT          = new TinFieldInfo( PROP_HEIGHT, TTI_POSITIVE_FLOATING );
   ITinFieldInfo TFI_TRANSFORM       = new TinFieldInfo( PROP_TRANSFORM, TtiD2Conversion.INSTANCE );
   ITinFieldInfo TFI_TEXT            = new TinFieldInfo( PROP_TEXT, TTI_AT_STRING );
   ITinFieldInfo TFI_FONT            = new TinFieldInfo( PROP_FONT, TtiTsFontInfo.INSTANCE );
@@ -239,11 +261,13 @@ public interface IVedScreenConstants {
   ITinFieldInfo TFI_BK_COLOR        = new TinFieldInfo( PROP_BK_COLOR, TtiRGBA.INSTANCE );
   ITinFieldInfo TFI_FG_COLOR        = new TinFieldInfo( PROP_FG_COLOR, TtiRGBA.INSTANCE );
   ITinFieldInfo TFI_BK_FILL         = new TinFieldInfo( PROP_BK_FILL, TTI_TS_FILL_INFO );
+  ITinFieldInfo TFI_LINE_INFO       = new TinFieldInfo( PROP_LINE_INFO, TtiTsLineInfo.INSTANCE );
   ITinFieldInfo TFI_BORDER_INFO     = new TinFieldInfo( PROP_BORDER_INFO, TTI_TS_BORDER_INFO );
   ITinFieldInfo TFI_IS_ASPECT_FIXED = new TinFieldInfo( PROP_IS_ASPECT_FIXED, TTI_AT_BOOLEAN );
   ITinFieldInfo TFI_ASPECT_RATIO    = new TinFieldInfo( PROP_ASPECT_RATIO, TTI_AT_FLOATING );
   ITinFieldInfo TFI_VISEL_ID        = new TinFieldInfo( PROP_VISEL_ID, TTI_IDPATH );
   ITinFieldInfo TFI_VISEL_PROP_ID   = new TinFieldInfo( PROP_VISEL_PROP_ID, TTI_IDPATH );
+  ITinFieldInfo TFI_RADIUS          = new TinFieldInfo( PROP_RADIUS, TTI_POSITIVE_FLOATING );
 
   // ------------------------------------------------------------------------------------
   // Yet undone
