@@ -24,6 +24,7 @@ import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.gw.gwid.*;
 import org.toxsoft.core.tslib.gw.skid.*;
+import org.toxsoft.core.tslib.math.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.logs.*;
@@ -100,6 +101,9 @@ public class TsValobjUtils {
     registerKeeper( LongListKeeper.KEEPER_ID, LongListKeeper.KEEPER );
     registerKeeper( EValidationResultType.KEEPER_ID, EValidationResultType.KEEPER );
     registerKeeper( ValidationResult.KEEPER_ID, ValidationResult.KEEPER );
+    registerKeeper( IntRange.KEEPER_ID, IntRange.KEEPER );
+    registerKeeper( LongRange.KEEPER_ID, LongRange.KEEPER );
+    registerKeeper( DoubleRange.KEEPER_ID, DoubleRange.KEEPER );
   }
 
   // ------------------------------------------------------------------------------------

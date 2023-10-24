@@ -1,7 +1,5 @@
 package org.toxsoft.core.tslib.math;
 
-import org.toxsoft.core.tslib.av.impl.*;
-
 /**
  * Localizable resources.
  *
@@ -13,7 +11,14 @@ interface ITsResources {
   /**
    * Common.
    */
-  String FMT_ERR_AV_NOT_INTEGER = "Checked atomic value has type %s instead of " + AvUtils.DDID_INTEGER;
+  String FMT_ERR_NOT_EXPECTED_AT = "Checked atomic value has type %s instead of %s";
+
+  /**
+   * {@link DoubleRange}
+   */
+  String FMT_ERR_DOUBLE_GT_MAX     = "The value %f is over allowed range %f..%f";
+  String FMT_ERR_DOUBLE_LT_MIN     = "The value %f is below allowed range %f..%f";
+  String FMT_ERR_DOUBLE_NOT_FINITE = "The value %f is not a finite number";
 
   /**
    * {@link LongRange}

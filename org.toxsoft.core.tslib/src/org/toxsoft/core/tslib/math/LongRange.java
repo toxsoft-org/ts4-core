@@ -68,7 +68,7 @@ public final class LongRange
   private ITsValidator<IAtomicValue> validatorAv = aValue -> {
     TsNullArgumentRtException.checkNull( aValue );
     if( aValue.atomicType() != EAtomicType.INTEGER ) {
-      return ValidationResult.error( FMT_ERR_AV_NOT_INTEGER, aValue.atomicType().id() );
+      return ValidationResult.error( FMT_ERR_NOT_EXPECTED_AT, aValue.atomicType().id(), EAtomicType.INTEGER.id() );
     }
     return this.validate( aValue.asLong() );
   };
@@ -135,7 +135,7 @@ public final class LongRange
    * Minimal width, when {@link #minValue()} == {@link #maxValue()} is 1. Note that method throws an exception if
    * {@link #minValue()} == {@link Long#MIN_VALUE} and {@link #maxValue()} == {@link Long#MAX_VALUE}.
    *
-   * @return int - the range width
+   * @return long - the range width
    * @throws TsUnsupportedFeatureRtException this range is max available {@link Long} range
    */
   public long width() {
@@ -150,7 +150,7 @@ public final class LongRange
    * <ul>
    * <li>0 - value is in range;</li>
    * <li><0 (negative number) - difference between <code>aValue</code> and {@link #minValue()};</li>
-   * <li>>0 (positivenumber) - difference between <code>aValue</code> and {@link #maxValue()};</li>
+   * <li>>0 (positive number) - difference between <code>aValue</code> and {@link #maxValue()};</li>
    * </ul>
    *
    * @param aValue long - the value
@@ -203,10 +203,10 @@ public final class LongRange
   }
 
   /**
-   * Throws an excepion if {@link #validate(long)} method fails.
+   * Throws an exception if {@link #validate(long)} method fails.
    *
    * @param aValue long - the value
-   * @return long - retuts the argument
+   * @return long - results the argument
    * @throws TsValidationFailedRtException if {@link #validate(long)} returns {@link EValidationResultType#ERROR}
    */
   public long checkInRange( long aValue ) {
@@ -239,8 +239,7 @@ public final class LongRange
     if( aThat == this ) {
       return true;
     }
-    // equality check will be performed on IntRange because tslib does not creates IntRange instances
-    if( aThat instanceof IntRange that ) {
+    if( aThat instanceof LongRange that ) {
       return this.minValue == that.minValue && this.maxValue == that.maxValue;
     }
     return false;

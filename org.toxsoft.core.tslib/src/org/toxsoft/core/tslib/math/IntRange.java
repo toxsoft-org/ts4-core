@@ -68,7 +68,7 @@ public final class IntRange
   private ITsValidator<IAtomicValue> validatorAv = aValue -> {
     TsNullArgumentRtException.checkNull( aValue );
     if( aValue.atomicType() != EAtomicType.INTEGER ) {
-      return ValidationResult.error( FMT_ERR_AV_NOT_INTEGER, aValue.atomicType().id() );
+      return ValidationResult.error( FMT_ERR_NOT_EXPECTED_AT, aValue.atomicType().id(), EAtomicType.INTEGER.id() );
     }
     return this.validate( aValue.asInt() );
   };
@@ -150,7 +150,7 @@ public final class IntRange
    * <ul>
    * <li>0 - value is in range;</li>
    * <li><0 (negative number) - difference between <code>aValue</code> and {@link #minValue()};</li>
-   * <li>>0 (positivenumber) - difference between <code>aValue</code> and {@link #maxValue()};</li>
+   * <li>>0 (positive number) - difference between <code>aValue</code> and {@link #maxValue()};</li>
    * </ul>
    *
    * @param aValue int - the value
@@ -225,10 +225,10 @@ public final class IntRange
   }
 
   /**
-   * Throws an excepion if {@link #validate(int)} method fails.
+   * Throws an exception if {@link #validate(int)} method fails.
    *
    * @param aValue int - the value
-   * @return int - retuts the argument
+   * @return int - results the argument
    * @throws TsValidationFailedRtException if {@link #validate(int)} returns {@link EValidationResultType#ERROR}
    */
   public int checkInRange( int aValue ) {
@@ -261,7 +261,6 @@ public final class IntRange
     if( aThat == this ) {
       return true;
     }
-    // equality check will be performed on IntRange because tslib does not creates IntRange instances
     if( aThat instanceof IntRange that ) {
       return this.minValue == that.minValue && this.maxValue == that.maxValue;
     }
