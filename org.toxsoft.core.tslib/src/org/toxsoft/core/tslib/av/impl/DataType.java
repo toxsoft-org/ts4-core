@@ -75,7 +75,7 @@ public class DataType
   }
 
   /**
-   * Static onstructor.
+   * Static constructor.
    *
    * @param aAtomicType {@link EAtomicType} - atomic type
    * @param aIdsAndValues {@link IOptionSet} - initial params values as in {@link OptionSetUtils#createOpSet(Object...)}
@@ -88,6 +88,23 @@ public class DataType
     TsNullArgumentRtException.checkNull( aAtomicType );
     IOptionSet params = OptionSetUtils.createOpSet( aIdsAndValues );
     return new DataType( aAtomicType, params );
+  }
+
+  /**
+   * Constructs the refined data type.
+   *
+   * @param aDataType {@link IDataType} - the sample data type
+   * @param aIdsAndValues {@link IOptionSet} - initial params values as in {@link OptionSetUtils#createOpSet(Object...)}
+   * @return {@link DataType} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException number of elements in array is uneven
+   * @throws ClassCastException argument types convention is violated
+   */
+  public static DataType create( IDataType aDataType, Object... aIdsAndValues ) {
+    TsNullArgumentRtException.checkNull( aDataType );
+    IOptionSetEdit params = new OptionSet( aDataType.params() );
+    params.addAll( OptionSetUtils.createOpSet( aIdsAndValues ) );
+    return new DataType( aDataType.atomicType(), params );
   }
 
   // ------------------------------------------------------------------------------------
