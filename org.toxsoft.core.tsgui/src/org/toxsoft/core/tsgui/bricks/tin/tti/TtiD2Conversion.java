@@ -40,8 +40,8 @@ public class TtiD2Conversion
     fieldInfos().add( new TinFieldInfo( FID_ZOOM, TTI_AT_FLOATING, //
         TSID_NAME, STR_D2CONVERSION_ZOOM, //
         TSID_DESCRIPTION, STR_D2CONVERSION_ZOOM_D, //
-        TSID_MIN_INCLUSIVE, avFloat( D2Utils.MIN_ZOOM_FACTOR ), //
-        TSID_MAX_INCLUSIVE, avFloat( D2Utils.MAX_ZOOM_FACTOR ), //
+        TSID_MIN_INCLUSIVE, avFloat( D2Utils.ZOOM_RANGE.minValue() ), //
+        TSID_MAX_INCLUSIVE, avFloat( D2Utils.ZOOM_RANGE.maxValue() ), //
         TSID_DEFAULT_VALUE, AV_F_1 //
     ) );
 

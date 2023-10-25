@@ -5,6 +5,7 @@ import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tslib.bricks.events.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.coll.helpers.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -67,6 +68,13 @@ public interface IVedItemsManager<T extends VedAbstractItem>
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void remove( String aId );
+
+  /**
+   * Returns the manager validator.
+   *
+   * @return {@link ITsValidationSupport}&lt;{@link IVedItemsManagerValidator}&gt; - the manager validator
+   */
+  ITsValidationSupport<IVedItemsManagerValidator> svs();
 
   /**
    * Returns the manager eventer.

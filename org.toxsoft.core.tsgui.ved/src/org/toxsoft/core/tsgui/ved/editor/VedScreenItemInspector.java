@@ -11,6 +11,7 @@ import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.tin.*;
 import org.toxsoft.core.tsgui.bricks.tin.impl.*;
+import org.toxsoft.core.tsgui.dialogs.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.panels.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
@@ -194,7 +195,7 @@ public class VedScreenItemInspector
   private void whenBtnEditPressed() {
 
     // TODO VedScreenItemInspector.whenBtnEditPressed()
-
+    TsDialogUtils.underDevelopment( getShell() );
   }
 
   private void updateVedKindIcon() {

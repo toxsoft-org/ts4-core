@@ -102,7 +102,9 @@ public class VedViselSelectionManager
   @Override
   public void setSingleSelectedViselId( String aViselId ) {
     if( aViselId == null ) {
-      deselectAll();
+      if( !selIdsList.isEmpty() ) {
+        deselectAll();
+      }
       return;
     }
     checkViselExists( aViselId );

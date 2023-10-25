@@ -2,12 +2,14 @@ package org.toxsoft.core.tsgui.ved.screen.impl;
 
 import static org.toxsoft.core.tsgui.ved.l10n.ITsguiVedSharedResources.*;
 
-import org.toxsoft.core.tsgui.ved.incub.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.bricks.events.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.std.*;
 import org.toxsoft.core.tslib.coll.helpers.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -21,6 +23,47 @@ import org.toxsoft.core.tslib.utils.errors.*;
 abstract class AbstractVedItemsManager<T extends VedAbstractItem>
     implements IVedItemsManager<T>, ICloseable {
 
+  /**
+   * {@link IVedItemsManager#svs()} implementation.
+   *
+   * @author hazard157
+   */
+  static class Svs
+      extends AbstractTsValidationSupport<IVedItemsManagerValidator>
+      implements IVedItemsManagerValidator {
+
+    @Override
+    public IVedItemsManagerValidator validator() {
+      return this;
+    }
+
+    @Override
+    public ValidationResult canCreate( int aIndex, IVedItemCfg aCfg ) {
+      TsNullArgumentRtException.checkNull( aCfg );
+      ValidationResult vr = ValidationResult.SUCCESS;
+      for( IVedItemsManagerValidator v : validatorsList() ) {
+        vr = ValidationResult.firstNonOk( vr, v.canCreate( aIndex, aCfg ) );
+      }
+      return vr;
+    }
+
+    @Override
+    public ValidationResult canRemove( String aId ) {
+      TsNullArgumentRtException.checkNull( aId );
+      ValidationResult vr = ValidationResult.SUCCESS;
+      for( IVedItemsManagerValidator v : validatorsList() ) {
+        vr = ValidationResult.firstNonOk( vr, v.canRemove( aId ) );
+      }
+      return vr;
+    }
+
+  }
+
+  /**
+   * {@link IVedItemsManager#eventer()} implementation.
+   *
+   * @author hazard157
+   */
   class Eventer
       extends AbstractSimpleCrudOpTsEventer<IVedItemsManagerListener<T>, String, IVedItemsManager<T>> {
 
@@ -36,16 +79,57 @@ abstract class AbstractVedItemsManager<T extends VedAbstractItem>
 
   }
 
+  /**
+   * Built-in validation rules.
+   */
+  private final IVedItemsManagerValidator builtinValidator = new IVedItemsManagerValidator() {
+
+    @SuppressWarnings( "boxing" )
+    @Override
+    public ValidationResult canCreate( int aIndex, IVedItemCfg aCfg ) {
+      // check for index validity
+      if( aIndex < 0 || aIndex > list().size() ) {
+        return ValidationResult.error( FMT_ERR_VED_ITEM_CREATION_INV_INDEX, aIndex, list().size() );
+      }
+      // check if same ID already exists
+      if( list().hasKey( aCfg.id() ) ) {
+        return ValidationResult.error( FMT_ERR_VED_ITEM_CREATION_DUP_ID, aCfg.id() );
+      }
+      // check if factory ID is not registered
+      if( doFindFactory( aCfg ) == null ) {
+        return ValidationResult.error( FMT_ERR_VED_ITEM_UNKNOWN_FACTORY, aCfg.id() );
+      }
+      // warn of unassigned name
+      ValidationResult vr = NameStringValidator.VALIDATOR.validate( aCfg.nmName() );
+      if( !vr.isOk() ) {
+        return vr;
+      }
+      return ValidationResult.SUCCESS;
+    }
+
+    @Override
+    public ValidationResult canRemove( String aId ) {
+      // warn if no such item exists
+      if( !list().hasKey( aId ) ) {
+        return ValidationResult.warn( FMT_WARN_CANT_REMOVE_ABSENT_ITEM, aId );
+      }
+      return ValidationResult.SUCCESS;
+    }
+
+  };
+
   private final IStridablesListEdit<T> itemsList = new StridablesList<>();
   private final IListReorderer<T>      reorderer;
 
+  private final Svs       svs = new Svs();
   private final Eventer   eventer;
-  private final VedScreen screen;
+  private final VedScreen vedScreen;
 
   AbstractVedItemsManager( VedScreen aScreen ) {
-    screen = aScreen;
+    vedScreen = aScreen;
     reorderer = new ListReorderer<>( itemsList );
     eventer = new Eventer( this );
+    svs.addValidator( builtinValidator );
   }
 
   // ------------------------------------------------------------------------------------
@@ -89,21 +173,16 @@ abstract class AbstractVedItemsManager<T extends VedAbstractItem>
 
   @Override
   public T create( int aIndex, IVedItemCfg aCfg ) {
-    TsNullArgumentRtException.checkNull( aCfg );
-    TsErrorUtils.checkCollIndex( itemsList.size(), aIndex );
-    if( itemsList.hasKey( aCfg.id() ) ) {
-      throw new TsItemAlreadyExistsRtException( FMT_ERR_ITEM_ALREADY_EXISTS, aCfg.id() );
-    }
+    TsValidationFailedRtException.checkError( svs.canCreate( aIndex, aCfg ) );
     IVedItemFactoryBase<T> factory = doFindFactory( aCfg );
-    TsItemNotFoundRtException.checkNull( factory, FMT_WARN_UNKNON_ITEM_FACTORY, aCfg.factoryId() );
-    T item = factory.create( aCfg, screen );
+    T item = factory.create( aCfg, vedScreen );
     TsInternalErrorRtException.checkNull( item );
     item.props().propsEventer().addListener( ( src, news, olds ) -> {
       if( itemsList.hasKey( item.id() ) ) {
         eventer.fireEvent( ECrudOp.EDIT, item.id() );
       }
       else {
-        throw new TsInternalErrorRtException(); // just in case some is working with removed item
+        throw new TsInternalErrorRtException(); // just in case someone is working with removed item
       }
     } );
     itemsList.add( item );
@@ -113,11 +192,17 @@ abstract class AbstractVedItemsManager<T extends VedAbstractItem>
 
   @Override
   public void remove( String aId ) {
+    TsValidationFailedRtException.checkError( svs.canRemove( aId ) );
     T item = itemsList.removeById( aId );
     if( item != null ) {
       eventer.fireEvent( ECrudOp.REMOVE, aId );
       item.dispose();
     }
+  }
+
+  @Override
+  public ITsValidationSupport<IVedItemsManagerValidator> svs() {
+    return svs;
   }
 
   @Override

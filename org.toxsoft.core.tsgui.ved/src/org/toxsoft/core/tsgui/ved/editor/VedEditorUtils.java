@@ -88,7 +88,7 @@ public class VedEditorUtils {
     @Override
     protected ValidationResult doValidate() {
       String id = txtId.getText();
-      // check ID is an ID name
+      // check ID is an ID path
       if( !StridUtils.isValidIdPath( id ) ) {
         return ValidationResult.error( STR_ERR_VIBP_ID_NOT_IDPATH );
       }

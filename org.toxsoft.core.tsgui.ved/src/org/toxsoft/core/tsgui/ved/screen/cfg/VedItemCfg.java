@@ -30,10 +30,11 @@ public final class VedItemCfg
    * The keeper singleton.
    */
   public static final IEntityKeeper<IVedItemCfg> KEEPER =
-      new AbstractEntityKeeper<>( IVedItemCfg.class, EEncloseMode.ENCLOSES_KEEPER_IMPLEMENTATION, null ) {
+      new AbstractEntityKeeper<>( IVedItemCfg.class, EEncloseMode.ENCLOSES_BASE_CLASS, null ) {
 
         @Override
         protected void doWrite( IStrioWriter aSw, IVedItemCfg aEntity ) {
+          aSw.incNewLine();
           // item ID and factory ID
           aSw.writeAsIs( aEntity.id() );
           aSw.writeSeparatorChar();
@@ -54,7 +55,7 @@ public final class VedItemCfg
           // extra data
           StrioUtils.writeKeywordHeader( aSw, KW_EXTRA, true );
           ((VedItemCfg)aEntity).extraData().write( aSw );
-          aSw.writeEol();
+          aSw.decNewLine();
         }
 
         @Override

@@ -49,6 +49,8 @@ public class QuantTsGuiVed
     //
     IM5Domain m5 = aWinContext.get( IM5Domain.class );
     m5.addModel( new VedItemM5Model() );
+    m5.addModel( new VedViselM5Model() );
+    m5.addModel( new VedActorM5Model() );
   }
 
 }

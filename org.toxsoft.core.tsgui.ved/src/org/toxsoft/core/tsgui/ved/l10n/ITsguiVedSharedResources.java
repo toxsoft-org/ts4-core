@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.ved.l10n;
 
+import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
 
@@ -12,14 +13,10 @@ import org.toxsoft.core.tsgui.ved.screen.items.*;
 public interface ITsguiVedSharedResources {
 
   /**
-   * {@link IVedFrameworkConstants}
+   * {@link IVedScreenConstants}
    */
-  String STR_IS_ACTIVE   = Messages.getString( "STR_IS_ACTIVE" );   //$NON-NLS-1$
-  String STR_IS_ACTIVE_D = Messages.getString( "STR_IS_ACTIVE_D" ); //$NON-NLS-1$
-  // String STR_NAME = Messages.getString( "STR_NAME" ); //$NON-NLS-1$
-  // String STR_NAME_D = Messages.getString( "STR_NAME_D" ); //$NON-NLS-1$
-  // String STR_DESCRIPTION = Messages.getString( "STR_DESCRIPTION" ); //$NON-NLS-1$
-  // String STR_DESCRIPTION_D = Messages.getString( "STR_DESCRIPTION_D" ); //$NON-NLS-1$
+  String STR_IS_ACTIVE         = Messages.getString( "STR_IS_ACTIVE" );         //$NON-NLS-1$
+  String STR_IS_ACTIVE_D       = Messages.getString( "STR_IS_ACTIVE_D" );       //$NON-NLS-1$
   String STR_IS_HOVERED        = Messages.getString( "STR_IS_HOVERED" );        //$NON-NLS-1$
   String STR_IS_HOVERED_D      = Messages.getString( "STR_IS_HOVERED_D" );      //$NON-NLS-1$
   String STR_IS_SELECTED       = Messages.getString( "STR_IS_SELECTED" );       //$NON-NLS-1$
@@ -85,13 +82,6 @@ public interface ITsguiVedSharedResources {
   String STR_WARN_DUPLICATE_DIPOSAL = Messages.getString( "STR_WARN_DUPLICATE_DIPOSAL" ); //$NON-NLS-1$
 
   /**
-   * {@link VedEnvironment}
-   */
-  String FMT_ERR_ITEM_ALREADY_EXISTS  = Messages.getString( "FMT_ERR_ITEM_ALREADY_EXISTS" );  //$NON-NLS-1$
-  String FMT_WARN_UNKNON_ITEM_FACTORY = Messages.getString( "FMT_WARN_UNKNON_ITEM_FACTORY" ); //$NON-NLS-1$
-  String FMT_ERR_CAN_CREATE_ITEM      = Messages.getString( "FMT_ERR_CAN_CREATE_ITEM" );      //$NON-NLS-1$
-
-  /**
    * {@link EVedItemKind}
    */
   String STR_ITEMKIND_VISEL   = Messages.getString( "STR_ITEMKIND_VISEL" );   //$NON-NLS-1$
@@ -116,5 +106,13 @@ public interface ITsguiVedSharedResources {
    */
   String STR_TMI_ITEM_BY_KIND   = Messages.getString( "STR_TMI_ITEM_BY_KIND" );   //$NON-NLS-1$
   String STR_TMI_ITEM_BY_KIND_D = Messages.getString( "STR_TMI_ITEM_BY_KIND_D" ); //$NON-NLS-1$
+
+  /**
+   * implementation classes
+   */
+  String FMT_ERR_VED_ITEM_CREATION_INV_INDEX = Messages.getString( "FMT_ERR_VED_ITEM_CREATION_INV_INDEX" ); //$NON-NLS-1$
+  String FMT_ERR_VED_ITEM_CREATION_DUP_ID    = Messages.getString( "FMT_ERR_VED_ITEM_CREATION_DUP_ID" );    //$NON-NLS-1$
+  String FMT_ERR_VED_ITEM_UNKNOWN_FACTORY    = Messages.getString( "FMT_ERR_VED_ITEM_UNKNOWN_FACTORY" );    //$NON-NLS-1$
+  String FMT_WARN_CANT_REMOVE_ABSENT_ITEM    = Messages.getString( "FMT_WARN_CANT_REMOVE_ABSENT_ITEM" );    //$NON-NLS-1$
 
 }
