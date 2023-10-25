@@ -109,6 +109,7 @@ public class VedViselSelectionManager
     }
     checkViselExists( aViselId );
     if( !selIdsList.hasElem( aViselId ) ) {
+      selIdsList.clear();
       selIdsList.add( aViselId );
       eventer.fireChangeEvent();
     }
