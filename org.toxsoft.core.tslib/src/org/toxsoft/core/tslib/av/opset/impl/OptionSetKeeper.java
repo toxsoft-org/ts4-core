@@ -88,7 +88,9 @@ public class OptionSetKeeper
       String name = ids.get( i );
       IAtomicValue value = aEntity.getValue( name );
       aSw.writeAsIs( name );
+      aSw.writeSpace();
       aSw.writeChar( CHAR_EQUAL );
+      aSw.writeSpace();
       AtomicValueKeeper.KEEPER.write( aSw, value );
       if( i < n - 1 ) {
         aSw.writeChar( CHAR_ITEM_SEPARATOR );

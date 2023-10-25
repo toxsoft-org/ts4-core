@@ -1,5 +1,7 @@
 package org.toxsoft.core.tslib.bricks.validator;
 
+import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
+
 import java.io.*;
 
 import org.toxsoft.core.tslib.bricks.keeper.*;
@@ -250,7 +252,8 @@ public final class ValidationResult
    * @return {@link ValidationResult} - created validation result
    */
   public static ValidationResult error( Throwable aError ) {
-    return new ValidationResult( EValidationResultType.ERROR, aError.getLocalizedMessage() );
+    String msg = aError.getLocalizedMessage() != null ? aError.getLocalizedMessage() : EMPTY_STRING;
+    return new ValidationResult( EValidationResultType.ERROR, msg );
   }
 
   /**
