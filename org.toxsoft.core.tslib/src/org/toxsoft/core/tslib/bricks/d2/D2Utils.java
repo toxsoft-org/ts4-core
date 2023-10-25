@@ -4,6 +4,7 @@ import static org.toxsoft.core.tslib.bricks.d2.ITsResources.*;
 import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 
 import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.math.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -14,25 +15,22 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class D2Utils {
 
   /**
-   * Max allowed zoom factor is x1000 times.
+   * Allowed range of the zoom factor.
+   * <p>
+   * Note: minValue must be much more than {@link #DUCK_DIFF_THRESHLOD}.
    */
-  public static final double MAX_ZOOM_FACTOR = 1_000.0;
+  public static final DoubleRange ZOOM_RANGE = new DoubleRange( 0.001, 1_000.0 );
 
-  /**
-   * Min allowed zoom factor is 1/1000 times.
-   */
-  public static final double MIN_ZOOM_FACTOR = 0.001;
-
-  private static final double MAX_D2_VALUE         = (Long.MAX_VALUE) + 0.1;
-  private static final double MIN_D2_VALUE         = (Long.MIN_VALUE) - 0.1;
-  private static final double DUCK_DIFF_TRHRESHLOD = 0.000_000_1;
-  private static final char   CHAR_ANGLE_DEGREES   = '∠';
+  private static final double MAX_D2_VALUE        = (Long.MAX_VALUE) + 0.1;
+  private static final double MIN_D2_VALUE        = (Long.MIN_VALUE) - 0.1;
+  private static final double DUCK_DIFF_THRESHLOD = 0.000_000_1;
+  private static final char   CHAR_ANGLE_DEGREES  = '∠';
 
   /**
    * Returns double exactly equal to the nearest long if aValue is near enough.
    * <p>
    * If something looks like duck, sounds like duck and walks like duck then it is the duck. If double value is near to
-   * integer less then {@link #DUCK_DIFF_TRHRESHLOD} this method returns double exactly equal to integer value. This
+   * integer less then {@link #DUCK_DIFF_THRESHLOD} this method returns double exactly equal to integer value. This
    * method allows to avoid values like 0.0000000000123 instead of 0.0.
    *
    * @param aValue double - value very close to long value
@@ -46,7 +44,7 @@ public class D2Utils {
     }
     Double d = Double.valueOf( aValue );
     double diff = aValue - d.longValue();
-    if( Math.abs( diff ) < DUCK_DIFF_TRHRESHLOD ) {
+    if( Math.abs( diff ) < DUCK_DIFF_THRESHLOD ) {
       return d.longValue();
     }
     return aValue;
@@ -67,36 +65,30 @@ public class D2Utils {
     }
     Double d = Double.valueOf( aValue );
     double diff = aValue - d.longValue();
-    return Math.abs( diff ) < DUCK_DIFF_TRHRESHLOD;
+    return Math.abs( diff ) < DUCK_DIFF_THRESHLOD;
   }
 
   /**
-   * Fits zoom factor in range from {@link #MIN_ZOOM_FACTOR} to {@link #MAX_ZOOM_FACTOR}.
+   * Fits zoom factor in range {@link #ZOOM_RANGE}.
    *
-   * @param aZoomFactor double - inital zoom factor
+   * @param aZoomFactor double - initial zoom factor
    * @return double zoom factor guaranteed to be in range
    */
   public static double zoomInRange( double aZoomFactor ) {
-    if( aZoomFactor < MIN_ZOOM_FACTOR ) {
-      return MIN_ZOOM_FACTOR;
-    }
-    if( aZoomFactor > MAX_ZOOM_FACTOR ) {
-      return MAX_ZOOM_FACTOR;
-    }
-    return aZoomFactor;
+    return ZOOM_RANGE.inRange( aZoomFactor );
   }
 
   /**
-   * Checks zoom factor in range from {@link #MIN_ZOOM_FACTOR} to {@link #MAX_ZOOM_FACTOR}.
+   * Checks zoom factor in allowed range.
    *
-   * @param aZoomFactor double - inital zoom factor
+   * @param aZoomFactor double - initial zoom factor
    * @return double - always returns argument value
    * @throws TsIllegalArgumentRtException invalid value
    */
   public static double checkZoom( double aZoomFactor ) {
-    if( !Double.isFinite( aZoomFactor ) || aZoomFactor < MIN_ZOOM_FACTOR || aZoomFactor > MAX_ZOOM_FACTOR ) {
+    if( !ZOOM_RANGE.isInRange( aZoomFactor ) ) {
       throw new TsIllegalArgumentRtException( FMT_ERR_INV_ZOOM_VALUE, //
-          Double.valueOf( MIN_ZOOM_FACTOR ), Double.valueOf( MAX_ZOOM_FACTOR ), Double.valueOf( aZoomFactor ) );
+          ZOOM_RANGE.toString(), Double.valueOf( aZoomFactor ) );
     }
     return aZoomFactor;
   }

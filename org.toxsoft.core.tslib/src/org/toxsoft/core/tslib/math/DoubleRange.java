@@ -247,7 +247,7 @@ public final class DoubleRange
   @SuppressWarnings( "boxing" )
   @Override
   public String toString() {
-    return String.format( "(%f...%f)", minValue, maxValue ); //$NON-NLS-1$
+    return String.format( "(%.3g .. %.3g)", minValue, maxValue ); //$NON-NLS-1$
   }
 
   @Override
