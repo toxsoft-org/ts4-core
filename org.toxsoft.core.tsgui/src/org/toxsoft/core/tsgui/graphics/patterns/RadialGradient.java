@@ -64,8 +64,10 @@ public class RadialGradient
     Image img = new Image( aGc.getDevice(), aWidth, aHeight );
     ImageData imd = img.getImageData();
 
-    // double dx = aWidth / 4.;
-    // double dy = aHeight / 3.;
+    int redShift = Math.abs( imd.palette.redShift );
+    int greenShift = Math.abs( imd.palette.greenShift );
+    int blueShift = Math.abs( imd.palette.blueShift );
+
     double dx = aWidth - (centerDx * 2 * aWidth) / 100.;
     double dy = aHeight - (centerDy * 2 * aHeight) / 100.;
 
@@ -82,7 +84,8 @@ public class RadialGradient
         for( IGradientFraction gf : fractions() ) {
           if( gf.isMine( value ) ) {
             RGBA rgba = gf.calcRgb( value );
-            int p = rgba.rgb.red << 8 | rgba.rgb.green << 16 | rgba.rgb.blue << 24;
+            // int p = rgba.rgb.red << 8 | rgba.rgb.green << 16 | rgba.rgb.blue << 24;
+            int p = rgba.rgb.red << redShift | rgba.rgb.green << greenShift | rgba.rgb.blue << blueShift;
             imd.setPixel( i, j, p );
             imd.setAlpha( i, j, rgba.alpha );
             break;
@@ -92,9 +95,7 @@ public class RadialGradient
     }
 
     img.dispose();
-    // if( img.isDisposed() ) {
     img = new Image( aGc.getDevice(), imd );
-    // }
     return img;
   }
 
