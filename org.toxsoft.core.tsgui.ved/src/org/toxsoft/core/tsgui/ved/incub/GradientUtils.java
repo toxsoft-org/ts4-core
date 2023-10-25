@@ -10,9 +10,9 @@ public class GradientUtils {
 
   public static class HSV {
 
-    double hue;
-    double saturation;
-    double value;
+    double hue;        // цветовой тон (красный, оранжевый, сине-зеленый и т.д.)
+    double saturation; // насыщенность
+    double value;      // яркость (освещенность)
   }
 
   public static HSV rgb2Hsv( RGB aRgb ) {
@@ -152,6 +152,11 @@ public class GradientUtils {
 
   public static TsGradientFillInfo halfSphereFillInfo( RGBA aRgba ) {
     return new TsGradientFillInfo( new RadialGradientInfo( 40, 40, halfSphereFractions( aRgba ) ) );
+  }
+
+  public static RGB rgb2gray( RGB aRgb ) {
+    int y = (int)Math.round( 0.2126 * aRgb.red + 0.7152 * aRgb.green + 0.0722 * aRgb.blue );
+    return new RGB( y, y, y );
   }
 
   private GradientUtils() {
