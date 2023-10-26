@@ -3,9 +3,9 @@ package org.toxsoft.core.tslib.utils.errors;
 import static org.toxsoft.core.tslib.utils.errors.ITsResources.*;
 
 /**
- * Null argumnet exception.
+ * Null argument exception.
  * <p>
- * This excpetion is like {@link java.lang.NullPointerException} but used only for methods arguments checking.
+ * This exception is like {@link java.lang.NullPointerException} but used only for methods arguments checking.
  * <p>
  * This is method's precondition violation exception. Happens when method gets <code>null</code> argument not allowed by
  * API contract.
