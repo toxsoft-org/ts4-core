@@ -1,8 +1,14 @@
 package org.toxsoft.core.tsgui.ved.screen.impl;
 
+import static org.toxsoft.core.tslib.coll.impl.TsCollectionsUtils.*;
+
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
+import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.bricks.geometry.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -31,6 +37,33 @@ public class VedScreen
     tsContext = aContext;
     model = new VedScreenModel( this );
     view = new VedScreenView( this );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // implementation
+  //
+
+  private final IStringListEdit idsOfViselsToRedraw = new StringArrayList( getListInitialCapacity( 3 ) );
+  private final TsRectangleEdit rectToRedraw        = new TsRectangleEdit();
+
+  private void internalCallViselsAnimation( long aRtTime ) {
+    IVedCoorsConverter cc = view.coorsConverter();
+    boolean isFirst = true;
+    boolean needRedraw = false;
+    for( VedAbstractVisel v : model.visels().list() ) {
+      if( v.doProcessRealTimePassed( aRtTime ) ) {
+        idsOfViselsToRedraw.add( v.id() );
+        if( isFirst ) {
+          ITsRectangle r = cc.visel2Swt( v.bounds(), v );
+          rectToRedraw.union( r );
+          isFirst = false;
+        }
+        needRedraw = true;
+      }
+    }
+    if( needRedraw ) {
+      view.redrawSwtRect( rectToRedraw );
+    }
   }
 
   // ------------------------------------------------------------------------------------
@@ -93,6 +126,9 @@ public class VedScreen
 
   @Override
   public void whenRealTimePassed( long aRtTime ) {
+    // process VISELs animated drawing even if actors are paused
+    internalCallViselsAnimation( aRtTime );
+    //
     if( isPaused ) {
       return;
     }

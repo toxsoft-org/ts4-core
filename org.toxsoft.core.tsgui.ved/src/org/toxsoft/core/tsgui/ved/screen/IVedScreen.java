@@ -14,7 +14,12 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * <p>
  * TODO comments: VED screen
  * <p>
- * Note: {@link #attachTo(Canvas)} must be called before actual use the VED screen.
+ * Notes:
+ * <ul>
+ * <li>{@link #attachTo(Canvas)} must be called before actual use the VED screen;</li>
+ * <li>implements {@link IPausableAnimation} allowing to temporary deactivate (pause) actors time handling (both RT and
+ * GW times). However, pausing actors does not affects VISELs animated drawing.</li>
+ * </ul>
  *
  * @author hazard157
  */

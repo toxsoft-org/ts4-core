@@ -4,6 +4,7 @@ import static org.toxsoft.core.tsgui.ved.l10n.ITsguiVedSharedResources.*;
 import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 
+import org.toxsoft.core.tsgui.mws.services.timers.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.av.*;
@@ -181,6 +182,10 @@ public abstract class VedAbstractVisel
     return VedFulcrumVertexSet.createWithFulcrums( this, vedScreen() );
   }
 
+  // ------------------------------------------------------------------------------------
+  // VedAbstractItem
+  //
+
   /**
    * In {@link VedAbstractVisel} updates internal caches.
    * <p>
@@ -206,6 +211,27 @@ public abstract class VedAbstractVisel
    */
   protected void doDoInterceptPropsChange( IOptionSet aNewValues, IOptionSetEdit aValuesToSet ) {
     // nop
+  }
+
+  // ------------------------------------------------------------------------------------
+  // To override
+  //
+
+  /**
+   * Implementation may process time flow to animate drawing.
+   * <p>
+   * This method is called by the screen at the {@link ITsGuiTimersService#getQuickTimerPeriod()} interval.
+   * <p>
+   * VISEL can not and must not redraw itself event for animation needs. Instead VISEL informs container (the VED
+   * screen) it needs to be redrawn by returning <code>true</code>.
+   * <p>
+   * Method in base class returns <code>false</code>, no need to call parent method when overriding.
+   *
+   * @param aRtTime long - current time in milliseconds from epoch start
+   * @return boolean - <code>true</code> when VISEL needs redraw
+   */
+  protected boolean doProcessRealTimePassed( long aRtTime ) {
+    return false;
   }
 
 }
