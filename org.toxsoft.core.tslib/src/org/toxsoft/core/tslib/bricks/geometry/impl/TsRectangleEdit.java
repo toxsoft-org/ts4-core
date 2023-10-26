@@ -244,8 +244,7 @@ public final class TsRectangleEdit
    * @param aY int - Y координата левого верхнего угла
    * @param aWidth int - ширина прямогуольника
    * @param aHeight int - высота прямогуольника
-   * @throws TsIllegalArgumentRtException ширина < 1
-   * @throws TsIllegalArgumentRtException высота < 1
+   * @throws TsIllegalArgumentRtException width or height< 1
    * @throws TsIllegalArgumentRtException правая нижняя точка выходат за {@link Integer#MAX_VALUE} значения
    */
   public void setRect( int aX, int aY, int aWidth, int aHeight ) {
@@ -277,6 +276,43 @@ public final class TsRectangleEdit
     b.setY( Math.max( aP1.y(), aP2.y() ) );
     size.setX( b.x() - a.x() + 1 );
     size.setY( b.y() - a.y() + 1 );
+  }
+
+  /**
+   * Sets this rectangle to be union with the specified rectangle.
+   *
+   * @param aRect {@link ITsRectangle} - the rectangle
+   * @return boolean - <code>true</code> if rectangle was actually changed
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public boolean union( ITsRectangle aRect ) {
+    TsNullArgumentRtException.checkNull( aRect );
+    return union( aRect.x1(), aRect.y1(), aRect.width(), aRect.height() );
+  }
+
+  /**
+   * Sets this rectangle to be union with the specified rectangle.
+   *
+   * @param aX int - specified rectangle X coordinate
+   * @param aY int - specified rectangle T coordinate
+   * @param aWidth int - specified rectangle width
+   * @param aHeight int - specified rectangle height
+   * @return boolean - <code>true</code> if rectangle was actually changed
+   * @throws TsIllegalArgumentRtException aWidth < 1 or aHeight < 1
+   */
+  public boolean union( int aX, int aY, int aWidth, int aHeight ) {
+    TsIllegalArgumentRtException.checkTrue( aWidth < 1 || aHeight < 1 );
+    int x1 = Math.min( a.x(), aX );
+    int y1 = Math.min( a.y(), aY );
+    int x2 = Math.max( b.x(), aX + aWidth );
+    int y2 = Math.max( b.y(), aY + aHeight );
+    if( x1 == a.x() && y1 == a.y() && x2 == b.x() && y2 == b.y() ) {
+      return false;
+    }
+    a.setPoint( x1, y1 );
+    b.setPoint( x2, y2 );
+    size.setPoint( b.x() - a.x() + 1, b.y() - a.y() + 1 );
+    return true;
   }
 
   /**
