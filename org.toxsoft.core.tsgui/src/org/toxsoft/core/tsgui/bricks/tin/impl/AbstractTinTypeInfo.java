@@ -209,6 +209,25 @@ public abstract class AbstractTinTypeInfo<T>
   }
 
   /**
+   * Extracts atomic value from {@link ETinTypeKind#ATOMIC} child field.
+   *
+   * @param aFieldInfo {@link ITinFieldInfo} - the field info
+   * @param aChildValues {@link IStringMap}&lt;{@link ITinValue}&gt; - the child values
+   * @return {@link IAtomicValue} - atomic value of the specified child field or default for field
+   * @throws TsIllegalArgumentRtException found child kind {@link ETinTypeKind#hasAtomic()} != <code>true</code>
+   */
+  public IAtomicValue extractChildAtomic( ITinFieldInfo aFieldInfo, IStringMap<ITinValue> aChildValues ) {
+    TsNullArgumentRtException.checkNulls( aFieldInfo, aChildValues );
+    TsIllegalArgumentRtException.checkFalse( aFieldInfo.typeInfo().kind().hasAtomic() );
+    ITinValue tinValue = aChildValues.findByKey( aFieldInfo.id() );
+    if( tinValue == null ) {
+      return aFieldInfo.defaultValue().atomicValue();
+    }
+    TsIllegalArgumentRtException.checkFalse( tinValue.kind().hasAtomic() );
+    return tinValue.atomicValue();
+  }
+
+  /**
    * Extracts atomic value from {@link ETinTypeKind#ATOMIC} child field as <code>int</code>.
    *
    * @param aFieldId String - the field ID
@@ -273,6 +292,23 @@ public abstract class AbstractTinTypeInfo<T>
     IAtomicValue av = extractChildAtomic( aFieldId, aChildValues, null );
     if( av == null || av == IAtomicValue.NULL ) {
       return aDefaultValue;
+    }
+    return av.asValobj();
+  }
+
+  /**
+   * Extracts atomic value from {@link ETinTypeKind#ATOMIC} child field as a value object.
+   *
+   * @param <V> - expected type of value-object
+   * @param aFieldInfo {@link ITinFieldInfo} - the field info
+   * @param aChildValues {@link IStringMap}&lt;{@link ITinValue}&gt; - the child values
+   * @return &lt;V&gt; - value of the specified child field or default for field
+   * @throws TsIllegalArgumentRtException found child kind {@link ETinTypeKind#hasAtomic()} != <code>true</code>
+   */
+  public <V> V extractChildValobj( ITinFieldInfo aFieldInfo, IStringMap<ITinValue> aChildValues ) {
+    IAtomicValue av = extractChildAtomic( aFieldInfo, aChildValues );
+    if( av == null || av == IAtomicValue.NULL ) {
+      av = aFieldInfo.defaultValue().atomicValue();
     }
     return av.asValobj();
   }

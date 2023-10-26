@@ -17,7 +17,7 @@ import org.toxsoft.core.tslib.av.*;
  *
  * @author vs
  */
-public class ValedAvValobjGradientInfo
+public class ValedAvValobjTsGradientFillInfo
     extends AbstractAvValobjWrapperValedControl<TsGradientFillInfo> {
 
   /**
@@ -40,13 +40,13 @@ public class ValedAvValobjGradientInfo
     @SuppressWarnings( "unchecked" )
     @Override
     protected IValedControl<IAtomicValue> doCreateEditor( ITsGuiContext aContext ) {
-      return new ValedAvValobjGradientInfo( aContext );
+      return new ValedAvValobjTsGradientFillInfo( aContext );
     }
 
     @Override
     protected boolean isSuitableAvEditor( EAtomicType aAtomicType, String aKeeperId, ITsGuiContext aEditorContext ) {
       if( aAtomicType == EAtomicType.VALOBJ && aKeeperId != null ) {
-        return aKeeperId.equals( TsImageDescriptor.KEEPER_ID );
+        return aKeeperId.equals( TsGradientFillInfo.KEEPER_ID );
       }
       return false;
     }
@@ -58,8 +58,8 @@ public class ValedAvValobjGradientInfo
    */
   public static final AbstractValedControlFactory FACTORY = new Factory();
 
-  protected ValedAvValobjGradientInfo( ITsGuiContext aTsContext ) {
-    super( aTsContext, ValedGradientInfo.FACTORY );
+  protected ValedAvValobjTsGradientFillInfo( ITsGuiContext aTsContext ) {
+    super( aTsContext, ValedTsGradientFillInfo.FACTORY );
   }
 
 }

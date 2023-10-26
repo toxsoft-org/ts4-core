@@ -34,6 +34,18 @@ interface ITsResources {
   String STR_D2POINT_Y_D = Messages.getString( "STR_D2POINT_Y_D" ); //$NON-NLS-1$
 
   /**
+   * {@link TtiTsFillInfo}
+   */
+  String STR_FILL_TYPE       = Messages.getString( "STR_FILL_TYPE" );       //$NON-NLS-1$
+  String STR_FILL_TYPE_D     = Messages.getString( "STR_FILL_TYPE_D" );     //$NON-NLS-1$
+  String STR_FILL_COLOR      = Messages.getString( "STR_FILL_COLOR" );      //$NON-NLS-1$
+  String STR_FILL_COLOR_D    = Messages.getString( "STR_FILL_COLOR_D" );    //$NON-NLS-1$
+  String STR_FILL_GRADIENT   = Messages.getString( "STR_FILL_GRADIENT" );   //$NON-NLS-1$
+  String STR_FILL_GRADIENT_D = Messages.getString( "STR_FILL_GRADIENT_D" ); //$NON-NLS-1$
+  String STR_FILL_IMAGE      = Messages.getString( "STR_FILL_IMAGE" );      //$NON-NLS-1$
+  String STR_FILL_IMAGE_D    = Messages.getString( "STR_FILL_IMAGE_D" );    //$NON-NLS-1$
+
+  /**
    * {@link TtiTsFontInfo}
    */
   String STR_FONT_NAME     = Messages.getString( "STR_FONT_NAME" );     //$NON-NLS-1$
@@ -56,6 +68,14 @@ interface ITsResources {
   String STR_COLOR_FIELD_BLUE_D  = Messages.getString( "STR_COLOR_FIELD_BLUE_D" );  //$NON-NLS-1$
   String STR_COLOR_FIELD_APLHA   = Messages.getString( "STR_COLOR_FIELD_APLHA" );   //$NON-NLS-1$
   String STR_COLOR_FIELD_APLHA_D = Messages.getString( "STR_COLOR_FIELD_APLHA_D" ); //$NON-NLS-1$
+
+  /**
+   * {@link TtiTsImageFillInfo}
+   */
+  String STR_IMAGE_FILL_TYPE    = Messages.getString( "STR_IMAGE_FILL_TYPE" );    //$NON-NLS-1$
+  String STR_IMAGE_FILL_TYPE_D  = Messages.getString( "STR_IMAGE_FILL_TYPE_D" );  //$NON-NLS-1$
+  String STR_IMAGE_DESCRIPTOR   = Messages.getString( "STR_IMAGE_DESCRIPTOR" );   //$NON-NLS-1$
+  String STR_IMAGE_DESCRIPTOR_D = Messages.getString( "STR_IMAGE_DESCRIPTOR_D" ); //$NON-NLS-1$
 
   /**
    * {@link TtiTsLineInfo}

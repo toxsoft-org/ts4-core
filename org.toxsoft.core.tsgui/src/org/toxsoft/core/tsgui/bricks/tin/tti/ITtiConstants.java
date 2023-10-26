@@ -6,9 +6,9 @@ import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.tin.*;
+import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.graphics.lines.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
-import org.toxsoft.core.tslib.av.*;
 
 /**
  * Object inspector helper constants.
@@ -35,19 +35,18 @@ public interface ITtiConstants {
       TSID_MIN_INCLUSIVE, AV_F_1 //
   );
 
-  ITinTypeInfo TTI_ENUM_INFO = new TinAtomicTypeInfo<>( DT_AV_ENUM, Enum.class ) {
+  ITinTypeInfo TTI_ENUM_INFO = new TinAtomicTypeInfo.TtiValobj<>( DT_AV_ENUM, Enum.class );
 
-    @Override
-    protected IAtomicValue doGetAtomicValue( Enum aEntity ) {
-      return avValobj( aEntity );
-    }
-  };
+  ITinTypeInfo TTI_TS_GRADIENT_FILL_INFO =
+      new TinAtomicTypeInfo.TtiValobj<>( DT_TS_GRADIENT_FILL_INFO, TsGradientFillInfo.class );
+
+  ITinTypeInfo TTI_TS_IMAGE_DECRIPTOR =
+      new TinAtomicTypeInfo.TtiValobj<>( DT_TS_IMAGE_DESCRIPTOR, TsImageDescriptor.class );
 
   ITinTypeInfo TTI_COLOR_COMPONENT = new TinAtomicTypeInfo.TtiInteger( DT_COLOR_COMPONENT );
   ITinTypeInfo TTI_COLOR_RGB       = new TinAtomicTypeInfo.TtiValobj<>( DT_COLOR_RGB, RGB.class );
   ITinTypeInfo TTI_COLOR_RGBA      = new TinAtomicTypeInfo.TtiValobj<>( DT_COLOR_RGBA, RGBA.class );
-  // ITinTypeInfo TTI_D2CONVERSION = new TinAtomicTypeInfo.TtiValobj<>( DT_D2CONVERSION, ID2Conversion.class );
-  ITinTypeInfo TTI_TS_FILL_INFO   = new TinAtomicTypeInfo.TtiValobj<>( DT_TS_FILL_INFO, TsFillInfo.class );
+  // ITinTypeInfo TTI_TS_FILL_INFO = new TinAtomicTypeInfo.TtiValobj<>( DT_TS_FILL_INFO, TsFillInfo.class );
   ITinTypeInfo TTI_TS_BORDER_INFO = new TinAtomicTypeInfo.TtiValobj<>( DT_TS_BORDER_INFO, TsBorderInfo.class );
 
 }

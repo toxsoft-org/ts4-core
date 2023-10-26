@@ -16,7 +16,7 @@ import org.toxsoft.core.tsgui.valed.impl.*;
  *
  * @author vs
  */
-public class ValedGradientInfo
+public class ValedTsGradientFillInfo
     extends AbstractValedLabelAndButton<TsGradientFillInfo> {
 
   /**
@@ -44,7 +44,7 @@ public class ValedGradientInfo
     @SuppressWarnings( "unchecked" )
     @Override
     protected IValedControl<TsGradientFillInfo> doCreateEditor( ITsGuiContext aContext ) {
-      return new ValedGradientInfo( aContext );
+      return new ValedTsGradientFillInfo( aContext );
     }
 
     @Override
@@ -61,7 +61,7 @@ public class ValedGradientInfo
 
   TsGradientFillInfo gradientInfo = TsGradientFillInfo.DEFAULT;
 
-  protected ValedGradientInfo( ITsGuiContext aTsContext ) {
+  protected ValedTsGradientFillInfo( ITsGuiContext aTsContext ) {
     super( aTsContext );
     setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
     setParamIfNull( OPDEF_VERTICAL_SPAN, AV_1 );

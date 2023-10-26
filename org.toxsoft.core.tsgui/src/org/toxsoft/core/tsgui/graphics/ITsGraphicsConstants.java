@@ -9,6 +9,7 @@ import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.fonts.impl.*;
+import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.graphics.lines.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tsgui.utils.swt.*;
@@ -109,6 +110,39 @@ public interface ITsGraphicsConstants {
       TSID_KEEPER_ID, TsFillInfo.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjTsFillInfo.FACTORY.factoryName(), //
       TSID_DEFAULT_VALUE, avValobj( new TsFillInfo( DEFAULT_SOLID_FILL_COLOR ) ) //
+  );
+
+  /**
+   * Data type: {@link TsGradientFillInfo} as {@link EAtomicType#VALOBJ VALOBJ}.
+   */
+  IDataType DT_TS_GRADIENT_FILL_INFO = DataType.create( VALOBJ, //
+      TSID_NAME, STR_TS_GRADIENT_FILL_INFO, //
+      TSID_DESCRIPTION, STR_TS_GRADIENT_FILL_INFO_D, //
+      TSID_KEEPER_ID, TsGradientFillInfo.KEEPER_ID, //
+      OPID_EDITOR_FACTORY_NAME, ValedAvValobjTsGradientFillInfo.FACTORY.factoryName(), //
+      TSID_DEFAULT_VALUE, avValobj( TsGradientFillInfo.DEFAULT ) //
+  );
+
+  /**
+   * Data type: {@link TsImageDescriptor} as {@link EAtomicType#VALOBJ VALOBJ}.
+   */
+  IDataType DT_TS_IMAGE_DESCRIPTOR = DataType.create( VALOBJ, //
+      TSID_NAME, STR_TS_IMAGE_DESCRIPTOR, //
+      TSID_DESCRIPTION, STR_TS_IMAGE_DESCRIPTOR_D, //
+      TSID_KEEPER_ID, TsImageDescriptor.KEEPER_ID, //
+      OPID_EDITOR_FACTORY_NAME, ValedAvValobjTsImageDescriptor.FACTORY.factoryName(), //
+      TSID_DEFAULT_VALUE, avValobj( TsImageDescriptor.NONE ) //
+  );
+
+  /**
+   * Data type: {@link TsImageFillInfo} as {@link EAtomicType#VALOBJ VALOBJ}.
+   */
+  IDataType DT_TS_IMAGE_FILL_INFO = DataType.create( VALOBJ, //
+      TSID_NAME, STR_TS_IMAGE_FILL_INFO, //
+      TSID_DESCRIPTION, STR_TS_IMAGE_FILL_INFO_D, //
+      TSID_KEEPER_ID, TsImageFillInfo.KEEPER_ID, //
+      // TODO OPID_EDITOR_FACTORY_NAME, ValedAvValobjTsImageFillInfo.FACTORY.factoryName(), //
+      TSID_DEFAULT_VALUE, avValobj( TsImageFillInfo.DEFAULT ) //
   );
 
   /**

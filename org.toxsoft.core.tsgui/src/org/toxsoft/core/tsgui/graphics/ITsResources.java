@@ -80,25 +80,31 @@ interface ITsResources {
   /**
    * {@link ITsGraphicsConstants}
    */
-  String STR_COLOR_COMPONENT   = Messages.getString( "STR_COLOR_COMPONENT" );   //$NON-NLS-1$ aAAA
-  String STR_COLOR_COMPONENT_D = Messages.getString( "STR_COLOR_COMPONENT_D" ); //$NON-NLS-1$ aAAA
-  String STR_COLOR_RGB         = Messages.getString( "STR_COLOR_RGB" );         //$NON-NLS-1$ aAAA
-  String STR_COLOR_RGB_D       = Messages.getString( "STR_COLOR_RGB_D" );       //$NON-NLS-1$ aAAA
-  String STR_COLOR_RGBA        = Messages.getString( "STR_COLOR_RGBA" );        //$NON-NLS-1$ aAAA
-  String STR_COLOR_RGBA_D      = Messages.getString( "STR_COLOR_RGBA_D" );      //$NON-NLS-1$ aAAA
-  String STR_DT_D2POINT        = Messages.getString( "STR_DT_D2POINT" );        //$NON-NLS-1$ aAAA
-  String STR_DT_D2POINT_D      = Messages.getString( "STR_DT_D2POINT_D" );      //$NON-NLS-1$ aAAA
-  String STR_DT_D2ANGLE        = Messages.getString( "STR_DT_D2ANGLE" );        //$NON-NLS-1$ aAAA
-  String STR_DT_D2ANGLE_D      = Messages.getString( "STR_DT_D2ANGLE_D" );      //$NON-NLS-1$ aAAA
-  String STR_DT_D2CONVERSION   = Messages.getString( "STR_DT_D2CONVERSION" );   //$NON-NLS-1$ aAAA
-  String STR_DT_D2CONVERSION_D = Messages.getString( "STR_DT_D2CONVERSION_D" ); //$NON-NLS-1$ aAAA
-  String STR_TS_FILL_INFO      = Messages.getString( "STR_TS_FILL_INFO" );      //$NON-NLS-1$ aAAA
-  String STR_TS_FILL_INFO_D    = Messages.getString( "STR_TS_FILL_INFO_D" );    //$NON-NLS-1$ aAAA
-  String STR_TS_BORDER_INFO    = Messages.getString( "STR_TS_BORDER_INFO" );    //$NON-NLS-1$ aAAA
-  String STR_TS_BORDER_INFO_D  = Messages.getString( "STR_TS_BORDER_INFO_D" );  //$NON-NLS-1$ aAAA
-  String STR_TS_LINE_INFO      = Messages.getString( "STR_TS_LINE_INFO" );      //$NON-NLS-1$ aAAA
-  String STR_TS_LINE_INFO_D    = Messages.getString( "STR_TS_LINE_INFO_D" );    //$NON-NLS-1$ aAAA
-  String STR_TS_FONT_INFO      = Messages.getString( "STR_TS_FONT_INFO" );      //$NON-NLS-1$ aAAA
-  String STR_TS_FONT_INFO_D    = Messages.getString( "STR_TS_FONT_INFO_D" );    //$NON-NLS-1$ aAAA
+  String STR_COLOR_COMPONENT         = Messages.getString( "STR_COLOR_COMPONENT" );         //$NON-NLS-1$ aAAA
+  String STR_COLOR_COMPONENT_D       = Messages.getString( "STR_COLOR_COMPONENT_D" );       //$NON-NLS-1$ aAAA
+  String STR_COLOR_RGB               = Messages.getString( "STR_COLOR_RGB" );               //$NON-NLS-1$ aAAA
+  String STR_COLOR_RGB_D             = Messages.getString( "STR_COLOR_RGB_D" );             //$NON-NLS-1$ aAAA
+  String STR_COLOR_RGBA              = Messages.getString( "STR_COLOR_RGBA" );              //$NON-NLS-1$ aAAA
+  String STR_COLOR_RGBA_D            = Messages.getString( "STR_COLOR_RGBA_D" );            //$NON-NLS-1$ aAAA
+  String STR_DT_D2POINT              = Messages.getString( "STR_DT_D2POINT" );              //$NON-NLS-1$ aAAA
+  String STR_DT_D2POINT_D            = Messages.getString( "STR_DT_D2POINT_D" );            //$NON-NLS-1$ aAAA
+  String STR_DT_D2ANGLE              = Messages.getString( "STR_DT_D2ANGLE" );              //$NON-NLS-1$ aAAA
+  String STR_DT_D2ANGLE_D            = Messages.getString( "STR_DT_D2ANGLE_D" );            //$NON-NLS-1$ aAAA
+  String STR_DT_D2CONVERSION         = Messages.getString( "STR_DT_D2CONVERSION" );         //$NON-NLS-1$ aAAA
+  String STR_DT_D2CONVERSION_D       = Messages.getString( "STR_DT_D2CONVERSION_D" );       //$NON-NLS-1$ aAAA
+  String STR_TS_FILL_INFO            = Messages.getString( "STR_TS_FILL_INFO" );            //$NON-NLS-1$ aAAA
+  String STR_TS_FILL_INFO_D          = Messages.getString( "STR_TS_FILL_INFO_D" );          //$NON-NLS-1$ aAAA
+  String STR_TS_GRADIENT_FILL_INFO   = Messages.getString( "STR_TS_GRADIENT_FILL_INFO" );   //$NON-NLS-1$ aAAA
+  String STR_TS_GRADIENT_FILL_INFO_D = Messages.getString( "STR_TS_GRADIENT_FILL_INFO_D" ); //$NON-NLS-1$ aAAA
+  String STR_TS_IMAGE_FILL_INFO      = Messages.getString( "STR_TS_IMAGE_FILL_INFO" );      //$NON-NLS-1$ aAAA
+  String STR_TS_IMAGE_FILL_INFO_D    = Messages.getString( "STR_TS_IMAGE_FILL_INFO_D" );    //$NON-NLS-1$ aAAA
+  String STR_TS_IMAGE_DESCRIPTOR     = Messages.getString( "STR_TS_IMAGE_DESCRIPTOR" );     //$NON-NLS-1$ aAAA
+  String STR_TS_IMAGE_DESCRIPTOR_D   = Messages.getString( "STR_TS_IMAGE_DESCRIPTOR_D" );   //$NON-NLS-1$ aAAA
+  String STR_TS_BORDER_INFO          = Messages.getString( "STR_TS_BORDER_INFO" );          //$NON-NLS-1$ aAAA
+  String STR_TS_BORDER_INFO_D        = Messages.getString( "STR_TS_BORDER_INFO_D" );        //$NON-NLS-1$ aAAA
+  String STR_TS_LINE_INFO            = Messages.getString( "STR_TS_LINE_INFO" );            //$NON-NLS-1$ aAAA
+  String STR_TS_LINE_INFO_D          = Messages.getString( "STR_TS_LINE_INFO_D" );          //$NON-NLS-1$ aAAA
+  String STR_TS_FONT_INFO            = Messages.getString( "STR_TS_FONT_INFO" );            //$NON-NLS-1$ aAAA
+  String STR_TS_FONT_INFO_D          = Messages.getString( "STR_TS_FONT_INFO_D" );          //$NON-NLS-1$ aAAA
 
 }
