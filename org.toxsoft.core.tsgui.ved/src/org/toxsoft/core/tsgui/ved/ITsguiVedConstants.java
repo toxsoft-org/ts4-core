@@ -41,6 +41,7 @@ public interface ITsguiVedConstants {
   String ICONID_VISEL_LABEL        = "visel-label";       //$NON-NLS-1$
   String ICONID_VISEL_RECTANGLE    = "visel-rectangle";   //$NON-NLS-1$
   String ICONID_VISEL_ROUND_RECT   = "visel-round-rect";  //$NON-NLS-1$
+  String ICONID_VISEL_BUTTON       = "visel-button";      //$NON-NLS-1$
 
   /**
    * Constants registration.

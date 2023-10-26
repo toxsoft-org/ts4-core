@@ -10,6 +10,7 @@ import org.toxsoft.core.tsgui.ved.comps.*;
 import org.toxsoft.core.tsgui.ved.m5.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
+import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
  * The library quant.
@@ -28,12 +29,15 @@ public class QuantTsGuiVed
 
   @Override
   protected void doInitApp( IEclipseContext aAppContext ) {
+    TsValobjUtils.registerKeeper( EButtonViselState.KEEPER_ID, EButtonViselState.KEEPER );
+
     VedViselFactoriesRegistry visFact = new VedViselFactoriesRegistry();
     aAppContext.set( IVedViselFactoriesRegistry.class, visFact );
     visFact.register( ViselRectangle.FACTORY );
     visFact.register( ViselLabel.FACTORY );
     visFact.register( ViselRoundRect.FACTORY );
     visFact.register( ViselCircleLamp.FACTORY );
+    visFact.register( ViselButton.FACTORY );
     //
     VedActorFactoriesRegistry actFact = new VedActorFactoriesRegistry();
     aAppContext.set( IVedActorFactoriesRegistry.class, actFact );

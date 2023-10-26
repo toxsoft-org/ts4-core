@@ -41,4 +41,26 @@ interface ITsResources {
   String STR_VISEL_ARC_HEIGHT   = Messages.getString( "STR_VISEL_ARC_HEIGHT" );   //$NON-NLS-1$
   String STR_VISEL_ARC_HEIGHT_D = Messages.getString( "STR_VISEL_ARC_HEIGHT_D" ); //$NON-NLS-1$
 
+  /**
+   * {@link EButtonViselState}
+   */
+  String STR_BTN_NORMAL     = "Норма";
+  String STR_BTN_NORMAL_D   = "Кнопка в нормальном состоянии";
+  String STR_BTN_PRESSED    = "Нажата";
+  String STR_BTN_PRESSED_D  = "Кнопка в нажатом состоянии";
+  String STR_BTN_WORKING    = "В работе";
+  String STR_BTN_WORKING_D  = "Кнопка ожидает завершения инициированной ей операции";
+  String STR_BTN_DISABLED   = "Недоступна";
+  String STR_BTN_DISABLED_D = "Функциональность кнопки заблокирована";
+
+  /**
+   * {@link ViselButton}
+   */
+  String STR_VISEL_BUTTON   = "Кнопка";
+  String STR_VISEL_BUTTON_D = "Обычная нажимающаяся кнопка";
+  String STR_N_BUTTON_STYLE = "Стиль";
+  String STR_D_BUTTON_STYLE = "Стиль кнопки";
+  String STR_N_BUTTON_STATE = "Состояние";
+  String STR_D_BUTTON_STATE = "Состояние кнопки";
+
 }
