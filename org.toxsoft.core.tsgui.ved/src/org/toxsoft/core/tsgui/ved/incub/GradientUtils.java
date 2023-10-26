@@ -103,6 +103,25 @@ public class GradientUtils {
     return rgb;
   }
 
+  public static RGB tuneBrightness( RGB aSource, double aFactor ) {
+    HSV hsv = rgb2Hsv( aSource );
+    hsv.value += aFactor;
+    if( hsv.value > 1 ) {
+      double newSat = 0.6 - (hsv.value - 1);
+      if( newSat > hsv.saturation ) {
+        hsv.saturation = 0;
+      }
+      else {
+        hsv.saturation = newSat;
+      }
+      hsv.value = 1;
+      if( hsv.saturation < 0 ) {
+        hsv.saturation = 0;
+      }
+    }
+    return Hsv2Rgb( hsv );
+  }
+
   public static IList<Pair<Double, RGBA>> halfSphereFractions( RGBA aRgba ) {
     IListEdit<Pair<Double, RGBA>> fractions = new ElemArrayList<>();
 

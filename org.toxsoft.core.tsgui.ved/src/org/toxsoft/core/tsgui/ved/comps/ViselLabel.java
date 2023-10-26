@@ -141,6 +141,7 @@ public class ViselLabel
       default -> throw new TsNotAllEnumsUsedRtException();
     };
 
+    aPaintContext.gc().setBackgroundPattern( null );
     aPaintContext.gc().drawText( text, x, y );
     aPaintContext.gc().setAlpha( 255 );
     aPaintContext.setBorderInfo( props().getValobj( PROPID_BORDER_INFO ) );
