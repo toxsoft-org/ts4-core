@@ -26,7 +26,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * assumes that {@link DropTargetEvent#data} is set to mentioned KTOR {@link String} and
  * {@link DropTargetEvent#operations} contains {@link DND#DROP_COPY}.
  * <p>
- * Usage: to make the VED screen a drop target following steps must be done
+ * Usage: to make the VED screen a drop target following steps must be done:
  * <ul>
  * <li>create the instance of the {@link VedScreenDropTarget};</li>
  * <li>after screen is attached to the canvas, attach target to the screen by the method

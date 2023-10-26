@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.ved.incub.tti;
 
+import org.toxsoft.core.tsgui.bricks.tin.tti.*;
+
 /**
  * Localizable resources.
  *

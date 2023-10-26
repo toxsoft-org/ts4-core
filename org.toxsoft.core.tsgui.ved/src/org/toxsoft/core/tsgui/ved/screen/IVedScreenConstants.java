@@ -259,7 +259,7 @@ public interface IVedScreenConstants {
   ITinFieldInfo TFI_VER_ALIGNMENT   = new TinFieldInfo( PROP_VER_ALIGNMENT, TtiAvEnum.INSTANCE );
   ITinFieldInfo TFI_BK_COLOR        = new TinFieldInfo( PROP_BK_COLOR, TtiRGBA.INSTANCE );
   ITinFieldInfo TFI_FG_COLOR        = new TinFieldInfo( PROP_FG_COLOR, TtiRGBA.INSTANCE );
-  ITinFieldInfo TFI_BK_FILL         = new TinFieldInfo( PROP_BK_FILL, TTI_TS_FILL_INFO );
+  ITinFieldInfo TFI_BK_FILL         = new TinFieldInfo( PROP_BK_FILL, TtiTsFillInfo.INSTANCE );
   ITinFieldInfo TFI_LINE_INFO       = new TinFieldInfo( PROP_LINE_INFO, TtiTsLineInfo.INSTANCE );
   ITinFieldInfo TFI_BORDER_INFO     = new TinFieldInfo( PROP_BORDER_INFO, TTI_TS_BORDER_INFO );
   ITinFieldInfo TFI_IS_ASPECT_FIXED = new TinFieldInfo( PROP_IS_ASPECT_FIXED, TTI_AT_BOOLEAN );
