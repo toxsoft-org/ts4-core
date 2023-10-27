@@ -98,8 +98,8 @@ public class VedScreenDropTarget {
 
   }
 
-  private final IStridGenerator viselIdGen = new TimastampMsecStridGenaretor( EVedItemKind.VISEL.id() );
-  private final IStridGenerator actorIdGen = new TimastampMsecStridGenaretor( EVedItemKind.ACTOR.id() );
+  private final IStridGenerator viselIdGen = new TimastampMsecStridGenerator( EVedItemKind.VISEL.id() );
+  private final IStridGenerator actorIdGen = new TimastampMsecStridGenerator( EVedItemKind.ACTOR.id() );
 
   private IVedScreen vedScreen    = null;
   private boolean    invokeDialog = true;

@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Subsequent calls no {@link #nextId()} generates unique STRIDs until the method {@link #setState(IOptionSet)} call.
  * Call to {@link #setState(IOptionSet)} may change generated STRIDs, for example, when reset to the initial state,
  * generator is allowed to generate the same STRIDs as before state reset. However each instance may add stringer rules
- * of STRID uniquiness, for example, UUID-based generator may have no state at all aand all instances may generate
+ * of STRID uniquiness, for example, UUID-based generator may have no state at all and all instances may generate
  * globally unique STRIDs.
  * <p>
  * In general {@link IStridGenerator} implementations are not thread-safe. Use {@link SynchronizedStridGeneratorWrapper}

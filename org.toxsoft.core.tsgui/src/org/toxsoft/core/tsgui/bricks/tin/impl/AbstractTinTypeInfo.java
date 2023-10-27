@@ -80,7 +80,7 @@ public abstract class AbstractTinTypeInfo<T>
   }
 
   @Override
-  final public IStringList visibleFieldIds( ITinValue aValue ) {
+  final public IStringList listMeaningfulFieldIds( ITinValue aValue ) {
     TsNullArgumentRtException.checkNull( aValue );
     IStringList vfIds = doGetVisibleFieldIds( aValue );
     for( String vfId : vfIds ) {

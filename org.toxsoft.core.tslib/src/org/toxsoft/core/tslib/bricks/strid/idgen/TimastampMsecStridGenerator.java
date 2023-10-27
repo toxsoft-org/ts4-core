@@ -24,7 +24,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public final class TimastampMsecStridGenaretor
+public final class TimastampMsecStridGenerator
     implements IStridGenerator {
 
   /**
@@ -82,7 +82,7 @@ public final class TimastampMsecStridGenaretor
   /**
    * Creates generator with default state {@link #DEFAULT_INITIAL_STATE}.
    */
-  public TimastampMsecStridGenaretor() {
+  public TimastampMsecStridGenerator() {
     initialState = DEFAULT_INITIAL_STATE;
     setState( initialState );
   }
@@ -94,7 +94,7 @@ public final class TimastampMsecStridGenaretor
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsValidationFailedRtException failed {@link #validateState(IOptionSet)}
    */
-  public TimastampMsecStridGenaretor( IOptionSet aInitialState ) {
+  public TimastampMsecStridGenerator( IOptionSet aInitialState ) {
     initialState = new OptionSet( aInitialState );
     setState( initialState );
   }
@@ -106,7 +106,7 @@ public final class TimastampMsecStridGenaretor
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsValidationFailedRtException failed {@link #validateState(IOptionSet)}
    */
-  public TimastampMsecStridGenaretor( String aPrefix ) {
+  public TimastampMsecStridGenerator( String aPrefix ) {
     initialState = createState( aPrefix );
     setState( initialState );
   }

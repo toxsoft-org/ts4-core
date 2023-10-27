@@ -49,7 +49,7 @@ public class TinTopRow
     if( !aRow.fieldInfo().typeInfo().kind().hasChildren() ) {
       return;
     }
-    IStringList visibleChilIds = aRow.fieldInfo().typeInfo().visibleFieldIds( aRow.getTinValue() );
+    IStringList visibleChilIds = makeVisibleFieldIds( aRow.fieldInfo().typeInfo(), aRow.getTinValue() );
     if( !visibleChilIds.equals( aRow.visibleChildren().ids() ) ) {
       aRowsToRefresh.add( aRow );
       return;

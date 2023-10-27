@@ -9,7 +9,7 @@ package org.toxsoft.core.tslib.bricks.strid.idgen;
 interface ITsResources {
 
   /**
-   * {@link SimpleStridGenaretor}
+   * {@link SimpleStridGenerator}
    */
   String FMT_ERR_SG_NEGATIVE_COUNTER  = "Counter (%d) can not be negative number";
   String FMT_ERR_SG_COUNTER_MAX       = "Counter value (%d) is too big, no more STRIDs may be generated";

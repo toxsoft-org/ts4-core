@@ -25,7 +25,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public final class SimpleStridGenaretor
+public final class SimpleStridGenerator
     implements IStridGenerator {
 
   /**
@@ -95,7 +95,7 @@ public final class SimpleStridGenaretor
   /**
    * Creates generator with default state {@link #DEFAULT_INITIAL_STATE}.
    */
-  public SimpleStridGenaretor() {
+  public SimpleStridGenerator() {
     initialState = DEFAULT_INITIAL_STATE;
     setState( initialState );
   }
@@ -107,7 +107,7 @@ public final class SimpleStridGenaretor
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsValidationFailedRtException failed {@link #validateState(IOptionSet)}
    */
-  public SimpleStridGenaretor( IOptionSet aInitialState ) {
+  public SimpleStridGenerator( IOptionSet aInitialState ) {
     initialState = new OptionSet( aInitialState );
     setState( initialState );
   }
@@ -121,7 +121,7 @@ public final class SimpleStridGenaretor
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsValidationFailedRtException failed {@link #validateState(IOptionSet)}
    */
-  public SimpleStridGenaretor( String aPrefix, long aSeed, int aPadWidth ) {
+  public SimpleStridGenerator( String aPrefix, long aSeed, int aPadWidth ) {
     initialState = createState( aPrefix, aSeed, aPadWidth );
     setState( initialState );
   }

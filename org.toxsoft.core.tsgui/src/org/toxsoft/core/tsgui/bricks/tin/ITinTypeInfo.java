@@ -39,16 +39,19 @@ public interface ITinTypeInfo {
   IStridablesList<ITinFieldInfo> fieldInfos();
 
   /**
-   * Determines which fields is visible in the inspector for the specified value of the field.
+   * Determines Meaningful fields to be displayed in the inspector for the specified value of the field.
    * <p>
    * The <code>null</code> argument means default, that is initial value of the field.
    * <p>
    * The returned list contains IDs from the {@link #fieldInfos()} keys.
+   * <p>
+   * Note: depending on FIXME ??? parameter value, not all meaningful fields may be visible in the inspector. Such
+   * fields have programmatically accessible values not available to be edited via inspector GUI.
    *
    * @param aValue {@link ITinValue} - the field value, may be <code>null</code>
    * @return {@link IStringList} - IDs of the visible fields
    */
-  IStringList visibleFieldIds( ITinValue aValue );
+  IStringList listMeaningfulFieldIds( ITinValue aValue );
 
   /**
    * Allies change of the single child field to the existing value.

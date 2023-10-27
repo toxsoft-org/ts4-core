@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.bricks.tin.impl;
 
+import static org.toxsoft.core.tsgui.bricks.tin.ITinWidgetConstants.*;
+
 import java.util.*;
 
 import org.eclipse.jface.viewers.*;
@@ -12,6 +14,7 @@ import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -133,23 +136,6 @@ public class TinRow
   void papiChildValueChangedByValed( String aFieldId ) {
     ITinValue newValue =
         typeInfo().applyFieldChange( tinValue, aFieldId, allChildRows.getByKey( aFieldId ).getTinValue() );
-
-    // // prepare changed child values
-    // IStringMapEdit<ITinValue> childValues = new StringMap<>();
-    // for( String fid : allChildRows.keys() ) {
-    // ITinRow childRow = allChildRows.getByKey( fid );
-    // ITinValue childValue = childRow.getTinValue();
-    // childValues.put( fid, childValue );
-    // }
-    // calculate new value
-    // ITinValue newValue;
-    // if( typeInfo().kind().hasAtomic() ) {
-    // IAtomicValue av = typeInfo().compose( childValues );
-    // newValue = TinValue.ofFull( av, childValues );
-    // }
-    // else {
-    // newValue = TinValue.ofGroup( childValues );
-    // }
     // set new value of this node (without propagating down subtree)
     tinValue = newValue;
     treeViewer.update( this, null );
@@ -161,17 +147,28 @@ public class TinRow
 
   /**
    * Updates {@link #visibleChildRows} as subset of {@link #allChildRows} as defined by
-   * {@link ITinTypeInfo#visibleFieldIds(ITinValue)}.
+   * {@link ITinTypeInfo#listMeaningfulFieldIds(ITinValue)}.
    */
   void papiRecursivelyUpdateVisibleChildNodesFromCurrentNodeValue() {
     visibleChildRows.clear();
-    IStringList newVisibleChildIds = typeInfo().visibleFieldIds( tinValue );
+    IStringList newVisibleChildIds = makeVisibleFieldIds( typeInfo(), tinValue );
     for( String fId : newVisibleChildIds ) {
       visibleChildRows.add( allChildRows.getByKey( fId ) );
     }
     for( TinRow row : allChildRows ) {
       row.papiRecursivelyUpdateVisibleChildNodesFromCurrentNodeValue();
     }
+  }
+
+  static IStringList makeVisibleFieldIds( ITinTypeInfo aTypeInfo, ITinValue aValue ) {
+    IStringListEdit newVisibleChildIds = new StringLinkedBundleList();
+    for( String fId : aTypeInfo.listMeaningfulFieldIds( aValue ) ) {
+      ITinFieldInfo finf = aTypeInfo.fieldInfos().getByKey( fId );
+      if( !finf.params().getBool( PRMDEF_IS_HIDDEN ) ) {
+        newVisibleChildIds.add( fId );
+      }
+    }
+    return newVisibleChildIds;
   }
 
   // ------------------------------------------------------------------------------------

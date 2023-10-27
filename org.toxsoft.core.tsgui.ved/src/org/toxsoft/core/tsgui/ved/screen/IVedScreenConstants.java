@@ -242,6 +242,14 @@ public interface IVedScreenConstants {
   );
 
   // ------------------------------------------------------------------------------------
+  // Known parameters
+  //
+
+  // TODO do we need this constants here ?
+  // String PRMID_IS_HIDDEN = ITinWidgetConstants.PRMID_IS_HIDDEN;
+  // IDataDef PRMDEF_IS_HIDDEN = ITinWidgetConstants.PRMDEF_IS_HIDDEN;
+
+  // ------------------------------------------------------------------------------------
   // TIN field info corresponding to the properties
   //
 
