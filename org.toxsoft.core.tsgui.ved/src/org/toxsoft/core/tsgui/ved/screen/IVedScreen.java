@@ -48,4 +48,23 @@ public interface IVedScreen
    */
   void attachTo( Canvas aCanvas );
 
+  /**
+   * Determines if actors are enabled.
+   * <p>
+   * Disabling actors means that they does not receive nether user input not GW/RT time pass. However actors remain in
+   * the VED screen model and their properties are editable.
+   * <p>
+   * Initially at, VED screen creation, actors are enabled.
+   *
+   * @return boolean - the sign that actors are enabled
+   */
+  boolean isActorsEnabled();
+
+  /**
+   * Enables/disables actors.
+   *
+   * @param aEnable boolean - <code>true</code> to enable actors.
+   */
+  void setActorsEnabled( boolean aEnable );
+
 }

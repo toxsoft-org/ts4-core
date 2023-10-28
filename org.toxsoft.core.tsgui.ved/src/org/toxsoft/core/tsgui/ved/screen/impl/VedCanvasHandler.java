@@ -47,9 +47,11 @@ class VedCanvasHandler
         return true;
       }
     }
-    for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
-      if( a.isActive() && a.userInputListener().onKeyDown( aSource, aCode, aChar, aState ) ) {
-        return true;
+    if( vedScreen.isActorsEnabled() ) {
+      for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
+        if( a.isActive() && a.userInputListener().onKeyDown( aSource, aCode, aChar, aState ) ) {
+          return true;
+        }
       }
     }
     for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersAfter.list() ) ) {
@@ -67,9 +69,11 @@ class VedCanvasHandler
         return true;
       }
     }
-    for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
-      if( a.isActive() && a.userInputListener().onKeyUp( aSource, aCode, aChar, aState ) ) {
-        return true;
+    if( vedScreen.isActorsEnabled() ) {
+      for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
+        if( a.isActive() && a.userInputListener().onKeyUp( aSource, aCode, aChar, aState ) ) {
+          return true;
+        }
       }
     }
     for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersAfter.list() ) ) {
@@ -91,9 +95,11 @@ class VedCanvasHandler
         return true;
       }
     }
-    for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
-      if( a.isActive() && a.userInputListener().onMouseDown( aSource, aButton, aState, aCoors, aWidget ) ) {
-        return true;
+    if( vedScreen.isActorsEnabled() ) {
+      for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
+        if( a.isActive() && a.userInputListener().onMouseDown( aSource, aButton, aState, aCoors, aWidget ) ) {
+          return true;
+        }
       }
     }
     for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersAfter.list() ) ) {
@@ -111,9 +117,11 @@ class VedCanvasHandler
         return true;
       }
     }
-    for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
-      if( a.isActive() && a.userInputListener().onMouseUp( aSource, aButton, aState, aCoors, aWidget ) ) {
-        return true;
+    if( vedScreen.isActorsEnabled() ) {
+      for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
+        if( a.isActive() && a.userInputListener().onMouseUp( aSource, aButton, aState, aCoors, aWidget ) ) {
+          return true;
+        }
       }
     }
     for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersAfter.list() ) ) {
@@ -131,9 +139,11 @@ class VedCanvasHandler
         return true;
       }
     }
-    for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
-      if( a.isActive() && a.userInputListener().onMouseClick( aSource, aButton, aState, aCoors, aWidget ) ) {
-        return true;
+    if( vedScreen.isActorsEnabled() ) {
+      for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
+        if( a.isActive() && a.userInputListener().onMouseClick( aSource, aButton, aState, aCoors, aWidget ) ) {
+          return true;
+        }
       }
     }
     for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersAfter.list() ) ) {
@@ -152,9 +162,11 @@ class VedCanvasHandler
         return true;
       }
     }
-    for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
-      if( a.isActive() && a.userInputListener().onMouseDoubleClick( aSource, aButton, aState, aCoors, aWidget ) ) {
-        return true;
+    if( vedScreen.isActorsEnabled() ) {
+      for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
+        if( a.isActive() && a.userInputListener().onMouseDoubleClick( aSource, aButton, aState, aCoors, aWidget ) ) {
+          return true;
+        }
       }
     }
     for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersAfter.list() ) ) {
@@ -172,9 +184,11 @@ class VedCanvasHandler
         return true;
       }
     }
-    for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
-      if( a.isActive() && a.userInputListener().onMouseMove( aSource, aState, aCoors, aWidget ) ) {
-        return true;
+    if( vedScreen.isActorsEnabled() ) {
+      for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
+        if( a.isActive() && a.userInputListener().onMouseMove( aSource, aState, aCoors, aWidget ) ) {
+          return true;
+        }
       }
     }
     for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersAfter.list() ) ) {
@@ -192,9 +206,11 @@ class VedCanvasHandler
         return true;
       }
     }
-    for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
-      if( a.isActive() && a.userInputListener().onMouseWheel( aSource, aState, aCoors, aWidget, aScrollLines ) ) {
-        return true;
+    if( vedScreen.isActorsEnabled() ) {
+      for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
+        if( a.isActive() && a.userInputListener().onMouseWheel( aSource, aState, aCoors, aWidget, aScrollLines ) ) {
+          return true;
+        }
       }
     }
     for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersAfter.list() ) ) {
@@ -212,9 +228,11 @@ class VedCanvasHandler
         return true;
       }
     }
-    for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
-      if( a.isActive() && a.userInputListener().onMouseDragStart( aSource, aDragInfo ) ) {
-        return true;
+    if( vedScreen.isActorsEnabled() ) {
+      for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
+        if( a.isActive() && a.userInputListener().onMouseDragStart( aSource, aDragInfo ) ) {
+          return true;
+        }
       }
     }
     for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersAfter.list() ) ) {
@@ -232,9 +250,11 @@ class VedCanvasHandler
         return true;
       }
     }
-    for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
-      if( a.isActive() && a.userInputListener().onMouseDragMove( aSource, aDragInfo, aState, aCoors ) ) {
-        return true;
+    if( vedScreen.isActorsEnabled() ) {
+      for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
+        if( a.isActive() && a.userInputListener().onMouseDragMove( aSource, aDragInfo, aState, aCoors ) ) {
+          return true;
+        }
       }
     }
     for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersAfter.list() ) ) {
@@ -252,9 +272,11 @@ class VedCanvasHandler
         return true;
       }
     }
-    for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
-      if( a.isActive() && a.userInputListener().onMouseDragFinish( aSource, aDragInfo, aState, aCoors ) ) {
-        return true;
+    if( vedScreen.isActorsEnabled() ) {
+      for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
+        if( a.isActive() && a.userInputListener().onMouseDragFinish( aSource, aDragInfo, aState, aCoors ) ) {
+          return true;
+        }
       }
     }
     for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersAfter.list() ) ) {
@@ -272,9 +294,11 @@ class VedCanvasHandler
         return true;
       }
     }
-    for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
-      if( a.isActive() && a.userInputListener().onMouseDragCancel( aSource, aDragInfo ) ) {
-        return true;
+    if( vedScreen.isActorsEnabled() ) {
+      for( VedAbstractActor a : new ElemArrayList<>( actors.list() ) ) {
+        if( a.isActive() && a.userInputListener().onMouseDragCancel( aSource, aDragInfo ) ) {
+          return true;
+        }
       }
     }
     for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersAfter.list() ) ) {

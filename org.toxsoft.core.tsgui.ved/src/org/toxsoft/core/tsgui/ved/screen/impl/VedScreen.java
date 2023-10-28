@@ -24,7 +24,8 @@ public class VedScreen
   private final VedScreenModel model;
   private final VedScreenView  view;
 
-  private boolean isPaused = false;
+  private boolean isPaused     = false;
+  private boolean actorsEnable = true;
 
   /**
    * Constructor. Constructor.
@@ -108,9 +109,11 @@ public class VedScreen
         h.whenGwTimePassed( aGwTime );
       }
     }
-    for( VedAbstractActor a : model.actors().list() ) {
-      if( a.isActive() ) {
-        a.whenGwTimePassed( aGwTime );
+    if( actorsEnable ) {
+      for( VedAbstractActor a : model.actors().list() ) {
+        if( a.isActive() ) {
+          a.whenGwTimePassed( aGwTime );
+        }
       }
     }
     for( VedAbstractUserInputHandler h : model.screenHandlersAfter().list() ) {
@@ -126,7 +129,7 @@ public class VedScreen
 
   @Override
   public void whenRealTimePassed( long aRtTime ) {
-    // process VISELs animated drawing even if actors are paused
+    // process VISELs animated drawing even if snippets and actors are paused
     internalCallViselsAnimation( aRtTime );
     //
     if( isPaused ) {
@@ -137,9 +140,11 @@ public class VedScreen
         h.whenRealTimePassed( aRtTime );
       }
     }
-    for( VedAbstractActor a : model.actors().list() ) {
-      if( a.isActive() ) {
-        a.whenRealTimePassed( aRtTime );
+    if( actorsEnable ) {
+      for( VedAbstractActor a : model.actors().list() ) {
+        if( a.isActive() ) {
+          a.whenRealTimePassed( aRtTime );
+        }
       }
     }
     for( VedAbstractUserInputHandler h : model.screenHandlersAfter().list() ) {
@@ -178,6 +183,16 @@ public class VedScreen
     TsNullArgumentRtException.checkNull( aCanvas );
     view.attachCanvas( aCanvas );
     view.getControl().addDisposeListener( e -> close() );
+  }
+
+  @Override
+  public boolean isActorsEnabled() {
+    return actorsEnable;
+  }
+
+  @Override
+  public void setActorsEnabled( boolean aEnable ) {
+    actorsEnable = aEnable;
   }
 
 }

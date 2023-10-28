@@ -1,10 +1,15 @@
 package org.toxsoft.core.tsgui.ved;
 
+import static org.toxsoft.core.tsgui.bricks.actions.ITsActionConstants.*;
+import static org.toxsoft.core.tsgui.ved.ITsResources.*;
 import static org.toxsoft.core.tslib.ITsHardConstants.*;
+import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.eclipse.e4.core.contexts.*;
+import org.toxsoft.core.tsgui.bricks.actions.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.mws.services.hdpi.*;
+import org.toxsoft.core.tsgui.ved.screen.*;
 
 /**
  * Plugin constants.
@@ -32,16 +37,38 @@ public interface ITsguiVedConstants {
   // ------------------------------------------------------------------------------------
   // Icons
 
-  String PREFIX_OF_ICON_FIELD_NAME = "ICONID_";           //$NON-NLS-1$
-  String ICONID_VED_LOGO           = "ved-logo";          //$NON-NLS-1$
-  String ICONID_VED_VISEL          = "ved-visel";         //$NON-NLS-1$
-  String ICONID_VED_ACTOR          = "ved-actor";         //$NON-NLS-1$
-  String ICONID_SIMPLE_RECT        = "simple-rect";       //$NON-NLS-1$
-  String ICONID_VISEL_CIRCLE_LAMP  = "visel-circle-lamp"; //$NON-NLS-1$
-  String ICONID_VISEL_LABEL        = "visel-label";       //$NON-NLS-1$
-  String ICONID_VISEL_RECTANGLE    = "visel-rectangle";   //$NON-NLS-1$
-  String ICONID_VISEL_ROUND_RECT   = "visel-round-rect";  //$NON-NLS-1$
-  String ICONID_VISEL_BUTTON       = "visel-button";      //$NON-NLS-1$
+  String PREFIX_OF_ICON_FIELD_NAME     = "ICONID_";                //$NON-NLS-1$
+  String ICONID_VED_LOGO               = "ved-logo";               //$NON-NLS-1$
+  String ICONID_VED_VISEL              = "ved-visel";              //$NON-NLS-1$
+  String ICONID_VED_ACTOR              = "ved-actor";              //$NON-NLS-1$
+  String ICONID_SIMPLE_RECT            = "simple-rect";            //$NON-NLS-1$
+  String ICONID_VISEL_CIRCLE_LAMP      = "visel-circle-lamp";      //$NON-NLS-1$
+  String ICONID_VISEL_LABEL            = "visel-label";            //$NON-NLS-1$
+  String ICONID_VISEL_RECTANGLE        = "visel-rectangle";        //$NON-NLS-1$
+  String ICONID_VISEL_ROUND_RECT       = "visel-round-rect";       //$NON-NLS-1$
+  String ICONID_VISEL_BUTTON           = "visel-button";           //$NON-NLS-1$
+  String ICONID_VED_ACTORS_ENABLED_ON  = "ved-actors-enablem-on";  //$NON-NLS-1$
+  String ICONID_VED_ACTORS_ENABLED_OFF = "ved-actors-enablem-off"; //$NON-NLS-1$
+
+  // ------------------------------------------------------------------------------------
+  // Some useful action definitions
+  //
+
+  String ACTID_ENABLE_ACTORS = VED_ID + ".editor.act.EnableActors"; //$NON-NLS-1$
+
+  /**
+   * Check action: turns actors ON/OFF (call {@link IVedScreen#setActorsEnabled(boolean)}.
+   */
+  ITsActionDef ACDEF_ENABLE_ACTORS_CHECK = TsActionDef.ofCheck1( ACTID_ENABLE_ACTORS,
+      // unchecked state - actors are off (disabled)
+      TSID_NAME, STR_ACT_ENABLE_ACTORS_OFF, //
+      TSID_DESCRIPTION, STR_ACT_ENABLE_ACTORS_OFF_D, //
+      TSID_ICON_ID, ICONID_VED_ACTORS_ENABLED_OFF, //
+      // checked state - actors are on (enabled)
+      OPID_CHECKED_TEXT, STR_ACT_ENABLE_ACTORS_ON, //
+      OPID_CHECKED_TOOLTIP, STR_ACT_ENABLE_ACTORS_ON_D, //
+      OPID_CHECKED_ICON_ID, ICONID_VED_ACTORS_ENABLED_ON //
+  );
 
   /**
    * Constants registration.
