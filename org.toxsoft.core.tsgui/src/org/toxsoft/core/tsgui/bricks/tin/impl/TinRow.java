@@ -226,8 +226,8 @@ public class TinRow
     if( !typeInfo().kind().hasAtomic() ) {
       return false;
     }
-    // what else may NOT allow to edit?
-    return true;
+    boolean isReadOnly = fieldInfo().params().getBool( PRMDEF_IS_READ_ONLY );
+    return !isReadOnly;
   }
 
   @Override

@@ -17,4 +17,12 @@ interface ITsResources {
   String STR_TNK_FULL     = Messages.getString( "STR_TNK_FULL" );     //$NON-NLS-1$
   String STR_TNK_FULL_D   = Messages.getString( "STR_TNK_FULL_D" );   //$NON-NLS-1$
 
+  /**
+   * {@link ITinWidgetConstants}
+   */
+  String STR_PRM_IS_HIDDEN      = Messages.getString( "STR_PRM_IS_HIDDEN" );      //$NON-NLS-1$
+  String STR_PRM_IS_HIDDEN_D    = Messages.getString( "STR_PRM_IS_HIDDEN_D" );    //$NON-NLS-1$
+  String STR_PRM_IS_READ_ONLY   = Messages.getString( "STR_PRM_IS_READ_ONLY" );   //$NON-NLS-1$
+  String STR_PRM_IS_READ_ONLY_D = Messages.getString( "STR_PRM_IS_READ_ONLY_D" ); //$NON-NLS-1$
+
 }

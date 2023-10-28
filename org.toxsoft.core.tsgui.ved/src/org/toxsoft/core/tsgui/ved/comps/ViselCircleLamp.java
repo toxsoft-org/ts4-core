@@ -97,7 +97,11 @@ public class ViselCircleLamp
       fields.add( TinFieldInfo.makeCopy( TFI_WIDTH, ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE ) );
       fields.add( TinFieldInfo.makeCopy( TFI_HEIGHT, ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE ) );
       fields.add( TFI_TRANSFORM );
-      fields.add( TFI_IS_ASPECT_FIXED );
+      // fields.add( TFI_IS_ASPECT_FIXED );
+      fields.add( TinFieldInfo.makeCopy( TFI_IS_ASPECT_FIXED, //
+          ITinWidgetConstants.PRMID_IS_READ_ONLY, AV_TRUE, //
+          TSID_DEFAULT_VALUE, AV_TRUE //
+      ) );
       fields.add( TFI_ASPECT_RATIO );
       fields.add( TFI_BK_COLOR );
       fields.add( TFI_ON_OFF_STATE );
