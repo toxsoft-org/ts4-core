@@ -124,4 +124,12 @@ public interface ID2Convertor {
     return reversePoint( aPoint.x(), aPoint.y() );
   }
 
+  // ------------------------------------------------------------------------------------
+  // Tmp
+  //
+
+  double reverseItemX( double aX, double aY, double aItemX, double aItemY );
+
+  double reverseItemY( double aX, double aY, double aItemX, double aItemY );
+
 }

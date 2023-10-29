@@ -154,4 +154,35 @@ public class D2Convertor
     return new TsRectangle( minx, miny, maxx - minx + 1, maxy - miny + 1 );
   }
 
+  // ------------------------------------------------------------------------------------
+  // Tmp
+  //
+
+  @Override
+  public double reverseItemX( double aX, double aY, double aItemX, double aItemY ) {
+    checkCoor( aX );
+    checkCoor( aY );
+    // reverse origin
+    double x1 = aX - d2Conv.origin().x() - aItemX;
+    double y1 = aY - d2Conv.origin().y() - aItemY;
+    double beta = -d2Conv.rotation().radians();
+    double x2 = x1 * cos( beta ) - y1 * sin( beta );
+    // reverse zoom (divide rather than multiply on zoom factor)
+    return d2Conv.origin().x() + aItemX + x2 / d2Conv.zoomFactor();
+  }
+
+  @Override
+  public double reverseItemY( double aX, double aY, double aItemX, double aItemY ) {
+    checkCoor( aX );
+    checkCoor( aY );
+    // reverse origin
+    double x1 = aX - d2Conv.origin().x() - aItemX;
+    double y1 = aY - d2Conv.origin().y() - aItemY;
+    // reverse rotation (just change angle sign)
+    double beta = -d2Conv.rotation().radians();
+    double y2 = y1 * cos( beta ) + x1 * sin( beta );
+    // reverse zoom (divide rather than multiply on zoom factor)
+    return d2Conv.origin().y() + aItemY + y2 / d2Conv.zoomFactor();
+  }
+
 }

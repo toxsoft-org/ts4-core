@@ -158,6 +158,8 @@ public class VedFulcrumVertexSet
           break;
         }
         case RIGHT_BOTTOM: {
+          // visel.props().setPropPairs( PROP_WIDTH, avFloat( rect.width() + aDx ) );
+          // visel.props().setPropPairs( PROP_HEIGHT, avFloat( rect.height() + aDy ) );
           visel.setSize( rect.width() + aDx, rect.height() + aDy );
           break;
         }
