@@ -142,7 +142,7 @@ public class ViselLabel
     };
 
     aPaintContext.gc().setBackgroundPattern( null );
-    aPaintContext.gc().drawText( text, x, y );
+    aPaintContext.gc().drawText( text, x, y, true );
     aPaintContext.gc().setAlpha( 255 );
     aPaintContext.setBorderInfo( props().getValobj( PROPID_BORDER_INFO ) );
     aPaintContext.drawRectBorder( (int)r.x1(), (int)r.y1(), (int)r.width(), (int)r.height() );

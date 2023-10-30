@@ -11,7 +11,7 @@ import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
-import org.toxsoft.core.tsgui.utils.layout.BorderLayout;
+import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -33,6 +33,23 @@ public class PanelTsImageDescriptorEditor
     super( aParent, aOwnerDialog );
     this.setLayout( new BorderLayout() );
     init();
+  }
+
+  /**
+   * Конструктор панели, предназаначенной для использования вне диалога.
+   * <p>
+   *
+   * @param aParent {@link Composite} - родительская компонента
+   * @param aContext {@link ITsGuiContext} - the context
+   * @param aData &lt;T&gt; - initial data record value, may be <code>null</code>
+   * @param aFlags int - ORed dialog configuration flags <code>DF_XXX</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public PanelTsImageDescriptorEditor( Composite aParent, ITsGuiContext aContext, TsImageDescriptor aData,
+      int aFlags ) {
+    super( aParent, aContext, aData, aContext, aFlags );
+    init();
+    doSetDataRecord( aData );
   }
 
   // ------------------------------------------------------------------------------------
@@ -58,12 +75,15 @@ public class PanelTsImageDescriptorEditor
   //
 
   void init() {
-    setLayout( new GridLayout( 3, false ) );
+    GridLayout gl = new GridLayout( 3, false );
+    gl.marginLeft = 0;
+    gl.marginWidth = 0;
+    setLayout( gl );
 
     CLabel l = new CLabel( this, SWT.CENTER );
-    l.setText( STR_L_IMG_FILL_KIND );
+    l.setText( STR_L_IMG_SOURCE_KIND );
 
-    kindCombo = new ComboViewer( this, SWT.BORDER );
+    kindCombo = new ComboViewer( this, SWT.BORDER | SWT.READ_ONLY );
 
     kindCombo.setContentProvider( new ArrayContentProvider() );
     kindCombo.setLabelProvider( new LabelProvider() {
@@ -90,6 +110,7 @@ public class PanelTsImageDescriptorEditor
           TsImageDescriptor imd = kind.editDescription( kind.params(), environ() );
           if( imd != null ) {
             imageDescriptor = imd;
+            fireContentChangeEvent();
           }
         }
       }

@@ -79,6 +79,22 @@ public class TsGraphicsContext
   // Implementation
   //
 
+  private void fillImage( TsImage aImage, int aX, int aY, int aWidth, int aHeight, EImageFillKind aFillKind ) {
+    switch( aFillKind ) {
+      case CENTER:
+        fillCenterImage( aImage, aX, aY, aWidth, aHeight );
+        break;
+      case FIT:
+        fillFitImage( aImage, aX, aY, aWidth, aHeight );
+        break;
+      case TILE:
+        fillTileImage( aImage, aX, aY, aWidth, aHeight );
+        break;
+      default:
+        throw new IllegalArgumentException( "Unexpected value: " + aFillKind ); //$NON-NLS-1$
+    }
+  }
+
   private void fillTileImage( TsImage aImage, int aX, int aY, int aWidth, int aHeight ) {
     gc.setClipping( new Rectangle( aX, aY, aWidth, aHeight ) );
 
@@ -98,6 +114,41 @@ public class TsGraphicsContext
       x += width;
     }
 
+    gc.setClipping( (Rectangle)null );
+  }
+
+  private void fillCenterImage( TsImage aImage, int aX, int aY, int aWidth, int aHeight ) {
+    ITsPoint imgSize = aImage.imageSize();
+    int imgX = aX + (aWidth - imgSize.x()) / 2;
+    int imgY = aY + (aHeight - imgSize.y()) / 2;
+
+    gc.setClipping( new Rectangle( aX, aY, aWidth, aHeight ) );
+    gc.drawImage( aImage.image(), imgX, imgY );
+    gc.setClipping( (Rectangle)null );
+  }
+
+  private void fillFitImage( TsImage aImage, int aX, int aY, int aWidth, int aHeight ) {
+    ITsPoint imgSize = aImage.imageSize();
+
+    double kWidth = (double)aWidth / imgSize.x();
+    double kHeight = (double)aHeight / imgSize.y();
+
+    double scaleFactor = 1.0;
+
+    if( kWidth < kHeight ) {
+      scaleFactor = kWidth;
+    }
+    if( kHeight < kWidth ) {
+      scaleFactor = kHeight;
+    }
+
+    ITsPoint newSize = new TsPoint( (int)(imgSize.x() * scaleFactor), (int)(imgSize.y() * scaleFactor) );
+
+    int imgX = (aWidth - newSize.x()) / 2;
+    int imgY = (aHeight - newSize.y()) / 2;
+
+    gc.setClipping( new Rectangle( aX, aY, aWidth, aHeight ) );
+    gc.drawImage( aImage.image(), 0, 0, imgSize.x(), imgSize.y(), imgX, imgY, newSize.x(), newSize.y() );
     gc.setClipping( (Rectangle)null );
   }
 
@@ -178,9 +229,7 @@ public class TsGraphicsContext
           else {
             bkImage = imageManager().getImage( imgInfo.imageDescriptor() );
           }
-          if( imgInfo.kind() == EImageFillKind.TILE ) {
-            fillTileImage( bkImage, aX, aY, aWidth, aHeight );
-          }
+          fillImage( bkImage, aX, aY, aWidth, aHeight, imgInfo.kind() );
           if( unknownImage != null ) {
             unknownImage.dispose();
             unknownImage = null;

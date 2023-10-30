@@ -10,7 +10,7 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tsgui.panels.*;
-import org.toxsoft.core.tsgui.utils.layout.BorderLayout;
+import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tsgui.valed.controls.enums.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -76,6 +76,7 @@ public class PanelTsFillInfoSelector
           break;
         case IMAGE:
           fillKindCombo.setValue( ETsFillKind.IMAGE );
+          imagePanel.setImageFillInfo( aData.imageFillInfo() );
           stackLayout.topControl = imagePanel;
           break;
         default:
@@ -89,7 +90,7 @@ public class PanelTsFillInfoSelector
     return switch( fillKindCombo.getValue() ) {
       case NONE -> TsFillInfo.NONE;
       case GRADIENT -> new TsFillInfo( gradientPanel.fillInfo() );
-      case IMAGE -> TsFillInfo.NONE;
+      case IMAGE -> new TsFillInfo( imagePanel.getDataRecord() );
       case SOLID -> new TsFillInfo( colorPanel.rgba() );
       default -> throw new TsNotAllEnumsUsedRtException();
     };
@@ -124,7 +125,7 @@ public class PanelTsFillInfoSelector
   StackLayout stackLayout;
 
   PanelColorFillInfo    colorPanel;
-  PanelImageFillInfo    imagePanel;
+  PanelTsImageFillInfo  imagePanel;
   PanelGradientFillInfo gradientPanel;
 
   ValedEnumCombo<ETsFillKind> fillKindCombo;
@@ -156,7 +157,7 @@ public class PanelTsFillInfoSelector
     contentHolder.setLayoutData( BorderLayout.CENTER );
 
     colorPanel = new PanelColorFillInfo( contentHolder, tsContext() );
-    imagePanel = new PanelImageFillInfo( contentHolder, tsContext() );
+    imagePanel = new PanelTsImageFillInfo( contentHolder, tsContext(), null, 0 );
     gradientPanel = new PanelGradientFillInfo( contentHolder, tsContext() );
 
     stackLayout.topControl = colorPanel;

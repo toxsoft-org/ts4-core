@@ -62,6 +62,17 @@ interface ITsResources {
    */
   String DLG_T_IMAGE_DESCRIPTOR   = "Параметры дескриптора изображения";
   String STR_MSG_IMAGE_DESCRIPTOR = "Задайте требуемые значения и нажмите \"OK\"";
-  String STR_L_IMG_FILL_KIND      = "Тип: ";
+  String STR_L_IMG_SOURCE_KIND    = "Источник: ";
   String STR_B_IMG_DESCR_EDIT     = "Изменить...";
+
+  /**
+   * {@link PanelTsImageFillInfo}
+   */
+  String DLG_T_IMAGE_FILL_INFO   = "Параметры заливки изображением";
+  String STR_MSG_IMAGE_FILL_INFO = "Задайте требуемые значения и нажмите \"OK\"";
+  String STR_L_FILL_IMAGE_KIND   = "Тип заливки изображением: ";
+  String STR_L_IMAGE_SIZE        = "Размер: ";
+  String STR_L_IMAGE_DESCRIPTION = "Описание: ";
+  String STR_G_PREVIEW           = "Предпросмотр";
+
 }
