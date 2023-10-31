@@ -45,8 +45,16 @@ public class ViselButton
 
   // static final String PROPID_ARC_WIDTH = "arcWidth"; //$NON-NLS-1$
   // static final String PROPID_ARC_HEIGHT = "arcHeight"; //$NON-NLS-1$
-  static final String PROPID_STATE   = "state";   //$NON-NLS-1$ (EButtonViselState)
-  static final String PROPID_HOVERED = "hovered"; //$NON-NLS-1$ находится под курсором
+
+  /**
+   * Property id for buttons tate
+   */
+  public static final String PROPID_STATE = "state"; //$NON-NLS-1$ (EButtonViselState)
+
+  /**
+   * Property id for button hovered sign
+   */
+  public static final String PROPID_HOVERED = "hovered"; //$NON-NLS-1$ находится под курсором
 
   /**
    * The VISEL factory singleton.

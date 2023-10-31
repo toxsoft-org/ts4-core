@@ -10,6 +10,7 @@ import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.tin.*;
 import org.toxsoft.core.tsgui.bricks.tin.impl.*;
+import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tsgui.ved.incub.tsg.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
@@ -124,6 +125,7 @@ public class ViselRoundRect
     int arcH = (int)props().getDouble( PROPID_ARC_HEIGHT );
     aPaintContext.setFillInfo( props().getValobj( PROPID_BK_FILL ) );
     aPaintContext.fillRoundRect( swtRect.x, swtRect.y, swtRect.width, swtRect.height, arcW, arcH );
+    aPaintContext.setFillInfo( TsFillInfo.NONE );
     aPaintContext.setLineInfo( props().getValobj( PROPID_LINE_INFO ) );
     aPaintContext.drawRoundRect( swtRect.x, swtRect.y, swtRect.width, swtRect.height, arcW, arcH );
   }

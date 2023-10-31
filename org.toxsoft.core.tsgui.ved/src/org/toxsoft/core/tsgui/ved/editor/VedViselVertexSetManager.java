@@ -76,8 +76,11 @@ public class VedViselVertexSetManager
       IStringList viselIds = vedScreen().view().listViselIdsAtPoint( aCoors );
       // if( viselIds.size() <= 0 && selectionManager.selectedViselIds().size() > 0 ) {
       if( viselIds.size() <= 0 || !selectionManager.selectedViselIds().hasElem( viselIds.first() ) ) {
-        selectionManager.deselectAll();
-        return true;
+        if( selectionManager.selectedViselIds().size() > 0 ) {
+          selectionManager.deselectAll();
+          return true;
+        }
+        return false;
       }
     }
     return false;
