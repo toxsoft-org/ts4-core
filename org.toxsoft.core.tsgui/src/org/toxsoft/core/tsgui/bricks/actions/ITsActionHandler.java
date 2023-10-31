@@ -2,8 +2,6 @@ package org.toxsoft.core.tsgui.bricks.actions;
 
 /**
  * Handles the action by ID.
- * <p>
- * Note: handler is a listener so several handlers may be called and some usually one of them handles the action.
  *
  * @author hazard157
  */

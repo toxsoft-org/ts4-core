@@ -7,7 +7,7 @@ import org.toxsoft.core.tsgui.mws.services.e4helper.*;
 /**
  * E4 command handler: quit an application.
  * <p>
- * Command ID: {@link IMwsCoreConstants#MWSID_CMD_SWITCH_PERSP}.
+ * Command ID: {@link IMwsCoreConstants#MWSID_CMD_QUIT}.
  *
  * @author hazard157
  */

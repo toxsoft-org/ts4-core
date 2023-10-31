@@ -40,6 +40,7 @@ public interface IMwsCoreConstants {
   String MWSID_CMD_QUIT           = "org.toxsoft.mws.cmd.quit";                     //$NON-NLS-1$
   String MWSID_CMD_SWITCH_PERSP   = "org.toxsoft.mws.cmd.switch_persp";             //$NON-NLS-1$
   String MWSID_CMDARG_SP_PERSP_ID = "org.toxsoft.mws.cmd.switch_persp.arg.perspId"; //$NON-NLS-1$
+  String MWSID_CMDARG_SP_PART_ID  = "org.toxsoft.mws.cmd.switch_persp.arg.partId";  //$NON-NLS-1$
   String MWSID_CMD_ABOUT          = "org.toxsoft.mws.cmd.about";                    //$NON-NLS-1$
 
   String MWSID_CMD_EDIT_APP_PREFS     = "org.toxsoft.mws.cmd.edit_app_prefs";              //$NON-NLS-1$

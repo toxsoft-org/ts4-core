@@ -20,16 +20,18 @@ import org.toxsoft.core.tslib.utils.logs.impl.*;
  * <p>
  * Command ID: {@link IMwsCoreConstants#MWSID_CMD_SWITCH_PERSP}.<br>
  * Arguments (E4 command parameters):<br>
- * {@link IMwsCoreConstants#MWSID_CMDARG_SP_PERSP_ID} - (mandatory arg) ID of the perspective to switch to
+ * {@link IMwsCoreConstants#MWSID_CMDARG_SP_PERSP_ID} - (mandatory) ID of the perspective to switch to<br>
+ * {@link IMwsCoreConstants#MWSID_CMDARG_SP_PART_ID} - (optional) ID of the part to activate in the perspective<br>
  *
  * @author hazard157
  */
 public class CmdMwsSwitchPerpective {
 
   @Execute
-  void execute( @Named( MWSID_CMDARG_SP_PERSP_ID ) @Optional String aPerspId, @Optional ITsE4Helper aHelper ) {
+  void execute( @Named( MWSID_CMDARG_SP_PERSP_ID ) @Optional String aPerspId,
+      @Named( MWSID_CMDARG_SP_PART_ID ) @Optional String aPartId, @Optional ITsE4Helper aHelper ) {
     if( aHelper != null ) {
-      aHelper.switchToPerspective( aPerspId, null );
+      aHelper.switchToPerspective( aPerspId, aPartId );
       aHelper.updateHandlersCanExecuteState();
     }
     else {

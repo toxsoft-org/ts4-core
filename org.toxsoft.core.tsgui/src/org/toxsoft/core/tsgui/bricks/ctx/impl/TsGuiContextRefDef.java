@@ -1,13 +1,12 @@
 package org.toxsoft.core.tsgui.bricks.ctx.impl;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContextRefDef;
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.av.opset.impl.OptionSetUtils;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContextRefDef;
-import org.toxsoft.core.tslib.bricks.ctx.impl.TsContextRefDef;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.eclipse.e4.core.contexts.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.bricks.ctx.*;
+import org.toxsoft.core.tslib.bricks.ctx.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Реализация {@link ITsContextRefDef}.
@@ -41,6 +40,16 @@ public class TsGuiContextRefDef<T>
    */
   public TsGuiContextRefDef( Class<T> aClass, IOptionSet aParams ) {
     super( aClass, aParams );
+  }
+
+  /**
+   * Constructs with class name as the key.
+   *
+   * @param aClass {@link Class}&lt;T&gt; - the reference class
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public TsGuiContextRefDef( Class<T> aClass ) {
+    super( aClass, IOptionSet.NULL );
   }
 
   /**
