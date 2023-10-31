@@ -14,7 +14,7 @@ import org.toxsoft.core.tsgui.bricks.tin.impl.*;
 import org.toxsoft.core.tsgui.dialogs.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.panels.*;
-import org.toxsoft.core.tsgui.utils.layout.*;
+import org.toxsoft.core.tsgui.utils.layout.BorderLayout;
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
@@ -208,18 +208,17 @@ public class VedScreenItemInspector
   }
 
   private IVedItemFactoryBase<?> getFactory( IVedItem aVedItem ) {
-    switch( aVedItem.kind() ) {
-      case VISEL: {
+    return switch( aVedItem.kind() ) {
+      case VISEL -> {
         IVedViselFactoriesRegistry facReg = tsContext().get( IVedViselFactoriesRegistry.class );
-        return facReg.get( aVedItem.factoryId() );
+        yield facReg.get( aVedItem.factoryId() );
       }
-      case ACTOR: {
+      case ACTOR -> {
         IVedActorFactoriesRegistry facReg = tsContext().get( IVedActorFactoriesRegistry.class );
-        return facReg.get( aVedItem.factoryId() );
+        yield facReg.get( aVedItem.factoryId() );
       }
-      default:
-        throw new TsNotAllEnumsUsedRtException( aVedItem.kind().id() );
-    }
+      default -> throw new TsNotAllEnumsUsedRtException( aVedItem.kind().id() );
+    };
   }
 
   private void refreshInspectorValues() {

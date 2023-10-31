@@ -7,6 +7,8 @@ import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.errors.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
@@ -125,12 +127,62 @@ public class VedAbstractActor
 
   @Override
   final public IStringList listBoundViselIds() {
-    IStringList ll = doLstBoundViselIds();
+    IStringList ll = doListBoundViselIds();
     TsInternalErrorRtException.checkNull( ll );
     for( String vid : ll ) {
       TsInternalErrorRtException.checkFalse( StridUtils.isValidIdPath( vid ) );
     }
     return ll;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // API for subclasses
+  //
+
+  /**
+   * Sets the property {@link IVedScreenConstants#PROP_VISEL_ID} of the VISEL {@link IVedScreenConstants#PROP_VISEL_ID}.
+   * <p>
+   * On any error (VISEL or property not exists, incompatible data type, etc.) does nothing without exceptions.
+   * <p>
+   * Note: does not redraws VISEL.
+   *
+   * @param aValue {@link IAtomicValue} - the value to set
+   * @return boolean - <code>true</code> if property value change method was called
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public boolean setStdViselPropValue( IAtomicValue aValue ) {
+    TsNullArgumentRtException.checkNull( aValue );
+    String viselId = props().getStr( PROP_VISEL_ID );
+    String viselPropId = props().getStr( PROP_VISEL_PROP_ID );
+    return setViselPropValue( viselId, viselPropId, aValue );
+  }
+
+  /**
+   * Sets the property <code>aViselPropId</code> of the VISEL <code>aViselId</code>.
+   * <p>
+   * On any error (VISEL or property not exists, incompatible data type, etc.) does nothing without exceptions.
+   * <p>
+   * Note: does not redraws VISEL.
+   *
+   * @param aViselId String - the VISEL ID
+   * @param aViselPropId String - the ID of the property to be changed
+   * @param aValue {@link IAtomicValue} - the value to set
+   * @return boolean - <code>true</code> if property value change method was called
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public boolean setViselPropValue( String aViselId, String aViselPropId, IAtomicValue aValue ) {
+    TsNullArgumentRtException.checkNulls( aViselId, aViselPropId, aValue );
+    IVedVisel visel = findVisel( aViselId );
+    if( visel != null ) {
+      IDataDef propDef = visel.props().propDefs().findByKey( aViselPropId );
+      if( propDef != null ) {
+        if( AvTypeCastRtException.canAssign( propDef.atomicType(), aValue.atomicType() ) ) {
+          visel.props().setValue( aViselPropId, aValue );
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   // ------------------------------------------------------------------------------------
@@ -147,7 +199,7 @@ public class VedAbstractActor
    *
    * @return {@link IStringList} - list of bound VISEL IDs
    */
-  protected IStringList doLstBoundViselIds() {
+  protected IStringList doListBoundViselIds() {
     if( props().hasKey( PROPID_VISEL_ID ) ) {
       String viselId = props().getStr( PROPID_VISEL_ID );
       if( StridUtils.isValidIdPath( viselId ) ) {

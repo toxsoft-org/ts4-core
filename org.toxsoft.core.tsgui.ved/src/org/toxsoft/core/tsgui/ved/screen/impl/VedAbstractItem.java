@@ -254,7 +254,8 @@ public abstract class VedAbstractItem
   /**
    * Subclass may perform the real disposal of resources if necessary.
    * <p>
-   * Method is called once, even if {@link #dispose()} is called multiple times.
+   * Method is called once, even if {@link #dispose()} is called multiple times. Implementation must call superclass
+   * method.
    */
   protected void doDispose() {
     // nop

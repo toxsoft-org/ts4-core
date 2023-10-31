@@ -25,6 +25,11 @@ public interface ITsguiVedConstants {
   String VED_ID = TS_ID + ".gui.ved"; //$NON-NLS-1$
 
   /**
+   * VED specific action IDs prefix.
+   */
+  String VED_ACT_ID = VED_ID + ".act"; //$NON-NLS-1$
+
+  /**
    * The editor palette icon size category ID used in {@link ITsHdpiService}.
    */
   String VED_EDITOR_PALETTE_ICON_SIZE_CATEGORY = VED_ID + ".PaletteIconSizeCategory"; //$NON-NLS-1$
@@ -49,12 +54,16 @@ public interface ITsguiVedConstants {
   String ICONID_VISEL_BUTTON           = "visel-button";           //$NON-NLS-1$
   String ICONID_VED_ACTORS_ENABLED_ON  = "ved-actors-enablem-on";  //$NON-NLS-1$
   String ICONID_VED_ACTORS_ENABLED_OFF = "ved-actors-enablem-off"; //$NON-NLS-1$
+  String ICONID_OBJECT_ROTATE_LEFT     = "object-rotate-left";     //$NON-NLS-1$
+  String ICONID_OBJECT_ROTATE_RIGHT    = "object-rotate-right";    //$NON-NLS-1$
 
   // ------------------------------------------------------------------------------------
   // Some useful action definitions
   //
 
-  String ACTID_ENABLE_ACTORS = VED_ID + ".editor.act.EnableActors"; //$NON-NLS-1$
+  String ACTID_ENABLE_ACTORS       = VED_ACT_ID + ".EnableActors";      //$NON-NLS-1$
+  String ACTID_OBJECT_ROTATE_LEFT  = VED_ACT_ID + ".ObjectRotateLeft";  //$NON-NLS-1$
+  String ACTID_OBJECT_ROTATE_RIGHT = VED_ACT_ID + ".ObjectRotateRight"; //$NON-NLS-1$
 
   /**
    * Check action: turns actors ON/OFF (call {@link IVedScreen#setActorsEnabled(boolean)}.
@@ -69,6 +78,12 @@ public interface ITsguiVedConstants {
       OPID_CHECKED_TOOLTIP, STR_ACT_ENABLE_ACTORS_ON_D, //
       OPID_CHECKED_ICON_ID, ICONID_VED_ACTORS_ENABLED_ON //
   );
+
+  ITsActionDef ACDEF_OBJECT_ROTATE_LEFT = TsActionDef.ofPush2( ACTID_OBJECT_ROTATE_LEFT, //
+      STR_OBJECT_ROTATE_LEFT, STR_OBJECT_ROTATE_LEFT_D, ICONID_OBJECT_ROTATE_LEFT );
+
+  ITsActionDef ACDEF_OBJECT_ROTATE_RIGHT = TsActionDef.ofPush2( ACTID_OBJECT_ROTATE_RIGHT, //
+      STR_OBJECT_ROTATE_RIGHT, STR_OBJECT_ROTATE_RIGHT_D, ICONID_OBJECT_ROTATE_RIGHT );
 
   /**
    * Constants registration.
