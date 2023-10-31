@@ -50,6 +50,7 @@ public class TtiTsFillInfo
   private static final ITinFieldInfo TFI_FILL_IMAGE = new TinFieldInfo( FID_FILL_IMAGE, TtiTsImageFillInfo.INSTANCE, //
       TSID_NAME, STR_FILL_IMAGE, //
       TSID_DESCRIPTION, STR_FILL_IMAGE_D, //
+      OPID_EDITOR_FACTORY_NAME, ValedAvValobjTsImageFillInfo.FACTORY_NAME, //
       TSID_KEEPER_ID, TsImageFillInfo.KEEPER_ID //
   );
 
