@@ -49,6 +49,7 @@
   <commands xmi:id="_VM_fQAGbEeuQYZnmcZNTqw" elementId="org.toxsoft.mws.cmd.quit" commandName="%Cmd_Exit" description="%Cmd_Exit_D" category="_SFdGkAGbEeuQYZnmcZNTqw"/>
   <commands xmi:id="_YxMNYEKXEeuwVbNtM3lEeA" elementId="org.toxsoft.mws.cmd.switch_persp" commandName="%Cmd_SwitchPerspective" description="%Cmd_SwitchPerspective_D" category="_SFdGkAGbEeuQYZnmcZNTqw">
     <parameters xmi:id="_Cxu3AEKYEeuwVbNtM3lEeA" elementId="org.toxsoft.mws.cmd.switch_persp.arg.perspId" name="Perspective ID" optional="false"/>
+    <parameters xmi:id="_IMan8HbxEe6ZoLKuOWIt5A" elementId="org.toxsoft.mws.cmd.switch_persp.arg.partId" name="Part ID"/>
   </commands>
   <commands xmi:id="_0l8mcKZIEeyxUJTl1Yw9HA" elementId="org.toxsoft.mws.cmd.edit_app_prefs" commandName="%Cmd_Preferences" description="%Cmd_Preferences_D" category="_SFdGkAGbEeuQYZnmcZNTqw">
     <parameters xmi:id="_7zMQQKZIEeyxUJTl1Yw9HA" elementId="org.toxsoft.mws.cmd.edit_app_prefs.init_sect_id" name="Initially selected section ID"/>
