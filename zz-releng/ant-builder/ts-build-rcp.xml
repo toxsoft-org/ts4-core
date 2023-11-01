@@ -22,6 +22,8 @@
     <ant dir="../../org.toxsoft.core.tsgui.rcp" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
     <ant dir="../../org.toxsoft.core.txtproj.mws" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
     <ant dir="../../org.toxsoft.core.jasperreports.gui" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
+    <ant dir="../../org.toxsoft.core.tsgui.ved" antfile="${ts-scripts-dir}/ts-build-lib.xml" target="build-lib-jar" />
+ 
   </target>
 
   <!-- ЦЕЛЬ: сборка -->
@@ -36,7 +38,8 @@
                                 org.toxsoft.core.tsgui.chart,
                                 org.toxsoft.core.tsgui.rcp,
                                 org.toxsoft.core.txtproj.mws,
-                                org.toxsoft.core.jasperreports.gui"
+                                org.toxsoft.core.jasperreports.gui,
+                                org.toxsoft.core.tsgui.ved"
                        useworkspacecompiledclasses="true"
                        useJARFormat="true" />
   </target>
