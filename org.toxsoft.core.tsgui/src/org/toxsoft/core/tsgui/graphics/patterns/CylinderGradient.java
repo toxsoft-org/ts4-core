@@ -31,6 +31,10 @@ public class CylinderGradient
     Image img = new Image( aGc.getDevice(), aWidth, aHeight );
     ImageData imd = img.getImageData();
 
+    int redShift = Math.abs( imd.palette.redShift );
+    int greenShift = Math.abs( imd.palette.greenShift );
+    int blueShift = Math.abs( imd.palette.blueShift );
+
     for( int j = 0; j < aHeight; j++ ) {
       double prevAngle = 0;
       for( int i = 0; i < aWidth; i++ ) {
@@ -57,7 +61,8 @@ public class CylinderGradient
             RGBA rgba = gf.calcRgb( prevAngle );
             // RGBA rgba = gf.calcRgb( (int)angle );
             // RGBA rgba = gf.calcRgb( (i / radius - 1) * 100 );
-            int p = rgba.rgb.red << 8 | rgba.rgb.green << 16 | rgba.rgb.blue << 24;
+            // int p = rgba.rgb.red << 8 | rgba.rgb.green << 16 | rgba.rgb.blue << 24;
+            int p = rgba.rgb.red << redShift | rgba.rgb.green << greenShift | rgba.rgb.blue << blueShift;
             imd.setPixel( i, j, p );
             imd.setAlpha( i, j, rgba.alpha );
             break;

@@ -35,7 +35,7 @@ public abstract class AbstractGradientFraction
 
   AbstractGradientFraction( GradientFractionInfo aInfo ) {
     fi = aInfo;
-    delta = fi.endValue() - fi.endValue();
+    delta = fi.endValue() - fi.startValue();
 
     redLength = fi.endRGBA().rgb.red - fi.startRGBA().rgb.red;
     blueLength = fi.endRGBA().rgb.blue - fi.startRGBA().rgb.blue;
