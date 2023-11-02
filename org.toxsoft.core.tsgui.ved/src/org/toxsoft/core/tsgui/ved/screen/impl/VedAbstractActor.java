@@ -178,6 +178,12 @@ public class VedAbstractActor
       if( propDef != null ) {
         if( AvTypeCastRtException.canAssign( propDef.atomicType(), aValue.atomicType() ) ) {
           visel.props().setValue( aViselPropId, aValue );
+
+          // DEBUG ---
+          // while not drawing whole screen, redraw visel
+          vedScreen().view().redrawVisel( aViselId );
+          // ---
+
           return true;
         }
       }

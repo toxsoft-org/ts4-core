@@ -11,7 +11,7 @@ import org.toxsoft.core.tslib.utils.*;
  * Quant (correctly - quantum) is small programmatic unit in MWS applications, realizing some functionality. Generally
  * quants need to be initialized before usage and finalized after. This interface helps to regulate quants lifecylce.
  * <p>
- * Please not that two instances of the same quant can not be initialized in one MWS application.
+ * Please note that two instances of the same quant can not be initialized in one MWS application.
  *
  * @author hazard157
  */
@@ -44,7 +44,7 @@ public interface IQuant
    * <p>
    * Called once per window, before window opened.
    * <p>
-   * Reference to the window is placed in the context. FIXME {@link MTrimmedWindow} or {@link MWindow} ?
+   * Reference to the {@link MTrimmedWindow} is placed in the context.
    *
    * @param aWinContext {@link IEclipseContext} - the context of the window to be opened
    */
