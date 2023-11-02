@@ -52,6 +52,7 @@ public interface ITsguiVedConstants {
   String ICONID_VISEL_RECTANGLE        = "visel-rectangle";        //$NON-NLS-1$
   String ICONID_VISEL_ROUND_RECT       = "visel-round-rect";       //$NON-NLS-1$
   String ICONID_VISEL_BUTTON           = "visel-button";           //$NON-NLS-1$
+  String ICONID_VISEL_IMAGE            = "visel-image";            //$NON-NLS-1$
   String ICONID_VED_ACTORS_ENABLED_ON  = "ved-actors-enablem-on";  //$NON-NLS-1$
   String ICONID_VED_ACTORS_ENABLED_OFF = "ved-actors-enablem-off"; //$NON-NLS-1$
   String ICONID_OBJECT_ROTATE_LEFT     = "object-rotate-left";     //$NON-NLS-1$

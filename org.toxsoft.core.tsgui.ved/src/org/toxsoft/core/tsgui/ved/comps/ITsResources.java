@@ -63,4 +63,10 @@ interface ITsResources {
   String STR_N_BUTTON_STATE = "Состояние";
   String STR_D_BUTTON_STATE = "Состояние кнопки";
 
+  /**
+   * {@link ViselImage}
+   */
+  String STR_VISEL_IMAGE_DESCRIPTOR   = "Изображение";
+  String STR_VISEL_IMAGE_DESCRIPTOR_D = "Параметры создания изображения";
+
 }

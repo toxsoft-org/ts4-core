@@ -38,6 +38,7 @@ public class QuantTsGuiVed
     visFact.register( ViselRoundRect.FACTORY );
     visFact.register( ViselCircleLamp.FACTORY );
     visFact.register( ViselButton.FACTORY );
+    visFact.register( ViselImage.FACTORY );
     //
     VedActorFactoriesRegistry actFact = new VedActorFactoriesRegistry();
     aAppContext.set( IVedActorFactoriesRegistry.class, actFact );

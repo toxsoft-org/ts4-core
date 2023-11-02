@@ -126,19 +126,20 @@ public interface IVedScreenConstants {
   // Optional VISEL properties
   //
 
-  String PROPID_TEXT            = "text";          //$NON-NLS-1$
-  String PROPID_FONT            = "font";          //$NON-NLS-1$
-  String PROPID_HOR_ALIGNMENT   = "horAlign";      //$NON-NLS-1$
-  String PROPID_VER_ALIGNMENT   = "verAlign";      //$NON-NLS-1$
-  String PROPID_BK_COLOR        = "bkColor";       //$NON-NLS-1$
-  String PROPID_FG_COLOR        = "fgColor";       //$NON-NLS-1$
-  String PROPID_BK_FILL         = "bkFill";        //$NON-NLS-1$
-  String PROPID_LINE_INFO       = "lineInfo";      //$NON-NLS-1$
-  String PROPID_BORDER_INFO     = "borderInfo";    //$NON-NLS-1$
-  String PROPID_IS_ASPECT_FIXED = "isAspectFixed"; //$NON-NLS-1$
-  String PROPID_ASPECT_RATIO    = "aspectRatio";   //$NON-NLS-1$
-  String PROPID_RADIUS          = "radius";        //$NON-NLS-1$
-  String PROPID_ON_OFF_STATE    = "onOffState";    //$NON-NLS-1$
+  String PROPID_TEXT             = "text";            //$NON-NLS-1$
+  String PROPID_FONT             = "font";            //$NON-NLS-1$
+  String PROPID_HOR_ALIGNMENT    = "horAlign";        //$NON-NLS-1$
+  String PROPID_VER_ALIGNMENT    = "verAlign";        //$NON-NLS-1$
+  String PROPID_BK_COLOR         = "bkColor";         //$NON-NLS-1$
+  String PROPID_FG_COLOR         = "fgColor";         //$NON-NLS-1$
+  String PROPID_BK_FILL          = "bkFill";          //$NON-NLS-1$
+  String PROPID_LINE_INFO        = "lineInfo";        //$NON-NLS-1$
+  String PROPID_BORDER_INFO      = "borderInfo";      //$NON-NLS-1$
+  String PROPID_IS_ASPECT_FIXED  = "isAspectFixed";   //$NON-NLS-1$
+  String PROPID_ASPECT_RATIO     = "aspectRatio";     //$NON-NLS-1$
+  String PROPID_RADIUS           = "radius";          //$NON-NLS-1$
+  String PROPID_ON_OFF_STATE     = "onOffState";      //$NON-NLS-1$
+  String PROPID_IMAGE_DESCRIPTOR = "imageDescriptor"; //$NON-NLS-1$
 
   IDataDef PROP_TEXT = DataDef.create3( PROPID_TEXT, DDEF_STRING, //
       TSID_NAME, STR_TEXT, //
@@ -222,6 +223,11 @@ public interface IVedScreenConstants {
       TSID_DEFAULT_VALUE, AV_FALSE //
   );
 
+  IDataDef PROP_IMAGE_DESCRIPTOR = DataDef.create3( PROPID_IMAGE_DESCRIPTOR, DT_TS_IMAGE_DESCRIPTOR, //
+      TSID_NAME, STR_IMAGE_DESCRIPTOR, //
+      TSID_DESCRIPTION, STR_IMAGE_DESCRIPTOR_D //
+  );
+
   // ------------------------------------------------------------------------------------
   // Optional actor properties
   //
@@ -253,27 +259,28 @@ public interface IVedScreenConstants {
   // TIN field info corresponding to the properties
   //
 
-  ITinFieldInfo TFI_IS_ACTIVE       = new TinFieldInfo( PROP_IS_ACTIVE, TTI_AT_BOOLEAN );
-  ITinFieldInfo TFI_NAME            = new TinFieldInfo( PROP_NAME, TTI_AT_STRING );
-  ITinFieldInfo TFI_DESCRIPTION     = new TinFieldInfo( PROP_DESCRIPTION, TTI_AT_STRING );
-  ITinFieldInfo TFI_X               = new TinFieldInfo( PROP_X, TTI_AT_FLOATING );
-  ITinFieldInfo TFI_Y               = new TinFieldInfo( PROP_Y, TTI_AT_FLOATING );
-  ITinFieldInfo TFI_WIDTH           = new TinFieldInfo( PROP_WIDTH, TTI_POSITIVE_FLOATING );
-  ITinFieldInfo TFI_HEIGHT          = new TinFieldInfo( PROP_HEIGHT, TTI_POSITIVE_FLOATING );
-  ITinFieldInfo TFI_TRANSFORM       = new TinFieldInfo( PROP_TRANSFORM, TtiD2Conversion.INSTANCE );
-  ITinFieldInfo TFI_TEXT            = new TinFieldInfo( PROP_TEXT, TTI_AT_STRING );
-  ITinFieldInfo TFI_FONT            = new TinFieldInfo( PROP_FONT, TtiTsFontInfo.INSTANCE );
-  ITinFieldInfo TFI_HOR_ALIGNMENT   = new TinFieldInfo( PROP_HOR_ALIGNMENT, TtiAvEnum.INSTANCE );
-  ITinFieldInfo TFI_VER_ALIGNMENT   = new TinFieldInfo( PROP_VER_ALIGNMENT, TtiAvEnum.INSTANCE );
-  ITinFieldInfo TFI_BK_COLOR        = new TinFieldInfo( PROP_BK_COLOR, TtiRGBA.INSTANCE );
-  ITinFieldInfo TFI_FG_COLOR        = new TinFieldInfo( PROP_FG_COLOR, TtiRGBA.INSTANCE );
-  ITinFieldInfo TFI_BK_FILL         = new TinFieldInfo( PROP_BK_FILL, TtiTsFillInfo.INSTANCE );
-  ITinFieldInfo TFI_LINE_INFO       = new TinFieldInfo( PROP_LINE_INFO, TtiTsLineInfo.INSTANCE );
-  ITinFieldInfo TFI_BORDER_INFO     = new TinFieldInfo( PROP_BORDER_INFO, TTI_TS_BORDER_INFO );
-  ITinFieldInfo TFI_IS_ASPECT_FIXED = new TinFieldInfo( PROP_IS_ASPECT_FIXED, TTI_AT_BOOLEAN );
-  ITinFieldInfo TFI_ASPECT_RATIO    = new TinFieldInfo( PROP_ASPECT_RATIO, TTI_AT_FLOATING );
-  ITinFieldInfo TFI_VISEL_ID        = new TinFieldInfo( PROP_VISEL_ID, TTI_IDPATH );
-  ITinFieldInfo TFI_VISEL_PROP_ID   = new TinFieldInfo( PROP_VISEL_PROP_ID, TTI_IDPATH );
-  ITinFieldInfo TFI_RADIUS          = new TinFieldInfo( PROP_RADIUS, TTI_POSITIVE_FLOATING );
+  ITinFieldInfo TFI_IS_ACTIVE        = new TinFieldInfo( PROP_IS_ACTIVE, TTI_AT_BOOLEAN );
+  ITinFieldInfo TFI_NAME             = new TinFieldInfo( PROP_NAME, TTI_AT_STRING );
+  ITinFieldInfo TFI_DESCRIPTION      = new TinFieldInfo( PROP_DESCRIPTION, TTI_AT_STRING );
+  ITinFieldInfo TFI_X                = new TinFieldInfo( PROP_X, TTI_AT_FLOATING );
+  ITinFieldInfo TFI_Y                = new TinFieldInfo( PROP_Y, TTI_AT_FLOATING );
+  ITinFieldInfo TFI_WIDTH            = new TinFieldInfo( PROP_WIDTH, TTI_POSITIVE_FLOATING );
+  ITinFieldInfo TFI_HEIGHT           = new TinFieldInfo( PROP_HEIGHT, TTI_POSITIVE_FLOATING );
+  ITinFieldInfo TFI_TRANSFORM        = new TinFieldInfo( PROP_TRANSFORM, TtiD2Conversion.INSTANCE );
+  ITinFieldInfo TFI_TEXT             = new TinFieldInfo( PROP_TEXT, TTI_AT_STRING );
+  ITinFieldInfo TFI_FONT             = new TinFieldInfo( PROP_FONT, TtiTsFontInfo.INSTANCE );
+  ITinFieldInfo TFI_HOR_ALIGNMENT    = new TinFieldInfo( PROP_HOR_ALIGNMENT, TtiAvEnum.INSTANCE );
+  ITinFieldInfo TFI_VER_ALIGNMENT    = new TinFieldInfo( PROP_VER_ALIGNMENT, TtiAvEnum.INSTANCE );
+  ITinFieldInfo TFI_BK_COLOR         = new TinFieldInfo( PROP_BK_COLOR, TtiRGBA.INSTANCE );
+  ITinFieldInfo TFI_FG_COLOR         = new TinFieldInfo( PROP_FG_COLOR, TtiRGBA.INSTANCE );
+  ITinFieldInfo TFI_BK_FILL          = new TinFieldInfo( PROP_BK_FILL, TtiTsFillInfo.INSTANCE );
+  ITinFieldInfo TFI_LINE_INFO        = new TinFieldInfo( PROP_LINE_INFO, TtiTsLineInfo.INSTANCE );
+  ITinFieldInfo TFI_BORDER_INFO      = new TinFieldInfo( PROP_BORDER_INFO, TTI_TS_BORDER_INFO );
+  ITinFieldInfo TFI_IS_ASPECT_FIXED  = new TinFieldInfo( PROP_IS_ASPECT_FIXED, TTI_AT_BOOLEAN );
+  ITinFieldInfo TFI_ASPECT_RATIO     = new TinFieldInfo( PROP_ASPECT_RATIO, TTI_AT_FLOATING );
+  ITinFieldInfo TFI_VISEL_ID         = new TinFieldInfo( PROP_VISEL_ID, TTI_IDPATH );
+  ITinFieldInfo TFI_VISEL_PROP_ID    = new TinFieldInfo( PROP_VISEL_PROP_ID, TTI_IDPATH );
+  ITinFieldInfo TFI_RADIUS           = new TinFieldInfo( PROP_RADIUS, TTI_POSITIVE_FLOATING );
+  ITinFieldInfo TFI_IMAGE_DESCRIPTOR = new TinFieldInfo( PROP_IMAGE_DESCRIPTOR, TTI_TS_IMAGE_DECRIPTOR );
 
 }
