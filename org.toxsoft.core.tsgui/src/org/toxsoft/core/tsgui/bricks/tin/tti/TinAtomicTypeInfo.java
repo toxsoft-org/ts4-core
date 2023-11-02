@@ -264,6 +264,114 @@ public abstract class TinAtomicTypeInfo<T>
     tinNullVal = TinValue.ofAtomic( defVal );
   }
 
+  /**
+   * Static constructor of {@link TinAtomicTypeInfo} for {@link Boolean}.
+   *
+   * @param aDataType {@link IDataType} - the data type
+   * @param aIdsAndValues Object[] - identifier / value pairs of additional {@link IDataType#params()} options
+   * @return {@link TinAtomicTypeInfo} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException argument atomic type is not compatible with the entity class
+   * @throws TsIllegalArgumentRtException number of elements in array is uneven
+   * @throws ClassCastException argument types convention is violated
+   */
+  public static TinAtomicTypeInfo<Boolean> ofBoolean( IDataType aDataType, Object... aIdsAndValues ) {
+    return new TtiBoolean( aDataType, aIdsAndValues );
+  }
+
+  /**
+   * Static constructor of {@link TinAtomicTypeInfo} for {@link Integer}.
+   *
+   * @param aDataType {@link IDataType} - the data type
+   * @param aIdsAndValues Object[] - identifier / value pairs of additional {@link IDataType#params()} options
+   * @return {@link TinAtomicTypeInfo} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException argument atomic type is not compatible with the entity class
+   * @throws TsIllegalArgumentRtException number of elements in array is uneven
+   * @throws ClassCastException argument types convention is violated
+   */
+  public static TinAtomicTypeInfo<Integer> ofInteger( IDataType aDataType, Object... aIdsAndValues ) {
+    return new TtiInteger( aDataType, aIdsAndValues );
+  }
+
+  /**
+   * Static constructor of {@link TinAtomicTypeInfo} for {@link Long}.
+   *
+   * @param aDataType {@link IDataType} - the data type
+   * @param aIdsAndValues Object[] - identifier / value pairs of additional {@link IDataType#params()} options
+   * @return {@link TinAtomicTypeInfo} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException argument atomic type is not compatible with the entity class
+   * @throws TsIllegalArgumentRtException number of elements in array is uneven
+   * @throws ClassCastException argument types convention is violated
+   */
+  public static TinAtomicTypeInfo<Long> ofLong( IDataType aDataType, Object... aIdsAndValues ) {
+    return new TtiLong( aDataType, aIdsAndValues );
+  }
+
+  /**
+   * Static constructor of {@link TinAtomicTypeInfo} for {@link Float}.
+   *
+   * @param aDataType {@link IDataType} - the data type
+   * @param aIdsAndValues Object[] - identifier / value pairs of additional {@link IDataType#params()} options
+   * @return {@link TinAtomicTypeInfo} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException argument atomic type is not compatible with the entity class
+   * @throws TsIllegalArgumentRtException number of elements in array is uneven
+   * @throws ClassCastException argument types convention is violated
+   */
+  public static TinAtomicTypeInfo<Float> ofFloat( IDataType aDataType, Object... aIdsAndValues ) {
+    return new TtiFloat( aDataType, aIdsAndValues );
+  }
+
+  /**
+   * Static constructor of {@link TinAtomicTypeInfo} for {@link Double}.
+   *
+   * @param aDataType {@link IDataType} - the data type
+   * @param aIdsAndValues Object[] - identifier / value pairs of additional {@link IDataType#params()} options
+   * @return {@link TinAtomicTypeInfo} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException argument atomic type is not compatible with the entity class
+   * @throws TsIllegalArgumentRtException number of elements in array is uneven
+   * @throws ClassCastException argument types convention is violated
+   */
+  public static TinAtomicTypeInfo<Double> ofDouble( IDataType aDataType, Object... aIdsAndValues ) {
+    return new TtiDouble( aDataType, aIdsAndValues );
+  }
+
+  /**
+   * Static constructor of {@link TinAtomicTypeInfo} for {@link String}.
+   *
+   * @param aDataType {@link IDataType} - the data type
+   * @param aIdsAndValues Object[] - identifier / value pairs of additional {@link IDataType#params()} options
+   * @return {@link TinAtomicTypeInfo} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException argument atomic type is not compatible with the entity class
+   * @throws TsIllegalArgumentRtException number of elements in array is uneven
+   * @throws ClassCastException argument types convention is violated
+   */
+  public static TinAtomicTypeInfo<String> ofString( IDataType aDataType, Object... aIdsAndValues ) {
+    return new TtiString( aDataType, aIdsAndValues );
+  }
+
+  /**
+   * Static constructor of {@link TinAtomicTypeInfo} for value-object.
+   *
+   * @param <T> - class of value-object
+   * @param aDataType {@link IDataType} - the data type
+   * @param aValueObjectClass {@link Class} - class of value-object
+   * @param aIdsAndValues Object[] - identifier / value pairs of additional {@link IDataType#params()} options
+   * @return {@link TinAtomicTypeInfo} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException argument atomic type is not compatible with the entity class
+   * @throws TsIllegalArgumentRtException number of elements in array is uneven
+   * @throws ClassCastException argument types convention is violated
+   */
+  public static <T> TinAtomicTypeInfo<T> ofValobj( IDataType aDataType, Class<T> aValueObjectClass,
+      Object... aIdsAndValues ) {
+    return new TtiValobj<>( aDataType, aValueObjectClass, aIdsAndValues );
+  }
+
   // ------------------------------------------------------------------------------------
   // AbstractTinTypeInfo
   //
