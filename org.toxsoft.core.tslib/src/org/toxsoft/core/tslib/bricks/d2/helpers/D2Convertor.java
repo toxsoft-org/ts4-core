@@ -68,10 +68,15 @@ public class D2Convertor
     // double x1 = (aX - d2Conv.origin().x()) / d2Conv.zoomFactor();
     // double y1 = (aY - d2Conv.origin().y()) / d2Conv.zoomFactor();
     // reverse rotation (just change angle sign)
+
+    x1 = x1 / d2Conv.zoomFactor();
+    y1 = y1 / d2Conv.zoomFactor();
+
     double beta = -d2Conv.rotation().radians();
     double x2 = x1 * cos( beta ) - y1 * sin( beta );
     // reverse zoom (divide rather than multiply on zoom factor)
-    return d2Conv.origin().x() + x2 / d2Conv.zoomFactor();
+    // return d2Conv.origin().x() + x2 / d2Conv.zoomFactor();
+    return d2Conv.origin().x() + x2;
     // return x2;
   }
 
@@ -96,11 +101,16 @@ public class D2Convertor
     // reverse origin
     double x1 = aX - d2Conv.origin().x();
     double y1 = aY - d2Conv.origin().y();
+
+    x1 = x1 / d2Conv.zoomFactor();
+    y1 = y1 / d2Conv.zoomFactor();
+
     // reverse rotation (just change angle sign)
     double beta = -d2Conv.rotation().radians();
     double y2 = y1 * cos( beta ) + x1 * sin( beta );
     // reverse zoom (divide rather than multiply on zoom factor)
-    return d2Conv.origin().y() + y2 / d2Conv.zoomFactor();
+    // return d2Conv.origin().y() + y2 / d2Conv.zoomFactor();
+    return d2Conv.origin().y() + y2;
   }
 
   @Override

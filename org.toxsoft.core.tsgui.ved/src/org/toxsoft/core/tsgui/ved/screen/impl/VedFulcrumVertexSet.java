@@ -174,6 +174,7 @@ public class VedFulcrumVertexSet
           break;
         }
         case CENTER: {
+          // System.out.println( "Drag CENTER: dx = " + aDx + "; dy = " + aDy + ";" );
           visel.setLocation( rect.x1() + aDx, rect.y1() + aDy );
           break;
         }
