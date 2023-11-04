@@ -84,6 +84,12 @@ public abstract class VedAbstractVisel
   @Override
   public ID2Conversion getConversion() {
     return props().getValobj( PROP_TRANSFORM );
+    // ID2Conversion d2c = props().getValobj( PROP_TRANSFORM );
+    // double dx = boundsRect.x1();// + boundsRect.width() / 2.;
+    // double dy = boundsRect.y1();// + boundsRect.height() / 2.;
+    // ID2PointEdit d2p = new D2PointEdit( d2c.origin().x() + dx, d2c.origin().y() + dy );
+    // D2ConversionEdit d2Conversion = new D2ConversionEdit( d2c.rotation(), d2c.zoomFactor(), d2p );
+    // return d2Conversion;
   }
 
   @Override
