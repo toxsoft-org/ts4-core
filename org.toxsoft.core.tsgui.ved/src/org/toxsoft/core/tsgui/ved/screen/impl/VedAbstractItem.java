@@ -223,7 +223,7 @@ public abstract class VedAbstractItem
   /**
    * Subclass may update internal caches and perform other actions after the property(ies) change.
    * <p>
-   * Does nothing in the base class, but in the inheritance tree, subclasses must call the superclass method to
+   * Does nothing in the base class, but in the inheritance tree, subclasses <b>must call</b> the superclass method to
    * successfully update the cache at all levels.
    * <p>
    * Note: this method is also called immediately after item was created and properties are set to the initial values.

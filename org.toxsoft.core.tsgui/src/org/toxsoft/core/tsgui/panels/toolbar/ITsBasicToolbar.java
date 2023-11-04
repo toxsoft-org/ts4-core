@@ -61,7 +61,7 @@ public interface ITsBasicToolbar
   IList<ITsActionDef> listAllItems();
 
   /**
-   * Determines if action button is anabled.
+   * Returns the enabled state of the action button if any.
    *
    * @param aActionId String - the action ID
    * @return boolean - the enabled state
@@ -72,17 +72,16 @@ public interface ITsBasicToolbar
   boolean isActionEnabled( String aActionId );
 
   /**
-   * Sets if the action button is enable.
+   * Sets the enabled state of the action button if any.
    *
    * @param aActionId String - the action ID
    * @param aEnabled boolean - the enabled state
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsItemNotFoundRtException no item of specified ID found
    */
   void setActionEnabled( String aActionId, boolean aEnabled );
 
   /**
-   * Returns the checked state of the action button.
+   * Returns the checked state of the action button if any.
    * <p>
    * If action is not of style {@link TsAction#AS_CHECK_BOX} or {@link TsAction#AS_RADIO_BUTTON} method returns
    * <code>false</code>.
@@ -94,7 +93,7 @@ public interface ITsBasicToolbar
   boolean isActionChecked( String aActionId );
 
   /**
-   * Sets the action button checked state.
+   * Sets the checked state of the action button if any.
    * <p>
    * If action is not of style {@link TsAction#AS_CHECK_BOX} or {@link TsAction#AS_RADIO_BUTTON} method does nothing.
    *
@@ -106,9 +105,9 @@ public interface ITsBasicToolbar
   void setActionChecked( String aActionId, boolean aChecked );
 
   /**
-   * Sets the action button text.
+   * Sets the text of the action button if any.
    * <p>
-   * Please note that for buttons with images no text is dispayed.
+   * Please note that for buttons with images no text is displayed.
    *
    * @param aActionId String - the action ID
    * @param aText String - the text
@@ -119,7 +118,7 @@ public interface ITsBasicToolbar
   void setActionText( String aActionId, String aText );
 
   /**
-   * Sets the action button image.
+   * Sets the image of the action button if any.
    *
    * @param aActionId String - the action ID
    * @param aImageDescriptior {@link ImageDescriptor} - image descriptor
@@ -130,7 +129,7 @@ public interface ITsBasicToolbar
   void setActionImage( String aActionId, ImageDescriptor aImageDescriptior );
 
   /**
-   * Sets the action button tooltip text.
+   * Sets the tooltip text of the action button if any.
    *
    * @param aActionId String - the action ID
    * @param aText String - the tooltip
@@ -141,13 +140,12 @@ public interface ITsBasicToolbar
   void setActionTooltipText( String aActionId, String aText );
 
   /**
-   * Sets the menu to the drop-down menu item.
+   * Sets the menu to the drop-down menu item if any.
    *
    * @param aActionId String - the action ID
    * @param aMenuCreator {@link IMenuCreator} - the menu to the action or <code>null</code> for no menu
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalStateRtException toolbar widget is not created yet
-   * @throws TsItemNotFoundRtException no item of specified ID found
    * @throws TsIllegalStateRtException the item is not of {@link TsAction#AS_DROP_DOWN_MENU} style
    */
   void setActionMenu( String aActionId, IMenuCreator aMenuCreator );

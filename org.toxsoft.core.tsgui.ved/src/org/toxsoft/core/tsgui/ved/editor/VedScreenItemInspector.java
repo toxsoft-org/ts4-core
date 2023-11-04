@@ -62,11 +62,13 @@ public class VedScreenItemInspector
     super( aParent, TsNullArgumentRtException.checkNull( aVedScreen ).tsContext() );
     vedScreen = aVedScreen;
     this.setLayout( new BorderLayout() );
-    iconSize = hdpiService().getToolbarIconsSize();
+    iconSize = hdpiService().getToolbarIconsSize().prevSize();
     // create ID field
     Composite northBoard = new Composite( this, SWT.BORDER );
     northBoard.setLayoutData( BorderLayout.NORTH );
-    northBoard.setLayout( new GridLayout( 4, false ) );
+    GridLayout gl1 = new GridLayout( 4, false );
+    gl1.marginHeight = 2;
+    northBoard.setLayout( gl1 );
     // label
     label = new CLabel( northBoard, SWT.CENTER );
     label.setText( STR_LABEL_ID + ": " ); //$NON-NLS-1$

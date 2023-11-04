@@ -4,6 +4,7 @@ import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.graphics.lines.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
+import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 
 /**
@@ -48,6 +49,10 @@ public interface ITsGraphicsContext
 
   void drawRectBorder( int aX, int aY, int aWidth, int aHeight );
 
+  void setBackgroundRgba( RGBA aRgba );
+
+  void setBackgroundRgb( RGB aRgb );
+
   void setForegroundRgba( RGBA aRgba );
 
   void setForegroundRgb( RGB aRgb );
@@ -66,6 +71,18 @@ public interface ITsGraphicsContext
 
   default void drawRectBorder( ITsRectangle aRect ) {
     drawRectBorder( aRect.x1(), aRect.y1(), aRect.width(), aRect.height() );
+  }
+
+  default void drawD2Rect( ID2Rectangle aRect ) {
+    drawRect( (int)aRect.x1(), (int)aRect.y1(), (int)aRect.width(), (int)aRect.height() );
+  }
+
+  default void fillD2Rect( ID2Rectangle aRect ) {
+    fillRect( (int)aRect.x1(), (int)aRect.y1(), (int)aRect.width(), (int)aRect.height() );
+  }
+
+  default void drawD2RectBorder( ID2Rectangle aRect ) {
+    drawRectBorder( (int)aRect.x1(), (int)aRect.y1(), (int)aRect.width(), (int)aRect.height() );
   }
 
 }

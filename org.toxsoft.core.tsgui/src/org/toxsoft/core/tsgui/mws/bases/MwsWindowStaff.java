@@ -79,6 +79,11 @@ public class MwsWindowStaff {
     window = TsNullArgumentRtException.checkNull( aWindow );
     IEclipseContext winCtx = window.getContext();
     // put instance into the context
+
+    /**
+     * FIXME here is an error when extracting any UIpath to the new window. Next line causes an exception.
+     */
+
     TsInternalErrorRtException.checkNoNull( winCtx.get( MwsWindowStaff.class ) );
     window.getContext().set( MwsWindowStaff.class, this );
     appWideQuantManager = winCtx.get( IApplicationWideQuantManager.class );

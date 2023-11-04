@@ -431,6 +431,18 @@ public class TsGraphicsContext
   }
 
   @Override
+  public void setBackgroundRgba( RGBA aRgba ) {
+    gc.setAlpha( aRgba.alpha );
+    gc.setBackground( colorManager().getColor( aRgba.rgb ) );
+  }
+
+  @Override
+  public void setBackgroundRgb( RGB aRgb ) {
+    gc.setAlpha( 255 );
+    gc.setBackground( colorManager().getColor( aRgb ) );
+  }
+
+  @Override
   public void setForegroundRgba( RGBA aRgba ) {
     gc.setAlpha( aRgba.alpha );
     gc.setForeground( colorManager().getColor( aRgba.rgb ) );

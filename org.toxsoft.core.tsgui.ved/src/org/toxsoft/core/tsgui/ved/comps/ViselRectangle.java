@@ -12,9 +12,6 @@ import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
-import org.toxsoft.core.tslib.av.opset.*;
-import org.toxsoft.core.tslib.bricks.d2.*;
-import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -66,7 +63,7 @@ public class ViselRectangle
 
   };
 
-  private ITsRectangle swtRect = ITsRectangle.NONE;
+  // private ITsRectangle swtRect = ITsRectangle.NONE;
 
   /**
    * Constructor.
@@ -89,16 +86,9 @@ public class ViselRectangle
   @Override
   public void paint( ITsGraphicsContext aPaintContext ) {
     aPaintContext.setFillInfo( props().getValobj( PROPID_BK_FILL ) );
-    aPaintContext.fillRect( swtRect );
+    aPaintContext.fillD2Rect( bounds() );
     aPaintContext.setBorderInfo( props().getValobj( PROPID_BORDER_INFO ) );
-    aPaintContext.drawRectBorder( swtRect );
-  }
-
-  @Override
-  protected void doUpdateCachesAfterPropsChange( IOptionSet aChangedValue ) {
-    super.doUpdateCachesAfterPropsChange( aChangedValue );
-    ID2Rectangle bounds = bounds();
-    swtRect = TsGeometryUtils.create( bounds );
+    aPaintContext.drawD2RectBorder( bounds() );
   }
 
 }
