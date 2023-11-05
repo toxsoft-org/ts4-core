@@ -197,6 +197,25 @@ public class TsGraphicsContext
   }
 
   @Override
+  public void drawPath( Path aPath, int aX, int aY ) {
+    if( lineInfo != null ) {
+      lineInfo.setToGc( gc );
+    }
+    Transform oldTransform = new Transform( gc.getDevice() );
+    gc.getTransform( oldTransform );
+    Transform tr = new Transform( gc.getDevice() );
+    gc.getTransform( tr );
+    tr.translate( aX, aY );
+    gc.setTransform( tr );
+    tr.dispose();
+
+    gc.drawPath( aPath );
+
+    gc.setTransform( oldTransform );
+    oldTransform.dispose();
+  }
+
+  @Override
   public void setFillInfo( TsFillInfo aFillInfo ) {
     fillInfo = aFillInfo;
   }

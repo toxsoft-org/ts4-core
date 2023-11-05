@@ -48,7 +48,7 @@ public abstract class VedAbstractVertexSet
 
     DragCargo( IVedVertex aVertex, DragOperationInfo aInfo ) {
       vertex = aVertex;
-      vBounds = vertex.bounds();
+      vBounds = new D2Rectangle( visel.bounds() );
       ITsPoint p = aInfo.startingPoint();
 
       ID2Point ctrlP = screenView.coorsConverter().swt2Visel( p.x(), p.y(), visel );
@@ -113,6 +113,9 @@ public abstract class VedAbstractVertexSet
 
     @Override
     public boolean onMouseDragMove( Object aSource, DragOperationInfo aDragInfo, int aState, ITsPoint aCoors ) {
+      if( !(aDragInfo.cargo() instanceof DragCargo) ) {
+        return false;
+      }
       DragCargo dc = aDragInfo.cargo();
       if( dc == null ) {
         return false;
@@ -140,7 +143,9 @@ public abstract class VedAbstractVertexSet
 
     @Override
     public boolean onMouseDragFinish( Object aSource, DragOperationInfo aDragInfo, int aState, ITsPoint aCoors ) {
-
+      if( !(aDragInfo.cargo() instanceof DragCargo) ) {
+        return false;
+      }
       DragCargo dc = aDragInfo.cargo();
       if( dc == null ) {
         return false;
@@ -170,6 +175,9 @@ public abstract class VedAbstractVertexSet
       // double startY = aDragInfo.startingPoint().y();
       // double dx = convertor.reverseX( rectBefore.x1(), rectBefore.y1() ) - convertor.reverseX( startX, startY );
       // double dy = convertor.reverseY( rectBefore.x1(), rectBefore.y1() ) - convertor.reverseY( startX, startY );
+      if( !(aDragInfo.cargo() instanceof DragCargo) ) {
+        return false;
+      }
       DragCargo dc = aDragInfo.cargo();
       if( dc == null ) {
         return false;

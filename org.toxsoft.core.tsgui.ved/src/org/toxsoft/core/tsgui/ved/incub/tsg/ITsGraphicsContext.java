@@ -45,6 +45,8 @@ public interface ITsGraphicsContext
 
   void fillPath( Path aPath, int aX, int aY, int aWidth, int aHeight );
 
+  void drawPath( Path aPath, int aX, int aY );
+
   void setBorderInfo( TsBorderInfo aBorderInfo );
 
   void drawRectBorder( int aX, int aY, int aWidth, int aHeight );

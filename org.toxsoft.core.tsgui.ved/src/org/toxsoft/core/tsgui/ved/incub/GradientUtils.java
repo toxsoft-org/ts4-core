@@ -122,6 +122,18 @@ public class GradientUtils {
     return Hsv2Rgb( hsv );
   }
 
+  public static IList<Pair<Double, RGBA>> baloonFractions( RGBA aRgba ) {
+    IListEdit<Pair<Double, RGBA>> fractions = new ElemArrayList<>();
+    fractions.add( new Pair<>( Double.valueOf( 0 ), aRgba ) );
+    RGB rgb = tuneBrightness( aRgba.rgb, -0.4 );
+    fractions.add( new Pair<>( Double.valueOf( 100 ), new RGBA( rgb.red, rgb.green, rgb.blue, 255 ) ) );
+    return fractions;
+  }
+
+  public static TsGradientFillInfo baloonFillInfo( RGBA aRgba ) {
+    return new TsGradientFillInfo( new RadialGradientInfo( 20, 20, baloonFractions( aRgba ) ) );
+  }
+
   public static IList<Pair<Double, RGBA>> halfSphereFractions( RGBA aRgba ) {
     IListEdit<Pair<Double, RGBA>> fractions = new ElemArrayList<>();
 
@@ -181,4 +193,5 @@ public class GradientUtils {
   private GradientUtils() {
     // nop
   }
+
 }
