@@ -7,6 +7,7 @@ import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -25,10 +26,13 @@ public class DialogOptionsEdit {
   static class OpsetEditPanel
       extends AbstractTsDialogPanel<IOptionSet, IStridablesList<IDataDef>> {
 
-    final IOptionSetPanel panel;
+    private final IOptionSetPanel          panel;
+    private final ITsValidator<IOptionSet> validator;
 
-    protected OpsetEditPanel( Composite aParent, TsDialog<IOptionSet, IStridablesList<IDataDef>> aOwnerDialog ) {
+    protected OpsetEditPanel( Composite aParent, TsDialog<IOptionSet, IStridablesList<IDataDef>> aOwnerDialog,
+        ITsValidator<IOptionSet> aValidator ) {
       super( aParent, aOwnerDialog );
+      validator = aValidator;
       this.setLayout( new BorderLayout() );
       panel = new OptionSetPanel( tsContext(), false );
       panel.createControl( this );
@@ -39,6 +43,11 @@ public class DialogOptionsEdit {
     @Override
     protected void doSetDataRecord( IOptionSet aData ) {
       panel.setEntity( aData );
+    }
+
+    @Override
+    protected ValidationResult doValidate() {
+      return validator.validate( getDataRecord() );
     }
 
     @Override
@@ -97,8 +106,24 @@ public class DialogOptionsEdit {
    */
   public static final IOptionSet editOpset( ITsDialogInfo aDialogInfo, IStridablesList<IDataDef> aOpDefs,
       IOptionSet aInitialValues ) {
-    TsNullArgumentRtException.checkNulls( aDialogInfo, aOpDefs );
-    IDialogPanelCreator<IOptionSet, IStridablesList<IDataDef>> creator = OpsetEditPanel::new;
+    return editOpset( aDialogInfo, aOpDefs, aInitialValues, ITsValidator.PASS );
+  }
+
+  /**
+   * Invoked {@link IOptionSetPanel} in dialog window.
+   *
+   * @param aDialogInfo {@link ITsDialogInfo} - dialog window properties
+   * @param aOpDefs {@link IStridablesList}&lt;{@link IDataDef}&gt; - list of option definitions
+   * @param aInitialValues {@link IOptionSet} - initial values to be edited or <code>null</code>
+   * @param aValidator {@link ITsValidator}&lt;{@link IOptionSet}&gt; - the option set validator
+   * @return {@link IOptionSet} - edited values or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static final IOptionSet editOpset( ITsDialogInfo aDialogInfo, IStridablesList<IDataDef> aOpDefs,
+      IOptionSet aInitialValues, ITsValidator<IOptionSet> aValidator ) {
+    TsNullArgumentRtException.checkNulls( aDialogInfo, aOpDefs, aValidator );
+    IDialogPanelCreator<IOptionSet, IStridablesList<IDataDef>> creator =
+        ( parent, dialog ) -> new OpsetEditPanel( parent, dialog, aValidator );
     TsDialog<IOptionSet, IStridablesList<IDataDef>> d = new TsDialog<>( aDialogInfo, aInitialValues, aOpDefs, creator );
     return d.execData();
   }

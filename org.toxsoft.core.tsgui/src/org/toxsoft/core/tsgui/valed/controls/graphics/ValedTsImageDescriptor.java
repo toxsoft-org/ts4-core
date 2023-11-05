@@ -9,10 +9,10 @@ import org.toxsoft.core.tsgui.graphics.lines.*;
 import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tsgui.valed.controls.helpers.*;
 import org.toxsoft.core.tsgui.valed.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 
 /**
- * Редактор атрибутов для рисования линии.
- * <p>
+ * VALED for {@link TsImageDescriptor} editing.
  *
  * @author vs
  */
@@ -20,9 +20,7 @@ public class ValedTsImageDescriptor
     extends AbstractValedLabelAndButton<TsImageDescriptor> {
 
   /**
-   * Название фабрики, с которым она зарегистрирована в {@link ValedControlFactoriesRegistry}.
-   * <p>
-   * Напомним, что автоматическая регистрация с именем класса фабрики тоже работает.
+   * The factory name.
    */
   public static final String FACTORY_NAME = VALED_EDNAME_PREFIX + ".TsImageDescriptor"; //$NON-NLS-1$
 
@@ -55,7 +53,7 @@ public class ValedTsImageDescriptor
   }
 
   /**
-   * Синглтон Фабрики.
+   * The factory singleton.
    */
   public static final AbstractValedControlFactory FACTORY = new Factory();
 
@@ -83,7 +81,8 @@ public class ValedTsImageDescriptor
 
   @Override
   protected void doUpdateLabelControl() {
-    // TODO what to write/display in label ?
+    String s = imageDescriptor != null ? imageDescriptor.toString() : TsLibUtils.EMPTY_STRING;
+    getLabelControl().setText( s );
   }
 
   @Override

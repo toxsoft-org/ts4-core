@@ -158,7 +158,14 @@ public final class TsImageDescriptor
 
   @Override
   public String toString() {
-    return kindId + ':' + params.toString();
+    if( kindId.equals( TsImageSourceKindNone.INSTANCE.id() ) ) {
+      return kindId;
+    }
+    ITsImageSourceKind kind = getImageSourceKindsMap().findByKey( kindId );
+    if( kind != null ) {
+      return kind.humanReadableString( params );
+    }
+    return kindId + ": " + params.toString(); //$NON-NLS-1$
   }
 
   @Override

@@ -63,6 +63,8 @@ interface ITsResources {
   String DLG_T_IMAGE_DESCRIPTOR   = "Параметры дескриптора изображения";
   String STR_MSG_IMAGE_DESCRIPTOR = "Задайте требуемые значения и нажмите \"OK\"";
   String STR_L_IMG_SOURCE_KIND    = "Источник: ";
+  String STR_IMG_SOURCE_KIND      = Messages.getString( "STR_IMG_SOURCE_KIND" );   //$NON-NLS-1$
+  String STR_IMG_SOURCE_KIND_D    = Messages.getString( "STR_IMG_SOURCE_KIND_D" ); //$NON-NLS-1$
   String STR_B_IMG_DESCR_EDIT     = "Изменить...";
 
   /**

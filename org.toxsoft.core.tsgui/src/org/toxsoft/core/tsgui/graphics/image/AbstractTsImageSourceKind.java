@@ -13,6 +13,8 @@ import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -48,12 +50,21 @@ public non-sealed abstract class AbstractTsImageSourceKind
   }
 
   @Override
+  public ValidationResult validateParams( IOptionSet aParams ) {
+    ValidationResult vr = OptionSetUtils.validateOptionSet( aParams, opDefs );
+    if( vr.isError() ) {
+      return vr;
+    }
+    return doValidateParams( aParams );
+  }
+
+  @Override
   final public TsImage createImage( TsImageDescriptor aDescriptor, ITsGuiContext aContext ) {
     TsNullArgumentRtException.checkNulls( aDescriptor, aContext );
     if( !aDescriptor.kindId().equals( id() ) ) {
       throw new TsIllegalArgumentRtException( FMT_ERR_INV_KIND, aDescriptor.kindId(), id() );
     }
-    OptionSetUtils.checkOptionSet( aDescriptor.params(), opDefs );
+    TsValidationFailedRtException.checkWarn( validateParams( aDescriptor.params() ) );
     TsImage tsim = doCreate( aDescriptor, aContext );
     TsInternalErrorRtException.checkNull( tsim );
     return tsim;
@@ -84,6 +95,12 @@ public non-sealed abstract class AbstractTsImageSourceKind
       newParams.setValue( dd, av );
     }
     return new TsImageDescriptor( id(), newParams );
+  }
+
+  @Override
+  public String humanReadableString( IOptionSet aParams ) {
+    TsNullArgumentRtException.checkNull( aParams );
+    return doHumanReadableString( aParams );
   }
 
   // ------------------------------------------------------------------------------------
@@ -119,7 +136,34 @@ public non-sealed abstract class AbstractTsImageSourceKind
   protected IOptionSet doEdit( IOptionSet aParams, ITsGuiContext aContext ) {
     String title = String.format( FMT_DLG_T_IMAGE_DESCR_EDIT, nmName() );
     ITsDialogInfo dlgInf = new TsDialogInfo( aContext, STR_DLG_C_IMAGE_DESCR_EDIT, title );
-    return DialogOptionsEdit.editOpset( dlgInf, opDefs, aParams );
+    return DialogOptionsEdit.editOpset( dlgInf, opDefs, aParams, this::validateParams );
+  }
+
+  /**
+   * Subclass may perform additional arguments check.
+   * <p>
+   * <code>aParams</code> are already checked by {@link OptionSetUtils#validateOptionSet(IOptionSet, IStridablesList)}
+   * against definitions {@link #opDefs()}.
+   * <p>
+   * In base class returns {@link ValidationResult#SUCCESS}, there is no need to call superclass method when overriding.
+   *
+   * @param aParams {@link IOptionSet} - the command arguments to check
+   * @return {@link ValidationResult} - the check result
+   */
+  protected ValidationResult doValidateParams( IOptionSet aParams ) {
+    return ValidationResult.SUCCESS;
+  }
+
+  /**
+   * Subclass may return human readable text of the parameters.
+   * <p>
+   * In base class returns {@link IOptionSet#toString()}, there is no need to call superclass method when overriding.
+   *
+   * @param aParams {@link IOptionSet} - image descriptor parameters, never is <code>null</code>
+   * @return String - the human readable text
+   */
+  protected String doHumanReadableString( IOptionSet aParams ) {
+    return aParams.toString();
   }
 
 }
