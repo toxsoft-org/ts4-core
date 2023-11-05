@@ -48,4 +48,7 @@ public interface IVedItem
    */
   String factoryId();
 
+  // FIXME ITsActionHandlerEx actionsProvider();
+  // FIXME IGenericCommandCapable commander();
+
 }

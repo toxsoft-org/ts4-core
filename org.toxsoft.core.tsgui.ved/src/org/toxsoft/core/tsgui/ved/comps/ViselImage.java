@@ -51,9 +51,14 @@ public class ViselImage
       fields.add( TFI_DESCRIPTION );
       fields.add( TFI_X );
       fields.add( TFI_Y );
-      fields.add( TinFieldInfo.makeCopy( TFI_WIDTH, ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE ) );
-      fields.add( TinFieldInfo.makeCopy( TFI_HEIGHT, ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE ) );
-      fields.add( TinFieldInfo.makeCopy( TFI_IS_ASPECT_FIXED, ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE ) );
+      fields.add( TFI_WIDTH );
+      fields.add( TFI_HEIGHT );
+      // fields.add( TinFieldInfo.makeCopy( TFI_WIDTH, ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE ) );
+      // fields.add( TinFieldInfo.makeCopy( TFI_HEIGHT, ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE ) );
+      fields.add( TinFieldInfo.makeCopy( TFI_IS_ASPECT_FIXED, //
+          ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE, //
+          TSID_DEFAULT_VALUE, AV_TRUE //
+      ) );
       fields.add( TinFieldInfo.makeCopy( TFI_ASPECT_RATIO, ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE ) );
       fields.add( TFI_IMAGE_DESCRIPTOR );
       fields.add( TFI_TRANSFORM );
@@ -80,11 +85,7 @@ public class ViselImage
    */
   public ViselImage( IVedItemCfg aConfig, IStridablesList<IDataDef> aPropDefs, VedScreen aVedScreen ) {
     super( aConfig, aPropDefs, aVedScreen );
-    setLocation( aConfig.propValues().getDouble( PROP_X ), aConfig.propValues().getDouble( PROP_Y ) );
-    TsImageDescriptor imd = props().getValobj( PROPID_IMAGE_DESCRIPTOR );
-    image = imageManager().getImage( imd );
-    ITsPoint p = image.imageSize();
-    setSize( p.x(), p.y() );
+    addInterceptor( VedViselInterceptorAspectRatio.INSTANCE );
   }
 
   // ------------------------------------------------------------------------------------
@@ -94,15 +95,22 @@ public class ViselImage
   @Override
   public void paint( ITsGraphicsContext aPaintContext ) {
     if( image != null ) {
-      aPaintContext.gc().drawImage( image.image(), (int)props().getDouble( PROP_X ), (int)props().getDouble( PROP_Y ) );
+      // aPaintContext.gc().drawImage( image.image(), (int)props().getDouble( PROP_X ), (int)props().getDouble( PROP_Y )
+      // );
+      aPaintContext.gc().drawImage( image.image(), //
+          0, 0, image.imageSize().x(), image.imageSize().y(), //
+          (int)bounds().x1(), (int)bounds().y1(), (int)bounds().width(), (int)bounds().height() //
+      );
     }
   }
 
   @Override
   protected void doDoInterceptPropsChange( IOptionSet aNewValues, IOptionSetEdit aValuesToSet ) {
     super.doDoInterceptPropsChange( aNewValues, aValuesToSet );
-    if( image != null ) {
-      ITsPoint p = image.imageSize();
+    if( aValuesToSet.hasKey( PROPID_IMAGE_DESCRIPTOR ) ) {
+      TsImageDescriptor imd = aValuesToSet.getValobj( PROPID_IMAGE_DESCRIPTOR );
+      TsImage tmpImg = imageManager().getImage( imd );
+      ITsPoint p = tmpImg.imageSize();
       aValuesToSet.setDouble( PROPID_WIDTH, p.x() );
       aValuesToSet.setDouble( PROPID_HEIGHT, p.y() );
     }
@@ -113,8 +121,6 @@ public class ViselImage
     super.doUpdateCachesAfterPropsChange( aChangedValue );
     TsImageDescriptor imd = props().getValobj( PROPID_IMAGE_DESCRIPTOR );
     image = imageManager().getImage( imd );
-    ITsPoint p = image.imageSize();
-    setSize( p.x(), p.y() );
   }
 
   @Override

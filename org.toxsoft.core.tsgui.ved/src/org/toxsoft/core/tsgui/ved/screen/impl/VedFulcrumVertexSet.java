@@ -24,10 +24,34 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class VedFulcrumVertexSet
     extends VedAbstractVertexSet {
 
+  private static final Color SURROUNDING_RECT_DRAW_COLOR = new Color( new RGB( 0, 0, 128 ) );
+
+  private Rectangle swtRect = new Rectangle( 0, 0, 1, 1 );
+
+  protected VedFulcrumVertexSet( VedAbstractVisel aVisel, IStridablesList<? extends IVedVertex> aVertexes,
+      VedScreen aVedScreen ) {
+    super( aVisel, aVertexes, aVedScreen );
+    // FIXME зачем здесь update(), который вызывает изменение свойств визеля?????
+    // if( aVertexes.size() > 0 ) {
+    // update( 0.0, 0.0, aVertexes.get( 0 ).id() );
+    // }
+    updateVertexes();
+    updateSwtRect();
+  }
+
+  public static VedFulcrumVertexSet createExceptFulcrums( VedAbstractVisel aVisel, VedScreen aVedScreen,
+      ETsFulcrum... aFulcrums ) {
+    return new VedFulcrumVertexSet( aVisel, listVertexesWithoutFulcrums( aFulcrums ), aVedScreen );
+  }
+
   public static VedFulcrumVertexSet createWithFulcrums( VedAbstractVisel aVisel, VedScreen aVedScreen,
       ETsFulcrum... aFulcrums ) {
     return new VedFulcrumVertexSet( aVisel, listVertexesWithFulcrums( aFulcrums ), aVedScreen );
   }
+
+  // ------------------------------------------------------------------------------------
+  // Implementaton
+  //
 
   protected static IStridablesListEdit<IVedVertex> listVertexesWithFulcrums( ETsFulcrum... aFulcrums ) {
     ETsFulcrum[] fulcrums;
@@ -45,11 +69,6 @@ public class VedFulcrumVertexSet
     return verts;
   }
 
-  public static VedFulcrumVertexSet createExceptFulcrums( VedAbstractVisel aVisel, VedScreen aVedScreen,
-      ETsFulcrum... aFulcrums ) {
-    return new VedFulcrumVertexSet( aVisel, listVertexesWithoutFulcrums( aFulcrums ), aVedScreen );
-  }
-
   protected static IStridablesListEdit<IVedVertex> listVertexesWithoutFulcrums( ETsFulcrum... aFulcrums ) {
     ETsFulcrum[] fulcrums;
     fulcrums = ETsFulcrum.values();
@@ -63,59 +82,6 @@ public class VedFulcrumVertexSet
     }
     return verts;
   }
-
-  private static final Color colorBlue = new Color( new RGB( 0, 0, 128 ) );
-
-  private Rectangle swtRect = new Rectangle( 0, 0, 1, 1 );
-
-  protected VedFulcrumVertexSet( VedAbstractVisel aVisel, IStridablesList<? extends IVedVertex> aVertexes,
-      VedScreen aVedScreen ) {
-    super( aVisel, aVertexes, aVedScreen );
-    if( aVertexes.size() > 0 ) {
-      update( 0.0, 0.0, aVertexes.get( 0 ).id() );
-    }
-    updateVertexes();
-    updateSwtRect();
-  }
-
-  @Override
-  protected boolean doOnVertexDrag( IVedVertex aVertex, double aDx, double aDy, EVedDragState aDragState ) {
-    update( aDx, aDy, aVertex.id() );
-    updateVertexes();
-    updateSwtRect();
-    return true;
-  }
-
-  @Override
-  protected void doPaint( GC aGc ) {
-    TsGraphicsContext tgc = new TsGraphicsContext( aGc, tsContext() );
-    int oldStyle = aGc.getLineStyle();
-    Color oldColor = aGc.getForeground();
-    aGc.setLineWidth( 1 );
-    aGc.setLineStyle( SWT.LINE_DASH );
-    aGc.setForeground( colorBlue );
-
-    aGc.drawRectangle( swtRect );
-
-    aGc.setLineStyle( oldStyle );
-    aGc.setForeground( oldColor );
-
-    for( IVedVertex v : vertexes() ) {
-      if( !isVertexHidden( v.id() ) ) {
-        v.paint( tgc );
-      }
-    }
-  }
-
-  @Override
-  protected void doOnViselPropsChanged( IVedItem aSource, IOptionSet aNewVals, IOptionSet aOldVals ) {
-    updateVertexes();
-    updateSwtRect();
-  }
-
-  // ------------------------------------------------------------------------------------
-  // Implementaton
-  //
 
   protected void update( double aDx, double aDy, String aVertexId ) {
     IVedVisel visel = visel();
@@ -246,6 +212,43 @@ public class VedFulcrumVertexSet
     swtRect.y = (int)Math.round( tsr.y1() + 2 );
     swtRect.width = (int)Math.round( tsr.width() - 4 );
     swtRect.height = (int)Math.round( tsr.height() - 4 );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // VedAbstractVertexSet
+  //
+
+  @Override
+  protected boolean doOnVertexDrag( IVedVertex aVertex, double aDx, double aDy, EVedDragState aDragState ) {
+    update( aDx, aDy, aVertex.id() );
+    updateVertexes();
+    updateSwtRect();
+    return true;
+  }
+
+  @Override
+  protected void doPaint( ITsGraphicsContext aGc ) {
+    int oldStyle = aGc.gc().getLineStyle();
+    Color oldColor = aGc.gc().getForeground();
+    aGc.gc().setLineWidth( 1 );
+    aGc.gc().setLineStyle( SWT.LINE_DASH );
+    aGc.gc().setForeground( SURROUNDING_RECT_DRAW_COLOR );
+
+    aGc.gc().drawRectangle( swtRect );
+    aGc.gc().setLineStyle( oldStyle );
+    aGc.gc().setForeground( oldColor );
+
+    for( IVedVertex v : vertexes() ) {
+      if( !isVertexHidden( v.id() ) ) {
+        v.paint( aGc );
+      }
+    }
+  }
+
+  @Override
+  protected void doOnViselPropsChanged( IVedItem aSource, IOptionSet aNewVals, IOptionSet aOldVals ) {
+    updateVertexes();
+    updateSwtRect();
   }
 
 }

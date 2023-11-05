@@ -19,6 +19,8 @@ import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.coll.helpers.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -178,7 +180,15 @@ public class VedScreenItemInspector
       selfEditing = true;
       ITinValue tv = tinWidget.getValue();
       IAtomicValue av = tv.childValues().getByKey( aChangedPropId ).atomicValue();
-      vedItem.props().setValue( aChangedPropId, av );
+      /**
+       * NOTE: due to IPropertiesSet implementation conceptual problem (see fix-me note in the
+       * PropertiesSet.doBeforeSet() method body), here we MUST call batch update method setProps(), not a
+       * setValue().<br>
+       * Even when conceptual problem will be solved, this code will remain. Only this note need to be removed :)
+       */
+      IOptionSetEdit newValueAsSet = new OptionSet();
+      newValueAsSet.setValue( aChangedPropId, av );
+      vedItem.props().setProps( newValueAsSet );
     }
     finally {
       selfEditing = false;

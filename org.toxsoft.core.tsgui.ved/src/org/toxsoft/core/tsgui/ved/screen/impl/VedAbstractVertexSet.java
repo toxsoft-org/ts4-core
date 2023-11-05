@@ -3,7 +3,6 @@ package org.toxsoft.core.tsgui.ved.screen.impl;
 import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 
-import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.uievents.*;
@@ -265,10 +264,9 @@ public abstract class VedAbstractVertexSet
 
   @Override
   public final void paint( ITsGraphicsContext aGc ) {
-    if( !visible ) {
-      return;
+    if( visible ) {
+      doPaint( aGc );
     }
-    doPaint( aGc.gc() );
   }
 
   // ------------------------------------------------------------------------------------
@@ -343,7 +341,7 @@ public abstract class VedAbstractVertexSet
 
   protected abstract boolean doOnVertexDrag( IVedVertex aVertex, double aDx, double aDy, EVedDragState aDragState );
 
-  protected abstract void doPaint( GC aGc );
+  protected abstract void doPaint( ITsGraphicsContext aGc );
 
   protected abstract void doOnViselPropsChanged( IVedItem aSource, IOptionSet aNewVals, IOptionSet aOldVals );
 
