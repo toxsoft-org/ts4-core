@@ -19,6 +19,12 @@ import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link IPropertiesSet} implementation.
+ * <p>
+ * Note on implementation: any property change (either single change via <code>setXxx()</code> or batch changes via
+ * <code>setProps()</code>) goes through the {@link #internalSetProps(IStringMap)}. This approach ensures correct work
+ * of the interceptor. As interceptor may <b>add</b> value to the argument <code>aValuesToSet</code> of the method
+ * {@link IPropertyChangeInterceptor#interceptPropsChange(Object, IOptionSet, IOptionSetEdit)}, it is necessary to
+ * process even the single property change as the batch update.
  *
  * @author hazard157
  * @param <S> - event source type, the entity characterized by the properties
@@ -175,64 +181,27 @@ public class PropertiesSet<S>
   //
 
   /**
-   * Note of implementation: this method is NOT called from batch change method {@link #setProps(IStringMap)}, rather
-   * only called when setting individual properties via {@link IOpsSetter} interface.
-   * <p>
-   * {@inheritDoc}
+   * Base class methods {@link #doBeforeSet(String, IAtomicValue, IAtomicValue)} is not used here.
    */
   @Override
-  protected boolean doBeforeSet( String aId, IAtomicValue aOldValue, IAtomicValue aNewValue ) {
-    // check property ID is known
-    IDataDef pdef = propDefs.findByKey( aId );
-    if( pdef == null ) {
-      throw new TsItemNotFoundRtException( FMT_ERR_NO_SUCH_PROP, aId );
-    }
-    // if value does not really changes simply ignore
-    if( aNewValue.equals( valuesMap.getByKey( aId ) ) ) {
-      return true;
-    }
-    // check property value is compatible with definition
-    if( !AvTypeCastRtException.canAssign( pdef.atomicType(), aNewValue.atomicType() ) ) {
-      throw new AvTypeCastRtException( FMT_ERR_INV_PROP_TYPE, pdef.id(), pdef.atomicType().id(),
-          aNewValue.atomicType().id() );
-    }
-    // intercept
-    if( interceptor != null ) {
-      IOptionSetEdit newVals = new OptionSet();
-      IOptionSetEdit valsToSet = new OptionSet();
-      newVals.put( aId, aNewValue );
-      valsToSet.put( aId, aNewValue );
-      interceptor.interceptPropsChange( source, newVals, valsToSet );
-      if( valsToSet.isEmpty() ) {
-        return true; // no changes
-      }
-    }
+  final protected boolean doBeforeSet( String aId, IAtomicValue aOldValue, IAtomicValue aNewValue ) {
     return false;
   }
 
   /**
-   * Note of implementation: this method is NOT called from batch change method {@link #setProps(IStringMap)}, rather
-   * only called when setting individual properties via {@link IOpsSetter} interface.
-   * <p>
-   * {@inheritDoc}
+   * This method redirects actual changes to the method {@link #internalSetProps(IStringMap)}.
    */
   @Override
   protected void doInternalSet( String aId, IAtomicValue aValue ) {
-    valuesMap.put( aId, aValue );
+    internalSetProps( new SingleElemStringMap<>( aId, aValue ) );
   }
 
   /**
-   * Note of implementation: this method is NOT called from batch change method {@link #setProps(IStringMap)}, rather
-   * only called when setting individual properties via {@link IOpsSetter} interface.
-   * <p>
-   * {@inheritDoc}
+   * Base class methods {@link #doAfterSet(String, IAtomicValue, IAtomicValue)} is not used here.
    */
   @Override
   protected void doAfterSet( String aId, IAtomicValue aOldValue, IAtomicValue aNewValue ) {
-    IOptionSetEdit newVals = new OptionSet();
-    newVals.put( aId, aNewValue );
-    doAfterPropValuesSet( newVals );
-    eventer.firePropsChanged( new StringMap<>( valuesMap ), newVals );
+    // nop
   }
 
   // ------------------------------------------------------------------------------------
