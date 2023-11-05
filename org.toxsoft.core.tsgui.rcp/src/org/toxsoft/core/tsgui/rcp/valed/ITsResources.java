@@ -1,7 +1,5 @@
 package org.toxsoft.core.tsgui.rcp.valed;
 
-import org.toxsoft.core.tsgui.rcp.utils.Messages;
-
 /**
  * Localizable resources.
  *

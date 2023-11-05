@@ -1,7 +1,6 @@
 package org.toxsoft.core.tsgui.rcp.graphics.images;
 
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import java.util.*;
 
 @SuppressWarnings( "javadoc" )
 public class Messages {
