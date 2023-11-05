@@ -59,6 +59,6 @@ encoding//src/org/toxsoft/core/tsgui/panels/vecboard/impl/messages_ru_RU.propert
 encoding//src/org/toxsoft/core/tsgui/panels/vecboard/messages.properties=UTF-8
 encoding//src/org/toxsoft/core/tsgui/panels/vecboard/messages_ka_GE.properties=UTF-8
 encoding//src/org/toxsoft/core/tsgui/panels/vecboard/messages_ru_RU.properties=UTF-8
-encoding//src/org/toxsoft/core/tsgui/valed/controls/graphics/messages_ge.properties=UTF-8
-encoding//src/org/toxsoft/core/tsgui/valed/controls/graphics/messages_ru.properties=UTF-8
+encoding//src/org/toxsoft/core/tsgui/valed/controls/graphics/messages_ka_GE.properties=UTF-8
+encoding//src/org/toxsoft/core/tsgui/valed/controls/graphics/messages_ru_RU.properties=UTF-8
 encoding/<project>=UTF-8

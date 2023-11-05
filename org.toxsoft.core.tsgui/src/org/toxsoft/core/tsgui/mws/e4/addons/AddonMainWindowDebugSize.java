@@ -53,9 +53,10 @@ public class AddonMainWindowDebugSize
     EModelService modelService = aAppContext.get( EModelService.class );
     MTrimmedWindow mainWindow = (MTrimmedWindow)modelService.find( IMwsCoreConstants.MWSID_WINDOW_MAIN, app );
     ProgramArgs programArgs = aAppContext.get( ProgramArgs.class );
+    Display display = aAppContext.get( Display.class );
+    Monitor monitor = display.getPrimaryMonitor();
+    Rectangle dBounds = monitor.getBounds();
     if( getMainWindowDebugSizeArgValue( programArgs ) ) { // initial size of the window SMALL
-      Display display = aAppContext.get( Display.class );
-      Rectangle dBounds = display.getBounds();
       int dx = dBounds.width / 8;
       int dy = dBounds.height / 8;
       mainWindow.setX( 4 * dx );
@@ -64,8 +65,6 @@ public class AddonMainWindowDebugSize
       mainWindow.setHeight( 5 * dy );
     }
     else { // initial size of the window BIG
-      Display display = aAppContext.get( Display.class );
-      Rectangle dBounds = display.getBounds();
       mainWindow.setX( dBounds.x + 8 );
       mainWindow.setY( 0 );
       mainWindow.setWidth( dBounds.width - 4 * 8 );

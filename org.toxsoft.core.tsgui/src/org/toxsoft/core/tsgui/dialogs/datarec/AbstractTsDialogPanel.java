@@ -90,14 +90,14 @@ abstract public class AbstractTsDialogPanel<T, E>
   /**
    * Constructs panel as {@link TsDialog} content.
    * <p>
-   * После создании панели этим конструктором, перед отображением на экран, родительский диалог вызывает метод
-   * {@link #setDataRecord(Object)}. Поэтому, в конструкторе нет необходимости инициализировать содержимое контролей -
-   * гарантируется, что метод "заливки" в контроли данных {@link #doSetDataRecord(Object)} будет вызван до показа
-   * панели.
+   * After creating a panel with this constructor, before displaying it on the screen, the parent dialog calls the
+   * {@link #setDataRecord(Object)} method. Therefore, in the constructor there is no need to initialize the contents of
+   * the controls - it is guaranteed that the "fill" method in the data controls {@link #doSetDataRecord(Object)} will
+   * be called before the panel is shown.
    *
-   * @param aParent {@link Composite} - родительская компонента
-   * @param aOwnerDialog {@link TsDialog} - родительский диалог
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aParent {@link Composite} - the parent composite
+   * @param aOwnerDialog {@link TsDialog} - the owner dialog
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   protected AbstractTsDialogPanel( Composite aParent, TsDialog<T, E> aOwnerDialog ) {
     super( aParent, SWT.NONE );
@@ -110,17 +110,17 @@ abstract public class AbstractTsDialogPanel<T, E>
   }
 
   /**
-   * Конструктор панели, предназаначенной для использования вне диалога.
+   * Constructor to be used as a generic panel.
    * <p>
-   * Внимание: при создании панели этим конструктором (в отличие от конструктора
-   * {@link #AbstractTsDialogPanel(Composite, TsDialog)}, инициализаиця контролей данными aData должна делаться в теле
-   * конструктора. Самый правильный способ - это иметь реализацию метода {@link #doSetDataRecord(Object)}, и в конце
-   * тела конструктора вызвать его.
+   * Warning: when creating a panel with this constructor (unlike the
+   * {@link #AbstractTsDialogPanel(Composite, TsDialog)} constructor), initialization of controls with
+   * <code>aData</code> data must be done in the body of the constructor. The correct way is to have an implementation
+   * of the {@link #doSetDataRecord(Object) method }, and at the end of the constructor body call it.
    *
-   * @param aParent {@link Composite} - родительская компонента
+   * @param aParent {@link Composite} - the parent composite
    * @param aContext {@link ITsGuiContext} - the context
    * @param aData &lt;T&gt; - initial data record value, may be <code>null</code>
-   * @param aEnviron &lt;E&gt; - the enuvironment, may be <code>null</code>
+   * @param aEnviron &lt;E&gt; - the environment, may be <code>null</code>
    * @param aFlags int - ORed dialog configuration flags <code>DF_XXX</code>
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
