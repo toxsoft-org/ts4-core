@@ -13,7 +13,7 @@ public class NoneGenericChangeEventer
   /**
    * Singleton instance.
    */
-  public static IGenericChangeEventer INSTANCE = new NoneGenericChangeEventer();
+  public static final IGenericChangeEventer INSTANCE = new NoneGenericChangeEventer();
 
   private NoneGenericChangeEventer() {
     // nop

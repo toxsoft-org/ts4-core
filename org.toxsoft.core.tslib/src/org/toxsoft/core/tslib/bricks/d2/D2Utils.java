@@ -51,7 +51,7 @@ public class D2Utils {
   }
 
   /**
-   * Determines if thei is the duck.
+   * Determines if this is the duck.
    * <p>
    * See comments to {@link #duck(double)}.
    *
@@ -66,6 +66,25 @@ public class D2Utils {
     Double d = Double.valueOf( aValue );
     double diff = aValue - d.longValue();
     return Math.abs( diff ) < DUCK_DIFF_THRESHLOD;
+  }
+
+  /**
+   * Compares two double value with the equality threshold as {@link #DUCK_DIFF_THRESHLOD}.
+   * <p>
+   * Warning: do not use this method for sorting, just for human eye looking equality!
+   *
+   * @param aVal1 double - first value
+   * @param aVal2 double - second value
+   * @return int - -1, zero, or a +1 as the first argument is less than, equal to, or greater than the second.
+   */
+  public static int compareDoubles( double aVal1, double aVal2 ) {
+    if( Math.abs( aVal2 - aVal1 ) < DUCK_DIFF_THRESHLOD ) {
+      return 0;
+    }
+    if( aVal1 < aVal2 ) {
+      return -1;
+    }
+    return +1;
   }
 
   /**
