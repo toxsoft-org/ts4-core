@@ -128,6 +128,7 @@ public class VedScreenDropTarget {
         opSet.setDouble( PROP_Y, cp.y() );
         String viselId = viselIdGen.nextId() + System.currentTimeMillis();
         VedItemCfg viselCfg = VedItemCfg.ofVisel( viselId, factoryId, aCfg.params(), opSet );
+        viselCfg.propValues().setStr( PROPID_NAME, viselId );
         if( invokeDialog ) {
           viselCfg = VedEditorUtils.editVedItemBasicProperties( viselCfg, vedScreen );
           if( viselCfg == null ) {
@@ -141,6 +142,7 @@ public class VedScreenDropTarget {
       case ACTOR: {
         String actorId = actorIdGen.nextId() + System.currentTimeMillis();
         VedItemCfg actorCfg = new VedItemCfg( actorId, aCfg );
+        actorCfg.propValues().setStr( PROPID_NAME, actorId );
         if( invokeDialog ) {
           actorCfg = VedEditorUtils.editVedItemBasicProperties( actorCfg, vedScreen );
           if( actorCfg == null ) {

@@ -4,6 +4,7 @@ import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tslib.bricks.d2.helpers.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -72,6 +73,10 @@ public interface IVedScreenView
    */
   IVedCoorsConverter coorsConverter();
 
+  /**
+   * FIXME vertex set manipulation methods must be removed from VED view and moved to separate entity
+   */
+
   boolean createViselVertexSet( String aViselId );
 
   void removeViselVertexSet();
@@ -121,6 +126,11 @@ public interface IVedScreenView
    */
   Control getControl();
 
-  // TODO add listener of the screen, like an IGefScreenListener
+  /**
+   * Generates an event when canvas saveable configuration changes via {@link #setCanvasConfig(IVedCanvasCfg)}.
+   *
+   * @return {@link IGenericChangeEventer} - canvas config change eventer
+   */
+  IGenericChangeEventer configChangeEventer();
 
 }

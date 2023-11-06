@@ -6,6 +6,7 @@ import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
@@ -18,8 +19,10 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public class VedScreenView
+public final class VedScreenView
     implements IVedScreenView, ICloseable {
+
+  private final GenericChangeEventer configChangeEventer;
 
   private final VedScreen               vedScreen;
   private final VedCanvasRenderer       canvasRenderer;
@@ -36,6 +39,7 @@ public class VedScreenView
    * @param aScreen {@link VedScreenCfg} - the owner screen
    */
   VedScreenView( VedScreen aScreen ) {
+    configChangeEventer = new GenericChangeEventer( this );
     vedScreen = aScreen;
     coorsConverter = new VedCoorsConverter( vedScreen );
     canvasRenderer = new VedCanvasRenderer( vedScreen.model() );
@@ -111,7 +115,11 @@ public class VedScreenView
 
   @Override
   public void setCanvasConfig( IVedCanvasCfg aCanvasConfig ) {
-    canvasRenderer.setCanvasConfig( aCanvasConfig );
+    TsNullArgumentRtException.checkNull( aCanvasConfig );
+    if( !canvasRenderer.canvasConfig().equals( aCanvasConfig ) ) {
+      canvasRenderer.setCanvasConfig( aCanvasConfig );
+      configChangeEventer.fireChangeEvent();
+    }
   }
 
   @Override
@@ -199,6 +207,11 @@ public class VedScreenView
   @Override
   public Control getControl() {
     return theCanvas;
+  }
+
+  @Override
+  public IGenericChangeEventer configChangeEventer() {
+    return configChangeEventer;
   }
 
 }
