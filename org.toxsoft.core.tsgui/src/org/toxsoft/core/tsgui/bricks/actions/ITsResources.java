@@ -131,5 +131,9 @@ interface ITsResources {
   String STR_P_PRINT_PREVIEW        = Messages.getString( "STR_P_PRINT_PREVIEW" );
   String STR_RUN_TEST               = Messages.getString( "STR_RUN_TEST" );
   String STR_RUN_TEST_D             = Messages.getString( "STR_RUN_TEST_D" );
+  String STR_FILE_EXPORT            = Messages.getString( "STR_FILE_EXPORT" );
+  String STR_FILE_EXPORT_D          = Messages.getString( "STR_FILE_EXPORT_D" );
+  String STR_FILE_IMPORT            = Messages.getString( "STR_FILE_IMPORT" );
+  String STR_FILE_IMPORT_D          = Messages.getString( "STR_FILE_IMPORT_D" );
 
 }

@@ -188,6 +188,16 @@ public interface ITsStdActionDefs {
   String ACTID_SAVE_AS = STD_ACTION_DEF_PREFIX + ".save_as"; //$NON-NLS-1$
 
   /**
+   * ID of action {@link #ACDEF_FILE_EXPORT}.
+   */
+  String ACTID_FILE_EXPORT = STD_ACTION_DEF_PREFIX + ".file_export"; //$NON-NLS-1$
+
+  /**
+   * ID of action {@link #ACDEF_FILE_IMPORT}.
+   */
+  String ACTID_FILE_IMPORT = STD_ACTION_DEF_PREFIX + ".file_import"; //$NON-NLS-1$
+
+  /**
    * ID of action {@link #ACDEF_QUIT}.
    */
   String ACTID_QUIT = STD_ACTION_DEF_PREFIX + ".quit"; //$NON-NLS-1$
@@ -357,6 +367,18 @@ public interface ITsStdActionDefs {
    */
   ITsActionDef ACDEF_SAVE_AS = ofPush2( ACTID_SAVE_AS, //
       STR_T_SAVE_AS, STR_P_SAVE_AS, ICONID_DOCUMENT_SAVE_AS );
+
+  /**
+   * Action: export content to the specified file.
+   */
+  ITsActionDef ACDEF_FILE_EXPORT = ofPush2( ACTID_FILE_EXPORT, //
+      STR_FILE_EXPORT, STR_FILE_EXPORT_D, ICONID_DOCUMENT_EXPORT );
+
+  /**
+   * Action: import content from the specified file.
+   */
+  ITsActionDef ACDEF_FILE_IMPORT = ofPush2( ACTID_FILE_IMPORT, //
+      STR_FILE_IMPORT, STR_FILE_IMPORT_D, ICONID_DOCUMENT_IMPORT );
 
   /**
    * Action: add an element.
