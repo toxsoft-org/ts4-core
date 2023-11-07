@@ -35,6 +35,10 @@ interface ITsResources {
   String STR_PLUGIN_PLUGIN_ID_D     = Messages.getString( "STR_PLUGIN_PLUGIN_ID_D" );     //$NON-NLS-1$
   String STR_PLUGIN_RESOURCE_PATH   = Messages.getString( "STR_PLUGIN_RESOURCE_PATH" );   //$NON-NLS-1$
   String STR_PLUGIN_RESOURCE_PATH_D = Messages.getString( "STR_PLUGIN_RESOURCE_PATH_D" ); //$NON-NLS-1$
+  String MSG_ERR_NO_PLUGIN_ID       = Messages.getString( "MSG_ERR_NO_PLUGIN_ID" );       //$NON-NLS-1$
+  String MSG_ERR_NO_RESOURCE_PATH   = Messages.getString( "MSG_ERR_NO_RESOURCE_PATH" );   //$NON-NLS-1$
+  String FMT_ERR_INV_RESOURCE_URL   = Messages.getString( "FMT_ERR_INV_RESOURCE_URL" );   //$NON-NLS-1$
+  String FMT_ERR_NO_RESOURCE_BY_URL = Messages.getString( "FMT_ERR_NO_RESOURCE_BY_URL" ); //$NON-NLS-1$
 
   /**
    * {@link TsImageSourceKindTsIcon}

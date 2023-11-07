@@ -85,8 +85,6 @@ abstract public class AbstractTsDialogPanel<T, E>
   // Constructors
   //
 
-  // TODO TRANSLATE
-
   /**
    * Constructs panel as {@link TsDialog} content.
    * <p>
@@ -138,6 +136,8 @@ abstract public class AbstractTsDialogPanel<T, E>
   // ------------------------------------------------------------------------------------
   // API for subclasses
   //
+
+  // TODO TRANSLATE
 
   /**
    * Извещает зарегистрированноых слушателей об изменениях в контролях.

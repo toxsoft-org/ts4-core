@@ -6,12 +6,16 @@ import org.eclipse.swt.*;
 import org.eclipse.swt.custom.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
+import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.panels.opsedit.*;
 import org.toxsoft.core.tsgui.panels.opsedit.impl.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
+import org.toxsoft.core.tsgui.utils.rectfit.*;
 import org.toxsoft.core.tsgui.valed.controls.basic.*;
+import org.toxsoft.core.tsgui.widgets.pdw.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.utils.*;
@@ -22,12 +26,17 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * <p>
  *
  * @author vs
+ * @author hazard157
  */
 public class PanelTsImageDescriptorEditor
     extends AbstractTsDialogPanel<TsImageDescriptor, ITsGuiContext> {
 
   private ValedComboSelector<String> kindIdCombo;
   private IOptionSetPanel            panel;
+  private IPdwWidget                 imageWidget;
+
+  private TsImage           lastImage  = null;                   // last drawn image
+  private TsImageDescriptor lastImDesc = TsImageDescriptor.NONE; // last drawn image's descriptor
 
   PanelTsImageDescriptorEditor( Composite aParent, TsDialog<TsImageDescriptor, ITsGuiContext> aOwnerDialog ) {
     super( aParent, aOwnerDialog );
@@ -60,12 +69,14 @@ public class PanelTsImageDescriptorEditor
     genericChangeEventer().pauseFiring();
     try {
       if( aData != null ) {
-        kindIdCombo.setValue( TsImageSourceKindNone.KIND_ID );
+        kindIdCombo.setValue( aData.kindId() );
         updateOptionsPanelOnKindIdChange();
         panel.setEntity( aData.params() );
       }
-      kindIdCombo.setValue( TsImageSourceKindNone.KIND_ID );
-      updateOptionsPanelOnKindIdChange();
+      else {
+        kindIdCombo.setValue( TsImageSourceKindNone.KIND_ID );
+        updateOptionsPanelOnKindIdChange();
+      }
       fireContentChangeEvent();
     }
     finally {
@@ -98,12 +109,16 @@ public class PanelTsImageDescriptorEditor
 
   void init() {
     this.setLayout( new BorderLayout() );
+    SashForm sfMain = new SashForm( this, SWT.HORIZONTAL );
+    // LEFT
+    Composite leftBoard = new Composite( sfMain, SWT.BORDER );
+    leftBoard.setLayout( new BorderLayout() );
     // kind selection board
-    Composite topBoard = new Composite( this, SWT.BORDER );
+    Composite topBoard = new Composite( leftBoard, SWT.BORDER );
     topBoard.setLayoutData( BorderLayout.NORTH );
     topBoard.setLayout( new BorderLayout() );
     CLabel l = new CLabel( topBoard, SWT.CENTER );
-    l.setLayoutData( BorderLayout.EAST );
+    l.setLayoutData( BorderLayout.WEST );
     l.setText( STR_IMG_SOURCE_KIND );
     l.setToolTipText( STR_IMG_SOURCE_KIND_D );
     kindIdCombo = new ValedComboSelector<>( tsContext(), //
@@ -124,16 +139,69 @@ public class PanelTsImageDescriptorEditor
     kindIdCombo.eventer().addListener( notificationValedControlChangeListener );
     // options panel
     panel = new OptionSetPanel( tsContext(), false, true );
-    panel.createControl( this );
+    panel.createControl( leftBoard );
     panel.getControl().setLayoutData( BorderLayout.CENTER );
     panel.genericChangeEventer().addListener( notificationGenericChangeListener );
+
+    // RIGHT imageWidget
+    imageWidget = new PdwWidgetSimple( new TsGuiContext( tsContext() ) );
+    imageWidget.createControl( sfMain );
+    imageWidget.getControl().setLayoutData( BorderLayout.EAST );
+    imageWidget.setAreaPreferredSize( EThumbSize.SZ360.pointSize() );
+    imageWidget.setFitInfo( RectFitInfo.BEST );
+    imageWidget.setFulcrum( ETsFulcrum.CENTER );
+    imageWidget.setPreferredSizeFixed( false );
+    imageWidget.setTsImage( null );
+    //
     updateOptionsPanelOnKindIdChange();
+    genericChangeEventer().addListener( aSource -> refreshImage() );
+    this.addDisposeListener( aE -> {
+      if( lastImage != null ) {
+        lastImage.dispose();
+      }
+    } );
+
+    //
+    sfMain.setWeights( 6000, 4000 );
   }
 
+  /**
+   * Sets the options definitions to {@link #panel} depending on image source kind ID selected in {@link #kindIdCombo}.
+   */
   private void updateOptionsPanelOnKindIdChange() {
     String kindId = kindIdCombo.getValue();
     ITsImageSourceKind kind = TsImageDescriptor.getImageSourceKindsMap().getByKey( kindId );
     panel.setOptionDefs( kind.opDefs() );
+  }
+
+  /**
+   * Refreshes displayed image, {@link #lastImage} and {@link #lastImDesc}.
+   */
+  private void refreshImage() {
+    TsImageDescriptor newImDescr = TsImageDescriptor.NONE;
+    if( !doValidate().isError() ) {
+      newImDescr = doGetDataRecord();
+      if( !newImDescr.equals( lastImDesc ) ) { // proceed only if image was actually changed
+        if( lastImage != null ) {
+          lastImage.dispose();
+          lastImage = null;
+        }
+        ITsImageSourceKind kind = TsImageDescriptor.getImageSourceKindsMap().getByKey( newImDescr.kindId() );
+        lastImage = kind.createImage( newImDescr, tsContext() );
+        lastImDesc = newImDescr;
+        imageWidget.setTsImage( lastImage );
+        imageWidget.redraw();
+      }
+      return;
+    }
+    // reset image - image
+    if( lastImage != null ) {
+      lastImage.dispose();
+      lastImage = null;
+    }
+    lastImDesc = TsImageDescriptor.NONE;
+    imageWidget.setTsImage( null );
+    imageWidget.redraw();
   }
 
   // ------------------------------------------------------------------------------------

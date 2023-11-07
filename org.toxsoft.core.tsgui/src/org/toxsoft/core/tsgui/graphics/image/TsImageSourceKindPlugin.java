@@ -11,12 +11,13 @@ import java.net.*;
 import org.eclipse.core.runtime.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
-import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.files.*;
 
 /**
  * {@link ITsImageSourceKind} implementation - image from the plugin (bundle) resource.
@@ -36,7 +37,7 @@ public class TsImageSourceKindPlugin
       TSID_DESCRIPTION, STR_PLUGIN_PLUGIN_ID_D, //
       TSID_IS_MANDATORY, AV_TRUE, //
       TSID_IS_NULL_ALLOWED, AV_FALSE, //
-      TSID_DEFAULT_VALUE, IAtomicValue.NULL //
+      TSID_DEFAULT_VALUE, AV_STR_EMPTY //
   );
 
   /**
@@ -47,7 +48,7 @@ public class TsImageSourceKindPlugin
       TSID_DESCRIPTION, STR_PLUGIN_RESOURCE_PATH_D, //
       TSID_IS_MANDATORY, AV_TRUE, //
       TSID_IS_NULL_ALLOWED, AV_FALSE, //
-      TSID_DEFAULT_VALUE, IAtomicValue.NULL //
+      TSID_DEFAULT_VALUE, AV_STR_EMPTY //
   );
 
   /**
@@ -109,6 +110,36 @@ public class TsImageSourceKindPlugin
   //
 
   @Override
+  protected ValidationResult doValidateParams( IOptionSet aParams ) {
+    String pluginId = trimSeparators( OPDEF_PLUGIN_ID.getValue( aParams ).asString() );
+    if( pluginId.isBlank() ) {
+      return ValidationResult.error( MSG_ERR_NO_PLUGIN_ID );
+    }
+    String resourcePath = trimSeparators( OPDEF_RESOURCE_PATH.getValue( aParams ).asString() );
+    if( resourcePath.isBlank() ) {
+      return ValidationResult.error( MSG_ERR_NO_RESOURCE_PATH );
+    }
+    String uriStr = "platform:/plugin/" + pluginId + '/' + resourcePath; //$NON-NLS-1$
+    URL platformURL = null;
+    try {
+      URL url = new URL( uriStr );
+      platformURL = FileLocator.find( url );
+    }
+    catch( @SuppressWarnings( "unused" ) MalformedURLException ex ) {
+      return ValidationResult.error( FMT_ERR_INV_RESOURCE_URL, uriStr );
+    }
+    if( platformURL == null ) {
+      return ValidationResult.error( FMT_ERR_INV_RESOURCE_URL, uriStr );
+    }
+    try( InputStream ins = new BufferedInputStream( platformURL.openStream() ) ) {
+      return ValidationResult.SUCCESS;
+    }
+    catch( @SuppressWarnings( "unused" ) IOException ex ) {
+      return ValidationResult.error( FMT_ERR_NO_RESOURCE_BY_URL, uriStr );
+    }
+  }
+
+  @Override
   protected TsImage doCreate( TsImageDescriptor aDescriptor, ITsGuiContext aContext ) {
     String pluginId = trimSeparators( OPDEF_PLUGIN_ID.getValue( aDescriptor.params() ).asString() );
     String resourcePath = trimSeparators( OPDEF_RESOURCE_PATH.getValue( aDescriptor.params() ).asString() );
@@ -120,9 +151,13 @@ public class TsImageSourceKindPlugin
         ITsImageManager imageManager = aContext.get( ITsImageManager.class );
         return imageManager.createUnknownImage( SIZE_OF_THE_MISSING_RESOURCE_IMAGE );
       }
-      InputStream ins = new BufferedInputStream( platformURL.openStream() );
-      Display display = aContext.get( Display.class );
-      return TsImageUtils.loadTsImage( ins, display );
+      try( InputStream ins = new BufferedInputStream( platformURL.openStream() ) ) {
+        Display display = aContext.get( Display.class );
+        return TsImageUtils.loadTsImage( ins, display );
+      }
+      finally {
+        // TODO this method needs rewrite
+      }
     }
     catch( MalformedURLException ex ) {
       throw new TsIllegalArgumentRtException( ex );
@@ -130,6 +165,12 @@ public class TsImageSourceKindPlugin
     catch( IOException ex ) {
       throw new TsIoRtException( ex );
     }
+  }
+
+  @Override
+  protected String doHumanReadableString( IOptionSet aParams ) {
+    String resourcePath = trimSeparators( OPDEF_RESOURCE_PATH.getValue( aParams ).asString() );
+    return TsFileUtils.extractFileName( resourcePath );
   }
 
   @Override
