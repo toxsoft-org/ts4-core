@@ -154,7 +154,10 @@ abstract class AbstractVedItemsManager<T extends VedAbstractItem>
 
   @Override
   public void close() {
-    clear();
+    while( !itemsList.isEmpty() ) {
+      T item = itemsList.removeByIndex( 0 );
+      item.dispose();
+    }
   }
 
   // ------------------------------------------------------------------------------------

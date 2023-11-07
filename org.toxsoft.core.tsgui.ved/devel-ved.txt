@@ -1,0 +1,1 @@
+--- For inspector VALEDs with dialog editor, automatically finish editing by dialog OK button
