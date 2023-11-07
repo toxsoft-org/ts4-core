@@ -14,8 +14,8 @@ import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
-import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * {@link ITsImageSourceKind} implementation base.
@@ -25,6 +25,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public non-sealed abstract class AbstractTsImageSourceKind
     extends StridableParameterized
     implements ITsImageSourceKind {
+
+  private static final int SIZE_OF_THE_MISSING_FILE_IMAGE = 32;
 
   private final IStridablesListEdit<IDataDef> opDefs = new StridablesList<>();
 
@@ -64,10 +66,23 @@ public non-sealed abstract class AbstractTsImageSourceKind
     if( !aDescriptor.kindId().equals( id() ) ) {
       throw new TsIllegalArgumentRtException( FMT_ERR_INV_KIND, aDescriptor.kindId(), id() );
     }
-    TsValidationFailedRtException.checkWarn( validateParams( aDescriptor.params() ) );
-    TsImage tsim = doCreate( aDescriptor, aContext );
-    TsInternalErrorRtException.checkNull( tsim );
-    return tsim;
+    ValidationResult vr = validateParams( aDescriptor.params() );
+    if( !vr.isError() ) {
+      try {
+        TsImage tsim = doCreate( aDescriptor, aContext );
+        if( tsim != null ) {
+          return tsim;
+        }
+      }
+      catch( Exception ex ) {
+        LoggerUtils.errorLogger().error( ex );
+      }
+    }
+    else {
+      LoggerUtils.errorLogger().warning( vr.message() );
+    }
+    ITsImageManager imageManager = aContext.get( ITsImageManager.class );
+    return imageManager.createUnknownImage( SIZE_OF_THE_MISSING_FILE_IMAGE );
   }
 
   @Override

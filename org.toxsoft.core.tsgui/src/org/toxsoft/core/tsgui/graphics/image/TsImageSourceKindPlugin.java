@@ -61,8 +61,6 @@ public class TsImageSourceKindPlugin
    */
   public static final ITsImageSourceKind INSTANCE = new TsImageSourceKindPlugin();
 
-  private static final int SIZE_OF_THE_MISSING_RESOURCE_IMAGE = 32;
-
   private TsImageSourceKindPlugin() {
     super( KIND_ID, OptionSetUtils.createOpSet( //
         TSID_NAME, STR_SRCKIND_PLUGIN, //
@@ -147,10 +145,6 @@ public class TsImageSourceKindPlugin
     try {
       URL url = new URL( uriStr );
       URL platformURL = FileLocator.find( url );
-      if( platformURL == null ) {
-        ITsImageManager imageManager = aContext.get( ITsImageManager.class );
-        return imageManager.createUnknownImage( SIZE_OF_THE_MISSING_RESOURCE_IMAGE );
-      }
       try( InputStream ins = new BufferedInputStream( platformURL.openStream() ) ) {
         Display display = aContext.get( Display.class );
         return TsImageUtils.loadTsImage( ins, display );

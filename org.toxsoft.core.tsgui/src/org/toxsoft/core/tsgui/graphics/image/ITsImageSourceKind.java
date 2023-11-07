@@ -6,7 +6,6 @@ import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
-import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -19,8 +18,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public sealed interface ITsImageSourceKind
-    extends IStridableParameterized
-    permits AbstractTsImageSourceKind {
+    extends IStridableParameterized permits AbstractTsImageSourceKind {
 
   /**
    * Returns the definitions of the {@link TsImageDescriptor#params()} options for this kind of image source.
@@ -53,19 +51,16 @@ public sealed interface ITsImageSourceKind
    * <p>
    * This method may be resource and time consuming and may throw other runtime exceptions, specific to the source kind.
    * <p>
-   * Note: in case when image source does not exists method does not throws an exception but returns the valid image
-   * created with {@link ITsImageManager#createUnknownImage(int)}. For example, there is no file for file source or no
-   * resource for plugin resource source. The motivation for this behavior is to avoid the program crashing when a
-   * resource is missing, as such situations often occur during program development and debugging. All other cases like
-   * invalid values in {@link TsImageDescriptor#params()}, unknown source kind or corrupted resource causes the
-   * exception.
+   * Note: in case when image can not be created (for example, when {@link #validateParams(IOptionSet)} fails) method
+   * does not throws an exception, rather logs an error mesage and returns the valid image created with
+   * {@link ITsImageManager#createUnknownImage(int)}. The motivation for this behavior is to avoid the program crashing
+   * when a resource is missing or corrupter.
    *
    * @param aDescriptor {@link TsImageDescriptor} - the image descriptor
    * @param aContext {@link ITsGuiContext} - the context
    * @return {@link TsImage} - created image, never is <code>null</code>
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException the descriptor has ID different with {@link #id()}
-   * @throws TsValidationFailedRtException failed call to {@link #validateParams(IOptionSet)}
    */
   TsImage createImage( TsImageDescriptor aDescriptor, ITsGuiContext aContext );
 

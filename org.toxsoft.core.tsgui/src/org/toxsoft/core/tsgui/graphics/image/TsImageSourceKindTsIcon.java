@@ -96,10 +96,6 @@ public class TsImageSourceKindTsIcon
     EIconSize iconSize = OPDEF_ICON_SIZE.getValue( aDescriptor.params() ).asValobj();
     ITsIconManager iconManager = aContext.get( ITsIconManager.class );
     String symbolicName = iconManager.makeSymbolicName( iconId, iconSize );
-    if( !iconManager.isRegistered( symbolicName ) ) {
-      ITsImageManager imageManager = aContext.get( ITsImageManager.class );
-      return imageManager.createUnknownImage( iconSize.size() );
-    }
     ImageDescriptor imgDescr = iconManager.loadFreeDescriptor( symbolicName );
     Display display = aContext.get( Display.class );
     Image image = imgDescr.createImage( display );
