@@ -50,8 +50,6 @@ public class TsImageSourceKindFile
    */
   public static final ITsImageSourceKind INSTANCE = new TsImageSourceKindFile();
 
-  private static final int SIZE_OF_THE_MISSING_FILE_IMAGE = 32;
-
   private TsImageSourceKindFile() {
     super( KIND_ID, OptionSetUtils.createOpSet( //
         TSID_NAME, STR_SRCKIND_FILE, //
@@ -102,10 +100,6 @@ public class TsImageSourceKindFile
   protected TsImage doCreate( TsImageDescriptor aDescriptor, ITsGuiContext aContext ) {
     String pathStr = OPDEF_FILE_PATH.getValue( aDescriptor.params() ).asString();
     File path = new File( pathStr );
-    if( !path.exists() ) {
-      ITsImageManager imageManager = aContext.get( ITsImageManager.class );
-      return imageManager.createUnknownImage( SIZE_OF_THE_MISSING_FILE_IMAGE );
-    }
     Display display = aContext.get( Display.class );
     return TsImageUtils.loadTsImage( path, display );
   }

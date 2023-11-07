@@ -40,6 +40,13 @@ public interface ITsguiVedConstants {
   int VED_EDITOR_PALETTE_ICON_SIZE_SCALE = 1;
 
   // ------------------------------------------------------------------------------------
+  // Misc
+  //
+
+  String SCREEN_CFG_FILE_EXT     = "screencfg";                //$NON-NLS-1$
+  String SCREEN_CFG_FILE_AST_EXT = "*." + SCREEN_CFG_FILE_EXT; //$NON-NLS-1$
+
+  // ------------------------------------------------------------------------------------
   // Icons
 
   String PREFIX_OF_ICON_FIELD_NAME     = "ICONID_";                //$NON-NLS-1$
