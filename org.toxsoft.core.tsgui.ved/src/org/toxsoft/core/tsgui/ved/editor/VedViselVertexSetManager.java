@@ -26,17 +26,18 @@ public class VedViselVertexSetManager
     @Override
     public void onGenericChangeEvent( Object aSource ) {
       String viselId = selectionManager.singleSelectedViselId();
-      vedScreen().view().removeViselVertexSet();
+      removeViselVertexSet();
       if( viselId != null ) {
-        vedScreen().view().createViselVertexSet( viselId );
+        createViselVertexSet( viselId );
       }
     }
 
   }
 
   private final IVedViselSelectionManager selectionManager;
+  private final SelectionListener         selectionListener;
 
-  private final SelectionListener selectionListener;
+  private VedAbstractVertexSet viselVertexSet = null;
 
   /**
    * Constructor.
@@ -51,6 +52,27 @@ public class VedViselVertexSetManager
     selectionManager = aSelectionManager;
     selectionListener = new SelectionListener();
     selectionManager.genericChangeEventer().addListener( selectionListener );
+  }
+
+  public boolean createViselVertexSet( String aViselId ) {
+    VedAbstractVisel visel = vedScreen().model().visels().list().getByKey( aViselId );
+    if( viselVertexSet != null ) {
+      return false;
+    }
+    viselVertexSet = visel.createVertexSet();
+    vedScreen().model().screenDecoratorsAfter().add( viselVertexSet );
+    vedScreen().model().screenHandlersBefore().insert( 0, viselVertexSet.inputHandler() );
+    vedScreen().view().redraw();
+    return true;
+  }
+
+  public void removeViselVertexSet() {
+    if( viselVertexSet != null ) {
+      vedScreen().model().screenHandlersBefore().remove( viselVertexSet.inputHandler() );
+      vedScreen().model().screenDecoratorsAfter().remove( viselVertexSet );
+      viselVertexSet = null;
+      vedScreen().view().redraw();
+    }
   }
 
   // ------------------------------------------------------------------------------------
@@ -93,7 +115,7 @@ public class VedViselVertexSetManager
   @Override
   public boolean onKeyDown( Object aSource, int aCode, char aChar, int aState ) {
     if( aCode == SWT.ESC ) {
-      vedScreen().view().removeViselVertexSet();
+      removeViselVertexSet();
       return true;
     }
     return false;

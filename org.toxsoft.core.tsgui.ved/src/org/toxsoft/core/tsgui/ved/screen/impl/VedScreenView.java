@@ -30,8 +30,7 @@ public final class VedScreenView
   private final VedCanvasHandler        canvasHandler;
   private final IVedCoorsConverter      coorsConverter;
 
-  private VedAbstractVertexSet viselVertexSet = null;
-  private Canvas               theCanvas      = null;
+  private Canvas theCanvas = null;
 
   /**
    * Constructor.
@@ -139,29 +138,6 @@ public final class VedScreenView
   @Override
   public IVedCoorsConverter coorsConverter() {
     return coorsConverter;
-  }
-
-  @Override
-  public boolean createViselVertexSet( String aViselId ) {
-    VedAbstractVisel visel = vedScreen.model().visels().list().getByKey( aViselId );
-    if( viselVertexSet != null ) {
-      return false;
-    }
-    viselVertexSet = visel.createVertexSet();
-    vedScreen.model().screenDecoratorsAfter().add( viselVertexSet );
-    vedScreen.model().screenHandlersBefore().insert( 0, viselVertexSet.inputHandler() );
-    redraw();
-    return true;
-  }
-
-  @Override
-  public void removeViselVertexSet() {
-    if( viselVertexSet != null ) {
-      vedScreen.model().screenHandlersBefore().remove( viselVertexSet.inputHandler() );
-      vedScreen.model().screenDecoratorsAfter().remove( viselVertexSet );
-      viselVertexSet = null;
-      redraw();
-    }
   }
 
   @Override

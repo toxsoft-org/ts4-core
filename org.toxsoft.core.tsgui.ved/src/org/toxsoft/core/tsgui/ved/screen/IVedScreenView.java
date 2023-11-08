@@ -74,14 +74,6 @@ public interface IVedScreenView
   IVedCoorsConverter coorsConverter();
 
   /**
-   * FIXME vertex set manipulation methods must be removed from VED view and moved to separate entity
-   */
-
-  boolean createViselVertexSet( String aViselId );
-
-  void removeViselVertexSet();
-
-  /**
    * Returns VISEL IDs under the point specified in the SWT coordinates space.
    * <p>
    * Returns the ordered list: topmost VISEL is the first element, Z-order lowest VISEL is last in the list.
