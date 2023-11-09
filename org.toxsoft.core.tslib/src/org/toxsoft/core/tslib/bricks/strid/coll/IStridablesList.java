@@ -1,17 +1,16 @@
 package org.toxsoft.core.tslib.bricks.strid.coll;
 
-import java.io.ObjectStreamException;
+import java.io.*;
 
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.ImmutableStridablesList;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IMap;
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
 
 /**
- * Collection of {@link IStridable} entityes of one scope.
+ * Collection of {@link IStridable} entities of one scope.
  * <p>
- * This is mixed collection - both list and map, beacuse {@link IStridable} entities of one scope have natural uniquie
+ * This is mixed collection - both list and map, because {@link IStridable} entities of one scope have natural unique
  * key {@link IStridable#id()}.
  *
  * @author hazard157
