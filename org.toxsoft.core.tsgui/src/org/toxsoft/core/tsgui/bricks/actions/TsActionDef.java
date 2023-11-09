@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.bricks.actions;
 
+import static org.toxsoft.core.tsgui.bricks.actions.ITsStdActionDefs.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.eclipse.jface.action.*;
@@ -33,11 +34,11 @@ public class TsActionDef
     super( aId, aParams );
     actionStyle = switch( aActionStyle ) {
       case //
-      IAction.AS_CHECK_BOX, //
-      IAction.AS_DROP_DOWN_MENU, //
-      IAction.AS_PUSH_BUTTON, //
-      IAction.AS_RADIO_BUTTON, //
-      IAction.AS_UNSPECIFIED -> aActionStyle;
+          IAction.AS_CHECK_BOX, //
+          IAction.AS_DROP_DOWN_MENU, //
+          IAction.AS_PUSH_BUTTON, //
+          IAction.AS_RADIO_BUTTON, //
+          IAction.AS_UNSPECIFIED -> aActionStyle;
       default -> throw new TsIllegalArgumentRtException();
     };
   }
@@ -269,6 +270,15 @@ public class TsActionDef
   public int actionStyle() {
     return actionStyle;
   }
+
+  @Override
+  public boolean isSeparator() {
+    return id().equals( ACTID_SEPARATOR );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // IIconIdable
+  //
 
   @Override
   public String iconId() {

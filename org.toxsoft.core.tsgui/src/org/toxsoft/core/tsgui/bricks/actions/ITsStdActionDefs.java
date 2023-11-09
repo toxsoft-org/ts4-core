@@ -334,7 +334,7 @@ public interface ITsStdActionDefs {
   String ACTID_RUN_TEST = STD_ACTION_DEF_PREFIX + ".run_test"; //$NON-NLS-1$
 
   /**
-   * THis is "pseudo" action to insert separators in menus, tollbars, etc.
+   * THis is "pseudo" action to insert separators in menus, toolbars, etc.
    */
   ITsActionDef ACDEF_SEPARATOR = ofUnspec1( ACTID_SEPARATOR );
 

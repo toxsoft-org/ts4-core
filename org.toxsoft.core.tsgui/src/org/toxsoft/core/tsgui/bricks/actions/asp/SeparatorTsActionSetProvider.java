@@ -6,6 +6,7 @@ import org.toxsoft.core.tsgui.bricks.actions.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.coll.*;
 
 /**
  * The separator.
@@ -40,8 +41,13 @@ public final class SeparatorTsActionSetProvider
   //
 
   @Override
-  public IStridablesList<ITsActionDef> listHandledActionDefs() {
+  public IList<ITsActionDef> listAllActionDefs() {
     return LIST;
+  }
+
+  @Override
+  public IStridablesList<ITsActionDef> listHandledActionDefs() {
+    return IStridablesList.EMPTY;
   }
 
   @Override

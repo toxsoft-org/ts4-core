@@ -21,4 +21,11 @@ public interface ITsActionDef
    */
   int actionStyle();
 
+  /**
+   * Determines if this is a separator (in menus, toolbars, etc).
+   *
+   * @return boolean - <code>true</code> for separator, <code>false</code> for regular action definition
+   */
+  boolean isSeparator();
+
 }

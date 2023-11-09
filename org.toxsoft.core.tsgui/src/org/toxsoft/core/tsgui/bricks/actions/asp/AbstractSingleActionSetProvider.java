@@ -3,6 +3,7 @@ package org.toxsoft.core.tsgui.bricks.actions.asp;
 import org.toxsoft.core.tsgui.bricks.actions.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -21,12 +22,16 @@ public abstract class AbstractSingleActionSetProvider
 
   /**
    * Constructor.
+   * <p>
+   * Note: separator is not allowed as an action definition.
    *
    * @param aActionDef {@link ITsActionDef} - the action definition
    * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException the argument is a separator
    */
   public AbstractSingleActionSetProvider( ITsActionDef aActionDef ) {
     TsNullArgumentRtException.checkNull( aActionDef );
+    TsIllegalArgumentRtException.checkTrue( aActionDef.isSeparator() );
     actionDef = aActionDef;
     actionDefList = new SingleStridableList<>( actionDef );
   }
@@ -34,6 +39,11 @@ public abstract class AbstractSingleActionSetProvider
   // ------------------------------------------------------------------------------------
   // AbstractTsActionSetProvider
   //
+
+  @Override
+  public IList<ITsActionDef> listAllActionDefs() {
+    return actionDefList;
+  }
 
   @Override
   final public IStridablesList<ITsActionDef> listHandledActionDefs() {

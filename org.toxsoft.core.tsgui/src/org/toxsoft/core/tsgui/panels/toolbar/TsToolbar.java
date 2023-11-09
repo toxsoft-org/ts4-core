@@ -168,7 +168,7 @@ public class TsToolbar
   }
 
   private void internalAddToToolbarManager( ITsActionDef aActionDef ) {
-    if( aActionDef.id().equals( ACTID_SEPARATOR ) ) {
+    if( aActionDef.isSeparator() ) {
       tbManager.add( new Separator() );
       return;
     }
@@ -378,7 +378,7 @@ public class TsToolbar
     }
     allActionDefs.add( aActionDef );
     // update buttonActDefs
-    if( !aActionDef.id().equals( ACTID_SEPARATOR ) ) {
+    if( !aActionDef.isSeparator() ) {
       buttonActDefs.add( aActionDef );
     }
   }

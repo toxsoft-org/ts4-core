@@ -5,6 +5,8 @@ import static org.toxsoft.core.tsgui.bricks.actions.ITsStdActionDefs.*;
 import org.toxsoft.core.tsgui.bricks.actions.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -45,7 +47,8 @@ public class MethodPerActionTsActionSetProvider
 
   }
 
-  private final IStridablesListEdit<ITsActionDef> actDefs = new StridablesList<>();
+  private final IListEdit<ITsActionDef>           allActionDefs = new ElemArrayList<>();
+  private final IStridablesListEdit<ITsActionDef> actDefs       = new StridablesList<>();
 
   private final IStringMapEdit<Runnable>      runMap   = new StringMap<>();
   private final IStringMapEdit<IBooleanState> enaMap   = new StringMap<>();
@@ -73,6 +76,11 @@ public class MethodPerActionTsActionSetProvider
   // ------------------------------------------------------------------------------------
   // ITsActionSetProvider
   //
+
+  @Override
+  public IList<ITsActionDef> listAllActionDefs() {
+    return allActionDefs;
+  }
 
   @Override
   public IStridablesList<ITsActionDef> listHandledActionDefs() {
@@ -117,13 +125,22 @@ public class MethodPerActionTsActionSetProvider
    */
   public void defineAction( ITsActionDef aDef, Runnable aRunner, IBooleanState aEnaState, IBooleanState aCheckState ) {
     TsNullArgumentRtException.checkNulls( aDef, aRunner, aEnaState, aCheckState );
-    actDefs.add( aDef );
-    if( aDef.id().equals( ACTID_SEPARATOR ) ) {
+    if( aDef.isSeparator() ) {
+      defineSeparator();
       return;
     }
+    allActionDefs.add( aDef );
+    actDefs.add( aDef );
     runMap.put( aDef.id(), aRunner );
     enaMap.put( aDef.id(), aEnaState );
     checkMap.put( aDef.id(), aCheckState );
+  }
+
+  /**
+   * Adds the separator.
+   */
+  public void defineSeparator() {
+    allActionDefs.add( ACDEF_SEPARATOR );
   }
 
   /**

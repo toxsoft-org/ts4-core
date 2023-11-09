@@ -3,6 +3,7 @@ package org.toxsoft.core.tsgui.bricks.actions.asp;
 import org.toxsoft.core.tsgui.bricks.actions.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 
 public sealed interface ITsActionSetProvider
@@ -13,11 +14,18 @@ public sealed interface ITsActionSetProvider
   void handleAction( String aActionId );
 
   /**
-   * Returns all actions handled by this handler.
+   * Returns all actions including (separators and handled ones) by this handler.
    * <p>
    * Action IDs not present in {@link #listHandledActionIds()} are ignored.
    *
-   * @return {@link IStridablesList}&lt;{@link ITsActionDef}&gt; - the list of known actions
+   * @return {@link IList}&lt;{@link ITsActionDef}&gt; - the list of all actions definitions
+   */
+  IList<ITsActionDef> listAllActionDefs();
+
+  /**
+   * Returns all actions handled by this handler.
+   *
+   * @return {@link IStridablesList}&lt;{@link ITsActionDef}&gt; - the list of handled actions
    */
   IStridablesList<ITsActionDef> listHandledActionDefs();
 
@@ -32,7 +40,7 @@ public sealed interface ITsActionSetProvider
   /**
    * Determines if action enabled state is on.
    * <p>
-   * For unknown actions returns <code>true</code>.
+   * For action IDs not present in {@link #listHandledActionIds()} returns <code>true</code>.
    *
    * @param aActionId String - the action ID
    * @return boolean - <code>true</code> if action is enabled
@@ -42,7 +50,7 @@ public sealed interface ITsActionSetProvider
   /**
    * Determines if action checked state is on.
    * <p>
-   * For unknown actions returns <code>false</code>.
+   * For action IDs not present in {@link #listHandledActionIds()} returns <code>false</code>.
    *
    * @param aActionId String - the action ID
    * @return boolean - <code>true</code> if action is checked

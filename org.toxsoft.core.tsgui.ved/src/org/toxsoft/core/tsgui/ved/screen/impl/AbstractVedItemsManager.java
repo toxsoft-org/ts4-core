@@ -97,7 +97,7 @@ abstract class AbstractVedItemsManager<T extends VedAbstractItem>
       }
       // check if factory ID is not registered
       if( doFindFactory( aCfg ) == null ) {
-        return ValidationResult.error( FMT_ERR_VED_ITEM_UNKNOWN_FACTORY, aCfg.id() );
+        return ValidationResult.error( FMT_ERR_VED_ITEM_UNKNOWN_FACTORY, aCfg.factoryId() );
       }
       // warn of unassigned name
       ValidationResult vr = NameStringValidator.VALIDATOR.validate( aCfg.nmName() );
