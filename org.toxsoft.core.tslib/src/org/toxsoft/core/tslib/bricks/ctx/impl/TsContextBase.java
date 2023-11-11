@@ -7,6 +7,8 @@ import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.ctx.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.*;
@@ -287,6 +289,44 @@ public class TsContextBase<P extends ITsContextRo>
   final public void resetPendingEvents() {
     refWasChanged = false;
     opWasChanged = false;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Static API
+  //
+
+  /**
+   * Check context content againth the reference definitions.
+   * <p>
+   * Check includes:
+   * <ul>
+   * <li>mandatory references presence;</li>
+   * <li>Java type compatibility check.</li>
+   * </ul>
+   *
+   * @param aContext {@link ITsContextRo} - the context
+   * @param aDefs {@link ITsCollection}&lt;{@link ITsContextRefDef}&gt; - references definitions
+   * @return {@link ValidationResult} - the check result
+   */
+  public static ValidationResult validateRefDefs( ITsContextRo aContext, ITsCollection<ITsContextRefDef<?>> aDefs ) {
+    for( ITsContextRefDef<?> rd : aDefs ) {
+      if( rd.isMandatory() && !aContext.hasKey( rd.refKey() ) ) {
+        return ValidationResult.error( FMT_ERR_NO_MANDATORY_REF, rd.refKey() );
+      }
+    }
+    // check references values against defined types
+    for( ITsContextRefDef<?> rd : aDefs ) {
+      if( aContext.hasKey( rd.refKey() ) ) {
+        Object ref = aContext.get( rd.refKey() );
+        Class<?> expectedType = rd.refClass();
+        Class<?> realType = ref.getClass();
+        if( !expectedType.isAssignableFrom( realType ) ) {
+          return ValidationResult.error( FMT_ERR_INV_CLASS_REF, rd.refKey(), expectedType.getSimpleName(),
+              realType.getSimpleName() );
+        }
+      }
+    }
+    return ValidationResult.SUCCESS;
   }
 
 }
