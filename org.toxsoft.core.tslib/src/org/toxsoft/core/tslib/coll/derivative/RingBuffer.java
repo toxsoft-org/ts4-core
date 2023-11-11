@@ -32,17 +32,17 @@ public class RingBuffer<E>
   /**
    * Constructor.
    * <p>
-   * Capccity will be fitted in range {@link #MIN_CAPACITY} .. {@link #MAX_CAPACITY}.
+   * Capacity will be fitted in range {@link #MIN_CAPACITY} .. {@link #MAX_CAPACITY}.
    *
    * @param aCapacity int - buffer capacity
    */
   public RingBuffer( int aCapacity ) {
-    int capacity = TsMiscUtils.inRange( aCapacity, MIN_CAPACITY, MIN_CAPACITY );
+    int capacity = TsMiscUtils.inRange( aCapacity, MIN_CAPACITY, MAX_CAPACITY );
     items = new Object[capacity];
   }
 
   // ------------------------------------------------------------------------------------
-  // inmplementation
+  // Implementation
   //
 
   private int capacity() {
@@ -51,19 +51,14 @@ public class RingBuffer<E>
 
   private int pos( int aCurr, int aDelta ) {
     TsIllegalArgumentRtException.checkTrue( aCurr < 0 || aCurr > capacity() );
-    int delta;
-    if( aDelta >= 0 ) {
-      delta = aDelta % capacity();
+    TsIllegalArgumentRtException.checkTrue( aDelta < 0 );
+    if( aDelta == 0 ) {
+      return aCurr;
     }
-    else {
-      delta = -((-aDelta) % capacity());
-    }
+    int delta = aDelta % capacity();
     int pos = aCurr + delta;
     if( pos >= capacity() ) {
       pos -= capacity();
-    }
-    else {
-      pos += capacity();
     }
     return pos;
   }

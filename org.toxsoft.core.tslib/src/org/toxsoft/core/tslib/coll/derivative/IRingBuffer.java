@@ -24,9 +24,9 @@ public interface IRingBuffer<E>
   void put( E aElem );
 
   /**
-   * Removes the oldest element from the buffer an descreases {@link #size()}.
+   * Removes the oldest element from the buffer an decreases {@link #size()}.
    * <p>
-   * If buffer is empty throws an exeption.
+   * If buffer is empty throws an exception.
    *
    * @return &lt;E&gt; - oldest element from the buffer
    * @throws TsIllegalStateRtException buffer is empty
@@ -34,7 +34,7 @@ public interface IRingBuffer<E>
   E get();
 
   /**
-   * Removes the oldest element from the buffer an descreases {@link #size()}.
+   * Removes the oldest element from the buffer an decreases {@link #size()}.
    * <p>
    * If buffer is empty returns <code>null</code>.
    *
@@ -43,7 +43,7 @@ public interface IRingBuffer<E>
   E getOrNull();
 
   /**
-   * Determines if buffer is full so next {@link #put(Object)} will overwrite oldes element.
+   * Determines if buffer is full so next {@link #put(Object)} will overwrite oldest element.
    *
    * @return boolean - the flag that buffer is full
    */
