@@ -133,7 +133,7 @@ public abstract class AbstractValedTextAndButton<V>
   /**
    * Subclass must update {@link #getTextControl()}.
    * <p>
-   * Called after value change.
+   * Called after value change not by user in text field, but by buttopn-invoked dialog or by VALED API.
    */
   protected abstract void doUpdateTextControl();
 
