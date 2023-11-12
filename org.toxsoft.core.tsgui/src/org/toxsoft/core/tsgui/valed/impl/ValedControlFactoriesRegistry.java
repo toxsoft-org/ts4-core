@@ -61,6 +61,7 @@ public class ValedControlFactoriesRegistry
     registerFactory( ValedTsImageDescriptor.FACTORY );
     registerFactory( ValedTsImageFillInfo.FACTORY );
     registerFactory( ValedD2Angle.FACTORY );
+    registerFactory( ValedD2Point.FACTORY );
     // av
     registerFactory( ValedAvBooleanCheck.FACTORY );
     registerFactory( ValedAvIntegerSpinner.FACTORY );
@@ -80,6 +81,7 @@ public class ValedControlFactoriesRegistry
     registerFactory( ValedAvValobjTsLineInfo.FACTORY );
     registerFactory( ValedAvValobjTsBorderInfo.FACTORY );
     registerFactory( ValedAvValobjD2Angle.FACTORY );
+    registerFactory( ValedAvValobjD2Point.FACTORY );
 
     registerFactory( ValedAvValobjTsImageFillInfo.FACTORY );
     registerFactory( ValedAvValobjTsFillInfo.FACTORY );

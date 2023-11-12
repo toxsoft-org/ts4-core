@@ -84,4 +84,12 @@ interface ITsResources {
   String DLG_T_ANGLE_VALUE = "Величина угла";
   String DLG_T_ANGLE_UNIT  = "Единица измерения угла";
 
+  /**
+   * {@link ValedD2Point}
+   */
+  String STR_N_D2POINT_ORIENTATION = "Ориентация";
+  String STR_D_D2POINT_ORIENTATION = "Горизонтальное или вертикальное расположение элементов";
+  String STR_N_WIDTH_HINT          = "Ширина спиннера";
+  String STR_D_WIDTH_HINT          = "Предпочтительная ширина спиннера";
+
 }

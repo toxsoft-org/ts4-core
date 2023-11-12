@@ -64,7 +64,7 @@ public interface ITsGraphicsConstants {
       TSID_NAME, STR_DT_D2POINT, //
       TSID_DESCRIPTION, STR_DT_D2POINT_D, //
       TSID_KEEPER_ID, D2Point.KEEPER_ID, //
-      // FIXME OPID_EDITOR_FACTORY_NAME, ValedAvValobjD2Point.FACTORY.factoryName(), //
+      OPID_EDITOR_FACTORY_NAME, ValedAvValobjD2Point.FACTORY.factoryName(), //
       TSID_DEFAULT_VALUE, avValobj( ID2Point.ZERO ) //
   );
 
