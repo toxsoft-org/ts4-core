@@ -58,10 +58,6 @@ class ViselRoundRectVertexSet
     updateSwtRect();
   }
 
-  // ------------------------------------------------------------------------------------
-  // Implementation
-  //
-
   @Override
   protected void update( double aDx, double aDy, String aVertexId ) {
     super.update( aDx, aDy, aVertexId );
@@ -107,6 +103,10 @@ class ViselRoundRectVertexSet
     }
     updateSwtRect();
   }
+
+  // ------------------------------------------------------------------------------------
+  // Implementation
+  //
 
   private void updateSwtRect() {
     if( thisSwtRect == null ) {
