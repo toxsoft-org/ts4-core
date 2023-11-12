@@ -14,6 +14,7 @@ import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tsgui.valed.controls.av.*;
 import org.toxsoft.core.tsgui.valed.controls.basic.*;
 import org.toxsoft.core.tsgui.valed.impl.*;
+import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
@@ -118,6 +119,13 @@ public class ValedD2Angle
 
       @Override
       public void widgetSelected( SelectionEvent aEvent ) {
+        IAtomicValue v = valueSpinner.getValue();
+        if( unitCombo.selectedItem().equals( STR_DEGREES ) ) {
+          angle.setRad( v.asDouble() );
+        }
+        else {
+          angle.setDeg( v.asDouble() );
+        }
         updateValue();
       }
     } );

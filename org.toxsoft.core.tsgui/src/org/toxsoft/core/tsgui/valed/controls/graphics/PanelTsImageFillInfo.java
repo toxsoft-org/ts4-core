@@ -12,7 +12,7 @@ import org.toxsoft.core.tsgui.dialogs.datarec.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
-import org.toxsoft.core.tsgui.utils.layout.BorderLayout;
+import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tsgui.valed.controls.enums.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
@@ -142,7 +142,8 @@ public class PanelTsImageFillInfo
     }
   }
 
-  private PanelTsImageDescriptorEditor   imdPanel;
+  // private PanelTsImageDescriptorEditor imdPanel;
+  private PanelTsImageSourceEditor       imdPanel;
   private Composite                      imagePanel;
   private PreviewPanel                   previewPanel;
   private ValedEnumCombo<EImageFillKind> imgFillTypeCombo;
@@ -245,7 +246,8 @@ public class PanelTsImageFillInfo
     topPanel.setLayout( new GridLayout( 3, false ) );
     topPanel.setLayoutData( BorderLayout.NORTH );
 
-    imdPanel = new PanelTsImageDescriptorEditor( topPanel, tsContext(), null, 0 );
+    // imdPanel = new PanelTsImageDescriptorEditor( topPanel, tsContext(), null, 0 );
+    imdPanel = new PanelTsImageSourceEditor( topPanel, tsContext(), null, 0 );
 
     CLabel l = new CLabel( topPanel, SWT.CENTER );
     l.setText( STR_L_FILL_IMAGE_KIND );

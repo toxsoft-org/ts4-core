@@ -65,11 +65,17 @@ public class ValedCellEditor<V>
 
   @Override
   protected Control createControl( Composite aParent ) {
+    // if( valed instanceof AbstractAvWrapperValedControl ) { // если это редактор с кнопкой, то просто вернем его
+    // valedControl = valed.createControl( aParent );
+    // return valedControl;
+    // }
+
     Composite bkPanel = new Composite( aParent, SWT.NONE );
     GridLayout gd = new GridLayout( 2, false );
     gd.horizontalSpacing = 0;
     gd.marginBottom = 0;
     gd.marginHeight = 0;
+    gd.marginWidth = 0;
     gd.marginLeft = 0;
     gd.marginRight = 0;
     gd.marginTop = 0;
