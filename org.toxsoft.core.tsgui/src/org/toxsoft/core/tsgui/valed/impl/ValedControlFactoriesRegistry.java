@@ -60,6 +60,7 @@ public class ValedControlFactoriesRegistry
     registerFactory( ValedEnumCombo.FACTORY );
     registerFactory( ValedTsImageDescriptor.FACTORY );
     registerFactory( ValedTsImageFillInfo.FACTORY );
+    registerFactory( ValedD2Angle.FACTORY );
     // av
     registerFactory( ValedAvBooleanCheck.FACTORY );
     registerFactory( ValedAvIntegerSpinner.FACTORY );
@@ -78,6 +79,7 @@ public class ValedControlFactoriesRegistry
     registerFactory( ValedAvValobjSimpleRgba.FACTORY );
     registerFactory( ValedAvValobjTsLineInfo.FACTORY );
     registerFactory( ValedAvValobjTsBorderInfo.FACTORY );
+    registerFactory( ValedAvValobjD2Angle.FACTORY );
 
     registerFactory( ValedAvValobjTsImageFillInfo.FACTORY );
     registerFactory( ValedAvValobjTsFillInfo.FACTORY );

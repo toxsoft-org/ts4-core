@@ -5,6 +5,7 @@ package org.toxsoft.core.tsgui.valed.controls.graphics;
  *
  * @author hazard157
  */
+// TODO долокализовать строки
 interface ITsResources {
 
   String DLG_T_FONT_SELECT    = Messages.getString( "DLG_T_FONT_SELECT" );    //$NON-NLS-1$
@@ -76,5 +77,11 @@ interface ITsResources {
   String STR_L_IMAGE_SIZE        = "Размер: ";
   String STR_L_IMAGE_DESCRIPTION = "Описание: ";
   String STR_G_PREVIEW           = "Предпросмотр";
+
+  /**
+   * {@link ValedD2Angle}
+   */
+  String DLG_T_ANGLE_VALUE = "Величина угла";
+  String DLG_T_ANGLE_UNIT  = "Единица измерения угла";
 
 }

@@ -75,7 +75,7 @@ public interface ITsGraphicsConstants {
       TSID_NAME, STR_DT_D2ANGLE, //
       TSID_DESCRIPTION, STR_DT_D2ANGLE_D, //
       TSID_KEEPER_ID, D2Point.KEEPER_ID, //
-      // TODO OPID_EDITOR_FACTORY_NAME, ValedAvValobjD2Angle.FACTORY.factoryName(), //
+      OPID_EDITOR_FACTORY_NAME, ValedAvValobjD2Angle.FACTORY.factoryName(), //
       TSID_DEFAULT_VALUE, avValobj( ID2Angle.ZERO ) //
   );
 
