@@ -352,7 +352,11 @@ public class OptionSetPanel
 
   @Override
   public ValidationResult canGetEntity() {
-    return collectValuesFromValeds();
+    ValidationResult vr = collectValuesFromValeds();
+    if( !vr.isError() ) {
+      vr = ValidationResult.firstNonOk( vr, OptionSetUtils.validateOptionSet( currValues, optionDefs ) );
+    }
+    return vr;
   }
 
   // ------------------------------------------------------------------------------------

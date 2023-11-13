@@ -38,6 +38,7 @@ public class DialogOptionsEdit {
       panel.createControl( this );
       panel.getControl().setLayoutData( BorderLayout.CENTER );
       panel.setOptionDefs( environ() );
+      panel.genericChangeEventer().addListener( notificationGenericChangeListener );
     }
 
     @Override
@@ -47,7 +48,11 @@ public class DialogOptionsEdit {
 
     @Override
     protected ValidationResult doValidate() {
-      return validator.validate( getDataRecord() );
+      ValidationResult vr = panel.canGetEntity();
+      if( !vr.isError() ) {
+        vr = ValidationResult.firstNonOk( vr, validator.validate( getDataRecord() ) );
+      }
+      return vr;
     }
 
     @Override
@@ -149,7 +154,7 @@ public class DialogOptionsEdit {
   }
 
   /**
-   * No sublcassing.
+   * No subclasses.
    */
   private DialogOptionsEdit() {
     // nop
