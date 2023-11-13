@@ -26,8 +26,8 @@ public interface IPicsGridViewerConstants {
    * The flag for displaying labels under images.
    */
   IDataDef OPDEF_IS_LABELS_SHOWN = DataDef.create( "isLabelsShown", BOOLEAN, //$NON-NLS-1$
-      TSID_NAME, STR_N_IS_LABELS_SHOWN, //
-      TSID_DESCRIPTION, STR_D_IS_LABELS_SHOWN, //
+      TSID_NAME, STR_IS_LABELS_SHOWN, //
+      TSID_DESCRIPTION, STR_IS_LABELS_SHOWN_D, //
       TSID_DEFAULT_VALUE, AV_TRUE //
   );
 
@@ -35,8 +35,8 @@ public interface IPicsGridViewerConstants {
    * Max number of lines to display label under item.
    */
   IDataDef OPDEF_LABEL_LINES = DataDef.create( "labelLines", INTEGER, //$NON-NLS-1$
-      TSID_NAME, STR_N_LABEL_LINES, //
-      TSID_DESCRIPTION, STR_D_LABEL_LINES, //
+      TSID_NAME, STR_LABEL_LINES, //
+      TSID_DESCRIPTION, STR_LABEL_LINES_D, //
       TSID_MIN_INCLUSIVE, avInt( 1 ), //
       TSID_MAX_INCLUSIVE, avInt( 4 ), //
       TSID_DEFAULT_VALUE, avInt( 2 ) //
@@ -46,8 +46,8 @@ public interface IPicsGridViewerConstants {
    * The flag for displaying pop-up hints for the image.
    */
   IDataDef OPDEF_IS_TOOLTIPS_SHOWN = DataDef.create( "isTooltipsShown", BOOLEAN, //$NON-NLS-1$
-      TSID_NAME, STR_N_IS_TOOLTIPS_SHOWN, //
-      TSID_DESCRIPTION, STR_D_IS_TOOLTIPS_SHOWN, //
+      TSID_NAME, STR_IS_TOOLTIPS_SHOWN, //
+      TSID_DESCRIPTION, STR_IS_TOOLTIPS_SHOWN_D, //
       TSID_DEFAULT_VALUE, AV_TRUE //
   );
 
@@ -55,8 +55,8 @@ public interface IPicsGridViewerConstants {
    * The default size of the displayed thumbnails.
    */
   IDataDef OPDEF_DEFAULT_THUMB_SIZE = DataDef.create( "defaultThumbSize", VALOBJ, //$NON-NLS-1$
-      TSID_NAME, STR_N_DEFAULT_THUMB_SIZE, //
-      TSID_DESCRIPTION, STR_D_DEFAULT_THUMB_SIZE, //
+      TSID_NAME, STR_DEFAULT_THUMB_SIZE, //
+      TSID_DESCRIPTION, STR_DEFAULT_THUMB_SIZE_D, //
       TSID_KEEPER_ID, EThumbSize.KEEPER_ID, //
       TSID_DEFAULT_VALUE, avValobj( EThumbSize.SZ128 )//
   );
@@ -65,8 +65,8 @@ public interface IPicsGridViewerConstants {
    * The selection rectangle (border around item) drawing settings.
    */
   IDataDef OPDEF_SELECTION_BORDER_SETTINGS = DataDef.create( "selectionBorderSetting", VALOBJ, //$NON-NLS-1$
-      TSID_NAME, STR_N_SELECTION_BORDER_SETTINGS, //
-      TSID_DESCRIPTION, STR_D_SELECTION_BORDER_SETTINGS, //
+      TSID_NAME, STR_SELECTION_BORDER_SETTINGS, //
+      TSID_DESCRIPTION, STR_SELECTION_BORDER_SETTINGS_D, //
       TSID_KEEPER_ID, TsBorderInfo.KEEPER_ID, //
       TSID_DEFAULT_VALUE, avValobj( TsBorderInfo.createSimpleBorder( 1, ETsColor.DARK_GRAY.rgba() ) ) //
   );
@@ -75,8 +75,8 @@ public interface IPicsGridViewerConstants {
    * The flag to display {@link ITsVisualsProvider#getIcon(Object, EIconSize)} instead of thumbs.
    */
   IDataDef OPDEF_IS_ICONS_INSTEAD_OF_THUMBS = DataDef.create( "isIconsInsteadOfThumbs", BOOLEAN, //$NON-NLS-1$
-      TSID_NAME, STR_N_IS_ICONS_INSTEAD_OF_THUMBS, //
-      TSID_DESCRIPTION, STR_D_IS_ICONS_INSTEAD_OF_THUMBS, //
+      TSID_NAME, STR_IS_ICONS_INSTEAD_OF_THUMBS, //
+      TSID_DESCRIPTION, STR_IS_ICONS_INSTEAD_OF_THUMBS_D, //
       TSID_DEFAULT_VALUE, AV_FALSE //
   );
 

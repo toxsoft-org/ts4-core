@@ -7,18 +7,17 @@ package org.toxsoft.core.tsgui.panels.pgv;
  */
 interface ITsResources {
 
-  String STR_N_IS_LABELS_SHOWN            = "Подписи?";
-  String STR_D_IS_LABELS_SHOWN            = "Признак показа подписей под изображениями";
-  String STR_N_LABEL_LINES                = "Кол-во линии?";
-  String STR_D_LABEL_LINES                = "Максимальное количество строк текста в подписи";
-  String STR_N_IS_TOOLTIPS_SHOWN          = "Подсказки?";
-  String STR_D_IS_TOOLTIPS_SHOWN          = "Признак показа всплывающих подсказок к изображению";
-  String STR_N_DEFAULT_THUMB_SIZE         = "Размер миниатюры";
-  String STR_D_DEFAULT_THUMB_SIZE         = "Размер отображаемых миниатюр по умолчанию";
-  String STR_N_SELECTION_BORDER_SETTINGS  = "Свойства выделения";
-  String STR_D_SELECTION_BORDER_SETTINGS  = "Свойстваграницы вокруг выделенного элемента";
-  String STR_N_IS_ICONS_INSTEAD_OF_THUMBS = "Значки вместо миниатюр?";
-  String STR_D_IS_ICONS_INSTEAD_OF_THUMBS =
-      "Использовать значки элементов вместо миниатюр, которые не всегда дуоступны";
+  String STR_IS_LABELS_SHOWN              = Messages.getString( "STR_IS_LABELS_SHOWN" );              //$NON-NLS-1$
+  String STR_IS_LABELS_SHOWN_D            = Messages.getString( "STR_IS_LABELS_SHOWN_D" );            //$NON-NLS-1$
+  String STR_LABEL_LINES                  = Messages.getString( "STR_LABEL_LINES" );                  //$NON-NLS-1$
+  String STR_LABEL_LINES_D                = Messages.getString( "STR_LABEL_LINES_D" );                //$NON-NLS-1$
+  String STR_IS_TOOLTIPS_SHOWN            = Messages.getString( "STR_IS_TOOLTIPS_SHOWN" );            //$NON-NLS-1$
+  String STR_IS_TOOLTIPS_SHOWN_D          = Messages.getString( "STR_IS_TOOLTIPS_SHOWN_D" );          //$NON-NLS-1$
+  String STR_DEFAULT_THUMB_SIZE           = Messages.getString( "STR_DEFAULT_THUMB_SIZE" );           //$NON-NLS-1$
+  String STR_DEFAULT_THUMB_SIZE_D         = Messages.getString( "STR_DEFAULT_THUMB_SIZE_D" );         //$NON-NLS-1$
+  String STR_SELECTION_BORDER_SETTINGS    = Messages.getString( "STR_SELECTION_BORDER_SETTINGS" );    //$NON-NLS-1$
+  String STR_SELECTION_BORDER_SETTINGS_D  = Messages.getString( "STR_SELECTION_BORDER_SETTINGS_D" );  //$NON-NLS-1$
+  String STR_IS_ICONS_INSTEAD_OF_THUMBS   = Messages.getString( "STR_IS_ICONS_INSTEAD_OF_THUMBS" );   //$NON-NLS-1$
+  String STR_IS_ICONS_INSTEAD_OF_THUMBS_D = Messages.getString( "STR_IS_ICONS_INSTEAD_OF_THUMBS_D" ); //$NON-NLS-1$
 
 }
