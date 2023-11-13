@@ -142,7 +142,7 @@ public class ValedD2Angle
   @Override
   protected ID2Angle doGetUnvalidatedValue() {
     if( unitCombo.selectedItem().equals( STR_DEGREES ) ) {
-      D2Angle.ofDegrees( valueSpinner.getValue().asDouble() );
+      return D2Angle.ofDegrees( valueSpinner.getValue().asDouble() );
     }
     return D2Angle.ofRadians( valueSpinner.getValue().asDouble() );
   }
