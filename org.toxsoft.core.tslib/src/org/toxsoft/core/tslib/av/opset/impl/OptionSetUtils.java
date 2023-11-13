@@ -107,7 +107,8 @@ public class OptionSetUtils {
    * <ul>
    * <li>check all mandatory {@link IDataDef#isMandatory()} options from <code>aOpDefs</code> has corresponding values
    * in the option set <code>aOpValues</code>;</li>
-   * <li>check that all values for options from <code>aOpDefs</code> have type compatible to the definition.</li>
+   * <li>check that all values for options from <code>aOpDefs</code> have type compatible to the definition;</li>
+   * <li>calls each data definition {@link IDataDef#validator()} for individual values check.</li>
    * </ul>
    * Options in <code>aOpValues</code> without corresponding definitions in <code>aOpDefs</code> are not checked.
    *
@@ -118,13 +119,14 @@ public class OptionSetUtils {
    */
   public static ValidationResult validateOptionSet( IOptionSet aOpValues, IStridablesList<IDataDef> aOpDefs ) {
     TsNullArgumentRtException.checkNulls( aOpValues, aOpDefs );
-    // check mandatory option present
+    // first check mandatory option present
     for( IDataDef dd : aOpDefs ) {
       if( dd.isMandatory() && !aOpValues.hasKey( dd.id() ) ) {
         return ValidationResult.error( FMT_ERR_NO_MANDATORY_OP, dd.id(), dd.nmName() );
       }
     }
-    // check option values against defined types
+    // check option values against defined types and with individual validators
+    ValidationResult vr = ValidationResult.SUCCESS;
     for( IDataDef dd : aOpDefs ) {
       if( aOpValues.hasKey( dd.id() ) ) {
         IAtomicValue opVal = aOpValues.getValue( dd.id() );
@@ -132,9 +134,13 @@ public class OptionSetUtils {
           return ValidationResult.error( FMT_ERR_OP_TYPE_MISMATCH, dd.id(), dd.atomicType().id(),
               opVal.atomicType().id() );
         }
+        vr = ValidationResult.firstNonOk( vr, dd.validator().validate( opVal ) );
+        if( vr.isError() ) {
+          break;
+        }
       }
     }
-    return ValidationResult.SUCCESS;
+    return vr;
   }
 
   /**
