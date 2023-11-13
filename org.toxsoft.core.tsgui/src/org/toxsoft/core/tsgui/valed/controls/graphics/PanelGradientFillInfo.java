@@ -101,7 +101,7 @@ public class PanelGradientFillInfo
 
   StackLayout stackLayout;
 
-  PanelLinearGradientSelectorEx linearGradientSelector;
+  PanelLinearGradientSelector   linearGradientSelector;
   PanelRadialGradientSelector   radialGradientSelector;
   PanelCylinderGradientSelector cylinderGradientSelector;
 
@@ -146,7 +146,7 @@ public class PanelGradientFillInfo
     contentHolder.setLayout( stackLayout );
     contentHolder.setLayoutData( BorderLayout.CENTER );
 
-    linearGradientSelector = new PanelLinearGradientSelectorEx( contentHolder, tsContext() );
+    linearGradientSelector = new PanelLinearGradientSelector( contentHolder, tsContext() );
     radialGradientSelector = new PanelRadialGradientSelector( contentHolder, tsContext() );
     cylinderGradientSelector = new PanelCylinderGradientSelector( contentHolder, tsContext() );
 
