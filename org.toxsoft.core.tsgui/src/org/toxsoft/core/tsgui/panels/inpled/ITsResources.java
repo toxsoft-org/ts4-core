@@ -7,6 +7,6 @@ package org.toxsoft.core.tsgui.panels.inpled;
  */
 interface ITsResources {
 
-  String STR_N_XXX = Messages.getString( "STR_N_XXX" ); //$NON-NLS-1$
+  String MSG_ERR_NO_OPSET_TO_EDIT = Messages.getString( "MSG_ERR_NO_OPSET_TO_EDIT" ); //$NON-NLS-1$
 
 }

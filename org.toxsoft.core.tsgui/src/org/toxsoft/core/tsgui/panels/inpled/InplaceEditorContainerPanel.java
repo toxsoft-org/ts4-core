@@ -24,7 +24,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * TODO ??? {@link IInplaceEditorPanel} implementation.
  * <p>
- * Contains in-place content panel {@link AbstractInplaceContentPanel}, optional validation result pane and the button
+ * Contains in-place content panel {@link AbstractContentPanel}, optional validation result pane and the button
  * bar. Initially there is only "Edit" button in button bar. Pressing "Edit" switches content to the editing state and
  * "OK", "Cancel", "Revert", "Apply", "Restore" buttons appear on button bar. "OK" and "Cancel" button finishes the
  * editing and returns in-place editor to the viewer mode.
@@ -33,14 +33,14 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public final class InplaceContainerPanel
+public final class InplaceEditorContainerPanel
     extends AbstractLazyPanel<Control>
     implements IInplaceEditorPanel {
 
   /**
    * Default buttons in edit mode.
    * <p>
-   * Actions defined in content panel as {@link AbstractInplaceContentPanel#listSupportedActions()} may add several more
+   * Actions defined in content panel as {@link AbstractContentPanel#listSupportedActions()} may add several more
    * buttons.
    */
   public static final IStridablesList<ITsActionDef> DEFAULT_EDIT_ACTION_DEFS = new StridablesList<>( //
@@ -51,13 +51,13 @@ public final class InplaceContainerPanel
   );
 
   private final GenericChangeEventer        eventer;
-  private final AbstractInplaceContentPanel contentPanel;
+  private final AbstractContentPanel contentPanel;
 
   /**
    * List of actions (button) in edit mode.
    * <p>
    * List contains actions from {@link #DEFAULT_EDIT_ACTION_DEFS} with additions from
-   * {@link AbstractInplaceContentPanel#listSupportedActions()}.
+   * {@link AbstractContentPanel#listSupportedActions()}.
    */
   private final IStridablesList<ITsActionDef> editActionDefs;
 
@@ -80,11 +80,11 @@ public final class InplaceContainerPanel
    * <p>
    * Constructor stores reference to the context, does not creates copy.
    *
-   * @param aContext {@link ITsGuiContext} - контекст панели
-   * @param aContentPanel {@link AbstractInplaceContentPanel} - content panel
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aContext {@link ITsGuiContext} - the context
+   * @param aContentPanel {@link AbstractContentPanel} - content panel
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public InplaceContainerPanel( ITsGuiContext aContext, AbstractInplaceContentPanel aContentPanel ) {
+  public InplaceEditorContainerPanel( ITsGuiContext aContext, AbstractContentPanel aContentPanel ) {
     super( aContext );
     TsNullArgumentRtException.checkNull( aContentPanel );
     TsIllegalArgumentRtException.checkTrue( aContentPanel.getControl() != null );

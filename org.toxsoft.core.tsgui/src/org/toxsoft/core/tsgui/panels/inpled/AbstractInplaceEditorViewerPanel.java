@@ -7,15 +7,13 @@ import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * {@link IInplaceEditorPanel} always editing implementation, {@link #isEditing()} always returns <code>true</code>.
+ * {@link IInplaceEditorPanel} viewer implementation, that is {@link #isViewer()} always returns <code>true</code>.
  *
  * @author hazard157
  */
-public abstract class AbstractInplaceAlwaysEditingPanel
+public abstract class AbstractInplaceEditorViewerPanel
     extends AbstractLazyPanel<Control>
     implements IInplaceEditorPanel {
-
-  private final GenericChangeEventer genericChangeEventer;
 
   /**
    * Constructor.
@@ -25,9 +23,8 @@ public abstract class AbstractInplaceAlwaysEditingPanel
    * @param aContext {@link ITsGuiContext} - the context
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public AbstractInplaceAlwaysEditingPanel( ITsGuiContext aContext ) {
+  public AbstractInplaceEditorViewerPanel( ITsGuiContext aContext ) {
     super( aContext );
-    genericChangeEventer = new GenericChangeEventer( this );
   }
 
   // ------------------------------------------------------------------------------------
@@ -42,8 +39,8 @@ public abstract class AbstractInplaceAlwaysEditingPanel
   //
 
   @Override
-  public GenericChangeEventer genericChangeEventer() {
-    return genericChangeEventer;
+  public IGenericChangeEventer genericChangeEventer() {
+    return NoneGenericChangeEventer.INSTANCE;
   }
 
   // ------------------------------------------------------------------------------------
@@ -52,12 +49,12 @@ public abstract class AbstractInplaceAlwaysEditingPanel
 
   @Override
   final public boolean isViewer() {
-    return false;
+    return true;
   }
 
   @Override
   final public boolean isEditing() {
-    return true;
+    return false;
   }
 
   @Override
@@ -66,7 +63,9 @@ public abstract class AbstractInplaceAlwaysEditingPanel
   }
 
   @Override
-  public abstract boolean isChanged();
+  final public boolean isChanged() {
+    return false;
+  }
 
   @Override
   public void applyAndFinishEditing() {

@@ -15,9 +15,9 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * <p>
  * For the easy of implementation following abstract base implementations are present:
  * <ul>
- * <li>{@link AbstractInplaceViewerPanel} - TODO ???;</li>
- * <li>{@link AbstractInplaceAlwaysEditingPanel} - TODO ???;</li>
- * <li>{@link InplaceContainerPanel} - TODO ???.</li>
+ * <li>{@link AbstractInplaceEditorViewerPanel} - TODO ???;</li>
+ * <li>{@link AbstractInplaceEditorAlwaysEditingPanel} - TODO ???;</li>
+ * <li>{@link InplaceEditorContainerPanel} - TODO ???.</li>
  * </ul>
  *
  * @author hazard157

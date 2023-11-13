@@ -12,13 +12,13 @@ import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Base class to implement content panel in {@link InplaceContainerPanel}.
+ * Base class to implement content panel for {@link InplaceEditorContainerPanel}.
  * <p>
  * TODO how to use? wrappers around generic, M5 and other panels
  *
  * @author hazard157
  */
-public abstract class AbstractInplaceContentPanel
+public abstract class AbstractContentPanel
     extends AbstractLazyPanel<Control>
     implements IGenericContentPanel, ITsActionHandler {
 
@@ -32,7 +32,7 @@ public abstract class AbstractInplaceContentPanel
    * @param aContext {@link ITsGuiContext} - the context
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public AbstractInplaceContentPanel( ITsGuiContext aContext ) {
+  public AbstractContentPanel( ITsGuiContext aContext ) {
     super( aContext );
     eventer = new GenericChangeEventer( this );
   }
@@ -74,12 +74,12 @@ public abstract class AbstractInplaceContentPanel
   /**
    * The subclass may declare declare additional actions.
    * <p>
-   * Additional actions are the actions with IDs not listed in {@link InplaceContainerPanel#DEFAULT_EDIT_ACTION_DEFS}.
-   * Additional buttons will be created in button bar and {@link #handleAction(String)} will be called on such button
-   * press.
+   * Additional actions are the actions with IDs not listed in
+   * {@link InplaceEditorContainerPanel#DEFAULT_EDIT_ACTION_DEFS}. Additional buttons will be created in button bar and
+   * {@link #handleAction(String)} will be called on such button press.
    * <p>
    * This method may contain actions with IDs of default actions to redefine texts/icon on the default buttons. Anyway
-   * actions with default IDs are handled by {@link InplaceContainerPanel}.
+   * actions with default IDs are handled by {@link InplaceEditorContainerPanel}.
    * <p>
    * In base class returns {@link IStridablesList#EMPTY}. There is no need to call superclass method when overriding.
    *
@@ -106,7 +106,7 @@ public abstract class AbstractInplaceContentPanel
   /**
    * Subclass may handle additional actions listed in {@link #listSupportedActions()}.
    * <p>
-   * Default actions are handled by {@link InplaceContainerPanel} and this method is not called. {@inheritDoc}
+   * Default actions are handled by {@link InplaceEditorContainerPanel} and this method is not called. {@inheritDoc}
    */
   @Override
   public void handleAction( String aActionId ) {
@@ -141,7 +141,7 @@ public abstract class AbstractInplaceContentPanel
   public abstract boolean isEditing();
 
   /**
-   * Detrmines if there were anu changes in widget values since last {@link #applyChanges()}.
+   * Determines if there were and changes in widget values since last {@link #applyChanges()}.
    * <p>
    * In other words determines if there is any difference between values in GUI widgets and values of underlying content
    * properties.
@@ -153,7 +153,7 @@ public abstract class AbstractInplaceContentPanel
   /**
    * Checks if panel can be set in editing mode.
    *
-   * @return {@link ValidationResult} - the check result, on eroor editing can not be started
+   * @return {@link ValidationResult} - the check result, on error editing can not be started
    */
   public abstract ValidationResult canStartEditing();
 
@@ -172,7 +172,7 @@ public abstract class AbstractInplaceContentPanel
   public abstract void doApplyChanges();
 
   /**
-   * Sets the widget values in panel from the editet content properties.
+   * Sets the widget values in panel from the edited content properties.
    */
   public abstract void revertChanges();
 

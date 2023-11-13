@@ -10,7 +10,7 @@ import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 
 /**
- * Button bar for {@link InplaceContainerPanel}.
+ * Button bar for {@link InplaceEditorContainerPanel}.
  *
  * @author hazard157
  */
