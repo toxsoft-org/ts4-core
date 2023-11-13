@@ -12,7 +12,6 @@ import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
-import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.panels.lazy.*;
 import org.toxsoft.core.tsgui.panels.opsedit.*;
 import org.toxsoft.core.tsgui.valed.api.*;
@@ -187,11 +186,6 @@ public class OptionSetPanel
       }
       // create grid with 2 columns
       valedsGrid = new TsComposite( backplane );
-
-      // --- DEBUG
-      valedsGrid.setBackground( colorManager().getColor( ETsColor.DARK_CYAN ) );
-      // ---
-
       valedsGrid.setLayout( new GridLayout( 2, false ) );
       // create one row per option
       for( IDataDef dd : optionDefs ) {
@@ -374,11 +368,13 @@ public class OptionSetPanel
   public void setOptionDefs( IStridablesList<IDataDef> aDefs ) {
     TsNullArgumentRtException.checkNull( aDefs );
     optionDefs.setAll( aDefs );
-    reinitPanelContent();
-    initCurrValuesFromOptionDefs();
-    copyCurrValuesToValeds();
-    if( !onlyUserEvents ) {
-      genericEventer.fireChangeEvent();
+    if( backplane != null ) {
+      reinitPanelContent();
+      initCurrValuesFromOptionDefs();
+      copyCurrValuesToValeds();
+      if( !onlyUserEvents ) {
+        genericEventer.fireChangeEvent();
+      }
     }
   }
 

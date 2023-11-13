@@ -36,7 +36,7 @@ public class AspActorsRunner
   // implementation
   //
 
-  void doRunActors() {
+  final void doRunActors() {
     boolean enable = !vedScreen.isActorsEnabled();
     if( enable ) {
       // TODO when actors enabled, turn on editing, screen redraw, UNDO, SAVE, etc.
