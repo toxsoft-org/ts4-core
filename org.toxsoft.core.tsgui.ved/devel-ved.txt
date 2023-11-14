@@ -1,1 +1,2 @@
 --- For inspector VALEDs with dialog editor, automatically finish editing by dialog OK button
+--- auto ID generation API for actor/VISEL (like "Label1", "Label2", "CircleLamp1", "CircleLamp2", ...)

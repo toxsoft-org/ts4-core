@@ -20,6 +20,10 @@ public interface IVedItemsManager<T extends VedAbstractItem>
     extends ITsClearable {
 
   /**
+   * TODO add ID generation: String nextId( String aFactoryId );
+   */
+
+  /**
    * Returns the managed items.
    *
    * @return {@link IStridablesList}&lt;T&gt; - the ordered list of items
