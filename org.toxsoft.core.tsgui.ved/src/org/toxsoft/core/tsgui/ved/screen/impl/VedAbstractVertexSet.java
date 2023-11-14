@@ -3,6 +3,7 @@ package org.toxsoft.core.tsgui.ved.screen.impl;
 import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 
+import org.eclipse.swt.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.uievents.*;
@@ -120,13 +121,7 @@ public abstract class VedAbstractVertexSet
       if( dc == null ) {
         return false;
       }
-      // ID2Point prevP = screenView.coorsConverter().swt2Visel( (int)dc.prevPoint.x(), (int)dc.prevPoint.y(), visel );
       ID2Point currP = screenView.coorsConverter().swt2Visel( aCoors.x(), aCoors.y(), visel );
-
-      // ID2Point prevP = screenView.coorsConverter().swt2Screen( (int)dc.prevPoint.x(), (int)dc.prevPoint.y() );
-      // ID2Point currP = screenView.coorsConverter().swt2Screen( aCoors.x(), aCoors.y() );
-      // double dx = currP.x() - prevP.x();
-      // double dy = currP.y() - prevP.y();
 
       double dx = currP.x() - dc.prevPoint.x();
       double dy = currP.y() - dc.prevPoint.y();
@@ -134,7 +129,6 @@ public abstract class VedAbstractVertexSet
       boolean result = doOnVertexDrag( dc.vertex, dx, dy, EVedDragState.DRAGGING );
 
       dc.prevPoint.setPoint( currP.x(), currP.y() );
-      // dc.prevPoint.setPoint( aCoors.x(), aCoors.y() );
 
       screenView.redraw();
       screenView.update();
@@ -150,12 +144,7 @@ public abstract class VedAbstractVertexSet
       if( dc == null ) {
         return false;
       }
-      // ID2Point prevP = screenView.coorsConverter().swt2Visel( (int)dc.prevPoint.x(), (int)dc.prevPoint.y(), visel );
       ID2Point currP = screenView.coorsConverter().swt2Visel( aCoors.x(), aCoors.y(), visel );
-      // ID2Point prevP = screenView.coorsConverter().swt2Screen( (int)dc.prevPoint.x(), (int)dc.prevPoint.y() );
-      // ID2Point currP = screenView.coorsConverter().swt2Screen( aCoors.x(), aCoors.y() );
-      // double dx = currP.x() - prevP.x();
-      // double dy = currP.y() - prevP.y();
 
       double dx = currP.x() - dc.prevPoint.x();
       double dy = currP.y() - dc.prevPoint.y();
@@ -191,6 +180,97 @@ public abstract class VedAbstractVertexSet
       visible = true;
       screenView.redraw();
       return true;
+    }
+
+    // ------------------------------------------------------------------------------------
+    // ITsKeyInputListener
+    //
+
+    @Override
+    public boolean onKeyDown( Object aSource, int aCode, char aChar, int aState ) {
+      boolean result = false;
+      double zf = vedScreen.view().getConversion().zoomFactor() * visel.getConversion().zoomFactor();
+      if( aCode == SWT.ARROW_LEFT ) {
+        if( aState == 0 ) {
+          double x = visel.props().getDouble( PROPID_X ) - 1 / zf;
+          visel.props().setDouble( PROPID_X, x );
+        }
+        if( aState == SWT.CTRL ) {
+          double x = visel.props().getDouble( PROPID_X ) - 10. / zf;
+          visel.props().setDouble( PROPID_X, x );
+        }
+        if( aState == SWT.SHIFT ) {
+          double w = visel.props().getDouble( PROPID_WIDTH ) - 1 / zf;
+          visel.props().setDouble( PROPID_WIDTH, w );
+        }
+        if( aState == (SWT.CTRL | SWT.SHIFT) ) {
+          double w = visel.props().getDouble( PROPID_WIDTH ) - 10 / zf;
+          visel.props().setDouble( PROPID_WIDTH, w );
+        }
+        result = true;
+      }
+      if( aCode == SWT.ARROW_RIGHT ) {
+        if( aState == 0 ) {
+          double x = visel.props().getDouble( PROPID_X ) + 1 / zf;
+          visel.props().setDouble( PROPID_X, x );
+        }
+        if( aState == SWT.CTRL ) {
+          double x = visel.props().getDouble( PROPID_X ) + 10. / zf;
+          visel.props().setDouble( PROPID_X, x );
+        }
+        if( aState == SWT.SHIFT ) {
+          double w = visel.props().getDouble( PROPID_WIDTH ) + 1 / zf;
+          visel.props().setDouble( PROPID_WIDTH, w );
+        }
+        if( aState == (SWT.CTRL | SWT.SHIFT) ) {
+          double w = visel.props().getDouble( PROPID_WIDTH ) + 10 / zf;
+          visel.props().setDouble( PROPID_WIDTH, w );
+        }
+        result = true;
+      }
+      if( aCode == SWT.ARROW_UP ) {
+        if( aState == 0 ) {
+          double y = visel.props().getDouble( PROPID_Y ) - 1 / zf;
+          visel.props().setDouble( PROPID_Y, y );
+        }
+        if( aState == SWT.CTRL ) {
+          double y = visel.props().getDouble( PROPID_Y ) - 10. / zf;
+          visel.props().setDouble( PROPID_Y, y );
+        }
+        if( aState == SWT.SHIFT ) {
+          double h = visel.props().getDouble( PROPID_HEIGHT ) - 1 / zf;
+          visel.props().setDouble( PROPID_HEIGHT, h );
+        }
+        if( aState == (SWT.CTRL | SWT.SHIFT) ) {
+          double h = visel.props().getDouble( PROPID_HEIGHT ) - 10 / zf;
+          visel.props().setDouble( PROPID_HEIGHT, h );
+        }
+        result = true;
+      }
+      if( aCode == SWT.ARROW_DOWN ) {
+        if( aState == 0 ) {
+          double y = visel.props().getDouble( PROPID_Y ) + 1 / zf;
+          visel.props().setDouble( PROPID_Y, y );
+        }
+        if( aState == SWT.CTRL ) {
+          double y = visel.props().getDouble( PROPID_Y ) + 10. / zf;
+          visel.props().setDouble( PROPID_Y, y );
+        }
+        if( aState == SWT.SHIFT ) {
+          double h = visel.props().getDouble( PROPID_HEIGHT ) + 1 / zf;
+          visel.props().setDouble( PROPID_HEIGHT, h );
+        }
+        if( aState == (SWT.CTRL | SWT.SHIFT) ) {
+          double h = visel.props().getDouble( PROPID_HEIGHT ) + 10 / zf;
+          visel.props().setDouble( PROPID_HEIGHT, h );
+        }
+        result = true;
+      }
+      if( result ) {
+        screenView.redraw();
+        screenView.update();
+      }
+      return result;
     }
 
   }
@@ -272,6 +352,7 @@ public abstract class VedAbstractVertexSet
 
   @Override
   public final void paint( ITsGraphicsContext aGc ) {
+    System.out.println( "paintvisible(" + visible + ")" );
     if( visible ) {
       doPaint( aGc );
     }
@@ -316,6 +397,15 @@ public abstract class VedAbstractVertexSet
    */
   public VedAbstractUserInputHandler inputHandler() {
     return inputHandler;
+  }
+
+  /**
+   * Возвращает ИД визеля, с которым связан набор вершин.
+   *
+   * @return String - ИД визеля, с которым связан набор вершин
+   */
+  public String viselId() {
+    return visel.id();
   }
 
   // ------------------------------------------------------------------------------------

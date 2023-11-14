@@ -117,7 +117,7 @@ public class VedViselSelectionManager
 
   @Override
   public void setViselSelection( String aViselId, boolean aSelection ) {
-    if( isSelected( aViselId ) == aSelection ) {
+    if( isSelected( aViselId ) != aSelection ) {
       if( aSelection ) {
         selIdsList.add( aViselId );
       }

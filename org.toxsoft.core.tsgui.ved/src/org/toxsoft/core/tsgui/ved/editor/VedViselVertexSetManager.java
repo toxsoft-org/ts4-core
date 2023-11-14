@@ -3,6 +3,7 @@ package org.toxsoft.core.tsgui.ved.editor;
 import org.eclipse.swt.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.uievents.*;
+import org.toxsoft.core.tsgui.ved.editor.IVedViselSelectionManager.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
@@ -25,7 +26,15 @@ public class VedViselVertexSetManager
 
     @Override
     public void onGenericChangeEvent( Object aSource ) {
+      if( selectionManager.selectionKind() != ESelectionKind.SINGLE ) {
+        removeViselVertexSet();
+        return;
+      }
+
       String viselId = selectionManager.singleSelectedViselId();
+      if( viselVertexSet != null && viselVertexSet.viselId().equals( viselId ) ) {
+        return; // набор вершин уже существует - ничего не делаем
+      }
       removeViselVertexSet();
       if( viselId != null ) {
         createViselVertexSet( viselId );
@@ -80,8 +89,7 @@ public class VedViselVertexSetManager
   //
 
   @Override
-  public boolean onMouseDoubleClick( Object aSource, ETsMouseButton aButton, int aState, ITsPoint aCoors,
-      Control aWidget ) {
+  public boolean onMouseClick( Object aSource, ETsMouseButton aButton, int aState, ITsPoint aCoors, Control aWidget ) {
     if( aButton == ETsMouseButton.LEFT ) {
       IStringList viselIds = vedScreen().view().listViselIdsAtPoint( aCoors );
       if( viselIds.size() > 0 ) {
@@ -94,7 +102,7 @@ public class VedViselVertexSetManager
 
   @Override
   public boolean onMouseDown( Object aSource, ETsMouseButton aButton, int aState, ITsPoint aCoors, Control aWidget ) {
-    if( aButton == ETsMouseButton.LEFT ) {
+    if( aButton == ETsMouseButton.LEFT && (aState & SWT.MODIFIER_MASK) == 0 ) {
       IStringList viselIds = vedScreen().view().listViselIdsAtPoint( aCoors );
       // if( viselIds.size() <= 0 && selectionManager.selectedViselIds().size() > 0 ) {
       if( viselIds.size() <= 0 || !selectionManager.selectedViselIds().hasElem( viselIds.first() ) ) {
