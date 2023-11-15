@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.ved.screen.impl;
 
 import org.toxsoft.core.tsgui.ved.incub.tsg.*;
+import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.snippets.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.utils.*;
@@ -21,7 +22,7 @@ public abstract class VedAbstractDecorator
    * @param aScreen {@link VedScreen} - the owner screen
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public VedAbstractDecorator( VedScreen aScreen ) {
+  public VedAbstractDecorator( IVedScreen aScreen ) {
     super( aScreen );
   }
 

@@ -352,7 +352,6 @@ public abstract class VedAbstractVertexSet
 
   @Override
   public final void paint( ITsGraphicsContext aGc ) {
-    System.out.println( "paintvisible(" + visible + ")" );
     if( visible ) {
       doPaint( aGc );
     }

@@ -66,6 +66,9 @@ public interface ITsguiVedConstants {
   String ICONID_OBJECT_ROTATE_LEFT     = "object-rotate-left";     //$NON-NLS-1$
   String ICONID_OBJECT_ROTATE_ORIGINAL = "object-rotate-original"; //$NON-NLS-1$
   String ICONID_OBJECT_ROTATE_RIGHT    = "object-rotate-right";    //$NON-NLS-1$
+  // Action set - "Alignment"
+  String ICONID_ALIGN_LEFT  = "left-align";  //$NON-NLS-1$
+  String ICONID_ALIGN_RIGHT = "right-align"; //$NON-NLS-1$
 
   // ------------------------------------------------------------------------------------
   // Some useful action definitions

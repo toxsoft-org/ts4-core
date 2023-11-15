@@ -51,7 +51,7 @@ public class VedViselMultiselectionManager
     // VedAbstractDecorator
     //
 
-    public MultiSelectionDecorator( VedScreen aScreen, IVedViselSelectionManager aSelectionManager ) {
+    public MultiSelectionDecorator( IVedScreen aScreen, IVedViselSelectionManager aSelectionManager ) {
       super( aScreen );
       msManager = TsNullArgumentRtException.checkNull( aSelectionManager );
       selectionListener = new SelectionListener();
@@ -120,7 +120,7 @@ public class VedViselMultiselectionManager
    * @param aSelectionManager {@link IVedViselSelectionManager} - selection manager for VISELs
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public VedViselMultiselectionManager( VedScreen aScreen, IVedViselSelectionManager aSelectionManager ) {
+  public VedViselMultiselectionManager( IVedScreen aScreen, IVedViselSelectionManager aSelectionManager ) {
     super( aScreen );
     selectionManager = TsNullArgumentRtException.checkNull( aSelectionManager );
     selectionDecorator = new MultiSelectionDecorator( aScreen, aSelectionManager );
