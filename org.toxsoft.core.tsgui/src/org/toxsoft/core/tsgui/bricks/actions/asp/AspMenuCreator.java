@@ -5,13 +5,37 @@ import org.eclipse.swt.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.actions.*;
+import org.toxsoft.core.tsgui.bricks.actions.asp.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.utils.swt.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 
+/**
+ * Создатель меню из поставщика "действий" {@link ITsActionSetProvider}.
+ * <p>
+ *
+ * @author vs
+ */
 public class AspMenuCreator
     extends AbstractMenuCreator
     implements ITsGuiContextable {
+
+  class AspListener
+      implements IGenericChangeListener {
+
+    @Override
+    public void onGenericChangeEvent( Object aSource ) {
+      for( String id : menuItems.keys() ) {
+        MenuItem mi = menuItems.getByKey( id );
+        mi.setEnabled( actionsProvider.isActionEnabled( id ) );
+        mi.setSelection( actionsProvider.isActionChecked( id ) );
+      }
+    }
+
+  }
 
   class MiSelectionListener
       extends SelectionAdapter {
@@ -30,8 +54,19 @@ public class AspMenuCreator
 
   private final MiSelectionListener selectionListener = new MiSelectionListener();
 
+  private final IStringMapEdit<MenuItem> menuItems = new StringMap<>();
+
+  private final AspListener aspLitener = new AspListener();
+
+  /**
+   * Конструктор.
+   *
+   * @param aActionsProvider {@link ITsActionSetProvider} - поставщик "действий"
+   * @param aTsContext {@link ITsGuiContext} - соответствующий контекст
+   */
   public AspMenuCreator( ITsActionSetProvider aActionsProvider, ITsGuiContext aTsContext ) {
     actionsProvider = aActionsProvider;
+    actionsProvider.actionsStateEventer().addListener( aspLitener );
     tsContext = aTsContext;
   }
 
@@ -56,9 +91,11 @@ public class AspMenuCreator
   @Override
   protected boolean fillMenu( Menu aMenu ) {
     boolean result = false;
+    menuItems.clear();
     for( ITsActionDef actionDef : actionsProvider.listAllActionDefs() ) {
       MenuItem mi = createMenuItem( aMenu, actionDef );
       mi.addSelectionListener( selectionListener );
+      menuItems.put( actionDef.id(), mi );
       result = true;
     }
     return result;

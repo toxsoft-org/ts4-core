@@ -61,6 +61,7 @@ public class VedAspViselsAlignment
   public VedAspViselsAlignment( IVedScreen aVedScreen, IVedViselSelectionManager aSelectionManager ) {
     vedScreen = TsNullArgumentRtException.checkNull( aVedScreen );
     selectionManager = aSelectionManager;
+    selectionManager.genericChangeEventer().addListener( this::onSelectionChanged );
     defineAction( ACDEF_ALIGN_LEFT, this::doAlignLeft );
     defineAction( ACDEF_ALIGN_RIGHT, this::doAlignRight );
   }
@@ -144,6 +145,10 @@ public class VedAspViselsAlignment
       result.add( visels.getByKey( id ) );
     }
     return result;
+  }
+
+  void onSelectionChanged( @SuppressWarnings( "unused" ) Object aSource ) {
+    actionsStateEventer().fireChangeEvent();
   }
 
 }

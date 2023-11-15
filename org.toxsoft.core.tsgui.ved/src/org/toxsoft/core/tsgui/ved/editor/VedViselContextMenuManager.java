@@ -19,6 +19,8 @@ public class VedViselContextMenuManager
 
   private final VedAspViselsAlignment aspAlignment;
 
+  private final VedAspCommonContextMenu aspCommon;
+
   /**
    * Constructor.
    *
@@ -31,6 +33,7 @@ public class VedViselContextMenuManager
     TsNullArgumentRtException.checkNull( aSelectionManager );
     selectionManager = aSelectionManager;
     aspAlignment = new VedAspViselsAlignment( aScreen, selectionManager );
+    aspCommon = new VedAspCommonContextMenu( aScreen, selectionManager );
   }
 
   // ------------------------------------------------------------------------------------
@@ -47,26 +50,43 @@ public class VedViselContextMenuManager
         visel = vedScreen().model().visels().list().getByKey( viselIds.first() );
       }
       if( visel != null ) { // click was on the visel
+        aspCommon.setActiveVisel( visel );
         if( selectionManager.selectionKind() == ESelectionKind.MULTI ) { // multiselection is present
           aspAlignment.setAnchorVisel( visel );
 
-          Menu m = new Menu( vedScreen().view().getControl() );
-          MenuItem alignItem = new MenuItem( m, SWT.CASCADE );
+          AspMenuCreator mc = new AspMenuCreator( aspCommon, vedScreen().tsContext() );
+          Menu cmnMenu = mc.getMenu( vedScreen().view().getControl() );
+
+          // Menu m = new Menu( vedScreen().view().getControl() );
+          MenuItem alignItem = new MenuItem( cmnMenu, SWT.CASCADE );
           alignItem.setText( "Выравнивание" );
 
-          AspMenuCreator mc = new AspMenuCreator( aspAlignment, vedScreen().tsContext() );
-          Menu ctxMenu = mc.getMenu( m );
+          mc = new AspMenuCreator( aspAlignment, vedScreen().tsContext() );
+          Menu ctxMenu = mc.getMenu( cmnMenu );
 
           alignItem.setMenu( ctxMenu );
-          vedScreen().view().getControl().setMenu( m );
+
+          // MenuItem separator = new MenuItem( m, SWT.SEPARATOR );
+
+          vedScreen().view().getControl().setMenu( cmnMenu );
+
+          // for( MenuItem mi : cmnMenu.getItems() ) {
+          // mi.setMenu( m );
+          // }
 
           // m.addDisposeListener( aE -> vedScreen().view().getControl().setMenu( null ) );
 
           // AspMenuCreator mc = new AspMenuCreator( aspAlignment, vedScreen().tsContext() );
           // Menu ctxMenu = mc.getMenu( vedScreen().view().getControl() );
           // vedScreen().view().getControl().setMenu( ctxMenu );
-          return true;
         }
+        else {
+          AspMenuCreator mc = new AspMenuCreator( aspCommon, vedScreen().tsContext() );
+          Menu cmnMenu = mc.getMenu( vedScreen().view().getControl() );
+
+          vedScreen().view().getControl().setMenu( cmnMenu );
+        }
+        return true;
       }
     }
     return false;
