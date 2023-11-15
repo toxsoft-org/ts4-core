@@ -167,14 +167,12 @@ public final class TimastampMsecStridGenerator
     return new OptionSet( state );
   }
 
-  @SuppressWarnings( "boxing" )
   @Override
   public void setState( IOptionSet aState ) {
     TsValidationFailedRtException.checkWarn( validateState( aState ) );
     state.setAll( aState );
   }
 
-  @SuppressWarnings( "boxing" )
   @Override
   public ValidationResult validateState( IOptionSet aState ) {
     String prefix = OPDEF_PREFIX.getValue( aState ).asString();
