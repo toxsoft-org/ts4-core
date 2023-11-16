@@ -69,6 +69,8 @@ public interface ITsguiVedConstants {
   // Action set - "Alignment"
   String ICONID_ALIGN_LEFT  = "left-align";  //$NON-NLS-1$
   String ICONID_ALIGN_RIGHT = "right-align"; //$NON-NLS-1$
+  // Action set - "Common"
+  String ICONID_SETTINGS = "settings"; //$NON-NLS-1$
 
   // ------------------------------------------------------------------------------------
   // Some useful action definitions

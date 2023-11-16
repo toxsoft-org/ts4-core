@@ -1,12 +1,17 @@
 package org.toxsoft.core.tsgui.ved.screen.asp;
 
 import static org.toxsoft.core.tsgui.bricks.actions.ITsStdActionDefs.*;
+import static org.toxsoft.core.tsgui.bricks.actions.TsActionDef.*;
+import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
+import static org.toxsoft.core.tsgui.ved.screen.asp.ITsResources.*;
 
+import org.toxsoft.core.tsgui.bricks.actions.*;
 import org.toxsoft.core.tsgui.bricks.actions.asp.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.ved.editor.*;
 import org.toxsoft.core.tsgui.ved.editor.IVedViselSelectionManager.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
+import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
@@ -15,6 +20,14 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class VedAspCommonContextMenu
     extends MethodPerActionTsActionSetProvider
     implements ITsGuiContextable {
+
+  static final String ACTID_SCREEN_CONFIG = "screen.config"; //$NON-NLS-1$
+
+  /**
+   * Action: align group of selected visels to left edge.
+   */
+  public static final ITsActionDef ACDEF_BK_COLOR = ofPush2( ACTID_SCREEN_CONFIG, //
+      STR_SCREEN_CONFIG, STR_SCREEN_CONFIG_D, ICONID_SETTINGS );
 
   private final IVedScreen vedScreen;
 
@@ -33,9 +46,8 @@ public class VedAspCommonContextMenu
     vedScreen = TsNullArgumentRtException.checkNull( aVedScreen );
     selectionManager = aSelectionManager;
     selectionManager.genericChangeEventer().addListener( this::onSelectionChanged );
+    defineAction( ACDEF_BK_COLOR, this::doConfigurateCanvas );
     defineAction( ACDEF_REMOVE, this::doRemove );
-    // defineAction( ACDEF_ALIGN_LEFT, this::doAlignLeft );
-    // defineAction( ACDEF_ALIGN_RIGHT, this::doAlignRight );
   }
 
   // ------------------------------------------------------------------------------------
@@ -49,9 +61,14 @@ public class VedAspCommonContextMenu
 
   @Override
   public boolean isActionEnabled( String aActionId ) {
-    if( activeVisel == null ) {
-      if( aActionId.equals( ACDEF_REMOVE.id() ) ) {
+    if( aActionId.equals( ACDEF_REMOVE.id() ) ) {
+      if( activeVisel == null ) {
         return selectionManager.selectionKind() != ESelectionKind.NONE;
+      }
+    }
+    if( aActionId.equals( ACDEF_BK_COLOR.id() ) ) {
+      if( activeVisel != null ) {
+        return false;
       }
     }
     return true;
@@ -85,6 +102,13 @@ public class VedAspCommonContextMenu
     // setAcS
     // }
     actionsStateEventer().fireChangeEvent();
+  }
+
+  void doConfigurateCanvas() {
+    IVedCanvasCfg canvasConfig = PanelCanvasConfig.editCanvasConfig( vedScreen.view().canvasConfig(), tsContext() );
+    if( canvasConfig != null ) {
+      vedScreen.view().setCanvasConfig( canvasConfig );
+    }
   }
 
   void deleteSelectedVisels() {

@@ -31,4 +31,13 @@ interface ITsResources {
   String FMT_DLG_VED_ITEM_BASICS      = Messages.getString( "FMT_DLG_VED_ITEM_BASICS" );      //$NON-NLS-1$
   String FMT_DLG_VED_ITEM_BASICS_D    = Messages.getString( "FMT_DLG_VED_ITEM_BASICS_D" );    //$NON-NLS-1$
 
+  /**
+   * {@link PanelCanvasConfig}
+   */
+  String DLG_T_CANVAS_CFG   = "Конфигурация экрана";
+  String STR_MSG_CANVAS_CFG = "Измените требуемые параметры и нажмите \"OK\"";
+  String STR_L_WIDTH_PIX    = "Ширина (пикс): ";
+  String STR_L_HEIGHT_PIX   = "Высота (пикс): ";
+  String STR_G_SIZES        = "Размеры";
+  String STR_G_CONVERSIONS  = "Преобразования";
 }
