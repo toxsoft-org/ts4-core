@@ -15,4 +15,6 @@ interface ITsResources {
   String STR_ALIGN_RIGHT   = "По правому краю";
   String STR_ALIGN_RIGHT_D = "Выровнять группу выделенных элементов по правому краю";
 
+  String STR_SCREEN_CONFIG   = "Фон...";
+  String STR_SCREEN_CONFIG_D = "Настроить фон мнемосхемы";
 }

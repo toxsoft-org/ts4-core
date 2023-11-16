@@ -21,6 +21,10 @@ public class VedViselContextMenuManager
 
   private final VedAspCommonContextMenu aspCommon;
 
+  private final MenuCreatorFromAsp commonMenuCreator;
+
+  private final MenuCreatorFromAsp alignmentMenuCreator;
+
   /**
    * Constructor.
    *
@@ -34,6 +38,8 @@ public class VedViselContextMenuManager
     selectionManager = aSelectionManager;
     aspAlignment = new VedAspViselsAlignment( aScreen, selectionManager );
     aspCommon = new VedAspCommonContextMenu( aScreen, selectionManager );
+    commonMenuCreator = new MenuCreatorFromAsp( aspCommon, aScreen.tsContext() );
+    alignmentMenuCreator = new MenuCreatorFromAsp( aspAlignment, aScreen.tsContext() );
   }
 
   // ------------------------------------------------------------------------------------
@@ -49,45 +55,28 @@ public class VedViselContextMenuManager
       if( viselIds.size() > 0 ) {
         visel = vedScreen().model().visels().list().getByKey( viselIds.first() );
       }
+      aspCommon.setActiveVisel( visel );
       if( visel != null ) { // click was on the visel
-        aspCommon.setActiveVisel( visel );
         if( selectionManager.selectionKind() == ESelectionKind.MULTI ) { // multiselection is present
           aspAlignment.setAnchorVisel( visel );
 
-          MenuCreatorFromAsp mc = new MenuCreatorFromAsp( aspCommon, vedScreen().tsContext() );
-          Menu cmnMenu = mc.getMenu( vedScreen().view().getControl() );
+          Menu cmnMenu = commonMenuCreator.getMenu( vedScreen().view().getControl() );
 
           // Menu m = new Menu( vedScreen().view().getControl() );
           MenuItem alignItem = new MenuItem( cmnMenu, SWT.CASCADE );
           alignItem.setText( "Выравнивание" );
 
-          mc = new MenuCreatorFromAsp( aspAlignment, vedScreen().tsContext() );
-          Menu ctxMenu = mc.getMenu( cmnMenu );
+          Menu ctxMenu = alignmentMenuCreator.getMenu( cmnMenu );
 
           alignItem.setMenu( ctxMenu );
 
-          // MenuItem separator = new MenuItem( m, SWT.SEPARATOR );
-
           vedScreen().view().getControl().setMenu( cmnMenu );
-
-          // for( MenuItem mi : cmnMenu.getItems() ) {
-          // mi.setMenu( m );
-          // }
-
-          // m.addDisposeListener( aE -> vedScreen().view().getControl().setMenu( null ) );
-
-          // AspMenuCreator mc = new AspMenuCreator( aspAlignment, vedScreen().tsContext() );
-          // Menu ctxMenu = mc.getMenu( vedScreen().view().getControl() );
-          // vedScreen().view().getControl().setMenu( ctxMenu );
+          return true;
         }
-        else {
-          MenuCreatorFromAsp mc = new MenuCreatorFromAsp( aspCommon, vedScreen().tsContext() );
-          Menu cmnMenu = mc.getMenu( vedScreen().view().getControl() );
-
-          vedScreen().view().getControl().setMenu( cmnMenu );
-        }
-        return true;
       }
+      Menu cmnMenu = commonMenuCreator.getMenu( vedScreen().view().getControl() );
+      vedScreen().view().getControl().setMenu( cmnMenu );
+      return true;
     }
     return false;
   }
