@@ -54,14 +54,14 @@ public class VedViselContextMenuManager
         if( selectionManager.selectionKind() == ESelectionKind.MULTI ) { // multiselection is present
           aspAlignment.setAnchorVisel( visel );
 
-          AspMenuCreator mc = new AspMenuCreator( aspCommon, vedScreen().tsContext() );
+          MenuCreatorFromAsp mc = new MenuCreatorFromAsp( aspCommon, vedScreen().tsContext() );
           Menu cmnMenu = mc.getMenu( vedScreen().view().getControl() );
 
           // Menu m = new Menu( vedScreen().view().getControl() );
           MenuItem alignItem = new MenuItem( cmnMenu, SWT.CASCADE );
           alignItem.setText( "Выравнивание" );
 
-          mc = new AspMenuCreator( aspAlignment, vedScreen().tsContext() );
+          mc = new MenuCreatorFromAsp( aspAlignment, vedScreen().tsContext() );
           Menu ctxMenu = mc.getMenu( cmnMenu );
 
           alignItem.setMenu( ctxMenu );
@@ -81,7 +81,7 @@ public class VedViselContextMenuManager
           // vedScreen().view().getControl().setMenu( ctxMenu );
         }
         else {
-          AspMenuCreator mc = new AspMenuCreator( aspCommon, vedScreen().tsContext() );
+          MenuCreatorFromAsp mc = new MenuCreatorFromAsp( aspCommon, vedScreen().tsContext() );
           Menu cmnMenu = mc.getMenu( vedScreen().view().getControl() );
 
           vedScreen().view().getControl().setMenu( cmnMenu );

@@ -29,7 +29,7 @@ public class AspActorsRunner
   public AspActorsRunner( IVedScreen aVedScreen ) {
     TsNullArgumentRtException.checkNull( aVedScreen );
     vedScreen = aVedScreen;
-    defineAction( ACDEF_ENABLE_ACTORS_CHECK, this::doRunActors, IBooleanState.ALWAY_TRUE, this::isRunActorsChecked );
+    defineAction( ACDEF_ENABLE_ACTORS_CHECK, this::doRunActors, IBooleanState.ALWAYS_TRUE, this::isRunActorsChecked );
   }
 
   // ------------------------------------------------------------------------------------
