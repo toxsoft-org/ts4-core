@@ -4,6 +4,16 @@ import org.toxsoft.core.tslib.bricks.events.change.*;
 
 /**
  * {@link ITsActionSetProvider} base implementation.
+ * <p>
+ * When implementing an ASP, consider usage of the helper implementations:
+ * <ul>
+ * <li>{@link MethodPerActionTsActionSetProvider} - ASP for handling the several actions;</li>
+ * <li>{@link AbstractSingleActionSetProvider} - for the ASP containing the single action;</li>
+ * <li>{@link CompoundTsActionSetProvider} - an ASP without own actions but uniting other ASPs.</li>
+ * </ul>
+ * <p>
+ * Also there is {@link SeparatorTsActionSetProvider#INSTANCE} to add the separator between ASPs in the compound ASP
+ * {@link CompoundTsActionSetProvider}.
  *
  * @author hazard157
  */

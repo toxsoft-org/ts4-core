@@ -6,9 +6,24 @@ import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 
+/**
+ * Declared actions executor, action set provider (frequently referred as ASP).
+ * <p>
+ * Declares executed actions in {@link #listHandledActionDefs()}, executes (handles) actions in method
+ * {@link #handleAction(String)}. Methods {@link #isActionEnabled(String)} and {@link #isActionChecked(String)} together
+ * with {@link #actionsStateEventer()} allows to change visual representation of the actions (such as tool buttons, menu
+ * items) to represent enabled and checked states.
+ * <p>
+ * ASPs are typically provided by modules (subsystems) as a facade to access their functionality. For example, the
+ * undo/redo manager may provide two ASPs: for actions "Undo"/"Redo" and separate ASP for the single action "Show
+ * undo/redo stack dialog".
+ * <p>
+ * ASP is designed to build GUI components like tool bars and menus.
+ *
+ * @author hazard157
+ */
 public sealed interface ITsActionSetProvider
-    extends ITsActionHandler
-    permits AbstractTsActionSetProvider, SeparatorTsActionSetProvider {
+    extends ITsActionHandler permits AbstractTsActionSetProvider,SeparatorTsActionSetProvider {
 
   @Override
   void handleAction( String aActionId );

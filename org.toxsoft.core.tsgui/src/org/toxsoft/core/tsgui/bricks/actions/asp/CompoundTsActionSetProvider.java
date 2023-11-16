@@ -14,6 +14,8 @@ import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * Compound handler incorporates other {@link ITsActionSetProvider} implementation.
+ * <p>
+ * To add other ASPs the method {@link #addHandler(ITsActionSetProvider)} is used.
  *
  * @author hazard157
  */
@@ -101,7 +103,7 @@ public class CompoundTsActionSetProvider
   //
 
   /**
-   * Add handler to this compound provider.
+   * Add ASP handler to this compound provider.
    * <p>
    * Action definitions from added provider with the existing ID are ignored, generating the warning message in the log.
    *

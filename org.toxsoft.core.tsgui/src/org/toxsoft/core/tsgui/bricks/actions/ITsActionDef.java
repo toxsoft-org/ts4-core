@@ -17,7 +17,7 @@ public interface ITsActionDef
    * Returns one of {@link IAction#AS_UNSPECIFIED}, {@link IAction#AS_CHECK_BOX}, {@link IAction#AS_DROP_DOWN_MENU},
    * {@link IAction#AS_PUSH_BUTTON}, {@link IAction#AS_RADIO_BUTTON}.
    *
-   * @return int - SWT style of this ation
+   * @return int - SWT style of this action, <code>IAction.AS_XXX</code> flag
    */
   int actionStyle();
 

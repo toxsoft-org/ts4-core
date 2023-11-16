@@ -5,24 +5,28 @@ import org.eclipse.swt.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.actions.*;
-import org.toxsoft.core.tsgui.bricks.actions.asp.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.utils.swt.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Создатель меню из поставщика "действий" {@link ITsActionSetProvider}.
- * <p>
+ * A helper class to build full-featured menus from the {@link ITsActionSetProvider}.
  *
  * @author vs
  */
-public class AspMenuCreator
+public class MenuCreatorFromAsp
     extends AbstractMenuCreator
     implements ITsGuiContextable {
 
+  /**
+   * Listener to {@link ITsActionSetProvider#actionsStateEventer()}, update menu items state.
+   *
+   * @author hazard157
+   */
   class AspListener
       implements IGenericChangeListener {
 
@@ -37,6 +41,11 @@ public class AspMenuCreator
 
   }
 
+  /**
+   * Menu item selection (clock) listener - calls corresponding action handler.
+   *
+   * @author hazard157
+   */
   class MiSelectionListener
       extends SelectionAdapter {
 
@@ -48,23 +57,22 @@ public class AspMenuCreator
     }
   }
 
+  private final MiSelectionListener      selectionListener = new MiSelectionListener();
+  private final IStringMapEdit<MenuItem> menuItems         = new StringMap<>();
+  private final AspListener              aspLitener        = new AspListener();
+
   private final ITsActionSetProvider actionsProvider;
-
-  ITsGuiContext tsContext;
-
-  private final MiSelectionListener selectionListener = new MiSelectionListener();
-
-  private final IStringMapEdit<MenuItem> menuItems = new StringMap<>();
-
-  private final AspListener aspLitener = new AspListener();
+  private final ITsGuiContext        tsContext;
 
   /**
-   * Конструктор.
+   * Constructor.
    *
-   * @param aActionsProvider {@link ITsActionSetProvider} - поставщик "действий"
-   * @param aTsContext {@link ITsGuiContext} - соответствующий контекст
+   * @param aActionsProvider {@link ITsActionSetProvider} - the source ASP
+   * @param aTsContext {@link ITsGuiContext} - the coontext
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public AspMenuCreator( ITsActionSetProvider aActionsProvider, ITsGuiContext aTsContext ) {
+  public MenuCreatorFromAsp( ITsActionSetProvider aActionsProvider, ITsGuiContext aTsContext ) {
+    TsNullArgumentRtException.checkNulls( aActionsProvider, aTsContext );
     actionsProvider = aActionsProvider;
     actionsProvider.actionsStateEventer().addListener( aspLitener );
     tsContext = aTsContext;
@@ -85,7 +93,7 @@ public class AspMenuCreator
 
   @Override
   public void dispose() {
-    // TODO ??? what to do ???
+    actionsProvider.actionsStateEventer().removeListener( aspLitener );
   }
 
   @Override

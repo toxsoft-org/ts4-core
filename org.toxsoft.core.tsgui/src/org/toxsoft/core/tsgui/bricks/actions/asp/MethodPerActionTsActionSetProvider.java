@@ -13,6 +13,35 @@ import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link ITsActionSetProvider} abstract implementation with method per action.
+ * <p>
+ * To add action user must call on of the <code>defineAction()</code> method. As an argument may be used functional
+ * interfaces, for example:
+ *
+ * <pre>
+ * class AspSomething extends MethodPerActionTsActionSetProvider {
+ *   public AspSomething(...) {
+ *     ...
+ *     defineAction( ACDEF_FOO, this::doHandleFoo, this::doIsEnabledFoo, this::isCheckedFoo );
+ *     defineAction( ACDEF_BAR, this::doHandleBar, IBooleanState.ALWAYS_TRUE, IBooleanState.ALWAYS_FALSE );
+ *   }
+ *
+ *   void doHandleFoo() {
+ *     ...
+ *   }
+ *
+ *   void doHandleBar() {
+ *     ...
+ *   }
+ *
+ *   boolean doIsEnabledFoo() {
+ *     return ...;
+ *   }
+ *
+ *   boolean doIsCheckedFoo() {
+ *     return ...;
+ *   }
+ * }
+ * </pre>
  *
  * @author hazard157
  */
@@ -31,12 +60,12 @@ public class MethodPerActionTsActionSetProvider
     /**
      * Always <code>true</code> state singleton.
      */
-    IBooleanState ALWAY_TRUE = () -> true;
+    IBooleanState ALWAYS_TRUE = () -> true;
 
     /**
      * Always <code>false</code> state singleton.
      */
-    IBooleanState ALWAY_FALSE = () -> false;
+    IBooleanState ALWAYS_FALSE = () -> false;
 
     /**
      * Returns the current state.
@@ -152,7 +181,7 @@ public class MethodPerActionTsActionSetProvider
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public void defineAction( ITsActionDef aDef, Runnable aRunner, IBooleanState aEnaState ) {
-    defineAction( aDef, aRunner, aEnaState, IBooleanState.ALWAY_FALSE );
+    defineAction( aDef, aRunner, aEnaState, IBooleanState.ALWAYS_FALSE );
   }
 
   /**
@@ -163,7 +192,7 @@ public class MethodPerActionTsActionSetProvider
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public void defineAction( ITsActionDef aDef, Runnable aRunner ) {
-    defineAction( aDef, aRunner, IBooleanState.ALWAY_TRUE, IBooleanState.ALWAY_FALSE );
+    defineAction( aDef, aRunner, IBooleanState.ALWAYS_TRUE, IBooleanState.ALWAYS_FALSE );
   }
 
 }
