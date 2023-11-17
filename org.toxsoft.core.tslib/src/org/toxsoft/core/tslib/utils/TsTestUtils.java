@@ -55,6 +55,15 @@ public class TsTestUtils {
   }
 
   /**
+   * Outputs the string as"as is".
+   *
+   * @param aStr String - the output string
+   */
+  public static void outStr( String aStr ) {
+    System.out.println( aStr );
+  }
+
+  /**
    * Simple outputs line feed.
    */
   public static void nl() {
