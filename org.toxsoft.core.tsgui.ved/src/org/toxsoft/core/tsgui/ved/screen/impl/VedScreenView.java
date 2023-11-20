@@ -91,6 +91,7 @@ public final class VedScreenView
   @Override
   public void setConversion( ID2Conversion aConversion ) {
     canvasRenderer.setCurrentConversion( aConversion );
+    configChangeEventer.fireChangeEvent(); // Sol++ м.б. нужно другое событие
   }
 
   // ------------------------------------------------------------------------------------

@@ -25,6 +25,10 @@ public abstract class VedAbstractVertex
 
   protected D2RectangleEdit bounds = new D2RectangleEdit( 0, 0, 8, 8 );
 
+  protected D2RectangleEdit actualBounds = new D2RectangleEdit( 0, 0, 8, 8 );
+
+  private double zoomFactor = 1.0;
+
   protected VedAbstractVertex( String aId, String aName, String aDescr ) {
     super( aId, aName, aDescr );
   }
@@ -71,7 +75,9 @@ public abstract class VedAbstractVertex
 
   @Override
   public final ID2Rectangle bounds() {
-    return bounds;
+    actualBounds.setRect( bounds );
+    actualBounds.setSize( bounds.width() / zoomFactor, bounds.width() / zoomFactor );
+    return actualBounds;
   }
 
   // ------------------------------------------------------------------------------------
@@ -94,6 +100,27 @@ public abstract class VedAbstractVertex
     originY = aY;
     bounds.setRect( aX, aY, bounds.width(), bounds.height() );
   }
+
+  // ------------------------------------------------------------------------------------
+  // API
+  //
+
+  public double zoomFactor() {
+    return zoomFactor;
+  }
+
+  public void setZoomFactor( double aZoomFactor ) {
+    if( Double.compare( aZoomFactor, zoomFactor ) != 0 ) {
+      zoomFactor = aZoomFactor;
+      doOnZoomFactorChanged();
+    }
+  }
+
+  // ------------------------------------------------------------------------------------
+  // To implement
+  //
+
+  protected abstract void doOnZoomFactorChanged();
 
   // ------------------------------------------------------------------------------------
   // To use

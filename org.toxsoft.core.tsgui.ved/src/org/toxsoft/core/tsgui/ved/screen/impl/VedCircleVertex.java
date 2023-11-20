@@ -87,6 +87,11 @@ public class VedCircleVertex
     aPaintContext.gc().drawOval( swtRect.x, swtRect.y, swtRect.width, swtRect.height );
   }
 
+  @Override
+  protected void doOnZoomFactorChanged() {
+    updateSwtRect();
+  }
+
   // ------------------------------------------------------------------------------------
   // Implementation
   //

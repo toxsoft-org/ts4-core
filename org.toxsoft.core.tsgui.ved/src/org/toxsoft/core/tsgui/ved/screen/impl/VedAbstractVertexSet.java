@@ -316,6 +316,19 @@ public abstract class VedAbstractVertexSet
     convertor.setConversion( screenView.getConversion() );
     viselListener = new ViselListener();
     visel.props().propsEventer().addListener( viselListener );
+    vedScreen.view().configChangeEventer().addListener( aSource -> {
+      updateZoomFactor();
+    } );
+    updateZoomFactor();
+  }
+
+  void updateZoomFactor() {
+    ID2Conversion d2conv = vedScreen.view().getConversion();
+    if( d2conv.zoomFactor() < 1 ) {
+      for( IVedVertex v : vertexes ) {
+        ((VedAbstractVertex)v).setZoomFactor( d2conv.zoomFactor() );
+      }
+    }
   }
 
   // ------------------------------------------------------------------------------------

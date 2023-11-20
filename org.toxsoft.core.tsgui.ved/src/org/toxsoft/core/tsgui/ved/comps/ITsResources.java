@@ -69,4 +69,22 @@ interface ITsResources {
   String STR_VISEL_IMAGE_DESCRIPTOR   = "Изображение";
   String STR_VISEL_IMAGE_DESCRIPTOR_D = "Параметры создания изображения";
 
+  /**
+   * {@link ViselBaloon}
+   */
+  // String STR_VISEL_ARC_WIDTH = "Ширина арки"; //
+  // String STR_VISEL_ARC_WIDTH_D = "Ширина арки"; //
+  // String STR_VISEL_ARC_HEIGHT = "Высота арки"; //
+  // String STR_VISEL_ARC_HEIGHT_D = "Высота арки"; //
+  String STR_VISEL_NOSE_LENGTH   = "Длина носика";    //
+  String STR_VISEL_NOSE_LENGTH_D = "Длина носика";    //
+  String STR_VISEL_NOSE_WIDTH    = "Ширина носика";   //
+  String STR_VISEL_NOSE_WIDTH_D  = "Ширина носика";   //
+  String STR_NOSE_FULCRUM        = "Положение носика";
+  String STR_HOR_NOSE_FULCRUM    = "Положение носика";
+  // String STR_USE_GRADIENT = "Использовать градиент";
+  // String STR_USE_GRADIENT_D = "Использовать градиент";
+  String STR_VISEL_SHADOW_DEPTH   = "Глубина тени"; //
+  String STR_VISEL_SHADOW_DEPTH_D = "Глубина тени"; //
+
 }

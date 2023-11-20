@@ -51,6 +51,11 @@ public class VedFulcrumVertex
     aGc.gc().drawRectangle( swtRect );
   }
 
+  @Override
+  protected void doOnZoomFactorChanged() {
+    updateSwtRect();
+  }
+
   // ------------------------------------------------------------------------------------
   // API
   //
