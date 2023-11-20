@@ -141,11 +141,13 @@ public class ViselCircleLamp
 
     IListEdit<Pair<Double, RGBA>> blackFractions = new ElemArrayList<>();
 
-    blackFractions.add( new Pair<>( Double.valueOf( 0.0 ), new RGBA( 255, 255, 255, 255 ) ) );
-    blackFractions.add( new Pair<>( Double.valueOf( 100.0 ), new RGBA( 128, 128, 128, 255 ) ) );
+    blackFractions.add( new Pair<>( Double.valueOf( 0.0 ), new RGBA( 240, 240, 240, 255 ) ) );
+    blackFractions.add( new Pair<>( Double.valueOf( 100.0 ), new RGBA( 32, 32, 32, 255 ) ) );
 
-    LinearGradientInfo gi = new LinearGradientInfo( new D2Point( 0, 0 ), new D2Point( 100, 100 ),
-        new RGBA( 240, 240, 240, 255 ), new RGBA( 32, 32, 32, 255 ), new D2Point( 1, 1 ) );
+    LinearGradientInfo gi = new LinearGradientInfo( blackFractions, 45 );
+
+    // LinearGradientInfo gi = new LinearGradientInfo( new D2Point( 0, 0 ), new D2Point( 100, 100 ),
+    // new RGBA( 240, 240, 240, 255 ), new RGBA( 32, 32, 32, 255 ), new D2Point( 1, 1 ) );
 
     flatOffGradientInfo = new TsFillInfo( new RGBA( 0, 0, 0, 255 ) );
     offGradientInfo = new TsFillInfo( GradientUtils.halfSphereFillInfo( new RGBA( 0, 0, 0, 255 ) ) );

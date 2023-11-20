@@ -2,90 +2,104 @@ package org.toxsoft.core.tsgui.graphics.patterns;
 
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tslib.bricks.d2.*;
+import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Параметры линейного градиента.
- * <p>
+ * The radial gradient pattern.
  *
  * @author vs
  */
 public class LinearGradient
-    extends AbstractGradient {
+    extends AbstractFractionalGradient {
 
-  private final LinearGradientInfo info;
+  private final double angleDegrees;
 
-  private final ITsGuiContext context;
+  private final double angleRadians;
 
   /**
-   * Конструкторы.<br>
+   * Constructor.
    *
-   * @param aInfo LinearGradientInfo - параметры линейного градиента
-   * @param aContext ITsGuiContext - соответствующий контекст
+   * @param aFractions IList&lt;Pair&lt;Double, RGBA&gt;&gt; - list of fractions
+   * @param aDegrees double - rotation angle in degrees
+   * @param aContext ITsGuiContext - the context
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException - number of fractions is less than 2 2
    */
-  public LinearGradient( LinearGradientInfo aInfo, ITsGuiContext aContext ) {
-    super( aContext );
-    info = aInfo;
-    context = aContext;
+  public LinearGradient( IList<Pair<Double, RGBA>> aFractions, double aDegrees, ITsGuiContext aContext ) {
+    super( aFractions, aContext );
+    angleDegrees = aDegrees;
+    angleRadians = Math.toRadians( angleDegrees );
   }
 
-  @Override
-  public ITsGuiContext tsContext() {
-    return context;
+  /**
+   * Constructor.
+   *
+   * @param aInfo {@link RadialGradientInfo} - gradient parameters
+   * @param aDegrees double - rotation angle in degrees
+   * @param aContext ITsGuiContext - the context
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException - number of fractions is less than 2 2
+   */
+  public LinearGradient( LinearGradientInfo aInfo, double aDegrees, ITsGuiContext aContext ) {
+    super( aInfo.fractions, aContext );
+    angleDegrees = aDegrees;
+    angleRadians = Math.toRadians( angleDegrees );
   }
 
   // ------------------------------------------------------------------------------------
-  // ISwtPattern
+  // AbstractFractionalGradient
   //
 
   @Override
-  public IGradientInfo patternInfo() {
-    return info;
+  public Image createImage( GC aGc, int aWidth, int aHeight ) {
+    if( angleRadians == 0 ) {
+      return createNonRotatedImage( aGc, aWidth, aHeight );
+    }
+
+    ID2Rectangle d2r = new D2Rectangle( 0, 0, aWidth, aHeight );
+
+    d2r = TsGeometryUtils.bounds( TsGeometryUtils.rotateRect( d2r, angleRadians ) );
+
+    double dx = aWidth / 2.;
+    double dy = aHeight / 2.;
+
+    int width = (int)Math.floor( d2r.width() );
+    int height = (int)Math.floor( d2r.height() );
+
+    Image img = createNonRotatedImage( aGc, width, height );
+
+    Image newImg = new Image( aGc.getDevice(), aWidth, aHeight );
+    GC gc = new GC( newImg );
+
+    Transform tr = new Transform( getDisplay() );
+    tr.translate( (float)dx, (float)dy );
+    tr.rotate( (float)angleDegrees );
+    tr.translate( -(float)dx, -(float)dy );
+    gc.setTransform( tr );
+
+    gc.drawImage( img, (int)(d2r.x1()), (int)d2r.y1() );
+
+    img.dispose();
+    tr.dispose();
+    gc.dispose();
+    return newImg;
   }
 
   @Override
-  public Pattern pattern( GC aGc, int aWidth, int aHeight ) {
-    if( isVertical() ) {
-      return createVerticalPattern( aGc, aWidth, aHeight );
-    }
-    float x1 = (float)(aWidth * info.startPoint().x() / 100.);
-    float y1 = (float)(aHeight * info.startPoint().y() / 100.);
-    float x2 = (float)(aWidth * info.endPoint().x() / 100.);
-    float y2 = (float)(aHeight * info.endPoint().y() / 100.);
-
-    Color c1 = colorManager().getColor( info.startRGBA().rgb );
-    Color c2 = colorManager().getColor( info.endRGBA().rgb );
-    int alpha1 = info.startRGBA().alpha;
-    int alpha2 = info.endRGBA().alpha;
-
-    return new Pattern( aGc.getDevice(), x1, y1, x2, y2, c1, alpha1, c2, alpha2 );
-    // Pattern pat = new Pattern( aGc.getDevice(), x1, y1, x2, y2, c1, alpha1, c2, alpha2 );
-    //
-    // Image img = new Image( aGc.getDevice(), aWidth, aHeight );
-    // GC gc = new GC( img.getDevice() );
-    // gc.setBackgroundPattern( pat );
-    // gc.fillRectangle( 0, 0, aWidth, aHeight );
-    //
-    // pat.dispose();
-    // gc.dispose();
-    //
-    // pat = new Pattern( aGc.getDevice(), img );
-    // img.dispose();
-    // return pat;
+  IGradientFraction createFraction( Pair<Double, RGBA> aStart, Pair<Double, RGBA> aEnd ) {
+    return new LinearGradientFraction( aStart.left().doubleValue(), aStart.right(), aEnd.left().doubleValue(),
+        aEnd.right() );
   }
 
   // ------------------------------------------------------------------------------------
   // Implementation
   //
 
-  boolean isVertical() {
-    return info.startPoint().x() == info.endPoint().x();
-  }
-
-  boolean isHorizontal() {
-    return info.startPoint().y() == info.endPoint().y();
-  }
-
-  Pattern createVerticalPattern( GC aGc, int aWidth, int aHeight ) {
+  Image createNonRotatedImage( GC aGc, int aWidth, int aHeight ) {
     Image img = new Image( aGc.getDevice(), aWidth, aHeight );
     ImageData imd = img.getImageData();
 
@@ -93,28 +107,23 @@ public class LinearGradient
     int greenShift = Math.abs( imd.palette.greenShift );
     int blueShift = Math.abs( imd.palette.blueShift );
 
-    double dr = (double)(info.endRGBA().rgb.red - info.startRGBA().rgb.red) / aHeight;
-    double dg = (double)(info.endRGBA().rgb.green - info.startRGBA().rgb.green) / aHeight;
-    double db = (double)(info.endRGBA().rgb.blue - info.startRGBA().rgb.blue) / aHeight;
-    double da = (double)(info.endRGBA().alpha - info.startRGBA().alpha) / aHeight;
-
-    for( int i = 0; i < aWidth; i++ ) {
-      int r = info.startRGBA().rgb.red;
-      int g = info.startRGBA().rgb.green;
-      int b = info.startRGBA().rgb.blue;
-      int a = info.startRGBA().alpha;
-      for( int j = 0; j < aHeight; j++ ) {
-        int p = (int)(r + j * dr) << redShift | (int)(g + j * dg) << greenShift | (int)(b + j * db) << blueShift;
-        imd.setPixel( i, j, p );
-        imd.setAlpha( i, j, (int)(a + j * da) );
+    for( int j = 0; j < aHeight; j++ ) {
+      for( int i = 0; i < aWidth; i++ ) {
+        for( IGradientFraction gf : fractions() ) {
+          if( gf.isMine( i / (double)aWidth ) ) {
+            RGBA rgba = gf.calcRgb( i / (double)aWidth );
+            int p = rgba.rgb.red << redShift | rgba.rgb.green << greenShift | rgba.rgb.blue << blueShift;
+            imd.setPixel( i, j, p );
+            imd.setAlpha( i, j, rgba.alpha );
+            break;
+          }
+        }
       }
     }
 
     img.dispose();
     img = new Image( aGc.getDevice(), imd );
-    Pattern pat = new Pattern( aGc.getDevice(), img );
-    img.dispose();
-    return pat;
+    return img;
   }
 
 }

@@ -34,7 +34,7 @@ public class TsGeometryUtils {
    *
    * @param aRect1 ITsRectangle - first rectangle
    * @param aRect2 ITsRectangle - second rectangle
-   * @return {@link ITsRectangle} - the union of the rectangles.
+   * @return {@link ITsRectangle} - the union of the r ectangles.
    */
   public static ITsRectangle union( ITsRectangle aRect1, ITsRectangle aRect2 ) {
     int minX = Math.min( aRect1.a().x(), aRect2.a().x() );
@@ -45,6 +45,97 @@ public class TsGeometryUtils {
   }
 
   // TODO other methods like union(), contains(), intersects(), etc.
+
+  /**
+   * Returns new point, rotated around the center the on angle in radians.
+   *
+   * @param aPoint {@link ID2Point} - point to be rotated
+   * @param aCenter {@link ID2Point} - center of rotation
+   * @param aRadians double - angle of rotation in radians
+   * @return {@link ID2Point} - rotated point
+   */
+  public static ID2Point rotatePoint( ID2Point aPoint, ID2Point aCenter, double aRadians ) {
+    double x0 = aCenter.x();
+    double y0 = aCenter.y();
+
+    double x = aPoint.x() - x0;
+    double y = aPoint.y() - y0;
+
+    double xNew = x * Math.cos( aRadians ) - y * Math.sin( aRadians ) + x0;
+    double yNew = x * Math.sin( aRadians ) + y * Math.cos( aRadians ) + y0;
+
+    return new D2Point( xNew, yNew );
+  }
+
+  /**
+   * Return array of 4 rotated rectangle vertexes.
+   *
+   * @param aR {@link ID2Rectangle} - rectangle to be rotated
+   * @param aCenter {@link ID2Point} - center of rotation
+   * @param aRadians - double angle of rotation in radians
+   * @return ID2Point[] - array of four rotated rectangle vertexes
+   */
+  public static ID2Point[] rotateRect( ID2Rectangle aR, ID2Point aCenter, double aRadians ) {
+    ID2Point[] points = new D2Point[4];
+
+    points[0] = rotatePoint( new D2Point( aR.x1(), aR.y1() ), aCenter, aRadians );
+    points[1] = rotatePoint( new D2Point( aR.x1() + aR.width(), aR.y1() ), aCenter, aRadians );
+    points[2] = rotatePoint( new D2Point( aR.x1() + aR.width(), aR.y1() + aR.height() ), aCenter, aRadians );
+    points[3] = rotatePoint( new D2Point( aR.x1(), aR.y1() + aR.height() ), aCenter, aRadians );
+
+    return points;
+  }
+
+  /**
+   * Return array of 4 rotated rectangle vertexes around its cetnter.
+   *
+   * @param aR {@link ID2Rectangle} - rectangle to be rotated
+   * @param aRadians - double angle of rotation in radians
+   * @return ID2Point[] - array of four rotated rectangle vertexes
+   */
+  public static ID2Point[] rotateRect( ID2Rectangle aR, double aRadians ) {
+    ID2Point center = new D2Point( aR.x1() + aR.width() / 2., aR.y1() + aR.height() / 2. );
+    return rotateRect( aR, center, aRadians );
+  }
+
+  /**
+   * Returns the minimal rectangle containing all the points.
+   *
+   * @param aPoints ID2Point[] - array of point to be bounded
+   * @return {@link ID2Rectangle} - the minimal rectangle containing all the points
+   */
+  public static ID2Rectangle bounds( ID2Point[] aPoints ) {
+    double minX = aPoints[0].x();
+    double maxX = minX;
+    double minY = aPoints[0].y();
+    double maxY = minY;
+
+    for( ID2Point p : aPoints ) {
+      if( p.x() < minX ) {
+        minX = p.x();
+      }
+      if( p.x() > maxX ) {
+        maxX = p.x();
+      }
+      if( p.y() < minY ) {
+        minY = p.y();
+      }
+      if( p.y() > maxY ) {
+        maxY = p.y();
+      }
+    }
+
+    double width = maxX - minX;
+    if( width == 0 ) {
+      width = 1;
+    }
+    double height = maxY - minY;
+    if( height == 0 ) {
+      height = 1;
+    }
+
+    return new D2Rectangle( minX, minY, width, height );
+  }
 
   /**
    * No subclasses. Constructor.

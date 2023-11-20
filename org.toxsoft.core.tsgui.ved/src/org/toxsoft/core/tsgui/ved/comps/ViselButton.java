@@ -26,6 +26,9 @@ import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -203,8 +206,8 @@ public class ViselButton
     font = fontManager().getFont( props().getValobj( PROPID_FONT ) );
     RGBA bkRgba = props().getValobj( PROPID_BK_COLOR );
 
-    D2Point sp = new D2Point( 0, 0 );
-    D2Point ep = new D2Point( 0, 100 );
+    // D2Point sp = new D2Point( 0, 0 );
+    // D2Point ep = new D2Point( 0, 100 );
     RGBA sc = new RGBA( 220, 220, 220, 255 );
     RGBA ec = new RGBA( 190, 190, 190, 255 );
 
@@ -213,9 +216,23 @@ public class ViselButton
     rgb = GradientUtils.tuneBrightness( bkRgba.rgb, -0.2 );
     ec = new RGBA( rgb.red, rgb.green, rgb.blue, 255 );
 
-    LinearGradientInfo lgi = new LinearGradientInfo( sp, ep, sc, ec, new D2Point( 1.1, 1.1 ) );
+    Pair<Double, RGBA> p1 = new Pair<>( Double.valueOf( 0 ), sc );
+    Pair<Double, RGBA> p2 = new Pair<>( Double.valueOf( 100 ), ec );
+    IListEdit<Pair<Double, RGBA>> fractions = new ElemArrayList<>();
+    fractions.add( p1 );
+    fractions.add( p2 );
+    // LinearGradientInfo lgi = new LinearGradientInfo( sp, ep, sc, ec, new D2Point( 1.1, 1.1 ) );
+    LinearGradientInfo lgi = new LinearGradientInfo( fractions, 90 );
     fillInfo = new TsFillInfo( new TsGradientFillInfo( lgi ) );
-    lgi = new LinearGradientInfo( sp, ep, ec, sc, new D2Point( 1.1, 1.1 ) );
+
+    p1 = new Pair<>( Double.valueOf( 0 ), ec );
+    p2 = new Pair<>( Double.valueOf( 100 ), sc );
+    fractions = new ElemArrayList<>();
+    fractions.add( p1 );
+    fractions.add( p2 );
+
+    // lgi = new LinearGradientInfo( sp, ep, ec, sc, new D2Point( 1.1, 1.1 ) );
+    lgi = new LinearGradientInfo( fractions, 90 );
     pressedFillInfo = new TsFillInfo( new TsGradientFillInfo( lgi ) );
     updateSwtRect();
   }

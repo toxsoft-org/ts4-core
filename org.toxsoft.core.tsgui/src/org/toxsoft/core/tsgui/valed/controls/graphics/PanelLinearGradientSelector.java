@@ -1,93 +1,32 @@
 package org.toxsoft.core.tsgui.valed.controls.graphics;
 
 import org.eclipse.swt.*;
+import org.eclipse.swt.custom.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
-import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
-import org.toxsoft.core.tsgui.graphics.cursors.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tsgui.panels.*;
-import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
-import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Панель рдактирования параметров линейного градиента.
+ * Панель редактирования параметров "линейной" заливки.
  *
  * @author vs
  */
 public class PanelLinearGradientSelector
     extends TsPanel {
 
-  RgbaSelector startRgbaSelector;
-
-  RgbaSelector endRgbaSelector;
-
   ResultPanel resultPanel;
-
-  static class ThumbVertex {
-
-    Color fgColor;
-    Color bgColor;
-
-    Rectangle rect = new Rectangle( 0, 0, 8, 8 );
-
-    int x = 0;
-    int y = 0;
-
-    ThumbVertex( Color aFgColor, Color aBgColor ) {
-      fgColor = aFgColor;
-      bgColor = aBgColor;
-    }
-
-    void paint( GC aGc, Control aParent ) {
-      Point size = aParent.getSize();
-      rect.x = (int)(size.x * x / 100.);
-      if( rect.x >= size.x ) {
-        rect.x -= 8;
-      }
-      rect.y = (int)(size.y * y / 100.);
-      if( rect.y >= size.y ) {
-        rect.y -= 8;
-      }
-
-      aGc.setBackground( bgColor );
-      aGc.fillRectangle( rect.x, rect.y, 8, 8 );
-      aGc.setForeground( fgColor );
-      aGc.drawRectangle( rect.x, rect.y, 8, 8 );
-    }
-
-    boolean contains( int aX, int aY ) {
-      return rect.contains( aX, aY );
-    }
-
-    void update( int aX, int aY ) {
-      x = aX;
-      y = aY;
-    }
-  }
-
-  ThumbVertex startVertex;
-  ThumbVertex endVertex;
-  ThumbVertex selectedVertex;
 
   class ResultPanel
       extends TsPanel {
-
-    double x1 = 0;
-    double y1 = 50;
-    double x2 = 100;
-    double y2 = 50;
-
-    RGBA startRgba = null;
-    RGBA endRgba   = null;
-
-    IGradient pattern = null;
 
     PaintListener paintListener = aE -> {
 
@@ -109,104 +48,19 @@ public class PanelLinearGradientSelector
         colorIdx = (colorIdx + (r.height / 16) % 2) % 2;
       }
 
-      pattern = gradientInfo().createGradient( tsContext );
       if( pattern != null ) {
         Pattern p = pattern.pattern( aE.gc, r.width, r.height );
-        aE.gc.setBackgroundPattern( p );
-        aE.gc.fillRectangle( getClientArea() );
-        p.dispose();
+        if( p != null ) {
+          aE.gc.setBackgroundPattern( p );
+          aE.gc.fillRectangle( r );
+          p.dispose();
+        }
       }
-
-      aE.gc.setBackground( colorManager().getColor( ETsColor.WHITE ) );
-      aE.gc.fillRectangle( 0, 0, getSize().x, 8 );
-      aE.gc.fillRectangle( 0, getSize().y - 8, getSize().x, getSize().y - 8 );
-      aE.gc.fillRectangle( 0, 0, 8, getSize().y );
-      aE.gc.fillRectangle( getSize().x - 8, 0, 8, getSize().y );
-
-      startVertex.paint( aE.gc, this );
-      endVertex.paint( aE.gc, this );
-    };
-
-    ITsMouseInputListener mouseListener = new ITsMouseInputListener() {
-
-      @Override
-      public boolean onMouseMove( Object aSource, int aState, ITsPoint aCoors, Control aWidget ) {
-        if( startVertex.contains( aCoors.x(), aCoors.y() ) ) {
-          setCursor( handCursor );
-          return false;
-        }
-        if( endVertex.contains( aCoors.x(), aCoors.y() ) ) {
-          setCursor( handCursor );
-          return false;
-        }
-        setCursor( null );
-        return false;
-      }
-
-      @Override
-      public boolean onMouseDragStart( Object aSource, DragOperationInfo aDragInfo ) {
-        Object obj = objectAt( aDragInfo.startingPoint().x(), aDragInfo.startingPoint().y() );
-        aDragInfo.setCargo( obj );
-        return obj != null;
-      }
-
-      @Override
-      public boolean onMouseDragMove( Object aSource, DragOperationInfo aDragInfo, int aState, ITsPoint aCoors ) {
-        Object obj = aDragInfo.cargo();
-        if( obj == null ) {
-          return false;
-        }
-        Point size = getSize();
-        int x = (int)(aCoors.x() * 100. / size.x);
-        int y = (int)(aCoors.y() * 100. / size.y);
-        if( x < 0 ) {
-          x = 0;
-        }
-        if( y < 0 ) {
-          y = 0;
-        }
-        if( x > 100 ) {
-          x = 100;
-        }
-        if( y > 100 ) {
-          y = 100;
-        }
-        if( obj == startVertex ) {
-          x1 = x;
-          y1 = y;
-          startVertex.update( x, y );
-        }
-        if( obj == endVertex ) {
-          x2 = x;
-          y2 = y;
-          endVertex.update( x, y );
-        }
-        redraw();
-        update();
-
-        return true;
-      }
-
     };
 
     public ResultPanel( Composite aParent, ITsGuiContext aContext ) {
       super( aParent, aContext, SWT.DOUBLE_BUFFERED );
       addPaintListener( paintListener );
-      Color colorBlack = colorManager().getColor( ETsColor.BLACK );
-      Color colorRed = colorManager().getColor( ETsColor.RED );
-      startVertex = new ThumbVertex( colorBlack, colorRed );
-      startVertex.update( (int)x1, (int)y1 );
-      endVertex = new ThumbVertex( colorBlack, colorRed );
-      endVertex.update( (int)x2, (int)y2 );
-      selectedVertex = startVertex;
-      TsUserInputEventsBinder binder = new TsUserInputEventsBinder( this );
-      binder.bindToControl( this, TsUserInputEventsBinder.BIND_ALL_MOUSE_EVENTS );
-      binder.addTsMouseInputListener( mouseListener );
-    }
-
-    void setGradientInfo( LinearGradientInfo aInfo ) {
-      startVertex.update( (int)aInfo.startPoint().x(), (int)aInfo.startPoint().y() );
-      endVertex.update( (int)aInfo.endPoint().x(), (int)aInfo.endPoint().y() );
     }
 
     Rectangle clientRect() {
@@ -214,67 +68,56 @@ public class PanelLinearGradientSelector
       return new Rectangle( 8, 8, p.x - 8, p.y - 8 );
     }
 
-    void setColors( RGBA aStartRgba, RGBA aEndRgba ) {
-      startRgba = aStartRgba;
-      endRgba = aEndRgba;
-
-      LinearGradientInfo gradientInfo = gradientInfo();
-      pattern = gradientInfo.createGradient( tsContext() );
-      redraw();
-    }
-
-    Object objectAt( int aX, int aY ) {
-      if( startVertex.contains( aX, aY ) ) {
-        return startVertex;
-      }
-      if( endVertex.contains( aX, aY ) ) {
-        return endVertex;
-      }
-      return null;
-    }
-
-    LinearGradientInfo gradientInfo() {
-      D2Point p1 = new D2Point( x1, y1 );
-      D2Point p2 = new D2Point( x2, y2 );
-      return new LinearGradientInfo( p1, p2, startRgba, endRgba, growFactor );
-    }
-
   }
 
+  PanelGradientFractions fractionsPanel;
+
+  RgbaSelector rgbaSelector;
+
+  Spinner angleSpin;
+  Slider  angleSlide;
+
+  int angle = 0;
+
   IGenericChangeListener changeListener = aSource -> {
-    resultPanel.setColors( startRgbaSelector.rgba(), endRgbaSelector.rgba() );
+    fractionsPanel.setRGBA( rgbaSelector.rgba() );
+    IList<Pair<Double, RGBA>> fractions = fractionsPanel.fractions();
+    LinearGradientInfo gi = new LinearGradientInfo( fractions, angle );
+    pattern = gi.createGradient( tsContext() );
     resultPanel.redraw();
   };
 
   private final ITsGuiContext tsContext;
 
-  Cursor handCursor;
-
-  D2Point growFactor = new D2Point( 1.0, 1.0 );
+  IGradient pattern = null;
 
   PanelLinearGradientSelector( Composite aParent, ITsGuiContext aContext ) {
     super( aParent, aContext );
     tsContext = aContext;
-    handCursor = cursorManager().getCursor( ECursorType.HAND );
 
-    setLayout( new GridLayout( 2, false ) );
-
-    startRgbaSelector = new RgbaSelector( this, SWT.NONE, aContext.eclipseContext() );
-    startRgbaSelector.setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true ) );
+    setLayout( new GridLayout( 1, false ) );
 
     resultPanel = new ResultPanel( this, aContext );
-    resultPanel.setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true, 1, 2 ) );
+    resultPanel.setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true ) );
 
-    endRgbaSelector = new RgbaSelector( this, SWT.NONE, aContext.eclipseContext() );
-    endRgbaSelector.setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true ) );
+    fractionsPanel = new PanelGradientFractions( this, aContext );
+    fractionsPanel.setLayoutData( new GridData( SWT.FILL, SWT.TOP, true, false ) );
+    fractionsPanel.genericChangeEventer().addListener( aSource -> {
+      rgbaSelector.setRgba( fractionsPanel.selectedRgba() );
+      IList<Pair<Double, RGBA>> fractions = fractionsPanel.fractions();
+      LinearGradientInfo gi = new LinearGradientInfo( fractions, angle );
+      pattern = gi.createGradient( aContext );
+    } );
 
-    startRgbaSelector.setRgba( new RGBA( 255, 255, 255, 255 ) );
-    endRgbaSelector.setRgba( new RGBA( 0, 0, 0, 255 ) );
+    createAngleControlsGroup( this );
 
-    resultPanel.setColors( startRgbaSelector.rgba(), endRgbaSelector.rgba() );
+    rgbaSelector = new RgbaSelector( this, SWT.NONE, aContext.eclipseContext() );
+    rgbaSelector.setLayoutData( new GridData( SWT.FILL, SWT.TOP, true, false ) );
 
-    startRgbaSelector.genericChangeEventer().addListener( changeListener );
-    endRgbaSelector.genericChangeEventer().addListener( changeListener );
+    rgbaSelector.setRgba( new RGBA( 255, 255, 255, 255 ) );
+    rgbaSelector.genericChangeEventer().addListener( changeListener );
+
+    updateGradient( aContext );
   }
 
   @Override
@@ -292,24 +135,70 @@ public class PanelLinearGradientSelector
    * @return IGradientInfo - параметры заливки
    */
   public IGradientInfo gradientInfo() {
-    return resultPanel.gradientInfo();
+    return new LinearGradientInfo( fractionsPanel.fractions(), angle );
   }
 
   /**
-   * Задает параметры линейного градиента.
+   * Задает параметры радиального градиента.
    *
-   * @param aInfo IGradientInfo - параметры линейного градиента
+   * @param aInfo IGradientInfo - параметры радиального градиента
    */
   public void setGradientInfo( IGradientInfo aInfo ) {
     TsIllegalArgumentRtException.checkFalse( aInfo.gradientType() == EGradientType.LINEAR );
     LinearGradientInfo info = (LinearGradientInfo)aInfo;
-    resultPanel.setGradientInfo( info );
-    startRgbaSelector.setRgba( info.startRGBA() );
-    endRgbaSelector.setRgba( info.endRGBA() );
-    resultPanel.x1 = info.startPoint().x();
-    resultPanel.y1 = info.startPoint().y();
-    resultPanel.x2 = info.endPoint().x();
-    resultPanel.y2 = info.endPoint().y();
+    fractionsPanel.setFractions( info.fractions() );
+    angle = (int)info.angle();
+    angleSpin.setSelection( angle );
+    angleSlide.setSelection( angle );
+    updateGradient( tsContext );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Implementation
+  //
+
+  Composite createAngleControlsGroup( Composite aParent ) {
+    Composite comp = new Composite( aParent, SWT.NONE );
+    comp.setLayout( new GridLayout( 3, false ) );
+
+    angleSlide = new Slider( comp, SWT.HORIZONTAL );
+    angleSlide.setValues( 0, 0, 91, 1, 1, 10 );
+    angleSlide.setLayoutData( new GridData( SWT.FILL, SWT.CENTER, true, false ) );
+    angleSlide.addSelectionListener( new SelectionAdapter() {
+
+      @Override
+      public void widgetSelected( SelectionEvent aEvent ) {
+        angle = angleSlide.getSelection();
+        angleSpin.setSelection( angle );
+        updateGradient( tsContext );
+      }
+    } );
+
+    CLabel l;
+    l = new CLabel( comp, SWT.NONE );
+    l.setText( "Угол: " );
+    angleSpin = new Spinner( comp, SWT.BORDER );
+    angleSpin.setMinimum( 0 );
+    angleSpin.setMaximum( 90 );
+    angleSpin.addSelectionListener( new SelectionAdapter() {
+
+      @Override
+      public void widgetSelected( SelectionEvent e ) {
+        angle = angleSpin.getSelection();
+        angleSlide.setSelection( angle );
+        updateGradient( tsContext );
+      }
+    } );
+
+    return comp;
+  }
+
+  void updateGradient( ITsGuiContext aContext ) {
+    rgbaSelector.setRgba( fractionsPanel.selectedRgba() );
+    IList<Pair<Double, RGBA>> fractions = fractionsPanel.fractions();
+    LinearGradientInfo gi = new LinearGradientInfo( fractions, angle );
+    pattern = gi.createGradient( aContext );
+    resultPanel.redraw();
   }
 
 }

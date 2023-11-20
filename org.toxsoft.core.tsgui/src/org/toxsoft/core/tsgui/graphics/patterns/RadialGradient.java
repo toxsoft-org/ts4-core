@@ -105,10 +105,4 @@ public class RadialGradient
         aEnd.right() );
   }
 
-  @Override
-  public IGradientInfo patternInfo() {
-    // TODO реализовать RadialGradient.patternInfo()
-    throw new TsUnderDevelopmentRtException( "RadialGradient.patternInfo()" );
-  }
-
 }

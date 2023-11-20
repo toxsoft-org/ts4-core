@@ -82,13 +82,4 @@ public class CylinderGradient
         aEnd.right() );
   }
 
-  // ------------------------------------------------------------------------------------
-  // IGradient
-  //
-
-  @Override
-  public IGradientInfo patternInfo() {
-    return info;
-  }
-
 }

@@ -12,13 +12,6 @@ public interface IGradient
     extends IDisposable {
 
   /**
-   * Возвращает параметры "узора" для заполнения фигуры.<br>
-   *
-   * @return ISwtPatternInfo параметры "узора" для заполнения фигуры
-   */
-  IGradientInfo patternInfo();
-
-  /**
    * Возвращает "узор" для фона закрашиваемой фигуры или <b>null</b> если ширина или высота <= 0.<br>
    *
    * @param aGc GC - графический контекст

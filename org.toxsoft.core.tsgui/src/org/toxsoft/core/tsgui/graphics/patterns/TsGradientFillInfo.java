@@ -76,7 +76,7 @@ public class TsGradientFillInfo
 
   private final EGradientType type;
 
-  private LinearGradientInfo   linearGradientInfo;
+  private LinearGradientInfo linearGradientInfo;
   private CylinderGradientInfo cylinderGradientInfo;
   private RadialGradientInfo   radialGradientInfo;
 

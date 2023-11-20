@@ -8,7 +8,7 @@ import org.eclipse.swt.graphics.*;
  *
  * @author vs
  */
-public class LinearGradientFractionEx
+public class LinearGradientFraction
     extends AbstractGradientFraction {
 
   /**
@@ -20,7 +20,7 @@ public class LinearGradientFractionEx
    * @param aEndValue double - конечное значение
    * @param aEndRgb RGBA - компоненты цвета конечной точки
    */
-  public LinearGradientFractionEx( double aStartValue, RGBA aStartRgb, double aEndValue, RGBA aEndRgb ) {
+  public LinearGradientFraction( double aStartValue, RGBA aStartRgb, double aEndValue, RGBA aEndRgb ) {
     super( aStartValue / 100., aEndValue / 100., aStartRgb, aEndRgb );
     // nop
   }
@@ -37,7 +37,7 @@ public class LinearGradientFractionEx
 
   @Override
   protected IGradientFraction create( double aStartValue, double aEndValue, RGBA aStartRGB, RGBA aEndRGB ) {
-    return new LinearGradientFractionEx( aStartValue, aStartRGB, aEndValue, aEndRGB );
+    return new LinearGradientFraction( aStartValue, aStartRGB, aEndValue, aEndRGB );
   }
 
 }

@@ -3,14 +3,16 @@ package org.toxsoft.core.tsgui.graphics.patterns;
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.utils.swt.*;
-import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
- * Параметры линейного градиента.
+ * Параметры цилиндрического градиента.
  * <p>
  *
  * @author vs
@@ -18,11 +20,15 @@ import org.toxsoft.core.tslib.utils.valobj.*;
 public class LinearGradientInfo
     extends AbstractGradientInfo {
 
-  private final D2Point startPoint;
-  private final D2Point endPoint;
-  private final RGBA    startRGBA;
-  private final RGBA    endRGBA;
-  private final D2Point growFactor;
+  /**
+   * List of fractions
+   */
+  IListEdit<Pair<Double, RGBA>> fractions;
+
+  /**
+   * Rotation angle in degrees
+   */
+  double degrees = 0;
 
   /**
    * Value-object registration identifier for {@link TsValobjUtils}.
@@ -38,41 +44,42 @@ public class LinearGradientInfo
 
         @Override
         protected void doWrite( IStrioWriter aSw, LinearGradientInfo aEntity ) {
-          aSw.writeDouble( aEntity.startPoint.x() );
+          aSw.writeDouble( aEntity.degrees );
           aSw.writeSeparatorChar();
-          aSw.writeDouble( aEntity.startPoint.y() );
-          aSw.writeSeparatorChar();
-          aSw.writeDouble( aEntity.endPoint.x() );
-          aSw.writeSeparatorChar();
-          aSw.writeDouble( aEntity.endPoint.y() );
-          aSw.writeSeparatorChar();
-          RGBAKeeper.KEEPER.write( aSw, aEntity.startRGBA() );
-          aSw.writeSeparatorChar();
-          RGBAKeeper.KEEPER.write( aSw, aEntity.endRGBA() );
-          aSw.writeSeparatorChar();
-          aSw.writeDouble( aEntity.growFactor().x() );
-          aSw.writeSeparatorChar();
-          aSw.writeDouble( aEntity.growFactor().y() );
+          int size = aEntity.fractions.size();
+          aSw.writeInt( size );
+          aSw.writeChar( '{' );
+          for( int i = 0; i < size; i++ ) {
+            Pair<Double, RGBA> p = aEntity.fractions.get( i );
+            aSw.writeDouble( p.left().doubleValue() );
+            aSw.writeSeparatorChar();
+            RGBAKeeper.KEEPER.write( aSw, p.right() );
+            if( i < size - 1 ) {
+              aSw.writeSeparatorChar();
+            }
+          }
+          aSw.writeChar( '}' );
         }
 
         @Override
         protected LinearGradientInfo doRead( IStrioReader aSr ) {
-          double x1 = aSr.readDouble();
+          double degrees = aSr.readDouble();
           aSr.ensureSeparatorChar();
-          double y1 = aSr.readDouble();
-          aSr.ensureSeparatorChar();
-          double x2 = aSr.readDouble();
-          aSr.ensureSeparatorChar();
-          double y2 = aSr.readDouble();
-          aSr.ensureSeparatorChar();
-          RGBA startRgba = RGBAKeeper.KEEPER.read( aSr );
-          aSr.ensureSeparatorChar();
-          RGBA endRgba = RGBAKeeper.KEEPER.read( aSr );
-          double gfx = aSr.readDouble();
-          aSr.ensureSeparatorChar();
-          double gfy = aSr.readDouble();
-          D2Point gfp = new D2Point( gfx, gfy );
-          return new LinearGradientInfo( new D2Point( x1, y1 ), new D2Point( x2, y2 ), startRgba, endRgba, gfp );
+          int size = aSr.readInt();
+          aSr.ensureChar( '{' );
+          IListEdit<Pair<Double, RGBA>> fractions = new ElemArrayList<>();
+          for( int i = 0; i < size; i++ ) {
+            double val = aSr.readDouble();
+            aSr.ensureSeparatorChar();
+            RGBA rgba = RGBAKeeper.KEEPER.read( aSr );
+            if( i < size - 1 ) {
+              aSr.ensureSeparatorChar();
+            }
+            Pair<Double, RGBA> pair = new Pair<>( Double.valueOf( val ), rgba );
+            fractions.add( pair );
+          }
+          aSr.ensureChar( '}' );
+          return new LinearGradientInfo( fractions, degrees );
         }
       };
 
@@ -86,20 +93,14 @@ public class LinearGradientInfo
   }
 
   /**
-   * Конструктор со всеми инвариантами.<br>
+   * Конструктор.
    *
-   * @param aStartPoint D2Point - координаты начальной точки
-   * @param aEndPoint D2Point - координаты конечной точки
-   * @param aStartRGBA RGBA - парметры цвета начальной точки
-   * @param aEndRGBA RGBA - парметры цвета конечной точки
-   * @param aGrow D2oint - коэффициент расширения
+   * @param aFractions IList&lt;Pair&lt;Double, RGBA>> aFractions - список фракций
+   * @param aDegrees double - rotation angle in degrees
    */
-  public LinearGradientInfo( D2Point aStartPoint, D2Point aEndPoint, RGBA aStartRGBA, RGBA aEndRGBA, D2Point aGrow ) {
-    startPoint = aStartPoint;
-    endPoint = aEndPoint;
-    startRGBA = aStartRGBA;
-    endRGBA = aEndRGBA;
-    growFactor = aGrow;
+  public LinearGradientInfo( IList<Pair<Double, RGBA>> aFractions, double aDegrees ) {
+    fractions = new ElemArrayList<>( aFractions );
+    degrees = aDegrees;
   }
 
   // ------------------------------------------------------------------------------------
@@ -107,13 +108,13 @@ public class LinearGradientInfo
   //
 
   @Override
-  public IGradient createGradient( ITsGuiContext aContext ) {
-    return new LinearGradient( this, aContext );
+  public EGradientType gradientType() {
+    return EGradientType.LINEAR;
   }
 
   @Override
-  public EGradientType gradientType() {
-    return EGradientType.LINEAR;
+  public IGradient createGradient( ITsGuiContext aContext ) {
+    return new LinearGradient( this, degrees, aContext );
   }
 
   // ------------------------------------------------------------------------------------
@@ -121,47 +122,20 @@ public class LinearGradientInfo
   //
 
   /**
-   * Возвращает координаты начальной точки. <br>
+   * Возвращает список фракций.
    *
-   * @return D2Point - координаты начальной точки
+   * @return IList&lt;Pair&lt;Double, RGBA>> aFractions - список фракций
    */
-  public final D2Point startPoint() {
-    return startPoint;
+  public IList<Pair<Double, RGBA>> fractions() {
+    return fractions;
   }
 
   /**
-   * Возвращает координаты конечной точки. <br>
+   * Returns rotation angle in degrees.
    *
-   * @return D2Point - координаты нконечной точки
+   * @return double - rotation angle in degrees
    */
-  public final D2Point endPoint() {
-    return endPoint;
-  }
-
-  /**
-   * Возвращает параметры цвета начальной точки. <br>
-   *
-   * @return D2Point - координаты начальной точки
-   */
-  public final RGBA startRGBA() {
-    return startRGBA;
-  }
-
-  /**
-   * Возвращает параметры цвета конечной точки. <br>
-   *
-   * @return D2Point - координаты конечной точки
-   */
-  public final RGBA endRGBA() {
-    return endRGBA;
-  }
-
-  /**
-   * Возвращает коеффициент расширения.
-   *
-   * @return D2Point коеффициент расширения
-   */
-  public final D2Point growFactor() {
-    return growFactor;
+  public double angle() {
+    return degrees;
   }
 }
