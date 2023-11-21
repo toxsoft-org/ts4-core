@@ -20,7 +20,15 @@ import org.toxsoft.core.tslib.utils.valobj.*;
 public class CylinderGradientInfo
     extends AbstractGradientInfo {
 
+  /**
+   * List of fractions
+   */
   IListEdit<Pair<Double, RGBA>> fractions;
+
+  /**
+   * Rotation angle in degrees
+   */
+  double degrees = 0;
 
   /**
    * Value-object registration identifier for {@link TsValobjUtils}.
@@ -36,6 +44,8 @@ public class CylinderGradientInfo
 
         @Override
         protected void doWrite( IStrioWriter aSw, CylinderGradientInfo aEntity ) {
+          aSw.writeDouble( aEntity.degrees );
+          aSw.writeSeparatorChar();
           int size = aEntity.fractions.size();
           aSw.writeInt( size );
           aSw.writeChar( '{' );
@@ -53,6 +63,8 @@ public class CylinderGradientInfo
 
         @Override
         protected CylinderGradientInfo doRead( IStrioReader aSr ) {
+          double degrees = aSr.readDouble();
+          aSr.ensureSeparatorChar();
           int size = aSr.readInt();
           aSr.ensureChar( '{' );
           IListEdit<Pair<Double, RGBA>> fractions = new ElemArrayList<>();
@@ -67,7 +79,7 @@ public class CylinderGradientInfo
             fractions.add( pair );
           }
           aSr.ensureChar( '}' );
-          return new CylinderGradientInfo( fractions );
+          return new CylinderGradientInfo( fractions, degrees );
         }
       };
 
@@ -84,10 +96,12 @@ public class CylinderGradientInfo
    * Конструктор.
    *
    * @param aFractions IList&lt;Pair&lt;Double, RGBA>> aFractions - список фракций
+   * @param aDegrees double - rotation angle in degrees
    */
-  public CylinderGradientInfo( IList<Pair<Double, RGBA>> aFractions ) {
+  public CylinderGradientInfo( IList<Pair<Double, RGBA>> aFractions, double aDegrees ) {
     super();
     fractions = new ElemArrayList<>( aFractions );
+    degrees = aDegrees;
   }
 
   // ------------------------------------------------------------------------------------
@@ -101,7 +115,7 @@ public class CylinderGradientInfo
 
   @Override
   public IGradient createGradient( ITsGuiContext aContext ) {
-    return new CylinderGradient( this, aContext );
+    return new CylinderGradient( fractions(), degrees, aContext );
   }
 
   // ------------------------------------------------------------------------------------
@@ -117,4 +131,12 @@ public class CylinderGradientInfo
     return fractions;
   }
 
+  /**
+   * Returns rotation angle in degrees.
+   *
+   * @return double - rotation angle in degrees
+   */
+  public double angle() {
+    return degrees;
+  }
 }

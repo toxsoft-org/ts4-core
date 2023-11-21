@@ -1,6 +1,9 @@
 package org.toxsoft.core.tsgui.valed.controls.graphics;
 
+import static org.toxsoft.core.tsgui.valed.controls.graphics.ITsResources.*;
+
 import org.eclipse.swt.*;
+import org.eclipse.swt.custom.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.layout.*;
@@ -73,10 +76,15 @@ public class PanelCylinderGradientSelector
 
   RgbaSelector rgbaSelector;
 
+  Spinner angleSpin;
+  Slider  angleSlide;
+
+  int angle = 0;
+
   IGenericChangeListener changeListener = aSource -> {
     fractionsPanel.setRGBA( rgbaSelector.rgba() );
     IList<Pair<Double, RGBA>> fractions = fractionsPanel.fractions();
-    CylinderGradientInfo gi = new CylinderGradientInfo( fractions );
+    CylinderGradientInfo gi = new CylinderGradientInfo( fractions, angle );
     pattern = gi.createGradient( tsContext() );
     resultPanel.redraw();
   };
@@ -99,9 +107,11 @@ public class PanelCylinderGradientSelector
     fractionsPanel.genericChangeEventer().addListener( aSource -> {
       rgbaSelector.setRgba( fractionsPanel.selectedRgba() );
       IList<Pair<Double, RGBA>> fractions = fractionsPanel.fractions();
-      CylinderGradientInfo gi = new CylinderGradientInfo( fractions );
+      CylinderGradientInfo gi = new CylinderGradientInfo( fractions, angle );
       pattern = gi.createGradient( aContext );
     } );
+
+    createAngleControlsGroup( this );
 
     rgbaSelector = new RgbaSelector( this, SWT.NONE, aContext.eclipseContext() );
     rgbaSelector.setLayoutData( new GridData( SWT.FILL, SWT.TOP, true, false ) );
@@ -127,7 +137,7 @@ public class PanelCylinderGradientSelector
    * @return IGradientInfo - параметры заливки
    */
   public IGradientInfo gradientInfo() {
-    return new CylinderGradientInfo( fractionsPanel.fractions() );
+    return new CylinderGradientInfo( fractionsPanel.fractions(), angle );
   }
 
   /**
@@ -146,10 +156,50 @@ public class PanelCylinderGradientSelector
   // Implementation
   //
 
+  // ------------------------------------------------------------------------------------
+  // Implementation
+  //
+
+  Composite createAngleControlsGroup( Composite aParent ) {
+    Composite comp = new Composite( aParent, SWT.NONE );
+    comp.setLayout( new GridLayout( 3, false ) );
+
+    angleSlide = new Slider( comp, SWT.HORIZONTAL );
+    angleSlide.setValues( 0, 0, 91, 1, 1, 10 );
+    angleSlide.setLayoutData( new GridData( SWT.FILL, SWT.CENTER, true, false ) );
+    angleSlide.addSelectionListener( new SelectionAdapter() {
+
+      @Override
+      public void widgetSelected( SelectionEvent aEvent ) {
+        angle = angleSlide.getSelection();
+        angleSpin.setSelection( angle );
+        updateGradient( tsContext );
+      }
+    } );
+
+    CLabel l;
+    l = new CLabel( comp, SWT.NONE );
+    l.setText( STR_L_GRADIENT_ANGLE );
+    angleSpin = new Spinner( comp, SWT.BORDER );
+    angleSpin.setMinimum( 0 );
+    angleSpin.setMaximum( 90 );
+    angleSpin.addSelectionListener( new SelectionAdapter() {
+
+      @Override
+      public void widgetSelected( SelectionEvent e ) {
+        angle = angleSpin.getSelection();
+        angleSlide.setSelection( angle );
+        updateGradient( tsContext );
+      }
+    } );
+
+    return comp;
+  }
+
   void updateGradient( ITsGuiContext aContext ) {
     rgbaSelector.setRgba( fractionsPanel.selectedRgba() );
     IList<Pair<Double, RGBA>> fractions = fractionsPanel.fractions();
-    CylinderGradientInfo ci = new CylinderGradientInfo( fractions );
+    CylinderGradientInfo ci = new CylinderGradientInfo( fractions, angle );
     pattern = ci.createGradient( aContext );
     resultPanel.redraw();
   }

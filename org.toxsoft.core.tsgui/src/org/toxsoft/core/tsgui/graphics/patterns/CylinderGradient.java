@@ -2,7 +2,11 @@ package org.toxsoft.core.tsgui.graphics.patterns;
 
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tslib.bricks.d2.*;
+import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Узор для заливки имитирующей цилиндр.
@@ -13,21 +17,72 @@ import org.toxsoft.core.tslib.utils.*;
 public class CylinderGradient
     extends AbstractFractionalGradient {
 
-  private final CylinderGradientInfo info;
+  // private final CylinderGradientInfo info;
+
+  private final double angleDegrees;
+
+  private final double angleRadians;
 
   /**
-   * Конструктор.<br>
+   * Constructor.
    *
-   * @param aInfo CylinderGradientInfo - параметры цилиндрической заливки
-   * @param aContext ITsGuiContext - соответствующий контекст
+   * @param aFractions IList&lt;Pair&lt;Double, RGBA&gt;&gt; - list of fractions
+   * @param aDegrees double - rotation angle in degrees
+   * @param aContext ITsGuiContext - the context
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException - number of fractions is less than 2 2
    */
-  public CylinderGradient( CylinderGradientInfo aInfo, ITsGuiContext aContext ) {
-    super( aInfo.fractions(), aContext );
-    info = aInfo;
+  public CylinderGradient( IList<Pair<Double, RGBA>> aFractions, double aDegrees, ITsGuiContext aContext ) {
+    super( aFractions, aContext );
+    angleDegrees = aDegrees;
+    angleRadians = Math.toRadians( angleDegrees );
   }
 
   @Override
   Image createImage( GC aGc, int aWidth, int aHeight ) {
+    if( angleDegrees == 0 ) {
+      return createNonRotatedImage( aGc, aWidth, aHeight );
+    }
+    ID2Rectangle d2r = new D2Rectangle( 0, 0, aWidth, aHeight );
+
+    d2r = TsGeometryUtils.bounds( TsGeometryUtils.rotateRect( d2r, angleRadians ) );
+
+    double dx = aWidth / 2.;
+    double dy = aHeight / 2.;
+
+    int width = (int)Math.floor( d2r.width() ) + 4;
+    int height = (int)Math.floor( d2r.height() ) + 4;
+
+    Image img = createNonRotatedImage( aGc, width, height );
+
+    Image newImg = new Image( aGc.getDevice(), aWidth, aHeight );
+    GC gc = new GC( newImg );
+
+    Transform tr = new Transform( getDisplay() );
+    tr.translate( (float)dx, (float)dy );
+    tr.rotate( (float)angleDegrees );
+    tr.translate( -(float)dx, -(float)dy );
+    gc.setTransform( tr );
+
+    gc.drawImage( img, (int)(d2r.x1()), (int)d2r.y1() );
+
+    img.dispose();
+    tr.dispose();
+    gc.dispose();
+    return newImg;
+  }
+
+  @Override
+  IGradientFraction createFraction( Pair<Double, RGBA> aStart, Pair<Double, RGBA> aEnd ) {
+    return new CylinderGradientFraction( aStart.left().doubleValue(), aStart.right(), aEnd.left().doubleValue(),
+        aEnd.right() );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Implementation
+  //
+
+  private Image createNonRotatedImage( GC aGc, int aWidth, int aHeight ) {
     Image img = new Image( aGc.getDevice(), aWidth, aHeight );
     ImageData imd = img.getImageData();
 
@@ -74,12 +129,6 @@ public class CylinderGradient
     img.dispose();
     img = new Image( aGc.getDevice(), imd );
     return img;
-  }
-
-  @Override
-  IGradientFraction createFraction( Pair<Double, RGBA> aStart, Pair<Double, RGBA> aEnd ) {
-    return new CylinderGradientFraction( aStart.left().doubleValue(), aStart.right(), aEnd.left().doubleValue(),
-        aEnd.right() );
   }
 
 }

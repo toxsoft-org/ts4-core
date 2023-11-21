@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.valed.controls.graphics;
 
+import static org.toxsoft.core.tsgui.valed.controls.graphics.ITsResources.*;
+
 import org.eclipse.swt.*;
 import org.eclipse.swt.custom.*;
 import org.eclipse.swt.events.*;
@@ -176,7 +178,7 @@ public class PanelLinearGradientSelector
 
     CLabel l;
     l = new CLabel( comp, SWT.NONE );
-    l.setText( "Угол: " );
+    l.setText( STR_L_GRADIENT_ANGLE );
     angleSpin = new Spinner( comp, SWT.BORDER );
     angleSpin.setMinimum( 0 );
     angleSpin.setMaximum( 90 );

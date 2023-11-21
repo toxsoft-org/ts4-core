@@ -39,7 +39,8 @@ interface ITsResources {
   /**
    * {@link PanelGradientFillInfo}
    */
-  String STR_L_GRADIENT_TYPE = "Тип градиента: ";
+  String STR_L_GRADIENT_TYPE  = "Тип градиента: ";
+  String STR_L_GRADIENT_ANGLE = "Угол: ";
 
   /**
    * {@link PanelTsFillInfoSelector}
