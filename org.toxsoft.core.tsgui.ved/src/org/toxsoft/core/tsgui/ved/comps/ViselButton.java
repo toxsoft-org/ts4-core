@@ -135,8 +135,8 @@ public class ViselButton
   public ViselButton( IVedItemCfg aConfig, IStridablesList<IDataDef> aPropDefs, VedScreen aVedScreen ) {
     super( aConfig, aPropDefs, aVedScreen );
     addInterceptor( new VedViselInterceptorMinWidthHeight( this ) );
-    // btnRenderer = new GradientButtonRenderer( this );
-    btnRenderer = new CoolButtonRenderer( this, 0.3 );
+    btnRenderer = new GradientButtonRenderer( this );
+    // btnRenderer = new CoolButtonRenderer( this, 0.3 );
   }
 
   // ------------------------------------------------------------------------------------
