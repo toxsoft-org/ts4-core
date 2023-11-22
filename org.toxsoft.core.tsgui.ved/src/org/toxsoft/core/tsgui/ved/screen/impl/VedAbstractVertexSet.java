@@ -107,6 +107,8 @@ public abstract class VedAbstractVertexSet
         dragInfo = aDragInfo;
         dragInfo.setCargo( new DragCargo( vertex, aDragInfo ) );
         visible = false;
+        vedScreen.model().visels().eventer().pauseFiring();
+        vedScreen.model().actors().eventer().pauseFiring();
         return true;
       }
       return false;
@@ -144,6 +146,10 @@ public abstract class VedAbstractVertexSet
       if( dc == null ) {
         return false;
       }
+
+      vedScreen.model().visels().eventer().resumeFiring( true );
+      vedScreen.model().actors().eventer().resumeFiring( true );
+
       ID2Point currP = screenView.coorsConverter().swt2Visel( aCoors.x(), aCoors.y(), visel );
 
       double dx = currP.x() - dc.prevPoint.x();
@@ -153,6 +159,7 @@ public abstract class VedAbstractVertexSet
 
       visible = true;
       screenView.redraw();
+
       return result;
     }
 
@@ -179,6 +186,10 @@ public abstract class VedAbstractVertexSet
 
       visible = true;
       screenView.redraw();
+
+      vedScreen.model().visels().eventer().resumeFiring( false );
+      vedScreen.model().actors().eventer().resumeFiring( false );
+
       return true;
     }
 

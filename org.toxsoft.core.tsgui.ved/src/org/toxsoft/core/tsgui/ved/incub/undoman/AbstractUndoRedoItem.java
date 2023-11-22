@@ -80,7 +80,8 @@ public abstract class AbstractUndoRedoItem
   final public void setVisualParams( String aName, String aDescription, String aIconId ) {
     TsNullArgumentRtException.checkNulls( aName, aDescription );
     DDEF_NAME.setValue( params, avStr( aName ) );
-    DDEF_DEFAULT_VALUE.setValue( params, avStr( aDescription ) );
+    DDEF_DESCRIPTION.setValue( params, avStr( aDescription ) );
+    // DDEF_DEFAULT_VALUE.setValue( params, avStr( aDescription ) );
     if( aIconId != null ) {
       DDEF_ICON_ID.setValue( params, avStr( aIconId ) );
     }

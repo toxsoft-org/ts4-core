@@ -93,6 +93,8 @@ public class VedViselPositionManager
       if( visel != null ) {
         dragInfo = aDragInfo;
         dragInfo.setCargo( new DragCargo( visel, aDragInfo ) );
+        vedScreen().model().visels().eventer().pauseFiring();
+        vedScreen().model().actors().eventer().pauseFiring();
         return true;
       }
     }
@@ -120,6 +122,39 @@ public class VedViselPositionManager
 
     vedScreen().view().redraw();
     vedScreen().view().update();
+    return true;
+  }
+
+  @Override
+  public boolean onMouseDragFinish( Object aSource, DragOperationInfo aDragInfo, int aState, ITsPoint aCoors ) {
+    DragCargo dc = aDragInfo.cargo();
+    if( dc == null ) {
+      return false;
+    }
+    vedScreen().model().visels().eventer().resumeFiring( true );
+    vedScreen().model().actors().eventer().resumeFiring( true );
+
+    IVedCoorsConverter converter = vedScreen().view().coorsConverter();
+
+    int dx = aCoors.x() - dc.prevPoint.x();
+    int dy = aCoors.y() - dc.prevPoint.y();
+
+    for( VedAbstractVisel v : dc.visels ) {
+      ID2Point d2p = converter.swt2Visel( dx, dy, v );
+      v.setLocation( v.originX() + d2p.x(), v.originY() + d2p.y() );
+    }
+
+    dc.prevPoint.setPoint( aCoors.x(), aCoors.y() );
+
+    vedScreen().view().redraw();
+    vedScreen().view().update();
+    return true;
+  }
+
+  @Override
+  public boolean onMouseDragCancel( Object aSource, DragOperationInfo aDragInfo ) {
+    vedScreen().model().visels().eventer().resumeFiring( false );
+    vedScreen().model().actors().eventer().resumeFiring( false );
     return true;
   }
 
