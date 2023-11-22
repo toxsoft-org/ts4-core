@@ -43,6 +43,9 @@ public class CylinderGradient
     if( angleDegrees == 0 ) {
       return createNonRotatedImage( aGc, aWidth, aHeight );
     }
+    if( angleDegrees == 90 ) {
+      return createRotated90Image( aGc, aWidth, aHeight );
+    }
     ID2Rectangle d2r = new D2Rectangle( 0, 0, aWidth, aHeight );
 
     d2r = TsGeometryUtils.bounds( TsGeometryUtils.rotateRect( d2r, angleRadians ) );
@@ -117,6 +120,48 @@ public class CylinderGradient
             // RGBA rgba = gf.calcRgb( (int)angle );
             // RGBA rgba = gf.calcRgb( (i / radius - 1) * 100 );
             // int p = rgba.rgb.red << 8 | rgba.rgb.green << 16 | rgba.rgb.blue << 24;
+            int p = rgba.rgb.red << redShift | rgba.rgb.green << greenShift | rgba.rgb.blue << blueShift;
+            imd.setPixel( i, j, p );
+            imd.setAlpha( i, j, rgba.alpha );
+            break;
+          }
+        }
+      }
+    }
+
+    img.dispose();
+    img = new Image( aGc.getDevice(), imd );
+    return img;
+  }
+
+  private Image createRotated90Image( GC aGc, int aWidth, int aHeight ) {
+    Image img = new Image( aGc.getDevice(), aWidth, aHeight );
+    ImageData imd = img.getImageData();
+
+    int redShift = Math.abs( imd.palette.redShift );
+    int greenShift = Math.abs( imd.palette.greenShift );
+    int blueShift = Math.abs( imd.palette.blueShift );
+
+    double radius = aHeight / 2.;
+
+    for( int j = 0; j < aHeight; j++ ) {
+      double prevAngle = 0;
+      for( int i = 0; i < aWidth; i++ ) {
+        double dx = j - aHeight / 2;
+        double dy = i;
+        double distance = Math.sqrt( dx * dx + dy * dy );
+        if( distance == 0 ) {
+          distance = 1;
+        }
+        // double angle = -Math.abs( Math.toDegrees( Math.acos( dx / distance ) ) );
+
+        // double radius = aWidth / 2.;
+        double angle = -Math.abs( Math.toDegrees( Math.acos( j / radius - 1 ) ) );
+
+        for( IGradientFraction gf : fractions() ) {
+          if( gf.isMine( angle ) ) {
+            prevAngle = angle;
+            RGBA rgba = gf.calcRgb( prevAngle );
             int p = rgba.rgb.red << redShift | rgba.rgb.green << greenShift | rgba.rgb.blue << blueShift;
             imd.setPixel( i, j, p );
             imd.setAlpha( i, j, rgba.alpha );

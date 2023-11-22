@@ -10,6 +10,7 @@ import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.tin.*;
 import org.toxsoft.core.tsgui.bricks.tin.impl.*;
+import org.toxsoft.core.tsgui.graphics.lines.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tsgui.ved.incub.tsg.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
@@ -74,6 +75,7 @@ public class ViselRoundRect
       fields.add( new TinFieldInfo( PROPID_ARC_WIDTH, TTI_AT_FLOATING, PROP_ARC_WIDTH.params() ) );
       fields.add( new TinFieldInfo( PROPID_ARC_HEIGHT, TTI_AT_FLOATING, PROP_ARC_HEIGHT.params() ) );
       fields.add( TFI_BK_FILL );
+      fields.add( TFI_FG_COLOR );
       fields.add( TFI_LINE_INFO );
       fields.add( TFI_IS_ASPECT_FIXED );
       fields.add( TFI_ASPECT_RATIO );
@@ -85,6 +87,8 @@ public class ViselRoundRect
   };
 
   private Rectangle swtRect = new Rectangle( 0, 0, 1, 1 );
+
+  private Color fgColor;
 
   /**
    * Constructor.
@@ -126,13 +130,17 @@ public class ViselRoundRect
     aPaintContext.setFillInfo( props().getValobj( PROPID_BK_FILL ) );
     aPaintContext.fillRoundRect( swtRect.x, swtRect.y, swtRect.width, swtRect.height, arcW, arcH );
     aPaintContext.setFillInfo( TsFillInfo.NONE );
-    aPaintContext.setLineInfo( props().getValobj( PROPID_LINE_INFO ) );
+    TsLineInfo lineInfo = props().getValobj( PROPID_LINE_INFO );
+    aPaintContext.setLineInfo( lineInfo );
+    aPaintContext.gc().setForeground( fgColor );
     aPaintContext.drawRoundRect( swtRect.x, swtRect.y, swtRect.width, swtRect.height, arcW, arcH );
   }
 
   @Override
   protected void doUpdateCachesAfterPropsChange( IOptionSet aChangedValue ) {
     super.doUpdateCachesAfterPropsChange( aChangedValue );
+    RGBA fgRgba = props().getValobj( PROPID_FG_COLOR );
+    fgColor = colorManager().getColor( fgRgba );
     updateSwtRect();
   }
 

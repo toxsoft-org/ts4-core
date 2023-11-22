@@ -57,6 +57,15 @@ public sealed interface ID2Rectangle permits D2Rectangle,D2RectangleEdit {
   ID2Point b();
 
   /**
+   * Returns the center point.
+   *
+   * @return {@link ID2Point} - the center point
+   */
+  default ID2Point center() {
+    return new D2Point( x1() + width() / 2., y1() + height() / 2. );
+  }
+
+  /**
    * Returns the width of the rectangle.
    *
    * @return double - the width

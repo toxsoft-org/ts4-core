@@ -59,6 +59,9 @@ public class LinearGradient
     if( angleRadians == 0 ) {
       return createNonRotatedImage( aGc, aWidth, aHeight );
     }
+    if( angleDegrees == 90 ) {
+      return createRotated90Image( aGc, aWidth, aHeight );
+    }
 
     ID2Rectangle d2r = new D2Rectangle( 0, 0, aWidth, aHeight );
 
@@ -81,7 +84,7 @@ public class LinearGradient
     tr.translate( -(float)dx, -(float)dy );
     gc.setTransform( tr );
 
-    gc.drawImage( img, (int)(d2r.x1()), (int)d2r.y1() );
+    gc.drawImage( img, (int)Math.floor( d2r.x1() + 1 ), (int)Math.floor( d2r.y1() + 2 ) );
 
     img.dispose();
     tr.dispose();
@@ -112,6 +115,35 @@ public class LinearGradient
         for( IGradientFraction gf : fractions() ) {
           if( gf.isMine( i / (double)aWidth ) ) {
             RGBA rgba = gf.calcRgb( i / (double)aWidth );
+            int p = rgba.rgb.red << redShift | rgba.rgb.green << greenShift | rgba.rgb.blue << blueShift;
+            imd.setPixel( i, j, p );
+            imd.setAlpha( i, j, rgba.alpha );
+            break;
+          }
+        }
+      }
+    }
+
+    img.dispose();
+    img = new Image( aGc.getDevice(), imd );
+    return img;
+  }
+
+  Image createRotated90Image( GC aGc, int aWidth, int aHeight ) {
+    int width = aWidth;
+    int height = aHeight;
+    Image img = new Image( aGc.getDevice(), width, height );
+    ImageData imd = img.getImageData();
+
+    int redShift = Math.abs( imd.palette.redShift );
+    int greenShift = Math.abs( imd.palette.greenShift );
+    int blueShift = Math.abs( imd.palette.blueShift );
+
+    for( int i = 0; i < width; i++ ) {
+      for( int j = 0; j < height; j++ ) {
+        for( IGradientFraction gf : fractions() ) {
+          if( gf.isMine( j / (double)aHeight ) ) {
+            RGBA rgba = gf.calcRgb( j / (double)aHeight );
             int p = rgba.rgb.red << redShift | rgba.rgb.green << greenShift | rgba.rgb.blue << blueShift;
             imd.setPixel( i, j, p );
             imd.setAlpha( i, j, rgba.alpha );

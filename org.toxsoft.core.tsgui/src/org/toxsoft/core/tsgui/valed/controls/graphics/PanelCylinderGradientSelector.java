@@ -146,8 +146,8 @@ public class PanelCylinderGradientSelector
    * @param aInfo IGradientInfo - параметры цилиндрического градиента
    */
   public void setGradientInfo( IGradientInfo aInfo ) {
-    TsIllegalArgumentRtException.checkFalse( aInfo.gradientType() == EGradientType.RADIAL );
-    RadialGradientInfo info = (RadialGradientInfo)aInfo;
+    TsIllegalArgumentRtException.checkFalse( aInfo.gradientType() == EGradientType.CYLINDER );
+    CylinderGradientInfo info = (CylinderGradientInfo)aInfo;
     fractionsPanel.setFractions( info.fractions() );
     updateGradient( tsContext );
   }

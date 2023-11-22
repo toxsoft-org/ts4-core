@@ -13,9 +13,7 @@ import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.tin.*;
 import org.toxsoft.core.tsgui.bricks.tin.impl.*;
 import org.toxsoft.core.tsgui.bricks.tin.tti.*;
-import org.toxsoft.core.tsgui.graphics.lines.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
-import org.toxsoft.core.tsgui.ved.incub.*;
 import org.toxsoft.core.tsgui.ved.incub.tsg.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
@@ -23,12 +21,8 @@ import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
-import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
-import org.toxsoft.core.tslib.coll.*;
-import org.toxsoft.core.tslib.coll.impl.*;
-import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -121,17 +115,13 @@ public class ViselButton
 
   };
 
-  private Rectangle swtRect = new Rectangle( 0, 0, 1, 1 );
-
-  Font font = null;
-
   TsFillInfo fillInfo = null;
 
   TsFillInfo pressedFillInfo = null;
 
   TsFillInfo disableFillInfo = new TsFillInfo( new RGBA( 164, 164, 164, 255 ) );
 
-  TsLineInfo lineInfo = TsLineInfo.ofWidth( 1 );
+  private final IButtonRenderer btnRenderer;
 
   /**
    * Constructor.
@@ -145,6 +135,8 @@ public class ViselButton
   public ViselButton( IVedItemCfg aConfig, IStridablesList<IDataDef> aPropDefs, VedScreen aVedScreen ) {
     super( aConfig, aPropDefs, aVedScreen );
     addInterceptor( new VedViselInterceptorMinWidthHeight( this ) );
+    // btnRenderer = new GradientButtonRenderer( this );
+    btnRenderer = new CoolButtonRenderer( this, 0.3 );
   }
 
   // ------------------------------------------------------------------------------------
@@ -153,101 +145,13 @@ public class ViselButton
 
   @Override
   public void paint( ITsGraphicsContext aPaintContext ) {
-
-    aPaintContext.gc().setFont( font );
-
-    TsFillInfo fi = fillInfo;
-
-    EButtonViselState state = props().getValobj( PROPID_STATE );
-    if( state == EButtonViselState.DISABLED ) {
-      aPaintContext.gc().setForeground( colorManager().getColor( new RGB( 96, 96, 96 ) ) );
-      aPaintContext.gc().setBackground( colorManager().getColor( new RGB( 164, 164, 164 ) ) );
-      fi = disableFillInfo;
-    }
-    else {
-      if( state == EButtonViselState.PRESSED ) {
-        fi = pressedFillInfo;
-      }
-    }
-    ID2Rectangle r = bounds();
-
-    // int arcW = (int)props().getDouble( PROPID_ARC_WIDTH );
-    // int arcH = (int)props().getDouble( PROPID_ARC_HEIGHT );
-    int arcW = 16;
-    int arcH = 16;
-    aPaintContext.setFillInfo( fi );
-    aPaintContext.fillRoundRect( swtRect.x, swtRect.y, swtRect.width, swtRect.height, arcW, arcH );
-    aPaintContext.setLineInfo( lineInfo );
-
-    aPaintContext.drawRoundRect( swtRect.x, swtRect.y, swtRect.width, swtRect.height, arcW, arcH );
-
-    String text = props().getStr( PROPID_TEXT );
-    Point p = aPaintContext.gc().textExtent( text );
-    int x = (int)(r.x1() + (r.width() - p.x) / 2.);
-    int y = (int)(r.y1() + (r.height() - p.y) / 2.);
-
-    if( state == EButtonViselState.PRESSED ) {
-      x += 2;
-      y += 2;
-    }
-
-    aPaintContext.gc().setBackgroundPattern( null );
-    aPaintContext.gc().setForeground( colorManager().getColor( (RGBA)props().getValobj( PROPID_FG_COLOR ) ) );
-    aPaintContext.gc().drawText( text, x, y, true );
-
-    // if( props().getBool( PROPID_HOVERED ) && state != EButtonViselState.DISABLED ) {
-    // aPaintContext.gc().setForeground( colorManager().getColor( new RGB( 80, 100, 130 ) ) );
-    // }
+    btnRenderer.drawButton( aPaintContext );
   }
 
   @Override
   protected void doUpdateCachesAfterPropsChange( IOptionSet aChangedValue ) {
     super.doUpdateCachesAfterPropsChange( aChangedValue );
-    font = fontManager().getFont( props().getValobj( PROPID_FONT ) );
-    RGBA bkRgba = props().getValobj( PROPID_BK_COLOR );
-
-    // D2Point sp = new D2Point( 0, 0 );
-    // D2Point ep = new D2Point( 0, 100 );
-    RGBA sc = new RGBA( 220, 220, 220, 255 );
-    RGBA ec = new RGBA( 190, 190, 190, 255 );
-
-    RGB rgb = GradientUtils.tuneBrightness( bkRgba.rgb, 0.2 );
-    sc = new RGBA( rgb.red, rgb.green, rgb.blue, 255 );
-    rgb = GradientUtils.tuneBrightness( bkRgba.rgb, -0.2 );
-    ec = new RGBA( rgb.red, rgb.green, rgb.blue, 255 );
-
-    Pair<Double, RGBA> p1 = new Pair<>( Double.valueOf( 0 ), sc );
-    Pair<Double, RGBA> p2 = new Pair<>( Double.valueOf( 100 ), ec );
-    IListEdit<Pair<Double, RGBA>> fractions = new ElemArrayList<>();
-    fractions.add( p1 );
-    fractions.add( p2 );
-    // LinearGradientInfo lgi = new LinearGradientInfo( sp, ep, sc, ec, new D2Point( 1.1, 1.1 ) );
-    LinearGradientInfo lgi = new LinearGradientInfo( fractions, 90 );
-    fillInfo = new TsFillInfo( new TsGradientFillInfo( lgi ) );
-
-    p1 = new Pair<>( Double.valueOf( 0 ), ec );
-    p2 = new Pair<>( Double.valueOf( 100 ), sc );
-    fractions = new ElemArrayList<>();
-    fractions.add( p1 );
-    fractions.add( p2 );
-
-    // lgi = new LinearGradientInfo( sp, ep, ec, sc, new D2Point( 1.1, 1.1 ) );
-    lgi = new LinearGradientInfo( fractions, 90 );
-    pressedFillInfo = new TsFillInfo( new TsGradientFillInfo( lgi ) );
-    updateSwtRect();
-  }
-
-  // ------------------------------------------------------------------------------------
-  // Implementation
-  //
-
-  private void updateSwtRect() {
-    ID2Rectangle r = bounds();
-
-    swtRect.x = (int)Math.round( r.x1() );
-    swtRect.y = (int)Math.round( r.y1() );
-    swtRect.width = (int)Math.round( r.width() );
-    swtRect.height = (int)Math.round( r.height() );
+    btnRenderer.update();
   }
 
 }

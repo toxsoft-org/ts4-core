@@ -67,8 +67,12 @@ public interface ITsguiVedConstants {
   String ICONID_OBJECT_ROTATE_ORIGINAL = "object-rotate-original"; //$NON-NLS-1$
   String ICONID_OBJECT_ROTATE_RIGHT    = "object-rotate-right";    //$NON-NLS-1$
   // Action set - "Alignment"
-  String ICONID_ALIGN_LEFT  = "left-align";  //$NON-NLS-1$
-  String ICONID_ALIGN_RIGHT = "right-align"; //$NON-NLS-1$
+  String ICONID_ALIGN_LEFT       = "left-align";       //$NON-NLS-1$
+  String ICONID_ALIGN_RIGHT      = "right-align";      //$NON-NLS-1$
+  String ICONID_ALIGN_TOP        = "top-align";        //$NON-NLS-1$
+  String ICONID_ALIGN_BOTTOM     = "bottom-align";     //$NON-NLS-1$
+  String ICONID_ALIGN_HOR_CENTER = "hor-center-align"; //$NON-NLS-1$
+  String ICONID_ALIGN_VER_CENTER = "ver-center-align"; //$NON-NLS-1$
   // Action set - "Common"
   String ICONID_SETTINGS = "settings"; //$NON-NLS-1$
 

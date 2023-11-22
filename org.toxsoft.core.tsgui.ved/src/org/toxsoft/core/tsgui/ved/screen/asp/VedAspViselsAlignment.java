@@ -30,8 +30,12 @@ public class VedAspViselsAlignment
     extends MethodPerActionTsActionSetProvider
     implements ITsGuiContextable {
 
-  static final String ACTID_ALIGN_LEFT  = "visel.align.left";  //$NON-NLS-1$
-  static final String ACTID_ALIGN_RIGHT = "visel.align.right"; //$NON-NLS-1$
+  static final String ACTID_ALIGN_LEFT       = "visel.align.left";       //$NON-NLS-1$
+  static final String ACTID_ALIGN_RIGHT      = "visel.align.right";      //$NON-NLS-1$
+  static final String ACTID_ALIGN_TOP        = "visel.align.top";        //$NON-NLS-1$
+  static final String ACTID_ALIGN_BOTTOM     = "visel.align.bottom";     //$NON-NLS-1$
+  static final String ACTID_ALIGN_HOR_CENTER = "visel.align.hor.center"; //$NON-NLS-1$
+  static final String ACTID_ALIGN_VER_CENTER = "visel.align.ver.center"; //$NON-NLS-1$
 
   /**
    * Action: align group of selected visels to left edge.
@@ -44,6 +48,30 @@ public class VedAspViselsAlignment
    */
   public static final ITsActionDef ACDEF_ALIGN_RIGHT = ofPush2( ACTID_ALIGN_RIGHT, //
       STR_ALIGN_RIGHT, STR_ALIGN_RIGHT_D, ICONID_ALIGN_RIGHT );
+
+  /**
+   * Action: align group of selected visels to top edge.
+   */
+  public static final ITsActionDef ACDEF_ALIGN_TOP = ofPush2( ACTID_ALIGN_TOP, //
+      STR_ALIGN_TOP, STR_ALIGN_TOP_D, ICONID_ALIGN_TOP );
+
+  /**
+   * Action: align group of selected visels to bottom edge.
+   */
+  public static final ITsActionDef ACDEF_ALIGN_BOTTOM = ofPush2( ACTID_ALIGN_BOTTOM, //
+      STR_ALIGN_BOTTOM, STR_ALIGN_BOTTOM_D, ICONID_ALIGN_BOTTOM );
+
+  /**
+   * Action: align group of selected visels to bottom edge.
+   */
+  public static final ITsActionDef ACDEF_ALIGN_HOR_CENTER = ofPush2( ACTID_ALIGN_HOR_CENTER, //
+      STR_ALIGN_HOR_CENTER, STR_ALIGN_HOR_CENTER_D, ICONID_ALIGN_HOR_CENTER );
+
+  /**
+   * Action: align group of selected visels to bottom edge.
+   */
+  public static final ITsActionDef ACDEF_ALIGN_VER_CENTER = ofPush2( ACTID_ALIGN_VER_CENTER, //
+      STR_ALIGN_VER_CENTER, STR_ALIGN_VER_CENTER_D, ICONID_ALIGN_VER_CENTER );
 
   private final IVedScreen vedScreen;
 
@@ -64,6 +92,10 @@ public class VedAspViselsAlignment
     selectionManager.genericChangeEventer().addListener( this::onSelectionChanged );
     defineAction( ACDEF_ALIGN_LEFT, this::doAlignLeft );
     defineAction( ACDEF_ALIGN_RIGHT, this::doAlignRight );
+    defineAction( ACDEF_ALIGN_TOP, this::doAlignTop );
+    defineAction( ACDEF_ALIGN_BOTTOM, this::doAlignBottom );
+    defineAction( ACDEF_ALIGN_HOR_CENTER, this::doAlignHorCenter );
+    defineAction( ACDEF_ALIGN_VER_CENTER, this::doAlignVerCenter );
   }
 
   // ------------------------------------------------------------------------------------
@@ -129,6 +161,80 @@ public class VedAspViselsAlignment
         ITsPoint swtP = converter.visel2Swt( visel.bounds().b(), visel );
         int dx = tsp.x() - swtP.x();
         ID2Point d2p = converter.swt2Visel( dx, 0, visel );
+        double xVal = visel.props().getDouble( PROPID_X ) + d2p.x();
+        double yVal = visel.props().getDouble( PROPID_Y ) + d2p.y();
+        visel.props().setPropPairs( PROPID_X, avFloat( xVal ), PROPID_Y, avFloat( yVal ) );
+      }
+    }
+    anchorVisel = null;
+  }
+
+  void doAlignTop() {
+    TsIllegalStateRtException.checkTrue( anchorVisel == null );
+    IStridablesList<VedAbstractVisel> visels = listSelectedVisels();
+    IVedCoorsConverter converter = vedScreen.view().coorsConverter();
+    ITsPoint tsp = converter.visel2Swt( anchorVisel.bounds().a(), anchorVisel );
+    for( VedAbstractVisel visel : visels ) {
+      if( visel != anchorVisel ) {
+        ITsPoint swtP = converter.visel2Swt( visel.bounds().a(), visel );
+        int dy = tsp.y() - swtP.y();
+        ID2Point d2p = converter.swt2Visel( 0, dy, visel );
+        double xVal = visel.props().getDouble( PROPID_X ) + d2p.x();
+        double yVal = visel.props().getDouble( PROPID_Y ) + d2p.y();
+        visel.props().setPropPairs( PROPID_X, avFloat( xVal ), PROPID_Y, avFloat( yVal ) );
+      }
+    }
+    anchorVisel = null;
+  }
+
+  void doAlignBottom() {
+    TsIllegalStateRtException.checkTrue( anchorVisel == null );
+    IStridablesList<VedAbstractVisel> visels = listSelectedVisels();
+    IVedCoorsConverter converter = vedScreen.view().coorsConverter();
+    ITsPoint tsp = converter.visel2Swt( anchorVisel.bounds().b(), anchorVisel );
+    for( VedAbstractVisel visel : visels ) {
+      if( visel != anchorVisel ) {
+        ITsPoint swtP = converter.visel2Swt( visel.bounds().b(), visel );
+        int dy = tsp.y() - swtP.y();
+        ID2Point d2p = converter.swt2Visel( 0, dy, visel );
+        double xVal = visel.props().getDouble( PROPID_X ) + d2p.x();
+        double yVal = visel.props().getDouble( PROPID_Y ) + d2p.y();
+        visel.props().setPropPairs( PROPID_X, avFloat( xVal ), PROPID_Y, avFloat( yVal ) );
+      }
+    }
+    anchorVisel = null;
+  }
+
+  void doAlignHorCenter() {
+    TsIllegalStateRtException.checkTrue( anchorVisel == null );
+    IStridablesList<VedAbstractVisel> visels = listSelectedVisels();
+    IVedCoorsConverter converter = vedScreen.view().coorsConverter();
+
+    ITsPoint tsp = converter.visel2Swt( anchorVisel.bounds().center(), anchorVisel );
+    for( VedAbstractVisel visel : visels ) {
+      if( visel != anchorVisel ) {
+        ITsPoint swtP = converter.visel2Swt( visel.bounds().center(), visel );
+        int dx = tsp.x() - swtP.x();
+        ID2Point d2p = converter.swt2Visel( dx, 0, visel );
+        double xVal = visel.props().getDouble( PROPID_X ) + d2p.x();
+        double yVal = visel.props().getDouble( PROPID_Y ) + d2p.y();
+        visel.props().setPropPairs( PROPID_X, avFloat( xVal ), PROPID_Y, avFloat( yVal ) );
+      }
+    }
+    anchorVisel = null;
+  }
+
+  void doAlignVerCenter() {
+    TsIllegalStateRtException.checkTrue( anchorVisel == null );
+    IStridablesList<VedAbstractVisel> visels = listSelectedVisels();
+    IVedCoorsConverter converter = vedScreen.view().coorsConverter();
+
+    ITsPoint tsp = converter.visel2Swt( anchorVisel.bounds().center(), anchorVisel );
+    for( VedAbstractVisel visel : visels ) {
+      if( visel != anchorVisel ) {
+        ITsPoint swtP = converter.visel2Swt( visel.bounds().center(), visel );
+        int dy = tsp.y() - swtP.y();
+        ID2Point d2p = converter.swt2Visel( 0, dy, visel );
         double xVal = visel.props().getDouble( PROPID_X ) + d2p.x();
         double yVal = visel.props().getDouble( PROPID_Y ) + d2p.y();
         visel.props().setPropPairs( PROPID_X, avFloat( xVal ), PROPID_Y, avFloat( yVal ) );
