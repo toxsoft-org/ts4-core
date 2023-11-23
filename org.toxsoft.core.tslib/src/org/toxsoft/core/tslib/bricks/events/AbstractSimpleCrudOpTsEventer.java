@@ -79,8 +79,10 @@ public abstract class AbstractSimpleCrudOpTsEventer<L, T, S>
       item = aItem;
     }
     else { // second and next events to remember
-      op = ECrudOp.LIST;
-      item = null;
+      if( op != aOp && item != aItem ) { // if operation/items changes we'll convert event to LIST change
+        op = ECrudOp.LIST;
+        item = null;
+      }
     }
   }
 
