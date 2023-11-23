@@ -14,13 +14,16 @@ import org.toxsoft.core.tslib.utils.errors.*;
 // TRANSLATE
 
 /**
- * {@link IPdwWidget} simple implementation without scrollbars, toolbar, etc.
+ * {@link IPdwWidget} simple implementation.
  *
  * @author hazard157
  */
 public class PdwWidgetSimple
     implements IPdwWidget {
 
+  /**
+   * Animates (changes displayed frames as needed and repaints the widget).
+   */
   private final IGeneralAnimationCallback<Object> animationCallback = new IGeneralAnimationCallback<>() {
 
     @Override

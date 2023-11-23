@@ -13,11 +13,25 @@ import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
+/**
+ * Package-internal SWT control displaying the {@link Image}.
+ * <p>
+ * Notes of implementation:
+ * <ul>
+ * <li>this control is a {@link ILazyControl} so actual implementing control is {@link ImageCanvas};</li>
+ * <li>the size {@link Control#getBounds()} of the control is computed by
+ * {@link ImageCanvas#computeSize(int, int, boolean)} dynamically, depending on image fit strategy {@link #getFitInfo()}
+ * and if size is fixed {@link #isPreferredSizeFixed()};</li>
+ * <li>all operations on the widget does not rapaints the widget. To repaint call {@link #redraw()} explicitly.</li>
+ * </ul>
+ *
+ * @author hazard157
+ */
 class ImageWidget
     implements ILazyControl<Control> {
 
   /**
-   * Canvas to draw an {@link ImageWidget#image} on.
+   * Actual SWT implementation of a {@link ImageWidget}, the canvas to draw an {@link ImageWidget#image} on.
    *
    * @author hazard157
    */
@@ -143,6 +157,14 @@ class ImageWidget
   // API
   //
 
+  /**
+   * Sets the image to display.
+   * <p>
+   * Note: does not repaints the widget.
+   *
+   * @param aImage {@link Image} - the image or <code>null</code>
+   * @return boolean - <code>true</code> image size was changed hence the control need to re-layout
+   */
   public boolean setImage( Image aImage ) {
     image = aImage;
     ITsPoint oldImageSize = imageSize;
@@ -159,10 +181,21 @@ class ImageWidget
     return needRelayout;
   }
 
+  /**
+   * Returns the image anchoring strategy.
+   *
+   * @return {@link ETsFulcrum} - the fulcrum
+   */
   public ETsFulcrum getFulcrum() {
     return fulcrum;
   }
 
+  /**
+   * Sets the image anchoring strategy.
+   *
+   * @param aFulcrum {@link ETsFulcrum} - the fulcrum
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
   public void setFulcrum( ETsFulcrum aFulcrum ) {
     TsNullArgumentRtException.checkNull( aFulcrum );
     if( fulcrum != aFulcrum ) {

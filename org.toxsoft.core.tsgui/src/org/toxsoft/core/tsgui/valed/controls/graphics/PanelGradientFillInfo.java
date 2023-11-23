@@ -10,7 +10,7 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tsgui.panels.*;
 import org.toxsoft.core.tsgui.utils.*;
-import org.toxsoft.core.tsgui.utils.layout.*;
+import org.toxsoft.core.tsgui.utils.layout.BorderLayout;
 import org.toxsoft.core.tsgui.valed.controls.enums.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -101,7 +101,7 @@ public class PanelGradientFillInfo
 
   StackLayout stackLayout;
 
-  PanelLinearGradientSelector linearGradientSelector;
+  PanelLinearGradientSelector   linearGradientSelector;
   PanelRadialGradientSelector   radialGradientSelector;
   PanelCylinderGradientSelector cylinderGradientSelector;
 
