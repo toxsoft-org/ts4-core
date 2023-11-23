@@ -17,7 +17,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public non-sealed abstract class ExecutableCommandSetProvider
+public non-sealed class ExecutableCommandSetProvider
     implements IGenericCommandSetProvider {
 
   private final IStridablesListEdit<AbstractExcutableCommandDef> cmdDefs = new StridablesList<>();

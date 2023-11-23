@@ -45,7 +45,8 @@ public interface IAvMetaConstants {
   String TSID_MAX_LENGTH       = TS_ID + ".MaxLength";
   String TSID_MIN_LENGTH       = TS_ID + ".MinLength";
   String TSID_KEEPER_ID        = TS_ID + ".KeeperId";
-  String TSID_ICON_ID          = TS_ID + ".IconId";
+  String TSID_ICON_ID          = TS_ID + ".IconId";          // holds String iconId
+  String TSID_IMAGE_DESCR      = TS_ID + ".ImageDescr";      // holds VALOBJ TsImageDescriptor
   String TSID_IS_MANDATORY     = TS_ID + ".IsMandatory";
   String TSID_IS_READ_ONLY     = TS_ID + ".IsReadOnly";      // hint: not human/GUI editable
   String TSID_VALIDATOR_CLASS  = TS_ID + ".ValidatorClass";  // stores ITsValidator implementing class name

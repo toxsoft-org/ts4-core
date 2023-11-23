@@ -611,6 +611,27 @@ public class TsFileUtils {
   }
 
   /**
+   * Lists the content of the directory sorted in ascending order by file name with the directories first.
+   *
+   * @param aDir {@link File} - the directory
+   * @param aFilter {@link FileFilter} - the filter or <code>null</code> for all childs
+   * @return {@link IListEdit}&lt;{@link File}&gt; - new editable sorted list of the child file objects
+   * @throws TsNullArgumentRtException aDir = <code>null</code>
+   * @throws TsIoRtException directory access validation failed
+   */
+  public static IListEdit<File> listDirsAndFiles( File aDir, FileFilter aFilter ) {
+    TsFileUtils.checkDirReadable( aDir );
+    FileFilter dirFilter = aPathname -> aPathname.isDirectory() ? aFilter.accept( aPathname ) : false;
+    IList<File> dd = listChildsSorted( aDir, dirFilter );
+    FileFilter fileFilter = aPathname -> aPathname.isFile() ? aFilter.accept( aPathname ) : false;
+    IList<File> ff = listChildsSorted( aDir, fileFilter );
+    IListEdit<File> ll = new ElemLinkedBundleList<>( dd.size() + ff.size(), true );
+    ll.addAll( dd );
+    ll.addAll( ff );
+    return ll;
+  }
+
+  /**
    * Recursively finds files matching the specified filter.
    * <p>
    * The filter applies only to files.
