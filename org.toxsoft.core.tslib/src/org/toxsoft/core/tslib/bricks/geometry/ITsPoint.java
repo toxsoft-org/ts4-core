@@ -5,42 +5,45 @@ import java.io.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
-// TODO TRANSLATE
-
 /**
- * Точка - реализация абстракции "точка на координатной плоскости".
+ * A point is an implementation of the “point in a 2D coordinate space” abstraction.
  * <p>
- * Также может использоваться в качестве размера прямоугольника, и тогда {@link #x()} это ширина, а {@link #y()} -
- * высота прямоугольника.
+ * May also be used as the size of a rectangle, in which case {@link #x()} is the width and {@link #y()} is the height
+ * of the rectangle. *
  * <p>
- * Имеет две реализации - неизменяемую {@link TsPoint} и редактируемую {@link TsPointEdit}. Всегда надо стараться
- * использовать неизменяемый класс. Редактируемый класс бывает нужен при проведении расчетов.
+ * It has two implementations - immutable {@link TsPoint} and editable {@link TsPointEdit}. You should always try to use
+ * an immutable class. An editable class is sometimes needed when performing calculations. *
  *
  * @author hazard157
  */
 public interface ITsPoint {
 
   /**
-   * Неизменяемая "никакая" точка, методы которого выбрасывают исключение {@link TsNullObjectErrorRtException}.
+   * The singleton of the "none" point, all methods throwing an exception {@link TsNullObjectErrorRtException}.
    */
   ITsPoint NONE = new InternalNoneTsPoint();
 
   /**
-   * Неизменяемая точка с координатами (0,0);
+   * The singleton of the point (0,0);
    */
   ITsPoint ZERO = new TsPoint( 0, 0 );
 
   /**
-   * Возвращает x координату.
+   * The singleton of the point (1,1);
+   */
+  ITsPoint ONE = new TsPoint( 1, 1 );
+
+  /**
+   * Returns the X coordinate.
    *
-   * @return int - x координата
+   * @return int - the X coordinate
    */
   int x();
 
   /**
-   * Возвращает y координату.
+   * Returns the Y coordinate.
    *
-   * @return int - y координата
+   * @return int - the Y coordinate
    */
   int y();
 
@@ -52,10 +55,10 @@ class InternalNoneTsPoint
   private static final long serialVersionUID = 157157L;
 
   /**
-   * Метод корректно восстанавливает сериализированный {@link ITsPoint#NONE}.
+   * Method correctly deserializes {@link ITsPoint#NONE} value.
    *
-   * @return Object объект {@link ITsPoint#NONE}
-   * @throws ObjectStreamException это обявление, оно тут не выбрасывается
+   * @return {@link ObjectStreamException} - {@link ITsPoint#NONE}
+   * @throws ObjectStreamException is declared but newer thrown by this method
    */
   @SuppressWarnings( { "static-method" } )
   private Object readResolve()
