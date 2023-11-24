@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.ved.incub.undoman;
+package org.toxsoft.core.tsgui.ved.incub.undoman.tsgui;
 
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.utils.*;
@@ -12,17 +12,15 @@ import org.toxsoft.core.tslib.utils.icons.*;
  *
  * @author hazard157
  */
-public interface IUndoRedoItem
-    extends IParameterized, IIconIdable {
+public sealed interface IUndoRedoItem
+    extends IParameterized, IIconIdable permits AbstractUndoRedoItem {
 
   /**
-   * Performs UNDO operation.
+   * Returns the manager responsible for UNDO/REDO. operation.
+   *
+   * @param <T> - the expected type of the UNDO manager
+   * @return &lt;T&gt; - the owner UNDO manager
    */
-  void undo();
-
-  /**
-   * Performs REDO operation.
-   */
-  void redo();
+  <T extends IUndoManager> T manager();
 
 }

@@ -10,6 +10,7 @@ import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tsgui.ved.m5.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
+import org.toxsoft.core.tslib.coll.helpers.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -44,7 +45,38 @@ public class VedPanelActorsList
     panel.getControl().setLayoutData( BorderLayout.CENTER );
     panel.addTsSelectionListener( selectionChangeEventHelper );
     panel.addTsDoubleClickListener( doubleClickEventHelper );
-    vedScreen.model().actors().eventer().addListener( ( src, op, id ) -> panel.refresh() );
+    vedScreen.model().actors().eventer().addListener( this::onVedActorsListChange );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // implementation
+  //
+
+  void onVedActorsListChange( IVedItemsManager<?> aSource, ECrudOp aOp, String aId ) {
+    // TODO perform minimal action for not to change selection
+    switch( aOp ) {
+      case CREATE: {
+        panel.refresh();
+        break;
+      }
+      case EDIT: {
+        IVedActor actor = vedScreen.model().actors().list().findByKey( aId );
+        if( actor != null ) {
+          // FIXME just update item in tree
+        }
+        break;
+      }
+      case LIST: {
+        panel.refresh();
+        break;
+      }
+      case REMOVE: {
+        panel.refresh();
+        break;
+      }
+      default:
+        throw new TsNotAllEnumsUsedRtException();
+    }
   }
 
   // ------------------------------------------------------------------------------------

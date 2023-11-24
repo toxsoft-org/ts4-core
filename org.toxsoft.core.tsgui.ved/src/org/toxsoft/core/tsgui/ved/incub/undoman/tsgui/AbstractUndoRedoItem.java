@@ -1,11 +1,10 @@
-package org.toxsoft.core.tsgui.ved.incub.undoman;
+package org.toxsoft.core.tsgui.ved.incub.undoman.tsgui;
 
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
-import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -13,38 +12,24 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public abstract class AbstractUndoRedoItem
+public non-sealed abstract class AbstractUndoRedoItem
     implements IUndoRedoItem {
 
   private final IOptionSetEdit params = new OptionSet();
-
-  /**
-   * Constructor.
-   */
-  public AbstractUndoRedoItem() {
-    // nop
-  }
+  private final UndoManager    ownerManager;
 
   /**
    * Constructor.
    *
-   * @param aName String - the short name
+   * @param aOwnerManager {@link UndoManager} - the owner UNDO manager
+   * @param aIdsAndValues Object[] - identifier / value pairs of the {@link #params()}
    * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException number of elements in array is uneven
+   * @throws ClassCastException argument types convention is violated
    */
-  public AbstractUndoRedoItem( String aName ) {
-    setVisualParams( aName, TsLibUtils.EMPTY_STRING, null );
-  }
-
-  /**
-   * Constructor.
-   *
-   * @param aName String - the short name
-   * @param aDescription String - the description
-   * @param aIconId String - iconID or <code>null</code>
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   */
-  public AbstractUndoRedoItem( String aName, String aDescription, String aIconId ) {
-    setVisualParams( aName, aDescription, aIconId );
+  public AbstractUndoRedoItem( UndoManager aOwnerManager, Object... aIdsAndValues ) {
+    ownerManager = TsNullArgumentRtException.checkNull( aOwnerManager );
+    params.addAll( OptionSetUtils.createOpSet( aIdsAndValues ) );
   }
 
   // ------------------------------------------------------------------------------------
@@ -81,7 +66,6 @@ public abstract class AbstractUndoRedoItem
     TsNullArgumentRtException.checkNulls( aName, aDescription );
     DDEF_NAME.setValue( params, avStr( aName ) );
     DDEF_DESCRIPTION.setValue( params, avStr( aDescription ) );
-    // DDEF_DEFAULT_VALUE.setValue( params, avStr( aDescription ) );
     if( aIconId != null ) {
       DDEF_ICON_ID.setValue( params, avStr( aIconId ) );
     }
@@ -91,10 +75,24 @@ public abstract class AbstractUndoRedoItem
   // IUndoRedoItem
   //
 
+  @SuppressWarnings( "unchecked" )
   @Override
-  public abstract void undo();
+  public <T extends IUndoManager> T manager() {
+    return (T)ownerManager;
+  }
 
-  @Override
-  public abstract void redo();
+  // ------------------------------------------------------------------------------------
+  // To implement
+  //
+
+  /**
+   * Implementation must perform UNDO operation.
+   */
+  protected abstract void undo();
+
+  /**
+   * Implementation must perform REDO operation.
+   */
+  protected abstract void redo();
 
 }

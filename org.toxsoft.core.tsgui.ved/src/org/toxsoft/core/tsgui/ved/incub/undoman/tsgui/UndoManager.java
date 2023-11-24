@@ -1,36 +1,41 @@
-package org.toxsoft.core.tsgui.ved.incub.undoman;
+package org.toxsoft.core.tsgui.ved.incub.undoman.tsgui;
 
 import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.math.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * {@link IUndoRedoManager} implementation.
+ * {@link IUndoManager} implementation.
  *
  * @author vs
  * @author hazard157
  */
-public class UndoManager
-    implements IUndoRedoManager {
+public non-sealed class UndoManager
+    implements IUndoManager {
 
   private static final int      DEFAULT_STACK_SIZE = 100;
   private static final IntRange STACK_SIZE_RANGE   = new IntRange( 10, 1_000 );
 
+  private final GenericChangeEventer eventer;
+  private final int                  maxCount;
+
   /**
    * UNDO/REDO items list used as size restricted stack.
    */
-  IListEdit<IUndoRedoItem> items = new ElemArrayList<>();
+  IListEdit<AbstractUndoRedoItem> items = new ElemLinkedBundleList<>();
 
   /**
-   * The current position index in rtange 0 .. items.size().
+   * The current position index in range 0 .. items.size().
    */
   int pointer = 0;
 
-  private final int maxCount;
-
-  private final GenericChangeEventer eventer;
+  /**
+   * The value of {@link #isPerformingUndoRedo()} flag.
+   */
+  boolean isUndoRedoOperation = false;
 
   /**
    * Constructor.
@@ -42,6 +47,10 @@ public class UndoManager
   public UndoManager( int aMaxCount ) {
     eventer = new GenericChangeEventer( this );
     maxCount = STACK_SIZE_RANGE.inRange( aMaxCount );
+
+    // DEBUG ---
+    eventer.addListener( aSource -> printManagerContent() );
+    // ---
   }
 
   /**
@@ -51,6 +60,24 @@ public class UndoManager
    */
   public UndoManager() {
     this( DEFAULT_STACK_SIZE );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // implementation
+  //
+
+  @SuppressWarnings( { "nls", "boxing" } )
+  void printManagerContent() {
+    TsTestUtils.pl( "=== %s (items: %s, pointer=%d)", this.getClass().getSimpleName(), items.size(), pointer );
+    for( int i = 0; i < pointer; i++ ) {
+      IUndoRedoItem uri = items.get( i );
+      TsTestUtils.pl( "   UNDO %s", uri.toString() );
+    }
+    for( int i = pointer; i < items.size(); i++ ) {
+      IUndoRedoItem uri = items.get( i );
+      TsTestUtils.pl( "   REDO %s", uri.toString() );
+    }
+    TsTestUtils.pl( "---" );
   }
 
   // ------------------------------------------------------------------------------------
@@ -81,35 +108,53 @@ public class UndoManager
 
   @Override
   public void undo() {
-    if( canUndo() ) {
-      IUndoRedoItem item = items.get( pointer - 1 );
+    if( !canUndo() ) {
+      return;
+    }
+    AbstractUndoRedoItem item = items.get( pointer - 1 );
+    isUndoRedoOperation = true;
+    try {
       doBeforeUndo();
       item.undo();
       pointer--;
       doAfterUndo();
-      eventer.fireChangeEvent();
     }
+    finally {
+      isUndoRedoOperation = false;
+    }
+    eventer.fireChangeEvent();
   }
 
   @Override
   public void redo() {
-    if( canRedo() ) {
-      IUndoRedoItem item = items.get( pointer );
+    if( !canRedo() ) {
+      return;
+    }
+    AbstractUndoRedoItem item = items.get( pointer );
+    isUndoRedoOperation = true;
+    try {
       doBeforeRedo();
       pointer++;
       item.redo();
       doAfterRedo();
-      eventer.fireChangeEvent();
     }
+    finally {
+      isUndoRedoOperation = false;
+    }
+    eventer.fireChangeEvent();
   }
 
   @Override
-  public void addUndoredoItem( IUndoRedoItem aItem ) {
+  public void addUndoredoItem( AbstractUndoRedoItem aItem ) {
     TsNullArgumentRtException.checkNull( aItem );
-    for( int i = items.size() - 1; i >= pointer; i-- ) {
-      items.removeRangeByIndex( pointer, items.size() - 1 );
+    if( isUndoRedoOperation ) {
+      throw new TsIllegalStateRtException();
     }
+    // adding new UNDO/REDO operation causes scheduled UNDO operations to disappear
+    items.removeRangeByIndex( pointer, items.size() - pointer );
+    // now add the new item
     items.add( aItem );
+    // if there are too many items in the list, remove the oldest one
     if( items.size() > maxCount ) {
       items.removeByIndex( 0 );
     }
@@ -118,14 +163,19 @@ public class UndoManager
   }
 
   @Override
-  public IList<IUndoRedoItem> items() {
+  public boolean isPerformingUndoRedo() {
+    return isUndoRedoOperation;
+  }
+
+  @Override
+  public IList<AbstractUndoRedoItem> items() {
     return items;
   }
 
   @Override
-  public IList<IUndoRedoItem> listUndoItems() {
+  public IList<AbstractUndoRedoItem> listUndoItems() {
     if( pointer > 0 ) {
-      IListEdit<IUndoRedoItem> ll = new ElemArrayList<>( pointer );
+      IListEdit<AbstractUndoRedoItem> ll = new ElemArrayList<>( pointer );
       for( int i = pointer - 1; i >= 0; i-- ) {
         ll.add( items.get( i ) );
       }
@@ -135,7 +185,7 @@ public class UndoManager
   }
 
   @Override
-  public IList<IUndoRedoItem> listRedoItems() {
+  public IList<AbstractUndoRedoItem> listRedoItems() {
     return items.fetch( pointer, items.size() );
   }
 

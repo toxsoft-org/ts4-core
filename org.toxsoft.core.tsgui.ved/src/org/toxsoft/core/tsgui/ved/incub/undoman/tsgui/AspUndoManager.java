@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.ved.incub.undoman;
+package org.toxsoft.core.tsgui.ved.incub.undoman.tsgui;
 
 import static org.toxsoft.core.tsgui.bricks.actions.ITsStdActionDefs.*;
 
@@ -7,7 +7,7 @@ import org.toxsoft.core.tsgui.bricks.actions.asp.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * {@link ITsActionSetProvider} for {@link IUndoRedoManager}.
+ * {@link ITsActionSetProvider} for {@link IUndoManager}.
  * <p>
  * Handles the actions:
  * <ul>
@@ -17,18 +17,18 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public class AspUndoRedo
+public class AspUndoManager
     extends MethodPerActionTsActionSetProvider {
 
-  private final IUndoRedoManager undoManager;
+  private final IUndoManager undoManager;
 
   /**
    * Constructor.
    *
-   * @param aManager {@link IUndoRedoManager} - the manager providing the action set
+   * @param aManager {@link IUndoManager} - the manager providing the action set
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public AspUndoRedo( IUndoRedoManager aManager ) {
+  public AspUndoManager( IUndoManager aManager ) {
     TsNullArgumentRtException.checkNull( aManager );
     undoManager = aManager;
     defineAction( ACDEF_UNDO, this::doHandleUndo, this::isEnabledUndo );

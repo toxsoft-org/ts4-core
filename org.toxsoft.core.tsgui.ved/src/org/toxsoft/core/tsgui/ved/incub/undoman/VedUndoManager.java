@@ -1,57 +1,74 @@
 package org.toxsoft.core.tsgui.ved.incub.undoman;
 
 import org.toxsoft.core.tsgui.ved.editor.*;
+import org.toxsoft.core.tsgui.ved.incub.undoman.tsgui.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
-import org.toxsoft.core.tsgui.ved.screen.impl.*;
-import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.coll.helpers.*;
-import org.toxsoft.core.tslib.utils.*;
-import org.toxsoft.core.tslib.utils.logs.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
+/**
+ * {@link IUndoManager} implementation for a {@link IVedScreen} editing operations,
+ * <p>
+ * Usage:
+ * <ul>
+ * <li>create the instance of the manager;</li>
+ * <li>create {@link AspUndoManager} instance and add actions to the GUI;</li>
+ * <li>that's all - undo manager will became active.</li>
+ * </ul>
+ *
+ * @author hazard157
+ */
 public class VedUndoManager
     extends UndoManager {
 
   private final IVedScreen vedScreen;
 
-  IVedItemsManagerListener<VedAbstractVisel> viselsListener = new IVedItemsManagerListener<>() {
+  private IVedScreenCfg cfgBefore = IVedScreenCfg.NONE;
 
-    @Override
-    public void onVedItemsListChange( IVedItemsManager<VedAbstractVisel> aSource, ECrudOp aOp, String aId ) {
-      IVedScreenCfg cfg = VedEditorUtils.getVedScreenConfig( vedScreen );
-      String cfgStr4Redo = VedScreenCfg.KEEPER.ent2str( cfg );
-      if( !cfgStr4Undo.isBlank() ) {
-        AbstractUndoRedoItem urItem = new FullInfoUndoRedoItem( vedScreen, cfgStr4Undo, cfgStr4Redo );
-        urItem.setVisualParams( aOp.nmName(), aOp.description(), TsLibUtils.EMPTY_STRING );
-        addUndoredoItem( urItem );
-        LoggerUtils.defaultLogger().info( "Visels undo info: " + aOp.nmName() );
-      }
-      cfgStr4Undo = cfgStr4Redo;
-    }
-
-  };
-
-  IVedItemsManagerListener<VedAbstractActor> actorsListener = new IVedItemsManagerListener<>() {
-
-    @Override
-    public void onVedItemsListChange( IVedItemsManager<VedAbstractActor> aSource, ECrudOp aOp, String aId ) {
-      IVedScreenCfg cfg = VedEditorUtils.getVedScreenConfig( vedScreen );
-      String cfgStr4Redo = VedScreenCfg.KEEPER.ent2str( cfg );
-      addUndoredoItem( new FullInfoUndoRedoItem( vedScreen, cfgStr4Undo, cfgStr4Redo ) );
-      cfgStr4Undo = cfgStr4Redo;
-      LoggerUtils.defaultLogger().info( "Actors undo info: " + aOp.nmName() );
-    }
-
-  };
-
-  String cfgStr4Undo = TsLibUtils.EMPTY_STRING;
-
+  /**
+   * Constructor.
+   *
+   * @param aVedScreen {@link IVedScreen} - the VED screen to manage UNDO/REDO operations for
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
   public VedUndoManager( IVedScreen aVedScreen ) {
+    TsNullArgumentRtException.checkNull( aVedScreen );
     vedScreen = aVedScreen;
-    vedScreen.model().visels().eventer().addListener( viselsListener );
-    vedScreen.model().actors().eventer().addListener( actorsListener );
-    IVedScreenCfg cfg = VedEditorUtils.getVedScreenConfig( vedScreen );
-    cfgStr4Undo = VedScreenCfg.KEEPER.ent2str( cfg );
+    vedScreen.model().visels().eventer().addListener( ( sec, op, id ) -> whenVedItemsEdited( op, id ) );
+    vedScreen.model().actors().eventer().addListener( ( sec, op, id ) -> whenVedItemsEdited( op, id ) );
+    cfgBefore = VedEditorUtils.getVedScreenConfig( vedScreen );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // implementation
+  //
+
+  private void whenVedItemsEdited( ECrudOp aOp, String aId ) {
+    if( isPerformingUndoRedo() ) { // ignore editing when UNDO/REDO is performing
+      return;
+    }
+    IVedScreenCfg cfgAfter = VedEditorUtils.getVedScreenConfig( vedScreen );
+    String opName = aOp.name();
+    if( aId != null ) {
+      opName = String.format( "%s[%s]", aOp.nmName(), aId ); //$NON-NLS-1$
+    }
+    AbstractUndoRedoItem undoItem = new VedUndoItem( this, cfgBefore, cfgAfter, opName );
+    addUndoredoItem( undoItem );
+    cfgBefore = cfgAfter;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // API
+  //
+
+  /**
+   * Returns the managed VED screen.
+   *
+   * @return {@link IVedScreen} - the VED screen
+   */
+  public IVedScreen vedScreen() {
+    return vedScreen;
   }
 
 }

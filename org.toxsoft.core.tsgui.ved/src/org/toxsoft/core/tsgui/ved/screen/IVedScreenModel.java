@@ -18,6 +18,24 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public interface IVedScreenModel {
 
   /**
+   * TODO we need a VED screen meaningful content to be separated for the following reasons:<br>
+   * <ul>
+   * <li>single content change eventer - for SAVE button, for UndoManager, etc.;</li>
+   * <li>conceptually to be clear what is a content ;</li>
+   * <li>???.</li>
+   * </ul>
+   * <p>
+   * The meaningful content is the entities created by the configuration data IVedScreenCfg:
+   * <ul>
+   * <li>VISELs;</li>
+   * <li>Actors;</li>
+   * <li>screen background determined by IVedCanvasCfg;</li>
+   * <li>Also the entities created according to IVedScreenCfg#extraData() must be included in the meaningful
+   * content;</li>
+   * </ul>
+   */
+
+  /**
    * Returns the VISELs.
    *
    * @return {@link IVedItemsManager}&lt;{@link VedAbstractActor}&gt; - the VISELs manager

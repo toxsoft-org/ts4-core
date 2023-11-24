@@ -1,15 +1,15 @@
-package org.toxsoft.core.tsgui.ved.incub.undoman;
+package org.toxsoft.core.tsgui.ved.incub.undoman.tsgui;
 
 import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Undo/redo operation manager.
+ * UNDO/REDO operation manager.
  *
  * @author vs
  */
-public interface IUndoRedoManager {
+public sealed interface IUndoManager permits UndoManager {
 
   /**
    * Determines if last operation can be UNDOed.
@@ -45,16 +45,37 @@ public interface IUndoRedoManager {
    * New item is added at the {@link #currentPosition()}, all items after {@link #currentPosition()} will be removed and
    * {@link #currentPosition()} increases by 1.
    *
-   * @param aItem {@link IUndoRedoItem} - the UNDO/REDO operation item
+   * @param aItem {@link AbstractUndoRedoItem} - the UNDO/REDO operation item
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalStateRtException UNDO/REDO operation is in progress, {@link #isPerformingUndoRedo()} =
+   *           <code>true</code>
    */
-  void addUndoredoItem( IUndoRedoItem aItem );
+  void addUndoredoItem( AbstractUndoRedoItem aItem );
+
+  /**
+   * Determines if right now UNDO or REDO operation is performing.
+   * <p>
+   * This flag is <code>true</code> when {@link #undo()} or {@link #redo()} method is executing. The manager needs to
+   * distinguish between common editing and editing by UNDO/REDO operations. The first one needs to create and add
+   * {@link AbstractUndoRedoItem} instances while second one must be ignored.
+   *
+   * @return boolean - <code>true</code> when UNDO/REDO operation is in progress
+   */
+  boolean isPerformingUndoRedo();
+
+  // /**
+  // * Sets the value of the {@link #isPerformingUndoRedo()} flag.
+  // *
+  // * @param aUndoRedo - <code>true</code> when UNDO/REDO operation is in progress
+  // */
+  // void setPerformingUndoRedo( boolean aUndoRedo );
 
   /**
    * Returns the list of UNDO/REDO items in order as they were added.
    *
-   * @return {@link IList}&lt;{@link IUndoRedoItem}&gt; - the items list
+   * @return {@link IList}&lt;{@link AbstractUndoRedoItem}&gt; - the items list
    */
-  IList<IUndoRedoItem> items();
+  IList<AbstractUndoRedoItem> items();
 
   /**
    * Returns items scheduled for UNDO operations.
@@ -65,9 +86,10 @@ public interface IUndoRedoManager {
    * <p>
    * Method {@link #canUndo()} returns <code>true</code> only of this list is not empty.
    *
-   * @return {@link IList}&lt;{@link IUndoRedoItem}&gt; - the UNDO items list in the order of {@link #undo()} calls
+   * @return {@link IList}&lt;{@link AbstractUndoRedoItem}&gt; - the UNDO items list in the order of {@link #undo()}
+   *         calls
    */
-  IList<IUndoRedoItem> listUndoItems();
+  IList<AbstractUndoRedoItem> listUndoItems();
 
   /**
    * Returns items scheduled for REDO operations.
@@ -77,16 +99,17 @@ public interface IUndoRedoManager {
    * <p>
    * Method {@link #canRedo()} returns <code>true</code> only of this list is not empty.
    *
-   * @return {@link IList}&lt;{@link IUndoRedoItem}&gt; - the REDO items list in the order of {@link #redo()} calls
+   * @return {@link IList}&lt;{@link AbstractUndoRedoItem}&gt; - the REDO items list in the order of {@link #redo()}
+   *         calls
    */
-  IList<IUndoRedoItem> listRedoItems();
+  IList<AbstractUndoRedoItem> listRedoItems();
 
   /**
    * Returns current position in the {@link #items()}.
    * <p>
-   * Current position is the index, where the {@link #addUndoredoItem(IUndoRedoItem)} will add an item. After each
-   * {@link #undo()} current position decreases, after {@link #undo()} - increases. For an empty list of items method
-   * returns 0.
+   * Current position is the index, where the {@link #addUndoredoItem(AbstractUndoRedoItem)} will add an item. After
+   * each {@link #undo()} current position decreases, after {@link #undo()} - increases. For an empty list of items
+   * method returns 0.
    *
    * @return int - index of the current position in items list
    */
