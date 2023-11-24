@@ -1,6 +1,6 @@
 package org.toxsoft.core.tslib.coll.basis;
 
-import java.util.Collection;
+import java.util.*;
 
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -55,13 +55,11 @@ public interface ITsCollectionEdit<E>
    *
    * @param aIndex int - the index of the first element to be removed, in range 0..{@link #size()}-1
    * @param aCount int - number of elements to remove in range 0..(size-aIndex)
-   * @throws TsIllegalArgumentRtException index is out of range
    * @throws TsIllegalArgumentRtException aCount < 0
    * @throws TsIllegalArgumentRtException aIndex+aCount is out of range
    */
   default void removeRangeByIndex( int aIndex, int aCount ) {
     TsIllegalArgumentRtException.checkTrue( aIndex < 0 || aCount < 0 );
-    TsIllegalArgumentRtException.checkFalse( aIndex >= size() );
     if( aCount == 0 ) {
       return;
     }
