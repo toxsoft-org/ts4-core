@@ -1,20 +1,22 @@
 package org.toxsoft.core.tsgui.ved.screen.impl;
 
 /**
- * Локализуемые ресурсы.
- * <p>
+ * Localizable resources.
  *
- * @author vs
+ * @author hazard157
  */
 interface ITsResources {
 
-  String STR_N_DRAG_START    = "";
-  String STR_D_DRAG_START    = "";
-  String STR_N_DRAGGING      = "";
-  String STR_D_DRAGGING      = "";
-  String STR_N_DRAG_FINISHED = "";
-  String STR_D_DRAG_FINISHED = "";
-  String STR_N_DRAG_CANCELED = "";
-  String STR_D_DRAG_CANCELED = "";
+  /**
+   * {@link EVedDragState}
+   */
+  String STR_DRAG_START      = Messages.getString( "STR_DRAG_START" );      //$NON-NLS-1$
+  String STR_DRAG_START_D    = Messages.getString( "STR_DRAG_START_D" );    //$NON-NLS-1$
+  String STR_DRAGGING        = Messages.getString( "STR_DRAGGING" );        //$NON-NLS-1$
+  String STR_DRAGGING_D      = Messages.getString( "STR_DRAGGING_D" );      //$NON-NLS-1$
+  String STR_DRAG_FINISHED   = Messages.getString( "STR_DRAG_FINISHED" );   //$NON-NLS-1$
+  String STR_DRAG_FINISHED_D = Messages.getString( "STR_DRAG_FINISHED_D" ); //$NON-NLS-1$
+  String STR_DRAG_CANCELED   = Messages.getString( "STR_DRAG_CANCELED" );   //$NON-NLS-1$
+  String STR_DRAG_CANCELED_D = Messages.getString( "STR_DRAG_CANCELED_D" ); //$NON-NLS-1$
 
 }
