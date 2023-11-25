@@ -8,6 +8,7 @@ import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.toxsoft.core.tsgui.bricks.tin.*;
 import org.toxsoft.core.tsgui.bricks.tin.impl.*;
+import org.toxsoft.core.tsgui.valed.controls.basic.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
@@ -42,6 +43,8 @@ public class TtiD2Conversion
         TSID_DESCRIPTION, STR_D2CONVERSION_ZOOM_D, //
         TSID_MIN_INCLUSIVE, avFloat( D2Utils.ZOOM_RANGE.minValue() ), //
         TSID_MAX_INCLUSIVE, avFloat( D2Utils.ZOOM_RANGE.maxValue() ), //
+        ValedDoubleSpinner.OPDEF_STEP, avFloat( 0.1 ), //
+        ValedDoubleSpinner.OPDEF_PAGE_STEP, avFloat( 1.0 ), //
         TSID_DEFAULT_VALUE, AV_F_1 //
     ) );
 

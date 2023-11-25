@@ -1,12 +1,15 @@
 package org.toxsoft.core.tsgui.valed.controls.graphics;
 
+import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
+
 import org.eclipse.swt.*;
 import org.eclipse.swt.custom.*;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
-import org.toxsoft.core.tsgui.utils.layout.BorderLayout;
+import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tsgui.valed.controls.basic.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -90,7 +93,10 @@ public class PanelD2ConversionEditor
 
     l = new CLabel( this, SWT.NONE );
     l.setText( "Масштаб:" );
-    scaleEditor = new ValedDoubleSpinner( tsContext() );
+    ITsGuiContext ctx = new TsGuiContext( tsContext() );
+    ValedDoubleSpinner.OPDEF_STEP.setValue( ctx.params(), avFloat( 0.1 ) );
+    ValedDoubleSpinner.OPDEF_PAGE_STEP.setValue( ctx.params(), avFloat( 1.0 ) );
+    scaleEditor = new ValedDoubleSpinner( ctx );
     scaleEditor.createControl( this );
 
     l = new CLabel( this, SWT.NONE );
