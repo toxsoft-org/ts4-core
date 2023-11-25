@@ -71,11 +71,13 @@ public class VedViselContextMenuManager
           alignItem.setMenu( ctxMenu );
 
           vedScreen().view().getControl().setMenu( cmnMenu );
+          cmnMenu.setVisible( true );
           return true;
         }
       }
       Menu cmnMenu = commonMenuCreator.getMenu( vedScreen().view().getControl() );
       vedScreen().view().getControl().setMenu( cmnMenu );
+      cmnMenu.setVisible( true );
       return true;
     }
     return false;
