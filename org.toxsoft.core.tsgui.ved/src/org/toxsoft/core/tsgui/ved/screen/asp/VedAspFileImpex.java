@@ -9,9 +9,9 @@ import org.toxsoft.core.tsgui.bricks.actions.*;
 import org.toxsoft.core.tsgui.bricks.actions.asp.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.rcp.utils.*;
-import org.toxsoft.core.tsgui.ved.editor.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
+import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -63,7 +63,7 @@ public class VedAspFileImpex
   void doHandleExport() {
     File f = TsRcpDialogUtils.askFileSave( getShell(), lastPath, SCREEN_CFG_FILE_EXT );
     if( f != null ) {
-      IVedScreenCfg screenCfg = VedEditorUtils.getVedScreenConfig( vedScreen );
+      IVedScreenCfg screenCfg = VedScreenUtils.getVedScreenConfig( vedScreen );
       VedScreenCfg.KEEPER.write( f, screenCfg );
       lastPath = f.getAbsolutePath();
     }
@@ -74,7 +74,7 @@ public class VedAspFileImpex
     File f = TsRcpDialogUtils.askFileOpen( getShell(), lastPath, new StringArrayList( SCREEN_CFG_FILE_AST_EXT ) );
     if( f != null ) {
       IVedScreenCfg screenCfg = VedScreenCfg.KEEPER.read( f );
-      VedEditorUtils.setVedScreenConfig( vedScreen, screenCfg );
+      VedScreenUtils.setVedScreenConfig( vedScreen, screenCfg );
       lastPath = f.getAbsolutePath();
     }
   }

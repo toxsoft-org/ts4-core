@@ -2,10 +2,9 @@ package org.toxsoft.core.tsgui.ved.incub.undoman;
 
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import org.toxsoft.core.tsgui.ved.editor.*;
 import org.toxsoft.core.tsgui.ved.incub.undoman.tsgui.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
-import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -36,11 +35,6 @@ public class VedUndoItem
     TsNullArgumentRtException.checkNulls( aManager, aCfgBefore, aCfgAfter );
     cfgBefore = aCfgBefore;
     cfgAfter = aCfgAfter;
-
-    // DEBUG ---
-    TsTestUtils.pl( "=== %s", this.toString() );
-    // ---
-
   }
 
   // ------------------------------------------------------------------------------------
@@ -55,12 +49,12 @@ public class VedUndoItem
 
   @Override
   public void undo() {
-    VedEditorUtils.setVedScreenConfig( manager().vedScreen(), cfgBefore );
+    VedScreenUtils.setVedScreenConfig( manager().vedScreen(), cfgBefore );
   }
 
   @Override
   public void redo() {
-    VedEditorUtils.setVedScreenConfig( manager().vedScreen(), cfgAfter );
+    VedScreenUtils.setVedScreenConfig( manager().vedScreen(), cfgAfter );
   }
 
   // ------------------------------------------------------------------------------------
