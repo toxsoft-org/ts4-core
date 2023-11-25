@@ -9,13 +9,10 @@ import org.toxsoft.core.tsgui.ved.incub.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
-import org.toxsoft.core.tslib.av.opset.*;
-import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
-import org.toxsoft.core.tslib.bricks.strid.idgen.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -98,9 +95,6 @@ public class VedScreenDropTarget {
 
   }
 
-  private final IStridGenerator viselIdGen = new TimastampMsecStridGenerator( EVedItemKind.VISEL.id() );
-  private final IStridGenerator actorIdGen = new TimastampMsecStridGenerator( EVedItemKind.ACTOR.id() );
-
   private IVedScreen vedScreen    = null;
   private boolean    invokeDialog = true;
 
@@ -116,19 +110,16 @@ public class VedScreenDropTarget {
   //
 
   private void createVedItemAt( IVedItemCfg aCfg, ITsPoint aCursorCoors ) {
-    // create the requested kind of the VED item
     EVedItemKind kind = aCfg.kind();
-    String factoryId = aCfg.factoryId();
     switch( kind ) {
       case VISEL: {
+        VedItemCfg viselCfg = vedScreen.model().visels().prepareFromTemplate( aCfg );
+        // set VISEL at dragging edit position
         Point p = vedScreen.view().getControl().toControl( aCursorCoors.x(), aCursorCoors.y() );
         ITsPoint cp = D2TransformUtils.toControl( p.x, p.y, ID2Conversion.NONE, vedScreen.view().getConversion() );
-        IOptionSetEdit opSet = new OptionSet( aCfg.propValues() );
-        opSet.setDouble( PROP_X, cp.x() );
-        opSet.setDouble( PROP_Y, cp.y() );
-        String viselId = viselIdGen.nextId() + System.currentTimeMillis();
-        VedItemCfg viselCfg = VedItemCfg.ofVisel( viselId, factoryId, aCfg.params(), opSet );
-        viselCfg.propValues().setStr( PROPID_NAME, viselId );
+        viselCfg.propValues().setDouble( PROP_X, cp.x() );
+        viselCfg.propValues().setDouble( PROP_Y, cp.y() );
+        // give a user a chance to edit ID and other properties
         if( invokeDialog ) {
           viselCfg = VedEditorUtils.editVedItemBasicProperties( viselCfg, vedScreen );
           if( viselCfg == null ) {
@@ -140,9 +131,8 @@ public class VedScreenDropTarget {
         break;
       }
       case ACTOR: {
-        String actorId = actorIdGen.nextId() + System.currentTimeMillis();
-        VedItemCfg actorCfg = new VedItemCfg( actorId, aCfg );
-        actorCfg.propValues().setStr( PROPID_NAME, actorId );
+        VedItemCfg actorCfg = vedScreen.model().actors().prepareFromTemplate( aCfg );
+        // give a user a chance to edit ID and other properties
         if( invokeDialog ) {
           actorCfg = VedEditorUtils.editVedItemBasicProperties( actorCfg, vedScreen );
           if( actorCfg == null ) {

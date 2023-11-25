@@ -6,22 +6,26 @@ import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tslib.bricks.events.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.coll.helpers.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Manages VED entities (items of VISELs, actors) in the {@link IVedScreenModel}.
+ * <p>
+ * Notes:
+ * <ul>
+ * <li>VED screen framework internally uses {@link #prepareFromTemplate(IVedItemCfg)} when creating new VED item. It is
+ * highly recommended to use the same approach when adding new items by external means. Thus ensuring the unified item
+ * ID generation. However, user may specify it's own ID at the item creation;</li>
+ * </ul>
  *
  * @author hazard157
  * @param <T> - the type of the managed VED items
  */
 public interface IVedItemsManager<T extends VedAbstractItem>
     extends ITsClearable {
-
-  /**
-   * TODO add ID generation: String nextId( String aFactoryId );
-   */
 
   /**
    * Returns the managed items.
@@ -38,13 +42,30 @@ public interface IVedItemsManager<T extends VedAbstractItem>
   IListReorderer<T> reorderer();
 
   /**
+   * Prepares the item config from some kind of the template config provided.
+   * <p>
+   * It is assumed that template configuration is provided by external means such as the VED items palette. Preparation
+   * includes the unique (for current VED screen) ID generation, and {@link IVedItemCfg#nmName()} change if the name has
+   * default or a blank value. Note: the new ID will be generated even if template ID is unique.
+   * <p>
+   * It is guaranteed that {@link #create(int, IVedItemCfg)} method will not throw an "duplicate ID"
+   * {@link TsItemAlreadyExistsRtException} exception.
+   * <p>
+   *
+   * @param aTemplateCfg {@link IVedItemCfg} - the item configuration template
+   * @return {@link VedItemCfg} - an editable instance based on template
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException no item factory found
+   */
+  VedItemCfg prepareFromTemplate( IVedItemCfg aTemplateCfg );
+
+  /**
    * Creates the item and adds it at the end of the list {@link #list()}.
    *
    * @param aCfg {@link IVedItemCfg} - the configuration the item to create
    * @return &lt;T&gt; - created item
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsItemAlreadyExistsRtException item with the same ID already exists
-   * @throws TsItemNotFoundRtException no registered factory for {@link IVedItemCfg#factoryId()}
+   * @throws TsValidationFailedRtException failed {@link IVedItemsManagerValidator#canCreate(int, IVedItemCfg)}
    */
   default T create( IVedItemCfg aCfg ) {
     return create( list().size(), aCfg );
@@ -57,9 +78,7 @@ public interface IVedItemsManager<T extends VedAbstractItem>
    * @param aCfg {@link IVedItemCfg} - the configuration the item to create
    * @return &lt;T&gt; - created item
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIllegalArgumentRtException invalid index
-   * @throws TsItemAlreadyExistsRtException item with the same ID already exists
-   * @throws TsItemNotFoundRtException no registered factory for {@link IVedItemCfg#factoryId()}
+   * @throws TsValidationFailedRtException failed {@link IVedItemsManagerValidator#canCreate(int, IVedItemCfg)}
    */
   T create( int aIndex, IVedItemCfg aCfg );
 

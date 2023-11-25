@@ -135,69 +135,17 @@ public class VedEditorUtils {
    * @param aCfg {@link IVedItemCfg} - configuration to edit
    * @param aVedScreen {@link IVedScreen} - the item owner
    * @return {@link VedItemCfg} - the instance of the edited configuration or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static VedItemCfg editVedItemBasicProperties( IVedItemCfg aCfg, IVedScreen aVedScreen ) {
     TsNullArgumentRtException.checkNulls( aCfg, aVedScreen );
-    VedItemCfg cfg = new VedItemCfg( aCfg );
     IDialogPanelCreator<VedItemCfg, IVedScreen> creator = VedItemBasicPropertiesPanel::new;
     String caption = String.format( FMT_DLG_VED_ITEM_BASICS, aCfg.kind().id() );
     String title = String.format( FMT_DLG_VED_ITEM_BASICS_D, aCfg.kind().nmName() );
     TsDialogInfo tdi = new TsDialogInfo( aVedScreen.tsContext(), caption, title );
-    TsDialog<VedItemCfg, IVedScreen> d = new TsDialog<>( tdi, cfg, aVedScreen, creator );
+    TsDialog<VedItemCfg, IVedScreen> d = new TsDialog<>( tdi, new VedItemCfg( aCfg ), aVedScreen, creator );
     return d.execData();
   }
-
-  // /**
-  // * Creates current configuration of the VED screen model.
-  // *
-  // * @param aVedScreen {@link IVedScreen} - the VED screen
-  // * @return {@link VedScreenCfg} - created instance of the configuration
-  // * @throws TsNullArgumentRtException any argument = <code>null</code>
-  // */
-  // public static VedScreenCfg getVedScreenConfig( IVedScreen aVedScreen ) {
-  // TsNullArgumentRtException.checkNull( aVedScreen );
-  // VedScreenCfg scrCfg = new VedScreenCfg();
-  // IVedScreenModel sm = aVedScreen.model();
-  // for( VedAbstractVisel item : sm.visels().list() ) {
-  // VedItemCfg cfg = VedItemCfg.ofVisel( item.id(), item.factoryId(), item.params(), item.props() );
-  // scrCfg.viselCfgs().add( cfg );
-  // }
-  // for( VedAbstractActor item : sm.actors().list() ) {
-  // VedItemCfg cfg = VedItemCfg.ofActor( item.id(), item.factoryId(), item.params(), item.props() );
-  // scrCfg.actorCfgs().add( cfg );
-  // }
-  // scrCfg.canvasCfg().copyFrom( aVedScreen.view().canvasConfig() );
-  // return scrCfg;
-  // }
-  //
-  // /**
-  // * Sets configuration to the VED screen.
-  // *
-  // * @param aVedScreen {@link IVedScreen} - the VED screen
-  // * @param aScreenCfg {@link IVedScreenCfg} - configuration to be applied to the screen
-  // * @throws TsNullArgumentRtException any argument = <code>null</code>
-  // */
-  // public static void setVedScreenConfig( IVedScreen aVedScreen, IVedScreenCfg aScreenCfg ) {
-  // TsNullArgumentRtException.checkNulls( aVedScreen, aScreenCfg );
-  // IVedScreenModel sm = aVedScreen.model();
-  // try {
-  // sm.actors().eventer().pauseFiring();
-  // sm.visels().eventer().pauseFiring();
-  // sm.actors().clear();
-  // sm.visels().clear();
-  // for( IVedItemCfg cfg : aScreenCfg.viselCfgs() ) {
-  // sm.visels().create( cfg );
-  // }
-  // for( IVedItemCfg cfg : aScreenCfg.actorCfgs() ) {
-  // sm.actors().create( cfg );
-  // }
-  // aVedScreen.view().setCanvasConfig( aScreenCfg.canvasCfg() );
-  // }
-  // finally {
-  // sm.visels().eventer().resumeFiring( true );
-  // sm.actors().eventer().resumeFiring( true );
-  // }
-  // }
 
   /**
    * No subclasses.

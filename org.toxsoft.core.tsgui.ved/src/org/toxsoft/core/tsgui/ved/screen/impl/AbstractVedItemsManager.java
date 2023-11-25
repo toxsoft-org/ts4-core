@@ -1,12 +1,14 @@
 package org.toxsoft.core.tsgui.ved.screen.impl;
 
 import static org.toxsoft.core.tsgui.ved.l10n.ITsguiVedSharedResources.*;
+import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.bricks.events.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.bricks.validator.std.*;
@@ -133,6 +135,10 @@ abstract class AbstractVedItemsManager<T extends VedAbstractItem>
   }
 
   // ------------------------------------------------------------------------------------
+  // implementation
+  //
+
+  // ------------------------------------------------------------------------------------
   // ITsClearable
   //
 
@@ -172,6 +178,31 @@ abstract class AbstractVedItemsManager<T extends VedAbstractItem>
   @Override
   public IListReorderer<T> reorderer() {
     return reorderer;
+  }
+
+  @Override
+  public VedItemCfg prepareFromTemplate( IVedItemCfg aTemplateCfg ) {
+    TsNullArgumentRtException.checkNull( aTemplateCfg );
+    IVedItemFactoryBase<T> factory = doFindFactory( aTemplateCfg );
+    TsItemNotFoundRtException.checkNull( factory );
+    // generate ID
+    String id;
+    int counter = 0;
+    String prefix = StridUtils.getLast( aTemplateCfg.factoryId() );
+    prefix = prefix.toLowerCase().substring( 0, 1 ) + prefix.substring( 1 ); // convert first char to lower case
+    do {
+      id = prefix + Integer.toString( ++counter ); // "prefixNN"
+    } while( itemsList.hasKey( id ) );
+    // create config
+    VedItemCfg cfg = new VedItemCfg( id, aTemplateCfg );
+    // generate nmName if needed
+    String name = aTemplateCfg.nmName();
+    ValidationResult vr = NameStringValidator.VALIDATOR.validate( name );
+    if( !vr.isOk() || name.equals( factory.nmName() ) ) {
+      name = factory.nmName() + ' ' + Integer.toString( counter ); // "Factory name NN"
+      cfg.propValues().setStr( DDEF_NAME, name );
+    }
+    return cfg;
   }
 
   @Override
