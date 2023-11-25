@@ -299,6 +299,17 @@ public class AnimationSupport
   }
 
   @Override
+  public <T> IGeneralAnimator<T> registerGeneral( long aInterval, long aInitialCounter,
+      IGeneralAnimationCallback<T> aCallback, T aUserData ) {
+    GeneralAnimator<T> ga = new GeneralAnimator<>( aInterval, aCallback, aUserData );
+    ga.resetCounter( aInitialCounter );
+    synchronized (generalAnimators) {
+      generalAnimators.add( ga );
+    }
+    return ga;
+  }
+
+  @Override
   public void unregister( IGeneralAnimator<?> aGeneralAnimator ) {
     TsNullArgumentRtException.checkNull( aGeneralAnimator );
     TsIllegalArgumentRtException.checkFalse( aGeneralAnimator instanceof GeneralAnimator );

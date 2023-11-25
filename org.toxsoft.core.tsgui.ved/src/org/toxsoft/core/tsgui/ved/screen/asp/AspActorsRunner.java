@@ -8,7 +8,7 @@ import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * VED screen activating and runnning support actions. Handles the actions:
+ * VED screen activating and running support actions. Handles the actions:
  * <ul>
  * <li>{@link ITsguiVedConstants#ACTID_ENABLE_ACTORS};</li>
  * </ul>

@@ -222,6 +222,38 @@ public enum ETsFulcrum
   }
 
   /**
+   * Returns the placement percentage of the fulcrum on the horizontal edge.
+   * <p>
+   * One of the following value may be returned: 0.0 - left edge, 50.0 - center, 100.0 - right edge.
+   *
+   * @return double - placement percentage: 0.0, 50.0 or 100.0
+   */
+  public double getHorPercentage() {
+    return switch( this ) {
+      case LEFT_BOTTOM, LEFT_CENTER, LEFT_TOP -> 0.0;
+      case BOTTOM_CENTER, TOP_CENTER, CENTER -> 50.0;
+      case RIGHT_BOTTOM, RIGHT_CENTER, RIGHT_TOP -> 100.0;
+      default -> throw new TsNotAllEnumsUsedRtException();
+    };
+  }
+
+  /**
+   * Returns the placement percentage of the fulcrum on the vertical edge.
+   * <p>
+   * One of the following value may be returned: 0.0 - top edge, 50.0 - center, 100.0 - bottom edge.
+   *
+   * @return double - placement percentage: 0.0, 50.0 or 100.0
+   */
+  public double getVerPercentage() {
+    return switch( this ) {
+      case LEFT_TOP, RIGHT_TOP, TOP_CENTER -> 0.0;
+      case LEFT_CENTER, RIGHT_CENTER, CENTER -> 50.0;
+      case BOTTOM_CENTER, RIGHT_BOTTOM, LEFT_BOTTOM -> 100.0;
+      default -> throw new TsNotAllEnumsUsedRtException();
+    };
+  }
+
+  /**
    * Returns all constants in single list.
    *
    * @return {@link IStridablesList}&lt; {@link ETsFulcrum} &gt; - list of constants in order of declaraion

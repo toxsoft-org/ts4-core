@@ -1,13 +1,11 @@
 package org.toxsoft.core.tsgui.utils.anim;
 
-import java.io.File;
+import java.io.*;
 
-import org.eclipse.swt.graphics.Device;
-import org.eclipse.swt.widgets.Display;
-import org.toxsoft.core.tsgui.graphics.image.TsImage;
-import org.toxsoft.core.tsgui.graphics.image.TsImageUtils;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.graphics.image.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Класс для осуществления поддержки анимированных изображении и мигающих объектов.
@@ -95,20 +93,20 @@ public interface IAnimationSupport
   void unregister( IBlinkerAnimator aBlinkerAnimator );
 
   /**
-   * Регистрирует аниматор общего назначения.
+   * Register the general purpose animator.
    * <p>
-   * Анимация создается в приостановленном состоянии. Для включения анимации, следует вызвать
-   * {@link IGeneralAnimator#resume()} от возвращаемого значения.
+   * Animation is created in the suspended state, call {@link IGeneralAnimator#resume()} to turn on animation.
    *
-   * @param <T> - тип пользовательских данных
-   * @param aInterval long - интервал анимации (миллисекунды между вызовами aCallback)
-   * @param aCallback {@link IGeneralAnimationCallback} - периодический вызваемый метод анимации
-   * @param aUserData &lt;T&gt; - пользовательские данные, может быть null
-   * @return {@link IGeneralAnimator} - зарегистрированный аниматор
-   * @throws TsIllegalArgumentRtException aInterval выходит за допустимые пределы
-   * @throws TsNullArgumentRtException aCallback = null
+   * @param <T> - user data type
+   * @param aInterval long - animation callback call period in milliseconds
+   * @param aInitialCounter long - initial value of the internal counter
+   * @param aCallback {@link IGeneralAnimationCallback} - callback interface
+   * @param aUserData &lt;T&gt; - arbitrary user-specified data or <code>null</code>
+   * @return {@link IGeneralAnimator} - create instance of the animator
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  <T> IGeneralAnimator<T> registerGeneral( long aInterval, IGeneralAnimationCallback<T> aCallback, T aUserData );
+  <T> IGeneralAnimator<T> registerGeneral( long aInterval, long aInitialCounter, IGeneralAnimationCallback<T> aCallback,
+      T aUserData );
 
   /**
    * Удаляет ранее зарегистрированный аниматор.
@@ -129,4 +127,15 @@ public interface IAnimationSupport
    * Завершает работу - дерегистрирует все аниматоры, останавливает анимацию, осовобождает все ресурсы.
    */
   void dispose();
+
+  // ------------------------------------------------------------------------------------
+  // Inline methods for convenience
+  //
+
+  @SuppressWarnings( "javadoc" )
+  default <T> IGeneralAnimator<T> registerGeneral( long aInterval, IGeneralAnimationCallback<T> aCallback,
+      T aUserData ) {
+    return registerGeneral( aInterval, 0L, aCallback, aUserData );
+  }
+
 }

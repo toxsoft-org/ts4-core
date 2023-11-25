@@ -17,13 +17,15 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public enum ERectFitMode
     implements IStridable {
 
+  // TODO add the icon ID
+
   /**
    * Original size.
    */
   NONE( "none", STR_N_FM_NONE, STR_D_FM_NONE, false ), //$NON-NLS-1$
 
   /**
-   * Fit both width and height.
+   * Fit either width or height.
    */
   FIT_BOTH( "both", STR_N_FM_FIT_BOTH, STR_D_FM_FIT_BOTH, true ), //$NON-NLS-1$
 
@@ -36,6 +38,11 @@ public enum ERectFitMode
    * Fit height.
    */
   FIT_HEIGHT( "height", STR_N_FM_FIT_HEIGHT, STR_D_FM_FIT_HEIGHT, true ), //$NON-NLS-1$
+
+  /**
+   * Fit to fill.
+   */
+  FIT_FILL( "fill", STR_N_FM_FIT_FILL, STR_D_FM_FIT_FILL, true ), //$NON-NLS-1$
 
   /**
    * Zoom - show with the specified scaling factor.

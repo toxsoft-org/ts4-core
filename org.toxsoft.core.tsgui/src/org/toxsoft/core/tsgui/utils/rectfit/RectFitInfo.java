@@ -225,6 +225,16 @@ public final class RectFitInfo {
           w = (int)(h * imgAspect);
         }
         break;
+      case FIT_FILL:
+        if( imgAspect > viewAspect ) { // вместим в ширину
+          h = aViewH;
+          w = (int)(h * imgAspect);
+        }
+        else { // вместим в высоту
+          w = aViewW;
+          h = (int)(w / imgAspect);
+        }
+        break;
       case FIT_HEIGHT:
         h = aViewH;
         w = (int)(h * imgAspect);

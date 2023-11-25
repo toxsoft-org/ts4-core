@@ -1,7 +1,6 @@
 package org.toxsoft.core.tsgui.utils.anim;
 
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Реализация {@link IGeneralAnimator}.
@@ -12,13 +11,13 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 class GeneralAnimator<T>
     implements IGeneralAnimator<T> {
 
-  private final long interval;
+  private final long                         interval;
   private final IGeneralAnimationCallback<T> callback;
-  private final T userData;
+  private final T                            userData;
 
-  private boolean paused = true;
-  private long counter = 0;
-  private long lastCallTimestamp = 0;
+  private boolean paused            = true;
+  private long    counter           = 0;
+  private long    lastCallTimestamp = 0;
 
   GeneralAnimator( long aInterval, IGeneralAnimationCallback<T> aCallback, T aUserData ) {
     TsIllegalArgumentRtException.checkTrue( aInterval <= 0 );
@@ -41,10 +40,19 @@ class GeneralAnimator<T>
   }
 
   /**
-   * Сбрасывает счетчк в 0.
+   * Resets internal counter to 0.
    */
   void resetCounter() {
-    counter = 0L;
+    resetCounter( 0L );
+  }
+
+  /**
+   * Resets internal counter to the specified value.
+   *
+   * @param aCounter long - initial counter value
+   */
+  void resetCounter( long aCounter ) {
+    counter = aCounter;
   }
 
   /**

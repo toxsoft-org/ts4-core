@@ -21,7 +21,9 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public interface IPdwWidget
-    extends ILazyControl<Control>, ITsContextable, IPausableAnimation, ITsUserInputProducer {
+    extends ILazyControl<Control>, ITsContextable, IPausableAnimation, ITsUserInputProducer
+// , IRectFittableEx
+{
 
   /**
    * Returns displayed image.
@@ -42,8 +44,11 @@ public interface IPdwWidget
 
   /**
    * Returns the size of {@link #getTsImage()}.
+   * <p>
+   * For a valid image returns {@link TsImage#imageSize()}, otherwise return {@link ITsPoint#ONE}. Returned dimensions
+   * always are greater or equal to (1,1).
    *
-   * @return {@link ITsPoint} - the image size or {@link ITsPoint#ZERO} if image is <code>null</code>
+   * @return {@link ITsPoint} - the image size or {@link ITsPoint#ONE}
    */
   ITsPoint getImageSize();
 
