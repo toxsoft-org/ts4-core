@@ -75,8 +75,8 @@ class VedCanvasRenderer
 
     // double x = aVisel.bounds().x1() + aVisel.bounds().width() / 2.;
     // double y = aVisel.bounds().y1() + aVisel.bounds().height() / 2.;
-    double x = aVisel.bounds().x1();
-    double y = aVisel.bounds().y1();
+    // double x = aVisel.bounds().x1();
+    // double y = aVisel.bounds().y1();
     // D2TransformUtils.convertItemTransfrom( itemTransform, x, y, viselConv );
     aGc.gc().setTransform( itemTransform );
     itemTransform.dispose();

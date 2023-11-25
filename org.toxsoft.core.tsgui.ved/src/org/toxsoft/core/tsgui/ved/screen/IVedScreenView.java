@@ -111,15 +111,13 @@ public interface IVedScreenView
 
   /**
    * Returns the SWT control implementing the screen.
-   * <p>
-   * TODO does screen SWT control has the size of {@link IVedCanvasCfg#size()} ?
    *
    * @return {@link Control} - the screen SWT representation
    */
   Control getControl();
 
   /**
-   * Generates an event when canvas saveable configuration changes via {@link #setCanvasConfig(IVedCanvasCfg)}.
+   * Returns canvas configuration change (via {@link #setCanvasConfig(IVedCanvasCfg)}) eventer.
    *
    * @return {@link IGenericChangeEventer} - canvas config change eventer
    */

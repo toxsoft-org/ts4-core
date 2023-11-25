@@ -105,10 +105,22 @@ public abstract class VedAbstractVertex
   // API
   //
 
-  public double zoomFactor() {
+  /**
+   * Returns the vertex individual zoom factor.
+   * <p>
+   * Used to maintain vertex size when the screen/VISEL zoom happens.
+   *
+   * @return double - the zoom factor (1.0 - no zoom)
+   */
+  public double zoomFactor1() {
     return zoomFactor;
   }
 
+  /**
+   * Sets the zoom factor {@link #zoomFactor1()}.
+   *
+   * @param aZoomFactor double - the zoom factor (1.0 - no zoom)
+   */
   public void setZoomFactor( double aZoomFactor ) {
     if( Double.compare( aZoomFactor, zoomFactor ) != 0 ) {
       zoomFactor = aZoomFactor;

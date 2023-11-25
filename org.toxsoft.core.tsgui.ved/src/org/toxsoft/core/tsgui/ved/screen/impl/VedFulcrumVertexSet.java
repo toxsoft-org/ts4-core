@@ -39,11 +39,27 @@ public class VedFulcrumVertexSet
     updateSwtRect();
   }
 
+  /**
+   * Creates instance with the vertexes of all fulcrums except the specified ones.
+   *
+   * @param aVisel {@link VedAbstractVertex} - the ownerVISEL
+   * @param aVedScreen {@link VedScreen} - the owner screen
+   * @param aFulcrums {@link ETsFulcrum}[] - fulcrums to exclude
+   * @return {@link VedFulcrumVertexSet} - created instance
+   */
   public static VedFulcrumVertexSet createExceptFulcrums( VedAbstractVisel aVisel, VedScreen aVedScreen,
       ETsFulcrum... aFulcrums ) {
     return new VedFulcrumVertexSet( aVisel, listVertexesWithoutFulcrums( aFulcrums ), aVedScreen );
   }
 
+  /**
+   * Creates instance with the vertexes at the specified locations.
+   *
+   * @param aVisel {@link VedAbstractVertex} - the ownerVISEL
+   * @param aVedScreen {@link VedScreen} - the owner screen
+   * @param aFulcrums {@link ETsFulcrum}[] - fulcrums to include
+   * @return {@link VedFulcrumVertexSet} - created instance
+   */
   public static VedFulcrumVertexSet createWithFulcrums( VedAbstractVisel aVisel, VedScreen aVedScreen,
       ETsFulcrum... aFulcrums ) {
     return new VedFulcrumVertexSet( aVisel, listVertexesWithFulcrums( aFulcrums ), aVedScreen );

@@ -56,7 +56,7 @@ class VedCoorsConverter
     refreshConversions( aVisel );
     double x1 = convScreen2Swt.reverseX( aX, aY );
     double y1 = convScreen2Swt.reverseY( aX, aY );
-    ID2Rectangle d2r = aVisel.bounds();
+    // ID2Rectangle d2r = aVisel.bounds();
     double x = convVisel2Screen.reverseX( x1, y1 ); // old
     double y = convVisel2Screen.reverseY( x1, y1 ); // old
 
