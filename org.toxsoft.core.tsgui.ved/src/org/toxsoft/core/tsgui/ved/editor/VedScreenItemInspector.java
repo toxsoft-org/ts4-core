@@ -14,7 +14,7 @@ import org.toxsoft.core.tsgui.bricks.tin.impl.*;
 import org.toxsoft.core.tsgui.dialogs.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.panels.*;
-import org.toxsoft.core.tsgui.utils.layout.BorderLayout;
+import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
@@ -211,12 +211,12 @@ public class VedScreenItemInspector
   }
 
   private void updateVedKindIcon() {
+    String iconId = ICONID_TRANSPARENT;
     if( vedItem != null ) {
-      label.setImage( iconManager().loadStdIcon( vedItem.kind().iconId(), iconSize ) );
+      IVedItemFactoryBase<?> factory = getFactory( vedItem );
+      iconId = factory.iconId();
     }
-    else {
-      label.setImage( iconManager().loadStdIcon( ICONID_TRANSPARENT, iconSize ) );
-    }
+    label.setImage( iconManager().loadStdIcon( iconId, iconSize ) );
   }
 
   private IVedItemFactoryBase<?> getFactory( IVedItem aVedItem ) {

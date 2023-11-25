@@ -48,8 +48,8 @@ public non-sealed class UndoManager
     eventer = new GenericChangeEventer( this );
     maxCount = STACK_SIZE_RANGE.inRange( aMaxCount );
 
-    // DEBUG ---
-    eventer.addListener( aSource -> printManagerContent() );
+    // DEBUG display manager items on every change ---
+    // eventer.addListener( aSource -> printManagerContent() );
     // ---
   }
 
