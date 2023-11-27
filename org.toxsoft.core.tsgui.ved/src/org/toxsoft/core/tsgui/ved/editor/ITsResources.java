@@ -40,4 +40,9 @@ interface ITsResources {
   String STR_L_HEIGHT_PIX   = "Высота (пикс): ";
   String STR_G_SIZES        = "Размеры";
   String STR_G_CONVERSIONS  = "Преобразования";
+
+  /**
+   * {@link VedViselContextMenuManager}
+   */
+  String STR_M_ALIGNMENT = "Выравнивание";
 }

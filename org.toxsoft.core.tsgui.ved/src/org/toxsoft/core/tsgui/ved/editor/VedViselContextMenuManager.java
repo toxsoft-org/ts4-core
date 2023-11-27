@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.ved.editor;
 
+import static org.toxsoft.core.tsgui.ved.editor.ITsResources.*;
+
 import org.eclipse.swt.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.actions.asp.*;
@@ -10,8 +12,14 @@ import org.toxsoft.core.tsgui.ved.screen.asp.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
+/**
+ * Обработчик пользовательского ввода обеспечивающий работу контекстного меню.<br>
+ *
+ * @author vs
+ */
 public class VedViselContextMenuManager
     extends VedAbstractUserInputHandler {
 
@@ -64,7 +72,7 @@ public class VedViselContextMenuManager
 
           // Menu m = new Menu( vedScreen().view().getControl() );
           MenuItem alignItem = new MenuItem( cmnMenu, SWT.CASCADE );
-          alignItem.setText( "Выравнивание" );
+          alignItem.setText( STR_M_ALIGNMENT );
 
           Menu ctxMenu = alignmentMenuCreator.getMenu( cmnMenu );
 
@@ -83,4 +91,21 @@ public class VedViselContextMenuManager
     return false;
   }
 
+  // ------------------------------------------------------------------------------------
+  // ITsKeyInputListener
+  //
+
+  @Override
+  public boolean onKeyDown( Object aSource, int aCode, char aChar, int aState ) {
+    if( aCode == SWT.DEL ) {
+      IStringList selList = new StringArrayList( selectionManager.selectedViselIds() );
+      if( selList.size() > 0 ) {
+        for( String id : selList ) {
+          vedScreen().model().visels().remove( id );
+        }
+        return true;
+      }
+    }
+    return false;
+  }
 }

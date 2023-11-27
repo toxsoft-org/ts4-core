@@ -169,9 +169,6 @@ public class VedViselMultiselectionManager
     Transform itemTransform = D2TransformUtils.d2ConversionToTransfrom( aGc.gc(), d2Conv );
     D2TransformUtils.convertTransfrom( itemTransform, viselConv ); // old
 
-    double x = aVisel.bounds().x1();
-    double y = aVisel.bounds().y1();
-
     aGc.gc().setTransform( itemTransform );
     itemTransform.dispose();
   }

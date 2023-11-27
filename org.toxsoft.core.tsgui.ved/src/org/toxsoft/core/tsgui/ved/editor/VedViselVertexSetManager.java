@@ -63,27 +63,6 @@ public class VedViselVertexSetManager
     selectionManager.genericChangeEventer().addListener( selectionListener );
   }
 
-  public boolean createViselVertexSet( String aViselId ) {
-    VedAbstractVisel visel = vedScreen().model().visels().list().getByKey( aViselId );
-    if( viselVertexSet != null ) {
-      return false;
-    }
-    viselVertexSet = visel.createVertexSet();
-    vedScreen().model().screenDecoratorsAfter().add( viselVertexSet );
-    vedScreen().model().screenHandlersBefore().insert( 0, viselVertexSet.inputHandler() );
-    vedScreen().view().redraw();
-    return true;
-  }
-
-  public void removeViselVertexSet() {
-    if( viselVertexSet != null ) {
-      vedScreen().model().screenHandlersBefore().remove( viselVertexSet.inputHandler() );
-      vedScreen().model().screenDecoratorsAfter().remove( viselVertexSet );
-      viselVertexSet = null;
-      vedScreen().view().redraw();
-    }
-  }
-
   // ------------------------------------------------------------------------------------
   // ITsMouseInputListener
   //
@@ -128,4 +107,30 @@ public class VedViselVertexSetManager
     }
     return false;
   }
+
+  // ------------------------------------------------------------------------------------
+  // Implementation
+  //
+
+  private boolean createViselVertexSet( String aViselId ) {
+    VedAbstractVisel visel = vedScreen().model().visels().list().getByKey( aViselId );
+    if( viselVertexSet != null ) {
+      return false;
+    }
+    viselVertexSet = visel.createVertexSet();
+    vedScreen().model().screenDecoratorsAfter().add( viselVertexSet );
+    vedScreen().model().screenHandlersBefore().insert( 0, viselVertexSet.inputHandler() );
+    vedScreen().view().redraw();
+    return true;
+  }
+
+  private void removeViselVertexSet() {
+    if( viselVertexSet != null ) {
+      vedScreen().model().screenHandlersBefore().remove( viselVertexSet.inputHandler() );
+      vedScreen().model().screenDecoratorsAfter().remove( viselVertexSet );
+      viselVertexSet = null;
+      vedScreen().view().redraw();
+    }
+  }
+
 }
