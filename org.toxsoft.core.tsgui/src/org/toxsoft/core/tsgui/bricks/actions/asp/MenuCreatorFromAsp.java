@@ -72,6 +72,7 @@ public class MenuCreatorFromAsp
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public MenuCreatorFromAsp( ITsActionSetProvider aActionsProvider, ITsGuiContext aTsContext ) {
+    super( false );
     TsNullArgumentRtException.checkNulls( aActionsProvider, aTsContext );
     actionsProvider = aActionsProvider;
     actionsProvider.actionsStateEventer().addListener( aspLitener );
@@ -97,7 +98,7 @@ public class MenuCreatorFromAsp
   }
 
   @Override
-  protected boolean fillMenu( Menu aMenu ) {
+  public boolean fillMenu( Menu aMenu ) {
     boolean result = false;
     menuItems.clear();
     for( ITsActionDef actionDef : actionsProvider.listAllActionDefs() ) {
@@ -113,7 +114,7 @@ public class MenuCreatorFromAsp
   // Implementation
   //
 
-  MenuItem createMenuItem( Menu aMenu, ITsActionDef aActionDef ) {
+  private MenuItem createMenuItem( Menu aMenu, ITsActionDef aActionDef ) {
     if( aActionDef.isSeparator() ) {
       return new MenuItem( aMenu, SWT.SEPARATOR );
     }

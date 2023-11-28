@@ -25,4 +25,12 @@ interface ITsResources {
 
   String STR_SCREEN_CONFIG   = "Фон...";
   String STR_SCREEN_CONFIG_D = "Настроить фон мнемосхемы";
+
+  String STR_EDIT_CUT     = "Вырезать";
+  String STR_EDIT_CUT_D   = "Скописровать в буфер и удалить";
+  String STR_EDIT_COPY    = "Копировать";
+  String STR_EDIT_COPY_D  = "Скопировать во внутренний буфер";
+  String STR_EDIT_PASTE   = "Вставить";
+  String STR_EDIT_PASTE_D = "Вставить из внутреннего буфера";
+
 }
