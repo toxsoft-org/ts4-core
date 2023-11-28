@@ -153,17 +153,22 @@ public class VedAspCopyPaste
 
   void doCut() {
 
+    vedScreen.view().getControl().setMenu( null );
   }
 
   void doCopy() {
     visels2paste.clear();
     if( activeVisel != null ) {
-
+      VedItemCfg cfg;
+      cfg = VedItemCfg.ofVisel( activeVisel.id(), activeVisel.factoryId(), activeVisel.params(), activeVisel.props() );
+      visels2paste.add( cfg );
     }
     else {
       IStringList vidList = selectionManager.selectedViselIds();
       visels2paste.addAll( VedScreenUtils.listViselConfigs( vidList, vedScreen ) );
     }
+    vedScreen.view().getControl().setMenu( null );
+    activeVisel = null;
   }
 
   void doPaste() {
@@ -206,7 +211,6 @@ public class VedAspCopyPaste
     }
 
     mouseCoords = null;
-    vedScreen.view().getControl().setFocus();
     vedScreen.view().getControl().setMenu( null );
   }
 

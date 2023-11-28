@@ -74,6 +74,7 @@ public class VedViselContextMenuManager
       }
       aspCommon.setActiveVisel( visel );
       if( visel != null ) { // click was on the visel
+        aspCopyPaste.setActiveVisel( visel );
         if( selectionManager.selectionKind() == ESelectionKind.MULTI ) { // multiselection is present
           aspAlignment.setAnchorVisel( visel );
 
