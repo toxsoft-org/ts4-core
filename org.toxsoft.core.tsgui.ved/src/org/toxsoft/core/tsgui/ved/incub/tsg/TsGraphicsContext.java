@@ -59,7 +59,7 @@ public class TsGraphicsContext
     tsContext = aTsContext;
     gc = aEvent.gc;
     drawingArea = new TsRectangle( aEvent.x, aEvent.y, aEvent.width, aEvent.height );
-    gc.setNonDisposeHandler( errorHandler );
+    // gc.setNonDisposeHandler( errorHandler );
   }
 
   /**
@@ -72,7 +72,7 @@ public class TsGraphicsContext
     tsContext = aTsContext;
     gc = aGc;
     drawingArea = new TsRectangle( 0, 0, 1, 1 );
-    gc.setNonDisposeHandler( errorHandler );
+    // gc.setNonDisposeHandler( errorHandler );
   }
 
   // ------------------------------------------------------------------------------------
@@ -290,7 +290,7 @@ public class TsGraphicsContext
           IGradient grad = fillInfo.gradientFillInfo().createGradient( tsContext );
           if( grad != null ) {
             pattern = grad.pattern( gc, aWidth, aHeight );
-            pattern.setNonDisposeHandler( errorHandler );
+            // pattern.setNonDisposeHandler( errorHandler );
             gc.setBackgroundPattern( pattern );
           }
           break;
@@ -311,10 +311,10 @@ public class TsGraphicsContext
       }
     }
     Transform oldTransform = new Transform( gc.getDevice() );
-    oldTransform.setNonDisposeHandler( errorHandler );
+    // oldTransform.setNonDisposeHandler( errorHandler );
     gc.getTransform( oldTransform );
     Transform tr = new Transform( gc.getDevice() );
-    tr.setNonDisposeHandler( errorHandler );
+    // tr.setNonDisposeHandler( errorHandler );
     gc.getTransform( tr );
     tr.translate( aX, aY );
     gc.setTransform( tr );

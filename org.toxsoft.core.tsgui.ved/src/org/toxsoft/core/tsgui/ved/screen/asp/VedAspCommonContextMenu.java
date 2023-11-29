@@ -17,6 +17,12 @@ import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
+/**
+ * Набор общих действий для контекстного меню.
+ * <p>
+ *
+ * @author vs
+ */
 public class VedAspCommonContextMenu
     extends MethodPerActionTsActionSetProvider
     implements ITsGuiContextable {
@@ -59,6 +65,10 @@ public class VedAspCommonContextMenu
     return vedScreen.tsContext();
   }
 
+  // ------------------------------------------------------------------------------------
+  // MethodPerActionTsActionSetProvider
+  //
+
   @Override
   public boolean isActionEnabled( String aActionId ) {
     if( aActionId.equals( ACDEF_REMOVE.id() ) ) {
@@ -78,6 +88,12 @@ public class VedAspCommonContextMenu
   // API
   //
 
+  /**
+   * Задает активный визуальный элемент.<br>
+   * От этого зависит доступность некоторых действий набора.
+   *
+   * @param aVisel {@link VedAbstractVisel} - визуальный элемент, м.б. <b>null</b>
+   */
   public void setActiveVisel( VedAbstractVisel aVisel ) {
     activeVisel = aVisel;
     actionsStateEventer().fireChangeEvent();
@@ -98,9 +114,6 @@ public class VedAspCommonContextMenu
   }
 
   void onSelectionChanged( @SuppressWarnings( "unused" ) Object aSource ) {
-    // if( selectionManager.selectionKind() == ESelectionKind.NONE ) {
-    // setAcS
-    // }
     actionsStateEventer().fireChangeEvent();
   }
 
@@ -108,6 +121,8 @@ public class VedAspCommonContextMenu
     IVedCanvasCfg canvasConfig = PanelCanvasConfig.editCanvasConfig( vedScreen.view().canvasConfig(), tsContext() );
     if( canvasConfig != null ) {
       vedScreen.view().setCanvasConfig( canvasConfig );
+      vedScreen.view().redraw();
+      vedScreen.view().update();
     }
   }
 

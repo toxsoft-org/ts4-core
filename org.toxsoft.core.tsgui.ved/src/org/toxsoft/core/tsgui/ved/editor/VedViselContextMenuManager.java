@@ -29,9 +29,13 @@ public class VedViselContextMenuManager
 
   private final VedAspCommonContextMenu aspCommon;
 
+  private final VedAspCopyPaste aspCopyPaste;
+
   private final MenuCreatorFromAsp commonMenuCreator;
 
   private final MenuCreatorFromAsp alignmentMenuCreator;
+
+  private final MenuCreatorFromAsp cpMenuCreator;
 
   /**
    * Constructor.
@@ -46,17 +50,21 @@ public class VedViselContextMenuManager
     selectionManager = aSelectionManager;
     aspAlignment = new VedAspViselsAlignment( aScreen, selectionManager );
     aspCommon = new VedAspCommonContextMenu( aScreen, selectionManager );
+    aspCopyPaste = new VedAspCopyPaste( aScreen, selectionManager );
     commonMenuCreator = new MenuCreatorFromAsp( aspCommon, aScreen.tsContext() );
     alignmentMenuCreator = new MenuCreatorFromAsp( aspAlignment, aScreen.tsContext() );
+    cpMenuCreator = new MenuCreatorFromAsp( aspCopyPaste, aScreen.tsContext() );
   }
 
   // ------------------------------------------------------------------------------------
   // ITsMouseInputListener
   //
 
+  @SuppressWarnings( "unused" )
   @Override
   public boolean onMouseDown( Object aSource, ETsMouseButton aButton, int aState, ITsPoint aCoors, Control aWidget ) {
     vedScreen().view().getControl().setMenu( null );
+    aspCopyPaste.setMouseCoords( aCoors );
     if( aButton == ETsMouseButton.RIGHT && (aState & SWT.MODIFIER_MASK) == 0 ) { // pure right click
       IStringList viselIds = vedScreen().view().listViselIdsAtPoint( aCoors );
       VedAbstractVisel visel = null;
@@ -65,25 +73,31 @@ public class VedViselContextMenuManager
       }
       aspCommon.setActiveVisel( visel );
       if( visel != null ) { // click was on the visel
+        aspCopyPaste.setActiveVisel( visel );
         if( selectionManager.selectionKind() == ESelectionKind.MULTI ) { // multiselection is present
           aspAlignment.setAnchorVisel( visel );
 
-          Menu cmnMenu = commonMenuCreator.getMenu( vedScreen().view().getControl() );
+          Menu cmnMenu = new Menu( vedScreen().view().getControl() );
+          cpMenuCreator.fillMenu( cmnMenu );
 
-          // Menu m = new Menu( vedScreen().view().getControl() );
           MenuItem alignItem = new MenuItem( cmnMenu, SWT.CASCADE );
           alignItem.setText( STR_M_ALIGNMENT );
-
           Menu ctxMenu = alignmentMenuCreator.getMenu( cmnMenu );
-
           alignItem.setMenu( ctxMenu );
+
+          new MenuItem( cmnMenu, SWT.SEPARATOR );
+          commonMenuCreator.fillMenu( cmnMenu );
 
           vedScreen().view().getControl().setMenu( cmnMenu );
           cmnMenu.setVisible( true );
           return true;
         }
       }
-      Menu cmnMenu = commonMenuCreator.getMenu( vedScreen().view().getControl() );
+      Menu cmnMenu = new Menu( vedScreen().view().getControl() );
+      cpMenuCreator.fillMenu( cmnMenu );
+      new MenuItem( cmnMenu, SWT.SEPARATOR );
+      commonMenuCreator.fillMenu( cmnMenu );
+
       vedScreen().view().getControl().setMenu( cmnMenu );
       cmnMenu.setVisible( true );
       return true;
