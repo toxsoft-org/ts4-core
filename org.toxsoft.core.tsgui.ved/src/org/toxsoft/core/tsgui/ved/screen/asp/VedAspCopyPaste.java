@@ -9,6 +9,7 @@ import org.toxsoft.core.tsgui.bricks.actions.*;
 import org.toxsoft.core.tsgui.bricks.actions.asp.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.ved.editor.*;
+import org.toxsoft.core.tsgui.ved.editor.IVedViselSelectionManager.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
@@ -76,6 +77,8 @@ public class VedAspCopyPaste
 
   private final IStridablesListEdit<VedItemCfg> visels2paste = new StridablesList<>();
 
+  private final IStridablesListEdit<VedItemCfg> actors2paste = new StridablesList<>();
+
   ITsPoint mouseCoords = null;
 
   /**
@@ -109,16 +112,19 @@ public class VedAspCopyPaste
 
   @Override
   public boolean isActionEnabled( String aActionId ) {
-    // if( aActionId.equals( ACDEF_REMOVE.id() ) ) {
-    // if( activeVisel == null ) {
-    // return selectionManager.selectionKind() != ESelectionKind.NONE;
-    // }
-    // }
-    // if( aActionId.equals( ACDEF_BK_COLOR.id() ) ) {
-    // if( activeVisel != null ) {
-    // return false;
-    // }
-    // }
+    if( aActionId.equals( ACDEF_CUT.id() ) ) {
+      if( activeVisel == null ) {
+        return selectionManager.selectionKind() != ESelectionKind.NONE;
+      }
+    }
+    if( aActionId.equals( ACDEF_COPY.id() ) ) {
+      if( activeVisel == null ) {
+        return selectionManager.selectionKind() != ESelectionKind.NONE;
+      }
+    }
+    if( aActionId.equals( ACDEF_PASTE.id() ) ) {
+      return visels2paste.size() > 0;
+    }
     return true;
   }
 
@@ -152,23 +158,46 @@ public class VedAspCopyPaste
   //
 
   void doCut() {
+    doCopy();
+
+    vedScreen.model().visels().eventer().pauseFiring();
+    vedScreen.model().actors().eventer().pauseFiring();
+
+    for( VedItemCfg cfg : visels2paste ) {
+      vedScreen.model().visels().remove( cfg.id() );
+    }
+    for( VedItemCfg cfg : actors2paste ) {
+      vedScreen.model().actors().remove( cfg.id() );
+    }
+
+    vedScreen.model().visels().eventer().resumeFiring( true );
+    vedScreen.model().actors().eventer().resumeFiring( true );
 
     vedScreen.view().getControl().setMenu( null );
+    mouseCoords = null;
+    setActiveVisel( null );
   }
 
   void doCopy() {
     visels2paste.clear();
+    actors2paste.clear();
     if( activeVisel != null ) {
       VedItemCfg cfg;
       cfg = VedItemCfg.ofVisel( activeVisel.id(), activeVisel.factoryId(), activeVisel.params(), activeVisel.props() );
       visels2paste.add( cfg );
+      IStringList aidList = VedScreenUtils.viselActorIds( activeVisel.id(), vedScreen );
+      actors2paste.addAll( VedScreenUtils.listActorConfigs( aidList, vedScreen ) );
     }
     else {
       IStringList vidList = selectionManager.selectedViselIds();
       visels2paste.addAll( VedScreenUtils.listViselConfigs( vidList, vedScreen ) );
+      for( String vid : vidList ) {
+        IStringList aidList = VedScreenUtils.viselActorIds( vid, vedScreen );
+        actors2paste.addAll( VedScreenUtils.listActorConfigs( aidList, vedScreen ) );
+      }
     }
     vedScreen.view().getControl().setMenu( null );
-    activeVisel = null;
+    setActiveVisel( null );
   }
 
   void doPaste() {
@@ -194,14 +223,15 @@ public class VedAspCopyPaste
       }
     }
 
-    for( String vid : visels2paste.ids() ) {
-      VedItemCfg viselCfg = VedScreenUtils.createCopyOfViselConfig( vid, vedScreen );
+    vedScreen.model().visels().eventer().pauseFiring();
+    vedScreen.model().actors().eventer().pauseFiring();
+    for( VedItemCfg vCfg : visels2paste ) {
+      VedItemCfg viselCfg = vedScreen.model().visels().prepareFromTemplate( vCfg );
       viselCfg.propValues().setDouble( PROPID_X, viselCfg.propValues().getDouble( PROPID_X ) + dx );
       viselCfg.propValues().setDouble( PROPID_Y, viselCfg.propValues().getDouble( PROPID_Y ) + dy );
       vedScreen.model().visels().create( viselCfg );
 
-      IStringList aidList = VedScreenUtils.viselActorIds( vid, vedScreen );
-      IStridablesList<VedItemCfg> actConfs = VedScreenUtils.listActorConfigs( aidList, vedScreen );
+      IStridablesList<VedItemCfg> actConfs = VedScreenUtils.viselActorsConfigs( vCfg.id(), actors2paste, vedScreen );
       for( VedItemCfg cfg : actConfs ) {
         VedItemCfg newCfg = vedScreen.model().actors().prepareFromTemplate( cfg );
         String str = viselCfg.id();
@@ -209,9 +239,12 @@ public class VedAspCopyPaste
         vedScreen.model().actors().create( newCfg );
       }
     }
+    vedScreen.model().visels().eventer().resumeFiring( true );
+    vedScreen.model().actors().eventer().resumeFiring( true );
 
     mouseCoords = null;
     vedScreen.view().getControl().setMenu( null );
+    setActiveVisel( null );
   }
 
   void onSelectionChanged( @SuppressWarnings( "unused" ) Object aSource ) {

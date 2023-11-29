@@ -64,7 +64,6 @@ public class VedViselContextMenuManager
   @Override
   public boolean onMouseDown( Object aSource, ETsMouseButton aButton, int aState, ITsPoint aCoors, Control aWidget ) {
     vedScreen().view().getControl().setMenu( null );
-    System.out.println( " Context menu - onMouseDown" );
     aspCopyPaste.setMouseCoords( aCoors );
     if( aButton == ETsMouseButton.RIGHT && (aState & SWT.MODIFIER_MASK) == 0 ) { // pure right click
       IStringList viselIds = vedScreen().view().listViselIdsAtPoint( aCoors );

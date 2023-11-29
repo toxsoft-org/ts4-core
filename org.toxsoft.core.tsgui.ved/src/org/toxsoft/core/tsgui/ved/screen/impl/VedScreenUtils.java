@@ -108,6 +108,27 @@ public class VedScreenUtils {
   }
 
   /**
+   * Returns actor ids, associated with this visel.<br>
+   *
+   * @param aViselId String - visel id
+   * @param aActorsCfg IStridablesList&lt;VedItemCfg> - list of actors configurations
+   * @param aVedScreen {@link IVedScreen} - the VED screen
+   * @return {@link IStringList} - actor ids, associated with this visel
+   */
+  public static IStridablesList<VedItemCfg> viselActorsConfigs( String aViselId, IStridablesList<VedItemCfg> aActorsCfg,
+      IVedScreen aVedScreen ) {
+    IStridablesListEdit<VedItemCfg> result = new StridablesList<>();
+    for( VedItemCfg actorCfg : aActorsCfg ) {
+      if( actorCfg.propValues().hasKey( PROPID_VISEL_ID ) ) {
+        if( actorCfg.propValues().getStr( PROPID_VISEL_ID ).equals( aViselId ) ) {
+          result.add( actorCfg );
+        }
+      }
+    }
+    return result;
+  }
+
+  /**
    * Returns copy of visel configuration.<br>
    *
    * @param aViselId String - visel id
