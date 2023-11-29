@@ -138,6 +138,15 @@ abstract class AbstractVedItemsManager<T extends VedAbstractItem>
   // implementation
   //
 
+  private boolean hasItemWithName( String aName ) {
+    for( IVedItem item : itemsList ) {
+      if( item.nmName().equals( aName ) ) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   // ------------------------------------------------------------------------------------
   // ITsClearable
   //
@@ -190,18 +199,14 @@ abstract class AbstractVedItemsManager<T extends VedAbstractItem>
     int counter = 0;
     String prefix = StridUtils.getLast( aTemplateCfg.factoryId() );
     prefix = prefix.toLowerCase().substring( 0, 1 ) + prefix.substring( 1 ); // convert first char to lower case
+    String name;
     do {
       id = prefix + Integer.toString( ++counter ); // "prefixNN"
-    } while( itemsList.hasKey( id ) );
+      name = factory.nmName() + ' ' + Integer.toString( counter ); // "Factory name NN"
+    } while( itemsList.hasKey( id ) || hasItemWithName( name ) );
     // create config
     VedItemCfg cfg = new VedItemCfg( id, aTemplateCfg );
-    // generate nmName if needed
-    String name = aTemplateCfg.nmName();
-    ValidationResult vr = NameStringValidator.VALIDATOR.validate( name );
-    if( !vr.isOk() || name.equals( factory.nmName() ) ) {
-      name = factory.nmName() + ' ' + Integer.toString( counter ); // "Factory name NN"
-      cfg.propValues().setStr( DDEF_NAME, name );
-    }
+    cfg.propValues().setStr( DDEF_NAME, name );
     return cfg;
   }
 

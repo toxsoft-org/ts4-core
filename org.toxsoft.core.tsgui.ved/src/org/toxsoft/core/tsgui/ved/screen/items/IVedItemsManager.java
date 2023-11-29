@@ -44,13 +44,13 @@ public interface IVedItemsManager<T extends VedAbstractItem>
   /**
    * Prepares the item config from some kind of the template config provided.
    * <p>
-   * It is assumed that template configuration is provided by external means such as the VED items palette. Preparation
-   * includes the unique (for current VED screen) ID generation, and {@link IVedItemCfg#nmName()} change if the name has
-   * default or a blank value. Note: the new ID will be generated even if template ID is unique.
+   * It is assumed that template configuration is provided by external means such as the VED items palette or copy/paste
+   * operation. Preparation includes the unique (for current VED screen) ID and name generation.
+   * <p>
+   * Note: the new ID/name pair will be generated even if template ID/name already is unique.
    * <p>
    * It is guaranteed that {@link #create(int, IVedItemCfg)} method will not throw an "duplicate ID"
    * {@link TsItemAlreadyExistsRtException} exception.
-   * <p>
    *
    * @param aTemplateCfg {@link IVedItemCfg} - the item configuration template
    * @return {@link VedItemCfg} - an editable instance based on template
