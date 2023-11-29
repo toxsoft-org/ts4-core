@@ -26,11 +26,20 @@ interface ITsResources {
   String STR_SCREEN_CONFIG   = "Фон...";
   String STR_SCREEN_CONFIG_D = "Настроить фон мнемосхемы";
 
-  String STR_EDIT_CUT     = "Вырезать";
-  String STR_EDIT_CUT_D   = "Скописровать в буфер и удалить";
-  String STR_EDIT_COPY    = "Копировать";
-  String STR_EDIT_COPY_D  = "Скопировать во внутренний буфер";
-  String STR_EDIT_PASTE   = "Вставить";
-  String STR_EDIT_PASTE_D = "Вставить из внутреннего буфера";
+  /**
+   * VedAspCopyPaste
+   */
+  String STR_EDIT_CUT             = "Вырезать";
+  String STR_EDIT_CUT_D           = "Скопировать в буфер и удалить";
+  String STR_EDIT_COPY            = "Копировать";
+  String STR_EDIT_COPY_D          = "Скопировать во внутренний буфер";
+  String STR_EDIT_PASTE           = "Вставить";
+  String STR_EDIT_PASTE_D         = "Вставить из внутреннего буфера";
+  String STR_FMT_BUFFER_IS_EMPY   = "Буфер пуст";
+  String STR_FMT_NO_VISEL_FACTORY = "Отсутствует фабрика ВИЗЕЛя: %s";
+  String STR_FMT_NO_ACTOR_FACTORY = "Отсутствует фабрика АКТОРа: %s";
+  String DLG_CAP_PASTE_FAILED     = "Вставка не удалась";
+  String DLG_TIT_NO_FACTORIES     = "Отсутствуют следующие фабрики";
+  String STR_ERR_WRONG_CONTENT    = "Невозможно вставить информацию из буфера - несовместимое содержимое";
 
 }

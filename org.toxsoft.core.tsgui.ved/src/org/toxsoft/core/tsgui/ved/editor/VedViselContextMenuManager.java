@@ -111,13 +111,30 @@ public class VedViselContextMenuManager
 
   @Override
   public boolean onKeyDown( Object aSource, int aCode, char aChar, int aState ) {
+    System.out.println( "code = " + aCode );
     if( aCode == SWT.DEL ) {
       IStringList selList = new StringArrayList( selectionManager.selectedViselIds() );
       if( selList.size() > 0 ) {
         for( String id : selList ) {
           vedScreen().model().visels().remove( id );
+          for( String actId : VedScreenUtils.viselActorIds( id, vedScreen() ) ) {
+            vedScreen().model().actors().remove( actId );
+          }
         }
         return true;
+      }
+    }
+    if( (aState & SWT.MODIFIER_MASK) == SWT.CTRL ) {
+      if( aCode == 99 ) { // key code for symbol "C"
+        if( aspCopyPaste.isActionEnabled( VedAspCopyPaste.ACTID_COPY ) ) {
+          aspCopyPaste.doHandleAction( VedAspCopyPaste.ACTID_COPY );
+          aspCopyPaste.setMouseCoords( null );
+        }
+      }
+      if( aCode == 118 ) { // key code for symbol "V"
+        if( aspCopyPaste.isActionEnabled( VedAspCopyPaste.ACTID_PASTE ) ) {
+          aspCopyPaste.doHandleAction( VedAspCopyPaste.ACTID_PASTE );
+        }
       }
     }
     return false;
