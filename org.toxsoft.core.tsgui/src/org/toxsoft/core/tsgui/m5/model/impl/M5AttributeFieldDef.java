@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.m5.model.impl;
 
+import static org.toxsoft.core.tsgui.m5.IM5Constants.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.toxsoft.core.tsgui.m5.model.*;
@@ -59,6 +60,7 @@ public class M5AttributeFieldDef<T>
     attrType = aDataType.atomicType();
     params().addAll( aDataType.params() );
     params().addAll( OptionSetUtils.createOpSet( aIdsAndValues ) );
+    setFlags( M5_OPDEF_FLAGS.getValue( params() ).asInt() );
     if( aDataType instanceof IDataDef ddef ) {
       validator().addValidator( ddef.validator() );
       setComparator( ddef.comparator() );
