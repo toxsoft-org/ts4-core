@@ -45,7 +45,7 @@ public class ViselBaloon
   /**
    * The VISEL factory ID.
    */
-  public static final String FACTORY_ID = VED_ID + ".baloonViselFactory"; //$NON-NLS-1$
+  public static final String FACTORY_ID = VED_ID + ".baloon"; //$NON-NLS-1$
 
   static final String PROPID_ARC_WIDTH    = "arcWidth";    //$NON-NLS-1$
   static final String PROPID_ARC_HEIGHT   = "arcHeight";   //$NON-NLS-1$
