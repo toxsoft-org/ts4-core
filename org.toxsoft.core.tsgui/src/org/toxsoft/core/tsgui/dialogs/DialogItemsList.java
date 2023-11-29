@@ -17,9 +17,9 @@ import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Simple dialog show items list and optionally allows select an ietm.
+ * Simple dialog show items list and optionally allows select an item.
  * <p>
- * Item list and visualisation provider is specified by user.
+ * Item list and visualization provider is specified by user.
  *
  * @author hazard157
  */

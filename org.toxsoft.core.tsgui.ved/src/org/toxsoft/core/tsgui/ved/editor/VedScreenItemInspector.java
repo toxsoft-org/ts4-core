@@ -9,12 +9,14 @@ import org.eclipse.swt.dnd.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.bricks.tin.*;
 import org.toxsoft.core.tsgui.bricks.tin.impl.*;
 import org.toxsoft.core.tsgui.dialogs.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.panels.*;
-import org.toxsoft.core.tsgui.utils.layout.BorderLayout;
+import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
@@ -90,7 +92,9 @@ public class VedScreenItemInspector
     btnEdit.setToolTipText( STR_BTN_EDIT_D );
     btnEdit.setImage( iconManager().loadStdIcon( ICONID_DOCUMENT_EDIT, iconSize ) );
     // inspector tree
-    tinWidget = new TinWidget( tsContext() );
+    ITsGuiContext ctx = new TsGuiContext( tsContext() );
+    ctx.put( IVedScreen.class, vedScreen );
+    tinWidget = new TinWidget( ctx );
     tinWidget.createControl( this );
     tinWidget.getControl().setLayoutData( BorderLayout.CENTER );
     // setup

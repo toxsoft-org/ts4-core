@@ -29,8 +29,8 @@ public abstract class AbstractValedTextAndButton<V>
   /**
    * Constructor for subclasses.
    *
-   * @param aContext {@link ITsGuiContext} - the valed context
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aContext {@link ITsGuiContext} - the VALED context
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   protected AbstractValedTextAndButton( ITsGuiContext aContext ) {
     super( aContext );
@@ -133,9 +133,24 @@ public abstract class AbstractValedTextAndButton<V>
   /**
    * Subclass must update {@link #getTextControl()}.
    * <p>
-   * Called after value change not by user in text field, but by buttopn-invoked dialog or by VALED API.
+   * Called after value was changed not by user in text field, but by button-invoked dialog or by VALED API.
+   * <p>
+   * In most cases there is no need to override this method. However< if one of the following condition is met, subclass
+   * should override this method and write correct text to the text field:
+   * <ul>
+   * <li>If {@link #clearValue()} must write something different when an empty string as a textual representation;</li>
+   * <li>any of methods {@link #doProcessButtonPress()}, {@link #doAfterControlCreated()} or
+   * {@link #doSetUnvalidatedValue(Object)} does not updates text field correctly.;</li>
+   * </ul>
+   * <p>
+   * In other words, this method should be overridden when subclass stores non-String edited value in it's fiedl, so
+   * this method writes in text field correctly formatted text representation of the edited value.
+   * <p>
+   * Does nothing in the base class, there is no need to call the parent medthod when overriding.
    */
-  protected abstract void doUpdateTextControl();
+  protected void doUpdateTextControl() {
+    // nop
+  }
 
   /**
    * Subclass must call value editor dialog and set value to this VALED.

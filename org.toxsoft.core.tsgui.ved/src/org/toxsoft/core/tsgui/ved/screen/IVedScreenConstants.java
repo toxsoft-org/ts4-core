@@ -19,6 +19,7 @@ import org.toxsoft.core.tsgui.graphics.fonts.impl.*;
 import org.toxsoft.core.tsgui.valed.controls.basic.*;
 import org.toxsoft.core.tsgui.valed.controls.graphics.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
+import org.toxsoft.core.tsgui.ved.valeds.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
@@ -238,6 +239,7 @@ public interface IVedScreenConstants {
   IDataDef PROP_VISEL_ID = DataDef.create3( PROPID_VISEL_ID, DDEF_IDPATH, //
       TSID_NAME, STR_VISEL_ID, //
       TSID_DESCRIPTION, STR_VISEL_ID_D, //
+      OPDEF_EDITOR_FACTORY_NAME, ValedVedViselAvStringIdSelector.FACTORY_NAME, //
       TSID_DEFAULT_VALUE, DEFAULT_ID_AV //
   );
 

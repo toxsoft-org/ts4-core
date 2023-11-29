@@ -6,10 +6,12 @@ import org.eclipse.e4.core.contexts.*;
 import org.toxsoft.core.tsgui.bricks.quant.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.mws.services.hdpi.*;
+import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tsgui.ved.comps.*;
 import org.toxsoft.core.tsgui.ved.m5.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
+import org.toxsoft.core.tsgui.ved.valeds.*;
 import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
@@ -52,6 +54,10 @@ public class QuantTsGuiVed
     //
     ITsHdpiService hdpiService = aWinContext.get( ITsHdpiService.class );
     hdpiService.defineIconCategory( VED_EDITOR_PALETTE_ICON_SIZE_CATEGORY, VED_EDITOR_PALETTE_ICON_SIZE_SCALE );
+    //
+    IValedControlFactoriesRegistry vcfRegistry = aWinContext.get( IValedControlFactoriesRegistry.class );
+    vcfRegistry.registerFactory( ValedVedViselIdSelector.FACTORY );
+    vcfRegistry.registerFactory( ValedVedViselAvStringIdSelector.FACTORY );
     //
     IM5Domain m5 = aWinContext.get( IM5Domain.class );
     m5.addModel( new VedItemM5Model() );
