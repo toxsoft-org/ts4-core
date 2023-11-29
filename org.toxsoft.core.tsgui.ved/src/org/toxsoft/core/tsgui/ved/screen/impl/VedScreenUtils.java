@@ -72,7 +72,9 @@ public class VedScreenUtils {
   }
 
   /**
-   * Returns list of visel ids that have no assigned actors.>br>
+   * Returns list of visel ids that have no assigned actors.<br>
+   * <p>
+   * "Assigned actor" means the actor with {@link IVedScreenConstants#PROPID_VISEL_ID} containing the ID of the VISEL.
    *
    * @param aVedScreen {@link IVedScreen} - the VED screen
    * @return {@link IStringList} - list of visel ids that have no assigned actors

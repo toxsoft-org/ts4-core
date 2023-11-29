@@ -16,6 +16,9 @@ import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
 
 /**
  * VALED to select a VISEL ID from the {@link IVedScreenModel#visels()}.
@@ -66,6 +69,24 @@ public class ValedVedViselIdSelector
     return vedScreen().model().visels();
   }
 
+  private IList<VedAbstractVisel> listAllViselsWithOrpansFirst() {
+    IStringList orphanViselIds = VedScreenUtils.listOrphanViselIds( vedScreen() );
+    IListEdit<VedAbstractVisel> ll = new ElemArrayList<>( viselManager().list().size() );
+    // first - orphan VISELs
+    for( VedAbstractVisel visel : viselManager().list() ) {
+      if( orphanViselIds.hasElem( visel.id() ) ) {
+        ll.add( visel );
+      }
+    }
+    // first - now non-orphan VISELs
+    for( VedAbstractVisel visel : viselManager().list() ) {
+      if( !orphanViselIds.hasElem( visel.id() ) ) {
+        ll.add( visel );
+      }
+    }
+    return ll;
+  }
+
   // ------------------------------------------------------------------------------------
   // AbstractValedTextAndButton
   //
@@ -74,7 +95,7 @@ public class ValedVedViselIdSelector
   protected boolean doProcessButtonPress() {
     ITsDialogInfo tdi = new TsDialogInfo( tsContext(), DLG_SELECT_VISEL_ID, DLG_SELECT_VISEL_ID_D );
     IVedVisel selVisel = viselManager().list().findByKey( doGetUnvalidatedValue() );
-    IVedVisel visel = DialogItemsList.select( tdi, viselManager().list(), selVisel, VISUALS_PROVIDER );
+    IVedVisel visel = DialogItemsList.select( tdi, listAllViselsWithOrpansFirst(), selVisel, VISUALS_PROVIDER );
     if( visel != null && visel != selVisel ) {
       String viselId = visel.id();
       getTextControl().setText( viselId );
