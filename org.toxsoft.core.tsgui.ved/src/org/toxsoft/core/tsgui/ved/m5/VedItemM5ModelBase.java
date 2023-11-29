@@ -58,6 +58,29 @@ public class VedItemM5ModelBase<T extends IVedItem>
   };
 
   /**
+   * Field displays the name of the factory by {@link IVedItem#factoryId()}.
+   */
+  public final IM5AttributeFieldDef<IVedItem> FACTORY_NAME = new M5AttributeFieldDef<>( FID_FACTORY_NAME, DDEF_STRING, //
+      TSID_NAME, STR_ITEM_FACTORY_NAME, //
+      TSID_DESCRIPTION, STR_ITEM_FACTORY_NAME_D, //
+      M5_OPID_FLAGS, avInt( M5FF_DETAIL | M5FF_INVARIANT ) //
+  ) {
+
+    protected IAtomicValue doGetFieldValue( IVedItem aEntity ) {
+      IVedItemFactoryBase<?> factory = switch( aEntity.kind() ) {
+        case VISEL -> tsContext().get( IVedViselFactoriesRegistry.class ).find( aEntity.factoryId() );
+        case ACTOR -> tsContext().get( IVedActorFactoriesRegistry.class ).find( aEntity.factoryId() );
+        default -> throw new TsNotAllEnumsUsedRtException();
+      };
+      if( factory == null ) {
+        return AV_STR_EMPTY;
+      }
+      return avStr( factory.nmName() );
+    }
+
+  };
+
+  /**
    * Field {@link IVedItem#nmName()}
    */
   public final IM5AttributeFieldDef<IVedItem> NAME = new M5StdFieldDefName<>( //
@@ -85,7 +108,7 @@ public class VedItemM5ModelBase<T extends IVedItem>
    */
   protected VedItemM5ModelBase( String aId, Class<T> aItemClass ) {
     super( aId, aItemClass );
-    addFieldDefs( ID, FACTORY_ID, NAME, DESCRIPTION );
+    addFieldDefs( ID, FACTORY_ID, FACTORY_NAME, NAME, DESCRIPTION );
   }
 
 }

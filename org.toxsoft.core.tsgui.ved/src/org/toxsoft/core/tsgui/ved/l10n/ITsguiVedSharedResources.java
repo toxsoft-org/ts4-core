@@ -94,14 +94,16 @@ public interface ITsguiVedSharedResources {
   /**
    * General
    */
-  String STR_ITEM_ID            = Messages.getString( "STR_ITEM_ID" );            //$NON-NLS-1$
-  String STR_ITEM_ID_D          = Messages.getString( "STR_ITEM_ID_D" );          //$NON-NLS-1$
-  String STR_ITEM_FACTORY_ID    = Messages.getString( "STR_ITEM_FACTORY_ID" );    //$NON-NLS-1$
-  String STR_ITEM_FACTORY_ID_D  = Messages.getString( "STR_ITEM_FACTORY_ID_D" );  //$NON-NLS-1$
-  String STR_ITEM_NAME          = Messages.getString( "STR_ITEM_NAME" );          //$NON-NLS-1$
-  String STR_ITEM_NAME_D        = Messages.getString( "STR_ITEM_NAME_D" );        //$NON-NLS-1$
-  String STR_ITEM_DESCRIPTION   = Messages.getString( "STR_ITEM_DESCRIPTION" );   //$NON-NLS-1$
-  String STR_ITEM_DESCRIPTION_D = Messages.getString( "STR_ITEM_DESCRIPTION_D" ); //$NON-NLS-1$
+  String STR_ITEM_ID             = Messages.getString( "STR_ITEM_ID" );             //$NON-NLS-1$
+  String STR_ITEM_ID_D           = Messages.getString( "STR_ITEM_ID_D" );           //$NON-NLS-1$
+  String STR_ITEM_FACTORY_ID     = Messages.getString( "STR_ITEM_FACTORY_ID" );     //$NON-NLS-1$
+  String STR_ITEM_FACTORY_ID_D   = Messages.getString( "STR_ITEM_FACTORY_ID_D" );   //$NON-NLS-1$
+  String STR_ITEM_FACTORY_NAME   = Messages.getString( "STR_ITEM_FACTORY_NAME" );   //$NON-NLS-1$
+  String STR_ITEM_FACTORY_NAME_D = Messages.getString( "STR_ITEM_FACTORY_NAME_D" ); //$NON-NLS-1$
+  String STR_ITEM_NAME           = Messages.getString( "STR_ITEM_NAME" );           //$NON-NLS-1$
+  String STR_ITEM_NAME_D         = Messages.getString( "STR_ITEM_NAME_D" );         //$NON-NLS-1$
+  String STR_ITEM_DESCRIPTION    = Messages.getString( "STR_ITEM_DESCRIPTION" );    //$NON-NLS-1$
+  String STR_ITEM_DESCRIPTION_D  = Messages.getString( "STR_ITEM_DESCRIPTION_D" );  //$NON-NLS-1$
 
   /**
    * M5-models

@@ -31,4 +31,9 @@ public interface IVedM5Constants {
    */
   String FID_FACTORY_ID = "factoryId"; //$NON-NLS-1$
 
+  /**
+   * ID of the field display name of the factory by {@link IVedItem#factoryId()}.
+   */
+  String FID_FACTORY_NAME = "factoryName"; //$NON-NLS-1$
+
 }
