@@ -130,9 +130,25 @@ public class VedAbstractActor
     IStringList ll = doListBoundViselIds();
     TsInternalErrorRtException.checkNull( ll );
     for( String vid : ll ) {
-      TsInternalErrorRtException.checkFalse( StridUtils.isValidIdPath( vid ) );
+      if( !vid.isEmpty() ) {
+        TsInternalErrorRtException.checkFalse( StridUtils.isValidIdPath( vid ) );
+      }
     }
     return ll;
+  }
+
+  @Override
+  public void replaceBoundVisel( String aOldViselId, String aNewViselId ) {
+    StridUtils.checkValidIdPath( aOldViselId );
+    TsNullArgumentRtException.checkNull( aNewViselId );
+    if( !aNewViselId.isEmpty() ) {
+      StridUtils.checkValidIdPath( aNewViselId );
+    }
+    if( aOldViselId.equals( aNewViselId ) ) {
+      return;
+    }
+    // TODO Auto-generated method stub
+
   }
 
   // ------------------------------------------------------------------------------------
@@ -213,6 +229,22 @@ public class VedAbstractActor
       }
     }
     return IStringList.EMPTY;
+  }
+
+  /**
+   * Subclass should process process VISEL ID replacement {@link #replaceBoundVisel(String, String)}.
+   *
+   * @param aOldViselId String - the ID of VISEL this actor currently is bind to, always an IDpath
+   * @param aNewViselId String - the ID of the replacement VISEL, always an IDpath or or an empty string
+   */
+  protected void doReplaceBoundVisel( String aOldViselId, String aNewViselId ) {
+    if( props().hasKey( PROPID_VISEL_ID ) ) {
+      if( props().hasKey( PROPID_VISEL_ID ) ) {
+        if( props().getStr( PROPID_VISEL_ID ).equals( aOldViselId ) ) {
+          props().setStr( PROPID_VISEL_ID, aNewViselId );
+        }
+      }
+    }
   }
 
 }

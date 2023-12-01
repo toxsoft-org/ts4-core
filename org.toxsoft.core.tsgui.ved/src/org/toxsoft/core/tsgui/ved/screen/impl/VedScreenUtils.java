@@ -3,6 +3,7 @@ package org.toxsoft.core.tsgui.ved.screen.impl;
 import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
 
 import org.toxsoft.core.tsgui.ved.screen.*;
+import org.toxsoft.core.tsgui.ved.screen.asp.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
@@ -72,9 +73,9 @@ public class VedScreenUtils {
   }
 
   /**
-   * Returns list of visel ids that have no assigned actors.<br>
+   * Returns list of VISEL IDs that have no assigned (bound) actors.<br>
    * <p>
-   * "Assigned actor" means the actor with {@link IVedScreenConstants#PROPID_VISEL_ID} containing the ID of the VISEL.
+   * "Bound actor" means the actor has the VISEL in the list {@link VedAbstractActor#listBoundViselIds()}.
    *
    * @param aVedScreen {@link IVedScreen} - the VED screen
    * @return {@link IStringList} - list of visel ids that have no assigned actors
@@ -82,8 +83,7 @@ public class VedScreenUtils {
   public static IStringList listOrphanViselIds( IVedScreen aVedScreen ) {
     IStringListEdit visels = new StringArrayList( aVedScreen.model().visels().list().ids() );
     for( IVedActor actor : aVedScreen.model().actors().list() ) {
-      if( actor.params().hasKey( PROPID_VISEL_ID ) ) {
-        String viselId = actor.params().getStr( PROPID_VISEL_ID );
+      for( String viselId : actor.listBoundViselIds() ) {
         visels.remove( viselId );
       }
     }
@@ -100,19 +100,19 @@ public class VedScreenUtils {
   public static IStringList viselActorIds( String aViselId, IVedScreen aVedScreen ) {
     IStringListEdit result = new StringArrayList();
     for( IVedActor actor : aVedScreen.model().actors().list() ) {
-      if( actor.props().hasKey( PROPID_VISEL_ID ) ) {
-        if( actor.props().getStr( PROPID_VISEL_ID ).equals( aViselId ) ) {
-          result.add( actor.id() );
-        }
+      if( actor.listBoundViselIds().hasElem( aViselId ) ) {
+        result.add( actor.id() );
       }
     }
     return result;
   }
 
   /**
-   * Returns actor ids, associated with this visel.<br>
+   * Returns actor configuration {@link IVedItemCfg}, associated with the specified VISEL.<br>
+   * <p>
+   * FIXME this method must be redesigned due to the problems noted in {@link VedAspCopyPaste#fooJustForCommant()}.
    *
-   * @param aViselId String - visel id
+   * @param aViselId String - VISEL ID
    * @param aActorsCfg IStridablesList&lt;VedItemCfg> - list of actors configurations
    * @param aVedScreen {@link IVedScreen} - the VED screen
    * @return {@link IStringList} - actor ids, associated with this visel

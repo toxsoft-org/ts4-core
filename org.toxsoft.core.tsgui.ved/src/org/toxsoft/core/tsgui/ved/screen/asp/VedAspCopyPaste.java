@@ -37,6 +37,16 @@ public class VedAspCopyPaste
     implements ITsGuiContextable {
 
   /**
+   * FIXME There's a conceptual problem here: when searching for the associated actors of the VISELs (selected to be
+   * copied) right now we have only one method {@link VedAbstractActor#listBoundViselIds()}. But after copied VED items
+   * as a configuration, we must change IDs and restore VISEL-Actor associations (binding). Allas, we have no API means
+   * for this task!
+   */
+  public void fooJustForCommant() {
+    // see method comment
+  }
+
+  /**
    * ID of action {@link #ACDEF_CUT}.
    */
   public static final String ACTID_CUT = "ved.cut"; //$NON-NLS-1$
