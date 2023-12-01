@@ -178,9 +178,7 @@ public class SortedElemLinkedBundleList<E extends Comparable<E>>
    * @throws TsIllegalArgumentRtException aBundleCapacity is out of range
    */
   public SortedElemLinkedBundleList( int aBundleCapacity, boolean aAllowDuplicates ) {
-    TsIllegalArgumentRtException
-        .checkTrue( aBundleCapacity < MIN_BUNDLE_CAPACITY || aBundleCapacity > MAX_BUNDLE_CAPACITY );
-    bundleCapacity = aBundleCapacity;
+    bundleCapacity = BUNDLE_CAPACITY_RANGE.inRange( aBundleCapacity );
     firstBundle = new Bundle( bundleCapacity );
     size = 0;
     allowDuplicates = aAllowDuplicates;

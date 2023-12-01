@@ -7,6 +7,7 @@ import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.math.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -138,14 +139,9 @@ public final class TsCollectionsUtils {
   public static final int DEFAULT_BUCKETS_COUNT = 17;
 
   /**
-   * Miminal number of elements in bundles of list implementation.
+   * The range of the allowed number of elements in bundles of list implementation.
    */
-  public static final int MIN_BUNDLE_CAPACITY = 4;
-
-  /**
-   * Maximal number of elements in bundles of list implementation.
-   */
-  public static final int MAX_BUNDLE_CAPACITY = 268435456; // 2 ^ 28
+  public static final IntRange BUNDLE_CAPACITY_RANGE = new IntRange( 4, 268435456 ); // 4 .. 2^28
 
   /**
    * Default number of elements in bundles of list implementation.

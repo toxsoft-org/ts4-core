@@ -1,5 +1,7 @@
 package org.toxsoft.core.tslib.gw.skid;
 
+import static org.toxsoft.core.tslib.coll.impl.TsCollectionsUtils.*;
+
 import java.io.*;
 import java.util.*;
 
@@ -13,7 +15,7 @@ import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Реализация {@link ISkidList}.
+ * {@link ISkidList} implementation.
  *
  * @author hazard157
  */
@@ -26,29 +28,17 @@ public class SkidList
 
   private static final long serialVersionUID = 157157L;
 
-  /**
-   * Минимально допустимое количество элементов в связке.
-   */
-  public static final int MIN_BUNDLE_CAPACITY = 4;
-
-  /**
-   * максимально допустимое количество элементов в связке.
-   */
-  public static final int MAX_BUNDLE_CAPACITY = 268435456; // 2 ^ 28
-
-  private static final int DEFAULT_BUNDLE_CAPACITY = 32;
-
   private final IListEdit<Skid> list;
 
   /**
-   * Конструктор.
+   * Constructor.
    */
   public SkidList() {
     list = new ElemArrayList<>();
   }
 
   /**
-   * Конструктор копирования.
+   * Copy constructor.
    *
    * @param aSource ITsCollection&lt;{@link Skid}&gt; - список элементов - источник
    * @throws TsNullArgumentRtException aSource = null
@@ -58,21 +48,20 @@ public class SkidList
   }
 
   /**
-   * Создает список с начальным содержимым набора или массива aElems.
+   * Constructor.
    *
-   * @param aElems {@link Skid}[] - массив элементов
-   * @throws TsNullArgumentRtException любой элемент = null
+   * @param aElems {@link Skid}[] - initial content
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public SkidList( Skid... aElems ) {
     list = new ElemArrayList<>( aElems );
   }
 
   /**
-   * Конструктор копирования.
+   * Constructor.
    *
-   * @param aSource Collection&lt;{@link Skid}&gt; - итератор по набору элементов
-   * @throws TsNullArgumentRtException aSource = null
-   * @throws TsNullArgumentRtException любой элемент aSource = null
+   * @param aSource Collection&lt;{@link Skid}&gt; - initial content
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public SkidList( Collection<Skid> aSource ) {
     list = new ElemArrayList<>( aSource );
@@ -83,12 +72,12 @@ public class SkidList
   }
 
   /**
-   * Создает список с прямым запоминанием ссылки на список.
+   * Static constructor uses source list.
    *
-   * @param aList {@link IListEdit} - используемыфй список
-   * @return {@link SkidList} - созданный список
-   * @throws TsNullArgumentRtException любой аргумент = null
-   * @throws TsIllegalArgumentRtException аргмуент не реализует {@link ITsFastIndexListTag}
+   * @param aList {@link IListEdit} - the list used for SKIDs storing
+   * @return {@link SkidList} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException not implements {@link ITsFastIndexListTag}
    */
   public static SkidList createDirect( IListEdit<Skid> aList ) {
     TsNullArgumentRtException.checkNull( aList );

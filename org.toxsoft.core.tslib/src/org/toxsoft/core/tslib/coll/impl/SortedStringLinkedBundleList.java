@@ -169,12 +169,9 @@ public class SortedStringLinkedBundleList
    * @param aBundleCapacity int - number of elements in bundle
    * @param aAllowDuplicates <b>true</b> - duplicate elements are allowed in list;<br>
    *          <b>false</b> - list will not contain duplicate elements.
-   * @throws TsIllegalArgumentRtException aBundleCapacity is out of range
    */
   public SortedStringLinkedBundleList( int aBundleCapacity, boolean aAllowDuplicates ) {
-    TsIllegalArgumentRtException
-        .checkTrue( aBundleCapacity < MIN_BUNDLE_CAPACITY || aBundleCapacity > MAX_BUNDLE_CAPACITY );
-    bundleCapacity = aBundleCapacity;
+    bundleCapacity = BUNDLE_CAPACITY_RANGE.inRange( aBundleCapacity );
     firstBundle = new Bundle( bundleCapacity );
     size = 0;
     allowDuplicates = aAllowDuplicates;

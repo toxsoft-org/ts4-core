@@ -503,12 +503,10 @@ public class TimeUtils {
     int size = 0;
     ElemArrayList<TemporalListWrapper<T>> wrappers = new ElemArrayList<>();
     for( ITimedList<T> list : aInputs ) {
-      size = list.size();
+      size += list.size();
       wrappers.add( new TemporalListWrapper<>( list ) );
     }
-    int bundleSize =
-        Math.max( TsCollectionsUtils.MIN_BUNDLE_CAPACITY, Math.min( TsCollectionsUtils.MAX_BUNDLE_CAPACITY, size ) );
-    TimedList<T> retValue = new TimedList<>( bundleSize );
+    TimedList<T> retValue = new TimedList<>( size );
     // Объединение значений по времени
     for( T value = nextValueOrNull( wrappers ); value != null; value = nextValueOrNull( wrappers ) ) {
       retValue.add( value );

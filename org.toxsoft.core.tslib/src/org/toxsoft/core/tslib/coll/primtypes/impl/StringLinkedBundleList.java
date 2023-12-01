@@ -5,15 +5,11 @@ import static org.toxsoft.core.tslib.coll.impl.TsCollectionsUtils.*;
 import java.io.*;
 import java.util.*;
 
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.coll.basis.ITsFastIndexListTag;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
-import org.toxsoft.core.tslib.coll.impl.TsCollectionsUtils;
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
-import org.toxsoft.core.tslib.coll.primtypes.IStringListEdit;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -135,8 +131,7 @@ public class StringLinkedBundleList
   }
 
   private void init( int aBundleCapacity, boolean aAllowDuplicates ) {
-    TsIllegalArgumentRtException
-        .checkTrue( aBundleCapacity < MIN_BUNDLE_CAPACITY || aBundleCapacity > MAX_BUNDLE_CAPACITY );
+    bundleCapacity = BUNDLE_CAPACITY_RANGE.inRange( aBundleCapacity );
     bundleCapacity = aBundleCapacity;
     firstBundle = new Bundle( bundleCapacity );
     lastBundle = firstBundle;

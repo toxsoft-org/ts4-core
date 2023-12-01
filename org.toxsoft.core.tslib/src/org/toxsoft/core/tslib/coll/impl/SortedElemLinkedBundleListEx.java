@@ -2,15 +2,13 @@ package org.toxsoft.core.tslib.coll.impl;
 
 import static org.toxsoft.core.tslib.coll.impl.TsCollectionsUtils.*;
 
-import java.io.Serializable;
-import java.lang.reflect.Array;
+import java.io.*;
+import java.lang.reflect.*;
 import java.util.*;
 
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListBasicEdit;
-import org.toxsoft.core.tslib.coll.basis.ITsFastIndexListTag;
-import org.toxsoft.core.tslib.coll.basis.ITsSortedCollectionTag;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 // FIXME serialize as array
@@ -184,13 +182,10 @@ public class SortedElemLinkedBundleListEx<E>
    * @param aAllowDuplicates <b>true</b> - duplicate elements are allowed in list;<br>
    *          <b>false</b> - list will not contain duplicate elements.
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIllegalArgumentRtException aBundleCapacity is out of range
    */
   public SortedElemLinkedBundleListEx( Comparator<E> aComparator, int aBundleCapacity, boolean aAllowDuplicates ) {
-    TsIllegalArgumentRtException
-        .checkTrue( aBundleCapacity < MIN_BUNDLE_CAPACITY || aBundleCapacity > MAX_BUNDLE_CAPACITY );
+    bundleCapacity = BUNDLE_CAPACITY_RANGE.inRange( aBundleCapacity );
     comparator = TsNullArgumentRtException.checkNull( aComparator );
-    bundleCapacity = aBundleCapacity;
     firstBundle = new Bundle( bundleCapacity );
     size = 0;
     allowDuplicates = aAllowDuplicates;
@@ -353,9 +348,7 @@ public class SortedElemLinkedBundleListEx<E>
     if( size != 0 ) {
       firstBundle.next = null;
       firstBundle.count = 0;
-      for( int i = 0, n = firstBundle.elems.length; i < n; i++ ) {
-        firstBundle.elems[i] = null; // очистим неиспользуемую ссылку
-      }
+      Arrays.fill( firstBundle.elems, null );
       size = 0;
       ++changeCount;
     }

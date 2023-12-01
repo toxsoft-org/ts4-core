@@ -95,10 +95,7 @@ abstract class AbstractLongBundledList
   }
 
   protected void init( int aBundleCapacity, boolean aAllowDuplicates ) {
-    if( aBundleCapacity < MIN_BUNDLE_CAPACITY || aBundleCapacity > MAX_BUNDLE_CAPACITY ) {
-      bundleCapacity = DEFAULT_BUNDLE_CAPACITY;
-    }
-    bundleCapacity = aBundleCapacity;
+    bundleCapacity = BUNDLE_CAPACITY_RANGE.inRange( aBundleCapacity );
     firstBundle = createBundle();
     size = 0;
     allowDuplicates = aAllowDuplicates;
