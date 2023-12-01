@@ -117,10 +117,10 @@ public class VedScreenUtils {
    * @param aVedScreen {@link IVedScreen} - the VED screen
    * @return {@link IStringList} - actor ids, associated with this visel
    */
-  public static IStridablesList<VedItemCfg> viselActorsConfigs( String aViselId, IStridablesList<VedItemCfg> aActorsCfg,
-      IVedScreen aVedScreen ) {
-    IStridablesListEdit<VedItemCfg> result = new StridablesList<>();
-    for( VedItemCfg actorCfg : aActorsCfg ) {
+  public static IStridablesList<IVedItemCfg> viselActorsConfigs( String aViselId,
+      IStridablesList<IVedItemCfg> aActorsCfg, IVedScreen aVedScreen ) {
+    IStridablesListEdit<IVedItemCfg> result = new StridablesList<>();
+    for( IVedItemCfg actorCfg : aActorsCfg ) {
       if( actorCfg.propValues().hasKey( PROPID_VISEL_ID ) ) {
         if( actorCfg.propValues().getStr( PROPID_VISEL_ID ).equals( aViselId ) ) {
           result.add( actorCfg );
@@ -161,10 +161,10 @@ public class VedScreenUtils {
    *
    * @param aViselIds {@link IStringList} - list of visel ids
    * @param aVedScreen {@link IVedScreen} - the VED screen
-   * @return IStridablesList&lt;VedItemCfg> - visel configuration list
+   * @return IStridablesList&lt;IVedItemCfg> - visel configuration list
    */
-  public static IStridablesList<VedItemCfg> listViselConfigs( IStringList aViselIds, IVedScreen aVedScreen ) {
-    IStridablesListEdit<VedItemCfg> result = new StridablesList<>();
+  public static IStridablesList<IVedItemCfg> listViselConfigs( IStringList aViselIds, IVedScreen aVedScreen ) {
+    IStridablesListEdit<IVedItemCfg> result = new StridablesList<>();
     for( String id : aViselIds ) {
       IVedVisel visel = aVedScreen.model().visels().list().getByKey( id );
       VedItemCfg cfg = VedItemCfg.ofVisel( visel.id(), visel.factoryId(), visel.params(), visel.props() );
@@ -178,10 +178,10 @@ public class VedScreenUtils {
    *
    * @param aActorIds {@link IStringList} - list of actor ids
    * @param aVedScreen {@link IVedScreen} - the VED screen
-   * @return IStridablesList&lt;VedItemCfg> - actor configuration list
+   * @return IStridablesList&lt;IVedItemCfg> - actor configuration list
    */
-  public static IStridablesList<VedItemCfg> listActorConfigs( IStringList aActorIds, IVedScreen aVedScreen ) {
-    IStridablesListEdit<VedItemCfg> result = new StridablesList<>();
+  public static IStridablesList<IVedItemCfg> listActorConfigs( IStringList aActorIds, IVedScreen aVedScreen ) {
+    IStridablesListEdit<IVedItemCfg> result = new StridablesList<>();
     for( String id : aActorIds ) {
       IVedActor actor = aVedScreen.model().actors().list().getByKey( id );
       VedItemCfg cfg = VedItemCfg.ofActor( actor.id(), actor.factoryId(), actor.params(), actor.props() );

@@ -5,18 +5,25 @@ import static org.toxsoft.core.tsgui.graphics.icons.ITsStdIconIds.*;
 import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
 import static org.toxsoft.core.tsgui.ved.screen.asp.ITsResources.*;
 
+import org.eclipse.swt.dnd.*;
 import org.toxsoft.core.tsgui.bricks.actions.*;
 import org.toxsoft.core.tsgui.bricks.actions.asp.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.dialogs.*;
+import org.toxsoft.core.tsgui.dialogs.datarec.*;
 import org.toxsoft.core.tsgui.ved.editor.*;
 import org.toxsoft.core.tsgui.ved.editor.IVedViselSelectionManager.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
+import org.toxsoft.core.tsgui.ved.screen.items.*;
+import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -85,11 +92,13 @@ public class VedAspCopyPaste
 
   private VedAbstractVisel activeVisel = null;
 
-  private final IStridablesListEdit<VedItemCfg> visels2paste = new StridablesList<>();
+  private final IStridablesListEdit<IVedItemCfg> visels2paste = new StridablesList<>();
 
-  private final IStridablesListEdit<VedItemCfg> actors2paste = new StridablesList<>();
+  private final IStridablesListEdit<IVedItemCfg> actors2paste = new StridablesList<>();
 
   ITsPoint mouseCoords = null;
+
+  private static Clipboard clipboard;
 
   /**
    * Constructor.
@@ -105,6 +114,7 @@ public class VedAspCopyPaste
     defineAction( ACDEF_CUT, this::doCut );
     defineAction( ACDEF_COPY, this::doCopy );
     defineAction( ACDEF_PASTE, this::doPaste );
+    clipboard = new Clipboard( getDisplay() );
   }
 
   // ------------------------------------------------------------------------------------
@@ -132,9 +142,9 @@ public class VedAspCopyPaste
         return selectionManager.selectionKind() != ESelectionKind.NONE;
       }
     }
-    if( aActionId.equals( ACDEF_PASTE.id() ) ) {
-      return visels2paste.size() > 0;
-    }
+    // if( aActionId.equals( ACDEF_PASTE.id() ) ) {
+    // return visels2paste.size() > 0;
+    // }
     return true;
   }
 
@@ -160,7 +170,12 @@ public class VedAspCopyPaste
    * @param aCoords {@link ITsPoint} - координаты мыши
    */
   public void setMouseCoords( ITsPoint aCoords ) {
-    mouseCoords = new TsPoint( aCoords );
+    if( aCoords != null ) {
+      mouseCoords = new TsPoint( aCoords );
+    }
+    else {
+      mouseCoords = null;
+    }
   }
 
   // ------------------------------------------------------------------------------------
@@ -173,10 +188,10 @@ public class VedAspCopyPaste
     vedScreen.model().visels().eventer().pauseFiring();
     vedScreen.model().actors().eventer().pauseFiring();
 
-    for( VedItemCfg cfg : visels2paste ) {
+    for( IVedItemCfg cfg : visels2paste ) {
       vedScreen.model().visels().remove( cfg.id() );
     }
-    for( VedItemCfg cfg : actors2paste ) {
+    for( IVedItemCfg cfg : actors2paste ) {
       vedScreen.model().actors().remove( cfg.id() );
     }
 
@@ -192,7 +207,7 @@ public class VedAspCopyPaste
     visels2paste.clear();
     actors2paste.clear();
     if( activeVisel != null ) {
-      VedItemCfg cfg;
+      IVedItemCfg cfg;
       cfg = VedItemCfg.ofVisel( activeVisel.id(), activeVisel.factoryId(), activeVisel.params(), activeVisel.props() );
       visels2paste.add( cfg );
       IStringList aidList = VedScreenUtils.viselActorIds( activeVisel.id(), vedScreen );
@@ -208,41 +223,58 @@ public class VedAspCopyPaste
     }
     vedScreen.view().getControl().setMenu( null );
     setActiveVisel( null );
+
+    // write data to Clipboard
+    TextTransfer textTransfer = TextTransfer.getInstance();
+    VedClipboardInfo cbInfo = new VedClipboardInfo( visels2paste, actors2paste );
+    String textData = VedClipboardInfo.KEEPER.ent2str( cbInfo );
+    clipboard.setContents( new Object[] { textData }, new Transfer[] { textTransfer } );
   }
 
   void doPaste() {
-    double dx = 0;
-    double dy = 0;
-    if( visels2paste.size() > 0 ) {
-      double minX = visels2paste.first().propValues().getDouble( PROPID_X );
-      double minY = visels2paste.first().propValues().getDouble( PROPID_Y );
-      for( VedItemCfg cfg : visels2paste ) {
-        double x = cfg.propValues().getDouble( PROPID_X );
-        double y = cfg.propValues().getDouble( PROPID_Y );
-        if( x < minX ) {
-          minX = x;
-        }
-        if( y < minY ) {
-          minY = y;
-        }
-      }
 
-      if( mouseCoords != null ) {
-        dx = mouseCoords.x() - minX;
-        dy = mouseCoords.y() - minY;
+    IValResList resList = canPaste();
+    if( !resList.isEmpty() ) {
+      if( resList.results().size() == 1 ) {
+        TsDialogUtils.validationResult( getShell(), resList.results().first() );
+      }
+      else {
+        TsDialogInfo di = new TsDialogInfo( tsContext(), DLG_CAP_PASTE_FAILED, DLG_TIT_NO_FACTORIES );
+        TsDialogUtils.showValResList( di, resList );
+      }
+      return;
+    }
+
+    TextTransfer transfer = TextTransfer.getInstance();
+    String data = (String)clipboard.getContents( transfer );
+    if( data != null ) {
+      try {
+        VedClipboardInfo cbInfo = VedClipboardInfo.KEEPER.str2ent( data );
+        visels2paste.clear();
+        visels2paste.addAll( cbInfo.viselCfgs() );
+        actors2paste.clear();
+        actors2paste.addAll( cbInfo.actorCfgs() );
+      }
+      catch( @SuppressWarnings( "unused" ) Throwable e ) {
+        TsDialogUtils.error( getShell(), STR_ERR_WRONG_CONTENT );
+        return;
       }
     }
 
+    ID2Point p = getDeltaPasteLocation();
+    double dx = p.x();
+    double dy = p.y();
+
     vedScreen.model().visels().eventer().pauseFiring();
     vedScreen.model().actors().eventer().pauseFiring();
-    for( VedItemCfg vCfg : visels2paste ) {
+    for( IVedItemCfg vCfg : visels2paste ) {
       VedItemCfg viselCfg = vedScreen.model().visels().prepareFromTemplate( vCfg );
       viselCfg.propValues().setDouble( PROPID_X, viselCfg.propValues().getDouble( PROPID_X ) + dx );
       viselCfg.propValues().setDouble( PROPID_Y, viselCfg.propValues().getDouble( PROPID_Y ) + dy );
       vedScreen.model().visels().create( viselCfg );
 
-      IStridablesList<VedItemCfg> actConfs = VedScreenUtils.viselActorsConfigs( vCfg.id(), actors2paste, vedScreen );
-      for( VedItemCfg cfg : actConfs ) {
+      IStridablesList<IVedItemCfg> actConfs = VedScreenUtils.viselActorsConfigs( vCfg.id(), actors2paste, vedScreen );
+      for( IVedItemCfg cfg : actConfs ) {
         VedItemCfg newCfg = vedScreen.model().actors().prepareFromTemplate( cfg );
         String str = viselCfg.id();
         newCfg.propValues().setStr( PROPID_VISEL_ID, str );
@@ -259,6 +291,80 @@ public class VedAspCopyPaste
 
   void onSelectionChanged( @SuppressWarnings( "unused" ) Object aSource ) {
     actionsStateEventer().fireChangeEvent();
+  }
+
+  IValResList canPaste() {
+    ValResList resList = new ValResList();
+    String data = (String)clipboard.getContents( TextTransfer.getInstance() );
+    if( data == null ) {
+      resList.add( ValidationResult.error( STR_FMT_BUFFER_IS_EMPY ) );
+      return resList;
+    }
+    IVedViselFactoriesRegistry viselFactoriesRegistry = tsContext().get( IVedViselFactoriesRegistry.class );
+    IVedActorFactoriesRegistry actorFactoriesRegistry = tsContext().get( IVedActorFactoriesRegistry.class );
+
+    for( IVedItemCfg cfg : visels2paste ) {
+      if( viselFactoriesRegistry.find( cfg.factoryId() ) == null ) {
+        resList.add( ValidationResult.error( STR_FMT_NO_VISEL_FACTORY, cfg.factoryId() ) );
+      }
+    }
+    for( IVedItemCfg cfg : actors2paste ) {
+      if( actorFactoriesRegistry.find( cfg.factoryId() ) == null ) {
+        resList.add( ValidationResult.error( STR_FMT_NO_ACTOR_FACTORY, cfg.factoryId() ) );
+      }
+    }
+    return resList;
+  }
+
+  ID2Point getDeltaPasteLocation() {
+    double dx = 0;
+    double dy = 0;
+    if( mouseCoords == null ) {
+      if( visels2paste.size() > 0 ) {
+        IVedItemCfg viselCfg = visels2paste.first();
+        double vx = viselCfg.propValues().getDouble( PROPID_X );
+        double vy = viselCfg.propValues().getDouble( PROPID_Y );
+        while( findOverlappedVisel( vx + dx, vy + dy, viselCfg.factoryId() ) != null ) {
+          dx += 16;
+          dy += 16;
+        }
+      }
+    }
+    else {
+      if( visels2paste.size() > 0 ) {
+        double minX = visels2paste.first().propValues().getDouble( PROPID_X );
+        double minY = visels2paste.first().propValues().getDouble( PROPID_Y );
+        for( IVedItemCfg cfg : visels2paste ) {
+          double x = cfg.propValues().getDouble( PROPID_X );
+          double y = cfg.propValues().getDouble( PROPID_Y );
+          if( x < minX ) {
+            minX = x;
+          }
+          if( y < minY ) {
+            minY = y;
+          }
+        }
+
+        if( mouseCoords != null ) {
+          dx = mouseCoords.x() - minX;
+          dy = mouseCoords.y() - minY;
+        }
+      }
+    }
+    return new D2Point( dx, dy );
+  }
+
+  IVedVisel findOverlappedVisel( double aX, double aY, String aFactoryId ) {
+    for( IVedVisel visel : vedScreen.model().visels().list() ) {
+      double x = visel.props().getDouble( PROPID_X );
+      double y = visel.props().getDouble( PROPID_Y );
+      if( Double.compare( aX, x ) == 0 && Double.compare( aY, y ) == 0 ) {
+        if( aFactoryId.equals( visel.factoryId() ) ) {
+          return visel;
+        }
+      }
+    }
+    return null;
   }
 
 }
