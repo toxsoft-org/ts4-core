@@ -267,18 +267,18 @@ public class VedAspCopyPaste
 
     vedScreen.model().visels().eventer().pauseFiring();
     vedScreen.model().actors().eventer().pauseFiring();
-    for( IVedItemCfg vCfg : visels2paste ) {
-      VedItemCfg viselCfg = vedScreen.model().visels().prepareFromTemplate( vCfg );
-      viselCfg.propValues().setDouble( PROPID_X, viselCfg.propValues().getDouble( PROPID_X ) + dx );
-      viselCfg.propValues().setDouble( PROPID_Y, viselCfg.propValues().getDouble( PROPID_Y ) + dy );
-      vedScreen.model().visels().create( viselCfg );
+    for( IVedItemCfg oldViselCfg : visels2paste ) {
+      VedItemCfg newViselCfg = vedScreen.model().visels().prepareFromTemplate( oldViselCfg );
+      newViselCfg.propValues().setDouble( PROPID_X, newViselCfg.propValues().getDouble( PROPID_X ) + dx );
+      newViselCfg.propValues().setDouble( PROPID_Y, newViselCfg.propValues().getDouble( PROPID_Y ) + dy );
+      vedScreen.model().visels().create( newViselCfg );
 
-      IStridablesList<IVedItemCfg> actConfs = VedScreenUtils.viselActorsConfigs( vCfg.id(), actors2paste, vedScreen );
-      for( IVedItemCfg cfg : actConfs ) {
+      for( IVedItemCfg cfg : actors2paste ) {
         VedItemCfg newCfg = vedScreen.model().actors().prepareFromTemplate( cfg );
-        String str = viselCfg.id();
+        String str = newViselCfg.id();
         newCfg.propValues().setStr( PROPID_VISEL_ID, str );
-        vedScreen.model().actors().create( newCfg );
+        VedAbstractActor actor = vedScreen.model().actors().create( newCfg );
+        actor.replaceBoundVisel( oldViselCfg.id(), newViselCfg.id() );
       }
     }
     vedScreen.model().visels().eventer().resumeFiring( true );

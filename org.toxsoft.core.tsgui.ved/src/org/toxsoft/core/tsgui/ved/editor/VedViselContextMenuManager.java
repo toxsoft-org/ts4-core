@@ -111,7 +111,6 @@ public class VedViselContextMenuManager
 
   @Override
   public boolean onKeyDown( Object aSource, int aCode, char aChar, int aState ) {
-    System.out.println( "code = " + aCode );
     if( aCode == SWT.DEL ) {
       IStringList selList = new StringArrayList( selectionManager.selectedViselIds() );
       if( selList.size() > 0 ) {
