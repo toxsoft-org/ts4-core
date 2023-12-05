@@ -1,5 +1,6 @@
 package org.toxsoft.core.tslib.coll.primtypes.impl;
 
+import static org.toxsoft.core.tslib.coll.impl.TsCollectionsUtils.*;
 
 import java.io.*;
 import java.util.*;
@@ -102,7 +103,7 @@ public class StringLinkedBundleList
    * Creates empty list with defaults: duplicates allowed and bundle size of {@link #DEFAULT_BUNDLE_CAPACITY}.
    */
   public StringLinkedBundleList() {
-    this( TsCollectionsUtils.DEFAULT_BUNDLE_CAPACITY, true );
+    this( DEFAULT_BUNDLE_CAPACITY, true );
   }
 
   /**
@@ -130,7 +131,7 @@ public class StringLinkedBundleList
   }
 
   private void init( int aBundleCapacity, boolean aAllowDuplicates ) {
-    bundleCapacity = TsCollectionsUtils.BUNDLE_CAPACITY_RANGE.inRange( aBundleCapacity );
+    bundleCapacity = BUNDLE_CAPACITY_RANGE.inRange( aBundleCapacity );
     bundleCapacity = aBundleCapacity;
     firstBundle = new Bundle( bundleCapacity );
     lastBundle = firstBundle;
