@@ -190,6 +190,34 @@ public class GradientUtils {
     return new RGB( y, y, y );
   }
 
+  /**
+   * Рисует "шахматную доску".<br>
+   * Используется в качестве фона, для прозрачных элементов.
+   *
+   * @param aGc {@link GC} - графический контект
+   * @param aRect {@link Rectangle} - размер доски
+   * @param aColor1 {@link Color} - цвет "светлых" клеток
+   * @param aColor2 {@link Color} - цвет "темных" клеток
+   * @param aCellSize int - размер клетки в пикселях
+   */
+  public static void drawChessBoard( GC aGc, Rectangle aRect, Color aColor1, Color aColor2, int aCellSize ) {
+    int x = 0;
+    int y = 0;
+    int colorIdx = 0;
+    Color[] c = { aColor1, aColor2 };
+    while( x <= aRect.width ) {
+      while( y <= aRect.height ) {
+        aGc.setBackground( c[colorIdx] );
+        aGc.fillRectangle( aRect.x + x, aRect.y + y, aCellSize, aCellSize );
+        colorIdx = (colorIdx + 1) % 2;
+        y += aCellSize;
+      }
+      y = 0;
+      x += aCellSize;
+      colorIdx = (colorIdx + (aRect.height / aCellSize) % 2) % 2;
+    }
+  }
+
   private GradientUtils() {
     // nop
   }
