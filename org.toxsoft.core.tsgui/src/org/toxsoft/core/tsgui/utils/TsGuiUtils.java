@@ -57,6 +57,7 @@ public class TsGuiUtils {
     TsValobjUtils.registerKeeper( EMpvTimeLen.KEEPER_ID, EMpvTimeLen.KEEPER );
     TsValobjUtils.registerKeeper( ERectFitMode.KEEPER_ID, ERectFitMode.KEEPER );
     TsValobjUtils.registerKeeper( ETsFulcrum.KEEPER_ID, ETsFulcrum.KEEPER );
+    TsValobjUtils.registerKeeper( TsFulcrum.KEEPER_ID, TsFulcrum.KEEPER );
     TsValobjUtils.registerKeeper( ETsOrientation.KEEPER_ID, ETsOrientation.KEEPER );
     TsValobjUtils.registerKeeper( ETsColor.KEEPER_ID, ETsColor.KEEPER );
     TsValobjUtils.registerKeeper( ETsLineCapStyle.KEEPER_ID, ETsLineCapStyle.KEEPER );
