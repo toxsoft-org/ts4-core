@@ -9,7 +9,7 @@ import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.coll.*;
 
 /**
- * Atimic data type - defines atomic type and type parameters.
+ * Atomic data type - defines atomic type and type parameters.
  *
  * @author hazard157
  */

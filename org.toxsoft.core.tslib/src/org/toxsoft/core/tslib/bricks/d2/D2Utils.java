@@ -243,7 +243,7 @@ public class D2Utils {
   /**
    * Reads {@link ID2Point} from the STRIO stream.
    * <p>
-   * Read instance may safdely be casted to {@link D2PointEdit}.
+   * Read instance may safely be casted to {@link D2PointEdit}.
    *
    * @param aSr {@link IStrioReader} - text reader
    * @return {@link ID2Point} - read point
@@ -306,7 +306,7 @@ public class D2Utils {
   /**
    * Reads {@link ID2Vector} from the STRIO stream.
    * <p>
-   * Read instance may safdely be casted to {@link D2VectorEdit}.
+   * Read instance may safely be casted to {@link D2VectorEdit}.
    *
    * @param aSr {@link IStrioReader} - text reader
    * @return {@link ID2Vector} - read vector
