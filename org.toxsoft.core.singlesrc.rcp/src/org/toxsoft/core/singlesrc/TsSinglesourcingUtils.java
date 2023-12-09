@@ -1,13 +1,13 @@
 package org.toxsoft.core.singlesrc;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.*;
+import org.eclipse.swt.custom.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tslib.coll.IMapEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemMap;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Вспомогательные методы для сокрытия различия реализации RCP и RAP.
@@ -246,6 +246,8 @@ public class TsSinglesourcingUtils {
       }
     }
     aControl.addMouseWheelListener( mwl );
+    // GOGA 2023-12-07 - turn off built-in mouse wheel handling
+    aControl.addListener( SWT.MouseVerticalWheel, aEvent -> aEvent.doit = false );
   }
 
   /**
