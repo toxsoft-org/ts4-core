@@ -162,7 +162,7 @@ public class ViselBaloonVertexSet
 
     double nw = baloon.props().getDouble( PROP_NOSE_WIDTH );
     double nl = baloon.props().getDouble( PROP_NOSE_LENGTH );
-    ETsFulcrum f = baloon.props().getValobj( PROPID_NOSE_FULCRUM );
+    ETsFulcrum f = baloon.getFulcrum();
     setVertexVisible( f.id(), false );
 
     ID2Rectangle br = visel().bounds();

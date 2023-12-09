@@ -248,7 +248,8 @@ public class ViselBaloon
   //
 
   ETsFulcrum noseFulcrum() {
-    return props().getValobj( PROPID_NOSE_FULCRUM );
+    // return props().getValobj( PROPID_NOSE_FULCRUM );
+    return getFulcrum();
   }
 
   ITsPoint noseTop() {
@@ -502,6 +503,26 @@ public class ViselBaloon
     }
   }
 
+  /**
+   * Возвращает fulcrum как enum.
+   *
+   * @return {@link ETsFulcrum} - fulcrum как enum
+   */
+  public ETsFulcrum getFulcrum() {
+    Object obj = props().getValobj( PROP_NOSE_FULCRUM );
+    if( obj instanceof ETsFulcrum ) {
+      return (ETsFulcrum)obj;
+    }
+    if( obj instanceof TsFulcrum ) {
+      return ((TsFulcrum)obj).fulcrum();
+    }
+    return ETsFulcrum.BOTTOM_CENTER;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Implementation
+  //
+
   private void disposePaths() {
     if( baloonPath != null ) {
       baloonPath.dispose();
@@ -522,17 +543,6 @@ public class ViselBaloon
 
     int alpha = 220;
     image = ShadowUtils.createShadowImage( shadowPath, aDepth, alpha, 1.0, 1.0, 3 );
-  }
-
-  private ETsFulcrum getFulcrum() {
-    Object obj = props().getValobj( PROP_NOSE_FULCRUM );
-    if( obj instanceof ETsFulcrum ) {
-      return (ETsFulcrum)obj;
-    }
-    if( obj instanceof TsFulcrum ) {
-      return ((TsFulcrum)obj).fulcrum();
-    }
-    return ETsFulcrum.BOTTOM_CENTER;
   }
 
 }
