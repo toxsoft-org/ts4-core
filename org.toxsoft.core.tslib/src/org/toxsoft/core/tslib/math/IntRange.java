@@ -246,6 +246,26 @@ public final class IntRange
     return aValue >= minValue && aValue <= maxValue;
   }
 
+  /**
+   * Determines if value is less than {@link #minValue()}.
+   *
+   * @param aValue int - the value to check
+   * @return boolean - <code>true</code> when aValue < {@link #minValue()}
+   */
+  public boolean isLeft( int aValue ) {
+    return aValue < minValue;
+  }
+
+  /**
+   * Determines if value is greater than {@link #maxValue()}.
+   *
+   * @param aValue int - the value to check
+   * @return boolean - <code>true</code> when aValue > {@link #maxValue()}
+   */
+  public boolean isRight( int aValue ) {
+    return aValue > maxValue;
+  }
+
   // ------------------------------------------------------------------------------------
   // Object
   //

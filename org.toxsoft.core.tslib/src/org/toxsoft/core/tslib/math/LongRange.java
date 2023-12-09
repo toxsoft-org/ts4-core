@@ -224,6 +224,26 @@ public final class LongRange
     return aValue >= minValue && aValue <= maxValue;
   }
 
+  /**
+   * Determines if value is less than {@link #minValue()}.
+   *
+   * @param aValue long - the value to check
+   * @return boolean - <code>true</code> when aValue < {@link #minValue()}
+   */
+  public boolean isLeft( long aValue ) {
+    return aValue < minValue;
+  }
+
+  /**
+   * Determines if value is greater than {@link #maxValue()}.
+   *
+   * @param aValue long - the value to check
+   * @return boolean - <code>true</code> when aValue > {@link #maxValue()}
+   */
+  public boolean isRight( long aValue ) {
+    return aValue > maxValue;
+  }
+
   // ------------------------------------------------------------------------------------
   // Object
   //

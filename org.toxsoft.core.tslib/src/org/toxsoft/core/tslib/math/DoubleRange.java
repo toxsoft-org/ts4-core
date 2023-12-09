@@ -240,6 +240,30 @@ public final class DoubleRange
     return Double.isFinite( aValue ) && aValue >= minValue && aValue <= maxValue;
   }
 
+  /**
+   * Determines if value is less than {@link #minValue()}.
+   * <p>
+   * For non-finite values returns <code>false</code> .
+   *
+   * @param aValue double - the value to check
+   * @return boolean - <code>true</code> when aValue < {@link #minValue()}
+   */
+  public boolean isLeft( double aValue ) {
+    return Double.isFinite( aValue ) && aValue < minValue;
+  }
+
+  /**
+   * Determines if value is greater than {@link #maxValue()}.
+   * <p>
+   * For non-finite values returns <code>false</code>
+   *
+   * @param aValue double - the value to check
+   * @return boolean - <code>true</code> when aValue > {@link #maxValue()}
+   */
+  public boolean isRight( double aValue ) {
+    return Double.isFinite( aValue ) && aValue > maxValue;
+  }
+
   // ------------------------------------------------------------------------------------
   // Object
   //
