@@ -1,8 +1,6 @@
 package org.toxsoft.core.tslib.bricks.gentask;
 
-import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.ctx.*;
-import org.toxsoft.core.tslib.bricks.ctx.impl.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -45,14 +43,7 @@ public non-sealed abstract class AbstractGenericTaskRunner
 
   @Override
   final public ValidationResult canRun( ITsContextRo aInput ) {
-    TsNullArgumentRtException.checkNull( aInput );
-    // check against option definitions
-    ValidationResult vr = OptionSetUtils.validateOptionSet( aInput.params(), taskInfo.inOps() );
-    if( vr.isError() ) {
-      return vr;
-    }
-    // check against references definitions
-    vr = ValidationResult.firstNonOk( vr, TsContextBase.validateRefDefs( aInput, taskInfo.inRefs() ) );
+    ValidationResult vr = GenericTaskUtils.validateInput( taskInfo, aInput );
     if( vr.isError() ) {
       return vr;
     }

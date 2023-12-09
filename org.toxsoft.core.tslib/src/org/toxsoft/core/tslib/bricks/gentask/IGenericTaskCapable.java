@@ -12,7 +12,7 @@ public interface IGenericTaskCapable {
   /**
    * Returns supported generic tasks runners.
    *
-   * @return {@link IStringMap}&lt;{@link IGenericTaskRunner}&gt; - map "generaic task ID" - "task runner"
+   * @return {@link IStringMap}&lt;{@link IGenericTaskRunner}&gt; - map "generic task ID" - "task runner"
    */
   IStringMap<IGenericTaskRunner> getGenericTaskRunners();
 
