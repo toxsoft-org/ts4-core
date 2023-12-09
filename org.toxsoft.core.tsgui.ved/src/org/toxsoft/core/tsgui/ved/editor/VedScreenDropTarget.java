@@ -116,7 +116,6 @@ public class VedScreenDropTarget {
         // set VISEL at dragging edit position
         Point p = vedScreen.view().getControl().toControl( aCursorCoors.x(), aCursorCoors.y() );
         ID2Point cp = vedScreen.view().coorsConverter().swt2Screen( new TsPoint( p.x, p.y ) );
-        // D2TransformUtils.toControl( p.x, p.y, ID2Conversion.NONE, vedScreen.view().getConversion() );
         viselCfg.propValues().setDouble( PROP_X, cp.x() );
         viselCfg.propValues().setDouble( PROP_Y, cp.y() );
         // give a user a chance to edit ID and other properties
