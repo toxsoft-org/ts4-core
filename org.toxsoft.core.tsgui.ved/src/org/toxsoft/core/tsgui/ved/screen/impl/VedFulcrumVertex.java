@@ -3,7 +3,7 @@ package org.toxsoft.core.tsgui.ved.screen.impl;
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.graphics.cursors.*;
-import org.toxsoft.core.tsgui.ved.incub.tsg.*;
+import org.toxsoft.core.tsgui.graphics.gc.*;
 
 /**
  * Вершина, представляющая собой опорную точку прямоугольника.

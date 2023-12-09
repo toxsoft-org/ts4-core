@@ -2,9 +2,6 @@ package org.toxsoft.core.tsgui.ved.incub;
 
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
-import org.toxsoft.core.tslib.bricks.d2.helpers.*;
-import org.toxsoft.core.tslib.bricks.geometry.*;
-import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 
 /**
  * Набор вспомогательных методов для работы с преобразованием координат для плосоксти.
@@ -12,6 +9,10 @@ import org.toxsoft.core.tslib.bricks.geometry.impl.*;
  * @author vs
  */
 public class D2TransformUtils {
+
+  /**
+   * FiXME
+   */
 
   /**
    * Создает матрицу преобразования координат для графического контекста SWT, в соотвествии с указанными праметрами
@@ -38,50 +39,50 @@ public class D2TransformUtils {
     aTransform.translate( (float)aD2Conv.origin().x(), (float)aD2Conv.origin().y() );
     aTransform.rotate( (float)aD2Conv.rotation().degrees() );
     aTransform.scale( (float)aD2Conv.zoomFactor(), (float)aD2Conv.zoomFactor() );
-    aTransform.translate( -(float)aD2Conv.origin().x(), -(float)aD2Conv.origin().y() );
+    // aTransform.translate( -(float)aD2Conv.origin().x(), -(float)aD2Conv.origin().y() );
   }
 
-  public static void convertItemTransfrom( Transform aTransform, double aX, double aY, ID2Conversion aD2Conv ) {
-    aTransform.translate( (float)(aX + aD2Conv.origin().x()), (float)(aY + aD2Conv.origin().y()) );
-    aTransform.rotate( (float)aD2Conv.rotation().degrees() );
-    aTransform.scale( (float)aD2Conv.zoomFactor(), (float)aD2Conv.zoomFactor() );
-    aTransform.translate( -(float)(aX + aD2Conv.origin().x()), -(float)(aD2Conv.origin().y() + aY) );
-  }
+  // public static void convertItemTransfrom( Transform aTransform, double aX, double aY, ID2Conversion aD2Conv ) {
+  // aTransform.translate( (float)(aX + aD2Conv.origin().x()), (float)(aY + aD2Conv.origin().y()) );
+  // aTransform.rotate( (float)aD2Conv.rotation().degrees() );
+  // aTransform.scale( (float)aD2Conv.zoomFactor(), (float)aD2Conv.zoomFactor() );
+  // aTransform.translate( -(float)(aX + aD2Conv.origin().x()), -(float)(aD2Conv.origin().y() + aY) );
+  // }
 
-  /**
-   * Преобразует точку (aX:aY) в координатах отображаемого элемента, в координаты не трансформированного экрана.
-   *
-   * @param aX int - координата X в системе отображаемого элемента
-   * @param aY - координата Y в системе отображаемого элемента
-   * @param aItemConv {@link ID2Conversion} - параметры преобразования отображаемого элемента
-   * @param aScreenConv {@link ID2Conversion} - параметры преобразования экрана
-   * @return {@link Point} - точка в координатах не трансформированного экрана
-   */
-  public static Point toScreen( int aX, int aY, ID2Conversion aItemConv, ID2Conversion aScreenConv ) {
-    D2Convertor convertor = new D2Convertor();
-    convertor.setConversion( aItemConv );
-
-    int rx1 = (int)convertor.convertX( aX, aY );
-    int ry1 = (int)convertor.convertY( aX, aY );
-
-    convertor.setConversion( aScreenConv );
-    int rx = (int)convertor.convertX( rx1, ry1 );
-    int ry = (int)convertor.convertY( rx1, ry1 );
-    return new Point( rx, ry );
-  }
-
-  public static ITsPoint toControl( double aX, double aY, ID2Conversion aItemConv, ID2Conversion aScreenConv ) {
-    D2Convertor convertor = new D2Convertor();
-    convertor.setConversion( aScreenConv );
-    int x1 = (int)convertor.reverseX( aX, aY );
-    int y1 = (int)convertor.reverseY( aX, aY );
-
-    convertor.setConversion( aItemConv );
-    int x = (int)convertor.reverseX( x1, y1 );
-    int y = (int)convertor.reverseY( x1, y1 );
-
-    return new TsPoint( x, y );
-  }
+  // /**
+  // * Преобразует точку (aX:aY) в координатах отображаемого элемента, в координаты не трансформированного экрана.
+  // *
+  // * @param aX int - координата X в системе отображаемого элемента
+  // * @param aY - координата Y в системе отображаемого элемента
+  // * @param aItemConv {@link ID2Conversion} - параметры преобразования отображаемого элемента
+  // * @param aScreenConv {@link ID2Conversion} - параметры преобразования экрана
+  // * @return {@link Point} - точка в координатах не трансформированного экрана
+  // */
+  // public static Point toScreen( int aX, int aY, ID2Conversion aItemConv, ID2Conversion aScreenConv ) {
+  // D2Convertor convertor = new D2Convertor();
+  // convertor.setConversion( aItemConv );
+  //
+  // int rx1 = (int)convertor.convertX( aX, aY );
+  // int ry1 = (int)convertor.convertY( aX, aY );
+  //
+  // convertor.setConversion( aScreenConv );
+  // int rx = (int)convertor.convertX( rx1, ry1 );
+  // int ry = (int)convertor.convertY( rx1, ry1 );
+  // return new Point( rx, ry );
+  // }
+  //
+  // public static ITsPoint toControl( double aX, double aY, ID2Conversion aItemConv, ID2Conversion aScreenConv ) {
+  // D2Convertor convertor = new D2Convertor();
+  // convertor.setConversion( aScreenConv );
+  // int x1 = (int)convertor.reverseX( aX, aY );
+  // int y1 = (int)convertor.reverseY( aX, aY );
+  //
+  // convertor.setConversion( aItemConv );
+  // int x = (int)convertor.reverseX( x1, y1 );
+  // int y = (int)convertor.reverseY( x1, y1 );
+  //
+  // return new TsPoint( x, y );
+  // }
 
   /**
    * No subclasses.

@@ -7,7 +7,7 @@ import org.eclipse.swt.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.uievents.*;
-import org.toxsoft.core.tsgui.ved.incub.tsg.*;
+import org.toxsoft.core.tsgui.graphics.gc.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.props.*;

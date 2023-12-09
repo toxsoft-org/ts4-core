@@ -2,7 +2,7 @@ package org.toxsoft.core.tsgui.ved.screen.impl;
 
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.graphics.cursors.*;
-import org.toxsoft.core.tsgui.ved.incub.tsg.*;
+import org.toxsoft.core.tsgui.graphics.gc.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.utils.*;
 

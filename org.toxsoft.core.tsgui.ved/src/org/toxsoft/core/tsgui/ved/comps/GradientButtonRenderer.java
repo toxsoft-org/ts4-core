@@ -1,9 +1,9 @@
 package org.toxsoft.core.tsgui.ved.comps;
 
 import org.eclipse.swt.graphics.*;
+import org.toxsoft.core.tsgui.graphics.gc.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tsgui.ved.incub.*;
-import org.toxsoft.core.tsgui.ved.incub.tsg.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.*;

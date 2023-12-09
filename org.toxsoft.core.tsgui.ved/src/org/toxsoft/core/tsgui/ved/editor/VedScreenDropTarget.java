@@ -5,7 +5,6 @@ import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
 import org.eclipse.swt.dnd.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tsgui.ved.incub.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
@@ -116,7 +115,8 @@ public class VedScreenDropTarget {
         VedItemCfg viselCfg = vedScreen.model().visels().prepareFromTemplate( aCfg );
         // set VISEL at dragging edit position
         Point p = vedScreen.view().getControl().toControl( aCursorCoors.x(), aCursorCoors.y() );
-        ITsPoint cp = D2TransformUtils.toControl( p.x, p.y, ID2Conversion.NONE, vedScreen.view().getConversion() );
+        ID2Point cp = vedScreen.view().coorsConverter().swt2Screen( new TsPoint( p.x, p.y ) );
+        // D2TransformUtils.toControl( p.x, p.y, ID2Conversion.NONE, vedScreen.view().getConversion() );
         viselCfg.propValues().setDouble( PROP_X, cp.x() );
         viselCfg.propValues().setDouble( PROP_Y, cp.y() );
         // give a user a chance to edit ID and other properties

@@ -2,8 +2,6 @@ package org.toxsoft.core.tsgui.ved.comps;
 
 import static org.toxsoft.core.tsgui.ved.comps.ITsResources.*;
 
-
-
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.std.*;
 import org.toxsoft.core.tslib.bricks.strid.*;

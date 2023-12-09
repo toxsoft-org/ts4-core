@@ -1,6 +1,6 @@
 package org.toxsoft.core.tsgui.ved.screen.items;
 
-import org.toxsoft.core.tsgui.ved.incub.tsg.*;
+import org.toxsoft.core.tsgui.graphics.gc.*;
 import org.toxsoft.core.tsgui.ved.screen.helpers.*;
 import org.toxsoft.core.tslib.bricks.d2.helpers.*;
 
