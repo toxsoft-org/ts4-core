@@ -340,7 +340,7 @@ public class ViselBaloon
     float noseWidth = props().getFloat( PROP_NOSE_WIDTH );
     float noseLength = props().getFloat( PROP_NOSE_LENGTH );
 
-    ETsFulcrum fulcrum = props().getValobj( PROP_NOSE_FULCRUM );
+    ETsFulcrum fulcrum = getFulcrum();
     if( fulcrum == ETsFulcrum.TOP_CENTER ) {
       cy = y = noseLength;
     }
@@ -419,7 +419,7 @@ public class ViselBaloon
   public double rectX() {
     float noseLength = props().getFloat( PROP_NOSE_LENGTH );
     ID2Rectangle r = bounds();
-    switch( (ETsFulcrum)props().getValobj( PROP_NOSE_FULCRUM ) ) {
+    switch( getFulcrum() ) {
       case LEFT_CENTER:
         return (int)(r.x1() + noseLength);
       case RIGHT_CENTER:
@@ -440,7 +440,7 @@ public class ViselBaloon
   public double rectY() {
     float noseLength = props().getFloat( PROP_NOSE_LENGTH );
     ID2Rectangle r = bounds();
-    switch( (ETsFulcrum)props().getValobj( PROP_NOSE_FULCRUM ) ) {
+    switch( getFulcrum() ) {
       case TOP_CENTER:
         return (int)(r.y1() + noseLength);
       case LEFT_CENTER:
@@ -461,7 +461,7 @@ public class ViselBaloon
   public double rectWidth() {
     float noseLength = props().getFloat( PROP_NOSE_LENGTH );
     ID2Rectangle r = bounds();
-    switch( (ETsFulcrum)props().getValobj( PROP_NOSE_FULCRUM ) ) {
+    switch( getFulcrum() ) {
       case LEFT_CENTER:
         return (int)(r.width() - noseLength) - shadowShift;
       case RIGHT_CENTER:
@@ -483,7 +483,7 @@ public class ViselBaloon
   public double rectHeight() {
     float noseLength = props().getFloat( PROP_NOSE_LENGTH );
     ID2Rectangle r = bounds();
-    switch( (ETsFulcrum)props().getValobj( PROP_NOSE_FULCRUM ) ) {
+    switch( getFulcrum() ) {
       case LEFT_CENTER:
       case RIGHT_CENTER:
         return r.height() - shadowShift;
@@ -522,6 +522,17 @@ public class ViselBaloon
 
     int alpha = 220;
     image = ShadowUtils.createShadowImage( shadowPath, aDepth, alpha, 1.0, 1.0, 3 );
+  }
+
+  private ETsFulcrum getFulcrum() {
+    Object obj = props().getValobj( PROP_NOSE_FULCRUM );
+    if( obj instanceof ETsFulcrum ) {
+      return (ETsFulcrum)obj;
+    }
+    if( obj instanceof TsFulcrum ) {
+      return ((TsFulcrum)obj).fulcrum();
+    }
+    return ETsFulcrum.BOTTOM_CENTER;
   }
 
 }

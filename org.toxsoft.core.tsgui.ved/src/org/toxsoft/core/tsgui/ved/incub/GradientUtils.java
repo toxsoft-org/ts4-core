@@ -125,7 +125,7 @@ public class GradientUtils {
   public static IList<Pair<Double, RGBA>> baloonFractions( RGBA aRgba ) {
     IListEdit<Pair<Double, RGBA>> fractions = new ElemArrayList<>();
     fractions.add( new Pair<>( Double.valueOf( 0 ), aRgba ) );
-    RGB rgb = tuneBrightness( aRgba.rgb, -0.4 );
+    RGB rgb = tuneBrightness( aRgba.rgb, -0.2 );
     fractions.add( new Pair<>( Double.valueOf( 100 ), new RGBA( rgb.red, rgb.green, rgb.blue, 255 ) ) );
     return fractions;
   }
