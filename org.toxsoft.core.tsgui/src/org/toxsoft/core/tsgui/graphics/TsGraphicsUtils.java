@@ -28,6 +28,18 @@ public class TsGraphicsUtils {
   }
 
   /**
+   * Creates TS rectangle from the SWT {@link Rectangle}.
+   *
+   * @param aRect {@link Rectangle} - SWT rectangle
+   * @return {@link TsRectangleEdit} - editable TS rectangle
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static TsRectangleEdit tsFromRect( Rectangle aRect ) {
+    TsNullArgumentRtException.checkNull( aRect );
+    return new TsRectangleEdit( aRect.x, aRect.y, aRect.width, aRect.height );
+  }
+
+  /**
    * Sets the rectangle coordinates from TS to SWT.
    *
    * @param aSource {@link ITsRectangle} - TS rectangle

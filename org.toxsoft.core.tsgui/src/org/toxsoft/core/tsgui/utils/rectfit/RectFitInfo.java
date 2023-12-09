@@ -126,7 +126,7 @@ public final class RectFitInfo {
   /**
    * Determines if small objects are expanded to fit viewport.
    *
-   * @return double - expand small images in {@link ERectFitMode#isAdaptiveScale()} modes
+   * @return boolean - expand small images in {@link ERectFitMode#isAdaptiveScale()} modes
    */
   public boolean isExpandToFit() {
     return expandToFit;

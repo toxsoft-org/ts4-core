@@ -13,6 +13,7 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
+import org.toxsoft.core.tsgui.graphics.gc.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.graphics.lines.*;
@@ -320,18 +321,18 @@ class PgvCanvas<V>
   //
 
   @Override
-  public void paint( GC aGc, ITsRectangle aPaintBounds ) {
+  public void paint( ITsGraphicsContext aTsGc, ITsRectangle aPaintBounds ) {
     TsBorderInfo borderInfo = OPDEF_SELECTION_BORDER_SETTINGS.getValue( tsContext().params() ).asValobj();
     // draw loop over all cells
     for( int i = 0, count = cellsGrid.getCellsCount(); i < count; i++ ) {
       PgvItem item = items.get( i );
       ITsRectangle r = cellsGrid.getCell( i );
-      item.paintItem( aGc, r );
+      item.paintItem( aTsGc.gc(), r );
       // draw border on selected cell only
       if( i == selectedIndex ) {
-        Color oldFg = aGc.getForeground();
-        TsGraphicsUtils.drawBorder( aGc, borderInfo, r, colorManager() );
-        aGc.setForeground( oldFg );
+        Color oldFg = aTsGc.gc().getForeground();
+        TsGraphicsUtils.drawBorder( aTsGc.gc(), borderInfo, r, colorManager() );
+        aTsGc.gc().setForeground( oldFg );
       }
     }
   }

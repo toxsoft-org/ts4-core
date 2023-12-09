@@ -2,6 +2,9 @@ package org.toxsoft.core.tsgui.utils.rectfit;
 
 import static org.toxsoft.core.tsgui.utils.rectfit.ITsResources.*;
 
+import org.toxsoft.core.tslib.bricks.d2.*;
+import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.std.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
@@ -22,32 +25,112 @@ public enum ERectFitMode
   /**
    * Original size.
    */
-  NONE( "none", STR_N_FM_NONE, STR_D_FM_NONE, false ), //$NON-NLS-1$
+  NONE( "none", STR_N_FM_NONE, STR_D_FM_NONE, false ) { //$NON-NLS-1$
+
+    @Override
+    public ITsPoint doCalcFitSize( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
+      return new TsPoint( aContentWidth, aContentHeight );
+    }
+
+    @Override
+    protected boolean doIsScalingNeeded( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
+      return false;
+    }
+  },
 
   /**
    * Fit either width or height.
    */
-  FIT_BOTH( "both", STR_N_FM_FIT_BOTH, STR_D_FM_FIT_BOTH, true ), //$NON-NLS-1$
+  FIT_BOTH( "both", STR_N_FM_FIT_BOTH, STR_D_FM_FIT_BOTH, true ) { //$NON-NLS-1$
+
+    @Override
+    public ITsPoint doCalcFitSize( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
+      double vpAspect = ((double)aVpWidth) / ((double)aVpHeight);
+      double contentAspect = ((double)aContentWidth) / ((double)aContentHeight);
+      if( contentAspect > vpAspect ) { // fit width
+        return new TsPoint( aVpWidth, (int)(aVpWidth / contentAspect) );
+      }
+      // fit height
+      return new TsPoint( (int)(aVpHeight * contentAspect), aVpHeight );
+    }
+
+    @Override
+    protected boolean doIsScalingNeeded( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
+      return aVpWidth < aContentWidth || aVpHeight < aContentHeight;
+    }
+  },
 
   /**
    * Fit width.
    */
-  FIT_WIDTH( "width", STR_N_FM_FIT_WIDTH, STR_D_FM_FIT_WIDTH, true ), //$NON-NLS-1$
+  FIT_WIDTH( "width", STR_N_FM_FIT_WIDTH, STR_D_FM_FIT_WIDTH, true ) { //$NON-NLS-1$
+
+    @Override
+    public ITsPoint doCalcFitSize( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
+      double contentAspect = ((double)aContentWidth) / ((double)aContentHeight);
+      return new TsPoint( aVpWidth, (int)(aVpWidth / contentAspect) );
+    }
+
+    @Override
+    protected boolean doIsScalingNeeded( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
+      return aVpWidth < aContentWidth;
+    }
+  },
 
   /**
    * Fit height.
    */
-  FIT_HEIGHT( "height", STR_N_FM_FIT_HEIGHT, STR_D_FM_FIT_HEIGHT, true ), //$NON-NLS-1$
+  FIT_HEIGHT( "height", STR_N_FM_FIT_HEIGHT, STR_D_FM_FIT_HEIGHT, true ) { //$NON-NLS-1$
+
+    @Override
+    public ITsPoint doCalcFitSize( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
+      double contentAspect = ((double)aContentWidth) / ((double)aContentHeight);
+      return new TsPoint( (int)(aVpHeight * contentAspect), aVpHeight );
+    }
+
+    @Override
+    protected boolean doIsScalingNeeded( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
+      return aVpHeight < aContentHeight;
+    }
+  },
 
   /**
    * Fit to fill.
    */
-  FIT_FILL( "fill", STR_N_FM_FIT_FILL, STR_D_FM_FIT_FILL, true ), //$NON-NLS-1$
+  FIT_FILL( "fill", STR_N_FM_FIT_FILL, STR_D_FM_FIT_FILL, true ) {//$NON-NLS-1$
+
+    @Override
+    public ITsPoint doCalcFitSize( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
+      double vpAspect = ((double)aVpWidth) / ((double)aVpHeight);
+      double contentAspect = ((double)aContentWidth) / ((double)aContentHeight);
+      if( contentAspect > vpAspect ) { // fit height
+        return new TsPoint( (int)(aVpHeight * contentAspect), aVpHeight );
+      }
+      // fit width
+      return new TsPoint( aVpWidth, (int)(aVpWidth / contentAspect) );
+    }
+
+    @Override
+    protected boolean doIsScalingNeeded( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
+      return aVpWidth < aContentWidth || aVpHeight < aContentHeight;
+    }
+  },
 
   /**
    * Zoom - show with the specified scaling factor.
    */
-  ZOOMED( "zoomed", STR_N_FM_ZOOMED, STR_D_FM_ZOOMED, false ), //$NON-NLS-1$
+  ZOOMED( "zoomed", STR_N_FM_ZOOMED, STR_D_FM_ZOOMED, false ) { //$NON-NLS-1$
+
+    @Override
+    public ITsPoint doCalcFitSize( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
+      return new TsPoint( aContentWidth, aContentHeight );
+    }
+
+    @Override
+    protected boolean doIsScalingNeeded( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
+      return false;
+    }
+  }
 
   ;
 
@@ -106,6 +189,52 @@ public enum ERectFitMode
   public boolean isAdaptiveScale() {
     return vpSizeDependent;
   }
+
+  /**
+   * Determines if scaling is needed.
+   * <p>
+   * When scaling is needed fitted cantent size may be calculated by <{@link #doCalcFitSize(int, int, int, int)}.
+   * Otherwise content size remains unchanged.
+   *
+   * @param aVpWidth int - viewport width
+   * @param aVpHeight int - viewport height
+   * @param aContentWidth int - content width
+   * @param aContentHeight int - content height
+   * @param aExpandToFit boolean - expand small images in {@link #isAdaptiveScale()} modes
+   * @return boolean - <code>true</code> content size changes to fit in viewport
+   * @throws TsIllegalArgumentRtException any argument <= 0
+   */
+  public boolean isScalingNeeded( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight,
+      boolean aExpandToFit ) {
+    TsIllegalArgumentRtException.checkTrue( aVpWidth < 1 || aVpHeight < 1 );
+    TsIllegalArgumentRtException.checkTrue( D2Utils.compareDoubles( aContentWidth, 0.0 ) <= 0 );
+    TsIllegalArgumentRtException.checkTrue( D2Utils.compareDoubles( aContentHeight, 0.0 ) <= 0 );
+    if( aExpandToFit ) {
+      return true;
+    }
+    return doIsScalingNeeded( aVpWidth, aVpHeight, aContentWidth, aContentHeight );
+  }
+
+  /**
+   * Calculates size of the content fitted into the viewport retaining the aspect ratio of the content.
+   *
+   * @param aVpWidth int - viewport width
+   * @param aVpHeight int - viewport height
+   * @param aContentWidth int - content width
+   * @param aContentHeight int - content height
+   * @return {@link ITsPoint} - fitted rectangle size
+   * @throws TsIllegalArgumentRtException any argument <= 0
+   */
+  public ITsPoint calcFitSize( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
+    TsIllegalArgumentRtException.checkTrue( aVpWidth < 1 || aVpHeight < 1 );
+    TsIllegalArgumentRtException.checkTrue( D2Utils.compareDoubles( aContentWidth, 0.0 ) <= 0 );
+    TsIllegalArgumentRtException.checkTrue( D2Utils.compareDoubles( aContentHeight, 0.0 ) <= 0 );
+    return doCalcFitSize( aVpWidth, aVpHeight, aContentWidth, aContentHeight );
+  }
+
+  protected abstract ITsPoint doCalcFitSize( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight );
+
+  protected abstract boolean doIsScalingNeeded( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight );
 
   /**
    * Returns all constants in single list.

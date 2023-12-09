@@ -2,9 +2,9 @@ package org.toxsoft.core.tsgui.panels;
 
 import org.eclipse.swt.*;
 import org.eclipse.swt.events.*;
-import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.graphics.gc.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -18,7 +18,12 @@ public abstract class TsAbstractCanvas
     extends Canvas
     implements ITsGuiContextable {
 
-  private final ControlListener resizeListener = new ControlAdapter() {
+  private final ControlListener resizeListener = new ControlListener() {
+
+    @Override
+    public void controlMoved( ControlEvent aEvent ) {
+      doControlMoved( aEvent );
+    }
 
     @Override
     public void controlResized( ControlEvent aEvent ) {
@@ -38,7 +43,8 @@ public abstract class TsAbstractCanvas
   public TsAbstractCanvas( Composite aParent, int aStyle, ITsGuiContext aContext ) {
     super( aParent, aStyle );
     tsContext = TsNullArgumentRtException.checkNull( aContext );
-    this.addPaintListener( aE -> paint( aE.gc, new TsRectangle( aE.x, aE.y, aE.width, aE.height ) ) );
+    this.addPaintListener(
+        aE -> paint( new TsGraphicsContext( aE, tsContext() ), new TsRectangle( aE.x, aE.y, aE.width, aE.height ) ) );
     this.addControlListener( resizeListener );
     this.addDisposeListener( aE -> doDispose() );
   }
@@ -69,15 +75,24 @@ public abstract class TsAbstractCanvas
   /**
    * Subclass must draw on canvas.
    *
-   * @param aGc {@link GC} - the graphics context
+   * @param aTsGc {@link ITsGraphicsContext} - the TS graphics context
    * @param aPaintBounds {@link ITsRectangle} - rectangle region that need to be painted
    */
-  public abstract void paint( GC aGc, ITsRectangle aPaintBounds );
+  public abstract void paint( ITsGraphicsContext aTsGc, ITsRectangle aPaintBounds );
+
+  /**
+   * Subclass may handle the control move.
+   *
+   * @param aEvent {@link ControlEvent} - the control move event
+   */
+  protected void doControlMoved( ControlEvent aEvent ) {
+    // nop
+  }
 
   /**
    * Subclass may handle the control resize.
    *
-   * @param aEvent {@link ControlEvent} - the conrol resize event
+   * @param aEvent {@link ControlEvent} - the control resize event
    */
   protected void doControlResized( ControlEvent aEvent ) {
     // nop

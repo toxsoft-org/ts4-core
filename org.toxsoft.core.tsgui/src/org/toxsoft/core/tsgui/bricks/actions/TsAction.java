@@ -78,7 +78,7 @@ public class TsAction
     else {
       iconDescr = null;
     }
-    // cheched icon
+    // checked icon
     IAtomicValue av = def.params().getValue( OPID_CHECKED_ICON_ID, IAtomicValue.NULL );
     if( av.isAssigned() ) {
       checkedIconDescr = iconManager.loadStdDescriptor( av.asString(), aIconSize );
@@ -86,7 +86,7 @@ public class TsAction
     else {
       checkedIconDescr = null;
     }
-    // cheched text
+    // checked text
     av = def.params().getValue( OPID_CHECKED_TEXT, IAtomicValue.NULL );
     if( av.isAssigned() ) {
       checkedText = av.asString();
@@ -94,7 +94,7 @@ public class TsAction
     else {
       checkedText = null;
     }
-    // cheched tooltip
+    // checked tooltip
     av = def.params().getValue( OPID_CHECKED_TOOLTIP, IAtomicValue.NULL );
     if( av.isAssigned() ) {
       checkedTooltip = av.asString();

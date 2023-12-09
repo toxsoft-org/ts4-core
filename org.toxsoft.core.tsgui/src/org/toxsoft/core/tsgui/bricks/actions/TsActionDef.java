@@ -86,7 +86,7 @@ public class TsActionDef
    *
    * @param aId String - action ID (an IDpath)
    * @param aName String - action name {@link ITsActionDef#nmName()}
-   * @param aDescription String - action decription {@link ITsActionDef#description()}
+   * @param aDescription String - action description {@link ITsActionDef#description()}
    * @param aIconId String - icon ID {@link ITsActionDef#iconId()}, may be <code>null</code>
    * @param aIdsAndValues Object[] - {@link #params()} values as for {@link OptionSetUtils#createOpSet(Object...)}
    * @return {@link TsActionDef} - created instance
@@ -122,7 +122,7 @@ public class TsActionDef
    *
    * @param aId String - action ID (an IDpath)
    * @param aName String - action name {@link ITsActionDef#nmName()}
-   * @param aDescription String - action decription {@link ITsActionDef#description()}
+   * @param aDescription String - action description {@link ITsActionDef#description()}
    * @param aIconId String - icon ID {@link ITsActionDef#iconId()}, may be <code>null</code>
    * @param aIdsAndValues Object[] - {@link #params()} values as for {@link OptionSetUtils#createOpSet(Object...)}
    * @return {@link TsActionDef} - created instance
@@ -158,7 +158,7 @@ public class TsActionDef
    *
    * @param aId String - action ID (an IDpath)
    * @param aName String - action name {@link ITsActionDef#nmName()}
-   * @param aDescription String - action decription {@link ITsActionDef#description()}
+   * @param aDescription String - action description {@link ITsActionDef#description()}
    * @param aIconId String - icon ID {@link ITsActionDef#iconId()}, may be <code>null</code>
    * @param aIdsAndValues Object[] - {@link #params()} values as for {@link OptionSetUtils#createOpSet(Object...)}
    * @return {@link TsActionDef} - created instance
@@ -194,7 +194,7 @@ public class TsActionDef
    *
    * @param aId String - action ID (an IDpath)
    * @param aName String - action name {@link ITsActionDef#nmName()}
-   * @param aDescription String - action decription {@link ITsActionDef#description()}
+   * @param aDescription String - action description {@link ITsActionDef#description()}
    * @param aIconId String - icon ID {@link ITsActionDef#iconId()}, may be <code>null</code>
    * @param aIdsAndValues Object[] - {@link #params()} values as for {@link OptionSetUtils#createOpSet(Object...)}
    * @return {@link TsActionDef} - created instance
