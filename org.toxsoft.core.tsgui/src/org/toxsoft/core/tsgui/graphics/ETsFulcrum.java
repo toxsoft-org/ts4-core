@@ -22,28 +22,28 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public enum ETsFulcrum
     implements IStridable {
 
-  CENTER( "Center", STR_ETF_CENTER, STR_ETF_CENTER_D ), //$NON-NLS-1$
+  CENTER( "Center", STR_ETF_CENTER, STR_ETF_CENTER_D, 50.0, 50.0 ), //$NON-NLS-1$
 
-  LEFT_TOP( "LeftTop", STR_ETF_LEFT_TOP, STR_ETF_LEFT_TOP_D ), //$NON-NLS-1$
+  LEFT_TOP( "LeftTop", STR_ETF_LEFT_TOP, STR_ETF_LEFT_TOP_D, 0.0, 0.0 ), //$NON-NLS-1$
 
-  LEFT_BOTTOM( "LeftBottom", STR_ETF_LEFT_BOTTOM, STR_ETF_LEFT_BOTTOM_D ), //$NON-NLS-1$
+  LEFT_BOTTOM( "LeftBottom", STR_ETF_LEFT_BOTTOM, STR_ETF_LEFT_BOTTOM_D, 0.0, 100.0 ), //$NON-NLS-1$
 
-  LEFT_CENTER( "LeftCenter", STR_ETF_LEFT_CENTER, STR_ETF_LEFT_CENTER_D ), //$NON-NLS-1$
+  LEFT_CENTER( "LeftCenter", STR_ETF_LEFT_CENTER, STR_ETF_LEFT_CENTER_D, 0.0, 50.0 ), //$NON-NLS-1$
 
-  RIGHT_TOP( "RightTop", STR_ETF_RIGHT_TOP, STR_ETF_RIGHT_TOP_D ), //$NON-NLS-1$
+  RIGHT_TOP( "RightTop", STR_ETF_RIGHT_TOP, STR_ETF_RIGHT_TOP_D, 100.0, 0.0 ), //$NON-NLS-1$
 
-  RIGHT_BOTTOM( "RightBottom", STR_ETF_RIGHT_BOTTOM, STR_ETF_RIGHT_BOTTOM_D ), //$NON-NLS-1$
+  RIGHT_BOTTOM( "RightBottom", STR_ETF_RIGHT_BOTTOM, STR_ETF_RIGHT_BOTTOM_D, 100.0, 100.0 ), //$NON-NLS-1$
 
-  RIGHT_CENTER( "RightCenter", STR_ETF_RIGHT_CENTER, STR_ETF_RIGHT_CENTER_D ), //$NON-NLS-1$
+  RIGHT_CENTER( "RightCenter", STR_ETF_RIGHT_CENTER, STR_ETF_RIGHT_CENTER_D, 100.0, 50.0 ), //$NON-NLS-1$
 
-  TOP_CENTER( "TopCenter", STR_ETF_TOP_CENTER, STR_ETF_TOP_CENTER_D ), //$NON-NLS-1$
+  TOP_CENTER( "TopCenter", STR_ETF_TOP_CENTER, STR_ETF_TOP_CENTER_D, 50.0, 0.0 ), //$NON-NLS-1$
 
-  BOTTOM_CENTER( "BottomCenter", STR_ETF_BOTTOM_CENTER, STR_ETF_BOTTOM_CENTER_D ); //$NON-NLS-1$
+  BOTTOM_CENTER( "BottomCenter", STR_ETF_BOTTOM_CENTER, STR_ETF_BOTTOM_CENTER_D, 50.0, 100.0 ); //$NON-NLS-1$
 
   /**
    * The keeper ID.
    */
-  public static final String KEEPER_ID = "TsFulcrum"; //$NON-NLS-1$
+  public static final String KEEPER_ID = "ETsFulcrum"; //$NON-NLS-1$
 
   /**
    * Keeper singleton.
@@ -55,11 +55,15 @@ public enum ETsFulcrum
   private final String id;
   private final String name;
   private final String description;
+  private final double xPerc;
+  private final double yPerc;
 
-  ETsFulcrum( String aId, String aName, String aDescription ) {
+  ETsFulcrum( String aId, String aName, String aDescription, double aXPerc, double aYPerc ) {
     id = aId;
     name = aName;
     description = aDescription;
+    xPerc = aXPerc;
+    yPerc = aYPerc;
   }
 
   // --------------------------------------------------------------------------
@@ -229,12 +233,7 @@ public enum ETsFulcrum
    * @return double - placement percentage: 0.0, 50.0 or 100.0
    */
   public double getHorPercentage() {
-    return switch( this ) {
-      case LEFT_BOTTOM, LEFT_CENTER, LEFT_TOP -> 0.0;
-      case BOTTOM_CENTER, TOP_CENTER, CENTER -> 50.0;
-      case RIGHT_BOTTOM, RIGHT_CENTER, RIGHT_TOP -> 100.0;
-      default -> throw new TsNotAllEnumsUsedRtException();
-    };
+    return xPerc;
   }
 
   /**
@@ -245,12 +244,7 @@ public enum ETsFulcrum
    * @return double - placement percentage: 0.0, 50.0 or 100.0
    */
   public double getVerPercentage() {
-    return switch( this ) {
-      case LEFT_TOP, RIGHT_TOP, TOP_CENTER -> 0.0;
-      case LEFT_CENTER, RIGHT_CENTER, CENTER -> 50.0;
-      case BOTTOM_CENTER, RIGHT_BOTTOM, LEFT_BOTTOM -> 100.0;
-      default -> throw new TsNotAllEnumsUsedRtException();
-    };
+    return yPerc;
   }
 
   /**
