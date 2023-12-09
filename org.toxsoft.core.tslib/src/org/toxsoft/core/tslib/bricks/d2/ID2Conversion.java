@@ -3,7 +3,7 @@ package org.toxsoft.core.tslib.bricks.d2;
 /**
  * Coordinates conversion rules between two coordinates system.
  * <p>
- * Covertion from source coordinate system N (normalized coordinates system) to target S (screen coordinates system) is
+ * Conversion from source coordinate system N (normalized coordinates system) to target S (screen coordinates system) is
  * performed as:
  * <ol>
  * <li>N will be rotated around origin point by {@link #rotation()} angle.</li>

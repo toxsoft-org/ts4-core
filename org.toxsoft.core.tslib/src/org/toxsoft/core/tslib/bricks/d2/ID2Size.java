@@ -7,7 +7,8 @@ package org.toxsoft.core.tslib.bricks.d2;
  *
  * @author hazard157
  */
-public sealed interface ID2Size permits D2Size,ID2SizeEdit {
+public sealed interface ID2Size
+    permits D2Size, ID2SizeEdit {
 
   /**
    * Size with (0.0,0.0) coordinates.
@@ -27,5 +28,15 @@ public sealed interface ID2Size permits D2Size,ID2SizeEdit {
    * @return double - the height, always >= 0
    */
   double height();
+
+  @SuppressWarnings( "javadoc" )
+  default int intW() {
+    return (int)width();
+  }
+
+  @SuppressWarnings( "javadoc" )
+  default int intH() {
+    return (int)height();
+  }
 
 }

@@ -56,6 +56,15 @@ public final class TsRectangle
     size = new TsPoint( aWidth, aHeight );
   }
 
+  /**
+   * Copy constructor.
+   *
+   * @param aSource {@link ITsRectangle} - the source
+   */
+  public TsRectangle( ITsRectangle aSource ) {
+    this( aSource.a(), aSource.b() );
+  }
+
   // ------------------------------------------------------------------------------------
   // ITsRectangle
   //

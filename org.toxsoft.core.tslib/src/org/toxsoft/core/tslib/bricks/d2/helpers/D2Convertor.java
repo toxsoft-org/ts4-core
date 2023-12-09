@@ -6,6 +6,7 @@ import static org.toxsoft.core.tslib.bricks.d2.D2Utils.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link ID2Conversion} implementation.
@@ -22,6 +23,16 @@ public class D2Convertor
    */
   public D2Convertor() {
     // nop
+  }
+
+  /**
+   * Constructor.
+   *
+   * @param aConversion {@link ID2Conversion} - initial converion settings
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public D2Convertor( ID2Conversion aConversion ) {
+    d2Conv.setConversion( aConversion );
   }
 
   // ------------------------------------------------------------------------------------
@@ -145,6 +156,38 @@ public class D2Convertor
     double x3 = x2 / d2Conv.zoomFactor();
     double y3 = y2 / d2Conv.zoomFactor();
     return new D2Point( x3, y3 );
+  }
+
+  @Override
+  public ID2Size convertSize( double aWidth, double aHeight ) {
+    checkLength( aWidth );
+    checkLength( aHeight );
+    // calculate like point coordinates from (0,0) origin
+    // zoom from origin (0,0)
+    double x1 = aWidth * d2Conv.zoomFactor();
+    double y1 = aHeight * d2Conv.zoomFactor();
+    // rotate around origin
+    double beta = d2Conv.rotation().radians();
+    double x2 = x1 * cos( beta ) - y1 * sin( beta );
+    double y2 = y1 * cos( beta ) + x1 * sin( beta );
+    return new D2Size( Math.abs( x2 ), Math.abs( y2 ) );
+  }
+
+  @Override
+  public ID2Size reverseSize( double aWidth, double aHeight ) {
+    checkLength( aWidth );
+    checkLength( aHeight );
+    // calculate like point coordinates from (0,0) origin
+    double x1 = aWidth;
+    double y1 = aHeight;
+    // reverse rotation (just change angle sign)
+    double beta = -d2Conv.rotation().radians();
+    double x2 = x1 * cos( beta ) - y1 * sin( beta );
+    double y2 = y1 * cos( beta ) + x1 * sin( beta );
+    // reverse zoom (divide rather than multiply on zoom factor)
+    double x3 = x2 / d2Conv.zoomFactor();
+    double y3 = y2 / d2Conv.zoomFactor();
+    return new D2Size( Math.abs( x3 ), Math.abs( y3 ) );
   }
 
   @Override

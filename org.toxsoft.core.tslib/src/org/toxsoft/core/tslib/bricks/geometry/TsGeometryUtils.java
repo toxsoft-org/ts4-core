@@ -12,6 +12,20 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class TsGeometryUtils {
 
   /**
+   * Creates {@link TsPointEdit} from {@link ID2PointRectangle}.
+   *
+   * @param aSource {@link ID2Point} - the source
+   * @return {@link TsPointEdit} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static TsPointEdit create( ID2Point aSource ) {
+    TsNullArgumentRtException.checkNull( aSource );
+    int x = (int)aSource.x();
+    int y = (int)aSource.y();
+    return new TsPointEdit( x, y );
+  }
+
+  /**
    * Creates {@link TsRectangleEdit} from {@link ID2Rectangle}.
    *
    * @param aSource {@link ID2Rectangle} - the source

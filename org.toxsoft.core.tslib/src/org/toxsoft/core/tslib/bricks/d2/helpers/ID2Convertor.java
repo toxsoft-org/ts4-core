@@ -9,8 +9,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * <p>
  * Terminology:
  * <ul>
- * <li><b>N</b> - normalized coordinates system is the source ov conversion and target for reversion;</li>
- * <li><b>S</b> - screen coordinates system is the tagret for convertion and source for reversion.</li>
+ * <li><b>N</b> - normalized coordinates system is the source of the conversion and target for reversion;</li>
+ * <li><b>S</b> - screen coordinates system is the target for conversion and source for reversion.</li>
  * </ul>
  *
  * @author hazard157
@@ -71,13 +71,31 @@ public interface ID2Convertor {
    */
   ID2Point reversePoint( double aX, double aY );
 
+  /**
+   * Reverses rectangle (oriented as coordinate axis) dimensions (width/height) from <b>N</b> to <b>S</b>.
+   *
+   * @param aWidth double - width in <b>N</b> space
+   * @param aHeight double - height in <b>N</b> space
+   * @return {@link ID2Size} - dimensions in <b>S</b> space
+   */
+  ID2Size convertSize( double aWidth, double aHeight );
+
+  /**
+   * Reverses rectangle (oriented as coordinate axis) dimensions (width/height) from <b>S</b> to <b>N</b>.
+   *
+   * @param aWidth double - width in <b>S</b> space
+   * @param aHeight double - height in <b>S</b> space
+   * @return {@link ID2Size} - dimensions in <b>N</b> space
+   */
+  ID2Size reverseSize( double aWidth, double aHeight );
+
   // considering conversion to display
 
   /**
-   * Finds surrounding rectangle in <b>S</b> around rectangle specified in <b>N</b> space.
+   * Finds surrounding rectangle in <b>S</b> coordinates space around rectangle specified in <b>N</b> space.
    * <p>
    * The sides of the found rectangle are parallel to the S (screen) coordinate axes. This helper method assumes that
-   * found rectangle is needed for drawing on screen so it returns rectanle with integer coordinates in pixels.
+   * found rectangle is needed for drawing on screen so it returns rectangle with integer coordinates in pixels.
    *
    * @param aSourceRect {@link ID2Rectangle} - rectangle in <b>N</b> space
    * @return {@link ITsRectangle} - rectangle in <b>S</b> space with integer coordinates
@@ -122,6 +140,18 @@ public interface ID2Convertor {
   default ID2Point reversePoint( ID2Point aPoint ) {
     TsNullArgumentRtException.checkNull( aPoint );
     return reversePoint( aPoint.x(), aPoint.y() );
+  }
+
+  @SuppressWarnings( "javadoc" )
+  default ID2Size convertSize( ID2Size aSize ) {
+    TsNullArgumentRtException.checkNull( aSize );
+    return convertSize( aSize.width(), aSize.height() );
+  }
+
+  @SuppressWarnings( "javadoc" )
+  default ID2Size reverseSize( ID2Size aSize ) {
+    TsNullArgumentRtException.checkNull( aSize );
+    return reverseSize( aSize.width(), aSize.height() );
   }
 
   // ------------------------------------------------------------------------------------

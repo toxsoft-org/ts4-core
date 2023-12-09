@@ -42,7 +42,7 @@ public final class TsPointEdit
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация методов класса Object
+  // Object
   //
 
   @Override
@@ -101,6 +101,17 @@ public final class TsPointEdit
    */
   public void setY( int aY ) {
     y = aY;
+  }
+
+  /**
+   * Changes location on specified amount.
+   *
+   * @param aDeltaX int - X coordinate shifting amount
+   * @param aDeltaY int - Y coordinate shifting amount
+   */
+  public void shiftOn( int aDeltaX, int aDeltaY ) {
+    x += aDeltaX;
+    y += aDeltaY;
   }
 
   /**

@@ -17,16 +17,18 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * <code>moveToXxx()</code>, <code>wrapToXxx()</code>, <code>findElemAtXxx()</code> call it.
  * <p>
  * Navigation means that there is some starting element (index) and after movement there will be ending element (index).
- * Navigation has different modes determoned byt the flags:
+ * Navigation has different modes determined byt the flags:
  * <ul>
- * <li><b>wrapping</b> - in wrapping mode navigation continues when reaching collection boudaries like list is the
+ * <li><b>wrapping</b> - in wrapping mode navigation continues when reaching collection boundaries like list is the
  * circular buffer (navigation <i>wraps</i> over collection). In non-wrapping mode navigation stops at collection
  * boundaries;</li>
- * <li><b>NoneItem</b> - NoneItem is "virtual" item located before first element (at index -1) and is closly related to
- * the consept of "selected item" in GUI lists. "Selecting" NoneItem means to select no elemat. Navigating with NoneItem
- * (methods with siffix <b>Wni</b>) may end at NoneItem (return index -1). Note, that in wrapping mode NoneItem is
- * located before first and after last element of the collection.</li>
+ * <li><b>NoneItem</b> - NoneItem is "virtual" item located before first element (at index -1) and is closely related to
+ * the concept of "selected item" in GUI lists. "Selecting" NoneItem means to select no element. Navigating with
+ * NoneItem (methods with suffix <b>Wni</b>) may end at NoneItem (return index -1). Note, that in wrapping mode NoneItem
+ * is located before first and after last element of the collection.</li>
  * </ul>
+ * Navigating may be absolute or relative {@link #isAbsolute()}. Movement is called an absolute if final position does
+ * not depends of current position.
  *
  * @author hazard157
  */
@@ -34,7 +36,7 @@ public enum ETsCollMove
     implements IStridable {
 
   @SuppressWarnings( "javadoc" )
-  NONE("None", STR_N_TCM_NONE, STR_D_TCM_NONE ) { //$NON-NLS-1$
+  NONE("None", STR_N_TCM_NONE, STR_D_TCM_NONE, false ) { //$NON-NLS-1$
 
     @Override
     protected int doMoveToIndexWithNoneItem( int aStartIndex, int aCollSize, int aJumpDistance ) {
@@ -59,7 +61,7 @@ public enum ETsCollMove
   },
 
   @SuppressWarnings( "javadoc" )
-  FIRST("First", STR_N_TCM_FIRST, STR_D_TCM_FIRST ) { //$NON-NLS-1$
+  FIRST("First", STR_N_TCM_FIRST, STR_D_TCM_FIRST, true ) { //$NON-NLS-1$
 
     @Override
     protected int doMoveToIndexWithNoneItem( int aStartIndex, int aCollSize, int aJumpDistance ) {
@@ -84,7 +86,7 @@ public enum ETsCollMove
   },
 
   @SuppressWarnings( "javadoc" )
-  MIDDLE("Middle", STR_N_TCM_MIDDLE, STR_D_TCM_MIDDLE ) { //$NON-NLS-1$
+  MIDDLE("Middle", STR_N_TCM_MIDDLE, STR_D_TCM_MIDDLE, true ) { //$NON-NLS-1$
 
     @Override
     protected int doMoveToIndexWithNoneItem( int aStartIndex, int aCollSize, int aJumpDistance ) {
@@ -109,7 +111,7 @@ public enum ETsCollMove
   },
 
   @SuppressWarnings( "javadoc" )
-  LAST("Last", STR_N_TCM_LAST, STR_D_TCM_LAST ) { //$NON-NLS-1$
+  LAST("Last", STR_N_TCM_LAST, STR_D_TCM_LAST, true ) { //$NON-NLS-1$
 
     @Override
     protected int doMoveToIndexWithNoneItem( int aStartIndex, int aCollSize, int aJumpDistance ) {
@@ -133,7 +135,7 @@ public enum ETsCollMove
   },
 
   @SuppressWarnings( "javadoc" )
-  PREV("Prev", STR_N_TCM_PREV, STR_D_TCM_PREV ) { //$NON-NLS-1$
+  PREV("Prev", STR_N_TCM_PREV, STR_D_TCM_PREV, false ) { //$NON-NLS-1$
 
     @Override
     protected int doMoveToIndexWithNoneItem( int aStartIndex, int aCollSize, int aJumpDistance ) {
@@ -173,7 +175,7 @@ public enum ETsCollMove
   },
 
   @SuppressWarnings( "javadoc" )
-  NEXT("Next", STR_N_TCM_NEXT, STR_D_TCM_NEXT ) { //$NON-NLS-1$
+  NEXT("Next", STR_N_TCM_NEXT, STR_D_TCM_NEXT, false ) { //$NON-NLS-1$
 
     @Override
     protected int doMoveToIndexWithNoneItem( int aStartIndex, int aCollSize, int aJumpDistance ) {
@@ -212,7 +214,7 @@ public enum ETsCollMove
   },
 
   @SuppressWarnings( "javadoc" )
-  JUMP_PREV("JumpPrev", STR_N_TCM_JUMP_PREV, STR_D_TCM_JUMP_PREV ) { //$NON-NLS-1$
+  JUMP_PREV("JumpPrev", STR_N_TCM_JUMP_PREV, STR_D_TCM_JUMP_PREV, false ) { //$NON-NLS-1$
 
     @Override
     protected int doMoveToIndexWithNoneItem( int aStartIndex, int aCollSize, int aJumpDistance ) {
@@ -224,7 +226,7 @@ public enum ETsCollMove
       if( newIndex >= collSize ) {
         newIndex = collSize - 1;
       }
-      return newIndex - 1; // indexation back to the original collection
+      return newIndex - 1; // indexing back to the original collection
     }
 
     @Override
@@ -237,7 +239,7 @@ public enum ETsCollMove
       if( newIndex >= collSize ) {
         newIndex -= collSize;
       }
-      return newIndex - 1; // indexation back to the original collection
+      return newIndex - 1; // indexing back to the original collection
     }
 
     @Override
@@ -263,7 +265,7 @@ public enum ETsCollMove
   },
 
   @SuppressWarnings( "javadoc" )
-  JUMP_NEXT("JumpNext", STR_N_TCM_JUMP_NEXT, STR_D_TCM_JUMP_NEXT ) { //$NON-NLS-1$
+  JUMP_NEXT("JumpNext", STR_N_TCM_JUMP_NEXT, STR_D_TCM_JUMP_NEXT, false ) { //$NON-NLS-1$
 
     @Override
     protected int doMoveToIndexWithNoneItem( int aStartIndex, int aCollSize, int aJumpDistance ) {
@@ -275,7 +277,7 @@ public enum ETsCollMove
       if( newIndex < 0 ) {
         newIndex = 0;
       }
-      return newIndex - 1; // indexation back to the original collection
+      return newIndex - 1; // indexing back to the original collection
     }
 
     @Override
@@ -288,7 +290,7 @@ public enum ETsCollMove
       if( newIndex < 0 ) {
         newIndex += collSize;
       }
-      return newIndex - 1; // indexation back to the original collection
+      return newIndex - 1; // indexing back to the original collection
     }
 
     @Override
@@ -325,21 +327,16 @@ public enum ETsCollMove
 
   private static IStridablesListEdit<ETsCollMove> list = null;
 
-  private final String id;
-  private final String name;
-  private final String description;
+  private final String  id;
+  private final String  name;
+  private final String  description;
+  private final boolean absolute;
 
-  /**
-   * Constructor.
-   *
-   * @param aId String - identifier (IDPath)
-   * @param aName String - short, human-readable name
-   * @param aDescription String - description
-   */
-  ETsCollMove( String aId, String aName, String aDescription ) {
+  ETsCollMove( String aId, String aName, String aDescription, boolean aAbsolue ) {
     id = aId;
     name = aName;
     description = aDescription;
+    absolute = aAbsolue;
   }
 
   /**
@@ -431,6 +428,16 @@ public enum ETsCollMove
       list = new StridablesList<>( values() );
     }
     return list;
+  }
+
+  /**
+   * Determines if movement is absolute - final position does not depends on initial position.
+   *
+   * @return boolean <code>true</code> - absolute movement, <code>false</code> - relative to the current position
+   */
+
+  public boolean isAbsolute() {
+    return absolute;
   }
 
   /**
