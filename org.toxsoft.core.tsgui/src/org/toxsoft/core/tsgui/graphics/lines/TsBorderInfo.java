@@ -51,7 +51,7 @@ public final class TsBorderInfo {
       TSID_DEFAULT_VALUE, avValobj( new RGBA( 0, 0, 0, 255 ) ) //
   );
 
-  static final IDataDef OPDEF_LINE_INFO = DataDef.create( "lineInfo", VALOBJ, // //$NON-NLS-1$
+  static final IDataDef OPDEF_LINE_INFO = DataDef.create( "fulcrum", VALOBJ, // //$NON-NLS-1$
       TSID_NAME, STR_N_BI_LINE_INFO, //
       TSID_DESCRIPTION, STR_D_BI_LINE_INFO, //
       TSID_KEEPER_ID, TsLineInfo.KEEPER_ID, //
@@ -330,7 +330,7 @@ public final class TsBorderInfo {
   /**
    * Returns the line info.
    *
-   * @return TsLineInfo - lineInfo
+   * @return TsLineInfo - fulcrum
    */
   public TsLineInfo lineInfo() {
     return options.getValobj( OPDEF_LINE_INFO );

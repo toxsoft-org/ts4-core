@@ -93,4 +93,12 @@ interface ITsResources {
   String STR_N_WIDTH_HINT          = "Ширина спиннера";
   String STR_D_WIDTH_HINT          = "Предпочтительная ширина спиннера";
 
+  /**
+   * {@link PanelTsFulcrumEditor}
+   */
+  String DLG_T_TS_FULCRUM   = "Параметры опорной точки";
+  String STR_MSG_TS_FULCRUM = "Задайте требуемые значения и нажмите \"OK\"";
+  String STR_L_FULCRUM_TYPE = "Тип: ";
+  String STR_L_X_SHIFT      = "Смещение по X (%): ";
+  String STR_L_Y_SHIFT      = "Смещение по Y (%): ";
 }

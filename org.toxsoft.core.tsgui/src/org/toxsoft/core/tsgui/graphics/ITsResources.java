@@ -8,7 +8,7 @@ package org.toxsoft.core.tsgui.graphics;
 interface ITsResources {
 
   /**
-   * {@link EBorderType}
+   * {@link EBorderType}Е
    */
   String STR_N_BT_NONE        = "Без рамки";
   String STR_D_BT_NONE        = "Без рамки";
@@ -86,6 +86,8 @@ interface ITsResources {
   String STR_COLOR_RGB_D             = Messages.getString( "STR_COLOR_RGB_D" );             //$NON-NLS-1$ aAAA
   String STR_COLOR_RGBA              = Messages.getString( "STR_COLOR_RGBA" );              //$NON-NLS-1$ aAAA
   String STR_COLOR_RGBA_D            = Messages.getString( "STR_COLOR_RGBA_D" );            //$NON-NLS-1$ aAAA
+  String STR_TS_FULCRUM              = Messages.getString( "STR_TS_FULCRUM" );              //$NON-NLS-1$ aAAA
+  String STR_TS_FULCRUM_D            = Messages.getString( "STR_TS_FULCRUM_D" );            //$NON-NLS-1$ aAAA
   String STR_DT_D2POINT              = Messages.getString( "STR_DT_D2POINT" );              //$NON-NLS-1$ aAAA
   String STR_DT_D2POINT_D            = Messages.getString( "STR_DT_D2POINT_D" );            //$NON-NLS-1$ aAAA
   String STR_DT_D2ANGLE              = Messages.getString( "STR_DT_D2ANGLE" );              //$NON-NLS-1$ aAAA

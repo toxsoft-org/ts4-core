@@ -48,6 +48,7 @@ public class ViselRectangle
       fields.add( TFI_Y );
       fields.add( TFI_WIDTH );
       fields.add( TFI_HEIGHT );
+      fields.add( TFI_FULCRUM );
       fields.add( TFI_TRANSFORM );
       fields.add( TFI_BK_FILL );
       fields.add( TFI_BORDER_INFO );

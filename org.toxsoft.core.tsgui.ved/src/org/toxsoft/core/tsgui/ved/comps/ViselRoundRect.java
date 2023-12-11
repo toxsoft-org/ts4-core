@@ -72,6 +72,7 @@ public class ViselRoundRect
       fields.add( TFI_Y );
       fields.add( TFI_WIDTH );
       fields.add( TFI_HEIGHT );
+      fields.add( TFI_FULCRUM );
       fields.add( new TinFieldInfo( PROPID_ARC_WIDTH, TTI_AT_FLOATING, PROP_ARC_WIDTH.params() ) );
       fields.add( new TinFieldInfo( PROPID_ARC_HEIGHT, TTI_AT_FLOATING, PROP_ARC_HEIGHT.params() ) );
       fields.add( TFI_BK_FILL );

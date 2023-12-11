@@ -101,6 +101,7 @@ public class ViselButton
       fields.add( TFI_Y );
       fields.add( TFI_WIDTH );
       fields.add( TFI_HEIGHT );
+      fields.add( TFI_FULCRUM );
       fields.add( TFI_FG_COLOR );
       fields.add( TFI_BK_COLOR );
       fields.add( TFI_STATE );

@@ -50,6 +50,7 @@ public interface IVedScreenConstants {
   String PROPID_Y           = "y";             //$NON-NLS-1$
   String PROPID_WIDTH       = "width";         //$NON-NLS-1$
   String PROPID_HEIGHT      = "height";        //$NON-NLS-1$
+  String PROPID_TS_FULCRUM  = "fulcrum";       //$NON-NLS-1$
   String PROPID_TRANSFORM   = "transform";     //$NON-NLS-1$
 
   IDataDef PROP_IS_ACTIVE = DataDef.create( PROPID_IS_ACTIVE, BOOLEAN, //
@@ -92,6 +93,12 @@ public interface IVedScreenConstants {
       TSID_DEFAULT_VALUE, avFloat( 100 ) //
   );
 
+  IDataDef PROP_TS_FULCRUM = DataDef.create3( PROPID_TS_FULCRUM, DT_TS_FULCRUM, //
+      TSID_NAME, STR_TS_FULCRUM, //
+      TSID_DESCRIPTION, STR_TS_FULCRUM_D, //
+      TSID_DEFAULT_VALUE, avValobj( TsFulcrum.of( ETsFulcrum.LEFT_TOP ) ) //
+  );
+
   IDataDef PROP_TRANSFORM = DataDef.create3( PROPID_TRANSFORM, DT_D2CONVERSION, //
       TSID_NAME, STR_TRANSFORM, //
       TSID_DESCRIPTION, STR_TRANSFORM_D, //
@@ -109,6 +116,7 @@ public interface IVedScreenConstants {
       PROPID_Y, //
       PROPID_WIDTH, //
       PROPID_HEIGHT, //
+      PROPID_TS_FULCRUM, //
       PROPID_TRANSFORM //
   );
 
@@ -261,13 +269,16 @@ public interface IVedScreenConstants {
   // TIN field info corresponding to the properties
   //
 
-  ITinFieldInfo TFI_IS_ACTIVE        = new TinFieldInfo( PROP_IS_ACTIVE, TTI_AT_BOOLEAN );
-  ITinFieldInfo TFI_NAME             = new TinFieldInfo( PROP_NAME, TTI_AT_STRING );
-  ITinFieldInfo TFI_DESCRIPTION      = new TinFieldInfo( PROP_DESCRIPTION, TTI_AT_STRING );
-  ITinFieldInfo TFI_X                = new TinFieldInfo( PROP_X, TTI_AT_FLOATING );
-  ITinFieldInfo TFI_Y                = new TinFieldInfo( PROP_Y, TTI_AT_FLOATING );
-  ITinFieldInfo TFI_WIDTH            = new TinFieldInfo( PROP_WIDTH, TTI_POSITIVE_FLOATING );
-  ITinFieldInfo TFI_HEIGHT           = new TinFieldInfo( PROP_HEIGHT, TTI_POSITIVE_FLOATING );
+  ITinFieldInfo TFI_IS_ACTIVE   = new TinFieldInfo( PROP_IS_ACTIVE, TTI_AT_BOOLEAN );
+  ITinFieldInfo TFI_NAME        = new TinFieldInfo( PROP_NAME, TTI_AT_STRING );
+  ITinFieldInfo TFI_DESCRIPTION = new TinFieldInfo( PROP_DESCRIPTION, TTI_AT_STRING );
+  ITinFieldInfo TFI_X           = new TinFieldInfo( PROP_X, TTI_AT_FLOATING );
+  ITinFieldInfo TFI_Y           = new TinFieldInfo( PROP_Y, TTI_AT_FLOATING );
+  ITinFieldInfo TFI_WIDTH       = new TinFieldInfo( PROP_WIDTH, TTI_POSITIVE_FLOATING );
+  ITinFieldInfo TFI_HEIGHT      = new TinFieldInfo( PROP_HEIGHT, TTI_POSITIVE_FLOATING );
+  // ITinFieldInfo TFI_FULCRUM = new TinFieldInfo( PROP_TS_FULCRUM, TtiTsFulcrum.INSTANCE );
+  ITinFieldInfo TFI_FULCRUM          =
+      new TinFieldInfo( PROP_TS_FULCRUM, new TinAtomicTypeInfo.TtiValobj( DT_TS_FULCRUM, TsFulcrum.class ) );
   ITinFieldInfo TFI_TRANSFORM        = new TinFieldInfo( PROP_TRANSFORM, TtiD2Conversion.INSTANCE );
   ITinFieldInfo TFI_TEXT             = new TinFieldInfo( PROP_TEXT, TTI_AT_STRING );
   ITinFieldInfo TFI_FONT             = new TinFieldInfo( PROP_FONT, TtiTsFontInfo.INSTANCE );

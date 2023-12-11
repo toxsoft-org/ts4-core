@@ -57,6 +57,14 @@ public interface ITsGraphicsConstants {
       TSID_DEFAULT_VALUE, avValobj( DEFAULT_RGBA_VALUE ) //
   );
 
+  IDataType DT_TS_FULCRUM = DataType.create( VALOBJ, //
+      TSID_NAME, STR_TS_FULCRUM, //
+      TSID_DESCRIPTION, STR_TS_FULCRUM_D, //
+      TSID_KEEPER_ID, TsFulcrum.KEEPER_ID, //
+      OPID_EDITOR_FACTORY_NAME, ValedAvValobjTsFulcrum.FACTORY.factoryName(), //
+      TSID_DEFAULT_VALUE, avValobj( TsFulcrum.of( ETsFulcrum.LEFT_TOP ) ) //
+  );
+
   /**
    * Data type: {@link ID2Point} as {@link EAtomicType#VALOBJ VALOBJ}.
    */

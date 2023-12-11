@@ -31,8 +31,8 @@ public interface ITsguiVedSharedResources {
   String STR_WIDTH_D            = Messages.getString( "STR_WIDTH_D" );            //$NON-NLS-1$
   String STR_HEIGHT             = Messages.getString( "STR_HEIGHT" );             //$NON-NLS-1$
   String STR_HEIGHT_D           = Messages.getString( "STR_HEIGHT_D" );           //$NON-NLS-1$
-  String STR_FULCRUM            = Messages.getString( "STR_FULCRUM" );            //$NON-NLS-1$
-  String STR_FULCRUM_D          = Messages.getString( "STR_FULCRUM_D" );          //$NON-NLS-1$
+  String STR_TS_FULCRUM         = Messages.getString( "STR_TS_FULCRUM" );         //$NON-NLS-1$
+  String STR_TS_FULCRUM_D       = Messages.getString( "STR_TS_FULCRUM_D" );       //$NON-NLS-1$
   String STR_TEXT               = Messages.getString( "STR_TEXT" );               //$NON-NLS-1$
   String STR_TEXT_D             = Messages.getString( "STR_TEXT_D" );             //$NON-NLS-1$
   String STR_HOR_ALIGN          = Messages.getString( "STR_HOR_ALIGN" );          //$NON-NLS-1$

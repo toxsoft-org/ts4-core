@@ -256,6 +256,9 @@ public final class TsFulcrum {
 
   @Override
   public String toString() {
+    if( fulcrum != null ) {
+      return fulcrum.toString();
+    }
     return String.format( "(%.2f%%,%.2f%%)", Double.valueOf( xPerc ), Double.valueOf( yPerc ) ); //$NON-NLS-1$
   }
 
