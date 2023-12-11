@@ -60,18 +60,8 @@ public final class DoubleRange
         }
       };
 
-  private ITsValidator<Double> validatorDouble = aValue -> {
-    TsNullArgumentRtException.checkNull( aValue );
-    return this.validate( aValue.doubleValue() );
-  };
-
-  private ITsValidator<IAtomicValue> validatorAv = aValue -> {
-    TsNullArgumentRtException.checkNull( aValue );
-    if( aValue.atomicType() != EAtomicType.FLOATING ) {
-      return ValidationResult.error( FMT_ERR_NOT_EXPECTED_AT, aValue.atomicType().id(), EAtomicType.FLOATING.id() );
-    }
-    return this.validate( aValue.asDouble() );
-  };
+  private ITsValidator<Double>       validatorDouble = null; // lazy initialization
+  private ITsValidator<IAtomicValue> validatorAv     = null; // lazy initialization
 
   final double minValue;
   final double maxValue;
@@ -179,6 +169,12 @@ public final class DoubleRange
    * @return {@link ITsValidator}&lt;{@link Double}&gt; - {@link Double} validator
    */
   public ITsValidator<Double> validatorDouble() {
+    if( validatorDouble == null ) {
+      validatorDouble = aValue -> {
+        TsNullArgumentRtException.checkNull( aValue );
+        return this.validate( aValue.doubleValue() );
+      };
+    }
     return validatorDouble;
   }
 
@@ -188,6 +184,15 @@ public final class DoubleRange
    * @return {@link ITsValidator}&lt;{@link IAtomicValue}&gt; - {@link IAtomicValue} validator
    */
   public ITsValidator<IAtomicValue> validatorAv() {
+    if( validatorAv == null ) {
+      validatorAv = aValue -> {
+        TsNullArgumentRtException.checkNull( aValue );
+        if( aValue.atomicType() != EAtomicType.FLOATING ) {
+          return ValidationResult.error( FMT_ERR_NOT_EXPECTED_AT, aValue.atomicType().id(), EAtomicType.FLOATING.id() );
+        }
+        return this.validate( aValue.asDouble() );
+      };
+    }
     return validatorAv;
   }
 

@@ -60,18 +60,8 @@ public final class LongRange
         }
       };
 
-  private ITsValidator<Long> validatorLong = aValue -> {
-    TsNullArgumentRtException.checkNull( aValue );
-    return this.validate( aValue.longValue() );
-  };
-
-  private ITsValidator<IAtomicValue> validatorAv = aValue -> {
-    TsNullArgumentRtException.checkNull( aValue );
-    if( aValue.atomicType() != EAtomicType.INTEGER ) {
-      return ValidationResult.error( FMT_ERR_NOT_EXPECTED_AT, aValue.atomicType().id(), EAtomicType.INTEGER.id() );
-    }
-    return this.validate( aValue.asLong() );
-  };
+  private ITsValidator<Long>         validatorLong = null; // lazy initialization
+  private ITsValidator<IAtomicValue> validatorAv   = null; // lazy initialization
 
   final long minValue;
   final long maxValue;
@@ -172,6 +162,12 @@ public final class LongRange
    * @return {@link ITsValidator}&lt;{@link Long}&gt; - {@link Long} validator
    */
   public ITsValidator<Long> validatorLong() {
+    if( validatorLong == null ) {
+      validatorLong = aValue -> {
+        TsNullArgumentRtException.checkNull( aValue );
+        return this.validate( aValue.longValue() );
+      };
+    }
     return validatorLong;
   }
 
@@ -181,6 +177,15 @@ public final class LongRange
    * @return {@link ITsValidator}&lt;{@link IAtomicValue}&gt; - {@link IAtomicValue} validator
    */
   public ITsValidator<IAtomicValue> validatorAv() {
+    if( validatorAv == null ) {
+      validatorAv = aValue -> {
+        TsNullArgumentRtException.checkNull( aValue );
+        if( aValue.atomicType() != EAtomicType.INTEGER ) {
+          return ValidationResult.error( FMT_ERR_NOT_EXPECTED_AT, aValue.atomicType().id(), EAtomicType.INTEGER.id() );
+        }
+        return this.validate( aValue.asLong() );
+      };
+    }
     return validatorAv;
   }
 

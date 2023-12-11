@@ -60,18 +60,8 @@ public final class IntRange
         }
       };
 
-  private ITsValidator<Integer> validatorInteger = aValue -> {
-    TsNullArgumentRtException.checkNull( aValue );
-    return this.validate( aValue.intValue() );
-  };
-
-  private ITsValidator<IAtomicValue> validatorAv = aValue -> {
-    TsNullArgumentRtException.checkNull( aValue );
-    if( aValue.atomicType() != EAtomicType.INTEGER ) {
-      return ValidationResult.error( FMT_ERR_NOT_EXPECTED_AT, aValue.atomicType().id(), EAtomicType.INTEGER.id() );
-    }
-    return this.validate( aValue.asInt() );
-  };
+  private ITsValidator<Integer>      validatorInteger = null; // lazy initialization
+  private ITsValidator<IAtomicValue> validatorAv      = null; // lazy initialization
 
   final int minValue;
   final int maxValue;
@@ -194,6 +184,12 @@ public final class IntRange
    * @return {@link ITsValidator}&lt;{@link Integer}&gt; - {@link Integer} validator
    */
   public ITsValidator<Integer> validatorInteger() {
+    if( validatorInteger == null ) {
+      validatorInteger = aValue -> {
+        TsNullArgumentRtException.checkNull( aValue );
+        return this.validate( aValue.intValue() );
+      };
+    }
     return validatorInteger;
   }
 
@@ -203,6 +199,15 @@ public final class IntRange
    * @return {@link ITsValidator}&lt;{@link IAtomicValue}&gt; - {@link IntRange} validator
    */
   public ITsValidator<IAtomicValue> validatorAv() {
+    if( validatorAv == null ) {
+      validatorAv = aValue -> {
+        TsNullArgumentRtException.checkNull( aValue );
+        if( aValue.atomicType() != EAtomicType.INTEGER ) {
+          return ValidationResult.error( FMT_ERR_NOT_EXPECTED_AT, aValue.atomicType().id(), EAtomicType.INTEGER.id() );
+        }
+        return this.validate( aValue.asInt() );
+      };
+    }
     return validatorAv;
   }
 
