@@ -39,7 +39,7 @@ public class DataMetaInfoBasicM5Model<T extends IDataType>
 
         @Override
         protected void doInit() {
-          setNameAndDescription( STR_N_ATOMIC_TYPE, STR_D_ATOMIC_TYPE );
+          setNameAndDescription( STR_ATOMIC_TYPE, STR_ATOMIC_TYPE_D );
           setFlags( M5FF_COLUMN | M5FF_INVARIANT );
         }
 
@@ -60,6 +60,7 @@ public class DataMetaInfoBasicM5Model<T extends IDataType>
           setNameAndDescription( STR_N_CONSTRAINTS, STR_D_CONSTRAINTS );
           setFlags( M5FF_DETAIL );
           params().setInt( IValedControlConstants.OPDEF_VERTICAL_SPAN, 5 );
+          params().setBool( IValedControlConstants.OPDEF_NO_FIELD_LABEL, true );
         }
 
         protected IList<IdValue> doGetFieldValue( T aEntity ) {

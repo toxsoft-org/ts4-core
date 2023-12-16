@@ -16,8 +16,8 @@ interface ITsResources {
   /**
    * {@link DataMetaInfoBasicM5Model}
    */
-  String STR_N_ATOMIC_TYPE = Messages.getString( "STR_N_ATOMIC_TYPE" ); //$NON-NLS-1$
-  String STR_D_ATOMIC_TYPE = Messages.getString( "STR_D_ATOMIC_TYPE" ); //$NON-NLS-1$
+  String STR_ATOMIC_TYPE   = Messages.getString( "STR_ATOMIC_TYPE" );   //$NON-NLS-1$
+  String STR_ATOMIC_TYPE_D = Messages.getString( "STR_ATOMIC_TYPE_D" ); //$NON-NLS-1$
   String STR_N_CONSTRAINTS = Messages.getString( "STR_N_CONSTRAINTS" ); //$NON-NLS-1$
   String STR_D_CONSTRAINTS = Messages.getString( "STR_D_CONSTRAINTS" ); //$NON-NLS-1$
 

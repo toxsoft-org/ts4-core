@@ -7,6 +7,8 @@ package org.toxsoft.core.tsgui.m5.valeds.singlemodown;
  */
 interface ITsResources {
 
+  String MSG_ERR_NULL_NOT_ALLOWED = Messages.getString( "MSG_ERR_NULL_NOT_ALLOWED" ); //$NON-NLS-1$
+
   /**
    * {@link ValedSingleModownEditor}
    */
