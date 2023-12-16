@@ -132,6 +132,10 @@ public class StrioUtils {
     return (char)(aValue + 'A');
   }
 
+  // ------------------------------------------------------------------------------------
+  // Keyword header I/O
+  //
+
   /**
    * Записывает заголовок "Keyword = ".
    * <p>
@@ -667,7 +671,6 @@ public class StrioUtils {
         E e = aKeeper.read( aSr );
         map.put( key, e );
       } while( aSr.readSetNext() );
-      return map;
     }
     return map;
   }

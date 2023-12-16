@@ -1,8 +1,10 @@
 package org.toxsoft.core.tsgui.m5.valeds.singlemodown;
 
+import static org.toxsoft.core.tsgui.m5.valeds.singlemodown.ITsResources.*;
 import static org.toxsoft.core.tsgui.valed.IValedImplementationHelpers.*;
 import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
+import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import java.util.*;
 
@@ -59,7 +61,7 @@ public class ValedSingleModownTextEditor<V>
   }
 
   // ------------------------------------------------------------------------------------
-  // Внутренные методы
+  // implementation
   //
 
   void editDialog() {
@@ -74,7 +76,7 @@ public class ValedSingleModownTextEditor<V>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация методов базового класса
+  // AbstractValedSingleModownEditor
   //
 
   @Override
@@ -98,6 +100,9 @@ public class ValedSingleModownTextEditor<V>
 
   @Override
   public ValidationResult canGetValue() {
+    if( value == null && !params().getBool( TSID_IS_NULL_ALLOWED, true ) ) {
+      return ValidationResult.error( MSG_ERR_NULL_NOT_ALLOWED );
+    }
     return ValidationResult.SUCCESS;
   }
 

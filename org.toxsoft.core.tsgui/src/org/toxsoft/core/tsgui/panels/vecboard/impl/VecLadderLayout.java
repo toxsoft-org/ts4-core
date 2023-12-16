@@ -20,9 +20,9 @@ public class VecLadderLayout
   private final boolean isLabelsShown;
 
   /**
-   * Создает раскладку с указанными параметрами.
+   * Constructor.
    *
-   * @param aIsLabelsShown boolean - признак показа подписей к полям ввода
+   * @param aIsLabelsShown - <code>true</code> to display labels, <code>false</code> - no labels at all
    */
   public VecLadderLayout( boolean aIsLabelsShown ) {
     isLabelsShown = aIsLabelsShown;
@@ -36,7 +36,7 @@ public class VecLadderLayout
     aParent.setLayout( new GridLayout( 1, false ) );
     for( int i = 0, n = items().size(); i < n; i++ ) {
       Item<IVecLadderLayoutData> item = items().get( i );
-      if( item.cb() == null ) { // нет контроля - идем дальше
+      if( item.cb() == null ) { // no widget
         continue;
       }
       Control c = item.cb().createControl( aParent );
@@ -44,7 +44,7 @@ public class VecLadderLayout
       c.setToolTipText( ld.tooltip() );
       int verSpan = ld.verticalSpan();
       boolean isLastItem = (i == n - 1);
-      if( isLastItem && verSpan > 1 ) { // последний многострочный элемент делаем вертикально растяжимым
+      if( isLastItem && verSpan > 1 ) { // make the last multi-line element vertically expandable
         c.setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true, 1, verSpan ) );
       }
       else {
@@ -67,7 +67,7 @@ public class VecLadderLayout
 
   private void fillWithLabels( Composite aParent ) {
     aParent.setLayout( new GridLayout( 2, false ) );
-    // calculate height of one SPAN ion pixels
+    // calculate height of one SPAN in pixels
     FontData fontData = aParent.getFont().getFontData()[0];
     int spanHeight = 2 * fontData.getHeight();
     // iterate over all items on the layout
