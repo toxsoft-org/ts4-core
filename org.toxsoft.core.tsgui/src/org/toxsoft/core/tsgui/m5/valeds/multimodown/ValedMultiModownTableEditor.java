@@ -163,6 +163,7 @@ public class ValedMultiModownTableEditor<V>
     panel = model.panelCreator().createCollEditPanel( tsContext(), itemsContainer, lm );
     updateOnMasterObject();
     panel.createControl( aParent );
+    panel.setEditable( isEditable() );
     return panel.getControl();
   }
 

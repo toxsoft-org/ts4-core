@@ -238,7 +238,10 @@ public abstract class AbstractValedControl<V, C extends Control>
     control.setToolTipText( tooltipText );
     doSetTooltip( tooltipText );
     doSetupControl();
-    doSetEditable( !isCreatedUneditable() );
+    // 2023-12-17 GOGA --- change: old code ignores setEdiable() called between constructor and createControl()
+    // doSetEditable( !isCreatedUneditable() );
+    doSetEditable( editable );
+    // ---
     setValue( lastValue );
     return control;
   }

@@ -470,7 +470,9 @@ public class MultiPaneComponent<T>
       else {
         tree.setTreeMaker( tableMaker );
       }
-      tree.setSelectedItem( sel );
+      if( sel != null ) {
+        tree.setSelectedItem( sel );
+      }
     }
   }
 

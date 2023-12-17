@@ -84,4 +84,9 @@ public class M5CollectionPanelMpcModownWrapper<T>
     return source.createControl( aParent );
   }
 
+  @Override
+  protected void doEditableStateChanged() {
+    source.setEditable( isEditable() );
+  }
+
 }
