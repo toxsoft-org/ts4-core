@@ -21,10 +21,8 @@ public class TsPartStackManager
 
   private final IStringMapEdit<MPart> stackParts = new StringMap<>();
 
-  private final MApplication  application;
-  private final EModelService modelService;
-  private final EPartService  partService;
-  private final MPartStack    partStack;
+  private final IEclipseContext eclipseContext;
+  private final MPartStack      partStack;
 
   /**
    * Constructor.
@@ -36,17 +34,28 @@ public class TsPartStackManager
    */
   public TsPartStackManager( IEclipseContext aWinContext, String aPartStackId ) {
     TsNullArgumentRtException.checkNulls( aWinContext, aPartStackId );
-    modelService = aWinContext.get( EModelService.class );
+    eclipseContext = aWinContext;
+    EModelService modelService = aWinContext.get( EModelService.class );
     TsInternalErrorRtException.checkNull( modelService );
-    application = aWinContext.get( MApplication.class );
+    MApplication application = aWinContext.get( MApplication.class );
     TsInternalErrorRtException.checkNull( application );
-    partService = application.getContext().get( EPartService.class );
+    EPartService partService = application.getContext().get( EPartService.class );
     TsInternalErrorRtException.checkNull( partService );
     //
     partStack = (MPartStack)modelService.find( aPartStackId, application );
     if( partStack == null ) {
       throw new TsItemNotFoundRtException( FMT_ERR_NO_SUCH_PART_STACK, aPartStackId );
     }
+  }
+
+  // ------------------------------------------------------------------------------------
+  // implementation
+  //
+
+  private EPartService partService() {
+    EPartService partService = eclipseContext.get( EPartService.class );
+    TsInternalErrorRtException.checkNull( partService );
+    return partService;
   }
 
   // ------------------------------------------------------------------------------------
@@ -63,7 +72,7 @@ public class TsPartStackManager
     // remove closed UIparts from stackParts if any
     IStringListEdit llClosedPartIds = new StringArrayList();
     for( String pid : stackParts.keys() ) {
-      MPart found = partService.findPart( pid );
+      MPart found = partService().findPart( pid );
       if( found == null ) {
         llClosedPartIds.add( pid );
       }
@@ -90,14 +99,21 @@ public class TsPartStackManager
     part.setCloseable( aInfo.isCloseable() );
     part.getTags().add( EPartService.REMOVE_ON_HIDE_TAG );
     partStack.getChildren().add( part );
-    MPart createdPart = partService.showPart( part, PartState.VISIBLE );
+    MPart createdPart = partService().showPart( part, PartState.VISIBLE );
     stackParts.put( aInfo.partId(), createdPart );
     return createdPart;
   }
 
   @Override
   public void closePart( String aPartId ) {
-    partService.hidePart( stackParts.getByKey( aPartId ) );
+    partService().hidePart( stackParts.getByKey( aPartId ) );
+  }
+
+  @Override
+  public void closeAll() {
+    for( String partId : stackParts.keys() ) {
+      closePart( partId );
+    }
   }
 
 }

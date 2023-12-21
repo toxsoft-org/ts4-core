@@ -61,6 +61,11 @@ public interface ITsPartStackManager {
    */
   void closePart( String aPartId );
 
+  /**
+   * Closes all managed parts.
+   */
+  void closeAll();
+
   // ------------------------------------------------------------------------------------
   // Inline methods for convenience
   //
