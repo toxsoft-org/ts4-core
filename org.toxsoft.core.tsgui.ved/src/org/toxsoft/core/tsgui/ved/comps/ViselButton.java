@@ -106,9 +106,10 @@ public class ViselButton
       fields.add( TFI_BK_COLOR );
       fields.add( TFI_STATE );
       fields.add( TFI_HOVERED );
-      // fields.add( new TinFieldInfo( PROPID_ARC_WIDTH, TTI_AT_FLOATING, PROP_ARC_WIDTH.params() ) );
-      // fields.add( new TinFieldInfo( PROPID_ARC_HEIGHT, TTI_AT_FLOATING, PROP_ARC_HEIGHT.params() ) );
-      fields.add( TFI_TRANSFORM );
+      // fields.add( TFI_TRANSFORM );
+      fields.add( TFI_ZOOM );
+      fields.add( TFI_ANGLE );
+      fields.add( TinFieldInfo.makeCopy( TFI_TRANSFORM, ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE ) );
       fields.add( TFI_IS_ACTIVE );
 
       return new PropertableEntitiesTinTypeInfo<>( fields, ViselButton.class );

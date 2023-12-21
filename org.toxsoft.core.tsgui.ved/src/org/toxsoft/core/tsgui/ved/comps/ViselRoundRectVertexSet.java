@@ -59,11 +59,12 @@ class ViselRoundRectVertexSet
   }
 
   @Override
-  protected void update( double aDx, double aDy, String aVertexId ) {
-    super.update( aDx, aDy, aVertexId );
+  protected void update( int aSwtDx, int aSwtDy, String aVertexId ) {
+    super.update( aSwtDx, aSwtDy, aVertexId );
+    ID2Point d2p = deltaSwt2Visel( aSwtDx, aSwtDy );
     ViselRoundRect roundRect = (ViselRoundRect)visel();
     if( aVertexId.equals( VID_ARC_WIDTH ) ) {
-      double arcW = roundRect.props().getDouble( PROPID_ARC_WIDTH ) - 2 * aDx;
+      double arcW = roundRect.props().getDouble( PROPID_ARC_WIDTH ) - 2 * d2p.x();
       if( arcW < 0 ) {
         arcW = 0;
       }
@@ -73,7 +74,7 @@ class ViselRoundRectVertexSet
       roundRect.props().setDouble( PROPID_ARC_WIDTH, arcW );
     }
     if( aVertexId.equals( VID_ARC_HEIGHT ) ) {
-      double arcH = roundRect.props().getDouble( PROPID_ARC_HEIGHT ) + 2 * aDy;
+      double arcH = roundRect.props().getDouble( PROPID_ARC_HEIGHT ) + 2 * d2p.y();
       if( arcH < 0 ) {
         arcH = 0;
       }
@@ -92,13 +93,13 @@ class ViselRoundRectVertexSet
     ID2Rectangle br = visel().bounds();
     for( IVedVertex v : vertexes() ) {
       if( v.id().equals( VID_ARC_WIDTH ) ) {
-        int x = (int)(br.x1() + br.width() - baloon.props().getDouble( PROPID_ARC_WIDTH ) / 2.);
-        v.setLocation( x - v.bounds().width() / 2., br.y1() - v.bounds().height() / 2. );
+        int x = (int)(br.width() - baloon.props().getDouble( PROPID_ARC_WIDTH ) / 2.);
+        v.setLocation( x - v.bounds().width() / 2., -v.bounds().height() / 2. );
       }
       if( v.id().equals( VID_ARC_HEIGHT ) ) {
         double arcH = baloon.props().getDouble( PROPID_ARC_HEIGHT );
-        int x = (int)(br.x1() + br.width());
-        v.setLocation( x - v.bounds().width() / 2., (int)(br.y1() + arcH / 2. - v.bounds().height() / 2.) );
+        int x = (int)br.width();
+        v.setLocation( x - v.bounds().width() / 2., (int)(arcH / 2. - v.bounds().height() / 2.) );
       }
     }
     updateSwtRect();

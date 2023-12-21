@@ -7,15 +7,18 @@ import org.eclipse.swt.*;
 import org.eclipse.swt.custom.*;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.std.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
  * Utility and helper methods.
@@ -145,6 +148,51 @@ public class VedEditorUtils {
     TsDialogInfo tdi = new TsDialogInfo( aVedScreen.tsContext(), caption, title );
     TsDialog<VedItemCfg, IVedScreen> d = new TsDialog<>( tdi, new VedItemCfg( aCfg ), aVedScreen, creator );
     return d.execData();
+  }
+
+  /**
+   * Returns visel factory.
+   *
+   * @param aVisel IVedItem - visel
+   * @param aTsContext - corresponding context
+   * @return {@link IVedViselFactory} - visel factory
+   * @throws TsIllegalArgumentRtException - if aItem is not {@link IVedVisel}
+   * @throws TsItemNotFoundRtException - if there is no factory with requested ID.
+   */
+  public static IVedViselFactory viselFactory( IVedItem aVisel, ITsGuiContext aTsContext ) {
+    TsIllegalArgumentRtException.checkFalse( aVisel.kind() == EVedItemKind.VISEL );
+    IVedViselFactoriesRegistry vfReg = aTsContext.get( IVedViselFactoriesRegistry.class );
+    return vfReg.get( aVisel.factoryId() );
+  }
+
+  /**
+   * Returns result of checking if aClazz equals pointed property class.
+   *
+   * @param aClazz {@link Class} - class to be checked
+   * @param aPropId String - property ID
+   * @param aVisel {@link IVedItem} - visel
+   * @param aTsContext {@link ITsGuiContext} - corresponding context
+   * @return <b>true</b> - aClazz equals the property Class<br>
+   *         <b>false</b> - aClazz not equals the property Class
+   */
+  public static boolean isPropertyClass( Class<?> aClazz, String aPropId, IVedItem aVisel, ITsGuiContext aTsContext ) {
+    IVedViselFactory vFact = viselFactory( aVisel, aTsContext );
+    IDataDef dataDef = vFact.propDefs().getByKey( aPropId );
+    return TsValobjUtils.getKeeperIdByClass( aClazz ).equals( dataDef.keeperId() );
+  }
+
+  /**
+   * Returns result of checking has visel properties aPropId or not.
+   *
+   * @param aPropId String - property ID
+   * @param aVisel {@link IVedItem} - visel
+   * @param aTsContext {@link ITsGuiContext} - corresponding context
+   * @return <b>true</b> - visel properties has aPropId<br>
+   *         <b>false</b> - there is no property with aPropId
+   */
+  public static boolean isViselProperyId( String aPropId, IVedItem aVisel, ITsGuiContext aTsContext ) {
+    IVedViselFactory vFact = viselFactory( aVisel, aTsContext );
+    return vFact.propDefs().findByKey( aPropId ) != null;
   }
 
   /**

@@ -102,7 +102,7 @@ public class TtiD2Angle
   @Override
   protected void doDecompose( IAtomicValue aValue, IStringMapEdit<ITinValue> aChildValues ) {
     IAtomicValue defVal = dataType().params().getValue( TSID_DEFAULT_VALUE );
-    D2Angle d2a = aValue != null ? aValue.asValobj() : defVal.asValobj();
+    ID2Angle d2a = aValue != null ? aValue.asValobj() : defVal.asValobj();
     aChildValues.put( FID_DEGREES, TinValue.ofAtomic( avFloat( d2a.degrees() ) ) );
     aChildValues.put( FID_RADIANS, TinValue.ofAtomic( avFloat( d2a.radians() ) ) );
   }

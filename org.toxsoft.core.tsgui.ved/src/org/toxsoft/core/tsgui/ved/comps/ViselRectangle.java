@@ -3,6 +3,7 @@ package org.toxsoft.core.tsgui.ved.comps;
 import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
 import static org.toxsoft.core.tsgui.ved.comps.ITsResources.*;
 import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
+import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.toxsoft.core.tsgui.bricks.tin.*;
@@ -49,7 +50,10 @@ public class ViselRectangle
       fields.add( TFI_WIDTH );
       fields.add( TFI_HEIGHT );
       fields.add( TFI_FULCRUM );
-      fields.add( TFI_TRANSFORM );
+      // fields.add( TFI_TRANSFORM );
+      fields.add( TinFieldInfo.makeCopy( TFI_TRANSFORM, ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE ) );
+      fields.add( TFI_ZOOM );
+      fields.add( TFI_ANGLE );
       fields.add( TFI_BK_FILL );
       fields.add( TFI_BORDER_INFO );
       fields.add( TFI_IS_ASPECT_FIXED );
@@ -87,9 +91,9 @@ public class ViselRectangle
   @Override
   public void paint( ITsGraphicsContext aPaintContext ) {
     aPaintContext.setFillInfo( props().getValobj( PROPID_BK_FILL ) );
-    aPaintContext.fillD2Rect( bounds() );
+    aPaintContext.fillD2Rect( 0, 0, (int)bounds().width(), (int)bounds().height() );
     aPaintContext.setBorderInfo( props().getValobj( PROPID_BORDER_INFO ) );
-    aPaintContext.drawD2RectBorder( bounds() );
+    aPaintContext.drawD2RectBorder( 0, 0, (int)bounds().width(), (int)bounds().height() );
   }
 
 }

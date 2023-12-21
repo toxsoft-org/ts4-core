@@ -133,7 +133,10 @@ public class ViselBaloon
       fields.add( new TinFieldInfo( PROPID_SHADOW_DEPTH, TTI_AT_INTEGER, PROP_SHADOW_DEPTH.params() ) );
       fields.add( TFI_IS_ASPECT_FIXED );
       fields.add( TFI_ASPECT_RATIO );
-      fields.add( TFI_TRANSFORM );
+      // fields.add( TFI_TRANSFORM );
+      fields.add( TFI_ZOOM );
+      fields.add( TFI_ANGLE );
+      fields.add( TinFieldInfo.makeCopy( TFI_TRANSFORM, ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE ) );
       fields.add( TFI_IS_ACTIVE );
       return new PropertableEntitiesTinTypeInfo<>( fields, ViselBaloon.class );
     }
@@ -178,7 +181,7 @@ public class ViselBaloon
     aPaintContext.gc().setTextAntialias( SWT.ON );
     aPaintContext.gc().setInterpolation( SWT.HIGH );
     if( image != null ) {
-      aPaintContext.gc().drawImage( image, swtRect.x, swtRect.y );
+      aPaintContext.gc().drawImage( image, 0, 0 );
     }
     if( props().getBool( PROPID_USE_GRADIENT ) ) {
       aPaintContext.setFillInfo( gradientInfo );
@@ -186,7 +189,7 @@ public class ViselBaloon
     else {
       aPaintContext.setFillInfo( flatGradientInfo );
     }
-    aPaintContext.fillPath( baloonPath, swtRect.x, swtRect.y, swtRect.width, swtRect.height );
+    aPaintContext.fillPath( baloonPath, 0, 0, swtRect.width, swtRect.height );
     aPaintContext.setFillInfo( TsFillInfo.NONE );
 
     IGradient grad = gradientInfo.gradientFillInfo().createGradient( tsContext() );
@@ -195,7 +198,7 @@ public class ViselBaloon
       pat = grad.pattern( aPaintContext.gc(), swtRect.width, swtRect.height );
       aPaintContext.gc().setForegroundPattern( pat );
     }
-    aPaintContext.drawPath( baloonPath, swtRect.x, swtRect.y );
+    aPaintContext.drawPath( baloonPath, 0, 0 );
     if( pat != null ) {
       pat.dispose();
     }
@@ -288,7 +291,6 @@ public class ViselBaloon
 
     if( texts.size() > 0 ) {
       Point p = aGc.textExtent( texts.first() );
-      // height = 2 * (texts.size() - 1) + p.y * texts.size();
       height = p.y * texts.size();
     }
     return height;
@@ -420,14 +422,13 @@ public class ViselBaloon
 
   public double rectX() {
     float noseLength = props().getFloat( PROP_NOSE_LENGTH );
-    ID2Rectangle r = bounds();
     switch( getFulcrum() ) {
       case LEFT_CENTER:
-        return (int)(r.x1() + noseLength);
+        return (int)(noseLength);
       case RIGHT_CENTER:
       case TOP_CENTER:
       case BOTTOM_CENTER:
-        return r.x1();
+        return 0;
 
       case CENTER:
       case LEFT_BOTTOM:
@@ -441,14 +442,13 @@ public class ViselBaloon
 
   public double rectY() {
     float noseLength = props().getFloat( PROP_NOSE_LENGTH );
-    ID2Rectangle r = bounds();
     switch( getFulcrum() ) {
       case TOP_CENTER:
-        return (int)(r.y1() + noseLength);
+        return (int)(noseLength);
       case LEFT_CENTER:
       case RIGHT_CENTER:
       case BOTTOM_CENTER:
-        return r.y1();
+        return 0;
 
       case CENTER:
       case LEFT_BOTTOM:

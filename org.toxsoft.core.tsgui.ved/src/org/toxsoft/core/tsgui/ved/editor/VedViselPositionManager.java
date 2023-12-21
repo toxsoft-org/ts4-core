@@ -108,14 +108,13 @@ public class VedViselPositionManager
       return false;
     }
 
-    IVedCoorsConverter converter = vedScreen().view().coorsConverter();
-
     int dx = aCoors.x() - dc.prevPoint.x();
     int dy = aCoors.y() - dc.prevPoint.y();
 
     for( VedAbstractVisel v : dc.visels ) {
-      ID2Point d2p = converter.swt2Visel( dx, dy, v );
-      v.setLocation( v.originX() + d2p.x(), v.originY() + d2p.y() );
+      ID2Point d2pZero = v.coorsConverter().swt2Screen( 0, 0 );
+      ID2Point d2p = v.coorsConverter().swt2Screen( dx, dy );
+      v.setLocation( v.originX() + d2p.x() - d2pZero.x(), v.originY() + d2p.y() - d2pZero.y() );
     }
 
     dc.prevPoint.setPoint( aCoors.x(), aCoors.y() );
@@ -134,14 +133,13 @@ public class VedViselPositionManager
     vedScreen().model().visels().eventer().resumeFiring( true );
     vedScreen().model().actors().eventer().resumeFiring( true );
 
-    IVedCoorsConverter converter = vedScreen().view().coorsConverter();
-
     int dx = aCoors.x() - dc.prevPoint.x();
     int dy = aCoors.y() - dc.prevPoint.y();
 
     for( VedAbstractVisel v : dc.visels ) {
-      ID2Point d2p = converter.swt2Visel( dx, dy, v );
-      v.setLocation( v.originX() + d2p.x(), v.originY() + d2p.y() );
+      ID2Point d2pZero = v.coorsConverter().swt2Screen( 0, 0 );
+      ID2Point d2p = v.coorsConverter().swt2Screen( dx, dy );
+      v.setLocation( v.originX() + d2p.x() - d2pZero.x(), v.originY() + d2p.y() - d2pZero.y() );
     }
 
     dc.prevPoint.setPoint( aCoors.x(), aCoors.y() );

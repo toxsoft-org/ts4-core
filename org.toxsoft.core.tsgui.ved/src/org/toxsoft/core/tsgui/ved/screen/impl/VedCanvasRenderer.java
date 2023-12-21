@@ -6,9 +6,11 @@ import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.graphics.gc.*;
 import org.toxsoft.core.tsgui.ved.incub.*;
+import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
+import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -71,15 +73,17 @@ class VedCanvasRenderer
       return;
     }
     Transform itemTransform = D2TransformUtils.d2ConversionToTransfrom( aGc.gc(), d2Conv );
-    D2TransformUtils.convertTransfrom( itemTransform, viselConv ); // old
-
-    // double x = aVisel.bounds().x1() + aVisel.bounds().width() / 2.;
-    // double y = aVisel.bounds().y1() + aVisel.bounds().height() / 2.;
-    // double x = aVisel.bounds().x1();
-    // double y = aVisel.bounds().y1();
-    // D2TransformUtils.convertItemTransfrom( itemTransform, x, y, viselConv );
+    // D2TransformUtils.convertTransfrom( itemTransform, viselConv ); // old
+    D2TransformUtils.convertItemTransfrom( itemTransform, viselConv, aVisel.rotationX(), aVisel.rotationY() );
     aGc.gc().setTransform( itemTransform );
     itemTransform.dispose();
+  }
+
+  private Transform viselTransform( ITsGraphicsContext aGc, VedAbstractVisel aVisel ) {
+    ID2Conversion viselConv = aVisel.getConversion();
+    Transform itemTransform = D2TransformUtils.d2ConversionToTransfrom( aGc.gc(), d2Conv );
+    D2TransformUtils.convertItemTransfrom( itemTransform, viselConv, aVisel.rotationX(), aVisel.rotationY() );
+    return itemTransform;
   }
 
   // ------------------------------------------------------------------------------------
@@ -92,6 +96,7 @@ class VedCanvasRenderer
     aEvent.gc.setAdvanced( true );
     aEvent.gc.setAntialias( SWT.ON );
     aEvent.gc.setTextAntialias( SWT.ON );
+
     TsGraphicsContext tsg = new TsGraphicsContext( aEvent, tsContext() );
     Transform screenTransform = D2TransformUtils.d2ConversionToTransfrom( aEvent.gc, d2Conv );
     aEvent.gc.setTransform( screenTransform );
@@ -103,6 +108,11 @@ class VedCanvasRenderer
       // tsg.fillRect( tsg.drawArea() ); // TODO maybe draw from the canvas (0,0) to (canvas_width,canvas_height) ?
       tsg.fillRect( 0, 0, (int)canvasCfg.size().x(), (int)canvasCfg.size().y() );
     }
+    // DEBUG -----------------------------------
+    aEvent.gc.setForeground( new Color( 0, 0, 0 ) );
+    aEvent.gc.drawLine( 100, 0, 100, 300 );
+    aEvent.gc.drawLine( 0, 100, 300, 100 );
+    // DEBUG -----------------------------------
 
     // draw screen decorators BEFORE
     for( VedAbstractDecorator d : screenModel.screenDecoratorsBefore().list() ) {
@@ -147,8 +157,29 @@ class VedCanvasRenderer
         d.paint( tsg );
       }
     }
-    screenTransform.dispose();
+    // screenTransform.dispose();
     aEvent.gc.setTransform( null );
+
+    // DEBUG ------------------------------------------------
+    for( VedAbstractVisel visel : visels.list() ) {
+      if( visel.isActive() ) {
+        IVedCoorsConverter vedConv = visel.vedScreen().view().coorsConverter();
+        ITsPoint tsp = vedConv.visel2Swt( new D2Point( 0, 0 ), visel );
+        tsg.gc().setBackground( new Color( 255, 0, 0 ) );
+        tsg.gc().fillOval( tsp.x() - 4, tsp.y() - 4, 8, 8 );
+      }
+    }
+
+    if( visels.list().size() > 0 ) {
+      IVedCoorsConverter vedConv = visels.list().first().vedScreen().view().coorsConverter();
+      ITsPoint tsp = vedConv.screen2Swt( 100, 100 );
+      tsg.gc().setBackground( new Color( 0, 0, 255 ) );
+      tsg.gc().fillOval( tsp.x() - 4, tsp.y() - 4, 8, 8 );
+    }
+
+    // DEBUG ------------------------------------------------
+    screenTransform.dispose();
+
   }
 
   // ------------------------------------------------------------------------------------

@@ -80,7 +80,10 @@ public class ViselRoundRect
       fields.add( TFI_LINE_INFO );
       fields.add( TFI_IS_ASPECT_FIXED );
       fields.add( TFI_ASPECT_RATIO );
-      fields.add( TFI_TRANSFORM );
+      // fields.add( TFI_TRANSFORM );
+      fields.add( TFI_ZOOM );
+      fields.add( TFI_ANGLE );
+      fields.add( TinFieldInfo.makeCopy( TFI_TRANSFORM, ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE ) );
       fields.add( TFI_IS_ACTIVE );
       return new PropertableEntitiesTinTypeInfo<>( fields, ViselRoundRect.class );
     }
@@ -129,12 +132,12 @@ public class ViselRoundRect
     int arcW = (int)props().getDouble( PROPID_ARC_WIDTH );
     int arcH = (int)props().getDouble( PROPID_ARC_HEIGHT );
     aPaintContext.setFillInfo( props().getValobj( PROPID_BK_FILL ) );
-    aPaintContext.fillRoundRect( swtRect.x, swtRect.y, swtRect.width, swtRect.height, arcW, arcH );
+    aPaintContext.fillRoundRect( 0, 0, swtRect.width, swtRect.height, arcW, arcH );
     aPaintContext.setFillInfo( TsFillInfo.NONE );
     TsLineInfo lineInfo = props().getValobj( PROPID_LINE_INFO );
     aPaintContext.setLineInfo( lineInfo );
     aPaintContext.gc().setForeground( fgColor );
-    aPaintContext.drawRoundRect( swtRect.x, swtRect.y, swtRect.width, swtRect.height, arcW, arcH );
+    aPaintContext.drawRoundRect( 0, 0, swtRect.width, swtRect.height, arcW, arcH );
   }
 
   @Override

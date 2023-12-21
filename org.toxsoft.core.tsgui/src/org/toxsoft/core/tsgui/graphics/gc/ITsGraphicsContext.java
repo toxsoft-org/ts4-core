@@ -89,8 +89,16 @@ public interface ITsGraphicsContext
     fillRect( (int)aRect.x1(), (int)aRect.y1(), (int)aRect.width(), (int)aRect.height() );
   }
 
+  default void fillD2Rect( double aX, double aY, double aWidth, double aHeight ) {
+    fillRect( (int)aX, (int)aY, (int)aWidth, (int)aHeight );
+  }
+
   default void drawD2RectBorder( ID2Rectangle aRect ) {
     drawRectBorder( (int)aRect.x1(), (int)aRect.y1(), (int)aRect.width(), (int)aRect.height() );
+  }
+
+  default void drawD2RectBorder( double aX, double aY, double aWidth, double aHeight ) {
+    drawRectBorder( (int)aX, (int)aY, (int)aWidth, (int)aHeight );
   }
 
 }
