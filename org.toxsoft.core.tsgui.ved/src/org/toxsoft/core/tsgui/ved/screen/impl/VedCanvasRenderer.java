@@ -6,11 +6,9 @@ import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.graphics.gc.*;
 import org.toxsoft.core.tsgui.ved.incub.*;
-import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
-import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -108,11 +106,11 @@ class VedCanvasRenderer
       // tsg.fillRect( tsg.drawArea() ); // TODO maybe draw from the canvas (0,0) to (canvas_width,canvas_height) ?
       tsg.fillRect( 0, 0, (int)canvasCfg.size().x(), (int)canvasCfg.size().y() );
     }
-    // DEBUG -----------------------------------
-    aEvent.gc.setForeground( new Color( 0, 0, 0 ) );
-    aEvent.gc.drawLine( 100, 0, 100, 300 );
-    aEvent.gc.drawLine( 0, 100, 300, 100 );
-    // DEBUG -----------------------------------
+    // // DEBUG -----------------------------------
+    // aEvent.gc.setForeground( new Color( 0, 0, 0 ) );
+    // aEvent.gc.drawLine( 100, 0, 100, 300 );
+    // aEvent.gc.drawLine( 0, 100, 300, 100 );
+    // // DEBUG -----------------------------------
 
     // draw screen decorators BEFORE
     for( VedAbstractDecorator d : screenModel.screenDecoratorsBefore().list() ) {
@@ -160,24 +158,23 @@ class VedCanvasRenderer
     // screenTransform.dispose();
     aEvent.gc.setTransform( null );
 
-    // DEBUG ------------------------------------------------
-    for( VedAbstractVisel visel : visels.list() ) {
-      if( visel.isActive() ) {
-        IVedCoorsConverter vedConv = visel.vedScreen().view().coorsConverter();
-        ITsPoint tsp = vedConv.visel2Swt( new D2Point( 0, 0 ), visel );
-        tsg.gc().setBackground( new Color( 255, 0, 0 ) );
-        tsg.gc().fillOval( tsp.x() - 4, tsp.y() - 4, 8, 8 );
-      }
-    }
-
-    if( visels.list().size() > 0 ) {
-      IVedCoorsConverter vedConv = visels.list().first().vedScreen().view().coorsConverter();
-      ITsPoint tsp = vedConv.screen2Swt( 100, 100 );
-      tsg.gc().setBackground( new Color( 0, 0, 255 ) );
-      tsg.gc().fillOval( tsp.x() - 4, tsp.y() - 4, 8, 8 );
-    }
-
-    // DEBUG ------------------------------------------------
+    // // DEBUG ------------------------------------------------
+    // for( VedAbstractVisel visel : visels.list() ) {
+    // if( visel.isActive() ) {
+    // IVedCoorsConverter vedConv = visel.vedScreen().view().coorsConverter();
+    // ITsPoint tsp = vedConv.visel2Swt( new D2Point( 0, 0 ), visel );
+    // tsg.gc().setBackground( new Color( 255, 0, 0 ) );
+    // tsg.gc().fillOval( tsp.x() - 4, tsp.y() - 4, 8, 8 );
+    // }
+    // }
+    //
+    // if( visels.list().size() > 0 ) {
+    // IVedCoorsConverter vedConv = visels.list().first().vedScreen().view().coorsConverter();
+    // ITsPoint tsp = vedConv.screen2Swt( 100, 100 );
+    // tsg.gc().setBackground( new Color( 0, 0, 255 ) );
+    // tsg.gc().fillOval( tsp.x() - 4, tsp.y() - 4, 8, 8 );
+    // }
+    // // DEBUG ------------------------------------------------
     screenTransform.dispose();
 
   }
