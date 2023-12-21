@@ -69,11 +69,12 @@ public class ViselBaloonVertexSet
   }
 
   @Override
-  protected void update( double aDx, double aDy, String aVertexId ) {
-    super.update( aDx, aDy, aVertexId );
+  protected void update( int aSwtDx, int aSwtDy, String aVertexId ) {
+    super.update( aSwtDx, aSwtDy, aVertexId );
     ViselBaloon baloon = (ViselBaloon)visel();
+    ID2Point d2p = deltaSwt2Visel( aSwtDx, aSwtDy );
     if( aVertexId.equals( VID_ARC_WIDTH ) ) {
-      double arcW = baloon.props().getDouble( PROPID_ARC_WIDTH ) - 2 * aDx;
+      double arcW = baloon.props().getDouble( PROPID_ARC_WIDTH ) - 2 * d2p.x();
       if( arcW < 0 ) {
         arcW = 0;
       }
@@ -83,7 +84,7 @@ public class ViselBaloonVertexSet
       baloon.props().setDouble( PROPID_ARC_WIDTH, arcW );
     }
     if( aVertexId.equals( VID_ARC_HEIGHT ) ) {
-      double arcH = baloon.props().getDouble( PROPID_ARC_HEIGHT ) + 2 * aDy;
+      double arcH = baloon.props().getDouble( PROPID_ARC_HEIGHT ) + 2 * d2p.y();
       if( arcH < 0 ) {
         arcH = 0;
       }
@@ -100,7 +101,7 @@ public class ViselBaloonVertexSet
       switch( fl ) {
         case BOTTOM_CENTER:
         case TOP_CENTER: {
-          nw = nw + 2 * aDx;
+          nw = nw + 2 * d2p.x();
           if( nw > baloon.bounds().width() - 2 * arcW ) {
             nw = baloon.bounds().width() - 2 * arcW;
           }
@@ -108,7 +109,7 @@ public class ViselBaloonVertexSet
           break;
         case RIGHT_CENTER:
         case LEFT_CENTER: {
-          nw = nw + 2 * aDy;
+          nw = nw + 2 * d2p.y();
           if( nw > baloon.bounds().height() - 2 * arcH ) {
             nw = baloon.bounds().height() - 2 * arcH;
           }
@@ -128,9 +129,9 @@ public class ViselBaloonVertexSet
       baloon.props().setDouble( PROP_NOSE_WIDTH, nw );
     }
     if( aVertexId.equals( VID_NOSE_TOP ) ) {
-      double delta = aDy;
+      double delta = d2p.y();
       if( baloon.noseFulcrum().isLeft() || baloon.noseFulcrum().isRight() ) {
-        delta = aDx;
+        delta = d2p.x();
       }
       double oldL = baloon.props().getDouble( PROPID_NOSE_LENGTH );
       double nl = oldL + delta;
@@ -169,13 +170,13 @@ public class ViselBaloonVertexSet
     for( IVedVertex v : vertexes() ) {
       double dVert = v.bounds().width() / 2.;
       if( v.id().equals( VID_ARC_WIDTH ) ) {
-        int x = (int)(br.x1() + br.width() - baloon.props().getDouble( PROPID_ARC_WIDTH ) / 2.);
-        v.setLocation( x - v.bounds().width() / 2., br.y1() - v.bounds().height() / 2. );
+        int x = (int)(br.width() - baloon.props().getDouble( PROPID_ARC_WIDTH ) / 2.);
+        v.setLocation( x - v.bounds().width() / 2., -v.bounds().height() / 2. );
       }
       if( v.id().equals( VID_ARC_HEIGHT ) ) {
         double arcH = baloon.props().getDouble( PROPID_ARC_HEIGHT );
-        int x = (int)(br.x1() + br.width());
-        v.setLocation( x - v.bounds().width() / 2., (int)(br.y1() + arcH / 2. - v.bounds().height() / 2.) );
+        int x = (int)(br.width());
+        v.setLocation( x - v.bounds().width() / 2., (int)(arcH / 2. - v.bounds().height() / 2.) );
       }
       if( v.id().equals( VID_NOSE_TOP ) ) {
         ITsPoint p = baloon.noseTop();
@@ -184,26 +185,26 @@ public class ViselBaloonVertexSet
       if( v.id().equals( VID_NOSE_WIDTH ) ) {
         switch( f ) {
           case BOTTOM_CENTER: {
-            double x = br.x1() + br.width() / 2. + nw / 2. - dVert;
-            double y = br.y1() + br.height() - nl - dVert;
+            double x = br.width() / 2. + nw / 2. - dVert;
+            double y = br.height() - nl - dVert;
             v.setLocation( x, y );
           }
             break;
           case LEFT_CENTER: {
-            double x = br.x1() + nl - dVert;
-            double y = br.y1() + br.height() / 2. + nw / 2. - dVert;
+            double x = nl - dVert;
+            double y = br.height() / 2. + nw / 2. - dVert;
             v.setLocation( x, y );
           }
             break;
           case RIGHT_CENTER: {
-            double x = br.x1() + br.width() - nl + dVert;
-            double y = br.y1() + br.height() / 2. + nw / 2. - dVert;
+            double x = br.width() - nl + dVert;
+            double y = br.height() / 2. + nw / 2. - dVert;
             v.setLocation( x, y );
           }
             break;
           case TOP_CENTER: {
-            double x = br.x1() + br.width() / 2. + nw / 2. - dVert;
-            double y = br.y1() + nl - dVert;
+            double x = br.width() / 2. + nw / 2. - dVert;
+            double y = nl - dVert;
             v.setLocation( x, y );
           }
             break;

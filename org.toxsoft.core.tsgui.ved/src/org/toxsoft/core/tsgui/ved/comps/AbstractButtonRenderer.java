@@ -112,8 +112,8 @@ public abstract class AbstractButtonRenderer
   protected Point textLocation( ITsGraphicsContext aPaintContext ) {
     ID2Rectangle r = bounds();
     Point p = aPaintContext.gc().textExtent( buttonText() );
-    int x = (int)(r.x1() + (r.width() - p.x) / 2.);
-    int y = (int)(r.y1() + (r.height() - p.y) / 2.);
+    int x = (int)((r.width() - p.x) / 2.);
+    int y = (int)((r.height() - p.y) / 2.);
     p.x = x;
     p.y = y;
     return p;

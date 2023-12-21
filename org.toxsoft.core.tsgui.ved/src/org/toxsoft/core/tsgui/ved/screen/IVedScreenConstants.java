@@ -51,7 +51,8 @@ public interface IVedScreenConstants {
   String PROPID_WIDTH       = "width";         //$NON-NLS-1$
   String PROPID_HEIGHT      = "height";        //$NON-NLS-1$
   String PROPID_TS_FULCRUM  = "fulcrum";       //$NON-NLS-1$
-  String PROPID_TRANSFORM   = "transform";     //$NON-NLS-1$
+  String PROPID_ZOOM        = "zoom";          //$NON-NLS-1$
+  String PROPID_ANGLE       = "angle";         //$NON-NLS-1$
 
   IDataDef PROP_IS_ACTIVE = DataDef.create( PROPID_IS_ACTIVE, BOOLEAN, //
       TSID_NAME, STR_IS_ACTIVE, //
@@ -99,10 +100,16 @@ public interface IVedScreenConstants {
       TSID_DEFAULT_VALUE, avValobj( TsFulcrum.of( ETsFulcrum.LEFT_TOP ) ) //
   );
 
-  IDataDef PROP_TRANSFORM = DataDef.create3( PROPID_TRANSFORM, DT_D2CONVERSION, //
-      TSID_NAME, STR_TRANSFORM, //
-      TSID_DESCRIPTION, STR_TRANSFORM_D, //
-      TSID_DEFAULT_VALUE, avValobj( ID2Conversion.NONE ) //
+  IDataDef PROP_ZOOM = DataDef.create( PROPID_ZOOM, FLOATING, //
+      TSID_NAME, STR_ZOOM, //
+      TSID_DESCRIPTION, STR_ZOOM_D, //
+      TSID_DEFAULT_VALUE, avFloat( 1.0 ) //
+  );
+
+  IDataDef PROP_ANGLE = DataDef.create( PROPID_ANGLE, VALOBJ, //
+      TSID_NAME, STR_ANGLE, //
+      TSID_DESCRIPTION, STR_ANGLE_D, //
+      TSID_DEFAULT_VALUE, avValobj( ID2Angle.ZERO ) //
   );
 
   /**
@@ -117,8 +124,8 @@ public interface IVedScreenConstants {
       PROPID_WIDTH, //
       PROPID_HEIGHT, //
       PROPID_TS_FULCRUM, //
-      PROPID_TRANSFORM //
-  );
+      PROPID_ZOOM, //
+      PROPID_ANGLE );
 
   /**
    * List of mandatory properties IDs for the actors.
@@ -149,6 +156,7 @@ public interface IVedScreenConstants {
   String PROPID_RADIUS           = "radius";          //$NON-NLS-1$
   String PROPID_ON_OFF_STATE     = "onOffState";      //$NON-NLS-1$
   String PROPID_IMAGE_DESCRIPTOR = "imageDescriptor"; //$NON-NLS-1$
+  String PROPID_TRANSFORM        = "transform";       //$NON-NLS-1$
 
   IDataDef PROP_TEXT = DataDef.create3( PROPID_TEXT, DDEF_STRING, //
       TSID_NAME, STR_TEXT, //
@@ -237,6 +245,12 @@ public interface IVedScreenConstants {
       TSID_DESCRIPTION, STR_IMAGE_DESCRIPTOR_D //
   );
 
+  IDataDef PROP_TRANSFORM = DataDef.create3( PROPID_TRANSFORM, DT_D2CONVERSION, //
+      TSID_NAME, STR_TRANSFORM, //
+      TSID_DESCRIPTION, STR_TRANSFORM_D, //
+      TSID_DEFAULT_VALUE, avValobj( ID2Conversion.NONE ) //
+  );
+
   // ------------------------------------------------------------------------------------
   // Optional actor properties
   //
@@ -278,7 +292,9 @@ public interface IVedScreenConstants {
   ITinFieldInfo TFI_HEIGHT      = new TinFieldInfo( PROP_HEIGHT, TTI_POSITIVE_FLOATING );
   // ITinFieldInfo TFI_FULCRUM = new TinFieldInfo( PROP_TS_FULCRUM, TtiTsFulcrum.INSTANCE );
   ITinFieldInfo TFI_FULCRUM          =
-      new TinFieldInfo( PROP_TS_FULCRUM, new TinAtomicTypeInfo.TtiValobj( DT_TS_FULCRUM, TsFulcrum.class ) );
+      new TinFieldInfo( PROP_TS_FULCRUM, new TinAtomicTypeInfo.TtiValobj<>( DT_TS_FULCRUM, TsFulcrum.class ) );
+  ITinFieldInfo TFI_ZOOM             = new TinFieldInfo( PROP_ZOOM, TTI_AT_FLOATING );
+  ITinFieldInfo TFI_ANGLE            = new TinFieldInfo( PROP_ANGLE, TtiD2Angle.INSTANCE );
   ITinFieldInfo TFI_TRANSFORM        = new TinFieldInfo( PROP_TRANSFORM, TtiD2Conversion.INSTANCE );
   ITinFieldInfo TFI_TEXT             = new TinFieldInfo( PROP_TEXT, TTI_AT_STRING );
   ITinFieldInfo TFI_FONT             = new TinFieldInfo( PROP_FONT, TtiTsFontInfo.INSTANCE );

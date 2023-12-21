@@ -4,6 +4,7 @@ import static org.toxsoft.core.tsgui.ved.l10n.ITsguiVedSharedResources.*;
 import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 
+import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.mws.services.timers.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
@@ -56,11 +57,16 @@ public abstract class VedAbstractVisel
   //
 
   private void internalUpdateBoundsRect() {
+    TsFulcrum tsf = props().getValobj( PROPID_TS_FULCRUM );
     double x = props().getFloat( PROP_X );
     double y = props().getFloat( PROP_Y );
     double w = props().getFloat( PROP_WIDTH );
     double h = props().getFloat( PROP_HEIGHT );
-    boundsRect.setRect( x, y, w, h );
+
+    double dx = (tsf.xPerc() * w) / 100.;
+    double dy = (tsf.yPerc() * h) / 100.;
+
+    boundsRect.setRect( x - dx, y - dy, w, h );
   }
 
   // ------------------------------------------------------------------------------------
@@ -74,7 +80,10 @@ public abstract class VedAbstractVisel
 
   @Override
   public boolean isYours( double aX, double aY ) {
-    return boundsRect.contains( aX, aY );
+    double width = props().getDouble( PROP_WIDTH );
+    double height = props().getDouble( PROP_HEIGHT );
+    return aX >= 0 && aX <= width && aY >= 0 && aY <= height;
+    // return boundsRect.contains( aX, aY );
   }
 
   // ------------------------------------------------------------------------------------
@@ -83,13 +92,21 @@ public abstract class VedAbstractVisel
 
   @Override
   public ID2Conversion getConversion() {
-    return props().getValobj( PROP_TRANSFORM );
-    // ID2Conversion d2c = props().getValobj( PROP_TRANSFORM );
-    // double dx = boundsRect.x1();// + boundsRect.width() / 2.;
-    // double dy = boundsRect.y1();// + boundsRect.height() / 2.;
-    // ID2PointEdit d2p = new D2PointEdit( d2c.origin().x() + dx, d2c.origin().y() + dy );
-    // D2ConversionEdit d2Conversion = new D2ConversionEdit( d2c.rotation(), d2c.zoomFactor(), d2p );
-    // return d2Conversion;
+    double zoom = props().getDouble( PROP_ZOOM );
+    ID2Angle angle = props().getValobj( PROP_ANGLE );
+    TsFulcrum tsf = props().getValobj( PROP_TS_FULCRUM );
+
+    double x = props().getDouble( PROP_X );
+    double y = props().getDouble( PROP_Y );
+    double width = props().getDouble( PROP_WIDTH );
+    double height = props().getDouble( PROP_HEIGHT );
+    double dx = (tsf.xPerc() * width) / 100.;
+    double dy = (tsf.yPerc() * height) / 100.;
+
+    D2ConversionEdit d2Conversion = new D2ConversionEdit( angle, zoom, new D2Point( x - dx * zoom, y - dy * zoom ) );
+    return d2Conversion;
+
+    // return props().getValobj( PROP_TRANSFORM );
   }
 
   @Override
@@ -238,6 +255,24 @@ public abstract class VedAbstractVisel
    */
   protected boolean doProcessRealTimePassed( long aRtTime ) {
     return false;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // API
+  //
+
+  public double rotationX() {
+    double zoom = props().getDouble( PROP_ZOOM );
+    TsFulcrum tsf = props().getValobj( PROP_TS_FULCRUM );
+    double width = props().getDouble( PROP_WIDTH );
+    return zoom * (tsf.xPerc() * width) / 100.;
+  }
+
+  public double rotationY() {
+    double zoom = props().getDouble( PROP_ZOOM );
+    TsFulcrum tsf = props().getValobj( PROP_TS_FULCRUM );
+    double height = props().getDouble( PROP_HEIGHT );
+    return zoom * (tsf.yPerc() * height) / 100.;
   }
 
 }

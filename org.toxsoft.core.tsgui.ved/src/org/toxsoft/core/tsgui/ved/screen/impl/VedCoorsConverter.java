@@ -42,37 +42,54 @@ class VedCoorsConverter
   // IVedCoorsConvertor
   //
 
+  // @Override
+  // public ID2Point swt2Screen( int aX, int aY ) {
+  // refreshConversions( null );
+  // double x = convScreen2Swt.reverseX( aX, aY );
+  // double y = convScreen2Swt.reverseY( aX, aY );
+  // return new D2Point( x, y );
+  // }
+
+  // @Override
+  // public ID2Point swt2Visel( int aX, int aY, VedAbstractVisel aVisel ) {
+  // TsNullArgumentRtException.checkNull( aVisel );
+  // refreshConversions( aVisel );
+  // double x1 = convScreen2Swt.reverseX( aX, aY );
+  // double y1 = convScreen2Swt.reverseY( aX, aY );
+  // double x = convVisel2Screen.reverseX( x1, y1 ); // old
+  // double y = convVisel2Screen.reverseY( x1, y1 ); // old
+  // return new D2Point( x, y );
+  // }
+
   @Override
   public ID2Point swt2Screen( int aX, int aY ) {
     refreshConversions( null );
-    double x = convScreen2Swt.reverseX( aX, aY );
-    double y = convScreen2Swt.reverseY( aX, aY );
-    return new D2Point( x, y );
+
+    ID2Conversion conv = convScreen2Swt.getConversion();
+    AffTransform at = D2MatrixConverter.d2convToTransform( conv, 0, 0 );
+    at = at.inverse();
+    ID2Point d2p = new D2Point( at.calcX( aX, aY ), at.calcY( aX, aY ) );
+    return d2p;
   }
 
   @Override
   public ID2Point swt2Visel( int aX, int aY, VedAbstractVisel aVisel ) {
     TsNullArgumentRtException.checkNull( aVisel );
     refreshConversions( aVisel );
-    double x1 = convScreen2Swt.reverseX( aX, aY );
-    double y1 = convScreen2Swt.reverseY( aX, aY );
-    // ID2Rectangle d2r = aVisel.bounds();
-    double x = convVisel2Screen.reverseX( x1, y1 ); // old
-    double y = convVisel2Screen.reverseY( x1, y1 ); // old
-
-    // double x = convVisel2Screen.reverseItemX( x1, y1, d2r.x1() + d2r.width() / 2., d2r.y1() + d2r.height() / 2. );
-    // double y = convVisel2Screen.reverseItemY( x1, y1, d2r.x1() + d2r.width() / 2., d2r.y1() + d2r.height() / 2. );
-    // double x = convVisel2Screen.reverseItemX( x1, y1, d2r.x1(), d2r.y1() );
-    // double y = convVisel2Screen.reverseItemY( x1, y1, d2r.x1(), d2r.y1() );
-    return new D2Point( x, y );
+    ID2Point d2p = swt2Screen( aX, aY );
+    ID2Conversion d2conv = aVisel.getConversion();
+    AffTransform at = D2MatrixConverter.d2convToTransform( d2conv, aVisel.rotationX(), aVisel.rotationY() );
+    at = at.inverse();
+    return new D2Point( at.calcX( d2p.x(), d2p.y() ), at.calcY( d2p.x(), d2p.y() ) );
   }
 
   @Override
   public ITsPoint screen2Swt( double aX, double aY ) {
     refreshConversions( null );
-    double x = convScreen2Swt.convertX( aX, aY );
-    double y = convScreen2Swt.convertY( aX, aY );
-    return new TsPoint( (int)x, (int)y );
+
+    ID2Conversion scrConv = convScreen2Swt.getConversion();
+    AffTransform at = D2MatrixConverter.d2convToTransform( scrConv, 0, 0 );
+    return new TsPoint( (int)at.calcX( aX, aY ), (int)at.calcY( aX, aY ) );
   }
 
   @Override
@@ -86,23 +103,42 @@ class VedCoorsConverter
 
   @Override
   public ITsPoint visel2Swt( double aX, double aY, VedAbstractVisel aVisel ) {
-    TsNullArgumentRtException.checkNull( aVisel );
-    refreshConversions( aVisel );
-    double x1 = convVisel2Screen.convertX( aX, aY );
-    double y1 = convVisel2Screen.convertY( aX, aY );
-    double x = convScreen2Swt.convertX( x1, y1 );
-    double y = convScreen2Swt.convertY( x1, y1 );
-    return new TsPoint( (int)x, (int)y );
+    ID2Point d2p = visel2Screen( aX, aY, aVisel );
+    return screen2Swt( d2p.x(), d2p.y() );
+    // ID2Conversion scrConv = aVisel.vedScreen().view().getConversion();
+    // AffTransform at = D2MatrixConverter.d2convToTransform( scrConv, 0, 0 );
+    //
+    // return new TsPoint( (int)at.calcX( d2p ), (int)at.calcY( d2p ) );
   }
 
   @Override
   public ID2Point visel2Screen( double aX, double aY, VedAbstractVisel aVisel ) {
     TsNullArgumentRtException.checkNull( aVisel );
     refreshConversions( aVisel );
-    double x = convVisel2Screen.convertX( aX, aY );
-    double y = convVisel2Screen.convertY( aX, aY );
-    return new D2Point( x, y );
+    ID2Conversion d2conv = aVisel.getConversion();
+    AffTransform at = D2MatrixConverter.d2convToTransform( d2conv, aVisel.rotationX(), aVisel.rotationY() );
+    return new D2Point( at.calcX( aX, aY ), at.calcY( aX, aY ) );
   }
+
+  // @Override
+  // public ITsPoint visel2Swt( double aX, double aY, VedAbstractVisel aVisel ) {
+  // TsNullArgumentRtException.checkNull( aVisel );
+  // refreshConversions( aVisel );
+  // double x1 = convVisel2Screen.convertX( aX, aY );
+  // double y1 = convVisel2Screen.convertY( aX, aY );
+  // double x = convScreen2Swt.convertX( x1, y1 );
+  // double y = convScreen2Swt.convertY( x1, y1 );
+  // return new TsPoint( (int)x, (int)y );
+  // }
+
+  // @Override
+  // public ID2Point visel2Screen( double aX, double aY, VedAbstractVisel aVisel ) {
+  // TsNullArgumentRtException.checkNull( aVisel );
+  // refreshConversions( aVisel );
+  // double x = convVisel2Screen.convertX( aX, aY );
+  // double y = convVisel2Screen.convertY( aX, aY );
+  // return new D2Point( x, y );
+  // }
 
   @Override
   public ID2Rectangle swt2Screen( int aX, int aY, int aWidth, int aHeight ) {
@@ -167,17 +203,20 @@ class VedCoorsConverter
     TsNullArgumentRtException.checkNull( aVisel );
     refreshConversions( aVisel );
     TsIllegalArgumentRtException.checkTrue( aWidth < 0.0 || aHeight < 0.0 );
-    double xb = aX + aWidth;
-    double yb = aY + aHeight;
-    double x11 = convVisel2Screen.convertX( aX, aY );
-    double y11 = convVisel2Screen.convertY( aX, aY );
-    double x12 = convVisel2Screen.convertX( xb, yb );
-    double y12 = convVisel2Screen.convertY( xb, yb );
-    double x1 = convScreen2Swt.convertX( x11, y11 );
-    double y1 = convScreen2Swt.convertY( x11, y11 );
-    double x2 = convScreen2Swt.convertX( x12, y12 );
-    double y2 = convScreen2Swt.convertY( x12, y12 );
-    return new TsRectangle( new TsPoint( (int)x1, (int)y1 ), new TsPoint( (int)x2, (int)y2 ) );
+    return new TsRectangle( visel2Swt( aX, aY, aVisel ), visel2Swt( aX + aWidth, aY + aHeight, aVisel ) );
+    //
+    // double xb = aX + aWidth;
+    // double yb = aY + aHeight;
+    // double x11 = convVisel2Screen.convertX( aX, aY );
+    // double y11 = convVisel2Screen.convertY( aX, aY );
+    // double x12 = convVisel2Screen.convertX( xb, yb );
+    // double y12 = convVisel2Screen.convertY( xb, yb );
+    // double x1 = convScreen2Swt.convertX( x11, y11 );
+    // double y1 = convScreen2Swt.convertY( x11, y11 );
+    // double x2 = convScreen2Swt.convertX( x12, y12 );
+    // double y2 = convScreen2Swt.convertY( x12, y12 );
+    //
+    // return new TsRectangle( new TsPoint( (int)x1, (int)y1 ), new TsPoint( (int)x2, (int)y2 ) );
   }
 
   @Override

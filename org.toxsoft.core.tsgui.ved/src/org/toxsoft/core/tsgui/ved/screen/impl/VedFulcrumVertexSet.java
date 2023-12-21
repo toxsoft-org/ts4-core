@@ -99,65 +99,84 @@ public class VedFulcrumVertexSet
     return verts;
   }
 
-  protected void update( double aDx, double aDy, String aVertexId ) {
-    IVedVisel visel = visel();
+  protected void update( int aSwtDx, int aSwtDy, String aVertexId ) {
+    VedAbstractVisel visel = visel();
     if( visel == null ) {
       return;
     }
 
-    ID2Rectangle rect = visel().bounds();
+    // ID2Rectangle rect = visel().bounds();
+    double width = visel.props().getDouble( PROPID_WIDTH );
+    double height = visel.props().getDouble( PROPID_HEIGHT );
+
+    ID2Point d2pScr = deltaSwt2Screen( aSwtDx, aSwtDy ); // delta in screen coordiantes
+    ID2Point d2p = deltaSwt2Visel( aSwtDx, aSwtDy ); // delta in visel ccordinates
 
     if( ETsFulcrum.asList().hasKey( aVertexId ) ) {
       ETsFulcrum fulcrum = ETsFulcrum.getById( aVertexId );
+      TsFulcrum tsf = visel.props().getValobj( PROPID_TS_FULCRUM );
+      ETsFulcrum viselFulcrum = null;
+      if( tsf.fulcrum() != null ) {
+        // d2p = deltaSwt2Screen( aSwtDx, aSwtDy );
+        viselFulcrum = tsf.fulcrum();
+      }
+      double originDx = (width * tsf.xPerc()) / 100.;
+      double originDy = (height * tsf.yPerc()) / 100.;
       switch( fulcrum ) {
         case TOP_CENTER: {
-          // visel.setLocation( rect.x1(), rect.y1() + aDy );
-          // visel.setSize( rect.width(), rect.height() - aDy );
-          visel.props().setPropPairs( PROP_Y, avFloat( rect.y1() + aDy ) );
-          visel.props().setPropPairs( PROP_HEIGHT, avFloat( rect.height() - aDy ) );
+          if( ETsFulcrum.TOP_CENTER != viselFulcrum ) {
+            if( viselFulcrum != null && viselFulcrum.isVerticalCenter() ) {
+              visel.props().setPropPairs( PROP_HEIGHT, avFloat( height - 2 * d2p.y() ) );
+            }
+            else {
+              visel.props().setPropPairs( PROP_HEIGHT, avFloat( height - d2pScr.y() ) );
+            }
+          }
+          else {
+            visel.props().setPropPairs( //
+                PROP_X, avFloat( visel.originX() - deltaSwt2Visel( 0, aSwtDy ).x() ), //
+                // PROP_Y, avFloat( visel.originY() + d2pScr.y() - deltaSwt2Screen( aSwtDx, 0 ).y() ), //
+                PROP_Y, avFloat( visel.originY() + d2pScr.y() ), //
+                PROP_HEIGHT, avFloat( height - d2pScr.y() + deltaSwt2Visel( aSwtDx, 0 ).y() ) );
+          }
           break;
         }
         case BOTTOM_CENTER: {
-          // visel.setSize( rect.width(), rect.height() + aDy );
-          visel.props().setPropPairs( PROP_HEIGHT, avFloat( rect.height() + aDy ) );
+          visel.props().setPropPairs( PROP_HEIGHT, avFloat( height + d2p.y() ) );
           break;
         }
         case LEFT_CENTER: {
-          // visel.setLocation( rect.x1() + aDx, rect.y1() );
-          // visel.setSize( rect.width() - aDx, rect.height() );
-          visel.props().setPropPairs( PROP_X, avFloat( rect.x1() + aDx ) );
-          visel.props().setPropPairs( PROP_WIDTH, avFloat( rect.width() - aDx ) );
+          visel.props().setPropPairs( PROP_X, avFloat( visel.originX() + d2p.x() ) );
+          visel.props().setPropPairs( PROP_WIDTH, avFloat( width - d2p.x() ) );
           break;
         }
         case RIGHT_CENTER: {
-          // visel.setSize( rect.width() + aDx, rect.height() );
-          visel.props().setPropPairs( PROP_WIDTH, avFloat( rect.width() + aDx ) );
+          visel.props().setPropPairs( PROP_WIDTH, avFloat( width + d2p.x() ) );
           break;
         }
         case LEFT_TOP: {
-          visel.setLocation( rect.x1() + aDx, rect.y1() + aDy );
-          visel.setSize( rect.width() - aDx, rect.height() - aDy );
+          visel.setLocation( visel.originX() + d2p.x(), visel.originY() + d2p.y() );
+          visel.setSize( width - d2p.x(), height - d2p.y() );
           break;
         }
         case RIGHT_BOTTOM: {
           // visel.props().setPropPairs( PROP_WIDTH, avFloat( rect.width() + aDx ) );
           // visel.props().setPropPairs( PROP_HEIGHT, avFloat( rect.height() + aDy ) );
-          visel.setSize( rect.width() + aDx, rect.height() + aDy );
+          visel.setSize( width + d2p.x(), height + d2p.y() );
           break;
         }
         case RIGHT_TOP: {
-          visel.setLocation( rect.x1(), rect.y1() + aDy );
-          visel.setSize( rect.width() + aDx, rect.height() - aDy );
+          visel.setLocation( visel.originX(), visel.originY() + d2p.y() );
+          visel.setSize( width + d2p.x(), height - d2p.y() );
           break;
         }
         case LEFT_BOTTOM: {
-          visel.setLocation( rect.x1() + aDx, rect.y1() );
-          visel.setSize( rect.width() - aDx, rect.height() + aDy );
+          visel.setLocation( visel.originX() + d2p.x(), visel.originY() );
+          visel.setSize( width - d2p.x(), height + d2p.y() );
           break;
         }
         case CENTER: {
-          // System.out.println( "Drag CENTER: dx = " + aDx + "; dy = " + aDy + ";" );
-          visel.setLocation( rect.x1() + aDx, rect.y1() + aDy );
+          visel.setLocation( visel.originX() + d2pScr.x(), visel.originY() + d2pScr.y() );
           break;
         }
         default:
@@ -177,12 +196,15 @@ public class VedFulcrumVertexSet
       h = 1;
     }
 
-    ITsRectangle rect = new TsRectangle( (int)r.x1() + 1, (int)r.y1() + 1, w, h );
+    // ITsRectangle rect = new TsRectangle( (int)r.x1() + 1, (int)r.y1() + 1, w, h );
+    ITsRectangle rect = new TsRectangle( 1, 1, w, h );
     for( IVedVertex v : vertexes() ) {
       if( ETsFulcrum.asList().hasKey( v.id() ) ) {
         ETsFulcrum fulcrum = ETsFulcrum.getById( v.id() );
-        int x = rect.x1();
-        int y = rect.y1();
+        // int x = rect.x1();
+        // int y = rect.y1();
+        int x = 0;
+        int y = 0;
         switch( fulcrum ) {
           case LEFT_TOP:
             break;
@@ -224,8 +246,10 @@ public class VedFulcrumVertexSet
 
   private void updateSwtRect() {
     ID2Rectangle tsr = bounds();
-    swtRect.x = (int)Math.round( tsr.x1() + 2 );
-    swtRect.y = (int)Math.round( tsr.y1() + 2 );
+    // swtRect.x = (int)Math.round( tsr.x1() + 2 );
+    // swtRect.y = (int)Math.round( tsr.y1() + 2 );
+    swtRect.x = -1;
+    swtRect.y = -1;
     swtRect.width = (int)Math.round( tsr.width() - 4 );
     swtRect.height = (int)Math.round( tsr.height() - 4 );
   }
@@ -235,8 +259,8 @@ public class VedFulcrumVertexSet
   //
 
   @Override
-  protected boolean doOnVertexDrag( IVedVertex aVertex, double aDx, double aDy, EVedDragState aDragState ) {
-    update( aDx, aDy, aVertex.id() );
+  protected boolean doOnVertexDrag( IVedVertex aVertex, int aSwtDx, int aSwtDy, EVedDragState aDragState ) {
+    update( aSwtDx, aSwtDy, aVertex.id() );
     updateVertexes();
     updateSwtRect();
     return true;

@@ -97,8 +97,10 @@ public class ViselCircleLamp
       fields.add( TFI_FULCRUM );
       fields.add( TinFieldInfo.makeCopy( TFI_WIDTH, ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE ) );
       fields.add( TinFieldInfo.makeCopy( TFI_HEIGHT, ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE ) );
-      fields.add( TFI_TRANSFORM );
-      // fields.add( TFI_IS_ASPECT_FIXED );
+      // fields.add( TFI_TRANSFORM );
+      fields.add( TFI_ZOOM );
+      fields.add( TFI_ANGLE );
+      fields.add( TinFieldInfo.makeCopy( TFI_TRANSFORM, ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE ) );
       fields.add( TinFieldInfo.makeCopy( TFI_IS_ASPECT_FIXED, //
           ITinWidgetConstants.PRMID_IS_READ_ONLY, AV_TRUE, //
           TSID_DEFAULT_VALUE, AV_TRUE //
@@ -127,6 +129,8 @@ public class ViselCircleLamp
   TsFillInfo edgingGradientInfo;
   TsFillInfo flatOnGradientInfo;
   TsFillInfo flatOffGradientInfo;
+
+  double radius = 16;
 
   /**
    * Constructor.
@@ -184,7 +188,8 @@ public class ViselCircleLamp
       d = 0;
     }
 
-    aPaintContext.fillOval( swtRect.x1() + d, swtRect.y1() + d, swtRect.width() - 2 * d, swtRect.height() - 2 * d );
+    // aPaintContext.fillOval( swtRect.x1() + d, swtRect.y1() + d, swtRect.width() - 2 * d, swtRect.height() - 2 * d );
+    aPaintContext.fillOval( d, d, swtRect.width() - 2 * d, swtRect.height() - 2 * d );
 
     Path p = new Path( aPaintContext.gc().getDevice() );
 
@@ -192,7 +197,8 @@ public class ViselCircleLamp
     p.addArc( d, d, swtRect.width() - 2 * d, swtRect.height() - 2 * d, 0, 360 );
 
     aPaintContext.setFillInfo( edgingGradientInfo );
-    aPaintContext.fillPath( p, swtRect.x1(), swtRect.y1(), swtRect.width(), swtRect.height() );
+    // aPaintContext.fillPath( p, swtRect.x1(), swtRect.y1(), swtRect.width(), swtRect.height() );
+    aPaintContext.fillPath( p, 0, 0, swtRect.width(), swtRect.height() );
 
     p.dispose();
   }
@@ -200,31 +206,27 @@ public class ViselCircleLamp
   @Override
   protected void doDoInterceptPropsChange( IOptionSet aNewValues, IOptionSetEdit aValuesToSet ) {
     super.doDoInterceptPropsChange( aNewValues, aValuesToSet );
-    // get actual width and height
-    double width;
+    if( aValuesToSet.hasKey( PROPID_RADIUS ) ) {
+      radius = aValuesToSet.getDouble( PROPID_RADIUS );
+      if( radius < 3 ) {
+        radius = 3;
+      }
+      aValuesToSet.setDouble( PROPID_WIDTH, 2 * radius );
+      aValuesToSet.setDouble( PROPID_HEIGHT, 2 * radius );
+      aValuesToSet.setDouble( PROPID_RADIUS, radius );
+      return;
+    }
+
+    double width = props().getDouble( PROPID_WIDTH );
     if( aValuesToSet.hasKey( PROPID_WIDTH ) ) {
       width = aValuesToSet.getDouble( PROPID_WIDTH );
     }
-    else {
-      width = props().getDouble( PROPID_WIDTH );
-    }
-    if( width < 8 ) {
-      width = 8;
-      aValuesToSet.setDouble( PROPID_WIDTH, width );
-    }
-    double height;
+    double height = props().getDouble( PROPID_HEIGHT );
     if( aValuesToSet.hasKey( PROPID_HEIGHT ) ) {
       height = aValuesToSet.getDouble( PROPID_HEIGHT );
     }
-    else {
-      height = props().getDouble( PROPID_HEIGHT );
-    }
-    if( height < 8 ) {
-      height = 8;
-      aValuesToSet.setDouble( PROPID_HEIGHT, height );
-    }
-
     // keep current aspect ratio
+    // double currAspectRatio = props().getDouble( PROPID_WIDTH ) / props().getDouble( PROPID_HEIGHT );
     double currAspectRatio = 1.0;
     boolean wasWidthChangeRequested = aValuesToSet.hasKey( PROPID_WIDTH );
     boolean wasHeightChangeRequested = aValuesToSet.hasKey( PROPID_HEIGHT );
@@ -238,10 +240,12 @@ public class ViselCircleLamp
         width = 8;
       }
       aValuesToSet.setDouble( PROPID_HEIGHT, width );
+      aValuesToSet.setDouble( PROPID_RADIUS, width / 2. );
       return;
     }
     if( wasHeightChangeRequested ) {
       aValuesToSet.setDouble( PROPID_WIDTH, height * currAspectRatio );
+      aValuesToSet.setDouble( PROPID_RADIUS, (height * currAspectRatio) / 2. );
       return;
     }
   }
@@ -255,6 +259,8 @@ public class ViselCircleLamp
     RGBA rgba = props().getByKey( PROPID_BK_COLOR ).asValobj();
     onGradientInfo = new TsFillInfo( GradientUtils.halfSphereFillInfo( rgba ) );
     flatOnGradientInfo = new TsFillInfo( rgba );
+
+    radius = props().getDouble( PROPID_RADIUS );
   }
 
 }

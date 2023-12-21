@@ -68,15 +68,14 @@ public class GradientButtonRenderer
         fi = pressedFillInfo;
       }
     }
-    // ID2Rectangle r = bounds();
 
     int arcW = 16;
     int arcH = 16;
     aPaintContext.setFillInfo( fi );
-    aPaintContext.fillRoundRect( swtRect.x, swtRect.y, swtRect.width, swtRect.height, arcW, arcH );
+    aPaintContext.fillRoundRect( 0, 0, swtRect.width, swtRect.height, arcW, arcH );
     aPaintContext.setLineInfo( lineInfo );
 
-    aPaintContext.drawRoundRect( swtRect.x, swtRect.y, swtRect.width, swtRect.height, arcW, arcH );
+    aPaintContext.drawRoundRect( 0, 0, swtRect.width, swtRect.height, arcW, arcH );
   }
 
 }

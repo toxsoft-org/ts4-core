@@ -213,6 +213,19 @@ public enum ETsFulcrum
   }
 
   /**
+   * Determines whether the fulcrum point is located on the vertical center of the rectangle.
+   *
+   * @return boolean - <code>true</code> fulcrum is on the vertical center, <code>false</code> - somewhere else
+   */
+  public boolean isVerticalCenter() {
+    return switch( this ) {
+      case CENTER, LEFT_CENTER, RIGHT_CENTER -> true;
+      case LEFT_TOP, RIGHT_TOP, TOP_CENTER, LEFT_BOTTOM, RIGHT_BOTTOM, BOTTOM_CENTER -> false;
+      default -> throw new TsNotAllEnumsUsedRtException();
+    };
+  }
+
+  /**
    * Determines whether the fulcrum point is located on the bottom edge of the rectangle.
    *
    * @return boolean - <code>true</code> fulcrum is on the bottom, <code>false</code> - somewhere else

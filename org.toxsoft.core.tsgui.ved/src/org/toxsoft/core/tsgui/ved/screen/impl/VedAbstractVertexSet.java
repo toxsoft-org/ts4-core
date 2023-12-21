@@ -14,6 +14,7 @@ import org.toxsoft.core.tslib.av.props.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.d2.helpers.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.coll.*;
@@ -45,18 +46,19 @@ public abstract class VedAbstractVertexSet
 
     final ID2Rectangle vBounds;
 
-    D2PointEdit prevPoint = new D2PointEdit();
+    // D2PointEdit prevPoint = new D2PointEdit();
+    TsPointEdit prevPoint = new TsPointEdit( 0, 0 );
 
     DragCargo( IVedVertex aVertex, DragOperationInfo aInfo ) {
       vertex = aVertex;
       vBounds = new D2Rectangle( visel.bounds() );
       ITsPoint p = aInfo.startingPoint();
 
-      ID2Point ctrlP = screenView.coorsConverter().swt2Visel( p.x(), p.y(), visel );
+      // ID2Point ctrlP = screenView.coorsConverter().swt2Visel( p.x(), p.y(), visel );
       // ID2Point ctrlP = screenView.coorsConverter().swt2Screen( p.x(), p.y() );
 
-      // prevPoint.setPoint( p.x(), p.y() );
-      prevPoint.setPoint( ctrlP.x(), ctrlP.y() );
+      prevPoint.setPoint( p.x(), p.y() );
+      // prevPoint.setPoint( ctrlP.x(), ctrlP.y() );
     }
 
   }
@@ -123,14 +125,19 @@ public abstract class VedAbstractVertexSet
       if( dc == null ) {
         return false;
       }
-      ID2Point currP = screenView.coorsConverter().swt2Visel( aCoors.x(), aCoors.y(), visel );
 
-      double dx = currP.x() - dc.prevPoint.x();
-      double dy = currP.y() - dc.prevPoint.y();
+      int dx = aCoors.x() - dc.prevPoint.x();
+      int dy = aCoors.y() - dc.prevPoint.y();
 
+      // ID2Point d2pZero = visel.coorsConverter().swt2Visel( 0, 0, visel );
+      // ID2Point d2p = visel.coorsConverter().swt2Visel( dx, dy, visel );
+
+      // double dx1 = d2p.x() - d2pZero.x();
+      // double dy1 = d2p.y() - d2pZero.y();
+      // boolean result = doOnVertexDrag( dc.vertex, dx1, dy1, EVedDragState.DRAGGING );
       boolean result = doOnVertexDrag( dc.vertex, dx, dy, EVedDragState.DRAGGING );
 
-      dc.prevPoint.setPoint( currP.x(), currP.y() );
+      dc.prevPoint.setPoint( aCoors.x(), aCoors.y() );
 
       screenView.redraw();
       screenView.update();
@@ -150,12 +157,17 @@ public abstract class VedAbstractVertexSet
       vedScreen.model().visels().eventer().resumeFiring( true );
       vedScreen.model().actors().eventer().resumeFiring( true );
 
-      ID2Point currP = screenView.coorsConverter().swt2Visel( aCoors.x(), aCoors.y(), visel );
+      int dx = aCoors.x() - dc.prevPoint.x();
+      int dy = aCoors.y() - dc.prevPoint.y();
+      boolean result = doOnVertexDrag( dc.vertex, dx, dy, EVedDragState.DRAGGING );
 
-      double dx = currP.x() - dc.prevPoint.x();
-      double dy = currP.y() - dc.prevPoint.y();
+      // ID2Point d2pZero = visel.coorsConverter().swt2Screen( 0, 0 );
+      // ID2Point d2p = visel.coorsConverter().swt2Screen( dx, dy );
+      // double dx1 = d2p.x() - d2pZero.x();
+      // double dy1 = d2p.y() - d2pZero.y();
+      // boolean result = doOnVertexDrag( dc.vertex, dx1, dy1, EVedDragState.DRAGGING );
 
-      boolean result = doOnVertexDrag( dc.vertex, dx, dy, EVedDragState.FINISH );
+      dc.prevPoint.setPoint( aCoors.x(), aCoors.y() );
 
       visible = true;
       screenView.redraw();
@@ -165,12 +177,6 @@ public abstract class VedAbstractVertexSet
 
     @Override
     public boolean onMouseDragCancel( Object aSource, DragOperationInfo aDragInfo ) {
-      // ID2Rectangle rectBefore = bounds();
-      // convertor.setConversion( screenView.getConversion() );
-      // double startX = aDragInfo.startingPoint().x();
-      // double startY = aDragInfo.startingPoint().y();
-      // double dx = convertor.reverseX( rectBefore.x1(), rectBefore.y1() ) - convertor.reverseX( startX, startY );
-      // double dy = convertor.reverseY( rectBefore.x1(), rectBefore.y1() ) - convertor.reverseY( startX, startY );
       if( !(aDragInfo.cargo() instanceof DragCargo) ) {
         return false;
       }
@@ -456,11 +462,47 @@ public abstract class VedAbstractVertexSet
     }
   }
 
+  double dx2Visel( double aDx ) {
+    ID2Point d2pZero = visel.coorsConverter().swt2Visel( 0, 0, visel );
+    ID2Point d2p = visel.coorsConverter().swt2Visel( (int)aDx, 0, visel );
+    return d2p.x() - d2pZero.x();
+  }
+
+  double dy2Visel( double aDy ) {
+    ID2Point d2pZero = visel.coorsConverter().swt2Visel( 0, 0, visel );
+    ID2Point d2p = visel.coorsConverter().swt2Visel( 0, (int)aDy, visel );
+    return d2p.y() - d2pZero.y();
+  }
+
+  double dx2Screen( double aDx ) {
+    ID2Point d2pZero = visel.coorsConverter().swt2Screen( 0, 0 );
+    ID2Point d2p = visel.coorsConverter().swt2Screen( (int)aDx, 0 );
+    return d2p.x() - d2pZero.x();
+  }
+
+  double dy2Screen( double aDy ) {
+    ID2Point d2pZero = visel.coorsConverter().swt2Screen( 0, 0 );
+    ID2Point d2p = visel.coorsConverter().swt2Screen( 0, (int)aDy );
+    return d2p.y() - d2pZero.y();
+  }
+
+  protected ID2Point deltaSwt2Screen( int aSwtDx, int aSwtDy ) {
+    ID2Point d2pZero = visel.coorsConverter().swt2Screen( 0, 0 );
+    ID2Point d2p = visel.coorsConverter().swt2Screen( aSwtDx, aSwtDy );
+    return new D2Point( d2p.x() - d2pZero.x(), d2p.y() - d2pZero.y() );
+  }
+
+  protected ID2Point deltaSwt2Visel( int aSwtDx, int aSwtDy ) {
+    ID2Point d2pZero = visel.coorsConverter().swt2Visel( 0, 0, visel );
+    ID2Point d2p = visel.coorsConverter().swt2Visel( aSwtDx, aSwtDy, visel );
+    return new D2Point( d2p.x() - d2pZero.x(), d2p.y() - d2pZero.y() );
+  }
+
   // ------------------------------------------------------------------------------------
   // To implement
   //
 
-  protected abstract boolean doOnVertexDrag( IVedVertex aVertex, double aDx, double aDy, EVedDragState aDragState );
+  protected abstract boolean doOnVertexDrag( IVedVertex aVertex, int aSwtDx, int aSwtDy, EVedDragState aDragState );
 
   protected abstract void doPaint( ITsGraphicsContext aGc );
 

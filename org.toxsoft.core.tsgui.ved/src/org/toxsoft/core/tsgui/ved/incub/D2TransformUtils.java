@@ -42,12 +42,22 @@ public class D2TransformUtils {
     // aTransform.translate( -(float)aD2Conv.origin().x(), -(float)aD2Conv.origin().y() );
   }
 
-  // public static void convertItemTransfrom( Transform aTransform, double aX, double aY, ID2Conversion aD2Conv ) {
-  // aTransform.translate( (float)(aX + aD2Conv.origin().x()), (float)(aY + aD2Conv.origin().y()) );
-  // aTransform.rotate( (float)aD2Conv.rotation().degrees() );
-  // aTransform.scale( (float)aD2Conv.zoomFactor(), (float)aD2Conv.zoomFactor() );
-  // aTransform.translate( -(float)(aX + aD2Conv.origin().x()), -(float)(aD2Conv.origin().y() + aY) );
-  // }
+  /**
+   * Преобразует переданный {@link Transform} в соответствии с указанными праметрами смещения, масштабирования и
+   * поворота.
+   *
+   * @param aTransform Transform - матрица преобразования координат для графического контекста SWT
+   * @param aD2Conv ID2Conversion - параметры преобразования координат
+   * @param aRotX double - X координата точки поворота (в координатной системе элемента)
+   * @param aRotY double - Y координата точки поворота (в координатной системе элемента)
+   */
+  public static void convertItemTransfrom( Transform aTransform, ID2Conversion aD2Conv, double aRotX, double aRotY ) {
+    aTransform.translate( (float)aD2Conv.origin().x(), (float)aD2Conv.origin().y() );
+    aTransform.translate( (float)aRotX, (float)aRotY );
+    aTransform.rotate( (float)aD2Conv.rotation().degrees() );
+    aTransform.translate( -(float)aRotX, -(float)aRotY );
+    aTransform.scale( (float)aD2Conv.zoomFactor(), (float)aD2Conv.zoomFactor() );
+  }
 
   // /**
   // * Преобразует точку (aX:aY) в координатах отображаемого элемента, в координаты не трансформированного экрана.

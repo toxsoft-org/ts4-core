@@ -54,15 +54,16 @@ public class ViselImage
       fields.add( TFI_WIDTH );
       fields.add( TFI_HEIGHT );
       fields.add( TFI_FULCRUM );
-      // fields.add( TinFieldInfo.makeCopy( TFI_WIDTH, ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE ) );
-      // fields.add( TinFieldInfo.makeCopy( TFI_HEIGHT, ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE ) );
       fields.add( TinFieldInfo.makeCopy( TFI_IS_ASPECT_FIXED, //
           ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE, //
           TSID_DEFAULT_VALUE, AV_TRUE //
       ) );
       fields.add( TinFieldInfo.makeCopy( TFI_ASPECT_RATIO, ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE ) );
       fields.add( TFI_IMAGE_DESCRIPTOR );
-      fields.add( TFI_TRANSFORM );
+      // fields.add( TFI_TRANSFORM );
+      fields.add( TFI_ZOOM );
+      fields.add( TFI_ANGLE );
+      fields.add( TinFieldInfo.makeCopy( TFI_TRANSFORM, ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE ) );
       return new PropertableEntitiesTinTypeInfo<>( fields, ViselImage.class );
     }
 
@@ -96,11 +97,9 @@ public class ViselImage
   @Override
   public void paint( ITsGraphicsContext aPaintContext ) {
     if( image != null ) {
-      // aPaintContext.gc().drawImage( image.image(), (int)props().getDouble( PROP_X ), (int)props().getDouble( PROP_Y )
-      // );
       aPaintContext.gc().drawImage( image.image(), //
           0, 0, image.imageSize().x(), image.imageSize().y(), //
-          (int)bounds().x1(), (int)bounds().y1(), (int)bounds().width(), (int)bounds().height() //
+          0, 0, (int)bounds().width(), (int)bounds().height() //
       );
     }
   }
