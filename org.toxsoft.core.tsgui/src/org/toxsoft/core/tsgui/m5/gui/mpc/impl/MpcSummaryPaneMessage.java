@@ -15,7 +15,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * {@link IMpcSummaryPane} implementation displaying string provided by the specified {@link IMessageProvider}.
  *
  * @author hazard157
- * @param <T> - displayed M5-modelled entity type
+ * @param <T> - displayed M5-modeled entity type
  */
 public class MpcSummaryPaneMessage<T>
     extends MpcAbstractPane<T, Control>
@@ -25,7 +25,7 @@ public class MpcSummaryPaneMessage<T>
    * Summary pane message provider.
    *
    * @author hazard157
-   * @param <T> - displayed M5-modelled entity type
+   * @param <T> - displayed M5-modeled entity type
    */
   public interface IMessageProvider<T> {
 
