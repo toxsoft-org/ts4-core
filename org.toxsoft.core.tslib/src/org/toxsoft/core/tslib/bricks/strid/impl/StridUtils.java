@@ -582,7 +582,55 @@ public final class StridUtils {
   }
 
   /**
-   * Removes specified number of strarting components.
+   * Removes starting IDpath from the argument.
+   * <p>
+   * If argument does not starts with the specified IDpath, throws an exception.
+   * <p>
+   * Warning: If both arguments are equal returns an empty string. In all other cases returns a valid IDpath.
+   *
+   * @param aIdPath String - the input IDpath
+   * @param aPrefixIdPath String - the prefix IDpath to remove
+   * @return String the IDpath without prefix
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException and argument is not an IDpath
+   * @throws TsIllegalArgumentRtException <code>aIdPath</code> does not starts with <code>aPrefixIdPath</code>
+   */
+  public static String removeStartingIdPath( String aIdPath, String aPrefixIdPath ) {
+    StridUtils.checkValidIdPath( aIdPath );
+    StridUtils.checkValidIdPath( aPrefixIdPath );
+    String prefix = aPrefixIdPath + CHAR_ID_PATH_DELIMITER;
+    if( !aIdPath.startsWith( prefix ) ) {
+      throw new TsIllegalArgumentRtException();
+    }
+    return aIdPath.substring( prefix.length() );
+  }
+
+  /**
+   * Removes ending IDpath from the argument.
+   * <p>
+   * If argument does not end with the specified IDpath, throws an exception.
+   * <p>
+   * Warning: If both arguments are equal returns an empty string. In all other cases returns a valid IDpath.
+   *
+   * @param aIdPath String - the input IDpath
+   * @param aSuffixIdPath String - the suffix IDpath to remove
+   * @return String the IDpath without suffix
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException and argument is not an IDpath
+   * @throws TsIllegalArgumentRtException <code>aIdPath</code> does not ends with <code>aPrefixIdPath</code>
+   */
+  public static String removeEndingIdPath( String aIdPath, String aSuffixIdPath ) {
+    StridUtils.checkValidIdPath( aIdPath );
+    StridUtils.checkValidIdPath( aSuffixIdPath );
+    String suffix = CHAR_ID_PATH_DELIMITER + aSuffixIdPath;
+    if( !aIdPath.endsWith( suffix ) ) {
+      throw new TsIllegalArgumentRtException();
+    }
+    return aIdPath.substring( 0, aIdPath.length() - suffix.length() );
+  }
+
+  /**
+   * Removes specified number of starting components.
    * <p>
    * If all components removed, returns an empty string.
    *
