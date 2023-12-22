@@ -35,10 +35,6 @@ public interface ITsPartStackManager {
   /**
    * Creates new managed part in {@link #getPartStack()}.
    * <p>
-   * <b>WARNING:</b> due to E4 part is always created in the current perspective even if {@link #getPartStack()} is in
-   * other perspective switch to destination perspective before part creation. Otherwise part will be created not in
-   * destination part stack but in active part stack of the current perspective.
-   * <p>
    * Created part becomes the the visible, as described for {@link PartState#VISIBLE}.
    * <p>
    * Part is created with {@link EPartService#REMOVE_ON_HIDE_TAG} tag so when close part will be disposed.

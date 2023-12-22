@@ -2,17 +2,30 @@ package org.toxsoft.core.tsgui.mws.e4.helpers.partman;
 
 import static org.toxsoft.core.tsgui.mws.e4.helpers.partman.ITsResources.*;
 
+import java.util.*;
+
 import org.eclipse.e4.core.contexts.*;
 import org.eclipse.e4.ui.model.application.*;
+import org.eclipse.e4.ui.model.application.ui.*;
 import org.eclipse.e4.ui.model.application.ui.basic.*;
 import org.eclipse.e4.ui.workbench.modeling.*;
 import org.eclipse.e4.ui.workbench.modeling.EPartService.*;
+import org.toxsoft.core.tsgui.mws.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link ITsPartStackManager} implementation.
+ * <p>
+ * Note of implementation: Fucking Eclipse E4! <br>
+ * <ul>
+ * <li>{@link EPartService} can not hide part from non-active perspective;</li>
+ * <li>{@link EPartService} instance created at application startup is <code>ApplicationPartServiceImpl</code> - it can
+ * not even find any part if called from the dialog (when no active context can be found). One needs to get
+ * <code>PartServiceImpl</code> instance from the main window context.;</li>
+ * <li>So we are using low level {@link EModelService} and {@link MPart} itself to hide parts.</li>
+ * </ul>
  *
  * @author hazard157
  */
@@ -21,8 +34,10 @@ public class TsPartStackManager
 
   private final IStringMapEdit<MPart> stackParts = new StringMap<>();
 
-  private final IEclipseContext eclipseContext;
-  private final MPartStack      partStack;
+  private final MApplication   application;
+  private final MTrimmedWindow mainWindow;
+  private final EModelService  modelService;
+  private final MPartStack     partStack;
 
   /**
    * Constructor.
@@ -34,26 +49,28 @@ public class TsPartStackManager
    */
   public TsPartStackManager( IEclipseContext aWinContext, String aPartStackId ) {
     TsNullArgumentRtException.checkNulls( aWinContext, aPartStackId );
-    eclipseContext = aWinContext;
-    EModelService modelService = aWinContext.get( EModelService.class );
-    TsInternalErrorRtException.checkNull( modelService );
-    MApplication application = aWinContext.get( MApplication.class );
-    TsInternalErrorRtException.checkNull( application );
-    EPartService partService = application.getContext().get( EPartService.class );
-    TsInternalErrorRtException.checkNull( partService );
-    //
+    modelService = aWinContext.get( EModelService.class );
+
+    application = aWinContext.get( MApplication.class );
+    mainWindow = (MTrimmedWindow)modelService.find( IMwsCoreConstants.MWSID_WINDOW_MAIN, application );
     partStack = (MPartStack)modelService.find( aPartStackId, application );
-    if( partStack == null ) {
-      throw new TsItemNotFoundRtException( FMT_ERR_NO_SUCH_PART_STACK, aPartStackId );
-    }
+    TsItemNotFoundRtException.checkNull( partStack, FMT_ERR_NO_SUCH_PART_STACK, aPartStackId );
   }
 
   // ------------------------------------------------------------------------------------
   // implementation
   //
 
+  private MPart internalFindPartInE4Model( String aPartId ) {
+    List<MPart> ll = modelService.findElements( application, aPartId, MPart.class );
+    if( ll.size() >= 1 ) {
+      return ll.get( 0 );
+    }
+    return null;
+  }
+
   private EPartService partService() {
-    EPartService partService = eclipseContext.get( EPartService.class );
+    EPartService partService = mainWindow.getContext().get( EPartService.class );
     TsInternalErrorRtException.checkNull( partService );
     return partService;
   }
@@ -72,7 +89,7 @@ public class TsPartStackManager
     // remove closed UIparts from stackParts if any
     IStringListEdit llClosedPartIds = new StringArrayList();
     for( String pid : stackParts.keys() ) {
-      MPart found = partService().findPart( pid );
+      MPart found = internalFindPartInE4Model( pid );
       if( found == null ) {
         llClosedPartIds.add( pid );
       }
@@ -106,7 +123,13 @@ public class TsPartStackManager
 
   @Override
   public void closePart( String aPartId ) {
-    partService().hidePart( stackParts.getByKey( aPartId ) );
+    MPart part = stackParts.getByKey( aPartId );
+    MElementContainer<MUIElement> parent = part.getParent();
+    part.setToBeRendered( false );
+    parent.getChildren().remove( part );
+
+    // partService().hidePart( stackParts.getByKey( aPartId ) );
+    stackParts.removeByKey( aPartId );
   }
 
   @Override
