@@ -3,7 +3,6 @@ package org.toxsoft.core.tsgui.graphics.icons.impl;
 import static org.toxsoft.core.tsgui.graphics.icons.ITsIconManager.*;
 import static org.toxsoft.core.tslib.utils.errors.TsErrorUtils.*;
 
-import java.io.*;
 import java.net.*;
 
 import org.eclipse.core.runtime.*;
@@ -14,7 +13,6 @@ import org.eclipse.swt.graphics.*;
 import org.eclipse.ui.plugin.*;
 import org.toxsoft.core.tsgui.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
-import org.toxsoft.core.tsgui.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 // TODO TRANSLATE
@@ -32,10 +30,10 @@ public class TsIconManagerUtils {
   /**
    * Constructs icon URI string.
    * <p>
-   * Metho assumes that iconfiles are arranges as specified in
+   * Method assumes that icon files are arranges as specified in
    * {@link ITsIconManager#registerStdIconByIds(String, Class, String)}
    * <p>
-   * Returnes string may be used to set icons for e4 model entities like {@link MHandledMenuItem#setIconURI(String)}.
+   * Returns string may be used to set icons for e4 model entities like {@link MHandledMenuItem#setIconURI(String)}.
    *
    * @param aPluginId String - the plugin ID
    * @param aStdIconId String - icon ID
@@ -190,7 +188,7 @@ public class TsIconManagerUtils {
   }
 
   /**
-   * Запрет на создание экземпляров.
+   * NO subclasses.
    */
   private TsIconManagerUtils() {
     // nop

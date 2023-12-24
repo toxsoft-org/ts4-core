@@ -20,14 +20,14 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class M5Utils {
 
   /**
-   * The root and only root domain ID.
+   * The root domain ID.
    */
   public static final String ROOT_DOMAIN_ID = IM5Constants.M5_ID + ".root"; //$NON-NLS-1$
 
   /**
    * One-time initialization of the window level context.
    * <p>
-   * Yet does nothing.
+   * Does nothing yet.
    *
    * @param aAppContext {@link IEclipseContext} - application level context
    * @throws TsNullArgumentRtException any argument = <code>null</code>
@@ -64,6 +64,7 @@ public class M5Utils {
     aDomain.addModel( new DataTypeM5Model() );
     aDomain.addModel( new DataDefM5Model() );
     aDomain.addModel( new ValidationResultM5Model() );
+    aDomain.addModel( new GenericTaskInfoM5Model() );
     aDomain.addModel( new SkidM5Model() );
     aDomain.addModel( new GwidM5Model() );
     // aDomain.addModel( new SectionDefM5Model() );
@@ -79,7 +80,7 @@ public class M5Utils {
   }
 
   /**
-   * Запрет на создание экземпляров.
+   * No subclasses.
    */
   private M5Utils() {
     // nop

@@ -1,6 +1,8 @@
 package org.toxsoft.core.tsgui.m5.gui;
 
 import static org.toxsoft.core.tsgui.m5.gui.ITsResources.*;
+import static org.toxsoft.core.tsgui.m5.gui.mpc.IMultiPaneComponentConstants.*;
+import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
@@ -424,7 +426,7 @@ public class M5GuiUtils {
    * @param <T> - provided items class
    * @param aDialogInfo {@link ITsDialogInfo} - dialog window parameters
    * @param aModel {@link IM5Model} - lookup items model
-   * @param aInitialSelected &lt;T&gt; - inititlly selected item or <code>null</code>
+   * @param aInitialSelected &lt;T&gt; - initially selected item or <code>null</code>
    * @param aItemsProvider {@link IM5ItemsProvider} - items provider
    * @param aLifecycleManager {@link IM5LifecycleManager} - lifecycle manager or <code>null</code>
    * @return &lt;T&gt; - selected item or <code>null</code>
@@ -436,7 +438,9 @@ public class M5GuiUtils {
     IDialogPanelCreator<T, Object> creator = ( aParent, aOwnerDlg ) -> {
       IM5CollectionPanel<T> panel;
       if( aLifecycleManager == null ) {
-        panel = aModel.panelCreator().createCollViewerPanel( aOwnerDlg.tsContext(), aItemsProvider );
+        ITsGuiContext ctx = aOwnerDlg.tsContext();
+        OPDEF_DBLCLICK_ACTION_ID.setValue( ctx.params(), AV_STR_EMPTY ); // for STD panels allow external double click
+        panel = aModel.panelCreator().createCollViewerPanel( ctx, aItemsProvider );
       }
       else {
         panel = aModel.panelCreator().createCollEditPanel( aOwnerDlg.tsContext(), aItemsProvider, aLifecycleManager );

@@ -15,7 +15,7 @@ import org.toxsoft.core.tslib.utils.icons.*;
  * Attribute {@link IIconIdable#iconId()}.
  *
  * @author hazard157
- * @param <T> - modelled {@link IIconIdable} entity type
+ * @param <T> - modeled {@link IIconIdable} entity type
  */
 public class M5StdFieldDefIconId<T extends IIconIdable>
     extends M5AttributeFieldDef<T> {
@@ -30,14 +30,13 @@ public class M5StdFieldDefIconId<T extends IIconIdable>
   /**
    * Constructor.
    *
-   * @param aName String - field name
-   * @param aDescription String - field description
+   * @param aIdsAndValues Object[] - identifier / value pairs for {@link #params()}
    * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException number of elements in array is uneven
+   * @throws ClassCastException argument types convention is violated
    */
-  public M5StdFieldDefIconId( String aName, String aDescription ) {
-    super( TSID_ICON_ID, DDEF_ICON_ID );
-    setNameAndDescription( aName, aDescription );
-    setFlags( 0 );
+  public M5StdFieldDefIconId( Object... aIdsAndValues ) {
+    super( TSID_ICON_ID, DDEF_ICON_ID, aIdsAndValues );
   }
 
   // ------------------------------------------------------------------------------------

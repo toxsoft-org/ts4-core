@@ -32,6 +32,18 @@ interface ITsResources {
   String STR_D_FILE_LENGTH = Messages.getString( "STR_D_FILE_LENGTH" ); //$NON-NLS-1$
 
   /**
+   * {@link GenericTaskInfoM5Model}
+   */
+  String STR_M5M_GENERIC_TASK_INFO   = Messages.getString( "STR_M5M_GENERIC_TASK_INFO" );   //$NON-NLS-1$
+  String STR_M5M_GENERIC_TASK_INFO_D = Messages.getString( "STR_M5M_GENERIC_TASK_INFO_D" ); //$NON-NLS-1$
+  String STR_GTI_ID                  = Messages.getString( "STR_GTI_ID" );                  //$NON-NLS-1$
+  String STR_GTI_ID_D                = Messages.getString( "STR_GTI_ID_D" );                //$NON-NLS-1$
+  String STR_GTI_NAME                = Messages.getString( "STR_GTI_NAME" );                //$NON-NLS-1$
+  String STR_GTI_NAME_D              = Messages.getString( "STR_GTI_NAME_D" );              //$NON-NLS-1$
+  String STR_GTI_DESCRIPTION         = Messages.getString( "STR_GTI_DESCRIPTION" );         //$NON-NLS-1$
+  String STR_GTI_DESCRIPTION_D       = Messages.getString( "STR_GTI_DESCRIPTION_D" );       //$NON-NLS-1$
+
+  /**
    * {@link StringM5Model}
    */
   String STR_N_M5M_STRING = Messages.getString( "STR_N_M5M_STRING" ); //$NON-NLS-1$
