@@ -3,7 +3,6 @@ package org.toxsoft.core.tsgui.m5.std.models.misc;
 import static org.toxsoft.core.tsgui.m5.IM5Constants.*;
 import static org.toxsoft.core.tsgui.m5.std.models.misc.ITsResources.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
-import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
@@ -35,8 +34,6 @@ public class GenericTaskInfoM5Model
    * {@link IGenericTaskInfo#nmName()}
    */
   public final IM5AttributeFieldDef<IGenericTaskInfo> NAME = new M5StdFieldDefName<>( //
-      TSID_NAME, STR_GTI_NAME, //
-      TSID_DESCRIPTION, STR_GTI_NAME_D, //
       M5_OPDEF_FLAGS, avInt( M5FF_COLUMN ) //
   ) {
 
@@ -53,8 +50,6 @@ public class GenericTaskInfoM5Model
    * {@link IGenericTaskInfo#id()}
    */
   public final IM5AttributeFieldDef<IGenericTaskInfo> ID = new M5StdFieldDefId<>( //
-      TSID_NAME, STR_GTI_ID, //
-      TSID_DESCRIPTION, STR_GTI_ID_D, //
       M5_OPDEF_FLAGS, avInt( M5FF_DETAIL ) //
   );
 
@@ -62,8 +57,6 @@ public class GenericTaskInfoM5Model
    * {@link IGenericTaskInfo#description()}
    */
   public final IM5AttributeFieldDef<IGenericTaskInfo> DESCRIPTION = new M5StdFieldDefDescription<>( //
-      TSID_NAME, STR_GTI_DESCRIPTION, //
-      TSID_DESCRIPTION, STR_GTI_DESCRIPTION_D, //
       M5_OPDEF_FLAGS, avInt( M5FF_DETAIL ) //
   );
 
