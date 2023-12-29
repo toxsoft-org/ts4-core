@@ -61,8 +61,8 @@ public interface ITsguiVedConstants {
   String ICONID_VISEL_BUTTON           = "visel-button";           //$NON-NLS-1$
   String ICONID_VISEL_IMAGE            = "visel-image";            //$NON-NLS-1$
   String ICONID_VISEL_BALOON           = "visel-baloon";           //$NON-NLS-1$
-  String ICONID_VED_ACTORS_ENABLED_ON  = "ved-actors-enablem-on";  //$NON-NLS-1$
-  String ICONID_VED_ACTORS_ENABLED_OFF = "ved-actors-enablem-off"; //$NON-NLS-1$
+  String ICONID_VED_ACTORS_ENABLED_ON  = "ved-actors-enabled-on";  //$NON-NLS-1$
+  String ICONID_VED_ACTORS_ENABLED_OFF = "ved-actors-enabled-off"; //$NON-NLS-1$
   String ICONID_OBJECT_ROTATE_LEFT     = "object-rotate-left";     //$NON-NLS-1$
   String ICONID_OBJECT_ROTATE_ORIGINAL = "object-rotate-original"; //$NON-NLS-1$
   String ICONID_OBJECT_ROTATE_RIGHT    = "object-rotate-right";    //$NON-NLS-1$
