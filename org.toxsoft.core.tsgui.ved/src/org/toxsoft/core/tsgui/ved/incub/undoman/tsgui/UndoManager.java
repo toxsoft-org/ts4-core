@@ -25,17 +25,19 @@ public non-sealed class UndoManager
   /**
    * UNDO/REDO items list used as size restricted stack.
    */
-  IListEdit<AbstractUndoRedoItem> items = new ElemLinkedBundleList<>();
+  private final IListEdit<AbstractUndoRedoItem> items = new ElemLinkedBundleList<>();
 
   /**
    * The current position index in range 0 .. items.size().
    */
-  int pointer = 0;
+  private int pointer = 0;
 
   /**
    * The value of {@link #isPerformingUndoRedo()} flag.
    */
-  boolean isUndoRedoOperation = false;
+  private boolean isUndoRedoOperation = false;
+
+  private boolean enabled = true;
 
   /**
    * Constructor.
@@ -108,7 +110,7 @@ public non-sealed class UndoManager
 
   @Override
   public void undo() {
-    if( !canUndo() ) {
+    if( !enabled || !canUndo() ) {
       return;
     }
     AbstractUndoRedoItem item = items.get( pointer - 1 );
@@ -127,7 +129,7 @@ public non-sealed class UndoManager
 
   @Override
   public void redo() {
-    if( !canRedo() ) {
+    if( !enabled || !canRedo() ) {
       return;
     }
     AbstractUndoRedoItem item = items.get( pointer );
@@ -147,6 +149,9 @@ public non-sealed class UndoManager
   @Override
   public void addUndoredoItem( AbstractUndoRedoItem aItem ) {
     TsNullArgumentRtException.checkNull( aItem );
+    if( !enabled ) {
+      return;
+    }
     if( isUndoRedoOperation ) {
       throw new TsIllegalStateRtException();
     }
@@ -160,6 +165,17 @@ public non-sealed class UndoManager
     }
     pointer = items.size();
     eventer.fireChangeEvent();
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return enabled;
+  }
+
+  @Override
+  public void setEnabled( boolean aEnable ) {
+    TsIllegalStateRtException.checkTrue( isUndoRedoOperation );
+    enabled = aEnable;
   }
 
   @Override
@@ -196,11 +212,12 @@ public non-sealed class UndoManager
 
   @Override
   public void reset() {
-    if( !items.isEmpty() ) {
-      items.clear();
-      pointer = 0;
-      eventer.fireChangeEvent();
+    if( !enabled || items.isEmpty() ) {
+      return;
     }
+    items.clear();
+    pointer = 0;
+    eventer.fireChangeEvent();
   }
 
   // ------------------------------------------------------------------------------------

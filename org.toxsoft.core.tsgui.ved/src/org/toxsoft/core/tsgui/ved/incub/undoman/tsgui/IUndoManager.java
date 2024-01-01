@@ -9,7 +9,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author vs
  */
-public sealed interface IUndoManager permits UndoManager {
+public sealed interface IUndoManager
+    permits UndoManager {
 
   /**
    * Determines if last operation can be UNDOed.
@@ -51,6 +52,10 @@ public sealed interface IUndoManager permits UndoManager {
    *           <code>true</code>
    */
   void addUndoredoItem( AbstractUndoRedoItem aItem );
+
+  boolean isEnabled();
+
+  void setEnabled( boolean aEnable );
 
   /**
    * Determines if right now UNDO or REDO operation is performing.

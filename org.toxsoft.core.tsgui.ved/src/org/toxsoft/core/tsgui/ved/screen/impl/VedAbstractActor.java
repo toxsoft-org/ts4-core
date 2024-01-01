@@ -156,6 +156,21 @@ public class VedAbstractActor
   //
 
   /**
+   * Returns the value of the property {@link IVedScreenConstants#PROP_VISEL_ID} of the VISEL
+   * {@link IVedScreenConstants#PROP_VISEL_ID}.
+   * <p>
+   * On any error (VISEL or property not exists, incompatible data type, etc.) c returns {@link IAtomicValue#NULL}.
+   *
+   * @return {@link IAtomicValue} - the property value of {@link IAtomicValue#NULL}
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public IAtomicValue getStdViselPropValue() {
+    String viselId = props().getStr( PROP_VISEL_ID );
+    String viselPropId = props().getStr( PROP_VISEL_PROP_ID );
+    return getViselPropValue( viselId, viselPropId );
+  }
+
+  /**
    * Sets the property {@link IVedScreenConstants#PROP_VISEL_ID} of the VISEL {@link IVedScreenConstants#PROP_VISEL_ID}.
    * <p>
    * On any error (VISEL or property not exists, incompatible data type, etc.) does nothing without exceptions.
@@ -171,6 +186,28 @@ public class VedAbstractActor
     String viselId = props().getStr( PROP_VISEL_ID );
     String viselPropId = props().getStr( PROP_VISEL_PROP_ID );
     return setViselPropValue( viselId, viselPropId, aValue );
+  }
+
+  /**
+   * Returns the value of the property <code>aViselPropId</code> of the VISEL <code>aViselId</code>.
+   * <p>
+   * On any error (VISEL or property not exists, incompatible data type, etc.) c returns {@link IAtomicValue#NULL}.
+   *
+   * @param aViselId String - the VISEL ID
+   * @param aViselPropId String - the ID of the property to be changed
+   * @return {@link IAtomicValue} - the property value of {@link IAtomicValue#NULL}
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public IAtomicValue getViselPropValue( String aViselId, String aViselPropId ) {
+    TsNullArgumentRtException.checkNulls( aViselId, aViselPropId );
+    IVedVisel visel = findVisel( aViselId );
+    if( visel != null ) {
+      IDataDef propDef = visel.props().propDefs().findByKey( aViselPropId );
+      if( propDef != null ) {
+        return visel.props().getValue( aViselPropId );
+      }
+    }
+    return IAtomicValue.NULL;
   }
 
   /**

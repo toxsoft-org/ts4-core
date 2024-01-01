@@ -5,6 +5,7 @@ import static org.toxsoft.core.tslib.coll.impl.TsCollectionsUtils.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
+import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
@@ -24,8 +25,10 @@ public class VedScreen
   private final VedScreenModel model;
   private final VedScreenView  view;
 
-  private boolean isPaused     = false;
-  private boolean actorsEnable = true;
+  private boolean isPaused = false;
+
+  private boolean       actorsEnable               = false;
+  private IVedScreenCfg savedConfigOfActorsEnabled = IVedScreenCfg.NONE;
 
   /**
    * Constructor. Constructor.
@@ -192,7 +195,18 @@ public class VedScreen
 
   @Override
   public void setActorsEnabled( boolean aEnable ) {
-    actorsEnable = aEnable;
+    if( actorsEnable != aEnable ) {
+      if( aEnable ) {
+        savedConfigOfActorsEnabled = VedScreenUtils.getVedScreenConfig( this );
+      }
+      else {
+        IVedScreenCfg curr = VedScreenUtils.getVedScreenConfig( this );
+        if( !curr.equals( savedConfigOfActorsEnabled ) ) {
+          VedScreenUtils.setVedScreenConfig( this, savedConfigOfActorsEnabled );
+        }
+      }
+      actorsEnable = aEnable;
+    }
   }
 
 }
