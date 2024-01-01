@@ -122,12 +122,8 @@ public class MethodPerActionTsActionSetProvider
   }
 
   @Override
-  public boolean isActionEnabled( String aActionId ) {
-    IBooleanState s = enaMap.findByKey( aActionId );
-    if( s != null ) {
-      return s.isState();
-    }
-    return true;
+  protected boolean doIsActionEnabled( ITsActionDef aActionDef ) {
+    return enaMap.getByKey( aActionDef.id() ).isState();
   }
 
   @Override

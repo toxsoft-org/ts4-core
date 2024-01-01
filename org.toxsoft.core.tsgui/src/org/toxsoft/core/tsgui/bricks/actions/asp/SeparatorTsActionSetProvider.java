@@ -7,6 +7,7 @@ import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * The separator.
@@ -22,6 +23,8 @@ public final class SeparatorTsActionSetProvider
   public static final ITsActionSetProvider INSTANCE = new SeparatorTsActionSetProvider();
 
   private final IStridablesList<ITsActionDef> LIST = new StridablesList<>( ACDEF_SEPARATOR );
+
+  private boolean actSetEnabled = true;
 
   private SeparatorTsActionSetProvider() {
     // nop
@@ -57,12 +60,26 @@ public final class SeparatorTsActionSetProvider
 
   @Override
   public boolean isActionEnabled( String aActionId ) {
+    TsNullArgumentRtException.checkNull( aActionId );
+    if( aActionId.equals( ACTID_SEPARATOR ) ) {
+      return actSetEnabled;
+    }
     return false;
   }
 
   @Override
   public boolean isActionChecked( String aActionId ) {
     return false;
+  }
+
+  @Override
+  public boolean isActionSetEnabled() {
+    return actSetEnabled;
+  }
+
+  @Override
+  public void setActionSetEnabled( boolean aEnabled ) {
+    actSetEnabled = aEnabled;
   }
 
   @Override

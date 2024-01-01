@@ -23,7 +23,8 @@ import org.toxsoft.core.tslib.coll.primtypes.*;
  * @author hazard157
  */
 public sealed interface ITsActionSetProvider
-    extends ITsActionHandler permits AbstractTsActionSetProvider,SeparatorTsActionSetProvider {
+    extends ITsActionHandler
+    permits AbstractTsActionSetProvider, SeparatorTsActionSetProvider {
 
   @Override
   void handleAction( String aActionId );
@@ -71,6 +72,26 @@ public sealed interface ITsActionSetProvider
    * @return boolean - <code>true</code> if action is checked
    */
   boolean isActionChecked( String aActionId );
+
+  /**
+   * Determines if actions set is enabled.
+   * <p>
+   * For disable set all actions are disabled, that is for all actions in {@link #listHandledActionDefs()} method
+   * {@link #isActionEnabled(String)} returns false. When action set is enabled, individual actions enable state are
+   * determined as usual, by the implementation.
+   * <p>
+   * Instances of this interface are created in enabled state.
+   *
+   * @return boolean - <code>true</code> if action set is enabled
+   */
+  boolean isActionSetEnabled();
+
+  /**
+   * Sets {@link #isActionSetEnabled()} flag state.
+   *
+   * @param aEnabled boolean - <code>true</code> to action set be enabled
+   */
+  void setActionSetEnabled( boolean aEnabled );
 
   /**
    * Generates event when any action enabled and/or checked state changes.

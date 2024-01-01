@@ -81,12 +81,8 @@ public class CompoundTsActionSetProvider
   }
 
   @Override
-  public boolean isActionEnabled( String aActionId ) {
-    ITsActionSetProvider h = providersByActIdMap.findByKey( aActionId );
-    if( h != null ) {
-      return h.isActionEnabled( aActionId );
-    }
-    return true;
+  protected boolean doIsActionEnabled( ITsActionDef aActionDef ) {
+    return providersByActIdMap.getByKey( aActionDef.id() ).isActionEnabled( aActionDef.id() );
   }
 
   @Override

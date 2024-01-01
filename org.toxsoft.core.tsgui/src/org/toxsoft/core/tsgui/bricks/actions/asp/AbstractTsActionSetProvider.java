@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.bricks.actions.asp;
 
+import org.toxsoft.core.tsgui.bricks.actions.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 
 /**
@@ -22,6 +23,8 @@ public non-sealed abstract class AbstractTsActionSetProvider
 
   private final GenericChangeEventer genericChangeEventer;
 
+  private boolean actSetEnabled = true;
+
   /**
    * Constructor.
    */
@@ -38,7 +41,32 @@ public non-sealed abstract class AbstractTsActionSetProvider
     if( listHandledActionIds().hasElem( aActionId ) ) {
       doHandleAction( aActionId );
       doAfterActionHandled( aActionId );
-      actionsStateEventer().fireChangeEvent();
+      genericChangeEventer.fireChangeEvent();
+    }
+  }
+
+  @Override
+  final public boolean isActionEnabled( String aActionId ) {
+    ITsActionDef acionDef = listHandledActionDefs().findByKey( aActionId );
+    if( acionDef != null ) {
+      if( actSetEnabled ) {
+        return doIsActionEnabled( acionDef );
+      }
+      return false;
+    }
+    return true;
+  }
+
+  @Override
+  public boolean isActionSetEnabled() {
+    return actSetEnabled;
+  }
+
+  @Override
+  public void setActionSetEnabled( boolean aEnabled ) {
+    if( actSetEnabled != aEnabled ) {
+      actSetEnabled = aEnabled;
+      genericChangeEventer.fireChangeEvent();
     }
   }
 
@@ -57,6 +85,17 @@ public non-sealed abstract class AbstractTsActionSetProvider
    * @param aActionId String - the action ID, guaranteed to be in the {@link #listHandledActionIds()}
    */
   protected abstract void doHandleAction( String aActionId );
+
+  /**
+   * Subclass must determine if action is enabled.
+   * <p>
+   * Called only when {@link #isActionSetEnabled()} = <code>true</code> and for actions found in
+   * {@link #listHandledActionDefs()}.
+   *
+   * @param aActionDef {@link ITsActionDef} - action defintion from the {@link #listHandledActionDefs()}
+   * @return boolean - <code>true</code> if action is enabled
+   */
+  protected abstract boolean doIsActionEnabled( ITsActionDef aActionDef );
 
   /**
    * Subclass may perform additional processing after action was handled.

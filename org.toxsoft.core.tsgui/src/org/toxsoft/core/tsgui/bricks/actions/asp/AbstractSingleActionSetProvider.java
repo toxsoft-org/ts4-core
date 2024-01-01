@@ -57,11 +57,8 @@ public abstract class AbstractSingleActionSetProvider
   }
 
   @Override
-  final public boolean isActionEnabled( String aActionId ) {
-    if( actionDefList.hasKey( aActionId ) ) {
-      return doIsActionEnabled();
-    }
-    return true;
+  protected boolean doIsActionEnabled( ITsActionDef aActionDef ) {
+    return doIsActionEnabled();
   }
 
   @Override
