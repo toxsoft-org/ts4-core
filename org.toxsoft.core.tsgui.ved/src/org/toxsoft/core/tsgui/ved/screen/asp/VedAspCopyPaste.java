@@ -131,21 +131,23 @@ public class VedAspCopyPaste
   //
 
   @Override
-  public boolean isActionEnabled( String aActionId ) {
-    if( aActionId.equals( ACDEF_CUT.id() ) ) {
-      if( activeVisel == null ) {
-        return selectionManager.selectionKind() != ESelectionKind.NONE;
+  protected boolean doIsActionEnabled( ITsActionDef aActionDef ) {
+    switch( aActionDef.id() ) {
+      case ACTID_CUT: {
+        if( activeVisel == null ) {
+          return selectionManager.selectionKind() != ESelectionKind.NONE;
+        }
+        return true;
       }
-    }
-    if( aActionId.equals( ACDEF_COPY.id() ) ) {
-      if( activeVisel == null ) {
-        return selectionManager.selectionKind() != ESelectionKind.NONE;
+      case ACTID_COPY: {
+        if( activeVisel == null ) {
+          return selectionManager.selectionKind() != ESelectionKind.NONE;
+        }
+        return true;
       }
+      default:
+        return true;
     }
-    // if( aActionId.equals( ACDEF_PASTE.id() ) ) {
-    // return visels2paste.size() > 0;
-    // }
-    return true;
   }
 
   // ------------------------------------------------------------------------------------

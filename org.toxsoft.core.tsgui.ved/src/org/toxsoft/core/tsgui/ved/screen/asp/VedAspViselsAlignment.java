@@ -112,7 +112,7 @@ public class VedAspViselsAlignment
   //
 
   @Override
-  public boolean isActionEnabled( String aActionId ) {
+  protected boolean doIsActionEnabled( ITsActionDef aActionDef ) {
     return selectionManager.selectionKind() == ESelectionKind.MULTI;
   }
 

@@ -29,10 +29,7 @@ public class VedAspCommonContextMenu
 
   static final String ACTID_SCREEN_CONFIG = "screen.config"; //$NON-NLS-1$
 
-  /**
-   * Action: align group of selected visels to left edge.
-   */
-  public static final ITsActionDef ACDEF_BK_COLOR = ofPush2( ACTID_SCREEN_CONFIG, //
+  static final ITsActionDef ACDEF_SCREEN_CONFIG = ofPush2( ACTID_SCREEN_CONFIG, //
       STR_SCREEN_CONFIG, STR_SCREEN_CONFIG_D, ICONID_SETTINGS );
 
   private final IVedScreen vedScreen;
@@ -52,7 +49,7 @@ public class VedAspCommonContextMenu
     vedScreen = TsNullArgumentRtException.checkNull( aVedScreen );
     selectionManager = aSelectionManager;
     selectionManager.genericChangeEventer().addListener( this::onSelectionChanged );
-    defineAction( ACDEF_BK_COLOR, this::doConfigurateCanvas );
+    defineAction( ACDEF_SCREEN_CONFIG, this::doConfigurateCanvas );
     defineAction( ACDEF_REMOVE, this::doRemove );
   }
 
@@ -70,16 +67,19 @@ public class VedAspCommonContextMenu
   //
 
   @Override
-  public boolean isActionEnabled( String aActionId ) {
-    if( aActionId.equals( ACDEF_REMOVE.id() ) ) {
-      if( activeVisel == null ) {
-        return selectionManager.selectionKind() != ESelectionKind.NONE;
+  protected boolean doIsActionEnabled( ITsActionDef aActionDef ) {
+    switch( aActionDef.id() ) {
+      case ACTID_REMOVE: {
+        if( activeVisel == null ) {
+          return selectionManager.selectionKind() != ESelectionKind.NONE;
+        }
+        break;
       }
-    }
-    if( aActionId.equals( ACDEF_BK_COLOR.id() ) ) {
-      if( activeVisel != null ) {
-        return false;
+      case ACTID_SCREEN_CONFIG: {
+        return activeVisel == null;
       }
+      default:
+        break;
     }
     return true;
   }

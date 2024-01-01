@@ -39,14 +39,14 @@ public class AspActorsRunner
   final void doRunActors() {
     boolean enable = !vedScreen.isActorsEnabled();
     if( enable ) {
-      // TODO when actors enabled, turn on editing, screen redraw, UNDO, SAVE, etc.
+      doBeforeActorsRun();
       vedScreen.setActorsEnabled( true );
       doAfterActorsRun();
     }
     else {
-      doBeforeActorsStopActorsRun();
-      // TODO when actors disabled, turn off editing, screen redraw, UNDO, SAVE, etc.
+      doBeforeActorsStop();
       vedScreen.setActorsEnabled( false );
+      doAfterActorsStop();
     }
   }
 
@@ -59,12 +59,22 @@ public class AspActorsRunner
   //
 
   // TODO comment
+  protected void doBeforeActorsRun() {
+    // nop
+  }
+
+  // TODO comment
   protected void doAfterActorsRun() {
     // nop
   }
 
   // TODO comment
-  protected void doBeforeActorsStopActorsRun() {
+  protected void doBeforeActorsStop() {
+    // nop
+  }
+
+  // TODO comment
+  protected void doAfterActorsStop() {
     // nop
   }
 
