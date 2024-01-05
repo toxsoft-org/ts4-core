@@ -74,7 +74,7 @@ public abstract class MwsAbstractAddon {
    * <p>
    * Warning: subclasses must have the only one constructor without arguments!
    *
-   * @param aPluginId String - plugin identifier must match plugin's symblic name from MANIFEST.MF
+   * @param aPluginId String - plugin identifier must match plugin's symbolic name from MANIFEST.MF
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException argument is not an IDpath
    */
