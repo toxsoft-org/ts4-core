@@ -1,55 +1,76 @@
 package org.toxsoft.core.tslib.bricks.gentask;
 
+import java.util.concurrent.*;
+
 import org.toxsoft.core.tslib.bricks.ctx.*;
-import org.toxsoft.core.tslib.bricks.events.change.*;
-import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * The interface to access executing and finished generic task.
+ * The generic task is a an asynchronously executed job with input and output specified as {@link ITsContextRo}.
  * <p>
- * Instance of the task is created and returned by {@link IGenericTaskRunner#run(ITsContextRo)}. Returned task may
- * already been finished. For a long running tasks {@link #isFinished()} may be polled to determine when task is done.
- * After task is finished it must be explicitly closed by {@link #close()} method. Closed task may release some
- * resources, however {@link #in()} and {@link #out()} are still accessible.
+ * Task input and output parameters (options, references) and some other meta information is described by
+ * {@link IGenericTaskInfo}. Generally the parameters are defined by the application. However there are few parameters
+ * common for any task as defined in {@link IGenericTaskConstants}. Some pre-defined parameters are mandatory while
+ * others are optional.
  * <p>
- * Closing the running task (when {@link #isFinished()} = <code>false</code>) will request task cancellation. Depending
- * on task nature and runner implementation, finishing task after {@link #close()} may take a while. Calling
- * {@link #close()} on finished task is ignored.
- * <p>
- * Implements {@link IGenericChangeEventCapable}. Generates events when task state changes including when is becomes
- * finished (if returned by {@link IGenericTaskRunner#run(ITsContextRo)} instance was not finished) and when something
- * application-specific happened during task execution (like a new portion of data has arrived).
+ * It is implementation-specific if task may be started while previous task is still executing. Anyway, recursive calls
+ * of {@link #runSync(ITsContextRo)} is not allowed throwing an exception.
  *
  * @author hazard157
  */
 public sealed interface IGenericTask
-    extends IGenericChangeEventCapable, ICloseable permits GenericTask {
+    permits AbstractGenericTask {
 
   /**
-   * Determines if task is finished regardless of the reason, whether it was cancelled or fully executed.
+   * Returns the meta-information about task to run.
    *
-   * @return boolean - <code>true</code> task is finished, <code>false</code> - task is runnung
+   * @return {@link IGenericTaskInfo} - the task information
    */
-  boolean isFinished();
+  IGenericTaskInfo taskInfo();
 
   /**
-   * Returns the input parameters specified at the task start.
+   * Asynchronously starts a task for execution.
+   *
+   * @param aIn {@link ITsContextRo} - input parameters
+   * @return {@link Future}&lt;{@link ITsContextRo}&gt; - result of execution to be checked when it is done
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalStateRtException instance allows only single task and it is already running
+   * @throws TsValidationFailedRtException failed {@link #canRun(ITsContextRo)}
+   */
+  Future<ITsContextRo> runAsync( ITsContextRo aIn );
+
+  /**
+   * Synchronously executes a task.
    * <p>
-   * This is the same reference as was passed to {@link IGenericTaskRunner#run(ITsContextRo)}.
+   * Any task may be executes synchronously, however it has no sense for a time consuming tasks.
    *
-   * @return {@link ITsContextRo} - the task input (options and references)
+   * @param aIn {@link ITsContextRo} - input parameters
+   * @return {@link ITsContextRo} - task execution result (an output)
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalStateRtException recursive call was detected
+   * @throws TsIllegalStateRtException instance allows only single task and it is already running
+   * @throws TsValidationFailedRtException failed {@link #canRun(ITsContextRo)}
    */
-  ITsContextRo in();
+  ITsContextRo runSync( ITsContextRo aIn );
 
   /**
-   * Returns the task output options and parameters.
+   * Checks if task can be run with the specified input.
    * <p>
-   * Although the returned {@link ITsContextRo} is a read-only interface, the contents of the task's output can change
-   * while the task is running. Only when {@link #isFinished()} becomes <code>true</code> does the output content stop
-   * changing.
+   * The input options and references are checked against {@link #taskInfo()} definitions. Task implementation may add
+   * additional checks (eg if connection to the server is alive).
+   * <p>
+   * Success of this method does <b>not</b> guarantees that task will be run successfully. However, if this method
+   * returns error, execution is guaranteed to fail.
+   * <p>
+   * Options and references not listed in {@link IGenericTaskInfo#inOps()} and {@link IGenericTaskInfo#inRefs()} are
+   * ignored.
    *
-   * @return {@link ITsContextRo} - task output options and references
+   * @param aInput {@link ITsContextRo} - the task input (options and references)
+   * @return {@link ValidationResult} - the check result
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  ITsContextRo out();
+  ValidationResult canRun( ITsContextRo aInput );
 
 }

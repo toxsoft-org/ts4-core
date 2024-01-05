@@ -10,10 +10,10 @@ import org.toxsoft.core.tslib.coll.primtypes.*;
 public interface IGenericTaskCapable {
 
   /**
-   * Returns supported generic tasks runners.
+   * Returns supported generic tasks.
    *
-   * @return {@link IStringMap}&lt;{@link IGenericTaskRunner}&gt; - map "generic task ID" - "task runner"
+   * @return {@link IStringMap}&lt;{@link IGenericTask}&gt; - map "generic task ID" - "the task"
    */
-  IStringMap<IGenericTaskRunner> getGenericTaskRunners();
+  IStringMap<IGenericTask> listSupportedTasks();
 
 }
