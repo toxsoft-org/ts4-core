@@ -21,6 +21,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public sealed interface IGenericTask
+    extends IGenericTaskAsyncRunner, IGenericTaskSyncRunner
     permits AbstractGenericTask {
 
   /**
@@ -39,6 +40,7 @@ public sealed interface IGenericTask
    * @throws TsIllegalStateRtException instance allows only single task and it is already running
    * @throws TsValidationFailedRtException failed {@link #canRun(ITsContextRo)}
    */
+  @Override
   Future<ITsContextRo> runAsync( ITsContextRo aIn );
 
   /**
@@ -53,6 +55,7 @@ public sealed interface IGenericTask
    * @throws TsIllegalStateRtException instance allows only single task and it is already running
    * @throws TsValidationFailedRtException failed {@link #canRun(ITsContextRo)}
    */
+  @Override
   ITsContextRo runSync( ITsContextRo aIn );
 
   /**
