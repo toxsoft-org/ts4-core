@@ -51,8 +51,9 @@ public class CmdMwsAbout {
       IPdwWidget imageWidget = new PdwWidgetSimple( tsContext() );
       imageWidget.createControl( this );
       imageWidget.getControl().setLayoutData( BorderLayout.WEST );
-      imageWidget.setAreaPreferredSize( ABOUT_ICON_SIZE.pointSize() );
-      imageWidget.setFitInfo( RectFitInfo.NONE );
+      int sz = ABOUT_ICON_SIZE.pointSize().x() * 2;
+      imageWidget.setAreaPreferredSize( new TsPoint( sz, sz ) );
+      imageWidget.setFitInfo( RectFitInfo.BEST_FILL );
       imageWidget.setFulcrum( ETsFulcrum.CENTER );
       imageWidget.setPreferredSizeFixed( true );
       Image icon = iconManager().loadStdIcon( ITsStdIconIds.ICONID_TSAPP_WINDOWS_ICON, ABOUT_ICON_SIZE );
@@ -99,7 +100,7 @@ public class CmdMwsAbout {
     ITsApplicationInfo appInfo = aMws.appInfo();
     ITsGuiContext ctx = new TsGuiContext( aAppContext );
     TsDialogInfo cdi = new TsDialogInfo( ctx, ctx.get( Shell.class ), DLG_C_ABOUT, DLG_T_ABOUT, DF_NO_APPROVE );
-    ITsPoint p = new TsPoint( 4 * ABOUT_ICON_SIZE.size(), 2 * ABOUT_ICON_SIZE.size() + 50 );
+    ITsPoint p = new TsPoint( 4 * ABOUT_ICON_SIZE.size(), 3 * ABOUT_ICON_SIZE.size() );
     cdi.setMaxSize( p );
     TsDialog<ITsApplicationInfo, Object> d = new TsDialog<>( cdi, appInfo, null, creator );
     d.execData();
