@@ -23,7 +23,7 @@ public final class TsCollectionsUtils {
   //
 
   static final int MIN_ORDER = 1; // minimum scale value, tens of elements
-  static final int MAX_ORDER = 6; // maximum scale value, millions of elements
+  static final int MAX_ORDER = 7; // maximum scale value, tens of millions of elements
 
   /**
    * An array of prime numbers to initialize the initial number of cells in the associative map collection hash tables.
@@ -31,7 +31,7 @@ public final class TsCollectionsUtils {
    * Index of element is scale value - 1.
    */
   public static final int[] ORDER_BUCKETS_COUNT = { //
-      3, 17, 157, 1009, 9973, 74923 //
+      3, 17, 157, 1009, 9973, 74923, 561931 //
   };
 
   /**
@@ -40,7 +40,7 @@ public final class TsCollectionsUtils {
    * Index of element is scale value - 1.
    */
   public static final int[] ORDER_LIST_CAPACITY = { //
-      16, 64, 512, 4096, 16384, 65536 //
+      16, 64, 512, 4096, 16384, 65536, 262144 //
   };
 
   // FIXME TRANSLATE
@@ -599,20 +599,31 @@ public final class TsCollectionsUtils {
   }
 
   /**
-   * Detrmines if specified numer is prime.
+   * Determines if specified number is prime.
    *
-   * @param aNum int - specified number in range from 4 to {@link Integer#MAX_VALUE}
+   * @param aNum int - specified number in range from 1 to {@link Integer#MAX_VALUE}
    * @return boolean - <code>true</code> if argument is prime number
+   * @throws TsIllegalArgumentRtException aNum < 0
    */
   public static boolean isPrime( int aNum ) {
-    int i = (int)Math.ceil( Math.sqrt( aNum ) );
-    while( i > 1 ) {
-      if( aNum % i == 0 ) { // aNum > 4 гарантирует, что нет деления сам на себя
+    TsIllegalArgumentRtException.checkTrue( aNum < 1 );
+    switch( aNum ) {
+      case 1:
+      case 2:
+      case 3:
+        return true;
+      case 4:
         return false;
-      }
-      --i;
+      default:
+        int i = (int)Math.ceil( Math.sqrt( aNum ) );
+        while( i > 1 ) {
+          if( aNum % i == 0 ) { // aNum > 4 гарантирует, что нет деления сам на себя
+            return false;
+          }
+          --i;
+        }
+        return true;
     }
-    return true;
   }
 
   /**
@@ -622,7 +633,7 @@ public final class TsCollectionsUtils {
    * {@link #MINIMUM_BUCKETS_COUNT}then returns {@link #MAXIMUM_BUCKETS_COUNT}.
    *
    * @param aLimit int - lower limit of prime number to be found
-   * @return int - mimimal prime number greater or equal to the argument
+   * @return int - minimal prime number greater or equal to the argument
    */
   public static int calculateNextPrimeNumber( int aLimit ) {
     if( aLimit <= MINIMUM_BUCKETS_COUNT ) {

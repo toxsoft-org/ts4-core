@@ -27,7 +27,7 @@ public interface ITsValidationSupport<V> {
   /**
    * Add the validator.
    * <p>
-   * If validator is already registered then method soes nothing.
+   * If validator is already registered then method does nothing.
    *
    * @param aValidator &ltV&gt; - the validator
    * @throws TsNullArgumentRtException any argument = <code>null</code>
@@ -37,7 +37,7 @@ public interface ITsValidationSupport<V> {
   /**
    * Removes the validator.
    * <p>
-   * If validator is not registered then method soes nothing.
+   * If validator is not registered then method does nothing.
    *
    * @param aValidator &ltV&gt; - the validator
    * @throws TsNullArgumentRtException any argument = <code>null</code>
@@ -47,7 +47,7 @@ public interface ITsValidationSupport<V> {
   /**
    * Temporary disables the specified validator.
    * <p>
-   * After call of this method the {@link #validator()} will not include disabled validator untill the
+   * After call of this method the {@link #validator()} will not include disabled validator until the
    * {@link #resumeValidator(Object)} call. The order of the argument - validator in {@link #validator()} calls list is
    * not changed.
    * <p>

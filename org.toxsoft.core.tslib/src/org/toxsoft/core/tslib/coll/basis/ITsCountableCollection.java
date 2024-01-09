@@ -1,7 +1,7 @@
 package org.toxsoft.core.tslib.coll.basis;
 
 /**
- * Mixin interface for collections with known number of elements in it.
+ * Mix-in interface for collections with known number of elements in it.
  * <p>
  * This interface is implemented by all tslib collections.
  * <p>

@@ -1,13 +1,10 @@
 package org.toxsoft.core.tslib.coll.impl;
 
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.*;
 
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.coll.basis.ITsCollectionEdit;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullObjectErrorRtException;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Basic implementation of immutable collection.
@@ -84,7 +81,7 @@ public class ImmutableCollectionBase<E>
   //
 
   @Override
-  public void clear() {
+  final public void clear() {
     throw new TsNullObjectErrorRtException();
   }
 

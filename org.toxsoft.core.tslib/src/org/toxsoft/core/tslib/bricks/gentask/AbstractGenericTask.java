@@ -16,7 +16,7 @@ import org.toxsoft.core.tslib.utils.logs.impl.*;
  *
  * @author hazard157
  */
-public non-sealed abstract class AbstractGenericTask
+public abstract class AbstractGenericTask
     implements IGenericTask {
 
   private final IGenericTaskInfo taskInfo;

@@ -3,7 +3,7 @@ package org.toxsoft.core.tslib.utils.errors;
 import org.toxsoft.core.tslib.bricks.time.*;
 
 /**
- * Base class for all unchecked exceptions.
+ * Base class for all unchecked exceptions of tslib.
  * <p>
  * This class is designed only to be extended by other classes.
  *

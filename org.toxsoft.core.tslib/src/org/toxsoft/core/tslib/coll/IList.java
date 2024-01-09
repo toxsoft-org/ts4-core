@@ -14,7 +14,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * <p>
  * This is basic interface of all linear (non-associative) ordered collections.
  * <p>
- * This is readonly interface, ie interface without modificaion methods (mutators).
+ * This is read-only interface, ie interface without modification methods (mutators).
  *
  * @author hazard157
  * @param <E> - the type of elements in this collection
@@ -93,9 +93,9 @@ public interface IList<E>
   }
 
   /**
-   * Finds the element if list contains one element or returns <code>null</code> if none.
+   * Finds the element if list contains exactly one element otherwise returns <code>null</code>.
    *
-   * @return &lt;E&gt; - the only element of collection or <code>null</code> if collection is empty or many elements
+   * @return &lt;E&gt; - the only element of collection or <code>null</code> if collection is empty or has many elements
    */
   default E findOnly() {
     if( size() <= 1 ) {

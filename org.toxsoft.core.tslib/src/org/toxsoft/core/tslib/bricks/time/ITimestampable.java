@@ -5,6 +5,9 @@ package org.toxsoft.core.tslib.bricks.time;
  * <p>
  * This interface introduces timestamp {@link #timestamp()}. Some entities (like iterators) timestamp may vary from call
  * to call, while others (like measurement values) will have the same returned value during instance lifetime.
+ * <p>
+ * Note: {@link #timestamp()} method does not specifies which time is used. At runtime
+ * {@link System#currentTimeMillis()} returns time of current time zone. Implementers must specify timestamp time zone.
  *
  * @author hazard157
  */

@@ -20,9 +20,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public sealed interface IGenericTask
-    extends IGenericTaskAsyncRunner, IGenericTaskSyncRunner
-    permits AbstractGenericTask {
+public interface IGenericTask
+    extends IGenericTaskAsyncRunner, IGenericTaskSyncRunner {
 
   /**
    * Returns the meta-information about task to run.

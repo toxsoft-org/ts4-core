@@ -1,19 +1,17 @@
 package org.toxsoft.core.tslib.coll.impl;
 
-import java.io.Serializable;
-import java.util.Collection;
+import java.io.*;
+import java.util.*;
 
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullObjectErrorRtException;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Empty immutable implementation of {@link IListEdit}.
  * <p>
- * This implementation is designed for {@link IList#EMPTY} implementation and to allows users realize own typed empty
- * collections. Unlike {@link IList#EMPTY} user constants will be types with respective Java types.
+ * This implementation is designed for {@link IList#EMPTY} implementation and to allow users realize their own typed
+ * empty collections. Unlike {@link IList#EMPTY} user constants may be generic with respective Java types.
  * <p>
  * All reading methods calls are allowed while all editing methods throw {@link TsNullObjectErrorRtException}.
  *
@@ -31,11 +29,6 @@ public class ImmutableList<E>
    */
   public ImmutableList() {
     // nop
-  }
-
-  @Override
-  public void clear() {
-    throw new TsNullObjectErrorRtException();
   }
 
   @Override
@@ -71,6 +64,7 @@ public class ImmutableList<E>
 
   @Override
   public int indexOf( E aElem ) {
+    TsNullArgumentRtException.checkNull( aElem );
     return -1;
   }
 

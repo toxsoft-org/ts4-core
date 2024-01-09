@@ -7,7 +7,7 @@ import org.toxsoft.core.tslib.coll.primtypes.*;
  *
  * @author hazard157
  */
-public interface IGenericTaskCapable {
+public interface IGenericTasksProvider {
 
   /**
    * Returns supported generic tasks.
