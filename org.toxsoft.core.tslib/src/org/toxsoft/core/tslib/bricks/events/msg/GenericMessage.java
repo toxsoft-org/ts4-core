@@ -21,7 +21,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public sealed class GenericMessage
-    implements Serializable permits GtMessage {
+    implements Serializable
+    permits GtMessage {
 
   private static final long serialVersionUID = -599836453604892829L;
 
@@ -31,7 +32,7 @@ public sealed class GenericMessage
   public static final GenericMessage NONE = new GenericMessage( IStridable.NONE_ID );
 
   /**
-   * Keepr singleton.
+   * Keeper singleton.
    */
   public static final IEntityKeeper<GenericMessage> KEEPER =
       new AbstractEntityKeeper<>( GenericMessage.class, EEncloseMode.ENCLOSES_BASE_CLASS, NONE ) {
