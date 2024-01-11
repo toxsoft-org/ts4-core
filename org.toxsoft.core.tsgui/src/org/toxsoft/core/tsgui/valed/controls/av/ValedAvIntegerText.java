@@ -63,6 +63,10 @@ public class ValedAvIntegerText
     super( aTsContext, EAtomicType.INTEGER, ValedIntegerText.FACTORY );
   }
 
+  // ------------------------------------------------------------------------------------
+  // AbstractAvWrapperValedControl
+  //
+
   @Override
   protected Integer av2tv( IAtomicValue aAtomicValue ) {
     return Integer.valueOf( aAtomicValue.asInt() );

@@ -78,8 +78,8 @@ public class ValedStringText
    */
   public static final AbstractValedControlFactory FACTORY = new Factory();
 
-  Composite backplane = null;
-  Text      text      = null;
+  private Composite backplane = null;
+  private Text      text      = null;
 
   /**
    * Constructor.
@@ -147,7 +147,7 @@ public class ValedStringText
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация методов AbstractDavControl
+  // AbstractValedControl
   //
 
   @Override
@@ -191,7 +191,7 @@ public class ValedStringText
   }
 
   // ------------------------------------------------------------------------------------
-  // API класса
+  // API
   //
 
   /**
