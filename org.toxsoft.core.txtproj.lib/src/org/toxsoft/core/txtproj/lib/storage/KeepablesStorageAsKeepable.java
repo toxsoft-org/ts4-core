@@ -137,14 +137,6 @@ public class KeepablesStorageAsKeepable
   }
 
   @Override
-  public <T> void writeItem( String aId, T aItem, IEntityKeeper<T> aKeeper ) {
-    StridUtils.checkValidIdPath( aId );
-    TsNullArgumentRtException.checkNulls( aItem, aKeeper );
-    String content = aKeeper.ent2str( aItem );
-    sectionsMap.put( aId, content );
-  }
-
-  @Override
   public <T> IList<T> readColl( String aId, IEntityKeeper<T> aKeeper ) {
     TsNullArgumentRtException.checkNulls( aId, aKeeper );
     if( !sectionsMap.hasKey( aId ) ) {
@@ -154,10 +146,35 @@ public class KeepablesStorageAsKeepable
   }
 
   @Override
+  public <T> IStringMap<T> readStridMap( String aId, IEntityKeeper<T> aKeeper ) {
+    TsNullArgumentRtException.checkNulls( aId, aKeeper );
+    if( !sectionsMap.hasKey( aId ) ) {
+      return IStringMap.EMPTY;
+    }
+    return aKeeper.str2smap( sectionsMap.getByKey( aId ) );
+  }
+
+  @Override
+  public <T> void writeItem( String aId, T aItem, IEntityKeeper<T> aKeeper ) {
+    StridUtils.checkValidIdPath( aId );
+    TsNullArgumentRtException.checkNulls( aItem, aKeeper );
+    String content = aKeeper.ent2str( aItem );
+    sectionsMap.put( aId, content );
+  }
+
+  @Override
   public <T> void writeColl( String aId, ITsCollection<T> aColl, IEntityKeeper<T> aKeeper ) {
     StridUtils.checkValidIdPath( aId );
     TsNullArgumentRtException.checkNulls( aColl, aKeeper );
     String content = aKeeper.coll2str( aColl );
+    sectionsMap.put( aId, content );
+  }
+
+  @Override
+  public <T> void writeStridMap( String aId, IStringMap<T> aMap, IEntityKeeper<T> aKeeper ) {
+    StridUtils.checkValidIdPath( aId );
+    TsNullArgumentRtException.checkNulls( aMap, aKeeper );
+    String content = aKeeper.smap2str( aMap );
     sectionsMap.put( aId, content );
   }
 

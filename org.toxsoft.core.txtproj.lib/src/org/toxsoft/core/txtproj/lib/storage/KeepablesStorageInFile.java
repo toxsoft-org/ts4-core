@@ -168,6 +168,24 @@ public class KeepablesStorageInFile
   }
 
   @Override
+  public <T> IStringMap<T> readStridMap( String aId, IEntityKeeper<T> aKeeper ) {
+    TsNullArgumentRtException.checkNulls( aId, aKeeper );
+    if( !sectionsMap.hasKey( aId ) ) {
+      return IStringMap.EMPTY;
+    }
+    return aKeeper.str2smap( sectionsMap.getByKey( aId ) );
+  }
+
+  @Override
+  public <T> void writeStridMap( String aId, IStringMap<T> aMap, IEntityKeeper<T> aKeeper ) {
+    StridUtils.checkValidIdPath( aId );
+    TsNullArgumentRtException.checkNulls( aMap, aKeeper );
+    String content = aKeeper.smap2str( aMap );
+    sectionsMap.put( aId, content );
+    save();
+  }
+
+  @Override
   public void writeSection( TdfSection aSection ) {
     TsNullArgumentRtException.checkNull( aSection );
     sectionsMap.put( aSection.keyword(), aSection.getContent() );

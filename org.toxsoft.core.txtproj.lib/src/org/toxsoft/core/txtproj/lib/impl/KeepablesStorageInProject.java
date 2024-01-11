@@ -157,6 +157,26 @@ public class KeepablesStorageInProject
   }
 
   @Override
+  public <T> IStringMap<T> readStridMap( String aId, IEntityKeeper<T> aKeeper ) {
+    TsNullArgumentRtException.checkNulls( aId, aKeeper );
+    if( !sectionsMap.hasKey( aId ) ) {
+      return IStringMap.EMPTY;
+    }
+    return aKeeper.str2smap( sectionsMap.getByKey( aId ) );
+  }
+
+  @Override
+  public <T> void writeStridMap( String aId, IStringMap<T> aMap, IEntityKeeper<T> aKeeper ) {
+    StridUtils.checkValidIdPath( aId );
+    TsNullArgumentRtException.checkNulls( aMap, aKeeper );
+    String content = aKeeper.smap2str( aMap );
+    if( !Objects.equals( sectionsMap.findByKey( aId ), content ) ) {
+      sectionsMap.put( aId, content );
+      genericChangeEventer().fireChangeEvent();
+    }
+  }
+
+  @Override
   public void writeSection( TdfSection aSection ) {
     TsNullArgumentRtException.checkNull( aSection );
     String oldContent = sectionsMap.findByKey( aSection.keyword() );

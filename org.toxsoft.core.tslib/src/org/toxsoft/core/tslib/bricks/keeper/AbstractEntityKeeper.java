@@ -5,6 +5,7 @@ import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 
 import java.io.*;
 
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.bricks.strio.chario.*;
 import org.toxsoft.core.tslib.bricks.strio.chario.impl.*;
@@ -12,6 +13,8 @@ import org.toxsoft.core.tslib.bricks.strio.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -140,6 +143,59 @@ public abstract class AbstractEntityKeeper<E>
     return coll;
   }
 
+  private static void checkIsListOfIdPaths( IStringList aList ) {
+    for( String s : aList ) {
+      StridUtils.checkValidIdPath( s );
+    }
+  }
+
+  private void internalWriteStridMap( IStrioWriter aSw, IStringMap<E> aMap, boolean aIndented ) {
+    if( aMap.isEmpty() ) {
+      aSw.writeChars( CHAR_SET_BEGIN, CHAR_SET_END );
+      return;
+    }
+    aSw.writeChar( CHAR_SET_BEGIN );
+    if( aIndented ) {
+      aSw.incNewLine();
+    }
+    for( int i = 0, n = aMap.size(); i < n; i++ ) {
+      String key = aMap.keys().get( i );
+      E e = aMap.getByKey( key );
+      if( !aIndented ) {
+        aSw.writeSpace();
+      }
+      aSw.writeAsIs( key );
+      aSw.writeChar( CHAR_EQUAL );
+      internalWriteEntity( aSw, e );
+      if( i != n - 1 ) {
+        aSw.writeChar( CHAR_ITEM_SEPARATOR );
+        if( aIndented ) {
+          aSw.writeEol();
+        }
+      }
+    }
+    if( aIndented ) {
+      aSw.decNewLine();
+    }
+    else {
+      aSw.writeSpace();
+    }
+    aSw.writeChar( CHAR_SET_END );
+  }
+
+  private IStringMapEdit<E> internalReadStridMap( IStrioReader aSr ) {
+    IStringMapEdit<E> map = new StringMap<>();
+    if( aSr.readSetBegin() ) {
+      do {
+        String key = aSr.readIdPath();
+        aSr.ensureChar( CHAR_EQUAL );
+        E e = internalReadEntity( aSr );
+        map.put( key, e );
+      } while( aSr.readSetNext() );
+    }
+    return map;
+  }
+
   private void internalReadColl( IStrioReader aSr, ITsCollectionEdit<E> aColl ) {
     if( aSr.readArrayBegin() ) {
       do {
@@ -256,6 +312,24 @@ public abstract class AbstractEntityKeeper<E>
   }
 
   @Override
+  public String smap2str( IStringMap<E> aMap ) {
+    TsNullArgumentRtException.checkNull( aMap );
+    checkIsListOfIdPaths( aMap.keys() );
+    StringBuilder sb = new StringBuilder();
+    ICharOutputStream chOut = new CharOutputStreamAppendable( sb );
+    IStrioWriter sw = new StrioWriter( chOut );
+    internalWriteStridMap( sw, aMap, false );
+    return sb.toString();
+  }
+
+  @Override
+  public IStringMapEdit<E> str2smap( String aCollAsString ) {
+    ICharInputStream chIn = new CharInputStreamString( aCollAsString );
+    IStrioReader sr = new StrioReader( chIn );
+    return readStridMap( sr );
+  }
+
+  @Override
   public void writeColl( IStrioWriter aSw, ITsCollection<E> aColl, boolean aIndented ) {
     TsNullArgumentRtException.checkNulls( aSw, aColl );
     internalWriteColl( aSw, aColl, aIndented );
@@ -311,6 +385,44 @@ public abstract class AbstractEntityKeeper<E>
       throw new TsIoRtException( ex );
     }
     return (T)aColl;
+  }
+
+  @Override
+  public void writeStridMap( IStrioWriter aSw, IStringMap<E> aMap, boolean aIndented ) {
+    TsNullArgumentRtException.checkNulls( aSw, aMap );
+    checkIsListOfIdPaths( aMap.keys() );
+    internalWriteStridMap( aSw, aMap, aIndented );
+  }
+
+  @Override
+  public void writeStridMap( File aFile, IStringMap<E> aMap, boolean aIndented ) {
+    TsNullArgumentRtException.checkNulls( aFile, aMap );
+    checkIsListOfIdPaths( aMap.keys() );
+    try( ICharOutputStreamCloseable chOut = new CharOutputStreamFile( aFile ) ) {
+      IStrioWriter sw = new StrioWriter( chOut );
+      internalWriteStridMap( sw, aMap, aIndented );
+    }
+    catch( Exception ex ) {
+      throw new TsIoRtException( ex );
+    }
+  }
+
+  @Override
+  public IStringMapEdit<E> readStridMap( IStrioReader aSr ) {
+    TsNullArgumentRtException.checkNull( aSr );
+    return internalReadStridMap( aSr );
+  }
+
+  @Override
+  public IStringMapEdit<E> readStridMap( File aFile ) {
+    TsNullArgumentRtException.checkNull( aFile );
+    try( ICharInputStreamCloseable chIn = new CharInputStreamFile( aFile ) ) {
+      IStrioReader sr = new StrioReader( chIn );
+      return internalReadStridMap( sr );
+    }
+    catch( Exception ex ) {
+      throw new TsIoRtException( ex );
+    }
   }
 
   // ------------------------------------------------------------------------------------
