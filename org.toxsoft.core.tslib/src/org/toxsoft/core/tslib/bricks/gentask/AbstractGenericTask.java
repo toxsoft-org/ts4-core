@@ -4,8 +4,14 @@ import static org.toxsoft.core.tslib.bricks.gentask.IGenericTaskConstants.*;
 
 import java.util.concurrent.*;
 
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.ctx.*;
 import org.toxsoft.core.tslib.bricks.ctx.impl.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -13,14 +19,26 @@ import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * {@link IGenericTask} implementation base.
+ * <p>
+ * Notes on configuration options implementation:
+ * <ul>
+ * <li>use {@link #addConfigOptionDefs(IDataDef...)} to defint configuration options;</li>
+ * <li>changing configuration via {@link #setCfgOptionValues(IOptionSet)} call {@link #afterOptionValuesUpdated()} for
+ * subclass to process configuration change (like to save values to permanent storage);</li>
+ * <li>option values {@link #opVals} are declared <code>protected</code> for subclass to allow options change without
+ * post-processing (eg in {@link #afterOptionValuesUpdated()} to correct invalid values).</li>
+ * </ul>
  *
  * @author hazard157
  */
 public abstract class AbstractGenericTask
     implements IGenericTask {
 
-  private final IGenericTaskInfo taskInfo;
-  private boolean                isSyncRun = false;
+  private final IGenericTaskInfo              taskInfo;
+  private final IStridablesListEdit<IDataDef> opDefs = new StridablesList<>();
+  protected final IOptionSetEdit              opVals = new OptionSet();
+
+  private boolean isSyncRun = false;
 
   /**
    * Constructor for subclasses.
@@ -41,6 +59,35 @@ public abstract class AbstractGenericTask
     REFDEF_OUT_INPUT.setRef( out, aIn );
     REFDEF_OUT_TASK_INFO.setRef( out, taskInfo );
     return out;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // API for subclasses
+  //
+
+  /**
+   * Add the configuration option definition to {@link #cfgOptionDefs()}.
+   * <p>
+   * Also add default value to the set {@link #cfgOptionValues()}.
+   *
+   * @param aDefs {@link IDataDef}[] - the definitions to add
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemAlreadyExistsRtException the option with the same ID is already defined
+   * @throws TsIllegalArgumentRtException definition does not allows but default value is {@link IAtomicValue#NULL}
+   */
+  protected void addConfigOptionDefs( IDataDef... aDefs ) {
+    TsErrorUtils.checkArrayArg( aDefs );
+    for( IDataDef dd : aDefs ) {
+      TsItemAlreadyExistsRtException.checkTrue( opDefs.hasKey( dd.id() ) );
+      TsIllegalArgumentRtException.checkTrue( !dd.isNullAllowed() && dd.defaultValue() == IAtomicValue.NULL );
+      opDefs.add( dd );
+      opVals.setValue( dd, dd.defaultValue() );
+    }
+  }
+
+  protected void addConfigOptionDefs( IStridablesList<IDataDef> aDefs ) {
+    TsNullArgumentRtException.checkNull( aDefs );
+    addConfigOptionDefs( aDefs.toArray( new IDataDef[0] ) );
   }
 
   // ------------------------------------------------------------------------------------
@@ -83,6 +130,23 @@ public abstract class AbstractGenericTask
       return vr;
     }
     return ValidationResult.firstNonOk( vr, doCanRun( aInput ) );
+  }
+
+  @Override
+  public IStridablesList<IDataDef> cfgOptionDefs() {
+    return opDefs;
+  }
+
+  @Override
+  public IOptionSet cfgOptionValues() {
+    return opVals;
+  }
+
+  @Override
+  public void setCfgOptionValues( IOptionSet aValues ) {
+    OptionSetUtils.checkOptionSet( aValues, opDefs );
+    opVals.refreshSet( aValues );
+    afterOptionValuesUpdated();
   }
 
   // ------------------------------------------------------------------------------------
@@ -162,6 +226,10 @@ public abstract class AbstractGenericTask
    */
   protected ValidationResult doCanRun( ITsContextRo aInput ) {
     return ValidationResult.SUCCESS;
+  }
+
+  protected void afterOptionValuesUpdated() {
+    // nop
   }
 
 }
