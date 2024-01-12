@@ -8,7 +8,7 @@ import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.*;
 
-public class GradientButtonRenderer
+public class CheckboxRenderer
     extends AbstractButtonRenderer {
 
   TsFillInfo fillInfo = null;
@@ -17,7 +17,7 @@ public class GradientButtonRenderer
 
   TsFillInfo disableFillInfo = new TsFillInfo( new RGBA( 164, 164, 164, 255 ) );
 
-  protected GradientButtonRenderer( ViselButton aButton ) {
+  protected CheckboxRenderer( ViselCheckbox aButton ) {
     super( aButton );
   }
 

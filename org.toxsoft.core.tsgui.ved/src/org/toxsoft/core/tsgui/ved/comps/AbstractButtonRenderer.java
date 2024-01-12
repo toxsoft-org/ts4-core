@@ -17,7 +17,7 @@ import org.toxsoft.core.tslib.bricks.d2.*;
 public abstract class AbstractButtonRenderer
     implements IButtonRenderer, ITsGuiContextable {
 
-  private final ViselButton button;
+  private final IViselButton button;
 
   protected Rectangle swtRect = new Rectangle( 0, 0, 1, 1 );
 
@@ -29,9 +29,8 @@ public abstract class AbstractButtonRenderer
 
   protected TsLineInfo lineInfo = TsLineInfo.ofWidth( 1 );
 
-  protected AbstractButtonRenderer( ViselButton aButton ) {
+  protected AbstractButtonRenderer( IViselButton aButton ) {
     button = aButton;
-    aButton.tsContext();
   }
 
   // ------------------------------------------------------------------------------------
@@ -94,7 +93,7 @@ public abstract class AbstractButtonRenderer
   //
 
   protected EButtonViselState buttonState() {
-    return button.props().getValobj( PROPID_STATE );
+    return button.buttonState();
   }
 
   protected boolean isHovered() {
@@ -111,6 +110,7 @@ public abstract class AbstractButtonRenderer
 
   protected Point textLocation( ITsGraphicsContext aPaintContext ) {
     ID2Rectangle r = bounds();
+    aPaintContext.gc().setFont( font );
     Point p = aPaintContext.gc().textExtent( buttonText() );
     int x = (int)((r.width() - p.x) / 2.);
     int y = (int)((r.height() - p.y) / 2.);

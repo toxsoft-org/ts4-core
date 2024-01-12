@@ -543,6 +543,9 @@ public class ViselBaloon
     }
 
     int alpha = 220;
+    if( image != null && !image.isDisposed() ) {
+      image.dispose();
+    }
     image = ShadowUtils.createShadowImage( shadowPath, aDepth, alpha, 1.0, 1.0, 3 );
   }
 

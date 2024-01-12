@@ -30,7 +30,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author vs
  */
-public class ViselButton
+public class ViselCheckbox
     extends VedAbstractVisel
     implements IViselButton {
 
@@ -39,10 +39,7 @@ public class ViselButton
   /**
    * The VISEL factor ID.
    */
-  public static final String FACTORY_ID = VED_ID + ".visel.button"; //$NON-NLS-1$
-
-  // static final String PROPID_ARC_WIDTH = "arcWidth"; //$NON-NLS-1$
-  // static final String PROPID_ARC_HEIGHT = "arcHeight"; //$NON-NLS-1$
+  public static final String FACTORY_ID = VED_ID + ".visel.checkbox"; //$NON-NLS-1$
 
   /**
    * Property id for buttons state
@@ -68,16 +65,6 @@ public class ViselButton
         TSID_DESCRIPTION, "Hovered", //
         TSID_DEFAULT_VALUE, AV_FALSE );
 
-    // static final IDataDef PROP_ARC_WIDTH = DataDef.create3( PROPID_ARC_WIDTH, DDEF_FLOATING, //
-    // TSID_NAME, STR_VISEL_ARC_WIDTH, //
-    // TSID_DESCRIPTION, STR_VISEL_ARC_WIDTH_D, //
-    // TSID_DEFAULT_VALUE, avFloat( 16 ) );
-    //
-    // static final IDataDef PROP_ARC_HEIGHT = DataDef.create3( PROPID_ARC_HEIGHT, DDEF_FLOATING, //
-    // TSID_NAME, STR_VISEL_ARC_HEIGHT, //
-    // TSID_DESCRIPTION, STR_VISEL_ARC_HEIGHT_D, //
-    // TSID_DEFAULT_VALUE, avFloat( 16 ) );
-
     private static final TinFieldInfo TFI_STATE = new TinFieldInfo( PROPID_STATE, TtiAvEnum.INSTANCE, //
         TSID_NAME, STR_N_BUTTON_STATE, //
         TSID_DESCRIPTION, STR_D_BUTTON_STATE, //
@@ -88,7 +75,7 @@ public class ViselButton
 
     @Override
     protected VedAbstractVisel doCreate( IVedItemCfg aCfg, VedScreen aVedScreen ) {
-      return new ViselButton( aCfg, propDefs(), aVedScreen );
+      return new ViselCheckbox( aCfg, propDefs(), aVedScreen );
     }
 
     @Override
@@ -112,7 +99,7 @@ public class ViselButton
       fields.add( TinFieldInfo.makeCopy( TFI_TRANSFORM, ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE ) );
       fields.add( TFI_IS_ACTIVE );
 
-      return new PropertableEntitiesTinTypeInfo<>( fields, ViselButton.class );
+      return new PropertableEntitiesTinTypeInfo<>( fields, ViselCheckbox.class );
     }
 
   };
@@ -134,10 +121,10 @@ public class ViselButton
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException ID is not an IDpath
    */
-  public ViselButton( IVedItemCfg aConfig, IStridablesList<IDataDef> aPropDefs, VedScreen aVedScreen ) {
+  public ViselCheckbox( IVedItemCfg aConfig, IStridablesList<IDataDef> aPropDefs, VedScreen aVedScreen ) {
     super( aConfig, aPropDefs, aVedScreen );
     addInterceptor( new VedViselInterceptorMinWidthHeight( this ) );
-    btnRenderer = new GradientButtonRenderer( this );
+    btnRenderer = new CheckboxRenderer( this );
     // btnRenderer = new CoolButtonRenderer( this, 0.3 );
   }
 
