@@ -91,4 +91,14 @@ public interface IKeepablesStorage
   // Inline methods for convenience
   //
 
+  @SuppressWarnings( "javadoc" )
+  default <T> void writeColl( String aId, ITsCollection<T> aColl, IEntityKeeper<T> aKeeper ) {
+    writeColl( aId, aColl, aKeeper, true );
+  }
+
+  @SuppressWarnings( "javadoc" )
+  default <T> void writeStridMap( String aId, IStringMap<T> aMap, IEntityKeeper<T> aKeeper ) {
+    writeStridMap( aId, aMap, aKeeper, true );
+  }
+
 }
