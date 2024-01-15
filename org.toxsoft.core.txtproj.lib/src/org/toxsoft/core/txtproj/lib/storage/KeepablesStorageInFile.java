@@ -159,10 +159,10 @@ public class KeepablesStorageInFile
   }
 
   @Override
-  public <T> void writeColl( String aId, ITsCollection<T> aColl, IEntityKeeper<T> aKeeper ) {
+  public <T> void writeColl( String aId, ITsCollection<T> aColl, IEntityKeeper<T> aKeeper, boolean aIndented ) {
     StridUtils.checkValidIdPath( aId );
     TsNullArgumentRtException.checkNulls( aColl, aKeeper );
-    String content = aKeeper.coll2str( aColl );
+    String content = aKeeper.coll2str( aColl, aIndented );
     sectionsMap.put( aId, content );
     save();
   }
@@ -177,10 +177,10 @@ public class KeepablesStorageInFile
   }
 
   @Override
-  public <T> void writeStridMap( String aId, IStringMap<T> aMap, IEntityKeeper<T> aKeeper ) {
+  public <T> void writeStridMap( String aId, IStringMap<T> aMap, IEntityKeeper<T> aKeeper, boolean aIndented ) {
     StridUtils.checkValidIdPath( aId );
     TsNullArgumentRtException.checkNulls( aMap, aKeeper );
-    String content = aKeeper.smap2str( aMap );
+    String content = aKeeper.smap2str( aMap, aIndented );
     sectionsMap.put( aId, content );
     save();
   }

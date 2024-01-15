@@ -295,12 +295,12 @@ public abstract class AbstractEntityKeeper<E>
   }
 
   @Override
-  public String coll2str( ITsCollection<E> aColl ) {
+  public String coll2str( ITsCollection<E> aColl, boolean aIndented ) {
     TsNullArgumentRtException.checkNull( aColl );
     StringBuilder sb = new StringBuilder();
     ICharOutputStream chOut = new CharOutputStreamAppendable( sb );
     IStrioWriter sw = new StrioWriter( chOut );
-    internalWriteColl( sw, aColl, false );
+    internalWriteColl( sw, aColl, aIndented );
     return sb.toString();
   }
 
@@ -312,13 +312,13 @@ public abstract class AbstractEntityKeeper<E>
   }
 
   @Override
-  public String smap2str( IStringMap<E> aMap ) {
+  public String smap2str( IStringMap<E> aMap, boolean aIndented ) {
     TsNullArgumentRtException.checkNull( aMap );
     checkIsListOfIdPaths( aMap.keys() );
     StringBuilder sb = new StringBuilder();
     ICharOutputStream chOut = new CharOutputStreamAppendable( sb );
     IStrioWriter sw = new StrioWriter( chOut );
-    internalWriteStridMap( sw, aMap, false );
+    internalWriteStridMap( sw, aMap, aIndented );
     return sb.toString();
   }
 
