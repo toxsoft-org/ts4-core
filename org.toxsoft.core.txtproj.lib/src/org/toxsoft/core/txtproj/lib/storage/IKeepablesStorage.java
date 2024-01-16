@@ -36,25 +36,27 @@ public interface IKeepablesStorage
    * @param aId String - unique identifier (an IDpath) of the section within the storage
    * @param aColl {@link ITsCollection}&lt;T&gt; - collection to write
    * @param aKeeper {@link IEntityKeeper} - entity keeper
+   * @param aIndented boolean - hint to write collection in indented (human-readable) form
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException identifier is not an IDpath
    * @throws TsIoRtException writing I/O error
    */
-  <T> void writeColl( String aId, ITsCollection<T> aColl, IEntityKeeper<T> aKeeper );
+  <T> void writeColl( String aId, ITsCollection<T> aColl, IEntityKeeper<T> aKeeper, boolean aIndented );
 
   /**
-   * Writes string map ofenetities where keys are an IDnames.
+   * Writes map of entities where keys are an IDnames.
    *
    * @param <T> - expected type of the entities
    * @param aId String - unique identifier (an IDpath) of the section within the storage
    * @param aMap {@link IStringMap}&lt;T&gt; - the map of entities
    * @param aKeeper {@link IEntityKeeper} - entity keeper
+   * @param aIndented boolean - hint to write collection in indented (human-readable) form
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException identifier is not an IDpath
    * @throws TsIllegalArgumentRtException any key in the map is not an IDpath
    * @throws TsIoRtException writing I/O error
    */
-  <T> void writeStridMap( String aId, IStringMap<T> aMap, IEntityKeeper<T> aKeeper );
+  <T> void writeStridMap( String aId, IStringMap<T> aMap, IEntityKeeper<T> aKeeper, boolean aIndented );
 
   /**
    * Writes (creates new or overwrites existing) section.
@@ -84,5 +86,19 @@ public interface IKeepablesStorage
    * @throws TsIoRtException writing I/O error
    */
   void copyFrom( IKeepablesStorageRo aSource );
+
+  // ------------------------------------------------------------------------------------
+  // Inline methods for convenience
+  //
+
+  @SuppressWarnings( "javadoc" )
+  default <T> void writeColl( String aId, ITsCollection<T> aColl, IEntityKeeper<T> aKeeper ) {
+    writeColl( aId, aColl, aKeeper, true );
+  }
+
+  @SuppressWarnings( "javadoc" )
+  default <T> void writeStridMap( String aId, IStringMap<T> aMap, IEntityKeeper<T> aKeeper ) {
+    writeStridMap( aId, aMap, aKeeper, true );
+  }
 
 }

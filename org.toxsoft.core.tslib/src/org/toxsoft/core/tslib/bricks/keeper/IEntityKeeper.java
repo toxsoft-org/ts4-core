@@ -139,11 +139,12 @@ public interface IEntityKeeper<E> {
    * Stores text representation of the collection to the {@link String}.
    *
    * @param aColl {@link ITsCollection} - collection to be stored
+   * @param aIndented boolean - hint to write collection in indented (human-readable) form
    * @return String - text representation string
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIoRtException {@link IOException} occurred
    */
-  String coll2str( ITsCollection<E> aColl );
+  String coll2str( ITsCollection<E> aColl, boolean aIndented );
 
   /**
    * Reads text representation of the collection from the string.
@@ -160,12 +161,13 @@ public interface IEntityKeeper<E> {
    * Stores text representation of the map (where keys are an IDpaths) to the {@link String}.
    *
    * @param aMap {@link IStringMap} - map to be stored
+   * @param aIndented boolean - hint to write collection in indented (human-readable) form
    * @return String - text representation string
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException any key in the map is not an IDpath
    * @throws TsIoRtException {@link IOException} occurred
    */
-  String smap2str( IStringMap<E> aMap );
+  String smap2str( IStringMap<E> aMap, boolean aIndented );
 
   /**
    * Reads text representation of the (where keys are an IDpaths) from the string.
@@ -302,6 +304,31 @@ public interface IEntityKeeper<E> {
   // ------------------------------------------------------------------------------------
   // In-line methods for convenience
   //
+
+  /**
+   * Stores unindented text representation of the collection to the {@link String}.
+   *
+   * @param aColl {@link ITsCollection} - collection to be stored
+   * @return String - text representation string
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIoRtException {@link IOException} occurred
+   */
+  default String coll2str( ITsCollection<E> aColl ) {
+    return coll2str( aColl, false );
+  }
+
+  /**
+   * Stores unindented text representation of the map (where keys are an IDpaths) to the {@link String}.
+   *
+   * @param aMap {@link IStringMap} - map to be stored
+   * @return String - text representation string
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException any key in the map is not an IDpath
+   * @throws TsIoRtException {@link IOException} occurred
+   */
+  default String smap2str( IStringMap<E> aMap ) {
+    return smap2str( aMap, false );
+  }
 
   /**
    * Writes (stores) entity to the text representation stream.

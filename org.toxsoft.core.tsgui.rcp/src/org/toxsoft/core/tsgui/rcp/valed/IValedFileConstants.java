@@ -5,6 +5,9 @@ import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
 import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
+import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
+
+import java.io.*;
 
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tslib.av.*;
@@ -123,7 +126,7 @@ public interface IValedFileConstants {
   );
 
   /**
-   * Data type {@link EAtomicType#STRING}: path to the directory.
+   * Data type {@link EAtomicType#VALOBJ}: path to the directory.
    */
   IDataType DT_DIRECTORY_NAME = DataType.create( STRING, //
       TSID_DEFAULT_VALUE, AV_STR_EMPTY, //
@@ -132,6 +135,48 @@ public interface IValedFileConstants {
       OPID_IS_OPEN_DIALOG, AV_FALSE, //
       OPID_MUST_EXIST, AV_FALSE, //
       OPID_IS_DIRECTORY, AV_TRUE //
+  );
+
+  /**
+   * Data type {@link EAtomicType#VALOBJ}: path to the existing file to open.
+   */
+  IDataType DT_FILE_OPEN_FILE = DataType.create( VALOBJ, //
+      TSID_DEFAULT_VALUE, AV_STR_EMPTY, //
+      TSID_IS_NULL_ALLOWED, AV_TRUE, //
+      TSID_KEEPER_ID, FileKeeper.KEEPER_ID, //
+      OPID_EDITOR_FACTORY_NAME, ValedAvValobjFile.FACTORY_NAME, //
+      OPID_IS_OPEN_DIALOG, AV_TRUE, //
+      OPID_MUST_EXIST, AV_FALSE, //
+      OPID_IS_DIRECTORY, AV_FALSE, //
+      TSID_DEFAULT_VALUE, avValobj( new File( EMPTY_STRING ) ) //
+  );
+
+  /**
+   * Data type {@link EAtomicType#VALOBJ}: path to the file to save to.
+   */
+  IDataType DT_FILE_SAVE_FILE = DataType.create( VALOBJ, //
+      TSID_DEFAULT_VALUE, AV_STR_EMPTY, //
+      TSID_IS_NULL_ALLOWED, AV_TRUE, //
+      TSID_KEEPER_ID, FileKeeper.KEEPER_ID, //
+      OPID_EDITOR_FACTORY_NAME, ValedAvValobjFile.FACTORY_NAME, //
+      OPID_IS_OPEN_DIALOG, AV_FALSE, //
+      OPID_MUST_EXIST, AV_FALSE, //
+      OPID_IS_DIRECTORY, AV_FALSE, //
+      TSID_DEFAULT_VALUE, avValobj( new File( EMPTY_STRING ) ) //
+  );
+
+  /**
+   * Data type {@link EAtomicType#STRING}: path to the directory.
+   */
+  IDataType DT_DIRECTORY_FILE = DataType.create( VALOBJ, //
+      TSID_DEFAULT_VALUE, AV_STR_EMPTY, //
+      TSID_IS_NULL_ALLOWED, AV_TRUE, //
+      TSID_KEEPER_ID, FileKeeper.KEEPER_ID, //
+      OPID_EDITOR_FACTORY_NAME, ValedAvValobjFile.FACTORY_NAME, //
+      OPID_IS_OPEN_DIALOG, AV_FALSE, //
+      OPID_MUST_EXIST, AV_FALSE, //
+      OPID_IS_DIRECTORY, AV_TRUE, //
+      TSID_DEFAULT_VALUE, avValobj( new File( "./" ) ) //$NON-NLS-1$
   );
 
 }

@@ -25,8 +25,6 @@ public interface IKeepablesStorageRo
    */
   boolean hasSection( String aId );
 
-  // TODO TRANSLATE
-
   /**
    * Read the entity from the section.
    * <p>
@@ -52,7 +50,7 @@ public interface IKeepablesStorageRo
    * If no such section was found then returns an empty list.
    * <p>
    * This method reads section written by the method
-   * {@link IKeepablesStorage#writeColl(String, ITsCollection, IEntityKeeper)}.
+   * {@link IKeepablesStorage#writeColl(String, ITsCollection, IEntityKeeper, boolean)}.
    *
    * @param <T> - expected type of the entities
    * @param aId String - the ID of the section to read
@@ -71,7 +69,7 @@ public interface IKeepablesStorageRo
    * If no such section was found then returns an empty map.
    * <p>
    * This method reads section written by the method
-   * {@link IKeepablesStorage#writeStridMap(String, IStringMap, IEntityKeeper)}.
+   * {@link IKeepablesStorage#writeStridMap(String, IStringMap, IEntityKeeper, boolean)}.
    *
    * @param <T> - expected type of the entities
    * @param aId String - the ID of the section to read
