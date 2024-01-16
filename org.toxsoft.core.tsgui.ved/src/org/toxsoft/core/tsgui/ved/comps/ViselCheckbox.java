@@ -57,7 +57,7 @@ public class ViselCheckbox
   public static final IVedViselFactory FACTORY = new VedAbstractViselFactory( FACTORY_ID, //
       TSID_NAME, STR_VISEL_BUTTON, //
       TSID_DESCRIPTION, STR_VISEL_BUTTON_D, //
-      TSID_ICON_ID, ICONID_VISEL_BUTTON //
+      TSID_ICON_ID, ICONID_VISEL_CHECKBOX //
   ) {
 
     private static final IDataDef PROP_HOVERED = DataDef.create3( PROPID_HOVERED, DDEF_BOOLEAN, //
@@ -125,7 +125,6 @@ public class ViselCheckbox
     super( aConfig, aPropDefs, aVedScreen );
     addInterceptor( new VedViselInterceptorMinWidthHeight( this ) );
     btnRenderer = new CheckboxRenderer( this );
-    // btnRenderer = new CoolButtonRenderer( this, 0.3 );
   }
 
   // ------------------------------------------------------------------------------------

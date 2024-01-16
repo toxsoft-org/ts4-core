@@ -1,12 +1,9 @@
 package org.toxsoft.core.tsgui.ved.comps;
 
 import org.eclipse.swt.graphics.*;
+import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.gc.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
-import org.toxsoft.core.tsgui.ved.incub.*;
-import org.toxsoft.core.tslib.coll.*;
-import org.toxsoft.core.tslib.coll.impl.*;
-import org.toxsoft.core.tslib.utils.*;
 
 public class CheckboxRenderer
     extends AbstractButtonRenderer {
@@ -27,55 +24,55 @@ public class CheckboxRenderer
 
   @Override
   protected void doUpdate() {
-    RGBA sc = new RGBA( 220, 220, 220, 255 );
-    RGBA ec = new RGBA( 190, 190, 190, 255 );
-
-    RGB rgb = GradientUtils.tuneBrightness( bkRgba.rgb, 0.2 );
-    sc = new RGBA( rgb.red, rgb.green, rgb.blue, 255 );
-    rgb = GradientUtils.tuneBrightness( bkRgba.rgb, -0.2 );
-    ec = new RGBA( rgb.red, rgb.green, rgb.blue, 255 );
-
-    Pair<Double, RGBA> p1 = new Pair<>( Double.valueOf( 0 ), sc );
-    Pair<Double, RGBA> p2 = new Pair<>( Double.valueOf( 100 ), ec );
-    IListEdit<Pair<Double, RGBA>> fractions = new ElemArrayList<>();
-    fractions.add( p1 );
-    fractions.add( p2 );
-    LinearGradientInfo lgi = new LinearGradientInfo( fractions, 90 );
-    fillInfo = new TsFillInfo( new TsGradientFillInfo( lgi ) );
-
-    p1 = new Pair<>( Double.valueOf( 0 ), ec );
-    p2 = new Pair<>( Double.valueOf( 100 ), sc );
-    fractions = new ElemArrayList<>();
-    fractions.add( p1 );
-    fractions.add( p2 );
-
-    lgi = new LinearGradientInfo( fractions, 90 );
-    pressedFillInfo = new TsFillInfo( new TsGradientFillInfo( lgi ) );
+    // nop
   }
 
   @Override
   protected void paintBackground( ITsGraphicsContext aPaintContext ) {
-    TsFillInfo fi = fillInfo;
+    aPaintContext.gc().setFont( font );
+    Point p = aPaintContext.gc().textExtent( buttonText() );
 
-    EButtonViselState state = buttonState();
-    if( state == EButtonViselState.DISABLED ) {
-      aPaintContext.gc().setForeground( colorManager().getColor( new RGB( 96, 96, 96 ) ) );
-      aPaintContext.gc().setBackground( colorManager().getColor( new RGB( 164, 164, 164 ) ) );
-      fi = disableFillInfo;
+    int x = 0;
+    int y = (p.y - 16) / 2;
+    if( y < 0 ) {
+      y = 0;
     }
-    else {
-      if( state == EButtonViselState.PRESSED ) {
-        fi = pressedFillInfo;
-      }
+    aPaintContext.gc().setBackground( colorManager().getColor( ETsColor.WHITE ) );
+    aPaintContext.gc().fillRectangle( x, y, 16, 16 );
+    aPaintContext.gc().setForeground( colorManager().getColor( ETsColor.BLACK ) );
+    aPaintContext.gc().setLineWidth( 1 );
+    aPaintContext.gc().drawRectangle( x, y, 16, 16 );
+
+    if( buttonState() == EButtonViselState.PRESSED ) {
+      paintCheck( x, y, aPaintContext.gc() );
     }
+  }
 
-    int arcW = 8;
-    int arcH = 8;
-    aPaintContext.setFillInfo( fi );
-    aPaintContext.fillRoundRect( 0, 0, swtRect.width, swtRect.height, arcW, arcH );
-    aPaintContext.setLineInfo( lineInfo );
+  @Override
+  void drawText( ITsGraphicsContext aPaintContext ) {
+    aPaintContext.gc().setFont( font );
+    Point p = aPaintContext.gc().textExtent( buttonText() );
+    int y = (16 - p.y) / 2;
+    if( y < 0 ) {
+      y = 0;
+    }
+    aPaintContext.gc().drawText( buttonText(), 22, 0, true );
+  }
 
-    aPaintContext.drawRoundRect( 0, 0, swtRect.width, swtRect.height, arcW, arcH );
+  // ------------------------------------------------------------------------------------
+  // Implementation
+  //
+
+  void paintCheck( int aX, int aY, GC aGc ) {
+    int[] points = new int[6];
+    points[0] = aX + 2 + 1;
+    points[1] = aY + 7;
+    points[2] = aX + 6 + 1;
+    points[3] = aY + 12;
+    points[4] = aX + 13 + 1;
+    points[5] = aY + 4;
+    aGc.setLineWidth( 2 );
+    aGc.drawPolyline( points );
   }
 
 }

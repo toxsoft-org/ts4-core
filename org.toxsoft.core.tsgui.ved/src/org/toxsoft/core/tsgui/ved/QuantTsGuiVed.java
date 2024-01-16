@@ -40,6 +40,7 @@ public class QuantTsGuiVed
     visFact.register( ViselRoundRect.FACTORY );
     visFact.register( ViselCircleLamp.FACTORY );
     visFact.register( ViselButton.FACTORY );
+    visFact.register( ViselCheckbox.FACTORY );
     visFact.register( ViselImage.FACTORY );
     visFact.register( ViselBaloon.FACTORY );
     //

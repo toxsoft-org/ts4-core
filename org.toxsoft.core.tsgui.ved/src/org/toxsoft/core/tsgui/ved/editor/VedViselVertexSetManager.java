@@ -126,6 +126,7 @@ public class VedViselVertexSetManager
 
   private void removeViselVertexSet() {
     if( viselVertexSet != null ) {
+      viselVertexSet.setActive( false );
       vedScreen().model().screenHandlersBefore().remove( viselVertexSet.inputHandler() );
       vedScreen().model().screenDecoratorsAfter().remove( viselVertexSet );
       viselVertexSet = null;

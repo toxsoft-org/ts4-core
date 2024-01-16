@@ -155,6 +155,7 @@ public interface IVedScreenConstants {
   String PROPID_ASPECT_RATIO     = "aspectRatio";     //$NON-NLS-1$
   String PROPID_RADIUS           = "radius";          //$NON-NLS-1$
   String PROPID_ON_OFF_STATE     = "onOffState";      //$NON-NLS-1$
+  String PROPID_CARET_POS        = "caretPos";        //$NON-NLS-1$
   String PROPID_IMAGE_DESCRIPTOR = "imageDescriptor"; //$NON-NLS-1$
   String PROPID_TRANSFORM        = "transform";       //$NON-NLS-1$
 
@@ -240,6 +241,12 @@ public interface IVedScreenConstants {
       TSID_DEFAULT_VALUE, AV_FALSE //
   );
 
+  IDataDef PROP_CARET_POS = create3( PROPID_CARET_POS, DDEF_INTEGER, //
+      TSID_NAME, STR_CARET_POS, //
+      TSID_DESCRIPTION, STR_CARET_POS_D, //
+      TSID_DEFAULT_VALUE, avInt( -1 ) //
+  );
+
   IDataDef PROP_IMAGE_DESCRIPTOR = DataDef.create3( PROPID_IMAGE_DESCRIPTOR, DT_TS_IMAGE_DESCRIPTOR, //
       TSID_NAME, STR_IMAGE_DESCRIPTOR, //
       TSID_DESCRIPTION, STR_IMAGE_DESCRIPTOR_D //
@@ -311,5 +318,6 @@ public interface IVedScreenConstants {
   ITinFieldInfo TFI_VISEL_PROP_ID    = new TinFieldInfo( PROP_VISEL_PROP_ID, TTI_IDPATH );
   ITinFieldInfo TFI_RADIUS           = new TinFieldInfo( PROP_RADIUS, TTI_POSITIVE_FLOATING );
   ITinFieldInfo TFI_IMAGE_DESCRIPTOR = new TinFieldInfo( PROP_IMAGE_DESCRIPTOR, TTI_TS_IMAGE_DECRIPTOR );
+  ITinFieldInfo TFI_CARET_POS        = new TinFieldInfo( PROP_CARET_POS, TTI_AT_INTEGER );
 
 }
