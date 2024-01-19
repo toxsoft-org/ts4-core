@@ -13,9 +13,9 @@ import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Simple eidot of {@link IFontInfo} as uneditable text field with edit button at right.
+ * Simple editor of {@link IFontInfo} as uneditable text field with edit button at right.
  * <p>
- * Thisd class is generic because may edit both {@link IFontInfo} and {@link IAtomicValue}.
+ * This class is generic because may edit both {@link IFontInfo} and {@link IAtomicValue}.
  *
  * @author hazard157
  * @param <V> - the edited value type
@@ -28,11 +28,11 @@ public abstract class AbstractValedSimpleFontInfo<V>
   /**
    * Constructor for subclasses.
    *
-   * @param aTsContext {@link ITsGuiContext} - the valed context
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aContext {@link ITsGuiContext} - the VALED context
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  protected AbstractValedSimpleFontInfo( ITsGuiContext aTsContext ) {
-    super( aTsContext );
+  protected AbstractValedSimpleFontInfo( ITsGuiContext aContext ) {
+    super( aContext );
   }
 
   // ------------------------------------------------------------------------------------

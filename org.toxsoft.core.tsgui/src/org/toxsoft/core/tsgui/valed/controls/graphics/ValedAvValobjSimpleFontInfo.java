@@ -1,15 +1,14 @@
 package org.toxsoft.core.tsgui.valed.controls.graphics;
 
 import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
-import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.graphics.fonts.*;
 import org.toxsoft.core.tsgui.graphics.fonts.impl.*;
 import org.toxsoft.core.tsgui.valed.api.*;
+import org.toxsoft.core.tsgui.valed.controls.av.*;
 import org.toxsoft.core.tsgui.valed.impl.*;
 import org.toxsoft.core.tslib.av.*;
-import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Аналог {@link ValedSimpleFontInfo} работающий со значениями {@link IAtomicValue} типа {@link EAtomicType#VALOBJ}.
@@ -17,7 +16,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public class ValedAvValobjSimpleFontInfo
-    extends AbstractValedSimpleFontInfo<IAtomicValue> {
+    extends AbstractAvValobjWrapperValedControl<IFontInfo> {
 
   /**
    * The factory class.
@@ -62,32 +61,8 @@ public class ValedAvValobjSimpleFontInfo
    */
   public static final AbstractValedControlFactory FACTORY = new Factory();
 
-  /**
-   * Конструкторe.
-   *
-   * @param aContext {@link ITsGuiContext} - контекст редактора
-   * @throws TsNullArgumentRtException любой аргумент = null
-   */
-  ValedAvValobjSimpleFontInfo( ITsGuiContext aContext ) {
-    super( aContext );
-  }
-
-  // ------------------------------------------------------------------------------------
-  // Реализация методов базового класса
-  //
-
-  @Override
-  protected IAtomicValue doGetUnvalidatedValue() {
-    return avValobj( getFontInfo() );
-  }
-
-  @Override
-  protected void doDoSetUnvalidatedValue( IAtomicValue aValue ) {
-    IFontInfo finf = IFontInfo.NULL;
-    if( aValue != null ) {
-      finf = aValue.asValobj();
-    }
-    setFontInfo( finf );
+  ValedAvValobjSimpleFontInfo( ITsGuiContext aTsContext ) {
+    super( aTsContext, ValedSimpleFontInfo.FACTORY );
   }
 
 }
