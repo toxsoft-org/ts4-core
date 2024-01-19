@@ -47,14 +47,14 @@ public non-sealed class ExecutableCommandSetProvider
 
   @SuppressWarnings( { "rawtypes", "unchecked" } )
   @Override
-  public IStridablesList<IGenericCommandDef> listCommandDefs() {
+  final public IStridablesList<IGenericCommandDef> listCommandDefs() {
     return (IStridablesList)cmdDefs;
   }
 
   @Override
   final public ValidationResult canExecCommand( GenericCommand aCommand ) {
     TsNullArgumentRtException.checkNull( aCommand );
-    IGenericCommandDef cmdDef = listCommandDefs().findByKey( aCommand.cmdId() );
+    IGenericCommandDef cmdDef = cmdDefs.findByKey( aCommand.cmdId() );
     if( cmdDef == null ) {
       return ValidationResult.error( FMT_ERR_UNKNOWN_CMD_ID, aCommand.cmdId() );
     }

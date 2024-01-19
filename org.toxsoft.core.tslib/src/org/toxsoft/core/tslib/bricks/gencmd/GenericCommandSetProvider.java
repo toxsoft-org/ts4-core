@@ -1,11 +1,8 @@
 package org.toxsoft.core.tslib.bricks.gencmd;
 
-import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
-import static org.toxsoft.core.tslib.bricks.gencmd.IGenericCommandConstants.*;
 import static org.toxsoft.core.tslib.bricks.gencmd.ITsResources.*;
 
 import org.toxsoft.core.tslib.av.opset.*;
-import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
@@ -15,11 +12,13 @@ import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * {@link IGenericCommandSetProvider} implementation base.
+ * Default implementation of {@link IGenericCommandSetProvider}.
+ * <p>
+ * Use {@link #addCommandDefinition(IGenericCommandDef, IGenericCommandExecutor)} to add command to the set.
  *
  * @author hazard157
  */
-public non-sealed abstract class AbstractGenericCommandSetProvider
+public final class GenericCommandSetProvider
     implements IGenericCommandSetProvider {
 
   private final IStridablesListEdit<IGenericCommandDef> cmdDefs      = new StridablesList<>();
@@ -28,7 +27,7 @@ public non-sealed abstract class AbstractGenericCommandSetProvider
   /**
    * Constructor.
    */
-  public AbstractGenericCommandSetProvider() {
+  public GenericCommandSetProvider() {
     // nop
   }
 
@@ -37,12 +36,11 @@ public non-sealed abstract class AbstractGenericCommandSetProvider
   //
 
   @Override
-  final public IOptionSet execCommand( GenericCommand aCommand ) {
-    ValidationResult vr = canExecCommand( aCommand );
-    TsValidationFailedRtException.checkError();
-    IOptionSetEdit result = new OptionSet();
-    OPDEF_COMMAND_RESULT.setValue( result, avValobj( vr ) );
-    doExecCommand( aCommand, result );
+  public IOptionSet execCommand( GenericCommand aCommand ) {
+    TsValidationFailedRtException.checkError( canExecCommand( aCommand ) );
+    IGenericCommandExecutor cmdExec = executorsMap.getByKey( aCommand.cmdId() );
+    IOptionSet result = cmdExec.execCommand( aCommand );
+    TsInternalErrorRtException.checkNoNull( result );
     return result;
   }
 
@@ -52,9 +50,9 @@ public non-sealed abstract class AbstractGenericCommandSetProvider
   }
 
   @Override
-  final public ValidationResult canExecCommand( GenericCommand aCommand ) {
+  public ValidationResult canExecCommand( GenericCommand aCommand ) {
     TsNullArgumentRtException.checkNull( aCommand );
-    IGenericCommandDef cmdDef = listCommandDefs().findByKey( aCommand.cmdId() );
+    IGenericCommandDef cmdDef = cmdDefs.findByKey( aCommand.cmdId() );
     if( cmdDef == null ) {
       return ValidationResult.error( FMT_ERR_UNKNOWN_CMD_ID, aCommand.cmdId() );
     }
@@ -62,40 +60,13 @@ public non-sealed abstract class AbstractGenericCommandSetProvider
     if( vr.isError() ) {
       return vr;
     }
-    return doCanExecCommand( aCommand );
+    IGenericCommandExecutor cmdExec = executorsMap.getByKey( aCommand.cmdId() );
+    return cmdExec.canExecCommand( aCommand.args() );
   }
 
   // ------------------------------------------------------------------------------------
   // To override
   //
-
-  /**
-   * Subclass may perform additional check if command can be executed.
-   * <p>
-   * It is guaranteed that <code>aCommand</code> is known command and already successfully passed
-   * {@link IGenericCommandDef#canExecCommand(IOptionSet)} of the corresponding definition.
-   * <p>
-   * In the base class returns {@link ValidationResult#SUCCESS} there is no need to call superclass method when
-   * overriding.
-   *
-   * @param aCommand {@link GenericCommand} - the command to execute, not <code>null</code>
-   * @return {@link ValidationResult} - the check result
-   */
-  protected ValidationResult doCanExecCommand( GenericCommand aCommand ) {
-    return ValidationResult.SUCCESS;
-  }
-
-  /**
-   * Implementation must execute command with the specified arguments.
-   * <p>
-   * Arguments is checked by {@link #canExecCommand(GenericCommand)}.
-   * <p>
-   * It is strongly recommended to put execution result if command execution fails.
-   *
-   * @param aCommmand {@link GenericCommand} - the command to execute
-   * @param aResult {@link IOptionSetEdit} - the results to be filled optionally
-   */
-  protected abstract void doExecCommand( GenericCommand aCommmand, IOptionSetEdit aResult );
 
   // ------------------------------------------------------------------------------------
   // API

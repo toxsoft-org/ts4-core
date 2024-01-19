@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * <ul>
  * <li>{@link ExecutableCommandSetProvider} - has built-in dispatcher to find and invoke command executor
  * {@link AbstractExcutableCommandDef} instances. Mostly can be used without subclasses;</li>
- * <li>{@link AbstractGenericCommandSetProvider} - must be subclassed to dispatch command execution, as an abstract
+ * <li>{@link GenericCommandSetProvider} - must be subclassed to dispatch command execution, as an abstract
  * class need to be subclassed.</li>
  * </ul>
  *
@@ -21,7 +21,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  */
 public sealed interface IGenericCommandSetProvider
     extends IGenericCommandExecutor
-    permits AbstractGenericCommandSetProvider, ExecutableCommandSetProvider {
+    permits GenericCommandSetProvider, ExecutableCommandSetProvider {
 
   /**
    * Returns all available command definitions.

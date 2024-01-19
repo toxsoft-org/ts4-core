@@ -1,6 +1,12 @@
 package org.toxsoft.core.tslib.bricks.gencmd;
 
+import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
+import static org.toxsoft.core.tslib.bricks.gencmd.IGenericCommandConstants.*;
+import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
+
 import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -16,6 +22,17 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public interface IGenericCommandExecutor {
 
   /**
+   * Simple return value of command execution specifying the success of the execution.
+   */
+  IOptionSet OK_RESULT = OptionSetUtils.createOpSet( OPID_COMMAND_RESULT, avValobj( ValidationResult.SUCCESS ) );
+
+  /**
+   * Simple return value of command execution specifying the failure of the execution.
+   */
+  IOptionSet FAIL_RESULT =
+      OptionSetUtils.createOpSet( OPID_COMMAND_RESULT, avValobj( ValidationResult.error( EMPTY_STRING ) ) );
+
+  /**
    * Executes the command and optionally returns the execution result.
    *
    * @param aCommand {@link GenericCommand} - the command to execute
@@ -25,5 +42,18 @@ public interface IGenericCommandExecutor {
    * @throws TsValidationFailedRtException any precondition check failed
    */
   IOptionSet execCommand( GenericCommand aCommand );
+
+  /**
+   * Determines if the specified command can be executed before the actual execution.
+   * <p>
+   * Implementation of this method is optional.
+   *
+   * @param aArgs {@link IOptionSet} - the command arguments
+   * @return {@link ValidationResult} - the check result
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  default ValidationResult canExecCommand( IOptionSet aArgs ) {
+    return ValidationResult.SUCCESS;
+  }
 
 }
