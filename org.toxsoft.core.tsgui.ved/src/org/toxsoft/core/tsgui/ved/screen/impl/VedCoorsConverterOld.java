@@ -12,7 +12,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public class VedCoorsConverter
+public class VedCoorsConverterOld
     implements IVedCoorsConverter {
 
   private final VedScreen vedScreen;
@@ -20,7 +20,7 @@ public class VedCoorsConverter
   private final D2Convertor convScreen2Swt   = new D2Convertor();
   private final D2Convertor convVisel2Screen = new D2Convertor();
 
-  VedCoorsConverter( VedScreen aVedScreen ) {
+  VedCoorsConverterOld( VedScreen aVedScreen ) {
     vedScreen = aVedScreen;
   }
 
@@ -42,17 +42,48 @@ public class VedCoorsConverter
   // IVedCoorsConvertor
   //
 
+  // @Override
+  // public ID2Point swt2Screen( int aX, int aY ) {
+  // refreshConversions( null );
+  // double x = convScreen2Swt.reverseX( aX, aY );
+  // double y = convScreen2Swt.reverseY( aX, aY );
+  // return new D2Point( x, y );
+  // }
+
+  // @Override
+  // public ID2Point swt2Visel( int aX, int aY, VedAbstractVisel aVisel ) {
+  // TsNullArgumentRtException.checkNull( aVisel );
+  // refreshConversions( aVisel );
+  // double x1 = convScreen2Swt.reverseX( aX, aY );
+  // double y1 = convScreen2Swt.reverseY( aX, aY );
+  // double x = convVisel2Screen.reverseX( x1, y1 ); // old
+  // double y = convVisel2Screen.reverseY( x1, y1 ); // old
+  // return new D2Point( x, y );
+  // }
+
   @Override
   public ID2Point swt2Screen( int aX, int aY ) {
     refreshConversions( null );
-    VedAffineTransform at = D2MatrixConverterNew.d2convToTransform( convScreen2Swt.getConversion(), 0, 0 );
+
+    ID2Conversion conv = convScreen2Swt.getConversion();
+    // AffTransform at = D2MatrixConverter.d2convToTransform( conv, 0, 0 );
+    // at = at.inverse();
+    // ID2Point d2p = new D2Point( at.calcX( aX, aY ), at.calcY( aX, aY ) );
+    // return d2p;
+
+    VedAffineTransform at = D2MatrixConverterNew.d2convToTransform( conv, 0, 0 );
     return at.inverseTransform( aX, aY );
   }
 
   @Override
   public ITsPoint screen2Swt( double aX, double aY ) {
     refreshConversions( null );
-    VedAffineTransform at = D2MatrixConverterNew.d2convToTransform( convScreen2Swt.getConversion(), 0, 0 );
+
+    ID2Conversion scrConv = convScreen2Swt.getConversion();
+    // AffTransform at = D2MatrixConverter.d2convToTransform( scrConv, 0, 0 );
+    // return new TsPoint( (int)at.calcX( aX, aY ), (int)at.calcY( aX, aY ) );
+
+    VedAffineTransform at = D2MatrixConverterNew.d2convToTransform( scrConv, 0, 0 );
     ID2Point d2p = at.transform( aX, aY );
     return new TsPoint( (int)d2p.x(), (int)d2p.y() );
   }
@@ -63,6 +94,9 @@ public class VedCoorsConverter
     refreshConversions( aVisel );
     ID2Point d2p = swt2Screen( aX, aY );
     ID2Conversion d2conv = aVisel.getConversion();
+    // AffTransform at = D2MatrixConverter.d2convToTransform( d2conv, aVisel.rotationX(), aVisel.rotationY() );
+    // at = at.inverse();
+    // return new D2Point( at.calcX( d2p.x(), d2p.y() ), at.calcY( d2p.x(), d2p.y() ) );
 
     VedAffineTransform at = D2MatrixConverterNew.d2convToTransform( d2conv, aVisel.rotationX(), aVisel.rotationY() );
     return at.inverseTransform( d2p );
@@ -72,6 +106,10 @@ public class VedCoorsConverter
   public ITsPoint visel2Swt( double aX, double aY, VedAbstractVisel aVisel ) {
     ID2Point d2p = visel2Screen( aX, aY, aVisel );
     return screen2Swt( d2p.x(), d2p.y() );
+    // ID2Conversion scrConv = aVisel.vedScreen().view().getConversion();
+    // AffTransform at = D2MatrixConverter.d2convToTransform( scrConv, 0, 0 );
+    //
+    // return new TsPoint( (int)at.calcX( d2p ), (int)at.calcY( d2p ) );
   }
 
   @Override
@@ -91,6 +129,43 @@ public class VedCoorsConverter
     VedAffineTransform at = D2MatrixConverterNew.d2convToTransform( d2conv, aVisel.rotationX(), aVisel.rotationY() );
     return at.transform( aX, aY );
   }
+
+  public ID2Point screen2ViselOld( double aX, double aY, VedAbstractVisel aVisel ) {
+    TsNullArgumentRtException.checkNull( aVisel );
+    refreshConversions( aVisel );
+    ID2Conversion d2conv = aVisel.getConversion();
+    AffTransform at = D2MatrixConverter.d2convToTransform( d2conv, aVisel.rotationX(), aVisel.rotationY() );
+    at.inverse();
+    return new D2Point( at.calcX( aX, aY ), at.calcY( aX, aY ) );
+  }
+
+  public ID2Point visel2ScreenOld( double aX, double aY, VedAbstractVisel aVisel ) {
+    TsNullArgumentRtException.checkNull( aVisel );
+    refreshConversions( aVisel );
+    ID2Conversion d2conv = aVisel.getConversion();
+    AffTransform at = D2MatrixConverter.d2convToTransform( d2conv, aVisel.rotationX(), aVisel.rotationY() );
+    return new D2Point( at.calcX( aX, aY ), at.calcY( aX, aY ) );
+  }
+
+  // @Override
+  // public ITsPoint visel2Swt( double aX, double aY, VedAbstractVisel aVisel ) {
+  // TsNullArgumentRtException.checkNull( aVisel );
+  // refreshConversions( aVisel );
+  // double x1 = convVisel2Screen.convertX( aX, aY );
+  // double y1 = convVisel2Screen.convertY( aX, aY );
+  // double x = convScreen2Swt.convertX( x1, y1 );
+  // double y = convScreen2Swt.convertY( x1, y1 );
+  // return new TsPoint( (int)x, (int)y );
+  // }
+
+  // @Override
+  // public ID2Point visel2Screen( double aX, double aY, VedAbstractVisel aVisel ) {
+  // TsNullArgumentRtException.checkNull( aVisel );
+  // refreshConversions( aVisel );
+  // double x = convVisel2Screen.convertX( aX, aY );
+  // double y = convVisel2Screen.convertY( aX, aY );
+  // return new D2Point( x, y );
+  // }
 
   @Override
   public ID2Rectangle swt2Screen( int aX, int aY, int aWidth, int aHeight ) {

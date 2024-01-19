@@ -104,6 +104,7 @@ public abstract class VedAbstractVisel
     double dy = (tsf.yPerc() * height) / 100.;
 
     D2ConversionEdit d2Conversion = new D2ConversionEdit( angle, zoom, new D2Point( x - dx * zoom, y - dy * zoom ) );
+    // D2ConversionEdit d2Conversion = new D2ConversionEdit( angle, zoom, new D2Point( x - dx, y - dy ) );
     return d2Conversion;
 
     // return props().getValobj( PROP_TRANSFORM );

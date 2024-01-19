@@ -9,12 +9,13 @@ import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import org.toxsoft.core.tsgui.bricks.actions.*;
 import org.toxsoft.core.tsgui.bricks.actions.asp.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.ved.editor.*;
 import org.toxsoft.core.tsgui.ved.editor.IVedViselSelectionManager.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
+import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
-import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
@@ -26,6 +27,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author vs
  */
+// TODO разобраться с ситуацией когда visel fullcrum != ETsFulcrum.LEFT_TOP
+// Нужно ли в методе visleToScreen вместо 0, 0 передавать координаты опорной точки
 public class VedAspViselsAlignment
     extends MethodPerActionTsActionSetProvider
     implements ITsGuiContextable {
@@ -133,114 +136,83 @@ public class VedAspViselsAlignment
   // Implementation
   //
 
-  void doAlignLeft() {
+  double fulcrum2x( ETsFulcrum aFulcrum, IVedVisel aVisel ) {
+    double anchorX = 0;
+    if( aFulcrum != null ) {
+      if( aFulcrum.isRight() ) {
+        anchorX = aVisel.bounds().width();
+      }
+      if( aFulcrum.isHorizontalCenter() ) {
+        anchorX = aVisel.bounds().width() / 2.;
+      }
+    }
+    return anchorX;
+  }
+
+  double fulcrum2y( ETsFulcrum aFulcrum, IVedVisel aVisel ) {
+    double anchorY = 0;
+    if( aFulcrum != null ) {
+      if( aFulcrum.isBottom() ) {
+        anchorY = aVisel.bounds().height();
+      }
+      if( aFulcrum.isVerticalCenter() ) {
+        anchorY = aVisel.bounds().height() / 2.;
+      }
+    }
+    return anchorY;
+  }
+
+  void doAlign( ETsFulcrum aFulcrumX, ETsFulcrum aFulcrumY ) {
     TsIllegalStateRtException.checkTrue( anchorVisel == null );
-    IStridablesList<VedAbstractVisel> visels = listSelectedVisels();
     IVedCoorsConverter converter = vedScreen.view().coorsConverter();
-    ITsPoint tsp = converter.visel2Swt( anchorVisel.bounds().a(), anchorVisel );
+    double anchorX = fulcrum2x( aFulcrumX, anchorVisel );
+    double anchorY = fulcrum2y( aFulcrumY, anchorVisel );
+    ID2Point ap = converter.visel2Screen( anchorX, anchorY, anchorVisel );
+
+    IStridablesList<VedAbstractVisel> visels = listSelectedVisels();
     for( VedAbstractVisel visel : visels ) {
       if( visel != anchorVisel ) {
-        ITsPoint swtP = converter.visel2Swt( visel.bounds().a(), visel );
-        int dx = tsp.x() - swtP.x();
-        ID2Point d2p = converter.swt2Visel( dx, 0, visel );
-        double xVal = visel.props().getDouble( PROPID_X ) + d2p.x();
-        double yVal = visel.props().getDouble( PROPID_Y ) + d2p.y();
+        double viselX = fulcrum2x( aFulcrumX, visel );
+        double viselY = fulcrum2y( aFulcrumY, visel );
+        ID2Point vp = converter.visel2Screen( viselX, viselY, visel );
+        double dx = 0;
+        if( aFulcrumX != null ) {
+          dx = ap.x() - vp.x();
+        }
+        double dy = 0;
+        if( aFulcrumY != null ) {
+          dy = ap.y() - vp.y();
+        }
+        double xVal = visel.props().getDouble( PROPID_X ) + dx;
+        double yVal = visel.props().getDouble( PROPID_Y ) + dy;
         visel.props().setPropPairs( PROPID_X, avFloat( xVal ), PROPID_Y, avFloat( yVal ) );
       }
     }
     anchorVisel = null;
+  }
+
+  void doAlignLeft() {
+    doAlign( ETsFulcrum.LEFT_TOP, null );
   }
 
   void doAlignRight() {
-    TsIllegalStateRtException.checkTrue( anchorVisel == null );
-    IStridablesList<VedAbstractVisel> visels = listSelectedVisels();
-    IVedCoorsConverter converter = vedScreen.view().coorsConverter();
-    ITsPoint tsp = converter.visel2Swt( anchorVisel.bounds().b(), anchorVisel );
-    for( VedAbstractVisel visel : visels ) {
-      if( visel != anchorVisel ) {
-        ITsPoint swtP = converter.visel2Swt( visel.bounds().b(), visel );
-        int dx = tsp.x() - swtP.x();
-        ID2Point d2p = converter.swt2Visel( dx, 0, visel );
-        double xVal = visel.props().getDouble( PROPID_X ) + d2p.x();
-        double yVal = visel.props().getDouble( PROPID_Y ) + d2p.y();
-        visel.props().setPropPairs( PROPID_X, avFloat( xVal ), PROPID_Y, avFloat( yVal ) );
-      }
-    }
-    anchorVisel = null;
+    doAlign( ETsFulcrum.RIGHT_BOTTOM, null );
   }
 
   void doAlignTop() {
-    TsIllegalStateRtException.checkTrue( anchorVisel == null );
-    IStridablesList<VedAbstractVisel> visels = listSelectedVisels();
-    IVedCoorsConverter converter = vedScreen.view().coorsConverter();
-    ITsPoint tsp = converter.visel2Swt( anchorVisel.bounds().a(), anchorVisel );
-    for( VedAbstractVisel visel : visels ) {
-      if( visel != anchorVisel ) {
-        ITsPoint swtP = converter.visel2Swt( visel.bounds().a(), visel );
-        int dy = tsp.y() - swtP.y();
-        ID2Point d2p = converter.swt2Visel( 0, dy, visel );
-        double xVal = visel.props().getDouble( PROPID_X ) + d2p.x();
-        double yVal = visel.props().getDouble( PROPID_Y ) + d2p.y();
-        visel.props().setPropPairs( PROPID_X, avFloat( xVal ), PROPID_Y, avFloat( yVal ) );
-      }
-    }
-    anchorVisel = null;
+    doAlign( null, ETsFulcrum.RIGHT_TOP );
   }
 
   void doAlignBottom() {
-    TsIllegalStateRtException.checkTrue( anchorVisel == null );
-    IStridablesList<VedAbstractVisel> visels = listSelectedVisels();
-    IVedCoorsConverter converter = vedScreen.view().coorsConverter();
-    ITsPoint tsp = converter.visel2Swt( anchorVisel.bounds().b(), anchorVisel );
-    for( VedAbstractVisel visel : visels ) {
-      if( visel != anchorVisel ) {
-        ITsPoint swtP = converter.visel2Swt( visel.bounds().b(), visel );
-        int dy = tsp.y() - swtP.y();
-        ID2Point d2p = converter.swt2Visel( 0, dy, visel );
-        double xVal = visel.props().getDouble( PROPID_X ) + d2p.x();
-        double yVal = visel.props().getDouble( PROPID_Y ) + d2p.y();
-        visel.props().setPropPairs( PROPID_X, avFloat( xVal ), PROPID_Y, avFloat( yVal ) );
-      }
-    }
-    anchorVisel = null;
+    doAlign( null, ETsFulcrum.RIGHT_BOTTOM );
   }
 
   void doAlignHorCenter() {
-    TsIllegalStateRtException.checkTrue( anchorVisel == null );
-    IStridablesList<VedAbstractVisel> visels = listSelectedVisels();
-    IVedCoorsConverter converter = vedScreen.view().coorsConverter();
-
-    ITsPoint tsp = converter.visel2Swt( anchorVisel.bounds().center(), anchorVisel );
-    for( VedAbstractVisel visel : visels ) {
-      if( visel != anchorVisel ) {
-        ITsPoint swtP = converter.visel2Swt( visel.bounds().center(), visel );
-        int dx = tsp.x() - swtP.x();
-        ID2Point d2p = converter.swt2Visel( dx, 0, visel );
-        double xVal = visel.props().getDouble( PROPID_X ) + d2p.x();
-        double yVal = visel.props().getDouble( PROPID_Y ) + d2p.y();
-        visel.props().setPropPairs( PROPID_X, avFloat( xVal ), PROPID_Y, avFloat( yVal ) );
-      }
-    }
-    anchorVisel = null;
+    doAlign( ETsFulcrum.TOP_CENTER, null );
   }
 
   void doAlignVerCenter() {
-    TsIllegalStateRtException.checkTrue( anchorVisel == null );
-    IStridablesList<VedAbstractVisel> visels = listSelectedVisels();
-    IVedCoorsConverter converter = vedScreen.view().coorsConverter();
-
-    ITsPoint tsp = converter.visel2Swt( anchorVisel.bounds().center(), anchorVisel );
-    for( VedAbstractVisel visel : visels ) {
-      if( visel != anchorVisel ) {
-        ITsPoint swtP = converter.visel2Swt( visel.bounds().center(), visel );
-        int dy = tsp.y() - swtP.y();
-        ID2Point d2p = converter.swt2Visel( 0, dy, visel );
-        double xVal = visel.props().getDouble( PROPID_X ) + d2p.x();
-        double yVal = visel.props().getDouble( PROPID_Y ) + d2p.y();
-        visel.props().setPropPairs( PROPID_X, avFloat( xVal ), PROPID_Y, avFloat( yVal ) );
-      }
-    }
-    anchorVisel = null;
+    doAlign( null, ETsFulcrum.LEFT_CENTER );
   }
 
   IStridablesList<VedAbstractVisel> listSelectedVisels() {

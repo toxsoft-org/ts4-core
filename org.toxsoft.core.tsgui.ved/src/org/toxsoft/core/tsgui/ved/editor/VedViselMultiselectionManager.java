@@ -61,22 +61,18 @@ public class VedViselMultiselectionManager
     @Override
     public void paint( ITsGraphicsContext aPaintContext ) {
       if( selectionManager.selectionKind() == ESelectionKind.MULTI ) {
-        // aPaintContext.setLineInfo( TsLineInfo.ofWidth( 4 ) );
-        ID2Conversion d2Conv = vedScreen().view().getConversion();
-        Transform screenTransform = D2TransformUtils.d2ConversionToTransfrom( aPaintContext.gc(), d2Conv );
-        // aPaintContext.gc().setTransform( screenTransform );
-
         aPaintContext.gc().setAdvanced( true );
         aPaintContext.gc().setLineWidth( 3 );
         aPaintContext.gc().setForeground( colorWhite );
         aPaintContext.gc().setXORMode( true );
+        ID2Conversion d2Conv = vedScreen().view().getConversion();
+        Transform screenTransform = D2TransformUtils.d2ConversionToTransfrom( aPaintContext.gc(), d2Conv );
         for( String id : selectionManager.selectedViselIds() ) {
           VedAbstractVisel visel = vedScreen().model().visels().list().getByKey( id );
           setViselTransform( aPaintContext, visel, screenTransform );
           paintViselSelection( aPaintContext, visel );
         }
         aPaintContext.gc().setXORMode( false );
-
         screenTransform.dispose();
       }
     }
@@ -95,14 +91,23 @@ public class VedViselMultiselectionManager
     // Implementation
     //
 
-    private void paintViselSelection( ITsGraphicsContext aPaintContext, VedAbstractVisel aVisel ) {
-      // IVedCoorsConverter converter = vedScreen().view().coorsConverter();
-      //
-      // ITsRectangle tsr = converter.visel2Swt( aVisel.bounds(), aVisel );
+    private void setViselTransform( ITsGraphicsContext aGc, VedAbstractVisel aVisel, Transform aDefaultTransform ) {
+      ID2Conversion viselConv = aVisel.getConversion();
+      if( viselConv == ID2Conversion.NONE ) {
+        aGc.gc().setTransform( aDefaultTransform );
+        return;
+      }
+      ID2Conversion d2Conv = vedScreen().view().getConversion();
+      Transform itemTransform = D2TransformUtils.d2ConversionToTransfrom( aGc.gc(), d2Conv );
+      D2TransformUtils.convertItemTransfrom( itemTransform, viselConv, aVisel.rotationX(), aVisel.rotationY() );
+      aGc.gc().setTransform( itemTransform );
+      itemTransform.dispose();
+    }
 
+    private void paintViselSelection( ITsGraphicsContext aPaintContext, VedAbstractVisel aVisel ) {
       ID2Rectangle d2r = aVisel.bounds();
-      int x = (int)(d2r.x1() - 3);
-      int y = (int)(d2r.y1() - 3);
+      int x = -3;
+      int y = -3;
       int w = (int)(d2r.width() + 5);
       int h = (int)(d2r.height() + 5);
       aPaintContext.gc().drawRectangle( x, y, w, h );
@@ -157,20 +162,6 @@ public class VedViselMultiselectionManager
       }
     }
     return null;
-  }
-
-  private void setViselTransform( ITsGraphicsContext aGc, VedAbstractVisel aVisel, Transform aDefaultTransform ) {
-    ID2Conversion viselConv = aVisel.getConversion();
-    if( viselConv == ID2Conversion.NONE ) {
-      aGc.gc().setTransform( aDefaultTransform );
-      return;
-    }
-    ID2Conversion d2Conv = vedScreen().view().getConversion();
-    Transform itemTransform = D2TransformUtils.d2ConversionToTransfrom( aGc.gc(), d2Conv );
-    D2TransformUtils.convertTransfrom( itemTransform, viselConv ); // old
-
-    aGc.gc().setTransform( itemTransform );
-    itemTransform.dispose();
   }
 
 }
