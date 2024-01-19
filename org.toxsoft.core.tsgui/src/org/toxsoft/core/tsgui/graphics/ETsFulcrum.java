@@ -226,6 +226,19 @@ public enum ETsFulcrum
   }
 
   /**
+   * Determines whether the fulcrum point is located on the horizontal center of the rectangle.
+   *
+   * @return boolean - <code>true</code> fulcrum is on the horizontal center, <code>false</code> - somewhere else
+   */
+  public boolean isHorizontalCenter() {
+    return switch( this ) {
+      case CENTER, TOP_CENTER, BOTTOM_CENTER -> true;
+      case LEFT_TOP, RIGHT_TOP, LEFT_CENTER, LEFT_BOTTOM, RIGHT_BOTTOM, RIGHT_CENTER -> false;
+      default -> throw new TsNotAllEnumsUsedRtException();
+    };
+  }
+
+  /**
    * Determines whether the fulcrum point is located on the bottom edge of the rectangle.
    *
    * @return boolean - <code>true</code> fulcrum is on the bottom, <code>false</code> - somewhere else
