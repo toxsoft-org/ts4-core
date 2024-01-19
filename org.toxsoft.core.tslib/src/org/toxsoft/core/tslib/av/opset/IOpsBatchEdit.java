@@ -26,7 +26,7 @@ public interface IOpsBatchEdit {
    * <p>
    * Existing options will be overwritten, unexisting options will be added to this set.
    *
-   * @param aOps IMap&lt;String,{@link IAtomicValue}&gt; - the options to be added
+   * @param aOps {@link IMap}&lt;String,{@link IAtomicValue}&gt; - the options to be added
    * @throws TsNullArgumentRtException argument = <code>null</code>
    * @throws TsIllegalArgumentRtException any key in the map is not an IDpath
    */
@@ -48,7 +48,7 @@ public interface IOpsBatchEdit {
    * <p>
    * Existing options will remain unchanged, unexisting options will be added to this set.
    *
-   * @param aOps IMap&lt;String,{@link IAtomicValue}&gt; - the options to be added
+   * @param aOps {@link IMap}&lt;String,{@link IAtomicValue}&gt; - the options to be added
    * @return boolean - <code>true</code> if there were any changes
    * @throws TsNullArgumentRtException argument = <code>null</code>
    * @throws TsIllegalArgumentRtException any key in the map is not an IDpath
@@ -71,7 +71,7 @@ public interface IOpsBatchEdit {
    * <p>
    * Existing options will be updated, unexisting options will be ignored.
    *
-   * @param aOps IMap&lt;String,{@link IAtomicValue}&gt; - the options to refresh existing ones
+   * @param aOps {@link IMap}&lt;String,{@link IAtomicValue}&gt; - the options to refresh existing ones
    * @return boolean - <code>true</code> if there were any changes
    * @throws TsNullArgumentRtException argument = <code>null</code>
    * @throws TsIllegalArgumentRtException any key in the map is not an IDpath
@@ -89,7 +89,7 @@ public interface IOpsBatchEdit {
   /**
    * Replaces content of the set by the specified set.
    *
-   * @param aOps IMap&lt;String,{@link IAtomicValue}&gt; - the new content of the set
+   * @param aOps {@link IMap}&lt;String,{@link IAtomicValue}&gt; - the new content of the set
    * @throws TsNullArgumentRtException argument = <code>null</code>
    * @throws TsIllegalArgumentRtException any key in the map is not an IDpath
    */

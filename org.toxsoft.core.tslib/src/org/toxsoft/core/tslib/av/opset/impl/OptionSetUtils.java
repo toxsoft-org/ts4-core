@@ -9,8 +9,10 @@ import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -55,6 +57,24 @@ public class OptionSetUtils {
     IOptionSetEdit ops = new OptionSet();
     ops.addAll( aOps );
     return internalCreateAdded( ops, aIdsAndValues );
+  }
+
+  /**
+   * Creates an editable option set from existing map.
+   *
+   * @param aOps {@link IMap}&lt;String,{@link IAtomicValue}&gt; - the values of the set
+   * @return {@link IOptionSet} - new instance of an editable option set
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException any key in argument map is not an IDpath
+   */
+  public static final IOptionSetEdit createFromMap( IMap<String, ? extends IAtomicValue> aOps ) {
+    TsNullArgumentRtException.checkNull( aOps );
+    IOptionSetEdit ops = new OptionSet();
+    for( String s : aOps.keys() ) {
+      StridUtils.checkValidIdPath( s );
+      ops.setValue( s, aOps.getByKey( s ) );
+    }
+    return ops;
   }
 
   /**
