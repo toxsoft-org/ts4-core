@@ -69,6 +69,8 @@ public interface ITsguiVedSharedResources {
   String STR_RADIUS_D           = Messages.getString( "STR_RADIUS_D" );           //$NON-NLS-1$
   String STR_ON_OFF_STATE       = Messages.getString( "STR_ON_OFF_STATE" );       //$NON-NLS-1$
   String STR_ON_OFF_STATE_D     = Messages.getString( "STR_ON_OFF_STATE_D" );     //$NON-NLS-1$
+  String STR_CARET_POS          = Messages.getString( "STR_CARET_POS" );          //$NON-NLS-1$
+  String STR_CARET_POS_D        = Messages.getString( "STR_CARET_POS_D" );        //$NON-NLS-1$
   String STR_IMAGE_DESCRIPTOR   = Messages.getString( "STR_IMAGE_DESCRIPTOR" );   //$NON-NLS-1$
   String STR_IMAGE_DESCRIPTOR_D = Messages.getString( "STR_IMAGE_DESCRIPTOR_D" ); //$NON-NLS-1$
 

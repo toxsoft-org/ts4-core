@@ -10,6 +10,7 @@ import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.tin.*;
 import org.toxsoft.core.tsgui.bricks.tin.impl.*;
 import org.toxsoft.core.tsgui.graphics.*;
+import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.fonts.*;
 import org.toxsoft.core.tsgui.graphics.gc.*;
 import org.toxsoft.core.tsgui.ved.editor.palette.*;
@@ -72,11 +73,11 @@ public class ViselLabel
       fields.add( TFI_VER_ALIGNMENT );
       fields.add( TFI_BK_FILL );
       fields.add( TFI_BORDER_INFO );
-      // fields.add( TFI_TRANSFORM );
       fields.add( TFI_ZOOM );
       fields.add( TFI_ANGLE );
-      fields.add( TinFieldInfo.makeCopy( TFI_TRANSFORM, ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE ) );
       fields.add( TFI_IS_ACTIVE );
+      fields.add( TinFieldInfo.makeCopy( TFI_TRANSFORM, ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE ) );
+      fields.add( TinFieldInfo.makeCopy( TFI_CARET_POS, ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE ) );
       return new PropertableEntitiesTinTypeInfo<>( fields, ViselLabel.class );
     }
 
@@ -128,18 +129,8 @@ public class ViselLabel
 
     String text = props().getStr( PROPID_TEXT );
     Point p = aPaintContext.gc().textExtent( text );
-    // int x = (int)r.x1();
-    // int y = (int)r.y1();
     int x = 0;
     int y = 0;
-
-    // EHorAlignment ha = props().getValobj( PROPID_HOR_ALIGNMENT );
-    // x = switch( ha ) {
-    // case LEFT -> (int)r.x1();
-    // case FILL, CENTER -> (int)(r.x1() + (r.width() - p.x) / 2.);
-    // case RIGHT -> (int)r.x1() + (int)r.width() - p.x;
-    // default -> throw new TsNotAllEnumsUsedRtException();
-    // };
 
     EHorAlignment ha = props().getValobj( PROPID_HOR_ALIGNMENT );
     x = switch( ha ) {
@@ -148,14 +139,6 @@ public class ViselLabel
       case RIGHT -> (int)r.width() - p.x;
       default -> throw new TsNotAllEnumsUsedRtException();
     };
-
-    // EVerAlignment va = props().getValobj( PROPID_VER_ALIGNMENT );
-    // y = switch( va ) {
-    // case TOP -> (int)r.y1();
-    // case FILL, CENTER -> (int)(r.y1() + (r.height() - p.y) / 2.);
-    // case BOTTOM -> (int)r.y1() + (int)r.height() - p.y;
-    // default -> throw new TsNotAllEnumsUsedRtException();
-    // };
 
     EVerAlignment va = props().getValobj( PROPID_VER_ALIGNMENT );
     y = switch( va ) {
@@ -171,6 +154,18 @@ public class ViselLabel
     aPaintContext.setBorderInfo( props().getValobj( PROPID_BORDER_INFO ) );
     // aPaintContext.drawRectBorder( (int)r.x1(), (int)r.y1(), (int)r.width(), (int)r.height() );
     aPaintContext.drawRectBorder( 0, 0, (int)r.width(), (int)r.height() );
+
+    int caretPos = props().getInt( PROPID_CARET_POS );
+    if( caretPos != -1 ) {
+      aPaintContext.gc().setLineWidth( 1 );
+      aPaintContext.gc().setForeground( colorManager().getColor( ETsColor.BLACK ) );
+
+      String subStr = text.substring( 0, caretPos );
+      Point subExt = aPaintContext.gc().textExtent( subStr );
+
+      aPaintContext.gc().drawLine( x + subExt.x, y, x + subExt.x, y + p.y );
+    }
+
   }
 
   @Override
