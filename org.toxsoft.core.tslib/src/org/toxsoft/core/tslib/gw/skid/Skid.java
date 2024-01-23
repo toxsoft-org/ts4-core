@@ -9,10 +9,14 @@ import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.gw.gwid.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * {@link Skid} immutable implementation.
+ * The Green World object identifier.
+ * <p>
+ * String representation of the SKID {@link #toString()} is the same as concrete GWID representation
+ * {@link Gwid#asString()} of kind {@link EGwidKind#GW_CLASS} in the form of "<code>classId[strid]</code>".
  *
  * @author hazard157
  */
@@ -65,10 +69,10 @@ public final class Skid
   /**
    * Constructor.
    *
-   * @param aClassId String - class identirier of the object
-   * @param aStrid String - string identirier of the object
-   * @throws TsNullArgumentRtException any arguent = null
-   * @throws TsIllegalArgumentRtException any argument is invalid IDpath
+   * @param aClassId String - class identifier of the object
+   * @param aStrid String - string identifier of the object
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException any argument is not an IDpath
    */
   public Skid( String aClassId, String aStrid ) {
     classId = StridUtils.checkValidIdPath( aClassId );
@@ -98,7 +102,7 @@ public final class Skid
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация методов класса Object
+  // Object
   //
 
   @Override
@@ -167,20 +171,20 @@ public final class Skid
   }
 
   /**
-   * Returns the identirier of the class of the object.
+   * Returns the identifier of the class of the object.
    *
-   * @return String - identirier (IDpath) or the empty string for {@link #NONE}
+   * @return String - identifier (IDpath) or the empty string for {@link #NONE}
    */
   public String classId() {
     return classId;
   }
 
   /**
-   * Returns the string identirier of the object.
+   * Returns the string identifier of the object.
    * <p>
    * String identifier is unique inside the class {@link #classId()}.
    *
-   * @return String - string identirier of the object or the empty string for {@link #NONE}
+   * @return String - string identifier of the object or the empty string for {@link #NONE}
    */
   public String strid() {
     return strid;

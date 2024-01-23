@@ -15,7 +15,6 @@ import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * {@link IGenericTask} implementation base.
@@ -114,9 +113,11 @@ public abstract class AbstractGenericTask
     TsValidationFailedRtException.checkError( canRun( aIn ) );
     TsIllegalStateRtException.checkTrue( isSyncRun ); // no recursive calls allowed!
     TsIllegalArgumentRtException.checkFalse( canLaunchTaskNow() );
+    ITsContext out = prepareOutput( aIn );
     isSyncRun = true;
     try {
-      return doRunSync( aIn );
+      doRunSync( aIn, out );
+      return out;
     }
     finally {
       isSyncRun = false;
@@ -133,17 +134,17 @@ public abstract class AbstractGenericTask
   }
 
   @Override
-  public IStridablesList<IDataDef> cfgOptionDefs() {
+  final public IStridablesList<IDataDef> cfgOptionDefs() {
     return opDefs;
   }
 
   @Override
-  public IOptionSet cfgOptionValues() {
+  final public IOptionSet cfgOptionValues() {
     return opVals;
   }
 
   @Override
-  public void setCfgOptionValues( IOptionSet aValues ) {
+  final public void setCfgOptionValues( IOptionSet aValues ) {
     OptionSetUtils.checkOptionSet( aValues, opDefs );
     opVals.refreshSet( aValues );
     afterOptionValuesUpdated();
@@ -154,41 +155,19 @@ public abstract class AbstractGenericTask
   //
 
   /**
-   * Subclass may override to synchronously run the task.
+   * Implementation must asynchronously run the task.
    * <p>
-   * Implementation in the base class calls {@link #runAsync(ITsContextRo)} and waits until {@link Future#isDone()}
-   * becomes <code>true</code>. No need to call parent method when overriding.
+   * The prepared <code>aOutput</code> instance has available parameters prepared.
    *
    * @param aInput {@link ITsContextRo} - the valid input of the task
-   * @return {@link ITsContextRo} - the task output
    */
-  protected ITsContextRo doRunSync( ITsContextRo aInput ) {
-    Future<ITsContextRo> future = runAsync( aInput );
-    // wait until task is done
-    while( !future.isDone() ) {
-      // FIXME what if implementation is performing task not in the other thread but eg. in GUI thread slices???
-      try {
-        Thread.sleep( 10 );
-      }
-      catch( InterruptedException ex ) {
-        LoggerUtils.errorLogger().error( ex );
-      }
-    }
-
-    try {
-      return future.get();
-    }
-    catch( InterruptedException | ExecutionException ex ) {
-      // as we checked isDone() this exception must not happen
-      LoggerUtils.errorLogger().error( ex );
-      throw new TsInternalErrorRtException( ex );
-    }
-  }
+  protected abstract void doRunSync( ITsContextRo aInput, ITsContext aOutput );
 
   /**
    * Implementation must asynchronously run the task.
    * <p>
-   * The prepared <code>aOutput</code> instance has available parameters prepared.
+   * The prepared <code>aOutput</code> instance has available parameters prepared. Note: the result {@link Future} must
+   * return the argument <code>aOutput</code> as a result of {@link Future#get()}.
    *
    * @param aInput {@link ITsContextRo} - the valid input of the task
    * @param aOutput {@link ITsContextRo} - the task output to be returned by the {@link Future} instance

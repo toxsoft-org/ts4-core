@@ -65,9 +65,9 @@ public interface IStrioWriter
   void setIndentLevel( int aLevel );
 
   /**
-   * Увеличивает отступ и пишет переходит на новую строку.
+   * Increases indenting level and writes EOL (end of line).
    * <p>
-   * Метод эквивалентен вызовам:<br>
+   * Has the same result as calls to the methods:<br>
    * <code><br>
    * incIndentLevel()<br>
    * writeEol();
@@ -76,9 +76,9 @@ public interface IStrioWriter
   void incNewLine();
 
   /**
-   * Уменьшает отступ и пишет переходит на новую строку.
+   * Decreases indenting level and writes EOL (end of line).
    * <p>
-   * Метод эквивалентен вызовам:<br>
+   * Has the same result as calls to the methods:<br>
    * <code><br>
    * decIndentLevel()<br>
    * writeEol();
@@ -97,7 +97,7 @@ public interface IStrioWriter
   void writeSeparatorChar();
 
   /**
-   * Записывает символ конца строки.
+   * Writes EOL (end of line) withh indenting rules applied.
    */
   void writeEol();
 
@@ -256,22 +256,25 @@ public interface IStrioWriter
   void writeQuotedString( String aString );
 
   /**
-   * Записывает форматированную по правилам {@link String#format(String, Object...)} строку.
+   * Writes formated string to the output.
+   * <p>
+   * {@link String#format(String, Object...)} formating rules are used.
    *
-   * @param aFormatString String - строка форматирования
-   * @param aArgs Object[] - аргументы форматной строки
+   * @param aFormatString String - the format string
+   * @param aArgs Object[] - format arguments
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void p( String aFormatString, Object... aArgs );
 
   /**
-   * Записывает форматированную по правилам {@link String#format(String, Object...)} строку и за ним конец строки "\n".
+   * Writes formated string to the output and appends EOL (end of line).
    * <p>
-   * Обратите внимание, что метод использует {@link #writeEol()}. То есть метод использует установки отступов
-   * {@link #getIndentLevel()} и следующая строка будет начата с отступом.
+   * As an EOL the method {@link #writeEol()} is used to apply the indenting rules.
+   * <p>
+   * {@link String#format(String, Object...)} formating rules are used.
    *
-   * @param aFormatString String - строка форматирования
-   * @param aArgs Object[] - аргументы форматной строки
+   * @param aFormatString String - the format string
+   * @param aArgs Object[] - format arguments
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void pl( String aFormatString, Object... aArgs );
