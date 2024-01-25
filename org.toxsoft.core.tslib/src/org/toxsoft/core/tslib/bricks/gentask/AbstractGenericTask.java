@@ -4,40 +4,24 @@ import static org.toxsoft.core.tslib.bricks.gentask.IGenericTaskConstants.*;
 
 import java.util.concurrent.*;
 
-import org.toxsoft.core.tslib.av.*;
-import org.toxsoft.core.tslib.av.metainfo.*;
-import org.toxsoft.core.tslib.av.opset.*;
-import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.ctx.*;
 import org.toxsoft.core.tslib.bricks.ctx.impl.*;
-import org.toxsoft.core.tslib.bricks.strid.coll.*;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link IGenericTask} implementation base.
- * <p>
- * Notes on configuration options implementation:
- * <ul>
- * <li>use {@link #addConfigOptionDefs(IDataDef...)} to defint configuration options;</li>
- * <li>changing configuration via {@link #setCfgOptionValues(IOptionSet)} call {@link #afterOptionValuesUpdated()} for
- * subclass to process configuration change (like to save values to permanent storage);</li>
- * <li>option values {@link #opVals} are declared <code>protected</code> for subclass to allow options change without
- * post-processing (eg in {@link #afterOptionValuesUpdated()} to correct invalid values).</li>
- * </ul>
  *
  * @author hazard157
  */
 public abstract class AbstractGenericTask
     implements IGenericTask {
 
-  private final IGenericTaskInfo              taskInfo;
-  private final IStridablesListEdit<IDataDef> opDefs = new StridablesList<>();
-  protected final IOptionSetEdit              opVals = new OptionSet();
+  private final IGenericTaskInfo taskInfo;
 
-  private boolean isSyncRun = false;
+  private boolean   isSyncRun    = false; // true means that sync task is running
+  private Future<?> asyncRunning = null;  // NOT null means that async task is running
 
   /**
    * Constructor for subclasses.
@@ -60,33 +44,21 @@ public abstract class AbstractGenericTask
     return out;
   }
 
-  // ------------------------------------------------------------------------------------
-  // API for subclasses
-  //
-
   /**
-   * Add the configuration option definition to {@link #cfgOptionDefs()}.
+   * Checks if task is running either asynchronously or synchronously.
    * <p>
-   * Also add default value to the set {@link #cfgOptionValues()}.
+   * Sets {@link #asyncRunning} to <code>null</code> if asynchronous task has been finished.
    *
-   * @param aDefs {@link IDataDef}[] - the definitions to add
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsItemAlreadyExistsRtException the option with the same ID is already defined
-   * @throws TsIllegalArgumentRtException definition does not allows but default value is {@link IAtomicValue#NULL}
+   * @return boolean - <code>true</code> if task is running
    */
-  protected void addConfigOptionDefs( IDataDef... aDefs ) {
-    TsErrorUtils.checkArrayArg( aDefs );
-    for( IDataDef dd : aDefs ) {
-      TsItemAlreadyExistsRtException.checkTrue( opDefs.hasKey( dd.id() ) );
-      TsIllegalArgumentRtException.checkTrue( !dd.isNullAllowed() && dd.defaultValue() == IAtomicValue.NULL );
-      opDefs.add( dd );
-      opVals.setValue( dd, dd.defaultValue() );
+  private boolean isRunning() {
+    if( isSyncRun ) {
+      return true;
     }
-  }
-
-  protected void addConfigOptionDefs( IStridablesList<IDataDef> aDefs ) {
-    TsNullArgumentRtException.checkNull( aDefs );
-    addConfigOptionDefs( aDefs.toArray( new IDataDef[0] ) );
+    if( asyncRunning != null && asyncRunning.isDone() ) {
+      asyncRunning = null;
+    }
+    return asyncRunning != null;
   }
 
   // ------------------------------------------------------------------------------------
@@ -101,10 +73,10 @@ public abstract class AbstractGenericTask
   @Override
   final public Future<ITsContextRo> runAsync( ITsContextRo aIn ) {
     TsValidationFailedRtException.checkError( canRun( aIn ) );
-    TsIllegalArgumentRtException.checkFalse( canLaunchTaskNow() );
+    TsIllegalArgumentRtException.checkTrue( isRunning() );
     ITsContext out = prepareOutput( aIn );
     Future<ITsContextRo> future = doRunAsync( aIn, out );
-    TsInternalErrorRtException.checkNull( future );
+    asyncRunning = future;
     return future;
   }
 
@@ -112,7 +84,7 @@ public abstract class AbstractGenericTask
   final public ITsContextRo runSync( ITsContextRo aIn ) {
     TsValidationFailedRtException.checkError( canRun( aIn ) );
     TsIllegalStateRtException.checkTrue( isSyncRun ); // no recursive calls allowed!
-    TsIllegalArgumentRtException.checkFalse( canLaunchTaskNow() );
+    TsIllegalArgumentRtException.checkTrue( isRunning() );
     ITsContext out = prepareOutput( aIn );
     isSyncRun = true;
     try {
@@ -131,23 +103,6 @@ public abstract class AbstractGenericTask
       return vr;
     }
     return ValidationResult.firstNonOk( vr, doCanRun( aInput ) );
-  }
-
-  @Override
-  final public IStridablesList<IDataDef> cfgOptionDefs() {
-    return opDefs;
-  }
-
-  @Override
-  final public IOptionSet cfgOptionValues() {
-    return opVals;
-  }
-
-  @Override
-  final public void setCfgOptionValues( IOptionSet aValues ) {
-    OptionSetUtils.checkOptionSet( aValues, opDefs );
-    opVals.refreshSet( aValues );
-    afterOptionValuesUpdated();
   }
 
   // ------------------------------------------------------------------------------------
@@ -176,22 +131,6 @@ public abstract class AbstractGenericTask
   protected abstract Future<ITsContextRo> doRunAsync( ITsContextRo aInput, ITsContext aOutput );
 
   /**
-   * Determines if new task may be started.
-   * <p>
-   * If subclass not allows multiple simultaneous tasks it may override this method to return false when task is aleady
-   * running and not finished yet.
-   * <p>
-   * In the base class returns <code>true</code> assuming that any number of asynchronous tasks may be run
-   * simultaneously.
-   *
-   * @return boolean - <code>true</code> no task is executing now or instance supports simultaneous launch of tasks<br>
-   *         <code>false</code> previous task is still running, can't start new one
-   */
-  protected boolean canLaunchTaskNow() {
-    return true;
-  }
-
-  /**
    * Subclass may perform additional check if task can be executed.
    * <p>
    * It is guaranteed that content of <code>aInput</code> successfully passed option and references against
@@ -205,10 +144,6 @@ public abstract class AbstractGenericTask
    */
   protected ValidationResult doCanRun( ITsContextRo aInput ) {
     return ValidationResult.SUCCESS;
-  }
-
-  protected void afterOptionValuesUpdated() {
-    // nop
   }
 
 }
