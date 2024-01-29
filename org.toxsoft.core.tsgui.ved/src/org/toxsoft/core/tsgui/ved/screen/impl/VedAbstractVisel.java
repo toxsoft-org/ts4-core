@@ -262,6 +262,11 @@ public abstract class VedAbstractVisel
   // API
   //
 
+  /**
+   * Возвращает X-координату точки, вокруг которой осуществляется вращение.
+   *
+   * @return double - X-координату точки, вокруг которой осуществляется вращение
+   */
   public double rotationX() {
     double zoom = props().getDouble( PROP_ZOOM );
     TsFulcrum tsf = props().getValobj( PROP_TS_FULCRUM );
@@ -269,6 +274,11 @@ public abstract class VedAbstractVisel
     return zoom * (tsf.xPerc() * width) / 100.;
   }
 
+  /**
+   * Возвращает Y-координату точки, вокруг которой осуществляется вращение.
+   *
+   * @return double - Y-координату точки, вокруг которой осуществляется вращение
+   */
   public double rotationY() {
     double zoom = props().getDouble( PROP_ZOOM );
     TsFulcrum tsf = props().getValobj( PROP_TS_FULCRUM );
