@@ -247,7 +247,7 @@ public class TsSinglesourcingUtils {
     }
     aControl.addMouseWheelListener( mwl );
     // GOGA 2023-12-07 - turn off built-in mouse wheel handling
-    aControl.addListener( SWT.MouseVerticalWheel, aEvent -> aEvent.doit = false );
+    // aControl.addListener( SWT.MouseVerticalWheel, aEvent -> aEvent.doit = false );
   }
 
   /**
