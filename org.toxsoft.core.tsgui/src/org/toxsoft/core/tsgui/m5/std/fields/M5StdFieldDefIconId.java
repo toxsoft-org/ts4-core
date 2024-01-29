@@ -24,7 +24,7 @@ public class M5StdFieldDefIconId<T extends IIconIdable>
    * Constructor.
    */
   public M5StdFieldDefIconId() {
-    this( STR_N_ICON_ID, STR_D_ICON_ID );
+    this( TSID_NAME, STR_N_ICON_ID, TSID_DESCRIPTION, STR_D_ICON_ID );
   }
 
   /**

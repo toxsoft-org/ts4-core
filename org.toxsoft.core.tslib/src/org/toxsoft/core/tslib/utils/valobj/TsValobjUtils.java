@@ -27,6 +27,7 @@ import org.toxsoft.core.tslib.gw.skid.*;
 import org.toxsoft.core.tslib.math.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.login.*;
 import org.toxsoft.core.tslib.utils.logs.*;
 import org.toxsoft.core.tslib.utils.txtmatch.*;
 
@@ -104,6 +105,7 @@ public class TsValobjUtils {
     registerKeeper( IntRange.KEEPER_ID, IntRange.KEEPER );
     registerKeeper( LongRange.KEEPER_ID, LongRange.KEEPER );
     registerKeeper( DoubleRange.KEEPER_ID, DoubleRange.KEEPER );
+    registerKeeper( LoginInfo.KEEPER_ID, LoginInfo.KEEPER );
   }
 
   // ------------------------------------------------------------------------------------

@@ -23,7 +23,6 @@ import org.toxsoft.core.tslib.utils.icons.*;
  *
  * @author hazard157
  */
-@SuppressWarnings( "rawtypes" )
 public sealed interface IQNode
     extends IStridable, IIconIdable
     permits IQRootNode, AbstractQNode {

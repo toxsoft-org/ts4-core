@@ -113,7 +113,7 @@ abstract public class AbstractTsDialogPanel<T, E>
    * Warning: when creating a panel with this constructor (unlike the
    * {@link #AbstractTsDialogPanel(Composite, TsDialog)} constructor), initialization of controls with
    * <code>aData</code> data must be done in the body of the constructor. The correct way is to have an implementation
-   * of the {@link #doSetDataRecord(Object) method }, and at the end of the constructor body call it.
+   * of the {@link #doSetDataRecord(Object)} method, and at the end of the constructor body call it.
    *
    * @param aParent {@link Composite} - the parent composite
    * @param aContext {@link ITsGuiContext} - the context
