@@ -74,6 +74,15 @@ public interface ITsguiVedSharedResources {
   String STR_IMAGE_DESCRIPTOR   = Messages.getString( "STR_IMAGE_DESCRIPTOR" );   //$NON-NLS-1$
   String STR_IMAGE_DESCRIPTOR_D = Messages.getString( "STR_IMAGE_DESCRIPTOR_D" ); //$NON-NLS-1$
 
+  String STR_LEFT_INDENT     = Messages.getString( "STR_LEFT_INDENT" );     //$NON-NLS-1$
+  String STR_LEFT_INDENT_D   = Messages.getString( "STR_LEFT_INDENT_D" );   //$NON-NLS-1$
+  String STR_TOP_INDENT      = Messages.getString( "STR_TOP_INDENT" );      //$NON-NLS-1$
+  String STR_TOP_INDENT_D    = Messages.getString( "STR_TOP_INDENT_D" );    //$NON-NLS-1$
+  String STR_RIGHT_INDENT    = Messages.getString( "STR_RIGHT_INDENT" );    //$NON-NLS-1$
+  String STR_RIGHT_INDENT_D  = Messages.getString( "STR_RIGHT_INDENT_D" );  //$NON-NLS-1$
+  String STR_BOTTOM_INDENT   = Messages.getString( "STR_BOTTOM_INDENT" );   //$NON-NLS-1$
+  String STR_BOTTOM_INDENT_D = Messages.getString( "STR_BOTTOM_INDENT_D" ); //$NON-NLS-1$
+
   /**
    * {@link VedAbstractActor}
    */

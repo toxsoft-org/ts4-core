@@ -18,6 +18,8 @@ import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
+import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 
 /**
  * Helper constants for package entities.
@@ -66,6 +68,17 @@ public interface ITsGraphicsConstants {
   );
 
   /**
+   * Data type: {@link ITsPoint} as {@link EAtomicType#VALOBJ VALOBJ}.
+   */
+  IDataType DT_TSPOINT = DataType.create( VALOBJ, //
+      TSID_NAME, STR_DT_TSPOINT, //
+      TSID_DESCRIPTION, STR_DT_TSPOINT_D, //
+      TSID_KEEPER_ID, TsPointKeeper.KEEPER_ID, //
+      OPID_EDITOR_FACTORY_NAME, ValedAvValobjTsPoint.FACTORY.factoryName(), //
+      TSID_DEFAULT_VALUE, avValobj( ITsPoint.ZERO ) //
+  );
+
+  /**
    * Data type: {@link ID2Point} as {@link EAtomicType#VALOBJ VALOBJ}.
    */
   IDataType DT_D2POINT = DataType.create( VALOBJ, //
@@ -82,7 +95,7 @@ public interface ITsGraphicsConstants {
   IDataType DT_D2ANGLE = DataType.create( VALOBJ, //
       TSID_NAME, STR_DT_D2ANGLE, //
       TSID_DESCRIPTION, STR_DT_D2ANGLE_D, //
-      TSID_KEEPER_ID, D2Point.KEEPER_ID, //
+      TSID_KEEPER_ID, D2Angle.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjD2Angle.FACTORY.factoryName(), //
       TSID_DEFAULT_VALUE, avValobj( ID2Angle.ZERO ) //
   );

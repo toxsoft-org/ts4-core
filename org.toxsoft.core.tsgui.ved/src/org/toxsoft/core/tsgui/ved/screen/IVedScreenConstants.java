@@ -159,6 +159,11 @@ public interface IVedScreenConstants {
   String PROPID_IMAGE_DESCRIPTOR = "imageDescriptor"; //$NON-NLS-1$
   String PROPID_TRANSFORM        = "transform";       //$NON-NLS-1$
 
+  String PROPID_LEFT_INDENT   = "leftIndent";   //$NON-NLS-1$
+  String PROPID_TOP_INDENT    = "topIndent";    //$NON-NLS-1$
+  String PROPID_RIGHT_INDENT  = "rightIndent";  //$NON-NLS-1$
+  String PROPID_BOTTOM_INDENT = "bottomIndent"; //$NON-NLS-1$
+
   IDataDef PROP_TEXT = DataDef.create3( PROPID_TEXT, DDEF_STRING, //
       TSID_NAME, STR_TEXT, //
       TSID_DESCRIPTION, STR_TEXT_D, //
@@ -258,6 +263,30 @@ public interface IVedScreenConstants {
       TSID_DEFAULT_VALUE, avValobj( ID2Conversion.NONE ) //
   );
 
+  IDataDef PROP_LEFT_INDENT = DataDef.create( PROPID_LEFT_INDENT, INTEGER, //
+      TSID_NAME, STR_LEFT_INDENT, //
+      TSID_DESCRIPTION, STR_LEFT_INDENT_D, //
+      TSID_DEFAULT_VALUE, avInt( 8 ) //
+  );
+
+  IDataDef PROP_TOP_INDENT = DataDef.create( PROPID_TOP_INDENT, INTEGER, //
+      TSID_NAME, STR_TOP_INDENT, //
+      TSID_DESCRIPTION, STR_TOP_INDENT_D, //
+      TSID_DEFAULT_VALUE, avInt( 8 ) //
+  );
+
+  IDataDef PROP_RIGHT_INDENT = DataDef.create( PROPID_RIGHT_INDENT, INTEGER, //
+      TSID_NAME, STR_RIGHT_INDENT, //
+      TSID_DESCRIPTION, STR_RIGHT_INDENT_D, //
+      TSID_DEFAULT_VALUE, avInt( 8 ) //
+  );
+
+  IDataDef PROP_BOTTOM_INDENT = DataDef.create( PROPID_BOTTOM_INDENT, INTEGER, //
+      TSID_NAME, STR_BOTTOM_INDENT, //
+      TSID_DESCRIPTION, STR_BOTTOM_INDENT_D, //
+      TSID_DEFAULT_VALUE, avInt( 8 ) //
+  );
+
   // ------------------------------------------------------------------------------------
   // Optional actor properties
   //
@@ -320,4 +349,8 @@ public interface IVedScreenConstants {
   ITinFieldInfo TFI_IMAGE_DESCRIPTOR = new TinFieldInfo( PROP_IMAGE_DESCRIPTOR, TTI_TS_IMAGE_DECRIPTOR );
   ITinFieldInfo TFI_CARET_POS        = new TinFieldInfo( PROP_CARET_POS, TTI_AT_INTEGER );
 
+  ITinFieldInfo TFI_LEFT_INDENT   = new TinFieldInfo( PROP_LEFT_INDENT, TTI_AT_INTEGER );
+  ITinFieldInfo TFI_TOP_INDENT    = new TinFieldInfo( PROP_TOP_INDENT, TTI_AT_INTEGER );
+  ITinFieldInfo TFI_RIGHT_INDENT  = new TinFieldInfo( PROP_RIGHT_INDENT, TTI_AT_INTEGER );
+  ITinFieldInfo TFI_BOTTOM_INDENT = new TinFieldInfo( PROP_BOTTOM_INDENT, TTI_AT_INTEGER );
 }

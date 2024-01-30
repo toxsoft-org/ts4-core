@@ -34,6 +34,14 @@ interface ITsResources {
   String STR_D2POINT_Y_D = Messages.getString( "STR_D2POINT_Y_D" ); //$NON-NLS-1$
 
   /**
+   * {@link TtiTsPoint}
+   */
+  String STR_TSPOINT_X   = Messages.getString( "STR_TSPOINT_X" );   //$NON-NLS-1$
+  String STR_TSPOINT_X_D = Messages.getString( "STR_TSPOINT_X_D" ); //$NON-NLS-1$
+  String STR_TSPOINT_Y   = Messages.getString( "STR_TSPOINT_Y" );   //$NON-NLS-1$
+  String STR_TSPOINT_Y_D = Messages.getString( "STR_TSPOINT_Y_D" ); //$NON-NLS-1$
+
+  /**
    * {@link TtiTsFillInfo}
    */
   String STR_FILL_TYPE       = Messages.getString( "STR_FILL_TYPE" );       //$NON-NLS-1$

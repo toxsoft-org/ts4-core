@@ -61,6 +61,7 @@ public class ValedControlFactoriesRegistry
     registerFactory( ValedTsImageDescriptor.FACTORY );
     registerFactory( ValedTsImageFillInfo.FACTORY );
     registerFactory( ValedD2Angle.FACTORY );
+    registerFactory( ValedTsPoint.FACTORY );
     registerFactory( ValedD2Point.FACTORY );
     registerFactory( ValedD2Conversion.FACTORY );
     registerFactory( ValedTsFulcrum.FACTORY );
@@ -83,6 +84,7 @@ public class ValedControlFactoriesRegistry
     registerFactory( ValedAvValobjTsLineInfo.FACTORY );
     registerFactory( ValedAvValobjTsBorderInfo.FACTORY );
     registerFactory( ValedAvValobjD2Angle.FACTORY );
+    registerFactory( ValedAvValobjTsPoint.FACTORY );
     registerFactory( ValedAvValobjD2Point.FACTORY );
     registerFactory( ValedAvValobjD2Conversion.FACTORY );
     registerFactory( ValedAvValobjTsFulcrum.FACTORY );

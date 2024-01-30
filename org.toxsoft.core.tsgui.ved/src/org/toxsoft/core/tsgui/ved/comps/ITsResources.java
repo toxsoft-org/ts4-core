@@ -24,6 +24,8 @@ interface ITsResources {
    */
   String STR_VISEL_LABEL   = Messages.getString( "STR_VISEL_LABEL" );   //$NON-NLS-1$
   String STR_VISEL_LABEL_D = Messages.getString( "STR_VISEL_LABEL_D" ); //$NON-NLS-1$
+  String STR_SELECTION     = Messages.getString( "STR_SELECTION" );     //$NON-NLS-1$
+  String STR_SELECTION_D   = Messages.getString( "STR_SELECTION_D" );   //$NON-NLS-1$
 
   /**
    * {@link ViselRectangle}

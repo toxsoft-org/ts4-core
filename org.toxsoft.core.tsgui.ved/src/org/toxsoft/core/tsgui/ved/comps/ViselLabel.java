@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.ved.comps;
 
+import static org.toxsoft.core.tsgui.graphics.ITsGraphicsConstants.*;
 import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
 import static org.toxsoft.core.tsgui.ved.comps.ITsResources.*;
 import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
@@ -9,6 +10,7 @@ import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.tin.*;
 import org.toxsoft.core.tsgui.bricks.tin.impl.*;
+import org.toxsoft.core.tsgui.bricks.tin.tti.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.fonts.*;
@@ -17,10 +19,12 @@ import org.toxsoft.core.tsgui.ved.editor.palette.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
+import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
+import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -38,6 +42,19 @@ public class ViselLabel
    * The VISEL factory ID.
    */
   public static final String FACTORY_ID = VED_ID + ".visel.Label"; //$NON-NLS-1$
+
+  /**
+   * Id for property - "Selection"
+   */
+  public static final String PROPID_SELECTION = "selection"; //$NON-NLS-1$
+
+  static final IDataDef PROP_SELECTION = DataDef.create3( PROPID_SELECTION, DT_TSPOINT, //
+      TSID_NAME, STR_SELECTION, //
+      TSID_DESCRIPTION, STR_SELECTION_D, //
+      TSID_DEFAULT_VALUE, avValobj( ITsPoint.ZERO ) //
+  );
+
+  static final ITinFieldInfo TFI_SELECTION = new TinFieldInfo( PROP_SELECTION, TtiTsPoint.INSTANCE );
 
   /**
    * The VISEL factory singleton.
@@ -71,6 +88,12 @@ public class ViselLabel
       fields.add( TFI_FONT );
       fields.add( TFI_HOR_ALIGNMENT );
       fields.add( TFI_VER_ALIGNMENT );
+
+      fields.add( TFI_LEFT_INDENT );
+      fields.add( TFI_TOP_INDENT );
+      fields.add( TFI_RIGHT_INDENT );
+      fields.add( TFI_BOTTOM_INDENT );
+
       fields.add( TFI_BK_FILL );
       fields.add( TFI_BORDER_INFO );
       fields.add( TFI_ZOOM );
@@ -78,6 +101,8 @@ public class ViselLabel
       fields.add( TFI_IS_ACTIVE );
       fields.add( TinFieldInfo.makeCopy( TFI_TRANSFORM, ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE ) );
       fields.add( TinFieldInfo.makeCopy( TFI_CARET_POS, ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE ) );
+      // fields.add( TinFieldInfo.makeCopy( TFI_SELECTION, ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE ) );
+      fields.add( TFI_SELECTION );
       return new PropertableEntitiesTinTypeInfo<>( fields, ViselLabel.class );
     }
 
@@ -117,7 +142,6 @@ public class ViselLabel
     ID2Rectangle r = bounds();
 
     aPaintContext.setFillInfo( props().getValobj( PROPID_BK_FILL ) );
-    // aPaintContext.fillRect( (int)r.x1(), (int)r.y1(), (int)r.width(), (int)r.height() );
     aPaintContext.fillRect( 0, 0, (int)r.width(), (int)r.height() );
 
     if( font == null ) {
@@ -129,30 +153,14 @@ public class ViselLabel
 
     String text = props().getStr( PROPID_TEXT );
     Point p = aPaintContext.gc().textExtent( text );
-    int x = 0;
-    int y = 0;
-
-    EHorAlignment ha = props().getValobj( PROPID_HOR_ALIGNMENT );
-    x = switch( ha ) {
-      case LEFT -> 0;
-      case FILL, CENTER -> (int)((r.width() - p.x) / 2.);
-      case RIGHT -> (int)r.width() - p.x;
-      default -> throw new TsNotAllEnumsUsedRtException();
-    };
-
-    EVerAlignment va = props().getValobj( PROPID_VER_ALIGNMENT );
-    y = switch( va ) {
-      case TOP -> 0;
-      case FILL, CENTER -> (int)((r.height() - p.y) / 2.);
-      case BOTTOM -> (int)r.height() - p.y;
-      default -> throw new TsNotAllEnumsUsedRtException();
-    };
+    int x = calcTextX( p, r );
+    int y = calcTextY( p, r );
 
     aPaintContext.gc().setBackgroundPattern( null );
     aPaintContext.gc().drawText( text, x, y, true );
     aPaintContext.gc().setAlpha( 255 );
+    paintSelection( x, y, p, aPaintContext );
     aPaintContext.setBorderInfo( props().getValobj( PROPID_BORDER_INFO ) );
-    // aPaintContext.drawRectBorder( (int)r.x1(), (int)r.y1(), (int)r.width(), (int)r.height() );
     aPaintContext.drawRectBorder( 0, 0, (int)r.width(), (int)r.height() );
 
     int caretPos = props().getInt( PROPID_CARET_POS );
@@ -160,10 +168,13 @@ public class ViselLabel
       aPaintContext.gc().setLineWidth( 1 );
       aPaintContext.gc().setForeground( colorManager().getColor( ETsColor.BLACK ) );
 
-      String subStr = text.substring( 0, caretPos );
-      Point subExt = aPaintContext.gc().textExtent( subStr );
+      Point subExt = new Point( 0, 0 );
+      if( text.length() > 0 ) {
+        String subStr = text.substring( caretPos );
+        subExt = aPaintContext.gc().textExtent( subStr );
+      }
 
-      aPaintContext.gc().drawLine( x + subExt.x, y, x + subExt.x, y + p.y );
+      aPaintContext.gc().drawLine( x + p.x - subExt.x, y, x + p.x - subExt.x, y + p.y );
     }
 
   }
@@ -219,6 +230,95 @@ public class ViselLabel
         gc.dispose();
       }
     }
+  }
+
+  // ------------------------------------------------------------------------------------
+  // API
+  //
+
+  public int findCaretPos( int aX ) {
+    GC gc = new GC( getDisplay() );
+
+    String text = props().getStr( PROPID_TEXT );
+    int txtX = calcTextX( gc.textExtent( text ), bounds() );
+    if( aX < txtX ) {
+      gc.dispose();
+      return 0;
+    }
+
+    if( aX > txtX + gc.textExtent( text ).x ) {
+      gc.dispose();
+      return text.length();
+    }
+
+    String subStr;
+    for( int i = 0; i < text.length(); i++ ) {
+      subStr = text.substring( 0, i + 1 );
+      int posX = txtX + gc.textExtent( subStr ).x;
+      if( posX >= aX ) {
+        gc.dispose();
+        return i;
+      }
+    }
+
+    gc.dispose();
+    return -1;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Implementation
+  //
+
+  private void paintSelection( int aTextX, int aTextY, Point aFullExtent, ITsGraphicsContext aPaintContext ) {
+    ITsPoint sel = props().getValobj( PROPID_SELECTION );
+    if( sel != ITsPoint.ZERO ) {
+      ID2Rectangle r = bounds();
+
+      int startIdx = Math.min( sel.x(), sel.y() );
+      int endIdx = Math.max( sel.x(), sel.y() );
+
+      String text = props().getStr( PROPID_TEXT );
+
+      String subStr = text.substring( startIdx );
+      Point subExt = aPaintContext.gc().textExtent( subStr );
+      int startX = aTextX + aFullExtent.x - subExt.x;
+
+      subStr = text.substring( endIdx );
+      subExt = aPaintContext.gc().textExtent( subStr );
+      int endX = aTextX + aFullExtent.x - subExt.x;
+
+      subStr = text.substring( startIdx, endIdx );
+      aPaintContext.gc().setForeground( colorManager().getColor( ETsColor.WHITE ) );
+      aPaintContext.gc().setBackground( colorManager().getColor( ETsColor.BLUE ) );
+      aPaintContext.gc().fillRectangle( startX, 2, endX - startX, (int)r.height() - 4 );
+
+      aPaintContext.gc().drawText( subStr, startX, aTextY, true );
+    }
+  }
+
+  int calcTextX( Point aTextExtent, ID2Rectangle aBounds ) {
+    int x = 0;
+
+    EHorAlignment ha = props().getValobj( PROPID_HOR_ALIGNMENT );
+    x = switch( ha ) {
+      case LEFT -> 0 + props().getInt( PROPID_LEFT_INDENT );
+      case FILL, CENTER -> (int)((aBounds.width() - aTextExtent.x) / 2.);
+      case RIGHT -> (int)aBounds.width() - aTextExtent.x - props().getInt( PROPID_RIGHT_INDENT );
+      default -> throw new TsNotAllEnumsUsedRtException();
+    };
+    return x;
+  }
+
+  int calcTextY( Point aTextExtent, ID2Rectangle aBounds ) {
+    int y = 0;
+    EVerAlignment va = props().getValobj( PROPID_VER_ALIGNMENT );
+    y = switch( va ) {
+      case TOP -> 0 + props().getInt( PROPID_TOP_INDENT );
+      case FILL, CENTER -> (int)((aBounds.height() - aTextExtent.y) / 2.);
+      case BOTTOM -> (int)aBounds.height() - aTextExtent.y - props().getInt( PROPID_BOTTOM_INDENT );
+      default -> throw new TsNotAllEnumsUsedRtException();
+    };
+    return y;
   }
 
 }

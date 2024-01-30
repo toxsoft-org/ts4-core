@@ -88,6 +88,8 @@ interface ITsResources {
   String STR_COLOR_RGBA_D            = Messages.getString( "STR_COLOR_RGBA_D" );            //$NON-NLS-1$ aAAA
   String STR_TS_FULCRUM              = Messages.getString( "STR_TS_FULCRUM" );              //$NON-NLS-1$ aAAA
   String STR_TS_FULCRUM_D            = Messages.getString( "STR_TS_FULCRUM_D" );            //$NON-NLS-1$ aAAA
+  String STR_DT_TSPOINT              = Messages.getString( "STR_DT_TSPOINT" );              //$NON-NLS-1$ aAAA
+  String STR_DT_TSPOINT_D            = Messages.getString( "STR_DT_TSPOINT_D" );            //$NON-NLS-1$ aAAA
   String STR_DT_D2POINT              = Messages.getString( "STR_DT_D2POINT" );              //$NON-NLS-1$ aAAA
   String STR_DT_D2POINT_D            = Messages.getString( "STR_DT_D2POINT_D" );            //$NON-NLS-1$ aAAA
   String STR_DT_D2ANGLE              = Messages.getString( "STR_DT_D2ANGLE" );              //$NON-NLS-1$ aAAA
