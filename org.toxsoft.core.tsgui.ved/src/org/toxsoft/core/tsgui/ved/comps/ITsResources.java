@@ -82,6 +82,8 @@ interface ITsResources {
   // String STR_VISEL_ARC_WIDTH_D = "Ширина арки"; //
   // String STR_VISEL_ARC_HEIGHT = "Высота арки"; //
   // String STR_VISEL_ARC_HEIGHT_D = "Высота арки"; //
+  String STR_VISEL_BALOON        = "Балон";
+  String STR_VISEL_BALOON_D      = "Балон";
   String STR_VISEL_NOSE_LENGTH   = "Длина носика";    //
   String STR_VISEL_NOSE_LENGTH_D = "Длина носика";    //
   String STR_VISEL_NOSE_WIDTH    = "Ширина носика";   //

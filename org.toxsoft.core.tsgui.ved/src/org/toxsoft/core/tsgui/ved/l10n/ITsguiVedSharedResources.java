@@ -83,6 +83,9 @@ public interface ITsguiVedSharedResources {
   String STR_BOTTOM_INDENT   = Messages.getString( "STR_BOTTOM_INDENT" );   //$NON-NLS-1$
   String STR_BOTTOM_INDENT_D = Messages.getString( "STR_BOTTOM_INDENT_D" ); //$NON-NLS-1$
 
+  String STR_HOVERED   = Messages.getString( "STR_HOVERED" );   //$NON-NLS-1$
+  String STR_HOVERED_D = Messages.getString( "STR_HOVERED_D" ); //$NON-NLS-1$
+
   /**
    * {@link VedAbstractActor}
    */

@@ -1,6 +1,5 @@
 package org.toxsoft.core.tsgui.ved.comps;
 
-import static org.toxsoft.core.tsgui.ved.comps.ViselButton.*;
 import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
 
 import org.eclipse.swt.graphics.*;

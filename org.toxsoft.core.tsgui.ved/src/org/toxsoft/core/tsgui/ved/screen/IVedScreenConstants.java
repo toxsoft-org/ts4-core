@@ -164,6 +164,8 @@ public interface IVedScreenConstants {
   String PROPID_RIGHT_INDENT  = "rightIndent";  //$NON-NLS-1$
   String PROPID_BOTTOM_INDENT = "bottomIndent"; //$NON-NLS-1$
 
+  String PROPID_HOVERED = "hovered"; //$NON-NLS-1$
+
   IDataDef PROP_TEXT = DataDef.create3( PROPID_TEXT, DDEF_STRING, //
       TSID_NAME, STR_TEXT, //
       TSID_DESCRIPTION, STR_TEXT_D, //
@@ -287,6 +289,12 @@ public interface IVedScreenConstants {
       TSID_DEFAULT_VALUE, avInt( 8 ) //
   );
 
+  IDataDef PROP_HOVERED = DataDef.create( PROPID_HOVERED, BOOLEAN, //
+      TSID_NAME, STR_HOVERED, //
+      TSID_DESCRIPTION, STR_HOVERED_D, //
+      TSID_DEFAULT_VALUE, AV_FALSE //
+  );
+
   // ------------------------------------------------------------------------------------
   // Optional actor properties
   //
@@ -353,4 +361,6 @@ public interface IVedScreenConstants {
   ITinFieldInfo TFI_TOP_INDENT    = new TinFieldInfo( PROP_TOP_INDENT, TTI_AT_INTEGER );
   ITinFieldInfo TFI_RIGHT_INDENT  = new TinFieldInfo( PROP_RIGHT_INDENT, TTI_AT_INTEGER );
   ITinFieldInfo TFI_BOTTOM_INDENT = new TinFieldInfo( PROP_BOTTOM_INDENT, TTI_AT_INTEGER );
+
+  ITinFieldInfo TFI_HOVERED = new TinFieldInfo( PROP_HOVERED, TTI_AT_BOOLEAN );
 }

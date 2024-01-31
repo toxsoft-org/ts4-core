@@ -100,8 +100,8 @@ public class ViselBaloon
    * The VISEL factory singleton.
    */
   public static final IVedViselFactory FACTORY = new VedAbstractViselFactory( FACTORY_ID, //
-      TSID_NAME, "STR_VISEL_BALOON", //
-      TSID_DESCRIPTION, "STR_VISEL_BALOON_D", //
+      TSID_NAME, STR_VISEL_BALOON, //
+      TSID_DESCRIPTION, STR_VISEL_BALOON_D, //
       TSID_ICON_ID, ICONID_VISEL_BALOON ) {
 
     @Override
@@ -420,6 +420,11 @@ public class ViselBaloon
     }
   }
 
+  /**
+   * Возвращает Х координату пямоугольной части балона.
+   *
+   * @return int Х координата пямоугольной части балона
+   */
   public double rectX() {
     float noseLength = props().getFloat( PROP_NOSE_LENGTH );
     switch( getFulcrum() ) {
@@ -440,6 +445,11 @@ public class ViselBaloon
     }
   }
 
+  /**
+   * Возвращает Х координату пямоугольной части балона.
+   *
+   * @return int Х координата пямоугольной части балона
+   */
   public double rectY() {
     float noseLength = props().getFloat( PROP_NOSE_LENGTH );
     switch( getFulcrum() ) {
@@ -460,6 +470,11 @@ public class ViselBaloon
     }
   }
 
+  /**
+   * Возвращает ширину пямоугольной части балона.
+   *
+   * @return int - ширина пямоугольной части балона
+   */
   public double rectWidth() {
     float noseLength = props().getFloat( PROP_NOSE_LENGTH );
     ID2Rectangle r = bounds();
@@ -482,6 +497,11 @@ public class ViselBaloon
     }
   }
 
+  /**
+   * Возвращает высоту пямоугольной части балона.
+   *
+   * @return int - высота пямоугольной части балона
+   */
   public double rectHeight() {
     float noseLength = props().getFloat( PROP_NOSE_LENGTH );
     ID2Rectangle r = bounds();

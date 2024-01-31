@@ -8,6 +8,12 @@ import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.*;
 
+/**
+ * Градиентный отрисовщик кнопки.
+ * <p>
+ *
+ * @author vs
+ */
 public class GradientButtonRenderer
     extends AbstractButtonRenderer {
 

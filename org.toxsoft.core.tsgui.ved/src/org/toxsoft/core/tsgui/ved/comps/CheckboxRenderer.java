@@ -5,6 +5,12 @@ import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.gc.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
 
+/**
+ * Отрисовщик chtckbox'a.
+ * <p>
+ *
+ * @author vs
+ */
 public class CheckboxRenderer
     extends AbstractButtonRenderer {
 

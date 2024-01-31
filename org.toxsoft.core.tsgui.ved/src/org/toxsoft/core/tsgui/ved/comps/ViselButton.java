@@ -1,13 +1,10 @@
 package org.toxsoft.core.tsgui.ved.comps;
 
-import static org.toxsoft.core.tsgui.bricks.tin.tti.ITtiConstants.*;
 import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
 import static org.toxsoft.core.tsgui.ved.comps.ITsResources.*;
 import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
-//import static org.toxsoft.sandbox.ved.ISandboxVedConstants.*;
-//import static org.toxsoft.sandbox.ved.vs.comps.ITsResources.*;
 
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.tin.*;
@@ -18,7 +15,6 @@ import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
-import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
@@ -63,11 +59,6 @@ public class ViselButton
       TSID_ICON_ID, ICONID_VISEL_BUTTON //
   ) {
 
-    private static final IDataDef PROP_HOVERED = DataDef.create3( PROPID_HOVERED, DDEF_BOOLEAN, //
-        TSID_NAME, "Hovered", //
-        TSID_DESCRIPTION, "Hovered", //
-        TSID_DEFAULT_VALUE, AV_FALSE );
-
     // static final IDataDef PROP_ARC_WIDTH = DataDef.create3( PROPID_ARC_WIDTH, DDEF_FLOATING, //
     // TSID_NAME, STR_VISEL_ARC_WIDTH, //
     // TSID_DESCRIPTION, STR_VISEL_ARC_WIDTH_D, //
@@ -83,8 +74,6 @@ public class ViselButton
         TSID_DESCRIPTION, STR_D_BUTTON_STATE, //
         TSID_KEEPER_ID, EButtonViselState.KEEPER_ID, //
         TSID_DEFAULT_VALUE, avValobj( EButtonViselState.NORMAL ) );
-
-    private static final TinFieldInfo TFI_HOVERED = new TinFieldInfo( PROP_HOVERED, TTI_AT_BOOLEAN );
 
     @Override
     protected VedAbstractVisel doCreate( IVedItemCfg aCfg, VedScreen aVedScreen ) {

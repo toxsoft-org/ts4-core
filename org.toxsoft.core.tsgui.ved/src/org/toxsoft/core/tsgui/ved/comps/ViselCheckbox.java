@@ -1,13 +1,10 @@
 package org.toxsoft.core.tsgui.ved.comps;
 
-import static org.toxsoft.core.tsgui.bricks.tin.tti.ITtiConstants.*;
 import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
 import static org.toxsoft.core.tsgui.ved.comps.ITsResources.*;
 import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
-//import static org.toxsoft.sandbox.ved.ISandboxVedConstants.*;
-//import static org.toxsoft.sandbox.ved.vs.comps.ITsResources.*;
 
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.tin.*;
@@ -18,7 +15,6 @@ import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
-import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
@@ -34,8 +30,6 @@ public class ViselCheckbox
     extends VedAbstractVisel
     implements IViselButton {
 
-  // TODO разобраться с комментариями - либо раскомментировать, либо удалить
-
   /**
    * The VISEL factor ID.
    */
@@ -47,11 +41,6 @@ public class ViselCheckbox
   public static final String PROPID_STATE = "state"; //$NON-NLS-1$ (EButtonViselState)
 
   /**
-   * Property id for button hovered sign
-   */
-  public static final String PROPID_HOVERED = "hovered"; //$NON-NLS-1$ находится под курсором
-
-  /**
    * The VISEL factory singleton.
    */
   public static final IVedViselFactory FACTORY = new VedAbstractViselFactory( FACTORY_ID, //
@@ -60,18 +49,11 @@ public class ViselCheckbox
       TSID_ICON_ID, ICONID_VISEL_CHECKBOX //
   ) {
 
-    private static final IDataDef PROP_HOVERED = DataDef.create3( PROPID_HOVERED, DDEF_BOOLEAN, //
-        TSID_NAME, "Hovered", //
-        TSID_DESCRIPTION, "Hovered", //
-        TSID_DEFAULT_VALUE, AV_FALSE );
-
     private static final TinFieldInfo TFI_STATE = new TinFieldInfo( PROPID_STATE, TtiAvEnum.INSTANCE, //
         TSID_NAME, STR_N_BUTTON_STATE, //
         TSID_DESCRIPTION, STR_D_BUTTON_STATE, //
         TSID_KEEPER_ID, EButtonViselState.KEEPER_ID, //
         TSID_DEFAULT_VALUE, avValobj( EButtonViselState.NORMAL ) );
-
-    private static final TinFieldInfo TFI_HOVERED = new TinFieldInfo( PROP_HOVERED, TTI_AT_BOOLEAN );
 
     @Override
     protected VedAbstractVisel doCreate( IVedItemCfg aCfg, VedScreen aVedScreen ) {

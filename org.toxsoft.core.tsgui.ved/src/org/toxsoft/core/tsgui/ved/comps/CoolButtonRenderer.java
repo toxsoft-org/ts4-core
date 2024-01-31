@@ -9,6 +9,12 @@ import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.*;
 
+/**
+ * "Прикольный" отрисовщик кнопки (тест).
+ * <p>
+ *
+ * @author vs
+ */
 public class CoolButtonRenderer
     extends AbstractButtonRenderer {
 
@@ -32,6 +38,7 @@ public class CoolButtonRenderer
 
   Color fgColor;
 
+  @SuppressWarnings( "boxing" )
   protected CoolButtonRenderer( ViselButton aButton, double aZoom ) {
     super( aButton );
     Pair<Double, RGBA> p1 = new Pair<>( 0.0, new RGBA( 140, 140, 140, 255 ) );
