@@ -224,6 +224,15 @@ public class InputFieldHandler
     return editing;
   }
 
+  /**
+   * Устанавливает режим редактирования для поля ввода.
+   *
+   * @param aEditing boolean - режим редактирования для поля ввода
+   */
+  public void setEditing( boolean aEditing ) {
+    editing = aEditing;
+  }
+
   // ------------------------------------------------------------------------------------
   // Implementation
   //
