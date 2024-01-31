@@ -22,10 +22,14 @@ interface ITsResources {
   /**
    * {@link ViselLabel}
    */
-  String STR_VISEL_LABEL   = Messages.getString( "STR_VISEL_LABEL" );   //$NON-NLS-1$
-  String STR_VISEL_LABEL_D = Messages.getString( "STR_VISEL_LABEL_D" ); //$NON-NLS-1$
-  String STR_SELECTION     = Messages.getString( "STR_SELECTION" );     //$NON-NLS-1$
-  String STR_SELECTION_D   = Messages.getString( "STR_SELECTION_D" );   //$NON-NLS-1$
+  String STR_VISEL_LABEL            = Messages.getString( "STR_VISEL_LABEL" );            //$NON-NLS-1$
+  String STR_VISEL_LABEL_D          = Messages.getString( "STR_VISEL_LABEL_D" );          //$NON-NLS-1$
+  String STR_SELECTION              = Messages.getString( "STR_SELECTION" );              //$NON-NLS-1$
+  String STR_SELECTION_D            = Messages.getString( "STR_SELECTION_D" );            //$NON-NLS-1$
+  String STR_SELECTION_COLOR        = Messages.getString( "STR_SELECTION_COLOR" );        //$NON-NLS-1$
+  String STR_SELECTION_COLOR_D      = Messages.getString( "STR_SELECTION_COLOR_D" );      //$NON-NLS-1$
+  String STR_SELECTION_BACKGROUND   = Messages.getString( "STR_SELECTION_BACKGROUND" );   //$NON-NLS-1$
+  String STR_SELECTION_BACKGROUND_D = Messages.getString( "STR_SELECTION_BACKGROUND_D" ); //$NON-NLS-1$
 
   /**
    * {@link ViselRectangle}

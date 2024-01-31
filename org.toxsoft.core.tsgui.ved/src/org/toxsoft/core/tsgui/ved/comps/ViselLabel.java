@@ -48,6 +48,16 @@ public class ViselLabel
    */
   public static final String PROPID_SELECTION = "selection"; //$NON-NLS-1$
 
+  /**
+   * Id for property - "Selection color"
+   */
+  public static final String PROPID_SELECTION_COLOR = "selectionColor"; //$NON-NLS-1$
+
+  /**
+   * Id for property - "Selection background color"
+   */
+  public static final String PROPID_SELECTION_BACKGROUND = "selectionBackground"; //$NON-NLS-1$
+
   static final IDataDef PROP_SELECTION = DataDef.create3( PROPID_SELECTION, DT_TSPOINT, //
       TSID_NAME, STR_SELECTION, //
       TSID_DESCRIPTION, STR_SELECTION_D, //
@@ -55,6 +65,22 @@ public class ViselLabel
   );
 
   static final ITinFieldInfo TFI_SELECTION = new TinFieldInfo( PROP_SELECTION, TtiTsPoint.INSTANCE );
+
+  static final IDataDef PROP_SELECTION_COLOR = DataDef.create3( PROPID_SELECTION_COLOR, DT_COLOR_RGB, //
+      TSID_NAME, STR_SELECTION_COLOR, //
+      TSID_DESCRIPTION, STR_SELECTION_COLOR_D, //
+      TSID_DEFAULT_VALUE, avValobj( ETsColor.WHITE.rgb() ) //
+  );
+
+  static final IDataDef PROP_SELECTION_BACKGROUND = DataDef.create3( PROPID_SELECTION_BACKGROUND, DT_COLOR_RGB, //
+      TSID_NAME, STR_SELECTION_BACKGROUND, //
+      TSID_DESCRIPTION, STR_SELECTION_BACKGROUND_D, //
+      TSID_DEFAULT_VALUE, avValobj( ETsColor.BLUE.rgb() ) //
+  );
+
+  static final ITinFieldInfo TFI_SELECTION_COLOR = new TinFieldInfo( PROP_SELECTION_COLOR, TtiRGB.INSTANCE );
+
+  static final ITinFieldInfo TFI_SELECTION_BACKGROUND = new TinFieldInfo( PROP_SELECTION_BACKGROUND, TtiRGB.INSTANCE );
 
   /**
    * The VISEL factory singleton.
@@ -88,6 +114,11 @@ public class ViselLabel
       fields.add( TFI_FONT );
       fields.add( TFI_HOR_ALIGNMENT );
       fields.add( TFI_VER_ALIGNMENT );
+
+      fields.add( TFI_FG_COLOR );
+
+      fields.add( TFI_SELECTION_COLOR );
+      fields.add( TFI_SELECTION_BACKGROUND );
 
       fields.add( TFI_LEFT_INDENT );
       fields.add( TFI_TOP_INDENT );
@@ -294,8 +325,10 @@ public class ViselLabel
       int endX = aTextX + aFullExtent.x - subExt.x;
 
       subStr = text.substring( startIdx, endIdx );
-      aPaintContext.gc().setForeground( colorManager().getColor( ETsColor.WHITE ) );
-      aPaintContext.gc().setBackground( colorManager().getColor( ETsColor.BLUE ) );
+      RGB selFgRgb = props().getValobj( PROPID_SELECTION_COLOR );
+      RGB selBkRgb = props().getValobj( PROPID_SELECTION_BACKGROUND );
+      aPaintContext.gc().setForeground( colorManager().getColor( selFgRgb ) );
+      aPaintContext.gc().setBackground( colorManager().getColor( selBkRgb ) );
       aPaintContext.gc().fillRectangle( startX, 2, endX - startX, (int)r.height() - 4 );
 
       aPaintContext.gc().drawText( subStr, startX, aTextY, true );
