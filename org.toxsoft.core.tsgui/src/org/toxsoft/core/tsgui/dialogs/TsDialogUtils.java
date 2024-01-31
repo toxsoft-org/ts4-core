@@ -147,7 +147,12 @@ public class TsDialogUtils {
     TsNullArgumentRtException.checkNull( aValidationResult );
     switch( aValidationResult.type() ) {
       case OK:
-        info( aShell, MSG_OK );
+        if( aValidationResult.message().isBlank() ) {
+          info( aShell, MSG_OK );
+        }
+        else {
+          info( aShell, aValidationResult.message() );
+        }
         break;
       case WARNING:
         warn( aShell, aValidationResult.message() );
@@ -207,16 +212,12 @@ public class TsDialogUtils {
         MessageDialog.CONFIRM, //
         labelsYesNoCancel, //
         SWT.SHEET );
-    switch( dialog.open() ) {
-      case 0:
-        return ETsDialogCode.YES;
-      case 1:
-        return ETsDialogCode.NO;
-      case 2:
-        return ETsDialogCode.CANCEL;
-      default:
-        return ETsDialogCode.CLOSE;
-    }
+    return switch( dialog.open() ) {
+      case 0 -> ETsDialogCode.YES;
+      case 1 -> ETsDialogCode.NO;
+      case 2 -> ETsDialogCode.CANCEL;
+      default -> ETsDialogCode.CLOSE;
+    };
   }
 
   // TODO TRANSLATE
@@ -276,16 +277,12 @@ public class TsDialogUtils {
         MessageDialog.WARNING, //
         labelsYesNoCancel, //
         SWT.SHEET );
-    switch( dialog.open() ) {
-      case 0:
-        return ETsDialogCode.YES;
-      case 1:
-        return ETsDialogCode.NO;
-      case 2:
-        return ETsDialogCode.CANCEL;
-      default:
-        return ETsDialogCode.CLOSE;
-    }
+    return switch( dialog.open() ) {
+      case 0 -> ETsDialogCode.YES;
+      case 1 -> ETsDialogCode.NO;
+      case 2 -> ETsDialogCode.CANCEL;
+      default -> ETsDialogCode.CLOSE;
+    };
   }
 
   // ------------------------------------------------------------------------------------
