@@ -236,6 +236,12 @@ public class ViselLabel
   // API
   //
 
+  /**
+   * Возвращает индекс символа для текстового курсора по Х - координате.
+   *
+   * @param aX - X координата в системе координат визуального элемента
+   * @return int - индекс символа для текстового курсора
+   */
   public int findCaretPos( int aX ) {
     GC gc = new GC( getDisplay() );
 
