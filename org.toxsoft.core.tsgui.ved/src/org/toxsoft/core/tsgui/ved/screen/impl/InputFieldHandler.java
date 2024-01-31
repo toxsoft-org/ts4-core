@@ -3,6 +3,7 @@ package org.toxsoft.core.tsgui.ved.screen.impl;
 import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
 
 import org.eclipse.swt.*;
+import org.eclipse.swt.dnd.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.ved.comps.*;
@@ -19,6 +20,8 @@ import org.toxsoft.core.tslib.utils.*;
  */
 public class InputFieldHandler
     implements ITsUserInputListener {
+
+  private static Clipboard clipboard;
 
   private final VedAbstractVisel visel;
 
@@ -37,6 +40,7 @@ public class InputFieldHandler
   public InputFieldHandler( VedScreen aVedScreen, VedAbstractVisel aVisel ) {
     vedScreen = aVedScreen;
     visel = aVisel;
+    clipboard = new Clipboard( aVedScreen.getDisplay() );
   }
 
   // ------------------------------------------------------------------------------------
@@ -161,16 +165,22 @@ public class InputFieldHandler
               }
             }
             else {
-              String str1 = text.substring( 0, Math.min( sel.x(), sel.y() ) );
-              String str2 = text.substring( Math.max( sel.x(), sel.y() ) );
-              visel.props().setStr( PROPID_TEXT, str1 + str2 );
-              visel.props().setValobj( ViselLabel.PROPID_SELECTION, ITsPoint.ZERO );
-              caretPos = str1.length();
-              visel.props().setInt( PROPID_CARET_POS, str1.length() );
+              deleteSelectedTextPart( text, sel );
             }
             return true;
           default:
             break;
+        }
+
+        if( (aState & SWT.MODIFIER_MASK) == SWT.CTRL ) {
+          if( aCode == 99 ) { // key code for symbol "C"
+            doCopy();
+            return true;
+          }
+          if( aCode == 118 ) { // key code for symbol "V"
+            doPaste();
+            return true;
+          }
         }
 
         StringBuilder sb = new StringBuilder( text );
@@ -321,4 +331,39 @@ public class InputFieldHandler
     visel.props().setValobj( ViselLabel.PROPID_SELECTION, new TsPoint( idx1, aNewPos ) );
   }
 
+  private void doCopy() {
+    // write data to Clipboard
+    ITsPoint sel = visel.props().getValobj( ViselLabel.PROPID_SELECTION );
+    if( sel != ITsPoint.ZERO ) {
+      String text = visel.props().getStr( PROPID_TEXT );
+      String subStr = text.substring( Math.min( sel.x(), sel.y() ), Math.max( sel.x(), sel.y() ) );
+
+      TextTransfer textTransfer = TextTransfer.getInstance();
+      clipboard.setContents( new Object[] { subStr }, new Transfer[] { textTransfer } );
+    }
+  }
+
+  private void doPaste() {
+    TextTransfer transfer = TextTransfer.getInstance();
+    String data = (String)clipboard.getContents( transfer );
+    if( data != null ) {
+      ITsPoint sel = visel.props().getValobj( ViselLabel.PROPID_SELECTION );
+      String text = visel.props().getStr( PROP_TEXT );
+      deleteSelectedTextPart( text, sel );
+      String str1 = text.substring( 0, Math.min( sel.x(), sel.y() ) );
+      String str2 = text.substring( Math.max( sel.x(), sel.y() ) );
+      visel.props().setStr( PROP_TEXT, str1 + data + str2 );
+      caretPos = (str1 + data).length();
+      visel.props().setInt( PROP_CARET_POS, caretPos );
+    }
+  }
+
+  private void deleteSelectedTextPart( String aText, ITsPoint aSelection ) {
+    String str1 = aText.substring( 0, Math.min( aSelection.x(), aSelection.y() ) );
+    String str2 = aText.substring( Math.max( aSelection.x(), aSelection.y() ) );
+    visel.props().setStr( PROPID_TEXT, str1 + str2 );
+    visel.props().setValobj( ViselLabel.PROPID_SELECTION, ITsPoint.ZERO );
+    caretPos = str1.length();
+    visel.props().setInt( PROPID_CARET_POS, str1.length() );
+  }
 }
