@@ -89,9 +89,29 @@ public class DiffUtils {
     return map;
   }
 
+  @SuppressWarnings( { "unchecked", "rawtypes" } )
   public static <K, V> IMap<EDiffNature, IList<K>> compareMaps( IMap<K, V> aLeft, IMap<K, V> aRight ) {
-    // TODO реализовать DiffUtils.compareMaps()
-    throw new TsUnderDevelopmentRtException( "DiffUtils.compareMaps()" );
+    IMap<K, V> left = aLeft != null ? aLeft : IMap.EMPTY;
+    IMap<K, V> right = aRight != null ? aRight : IMap.EMPTY;
+    // prepare for big collection
+    int order = TsCollectionsUtils.estimateOrder( left.size() + right.size() );
+    int initialCapacity = TsCollectionsUtils.getListInitialCapacity( order );
+    int bucketsCount = TsCollectionsUtils.getMapBucketsCount( order );
+    // initialize resulting map
+    IMapEdit<EDiffNature, IListEdit<K>> map = new ElemMap<>();
+    for( EDiffNature dn : EDiffNature.asList() ) {
+      IListEdit<K> ll = new ElemLinkedBundleList<>( initialCapacity, true );
+      map.put( dn, ll );
+    }
+    // calculate differences for each key of the both lists
+    IList<K> allKeys = TsCollectionsUtils.union( left.keys(), right.keys() );
+    for( K k : allKeys ) {
+      V elemLeft = left.hasKey( k ) ? left.getByKey( k ) : null;
+      V elemRight = right.hasKey( k ) ? right.getByKey( k ) : null;
+      EDiffNature dn = EDiffNature.diff( elemLeft, elemRight );
+      map.getByKey( dn ).add( k );
+    }
+    return (IMap)map;
   }
 
   public static <V> IMap<EDiffNature, IIntList> compareIntMaps( IIntMap<V> aLeft, IIntMap<V> aRight ) {
@@ -134,7 +154,7 @@ public class DiffUtils {
   }
 
   /**
-   * No subclassing.
+   * No subclasses.
    */
   private DiffUtils() {
     // nop

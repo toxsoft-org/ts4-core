@@ -34,7 +34,7 @@ public class ValedSecsDurationMpv
   /**
    * ID of the {@link #OPDEF_IS_HOURS_PART}.
    */
-  public static final String OPID_IS_HOURS_PART = VALED_OPID_PREFIX + ".ValedSecsDurationMpv.MpvTimeLen"; //$NON-NLS-1$
+  public static final String OPID_IS_HOURS_PART = VALED_OPID_PREFIX + ".ValedSecsDurationMpv.IsSecsParts"; //$NON-NLS-1$
 
   /**
    * The flag determines if HH part is present in HH:MM:SS or HH:MM editor.
@@ -50,7 +50,7 @@ public class ValedSecsDurationMpv
   /**
    * ID of the {@link #OPDEF_IS_SECONDS_PART}.
    */
-  public static final String OPID_IS_SECONDS_PART = VALED_OPID_PREFIX + ".ValedSecsDurationMpv.MpvTimeLen"; //$NON-NLS-1$
+  public static final String OPID_IS_SECONDS_PART = VALED_OPID_PREFIX + ".ValedSecsDurationMpv.IsHoursPart"; //$NON-NLS-1$
 
   /**
    * The flag determines if SS part is present in HH:MM:SS or MM:SS editor.

@@ -22,27 +22,27 @@ public enum EDiffNature
   /**
    * Requested element is not present in both containers.
    */
-  NONE( "none", STR_N_DN_NONE, STR_D_DN_NONE ), //$NON-NLS-1$
+  NONE( "none", STR_DN_NONE, STR_DN_NONE_D ), //$NON-NLS-1$
 
   /**
    * Element exists only in left container.
    */
-  LEFT( "left", STR_N_DN_LEFT, STR_D_DN_LEFT ), //$NON-NLS-1$
+  LEFT( "left", STR_DN_LEFT, STR_DN_LEFT_D ), //$NON-NLS-1$
 
   /**
    * Element exists only in right container.
    */
-  RIGHT( "right", STR_N_DN_RIGHT, STR_D_DN_RIGHT ), //$NON-NLS-1$
+  RIGHT( "right", STR_DN_RIGHT, STR_DN_RIGHT_D ), //$NON-NLS-1$
 
   /**
    * Left and right element are equal.
    */
-  EQUAL( "equal", STR_N_DN_EQUAL, STR_D_DN_EQUAL ), //$NON-NLS-1$
+  EQUAL( "equal", STR_DN_EQUAL, STR_DN_EQUAL_D ), //$NON-NLS-1$
 
   /**
    * Left and right elements are not equal.
    */
-  DIFF( "diff", STR_N_DN_DIFF, STR_D_DN_DIFF ), //$NON-NLS-1$
+  DIFF( "diff", STR_DN_DIFF, STR_DN_DIFF_D ), //$NON-NLS-1$
 
   ;
 
