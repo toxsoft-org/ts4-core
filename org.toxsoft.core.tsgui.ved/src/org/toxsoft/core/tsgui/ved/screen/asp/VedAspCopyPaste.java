@@ -276,11 +276,14 @@ public class VedAspCopyPaste
       vedScreen.model().visels().create( newViselCfg );
 
       for( IVedItemCfg cfg : actors2paste ) {
-        VedItemCfg newCfg = vedScreen.model().actors().prepareFromTemplate( cfg );
-        String str = newViselCfg.id();
-        newCfg.propValues().setStr( PROPID_VISEL_ID, str );
-        VedAbstractActor actor = vedScreen.model().actors().create( newCfg );
-        actor.replaceBoundVisel( oldViselCfg.id(), newViselCfg.id() );
+        // Вставим только акторы для текущего визеля
+        if( cfg.propValues().getStr( PROPID_VISEL_ID ).equals( oldViselCfg.id() ) ) {
+          VedItemCfg newCfg = vedScreen.model().actors().prepareFromTemplate( cfg );
+          String str = newViselCfg.id();
+          newCfg.propValues().setStr( PROPID_VISEL_ID, str );
+          VedAbstractActor actor = vedScreen.model().actors().create( newCfg );
+          actor.replaceBoundVisel( oldViselCfg.id(), newViselCfg.id() );
+        }
       }
     }
     vedScreen.model().visels().eventer().resumeFiring( true );
