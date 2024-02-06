@@ -594,8 +594,12 @@ public class TsDialog<T, E>
    */
   final protected void setErrorMessage( String aMessageFmt, Object... aArgs ) {
     if( aMessageFmt != null ) {
-      String msg = String.format( aMessageFmt, aArgs );
-      dialogWindow.setErrorMessage( msg );
+      if( aArgs.length != 0 ) {
+        dialogWindow.setErrorMessage( String.format( aMessageFmt, aArgs ) );
+      }
+      else {
+        dialogWindow.setErrorMessage( aMessageFmt );
+      }
     }
     else {
       dialogWindow.setErrorMessage( null );
@@ -614,8 +618,12 @@ public class TsDialog<T, E>
    */
   final protected void setWarningMessage( String aMessageFmt, Object... aArgs ) {
     if( aMessageFmt != null ) {
-      String msg = String.format( aMessageFmt, aArgs );
-      dialogWindow.setMessage( msg, IMessageProvider.WARNING );
+      if( aArgs.length != 0 ) {
+        dialogWindow.setErrorMessage( String.format( aMessageFmt, aArgs ) );
+      }
+      else {
+        dialogWindow.setErrorMessage( aMessageFmt );
+      }
     }
     else {
       dialogWindow.setMessage( null );
