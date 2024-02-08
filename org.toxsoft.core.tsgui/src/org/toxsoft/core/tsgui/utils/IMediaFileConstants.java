@@ -2,6 +2,7 @@ package org.toxsoft.core.tsgui.utils;
 
 import static org.toxsoft.core.tslib.utils.files.EFsObjKind.*;
 
+import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.*;
@@ -9,7 +10,10 @@ import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.files.*;
 
 /**
- * Константы, связанные с обработкой медия-файлов.
+ * Constants, related to the media files processing.
+ * <P>
+ * Note: file extnsions, as a file names are case-sensitive. When comparing file extension to the constants of this
+ * interface, convert extension to the lower-case.
  *
  * @author hazard157
  */
@@ -17,19 +21,12 @@ import org.toxsoft.core.tslib.utils.files.*;
 public interface IMediaFileConstants {
 
   /**
-   * Перечень расширении в нижнем регистре (без первой точки) файлов изображений, распознаваемых программой.
-   * <p>
-   * Расширения в общем случае (например, в Linux) чувствительны к регистру, поэтому, сравнение надо делать либо
-   * регистро-независимым, либо предвариетльно приведя расширение к нижнему регистру.
-   * <p>
-   * Для добавления формата, просто добавьте расширение (например, "jpeg").
-   * <p>
-   * Внимание: порядок важен при поиске файла кадра эпизода.
+   * Image file extensions (without leading dot).
    */
   String[] IMAGE_FILE_EXTENSIONS = { "jpg", "jpeg", "png", "mng", "gif", "bmp" };
 
   /**
-   * Перечень {@link #IMAGE_FILE_EXTENSIONS} в виде {@link IStringList}.
+   * Array {@link #IMAGE_FILE_EXTENSIONS} as a list {@link IStringList}.
    */
   IStringList IMAGE_FILE_EXT_LIST = new StringArrayList( IMAGE_FILE_EXTENSIONS );
 
@@ -39,47 +36,41 @@ public interface IMediaFileConstants {
   TsFileFilter FF_IMAGES = new TsFileFilter( EFsObjKind.FILE, IMAGE_FILE_EXT_LIST );
 
   /**
-   * Признак того, что соответствующее {@link #IMAGE_FILE_EXTENSIONS} является расширением анимрованного формата.
+   * Marks corresponding extension from {@link #IMAGE_FILE_EXTENSIONS} as possible animated image.
    */
   boolean[] IS_ANIM_IMAGE_EXT = { false, false, false, true, true, false };
 
   /**
-   * Перечень расширении в нижнем регистре (без первой точки) видео-файлов, распознаваемых программой.
-   * <p>
-   * Расширения в общем случае (например, в Linux) чувствительны к регистру.
-   * <p>
-   * Для добавления формата, просто добавьте расширение (например, "wmv").
+   * Video file extensions (without leading dot).
    */
-  String[] VIDEO_FILE_EXTENSIONS = { "webm", "avi", "mp4", "mpg", "mpeg", "vob", "wmv", "dv" };
+  String[] VIDEO_FILE_EXTENSIONS = { "webm", "avi", "mp4", "mpg", "mpeg", "vob", "wmv", "dv", "ogg", "vob" };
 
   /**
-   * Перечень {@link #VIDEO_FILE_EXTENSIONS} в виде {@link IStringList}.
+   * Array {@link #VIDEO_FILE_EXTENSIONS} as a list {@link IStringList}.
    */
   IStringList VIDEO_FILE_EXT_LIST = new StringArrayList( VIDEO_FILE_EXTENSIONS );
 
   /**
-   * Фильтр для отбора файлов видео (файлов с расширениями {@link #VIDEO_FILE_EXTENSIONS}).
+   * Video files (files with extension {@link #VIDEO_FILE_EXT_LIST}) filter.
    */
   TsFileFilter FF_VIDEOS = new TsFileFilter( FILE, VIDEO_FILE_EXT_LIST );
 
   /**
-   * Перечень расширении в нижнем регистре (без первой точки) видео-файлов, распознаваемых программой.
-   * <p>
-   * Расширения в общем случае (например, в Linux) чувствительны к регистру.
-   * <p>
-   * Для добавления формата, просто добавьте расширение (например, "wmv").
+   * Audio file extensions (without leading dot).
    */
   String[] AUDIO_FILE_EXTENSIONS = { "mp3", "wav" };
 
   /**
-   * Перечень {@link #AUDIO_FILE_EXTENSIONS} в виде {@link IStringList}.
+   * Array {@link #AUDIO_FILE_EXTENSIONS} as a list {@link IStringList}.
    */
   IStringList AUDIO_FILE_EXT_LIST = new StringArrayList( AUDIO_FILE_EXTENSIONS );
 
   /**
-   * Фильтр для отбора файлов изображений (файлов с расширениями {@link #AUDIO_FILE_EXTENSIONS}).
+   * Audio files (files with extension {@link #AUDIO_FILE_EXT_LIST}) filter.
    */
   TsFileFilter FF_AUDIO = new TsFileFilter( FILE, AUDIO_FILE_EXT_LIST );
+
+  // TODO TRANSLATE
 
   /**
    * Возвращает все расширения медия-файлов, перечисленные ранее.
@@ -201,7 +192,7 @@ public interface IMediaFileConstants {
    *
    * @param aFileName String - имя файла
    * @return boolean - признак расширения файла - изображения
-   * @throws TsNullArgumentRtException аргумент = null
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   static boolean hasImageExtension( String aFileName ) {
     String ext = TsFileUtils.extractExtension( aFileName ).toLowerCase();
@@ -213,7 +204,7 @@ public interface IMediaFileConstants {
    *
    * @param aFileName String - имя файла
    * @return boolean - признак расширения файла анимированного формата
-   * @throws TsNullArgumentRtException аргумент = null
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   static boolean hasAnimatedExtension( String aFileName ) {
     String ext = TsFileUtils.extractExtension( aFileName ).toLowerCase();
@@ -229,7 +220,7 @@ public interface IMediaFileConstants {
    *
    * @param aFileName String - имя файла
    * @return boolean - признак расширения аудио-файла
-   * @throws TsNullArgumentRtException аргумент = null
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   static boolean hasAudioExtension( String aFileName ) {
     String ext = TsFileUtils.extractExtension( aFileName ).toLowerCase();
@@ -241,7 +232,7 @@ public interface IMediaFileConstants {
    *
    * @param aFileName String - имя файла
    * @return boolean - признак расширения видео-файла
-   * @throws TsNullArgumentRtException аргумент = null
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   static boolean hasVideoExtension( String aFileName ) {
     String ext = TsFileUtils.extractExtension( aFileName ).toLowerCase();
@@ -249,14 +240,13 @@ public interface IMediaFileConstants {
   }
 
   /**
-   * Из расширений "ext1", "ext2" без точек создает расширения со звездочками "*&#46;ext1", "*&#46;ext2".
+   * Prepares string like "*&#46;ext1", "*&#46;ext2" from bare extensions "ext1", "ext2".
    * <p>
-   * Полезно для преобразования выше приведенных раширений в форму, пригодную для
-   * <code>FileDialog.setFilterExtensions(String[])</code>.
+   * May be used to set argument of <code>FileDialog.setFilterExtensions(String[])</code>.
    *
-   * @param aExtensions {@link IStringList} - список расширений без точек
-   * @return {@link IStringList} - список расширений со звездочками и точками
-   * @throws TsNullArgumentRtException любой аргумент = <code>null</code>
+   * @param aExtensions {@link IStringList} - file extensions without leading dot
+   * @return {@link IStringList} - extensions with leading wildcards
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   static IStringList appendWildcards( IStringList aExtensions ) {
     TsNullArgumentRtException.checkNull( aExtensions );
@@ -268,12 +258,11 @@ public interface IMediaFileConstants {
   }
 
   /**
-   * Из расширений "ext1", "ext2" без точек создает строку для <code>FileDialog</code>.
-   * <p>
-   * Этот метод имеет смысл только для RCP, ведь в RAP нет <code>FileDialog</code>.
+   * Prepares string for {@link FileDialog} from base extensions.
    *
-   * @param aExtensions {@link IStringList} - раширения без точек
-   * @return String - строка для <code>FileDialog</code>
+   * @param aExtensions {@link IStringList} - file extensions without leading dot
+   * @return String - string for {@link FileDialog}
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   static String prepareForFileDialog( IStringList aExtensions ) {
     TsNullArgumentRtException.checkNull( aExtensions );
