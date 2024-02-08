@@ -133,7 +133,7 @@ public final class VedScreenCfg
   }
 
   @Override
-  public IKeepablesStorageRo extraData() {
+  public KeepablesStorageAsKeepable extraData() {
     return extraData;
   }
 
