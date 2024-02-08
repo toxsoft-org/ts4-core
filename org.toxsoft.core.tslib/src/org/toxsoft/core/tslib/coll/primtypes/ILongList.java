@@ -1,19 +1,13 @@
 package org.toxsoft.core.tslib.coll.primtypes;
 
-import java.io.ObjectStreamException;
+import java.io.*;
 
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.basis.ITsCollectionEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.ImmutableLongList;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Linear collection of <code>long</code> values.
- * <p>
- * While this list of <code>long</code>s extends {@link IList} with &lt;{@link Long}&gt; generic type, editable
- * extensions {@link ILongListBasicEdit} and {@link ILongListEdit} do <b>not</b> extend
- * {@link ITsCollectionEdit}&lt{@link Long}&gt;.
  *
  * @author hazard157
  */

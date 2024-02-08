@@ -1,19 +1,13 @@
 package org.toxsoft.core.tslib.coll.primtypes;
 
-import java.io.ObjectStreamException;
+import java.io.*;
 
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.basis.ITsCollectionEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.ImmutableIntList;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Linear collection of <code>int</code> values.
- * <p>
- * While this list of <code>int</code>s extends {@link IList} with &lt;{@link Integer}&gt; generic type, editable
- * extensions {@link IIntListBasicEdit} and {@link IIntListEdit} do <b>not</b> extend
- * {@link ITsCollectionEdit}&lt{@link Integer}&gt;.
  *
  * @author hazard157
  */

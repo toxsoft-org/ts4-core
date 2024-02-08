@@ -238,8 +238,8 @@ public class OptionSet
     if( aThat == this ) {
       return true;
     }
-    if( aThat instanceof IStringMap ) {
-      return map.equals( aThat );
+    if( aThat instanceof OptionSet that ) {
+      return map.equals( that.map );
     }
     return false;
   }

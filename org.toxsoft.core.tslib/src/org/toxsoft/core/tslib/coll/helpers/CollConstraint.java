@@ -223,7 +223,7 @@ public final class CollConstraint
    * <p>
    * Never returns negative values.
    *
-   * @return int - maxmum or exact number of elements prohibited in collection or 0 for no size limit
+   * @return int - maximum or exact number of elements prohibited in collection or 0 for no size limit
    */
   public int maxCount() {
     return maxCount;
@@ -234,7 +234,7 @@ public final class CollConstraint
    * <p>
    * Returns the result of the comparison <code>{@link #maxCount()} != 0</code>.
    *
-   * @return blooean - the flag of the size limit exsitance on the collection
+   * @return boolean - the flag of the size limit exsitance on the collection
    */
   public boolean isSizeResticted() {
     return maxCount != 0;
@@ -285,14 +285,14 @@ public final class CollConstraint
   /**
    * Checks collection size against {@link #maxCount()} and {@link #isExactCount()} constraints.
    * <p>
-   * If the collection size violates contsraints method returns warning {@link EValidationResultType#WARNING} with
+   * If the collection size violates constraints method returns warning {@link EValidationResultType#WARNING} with
    * appropriate message.
    *
    * @param aColl {@link ITsCollection} - collection to be checked
    * @return {@link ValidationResult} - the check result
    * @throws TsNullArgumentRtException argument = <code>null</code>
    */
-  public ValidationResult checkWarnSize( ITsCollection<?> aColl ) {
+  public ValidationResult validateWarnSize( ITsCollection<?> aColl ) {
     String msg = internalCheckSize( aColl );
     if( msg.isEmpty() ) {
       return ValidationResult.SUCCESS;
@@ -303,14 +303,14 @@ public final class CollConstraint
   /**
    * Checks collection size against {@link #maxCount()} and {@link #isExactCount()} constraints.
    * <p>
-   * If the collection size violates any contsraint then method returns error {@link EValidationResultType#ERROR} with
+   * If the collection size violates any constraint then method returns error {@link EValidationResultType#ERROR} with
    * appropriate message.
    *
    * @param aColl {@link ITsCollection} - collection to be checked
    * @return {@link ValidationResult} - the check result
    * @throws TsNullArgumentRtException argument = <code>null</code>
    */
-  public ValidationResult checkErrorSize( ITsCollection<?> aColl ) {
+  public ValidationResult validateErrorSize( ITsCollection<?> aColl ) {
     String msg = internalCheckSize( aColl );
     if( msg.isEmpty() ) {
       return ValidationResult.SUCCESS;
@@ -321,14 +321,14 @@ public final class CollConstraint
   /**
    * Checks the collection against {@link #isEmptyProhibited()} constraint.
    * <p>
-   * If the collection violates contsraint then method returns warning {@link EValidationResultType#WARNING} with
+   * If the collection violates constraint then method returns warning {@link EValidationResultType#WARNING} with
    * appropriate message.
    *
    * @param aColl {@link ITsCollection} - collection to be checked
    * @return {@link ValidationResult} - the check result
    * @throws TsNullArgumentRtException argument = <code>null</code>
    */
-  public ValidationResult checkWarnEmpty( ITsCollection<?> aColl ) {
+  public ValidationResult validateWarnEmpty( ITsCollection<?> aColl ) {
     String msg = internalCheckEmpty( aColl );
     if( msg.isEmpty() ) {
       return ValidationResult.SUCCESS;
@@ -339,14 +339,14 @@ public final class CollConstraint
   /**
    * Checks the collection against {@link #isEmptyProhibited()} constraint.
    * <p>
-   * If the collection violates contsraint then method returns error warning {@link EValidationResultType#ERROR} with
+   * If the collection violates constraint then method returns error warning {@link EValidationResultType#ERROR} with
    * appropriate message.
    *
    * @param aColl {@link ITsCollection} - collection to be checked
    * @return {@link ValidationResult} - the check result
    * @throws TsNullArgumentRtException argument = <code>null</code>
    */
-  public ValidationResult checkErrorEmpty( ITsCollection<?> aColl ) {
+  public ValidationResult validateErrorEmpty( ITsCollection<?> aColl ) {
     String msg = internalCheckEmpty( aColl );
     if( msg.isEmpty() ) {
       return ValidationResult.SUCCESS;
@@ -357,14 +357,14 @@ public final class CollConstraint
   /**
    * Checks the collection against {@link #isDuplicatesProhibited()} constraint.
    * <p>
-   * If the collection violates contsraint then method returns warning {@link EValidationResultType#WARNING} with
+   * If the collection violates constraint then method returns warning {@link EValidationResultType#WARNING} with
    * appropriate message.
    *
    * @param aColl {@link ITsCollection} - collection to be checked
    * @return {@link ValidationResult} - the check result
    * @throws TsNullArgumentRtException argument = <code>null</code>
    */
-  public ValidationResult checkWarnDups( ITsCollection<?> aColl ) {
+  public ValidationResult validateWarnDups( ITsCollection<?> aColl ) {
     String msg = internalCheckDups( aColl );
     if( msg.isEmpty() ) {
       return ValidationResult.SUCCESS;
@@ -375,14 +375,14 @@ public final class CollConstraint
   /**
    * Checks the collection against {@link #isDuplicatesProhibited()} constraint.
    * <p>
-   * If the collection violates contsraint then method returns error {@link EValidationResultType#ERROR} with
+   * If the collection violates constraint then method returns error {@link EValidationResultType#ERROR} with
    * appropriate message.
    *
    * @param aColl {@link ITsCollection} - collection to be checked
    * @return {@link ValidationResult} - the check result
    * @throws TsNullArgumentRtException argument = <code>null</code>
    */
-  public ValidationResult checkErrorDups( ITsCollection<?> aColl ) {
+  public ValidationResult validateErrorDups( ITsCollection<?> aColl ) {
     String msg = internalCheckDups( aColl );
     if( msg.isEmpty() ) {
       return ValidationResult.SUCCESS;

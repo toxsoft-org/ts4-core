@@ -1,8 +1,7 @@
 package org.toxsoft.core.tslib.coll.primtypes;
 
-import org.toxsoft.core.tslib.coll.IListBasicEdit;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Editable extension of {@link IIntList}.
@@ -41,13 +40,13 @@ public interface IIntListBasicEdit
   int removeValueByIndex( int aIndex );
 
   // ------------------------------------------------------------------------------------
-  // Convinience methods with default implementations
+  // Convenience methods with default implementations
   //
 
   /**
    * Adds all of the elements in the specified array to this collection.
    * <p>
-   * Result of thie method is same as if all items from the specified array were added to this collection using
+   * Result of this method is same as if all items from the specified array were added to this collection using
    * {@link #add(int)}.
    *
    * @param aArray int[] - array containing elements to be added to this collection

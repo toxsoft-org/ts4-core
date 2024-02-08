@@ -173,17 +173,17 @@ public interface IList<E>
     }
     else {
       IIntList idxes = new SortedIntLinkedBundleList( aIndexes );
-      // если запрошенные индексы недопустимы - выросим исключение
+      // throw an exception if any index is out of range
       if( idxes.getValue( count - 1 ) >= size() ) {
         throw new TsIllegalArgumentRtException();
       }
       int i = 0, j = 0;
       done:
       for( E e : this ) {
-        while( i == idxes.getValue( j ) ) { // while вместо if на случай, если несколько одинаковых индексов подряд идут
+        while( i == idxes.getValue( j ) ) { // 'while' instead of 'if' when several identical indexes are in a row
           ll.add( e );
           if( ++j >= count ) {
-            break done; // выход из внешнего цикла
+            break done; // exit from outer cycle
           }
         }
         ++i;
