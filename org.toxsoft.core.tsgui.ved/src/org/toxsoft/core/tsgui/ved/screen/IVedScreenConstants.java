@@ -109,6 +109,7 @@ public interface IVedScreenConstants {
   IDataDef PROP_ANGLE = DataDef.create( PROPID_ANGLE, VALOBJ, //
       TSID_NAME, STR_ANGLE, //
       TSID_DESCRIPTION, STR_ANGLE_D, //
+      TSID_KEEPER_ID, D2Angle.KEEPER_ID, //
       TSID_DEFAULT_VALUE, avValobj( ID2Angle.ZERO ) //
   );
 
