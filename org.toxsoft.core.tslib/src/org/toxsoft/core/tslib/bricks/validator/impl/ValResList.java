@@ -56,7 +56,7 @@ public class ValResList
   public boolean isError() {
     for( int i = 0, count = results.size(); i < count; i++ ) {
       ValidationResult vr = results.get( i );
-      if( !vr.isError() ) {
+      if( vr.isError() ) {
         return true;
       }
     }
