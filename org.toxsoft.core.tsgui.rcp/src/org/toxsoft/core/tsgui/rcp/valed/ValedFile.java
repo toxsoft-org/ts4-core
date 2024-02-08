@@ -56,6 +56,11 @@ public class ValedFile
       return new ValedFile( aContext );
     }
 
+    @Override
+    protected boolean isSuitableRawEditor( Class<?> aValueClass, ITsGuiContext aEditorContext ) {
+      return aValueClass.equals( File.class );
+    }
+
   }
 
   // ------------------------------------------------------------------------------------

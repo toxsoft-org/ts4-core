@@ -9,6 +9,7 @@ import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tsgui.valed.controls.av.*;
 import org.toxsoft.core.tsgui.valed.impl.*;
 import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.bricks.keeper.std.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -42,6 +43,14 @@ public class ValedAvValobjFile
     @Override
     protected IValedControl<IAtomicValue> doCreateEditor( ITsGuiContext aContext ) {
       return new ValedAvValobjFile( aContext );
+    }
+
+    @Override
+    protected boolean isSuitableAvEditor( EAtomicType aAtomicType, String aKeeperId, ITsGuiContext aEditorContext ) {
+      if( aAtomicType == EAtomicType.VALOBJ && aKeeperId != null ) {
+        return aKeeperId.equals( FileKeeper.KEEPER_ID );
+      }
+      return false;
     }
 
   }
