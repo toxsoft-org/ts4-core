@@ -243,11 +243,14 @@ public class InputFieldHandler
     editing = aEditing;
   }
 
-  // ------------------------------------------------------------------------------------
-  // Implementation
-  //
-
-  private boolean isViselPointed( ITsPoint aCoors ) {
+  /**
+   * Возвращает признак того, принадлежит ли указанная точка визелю.
+   *
+   * @param aCoors ITsPoint - SWT координаты точки
+   * @return <b>true</b> - точка принадлежит визелю<br>
+   *         <b>false</b>- точка не принадлежит визелю
+   */
+  public boolean isViselPointed( ITsPoint aCoors ) {
     if( visel != null ) {
       ID2Point p = vedScreen.view().coorsConverter().swt2Visel( aCoors, visel );
       if( visel.isYours( p ) ) {
@@ -256,6 +259,10 @@ public class InputFieldHandler
     }
     return false;
   }
+
+  // ------------------------------------------------------------------------------------
+  // Implementation
+  //
 
   private ITsPoint selection() {
     if( visel != null ) {
