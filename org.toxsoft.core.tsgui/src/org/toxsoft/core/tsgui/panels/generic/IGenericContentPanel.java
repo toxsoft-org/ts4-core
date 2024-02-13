@@ -6,7 +6,7 @@ import org.toxsoft.core.tslib.bricks.ctx.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 
 /**
- * Generci panel to display (and optionally edit) some information (content).
+ * Generic panel to display (and optionally edit) some information (content).
  *
  * @author hazard157
  */

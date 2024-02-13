@@ -33,16 +33,20 @@ public class OptionSetKeeper
 
   /**
    * Keeper singleton.
+   * <p>
+   * Values returned by <code>read()</code> methods may be safely casted to the {@link IOptionSetEdit}.
    */
   public static final OptionSetKeeper KEEPER = new OptionSetKeeper( false );
 
   /**
    * Indented keeper singleton.
+   * <p>
+   * Values returned by <code>read()</code> methods may be safely casted to the {@link IOptionSetEdit}.
    */
   public static final OptionSetKeeper KEEPER_INDENTED = new OptionSetKeeper( true );
 
   /**
-   * An empty {@link IOptionSet} keeped text representation.
+   * An empty {@link IOptionSet} kept text representation.
    */
   public static final String STR_EMPTY_OPSET_REPRESENTATION = KEEPER.ent2str( IOptionSet.NULL );
 

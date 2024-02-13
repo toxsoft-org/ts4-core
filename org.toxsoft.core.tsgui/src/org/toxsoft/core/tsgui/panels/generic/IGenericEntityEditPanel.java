@@ -35,7 +35,7 @@ public interface IGenericEntityEditPanel<T>
    * If method returns {@link EValidationResultType#ERROR} then {@link #getEntity()} will throw the exception. However
    * if this method succeeds {@link #getEntity()} may still throw an exception. This method just checks if each data in
    * widget and in whole set has valid values to edit the entity, but editing may fail even for valid values. For
-   * example because of browken connection to the server.
+   * example because of broken connection to the server.
    *
    * @return {@link ValidationResult} - the check result
    */

@@ -1,9 +1,9 @@
 package org.toxsoft.core.tslib.coll.helpers;
 
-import java.util.Comparator;
+import java.util.*;
 
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.basis.ITsSortedCollectionTag;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -96,7 +96,7 @@ public interface IListReorderer<E> {
   void sort( Comparator<E> aComparator );
 
   // ------------------------------------------------------------------------------------
-  // Convinience inline methods
+  // Convenience inline methods
   //
 
   @SuppressWarnings( "javadoc" )

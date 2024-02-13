@@ -9,7 +9,7 @@ import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Image source kind determines hoe {@link TsImageDescriptor} of specified kind is handled in TsGUI library.
+ * Image source kind determines how {@link TsImageDescriptor} of specified kind is handled in TsGUI library.
  * <p>
  * Kind must be registered by {@link TsImageDescriptor#registerImageSourceKind(ITsImageSourceKind)}.
  * <p>
@@ -18,7 +18,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public sealed interface ITsImageSourceKind
-    extends IStridableParameterized permits AbstractTsImageSourceKind {
+    extends IStridableParameterized
+    permits AbstractTsImageSourceKind {
 
   /**
    * Returns the definitions of the {@link TsImageDescriptor#params()} options for this kind of image source.
