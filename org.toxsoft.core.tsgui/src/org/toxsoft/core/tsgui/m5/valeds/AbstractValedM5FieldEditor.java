@@ -88,6 +88,12 @@ public abstract class AbstractValedM5FieldEditor<V>
    * @return {@link Object} - reference to the master-object or <code>null</code>
    */
   public Object findMasterObject() {
+
+    /**
+     * TODO check and fix if needed<br>
+     * GOGA 2024-02-10 it seems it's an error: the master must be retreived from context, not lastMasterObject returned
+     */
+
     return lastMasterObject;
   }
 
