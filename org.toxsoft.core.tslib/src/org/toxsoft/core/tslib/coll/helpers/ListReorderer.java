@@ -1,11 +1,10 @@
 package org.toxsoft.core.tslib.coll.helpers;
 
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.*;
 
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.basis.ITsSortedCollectionTag;
-import org.toxsoft.core.tslib.coll.notifier.INotifierList;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.notifier.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -97,7 +96,7 @@ public class ListReorderer<E, L extends IListEdit<E>>
     finally {
       internalResumeNotification();
     }
-    return false;
+    return true;
   }
 
   @Override
@@ -116,7 +115,7 @@ public class ListReorderer<E, L extends IListEdit<E>>
     finally {
       internalResumeNotification();
     }
-    return false;
+    return true;
   }
 
   @Override
