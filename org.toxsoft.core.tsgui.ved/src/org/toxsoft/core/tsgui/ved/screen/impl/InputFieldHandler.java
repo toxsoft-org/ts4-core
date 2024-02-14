@@ -200,8 +200,16 @@ public class InputFieldHandler
 
         // System.out.println( "char = " + (int)aChar );
         if( aChar > 31 ) {
+          ITsPoint sel = visel.props().getValobj( ViselLabel.PROPID_SELECTION );
+          if( sel != ITsPoint.ZERO ) {
+            deleteSelectedTextPart( text, sel );
+            text = visel.props().getStr( PROP_TEXT );
+            sb = new StringBuilder( text );
+          }
           sb.insert( caretPos, aChar );
+          // if( sel == ITsPoint.ZERO ) {
           caretPos++;
+          // }
           visel.props().setInt( PROPID_CARET_POS, caretPos );
           visel.props().setStr( PROPID_TEXT, sb.toString() );
           return true;
