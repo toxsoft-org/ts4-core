@@ -4,11 +4,8 @@ import static org.toxsoft.core.tsgui.graphics.image.impl.TsThumbManagerUtils.*;
 
 import java.io.*;
 
-import org.eclipse.e4.core.contexts.*;
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tsgui.graphics.icons.impl.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
-import org.toxsoft.core.tsgui.utils.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -37,21 +34,19 @@ public class TsThumbManager
   // caching parameters
   private int maxThumbsInMemory = DEF_MAX_THUMBS_IN_MEMORY;
 
-  private File                  thumbsRoot = new File( DEFAULT_ROOT_PATH );
-  private final IEclipseContext appContext;
-  private final Display         display;
+  private File thumbsRoot = new File( DEFAULT_ROOT_PATH );
+  // private final IEclipseContext appContext;
+  private final Display display;
 
   /**
    * Constructor.
    *
-   * @param aAppContext {@link IEclipseContext} - the context
+   * @param aDisplay Display - the display to use as images creation device
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public TsThumbManager( IEclipseContext aAppContext ) {
-    TsNullArgumentRtException.checkNull( aAppContext );
-    appContext = aAppContext;
-    display = appContext.get( Display.class );
-    TsInternalErrorRtException.checkNull( display );
+  public TsThumbManager( Display aDisplay ) {
+    TsNullArgumentRtException.checkNull( aDisplay );
+    display = aDisplay;
   }
 
   // ------------------------------------------------------------------------------------
@@ -102,8 +97,6 @@ public class TsThumbManager
   private void removeFileFromCache( File aImageFile ) {
     // TODO TsThumbManager.removeFileFromCache()
   }
-
-  
 
   // ------------------------------------------------------------------------------------
   // API

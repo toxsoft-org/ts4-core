@@ -11,9 +11,9 @@ import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Просмотрщик дерева из узлов типа {@link ITsNode}.
+ * Viewer of the {@link ITsNode} nodes.
  * <p>
- * К базовому интерфейсу {@link ITsBasicTreeViewer} добавляет возможность задавать корневые узлы и создавать столбцы.
+ * Add columns and root nodes to the base interface {@link ITsBasicTreeViewer}.
  *
  * @author hazard157
  */
@@ -21,58 +21,53 @@ public interface ITsTreeViewer
     extends ITsBasicTreeViewer, IIconSizeableEx, IThumbSizeableEx {
 
   /**
-   * Задает список узлов, отображаемых как корневые.
+   * Sets the nodes to be displayed as a root (top level) nodes.
    *
-   * @param aRootNodes {@link ITsCollection}&lt;{@link ITsNode}&gt; - список корневых узлов
-   * @throws TsNullArgumentRtException аргумент = null
-   * @throws TsIllegalArgumentRtException у какого-либо узла родитель не это дерево
+   * @param aRootNodes {@link ITsCollection}&lt;{@link ITsNode}&gt; - the root nodes
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException any item has {@link ITsNode#parent()} != <code>this</code>
    */
   void setRootNodes( ITsCollection<ITsNode> aRootNodes );
 
   /**
-   * Очищает содержимое дерева.
+   * Clears the tree content, removes all nodes from the tree.
    */
   void clear();
 
   /**
-   * Возвращает столюбцы дерева-таблицы.
+   * Returns columns of the tree.
    *
-   * @return IList&lt;{@link ITsViewerColumn}&gt; - список столбецов, возможно пустой
+   * @return IList&lt;{@link ITsViewerColumn}&gt; - list of columns, may be an empty list
    */
   IList<ITsViewerColumn> columns();
 
   /**
-   * Добавляет столбец справа к имеющимся столбцам (последним в список {@link #columns()}).
+   * Add columns to the right of current columns.
    *
-   * @param aTitle String - название
-   * @param aAlignment {@link EHorAlignment} - горизонтальное выравнивание текста внутри колонки
-   * @param aNameProvider {@link ITsVisualsProvider}&lt;{@link ITsNode}&gt; - постащик текст и изображения ячейки
-   * @return {@link ITsViewerColumn} - созданный столбец
+   * @param aTitle String - the column title name
+   * @param aAlignment {@link EHorAlignment} - text alignment in the cells of the column
+   * @param aNameProvider {@link ITsVisualsProvider}&lt;{@link ITsNode}&gt; - cell text and image provider
+   * @return {@link ITsViewerColumn} - created column
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   ITsViewerColumn addColumn( String aTitle, EHorAlignment aAlignment, ITsVisualsProvider<ITsNode> aNameProvider );
 
   /**
-   * Удаляет все столбцы.
+   * Removes all columns.
    */
   void removeColumns();
 
   /**
-   * Задает поставщика шрифта для ячеек таблицы или null, если используются только шрифты по умолчанию.
-   * <p>
-   * Внимание: после этого метода следует обновить отрисовщики ячеек вызовом
-   * {@link ColumnViewer#setLabelProvider(IBaseLabelProvider) ColumnViewer.setLabelProvider(this)}.
+   * Sets the cell font provider.
    *
-   * @param aFontProvider {@link ITableFontProvider} - поставщик шрифтов ячеек или null
+   * @param aFontProvider {@link ITableFontProvider} - the cell font provider or <code>null</code> for default fonts
    */
   void setFontProvider( ITableFontProvider aFontProvider );
 
   /**
-   * Задает поставщика цветов для ячеек таблицы или null, если используются только цвета по умолчанию.
-   * <p>
-   * Внимание: после этого метода следует обновить отрисовщики ячеек вызовом
-   * {@link ColumnViewer#setLabelProvider(IBaseLabelProvider) ColumnViewer.setLabelProvider(this)}.
+   * Sets the cell color provider.
    *
-   * @param aColorProvider {@link ITableColorProvider} - поставщик цветов ячеек или null
+   * @param aColorProvider {@link ITableColorProvider} - the cell color provider or <code>null</code> for default colors
    */
   void setColorProvider( ITableColorProvider aColorProvider );
 

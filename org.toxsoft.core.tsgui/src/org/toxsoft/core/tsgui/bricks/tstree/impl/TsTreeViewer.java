@@ -33,7 +33,7 @@ import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Реализация {@link ITsTreeViewer}.
+ * {@link ITsTreeViewer} implementation.
  *
  * @author hazard157
  */
@@ -42,13 +42,11 @@ public class TsTreeViewer
 
   /**
    * ID of option {@link #OPDEF_IS_HEADER_SHOWN}.
-   * <p>
-   * TODO move this option somwhere eslse, it is used also in M5XxxViewer
    */
   public static final String OPID_IS_HEADER_SHOWN = "TsTreeViewer.isHeaderShown"; //$NON-NLS-1$
 
   /**
-   * Параметр контекста: признак показа заголовка таблицы с именами столбцов.
+   * Creation option: The flag to display the table header with column names.
    */
   public static final IDataDef OPDEF_IS_HEADER_SHOWN = DataDef.create( OPID_IS_HEADER_SHOWN, EAtomicType.BOOLEAN, //
       TSID_NAME, STR_N_IS_HEADER_SHOWN, //
@@ -57,7 +55,7 @@ public class TsTreeViewer
   );
 
   /**
-   * Столбец дерева.
+   * Tree column.
    *
    * @author hazard157
    */
@@ -87,7 +85,7 @@ public class TsTreeViewer
     @Override
     int getFirstColumnWidthAddition() {
       if( columnIndex == 0 ) {
-        return 20; // TODO как вычислить эту ширину?
+        return 20; // TODO how to calculate this width?
       }
       return 0;
     }
@@ -169,10 +167,10 @@ public class TsTreeViewer
   private ITsTreeViewerConsole console    = null;
 
   /**
-   * Конструктор дерева с указанием контекста.
+   * Constructor.
    *
-   * @param aContext {@link ITsGuiContext} - контекст панели
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aContext {@link ITsGuiContext} - the context
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public TsTreeViewer( ITsGuiContext aContext ) {
     TsNullArgumentRtException.checkNull( aContext );
@@ -222,7 +220,7 @@ public class TsTreeViewer
   }
 
   // ------------------------------------------------------------------------------------
-  // Методы для переопределения наследниками
+  // To override
   //
 
   protected TreeViewer doCreateTreeViewer( Composite aParent ) {
@@ -388,7 +386,7 @@ public class TsTreeViewer
     tvCol.getColumn().setText( aTitle );
     tvCol.getColumn().setAlignment( aAlignment.swtStyle() );
     tvCol.getColumn().setWidth( 50 );
-    // добавление столбца меняет состояние показа заголовка - восстановим
+    // adding a column changes the header display state - restore
     boolean isHeaderVisible = OPDEF_IS_HEADER_SHOWN.getValue( params() ).asBool();
     treeViewer.getTree().setHeaderVisible( isHeaderVisible );
     return col;
@@ -498,28 +496,12 @@ public class TsTreeViewer
     treeViewer.refresh();
   }
 
-  /**
-   * Задает поставщика шрифта для ячеек таблицы или null, если используются только шрифты по умолчанию.
-   * <p>
-   * Внимание: после этого метода следует обновить отрисовщики ячеек вызовом
-   * {@link ColumnViewer#setLabelProvider(IBaseLabelProvider) ColumnViewer.setLabelProvider(this)}.
-   *
-   * @param aFontProvider {@link ITableFontProvider} - поставщик шрифтов ячеек или null
-   */
   @Override
   public void setFontProvider( ITableFontProvider aFontProvider ) {
     labelProvider.setFontProvider( aFontProvider );
     treeViewer.setLabelProvider( labelProvider );
   }
 
-  /**
-   * Задает поставщика цветов для ячеек таблицы или null, если используются только цвета по умолчанию.
-   * <p>
-   * Внимание: после этого метода следует обновить отрисовщики ячеек вызовом
-   * {@link ColumnViewer#setLabelProvider(IBaseLabelProvider) ColumnViewer.setLabelProvider(this)}.
-   *
-   * @param aColorProvider {@link ITableColorProvider} - поставщик цветов ячеек или null
-   */
   @Override
   public void setColorProvider( ITableColorProvider aColorProvider ) {
     labelProvider.setColorProvider( aColorProvider );
@@ -587,9 +569,9 @@ public class TsTreeViewer
   //
 
   /**
-   * Возвращает реализацию -JFace-просмотрщик.
+   * Returns the implementation - JFace-viewer.
    *
-   * @return {@link TreeViewer} - JFace-просмотрщик или null
+   * @return {@link TreeViewer} - JFace-viewer or <code>null</code> before {@link #createControl(Composite)} call
    */
   public TreeViewer getJfaceTreeViewer() {
     return treeViewer;
