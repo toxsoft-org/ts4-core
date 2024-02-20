@@ -108,13 +108,31 @@ public class TinFieldInfo
    * Note: does <b>not</b> copies the value visualizer!
    *
    * @param aInfo {@link ITinFieldInfo} - the source field info
-   * @param aAdditionalParams Object[] - identifier / value pairs for additionap {@link #params()} options
+   * @param aAdditionalParams Object[] - identifier / value pairs for additional {@link #params()} options
    * @return {@link TinFieldInfo} - created instance
    */
   public static TinFieldInfo makeCopy( ITinFieldInfo aInfo, Object... aAdditionalParams ) {
     TsNullArgumentRtException.checkNull( aInfo );
     TinFieldInfo finf = new TinFieldInfo( aInfo.id(), aInfo.params(), aInfo.typeInfo(), aInfo.defaultValue() );
     finf.params().addAll( OptionSetUtils.createOpSet( aAdditionalParams ) );
+    return finf;
+  }
+
+  /**
+   * Creates the adjusted copy of the {@link ITinFieldInfo}.
+   * <p>
+   * Note: does <b>not</b> copies the value visualizer!
+   *
+   * @param aInfo {@link ITinFieldInfo} - the source field info
+   * @param aDefaultValue {@link ITinValue} - new default value
+   * @param aAdditionalParams Object[] - identifier / value pairs for additional {@link #params()} options
+   * @return {@link TinFieldInfo} - created instance
+   */
+  public static TinFieldInfo makeCopy( ITinFieldInfo aInfo, ITinValue aDefaultValue, Object... aAdditionalParams ) {
+    TsNullArgumentRtException.checkNulls( aInfo, aDefaultValue );
+    TinFieldInfo finf = new TinFieldInfo( aInfo.id(), aInfo.params(), aInfo.typeInfo(), aInfo.defaultValue() );
+    finf.params().addAll( OptionSetUtils.createOpSet( aAdditionalParams ) );
+    finf.setDefaultValue( aDefaultValue );
     return finf;
   }
 
