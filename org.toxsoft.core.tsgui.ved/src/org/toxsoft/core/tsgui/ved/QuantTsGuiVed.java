@@ -43,6 +43,7 @@ public class QuantTsGuiVed
     visFact.register( ViselCheckbox.FACTORY );
     visFact.register( ViselImage.FACTORY );
     visFact.register( ViselBaloon.FACTORY );
+    visFact.register( ViselGroupbox.FACTORY );
     //
     VedActorFactoriesRegistry actFact = new VedActorFactoriesRegistry();
     aAppContext.set( IVedActorFactoriesRegistry.class, actFact );

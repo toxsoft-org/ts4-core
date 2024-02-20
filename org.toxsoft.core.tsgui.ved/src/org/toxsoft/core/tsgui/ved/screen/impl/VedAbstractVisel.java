@@ -83,7 +83,6 @@ public abstract class VedAbstractVisel
     double width = props().getDouble( PROP_WIDTH );
     double height = props().getDouble( PROP_HEIGHT );
     return aX >= 0 && aX <= width && aY >= 0 && aY <= height;
-    // return boundsRect.contains( aX, aY );
   }
 
   // ------------------------------------------------------------------------------------
