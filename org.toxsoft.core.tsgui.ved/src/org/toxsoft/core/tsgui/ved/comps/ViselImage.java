@@ -74,7 +74,7 @@ public class ViselImage
 
   };
 
-  TsImage image = null;
+  private TsImage image = null;
 
   /**
    * Constructor.
@@ -127,4 +127,5 @@ public class ViselImage
   public boolean isYours( double aX, double aY ) {
     return super.isYours( aX, aY );
   }
+
 }

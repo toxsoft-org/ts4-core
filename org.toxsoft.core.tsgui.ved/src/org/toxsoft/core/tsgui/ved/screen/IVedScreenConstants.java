@@ -126,7 +126,8 @@ public interface IVedScreenConstants {
       PROPID_HEIGHT, //
       PROPID_TS_FULCRUM, //
       PROPID_ZOOM, //
-      PROPID_ANGLE );
+      PROPID_ANGLE //
+  );
 
   /**
    * List of mandatory properties IDs for the actors.
@@ -364,4 +365,47 @@ public interface IVedScreenConstants {
   ITinFieldInfo TFI_BOTTOM_INDENT = new TinFieldInfo( PROP_BOTTOM_INDENT, TTI_AT_INTEGER );
 
   ITinFieldInfo TFI_HOVERED = new TinFieldInfo( PROP_HOVERED, TTI_AT_BOOLEAN );
+
+  // ------------------------------------------------------------------------------------
+  // same fields as above but hidden one
+
+  ITinFieldInfo TFI_DESCRIPTION_HIDDEN = TinFieldInfo.makeCopy( TFI_DESCRIPTION, //
+      ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE, //
+      TSID_DEFAULT_VALUE, AV_STR_EMPTY //
+  );
+
+  ITinFieldInfo TFI_IS_ACTIVE_HIDDEN = TinFieldInfo.makeCopy( TFI_IS_ACTIVE, //
+      ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE, //
+      TSID_DEFAULT_VALUE, AV_TRUE //
+  );
+
+  ITinFieldInfo TFI_ASPECT_RATIO_HIDDEN = TinFieldInfo.makeCopy( TFI_ASPECT_RATIO, //
+      ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE //
+  );
+
+  ITinFieldInfo TFI_WIDTH_HIDDEN = TinFieldInfo.makeCopy( TFI_WIDTH, //
+      ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE //
+  );
+
+  ITinFieldInfo TFI_HEIGHT_HIDDEN = TinFieldInfo.makeCopy( TFI_HEIGHT, //
+      ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE //
+  );
+
+  ITinFieldInfo TFI_IS_ASPECT_FIXED_HIDDEN = TinFieldInfo.makeCopy( TFI_IS_ASPECT_FIXED, //
+      ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE, //
+      TSID_DEFAULT_VALUE, AV_TRUE //
+  );
+
+  ITinFieldInfo TFI_TRANSFORM_HIDDEN = TinFieldInfo.makeCopy( TFI_TRANSFORM, //
+      ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE //
+  );
+
+  ITinFieldInfo TFI_ZOOM_HIDDEN = TinFieldInfo.makeCopy( TFI_ZOOM, //
+      ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE //
+  );
+
+  ITinFieldInfo TFI_ANGLE_HIDDEN = TinFieldInfo.makeCopy( TFI_ANGLE, //
+      ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE //
+  );
+
 }

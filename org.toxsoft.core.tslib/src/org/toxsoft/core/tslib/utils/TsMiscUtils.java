@@ -237,13 +237,14 @@ public class TsMiscUtils {
    * Внимание: возвращаемая строка не содержит начальную и конечные символы кавычек.
    * <p>
    * Quoted string has very simple representation - most characters except {@link IStrioHardConstants#CHAR_ESCAPE} and
-   * {@link IStrioHardConstants#CHAR_QUOTE} are stored "as is". This two characters are preceeded (escaped) by the
+   * {@link IStrioHardConstants#CHAR_QUOTE} are stored "as is". This two characters are preceded (escaped) by the
    * {@link IStrioHardConstants#CHAR_ESCAPE} character. New line and line feed are replaced by "\n" and "\r" strings. So
    * argument string is always represented by the single-line text placed between quotes
-   * ({@link IStrioHardConstants#CHAR_QUOTE} characters). No UTF compelxity is considered...
+   * ({@link IStrioHardConstants#CHAR_QUOTE} characters). No UTF complexity is considered...
    *
-   * @param aString String - исходная строка
-   * @return String - содержимое строки-в-кавычках
+   * @param aString String - the source text
+   * @return String - single line of text as described above
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static String toQuotedLine( String aString ) {
     TsNullArgumentRtException.checkNull( aString );
