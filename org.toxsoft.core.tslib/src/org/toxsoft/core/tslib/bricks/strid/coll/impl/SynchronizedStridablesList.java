@@ -240,50 +240,36 @@ public class SynchronizedStridablesList<E extends IStridable>
     }
   }
 
-  // ------------------------------------------------------------------------------------
-  // ITsSynchronizedCollectionWrapper
-  //
-
-  @Override
-  public ReentrantReadWriteLock getLockObject() {
-    return lock;
-  }
-
-  @Override
-  public ITsCollection<E> getSourceCollection() {
-    return source;
-  }
-
   @Override
   public int put( E aElem ) {
-    lock.readLock().lock();
+    lock.writeLock().lock();
     try {
       return source.put( aElem );
     }
     finally {
-      lock.readLock().unlock();
+      lock.writeLock().unlock();
     }
   }
 
   @Override
   public E replace( String aId, E aElem ) {
-    lock.readLock().lock();
+    lock.writeLock().lock();
     try {
       return source.replace( aId, aElem );
     }
     finally {
-      lock.readLock().unlock();
+      lock.writeLock().unlock();
     }
   }
 
   @Override
   public E removeById( String aId ) {
-    lock.readLock().lock();
+    lock.writeLock().lock();
     try {
       return source.removeById( aId );
     }
     finally {
-      lock.readLock().unlock();
+      lock.writeLock().unlock();
     }
   }
 
@@ -305,63 +291,82 @@ public class SynchronizedStridablesList<E extends IStridable>
 
   @Override
   public E get( int aIndex ) {
-    // TODO Auto-generated method stub
-    return null;
+    lock.readLock().lock();
+    try {
+      return source.get( aIndex );
+    }
+    finally {
+      lock.readLock().unlock();
+    }
   }
 
   @Override
   public int add( E aElem ) {
-    lock.readLock().lock();
+    lock.writeLock().lock();
     try {
       return source.add( aElem );
     }
     finally {
-      lock.readLock().unlock();
+      lock.writeLock().unlock();
     }
   }
 
   @Override
   public int remove( E aElem ) {
-    lock.readLock().lock();
+    lock.writeLock().lock();
     try {
       return source.remove( aElem );
     }
     finally {
-      lock.readLock().unlock();
+      lock.writeLock().unlock();
     }
   }
 
   @Override
   public E removeByIndex( int aIndex ) {
-    lock.readLock().lock();
+    lock.writeLock().lock();
     try {
       return source.removeByIndex( aIndex );
     }
     finally {
-      lock.readLock().unlock();
+      lock.writeLock().unlock();
     }
   }
 
   @Override
   public E set( int aIndex, E aElem ) {
-    lock.readLock().lock();
+    lock.writeLock().lock();
     try {
       return source.set( aIndex, aElem );
     }
     finally {
-      lock.readLock().unlock();
+      lock.writeLock().unlock();
     }
   }
 
   @Override
   public void insert( int aIndex, E aElem ) {
-    lock.readLock().lock();
+    lock.writeLock().lock();
     try {
       source.insert( aIndex, aElem );
     }
     finally {
-      lock.readLock().unlock();
+      lock.writeLock().unlock();
     }
+  }
+
+  // ------------------------------------------------------------------------------------
+  // ITsSynchronizedCollectionWrapper
+  //
+
+  @Override
+  public ReentrantReadWriteLock getLockObject() {
+    return lock;
+  }
+
+  @Override
+  public ITsCollection<E> getSourceCollection() {
+    return source;
   }
 
   // ------------------------------------------------------------------------------------

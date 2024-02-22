@@ -29,6 +29,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public final class Gwid
     implements Serializable, Comparable<Gwid> {
 
+  // TODO add method to validate creation from canonicalString
+
   private static final long serialVersionUID = 157157L;
 
   /**
@@ -222,6 +224,14 @@ public final class Gwid
     return new Gwid( aClassId, aStrid, GW_KEYWORD_CLOB, aClobId, null, null );
   }
 
+  /**
+   * Creates {@link Gwid} instance from the canonical textual representation.
+   *
+   * @param aCanonicalString String - the canonical textual representation
+   * @return {@link Gwid} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException invalid textual format
+   */
   public static Gwid of( String aCanonicalString ) {
     ICharInputStream chIn = new CharInputStreamString( aCanonicalString );
     IStrioReader sr = new StrioReader( chIn );
@@ -231,7 +241,7 @@ public final class Gwid
   /**
    * Reads canonical representation from the stream.
    *
-   * @param aSr {@link IStrioReader} - characher input stream
+   * @param aSr {@link IStrioReader} - input stream
    * @return {@link Gwid} - read instance
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIoRtException I/O error
@@ -459,15 +469,26 @@ public final class Gwid
   }
 
   // ------------------------------------------------------------------------------------
-  // IGwid
+  // API
   //
 
   /**
    * Returns the canonical string representation of the GWID.
    *
    * @return String - GWID canonical string
+   * @deprecated outdated method, use {@link #canonicalString} instead
    */
+  @Deprecated
   public String asString() {
+    return canonicalString;
+  }
+
+  /**
+   * Returns the canonical string representation of the GWID.
+   *
+   * @return String - GWID canonical string
+   */
+  public String canonicalString() {
     return canonicalString;
   }
 

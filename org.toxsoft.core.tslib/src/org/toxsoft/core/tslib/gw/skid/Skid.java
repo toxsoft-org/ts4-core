@@ -15,8 +15,9 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * The Green World object identifier.
  * <p>
- * String representation of the SKID {@link #toString()} is the same as concrete GWID representation
- * {@link Gwid#asString()} of kind {@link EGwidKind#GW_CLASS} in the form of "<code>classId[strid]</code>".
+ * Canonical string representation of the SKID {@link #canonicalString()} is the same as concrete GWID representation
+ * {@link Gwid#canonicalString()} of kind {@link EGwidKind#GW_CLASS} in the form of "<code>classId[strid]</code>". There
+ * is one exception - the singleton {@link #NONE} is represented by the IDname
  *
  * @author hazard157
  */
@@ -27,6 +28,11 @@ public final class Skid
    * Not existing object identifier - there is no real world object with this ID.
    */
   public static final Skid NONE = new Skid();
+
+  /**
+   * Canonical string representation of {@link #NONE} instance.
+   */
+  public static final String CANONICAL_STRING_NONE = "NONE"; //$NON-NLS-1$
 
   /**
    * Value-object keeper identifier.
@@ -64,7 +70,8 @@ public final class Skid
 
   private final String  classId;
   private final String  strid;
-  private transient int hashCode = 0;
+  private String        canonicalString = null; // lasy initialization in #canonicalString()
+  private transient int hashCode        = 0;
 
   /**
    * Constructor.
@@ -88,6 +95,46 @@ public final class Skid
   }
 
   /**
+   * Creates {@link Skid} instance from the canonical textual representation.
+   *
+   * @param aCanonicalString String - the canonical textual representation or {@link #CANONICAL_STRING_NONE}
+   * @return {@link Skid} - created instance of {@link #NONE}
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException invalid textual format
+   */
+  public static Skid of( String aCanonicalString ) {
+    TsNullArgumentRtException.checkNull( aCanonicalString );
+    int len = aCanonicalString.length();
+    TsIllegalArgumentRtException.checkTrue( len < 4 ); // min length for "a[b]"
+    if( aCanonicalString.equals( CANONICAL_STRING_NONE ) ) {
+      return NONE;
+    }
+    StringBuilder sb = new StringBuilder( 2 * len );
+    int currIndex = 0;
+    // read class ID
+    char ch = aCanonicalString.charAt( currIndex++ );
+    TsIllegalArgumentRtException.checkFalse( StridUtils.isIdStart( ch ) );
+    sb.append( ch );
+    while( StridUtils.isIdPathPart( ch = aCanonicalString.charAt( currIndex++ ) ) ) {
+      sb.append( ch );
+    }
+    String classId = sb.toString();
+    sb.setLength( 0 );
+    // read object STRID
+    TsIllegalArgumentRtException.checkTrue( ch != Gwid.KEYCH_STRID_LEFT );
+    ch = aCanonicalString.charAt( currIndex++ );
+    TsIllegalArgumentRtException.checkFalse( StridUtils.isIdStart( ch ) );
+    sb.append( ch );
+    while( StridUtils.isIdPathPart( ch = aCanonicalString.charAt( currIndex++ ) ) ) {
+      sb.append( ch );
+    }
+    TsIllegalArgumentRtException.checkTrue( ch != Gwid.KEYCH_STRID_RIGHT );
+    TsIllegalArgumentRtException.checkTrue( currIndex != len );
+    String strid = sb.toString();
+    return new Skid( classId, strid );
+  }
+
+  /**
    * Correctly restores singleton {@link Skid#NONE} from serialized form.
    *
    * @return Object always {@link Skid#NONE}
@@ -107,10 +154,7 @@ public final class Skid
 
   @Override
   public String toString() {
-    if( this == NONE ) {
-      return "NONE"; //$NON-NLS-1$
-    }
-    return classId + '[' + strid + ']';
+    return canonicalString();
   }
 
   @Override
@@ -160,6 +204,23 @@ public final class Skid
   // ------------------------------------------------------------------------------------
   // API
   //
+
+  /**
+   * Returns the canonical string representation of the GWID.
+   *
+   * @return String - GWID canonical string
+   */
+  public String canonicalString() {
+    if( canonicalString == null ) {
+      if( this == NONE ) {
+        canonicalString = CANONICAL_STRING_NONE;
+      }
+      else {
+        canonicalString = classId + Gwid.KEYCH_STRID_LEFT + strid + Gwid.KEYCH_STRID_RIGHT;
+      }
+    }
+    return canonicalString;
+  }
 
   /**
    * Checks that this is {@link #NONE} identifier.

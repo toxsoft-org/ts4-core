@@ -3,7 +3,6 @@ package org.toxsoft.core.tsgui.panels.generic;
 import org.toxsoft.core.tsgui.bricks.stdevents.*;
 import org.toxsoft.core.tsgui.utils.checkcoll.*;
 import org.toxsoft.core.tslib.coll.*;
-import org.toxsoft.core.tslib.utils.*;
 
 /**
  * Generic items collection viewer / editor panel.
@@ -12,7 +11,7 @@ import org.toxsoft.core.tslib.utils.*;
  * @param <T> - the entity type
  */
 public interface IGenericCollPanel<T>
-    extends IGenericContentPanel, ITsSelectionProvider<T>, ITsDoubleClickEventProducer<T> {
+    extends IGenericSelectorPanel<T>, ITsDoubleClickEventProducer<T> {
 
   /**
    * Returns the list of items to display.
@@ -22,14 +21,6 @@ public interface IGenericCollPanel<T>
    * @return {@link IList}&lt;T&gt; - all items to how in panel
    */
   IList<T> items();
-
-  /**
-   * Refreshes panel content.
-   * <p>
-   * Usually items are hold in come cache of collection displaying widget. Refresh will refill cache from external
-   * provider such as {@link ITsItemsProvider}.
-   */
-  void refresh();
 
   /**
    * Returns the items checking means.
