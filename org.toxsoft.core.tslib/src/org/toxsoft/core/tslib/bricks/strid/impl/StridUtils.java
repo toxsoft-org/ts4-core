@@ -294,7 +294,7 @@ public final class StridUtils {
    *
    * @param aId String - an IDpath to be checked
    * @return <code>true</code> if argument is valid IDpath containig two or more comonents
-   * @throws TsNullArgumentRtException аргумент = null
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException argument is not valid IDpath
    */
   public static boolean isIdAPath( String aId ) {

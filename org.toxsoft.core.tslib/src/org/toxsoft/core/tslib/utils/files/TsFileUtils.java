@@ -480,14 +480,15 @@ public class TsFileUtils {
     TsNullArgumentRtException.checkNulls( aParentDir, aChildFile );
     TsIllegalArgumentRtException.checkFalse( aParentDir.isDirectory() );
     String p1 = removeEndingSeparator( aParentDir.getAbsolutePath() );
-    String p2 = removeEndingSeparator( aChildFile.getAbsolutePath() );
+    String p2 = removeEndingSeparator( aChildFile.getParentFile().getAbsolutePath() );
     if( p1.length() > p2.length() ) {
       return null;
     }
     if( !p2.startsWith( p1 ) ) {
       return null;
     }
-    return removeStartingSeparator( p2.substring( p1.length() ) );
+    String s = p2.substring( p1.length() );
+    return removeStartingSeparator( s );
   }
 
   // ------------------------------------------------------------------------------------
