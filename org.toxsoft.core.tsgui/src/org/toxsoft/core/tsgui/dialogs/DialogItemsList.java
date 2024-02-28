@@ -10,11 +10,13 @@ import org.toxsoft.core.tsgui.bricks.stdevents.impl.*;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
 import org.toxsoft.core.tsgui.utils.jface.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
+import org.toxsoft.core.tsgui.widgets.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.txtmatch.*;
 
 /**
  * Simple dialog show items list and optionally allows select an item.
@@ -44,7 +46,20 @@ public class DialogItemsList {
 
       @Override
       public Object[] getElements( Object aInputElement ) {
-        return items.toArray();
+        IList<Object> filteredItems = items;
+        String text = filterField.getFilterText();
+        if( filterField.isFilterOn() && !text.isEmpty() ) {
+          IListEdit<Object> ll = new ElemArrayList<>( items.size() );
+          TextMatcher matcher = new TextMatcher( ETextMatchMode.CONTAINS, text );
+          for( Object o : items ) {
+            String s = nameProvider.getName( o );
+            if( matcher.accept( s ) ) {
+              ll.add( o );
+            }
+          }
+          filteredItems = ll;
+        }
+        return filteredItems.toArray();
       }
 
     }
@@ -68,6 +83,8 @@ public class DialogItemsList {
     final ListViewer                           listViewer;
     final ITsNameProvider<Object>              nameProvider;
 
+    final FilterTextField filterField;
+
     ContentPanel( Composite aParent, TsDialog<Object, Object> aOwnerDialog, IList<Object> aItems,
         ITsNameProvider<Object> aNameProvider ) {
       super( aParent, aOwnerDialog );
@@ -75,6 +92,11 @@ public class DialogItemsList {
       nameProvider = aNameProvider;
       setLayout( new BorderLayout() );
       items.setAll( aItems );
+      // filterField
+      filterField = new FilterTextField( this, tsContext() );
+      filterField.setLayoutData( BorderLayout.NORTH );
+      filterField.genericChangeEventer().addListener( s -> refresh() );
+      // listViewer
       listViewer = new ListViewer( this, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER );
       listViewer.getControl().setLayoutData( BorderLayout.CENTER );
       listViewer.setLabelProvider( new ListLabelProvider() );
@@ -82,6 +104,16 @@ public class DialogItemsList {
       listViewer.setInput( items );
       listViewer.addSelectionChangedListener( notificationSelectionChangedListener );
       listViewer.addDoubleClickListener( event -> ownerDialog().closeDialog( ETsDialogCode.OK ) );
+    }
+
+    // ------------------------------------------------------------------------------------
+    // implementation
+    //
+
+    private void refresh() {
+      Object sel = selectedItem();
+      listViewer.refresh();
+      setSelectedItem( sel );
     }
 
     // ------------------------------------------------------------------------------------
