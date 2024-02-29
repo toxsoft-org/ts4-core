@@ -3,6 +3,7 @@ package org.toxsoft.core.tsgui.ved.screen.impl;
 import static org.toxsoft.core.tsgui.ved.l10n.ITsguiVedSharedResources.*;
 import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
 
+import org.toxsoft.core.tsgui.bricks.actions.asp.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.ved.incub.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
@@ -34,6 +35,8 @@ public abstract class VedAbstractItem
   private final IOptionSetEdit           params;
   private final IPropertiesSet<IVedItem> propSet;
   private final VedScreen                vedScreen;
+
+  private final CompoundTsActionSetProvider aspOfItem = new CompoundTsActionSetProvider();
 
   private boolean disposed = false;
 
@@ -154,6 +157,16 @@ public abstract class VedAbstractItem
   @Override
   public String factoryId() {
     return initialConfig.factoryId();
+  }
+
+  /**
+   * Subclass may add actions to returned instance of {@link CompoundTsActionSetProvider}.
+   * <p>
+   * {@inheritDoc}
+   */
+  @Override
+  public CompoundTsActionSetProvider actionsProvider() {
+    return aspOfItem;
   }
 
   // ------------------------------------------------------------------------------------

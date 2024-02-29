@@ -2,6 +2,7 @@ package org.toxsoft.core.tsgui.ved.screen.items;
 
 import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
 
+import org.toxsoft.core.tsgui.bricks.actions.asp.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tslib.av.props.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
@@ -48,7 +49,13 @@ public interface IVedItem
    */
   String factoryId();
 
-  // FIXME ITsActionSetProvider actionsProvider();
+  /**
+   * Returns the actions provided by this item.
+   *
+   * @return {@link ITsActionSetProvider} - provider of the actions specific for this item
+   */
+  ITsActionSetProvider actionsProvider();
+
   // FIXME IGenericCommandCapable commander();
 
 }
