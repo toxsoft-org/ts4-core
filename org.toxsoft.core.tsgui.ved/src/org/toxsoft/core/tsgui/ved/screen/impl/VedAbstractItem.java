@@ -155,7 +155,7 @@ public abstract class VedAbstractItem
   }
 
   @Override
-  public String factoryId() {
+  final public String factoryId() {
     return initialConfig.factoryId();
   }
 
@@ -165,7 +165,7 @@ public abstract class VedAbstractItem
    * {@inheritDoc}
    */
   @Override
-  public CompoundTsActionSetProvider actionsProvider() {
+  final public CompoundTsActionSetProvider actionsProvider() {
     return aspOfItem;
   }
 

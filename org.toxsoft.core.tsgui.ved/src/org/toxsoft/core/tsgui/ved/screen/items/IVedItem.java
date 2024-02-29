@@ -56,6 +56,6 @@ public interface IVedItem
    */
   ITsActionSetProvider actionsProvider();
 
-  // FIXME IGenericCommandCapable commander();
+  // FIXME IGenericCommandSetProvider commander();
 
 }
