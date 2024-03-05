@@ -6,6 +6,7 @@ import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.asp.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
+import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
@@ -222,6 +223,80 @@ public class VedScreenUtils {
       VedItemCfg config = VedItemCfg.ofVisel( cfg.id(), cfg.factoryId(), cfg.params(), cfg.propValues() );
       VedItemCfg newCfg = aVedScreen.model().visels().prepareFromTemplate( config );
       result.add( newCfg );
+    }
+    return result;
+  }
+
+  /**
+   * Возвращает визуальный элемент по ИДу или <code>null</code>.
+   *
+   * @param aViselId String - ИД визуального элемента
+   * @param aVedScreen {@link IVedScreen} - экран редактирования
+   * @return VedAbstractVisel - визуальный элемент или <code>null</code> если таковой отсутствует
+   */
+  public static VedAbstractVisel findVisel( String aViselId, IVedScreen aVedScreen ) {
+    return aVedScreen.model().visels().list().findByKey( aViselId );
+  }
+
+  /**
+   * Вычисляет описывающий визель прямоугольник в экранных координатах.<br>
+   * Например, если визель повернут, а экран нет, то описывающий прямоугольник не будет совпадать с
+   * {@link IVedVisel#bounds()}.
+   *
+   * @param aVisel {@link VedAbstractVisel} - визуальный элемент
+   * @param aVedScreen {@link IVedScreen} - экран редактирования
+   * @return {@link ID2Rectangle} - описывающий визель прямоугольник в экранных координатах
+   */
+  public static ID2Rectangle calcViselScreenRect( VedAbstractVisel aVisel, IVedScreen aVedScreen ) {
+    ID2Rectangle vr = aVisel.bounds();
+    IVedCoorsConverter converter = aVedScreen.view().coorsConverter();
+    ID2Point[] points = new ID2Point[4];
+    points[0] = converter.visel2Screen( 0, 0, aVisel );
+    points[1] = converter.visel2Screen( vr.width(), 0, aVisel );
+    points[2] = converter.visel2Screen( vr.width(), vr.height(), aVisel );
+    points[3] = converter.visel2Screen( 0, vr.height(), aVisel );
+
+    double minX = points[0].x();
+    double minY = points[0].y();
+    double maxX = points[0].x();
+    double maxY = points[0].y();
+
+    for( int i = 0; i < 4; i++ ) {
+      if( points[i].x() < minX ) {
+        minX = points[i].x();
+      }
+      if( points[i].y() < minY ) {
+        minY = points[i].y();
+      }
+      if( points[i].x() > maxX ) {
+        maxX = points[i].x();
+      }
+      if( points[i].y() > maxY ) {
+        maxY = points[i].y();
+      }
+    }
+    return new D2Rectangle( minX, minY, maxX - minX, maxY - minY );
+  }
+
+  /**
+   * Вычисляет описывающий группу визелей прямоугольник в экранных координатах.<br>
+   *
+   * @param aViselIds {@link IStringList} - список идентификаторов визуальных элементов
+   * @param aVedScreen {@link IVedScreen} - экран редактирования
+   * @return {@link ID2Rectangle} - описывающий группу визелей прямоугольник в экранных координатах
+   */
+  public static ID2Rectangle calcGroupScreenRect( IStringList aViselIds, IVedScreen aVedScreen ) {
+    ID2Rectangle result = null;
+    IStridablesList<VedAbstractVisel> visels = aVedScreen.model().visels().list();
+    for( String id : aViselIds ) {
+      VedAbstractVisel visel = visels.getByKey( id );
+      ID2Rectangle vr = calcViselScreenRect( visel, aVedScreen );
+      if( result == null ) {
+        result = vr;
+      }
+      else {
+        result = D2GeometryUtils.union( vr, result );
+      }
     }
     return result;
   }
