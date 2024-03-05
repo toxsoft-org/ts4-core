@@ -414,6 +414,7 @@ public class MultiPaneComponent<T>
     }
     toolbar.setActionEnabled( ACTID_ADD, editable && isCreationAllowed );
     toolbar.setActionEnabled( ACTID_EDIT, editable && isEditingAllowed );
+    toolbar.setActionEnabled( ACTID_ADD_COPY, editable && isEditingAllowed );
     toolbar.setActionEnabled( ACTID_REMOVE, editable && isRemovalAllowed );
     toolbar.setActionEnabled( ACTID_REFRESH, itemsProvider() != IM5ItemsProvider.EMPTY );
     toolbar.setActionEnabled( ACTID_VIEW_AS_TREE, tmm.hasTreeMode() );
