@@ -9,6 +9,8 @@ import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -299,6 +301,50 @@ public class VedScreenUtils {
       }
     }
     return result;
+  }
+
+  /**
+   * Генерирует новый ИД для переданной конфигурации элемента.
+   *
+   * @param aItemCfg IVedItemCfg - конфигурация элемента
+   * @param aCfgList IStridablesList&lt;IVedItemCfg> - список существющих конфигураций
+   * @param aFactory IVedItemFactoryBase&lt;VedAbstractItem> - фабрика элемента
+   * @return String - новый ИД элемента
+   */
+  public static String generateIdForItemConfig( IVedItemCfg aItemCfg, IStridablesList<IVedItemCfg> aCfgList,
+      IVedItemFactoryBase<VedAbstractItem> aFactory ) {
+    TsNullArgumentRtException.checkNull( aItemCfg );
+    TsItemNotFoundRtException.checkNull( aFactory );
+    // generate ID
+    String id;
+    int counter = 0;
+    String prefix = StridUtils.getLast( aItemCfg.factoryId() );
+    prefix = prefix.toLowerCase().substring( 0, 1 ) + prefix.substring( 1 ); // convert first char to lower case
+    String name;
+    do {
+      id = prefix + Integer.toString( ++counter ); // "prefixNN"
+      name = aFactory.nmName() + ' ' + Integer.toString( counter ); // "Factory name NN"
+    } while( aCfgList.hasKey( id ) || hasItemWithName( name, aCfgList ) );
+    return id;
+  }
+
+  /**
+   * Возвращает признак того, существует ли в наборе элемент с указанным именем.
+   *
+   * @param aName String - имя элемента
+   * @param aCfgList IList&lt;IVedItemCfg> - список конфигураций
+   * @return <b>true</b> - элемент с таким именем существует<br>
+   *         <b>false</b> - нет такого элемента
+   */
+  public static boolean hasItemWithName( String aName, IList<IVedItemCfg> aCfgList ) {
+    for( IVedItemCfg item : aCfgList ) {
+      if( item.propValues().hasKey( PROPID_NAME ) ) {
+        if( item.propValues().getStr( PROPID_NAME ).equals( aName ) ) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   /**
