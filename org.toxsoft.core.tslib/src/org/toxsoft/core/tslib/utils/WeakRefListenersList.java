@@ -1,12 +1,11 @@
 package org.toxsoft.core.tslib.utils;
 
-import java.lang.ref.WeakReference;
+import java.lang.ref.*;
 
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.basis.ITsClearable;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * List of listeners wrapped in {@link WeakReference}.
@@ -32,7 +31,7 @@ public final class WeakRefListenersList<L>
   // Implementation
   //
 
-  int getListenerIndexInListenersList( L aListener ) {
+  private int getListenerIndexInListenersList( L aListener ) {
     TsNullArgumentRtException.checkNull( aListener );
     for( int i = 0; i < listeners.size(); i++ ) {
       WeakReference<L> wr = listeners.get( i );
@@ -42,6 +41,20 @@ public final class WeakRefListenersList<L>
       }
     }
     return -1;
+  }
+
+  private void removeDisposedListeners() {
+    int i = 0;
+    while( i < listeners.size() ) {
+      WeakReference<L> wr = listeners.get( i );
+      L l = wr.get();
+      if( l == null ) {
+        listeners.removeByIndex( i );
+      }
+      else {
+        ++i;
+      }
+    }
   }
 
   // ------------------------------------------------------------------------------------
@@ -76,7 +89,7 @@ public final class WeakRefListenersList<L>
   /**
    * Returns the listeners list.
    * <p>
-   * Be the removes references to disposed listeners from the internal waek references list.
+   * By the way removes references to disposed listeners from the internal weak references list.
    *
    * @return {@link IList}&lt;L&gt; - the listeners list
    */
@@ -84,15 +97,13 @@ public final class WeakRefListenersList<L>
     if( listeners.isEmpty() ) {
       return IList.EMPTY;
     }
+    removeDisposedListeners();
     IListEdit<L> ll = new ElemArrayList<>();
-    for( int i = 0; i < listeners.size(); i++ ) {
+    for( int i = 0, n = listeners.size(); i < n; i++ ) {
       WeakReference<L> wr = listeners.get( i );
       L l = wr.get();
       if( l != null ) {
         ll.add( l );
-      }
-      else {
-        listeners.removeByIndex( i );
       }
     }
     return ll;
