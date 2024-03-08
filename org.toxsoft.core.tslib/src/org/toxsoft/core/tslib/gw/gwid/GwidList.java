@@ -27,7 +27,7 @@ public class GwidList
   public static final String KEEPER_ID = "GwidList"; //$NON-NLS-1$
 
   /**
-   * The keeper singleton (indenting keeeper).
+   * The keeper singleton (indenting keeper).
    */
   public static final IEntityKeeper<IGwidList> KEEPER_INDENTED =
       new AbstractEntityKeeper<>( IGwidList.class, EEncloseMode.ENCLOSES_KEEPER_IMPLEMENTATION, IGwidList.EMPTY ) {
@@ -46,7 +46,7 @@ public class GwidList
       };
 
   /**
-   * The keeper singleton (non-indenting keeeper).
+   * The keeper singleton (non-indenting keeper).
    */
   public static final IEntityKeeper<IGwidList> KEEPER =
       new AbstractEntityKeeper<>( IGwidList.class, EEncloseMode.ENCLOSES_KEEPER_IMPLEMENTATION, IGwidList.EMPTY ) {
@@ -123,12 +123,12 @@ public class GwidList
   }
 
   /**
-   * Создает список с прямым запоминанием ссылки на список.
+   * Creates the instance directly storing reference to the list.
    *
-   * @param aList {@link IListEdit} - используемыфй список
-   * @return {@link GwidList} - созданный список
-   * @throws TsNullArgumentRtException любой аргумент = null
-   * @throws TsIllegalArgumentRtException аргмуент не реализует {@link ITsFastIndexListTag}
+   * @param aList {@link IListEdit} - the implementing list
+   * @return {@link GwidList} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException argument does not implements {@link ITsFastIndexListTag}
    */
   public static GwidList createDirect( IListEdit<Gwid> aList ) {
     TsNullArgumentRtException.checkNull( aList );
