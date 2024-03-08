@@ -10,7 +10,6 @@ import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
-import org.toxsoft.core.tslib.gw.ugwi.Ugwi.*;
 import org.toxsoft.core.tslib.gw.ugwi.kind.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -46,25 +45,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public sealed class Ugwi
-    implements Serializable, Comparable<Ugwi>permits InternalNoneUgwi {
-
-  static final class InternalNoneUgwi
-      extends Ugwi {
-
-    private static final long serialVersionUID = -5989512487750645909L;
-
-    /**
-     * Method correctly deserializes {@link Ugwi#NONE} value.
-     *
-     * @return {@link ObjectStreamException} - {@link Ugwi#NONE}
-     * @throws ObjectStreamException is declared but newer thrown by this method
-     */
-    @SuppressWarnings( "static-method" )
-    private Object readResolve()
-        throws ObjectStreamException {
-      return Ugwi.NONE;
-    }
-  }
+    implements Serializable, Comparable<Ugwi>
+    permits InternalNoneUgwi {
 
   /**
    * The only instance of {@link Ugwi} of kind {@link UgwiKindNone#KIND_ID} exists as this singleton.
@@ -117,7 +99,7 @@ public sealed class Ugwi
   /**
    * Constructor for {@link #NONE} instance.
    */
-  private Ugwi() {
+  protected Ugwi() {
     kindId = UgwiKindNone.KIND_ID;
     namespace = EMPTY_STRING;
     essence = EMPTY_STRING;
@@ -406,4 +388,27 @@ public sealed class Ugwi
     return canonicalString.compareTo( aThat.canonicalString );
   }
 
+}
+
+/**
+ * {@link Ugwi#NONE} implementation class.
+ *
+ * @author hazard157
+ */
+final class InternalNoneUgwi
+    extends Ugwi {
+
+  private static final long serialVersionUID = -5989512487750645909L;
+
+  /**
+   * Method correctly deserializes {@link Ugwi#NONE} value.
+   *
+   * @return {@link ObjectStreamException} - {@link Ugwi#NONE}
+   * @throws ObjectStreamException is declared but newer thrown by this method
+   */
+  @SuppressWarnings( "static-method" )
+  private Object readResolve()
+      throws ObjectStreamException {
+    return Ugwi.NONE;
+  }
 }
