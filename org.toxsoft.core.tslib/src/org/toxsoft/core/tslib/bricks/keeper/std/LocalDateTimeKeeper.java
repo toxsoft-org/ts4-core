@@ -6,7 +6,6 @@ import java.time.*;
 
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
-import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
  * Хранитель объектов типа {@link LocalDateTime}.
@@ -25,12 +24,12 @@ public class LocalDateTimeKeeper
     extends AbstractEntityKeeper<LocalDateTime> {
 
   /**
-   * Идентификатор регистрации хранителя {@link #KEEPER} в реестре {@link TsValobjUtils}.
+   * The registered keeper ID.
    */
   public static final String KEEPER_ID = "DateTime"; //$NON-NLS-1$
 
   /**
-   * Синглтон хранителя.
+   * The keeper singleton.
    */
   public static final IEntityKeeper<LocalDateTime> KEEPER = new LocalDateTimeKeeper();
 

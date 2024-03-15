@@ -2,13 +2,10 @@ package org.toxsoft.core.tslib.bricks.keeper.std;
 
 import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 
-import java.time.LocalDate;
+import java.time.*;
 
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.strio.IStrioReader;
-import org.toxsoft.core.tslib.bricks.strio.IStrioWriter;
-import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
 
 /**
  * Хранитель объектов типа {@link LocalDate}.
@@ -21,12 +18,12 @@ public class LocalDateKeeper
     extends AbstractEntityKeeper<LocalDate> {
 
   /**
-   * Идентификатор регистрации хранителя {@link #KEEPER} в реестре {@link TsValobjUtils}.
+   * The registered keeper ID.
    */
   public static final String KEEPER_ID = "Date"; //$NON-NLS-1$
 
   /**
-   * Синглтон хранителя.
+   * The keeper singleton.
    */
   public static final IEntityKeeper<LocalDate> KEEPER = new LocalDateKeeper();
 

@@ -5,7 +5,6 @@ import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
  * {@link Integer} keeper.
@@ -16,12 +15,12 @@ public class IntegerKeeper
     extends AbstractEntityKeeper<Integer> {
 
   /**
-   * Value-object registration identifier for {@link TsValobjUtils}.
+   * The registered keeper ID.
    */
   public static final String KEEPER_ID = "Integer"; //$NON-NLS-1$
 
   /**
-   * Keeper singleton.
+   * The keeper singleton.
    */
   public static IntegerKeeper KEEPER = new IntegerKeeper();
 

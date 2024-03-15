@@ -1,11 +1,9 @@
 package org.toxsoft.core.tslib.bricks.keeper.std;
 
-import java.time.LocalTime;
+import java.time.*;
 
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
+import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
-import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
 
 /**
  * Хранитель объектов типа {@link LocalTime}.
@@ -21,12 +19,12 @@ public class LocalTimeKeeper
     extends AbstractEntityKeeper<LocalTime> {
 
   /**
-   * Идентификатор регистрации хранителя {@link #KEEPER} в реестре {@link TsValobjUtils}.
+   * The registered keeper ID.
    */
   public static final String KEEPER_ID = "LocalTime"; //$NON-NLS-1$
 
   /**
-   * Синглтон хранителя.
+   * The keeper singleton.
    */
   public static final IEntityKeeper<LocalTime> KEEPER = new LocalTimeKeeper();
 

@@ -1,13 +1,10 @@
 package org.toxsoft.core.tslib.bricks.keeper.std;
 
-import java.io.File;
+import java.io.*;
 
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.strio.IStrioReader;
-import org.toxsoft.core.tslib.bricks.strio.IStrioWriter;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.utils.*;
 
 /**
  * {@link File} keeper.
@@ -23,12 +20,12 @@ public class FileKeeper
   public static final File NULL = new File( TsLibUtils.EMPTY_STRING );
 
   /**
-   * Value-object registration identifier for {@link TsValobjUtils}.
+   * The registered keeper ID.
    */
   public static final String KEEPER_ID = "File"; //$NON-NLS-1$
 
   /**
-   * Keeper singleton.
+   * The keeper singleton.
    */
   public static final IEntityKeeper<File> KEEPER = new FileKeeper();
 

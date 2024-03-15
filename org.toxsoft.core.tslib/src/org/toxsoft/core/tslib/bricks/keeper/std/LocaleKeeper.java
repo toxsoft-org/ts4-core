@@ -1,12 +1,9 @@
 package org.toxsoft.core.tslib.bricks.keeper.std;
 
-import java.util.Locale;
+import java.util.*;
 
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.strio.IStrioReader;
-import org.toxsoft.core.tslib.bricks.strio.IStrioWriter;
-import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
 
 /**
  * Хранитель объектов типа {@link Locale}.
@@ -20,12 +17,12 @@ public class LocaleKeeper
     extends AbstractEntityKeeper<Locale> {
 
   /**
-   * Идентификатор регистрации хранителя {@link #KEEPER} в реестре {@link TsValobjUtils}.
+   * The registered keeper ID.
    */
   public static final String KEEPER_ID = "Locale"; //$NON-NLS-1$
 
   /**
-   * Синглтон хранителя.
+   * The keeper singleton.
    */
   public static final IEntityKeeper<Locale> KEEPER = new LocaleKeeper();
 

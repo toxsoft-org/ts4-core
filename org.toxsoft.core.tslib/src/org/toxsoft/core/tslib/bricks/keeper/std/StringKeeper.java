@@ -5,7 +5,6 @@ import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
  * {@link String} keeper.
@@ -16,7 +15,7 @@ public class StringKeeper
     extends AbstractEntityKeeper<String> {
 
   /**
-   * Value-object registration identifier for {@link TsValobjUtils}.
+   * The registered keeper ID.
    */
   public static final String KEEPER_ID = "String"; //$NON-NLS-1$
 
