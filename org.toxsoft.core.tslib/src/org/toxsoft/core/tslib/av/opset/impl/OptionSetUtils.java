@@ -1,6 +1,7 @@
 package org.toxsoft.core.tslib.av.opset.impl;
 
 import static org.toxsoft.core.tslib.av.opset.impl.ITsResources.*;
+import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.errors.*;
@@ -10,6 +11,9 @@ import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.bricks.strio.chario.impl.*;
+import org.toxsoft.core.tslib.bricks.strio.impl.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.coll.*;
@@ -197,9 +201,119 @@ public class OptionSetUtils {
     return aOpValues;
   }
 
+  /**
+   * Formats output string with the arguments from an option set.
+   * <p>
+   * Method requires a <i>format string</i> <code>aFmtStr</code> and a <i>named argument values</i> <code>aArgs</code>.
+   * The format string is a {@link String} which may contain <i>fixed text</i> and one or more embedded <i>format
+   * specifiers</i>.
+   * <p>
+   * The format specified has a general full form <code><b>{argument.id,avFmtStr}</b></code> or reduced form
+   * <code><b>{argument.id}</b></code> where curly braces <code><b>'{' '}'</b></code> and comma
+   * <code><b>','</b></code>are a literal characters. <code><b>argument.id</b></code> is an IDpath used as option
+   * identifier in <code>aArgs</code>. <code><b>avFmtStr</b></code> is a single atomic value format string without
+   * starting percent '%' character. Single atomic value formatting is performed by the method
+   * {@link AvUtils#printAv(String, IAtomicValue)}.
+   * <p>
+   * To use curly bracket characters '{' or '}' as a fixed text, bracket character should be preceded with escape
+   * character '\' (reverse slash, reverse solidus).
+   * <p>
+   * Examples:<br>
+   * "<code>Count = <b>{cnt}</b></code>" formats as "<code>Count = 157</code>".
+   * <p>
+   * "<code>Voltage: raw= <b>{voltage}</b>, pretty= <b>{voltage,0.2f}</b></code>" formats as
+   * "<code>Voltage: raw= 234.76294712, pretty= 234.76</code>".
+   * <p>
+   * "<code>The person is \{ '<b>{firstName}</b>', '<b>{lastName)</b>' \}</code>" formats as
+   * "<code>The person is { 'John', 'Smith' }</code>".
+   * <p>
+   * Optionally, if <code>aDefs</code> contains definition for the option specified in the <i>reduced form</i>, than
+   * {@link IDataDef#formatString()} will be used for value formatting.
+   *
+   * @param aFmtStr String - the format string
+   * @param aArgs {@link IOptionSet} - argument options, may be <code>null</code>
+   * @param aDefs {@link IStridablesList}&lt;{@link IDataDef}&gt; - optional argument options definitions
+   * @return String - formatted string
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException invalid format string
+   * @throws TsItemNotFoundRtException no argument with ID mentioned in <code>aFmtStr</code>
+   * @throws TsIllegalArgumentRtException actual value does not matches expected type
+   */
+  public static String format( String aFmtStr, IOptionSet aArgs, IStridablesList<IDataDef> aDefs ) {
+    TsNullArgumentRtException.checkNulls( aFmtStr, aDefs );
+    IOptionSet args = aArgs != null ? aArgs : IOptionSet.NULL;
+    IStrioReader sr = new StrioReader( new CharInputStreamString( aFmtStr ) );
+    sr.setSkipMode( EStrioSkipMode.SKIP_NONE );
+    StringBuilder sb = new StringBuilder();
+    char ch;
+    while( (ch = sr.nextChar()) != CHAR_EOF ) {
+      // process escaped formatted argument starter char
+      if( ch == CHAR_ESCAPE && sr.peekChar() == CH_FMT_BEGIN ) {
+        ch = sr.nextChar();
+      }
+      else {
+        if( ch == CH_FMT_BEGIN ) {
+          // read argument option ID and get it's value
+          String opId = sr.readIdPath();
+          IAtomicValue av = args.getValue( opId );
+          // expect either formatter end or format string, any other input is an error
+          ch = sr.nextChar();
+          TsIllegalArgumentRtException.checkTrue( ch != CH_FMT_SEPARATOR && ch != CH_FMT_END );
+          String fmtStr = null;
+          // read value format string if specified
+          if( ch == CH_FMT_SEPARATOR ) {
+            StringBuilder sbValFmtStr = new StringBuilder();
+            while( (ch = sr.nextChar()) != CH_FMT_END ) {
+              TsIllegalArgumentRtException.checkTrue( ch == CHAR_EOF );
+              if( ch == CHAR_ESCAPE && sr.peekChar() == CH_FMT_END ) { // use escaped ender as common char
+                ch = sr.nextChar();
+              }
+              sbValFmtStr.append( ch );
+            }
+            String s = sbValFmtStr.toString();
+            if( !s.isBlank() ) {
+              fmtStr = "%" + s; //$NON-NLS-1$
+            }
+          }
+          // if not specified, try to use value format string from option definition
+          else {
+            IDataDef dd = aDefs.findByKey( opId );
+            if( dd != null ) {
+              fmtStr = dd.formatString();
+            }
+          }
+          String formattedValue = AvUtils.printAv( fmtStr, av );
+          sb.append( formattedValue );
+          continue;
+        }
+      }
+      sb.append( ch );
+    }
+    return sb.toString();
+  }
+
+  /**
+   * Formats output string with the arguments from an option set.
+   *
+   * @param aFmtStr String - the format string
+   * @param aArgs {@link IOptionSet} - argument options, may be <code>null</code>
+   * @return String - formatted string
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException invalid format string
+   * @throws TsItemNotFoundRtException no argument with ID mentioned in <code>aFmtStr</code>
+   * @throws TsIllegalArgumentRtException actual value does not matches expected type
+   */
+  public static String format( String aFmtStr, IOptionSet aArgs ) {
+    return format( aFmtStr, aArgs, IStridablesList.EMPTY );
+  }
+
   // ------------------------------------------------------------------------------------
   // internal staff
   //
+
+  private static final char CH_FMT_BEGIN     = '{';
+  private static final char CH_FMT_SEPARATOR = ',';
+  private static final char CH_FMT_END       = '}';
 
   private static final IOptionSetEdit internalCreateAdded( IOptionSetEdit aOps, Object... aIdsAndValues ) {
     TsErrorUtils.checkArrayArg( aIdsAndValues );
