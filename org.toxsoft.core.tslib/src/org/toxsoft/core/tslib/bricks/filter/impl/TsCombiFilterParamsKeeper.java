@@ -1,12 +1,9 @@
 package org.toxsoft.core.tslib.bricks.filter.impl;
 
-import org.toxsoft.core.tslib.bricks.filter.ITsCombiFilterParams;
-import org.toxsoft.core.tslib.bricks.filter.ITsSingleFilterParams;
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.strio.IStrioReader;
-import org.toxsoft.core.tslib.bricks.strio.IStrioWriter;
-import org.toxsoft.core.tslib.math.logicop.ELogicalOp;
+import org.toxsoft.core.tslib.bricks.filter.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.math.logicop.*;
 
 /**
  * Хранитель объектов типа {@link ITsCombiFilterParams}.
@@ -17,7 +14,7 @@ public class TsCombiFilterParamsKeeper
     extends AbstractEntityKeeper<ITsCombiFilterParams> {
 
   /**
-   * Экземпляр-синглтон хранителя.
+   * Keeper singleton.
    */
   public static final IEntityKeeper<ITsCombiFilterParams> KEEPER = new TsCombiFilterParamsKeeper();
 

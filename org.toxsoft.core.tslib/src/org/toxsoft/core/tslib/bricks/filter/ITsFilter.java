@@ -34,9 +34,9 @@ public interface ITsFilter<T> {
    * Concrete implementations must declare if <code>null</code> argument throws {@link TsNullArgumentRtException}.
    *
    * @param aObj &lt;T&gt; - object to be accepted or declined
-   * @return boolean - accpetance check state<br>
-   *         <b>true</b> - object is accepted by the filter;<br>
-   *         <b>false</b> - object does not passes filter, it is declined.
+   * @return boolean - acceptance check state<br>
+   *         <b>true</b> - input is accepted by the filter;<br>
+   *         <b>false</b> - input does not passes filter, it is declined.
    * @throws TsNullArgumentRtException may be thrown by concrete implementation
    */
   boolean accept( T aObj );

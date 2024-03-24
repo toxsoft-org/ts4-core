@@ -1,8 +1,8 @@
 package org.toxsoft.core.tslib.bricks.strio.chario;
 
-import java.io.IOException;
+import java.io.*;
 
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Charachter reader (input) stream.
@@ -21,7 +21,7 @@ public interface ICharInputStream {
     /**
      * Returns human readable name of input stream.
      * <p>
-     * For file inputs it may bew absolute file path, for network data - URL of source.
+     * For file inputs it may be absolute file path, for network data - URL of source.
      *
      * @return String - human readable name of input stream
      */

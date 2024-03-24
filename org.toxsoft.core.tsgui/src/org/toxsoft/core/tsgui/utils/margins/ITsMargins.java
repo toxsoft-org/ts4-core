@@ -11,7 +11,8 @@ import org.toxsoft.core.tslib.math.*;
  *
  * @author hazard157
  */
-public sealed interface ITsMargins permits ITsGridMargins,TsMargins {
+public sealed interface ITsMargins
+    permits ITsGridMargins, TsMargins {
 
   /**
    * The allowed range of any parameter value.
@@ -49,7 +50,7 @@ public sealed interface ITsMargins permits ITsGridMargins,TsMargins {
   int bottom();
 
   // ------------------------------------------------------------------------------------
-  // convinience inline methods
+  // Convenience inline methods
   //
 
   @SuppressWarnings( "javadoc" )

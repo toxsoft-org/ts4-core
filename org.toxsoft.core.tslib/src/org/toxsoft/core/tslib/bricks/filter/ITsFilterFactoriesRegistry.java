@@ -1,6 +1,6 @@
 package org.toxsoft.core.tslib.bricks.filter;
 
-import org.toxsoft.core.tslib.bricks.strid.more.IStridablesRegisrty;
+import org.toxsoft.core.tslib.bricks.strid.more.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -29,6 +29,7 @@ public interface ITsFilterFactoriesRegistry<T>
    * @throws TsItemAlreadyExistsRtException factory with the same identifier is already registered
    * @throws TsIllegalArgumentRtException factory and registry object classes are not compatibe
    */
+  @Override
   void register( ITsSingleFilterFactory<T> aFactory );
 
   /**

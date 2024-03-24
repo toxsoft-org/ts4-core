@@ -61,7 +61,7 @@ public final class GenericCommandSetProvider
       return vr;
     }
     IGenericCommandExecutor cmdExec = executorsMap.getByKey( aCommand.cmdId() );
-    return cmdExec.canExecCommand( aCommand.args() );
+    return cmdExec.canExecCommand( aCommand );
   }
 
   // ------------------------------------------------------------------------------------

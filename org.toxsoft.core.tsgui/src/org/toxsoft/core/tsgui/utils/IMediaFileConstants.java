@@ -199,6 +199,16 @@ public interface IMediaFileConstants {
     return IMAGE_FILE_EXT_LIST.hasElem( ext );
   }
 
+  static boolean hasStillImageExtension( String aFileName ) {
+    String ext = TsFileUtils.extractExtension( aFileName ).toLowerCase();
+    return stillImageFileExtList().hasElem( ext );
+  }
+
+  static boolean hasAnimatedImageExtension( String aFileName ) {
+    String ext = TsFileUtils.extractExtension( aFileName ).toLowerCase();
+    return animatedImageFileExtList().hasElem( ext );
+  }
+
   /**
    * Определяет, является ли расширение имени файла расширением анимированного формата.
    *

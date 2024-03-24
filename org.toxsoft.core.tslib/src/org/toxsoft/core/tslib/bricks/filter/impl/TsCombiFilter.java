@@ -57,7 +57,7 @@ public class TsCombiFilter<T>
    * @param aParams {@link ITsCombiFilterParams} - параметры создаваемого фильтра
    * @param aFacReg ITsFilterFactoriesRegistry&lt;T&gt; - реестр фабрик единичных фильтров
    * @return {@link ITsFilter}&lt;T&gt; - созданный фильтр
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsItemNotFoundRtException фабрика единичного фильтра не зарегистрирована
    */
   public static <T> ITsFilter<T> create( ITsCombiFilterParams aParams, ITsFilterFactoriesRegistry<T> aFacReg ) {
@@ -70,7 +70,7 @@ public class TsCombiFilter<T>
    * @param aParams {@link ITsCombiFilterParams} - parameters of filter creation
    * @param aFacReg ITsFilterFactoriesRegistry&lt;T&gt; - the factory used for each single filter creation
    * @param aCompleteEvaluation boolean - the complete evaluation flag
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   private TsCombiFilter( ITsCombiFilterParams aParams, ITsFilterFactoriesRegistry<T> aFacReg,
       boolean aCompleteEvaluation ) {
@@ -123,12 +123,13 @@ public class TsCombiFilter<T>
         throw new TsNotAllEnumsUsedRtException();
     }
     boolean bRight = right.accept( aElement );
-    boolean b = switch( params.op() ) {
-      case AND -> bLeft && bRight;
-      case OR -> bLeft || bRight;
-      case XOR -> bLeft ^ bRight;
-      default -> throw new TsNotAllEnumsUsedRtException();
-    };
+    boolean b = params.op().op( bLeft, bRight );
+    // boolean b = switch( params.op() ) {
+    // case AND -> bLeft && bRight;
+    // case OR -> bLeft || bRight;
+    // case XOR -> bLeft ^ bRight;
+    // default -> throw new TsNotAllEnumsUsedRtException();
+    // };
     if( params.isInverted() ) {
       return !b;
     }

@@ -48,11 +48,11 @@ public interface IGenericCommandExecutor {
    * <p>
    * Implementation of this method is optional.
    *
-   * @param aArgs {@link IOptionSet} - the command arguments
+   * @param aCommand {@link GenericCommand} - the command
    * @return {@link ValidationResult} - the check result
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  default ValidationResult canExecCommand( IOptionSet aArgs ) {
+  default ValidationResult canExecCommand( GenericCommand aCommand ) {
     return ValidationResult.SUCCESS;
   }
 

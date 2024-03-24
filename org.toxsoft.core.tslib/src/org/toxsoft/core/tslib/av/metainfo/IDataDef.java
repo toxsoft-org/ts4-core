@@ -89,7 +89,7 @@ public interface IDataDef
    * BY default atomic values are compared with {@link AvUtils#DEFAULT_AV_COMPARATOR}. However for some cases, mostly
    * for {@link EAtomicType#VALOBJ} types it is meaningful to compare contained values.
    *
-   * @return {@link Comparator}&lr;{@link IAtomicValue}&gt; - the comparator never is <code>null</code>
+   * @return {@link Comparator}&lt;{@link IAtomicValue}&gt; - the comparator, never is <code>null</code>
    */
   Comparator<IAtomicValue> comparator();
 

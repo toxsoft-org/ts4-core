@@ -2,14 +2,13 @@ package org.toxsoft.core.tslib.math.logicop;
 
 import static org.toxsoft.core.tslib.math.logicop.ITsResources.*;
 
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.std.StridableEnumKeeper;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.StridablesList;
-import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.std.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
  * Binary logical operations (between two logical arguments).
@@ -22,7 +21,7 @@ public enum ELogicalOp
   /**
    * Logical AND.
    */
-  AND( "AND", STR_N_OP_AND, STR_D_OP_AND ) { //$NON-NLS-1$
+  AND( "AND", STR_N_OP_AND, STR_D_OP_AND, '&' ) { //$NON-NLS-1$
 
     @Override
     public boolean op( boolean aLeft, boolean aRight ) {
@@ -33,7 +32,7 @@ public enum ELogicalOp
   /**
    * Logical OR.
    */
-  OR( "OR", STR_N_OP_OR, STR_D_OP_OR ) { //$NON-NLS-1$
+  OR( "OR", STR_N_OP_OR, STR_D_OP_OR, '|' ) { //$NON-NLS-1$
 
     @Override
     public boolean op( boolean aLeft, boolean aRight ) {
@@ -44,7 +43,7 @@ public enum ELogicalOp
   /**
    * Logical XOR.
    */
-  XOR( "XOR", STR_N_OP_XOR, STR_D_OP_XOR ) { //$NON-NLS-1$
+  XOR( "XOR", STR_N_OP_XOR, STR_D_OP_XOR, '^' ) { //$NON-NLS-1$
 
     @Override
     public boolean op( boolean aLeft, boolean aRight ) {
@@ -67,18 +66,13 @@ public enum ELogicalOp
   private final String id;
   private final String nmName;
   private final String description;
+  private final char   opChar;
 
-  /**
-   * Constructor.
-   *
-   * @param aId String - identifier (IDPath)
-   * @param aName String - short, human-readable name
-   * @param aDescr String - description
-   */
-  ELogicalOp( String aId, String aName, String aDescr ) {
+  ELogicalOp( String aId, String aName, String aDescr, char aOpChar ) {
     id = aId;
     nmName = aName;
     description = aDescr;
+    opChar = aOpChar;
   }
 
   // --------------------------------------------------------------------------
@@ -105,13 +99,37 @@ public enum ELogicalOp
   //
 
   /**
-   * Calculates the logical operation result.
+   * Calculates the operation result.
    *
    * @param aLeft boolean - left (first) operand
    * @param aRight boolean - right (second) operand
-   * @return boolean - opeartion result
+   * @return boolean - operation result
    */
   public abstract boolean op( boolean aLeft, boolean aRight );
+
+  /**
+   * Returns the character representation of the operation.
+   *
+   * @return char - the character representation
+   */
+  public char opChar() {
+    return opChar;
+  }
+
+  /**
+   * Determines if argument is an operation char.
+   *
+   * @param aChar char - the symbol to check
+   * @return {@link ELogicalOp} - the operation or <code>null</code>
+   */
+  public static ELogicalOp findByChar( char aChar ) {
+    for( ELogicalOp op : asStridablesList() ) {
+      if( op.opChar() == aChar ) {
+        return op;
+      }
+    }
+    return null;
+  }
 
   // ------------------------------------------------------------------------------------
   // static API
@@ -127,6 +145,15 @@ public enum ELogicalOp
       list = new StridablesList<>( values() );
     }
     return list;
+  }
+
+  /**
+   * Returns all constants as ordered {@link IStridablesList}.
+   *
+   * @return {@link IStridablesList}&lt; {@link ELogicalOp} &gt; - list of all constants in order of declaration
+   */
+  public static IStridablesList<ELogicalOp> asList() {
+    return asStridablesList();
   }
 
   // ------------------------------------------------------------------------------------
