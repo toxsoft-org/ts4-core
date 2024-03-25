@@ -57,6 +57,16 @@ public interface IStrioReader
   //
 
   /**
+   * Returns the current position of the character to be read.
+   * <p>
+   * The count starts from the moment of creation of this instance considering in put stream as a array of
+   * <code>char</code>s. Putting symbols back changes this counter.
+   *
+   * @return int - index of the of the character to be read (starts at 0)
+   */
+  int currentPosition();
+
+  /**
    * Marks last read character to be read once again.
    * <p>
    * Subsequent calls to this method shifts reading back to the already read characters. Maximum number of subsequent

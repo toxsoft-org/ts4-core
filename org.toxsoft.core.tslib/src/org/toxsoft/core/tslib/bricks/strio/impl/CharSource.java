@@ -2,12 +2,11 @@ package org.toxsoft.core.tslib.bricks.strio.impl;
 
 import static org.toxsoft.core.tslib.bricks.strio.impl.ITsResources.*;
 
-import java.io.IOException;
+import java.io.*;
 
-import org.toxsoft.core.tslib.bricks.strio.StrioRtException;
-import org.toxsoft.core.tslib.bricks.strio.chario.ICharInputStream;
-import org.toxsoft.core.tslib.utils.errors.TsIoRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.bricks.strio.chario.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link ICharInputStream} wrapper with ability to "return back" read characters.
@@ -136,12 +135,13 @@ class CharSource {
   }
 
   /**
-   * Возвращает текущую позицию символа, который будет считан.
+   * Returns the current position of the character to be read.
    * <p>
-   * Отсчет ведется с момента создания этого объекта. Смена входного потока методом
-   * {@link #setInputStream(ICharInputStream)} не меняет значение счетчика.
+   * The count starts from the moment of creation of this instance considering in put stream as a array of
+   * <code>char</code>s. Changing the input stream using the method {@link #setInputStream(ICharInputStream)} does not
+   * change the counter value. Putting sumbols back changes this counter.
    *
-   * @return int - текущее положение символа в потоке (начинается с 0)
+   * @return int - index of the of the character to be read (starts at 0)
    */
   int currentPosition() {
     return currPos;

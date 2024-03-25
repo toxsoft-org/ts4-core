@@ -186,6 +186,11 @@ public class StrioReader
   // Basic reading
 
   @Override
+  public int currentPosition() {
+    return charSource.currentPosition();
+  }
+
+  @Override
   public void putCharBack() {
     charSource.putCharBack();
   }

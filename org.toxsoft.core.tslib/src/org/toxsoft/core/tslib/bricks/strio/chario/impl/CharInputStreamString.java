@@ -1,10 +1,9 @@
 package org.toxsoft.core.tslib.bricks.strio.chario.impl;
 
-import java.io.IOException;
+import java.io.*;
 
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Character input stream from java {@link String}.
@@ -81,6 +80,15 @@ public class CharInputStreamString
   // ------------------------------------------------------------------------------------
   // Additional API
   //
+
+  /**
+   * Returns the source string.
+   *
+   * @return String - the source string
+   */
+  public String getSource() {
+    return sourceString;
+  }
 
   /**
    * Changes the input string.

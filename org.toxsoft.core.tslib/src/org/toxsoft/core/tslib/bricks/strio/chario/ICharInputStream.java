@@ -2,10 +2,11 @@ package org.toxsoft.core.tslib.bricks.strio.chario;
 
 import java.io.*;
 
+import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Charachter reader (input) stream.
+ * Character reader (input) stream.
  *
  * @author hazard157
  */
@@ -13,6 +14,9 @@ public interface ICharInputStream {
 
   /**
    * Position in stream.
+   * <p>
+   * <b>Warning:</b> position in this stream is not the same as {@link IStrioReader#currentPosition()}. STRIO reader
+   * takes into account putting symbols back and also has ablity to change input stream on the fly.
    *
    * @author hazard157
    */
@@ -50,7 +54,7 @@ public interface ICharInputStream {
   /**
    * Returns current position in stream.
    *
-   * @return {@link IPosition} - current position ins stream
+   * @return {@link IPosition} - current position in stream
    */
   IPosition currentPosition();
 
