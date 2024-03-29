@@ -10,32 +10,22 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public class TkSingleChar
-    extends AbstractLexanToken {
+    extends LexanToken {
 
-  private final char   ch;
-  private final String str;
+  private final char ch;
 
   /**
    * Constructor.
    *
    * @param aKindId String - the token kind ID
    * @param aChar char - the symbol
+   * @param aStartIndex int - token starting index in the formula string
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException argument is not an IDpath
    */
-  public TkSingleChar( String aKindId, char aChar ) {
-    super( aKindId );
+  public TkSingleChar( String aKindId, char aChar, int aStartIndex ) {
+    super( aKindId, EMPTY_STRING + aChar, aStartIndex );
     ch = aChar;
-    str = EMPTY_STRING + ch;
-  }
-
-  // ------------------------------------------------------------------------------------
-  // AbstractLexanToken
-  //
-
-  @Override
-  public String str() {
-    return str;
   }
 
   // ------------------------------------------------------------------------------------

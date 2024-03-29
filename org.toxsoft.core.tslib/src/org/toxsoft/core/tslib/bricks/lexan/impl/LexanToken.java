@@ -9,22 +9,29 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public abstract class AbstractLexanToken
+public class LexanToken
     implements ILexanToken {
 
   private final String kindId;
-
-  private FormulaSubstring formulaSubstring = null;
+  private final String str;
+  private final int    startIndex;
 
   /**
    * Constructor.
    *
    * @param aKindId String - the token kind ID
+   * @param aStr String - token as a {@link String}
+   * @param aStartIndex int - token starting index in the formula string
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException argument is not an IDpath
+   * @throws TsIllegalArgumentRtException index is negative
    */
-  public AbstractLexanToken( String aKindId ) {
+  public LexanToken( String aKindId, String aStr, int aStartIndex ) {
     kindId = StridUtils.checkValidIdPath( aKindId );
+    TsNullArgumentRtException.checkNull( aStr );
+    TsIllegalArgumentRtException.checkTrue( aStartIndex < 0 );
+    str = aStr;
+    startIndex = aStartIndex;
   }
 
   // ------------------------------------------------------------------------------------
@@ -37,7 +44,9 @@ public abstract class AbstractLexanToken
   }
 
   @Override
-  public abstract String str();
+  public String str() {
+    return str;
+  }
 
   @Override
   public char ch() {
@@ -55,16 +64,8 @@ public abstract class AbstractLexanToken
   }
 
   @Override
-  public FormulaSubstring formulaSubstring() {
-    return formulaSubstring;
-  }
-
-  // ------------------------------------------------------------------------------------
-  // package API
-  //
-
-  void setFormulaSubstring( FormulaSubstring aSubstring ) {
-    formulaSubstring = aSubstring;
+  public int startIndex() {
+    return startIndex;
   }
 
   // ------------------------------------------------------------------------------------

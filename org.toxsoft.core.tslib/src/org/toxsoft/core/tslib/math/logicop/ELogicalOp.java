@@ -1,5 +1,6 @@
 package org.toxsoft.core.tslib.math.logicop;
 
+import static org.toxsoft.core.tslib.math.logicop.ILogicalOpConstants.*;
 import static org.toxsoft.core.tslib.math.logicop.ITsResources.*;
 
 import org.toxsoft.core.tslib.bricks.keeper.*;
@@ -12,6 +13,10 @@ import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
  * Binary logical operations (between two logical arguments).
+ * <p>
+ * The ID {@link #id()} is one of the {@link ILogicalOpConstants}<code>.KW_LOGICAL_XXX</code> constant. The single
+ * <code>char</code> representation {@link #opChar()} is one of the
+ * {@link ILogicalOpConstants}<code>.CH_LOGICAL_XXX</code> constant.
  *
  * @author hazard157
  */
@@ -21,29 +26,31 @@ public enum ELogicalOp
   /**
    * Logical AND.
    */
-  AND( "AND", STR_N_OP_AND, STR_D_OP_AND, '&' ) { //$NON-NLS-1$
+  AND( KW_LOGICAL_AND, STR_N_OP_AND, STR_D_OP_AND, CH_LOGICAL_AND ) {
 
     @Override
     public boolean op( boolean aLeft, boolean aRight ) {
       return aLeft && aRight;
     }
+
   },
 
   /**
    * Logical OR.
    */
-  OR( "OR", STR_N_OP_OR, STR_D_OP_OR, '|' ) { //$NON-NLS-1$
+  OR( KW_LOGICAL_OR, STR_N_OP_OR, STR_D_OP_OR, CH_LOGICAL_OR ) {
 
     @Override
     public boolean op( boolean aLeft, boolean aRight ) {
       return aLeft || aRight;
     }
+
   },
 
   /**
    * Logical XOR.
    */
-  XOR( "XOR", STR_N_OP_XOR, STR_D_OP_XOR, '^' ) { //$NON-NLS-1$
+  XOR( KW_LOGICAL_XOR, STR_N_OP_XOR, STR_D_OP_XOR, CH_LOGICAL_XOR ) {
 
     @Override
     public boolean op( boolean aLeft, boolean aRight ) {
@@ -117,7 +124,7 @@ public enum ELogicalOp
   }
 
   /**
-   * Determines if argument is an operation char.
+   * Finds the operation by symbol {@link ELogicalOp#opChar}.
    *
    * @param aChar char - the symbol to check
    * @return {@link ELogicalOp} - the operation or <code>null</code>
@@ -129,6 +136,16 @@ public enum ELogicalOp
       }
     }
     return null;
+  }
+
+  /**
+   * Returns the operation by symbol {@link ELogicalOp#opChar}.
+   *
+   * @param aChar char - the symbol to check
+   * @return {@link ELogicalOp} - the operation or <code>null</code>
+   */
+  public static ELogicalOp getByChar( char aChar ) {
+    return TsItemNotFoundRtException.checkNull( findByChar( aChar ) );
   }
 
   // ------------------------------------------------------------------------------------

@@ -3,6 +3,7 @@ package org.toxsoft.core.tslib.bricks.lexan.impl;
 import static org.toxsoft.core.tslib.bricks.lexan.ILexanConstants.*;
 
 import org.toxsoft.core.tslib.bricks.lexan.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Token of kind {@link ILexanConstants#TKID_NUMBER}.
@@ -12,30 +13,26 @@ import org.toxsoft.core.tslib.bricks.lexan.*;
  * @author hazard157
  */
 public final class TkNumber
-    extends AbstractLexanToken {
+    extends LexanToken {
 
   private final double number;
-  private final String str;
 
   /**
    * Constructor.
    *
    * @param aNumber double - the number
+   * @param aStartIndex int - token starting index in the formula string
+   * @throws TsIllegalArgumentRtException argument is not an IDpath
+   * @throws TsIllegalArgumentRtException index is negative
    */
-  public TkNumber( double aNumber ) {
-    super( TKID_NUMBER );
+  public TkNumber( double aNumber, int aStartIndex ) {
+    super( TKID_NUMBER, Double.toString( aNumber ), aStartIndex );
     number = aNumber;
-    str = Double.toString( number );
   }
 
   // ------------------------------------------------------------------------------------
   // ILexerToken
   //
-
-  @Override
-  public String str() {
-    return str;
-  }
 
   @Override
   public double number() {

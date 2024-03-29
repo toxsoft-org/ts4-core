@@ -4,8 +4,6 @@ import static org.toxsoft.core.tslib.bricks.lexan.ILexanConstants.*;
 import static org.toxsoft.core.tslib.bricks.lexan.impl.ITsResources.*;
 import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 
-import java.security.spec.*;
-
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.lexan.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
@@ -14,44 +12,38 @@ import org.toxsoft.core.tslib.bricks.strio.chario.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
-import org.toxsoft.core.tslib.coll.primtypes.*;
-import org.toxsoft.core.tslib.coll.primtypes.impl.*;
-import org.toxsoft.core.tslib.math.logicop.*;
-import org.toxsoft.core.tslib.math.mathops.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Simple formula string lexical analyzer.
+ * The lexical analyzer - splits formula string into individual tokens.
  * <p>
- * The analyzer sequentially goes through the formula string (given in the constructor) and returns the next token using
- * the {@link #nextToken()} method. The analyzer is intended for one-time use. To re-parse a formula, you need to create
- * a new instance of this analyzer.
+ * Once configured and created, the {@link #tokenize(String)} method may be called multiple time.
  *
  * @author hazard157
  */
 public class LexicalAnalyzer {
 
-  private final String                   formulaStr;
-  private final ILexanKeywordSubstituter keywordSubstituter;
-
-  private final IStrioReader sr;
-
-  private final IListEdit<TkSingleChar>   singleCharTokens = new ElemArrayList<>();
-  private final IStringMapEdit<TkKeyword> cachedKeywords   = new StringMap<>();
+  /**
+   * Single characters to be recognized as a token.
+   * <p>
+   * Characters are specified in constructor.
+   */
+  private final String singleChars;
 
   /**
-   * The last token in the formula and at the same time non-<code>null</code> is a sign of completion of the analysis.
+   * Bracket characters to be recognized as a token of kind {@link ILexanConstants}<code>.TKID_BRACKET_XXX</code>.
    * <p>
-   * In formulas without errors, the last token is always of type {@link ILexanConstants#TKID_EOF}. If in the formula
-   * there was an error, the last token is always of type {@link ILexanConstants#TKID_ERROR}.
-   * <p>
-   * Once the value of this field is set to non-<code>null</code>, all subsequent calls to {@link #nextToken()} fail
-   * perform the analysis and return this final token.
+   * Which brackets will be recognized depends on options {@link ILexanConstants}<code>.OPDEF_USE_XXX_BRACKETS</code>.
    */
-  private AbstractLexanToken finalToken = null;
+  private final String bracketChars;
 
-  private boolean isIdPathsAllowed;
-  private boolean isQStringsUsed;
+  private final boolean isQStringsUsed;
+  private boolean       isIdPathsAllowed;
+
+  /**
+   * Formula string reader is initialized and deinitialized in {@link #tokenize(String)}.
+   */
+  private IStrioReader sr = null;
 
   private int numOfRoundBrackets    = 0;
   private int numOfSquareBrackets   = 0;
@@ -61,100 +53,60 @@ public class LexicalAnalyzer {
   /**
    * Constructor.
    *
-   * @param aFormula String - the formula string to by analyzed
-   * @param aOps {@link IOptionSet} - the analysis options as listed in {@link ILexanConstants}
-   * @param aSubstituter {@link InvalidKeySpecException} - keyword substituter
+   * @param aOps {@link IOptionSet} - configuration options from {@link ILexanConstants}<code>.OPDEF_XXX</code>
+   * @param aSingleChars String - symbols recognized as a token of kind {@link ILexanConstants#TKID_SINGLE_CHAR}
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public LexicalAnalyzer( String aFormula, IOptionSet aOps, ILexanKeywordSubstituter aSubstituter ) {
-    TsNullArgumentRtException.checkNulls( aFormula, aOps, aSubstituter );
-    formulaStr = aFormula;
-    keywordSubstituter = aSubstituter;
-    ICharInputStream chIn = new CharInputStreamString( formulaStr );
-    sr = new StrioReader( chIn );
+  public LexicalAnalyzer( IOptionSet aOps, String aSingleChars ) {
+    TsNullArgumentRtException.checkNulls( aOps, aSingleChars );
+    singleChars = aSingleChars;
     isIdPathsAllowed = OPDEF_IS_IDPATHS_ALLOWED.getValue( aOps ).asBool();
     isQStringsUsed = OPDEF_USE_QSTRING.getValue( aOps ).asBool();
-    init( aOps );
+    // initialize #bracketChars
+    StringBuilder sb = new StringBuilder();
+    if( OPDEF_USE_ROUND_BRACKETS.getValue( aOps ).asBool() ) {
+      sb.append( "()" ); //$NON-NLS-1$
+    }
+    if( OPDEF_USE_SQUARE_BRACKETS.getValue( aOps ).asBool() ) {
+      sb.append( "[]" ); //$NON-NLS-1$
+    }
+    if( OPDEF_USE_CURLY_BRACKETS.getValue( aOps ).asBool() ) {
+      sb.append( "{}" ); //$NON-NLS-1$
+    }
+    if( OPDEF_USE_TRIANGLE_BRACKETS.getValue( aOps ).asBool() ) {
+      sb.append( "<>" ); //$NON-NLS-1$
+    }
+    bracketChars = sb.toString();
   }
 
   // ------------------------------------------------------------------------------------
   // implementation
   //
 
-  private void init( IOptionSet aOps ) {
-    if( OPDEF_USE_ROUND_BRACKETS.getValue( aOps ).asBool() ) {
-      singleCharTokens.add( new TkSingleChar( TKID_BRACKET_ROUND_LEFT, '(' ) );
-      singleCharTokens.add( new TkSingleChar( TKID_BRACKET_ROUND_RIGHT, ')' ) );
-    }
-    if( OPDEF_USE_SQUARE_BRACKETS.getValue( aOps ).asBool() ) {
-      singleCharTokens.add( new TkSingleChar( TKID_BRACKET_SQUARE_LEFT, '[' ) );
-      singleCharTokens.add( new TkSingleChar( TKID_BRACKET_SQUARE_RIGHT, ']' ) );
-    }
-    if( OPDEF_USE_CURLY_BRACKETS.getValue( aOps ).asBool() ) {
-      singleCharTokens.add( new TkSingleChar( TKID_BRACKET_CURLY_LEFT, '{' ) );
-      singleCharTokens.add( new TkSingleChar( TKID_BRACKET_CURLY_RIGHT, '}' ) );
-    }
-    if( OPDEF_USE_TRIANGLE_BRACKETS.getValue( aOps ).asBool() ) {
-      singleCharTokens.add( new TkSingleChar( TKID_BRACKET_TRIANGLE_LEFT, '<' ) );
-      singleCharTokens.add( new TkSingleChar( TKID_BRACKET_TRIANGLE_LEFT, '>' ) );
-    }
-    if( OPDEF_USE_COMMA.getValue( aOps ).asBool() ) {
-      singleCharTokens.add( new TkSingleChar( TKID_COMMA, ',' ) );
-    }
-    if( OPDEF_USE_COLON.getValue( aOps ).asBool() ) {
-      singleCharTokens.add( new TkSingleChar( TKID_COLON, ':' ) );
-    }
-    if( OPDEF_USE_SEMICOLON.getValue( aOps ).asBool() ) {
-      singleCharTokens.add( new TkSingleChar( TKID_SEMICOLON, ';' ) );
-    }
-    if( OPDEF_USE_MATH_BINARY_OPS.getValue( aOps ).asBool() ) {
-      for( EMathBinaryOp mop : EMathBinaryOp.asList() ) {
-        TsInternalErrorRtException.checkNoNull( findSingleCharToken( mop.opChar() ) );
-        singleCharTokens.add( new TkSingleChar( TKID_MATH_OP, mop.opChar() ) );
-      }
-    }
-    if( OPDEF_USE_LOGICAL_OP_CHARS.getValue( aOps ).asBool() ) {
-      for( ELogicalOp lop : ELogicalOp.asList() ) {
-        TsInternalErrorRtException.checkNoNull( findSingleCharToken( lop.opChar() ) );
-        singleCharTokens.add( new TkSingleChar( TKID_LOGICAL_OP, lop.opChar() ) );
-      }
-    }
-  }
-
-  private TkSingleChar findSingleCharToken( char aCh ) {
-    for( TkSingleChar t : singleCharTokens ) {
-      if( t.ch() == aCh ) {
-        return t;
-      }
-    }
-    return null;
-  }
-
-  private AbstractLexanToken internalNextToken() {
-    if( finalToken != null ) { // analysis was finished (either EOF or ERROR)
-      return finalToken;
-    }
+  private LexanToken internalNextToken() {
+    int startIndex = sr.currentPosition();
     char ch = sr.nextChar( EStrioSkipMode.SKIP_SPACES );
-    // ---------------------------------------------
-    // check for any single char token
+    // check for EOF
     if( ch == CHAR_EOF ) {
-      finalToken = new TkEof();
-      return finalToken;
+      return new TkEof( startIndex );
     }
-    TkSingleChar tc = findSingleCharToken( ch );
-    if( tc != null ) {
-      return tc;
+    // check for recognized brackets
+    if( bracketChars.indexOf( ch ) >= 0 ) {
+      return new TkSingleChar( getBracketTokenId( ch ), ch, startIndex );
+    }
+    // check for any other single char token
+    if( singleChars.indexOf( ch ) >= 0 ) {
+      return new TkSingleChar( TKID_SINGLE_CHAR, ch, startIndex );
     }
     sr.putCharBack();
     // ---------------------------------------------
     // is this a number?
     if( StrioUtils.isAsciiDigit( ch ) ) {
       try {
-        return new TkNumber( sr.readDouble() );
+        return new TkNumber( sr.readDouble(), startIndex );
       }
       catch( @SuppressWarnings( "unused" ) NumberFormatException ex ) {
-        finalToken = new TkError( currPos(), MSG_ERR_NUMBER_WAS_EXPECTED );
-        return finalToken;
+        return new TkError( MSG_ERR_NUMBER_WAS_EXPECTED, startIndex );
       }
     }
     // ---------------------------------------------
@@ -162,11 +114,10 @@ public class LexicalAnalyzer {
     if( isQStringsUsed ) {
       if( ch == CHAR_QUOTE ) {
         try {
-          return new TkQString( sr.readQuotedString() );
+          return new LexanToken( TKID_QSTRING, sr.readQuotedString(), startIndex );
         }
         catch( @SuppressWarnings( "unused" ) NumberFormatException ex ) {
-          finalToken = new TkError( currPos(), MSG_ERR_QSRTING_WAS_EXPECTED );
-          return finalToken;
+          return new TkError( MSG_ERR_QSRTING_WAS_EXPECTED, startIndex );
         }
       }
     }
@@ -180,43 +131,28 @@ public class LexicalAnalyzer {
       else {
         kwStr = sr.readIdName();
       }
+      return new LexanToken( TKID_KEYWORD, kwStr, startIndex );
     }
     catch( @SuppressWarnings( "unused" ) Exception ex ) {
-      if( isIdPathsAllowed ) {
-        finalToken = new TkError( currPos(), MSG_ERR_IDPATH_WAS_EXPECTED );
-      }
-      else {
-        finalToken = new TkError( currPos(), MSG_ERR_IDNAME_WAS_EXPECTED );
-      }
-      return finalToken;
+      return new TkError( isIdPathsAllowed ? MSG_ERR_IDPATH_WAS_EXPECTED : MSG_ERR_IDNAME_WAS_EXPECTED, startIndex );
     }
-    TkKeyword tk = cachedKeywords.findByKey( kwStr );
-    if( tk == null ) {
-      tk = new TkKeyword( kwStr );
-      cachedKeywords.put( kwStr, tk );
-    }
-    return tk;
   }
 
-  private AbstractLexanToken checkForUnmatchedOpeningBracket( AbstractLexanToken aToken, int aNum, String aErrorMsg ) {
+  private static LexanToken checkForUnmatchedOpeningBracket( LexanToken aToken, int aNum, String aErrorMsg ) {
     if( aNum > 0 ) {
-      finalToken = new TkError( aToken.formulaSubstring().start(), aErrorMsg );
-      finalToken.setFormulaSubstring( aToken.formulaSubstring() );
-      return finalToken;
+      return new TkError( aErrorMsg, aToken.startIndex() );
     }
     return aToken;
   }
 
-  private AbstractLexanToken checkForUnmatchedClosingBracket( AbstractLexanToken aToken, int aNum, String aErrorMsg ) {
+  private static LexanToken checkForUnmatchedClosingBracket( LexanToken aToken, int aNum, String aErrorMsg ) {
     if( aNum < 0 ) {
-      finalToken = new TkError( aToken.formulaSubstring().start(), aErrorMsg );
-      finalToken.setFormulaSubstring( aToken.formulaSubstring() );
-      return finalToken;
+      return new TkError( aErrorMsg, aToken.startIndex() );
     }
     return aToken;
   }
 
-  private AbstractLexanToken checkBracketsIntegrity( AbstractLexanToken aToken ) {
+  private LexanToken checkBracketsIntegrity( LexanToken aToken ) {
     switch( aToken.kindId() ) {
       case TKID_BRACKET_ROUND_LEFT: {
         ++numOfRoundBrackets;
@@ -251,7 +187,7 @@ public class LexicalAnalyzer {
         return checkForUnmatchedClosingBracket( aToken, numOfCurlyBrackets, MSG_ERR_LONE_BRACKET_TRIANGLE_R );
       }
       case TKID_EOF: {
-        AbstractLexanToken t;
+        LexanToken t;
         t = checkForUnmatchedOpeningBracket( aToken, numOfRoundBrackets, MSG_ERR_LONE_BRACKET_ROUND_L );
         if( t != aToken ) {
           return t;
@@ -280,58 +216,33 @@ public class LexicalAnalyzer {
   //
 
   /**
-   * Analyzes the formula and returns the next token.
+   * Splits a formula string into individual tokens.
    * <p>
-   * When a syntax error occurs, it does not throw an exception, but returns the corresponding information in the form
-   * of a {@link ILexanToken} token of the form {@link ILexanConstants#TKID_ERROR}.
-   * <p>
-   * After parsing is completed, or after an error, further calls to the method return the same value - the last token.
+   * Last element of the returned list contains the only terminal token either EOF or ERROR.
    *
-   * @return {@link ILexanToken} - next token or last token when analysis is finished
+   * @param aFormulaString String - the formula string
+   * @return {@link IListEdit}&lt;{@link ILexanToken}&gt; - the tokens making the formula
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public ILexanToken nextToken() {
-    // get next token
-    int prevPos = currPos();
-    AbstractLexanToken tk = internalNextToken();
-    int currPos = currPos();
-    if( tk.kindId().equals( TKID_EOF ) ) { // only EOF goes behind the formula string
-      currPos = prevPos;
-    }
-    String subs = formulaStr.substring( prevPos, currPos );
-    FormulaSubstring fs = new FormulaSubstring( formulaStr, subs, prevPos, currPos );
-    tk.setFormulaSubstring( fs );
-    // substitute keyword if needed
-    if( tk.kindId().equals( TKID_KEYWORD ) ) {
-      tk = keywordSubstituter.substituteKeyword( tk );
-      tk.setFormulaSubstring( fs );
-      if( tk.isTerminal() ) {
-        finalToken = tk;
-        return finalToken;
-      }
-    }
-    // check brackets
-    tk = checkBracketsIntegrity( tk );
-    if( tk.isTerminal() ) {
-      tk.setFormulaSubstring( fs );
-      finalToken = tk;
-      return finalToken;
-    }
-    // anyway, formula substring represents original substring
-    tk.setFormulaSubstring( fs );
-    return tk;
-  }
-
-  /**
-   * Returns the index of the current symbol when parsing a formula.
-   * <p>
-   * Immediately after creating the analyzer, the current position is set to 0. Upon normal completion, the current
-   * position indicates after the last character in the line. If there is a parsing error, the current position points
-   * to the first character, where the analysis stopped.
-   *
-   * @return int - character index in the formula line (starts at 0)
-   */
-  public int currPos() {
-    return sr.currentPosition();
+  public IListEdit<ILexanToken> tokenize( String aFormulaString ) {
+    // initialize reader
+    numOfRoundBrackets = 0;
+    numOfSquareBrackets = 0;
+    numOfCurlyBrackets = 0;
+    numOfTrianlgeBrackets = 0;
+    ICharInputStream chIn = new CharInputStreamString( aFormulaString );
+    sr = new StrioReader( chIn );
+    // parse formula
+    IListEdit<ILexanToken> ll = new ElemArrayList<>();
+    LexanToken tk;
+    do {
+      tk = internalNextToken();
+      // check brackets intergity, on error #tk becomes the error token
+      tk = checkBracketsIntegrity( tk );
+      ll.add( tk );
+    } while( !tk.isTerminal() );
+    sr = null;
+    return ll;
   }
 
 }

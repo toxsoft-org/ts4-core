@@ -6,8 +6,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Syntactic token of a simple formula.
  * <p>
- * The formula analyzer {@link LexicalAnalyzer#nextToken()} returns these tokens as it analyzes the formula text
- * string.
+ * The formula analyzer {@link LexicalAnalyzer#tokenize(String)} returns these tokens as the resulting list.
  *
  * @author hazard157
  */
@@ -51,12 +50,10 @@ public interface ILexanToken {
   boolean isTerminal();
 
   /**
-   * Returns the token positioning in the formula string.
-   * <p>
-   * Sequence of the {@link #formulaSubstring()} make the whole formula string.
+   * Returns the starting index of the token in the formula string.
    *
-   * @return {@link FormulaSubstring} - token as a formula substring
+   * @return int - token starting index
    */
-  FormulaSubstring formulaSubstring();
+  int startIndex();
 
 }
