@@ -72,6 +72,7 @@ public class VedViselVertexSetManager
     if( aButton == ETsMouseButton.LEFT ) {
       IStringList viselIds = vedScreen().view().listViselIdsAtPoint( aCoors );
       if( viselIds.size() > 0 ) {
+        // selectionManager.setSingleSelectedViselId( viselIds.last() );
         selectionManager.setSingleSelectedViselId( viselIds.first() );
       }
       return true;

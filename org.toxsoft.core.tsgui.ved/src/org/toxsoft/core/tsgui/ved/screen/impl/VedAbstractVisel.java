@@ -1,9 +1,13 @@
 package org.toxsoft.core.tsgui.ved.screen.impl;
 
+import static org.toxsoft.core.tsgui.bricks.actions.TsActionDef.*;
+import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
 import static org.toxsoft.core.tsgui.ved.l10n.ITsguiVedSharedResources.*;
 import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 
+import org.toxsoft.core.tsgui.bricks.actions.*;
+import org.toxsoft.core.tsgui.bricks.actions.asp.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.mws.services.timers.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
@@ -26,6 +30,31 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public abstract class VedAbstractVisel
     extends VedAbstractItem
     implements IVedVisel {
+
+  /**
+   * Поставщик действия "упаковать".
+   *
+   * @author vs
+   */
+  public class AspPackVisel
+      extends MethodPerActionTsActionSetProvider {
+
+    /**
+     * ID of action {@link #ACDEF_VED_PACK_VISEL}.
+     */
+    protected static final String ACTID_VED_PACK_VISEL = "act.visel.pack"; //$NON-NLS-1$
+
+    /**
+     * Action: copy selected visels and associated actors to the internal buffer.
+     */
+    public static final ITsActionDef ACDEF_VED_PACK_VISEL = ofPush2( ACTID_VED_PACK_VISEL, //
+        "Поджать размер", "Убрать все дополнительные внешние отсупы и поля для минимизации размера", ICONID_SHRINK );
+
+    public AspPackVisel() {
+      defineAction( ACDEF_VED_PACK_VISEL, () -> pack() );
+    }
+
+  }
 
   private static final DoubleRange DIMENSION_RANGE = new DoubleRange( 1.0, Double.MAX_VALUE );
 
@@ -283,6 +312,38 @@ public abstract class VedAbstractVisel
     TsFulcrum tsf = props().getValobj( PROP_TS_FULCRUM );
     double height = props().getDouble( PROP_HEIGHT );
     return zoom * (tsf.yPerc() * height) / 100.;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Action handlers
+  //
+
+  /**
+   * Reduces visel size to its minimal meaningful size.<br>
+   * by default - does nothig.
+   */
+  private final void pack() {
+    ID2Point p = getPackedSize( -1., -1. );
+    setSize( p.x(), p.y() );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Implementation
+  //
+
+  /**
+   * Возвращает упакованный размер визуального элемента если один из aWidth или aHeight < 0.0, то соответствующее
+   * измерение вычисляется (запрос типа "Дай минимальную высоту при заданной ширине"). А если оба меньше нуля, то
+   * вычисляется минимальный обрамляющие прямоугольник. При этом, реализация метода по умолчанию возвращает размеры
+   * прямоугольника метода {@link #bounds()}.
+   *
+   * @param aWidth double - желаемая ширина или -1
+   * @param aHeight double - желаемая высота или -1
+   * @return {@link ID2Point} - упакованный размер визуального элемента
+   */
+  protected ID2Point getPackedSize( double aWidth, double aHeight ) {
+    ID2Rectangle r = bounds();
+    return new D2Point( r.width(), r.height() );
   }
 
 }

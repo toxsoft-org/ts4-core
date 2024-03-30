@@ -12,11 +12,14 @@ import org.toxsoft.core.tsgui.bricks.tin.impl.*;
 import org.toxsoft.core.tsgui.bricks.tin.tti.*;
 import org.toxsoft.core.tsgui.graphics.gc.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
+import org.toxsoft.core.tsgui.ved.editor.palette.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -84,6 +87,15 @@ public class ViselCheckbox
       return new PropertableEntitiesTinTypeInfo<>( fields, ViselCheckbox.class );
     }
 
+    @Override
+    protected StridablesList<IVedItemsPaletteEntry> doCreatePaletteEntries() {
+      VedItemCfg cfg = new VedItemCfg( id(), kind(), id(), IOptionSet.NULL );
+      OptionSetUtils.initOptionSet( cfg.propValues(), propDefs() );
+      cfg.propValues().setDouble( PROPID_HEIGHT, 24.0 );
+      IVedItemsPaletteEntry pent = new VedItemPaletteEntry( id(), params(), cfg );
+      return new StridablesList<>( pent );
+    }
+
   };
 
   TsFillInfo fillInfo = null;
@@ -107,6 +119,7 @@ public class ViselCheckbox
     super( aConfig, aPropDefs, aVedScreen );
     addInterceptor( new VedViselInterceptorMinWidthHeight( this ) );
     btnRenderer = new CheckboxRenderer( this );
+    actionsProvider().addHandler( new AspPackVisel() );
   }
 
   // ------------------------------------------------------------------------------------
@@ -133,4 +146,8 @@ public class ViselCheckbox
     return props().getValobj( PROPID_STATE );
   }
 
+  @Override
+  protected ID2Point getPackedSize( double aWidth, double aHeight ) {
+    return btnRenderer.getPackedSize( aWidth, aHeight );
+  }
 }

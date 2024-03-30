@@ -16,7 +16,7 @@ import org.toxsoft.core.tslib.bricks.d2.*;
 public abstract class AbstractButtonRenderer
     implements IButtonRenderer, ITsGuiContextable {
 
-  private final IViselButton button;
+  protected final IViselButton button;
 
   protected Rectangle swtRect = new Rectangle( 0, 0, 1, 1 );
 

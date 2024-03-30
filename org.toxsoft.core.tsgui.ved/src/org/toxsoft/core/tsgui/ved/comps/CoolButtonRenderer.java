@@ -5,6 +5,7 @@ import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.graphics.gc.*;
 import org.toxsoft.core.tsgui.graphics.lines.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
+import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.*;
@@ -125,6 +126,12 @@ public class CoolButtonRenderer
     aPaintContext.setLineInfo( TsLineInfo.ofWidth( 2 ) );
     aPaintContext.gc().setForeground( fgColor );
     aPaintContext.drawRoundRect( swtRect.x, swtRect.y, swtRect.width, swtRect.height, arcw, arch );
+  }
+
+  @Override
+  public ID2Point getPackedSize( double aWidth, double aHeight ) {
+    ID2Rectangle r = button.bounds();
+    return new D2Point( r.width(), r.height() );
   }
 
 }

@@ -16,7 +16,7 @@ import org.toxsoft.core.tsgui.bricks.tin.impl.*;
 import org.toxsoft.core.tsgui.dialogs.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.panels.*;
-import org.toxsoft.core.tsgui.utils.layout.BorderLayout;
+import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
@@ -132,7 +132,8 @@ public class VedScreenItemInspector
       switch( aOp ) {
         case CREATE: {
           // this must not happen, as I think now...
-          throw new TsInternalErrorRtException();
+          // throw new TsInternalErrorRtException();
+          break;
         }
         case REMOVE: {
           clearInspector();

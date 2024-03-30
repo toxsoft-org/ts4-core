@@ -1,7 +1,6 @@
 package org.toxsoft.core.tsgui.ved.editor;
 
 import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
-import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 
 import org.eclipse.swt.*;
 import org.eclipse.swt.widgets.*;
@@ -12,6 +11,7 @@ import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
@@ -23,7 +23,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author vs
  */
-public class VedViselPositionManager
+public class VedViselPositionHandler
     extends VedAbstractUserInputHandler {
 
   DragOperationInfo dragInfo;
@@ -38,34 +38,30 @@ public class VedViselPositionManager
 
     DragCargo( VedAbstractVisel aVisel, DragOperationInfo aInfo ) {
       item = TsNullArgumentRtException.checkNull( aVisel );
-      if( selectionManager.isSelected( aVisel.id() ) ) {
-        IStringList idsList = selectionManager.selectedViselIds();
-        visels = new ElemArrayList<>();
-        for( String id : idsList ) {
-          visels.add( vedScreen().model().visels().list().getByKey( id ) );
-        }
+      IStringList idsList = positionManager.listViselIds2Move( aVisel.id() );
+      visels = new ElemArrayList<>();
+      for( String id : idsList ) {
+        visels.add( vedScreen().model().visels().list().getByKey( id ) );
       }
-      else {
-        visels = new ElemArrayList<>( aVisel );
-      }
+
       ITsPoint p = aInfo.startingPoint();
       prevPoint.setPoint( p.x(), p.y() );
     }
 
   }
 
-  private final IVedViselSelectionManager selectionManager;
+  private final IVedViselsPositionManager positionManager;
 
   /**
    * Constructor.
    *
    * @param aScreen {@link IVedScreen} - the owner VED screen
-   * @param aSelectionManager {@link IVedViselSelectionManager} - selection manager for VISELs
+   * @param aPositionManager {@link IVedViselsPositionManager} - selection manager for VISELs
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public VedViselPositionManager( IVedScreen aScreen, IVedViselSelectionManager aSelectionManager ) {
+  public VedViselPositionHandler( IVedScreen aScreen, IVedViselsPositionManager aPositionManager ) {
     super( aScreen );
-    selectionManager = TsNullArgumentRtException.checkNull( aSelectionManager );
+    positionManager = TsNullArgumentRtException.checkNull( aPositionManager );
   }
 
   // ------------------------------------------------------------------------------------
@@ -75,7 +71,7 @@ public class VedViselPositionManager
   @Override
   public boolean onMouseMove( Object aSource, int aState, ITsPoint aCoors, Control aWidget ) {
     if( aState == 0 ) {
-      VedAbstractVisel item = itemByPoint( aCoors.x(), aCoors.y() );
+      VedAbstractVisel item = VedScreenUtils.itemByPoint( aCoors.x(), aCoors.y(), vedScreen(), false );
       if( item == null ) {
         vedScreen().view().setCursor( null );
       }
@@ -89,7 +85,8 @@ public class VedViselPositionManager
   @Override
   public boolean onMouseDragStart( Object aSource, DragOperationInfo aDragInfo ) {
     if( aDragInfo.button() == ETsMouseButton.LEFT && (aDragInfo.startingState() & SWT.MODIFIER_MASK) == 0 ) {
-      VedAbstractVisel visel = itemByPoint( aDragInfo.startingPoint().x(), aDragInfo.startingPoint().y() );
+      ITsPoint p = aDragInfo.startingPoint();
+      VedAbstractVisel visel = VedScreenUtils.itemByPoint( p.x(), p.y(), vedScreen(), false );
       if( visel != null ) {
         dragInfo = aDragInfo;
         dragInfo.setCargo( new DragCargo( visel, aDragInfo ) );
@@ -206,38 +203,22 @@ public class VedViselPositionManager
   // Implementation
   //
 
-  private VedAbstractVisel itemByPoint( int aSwtX, int aSwtY ) {
-    IVedCoorsConverter converter = vedScreen().view().coorsConverter();
-    for( VedAbstractVisel item : vedScreen().model().visels().list() ) {
-      ID2Point d2p = converter.swt2Visel( aSwtX, aSwtY, item );
-      if( item.isYours( d2p.x(), d2p.y() ) ) {
-        return item;
-      }
-    }
-    return null;
-  }
-
   private void modifyViselsX( int aDelta ) {
-    IVedCoorsConverter converter = vedScreen().view().coorsConverter();
-    for( String id : selectionManager.selectedViselIds() ) {
-      VedAbstractVisel v = vedScreen().model().visels().list().getByKey( id );
-      ID2Point d2p = converter.swt2Visel( aDelta, 0, v );
-
-      double xVal = v.props().getDouble( PROPID_X ) + d2p.x();
-      double yVal = v.props().getDouble( PROPID_Y ) + d2p.y();
-      v.props().setPropPairs( PROPID_X, avFloat( xVal ), PROPID_Y, avFloat( yVal ) );
+    IStridablesList<VedAbstractVisel> visels = vedScreen().model().visels().list();
+    for( String id : positionManager.listViselIds2Move( null ) ) {
+      VedAbstractVisel v = visels.getByKey( id );
+      double xVal = v.props().getDouble( PROPID_X ) + aDelta;
+      v.props().setDouble( PROPID_X, xVal );
     }
   }
 
   private void modifyViselsY( int aDelta ) {
-    IVedCoorsConverter converter = vedScreen().view().coorsConverter();
-    for( String id : selectionManager.selectedViselIds() ) {
-      VedAbstractVisel v = vedScreen().model().visels().list().getByKey( id );
-      ID2Point d2p = converter.swt2Visel( 0, aDelta, v );
+    IStridablesList<VedAbstractVisel> visels = vedScreen().model().visels().list();
+    for( String id : positionManager.listViselIds2Move( null ) ) {
+      VedAbstractVisel v = visels.getByKey( id );
 
-      double xVal = v.props().getDouble( PROPID_X ) + d2p.x();
-      double yVal = v.props().getDouble( PROPID_Y ) + d2p.y();
-      v.props().setPropPairs( PROPID_X, avFloat( xVal ), PROPID_Y, avFloat( yVal ) );
+      double yVal = v.props().getDouble( PROPID_Y ) + aDelta;
+      v.props().setDouble( PROPID_Y, yVal );
     }
   }
 

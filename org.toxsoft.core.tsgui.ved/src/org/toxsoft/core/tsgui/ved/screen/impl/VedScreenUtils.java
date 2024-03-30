@@ -5,6 +5,7 @@ import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.asp.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
+import org.toxsoft.core.tsgui.ved.screen.helpers.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
@@ -13,6 +14,7 @@ import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -311,8 +313,8 @@ public class VedScreenUtils {
    * @param aFactory IVedItemFactoryBase&lt;VedAbstractItem> - фабрика элемента
    * @return String - новый ИД элемента
    */
-  public static String generateIdForItemConfig( IVedItemCfg aItemCfg, IStridablesList<IVedItemCfg> aCfgList,
-      IVedItemFactoryBase<VedAbstractItem> aFactory ) {
+  public static Pair<String, String> generateIdForItemConfig( IVedItemCfg aItemCfg,
+      IStridablesList<IVedItemCfg> aCfgList, IVedItemFactoryBase<? extends VedAbstractItem> aFactory ) {
     TsNullArgumentRtException.checkNull( aItemCfg );
     TsItemNotFoundRtException.checkNull( aFactory );
     // generate ID
@@ -325,7 +327,7 @@ public class VedScreenUtils {
       id = prefix + Integer.toString( ++counter ); // "prefixNN"
       name = aFactory.nmName() + ' ' + Integer.toString( counter ); // "Factory name NN"
     } while( aCfgList.hasKey( id ) || hasItemWithName( name, aCfgList ) );
-    return id;
+    return new Pair<>( id, name );
   }
 
   /**
@@ -345,6 +347,33 @@ public class VedScreenUtils {
       }
     }
     return false;
+  }
+
+  /**
+   * Возвращает визуальный элемент, содержащий точку с указанными SWT координатами или <code>null</code>.<br>
+   * Перебор визуальных элементов осуществляется в соответствии с z-order в прямом или обратном порядке, в зависисмости
+   * от значения аргумента aForward.
+   *
+   * @param aSwtX int - x координата точки
+   * @param aSwtY int - y координата точки
+   * @param aVedScreen {@link IVedScreen} - экран редактирования
+   * @param aForward boolean - признак перебора списка в прямом направ
+   * @return VedAbstractVisel -
+   */
+  public static VedAbstractVisel itemByPoint( int aSwtX, int aSwtY, IVedScreen aVedScreen, boolean aForward ) {
+    IVedCoorsConverter converter = aVedScreen.view().coorsConverter();
+    IStridablesList<VedAbstractVisel> visels = aVedScreen.model().visels().list();
+    Iterable<VedAbstractVisel> it = visels;
+    if( !aForward ) {
+      it = new ListBackwardIterator<>( visels );
+    }
+    for( VedAbstractVisel item : it ) {
+      ID2Point d2p = converter.swt2Visel( aSwtX, aSwtY, item );
+      if( item.isYours( d2p.x(), d2p.y() ) ) {
+        return item;
+      }
+    }
+    return null;
   }
 
   /**

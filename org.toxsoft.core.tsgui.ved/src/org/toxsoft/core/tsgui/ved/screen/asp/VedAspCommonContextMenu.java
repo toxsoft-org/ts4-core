@@ -50,7 +50,7 @@ public class VedAspCommonContextMenu
     selectionManager = aSelectionManager;
     selectionManager.genericChangeEventer().addListener( this::onSelectionChanged );
     defineAction( ACDEF_SCREEN_CONFIG, this::doConfigurateCanvas );
-    defineAction( ACDEF_REMOVE, this::doRemove );
+    // defineAction( ACDEF_REMOVE, this::doRemove );
   }
 
   // ------------------------------------------------------------------------------------
@@ -109,6 +109,9 @@ public class VedAspCommonContextMenu
     }
     else {
       vedScreen.model().visels().remove( activeVisel.id() );
+      for( String actorId : VedScreenUtils.viselActorIds( activeVisel.id(), vedScreen ) ) {
+        vedScreen.model().actors().remove( actorId );
+      }
     }
     activeVisel = null;
   }
@@ -131,6 +134,9 @@ public class VedAspCommonContextMenu
     selectionManager.deselectAll();
     for( String id : ids ) {
       vedScreen.model().visels().remove( id );
+      for( String actorId : VedScreenUtils.viselActorIds( id, vedScreen ) ) {
+        vedScreen.model().actors().remove( actorId );
+      }
     }
   }
 

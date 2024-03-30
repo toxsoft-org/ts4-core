@@ -13,6 +13,7 @@ import org.toxsoft.core.tsgui.bricks.tin.impl.*;
 import org.toxsoft.core.tsgui.bricks.tin.tti.*;
 import org.toxsoft.core.tsgui.graphics.gc.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
+import org.toxsoft.core.tsgui.ved.editor.palette.*;
 import org.toxsoft.core.tsgui.ved.incub.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
@@ -20,6 +21,7 @@ import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
@@ -118,6 +120,16 @@ public class ViselCircleLamp
     @Override
     protected VedAbstractVisel doCreate( IVedItemCfg aCfg, VedScreen aVedScreen ) {
       return new ViselCircleLamp( aCfg, propDefs(), aVedScreen );
+    }
+
+    @Override
+    protected StridablesList<IVedItemsPaletteEntry> doCreatePaletteEntries() {
+      VedItemCfg cfg = new VedItemCfg( id(), kind(), id(), IOptionSet.NULL );
+      OptionSetUtils.initOptionSet( cfg.propValues(), propDefs() );
+      cfg.propValues().setDouble( PROPID_RADIUS, 12.0 );
+      cfg.propValues().setDouble( PROP_EDGING_WIDTH, 3 );
+      IVedItemsPaletteEntry pent = new VedItemPaletteEntry( id(), params(), cfg );
+      return new StridablesList<>( pent );
     }
 
   };

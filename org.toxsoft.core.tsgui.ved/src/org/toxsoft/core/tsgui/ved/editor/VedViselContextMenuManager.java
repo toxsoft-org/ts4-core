@@ -5,14 +5,16 @@ import static org.toxsoft.core.tsgui.ved.editor.ITsResources.*;
 import org.eclipse.swt.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.actions.asp.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.ved.editor.IVedViselSelectionManager.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.asp.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
-import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -23,19 +25,48 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class VedViselContextMenuManager
     extends VedAbstractUserInputHandler {
 
+  static class ViselContextMenuCreator
+      implements IVedContextMenuCreator {
+
+    private final ITsGuiContext tsContext;
+
+    ViselContextMenuCreator( ITsGuiContext aTsContext ) {
+      tsContext = aTsContext;
+    }
+
+    // ------------------------------------------------------------------------------------
+    // IVedContextMenuCreator
+    //
+
+    @Override
+    public boolean fillMenu( Menu aMenu, VedAbstractVisel aClickedVisel, ITsPoint aSwtCoors ) {
+      if( aClickedVisel != null ) {
+        MenuCreatorFromAsp menuCreator = new MenuCreatorFromAsp( aClickedVisel.actionsProvider(), tsContext );
+        menuCreator.fillMenu( aMenu );
+        return true;
+      }
+      return false;
+    }
+
+  }
+
   private final IVedViselSelectionManager selectionManager;
 
   private final VedAspViselsAlignment aspAlignment;
 
   private final VedAspCommonContextMenu aspCommon;
 
-  private final VedAspCopyPaste aspCopyPaste;
+  // private final VedAspCopyPaste aspCopyPaste;
 
   private final MenuCreatorFromAsp commonMenuCreator;
 
   private final MenuCreatorFromAsp alignmentMenuCreator;
 
-  private final MenuCreatorFromAsp cpMenuCreator;
+  // private final MenuCreatorFromAsp cpMenuCreator;
+
+  private final IListEdit<IVedContextMenuCreator> customMenuCreators = new ElemArrayList<>();
+
+  private ViselContextMenuCreator viselMenuCreator;
 
   /**
    * Constructor.
@@ -50,10 +81,11 @@ public class VedViselContextMenuManager
     selectionManager = aSelectionManager;
     aspAlignment = new VedAspViselsAlignment( aScreen, selectionManager );
     aspCommon = new VedAspCommonContextMenu( aScreen, selectionManager );
-    aspCopyPaste = new VedAspCopyPaste( aScreen, selectionManager );
+    // aspCopyPaste = new VedAspCopyPaste( aScreen, selectionManager );
     commonMenuCreator = new MenuCreatorFromAsp( aspCommon, aScreen.tsContext() );
     alignmentMenuCreator = new MenuCreatorFromAsp( aspAlignment, aScreen.tsContext() );
-    cpMenuCreator = new MenuCreatorFromAsp( aspCopyPaste, aScreen.tsContext() );
+    // cpMenuCreator = new MenuCreatorFromAsp( aspCopyPaste, aScreen.tsContext() );
+    viselMenuCreator = new ViselContextMenuCreator( aScreen.tsContext() );
   }
 
   // ------------------------------------------------------------------------------------
@@ -64,7 +96,7 @@ public class VedViselContextMenuManager
   @Override
   public boolean onMouseDown( Object aSource, ETsMouseButton aButton, int aState, ITsPoint aCoors, Control aWidget ) {
     vedScreen().view().getControl().setMenu( null );
-    aspCopyPaste.setMouseCoords( aCoors );
+    // aspCopyPaste.setMouseCoords( aCoors );
     if( aButton == ETsMouseButton.RIGHT && (aState & SWT.MODIFIER_MASK) == 0 ) { // pure right click
       IStringList viselIds = vedScreen().view().listViselIdsAtPoint( aCoors );
       VedAbstractVisel visel = null;
@@ -72,29 +104,40 @@ public class VedViselContextMenuManager
         visel = vedScreen().model().visels().list().getByKey( viselIds.first() );
       }
       aspCommon.setActiveVisel( visel );
+
+      Menu cmnMenu = new Menu( vedScreen().view().getControl() );
       if( visel != null ) { // click was on the visel
-        aspCopyPaste.setActiveVisel( visel );
+        // aspCopyPaste.setActiveVisel( visel );
         if( selectionManager.selectionKind() == ESelectionKind.MULTI ) { // multiselection is present
           aspAlignment.setAnchorVisel( visel );
 
-          Menu cmnMenu = new Menu( vedScreen().view().getControl() );
-          cpMenuCreator.fillMenu( cmnMenu );
+          // Menu cmnMenu = new Menu( vedScreen().view().getControl() );
+          // cpMenuCreator.fillMenu( cmnMenu );
 
           MenuItem alignItem = new MenuItem( cmnMenu, SWT.CASCADE );
           alignItem.setText( STR_M_ALIGNMENT );
           Menu ctxMenu = alignmentMenuCreator.getMenu( cmnMenu );
           alignItem.setMenu( ctxMenu );
 
-          new MenuItem( cmnMenu, SWT.SEPARATOR );
-          commonMenuCreator.fillMenu( cmnMenu );
+          // new MenuItem( cmnMenu, SWT.SEPARATOR );
+          // commonMenuCreator.fillMenu( cmnMenu );
 
           vedScreen().view().getControl().setMenu( cmnMenu );
-          cmnMenu.setVisible( true );
-          return true;
+          // cmnMenu.setVisible( true );
+          // return true;
         }
       }
-      Menu cmnMenu = new Menu( vedScreen().view().getControl() );
-      cpMenuCreator.fillMenu( cmnMenu );
+      else {
+        // cpMenuCreator.fillMenu( cmnMenu );
+      }
+
+      viselMenuCreator.fillMenu( cmnMenu, visel, aCoors );
+      for( IVedContextMenuCreator creator : customMenuCreators ) {
+        creator.fillMenu( cmnMenu, visel, aCoors );
+      }
+
+      // Menu cmnMenu = new Menu( vedScreen().view().getControl() );
+      // cpMenuCreator.fillMenu( cmnMenu );
       new MenuItem( cmnMenu, SWT.SEPARATOR );
       commonMenuCreator.fillMenu( cmnMenu );
 
@@ -106,36 +149,29 @@ public class VedViselContextMenuManager
   }
 
   // ------------------------------------------------------------------------------------
-  // ITsKeyInputListener
+  // API
   //
 
-  @Override
-  public boolean onKeyDown( Object aSource, int aCode, char aChar, int aState ) {
-    if( aCode == SWT.DEL ) {
-      IStringList selList = new StringArrayList( selectionManager.selectedViselIds() );
-      if( selList.size() > 0 ) {
-        for( String id : selList ) {
-          vedScreen().model().visels().remove( id );
-          for( String actId : VedScreenUtils.viselActorIds( id, vedScreen() ) ) {
-            vedScreen().model().actors().remove( actId );
-          }
-        }
-        return true;
-      }
+  /**
+   * Добавляет пользовательский "создатель" меню.<br>
+   * Ели такой создатель уже существует, то ничего не делает.
+   *
+   * @param aMenuCreator {@link IVedContextMenuCreator} - пользовательский "создатель" меню
+   */
+  public void addCustomMenuCreator( IVedContextMenuCreator aMenuCreator ) {
+    if( !customMenuCreators.hasElem( aMenuCreator ) ) {
+      customMenuCreators.add( aMenuCreator );
     }
-    if( (aState & SWT.MODIFIER_MASK) == SWT.CTRL ) {
-      if( aCode == 99 ) { // key code for symbol "C"
-        if( aspCopyPaste.isActionEnabled( VedAspCopyPaste.ACTID_COPY ) ) {
-          aspCopyPaste.doHandleAction( VedAspCopyPaste.ACTID_COPY );
-          aspCopyPaste.setMouseCoords( null );
-        }
-      }
-      if( aCode == 118 ) { // key code for symbol "V"
-        if( aspCopyPaste.isActionEnabled( VedAspCopyPaste.ACTID_PASTE ) ) {
-          aspCopyPaste.doHandleAction( VedAspCopyPaste.ACTID_PASTE );
-        }
-      }
-    }
-    return false;
   }
+
+  /**
+   * Удаляет пользовательский "создатель" меню.<br>
+   * Если такого создателя нет, то ничего не делает.
+   *
+   * @param aMenuCreator {@link IVedContextMenuCreator} - пользовательский "создатель" меню
+   */
+  public void removeCustomMenuCreator( IVedContextMenuCreator aMenuCreator ) {
+    customMenuCreators.remove( aMenuCreator );
+  }
+
 }

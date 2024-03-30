@@ -15,6 +15,7 @@ import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.fonts.*;
 import org.toxsoft.core.tsgui.graphics.gc.*;
+import org.toxsoft.core.tsgui.graphics.lines.*;
 import org.toxsoft.core.tsgui.ved.editor.palette.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
@@ -162,6 +163,7 @@ public class ViselLabel
    */
   public ViselLabel( IVedItemCfg aConfig, IStridablesList<IDataDef> aPropDefs, VedScreen aVedScreen ) {
     super( aConfig, aPropDefs, aVedScreen );
+    actionsProvider().addHandler( new AspPackVisel() );
   }
 
   // ------------------------------------------------------------------------------------
@@ -261,6 +263,28 @@ public class ViselLabel
         gc.dispose();
       }
     }
+  }
+
+  @Override
+  protected ID2Point getPackedSize( double aWidth, double aHeight ) {
+    TsBorderInfo bi = props().getValobj( PROPID_BORDER_INFO );
+    if( bi.kind() == ETsBorderKind.NONE ) {
+      GC gc = null;
+      try {
+        gc = new GC( getShell() );
+        Point p = gc.textExtent( props().getStr( PROPID_TEXT ) );
+        double w = props().getInt( PROPID_LEFT_INDENT ) + p.x + props().getInt( PROPID_RIGHT_INDENT );
+        double h = props().getInt( PROPID_TOP_INDENT ) + p.y + props().getInt( PROPID_BOTTOM_INDENT );
+        return new D2Point( w, h );
+      }
+      finally {
+        if( gc != null ) {
+          gc.dispose();
+        }
+      }
+
+    }
+    return super.getPackedSize( aWidth, aHeight );
   }
 
   // ------------------------------------------------------------------------------------

@@ -75,6 +75,7 @@ public interface ITsguiVedConstants {
   String ICONID_ALIGN_BOTTOM     = "bottom-align";     //$NON-NLS-1$
   String ICONID_ALIGN_HOR_CENTER = "hor-center-align"; //$NON-NLS-1$
   String ICONID_ALIGN_VER_CENTER = "ver-center-align"; //$NON-NLS-1$
+  String ICONID_SHRINK           = "shrink";           //$NON-NLS-1$
   // Action set - "Common"
   String ICONID_SETTINGS = "settings"; //$NON-NLS-1$
 

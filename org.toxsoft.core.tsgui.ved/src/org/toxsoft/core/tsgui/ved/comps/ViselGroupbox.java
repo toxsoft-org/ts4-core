@@ -208,24 +208,24 @@ public class ViselGroupbox
     }
   }
 
-  @Override
-  public boolean isYours( double aX, double aY ) {
-    if( textRect.contains( aX, aY ) ) {
-      return true;
-    }
-    boolean result = super.isYours( aX, aY );
-    if( result ) {
-      double dx = Math.min( aX, props().getDouble( PROPID_WIDTH ) - aX );
-      if( Math.abs( dx ) < 6 ) {
-        return true;
-      }
-      double dy = Math.min( aY - textRect.height() / 2., props().getDouble( PROPID_HEIGHT ) - aY );
-      if( Math.abs( dy ) < 6 ) {
-        return true;
-      }
-    }
-    return false;
-  }
+  // @Override
+  // public boolean isYours( double aX, double aY ) {
+  // if( textRect.contains( aX, aY ) ) {
+  // return true;
+  // }
+  // boolean result = super.isYours( aX, aY );
+  // if( result ) {
+  // double dx = Math.min( aX, props().getDouble( PROPID_WIDTH ) - aX );
+  // if( Math.abs( dx ) < 6 ) {
+  // return true;
+  // }
+  // double dy = Math.min( aY - textRect.height() / 2., props().getDouble( PROPID_HEIGHT ) - aY );
+  // if( Math.abs( dy ) < 6 ) {
+  // return true;
+  // }
+  // }
+  // return false;
+  // }
 
   // ------------------------------------------------------------------------------------
   // Implementation

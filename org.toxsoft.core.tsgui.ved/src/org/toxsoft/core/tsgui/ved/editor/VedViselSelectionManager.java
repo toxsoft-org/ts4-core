@@ -16,10 +16,10 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class VedViselSelectionManager
     implements IVedViselSelectionManager {
 
-  private final IStringListEdit selIdsList = new StringLinkedBundleList();
+  protected final IStringListEdit selIdsList = new StringLinkedBundleList();
 
-  private final GenericChangeEventer eventer;
-  private final IVedScreen           vedScreen;
+  protected final GenericChangeEventer eventer;
+  protected final IVedScreen           vedScreen;
 
   /**
    * Constructor.
