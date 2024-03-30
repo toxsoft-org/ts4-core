@@ -25,6 +25,20 @@ public class D2GeometryUtils {
   }
 
   /**
+   * Returns <code>true</code> if the rectangle described by the arguments intersects with the receiver and
+   * <code>false</code> otherwise.
+   *
+   * @param aRect1 {@link ID2Rectangle} - first rectangle
+   * @param aRect2 {@link ID2Rectangle} - second rectangle
+   * @return <b>true</b> - intersection exists<br>
+   *         <b>false</b> - there is no intersection between rectangles
+   */
+  public static boolean intersects( ID2Rectangle aRect1, ID2Rectangle aRect2 ) {
+    return (aRect2.x1() < aRect1.x1() + aRect1.width()) && (aRect2.y1() < aRect1.y1() + aRect1.height())
+        && (aRect2.x1() + aRect2.width() > aRect1.x1()) && (aRect2.y1() + aRect2.height() > aRect1.y1());
+  }
+
+  /**
    * No subclasses.
    */
   private D2GeometryUtils() {
