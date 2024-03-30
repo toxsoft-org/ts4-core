@@ -1,4 +1,4 @@
-package org.toxsoft.core.tslib.bricks.lexan.impl;
+package org.toxsoft.core.tslib.math.lexan.impl;
 
 import java.util.*;
 

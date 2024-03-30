@@ -1,17 +1,17 @@
-package org.toxsoft.core.tslib.bricks.lexan.impl;
+package org.toxsoft.core.tslib.math.lexan.impl;
 
-import static org.toxsoft.core.tslib.bricks.lexan.ILexanConstants.*;
-import static org.toxsoft.core.tslib.bricks.lexan.impl.ITsResources.*;
 import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
+import static org.toxsoft.core.tslib.math.lexan.ILexanConstants.*;
+import static org.toxsoft.core.tslib.math.lexan.impl.ITsResources.*;
 
 import org.toxsoft.core.tslib.av.opset.*;
-import org.toxsoft.core.tslib.bricks.lexan.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.bricks.strio.chario.*;
 import org.toxsoft.core.tslib.bricks.strio.chario.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.math.lexan.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -240,7 +240,7 @@ public class LexicalAnalyzer {
       // check brackets intergity, on error #tk becomes the error token
       tk = checkBracketsIntegrity( tk );
       ll.add( tk );
-    } while( !tk.isTerminal() );
+    } while( !tk.isFinisher() );
     sr = null;
     return ll;
   }

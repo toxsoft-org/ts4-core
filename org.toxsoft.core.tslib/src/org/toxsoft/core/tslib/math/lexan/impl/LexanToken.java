@@ -1,7 +1,7 @@
-package org.toxsoft.core.tslib.bricks.lexan.impl;
+package org.toxsoft.core.tslib.math.lexan.impl;
 
-import org.toxsoft.core.tslib.bricks.lexan.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.math.lexan.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -59,7 +59,12 @@ public class LexanToken
   }
 
   @Override
-  public boolean isTerminal() {
+  public boolean isKeyword() {
+    return kindId.equals( ILexanConstants.TKID_KEYWORD );
+  }
+
+  @Override
+  public boolean isFinisher() {
     return false;
   }
 

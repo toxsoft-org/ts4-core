@@ -1,9 +1,11 @@
-package org.toxsoft.core.tslib.bricks.lexan.impl;
+package org.toxsoft.core.tslib.math.lexan.impl;
 
-import org.toxsoft.core.tslib.bricks.lexan.*;
+import static org.toxsoft.core.tslib.math.lexan.ILexanConstants.*;
+
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.math.lexan.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -12,6 +14,32 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public class LexanUtils {
+
+  /**
+   * Returns unique keyword name of the tokens.
+   * <p>
+   * Keyword is returned by the token {@link ILexanToken#str()} of kind {@link ILexanConstants#TKID_KEYWORD}.
+   *
+   * @param aTokens {@link IList}&lt;{@link ILexanToken}&gt; - parsed tokens
+   * @return {@link IStringList} - unique keywords
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static IStringList listKeywords( IList<ILexanToken> aTokens ) {
+    TsNullArgumentRtException.checkNull( aTokens );
+    if( aTokens.isEmpty() ) {
+      return IStringList.EMPTY;
+    }
+    IStringListEdit ll = new StringArrayList();
+    for( ILexanToken t : aTokens ) {
+      if( t.kindId().equals( TKID_KEYWORD ) ) {
+        String kw = t.str();
+        if( !ll.hasElem( kw ) ) {
+          ll.add( kw );
+        }
+      }
+    }
+    return ll;
+  }
 
   /**
    * Returns the substrings of formula string corresponding to the tokens.

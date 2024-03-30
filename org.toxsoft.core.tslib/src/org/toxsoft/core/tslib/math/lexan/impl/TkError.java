@@ -1,8 +1,8 @@
-package org.toxsoft.core.tslib.bricks.lexan.impl;
+package org.toxsoft.core.tslib.math.lexan.impl;
 
-import static org.toxsoft.core.tslib.bricks.lexan.ILexanConstants.*;
+import static org.toxsoft.core.tslib.math.lexan.ILexanConstants.*;
 
-import org.toxsoft.core.tslib.bricks.lexan.*;
+import org.toxsoft.core.tslib.math.lexan.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -30,7 +30,7 @@ public class TkError
   //
 
   @Override
-  public boolean isTerminal() {
+  public boolean isFinisher() {
     return true;
   }
 

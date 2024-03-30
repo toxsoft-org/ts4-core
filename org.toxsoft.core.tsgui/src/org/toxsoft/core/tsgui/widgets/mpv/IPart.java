@@ -1,6 +1,6 @@
 package org.toxsoft.core.tsgui.widgets.mpv;
 
-import org.toxsoft.core.tslib.math.IntRange;
+import org.toxsoft.core.tslib.math.*;
 
 /**
  * The part of the {@link IMultiPartValue}.

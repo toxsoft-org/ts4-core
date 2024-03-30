@@ -3,7 +3,7 @@ package org.toxsoft.core.tsgui.widgets.mpv;
 import java.time.LocalTime;
 
 import org.toxsoft.core.tsgui.widgets.mpv.impl.*;
-import org.toxsoft.core.tslib.math.IntRange;
+import org.toxsoft.core.tslib.math.*;
 import org.toxsoft.core.tslib.utils.errors.TsNotAllEnumsUsedRtException;
 import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 

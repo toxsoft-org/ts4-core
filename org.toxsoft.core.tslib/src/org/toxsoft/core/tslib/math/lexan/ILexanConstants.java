@@ -1,9 +1,9 @@
-package org.toxsoft.core.tslib.bricks.lexan;
+package org.toxsoft.core.tslib.math.lexan;
 
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
-import org.toxsoft.core.tslib.bricks.lexan.impl.*;
+import org.toxsoft.core.tslib.math.lexan.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**

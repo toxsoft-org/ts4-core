@@ -1,4 +1,4 @@
-package org.toxsoft.core.tslib.bricks.lexan.impl;
+package org.toxsoft.core.tslib.math.lexan.impl;
 
 import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 

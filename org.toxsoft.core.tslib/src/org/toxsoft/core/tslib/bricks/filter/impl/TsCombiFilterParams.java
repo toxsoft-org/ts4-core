@@ -5,7 +5,7 @@ import java.io.Serializable;
 import org.toxsoft.core.tslib.av.opset.IOptionSet;
 import org.toxsoft.core.tslib.bricks.filter.ITsCombiFilterParams;
 import org.toxsoft.core.tslib.bricks.filter.ITsSingleFilterParams;
-import org.toxsoft.core.tslib.math.logicop.ELogicalOp;
+import org.toxsoft.core.tslib.math.logicop.*;
 import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 import org.toxsoft.core.tslib.utils.errors.TsUnsupportedFeatureRtException;
 

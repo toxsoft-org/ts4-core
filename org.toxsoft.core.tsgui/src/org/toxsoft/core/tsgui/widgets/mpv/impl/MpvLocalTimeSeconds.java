@@ -4,7 +4,7 @@ import java.time.LocalTime;
 
 import org.toxsoft.core.tsgui.widgets.mpv.IMpvLocalTime;
 import org.toxsoft.core.tslib.coll.primtypes.IIntList;
-import org.toxsoft.core.tslib.math.IntRange;
+import org.toxsoft.core.tslib.math.*;
 import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 
 /**

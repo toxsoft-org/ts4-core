@@ -1,6 +1,6 @@
-package org.toxsoft.core.tslib.bricks.lexan;
+package org.toxsoft.core.tslib.math.lexan;
 
-import org.toxsoft.core.tslib.bricks.lexan.impl.*;
+import org.toxsoft.core.tslib.math.lexan.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -43,11 +43,20 @@ public interface ILexanToken {
   double number();
 
   /**
-   * Determines if this token is a terminal token.
+   * Determines if the token denotes a keyword.
+   * <p>
+   * This is a simple check id {@link #kindId()} is equal to {@link ILexanConstants#TKID_KEYWORD}.
+   *
+   * @return boolean - <code>true</code> if token contains a keyword in {@link #str()}
+   */
+  boolean isKeyword();
+
+  /**
+   * Determines if this token is a finisher token, the last token.
    *
    * @return boolean - the flag that analysis was finished
    */
-  boolean isTerminal();
+  boolean isFinisher();
 
   /**
    * Returns the starting index of the token in the formula string.

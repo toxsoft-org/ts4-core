@@ -53,7 +53,7 @@ public final class SimpleStridGenerator
       TSID_DEFAULT_VALUE, avInt( DEFAULT_INITIAL_COUNTER ) );
 
   /**
-   * State option: with od zero padded numbering.<br>
+   * State option: with of zero padded numbering.<br>
    * Usage: padding with leading zeroes (format string "%0Nd") is used for counter formating to the ID text. The number
    * N is the pad width. Pad width may be in range 2..20, the numbers outside this reange means that padding is not
    * used.<br>
@@ -117,7 +117,7 @@ public final class SimpleStridGenerator
    *
    * @param aPrefix String - prefix (an IDname)
    * @param aSeed long - counter initial value
-   * @param aPadWidth int - zero padded number text width, see {@link #OPDEF_PAD_WIDTH} for explaination
+   * @param aPadWidth int - zero padded number text width, see {@link #OPDEF_PAD_WIDTH} for explanation
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsValidationFailedRtException failed {@link #validateState(IOptionSet)}
    */
