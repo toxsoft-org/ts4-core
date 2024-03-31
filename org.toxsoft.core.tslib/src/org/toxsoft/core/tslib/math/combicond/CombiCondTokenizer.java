@@ -21,6 +21,10 @@ import org.toxsoft.core.tslib.utils.errors.*;
  */
 public final class CombiCondTokenizer {
 
+  /**
+   * TODO change algorithm to eliminate unneeded brackets
+   */
+
   private final IStridGenerator keywrodGenerator = new SimpleStridGenerator( "F", 0, 0 ); //$NON-NLS-1$
 
   private final ICombiCondParams                  ccp;
@@ -40,7 +44,8 @@ public final class CombiCondTokenizer {
     TsNullArgumentRtException.checkNull( aCcp );
     ccp = aCcp;
     add( aCcp );
-    formulaString = makeFormulaString();
+    addToken( new TkEof( counter ) );
+    formulaString = LexanUtils.makeFormulaString( tokens );
   }
 
   // ------------------------------------------------------------------------------------
@@ -63,6 +68,7 @@ public final class CombiCondTokenizer {
     if( aInverted ) {
       ILexanToken tk = new LexanToken( TKID_LOGICAL_NOT, KW_LOGICAL_NOT, counter );
       addToken( tk );
+      addSpace();
     }
     String kw = makeKeyword( aScp );
     ILexanToken tk = new LexanToken( TKID_KEYWORD, kw, counter );
@@ -112,19 +118,6 @@ public final class CombiCondTokenizer {
     if( counter != 0 ) {
       ++counter;
     }
-  }
-
-  private String makeFormulaString() {
-    StringBuilder sb = new StringBuilder();
-    for( ILexanToken t : tokens ) {
-      // fill spaces until token start in formula
-      for( int i = sb.length(); i < t.startIndex(); i++ ) {
-        sb.append( ' ' );
-      }
-      // add token
-      sb.append( t.str() );
-    }
-    return sb.toString();
   }
 
   // ------------------------------------------------------------------------------------

@@ -60,6 +60,21 @@ public final class SingleCondParams
     params.setAll( aParams );
   }
 
+  /**
+   * Static constructor.
+   *
+   * @param aTypeId String - condition type ID (IDpath) must match corresponding {@link ISingleCondType#id()}
+   * @param aIdsAndValues Object[] - identifier / value pairs
+   * @return {@link SingleCondParams} - the instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException identifier is not an IDpath
+   * @throws TsIllegalArgumentRtException number of elements in array is uneven
+   * @throws ClassCastException argument types convention is violated
+   */
+  public static SingleCondParams create( String aTypeId, Object... aIdsAndValues ) {
+    return new SingleCondParams( aTypeId, OptionSetUtils.createOpSet( aIdsAndValues ) );
+  }
+
   // ------------------------------------------------------------------------------------
   // ISingleCondParams
   //

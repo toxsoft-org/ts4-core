@@ -10,7 +10,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public interface ILexanToken {
+public sealed interface ILexanToken
+    permits LexanToken {
 
   /**
    * Returns the token kind.
@@ -63,6 +64,6 @@ public interface ILexanToken {
    *
    * @return int - token starting index
    */
-  int startIndex();
+  // int startIndex();
 
 }

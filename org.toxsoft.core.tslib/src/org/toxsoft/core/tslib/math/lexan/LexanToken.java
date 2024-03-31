@@ -1,7 +1,6 @@
-package org.toxsoft.core.tslib.math.lexan.impl;
+package org.toxsoft.core.tslib.math.lexan;
 
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
-import org.toxsoft.core.tslib.math.lexan.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -9,12 +8,13 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public class LexanToken
+public non-sealed class LexanToken
     implements ILexanToken {
 
   private final String kindId;
   private final String str;
-  private final int    startIndex;
+
+  private int startIndex;
 
   /**
    * Constructor.
@@ -71,6 +71,21 @@ public class LexanToken
   @Override
   public int startIndex() {
     return startIndex;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // API
+  //
+
+  /**
+   * Sets {@link #startIndex()} value.
+   *
+   * @param aStartIndex int - token starting index in the formula string
+   * @throws TsIllegalArgumentRtException index is negative
+   */
+  public void setStartIndex( int aStartIndex ) {
+    TsIllegalArgumentRtException.checkTrue( aStartIndex < 0 );
+    startIndex = aStartIndex;
   }
 
   // ------------------------------------------------------------------------------------

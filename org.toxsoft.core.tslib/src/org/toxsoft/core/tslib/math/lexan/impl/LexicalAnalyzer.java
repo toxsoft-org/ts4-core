@@ -11,6 +11,7 @@ import org.toxsoft.core.tslib.bricks.strio.chario.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.math.lexan.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -18,6 +19,22 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * The lexical analyzer - splits formula string into individual tokens.
  * <p>
  * Once configured and created, the {@link #tokenize(String)} method may be called multiple time.
+ * <p>
+ * Few important notes of analyzer implementation:
+ * <ul>
+ * <li>any symbol in quoted string becomes the part of the token {@link ILexanConstants#TKID_QSTRING}, the rules below
+ * does not allies to them;</li>
+ * <li>any char symbol while reading IDpath/IDname keyword becomes the part of the token
+ * {@link ILexanConstants#TKID_KEYWORD}, the rules below does not allies to them;</li>
+ * <li>{@link IStrioHardConstants#DEFAULT_SPACE_CHARS} are recognized only as a token delimiters;</li>
+ * <li>all char symbols {@link #singleChars} are tokens and token delimiter at the same time;</li>
+ * <li>all bracket symbols {@link #bracketChars} are tokens and token delimiter at the same time;</li>
+ * <li>numbers must start with a decimal digit and follow {@link Double#parseDouble(String)} conventions;</li>
+ * <li>all other symbols will lead to error.</li>
+ * </ul>
+ * When creating tokens sequence from a scratch, tokens {@link ILexanConstants#TKID_KEYWORD KEYWORD},
+ * {@link ILexanConstants#TKID_NUMBER NUMBER} and any user-defind alphanumeric token (like AND, TRUE, CONST, etc) must
+ * be correctly separated from token before and after.
  *
  * @author hazard157
  */
@@ -237,12 +254,25 @@ public class LexicalAnalyzer {
     LexanToken tk;
     do {
       tk = internalNextToken();
-      // check brackets intergity, on error #tk becomes the error token
+      // check brackets integrity, on error #tk becomes the error token
       tk = checkBracketsIntegrity( tk );
       ll.add( tk );
     } while( !tk.isFinisher() );
     sr = null;
     return ll;
+  }
+
+  public IList<ILexanToken> getTokens() {
+
+  }
+
+  /**
+   * Returns the token substrings in last parsed formula.
+   *
+   * @return {@link IStringList} - substrings making the tokens {@link #getTokens()}
+   */
+  public IStringList getSubStrings() {
+
   }
 
 }

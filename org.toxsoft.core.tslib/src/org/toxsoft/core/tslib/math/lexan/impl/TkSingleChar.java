@@ -2,6 +2,7 @@ package org.toxsoft.core.tslib.math.lexan.impl;
 
 import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
+import org.toxsoft.core.tslib.math.lexan.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
