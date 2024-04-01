@@ -1,7 +1,6 @@
-package org.toxsoft.core.tslib.math.lexan.impl;
+package org.toxsoft.core.tslib.math.lexan;
 
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
-import org.toxsoft.core.tslib.math.lexan.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -9,29 +8,25 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public class LexanToken
+public non-sealed class LexanToken
     implements ILexanToken {
 
   private final String kindId;
   private final String str;
-  private final int    startIndex;
 
   /**
    * Constructor.
    *
    * @param aKindId String - the token kind ID
    * @param aStr String - token as a {@link String}
-   * @param aStartIndex int - token starting index in the formula string
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException argument is not an IDpath
    * @throws TsIllegalArgumentRtException index is negative
    */
-  public LexanToken( String aKindId, String aStr, int aStartIndex ) {
+  public LexanToken( String aKindId, String aStr ) {
     kindId = StridUtils.checkValidIdPath( aKindId );
     TsNullArgumentRtException.checkNull( aStr );
-    TsIllegalArgumentRtException.checkTrue( aStartIndex < 0 );
     str = aStr;
-    startIndex = aStartIndex;
   }
 
   // ------------------------------------------------------------------------------------
@@ -66,11 +61,6 @@ public class LexanToken
   @Override
   public boolean isFinisher() {
     return false;
-  }
-
-  @Override
-  public int startIndex() {
-    return startIndex;
   }
 
   // ------------------------------------------------------------------------------------

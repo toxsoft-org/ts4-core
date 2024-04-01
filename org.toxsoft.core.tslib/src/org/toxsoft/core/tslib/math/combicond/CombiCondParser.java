@@ -105,6 +105,9 @@ public class CombiCondParser {
   private void nextToken() {
     if( currIndex < allTokens.size() ) {
       currToken = allTokens.get( currIndex++ );
+      if( currToken.kindId().equals( TKID_SPACE ) ) {
+        nextToken();
+      }
     }
   }
 
