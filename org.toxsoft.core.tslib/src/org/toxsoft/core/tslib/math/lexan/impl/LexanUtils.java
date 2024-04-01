@@ -1,8 +1,10 @@
 package org.toxsoft.core.tslib.math.lexan.impl;
 
 import static org.toxsoft.core.tslib.math.lexan.ILexanConstants.*;
+import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
 import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.math.lexan.*;
@@ -72,6 +74,73 @@ public class LexanUtils {
     }
     // process last token, always make it up to the end of formula string
     ll.add( aFormulaString.substring( endIndex ) );
+    return ll;
+  }
+
+  /**
+   * Makes formula string from tokens list.
+   * <p>
+   * For an empty list returns the empty string. If last token is error, returns the error message.
+   * <p>
+   * Check that only the last token is finisher {@link ILexanToken#isFinisher()} = <code>true</code>.
+   *
+   * @param aTokens {@link IList}&lt;{@link ILexanToken}&gt; - the tokens
+   * @return String - formula string
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException tokens list is illegal
+   */
+  public static String makeFormulaString( IList<ILexanToken> aTokens ) {
+    TsNullArgumentRtException.checkNull( aTokens );
+    if( aTokens.isEmpty() ) {
+      return EMPTY_STRING;
+    }
+    TsIllegalArgumentRtException.checkFalse( aTokens.last().isFinisher() );
+    for( ILexanToken t : aTokens ) {
+      if( t != aTokens.last() ) {
+        TsIllegalArgumentRtException.checkTrue( t.isFinisher() );
+      }
+    }
+    if( aTokens.last().kindId().equals( TKID_ERROR ) ) {
+      return aTokens.last().str();
+    }
+    StringBuilder sb = new StringBuilder();
+    for( ILexanToken t : aTokens ) {
+      if( t == aTokens.last() ) {
+        break;
+      }
+      // fill spaces until token start in formula
+      for( int i = sb.length(); i < t.startIndex(); i++ ) {
+        sb.append( ' ' );
+      }
+      // add token
+      sb.append( t.str() );
+    }
+    return sb.toString();
+  }
+
+  /**
+   * Returns new tokens list with some tokens replaced by new tokens.
+   * <p>
+   * Correctly handles {@link ILexanToken#startIndex()} changes due to token string length changes.
+   *
+   * @param aTokens {@link IList}&lt;{@link ILexanToken}&gt; - initial list of tokens
+   * @param aNew {@link IStringMap}&lt;{@link ILexanToken}&gt; - replacement map "index" - "new token"
+   * @return {@link IList}&lt;{@link ILexanToken}&gt; - resulting list of tokens
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static IListEdit<ILexanToken> replaceTokens( IList<ILexanToken> aTokens, IIntMap<ILexanToken> aNew ) {
+    TsNullArgumentRtException.checkNulls( aTokens, aNew );
+    IListEdit<ILexanToken> ll = new ElemArrayList<>( aTokens );
+    int delta = 0;
+    for( int i = 0; i < ll.size(); i++ ) {
+      ILexanToken tk = aNew.findByKey( i );
+      if( tk != null ) {
+        ll.set( i, tk );
+      }
+    }
+
+    // TODO LexanUtils.replaceTokens()
+
     return ll;
   }
 
