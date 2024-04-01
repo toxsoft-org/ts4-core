@@ -17,12 +17,11 @@ public class TkError
    * Constructor.
    *
    * @param aMessage String - error message
-   * @param aStartIndex int - token starting index in the formula string
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException index is negative
    */
-  TkError( String aMessage, int aStartIndex ) {
-    super( TKID_ERROR, Integer.toString( aStartIndex ) + ": " + aMessage, aStartIndex ); //$NON-NLS-1$
+  TkError( String aMessage ) {
+    super( TKID_ERROR, aMessage );
   }
 
   // ------------------------------------------------------------------------------------

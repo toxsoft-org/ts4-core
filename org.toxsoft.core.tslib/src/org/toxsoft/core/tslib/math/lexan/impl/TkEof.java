@@ -4,7 +4,6 @@ import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 import static org.toxsoft.core.tslib.math.lexan.ILexanConstants.*;
 
 import org.toxsoft.core.tslib.math.lexan.*;
-import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Token of kind {@link ILexanConstants#TKID_EOF}.
@@ -15,13 +14,13 @@ public final class TkEof
     extends TkSingleChar {
 
   /**
-   * Constructor.
-   *
-   * @param aStartIndex int - token starting index in the formula string
-   * @throws TsIllegalArgumentRtException argument is not an IDpath
+   * The singleton instance.
    */
-  public TkEof( int aStartIndex ) {
-    super( TKID_EOF, CHAR_EOF, aStartIndex );
+
+  public static final ILexanToken TK_EOF = new TkEof();
+
+  private TkEof() {
+    super( TKID_EOF, CHAR_EOF );
   }
 
   // ------------------------------------------------------------------------------------

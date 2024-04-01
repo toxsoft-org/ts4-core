@@ -4,7 +4,6 @@ import static org.toxsoft.core.tslib.math.lexan.ILexanConstants.*;
 import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
 import org.toxsoft.core.tslib.coll.*;
-import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.math.lexan.*;
@@ -55,27 +54,27 @@ public class LexanUtils {
    * @return {@link IStringList} - substrings making the formula string
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public static final IStringList makeTokenSubstrings( String aFormulaString, IList<ILexanToken> aTokens ) {
-    TsNullArgumentRtException.checkNulls( aFormulaString, aTokens );
-    if( aTokens.isEmpty() ) {
-      return IStringList.EMPTY;
-    }
-    IStringListEdit ll = new StringArrayList( aTokens.size() );
-    int startIndex = 0;
-    int endIndex = 0;
-    // iterate all but last token
-    for( int i = 0; i < aTokens.size() - 1; i++ ) {
-      ILexanToken tkCurr = aTokens.get( i );
-      ILexanToken tkNext = aTokens.get( i + 1 );
-      startIndex = tkCurr.startIndex();
-      endIndex = tkNext.startIndex();
-      String s = aFormulaString.substring( startIndex, endIndex );
-      ll.add( s );
-    }
-    // process last token, always make it up to the end of formula string
-    ll.add( aFormulaString.substring( endIndex ) );
-    return ll;
-  }
+  // public static final IStringList makeTokenSubstrings( String aFormulaString, IList<ILexanToken> aTokens ) {
+  // TsNullArgumentRtException.checkNulls( aFormulaString, aTokens );
+  // if( aTokens.isEmpty() ) {
+  // return IStringList.EMPTY;
+  // }
+  // IStringListEdit ll = new StringArrayList( aTokens.size() );
+  // int startIndex = 0;
+  // int endIndex = 0;
+  // // iterate all but last token
+  // for( int i = 0; i < aTokens.size() - 1; i++ ) {
+  // ILexanToken tkCurr = aTokens.get( i );
+  // ILexanToken tkNext = aTokens.get( i + 1 );
+  // startIndex = tkCurr.startIndex();
+  // endIndex = tkNext.startIndex();
+  // String s = aFormulaString.substring( startIndex, endIndex );
+  // ll.add( s );
+  // }
+  // // process last token, always make it up to the end of formula string
+  // ll.add( aFormulaString.substring( endIndex ) );
+  // return ll;
+  // }
 
   /**
    * Makes formula string from tokens list.
@@ -108,41 +107,34 @@ public class LexanUtils {
       if( t == aTokens.last() ) {
         break;
       }
-      // fill spaces until token start in formula
-      for( int i = sb.length(); i < t.startIndex(); i++ ) {
-        sb.append( ' ' );
-      }
-      // add token
       sb.append( t.str() );
     }
     return sb.toString();
   }
 
-  /**
-   * Returns new tokens list with some tokens replaced by new tokens.
-   * <p>
-   * Correctly handles {@link ILexanToken#startIndex()} changes due to token string length changes.
-   *
-   * @param aTokens {@link IList}&lt;{@link ILexanToken}&gt; - initial list of tokens
-   * @param aNew {@link IStringMap}&lt;{@link ILexanToken}&gt; - replacement map "index" - "new token"
-   * @return {@link IList}&lt;{@link ILexanToken}&gt; - resulting list of tokens
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   */
-  public static IListEdit<ILexanToken> replaceTokens( IList<ILexanToken> aTokens, IIntMap<ILexanToken> aNew ) {
-    TsNullArgumentRtException.checkNulls( aTokens, aNew );
-    IListEdit<ILexanToken> ll = new ElemArrayList<>( aTokens );
-    int delta = 0;
-    for( int i = 0; i < ll.size(); i++ ) {
-      ILexanToken tk = aNew.findByKey( i );
-      if( tk != null ) {
-        ll.set( i, tk );
-      }
-    }
-
-    // TODO LexanUtils.replaceTokens()
-
-    return ll;
-  }
+  // /**
+  // * Returns new tokens list with some tokens replaced by new tokens.
+  // *
+  // * @param aTokens {@link IList}&lt;{@link ILexanToken}&gt; - initial list of tokens
+  // * @param aNew {@link IStringMap}&lt;{@link ILexanToken}&gt; - replacement map "index" - "new token"
+  // * @return {@link IList}&lt;{@link ILexanToken}&gt; - resulting list of tokens
+  // * @throws TsNullArgumentRtException any argument = <code>null</code>
+  // */
+  // public static IListEdit<ILexanToken> replaceTokens( IList<ILexanToken> aTokens, IIntMap<ILexanToken> aNew ) {
+  // TsNullArgumentRtException.checkNulls( aTokens, aNew );
+  // IListEdit<ILexanToken> ll = new ElemArrayList<>( aTokens );
+  // int delta = 0;
+  // for( int i = 0; i < ll.size(); i++ ) {
+  // ILexanToken tk = aNew.findByKey( i );
+  // if( tk != null ) {
+  // ll.set( i, tk );
+  // }
+  // }
+  //
+  // // TODO LexanUtils.replaceTokens()
+  //
+  // return ll;
+  // }
 
   /**
    * No subclasses.

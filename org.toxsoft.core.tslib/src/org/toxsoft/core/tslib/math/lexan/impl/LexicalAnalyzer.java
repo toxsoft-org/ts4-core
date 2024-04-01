@@ -3,6 +3,7 @@ package org.toxsoft.core.tslib.math.lexan.impl;
 import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 import static org.toxsoft.core.tslib.math.lexan.ILexanConstants.*;
 import static org.toxsoft.core.tslib.math.lexan.impl.ITsResources.*;
+import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
@@ -12,6 +13,7 @@ import org.toxsoft.core.tslib.bricks.strio.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.math.lexan.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -48,6 +50,11 @@ public class LexicalAnalyzer {
   private final String singleChars;
 
   /**
+   * Cached instances of the single-char tokens corresponding to the chars from {@link #singleChars}
+   */
+  private final IIntMapEdit<ILexanToken> singleCharTokensCache = new IntMap<>();
+
+  /**
    * Bracket characters to be recognized as a token of kind {@link ILexanConstants}<code>.TKID_BRACKET_XXX</code>.
    * <p>
    * Which brackets will be recognized depends on options {@link ILexanConstants}<code>.OPDEF_USE_XXX_BRACKETS</code>.
@@ -58,9 +65,14 @@ public class LexicalAnalyzer {
   private boolean       isIdPathsAllowed;
 
   /**
-   * Formula string reader is initialized and deinitialized in {@link #tokenize(String)}.
+   * Formula string reader is initialized and de-initialized in {@link #tokenize(String)}.
    */
   private IStrioReader sr = null;
+
+  private final IListEdit<ILexanToken> tokensList = new ElemArrayList<>();
+
+  private String          formulaString = EMPTY_STRING;
+  private IStringListEdit subStrings    = new StringArrayList();
 
   private int numOfRoundBrackets    = 0;
   private int numOfSquareBrackets   = 0;
@@ -100,30 +112,65 @@ public class LexicalAnalyzer {
   // implementation
   //
 
-  private LexanToken internalNextToken() {
-    int startIndex = sr.currentPosition();
-    char ch = sr.nextChar( EStrioSkipMode.SKIP_SPACES );
+  /**
+   * Returns token for the specified bracket symbol.
+   *
+   * @param aCh char - bracket symbol
+   * @return ILexanToken - one of the <code>TK_BRACKET_XXX</code> constant
+   * @throws TsIllegalArgumentRtException argument is not a bracket symbol
+   */
+  static ILexanToken getBracketToken( char aCh ) {
+    return switch( aCh ) {
+      case '(' -> TK_BRACKET_ROUND_LEFT;
+      case ')' -> TK_BRACKET_ROUND_RIGHT;
+      case '[' -> TK_BRACKET_SQUARE_LEFT;
+      case ']' -> TK_BRACKET_SQUARE_RIGHT;
+      case '{' -> TK_BRACKET_CURLY_LEFT;
+      case '}' -> TK_BRACKET_CURLY_RIGHT;
+      case '<' -> TK_BRACKET_TRIANGLE_LEFT;
+      case '>' -> TK_BRACKET_TRIANGLE_RIGHT;
+      default -> throw new TsIllegalArgumentRtException();
+    };
+  }
+
+  private ILexanToken internalNextToken() {
+    char ch = sr.nextChar( EStrioSkipMode.SKIP_NONE );
+    // bypass spaces
+    if( DEFAULT_SPACE_CHARS.indexOf( ch ) >= 0 ) {
+      StringBuilder sb = new StringBuilder();
+      do {
+        sb.append( ch );
+        ch = sr.nextChar( EStrioSkipMode.SKIP_NONE );
+      } while( DEFAULT_SPACE_CHARS.indexOf( ch ) >= 0 );
+      sr.putCharBack();
+      return new TkSpace( sb.toString() );
+    }
     // check for EOF
     if( ch == CHAR_EOF ) {
-      return new TkEof( startIndex );
+      return TkEof.TK_EOF;
     }
     // check for recognized brackets
     if( bracketChars.indexOf( ch ) >= 0 ) {
-      return new TkSingleChar( getBracketTokenId( ch ), ch, startIndex );
+      return getBracketToken( ch );
     }
     // check for any other single char token
     if( singleChars.indexOf( ch ) >= 0 ) {
-      return new TkSingleChar( TKID_SINGLE_CHAR, ch, startIndex );
+      ILexanToken tk = singleCharTokensCache.findByKey( ch );
+      if( tk == null ) {
+        tk = new TkSingleChar( TKID_SINGLE_CHAR, ch );
+        singleCharTokensCache.put( ch, tk );
+      }
+      return tk;
     }
     sr.putCharBack();
     // ---------------------------------------------
     // is this a number?
     if( StrioUtils.isAsciiDigit( ch ) ) {
       try {
-        return new TkNumber( sr.readDouble(), startIndex );
+        return new TkNumber( sr.readDouble() );
       }
       catch( @SuppressWarnings( "unused" ) NumberFormatException ex ) {
-        return new TkError( MSG_ERR_NUMBER_WAS_EXPECTED, startIndex );
+        return new TkError( MSG_ERR_NUMBER_WAS_EXPECTED );
       }
     }
     // ---------------------------------------------
@@ -131,10 +178,10 @@ public class LexicalAnalyzer {
     if( isQStringsUsed ) {
       if( ch == CHAR_QUOTE ) {
         try {
-          return new LexanToken( TKID_QSTRING, sr.readQuotedString(), startIndex );
+          return new LexanToken( TKID_QSTRING, sr.readQuotedString() );
         }
         catch( @SuppressWarnings( "unused" ) NumberFormatException ex ) {
-          return new TkError( MSG_ERR_QSRTING_WAS_EXPECTED, startIndex );
+          return new TkError( MSG_ERR_QSRTING_WAS_EXPECTED );
         }
       }
     }
@@ -148,28 +195,28 @@ public class LexicalAnalyzer {
       else {
         kwStr = sr.readIdName();
       }
-      return new LexanToken( TKID_KEYWORD, kwStr, startIndex );
+      return new LexanToken( TKID_KEYWORD, kwStr );
     }
     catch( @SuppressWarnings( "unused" ) Exception ex ) {
-      return new TkError( isIdPathsAllowed ? MSG_ERR_IDPATH_WAS_EXPECTED : MSG_ERR_IDNAME_WAS_EXPECTED, startIndex );
+      return new TkError( isIdPathsAllowed ? MSG_ERR_IDPATH_WAS_EXPECTED : MSG_ERR_IDNAME_WAS_EXPECTED );
     }
   }
 
-  private static LexanToken checkForUnmatchedOpeningBracket( LexanToken aToken, int aNum, String aErrorMsg ) {
+  private static ILexanToken checkForUnmatchedOpeningBracket( ILexanToken aToken, int aNum, String aErrorMsg ) {
     if( aNum > 0 ) {
-      return new TkError( aErrorMsg, aToken.startIndex() );
+      return new TkError( aErrorMsg );
     }
     return aToken;
   }
 
-  private static LexanToken checkForUnmatchedClosingBracket( LexanToken aToken, int aNum, String aErrorMsg ) {
+  private static ILexanToken checkForUnmatchedClosingBracket( ILexanToken aToken, int aNum, String aErrorMsg ) {
     if( aNum < 0 ) {
-      return new TkError( aErrorMsg, aToken.startIndex() );
+      return new TkError( aErrorMsg );
     }
     return aToken;
   }
 
-  private LexanToken checkBracketsIntegrity( LexanToken aToken ) {
+  private ILexanToken checkBracketsIntegrity( ILexanToken aToken ) {
     switch( aToken.kindId() ) {
       case TKID_BRACKET_ROUND_LEFT: {
         ++numOfRoundBrackets;
@@ -204,7 +251,7 @@ public class LexicalAnalyzer {
         return checkForUnmatchedClosingBracket( aToken, numOfCurlyBrackets, MSG_ERR_LONE_BRACKET_TRIANGLE_R );
       }
       case TKID_EOF: {
-        LexanToken t;
+        ILexanToken t;
         t = checkForUnmatchedOpeningBracket( aToken, numOfRoundBrackets, MSG_ERR_LONE_BRACKET_ROUND_L );
         if( t != aToken ) {
           return t;
@@ -238,10 +285,12 @@ public class LexicalAnalyzer {
    * Last element of the returned list contains the only terminal token either EOF or ERROR.
    *
    * @param aFormulaString String - the formula string
-   * @return {@link IListEdit}&lt;{@link ILexanToken}&gt; - the tokens making the formula
+   * @return {@link IList}&lt;{@link ILexanToken}&gt; - the tokens making the formula
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public IListEdit<ILexanToken> tokenize( String aFormulaString ) {
+  public IList<ILexanToken> tokenize( String aFormulaString ) {
+    TsNullArgumentRtException.checkNull( aFormulaString );
+    formulaString = aFormulaString;
     // initialize reader
     numOfRoundBrackets = 0;
     numOfSquareBrackets = 0;
@@ -249,21 +298,46 @@ public class LexicalAnalyzer {
     numOfTrianlgeBrackets = 0;
     ICharInputStream chIn = new CharInputStreamString( aFormulaString );
     sr = new StrioReader( chIn );
+    tokensList.clear();
+    subStrings.clear();
     // parse formula
-    IListEdit<ILexanToken> ll = new ElemArrayList<>();
-    LexanToken tk;
+    ILexanToken tk;
     do {
+      int beginIndex = sr.currentPosition();
       tk = internalNextToken();
+      int endIndex = sr.currentPosition();
+      String subs;
+      if( !tk.kindId().equals( TKID_EOF ) ) {
+        subs = formulaString.substring( beginIndex, endIndex );
+      }
+      else {
+        subs = EMPTY_STRING;
+      }
+      subStrings.add( subs );
       // check brackets integrity, on error #tk becomes the error token
       tk = checkBracketsIntegrity( tk );
-      ll.add( tk );
+      tokensList.add( tk );
     } while( !tk.isFinisher() );
     sr = null;
-    return ll;
+    return tokensList;
   }
 
-  public IList<ILexanToken> getTokens() {
+  /**
+   * Returns last parsed formula string.
+   *
+   * @return String - formula string
+   */
+  public String getFormulaString() {
+    return formulaString;
+  }
 
+  /**
+   * Returns the tokens of the last parsed formula.
+   *
+   * @return {@link IList}&lt;{@link ILexanToken}&gt; - parsed tokens
+   */
+  public IList<ILexanToken> getTokens() {
+    return tokensList;
   }
 
   /**
@@ -272,7 +346,7 @@ public class LexicalAnalyzer {
    * @return {@link IStringList} - substrings making the tokens {@link #getTokens()}
    */
   public IStringList getSubStrings() {
-
+    return subStrings;
   }
 
 }

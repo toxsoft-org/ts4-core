@@ -11,6 +11,7 @@ import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.math.lexan.*;
 import org.toxsoft.core.tslib.math.lexan.impl.*;
+import org.toxsoft.core.tslib.math.logican.*;
 import org.toxsoft.core.tslib.math.logicop.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -32,8 +33,6 @@ public final class CombiCondTokenizer {
   private final IStringMapEdit<ISingleCondParams> singlesMap = new StringMap<>();
   private final String                            formulaString;
 
-  private int counter = 0;
-
   /**
    * Constructor.
    *
@@ -44,7 +43,7 @@ public final class CombiCondTokenizer {
     TsNullArgumentRtException.checkNull( aCcp );
     ccp = aCcp;
     add( aCcp );
-    addToken( new TkEof( counter ) );
+    addToken( TkEof.TK_EOF );
     formulaString = LexanUtils.makeFormulaString( tokens );
   }
 
@@ -66,40 +65,50 @@ public final class CombiCondTokenizer {
 
   private void addSimple( ISingleCondParams aScp, boolean aInverted ) {
     if( aInverted ) {
-      ILexanToken tk = new LexanToken( TKID_LOGICAL_NOT, KW_LOGICAL_NOT, counter );
+      ILexanToken tk = new LexanToken( TKID_LOGICAL_NOT, KW_LOGICAL_NOT );
       addToken( tk );
-      addSpace();
+      addToken( TkSpace.TK_SINGLE );
     }
-    String kw = makeKeyword( aScp );
-    ILexanToken tk = new LexanToken( TKID_KEYWORD, kw, counter );
+    ILexanToken tk = makeToken( aScp );
     addToken( tk );
   }
 
   private void addLogicalOp( ELogicalOp aOp ) {
-    addSpace();
+    addToken( TkSpace.TK_SINGLE );
     ILexanToken tk = switch( aOp ) {
-      case AND -> new LexanToken( TKID_LOGICAL_AND, KW_LOGICAL_AND, counter );
-      case OR -> new LexanToken( TKID_LOGICAL_OR, KW_LOGICAL_OR, counter );
-      case XOR -> new LexanToken( TKID_LOGICAL_XOR, KW_LOGICAL_XOR, counter );
+      case AND -> new LexanToken( TKID_LOGICAL_AND, KW_LOGICAL_AND );
+      case OR -> new LexanToken( TKID_LOGICAL_OR, KW_LOGICAL_OR );
+      case XOR -> new LexanToken( TKID_LOGICAL_XOR, KW_LOGICAL_XOR );
       default -> throw new TsNotAllEnumsUsedRtException();
     };
     addToken( tk );
-    addSpace();
+    addToken( TkSpace.TK_SINGLE );
   }
 
   private void addLeftBracket() {
-    ILexanToken tk = new TkSingleChar( TKID_BRACKET_ROUND_LEFT, '(', counter );
+    ILexanToken tk = new TkSingleChar( TKID_BRACKET_ROUND_LEFT, '(' );
     addToken( tk );
   }
 
   private void addRightBracket() {
-    ILexanToken tk = new TkSingleChar( TKID_BRACKET_ROUND_RIGHT, ')', counter );
+    ILexanToken tk = new TkSingleChar( TKID_BRACKET_ROUND_RIGHT, ')' );
     addToken( tk );
   }
 
   private void addToken( ILexanToken aToken ) {
     tokens.add( aToken );
-    counter += aToken.str().length();
+  }
+
+  private ILexanToken makeToken( ISingleCondParams aScp ) {
+    if( ISingleCondParams.ALWAYS.equals( aScp ) ) {
+      return ILogicalFormulaConstants.TK_LOGICAL_TRUE;
+    }
+    if( ISingleCondParams.NEVER.equals( aScp ) ) {
+      return ILogicalFormulaConstants.TK_LOGICAL_FALSE;
+    }
+    String kw = makeKeyword( aScp );
+    ILexanToken tk = new LexanToken( TKID_KEYWORD, kw );
+    return tk;
   }
 
   private String makeKeyword( ISingleCondParams aScp ) {
@@ -112,12 +121,6 @@ public final class CombiCondTokenizer {
     String kw = keywrodGenerator.nextId();
     singlesMap.put( kw, aScp );
     return kw;
-  }
-
-  private void addSpace() {
-    if( counter != 0 ) {
-      ++counter;
-    }
   }
 
   // ------------------------------------------------------------------------------------

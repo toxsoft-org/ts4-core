@@ -21,12 +21,11 @@ public final class TkNumber
    * Constructor.
    *
    * @param aNumber double - the number
-   * @param aStartIndex int - token starting index in the formula string
    * @throws TsIllegalArgumentRtException argument is not an IDpath
    * @throws TsIllegalArgumentRtException index is negative
    */
-  public TkNumber( double aNumber, int aStartIndex ) {
-    super( TKID_NUMBER, Double.toString( aNumber ), aStartIndex );
+  public TkNumber( double aNumber ) {
+    super( TKID_NUMBER, Double.toString( aNumber ) );
     number = aNumber;
   }
 

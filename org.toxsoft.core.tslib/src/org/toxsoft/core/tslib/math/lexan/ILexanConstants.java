@@ -3,8 +3,9 @@ package org.toxsoft.core.tslib.math.lexan;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.math.lexan.impl.*;
-import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Constants of the simple formula lexical analyzer {@link LexicalAnalyzer}.
@@ -33,6 +34,24 @@ public interface ILexanConstants {
   String TKID_ERROR = "tk.error"; //$NON-NLS-1$
 
   /**
+   * Token ID: the space characters between other tokens. <br>
+   * Implementation is {@link TkSpace}. It is guaranteed that {@link ILexanToken#str()} contains at least one space
+   * symbol from the {@link IStrioHardConstants#DEFAULT_SPACE_CHARS} string.
+   * <p>
+   * Usually spaces between tokens are ignored by the syntactic parsers. However, there is at least following reasons to
+   * use space tokens:
+   * <ul>
+   * <li>space tokens existence allows clients to use {@link LexanUtils#makeFormulaString(IList)} without additional
+   * hints where the gaps between tokens is mandatory;</li>
+   * <li>existing {@link LexicalAnalyzer} is a simple implementation. It can not handle mlti-symbol operators. For
+   * example, without space tokens in both formula "<code>a + +1</code>" and "<code>++i</code>" tokenizer returns two
+   * consecutive SINGLE_CHAR '+' tokens. The space tokens allows to delegate recognition of such a complex operators to
+   * the higher level parser.</li>
+   * </ul>
+   */
+  String TKID_SPACE = "tk.space"; //$NON-NLS-1$
+
+  /**
    * Token ID: single character token (chars are specified in {@link LexicalAnalyzer} constructor.<br>
    * {@link ILexanToken#ch()} returns the character.
    */
@@ -45,10 +64,20 @@ public interface ILexanConstants {
   String TKID_BRACKET_ROUND_LEFT = "tk.br_round_l"; //$NON-NLS-1$
 
   /**
+   * Token of kind {@link #TKID_BRACKET_ROUND_LEFT}.
+   */
+  ILexanToken TK_BRACKET_ROUND_LEFT = new TkSingleChar( TKID_BRACKET_ROUND_LEFT, '(' );
+
+  /**
    * Token ID: right round bracket ')'.<br>
    * {@link ILexanToken#ch()} returns the character.
    */
   String TKID_BRACKET_ROUND_RIGHT = "tk.br_round_r"; //$NON-NLS-1$
+
+  /**
+   * Token of kind {@link #TKID_BRACKET_ROUND_RIGHT}.
+   */
+  ILexanToken TK_BRACKET_ROUND_RIGHT = new TkSingleChar( TKID_BRACKET_ROUND_RIGHT, ')' );
 
   /**
    * Token ID: left square bracket '['.<br>
@@ -57,10 +86,20 @@ public interface ILexanConstants {
   String TKID_BRACKET_SQUARE_LEFT = "tk.br_square_l"; //$NON-NLS-1$
 
   /**
+   * Token of kind {@link #TKID_BRACKET_SQUARE_LEFT}.
+   */
+  ILexanToken TK_BRACKET_SQUARE_LEFT = new TkSingleChar( TKID_BRACKET_SQUARE_LEFT, '[' );
+
+  /**
    * Token ID: right square bracket ']'.<br>
    * {@link ILexanToken#ch()} returns the character.
    */
   String TKID_BRACKET_SQUARE_RIGHT = "tk.br_square_r"; //$NON-NLS-1$
+
+  /**
+   * Token of kind {@link #TKID_BRACKET_SQUARE_RIGHT}.
+   */
+  ILexanToken TK_BRACKET_SQUARE_RIGHT = new TkSingleChar( TKID_BRACKET_SQUARE_RIGHT, ']' );
 
   /**
    * Token ID: left curly bracket '{'.<br>
@@ -69,10 +108,20 @@ public interface ILexanConstants {
   String TKID_BRACKET_CURLY_LEFT = "tk.br_curly_l"; //$NON-NLS-1$
 
   /**
+   * Token of kind {@link #TKID_BRACKET_CURLY_LEFT}.
+   */
+  ILexanToken TK_BRACKET_CURLY_LEFT = new TkSingleChar( TKID_BRACKET_CURLY_LEFT, '{' );
+
+  /**
    * Token ID: right curly bracket '&lt;'.<br>
    * {@link ILexanToken#ch()} returns the character.
    */
   String TKID_BRACKET_CURLY_RIGHT = "tk.br_curly_r"; //$NON-NLS-1$
+
+  /**
+   * Token of kind {@link #TKID_BRACKET_CURLY_RIGHT}.
+   */
+  ILexanToken TK_BRACKET_CURLY_RIGHT = new TkSingleChar( TKID_BRACKET_CURLY_RIGHT, '}' );
 
   /**
    * Token ID: left triangle bracket '&gt;'.<br>
@@ -81,10 +130,20 @@ public interface ILexanConstants {
   String TKID_BRACKET_TRIANGLE_LEFT = "tk.br_triangle_l"; //$NON-NLS-1$
 
   /**
+   * Token of kind {@link #TKID_BRACKET_TRIANGLE_LEFT}.
+   */
+  ILexanToken TK_BRACKET_TRIANGLE_LEFT = new TkSingleChar( TKID_BRACKET_TRIANGLE_LEFT, '<' );
+
+  /**
    * Token ID: right triangle bracket ')'.<br>
    * {@link ILexanToken#ch()} returns the character.
    */
   String TKID_BRACKET_TRIANGLE_RIGHT = "tk.br_triangle_r"; //$NON-NLS-1$
+
+  /**
+   * Token of kind {@link #TKID_BRACKET_TRIANGLE_LEFT}.
+   */
+  ILexanToken TK_BRACKET_TRIANGLE_RIGHT = new TkSingleChar( TKID_BRACKET_TRIANGLE_RIGHT, '>' );
 
   /**
    * Token ID: the integer or floating number, represented as a <b><code>double</code></b>.<br>
@@ -137,26 +196,5 @@ public interface ILexanConstants {
    * {@link LexicalAnalyzer} option: allow quoted strings as a token {@link #TKID_QSTRING}.
    */
   IDataDef OPDEF_USE_QSTRING = DataDef.ofBoolFlag( "useQstring", false ); //$NON-NLS-1$
-
-  /**
-   * Returns token ID for the specified bracket symbol.
-   *
-   * @param aCh char - bracket symbol
-   * @return String - one of the <code>TKID_BRACKET_XXX</code> constant
-   * @throws TsIllegalArgumentRtException argument is not a bracket symbol
-   */
-  static String getBracketTokenId( char aCh ) {
-    return switch( aCh ) {
-      case '(' -> TKID_BRACKET_ROUND_LEFT;
-      case ')' -> TKID_BRACKET_ROUND_RIGHT;
-      case '[' -> TKID_BRACKET_SQUARE_LEFT;
-      case ']' -> TKID_BRACKET_SQUARE_RIGHT;
-      case '{' -> TKID_BRACKET_CURLY_LEFT;
-      case '}' -> TKID_BRACKET_CURLY_RIGHT;
-      case '<' -> TKID_BRACKET_TRIANGLE_LEFT;
-      case '>' -> TKID_BRACKET_TRIANGLE_RIGHT;
-      default -> throw new TsIllegalArgumentRtException();
-    };
-  }
 
 }
