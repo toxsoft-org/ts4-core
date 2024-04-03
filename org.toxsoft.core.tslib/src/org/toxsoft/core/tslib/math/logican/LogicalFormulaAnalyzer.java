@@ -12,14 +12,14 @@ import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.math.lexan.*;
 import org.toxsoft.core.tslib.math.lexan.impl.*;
-import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Lexical analyzer of the logical expression (formula).
  *
  * @author hazard157
  */
-public class LogicalFormulaAnalyzer {
+public class LogicalFormulaAnalyzer
+    implements ILexicalAnalyzer {
 
   private final LexicalAnalyzer        lexicalAnalyzer;
   private final IListEdit<ILexanToken> tokensList = new ElemArrayList<>();
@@ -41,30 +41,26 @@ public class LogicalFormulaAnalyzer {
   //
 
   /**
-   * Splits a formula string into individual tokens.
+   * {@inheritDoc}
    * <p>
    * Returned list may contain tokens only of the following kind IDs:
    * <ul>
-   * <li>{@link ILexanConstants#TKID_EOF} - only as the last token, indicates parsing success;</li>
-   * <li>{@link ILexanConstants#TKID_ERROR} - only as the last token, indicates parsing error;</li>
-   * <li>{@link ILexanConstants#TKID_SPACE} - spaces between tokens, retained to restore original for,ula string;</li>
-   * <li>{@link ILexanConstants#TKID_BRACKET_ROUND_LEFT} - left round bracket;</li>
-   * <li>{@link ILexanConstants#TKID_BRACKET_ROUND_RIGHT} - round bracket;</li>
-   * <li>{@link ILexanConstants#TKID_KEYWORD} - an IDpath/IDname to be interpreted by the caller;</li>
-   * <li>{@link ILogicalFormulaConstants#TKID_LOGICAL_NOT} - unary operation, logical inversion;</li>
-   * <li>{@link ILogicalFormulaConstants#TKID_LOGICAL_AND} - binary operation, logical AND;</li>
-   * <li>{@link ILogicalFormulaConstants#TKID_LOGICAL_OR} - binary operation, logical OR;</li>
-   * <li>{@link ILogicalFormulaConstants#TKID_LOGICAL_XOR} - binary operation, logical XOR;</li>
-   * <li>{@link ILogicalFormulaConstants#TKID_LOGICAL_TRUE} - constant <code>true</code>;</li>
-   * <li>{@link ILogicalFormulaConstants#TKID_LOGICAL_FALSE} - constant <code><code>false</code> true</code>.</li>
+   * <li>{@link ILexanConstants#TKID_EOF EOF} - only as the last token, indicates parsing success;</li>
+   * <li>{@link ILexanConstants#TKID_ERROR ERROR} - only as the last token, indicates parsing error;</li>
+   * <li>{@link ILexanConstants#TKID_SPACE SPACE} - spaces between tokens, retained to restore original formula;</li>
+   * <li>{@link ILexanConstants#TKID_BRACKET_ROUND_LEFT BRACKET_ROUND_LEFT} - left round bracket;</li>
+   * <li>{@link ILexanConstants#TKID_BRACKET_ROUND_RIGHT BRACKET_ROUND_RIGHT} - round bracket;</li>
+   * <li>{@link ILexanConstants#TKID_KEYWORD KEYWORD} - an IDpath/IDname to be interpreted by the caller;</li>
+   * <li>{@link ILogicalFormulaConstants#TKID_LOGICAL_NOT LOGICAL_NOT} - unary operation, logical inversion;</li>
+   * <li>{@link ILogicalFormulaConstants#TKID_LOGICAL_AND LOGICAL_AND} - binary operation, logical AND;</li>
+   * <li>{@link ILogicalFormulaConstants#TKID_LOGICAL_OR LOGICAL_OR} - binary operation, logical OR;</li>
+   * <li>{@link ILogicalFormulaConstants#TKID_LOGICAL_XOR LOGICAL_XOR} - binary operation, logical XOR;</li>
+   * <li>{@link ILogicalFormulaConstants#TKID_LOGICAL_TRUE LOGICAL_TRUE} - constant <code>true</code>;</li>
+   * <li>{@link ILogicalFormulaConstants#TKID_LOGICAL_FALSE LOGICAL_FALSE} - constant <code><code>false</code>.</li>
    * </ul>
    * <p>
-   * Last element of the returned list contains the only terminal token either EOF or ERROR.
-   *
-   * @param aFormulaString String - the formula string
-   * @return {@link IList}&lt;{@link ILexanToken}&gt; - the tokens making the formula
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
+  @Override
   public IList<ILexanToken> tokenize( String aFormulaString ) {
     // basic parsing returns tokens of kind: EOF, ERROR, SINGLE_CHAR (&|^!), KEYWORD, ROUND_BRACKET_LEFT/RIGHT
     IList<ILexanToken> ll = lexicalAnalyzer.tokenize( aFormulaString );
@@ -83,7 +79,7 @@ public class LogicalFormulaAnalyzer {
           case CH_LOGICAL_OR -> TK_LOGICAL_OR;
           case CH_LOGICAL_XOR -> TK_LOGICAL_XOR;
           case CH_LOGICAL_NOT -> TK_LOGICAL_NOT;
-          default -> throw new TsInternalErrorRtException(); // no other sinle-char tokens may exist in logical formula
+          default -> new TkError( "Unknown single-char token" + tkOrig.ch() );
         };
         case TKID_KEYWORD -> switch( tkOrig.str().toUpperCase() ) {
           case KW_LOGICAL_AND -> TK_LOGICAL_AND;
@@ -94,39 +90,36 @@ public class LogicalFormulaAnalyzer {
           case KW_FALSE -> TK_LOGICAL_FALSE;
           default -> tkOrig; // other keywords does not need to be substituted
         };
-        default -> throw new TsInternalErrorRtException(); // no other token kind IDs may exist in logical formula
+        default -> new TkError( "Unknown token kind " + tkOrig.kindId() );
       };
       tokensList.set( i, tkSubstituted );
     }
+
+    /**
+     * FIXME here we must check for syntactic errors and replace first erroneous token with a TkError
+     */
+
     return tokensList;
   }
 
-  /**
-   * Returns last parsed formula string.
-   *
-   * @return String - formula string
-   */
+  @Override
   public String getFormulaString() {
     return lexicalAnalyzer.getFormulaString();
   }
 
-  /**
-   * Returns the tokens of the last parsed formula.
-   *
-   * @return {@link IList}&lt;{@link ILexanToken}&gt; - parsed tokens
-   */
+  @Override
   public IList<ILexanToken> getTokens() {
     return tokensList;
   }
 
-  /**
-   * Returns the token substrings in last parsed formula.
-   *
-   * @return {@link IStringList} - substrings making the tokens {@link #getTokens()}
-   */
+  @Override
   public IStringList getSubStrings() {
     return lexicalAnalyzer.getSubStrings();
   }
+
+  // ------------------------------------------------------------------------------------
+  // API
+  //
 
   /**
    * Determines if boolean constant names are recognized.

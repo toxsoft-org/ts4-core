@@ -17,6 +17,56 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class LexanUtils {
 
   /**
+   * Returns the index of the error token first symbol in the {@link ILexicalAnalyzer#getFormulaString()}.
+   * <p>
+   * For an empty formula returns -1.
+   *
+   * @param aLexan {@link ILexicalAnalyzer} - the analyzer
+   * @return int - error starting position in formula or -1 on no error
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static int getErrorCharPos( ILexicalAnalyzer aLexan ) {
+    TsNullArgumentRtException.checkNull( aLexan );
+    IList<ILexanToken> ll = aLexan.getTokens();
+    if( ll.isEmpty() ) {
+      return -1;
+    }
+    for( int i = 0; i < ll.size(); i++ ) {
+      ILexanToken tk = ll.get( i );
+      if( tk.kindId().equals( TKID_ERROR ) ) {
+        return getCharPos( aLexan, i );
+      }
+    }
+    return -1;
+  }
+
+  /**
+   * Returns the index of the token first symbol in the {@link ILexicalAnalyzer#getFormulaString()}.
+   * <p>
+   * For an empty formula returns -1.
+   *
+   * @param aLexan {@link ILexicalAnalyzer} - the analyzer
+   * @param aTokenIndex int - token index in
+   * @return int - error starting position in formula or -1 on no error
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException index of of range
+   */
+  public static int getCharPos( ILexicalAnalyzer aLexan, int aTokenIndex ) {
+    TsNullArgumentRtException.checkNull( aLexan );
+    IList<ILexanToken> ll = aLexan.getTokens();
+    if( ll.isEmpty() ) {
+      return -1;
+    }
+    TsErrorUtils.checkCollIndex( ll.size() - 1, aTokenIndex );
+    int charIndex = 0;
+    for( int i = 0; i < aTokenIndex; i++ ) {
+      String ss = aLexan.getSubStrings().get( i );
+      charIndex += ss.length();
+    }
+    return charIndex;
+  }
+
+  /**
    * Returns unique keyword name of the tokens.
    * <p>
    * Keyword is returned by the token {@link ILexanToken#str()} of kind {@link ILexanConstants#TKID_KEYWORD}.

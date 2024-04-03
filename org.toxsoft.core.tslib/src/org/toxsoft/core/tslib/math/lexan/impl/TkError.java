@@ -20,7 +20,7 @@ public class TkError
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException index is negative
    */
-  TkError( String aMessage ) {
+  public TkError( String aMessage ) {
     super( TKID_ERROR, aMessage );
   }
 

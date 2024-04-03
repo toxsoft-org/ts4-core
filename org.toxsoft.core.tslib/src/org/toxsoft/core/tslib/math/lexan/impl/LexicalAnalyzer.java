@@ -40,7 +40,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public class LexicalAnalyzer {
+public class LexicalAnalyzer
+    implements ILexicalAnalyzer {
 
   /**
    * Single characters to be recognized as a token.
@@ -279,15 +280,7 @@ public class LexicalAnalyzer {
   // API
   //
 
-  /**
-   * Splits a formula string into individual tokens.
-   * <p>
-   * Last element of the returned list contains the only terminal token either EOF or ERROR.
-   *
-   * @param aFormulaString String - the formula string
-   * @return {@link IList}&lt;{@link ILexanToken}&gt; - the tokens making the formula
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   */
+  @Override
   public IList<ILexanToken> tokenize( String aFormulaString ) {
     TsNullArgumentRtException.checkNull( aFormulaString );
     formulaString = aFormulaString;
@@ -322,29 +315,17 @@ public class LexicalAnalyzer {
     return tokensList;
   }
 
-  /**
-   * Returns last parsed formula string.
-   *
-   * @return String - formula string
-   */
+  @Override
   public String getFormulaString() {
     return formulaString;
   }
 
-  /**
-   * Returns the tokens of the last parsed formula.
-   *
-   * @return {@link IList}&lt;{@link ILexanToken}&gt; - parsed tokens
-   */
+  @Override
   public IList<ILexanToken> getTokens() {
     return tokensList;
   }
 
-  /**
-   * Returns the token substrings in last parsed formula.
-   *
-   * @return {@link IStringList} - substrings making the tokens {@link #getTokens()}
-   */
+  @Override
   public IStringList getSubStrings() {
     return subStrings;
   }
