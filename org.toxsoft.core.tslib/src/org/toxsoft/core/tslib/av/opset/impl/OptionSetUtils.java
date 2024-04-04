@@ -227,7 +227,7 @@ public class OptionSetUtils {
    * "<code>The person is \{ '<b>{firstName}</b>', '<b>{lastName)</b>' \}</code>" formats as
    * "<code>The person is { 'John', 'Smith' }</code>".
    * <p>
-   * Optionally, if <code>aDefs</code> contains definition for the option specified in the <i>reduced form</i>, than
+   * If <code>aDefs</code> contains definition for the option specified in the <i>reduced form</i>, than
    * {@link IDataDef#formatString()} will be used for value formatting.
    *
    * @param aFmtStr String - the format string
@@ -236,8 +236,8 @@ public class OptionSetUtils {
    * @return String - formatted string
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException invalid format string
-   * @throws TsItemNotFoundRtException no argument with ID mentioned in <code>aFmtStr</code>
-   * @throws TsIllegalArgumentRtException actual value does not matches expected type
+   * @throws TsItemNotFoundRtException argument ID mentioned in <code>aFmtStr</code> not found in <code>aArgs</code>
+   * @throws TsIllegalArgumentRtException value type from <code>aArgs</code> does not matches format specifier type
    */
   public static String format( String aFmtStr, IOptionSet aArgs, IStridablesList<IDataDef> aDefs ) {
     TsNullArgumentRtException.checkNulls( aFmtStr, aDefs );
