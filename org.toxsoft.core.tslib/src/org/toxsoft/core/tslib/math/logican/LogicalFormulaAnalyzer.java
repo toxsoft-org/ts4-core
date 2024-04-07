@@ -7,22 +7,19 @@ import static org.toxsoft.core.tslib.math.logicop.ILogicalOpConstants.*;
 
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
-import org.toxsoft.core.tslib.coll.*;
-import org.toxsoft.core.tslib.coll.impl.*;
-import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.math.lexan.*;
 import org.toxsoft.core.tslib.math.lexan.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Lexical analyzer of the logical expression (formula).
  *
  * @author hazard157
  */
-public class LogicalFormulaAnalyzer
-    implements ILexicalAnalyzer {
+public class LogicalFormulaAnalyzer {
 
-  private final LexicalAnalyzer        lexicalAnalyzer;
-  private final IListEdit<ILexanToken> tokensList = new ElemArrayList<>();
+  private final LexicalAnalyzer lexicalAnalyzer;
+  // private final IListEdit<ILexanToken> tokensList = new ElemArrayList<>();
 
   private boolean recognizeBooleanConstants = false;
 
@@ -41,9 +38,9 @@ public class LogicalFormulaAnalyzer
   //
 
   /**
-   * {@inheritDoc}
+   * Performs the lexical analysis of the formula.
    * <p>
-   * Returned list may contain tokens only of the following kind IDs:
+   * Returned tokens may contain tokens only of the following kind IDs:
    * <ul>
    * <li>{@link ILexanConstants#TKID_EOF EOF} - only as the last token, indicates parsing success;</li>
    * <li>{@link ILexanConstants#TKID_ERROR ERROR} - only as the last token, indicates parsing error;</li>
@@ -59,15 +56,17 @@ public class LogicalFormulaAnalyzer
    * <li>{@link ILogicalFormulaConstants#TKID_LOGICAL_FALSE LOGICAL_FALSE} - constant <code><code>false</code>.</li>
    * </ul>
    * <p>
+   *
+   * @param aFormulaString String - the formula string
+   * @return {@link IFormulaTokensEdit} - the analysis result
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  @Override
-  public IList<ILexanToken> tokenize( String aFormulaString ) {
+  public IFormulaTokensEdit tokenize( String aFormulaString ) {
     // basic parsing returns tokens of kind: EOF, ERROR, SINGLE_CHAR (&|^!), KEYWORD, ROUND_BRACKET_LEFT/RIGHT
-    IList<ILexanToken> ll = lexicalAnalyzer.tokenize( aFormulaString );
-    tokensList.setAll( ll );
+    IFormulaTokensEdit ft = lexicalAnalyzer.tokenize( aFormulaString );
     // substitute some tokens with specific logical operation tokens
-    for( int i = 0; i < tokensList.size(); i++ ) {
-      ILexanToken tkOrig = tokensList.get( i );
+    for( int i = 0; i < ft.tokens().size(); i++ ) {
+      ILexanToken tkOrig = ft.tokens().get( i );
       ILexanToken tkSubstituted = switch( tkOrig.kindId() ) {
         case TKID_EOF -> tkOrig;
         case TKID_ERROR -> tkOrig;
@@ -92,29 +91,9 @@ public class LogicalFormulaAnalyzer
         };
         default -> new TkError( "Unknown token kind " + tkOrig.kindId() );
       };
-      tokensList.set( i, tkSubstituted );
+      ft.replaceToken( i, tkSubstituted );
     }
-
-    /**
-     * FIXME here we must check for syntactic errors and replace first erroneous token with a TkError
-     */
-
-    return tokensList;
-  }
-
-  @Override
-  public String getFormulaString() {
-    return lexicalAnalyzer.getFormulaString();
-  }
-
-  @Override
-  public IList<ILexanToken> getTokens() {
-    return tokensList;
-  }
-
-  @Override
-  public IStringList getSubStrings() {
-    return lexicalAnalyzer.getSubStrings();
+    return ft;
   }
 
   // ------------------------------------------------------------------------------------

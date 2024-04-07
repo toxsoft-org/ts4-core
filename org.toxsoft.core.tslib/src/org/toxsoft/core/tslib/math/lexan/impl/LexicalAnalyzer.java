@@ -40,8 +40,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public class LexicalAnalyzer
-    implements ILexicalAnalyzer {
+public class LexicalAnalyzer {
 
   /**
    * Single characters to be recognized as a token.
@@ -280,8 +279,14 @@ public class LexicalAnalyzer
   // API
   //
 
-  @Override
-  public IList<ILexanToken> tokenize( String aFormulaString ) {
+  /**
+   * Performs the lexical analysis of the formula.
+   *
+   * @param aFormulaString String - the formula string
+   * @return {@link IFormulaTokensEdit} - the analysis result
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public IFormulaTokensEdit tokenize( String aFormulaString ) {
     TsNullArgumentRtException.checkNull( aFormulaString );
     formulaString = aFormulaString;
     // initialize reader
@@ -299,35 +304,20 @@ public class LexicalAnalyzer
       int beginIndex = sr.currentPosition();
       tk = internalNextToken();
       int endIndex = sr.currentPosition();
-      String subs;
-      if( !tk.kindId().equals( TKID_EOF ) ) {
-        subs = formulaString.substring( beginIndex, endIndex );
-      }
-      else {
-        subs = EMPTY_STRING;
-      }
-      subStrings.add( subs );
       // check brackets integrity, on error #tk becomes the error token
       tk = checkBracketsIntegrity( tk );
       tokensList.add( tk );
+      String subs;
+      if( tk.isFinisher() ) {
+        subs = formulaString.substring( beginIndex );
+      }
+      else {
+        subs = formulaString.substring( beginIndex, endIndex );
+      }
+      subStrings.add( subs );
     } while( !tk.isFinisher() );
     sr = null;
-    return tokensList;
-  }
-
-  @Override
-  public String getFormulaString() {
-    return formulaString;
-  }
-
-  @Override
-  public IList<ILexanToken> getTokens() {
-    return tokensList;
-  }
-
-  @Override
-  public IStringList getSubStrings() {
-    return subStrings;
+    return new FormulaTokens( formulaString, tokensList, subStrings );
   }
 
 }

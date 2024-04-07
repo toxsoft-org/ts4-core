@@ -366,7 +366,9 @@ public class M5TableViewer<T>
   @SuppressWarnings( "unchecked" )
   @Override
   public T selectedItem() {
-    checkStateValidity();
+    if( !isStateValid() ) {
+      return null;
+    }
     IStructuredSelection ss = (IStructuredSelection)tableViewer.getSelection();
     if( ss.isEmpty() ) {
       return null;
@@ -376,12 +378,13 @@ public class M5TableViewer<T>
 
   @Override
   public void setSelectedItem( T aItem ) {
-    checkStateValidity();
-    IStructuredSelection selection = StructuredSelection.EMPTY;
-    if( aItem != null ) {
-      selection = new StructuredSelection( aItem );
+    if( isStateValid() ) {
+      IStructuredSelection selection = StructuredSelection.EMPTY;
+      if( aItem != null ) {
+        selection = new StructuredSelection( aItem );
+      }
+      tableViewer.setSelection( selection, true );
     }
-    tableViewer.setSelection( selection, true );
   }
 
   // ------------------------------------------------------------------------------------

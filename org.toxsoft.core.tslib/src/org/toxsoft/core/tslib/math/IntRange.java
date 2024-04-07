@@ -271,6 +271,18 @@ public final class IntRange
     return aValue > maxValue;
   }
 
+  /**
+   * Determines if this range intersects with the specified range.
+   *
+   * @param aRange {@link IntRange} - range to be checked for intersection
+   * @return boolean - <code>true</code> if at least one value is in both ranges
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public boolean intersects( IntRange aRange ) {
+    TsNullArgumentRtException.checkNull( aRange );
+    return ((aRange.minValue <= this.maxValue) && (aRange.maxValue >= this.minValue));
+  }
+
   // ------------------------------------------------------------------------------------
   // Object
   //

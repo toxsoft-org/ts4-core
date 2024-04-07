@@ -60,10 +60,37 @@ public sealed interface ILexanToken
   boolean isFinisher();
 
   /**
-   * Returns the starting index of the token in the formula string.
+   * Determines if token is an EOF token.
+   * <p>
+   * Simply checks that token kind ID is {@link ILexanConstants#TKID_EOF}.
    *
-   * @return int - token starting index
+   * @return boolean - the EOF token flag
    */
-  // int startIndex();
+  default boolean isEof() {
+    return kindId().equals( ILexanConstants.TKID_EOF );
+  }
+
+  /**
+   * Determines if token is an error token.
+   * <p>
+   * Simply checks that token kind ID is {@link ILexanConstants#TKID_ERROR}.
+   *
+   * @return boolean - the error token flag
+   */
+  default boolean isError() {
+    return kindId().equals( ILexanConstants.TKID_ERROR );
+  }
+
+  /**
+   * Checks if token is of specified kind.
+   *
+   * @param aKindId String the asked kind ID
+   * @return boolean - the flag that token is of specified kind
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  default boolean isKind( String aKindId ) {
+    TsNullArgumentRtException.checkNull( aKindId );
+    return kindId().equals( aKindId );
+  }
 
 }

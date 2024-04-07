@@ -1,5 +1,7 @@
 package org.toxsoft.core.tslib.math.combicond;
 
+import java.io.*;
+
 import org.toxsoft.core.tslib.math.combicond.impl.*;
 import org.toxsoft.core.tslib.math.logicop.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -27,6 +29,16 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public interface ICombiCondParams {
+
+  /**
+   * Parameters to create a combined condition that is always met.
+   */
+  ICombiCondParams ALWAYS = new InternalAlwaysCondParams();
+
+  /**
+   * Options for creating a combined condition that is never met.
+   */
+  ICombiCondParams NEVER = new InternalNeverCondParams();
 
   /**
    * Returns optional name used to identify the condition.
@@ -83,5 +95,123 @@ public interface ICombiCondParams {
    * @return boolean - the flag of the NOT unary operation
    */
   boolean isInverted();
+
+}
+
+/**
+ * Internal class for {@link ICombiCondParams#NONE} singleton implementation.
+ *
+ * @author hazard157
+ */
+class InternalAlwaysCondParams
+    implements ICombiCondParams, Serializable {
+
+  private static final long serialVersionUID = 157157L;
+
+  /**
+   * This method guarantees that serialized {@link ICombiCondParams#ALWAYS} will be read correctly.
+   *
+   * @return Object - always {@link ICombiCondParams#ALWAYS}
+   * @throws ObjectStreamException never thrown
+   */
+  @SuppressWarnings( { "static-method" } )
+  private Object readResolve()
+      throws ObjectStreamException {
+    return ICombiCondParams.ALWAYS;
+  }
+
+  @Override
+  public String name() {
+    return "ALWAYS"; //$NON-NLS-1$
+  }
+
+  @Override
+  public boolean isSingle() {
+    return true;
+  }
+
+  @Override
+  public ISingleCondParams single() {
+    return ISingleCondParams.ALWAYS;
+  }
+
+  @Override
+  public ICombiCondParams left() {
+    throw new TsUnsupportedFeatureRtException();
+  }
+
+  @Override
+  public ELogicalOp op() {
+    throw new TsUnsupportedFeatureRtException();
+  }
+
+  @Override
+  public ICombiCondParams right() {
+    throw new TsUnsupportedFeatureRtException();
+  }
+
+  @Override
+  public boolean isInverted() {
+    return false;
+  }
+
+}
+
+/**
+ * Internal class for {@link ICombiCondParams#NONE} singleton implementation.
+ *
+ * @author hazard157
+ */
+class InternalNeverCondParams
+    implements ICombiCondParams, Serializable {
+
+  private static final long serialVersionUID = 157157L;
+
+  /**
+   * This method guarantees that serialized {@link ICombiCondParams#NEVER} will be read correctly.
+   *
+   * @return Object - always {@link ICombiCondParams#NEVER}
+   * @throws ObjectStreamException never thrown
+   */
+  @SuppressWarnings( { "static-method" } )
+  private Object readResolve()
+      throws ObjectStreamException {
+    return ICombiCondParams.NEVER;
+  }
+
+  @Override
+  public String name() {
+    return "NEVER"; //$NON-NLS-1$
+  }
+
+  @Override
+  public boolean isSingle() {
+    return true;
+  }
+
+  @Override
+  public ISingleCondParams single() {
+    return ISingleCondParams.NEVER;
+  }
+
+  @Override
+  public ICombiCondParams left() {
+    throw new TsUnsupportedFeatureRtException();
+  }
+
+  @Override
+  public ELogicalOp op() {
+    throw new TsUnsupportedFeatureRtException();
+  }
+
+  @Override
+  public ICombiCondParams right() {
+    throw new TsUnsupportedFeatureRtException();
+  }
+
+  @Override
+  public boolean isInverted() {
+    return false;
+  }
 
 }

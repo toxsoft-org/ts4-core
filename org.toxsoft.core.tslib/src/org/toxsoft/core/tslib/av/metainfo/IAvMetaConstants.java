@@ -319,7 +319,7 @@ public interface IAvMetaConstants {
     }
     else {
       if( aConstraints.hasValue( TSID_MIN_EXCLUSIVE ) ) {
-        minValue = aConstraints.getDouble( TSID_MIN_EXCLUSIVE ) + 1;
+        minValue = aConstraints.getDouble( TSID_MIN_EXCLUSIVE ) + Double.MIN_NORMAL;
       }
     }
     double maxValue = Double.MAX_VALUE;
@@ -328,7 +328,7 @@ public interface IAvMetaConstants {
     }
     else {
       if( aConstraints.hasValue( TSID_MAX_EXCLUSIVE ) ) {
-        maxValue = aConstraints.getDouble( TSID_MAX_EXCLUSIVE ) - 1;
+        maxValue = aConstraints.getDouble( TSID_MAX_EXCLUSIVE ) - Double.MIN_NORMAL;
       }
     }
     if( minValue <= maxValue ) {

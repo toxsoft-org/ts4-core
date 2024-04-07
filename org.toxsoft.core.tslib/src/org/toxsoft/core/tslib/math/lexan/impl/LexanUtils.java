@@ -17,50 +17,44 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class LexanUtils {
 
   /**
-   * Returns the index of the error token first symbol in the {@link ILexicalAnalyzer#getFormulaString()}.
+   * Returns the index of the error token first symbol in the {@link IFormulaTokens#formulaString()}.
    * <p>
    * For an empty formula returns -1.
    *
-   * @param aLexan {@link ILexicalAnalyzer} - the analyzer
+   * @param aFt {@link IFormulaTokens} - the lexical analysis result
    * @return int - error starting position in formula or -1 on no error
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public static int getErrorCharPos( ILexicalAnalyzer aLexan ) {
-    TsNullArgumentRtException.checkNull( aLexan );
-    IList<ILexanToken> ll = aLexan.getTokens();
-    if( ll.isEmpty() ) {
-      return -1;
-    }
-    for( int i = 0; i < ll.size(); i++ ) {
-      ILexanToken tk = ll.get( i );
-      if( tk.kindId().equals( TKID_ERROR ) ) {
-        return getCharPos( aLexan, i );
-      }
+  public static int getErrorCharPos( IFormulaTokens aFt ) {
+    TsNullArgumentRtException.checkNull( aFt );
+    int errTokenIndex = aFt.firstErrorIndex();
+    if( errTokenIndex >= 0 ) {
+      return getCharPos( aFt, errTokenIndex );
     }
     return -1;
   }
 
   /**
-   * Returns the index of the token first symbol in the {@link ILexicalAnalyzer#getFormulaString()}.
+   * Returns the index of the token first symbol in the {@link IFormulaTokens#formulaString()}.
    * <p>
    * For an empty formula returns -1.
    *
-   * @param aLexan {@link ILexicalAnalyzer} - the analyzer
+   * @param aFt {@link IFormulaTokens} - the lexical analysis result
    * @param aTokenIndex int - token index in
    * @return int - error starting position in formula or -1 on no error
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException index of of range
    */
-  public static int getCharPos( ILexicalAnalyzer aLexan, int aTokenIndex ) {
-    TsNullArgumentRtException.checkNull( aLexan );
-    IList<ILexanToken> ll = aLexan.getTokens();
+  public static int getCharPos( IFormulaTokens aFt, int aTokenIndex ) {
+    TsNullArgumentRtException.checkNull( aFt );
+    IList<ILexanToken> ll = aFt.tokens();
     if( ll.isEmpty() ) {
       return -1;
     }
     TsErrorUtils.checkCollIndex( ll.size() - 1, aTokenIndex );
     int charIndex = 0;
     for( int i = 0; i < aTokenIndex; i++ ) {
-      String ss = aLexan.getSubStrings().get( i );
+      String ss = aFt.subStrings().get( i );
       charIndex += ss.length();
     }
     return charIndex;
@@ -93,45 +87,11 @@ public class LexanUtils {
   }
 
   /**
-   * Returns the substrings of formula string corresponding to the tokens.
-   * <p>
-   * This is a helper method. For example, to highlight tokens in GUI formula editor.
-   * <p>
-   * Concatenated substrings makes the formula string.
-   *
-   * @param aFormulaString String - the formula string
-   * @param aTokens {@link IList}&lt;{@link ILexanToken}&gt; - parsed tokens
-   * @return {@link IStringList} - substrings making the formula string
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   */
-  // public static final IStringList makeTokenSubstrings( String aFormulaString, IList<ILexanToken> aTokens ) {
-  // TsNullArgumentRtException.checkNulls( aFormulaString, aTokens );
-  // if( aTokens.isEmpty() ) {
-  // return IStringList.EMPTY;
-  // }
-  // IStringListEdit ll = new StringArrayList( aTokens.size() );
-  // int startIndex = 0;
-  // int endIndex = 0;
-  // // iterate all but last token
-  // for( int i = 0; i < aTokens.size() - 1; i++ ) {
-  // ILexanToken tkCurr = aTokens.get( i );
-  // ILexanToken tkNext = aTokens.get( i + 1 );
-  // startIndex = tkCurr.startIndex();
-  // endIndex = tkNext.startIndex();
-  // String s = aFormulaString.substring( startIndex, endIndex );
-  // ll.add( s );
-  // }
-  // // process last token, always make it up to the end of formula string
-  // ll.add( aFormulaString.substring( endIndex ) );
-  // return ll;
-  // }
-
-  /**
    * Makes formula string from tokens list.
    * <p>
    * For an empty list returns the empty string. If last token is error, returns the error message.
    * <p>
-   * Check that only the last token is finisher {@link ILexanToken#isFinisher()} = <code>true</code>.
+   * Checks that only the last token is finisher {@link ILexanToken#isFinisher()} = <code>true</code>.
    *
    * @param aTokens {@link IList}&lt;{@link ILexanToken}&gt; - the tokens
    * @return String - formula string
@@ -161,30 +121,6 @@ public class LexanUtils {
     }
     return sb.toString();
   }
-
-  // /**
-  // * Returns new tokens list with some tokens replaced by new tokens.
-  // *
-  // * @param aTokens {@link IList}&lt;{@link ILexanToken}&gt; - initial list of tokens
-  // * @param aNew {@link IStringMap}&lt;{@link ILexanToken}&gt; - replacement map "index" - "new token"
-  // * @return {@link IList}&lt;{@link ILexanToken}&gt; - resulting list of tokens
-  // * @throws TsNullArgumentRtException any argument = <code>null</code>
-  // */
-  // public static IListEdit<ILexanToken> replaceTokens( IList<ILexanToken> aTokens, IIntMap<ILexanToken> aNew ) {
-  // TsNullArgumentRtException.checkNulls( aTokens, aNew );
-  // IListEdit<ILexanToken> ll = new ElemArrayList<>( aTokens );
-  // int delta = 0;
-  // for( int i = 0; i < ll.size(); i++ ) {
-  // ILexanToken tk = aNew.findByKey( i );
-  // if( tk != null ) {
-  // ll.set( i, tk );
-  // }
-  // }
-  //
-  // // TODO LexanUtils.replaceTokens()
-  //
-  // return ll;
-  // }
 
   /**
    * No subclasses.

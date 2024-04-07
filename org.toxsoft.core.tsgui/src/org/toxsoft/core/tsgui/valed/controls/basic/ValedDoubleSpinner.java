@@ -443,7 +443,7 @@ public class ValedDoubleSpinner
     }
     else {
       if( params().hasValue( TSID_MIN_EXCLUSIVE ) ) {
-        minValue = params().getFloat( TSID_MIN_EXCLUSIVE ) + 1;
+        minValue = params().getFloat( TSID_MIN_EXCLUSIVE ) + Double.MIN_NORMAL;
       }
     }
     if( minValue < MIN_AVC_VALUE ) {
@@ -470,7 +470,7 @@ public class ValedDoubleSpinner
     }
     else {
       if( params().hasValue( TSID_MAX_EXCLUSIVE ) ) {
-        maxValue = params().getFloat( TSID_MAX_EXCLUSIVE ) - 1;
+        maxValue = params().getFloat( TSID_MAX_EXCLUSIVE ) - Double.MIN_NORMAL;
       }
     }
     if( maxValue < MIN_AVC_VALUE + 10.0 ) {

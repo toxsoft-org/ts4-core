@@ -483,8 +483,9 @@ public class M5TreeViewer<T>
   @SuppressWarnings( "unchecked" )
   @Override
   public T selectedItem() {
-    checkStateValidity();
-
+    if( !isStateValid() ) {
+      return null;
+    }
     IStructuredSelection ss = (IStructuredSelection)treeViewer.getSelection();
     if( ss.isEmpty() ) {
       return null;
@@ -501,15 +502,16 @@ public class M5TreeViewer<T>
 
   @Override
   public void setSelectedItem( T aItem ) {
-    checkStateValidity();
-    IStructuredSelection selection = StructuredSelection.EMPTY;
-    if( aItem != null ) {
-      ITsNode node = nodeFromItem( aItem );
-      if( node != null ) {
-        selection = new StructuredSelection( node );
+    if( isStateValid() ) {
+      IStructuredSelection selection = StructuredSelection.EMPTY;
+      if( aItem != null ) {
+        ITsNode node = nodeFromItem( aItem );
+        if( node != null ) {
+          selection = new StructuredSelection( node );
+        }
       }
+      treeViewer.setSelection( selection, true );
     }
-    treeViewer.setSelection( selection, true );
   }
 
   @Override

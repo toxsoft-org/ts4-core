@@ -102,8 +102,10 @@ public abstract class M5AbstractCollectionViewer<T>
     public void setFilter( ITsFilter<T> aFilter ) {
       if( !Objects.equals( tsFilter, aFilter ) ) {
         tsFilter = TsNullArgumentRtException.checkNull( aFilter );
+        T sel = selectedItem();
         refreshFilteredItems();
         doRefreshAll();
+        setSelectedItem( sel );
       }
     }
 

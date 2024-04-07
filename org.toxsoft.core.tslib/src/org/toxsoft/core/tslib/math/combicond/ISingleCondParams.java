@@ -23,11 +23,13 @@ public interface ISingleCondParams {
   /**
    * Parameters to create a condition that is always met.
    */
+  // FIXME change to local class with readResolve()
   ISingleCondParams NEVER = new SingleCondParams( TYPE_ID_NEVER, IOptionSet.NULL );
 
   /**
    * Options for creating a condition that is never met.
    */
+  // FIXME change to local class with readResolve()
   ISingleCondParams ALWAYS = new SingleCondParams( TYPE_ID_ALWAYS, IOptionSet.NULL );
 
   /**
