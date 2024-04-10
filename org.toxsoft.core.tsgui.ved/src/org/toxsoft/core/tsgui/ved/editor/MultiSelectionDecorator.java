@@ -10,6 +10,11 @@ import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
+/**
+ * Декоратор, отображающий выделение множества визуальных элементов.
+ *
+ * @author vs
+ */
 public class MultiSelectionDecorator
     extends VedAbstractDecorator {
 
@@ -20,13 +25,6 @@ public class MultiSelectionDecorator
     public void onGenericChangeEvent( Object aSource ) {
       vedScreen().view().redraw();
       vedScreen().view().update();
-      // if( multiSelection ) {
-      // vedScreen().view().redraw();
-      // vedScreen().view().update();
-      // }
-      // if( selectionManager.selectedViselIds().isEmpty() ) {
-      // multiSelection = false;
-      // }
     }
   }
 
@@ -40,6 +38,12 @@ public class MultiSelectionDecorator
   // VedAbstractDecorator
   //
 
+  /**
+   * Конструктор.
+   *
+   * @param aScreen {@link IVedScreen} - экран редактирования
+   * @param aSelectionManager {@link IVedViselSelectionManager} - менеджер выделения
+   */
   public MultiSelectionDecorator( IVedScreen aScreen, IVedViselSelectionManager aSelectionManager ) {
     super( aScreen );
     selectionManager = TsNullArgumentRtException.checkNull( aSelectionManager );
