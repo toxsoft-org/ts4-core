@@ -69,7 +69,7 @@ public non-sealed class LexanToken
 
   @Override
   public String toString() {
-    return str();
+    return kindId + " - '" + str() + "'"; //$NON-NLS-1$//$NON-NLS-2$
   }
 
 }

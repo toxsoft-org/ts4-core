@@ -1,10 +1,13 @@
 package org.toxsoft.core.tslib.math.combicond;
 
+import java.io.*;
+
 import org.toxsoft.core.tslib.av.opset.*;
-import org.toxsoft.core.tslib.math.combicond.impl.*;
 
 /**
  * Parameters for single condition (more precisely, condition checker) creation.
+ * <p>
+ * In may comments this interface (and subclasses) are references by <b>SCP</b> abbreviation.
  *
  * @author hazard157
  */
@@ -23,14 +26,12 @@ public interface ISingleCondParams {
   /**
    * Parameters to create a condition that is always met.
    */
-  // FIXME change to local class with readResolve()
-  ISingleCondParams NEVER = new SingleCondParams( TYPE_ID_NEVER, IOptionSet.NULL );
+  ISingleCondParams NEVER = new InternalNeverSingleCondParams();
 
   /**
    * Options for creating a condition that is never met.
    */
-  // FIXME change to local class with readResolve()
-  ISingleCondParams ALWAYS = new SingleCondParams( TYPE_ID_ALWAYS, IOptionSet.NULL );
+  ISingleCondParams ALWAYS = new InternalAlwaysSingleCondParams();
 
   /**
    * Returns the identifier of the condition type.
@@ -47,5 +48,73 @@ public interface ISingleCondParams {
    * @return {@link IOptionSet} - the condition parameter values
    */
   IOptionSet params();
+
+}
+
+/**
+ * Internal class for {@link ISingleCondParams#NEVER} singleton implementation.
+ *
+ * @author hazard157
+ */
+class InternalNeverSingleCondParams
+    implements ISingleCondParams, Serializable {
+
+  private static final long serialVersionUID = 157157L;
+
+  /**
+   * This method guarantees that serialized {@link ICombiCondParams#NEVER} will be read correctly.
+   *
+   * @return Object - always {@link ICombiCondParams#NEVER}
+   * @throws ObjectStreamException never thrown
+   */
+  @SuppressWarnings( { "static-method" } )
+  private Object readResolve()
+      throws ObjectStreamException {
+    return ISingleCondParams.NEVER;
+  }
+
+  @Override
+  public String typeId() {
+    return TYPE_ID_NEVER;
+  }
+
+  @Override
+  public IOptionSet params() {
+    return IOptionSet.NULL;
+  }
+
+}
+
+/**
+ * Internal class for {@link ISingleCondParams#ALWAYS} singleton implementation.
+ *
+ * @author hazard157
+ */
+class InternalAlwaysSingleCondParams
+    implements ISingleCondParams, Serializable {
+
+  private static final long serialVersionUID = 157157L;
+
+  /**
+   * This method guarantees that serialized {@link ICombiCondParams#ALWAYS} will be read correctly.
+   *
+   * @return Object - always {@link ICombiCondParams#ALWAYS}
+   * @throws ObjectStreamException never thrown
+   */
+  @SuppressWarnings( { "static-method" } )
+  private Object readResolve()
+      throws ObjectStreamException {
+    return ISingleCondParams.ALWAYS;
+  }
+
+  @Override
+  public String typeId() {
+    return TYPE_ID_ALWAYS;
+  }
+
+  @Override
+  public IOptionSet params() {
+    return IOptionSet.NULL;
+  }
 
 }

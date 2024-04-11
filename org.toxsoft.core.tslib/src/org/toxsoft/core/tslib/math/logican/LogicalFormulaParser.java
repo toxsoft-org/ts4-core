@@ -2,11 +2,11 @@ package org.toxsoft.core.tslib.math.logican;
 
 import static org.toxsoft.core.tslib.math.lexan.ILexanConstants.*;
 import static org.toxsoft.core.tslib.math.logican.ILogicalFormulaConstants.*;
+import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
 import org.toxsoft.core.tslib.math.lexan.*;
 import org.toxsoft.core.tslib.math.lexan.impl.*;
 import org.toxsoft.core.tslib.math.logicop.*;
-import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -14,6 +14,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * <p>
  * The result of the parsing is root {@link ILogFoNode} corresponding to the formula. Besides the node, lexical analysis
  * results may be retrieved for syntax highlight, error messaging erc.
+ * <p>
+ * Class instance after constructor has state as it has just parsed an empty string.
  *
  * @author hazard157
  */
@@ -34,6 +36,7 @@ public class LogicalFormulaParser {
    */
   public LogicalFormulaParser() {
     logicalFormulaAnalyzer = new LogicalFormulaAnalyzer();
+    parse( EMPTY_STRING );
   }
 
   // ------------------------------------------------------------------------------------
@@ -155,11 +158,11 @@ public class LogicalFormulaParser {
   /**
    * Parses the logical formula and returns result as a root node {@link ILogFoNode}.
    * <p>
-   * If formula can not be parsed, {@link #getTokens()} either is empty or contains at least one error token of kind
+   * If formula can not be parsed, {@link #formulaTokens()} either is empty or contains at least one error token of kind
    * {@link ILexanConstants#TKID_ERROR} and this method returns {@link ILogFoNode#NONE} constant.
    *
    * @param aFormulaString String - the formula string
-   * @return {@link ILogFoNode} - parsed formula node or {@link ILogFoNode#NONE} on error
+   * @return {@link ILogFoNode} - parsed formula node or {@link ILogFoNode#NONE} on error or an empty formula
    */
   @SuppressWarnings( "nls" )
   public ILogFoNode parse( String aFormulaString ) {
@@ -167,19 +170,19 @@ public class LogicalFormulaParser {
     lfnRoot = parseLogically();
 
     // --- DEBUG
-    if( lfnRoot == ILogFoNode.NONE ) {
-      if( formulaTokens.firstErrorToken() == null ) {
-        TsTestUtils.pl( "NO errors, WHY ???" );
-      }
-      else {
-        TsTestUtils.pl( "Parse err: %s", formulaTokens.firstErrorToken().str() );
-      }
-    }
-    else {
-      String fs = LexanUtils.makeFormulaString( formulaTokens.tokens() );
-      TsTestUtils.pl( "Parse OK: '%s'", fs );
-    }
-    TsTestUtils.pl( "Node: '%s'", lfnRoot.toString() );
+    // if( formulaTokens.isError() ) {
+    // if( formulaTokens.firstErrorToken() == null ) {
+    // TsTestUtils.pl( "NO errors, WHY ???" );
+    // }
+    // else {
+    // TsTestUtils.pl( "Parse err: %s", formulaTokens.firstErrorToken().str() );
+    // }
+    // }
+    // else {
+    // String fs = LexanUtils.makeFormulaString( formulaTokens.tokens() );
+    // TsTestUtils.pl( "Parse OK: '%s'", fs );
+    // }
+    // TsTestUtils.pl( "Node: '%s'", lfnRoot.toString() );
     // ---
 
     return lfnRoot;
@@ -189,10 +192,9 @@ public class LogicalFormulaParser {
    * Returns results of the internal syntactic analysis in {@link #parse(String)}.
    *
    * @return {@link IFormulaTokens} - the syntactic analysis result
-   * @throws TsIllegalStateRtException {@link #parse(String)} was not called yet
    */
   public IFormulaTokens formulaTokens() {
-    TsIllegalStateRtException.checkNull( formulaTokens );
+    TsInternalErrorRtException.checkNull( formulaTokens );
     return formulaTokens;
   }
 
@@ -202,10 +204,9 @@ public class LogicalFormulaParser {
    * Simply returns the result of last call of method {@link #parse(String)}.
    *
    * @return {@link ILogFoNode} - parsed formula node or {@link ILogFoNode#NONE} on error
-   * @throws TsIllegalStateRtException {@link #parse(String)} was not called yet
    */
   public ILogFoNode getFormulaNode() {
-    TsIllegalStateRtException.checkNull( lfnRoot );
+    TsInternalErrorRtException.checkNull( lfnRoot );
     return lfnRoot;
   }
 

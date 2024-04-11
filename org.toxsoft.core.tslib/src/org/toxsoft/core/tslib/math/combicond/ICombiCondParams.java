@@ -22,9 +22,12 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * <ul>
  * <li>extends {@link SingleCondType} with <code>create()</code> method, use
  * {@link SingleCondType#checkCreationArg(ISingleCondParams)};</li>
- * <li>???;</li>
+ * <li>??? create own implementations of IMyCondition.ALWAYS, NEVET;</li>
+ * <li>??? create own implementations of IMyCondType.ALWAYS, NEVET;</li>
  * <li>???.</li>
  * </ul>
+ * <p>
+ * In may comments this interface (and subclasses) are references by <b>CCP</b> abbreviation.
  *
  * @author hazard157
  */
@@ -33,12 +36,12 @@ public interface ICombiCondParams {
   /**
    * Parameters to create a combined condition that is always met.
    */
-  ICombiCondParams ALWAYS = new InternalAlwaysCondParams();
+  ICombiCondParams ALWAYS = new InternalAlwaysCombiCondParams();
 
   /**
    * Options for creating a combined condition that is never met.
    */
-  ICombiCondParams NEVER = new InternalNeverCondParams();
+  ICombiCondParams NEVER = new InternalNeverCombiCondParams();
 
   /**
    * Returns optional name used to identify the condition.
@@ -99,11 +102,11 @@ public interface ICombiCondParams {
 }
 
 /**
- * Internal class for {@link ICombiCondParams#NONE} singleton implementation.
+ * Internal class for {@link ICombiCondParams#ALWAYS} singleton implementation.
  *
  * @author hazard157
  */
-class InternalAlwaysCondParams
+class InternalAlwaysCombiCondParams
     implements ICombiCondParams, Serializable {
 
   private static final long serialVersionUID = 157157L;
@@ -158,11 +161,11 @@ class InternalAlwaysCondParams
 }
 
 /**
- * Internal class for {@link ICombiCondParams#NONE} singleton implementation.
+ * Internal class for {@link ICombiCondParams#NEVER} singleton implementation.
  *
  * @author hazard157
  */
-class InternalNeverCondParams
+class InternalNeverCombiCondParams
     implements ICombiCondParams, Serializable {
 
   private static final long serialVersionUID = 157157L;

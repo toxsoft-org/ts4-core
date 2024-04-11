@@ -1,5 +1,7 @@
 package org.toxsoft.core.tslib.math.lexan.impl;
 
+import static org.toxsoft.core.tslib.math.lexan.ILexanConstants.*;
+
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
@@ -61,6 +63,17 @@ public class FormulaTokens
   @Override
   public IStringList subStrings() {
     return subStrings;
+  }
+
+  @Override
+  public IStringList listKeywords() {
+    IStringListEdit keywordsList = new StringArrayList();
+    for( ILexanToken tk : tokens ) {
+      if( tk.kindId().equals( TKID_KEYWORD ) ) {
+        keywordsList.add( tk.str() );
+      }
+    }
+    return keywordsList;
   }
 
   // ------------------------------------------------------------------------------------

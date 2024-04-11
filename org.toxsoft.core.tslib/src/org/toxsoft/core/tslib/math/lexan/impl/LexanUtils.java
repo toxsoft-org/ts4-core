@@ -69,7 +69,7 @@ public class LexanUtils {
    * @return {@link IStringList} - unique keywords
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public static IStringList listKeywords( IList<ILexanToken> aTokens ) {
+  public static IStringList listKeywords1( IList<ILexanToken> aTokens ) {
     TsNullArgumentRtException.checkNull( aTokens );
     if( aTokens.isEmpty() ) {
       return IStringList.EMPTY;

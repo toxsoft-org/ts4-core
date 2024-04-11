@@ -25,6 +25,7 @@ import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.gw.gwid.*;
 import org.toxsoft.core.tslib.gw.skid.*;
 import org.toxsoft.core.tslib.math.*;
+import org.toxsoft.core.tslib.math.combicond.impl.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.diff.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -108,6 +109,7 @@ public class TsValobjUtils {
     registerKeeper( DoubleRange.KEEPER_ID, DoubleRange.KEEPER );
     registerKeeper( LoginInfo.KEEPER_ID, LoginInfo.KEEPER );
     registerKeeper( EDiffNature.KEEPER_ID, EDiffNature.KEEPER );
+    registerKeeper( SingleCondParams.KEEPER_ID, SingleCondParams.KEEPER );
   }
 
   // ------------------------------------------------------------------------------------

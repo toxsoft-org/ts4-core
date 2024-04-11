@@ -9,6 +9,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Description of the single condition type.
+ * <p>
+ * In may comments this interface (and subclasses) are references by <b>SCT</b> abbreviation.
  *
  * @author hazard157
  */

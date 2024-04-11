@@ -22,6 +22,11 @@ public final class SingleCondParams
   private static final long serialVersionUID = 157157L;
 
   /**
+   * The registered keeper ID.
+   */
+  public static final String KEEPER_ID = "SingleCondParams"; //$NON-NLS-1$
+
+  /**
    * Keeper singleton.
    */
   public static final IEntityKeeper<ISingleCondParams> KEEPER =

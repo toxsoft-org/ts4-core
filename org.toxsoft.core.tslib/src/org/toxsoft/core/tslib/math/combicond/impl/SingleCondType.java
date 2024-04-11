@@ -22,6 +22,16 @@ public class SingleCondType
     extends StridableParameterized
     implements ISingleCondType {
 
+  /**
+   * Values returned by {@link #doHumanReadableDescription(IOptionSet)} for {@link ISingleCondParams#TYPE_ID_ALWAYS}.
+   */
+  public static final String HUMAN_READABLE_DESCR_ALWAYS = "ALWAYS"; //$NON-NLS-1$
+
+  /**
+   * Values returned by {@link #doHumanReadableDescription(IOptionSet)} for {@link ISingleCondParams#TYPE_ID_NEVER}.
+   */
+  public static final String HUMAN_READABLE_DESCR_NEVER = "never"; //$NON-NLS-1$
+
   private final IStridablesListEdit<IDataDef> paramDefs = new StridablesList<>();
 
   /**
@@ -159,14 +169,24 @@ public class SingleCondType
   /**
    * Subclass may override creation of the condition description.
    * <p>
-   * In base class returns {@link IOptionSet#toString()}. There is no need to call superclass method when overriding.
+   * Returned value depends on {@link #id()}:
+   * <ul>
+   * <li>for {@link ISingleCondParams#TYPE_ID_ALWAYS TYPE_ID_ALWAYS} returns {@link #HUMAN_READABLE_DESCR_ALWAYS};</li>
+   * <li>for {@link ISingleCondParams#TYPE_ID_NEVER TYPE_ID_NEVER} returns {@link #HUMAN_READABLE_DESCR_NEVER};</li>
+   * <li>for all other type IDs returns {@link IOptionSet#toString() ISingleCondParams.params().toString()}.</li>
+   * </ul>
+   * There is no need to call superclass method when overriding.
    *
    * @param aCondParams {@link IOptionSet} - values already checked with
    *          {@link OptionSetUtils#validateOptionSet(IOptionSet, IStridablesList)}
    * @return String - human-readable description, never is <code>null</code>
    */
   protected String doHumanReadableDescription( IOptionSet aCondParams ) {
-    return aCondParams.toString();
+    return switch( id() ) {
+      case ISingleCondParams.TYPE_ID_ALWAYS -> "true"; //$NON-NLS-1$
+      case ISingleCondParams.TYPE_ID_NEVER -> "false"; //$NON-NLS-1$
+      default -> aCondParams.toString();
+    };
   }
 
 }
