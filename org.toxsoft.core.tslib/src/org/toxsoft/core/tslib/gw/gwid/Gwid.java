@@ -476,7 +476,7 @@ public final class Gwid
    * Returns the canonical string representation of the GWID.
    *
    * @return String - GWID canonical string
-   * @deprecated outdated method, use {@link #canonicalString} instead
+   * @deprecated outdated method, use {@link #canonicalString()} instead
    */
   @Deprecated
   public String asString() {
