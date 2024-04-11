@@ -88,6 +88,7 @@ public class MultiPaneComponent<T>
   private final TsSelectionChangeEventHelper<T> selectionChangeEventHelper;
   private final TsDoubleClickEventHelper<T>     doubleClickEventHelper;
   private final TsKeyInputDelegator             keyInputDelegator;
+  private final GenericChangeEventer            genericChangeEventer;
 
   private final ITsTreeMaker<T>     tableMaker; // default tree maker makes plain list (table mode) of items
   private final IM5TreeViewer<T>    tree;
@@ -112,6 +113,7 @@ public class MultiPaneComponent<T>
    */
   public MultiPaneComponent( IM5TreeViewer<T> aViewer ) {
     tree = TsNullArgumentRtException.checkNull( aViewer );
+    genericChangeEventer = new GenericChangeEventer( this );
     TsIllegalArgumentRtException.checkTrue( aViewer.getControl() != null );
     selectionChangeEventHelper = new TsSelectionChangeEventHelper<>( this ) {
 
@@ -257,6 +259,7 @@ public class MultiPaneComponent<T>
           T item = doAddItem();
           if( item != null ) {
             fillViewer( item );
+            genericChangeEventer.fireChangeEvent();
           }
         }
         break;
@@ -267,6 +270,7 @@ public class MultiPaneComponent<T>
           T item = doEditItem( sel );
           if( item != null ) {
             fillViewer( item );
+            genericChangeEventer.fireChangeEvent();
           }
         }
         break;
@@ -277,6 +281,7 @@ public class MultiPaneComponent<T>
           T toSel = findItemToSelectAfterRemove( sel );
           if( doRemoveItem( sel ) ) {
             fillViewer( toSel );
+            genericChangeEventer.fireChangeEvent();
           }
         }
         break;
@@ -313,6 +318,7 @@ public class MultiPaneComponent<T>
           if( itemsProvider.reorderer() != null ) {
             itemsProvider.reorderer().moveFirst( sel );
             fillViewer( sel );
+            genericChangeEventer.fireChangeEvent();
           }
         }
         break;
@@ -322,6 +328,7 @@ public class MultiPaneComponent<T>
           if( itemsProvider.reorderer() != null ) {
             itemsProvider.reorderer().movePrev( sel );
             fillViewer( sel );
+            genericChangeEventer.fireChangeEvent();
           }
         }
         break;
@@ -331,6 +338,7 @@ public class MultiPaneComponent<T>
           if( itemsProvider != null && itemsProvider.reorderer() != null ) {
             itemsProvider.reorderer().moveNext( sel );
             fillViewer( sel );
+            genericChangeEventer.fireChangeEvent();
           }
         }
         break;
@@ -340,6 +348,7 @@ public class MultiPaneComponent<T>
           if( itemsProvider != null && itemsProvider.reorderer() != null ) {
             itemsProvider.reorderer().moveLast( sel );
             fillViewer( sel );
+            genericChangeEventer.fireChangeEvent();
           }
         }
         break;
@@ -963,7 +972,7 @@ public class MultiPaneComponent<T>
   }
 
   /**
-   * Subclass may create its own colemns in {@link #tree()}.
+   * Subclass may create its own columns in {@link #tree()}.
    * <p>
    * In the base class creates columns for fields flagged with {@link IM5Constants#M5FF_COLUMN} hint.
    */
@@ -1179,6 +1188,15 @@ public class MultiPaneComponent<T>
       IM5Column<T> col = tree.columnManager().columns().values().get( i );
       col.pack();
     }
+  }
+
+  // ------------------------------------------------------------------------------------
+  // IGenericChangeEventCapable
+  //
+
+  @Override
+  public GenericChangeEventer genericChangeEventer() {
+    return genericChangeEventer;
   }
 
 }

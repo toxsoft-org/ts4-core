@@ -11,6 +11,7 @@ import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.valed.impl.*;
+import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -18,6 +19,9 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Base implementation of VALED with label with optional edit button at right.
  * <p>
  * Optionally an icon may be added to the left as part of mandatory {@link CLabel}.
+ * <p>
+ * TODO add optional button to reset value (to set to <code>null</code> or some predefined value like
+ * {@link IAtomicValue#NULL})
  *
  * @author hazard157
  * @author dima
@@ -33,8 +37,8 @@ public abstract class AbstractValedLabelAndButton<V>
   /**
    * Constructor for subclasses.
    *
-   * @param aContext {@link ITsGuiContext} - the valed context
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aContext {@link ITsGuiContext} - the VALED context
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   protected AbstractValedLabelAndButton( ITsGuiContext aContext ) {
     super( aContext );
@@ -160,9 +164,12 @@ public abstract class AbstractValedLabelAndButton<V>
   protected abstract boolean doProcessButtonPress();
 
   /**
-   * Subclass must the value to editor widget(s).
+   * Subclass must hold the value for for further use.
    * <p>
-   * Called from {@link AbstractValedTextAndButton#doSetUnvalidatedValue(Object)}.
+   * There is no need to update text of {@link #getLabelControl()} - method {@link #doUpdateLabelControl()} is called
+   * immediately after this method.
+   * <p>
+   * Called from {@link AbstractValedLabelAndButton#doSetUnvalidatedValue(Object)}.
    *
    * @param aValue &lt;V&gt; - new value, never is <code>null</code>
    * @throws TsIllegalArgumentRtException value has incompatible type

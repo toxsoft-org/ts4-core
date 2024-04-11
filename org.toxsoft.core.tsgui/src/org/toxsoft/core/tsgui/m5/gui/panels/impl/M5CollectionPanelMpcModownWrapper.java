@@ -32,6 +32,7 @@ public class M5CollectionPanelMpcModownWrapper<T>
     source.setEditable( isEditable() );
     source.addTsDoubleClickListener( doubleClickEventHelper );
     source.addTsSelectionListener( selectionChangeEventHelper );
+    source.genericChangeEventer().addListener( aSource -> fireChangeEvent() );
   }
 
   @Override

@@ -133,7 +133,7 @@ public class GwidM5Model
     }
 
     protected String doGetFieldValueName( Gwid aEntity ) {
-      return aEntity.asString();
+      return aEntity.canonicalString();
     }
 
   };

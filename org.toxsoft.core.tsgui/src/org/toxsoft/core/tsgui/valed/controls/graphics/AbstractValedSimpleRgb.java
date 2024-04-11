@@ -29,10 +29,10 @@ public abstract class AbstractValedSimpleRgb<V>
   private Image            colorImage   = null;
 
   /**
-   * Constructor for subclasses.
+   * Constructor.
    *
-   * @param aTsContext {@link ITsGuiContext} - the valed context
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aTsContext {@link ITsGuiContext} - the VALED context
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   protected AbstractValedSimpleRgb( ITsGuiContext aTsContext ) {
     super( aTsContext );

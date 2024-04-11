@@ -53,22 +53,20 @@ public class ValedAvValobjSimpleRgb
   }
 
   /**
-   * Название фабрики, с которым она зарегистрирована в {@link ValedControlFactoriesRegistry}.
-   * <p>
-   * Напомним, что автоматическая регистрация с именем класса фабрики тоже работает.
+   * The registered factory name.
    */
   public static final String FACTORY_NAME = VALED_EDNAME_PREFIX + ".AvValobjSimpleRgb"; //$NON-NLS-1$
 
   /**
-   * Синглтон Фабрики.
+   * The factory singleton.
    */
   public static final AbstractValedControlFactory FACTORY = new Factory();
 
   /**
-   * Конструкторe.
+   * Constructor.
    *
-   * @param aContext {@link ITsGuiContext} - контекст редактора
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aContext {@link ITsGuiContext} - the valed context
+   * @throws TsNullArgumentRtException аргумент = null
    */
   ValedAvValobjSimpleRgb( ITsGuiContext aContext ) {
     super( aContext );

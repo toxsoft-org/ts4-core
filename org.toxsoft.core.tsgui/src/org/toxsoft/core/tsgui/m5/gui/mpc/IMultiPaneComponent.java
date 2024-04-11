@@ -7,7 +7,9 @@ import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.m5.gui.viewers.*;
 import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.panels.lazy.*;
+import org.toxsoft.core.tsgui.utils.checkcoll.*;
 import org.toxsoft.core.tsgui.widgets.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
 
 /**
  * Multi-pane composite (MPC) - displays M5-modelled items with supplementary information and actions.
@@ -20,6 +22,12 @@ import org.toxsoft.core.tsgui.widgets.*;
  * <li>detail pane - (optional) displays more datails of item selected in tree viewer;</li>
  * <li>summary pane - (options) displayes summaty information of all and/or filtered items.</li>
  * </ul>
+ * <p>
+ * {@link #genericChangeEventer()} generates events when panel makes changes to the underlying items (add, remove,
+ * delete, change order). Changes made from outside panel)does not generates an event. Changing visual representation
+ * (sorting, filtering items, tree or table view, etc.) does not fires an event. Setting and clearing check marks also
+ * does not generates {@link #genericChangeEventer()} events because underlyong items are not changed. Note that check
+ * state changes has separate eventer {@link ITsCheckSupport#checksChangeEventer()}.
  *
  * @author hazard157
  * @param <T> - displayed M5-modelled entity type
@@ -31,6 +39,7 @@ public interface IMultiPaneComponent<T>
     ITsDoubleClickEventProducer<T>, //
     ITsKeyInputProducer, //
     ILazyControl<TsComposite>, //
+    IGenericChangeEventCapable, //
     ITsGuiContextable {
 
   /**

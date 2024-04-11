@@ -29,10 +29,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @param <T> - displayed M5-modeled entity type
  */
 public class MultiPaneComponentLookup<T>
-    extends MultiPaneComponent<T>
-    implements IGenericChangeEventCapable {
-
-  private final GenericChangeEventer eventer;
+    extends MultiPaneComponent<T> {
 
   private IM5LookupProvider<T>      lookupProvider         = IM5LookupProvider.EMPTY;
   private M5DefaultItemsProvider<T> containedItemsProvider = new M5DefaultItemsProvider<>();
@@ -47,10 +44,9 @@ public class MultiPaneComponentLookup<T>
    */
   public MultiPaneComponentLookup( ITsGuiContext aContext, IM5Model<T> aModel, IM5LookupProvider<T> aLookupProvider ) {
     super( new M5TreeViewer<>( makeContext( aContext, true ), aModel, false ) );
-    eventer = new GenericChangeEventer( this );
     setLookupProvider( aLookupProvider );
     super.setItemProvider( containedItemsProvider );
-    containedItemsProvider.genericChangeEventer().addListener( aSource -> eventer.fireChangeEvent() );
+    containedItemsProvider.genericChangeEventer().addListener( aSource -> genericChangeEventer().fireChangeEvent() );
   }
 
   private static ITsGuiContext makeContext( ITsGuiContext aContext, boolean aEditor ) {
@@ -119,15 +115,6 @@ public class MultiPaneComponentLookup<T>
   @Override
   public void setItemProvider( IM5ItemsProvider<T> aItemsProvider ) {
     // changing items provider is not allowed
-  }
-
-  // ------------------------------------------------------------------------------------
-  // IGenericChangeEventCapable
-  //
-
-  @Override
-  public IGenericChangeEventer genericChangeEventer() {
-    return eventer;
   }
 
   // ------------------------------------------------------------------------------------
