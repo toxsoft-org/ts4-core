@@ -2,6 +2,8 @@ package org.toxsoft.core.tsgui.ved.screen.impl;
 
 import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
 
+import java.util.*;
+
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.asp.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
@@ -12,6 +14,8 @@ import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.helpers.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.*;
@@ -358,7 +362,7 @@ public class VedScreenUtils {
    * @param aSwtY int - y координата точки
    * @param aVedScreen {@link IVedScreen} - экран редактирования
    * @param aForward boolean - признак перебора списка в прямом направ
-   * @return VedAbstractVisel -
+   * @return VedAbstractVisel - визуальный элемент, содержащий точку с указанными SWT координатами или <code>null</code>
    */
   public static VedAbstractVisel itemByPoint( int aSwtX, int aSwtY, IVedScreen aVedScreen, boolean aForward ) {
     IVedCoorsConverter converter = aVedScreen.view().coorsConverter();
@@ -374,6 +378,45 @@ public class VedScreenUtils {
       }
     }
     return null;
+  }
+
+  /**
+   * Возвращает список ИДов визуальных элементов, отсортированных в z-порядке.
+   *
+   * @param aIds {@link IStringList} - список ИДов, которые необходимо отсортировать
+   * @param aVedScreen {@link IVedScreen} - экран редактора
+   * @return {@link IStringList} - список ИДов визуальных элементов, отсортированных в z-порядке
+   */
+  public static IStringList sortViselIdsByZorder( IStringList aIds, IVedScreen aVedScreen ) {
+    IStringListEdit result = new StringArrayList();
+    Comparator<String> comparator = ( aId1, aId2 ) -> {
+      int idx1 = aVedScreen.model().visels().list().ids().indexOf( aId1 );
+      int idx2 = aVedScreen.model().visels().list().ids().indexOf( aId2 );
+      return Integer.compare( idx1, idx2 );
+    };
+    ElemArrayList<String> ll = new ElemArrayList<>();
+    ll.addAll( aIds );
+    ListReorderer<String, IListEdit<String>> lr = new ListReorderer<>( ll );
+    lr.sort( comparator );
+    for( String str : lr.list() ) {
+      result.add( str );
+    }
+    return result;
+  }
+
+  /**
+   * Возвращает список визуальных элементов по их идентификаторам.
+   *
+   * @param aViselIds {@link IStringList} - список ИДов визуальных элементов
+   * @param aVedScreen {@link IVedScreen} -экран редактирования
+   * @return IStridablesList&lt;IVedVisel> - список визуальных элементов
+   */
+  public static IStridablesList<IVedVisel> listVisels( IStringList aViselIds, IVedScreen aVedScreen ) {
+    IStridablesListEdit<IVedVisel> visels = new StridablesList<>();
+    for( String id : aViselIds ) {
+      visels.add( findVisel( id, aVedScreen ) );
+    }
+    return visels;
   }
 
   /**
