@@ -110,6 +110,7 @@ public class TsValobjUtils {
     registerKeeper( LoginInfo.KEEPER_ID, LoginInfo.KEEPER );
     registerKeeper( EDiffNature.KEEPER_ID, EDiffNature.KEEPER );
     registerKeeper( SingleCondParams.KEEPER_ID, SingleCondParams.KEEPER );
+    registerKeeper( CombiCondParams.KEEPER_ID, CombiCondParams.KEEPER );
   }
 
   // ------------------------------------------------------------------------------------
