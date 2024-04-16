@@ -1,19 +1,18 @@
 package org.toxsoft.core.tsgui.m5.gui.panels.impl;
 
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.m5.*;
-import org.toxsoft.core.tsgui.m5.gui.panels.IM5EntityPanel;
-import org.toxsoft.core.tsgui.valed.api.IValedControl;
-import org.toxsoft.core.tsgui.valed.api.IValedControlFactory;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMap;
+import org.toxsoft.core.tsgui.m5.gui.panels.*;
+import org.toxsoft.core.tsgui.valed.api.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link IM5EntityPanelWithValedsController} base implementation.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public class M5EntityPanelWithValedsController<T>
     implements IM5EntityPanelWithValedsController<T> {
@@ -25,7 +24,7 @@ public class M5EntityPanelWithValedsController<T>
   /**
    * Constructor.
    * <p>
-   * Sublcass constructors must not call methods of this class, override {@link #doInit()} instead.
+   * Subclass constructors must not call methods of this class, override {@link #doInit()} instead.
    */
   public M5EntityPanelWithValedsController() {
     // nop
@@ -118,6 +117,8 @@ public class M5EntityPanelWithValedsController<T>
     return aEditorClass.cast( editor );
   }
 
+  // TODO TRANSLATE
+
   /**
    * Возвращает набор текущих значений, содержащейся в редакторах.
    * <p>
@@ -144,11 +145,9 @@ public class M5EntityPanelWithValedsController<T>
   }
 
   /**
-   * Определяет, является ли панель только просмотрщиком, или позволяет также редактировать данные.
-   * <p>
-   * Возвращает то же, что и {@link IM5EntityPanel#isViewer()}.
+   * Determines if panel is a viewer, returns underlying panel {@link IM5PanelBase#isViewer()}.
    *
-   * @return boolean - признак только просмотрщика
+   * @return boolean - viewer mode flag
    */
   final public boolean isViewer() {
     TsInternalErrorRtException.checkNull( panel );
@@ -168,7 +167,7 @@ public class M5EntityPanelWithValedsController<T>
   }
 
   // ------------------------------------------------------------------------------------
-  // Метод IM5EntityPanelWithValedsController для переопределения наследниками
+  // To override/implement
   //
 
   protected void doInit() {

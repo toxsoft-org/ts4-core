@@ -8,13 +8,13 @@ import org.toxsoft.core.tsgui.utils.checkcoll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Creates GUI panels for modelled entities view and editing.
+ * Creates GUI panels for modeled entities view and editing.
  * <p>
  * THis interface has defalt implementation {@link M5DefaultPanelCreator}. Default implementation is used by the model
  * until
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public interface IM5PanelCreator<T> {
 
@@ -84,7 +84,7 @@ public interface IM5PanelCreator<T> {
       M5EntityPanelWithValedsController<T> aController );
 
   /**
-   * Creates the panel to enter common filtering criteria for the modelled entity.
+   * Creates the panel to enter common filtering criteria for the modeled entity.
    * <p>
    * Default implementation creates {@link M5DefaultEntityFilterPanel}.
    *

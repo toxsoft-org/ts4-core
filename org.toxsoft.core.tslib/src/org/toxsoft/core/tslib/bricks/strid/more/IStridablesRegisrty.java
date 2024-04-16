@@ -29,7 +29,7 @@ public interface IStridablesRegisrty<T extends IStridable>
    *
    * @return {@link Class}&lt;T&gt; - the registered items class
    */
-  Class<T> itemClass();
+  Class<? extends T> itemClass();
 
   /**
    * Returns all registered items.

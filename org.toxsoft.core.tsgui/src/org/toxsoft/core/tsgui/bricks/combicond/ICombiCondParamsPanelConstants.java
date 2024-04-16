@@ -11,7 +11,7 @@ import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 
 /**
- * {@link ICombiCondParamsPanel} configuration constants.
+ * {@link CombiCondParamsPanel} configuration constants.
  * <p>
  * This options may be passed to the {@link CombiCondParamsPanel} constructor as {@link ITsGuiContext#params()}.
  *
@@ -43,7 +43,7 @@ public interface ICombiCondParamsPanelConstants {
    * <i>Type:</i> {@link EAtomicType#BOOLEAN BOOLEAN}
    * <p>
    * <i>Usage:</i> Validation message pane is {@link ValidationResultPanel} displaying the value, returned by
-   * {@link ICombiCondParamsPanel#canGetEntity()} on each editing. When option is <code>true</code> - validation message
+   * {@link CombiCondParamsPanel#canGetEntity()} on each editing. When option is <code>true</code> - validation message
    * pane is present, <code>false</code> - no pane.
    * <p>
    * <i>Default value:</i> <code>false</code> (no validation message panel)

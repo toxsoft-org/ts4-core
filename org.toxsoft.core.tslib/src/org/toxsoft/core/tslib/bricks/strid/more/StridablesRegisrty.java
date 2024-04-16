@@ -2,14 +2,11 @@ package org.toxsoft.core.tslib.bricks.strid.more;
 
 import static org.toxsoft.core.tslib.bricks.strid.more.ITsResources.*;
 
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesListEdit;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.StridablesList;
-import org.toxsoft.core.tslib.bricks.validator.ITsValidationSupport;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.bricks.validator.impl.AbstractTsValidationSupport;
-import org.toxsoft.core.tslib.bricks.validator.impl.TsValidationFailedRtException;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -89,7 +86,7 @@ public class StridablesRegisrty<T extends IStridable>
   private final ValidationSupport      svs          = new ValidationSupport();
   private final IStridablesListEdit<T> items        = new StridablesList<>();
   private final IStridablesListEdit<T> builtinItems = new StridablesList<>();
-  private final Class<T>               itemClass;
+  private final Class<? extends T>     itemClass;
 
   /**
    * Constructor.
@@ -97,7 +94,7 @@ public class StridablesRegisrty<T extends IStridable>
    * @param aItemClass {@link Class}&lt;T&gt; - items class
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public StridablesRegisrty( Class<T> aItemClass ) {
+  public StridablesRegisrty( Class<? extends T> aItemClass ) {
     TsNullArgumentRtException.checkNull( aItemClass );
     TsIllegalArgumentRtException.checkFalse( IStridable.class.isAssignableFrom( aItemClass ) );
     itemClass = aItemClass;
@@ -107,7 +104,7 @@ public class StridablesRegisrty<T extends IStridable>
   //
 
   @Override
-  public Class<T> itemClass() {
+  public Class<? extends T> itemClass() {
     return itemClass;
   }
 

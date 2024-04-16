@@ -30,11 +30,11 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * {@link IM5EntityPanel} implementation based on auto-created {@link IValedControl} editors.
  * <p>
- * Thois panle has a backplane {@link #board()} and field VALEDs on it. Optional decorating widgets may also be placed
- * on this panel. However, panel creates {@link IM5Bunch} result based only on values from {@link #editors()}.
+ * This panel has a backplane {@link #board()} and field VALEDs on it. Optional decorating widgets may also be placed on
+ * this panel. However, panel creates {@link IM5Bunch} result based only on values from {@link #editors()}.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public class M5EntityPanelWithValeds<T>
     extends M5AbstractEntityPanel<T> {

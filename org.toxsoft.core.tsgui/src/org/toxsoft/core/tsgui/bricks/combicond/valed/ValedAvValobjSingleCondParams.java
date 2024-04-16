@@ -18,13 +18,13 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public class ValedAvSingleCondParams
+public class ValedAvValobjSingleCondParams
     extends AbstractAvValobjWrapperValedControl<ISingleCondParams> {
 
   /**
    * The factory name.
    */
-  public static final String FACTORY_NAME = VALED_EDNAME_PREFIX + ".AvSingleCondParams"; //$NON-NLS-1$
+  public static final String FACTORY_NAME = VALED_EDNAME_PREFIX + ".AvValobjSingleCondParams"; //$NON-NLS-1$
 
   /**
    * The factory singleton.
@@ -34,7 +34,7 @@ public class ValedAvSingleCondParams
     @SuppressWarnings( "unchecked" )
     @Override
     protected IValedControl<IAtomicValue> doCreateEditor( ITsGuiContext aContext ) {
-      return new ValedAvSingleCondParams( aContext );
+      return new ValedAvValobjSingleCondParams( aContext );
     }
 
     @Override
@@ -52,7 +52,7 @@ public class ValedAvSingleCondParams
    * @param aTsContext {@link ITsGuiContext} - the VALED context
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public ValedAvSingleCondParams( ITsGuiContext aTsContext ) {
+  public ValedAvValobjSingleCondParams( ITsGuiContext aTsContext ) {
     super( aTsContext, ValedSingleCondParams.FACTORY );
   }
 

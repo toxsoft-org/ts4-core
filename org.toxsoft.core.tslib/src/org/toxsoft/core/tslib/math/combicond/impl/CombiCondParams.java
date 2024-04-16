@@ -7,7 +7,6 @@ import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.math.combicond.*;
 import org.toxsoft.core.tslib.math.logicop.*;
-import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -15,8 +14,6 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * <p>
  * Static constructors used to create combined condition parameters. Different <code>createXxx()</code> methods have all
  * possible combinations of the single and combined filter parameters the arguments.
- * <p>
- * Note: {@link #name()} may be changed at any time with method {@link #setName(String)}.
  *
  * @author hazard157
  */
@@ -26,6 +23,11 @@ public abstract class CombiCondParams
   private static final long serialVersionUID = 157157L;
 
   /**
+   * The registered keeper ID.
+   */
+  public static final String KEEPER_ID = "CombiCondParams"; //$NON-NLS-1$
+
+  /**
    * Keeper singleton.
    */
   public static final IEntityKeeper<ICombiCondParams> KEEPER =
@@ -33,9 +35,6 @@ public abstract class CombiCondParams
 
         @Override
         protected void doWrite( IStrioWriter aSw, ICombiCondParams aEntity ) {
-          // name
-          aSw.writeQuotedString( aEntity.name() );
-          aSw.writeSeparatorChar();
           // isSingle
           aSw.writeBoolean( aEntity.isSingle() );
           aSw.writeSeparatorChar();
@@ -46,26 +45,19 @@ public abstract class CombiCondParams
             SingleCondParams.KEEPER.write( aSw, aEntity.single() );
             return;
           }
-          aSw.incNewLine();
           // left ICombiCondParams
           KEEPER.write( aSw, aEntity.left() );
           aSw.writeSeparatorChar();
-          aSw.writeEol();
           // op
           ELogicalOp.KEEPER.write( aSw, aEntity.op() );
           aSw.writeSeparatorChar();
-          aSw.writeEol();
+          // FORMATTING aSw.writeEol();
           // right ICombiCondParams
           KEEPER.write( aSw, aEntity.right() );
-          aSw.writeSeparatorChar();
-          aSw.decNewLine();
         }
 
         @Override
         protected ICombiCondParams doRead( IStrioReader aSr ) {
-          // name
-          String name = aSr.readQuotedString();
-          aSr.ensureSeparatorChar();
           // isSingle
           boolean isSingle = aSr.readBoolean();
           aSr.ensureSeparatorChar();
@@ -84,17 +76,12 @@ public abstract class CombiCondParams
           aSr.ensureSeparatorChar();
           // right ICombiCondParams
           ICombiCondParams pfp2 = KEEPER.read( aSr );
-          aSr.ensureSeparatorChar();
-          CombiCondParams ccp = CombiCondParams.createCombi( pfp1, op, pfp2, isResultInverted );
-          ccp.setName( name );
-          return ccp;
+          return CombiCondParams.createCombi( pfp1, op, pfp2, isResultInverted );
         }
 
       };
 
   private final boolean isResultInverted;
-
-  private String name = TsLibUtils.EMPTY_STRING;
 
   protected CombiCondParams( boolean aIsInverted ) {
     isResultInverted = aIsInverted;
@@ -285,28 +272,8 @@ public abstract class CombiCondParams
   //
 
   @Override
-  public String name() {
-    return name;
-  }
-
-  @Override
   public boolean isInverted() {
     return isResultInverted;
-  }
-
-  // ------------------------------------------------------------------------------------
-  // API
-  //
-
-  /**
-   * Sets the {@link #name()}.
-   *
-   * @param aName String - human-readable name
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   */
-  public void setName( String aName ) {
-    TsNullArgumentRtException.checkNull( aName );
-    name = aName;
   }
 
 }

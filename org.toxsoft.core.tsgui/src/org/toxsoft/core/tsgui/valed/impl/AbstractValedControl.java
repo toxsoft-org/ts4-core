@@ -586,15 +586,17 @@ public abstract class AbstractValedControl<V, C extends Control>
   abstract protected C doCreateControl( Composite aParent );
 
   /**
-   * Реализация должна изменить вид и работу SWT-контроля для отражения состояния разрешенности.
+   * Implementation must change SWT widgets so that editing becomes impossible.
    * <p>
-   * Вызывается только при изменении состояния {@link #isEditable()} из метода {@link #setEditable(boolean)}. При вызове
-   * этого метода {@link #isEditable()} уже имеет новое значение признака.
-   * <p>
-   * Вызов метода осуществляется только при существующем контроле, то есть, когда {@link #getControl()} !=
-   * <code>null</code>.
+   * This method is called when <b>all</b> conditions ae met:
+   * <ul>
+   * <li>the SWT widget exists {@link #isWidget()} = true;</li>
+   * <li>VALED is not read-only, {@link #isCreatedUneditable()} = <code>false</code>;</li>
+   * <li>{@link #isEditable()} state really has been changed.</li>
+   * </ul>
+   * When method is called, {@link #isEditable()} is already has changed value.
    *
-   * @param aEditable booolean - признак разрешения редактирования
+   * @param aEditable boolean - editing permission sign
    */
   abstract protected void doSetEditable( boolean aEditable );
 

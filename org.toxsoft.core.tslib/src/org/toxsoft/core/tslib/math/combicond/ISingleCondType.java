@@ -42,6 +42,6 @@ public interface ISingleCondType
    * @return String - human-readable description, never is <code>null</code>
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  String humanReadableDescription( IOptionSet aCondParams );
+  // String humanReadableDescription( IOptionSet aCondParams );
 
 }

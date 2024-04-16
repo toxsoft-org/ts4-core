@@ -2,6 +2,7 @@ package org.toxsoft.core.tslib.math.combicond.impl;
 
 import java.io.*;
 
+import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
@@ -9,6 +10,7 @@ import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.math.combicond.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -34,23 +36,37 @@ public final class SingleCondParams
 
         @Override
         protected void doWrite( IStrioWriter aSw, ISingleCondParams aEntity ) {
+          // typeId
           aSw.writeAsIs( aEntity.typeId() );
           aSw.writeSeparatorChar();
+          // name
+          aSw.writeQuotedString( aEntity.varName() );
+          aSw.writeSeparatorChar();
+          // params
           OptionSetKeeper.KEEPER.write( aSw, aEntity.params() );
         }
 
         @Override
         protected ISingleCondParams doRead( IStrioReader aSr ) {
+          // typeId
           String typeId = aSr.readIdPath();
           aSr.ensureSeparatorChar();
+          // name
+          String name = aSr.readQuotedString();
+          aSr.ensureSeparatorChar();
+          // params
           IOptionSet params = OptionSetKeeper.KEEPER.read( aSr );
-          return new SingleCondParams( typeId, params );
+          SingleCondParams scp = new SingleCondParams( typeId, params );
+          scp.setName( name );
+          return scp;
         }
 
       };
 
   private final String         typeId;
   private final IOptionSetEdit params = new OptionSet();
+
+  private String varName = TsLibUtils.EMPTY_STRING;
 
   /**
    * Constructor.
@@ -63,6 +79,21 @@ public final class SingleCondParams
   public SingleCondParams( String aTypeId, IOptionSet aParams ) {
     typeId = StridUtils.checkValidIdPath( aTypeId );
     params.setAll( aParams );
+  }
+
+  /**
+   * Constructor.
+   *
+   * @param aVarName String - human-readable IDpath or an empty string
+   * @param aTypeId String - condition type ID (IDpath) must match corresponding {@link ISingleCondType#id()}
+   * @param aParams {@link IOptionSet} - condition parameters
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException identifier is not an IDpath
+   */
+  public SingleCondParams( String aVarName, String aTypeId, IOptionSet aParams ) {
+    typeId = StridUtils.checkValidIdPath( aTypeId );
+    params.setAll( aParams );
+    setName( aVarName );
   }
 
   /**
@@ -90,8 +121,58 @@ public final class SingleCondParams
   }
 
   @Override
+  public String varName() {
+    return varName;
+  }
+
+  @Override
   public IOptionSet params() {
     return params;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // API
+  //
+
+  /**
+   * Sets the {@link #varName()}.
+   *
+   * @param aVarName String - human-readable IDpath or an empty string
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException non-empty argument is not an IDpath
+   */
+  public void setName( String aVarName ) {
+    TsNullArgumentRtException.checkNull( aVarName );
+    if( !aVarName.isEmpty() ) {
+      StridUtils.checkValidIdPath( aVarName );
+    }
+    varName = aVarName;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Object
+  //
+
+  @Override
+  public String toString() {
+    String s = typeId;
+    s += ": "; //$NON-NLS-1$
+    if( !varName.isEmpty() ) {
+      s += varName;
+      s += ' ';
+    }
+    s += '{';
+    for( String vn : params.keys() ) {
+      IAtomicValue av = params.getByKey( vn );
+      s += vn;
+      s += '=';
+      s += av.toString();
+      if( s != params.keys().last() ) {
+        s += ", "; //$NON-NLS-1$
+      }
+    }
+    s += '}';
+    return s;
   }
 
 }

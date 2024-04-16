@@ -251,7 +251,13 @@ public class StriparManagerApiImpl<E extends IStridable & IParameterized>
       elem = creator.create( aId, params );
     }
     items.put( elem );
-    eventer.fireChangeEvent( ECrudOp.EDIT, aId );
+    if( !aOldId.equals( aId ) ) {
+      eventer.fireChangeEvent( ECrudOp.REMOVE, aOldId );
+      eventer.fireChangeEvent( ECrudOp.CREATE, aId );
+    }
+    else {
+      eventer.fireChangeEvent( ECrudOp.EDIT, aId );
+    }
     return elem;
   }
 
@@ -338,16 +344,10 @@ public class StriparManagerApiImpl<E extends IStridable & IParameterized>
    */
   protected <T extends IStridable & IParameterized> void setItemsFromData( ITsCollection<T> aItemsData ) {
     TsNullArgumentRtException.checkNull( aItemsData );
-    eventer.pauseFiring();
     items.clear();
-    try {
-      for( T p : aItemsData ) {
-        E elem = creator.create( p.id(), p.params() );
-        items.add( elem );
-      }
-    }
-    finally {
-      eventer.resumeFiring( false );
+    for( T p : aItemsData ) {
+      E elem = creator.create( p.id(), p.params() );
+      items.add( elem );
     }
   }
 

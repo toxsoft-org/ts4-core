@@ -43,6 +43,25 @@ public interface ISingleCondParams {
   String typeId();
 
   /**
+   * Returns optional identifier name used to identify the condition variable in the formulas.
+   * <p>
+   * Variable name may be an empty string or human readable IDname. Name, if present, may be used as a keyword in
+   * logical formula editor.
+   *
+   * @return String - optional short name, human-readable IDpath or an empty string
+   */
+  String varName();
+
+  /**
+   * Determines that {@link #varName()} is specified, that is it is not an empty string.
+   *
+   * @return boolean - <code>true</code> if {@link #varName()} is an IDpath, <code>false</code> for empty string
+   */
+  default boolean hasName() {
+    return !varName().isEmpty();
+  }
+
+  /**
    * Returns the condition parameter values.
    *
    * @return {@link IOptionSet} - the condition parameter values
@@ -79,8 +98,18 @@ class InternalNeverSingleCondParams
   }
 
   @Override
+  public String varName() {
+    return TYPE_ID_NEVER;
+  }
+
+  @Override
   public IOptionSet params() {
     return IOptionSet.NULL;
+  }
+
+  @Override
+  public String toString() {
+    return TYPE_ID_NEVER;
   }
 
 }
@@ -113,8 +142,18 @@ class InternalAlwaysSingleCondParams
   }
 
   @Override
+  public String varName() {
+    return TYPE_ID_ALWAYS;
+  }
+
+  @Override
   public IOptionSet params() {
     return IOptionSet.NULL;
+  }
+
+  @Override
+  public String toString() {
+    return TYPE_ID_ALWAYS;
   }
 
 }

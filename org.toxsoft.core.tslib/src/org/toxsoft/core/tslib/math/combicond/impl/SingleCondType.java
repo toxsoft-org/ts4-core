@@ -139,7 +139,6 @@ public class SingleCondType
     TsValidationFailedRtException.checkError( validateParams( aParams.params() ) );
   }
 
-  @Override
   public String humanReadableDescription( IOptionSet aCondParams ) {
     TsNullArgumentRtException.checkNull( aCondParams );
     ValidationResult vr = validateParams( aCondParams );

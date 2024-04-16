@@ -34,7 +34,7 @@ public class ValedComboSelector<V>
   /**
    * The context reference to the items provider {@link ITsItemsProvider} for drop down list.<br>
    * Reference type: {@link ITsItemsProvider}<br>
-   * Usage: items provider must return items of edited value type. Items are listed once at valed creation.<br>
+   * Usage: items provider must return items of edited value type. Items are listed once at VALED creation.<br>
    * Default value: none
    */
   @SuppressWarnings( "rawtypes" )
@@ -78,7 +78,6 @@ public class ValedComboSelector<V>
   private final IListEdit<V> items = new ElemArrayList<>();
 
   private ITsVisualsProvider<V> visualsProvider = ITsVisualsProvider.DEFAULT;
-  private ITsItemsProvider<V>   itemsProvider   = ITsItemsProvider.EMPTY;
 
   private Combo combo;
 
@@ -94,7 +93,7 @@ public class ValedComboSelector<V>
     setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
     setParamIfNull( OPDEF_VERTICAL_SPAN, AV_1 );
     visualsProvider = REFDEF_VALUE_VISUALS_PROVIDER.getRef( aContext, ITsVisualsProvider.DEFAULT );
-    itemsProvider = REFDEF_ITEMS_PROVIDER.getRef( aContext, ITsItemsProvider.EMPTY );
+    ITsItemsProvider<V> itemsProvider = REFDEF_ITEMS_PROVIDER.getRef( aContext, ITsItemsProvider.EMPTY );
     items.setAll( itemsProvider.listItems() );
   }
 

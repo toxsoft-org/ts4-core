@@ -1,5 +1,7 @@
 package org.toxsoft.core.tslib.math.combicond.impl;
 
+import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
+
 import org.toxsoft.core.tslib.math.combicond.*;
 import org.toxsoft.core.tslib.math.logicop.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -44,6 +46,19 @@ class InternalCondParamsSingle
   @Override
   public ICombiCondParams right() {
     throw new TsUnsupportedFeatureRtException();
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Object
+  //
+
+  @Override
+  public String toString() {
+    String s = EMPTY_STRING;
+    if( isInverted() ) {
+      s += "!"; //$NON-NLS-1$
+    }
+    return s + single().toString();
   }
 
 }

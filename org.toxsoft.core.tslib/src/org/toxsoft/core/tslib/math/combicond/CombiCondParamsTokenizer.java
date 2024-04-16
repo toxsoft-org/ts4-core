@@ -20,13 +20,13 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public final class CombiCondTokenizer {
+public final class CombiCondParamsTokenizer {
 
   /**
-   * TODO change algorithm to eliminate unneeded brackets
+   * TODO change algorithm to eliminate unneeded brackets in formula string
    */
 
-  private final IStridGenerator keywrodGenerator = new SimpleStridGenerator( "F", 0, 0 ); //$NON-NLS-1$
+  private final IStridGenerator keywordGenerator = new SimpleStridGenerator( "F", 0, 0 ); //$NON-NLS-1$
 
   private final ICombiCondParams                  ccp;
   private final IListEdit<ILexanToken>            tokens     = new ElemArrayList<>();
@@ -39,7 +39,7 @@ public final class CombiCondTokenizer {
    * @param aCcp {@link ICombiCondParams} - the parameters to represent as a formula
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public CombiCondTokenizer( ICombiCondParams aCcp ) {
+  public CombiCondParamsTokenizer( ICombiCondParams aCcp ) {
     TsNullArgumentRtException.checkNull( aCcp );
     ccp = aCcp;
     add( aCcp );
@@ -118,7 +118,18 @@ public final class CombiCondTokenizer {
         return kw;
       }
     }
-    String kw = keywrodGenerator.nextId();
+    String kw;
+    if( aScp.hasName() ) {
+      kw = aScp.varName();
+    }
+    else {
+      String s;
+      // avoid duplicated keywords
+      do {
+        s = keywordGenerator.nextId();
+      } while( singlesMap.hasKey( s ) );
+      kw = s;
+    }
     singlesMap.put( kw, aScp );
     return kw;
   }

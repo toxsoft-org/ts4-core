@@ -1,7 +1,7 @@
 package org.toxsoft.core.tsgui.bricks.ctx;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContext;
+import org.eclipse.e4.core.contexts.*;
+import org.toxsoft.core.tslib.bricks.ctx.*;
 
 /**
  * GUI components editable context.
@@ -12,7 +12,7 @@ public interface ITsGuiContext
     extends ITsContext {
 
   /**
-   * Return the Eclipse E4 context assosiated with the root {@link ITsGuiContext}.
+   * Return the Eclipse E4 context associated with the root {@link ITsGuiContext}.
    *
    * @return {@link IEclipseContext} - Eclipse E4 context, never is <code>null</code>
    */

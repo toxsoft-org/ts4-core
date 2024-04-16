@@ -97,7 +97,7 @@ public class ValedControlFactoriesRegistry
     registerFactory( ValedAvValobjTsGradientFillInfo.FACTORY );
 
     registerFactory( ValedSingleCondParams.FACTORY );
-    registerFactory( ValedAvSingleCondParams.FACTORY );
+    registerFactory( ValedAvValobjSingleCondParams.FACTORY );
 
   }
 

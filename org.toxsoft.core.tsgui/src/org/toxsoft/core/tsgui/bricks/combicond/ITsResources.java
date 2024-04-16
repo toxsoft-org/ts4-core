@@ -44,4 +44,16 @@ interface ITsResources {
   String STR_FSI_SCP       = Messages.getString( "STR_FSI_SCP" );       //$NON-NLS-1$
   String STR_FSI_SCP_D     = Messages.getString( "STR_FSI_SCP_D" );     //$NON-NLS-1$
 
+  /**
+   * {@link SingleCondParamsPanel}
+   */
+  String STR_SCPP_NAME_LABEL     = Messages.getString( "STR_SCPP_NAME_LABEL" );     //$NON-NLS-1$
+  String STR_SCPP_NAME_LABEL_D   = Messages.getString( "STR_SCPP_NAME_LABEL_D" );   //$NON-NLS-1$
+  String STR_SCPP_TYPEID_LABEL   = Messages.getString( "STR_SCPP_TYPEID_LABEL" );   //$NON-NLS-1$
+  String STR_SCPP_TYPEID_LABEL_D = Messages.getString( "STR_SCPP_TYPEID_LABEL_D" ); //$NON-NLS-1$
+  String STR_SCPP_PARAMS_LABEL   = Messages.getString( "STR_SCPP_PARAMS_LABEL" );   //$NON-NLS-1$
+  String STR_SCPP_PARAMS_LABEL_D = Messages.getString( "STR_SCPP_PARAMS_LABEL_D" ); //$NON-NLS-1$
+  String MSG_ERR_SCPP_INV_NAME   = Messages.getString( "MSG_ERR_SCPP_INV_NAME" );   //$NON-NLS-1$
+  String FMT_SCPP_UNKNOWN_SCT_ID = Messages.getString( "FMT_SCPP_UNKNOWN_SCT_ID" ); //$NON-NLS-1$
+
 }

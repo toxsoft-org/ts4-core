@@ -38,7 +38,7 @@ public class M5DefaultEntityControlledPanel<T>
 
   @Override
   protected void doInitEditors() {
-    // create editors for unhidden (not M5FF_HIDDEN) fields
+    // create editors for un-hidden (not M5FF_HIDDEN) fields
     for( IM5FieldDef<T, ?> fDef : model().fieldDefs() ) {
       if( !fDef.hasFlag( M5FF_HIDDEN ) ) {
         addField( fDef.id() );

@@ -9,6 +9,7 @@ import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.coll.helpers.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -45,6 +46,9 @@ public interface IStriparManagerApi<E extends IStridable & IParameterized>
    * Argument <code>aParams</code> may contain only options to be changed/added, or event be an empty set.
    * <p>
    * Returned instance may be an update existing instance or the new instance.
+   * <p>
+   * If the ID is not changed generates {@link ECrudOp#EDIT} event. When ID is changed, generates two events
+   * {@link ECrudOp#REMOVE} with <code>aOldId</code> and {@link ECrudOp#CREATE} with <code>aId</code>.
    *
    * @param aOldId String - the ID of the existing item to change
    * @param aId String - item new ID (an IDpath), may be the same as old ID

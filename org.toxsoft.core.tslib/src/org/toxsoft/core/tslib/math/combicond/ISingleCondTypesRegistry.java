@@ -16,7 +16,7 @@ import org.toxsoft.core.tslib.math.combicond.impl.*;
  * </ul>
  *
  * @author hazard157
- * @param <T> - exact Java type of the single condition type
+ * @param <T> - Java types of the condition type definitions
  */
 public interface ISingleCondTypesRegistry<T extends ISingleCondType>
     extends IStridablesRegisrty<T> {

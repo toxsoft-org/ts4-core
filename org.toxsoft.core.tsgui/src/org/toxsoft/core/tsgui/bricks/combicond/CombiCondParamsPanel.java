@@ -28,6 +28,7 @@ import org.toxsoft.core.tsgui.m5.gui.mpc.impl.*;
 import org.toxsoft.core.tsgui.m5.gui.panels.*;
 import org.toxsoft.core.tsgui.m5.gui.panels.impl.*;
 import org.toxsoft.core.tsgui.m5.model.*;
+import org.toxsoft.core.tsgui.panels.generic.*;
 import org.toxsoft.core.tsgui.panels.lazy.*;
 import org.toxsoft.core.tsgui.panels.misc.*;
 import org.toxsoft.core.tsgui.panels.toolbar.*;
@@ -38,6 +39,7 @@ import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.idgen.*;
+import org.toxsoft.core.tslib.bricks.strid.more.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.coll.*;
@@ -54,14 +56,21 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * {@link ICombiCondParamsPanel} implementation.
  * <p>
- * This implementation respects options from {@link ICombiCondParamsPanelConstants} and <code>aViewer</code> argument
- * specified in the constructor {@link CombiCondParamsPanel#CombiCondParamsPanel(ITsGuiContext, boolean)}.
+ * Panel contains:
+ * <ul>
+ * <li>formula string editor - SWT {@link Text} control to edit logical formula;</li>
+ * <li>conditions list - to edit conditions mentioned in the formula by the keywords;</li>
+ * <li>optional validation pane - {@link ValidationResultPanel} displaying the formula correctness.</li>
+ * </ul>
+ * <p>
+ * Respects options from {@link ICombiCondParamsPanelConstants} and <code>aViewer</code> argument specified in the
+ * constructor {@link CombiCondParamsPanel#CombiCondParamsPanel(ITsGuiContext, boolean)}.
  *
  * @author hazard157
  */
 public class CombiCondParamsPanel
     extends AbstractLazyPanel<Control>
-    implements ICombiCondParamsPanel {
+    implements IGenericEntityEditPanel<ICombiCondParams> {
 
   /**
    * Context option: The RGB color of the keyword text background in formula.
@@ -266,6 +275,7 @@ public class CombiCondParamsPanel
   }
 
   private void whenScpPanelChange() {
+    parser.parse( textWidget.getFormulaText() );
     scpMpc.updateActionsState();
     genericChangeEventer.fireChangeEvent();
   }
@@ -280,6 +290,7 @@ public class CombiCondParamsPanel
       items.add( fsi );
     }
     scpPanel.refresh();
+    genericChangeEventer.fireChangeEvent();
   }
 
   boolean isAbsentKeywords() {
@@ -297,6 +308,8 @@ public class CombiCondParamsPanel
         ++i;
       }
     }
+    scpPanel.refresh();
+    genericChangeEventer.fireChangeEvent();
   }
 
   boolean isNotNeededFsi() {
@@ -406,13 +419,20 @@ public class CombiCondParamsPanel
   @Override
   public void setEntity( ICombiCondParams aEntity ) {
     String formulaString = EMPTY_STRING;
+    items.clear();
     if( aEntity != null ) {
-      CombiCondTokenizer cct = new CombiCondTokenizer( aEntity );
+      CombiCondParamsTokenizer cct = new CombiCondParamsTokenizer( aEntity );
       formulaString = cct.getFormulaString();
+      // fill items for scpMpc
+      for( String kw : cct.singleParams().keys() ) {
+        FormulaScpItem fsi = new FormulaScpItem( kw, cct.singleParams().getByKey( kw ) );
+        items.add( fsi );
+      }
     }
     textWidget.setFormulaText( formulaString );
     updateFormulaHighlights();
-    scpMpc.updateActionsState();
+    // scpMpc.updateActionsState();
+    scpMpc.refresh();
   }
 
   // ------------------------------------------------------------------------------------
@@ -471,27 +491,59 @@ public class CombiCondParamsPanel
   }
 
   // ------------------------------------------------------------------------------------
-  // ICombiCondParamsPanel
+  // API
   //
 
-  @Override
+  /**
+   * Determines how the empty formula ({@link IFormulaTokens#isEmpty()} = <code>true</code>) is represented.
+   * <p>
+   * <code>null</code> means that empty formula is not allowed, {@link #getEntity()} with throw
+   * {@link TsValidationFailedRtException} exception.
+   * <p>
+   * Common values are {@link ISingleCondParams#ALWAYS} or {@link ISingleCondParams#NEVER}. Default value is
+   * {@link ISingleCondParams#NEVER}.
+   *
+   * @return {@link ISingleCondParams} - empty formula representation or <code>null</code>
+   */
   public ISingleCondParams getEmptyFormulaRepresentation() {
     return scpOfEmptyFormula;
   }
 
-  @Override
+  /**
+   * Sets the value {@link #getEmptyFormulaRepresentation()}.
+   *
+   * @param aScp {@link ISingleCondParams} - empty formula representation or <code>null</code>
+   */
   public void setEmptyFormulaRepresentation( ISingleCondParams aScp ) {
     scpOfEmptyFormula = aScp;
   }
 
-  @Override
-  public void addRegistry( IStridablesList<? extends ISingleCondType> aTypes ) {
+  /**
+   * Adds condition types from the argument to the internal registry.
+   *
+   * @param aTypes {@link IStridablesList}&lt;{@link ISingleCondType}&gt; - types to register
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemAlreadyExistsRtException any type ID is already registered
+   */
+  public void addSctToUsedRegistry( IStridablesList<? extends ISingleCondType> aTypes ) {
     TsNullArgumentRtException.checkNull( aTypes );
     TsItemAlreadyExistsRtException
         .checkTrue( TsCollectionsUtils.intersects( aTypes.ids(), scpTypesReg.items().ids() ) );
     for( ISingleCondType t : aTypes ) {
       scpTypesReg.register( t );
     }
+  }
+
+  /**
+   * Adds condition types from the argument to the internal registry.
+   *
+   * @param aTypesRegistry {@link IStridablesRegisrty} - the registry of {@link ISingleCondType}
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemAlreadyExistsRtException any type ID is already registered
+   */
+  public void addSctRegistry( IStridablesRegisrty<? extends ISingleCondType> aTypesRegistry ) {
+    TsNullArgumentRtException.checkNull( aTypesRegistry );
+    addSctToUsedRegistry( aTypesRegistry.items() );
   }
 
   // ------------------------------------------------------------------------------------

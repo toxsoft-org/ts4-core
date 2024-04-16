@@ -47,7 +47,7 @@ class FormulaScpItemM5Model
       TSID_DESCRIPTION, STR_FSI_SCP_D, //
       TSID_KEEPER_ID, SingleCondParams.KEEPER_ID, //
       M5_OPDEF_FLAGS, avInt( M5FF_COLUMN ), //
-      IValedControlConstants.OPDEF_EDITOR_FACTORY_NAME, ValedAvSingleCondParams.FACTORY_NAME, //
+      IValedControlConstants.OPDEF_EDITOR_FACTORY_NAME, ValedAvValobjSingleCondParams.FACTORY_NAME, //
       TSID_DEFAULT_VALUE, avValobj( ISingleCondParams.ALWAYS ) //
   ) {
 

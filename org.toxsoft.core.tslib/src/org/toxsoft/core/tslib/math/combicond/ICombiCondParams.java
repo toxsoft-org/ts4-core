@@ -44,13 +44,6 @@ public interface ICombiCondParams {
   ICombiCondParams NEVER = new InternalNeverCombiCondParams();
 
   /**
-   * Returns optional name used to identify the condition.
-   *
-   * @return String - optional human-readable short name
-   */
-  String name();
-
-  /**
    * Determines if this is the single condition.
    *
    * @return boolean - the single condition flag<br>
@@ -124,11 +117,6 @@ class InternalAlwaysCombiCondParams
   }
 
   @Override
-  public String name() {
-    return "ALWAYS"; //$NON-NLS-1$
-  }
-
-  @Override
   public boolean isSingle() {
     return true;
   }
@@ -180,11 +168,6 @@ class InternalNeverCombiCondParams
   private Object readResolve()
       throws ObjectStreamException {
     return ICombiCondParams.NEVER;
-  }
-
-  @Override
-  public String name() {
-    return "NEVER"; //$NON-NLS-1$
   }
 
   @Override
