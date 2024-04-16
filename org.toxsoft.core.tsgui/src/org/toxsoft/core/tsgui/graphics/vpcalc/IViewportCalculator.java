@@ -12,7 +12,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * <p>
  * TODO describe what the viewport / content is
  *
- * @author hazard157
+ * @author hazard157, vs
  */
 public interface IViewportCalculator {
 
@@ -87,6 +87,17 @@ public interface IViewportCalculator {
    * @return boolean - <code>true</code> if {@link #output()} has been changed
    */
   boolean queryToChangeOrigin( int aX, int aY );
+
+  /**
+   * Query to re-locate the content in the viewport.
+   * <p>
+   * Request is done to place the content so scroll bars will have the requested positions.
+   *
+   * @param aHorScrollBarPos int - requested horizontal scroll bar position
+   * @param aVerScrollBarPos int - requested vertical scroll bar position
+   * @return boolean - <code>true</code> if {@link #output()} has been changed
+   */
+  boolean queryToChangeOriginByScrollBars( int aHorScrollBarPos, int aVerScrollBarPos );
 
   /**
    * Query to re-locate the content in the viewport.
