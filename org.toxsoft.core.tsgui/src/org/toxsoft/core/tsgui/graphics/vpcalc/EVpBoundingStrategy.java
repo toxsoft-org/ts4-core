@@ -78,7 +78,8 @@ public enum EVpBoundingStrategy
     protected ID2Point doCalcOrigin( ID2Point aOrigin, ITsRectangle aVpRect, ITsPoint aContentSize,
         ITsPoint aMargins ) {
       int x = (int)aOrigin.x();
-      IntRange horRange = getVerRange( aVpRect, aMargins );
+      // IntRange horRange = getVerRange( aVpRect, aMargins );
+      IntRange horRange = getHorRange( aVpRect, aMargins );
       if( horRange.isLeft( x + aContentSize.x() ) ) {
         x = horRange.minValue() - aContentSize.x();
       }

@@ -58,6 +58,7 @@ public final class VedScreenView
   void attachCanvas( Canvas aCanvas ) {
     TsNullArgumentRtException.checkNull( aCanvas );
     theCanvas = aCanvas;
+    theCanvas.setBackground( new Color( 96, 96, 96 ) );
     theCanvas.addPaintListener( canvasRenderer );
     userInputBinder.bindToControl( theCanvas, TsUserInputEventsBinder.BIND_ALL_INPUT_EVENTS );
   }
