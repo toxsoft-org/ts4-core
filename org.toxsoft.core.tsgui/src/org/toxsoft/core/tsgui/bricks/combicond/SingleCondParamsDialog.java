@@ -1,11 +1,11 @@
 package org.toxsoft.core.tsgui.bricks.combicond;
 
-import org.eclipse.swt.widgets.*;
+import org.eclipse.swt.widgets.Composite;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
-import org.toxsoft.core.tsgui.utils.layout.*;
-import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tsgui.utils.layout.BorderLayout;
+import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
 import org.toxsoft.core.tslib.math.combicond.*;
-import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 
 /**
  * Invokes dialog to edit {@link ISingleCondParams}.
@@ -60,7 +60,8 @@ public class SingleCondParamsDialog {
       ISingleCondTypesRegistry<? extends ISingleCondType> aTypesRegistry ) {
     TsNullArgumentRtException.checkNulls( aDialogInfo, aTypesRegistry );
     TsDialog<ISingleCondParams, ISingleCondTypesRegistry<ISingleCondType>> d =
-        new TsDialog<>( aDialogInfo, aInitVal, (ISingleCondTypesRegistry)aTypesRegistry, Panel::new );
+        // new TsDialog<>( aDialogInfo, aInitVal, (ISingleCondTypesRegistry)aTypesRegistry, Panel::new );
+        new TsDialog<>( aDialogInfo, aInitVal, (ISingleCondTypesRegistry)aTypesRegistry, null );
     return d.execData();
   }
 
