@@ -14,7 +14,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  */
 public class SingleCondParamsDialog {
 
-  private static class Panel
+  static class Panel
       extends AbstractTsDialogPanel<ISingleCondParams, ISingleCondTypesRegistry<ISingleCondType>> {
 
     private final SingleCondParamsPanel panel;
