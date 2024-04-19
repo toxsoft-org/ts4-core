@@ -32,7 +32,7 @@ public class PasClient<CHANNEL extends PasClientChannel>
     implements Runnable, ICooperativeMultiTaskable, ICloseable {
 
   /**
-   * Фабрика каналов
+   * Фабрика каналов.
    */
   private final IPasClientChannelCreator<CHANNEL> creator;
 
