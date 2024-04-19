@@ -6,6 +6,7 @@ import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tsgui.ved.screen.snippets.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 
 /**
@@ -42,7 +43,8 @@ class VedCanvasHandler
 
   @Override
   public boolean onKeyDown( Object aSource, int aCode, char aChar, int aState ) {
-    for( VedAbstractUserInputHandler h : new ElemArrayList<>( handlersBefore.list() ) ) {
+    IList<VedAbstractUserInputHandler> handlers = new ElemArrayList<>( handlersBefore.list() );
+    for( VedAbstractUserInputHandler h : handlers ) {
       if( h.isActive() && h.userInputListener().onKeyDown( aSource, aCode, aChar, aState ) ) {
         return true;
       }

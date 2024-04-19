@@ -223,6 +223,7 @@ public class ViewportCalculator
   public boolean queryConversionChange( ID2Conversion aConversion ) {
     TsNullArgumentRtException.checkNull( aConversion );
 
+    output.setParams( aConversion, vpRect, output.horBarSettings(), output.verBarSettings() );
     conformRects( true, settings().boundingStrategy(), settings.boundingMargins() );
     // changing conversion is not allowed in unlockable adaptive mode
     if( isAdaptiveMode() && !settings.isFitModeUnlocked() ) {
