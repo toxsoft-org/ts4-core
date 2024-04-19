@@ -146,11 +146,15 @@ class VedCanvasRenderer
       }
     }
     // draw screen decorators AFTER
+    // aEvent.gc.setTransform( screenTransform );
     for( VedAbstractDecorator d : screenModel.screenDecoratorsAfter().list() ) {
       if( d.isActive() ) {
         VedAbstractVisel visel = visels.list().findByKey( d.getViselIdOfDrawingTransform() );
         if( visel != null ) {
           setViselTransform( tsg, visel, screenTransform );
+        }
+        else {
+          aEvent.gc.setTransform( screenTransform );
         }
         d.paint( tsg );
       }

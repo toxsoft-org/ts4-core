@@ -9,7 +9,6 @@ import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
-import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -26,13 +25,13 @@ public class VedViselMultiselectionHandler
   static class SelectionAreaDecorator
       extends VedAbstractDecorator {
 
-    TsRectangleEdit bounds;
+    D2RectangleEdit bounds;
 
     Color colorRed = new Color( 255, 0, 0 );
 
-    SelectionAreaDecorator( int aX, int aY, IVedScreen aVedScreen ) {
+    SelectionAreaDecorator( double aX, double aY, IVedScreen aVedScreen ) {
       super( aVedScreen );
-      bounds = new TsRectangleEdit( aX, aY, 1, 1 );
+      bounds = new D2RectangleEdit( aX, aY, 1, 1 );
     }
 
     @Override
@@ -40,7 +39,7 @@ public class VedViselMultiselectionHandler
       aPaintContext.gc().setLineWidth( 2 );
       aPaintContext.gc().setLineStyle( SWT.LINE_DOT );
       aPaintContext.gc().setForeground( colorRed );
-      aPaintContext.gc().drawRectangle( bounds.x1(), bounds.y1(), bounds.width(), bounds.height() );
+      aPaintContext.gc().drawRectangle( (int)bounds.x1(), (int)bounds.y1(), (int)bounds.width(), (int)bounds.height() );
     }
 
     @Override
@@ -53,12 +52,19 @@ public class VedViselMultiselectionHandler
       return null;
     }
 
-    ITsRectangle areaBounds() {
+    ID2Rectangle areaBounds() {
       return bounds;
     }
 
-    void setEndPoint( int aX, int aY ) {
-      bounds.setSize( aX - bounds.x1(), aY - bounds.y1() );
+    void setEndPoint( double aX, double aY ) {
+      if( aX - bounds.x1() != 0 && aY - bounds.y1() != 0 ) {
+        // int x = Math.min( aX, bounds.x1() );
+        // int y = Math.min( aY, bounds.y1() );
+        // int width = Math.abs( aX - bounds.x2() );
+        // int height = Math.abs( aY - bounds.y2() );
+        // bounds.setRect( x, y, width, height );
+        bounds.setSize( aX - bounds.x1(), aY - bounds.y1() );
+      }
     }
   }
 
@@ -102,9 +108,11 @@ public class VedViselMultiselectionHandler
   @Override
   public boolean onMouseDragStart( Object aSource, DragOperationInfo aDragInfo ) {
     if( aDragInfo.button() == ETsMouseButton.LEFT && (aDragInfo.startingState() & SWT.CTRL) != 0 ) {
-      System.out.println( "Start drag" );
       ITsPoint p = aDragInfo.startingPoint();
-      areaDecorator = new SelectionAreaDecorator( p.x(), p.y(), vedScreen() );
+      ID2Point d2p = vedScreen().view().coorsConverter().swt2Screen( p );
+      // System.out.println( "Start drag: x = " + p.x() + "; y = " + p.y() );
+      // areaDecorator = new SelectionAreaDecorator( p.x(), p.y(), vedScreen() );
+      areaDecorator = new SelectionAreaDecorator( d2p.x(), d2p.y(), vedScreen() );
       vedScreen().model().screenDecoratorsAfter().add( areaDecorator );
       vedScreen().view().redraw();
       dragging = true;
@@ -116,7 +124,9 @@ public class VedViselMultiselectionHandler
   @Override
   public boolean onMouseDragMove( Object aSource, DragOperationInfo aDragInfo, int aState, ITsPoint aCoors ) {
     if( dragging ) {
-      areaDecorator.setEndPoint( aCoors.x(), aCoors.y() );
+      ID2Point d2p = vedScreen().view().coorsConverter().swt2Screen( aCoors );
+      // areaDecorator.setEndPoint( aCoors.x(), aCoors.y() );
+      areaDecorator.setEndPoint( d2p.x(), d2p.y() );
       vedScreen().view().redraw();
       return true;
     }
@@ -151,12 +161,12 @@ public class VedViselMultiselectionHandler
   // Implementation
   //
 
-  private IStridablesList<VedAbstractVisel> listBoundedVisels( ITsRectangle aBounds ) {
+  private IStridablesList<VedAbstractVisel> listBoundedVisels( ID2Rectangle aBounds ) {
     StridablesList<VedAbstractVisel> result = new StridablesList<>();
     IVedCoorsConverter conv = vedScreen().view().coorsConverter();
     for( VedAbstractVisel visel : vedScreen().model().visels().list() ) {
       ID2Rectangle r = visel.bounds();
-      ID2Rectangle br = conv.swt2Visel( aBounds, visel );
+      ID2Rectangle br = conv.screen2Visel( aBounds, visel );
       if( br.contains( r.a() ) && br.contains( r.b() ) ) {
         result.add( visel );
       }
