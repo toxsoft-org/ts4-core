@@ -416,11 +416,6 @@ public class MultiPaneComponent<T>
       isEditingAllowed = isEditingAllowed && doGetIsEditAllowed( sel );
       isRemovalAllowed = isRemovalAllowed && doGetIsRemoveAllowed( sel );
     }
-    else {
-      isCreationAllowed = false;
-      isEditingAllowed = false;
-      isRemovalAllowed = false;
-    }
     toolbar.setActionEnabled( ACTID_ADD, editable && isCreationAllowed );
     toolbar.setActionEnabled( ACTID_EDIT, editable && isEditingAllowed );
     toolbar.setActionEnabled( ACTID_ADD_COPY, editable && isEditingAllowed );

@@ -19,8 +19,8 @@ import org.toxsoft.core.tslib.bricks.events.change.*;
  * <li>tree viewer - main and mandatory panel displays the items as table or tree;</li>
  * <li>toolbar - (optional) contains actions as buttons to control display and MPC behaveuor;</li>
  * <li>filter pane - (optional) controls which items will be displayed in tree viewer;</li>
- * <li>detail pane - (optional) displays more datails of item selected in tree viewer;</li>
- * <li>summary pane - (options) displayes summaty information of all and/or filtered items.</li>
+ * <li>detail pane - (optional) displays more details of item selected in tree viewer;</li>
+ * <li>summary pane - (options) displays summary information of all and/or filtered items.</li>
  * </ul>
  * <p>
  * {@link #genericChangeEventer()} generates events when panel makes changes to the underlying items (add, remove,
