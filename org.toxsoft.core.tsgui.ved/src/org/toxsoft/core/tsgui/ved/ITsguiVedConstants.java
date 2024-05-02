@@ -53,6 +53,14 @@ public interface ITsguiVedConstants {
   String ICONID_VED_LOGO               = "ved-logo";               //$NON-NLS-1$
   String ICONID_VED_VISEL              = "ved-visel";              //$NON-NLS-1$
   String ICONID_VED_ACTOR              = "ved-actor";              //$NON-NLS-1$
+  String ICONID_VED_COMMAND_ACTOR      = "actors-comanda";         //$NON-NLS-1$
+  String ICONID_VED_RRI_EDIT_ACTOR     = "actors-nsi";             //$NON-NLS-1$
+  String ICONID_VED_RTDATA_IMG_ACTOR   = "actors-image";           //$NON-NLS-1$
+  String ICONID_VED_INPUT_FIELD_ACTOR  = "actors-field";           //$NON-NLS-1$
+  String ICONID_VED_ATR_EDIT_ACTOR     = "actors-attr";            //$NON-NLS-1$
+  String ICONID_VED_RT_EDIT_ACTOR      = "actors-Rt";              //$NON-NLS-1$
+  String ICONID_VED_RT_BOOL_EDIT_ACTOR = "actors-Rt-bool";         //$NON-NLS-1$
+  String ICONID_VED_POPUP_DLG_ACTOR    = "actors-dialog";          //$NON-NLS-1$
   String ICONID_SIMPLE_RECT            = "simple-rect";            //$NON-NLS-1$
   String ICONID_VISEL_CIRCLE_LAMP      = "visel-circle-lamp";      //$NON-NLS-1$
   String ICONID_VISEL_LABEL            = "visel-label";            //$NON-NLS-1$
