@@ -78,6 +78,20 @@ public interface IFormulaTextWidget
   void setErrorHighlightColor( RGB aColor );
 
   /**
+   * Determines if panel content editing is allowed right now.
+   *
+   * @return boolean - edit mode flag
+   */
+  boolean isEditable();
+
+  /**
+   * Toggles panel content edit mode.
+   *
+   * @param aEditable boolean - edit mode flag
+   */
+  void setEditable( boolean aEditable );
+
+  /**
    * Returns implementing SWT control.
    *
    * @return {@link Control} - the SWT control

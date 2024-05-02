@@ -154,22 +154,22 @@ public class CombiCondParamsPanel
     private static final String ACTID_ADD_ABSENT_KEYWORDS = "act.AddAbsentKeywords"; //$NON-NLS-1$
     private static final String ACTID_REMOVE_STALE_FSI    = "act.RemoveStaleFsi";    //$NON-NLS-1$
 
-    private static final ITsActionDef AVDEF_ADD_ABSENT_KEYWORDS = TsActionDef.ofPush2( ACTID_ADD_ABSENT_KEYWORDS, //
+    private static final ITsActionDef ACDEF_ADD_ABSENT_KEYWORDS = TsActionDef.ofPush2( ACTID_ADD_ABSENT_KEYWORDS, //
         STR_ADD_ABSENT_KEYWORDS, STR_ADD_ABSENT_KEYWORDS_D, //
         ICONID_LIST_ADD //
     // ICONID_ADD_ABSENT_KEYWORDS //
     );
 
-    private static final ITsActionDef AVDEF_REMOVE_STALE_FSI = TsActionDef.ofPush2( ACTID_REMOVE_STALE_FSI, //
+    private static final ITsActionDef ACDEF_REMOVE_STALE_FSI = TsActionDef.ofPush2( ACTID_REMOVE_STALE_FSI, //
         STR_REMOVE_STALE_FSI, STR_REMOVE_STALE_FSI_D, //
         ICONID_LIST_REMOVE //
     // ICONID_REMOVE_STALE_FSI //
     );
 
     public AspLocal() {
-      defineAction( AVDEF_ADD_ABSENT_KEYWORDS, CombiCondParamsPanel.this::whenAddAbsentKeywords,
+      defineAction( ACDEF_ADD_ABSENT_KEYWORDS, CombiCondParamsPanel.this::whenAddAbsentKeywords,
           CombiCondParamsPanel.this::isAbsentKeywords );
-      defineAction( AVDEF_REMOVE_STALE_FSI, CombiCondParamsPanel.this::whenRemoveNotNeededFsi,
+      defineAction( ACDEF_REMOVE_STALE_FSI, CombiCondParamsPanel.this::whenRemoveNotNeededFsi,
           CombiCondParamsPanel.this::isNotNeededFsi );
     }
 

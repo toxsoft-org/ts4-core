@@ -114,6 +114,16 @@ public class FormulaTextWidget
   }
 
   @Override
+  public boolean isEditable() {
+    return text.getEditable();
+  }
+
+  @Override
+  public void setEditable( boolean aEditable ) {
+    text.setEditable( aEditable );
+  }
+
+  @Override
   public RGB getErrorHighlightColor() {
     return rgbErrorColor;
   }
