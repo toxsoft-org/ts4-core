@@ -46,7 +46,6 @@ public class StridMap<E>
    *          <b>false</b> - value equal to existing one with different key can not be added to the map.
    */
   public StridMap( boolean aIsIdPathAllowed, boolean aIsDupElemsAllowed ) {
-    super();
     allowIdPath = aIsIdPathAllowed;
     allowDupElems = aIsDupElemsAllowed;
   }
@@ -71,7 +70,7 @@ public class StridMap<E>
       StridUtils.checkValidIdName( aKey );
     }
     if( !allowDupElems ) {
-      if( findByKey( aKey ) != aElem ) { // проверим только для ДРУГОГО, не своего ключа
+      if( findByKey( aKey ) != aElem ) { // check if the same (by reference) item already exists in the map
         TsItemAlreadyExistsRtException.checkTrue( hasElem( aElem ) );
       }
     }

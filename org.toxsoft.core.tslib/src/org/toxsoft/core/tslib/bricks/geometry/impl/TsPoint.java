@@ -1,9 +1,9 @@
 package org.toxsoft.core.tslib.bricks.geometry.impl;
 
-import java.io.Serializable;
+import java.io.*;
 
-import org.toxsoft.core.tslib.bricks.geometry.ITsPoint;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Неизменяемая реализация {@link ITsPoint}.
@@ -42,7 +42,7 @@ public final class TsPoint
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация методов класса Object
+  // Object
   //
 
   @Override
@@ -50,11 +50,10 @@ public final class TsPoint
     if( object == this ) {
       return true;
     }
-    if( !(object instanceof ITsPoint) ) {
-      return false;
+    if( object instanceof ITsPoint p ) {
+      return (p.x() == this.x) && (p.y() == this.y);
     }
-    ITsPoint p = (ITsPoint)object;
-    return (p.x() == this.x) && (p.y() == this.y);
+    return false;
   }
 
   @Override

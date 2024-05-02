@@ -21,6 +21,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
  */
 public class LogicalFormulaParser {
 
+  // FIXME L10N
+
   private final LogicalFormulaAnalyzer logicalFormulaAnalyzer;
 
   private ILogFoNode         lfnRoot       = null;
@@ -164,7 +166,6 @@ public class LogicalFormulaParser {
    * @param aFormulaString String - the formula string
    * @return {@link ILogFoNode} - parsed formula node or {@link ILogFoNode#NONE} on error or an empty formula
    */
-  @SuppressWarnings( "nls" )
   public ILogFoNode parse( String aFormulaString ) {
     formulaTokens = logicalFormulaAnalyzer.tokenize( aFormulaString );
     lfnRoot = parseLogically();

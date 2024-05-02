@@ -1,7 +1,7 @@
 package org.toxsoft.core.tslib.bricks.validator;
 
-import org.toxsoft.core.tslib.bricks.validator.impl.ValResList;
-import org.toxsoft.core.tslib.coll.IList;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.coll.*;
 
 /**
  * List of multiple validation results.
@@ -20,13 +20,11 @@ public interface IValResList {
   boolean isOk();
 
   /**
-   * Determines if list does not contains any error.
+   * Determines if list does not contains any error but at least one warning.
    *
    * @return boolean - <code>true</code> if list contains only OK and WARNING messages
    */
-  default boolean isWarning() {
-    return !isError();
-  }
+  boolean isWarning();
 
   /**
    * Determines if list has at least one {@link EValidationResultType#ERROR} result.

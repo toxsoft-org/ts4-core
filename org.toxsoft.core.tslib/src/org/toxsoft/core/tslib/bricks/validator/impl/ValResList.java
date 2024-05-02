@@ -53,6 +53,22 @@ public class ValResList
   }
 
   @Override
+  public boolean isWarning() {
+    boolean hasWarn = false;
+    for( int i = 0, count = results.size(); i < count; i++ ) {
+      ValidationResult vr = results.get( i );
+      if( vr.isError() ) {
+        return false;
+      }
+      if( vr.isWarning() ) {
+        hasWarn = true;
+      }
+    }
+    return hasWarn;
+
+  }
+
+  @Override
   public boolean isError() {
     for( int i = 0, count = results.size(); i < count; i++ ) {
       ValidationResult vr = results.get( i );
@@ -121,6 +137,48 @@ public class ValResList
     if( aResult != ValidationResult.SUCCESS ) {
       results.add( aResult );
     }
+  }
+
+  /**
+   * Creates and adds informational result.
+   *
+   * @param aMessageFormat String - message format string
+   * @param aMsgArgs Object[] - optional arguments for message string
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public void info( String aMessageFormat, Object... aMsgArgs ) {
+    add( ValidationResult.info( aMessageFormat, aMsgArgs ) );
+  }
+
+  /**
+   * Creates and adds warning result.
+   *
+   * @param aMessageFormat String - message format string
+   * @param aMsgArgs Object[] - optional arguments for message string
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public void warn( String aMessageFormat, Object... aMsgArgs ) {
+    add( ValidationResult.warn( aMessageFormat, aMsgArgs ) );
+  }
+
+  /**
+   * Creates and adds error result.
+   *
+   * @param aMessageFormat String - message format string
+   * @param aMsgArgs Object[] - optional arguments for message string
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public void error( String aMessageFormat, Object... aMsgArgs ) {
+    add( ValidationResult.error( aMessageFormat, aMsgArgs ) );
+  }
+
+  /**
+   * Creates and adds error result.
+   *
+   * @param aError {@link Throwable} - exception
+   */
+  public void error( Throwable aError ) {
+    add( ValidationResult.error( aError ) );
   }
 
   // ------------------------------------------------------------------------------------

@@ -17,9 +17,10 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * UGWI stands for <b>U</b>Skat <b>G</b>reen <b>W</b>orld <b>I</b>dentifier.
  * <p>
- * UGWI points to (addresses) entities in the Green World. UGWI implicitly assumes existence of the addressed entity in
- * the Green World (but not necessarily in the real Red World). Moreover, by definition each and every GW entity has an
- * UGWI identifier. Some entities may have several UGWIs of maybe different kinds.
+ * UGWI is an address pointing to (referring to) some content, an entity in the Green World. UGWI implicitly assumes
+ * existence of the addressed entity in the Green World (but not necessarily in the real Red World). Moreover, by
+ * definition each and every GW entity has an UGWI identifier. Some entities may have several UGWIs of maybe different
+ * kinds.
  * <p>
  * UGWI at a glance: <i>kindID</i><b>:/</b><i>namespace</i><b>/</b><i>essence</i>
  * <p>
@@ -411,4 +412,5 @@ final class InternalNoneUgwi
       throws ObjectStreamException {
     return Ugwi.NONE;
   }
+
 }
