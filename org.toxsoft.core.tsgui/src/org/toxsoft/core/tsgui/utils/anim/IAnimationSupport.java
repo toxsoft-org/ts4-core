@@ -119,6 +119,28 @@ public interface IAnimationSupport
   void unregister( IGeneralAnimator<?> aGeneralAnimator );
 
   /**
+   * Registers the animator.
+   * <p>
+   * Animation is created in the suspended state, call {@link TsAnimator#resume()} to turn on animation.
+   *
+   * @param <T> - user data type
+   * @param aGranularity long - animation callback call period in milliseconds
+   * @param aCallback {@link ITsAnimatorCallback} - - callback interface
+   * @param aUserData &lt;T&gt; - arbitrary user-specified data or <code>null</code>
+   * @return {@link TsAnimator} - create instance of the animator
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  <T> TsAnimator<T> registerAnimator( long aGranularity, ITsAnimatorCallback<T> aCallback, T aUserData );
+
+  /**
+   * Removes the animator if registered earlier.
+   *
+   * @param aAnimator {@link TsAnimator} - the animator to remove
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  void unregister( TsAnimator<?> aAnimator );
+
+  /**
    * Удалеят все зарегистрированные аниматоры - как изображений, так и мигающих объектов.
    */
   void clear();

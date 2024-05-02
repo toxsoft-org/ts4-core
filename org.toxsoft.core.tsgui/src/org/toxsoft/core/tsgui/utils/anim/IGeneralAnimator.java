@@ -4,8 +4,10 @@ package org.toxsoft.core.tsgui.utils.anim;
  * Аниматор общего назначения.
  *
  * @author hazard157
- * @param <T> - тип пользовательских данных
+ * @param <T> - user data type
+ * @deprecated use {@link TsAnimator} instead
  */
+@Deprecated
 public interface IGeneralAnimator<T>
     extends IPausableAnimation {
 
@@ -25,7 +27,7 @@ public interface IGeneralAnimator<T>
   IGeneralAnimationCallback<T> callback();
 
   /**
-   * Произвольная ссылка, используемая только для того, чтобы вернуть в методе
+   * An arbitrary reference used only to return in the method
    * {@link IGeneralAnimationCallback#onNextStep(IGeneralAnimator, long, Object)}.
    *
    * @return &lt;T&gt; - произвольная ссылка на пользовательский данные

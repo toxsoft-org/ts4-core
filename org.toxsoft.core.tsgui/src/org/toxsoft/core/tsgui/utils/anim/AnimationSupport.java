@@ -37,12 +37,14 @@ public class AnimationSupport
     private final IList<ImageAnimator>      imageAnimators;
     private final IList<BlinkerAnimator>    blinkerAnimators;
     private final IList<GeneralAnimator<?>> generalAnimators;
+    private final IList<TsAnimator<?>>      tsAnimators;
 
     CallbackCaller( IList<ImageAnimator> aImageAnimators, IList<BlinkerAnimator> aBlinkerAnimators,
-        IList<GeneralAnimator<?>> aGeneralAnimators ) {
+        IList<GeneralAnimator<?>> aGeneralAnimators, IList<TsAnimator<?>> aTsAnimators ) {
       imageAnimators = aImageAnimators;
       blinkerAnimators = aBlinkerAnimators;
       generalAnimators = aGeneralAnimators;
+      tsAnimators = aTsAnimators;
     }
 
     @SuppressWarnings( { "rawtypes" } )
@@ -89,6 +91,20 @@ public class AnimationSupport
         }
         item.setLastCallTimestamp( currTimestamp );
       }
+      // call active animators
+      for( int i = 0, count = tsAnimators.size(); i < count; i++ ) {
+        TsAnimator item = tsAnimators.get( i );
+        try {
+          if( item.callback().onNextStep( item, item.nextCounter(), currTimestamp ) ) {
+            item.resetCounter( currTimestamp );
+          }
+        }
+        catch( Exception e ) {
+          e.printStackTrace();
+          LoggerUtils.errorLogger().error( e );
+        }
+        item.setLastCallTimestamp( currTimestamp );
+      }
     }
   }
 
@@ -101,6 +117,7 @@ public class AnimationSupport
   final IListEdit<ImageAnimator>      imageAnimators   = new ElemArrayList<>();
   final IListEdit<BlinkerAnimator>    blinkerAnimators = new ElemArrayList<>();
   final IListEdit<GeneralAnimator<?>> generalAnimators = new ElemArrayList<>();
+  final IListEdit<TsAnimator<?>>      tsAnimators      = new ElemArrayList<>();
 
   private volatile boolean queryPause    = false;
   private volatile Thread  drawingThread = null;
@@ -218,6 +235,21 @@ public class AnimationSupport
     return animators;
   }
 
+  private IList<TsAnimator<?>> listActiveTsAnimators( long aCurrTimestamp ) {
+    IListEdit<TsAnimator<?>> ll = new ElemArrayList<>( tsAnimators.size() );
+    synchronized (tsAnimators) {
+      for( int i = 0, n = tsAnimators.size(); i < n; i++ ) {
+        TsAnimator<?> animator = tsAnimators.get( i );
+        if( !animator.isPaused() ) {
+          if( aCurrTimestamp - animator.lastCallTimestamp() >= animator.granularity() ) {
+            ll.add( animator );
+          }
+        }
+      }
+    }
+    return ll;
+  }
+
   // ------------------------------------------------------------------------------------
   // Runnable
   //
@@ -229,8 +261,9 @@ public class AnimationSupport
       final IList<ImageAnimator> iaList = listAcitiveImageAnimators( currTime );
       final IList<BlinkerAnimator> baList = listActiveBlinkAnimators( currTime );
       final IList<GeneralAnimator<?>> gaList = listActiveGaneralAnimators( currTime );
+      final IList<TsAnimator<?>> taList = listActiveTsAnimators( currTime );
       if( !display.isDisposed() ) {
-        display.asyncExec( new CallbackCaller( iaList, baList, gaList ) );
+        display.asyncExec( new CallbackCaller( iaList, baList, gaList, taList ) );
       }
       try {
         Thread.sleep( granularity );
@@ -319,6 +352,23 @@ public class AnimationSupport
   }
 
   @Override
+  public <T> TsAnimator<T> registerAnimator( long aGranularity, ITsAnimatorCallback<T> aCallback, T aUserData ) {
+    TsAnimator<T> animator = new TsAnimator<>( aUserData, aCallback, aGranularity );
+    synchronized (tsAnimators) {
+      tsAnimators.add( animator );
+    }
+    return animator;
+  }
+
+  @Override
+  public void unregister( TsAnimator<?> aAnimator ) {
+    TsNullArgumentRtException.checkNull( aAnimator );
+    synchronized (tsAnimators) {
+      tsAnimators.remove( aAnimator );
+    }
+  }
+
+  @Override
   public void clear() {
     synchronized (imageAnimators) {
       imageAnimators.clear();
@@ -328,6 +378,9 @@ public class AnimationSupport
     }
     synchronized (generalAnimators) {
       generalAnimators.clear();
+    }
+    synchronized (tsAnimators) {
+      tsAnimators.clear();
     }
   }
 
