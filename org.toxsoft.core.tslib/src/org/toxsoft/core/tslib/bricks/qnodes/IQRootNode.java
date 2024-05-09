@@ -7,9 +7,9 @@ import org.toxsoft.core.tslib.bricks.events.*;
  *
  * @author hazard157
  */
-@SuppressWarnings( "rawtypes" )
 public sealed interface IQRootNode
-    extends IQNode permits AbstractQRootNode {
+    extends IQNode
+    permits AbstractQRootNode {
 
   /**
    * Returns the tree change eventer.

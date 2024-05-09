@@ -27,6 +27,8 @@ DynamicImport-Package: *
 Export-Package: org.toxsoft.core.tsgui,
  org.toxsoft.core.tsgui.bricks.actions,
  org.toxsoft.core.tsgui.bricks.actions.asp,
+ org.toxsoft.core.tsgui.bricks.cond,
+ org.toxsoft.core.tsgui.bricks.cond.impl,
  org.toxsoft.core.tsgui.bricks.ctx,
  org.toxsoft.core.tsgui.bricks.ctx.impl,
  org.toxsoft.core.tsgui.bricks.gw,
