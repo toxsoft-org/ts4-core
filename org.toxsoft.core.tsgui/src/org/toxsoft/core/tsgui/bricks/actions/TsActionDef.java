@@ -238,7 +238,7 @@ public class TsActionDef
    * @throws TsIllegalArgumentRtException ID is not an IDpath
    */
   public static TsActionDef ofTemplate( ITsActionDef aTemplate, Object... aIdsAndValues ) {
-    TsActionDef acDef = new TsActionDef( aTemplate.id(), aTemplate.actionStyle(), aIdsAndValues );
+    TsActionDef acDef = new TsActionDef( aTemplate.id(), aTemplate.actionStyle(), aTemplate.params() );
     acDef.params().addAll( OptionSetUtils.createOpSet( aIdsAndValues ) );
     return acDef;
   }
