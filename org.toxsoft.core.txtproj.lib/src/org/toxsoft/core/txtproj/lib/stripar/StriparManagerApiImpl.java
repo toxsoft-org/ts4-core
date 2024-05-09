@@ -191,12 +191,18 @@ public class StriparManagerApiImpl<E extends IStridable & IParameterized>
 
   /**
    * Constructor.
+   * <p>
+   * Parameters definitions <code>aParamDefs</code> may include parameters for {@link #listParamDefs()}. Note that
+   * {@link IAvMetaConstants#DDEF_NAME} and {@link IAvMetaConstants#DDEF_DESCRIPTION} are already included in the
+   * parameters. However <code>aParamDefs</code> elements with ID s {@link IAvMetaConstants#TSID_NAME} and
+   * {@link IAvMetaConstants#TSID_DESCRIPTION} will override default oprion definition.
    *
    * @param aCreator {@link IStriparCreator} - elements creator
+   * @param aParamDefs {@link IStridablesList}&lt;{@link IDataDef}&gt; - STRIPAR parameter definitions
    * @param aSorted boolean - flags to keep items sorted by ID
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public StriparManagerApiImpl( IStriparCreator<E> aCreator, boolean aSorted ) {
+  public StriparManagerApiImpl( IStriparCreator<E> aCreator, IStridablesList<IDataDef> aParamDefs, boolean aSorted ) {
     creator = TsNullArgumentRtException.checkNull( aCreator );
     genericChangeEventer = new GenericChangeEventer( this );
     validationSupport.addValidator( builtinValidator );
@@ -206,18 +212,36 @@ public class StriparManagerApiImpl<E extends IStridable & IParameterized>
     else {
       items = new StridablesList<>();
     }
-    paramDefs.addAll( DDEF_NAME );
-    paramDefs.addAll( DDEF_DESCRIPTION );
+    paramDefs.add( DDEF_NAME );
+    paramDefs.add( DDEF_DESCRIPTION );
+    paramDefs.addAll( aParamDefs );
   }
 
   /**
    * Constructor for unsorted items.
+   * <p>
+   * Simply calls {@link StriparManagerApiImpl#StriparManagerApiImpl(IStriparCreator, IStridablesList, boolean)
+   * StriparManagerApiImpl(aCreator, aParamDefs, false)}.
+   *
+   * @param aCreator {@link IStriparCreator} - elements creator
+   * @param aParamDefs {@link IStridablesList}&lt;{@link IDataDef}&gt; - STRIPAR parameter definitions
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public StriparManagerApiImpl( IStriparCreator<E> aCreator, IStridablesList<IDataDef> aParamDefs ) {
+    this( aCreator, aParamDefs, false );
+  }
+
+  /**
+   * Constructor for unsorted items with no user-defined parameters.
+   * <p>
+   * Simply calls {@link StriparManagerApiImpl#StriparManagerApiImpl(IStriparCreator, IStridablesList, boolean)
+   * StriparManagerApiImpl(aCreator, IStridablesList.EMPTY, false)}.
    *
    * @param aCreator {@link IStriparCreator} - elements creator
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public StriparManagerApiImpl( IStriparCreator<E> aCreator ) {
-    this( aCreator, false );
+    this( aCreator, IStridablesList.EMPTY, false );
   }
 
   // ------------------------------------------------------------------------------------
