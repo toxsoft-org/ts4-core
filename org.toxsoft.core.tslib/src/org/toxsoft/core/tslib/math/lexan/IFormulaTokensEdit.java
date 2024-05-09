@@ -1,5 +1,8 @@
 package org.toxsoft.core.tslib.math.lexan;
 
+import org.toxsoft.core.tslib.math.lexan.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+
 /**
  * An editable extension of {@link IFormulaTokens}.
  * <p>
@@ -11,10 +14,26 @@ package org.toxsoft.core.tslib.math.lexan;
 public interface IFormulaTokensEdit
     extends IFormulaTokens {
 
+  /**
+   * Replaces the token in {@link #tokens()} with the specified token.
+   *
+   * @param aIndex int - index of token to replace
+   * @param aToken {@link ILexanToken} - the replacement token
+   * @return {@link ILexanToken} - always returns argument <code>aToken</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>@
+   * @throws TsIllegalArgumentRtException index out of range
+   */
   ILexanToken replaceToken( int aIndex, ILexanToken aToken );
 
+  /**
+   * Replaces the token in {@link #tokens()} with the specified token.
+   *
+   * @param aIndex int - index of token to replace
+   * @param aErrorMessage String - the error message of the replacement token {@link TkError}
+   * @return {@link ILexanToken} - the error token replaced the original one
+   * @throws TsNullArgumentRtException any argument = <code>null</code>@
+   * @throws TsIllegalArgumentRtException index out of range
+   */
   ILexanToken setErrorToken( int aIndex, String aErrorMessage );
-
-  ILexanToken replaceTokens( int aIndex, int aCount, ILexanToken aToken );
 
 }

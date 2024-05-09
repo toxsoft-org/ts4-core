@@ -95,10 +95,4 @@ public class FormulaTokens
     return replaceToken( aIndex, new TkError( aErrorMessage ) );
   }
 
-  @Override
-  public ILexanToken replaceTokens( int aIndex, int aCount, ILexanToken aToken ) {
-    // TODO реализовать FormulaTokens.replaceTokens()
-    throw new TsUnderDevelopmentRtException( "FormulaTokens.replaceTokens()" );
-  }
-
 }
