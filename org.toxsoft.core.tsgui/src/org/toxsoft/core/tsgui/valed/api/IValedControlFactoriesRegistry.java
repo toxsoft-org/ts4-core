@@ -36,9 +36,8 @@ public interface IValedControlFactoriesRegistry {
   /**
    * Finds the factory by name.
    * <p>
-   * If there is no factory with specified name, nethod tries to create a factory instance assuming that
-   * <code>aName</code> is {@link Class#getName()}. In case of success, the created factory will be registered and
-   * returned.
+   * If there is no factory with specified name, tries to create a factory instance assuming that <code>aName</code> is
+   * {@link Class#getName()}. In case of success, the created factory will be registered and returned.
    *
    * @param aName String - factory name
    * @return {@link IValedControlFactory} - the found factory or <code>null</code>

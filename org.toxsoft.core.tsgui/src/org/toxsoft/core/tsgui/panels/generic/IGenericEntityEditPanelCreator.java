@@ -12,12 +12,13 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public interface IGenericEntityEditPanelCreator<T> {
 
   /**
-   * Creates to panel.
+   * Creates the panel.
    *
    * @param aContext {@link ITsGuiContext} - the context
+   * @param aViewer boolean - viewer flag, sets {@link IGenericEntityEditPanel#isViewer()} value
    * @return {@link IGenericEntityEditPanel} - created panel
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  IGenericEntityEditPanel<T> create( ITsGuiContext aContext );
+  IGenericEntityEditPanel<T> create( ITsGuiContext aContext, boolean aViewer );
 
 }

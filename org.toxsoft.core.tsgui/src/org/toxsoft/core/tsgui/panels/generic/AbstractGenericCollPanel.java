@@ -31,8 +31,8 @@ public abstract class AbstractGenericCollPanel<T>
    * <p>
    * Constructor stores reference to the context, does not creates copy.
    *
-   * @param aContext {@link ITsGuiContext} - контекст панели
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aContext {@link ITsGuiContext} - the context
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public AbstractGenericCollPanel( ITsGuiContext aContext ) {
     this( aContext, false );
@@ -43,9 +43,9 @@ public abstract class AbstractGenericCollPanel<T>
    * <p>
    * Constructor stores reference to the context, does not creates copy.
    *
-   * @param aContext {@link ITsGuiContext} - контекст панели
+   * @param aContext {@link ITsGuiContext} - the context
    * @param aIsViewer boolean - the viewer (read-only) panel flag
-   * @throws TsNullArgumentRtException аргумент = null
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public AbstractGenericCollPanel( ITsGuiContext aContext, boolean aIsViewer ) {
     super( aContext );

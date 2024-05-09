@@ -12,10 +12,11 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * {@link IGenericEntityEditPanelCreator} is used to specify the panel.
  *
  * @author hazard157
- * @param <T> - the entity type
+ * @param <T> - data transfer object type passed to/from dialog
+ * @param <E> - client specified optional environment type
  */
-public class TsDialogGenericEntityEditPanel<T>
-    extends AbstractTsDialogPanel<T, Object> {
+public class TsDialogGenericEntityEditPanel<T, E>
+    extends AbstractTsDialogPanel<T, E> {
 
   private final IGenericEntityEditPanel<T> panel;
 
@@ -27,11 +28,11 @@ public class TsDialogGenericEntityEditPanel<T>
    * @param aPanelCreator {@link IGenericEntityEditPanelCreator}&lt;T&gt; - the panel creator
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public TsDialogGenericEntityEditPanel( Composite aParent, TsDialog<T, Object> aOwnerDialog,
+  public TsDialogGenericEntityEditPanel( Composite aParent, TsDialog<T, E> aOwnerDialog,
       IGenericEntityEditPanelCreator<T> aPanelCreator ) {
     super( aParent, aOwnerDialog );
     TsNullArgumentRtException.checkNull( aPanelCreator );
-    panel = aPanelCreator.create( tsContext() );
+    panel = aPanelCreator.create( tsContext(), false );
     panel.createControl( aParent );
     this.setLayout( new BorderLayout() );
     panel.getControl().setLayoutData( BorderLayout.CENTER );
