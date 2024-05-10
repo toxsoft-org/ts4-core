@@ -25,7 +25,7 @@ public class TsVersion
   /**
    * Lowest possible version number, any other version is higher or equal to this constant.
    */
-  public static final TsVersion LOWEST = new TsVersion( Short.MIN_VALUE, Short.MIN_VALUE, Long.MIN_VALUE ) {
+  public static final TsVersion LOWEST = new TsVersion( 0, 0, Long.MIN_VALUE ) {
 
     private static final long serialVersionUID = 3534102891412099016L;
 
