@@ -17,10 +17,37 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public final class TsVersion
+public class TsVersion
     implements Serializable, Comparable<TsVersion> {
 
   private static final long serialVersionUID = 157157L;
+
+  /**
+   * Lowest possible version number, any other version is higher or equal to this constant.
+   */
+  public static final TsVersion LOWEST = new TsVersion( Short.MIN_VALUE, Short.MIN_VALUE, Long.MIN_VALUE ) {
+
+    private static final long serialVersionUID = 3534102891412099016L;
+
+    @Override
+    public String toString() {
+      return "HIGHEST"; //$NON-NLS-1$
+    }
+
+  };
+
+  /**
+   * Highest possible version number, any other version is lower or equal to this constant.
+   */
+  public static final TsVersion HIGHEST = new TsVersion( Short.MAX_VALUE, Short.MAX_VALUE, Long.MAX_VALUE ) {
+
+    private static final long serialVersionUID = -6214870077344196133L;
+
+    @Override
+    public String toString() {
+      return "HIGHEST"; //$NON-NLS-1$
+    }
+  };
 
   /**
    * The registered keeper ID.
