@@ -24,7 +24,7 @@ public interface IMwsOsgiService {
   /**
    * Returns the information about application.
    * <p>
-   * Unformation must be set previously by {@link #setAppInfo(ITsApplicationInfo)}.
+   * Information must be set previously by {@link #setAppInfo(ITsApplicationInfo)}.
    *
    * @return {@link ITsApplicationInfo} - the information about application
    */

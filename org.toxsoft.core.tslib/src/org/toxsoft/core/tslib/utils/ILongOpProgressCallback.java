@@ -108,7 +108,7 @@ class InternalConsoleLongOpProgressCallback
 
   @Override
   public boolean updateWorkProgress( String aName, double aWorkedPercents ) {
-    TsTestUtils.pl( PREFIX + "%s, %.1f%%", aName, Double.valueOf( aWorkedPercents ) ); //$NON-NLS-1$
+    TsTestUtils.pl( PREFIX + "%5.1f%% %s", Double.valueOf( aWorkedPercents ), aName ); //$NON-NLS-1$
     return false;
   }
 

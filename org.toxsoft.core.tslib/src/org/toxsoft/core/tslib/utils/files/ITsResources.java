@@ -23,7 +23,7 @@ interface ITsResources {
   //
 
   String FMT_ERR_FILE_NOT_EXISTS       = "File '%s' does not exists";
-  String FMT_ERR_PATH_IS_NOT_FILE      = "Path '$s' does to denotes a file";
+  String FMT_ERR_PATH_IS_NOT_FILE      = "Path '%s' does to denotes a file";
   String FMT_ERR_FILE_NOT_READABLE     = "No read access to the file '%s'" + "";
   String FMT_ERR_FILE_NOT_WRITEABLE    = "No write access to the file '%s'";
   String FMT_ERR_DIR_NOT_EXISTS        = "Directory '%s' does not exists";
@@ -39,7 +39,7 @@ interface ITsResources {
   //
 
   // String FMT_ERR_FILE_NOT_EXISTS = "Файл '%s' не существует";
-  // String FMT_ERR_PATH_IS_NOT_FILE = "Путь '$s' указывает не на файл";
+  // String FMT_ERR_PATH_IS_NOT_FILE = "Путь '%s' указывает не на файл";
   // String FMT_ERR_FILE_NOT_READABLE = "Нет доступа на чтение файла '%s'";
   // String FMT_ERR_FILE_NOT_WRITEABLE = "Нет доступа на запись в файл '%s'";
   // String FMT_ERR_DIR_NOT_EXISTS = "Каталог '%s' не существует";
