@@ -214,6 +214,42 @@ public final class TsCollectionsUtils {
   }
 
   /**
+   * Determines if two list have the same content.
+   * <p>
+   * Two lists have the same content if their sizes are equal and all the elements of one list are contained in the
+   * second list.
+   * <p>
+   * The only difference between {@link #isListsEqual(IList, IList)} and {@link #isListsSameContent(IList, IList)} is
+   * that the first method takes into account the order of the elements in the lists, while the second compares without
+   * regard to the order.
+   *
+   * @param <E> - type of elements in lists
+   * @param aL1 {@link IList} - first list
+   * @param aL2 {@link IList} - second list
+   * @return boolean - <code>true</code> if lists have the same content
+   */
+  public static <E> boolean isListsSameContent( IList<E> aL1, IList<E> aL2 ) {
+    if( aL1 == null || aL2 == null ) {
+      throw new TsNullArgumentRtException();
+    }
+    if( aL1 == aL2 ) {
+      return true;
+    }
+    if( aL1.size() != aL2.size() ) {
+      return false;
+    }
+    if( aL1.size() == 0 ) {
+      return true;
+    }
+    for( int i = 0, n = aL2.size(); i < n; i++ ) {
+      if( !aL1.hasElem( aL2.get( i ) ) ) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
    * Compares two maps.
    * <p>
    * Maps are equal when they have equal keys and elements in the same order of the keys.
