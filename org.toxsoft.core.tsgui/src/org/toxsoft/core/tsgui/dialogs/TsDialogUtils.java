@@ -7,9 +7,11 @@ import org.eclipse.jface.dialogs.*;
 import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
 import org.toxsoft.core.tslib.bricks.time.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -166,19 +168,44 @@ public class TsDialogUtils {
   }
 
   /**
-   * Displays list of validation results as table with some filtering/sorting controls.
-   * <p>
-   * If list is OK, that is {@link IValResList#isOk()} == <code>true</code> than displays info message.
+   * Displays list of validation results as a list in the modal dialog.
    *
    * @param aDialogInfo {@link ITsDialogInfo} - information about dialog windows
-   * @param aVrList {@link IValResList} - the list to display
+   * @param aResults {@link IValResList} - the list to display
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public static void showValResList( ITsDialogInfo aDialogInfo, IValResList aVrList ) {
-    TsNullArgumentRtException.checkNulls( aDialogInfo, aVrList );
+  public static void showValResList( ITsDialogInfo aDialogInfo, IValResList aResults ) {
+    TsNullArgumentRtException.checkNulls( aDialogInfo, aResults );
+    DialogItemsList.show( aDialogInfo, aResults.results(), aObj -> {
+      if( aObj instanceof ValidationResult r ) {
+        return r.message();
+      }
+      return TsLibUtils.EMPTY_STRING;
+    } );
+  }
 
-    // TODO TsDialogUtils.showValResList()
-
+  /**
+   * Displays non-empty list of the validation results as a list in the modal dialog.
+   * <p>
+   * For an empty list simply displays {@link #info(Shell, String, Object...)} message.
+   *
+   * @param aContext {@link ITsGuiContext} - the context
+   * @param aResults {@link IValResList} - results list
+   * @param aTitle String - title text in dialog window
+   */
+  public static void showValidationResults( ITsGuiContext aContext, IValResList aResults, String aTitle ) {
+    TsNullArgumentRtException.checkNulls( aResults, aTitle );
+    if( aResults.isOk() ) {
+      info( aContext.get( Shell.class ), MSG_INFO_NO_RESULTS_OK );
+      return;
+    }
+    ITsDialogInfo cdi = new TsDialogInfo( aContext, DLG_VAL_RES_LIST, aTitle );
+    DialogItemsList.show( cdi, aResults.results(), aObj -> {
+      if( aObj instanceof ValidationResult r ) {
+        return r.message();
+      }
+      return TsLibUtils.EMPTY_STRING;
+    } );
   }
 
   // ------------------------------------------------------------------------------------

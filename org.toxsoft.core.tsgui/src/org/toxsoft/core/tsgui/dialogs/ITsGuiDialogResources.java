@@ -41,6 +41,9 @@ public interface ITsGuiDialogResources {
   String DLG_C_SELECT_OBJ      = Messages.getString( "DLG_C_SELECT_OBJ" );      //$NON-NLS-1$
   String DLG_T_SELECT_OBJ      = Messages.getString( "DLG_T_SELECT_OBJ" );      //$NON-NLS-1$
 
+  String MSG_INFO_NO_RESULTS_OK = Messages.getString( "MSG_INFO_NO_RESULTS_OK" ); //$NON-NLS-1$
+  String DLG_VAL_RES_LIST       = Messages.getString( "DLG_VAL_RES_LIST" );       //$NON-NLS-1$
+
   /**
    * {@link DialogEnterPassword}
    */
