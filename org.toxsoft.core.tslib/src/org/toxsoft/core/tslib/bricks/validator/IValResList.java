@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.coll.*;
 public interface IValResList {
 
   /**
-   * Determines if list is empty of contains only {@link EValidationResultType#OK} results.
+   * Determines if list is empty or contains only {@link EValidationResultType#OK} results.
    *
    * @return boolean - <code>true</code> if {@link #results()} does not co0ntains any warning or error
    */
