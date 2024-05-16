@@ -142,6 +142,40 @@ public final class VedItemCfg
     extraData.copyFrom( aSource.extraData() );
   }
 
+  // /**
+  // * Creates config for VISEL.
+  // *
+  // * @param aId String - VISEL identifier
+  // * @param aFactoryId {@link String} - the VISEL factory ID
+  // * @param aParams {@link IOptionSet} - initial values of {@link #params()}
+  // * @param aProps {@link IOptionSet} - initial values of {@link #propValues()}
+  // * @return {@link VedItemCfg} - created instance
+  // * @throws TsNullArgumentRtException any argument = <code>null</code>
+  // * @throws TsIllegalArgumentRtException ID is not an IDpath
+  // */
+  // public static VedItemCfg ofVisel( String aId, String aFactoryId, IOptionSet aParams, IOptionSet aProps ) {
+  // VedItemCfg cfg = new VedItemCfg( aId, EVedItemKind.VISEL, aFactoryId, aParams );
+  // cfg.propValues.setAll( aProps );
+  // return cfg;
+  // }
+
+  // /**
+  // * Creates config for actor.
+  // *
+  // * @param aId String - actor identifier
+  // * @param aFactoryId {@link String} - the actor factory ID
+  // * @param aParams {@link IOptionSet} - initial values of {@link #params()}
+  // * @param aProps {@link IOptionSet} - initial values of {@link #propValues()}
+  // * @return {@link VedItemCfg} - created instance
+  // * @throws TsNullArgumentRtException any argument = <code>null</code>
+  // * @throws TsIllegalArgumentRtException ID is not an IDpath
+  // */
+  // public static VedItemCfg ofActor( String aId, String aFactoryId, IOptionSet aParams, IOptionSet aProps ) {
+  // VedItemCfg cfg = new VedItemCfg( aId, EVedItemKind.ACTOR, aFactoryId, aParams );
+  // cfg.propValues.setAll( aProps );
+  // return cfg;
+  // }
+
   /**
    * Creates configuration of the specified item.
    *

@@ -49,6 +49,7 @@ public class VedScreenUtils {
       scrCfg.actorCfgs().add( cfg );
     }
     scrCfg.canvasCfg().copyFrom( aVedScreen.view().canvasConfig() );
+    scrCfg.extraData().copyFrom( aVedScreen.model().extraData() );
     return scrCfg;
   }
 
@@ -74,6 +75,7 @@ public class VedScreenUtils {
         sm.actors().create( cfg );
       }
       aVedScreen.view().setCanvasConfig( aScreenCfg.canvasCfg() );
+      aVedScreen.model().extraData().copyFrom( aScreenCfg.extraData() );
     }
     finally {
       sm.visels().eventer().resumeFiring( true );

@@ -5,6 +5,7 @@ import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tsgui.ved.screen.snippets.*;
 import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.txtproj.lib.storage.*;
 
 /**
  * An editable model of the VED screen content.
@@ -48,6 +49,13 @@ public interface IVedScreenModel {
    * @return {@link IVedItemsManager}&lt;{@link VedAbstractActor}&gt; - the actors manager
    */
   IVedItemsManager<VedAbstractActor> actors();
+
+  /**
+   * Arbitrary additional data stored for this screen.
+   *
+   * @return {@link IKeepablesStorage} - editable extra data
+   */
+  IKeepablesStorage extraData();
 
   /**
    * Returns the decorators drawn before all VISELs.

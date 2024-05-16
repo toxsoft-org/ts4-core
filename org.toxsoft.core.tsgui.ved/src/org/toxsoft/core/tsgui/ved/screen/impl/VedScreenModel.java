@@ -8,6 +8,7 @@ import org.toxsoft.core.tsgui.ved.screen.snippets.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.txtproj.lib.storage.*;
 
 /**
  * {@link IVedScreenModel} implementation.
@@ -23,6 +24,7 @@ public class VedScreenModel
 
   private final AbstractVedItemsManager<VedAbstractVisel> visels;
   private final AbstractVedItemsManager<VedAbstractActor> actors;
+  private KeepablesStorageAsKeepable                      extraData = new KeepablesStorageAsKeepable();
 
   private final VedSnippetManager<VedAbstractDecorator>        screenDecoratorsBefore = new VedSnippetManager<>();
   private final VedSnippetManager<VedAbstractDecorator>        screenDecoratorsAfter  = new VedSnippetManager<>();
@@ -108,6 +110,11 @@ public class VedScreenModel
   @Override
   public IVedItemsManager<VedAbstractActor> actors() {
     return actors;
+  }
+
+  @Override
+  public KeepablesStorageAsKeepable extraData() {
+    return extraData;
   }
 
   @Override
