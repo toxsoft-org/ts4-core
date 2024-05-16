@@ -3,6 +3,7 @@ package org.toxsoft.core.tsgui.ved.screen.cfg;
 import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
+import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
@@ -142,36 +143,17 @@ public final class VedItemCfg
   }
 
   /**
-   * Creates config for VISEL.
+   * Creates configuration of the specified item.
    *
-   * @param aId String - VISEL identifier
-   * @param aFactoryId {@link String} - the VISEL factory ID
-   * @param aParams {@link IOptionSet} - initial values of {@link #params()}
-   * @param aProps {@link IOptionSet} - initial values of {@link #propValues()}
-   * @return {@link VedItemCfg} - created instance
+   * @param aItem {@link VedAbstractItem} - the item
+   * @return {@link VedItemCfg} - created configuration
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIllegalArgumentRtException ID is not an IDpath
    */
-  public static VedItemCfg ofVisel( String aId, String aFactoryId, IOptionSet aParams, IOptionSet aProps ) {
-    VedItemCfg cfg = new VedItemCfg( aId, EVedItemKind.VISEL, aFactoryId, aParams );
-    cfg.propValues.setAll( aProps );
-    return cfg;
-  }
-
-  /**
-   * Creates config for actor.
-   *
-   * @param aId String - actor identifier
-   * @param aFactoryId {@link String} - the actor factory ID
-   * @param aParams {@link IOptionSet} - initial values of {@link #params()}
-   * @param aProps {@link IOptionSet} - initial values of {@link #propValues()}
-   * @return {@link VedItemCfg} - created instance
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIllegalArgumentRtException ID is not an IDpath
-   */
-  public static VedItemCfg ofActor( String aId, String aFactoryId, IOptionSet aParams, IOptionSet aProps ) {
-    VedItemCfg cfg = new VedItemCfg( aId, EVedItemKind.ACTOR, aFactoryId, aParams );
-    cfg.propValues.setAll( aProps );
+  public static VedItemCfg ofItem( VedAbstractItem aItem ) {
+    TsNullArgumentRtException.checkNull( aItem );
+    VedItemCfg cfg = new VedItemCfg( aItem.id(), aItem.kind(), aItem.factoryId(), aItem.params() );
+    cfg.propValues.setAll( aItem.props() );
+    cfg.extraData.copyFrom( aItem.extraData() );
     return cfg;
   }
 

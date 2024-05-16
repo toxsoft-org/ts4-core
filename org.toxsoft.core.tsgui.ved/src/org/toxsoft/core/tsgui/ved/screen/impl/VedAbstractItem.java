@@ -20,6 +20,7 @@ import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.logs.impl.*;
+import org.toxsoft.core.txtproj.lib.storage.*;
 
 /**
  * {@link IVedItem} base implementation.
@@ -36,6 +37,7 @@ public abstract class VedAbstractItem
   private final IPropertiesSet<IVedItem> propSet;
   private final VedScreen                vedScreen;
 
+  private final KeepablesStorageAsKeepable  extraData = new KeepablesStorageAsKeepable();
   private final CompoundTsActionSetProvider aspOfItem = new CompoundTsActionSetProvider();
 
   private boolean disposed = false;
@@ -61,6 +63,7 @@ public abstract class VedAbstractItem
         doUpdateCachesAfterPropsChange( aChangedValues );
       }
     };
+    extraData.copyFrom( aConfig.extraData() );
     props().setInterceptor( ( s, aNewValues, aValuesToSet ) -> interceptPropsChange( aNewValues, aValuesToSet ) );
   }
 
@@ -157,6 +160,11 @@ public abstract class VedAbstractItem
   @Override
   final public String factoryId() {
     return initialConfig.factoryId();
+  }
+
+  @Override
+  public KeepablesStorageAsKeepable extraData() {
+    return extraData;
   }
 
   /**

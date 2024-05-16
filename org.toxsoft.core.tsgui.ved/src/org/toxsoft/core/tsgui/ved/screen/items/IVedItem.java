@@ -6,6 +6,7 @@ import org.toxsoft.core.tsgui.bricks.actions.asp.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tslib.av.props.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.txtproj.lib.storage.*;
 
 /**
  * Base interface of VED items (VISELs and actors).
@@ -48,6 +49,13 @@ public interface IVedItem
    * @return String - the item factory ID
    */
   String factoryId();
+
+  /**
+   * Returns the data designed for extension of the VED functionality.
+   *
+   * @return {@link IKeepablesStorageRo} - arbitrary editable data
+   */
+  IKeepablesStorage extraData();
 
   /**
    * Returns the actions provided by this item.

@@ -209,8 +209,7 @@ public class VedAspCopyPaste
     visels2paste.clear();
     actors2paste.clear();
     if( activeVisel != null ) {
-      IVedItemCfg cfg;
-      cfg = VedItemCfg.ofVisel( activeVisel.id(), activeVisel.factoryId(), activeVisel.params(), activeVisel.props() );
+      IVedItemCfg cfg = VedItemCfg.ofItem( activeVisel );
       visels2paste.add( cfg );
       IStringList aidList = VedScreenUtils.viselActorIds( activeVisel.id(), vedScreen );
       actors2paste.addAll( VedScreenUtils.listActorConfigs( aidList, vedScreen ) );
