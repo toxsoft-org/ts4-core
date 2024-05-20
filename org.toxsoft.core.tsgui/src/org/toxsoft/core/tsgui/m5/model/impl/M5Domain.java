@@ -135,8 +135,13 @@ class M5Domain
   public IM5Domain createChildDomain( String aId, ITsGuiContext aContext ) {
     StridUtils.checkValidIdPath( aId );
     TsNullArgumentRtException.checkNulls( aContext );
-    IM5Domain child = new M5Domain( aId, this, aContext );
+    M5Domain child = new M5Domain( aId, this, aContext );
     return child;
+  }
+
+  @Override
+  public void setNameAndDescription( String aName, String aDescription ) {
+    super.setNameAndDescription( aName, aDescription );
   }
 
 }

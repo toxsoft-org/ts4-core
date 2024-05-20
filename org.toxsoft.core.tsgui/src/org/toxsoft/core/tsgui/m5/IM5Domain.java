@@ -114,11 +114,20 @@ public interface IM5Domain
    * Creates the child domain.
    *
    * @param aId String - the domain ID (IDpath)
-   * @param aContext {@link ITsGuiContext} - new odmain context
+   * @param aContext {@link ITsGuiContext} - context for domain to be created
    * @return {@link IM5Domain} - the child domain
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsItemAlreadyExistsRtException child domain with specified ID already exists
    */
   IM5Domain createChildDomain( String aId, ITsGuiContext aContext );
+
+  /**
+   * Changes {@link #nmName()} and {@link #description()} values.
+   *
+   * @param aName String - short name
+   * @param aDescription String - description
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  void setNameAndDescription( String aName, String aDescription );
 
 }
