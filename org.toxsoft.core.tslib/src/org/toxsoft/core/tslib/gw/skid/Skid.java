@@ -17,7 +17,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * <p>
  * Canonical string representation of the SKID {@link #canonicalString()} is the same as concrete GWID representation
  * {@link Gwid#canonicalString()} of kind {@link EGwidKind#GW_CLASS} in the form of "<code>classId[strid]</code>". There
- * is one exception - the singleton {@link #NONE} is represented by the IDname
+ * is one exception - the singleton {@link #NONE} is represented by the {@link #CANONICAL_STRING_NONE} IDname.
  *
  * @author hazard157
  */

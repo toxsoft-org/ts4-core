@@ -30,7 +30,7 @@ public class PluginManagerComponent
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IInitializable
+  // IInitializable
   //
 
   @Override
@@ -60,7 +60,7 @@ public class PluginManagerComponent
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса ICooperativeMultiTaskable
+  // ICooperativeMultiTaskable
   //
 
   @Override
@@ -79,7 +79,7 @@ public class PluginManagerComponent
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IPluginManagerComponent
+  // IPluginManagerComponent
   //
 
   @Override

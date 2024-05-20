@@ -52,7 +52,7 @@ public interface IRingBuffer<E>
   /**
    * Returns the list of items in buffer.
    * <p>
-   * Oldest item fill be the first item in list.
+   * Oldest item will be the first item in list.
    *
    * @return {@link IList} - list of items in buffer (odered from oldest to newest)
    */

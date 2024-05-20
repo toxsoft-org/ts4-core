@@ -31,6 +31,7 @@ import org.toxsoft.core.tslib.utils.diff.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.login.*;
 import org.toxsoft.core.tslib.utils.logs.*;
+import org.toxsoft.core.tslib.utils.plugins.*;
 import org.toxsoft.core.tslib.utils.txtmatch.*;
 
 /**
@@ -110,6 +111,7 @@ public class TsValobjUtils {
     registerKeeper( LoginInfo.KEEPER_ID, LoginInfo.KEEPER );
     registerKeeper( EDiffNature.KEEPER_ID, EDiffNature.KEEPER );
     registerKeeper( TsCombiCondInfo.KEEPER_ID, TsCombiCondInfo.KEEPER );
+    registerKeeper( PluginFileRequirement.KEEPER_ID, PluginFileRequirement.KEEPER );
   }
 
   // ------------------------------------------------------------------------------------
