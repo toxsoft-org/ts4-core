@@ -225,8 +225,9 @@ public class PanelCombiCondInfo
 
   @Override
   protected void doProcessSetEntity() {
-    cciBuilder.setAsInfo( specifiedEntity() );
-    TsCombiCondInfoTokenizer tokenizer = new TsCombiCondInfoTokenizer( specifiedEntity() );
+    ITsCombiCondInfo ccInf = specifiedEntity() != null ? specifiedEntity() : ITsCombiCondInfo.NEVER;
+    cciBuilder.setAsInfo( ccInf );
+    TsCombiCondInfoTokenizer tokenizer = new TsCombiCondInfoTokenizer( ccInf );
     textWidget.setFormulaText( tokenizer.getFormulaString() );
     whenTextWidgetChanged();
   }
