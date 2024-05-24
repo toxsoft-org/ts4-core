@@ -27,7 +27,7 @@ public interface IM5FieldDef<T, V>
   Class<V> valueClass();
 
   /**
-   * This is shortanhd for domain context.
+   * This is shortened for domain context.
    *
    * @return {@link ITsGuiContext} - returns {@link IM5Domain#tsContext()}
    */
@@ -50,9 +50,9 @@ public interface IM5FieldDef<T, V>
   int flags();
 
   /**
-   * Returns the references map used to populate {@link ITsGuiContext} for valed creation.
+   * Returns the references map used to populate {@link ITsGuiContext} for VALED creation.
    * <p>
-   * When createing {@link IValedControl} for this field, valed-specific instance is created based on current
+   * When creating {@link IValedControl} for this field, valed-specific instance is created based on current
    * {@link ITsGuiContext}. Valed-specific context options are filled from field definitions
    * {@link IM5FieldDef#params()}. This map is used to configure valed-specific context references.
    *

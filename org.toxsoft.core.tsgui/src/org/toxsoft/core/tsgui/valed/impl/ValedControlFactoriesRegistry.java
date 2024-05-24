@@ -6,6 +6,7 @@ import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import java.lang.reflect.*;
 
+import org.toxsoft.core.tsgui.bricks.cond.valed.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tsgui.valed.controls.av.*;
@@ -94,6 +95,9 @@ public class ValedControlFactoriesRegistry
     registerFactory( ValedOptionSet.FACTORY );
     registerFactory( ValedAvValobjTsImageDescriptor.FACTORY );
     registerFactory( ValedAvValobjTsGradientFillInfo.FACTORY );
+
+    registerFactory( ValedCombiCondInfo.FACTORY );
+    registerFactory( ValedAvValobjCombiCondInfo.FACTORY );
 
   }
 

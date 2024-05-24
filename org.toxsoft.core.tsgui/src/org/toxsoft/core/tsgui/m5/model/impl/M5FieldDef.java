@@ -303,11 +303,11 @@ public class M5FieldDef<T, V>
   }
 
   /**
-   * Set the user specified behaviour to exract field value and privide visualization.
+   * Set the user specified behavior to extract field value and provide visualization.
    * <p>
    * Please not fillofing restrictions on user-specified getter usage:
    * <ul>
-   * <li>user-specified getter methods will be called only with non-<code>null</code> argumnets;</li>
+   * <li>user-specified getter methods will be called only with non-<code>null</code> arguments;</li>
    * <li>user-specified getter will be used only for non-<code>null</code> entities. Defaults for <code>null</code>
    * entity is defined by this field definition;</li>
    * <li>this method does not changes the internal getter returned by {@link IM5FieldDef#getter()}.</li>
@@ -384,7 +384,7 @@ public class M5FieldDef<T, V>
   }
 
   // ------------------------------------------------------------------------------------
-  // defaults for null entity visualisation
+  // defaults for null entity visualization
 
   /**
    * Subclass may change the string returned as {@link IM5Getter#getName(Object)} for <code>null</code> entity.

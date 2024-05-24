@@ -59,7 +59,7 @@ public abstract class AbstractGenericEntityEditPanel<T>
 
   @Override
   final public ValidationResult canGetEntity() {
-    if( isControlValid() ) {
+    if( !isControlValid() ) {
       return ValidationResult.SUCCESS;
     }
     return doCanGetEntity();
