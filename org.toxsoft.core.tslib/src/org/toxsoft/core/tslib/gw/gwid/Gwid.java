@@ -21,7 +21,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * <p>
  * The general example:
  * <p>
- * <code>classId[STRID_ID]$<b>prop.sect.id</b>(PROP_ID)$<b>sub_prop.sect.id</b>(SUB_PROP_ID)</code>
+ * <code>classId[STRID_ID]$<b>prop_sect_id</b>(PROP_ID)$<b>sub_prop_sect_id</b>(SUB_PROP_ID)</code>
  *
  * @author hazard157
  */

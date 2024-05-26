@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.gw.gwid.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * The Green World object identifier.
+ * The Green World object identifier, is a part of the {@link Gwid}.
  * <p>
  * Canonical string representation of the SKID {@link #canonicalString()} is the same as concrete GWID representation
  * {@link Gwid#canonicalString()} of kind {@link EGwidKind#GW_CLASS} in the form of "<code>classId[strid]</code>". There

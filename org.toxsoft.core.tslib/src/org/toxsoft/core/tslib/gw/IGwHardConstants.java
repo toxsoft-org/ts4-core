@@ -1,7 +1,14 @@
 package org.toxsoft.core.tslib.gw;
 
 /**
- * Константы "зеленого мира".
+ * The Green World constants.
+ * <p>
+ * TODO we need more detailed explanation of the colored worlds:
+ * <ul>
+ * <li>Red World - real world, the reality around us;</li>
+ * <li>Green World - the Red World model, contains programming language independent concepts;</li>
+ * <li>Blue World - an implementation of Green World in the Java programming language.</li>
+ * </ul>
  *
  * @author hazard157
  */

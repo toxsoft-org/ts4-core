@@ -15,7 +15,7 @@ import org.toxsoft.core.tslib.bricks.*;
  * <li>thus the Green World time is flexible and may flow in any direction at any "speed".</li>
  * </ul>
  * <p>
- * This interface has same meaning for Green World time as {@link IRealTimeSensitive} has for real time.
+ * This interface has same meaning for Green World time as {@link IRealTimeSensitive} has for the Red World.
  *
  * @author hazard157
  */
