@@ -70,6 +70,7 @@ public class TsGuiUtils {
     TsValobjUtils.registerKeeper( TsMargins.KEEPER_ID, TsMargins.KEEPER );
     TsValobjUtils.registerKeeper( TsGridMargins.KEEPER_ID, TsGridMargins.KEEPER );
     TsValobjUtils.registerKeeper( TsImageDescriptor.KEEPER_ID, TsImageDescriptor.KEEPER );
+    TsValobjUtils.registerKeeper( ETsFillKind.KEEPER_ID, ETsFillKind.KEEPER );
     TsValobjUtils.registerKeeper( TsFillInfo.KEEPER_ID, TsFillInfo.KEEPER );
     TsValobjUtils.registerKeeper( ETsBorderKind.KEEPER_ID, ETsBorderKind.KEEPER );
 
