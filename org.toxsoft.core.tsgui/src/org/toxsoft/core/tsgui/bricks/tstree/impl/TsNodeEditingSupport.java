@@ -44,7 +44,7 @@ public class TsNodeEditingSupport
     ITsNode node = ITsNode.class.cast( aElement );
     ITsGuiContext ctx = new TsGuiContext( tsContext );
     IValedControl<?> valed = nodeValedProvider.createValed( node, ctx );
-    ValedCellEditor<?> cellEditor = new ValedCellEditor<>( valed, viewer, ctx );
+    ValedCellEditor<?> cellEditor = new ValedCellEditor<>( valed, viewer );
     return cellEditor;
   }
 
