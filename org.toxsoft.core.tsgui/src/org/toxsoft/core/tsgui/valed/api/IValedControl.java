@@ -3,10 +3,10 @@ package org.toxsoft.core.tsgui.valed.api;
 import java.io.*;
 
 import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.panels.lazy.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.utils.*;
-import org.toxsoft.core.tslib.bricks.ctx.*;
 import org.toxsoft.core.tslib.bricks.events.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
@@ -20,7 +20,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @param <V> - the edited value type
  */
 public interface IValedControl<V>
-    extends ILazyControl<Control>, ITsContextable, IParameterizedEdit {
+    extends ILazyControl<Control>, ITsGuiContextable, IParameterizedEdit {
 
   // TODO TRANSLATE
 

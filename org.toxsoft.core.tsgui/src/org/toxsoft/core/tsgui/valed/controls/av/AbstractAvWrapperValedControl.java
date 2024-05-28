@@ -6,7 +6,6 @@ import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.errors.*;
 import org.toxsoft.core.tslib.av.opset.*;
-import org.toxsoft.core.tslib.bricks.ctx.*;
 import org.toxsoft.core.tslib.bricks.events.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -103,7 +102,7 @@ public abstract class AbstractAvWrapperValedControl<T>
   }
 
   @Override
-  public ITsContext tsContext() {
+  public ITsGuiContext tsContext() {
     return source.tsContext();
   }
 

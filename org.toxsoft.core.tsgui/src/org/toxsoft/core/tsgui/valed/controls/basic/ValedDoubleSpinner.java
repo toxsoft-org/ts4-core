@@ -438,11 +438,11 @@ public class ValedDoubleSpinner
    */
   public double getMinValue() {
     double minValue = MIN_AVC_VALUE;
-    if( params().hasValue( TSID_MIN_INCLUSIVE ) ) {
+    if( tsContext().isSelfOption( TSID_MIN_INCLUSIVE ) ) {
       minValue = params().getFloat( TSID_MIN_INCLUSIVE );
     }
     else {
-      if( params().hasValue( TSID_MIN_EXCLUSIVE ) ) {
+      if( tsContext().isSelfOption( TSID_MIN_EXCLUSIVE ) ) {
         minValue = params().getFloat( TSID_MIN_EXCLUSIVE ) + Double.MIN_NORMAL;
       }
     }
@@ -465,11 +465,16 @@ public class ValedDoubleSpinner
    */
   public double getMaxValue() {
     double maxValue = MAX_AVC_VALUE;
-    if( params().hasValue( TSID_MAX_INCLUSIVE ) ) {
+
+    // TODO --- temporary code to catch AvTypeCastRtException
+    // if( tsContext().isSelfOption( TSID_MAX_INCLUSIVE ) ) {
+    if( params().hasKey( TSID_MAX_INCLUSIVE ) ) {
+      // ---
+
       maxValue = params().getFloat( TSID_MAX_INCLUSIVE );
     }
     else {
-      if( params().hasValue( TSID_MAX_EXCLUSIVE ) ) {
+      if( tsContext().isSelfOption( TSID_MAX_EXCLUSIVE ) ) {
         maxValue = params().getFloat( TSID_MAX_EXCLUSIVE ) - Double.MIN_NORMAL;
       }
     }
@@ -485,21 +490,21 @@ public class ValedDoubleSpinner
   /**
    * Задает параметры спиннера.
    *
-   * @param aStep int - значение параметра {@link #OPDEF_STEP}
-   * @param aPageStep int - значение параметра {@link #OPDEF_PAGE_STEP}
-   * @param aMinValue int - значение параметра {@link IAvMetaConstants#TSID_MIN_INCLUSIVE}
-   * @param aMaxValue int - значение параметра {@link IAvMetaConstants#TSID_MAX_INCLUSIVE}
+   * @param aStep double - значение параметра {@link #OPDEF_STEP}
+   * @param aPageStep double - значение параметра {@link #OPDEF_PAGE_STEP}
+   * @param aMinValue double - значение параметра {@link IAvMetaConstants#TSID_MIN_INCLUSIVE}
+   * @param aMaxValue double - значение параметра {@link IAvMetaConstants#TSID_MAX_INCLUSIVE}
    * @throws TsIllegalArgumentRtException aPageStep < aStep
    * @throws TsIllegalArgumentRtException aMaxValue < aMinValue
    */
-  public void setLimits( int aStep, int aPageStep, int aMinValue, int aMaxValue ) {
+  public void setLimits( double aStep, double aPageStep, double aMinValue, double aMaxValue ) {
     TsIllegalArgumentRtException.checkTrue( aPageStep < aStep );
     TsIllegalArgumentRtException.checkTrue( aMaxValue < aMinValue );
     IOptionSetEdit ops = new OptionSet();
-    ops.setInt( OPDEF_STEP, aStep );
-    ops.setInt( OPDEF_PAGE_STEP, aPageStep );
-    ops.setInt( TSID_MIN_INCLUSIVE, aMinValue );
-    ops.setInt( TSID_MAX_INCLUSIVE, aMaxValue );
+    ops.setDouble( OPDEF_STEP, aStep );
+    ops.setDouble( OPDEF_PAGE_STEP, aPageStep );
+    ops.setDouble( TSID_MIN_INCLUSIVE, aMinValue );
+    ops.setDouble( TSID_MAX_INCLUSIVE, aMaxValue );
     params().extendSet( ops );
   }
 

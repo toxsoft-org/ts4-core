@@ -42,20 +42,16 @@ public class ValedCellEditor<V>
     }
   };
 
-  private final ITsGuiContext ctx;
-
   /**
    * Constructor.
    *
    * @param aValed {@link IValedControl}&lt;V&gt; - instance of the value editor
    * @param aParent {@link ColumnViewer} - the SWT viewer for which the cell editor is created
-   * @param aTsContext ITsGuiContext - the context
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public ValedCellEditor( IValedControl<V> aValed, ColumnViewer aParent, ITsGuiContext aTsContext ) {
-    TsNullArgumentRtException.checkNulls( aParent, aParent, aParent );
+  public ValedCellEditor( IValedControl<V> aValed, ColumnViewer aParent ) {
+    TsNullArgumentRtException.checkNulls( aValed, aParent );
     valed = aValed;
-    ctx = aTsContext;
     create( (Composite)aParent.getControl() );
   }
 
@@ -135,6 +131,6 @@ public class ValedCellEditor<V>
 
   @Override
   public ITsGuiContext tsContext() {
-    return ctx;
+    return valed.tsContext();
   }
 }
