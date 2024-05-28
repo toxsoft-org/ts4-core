@@ -673,7 +673,7 @@ public final class Gwid
 
   @Override
   public String toString() {
-    return asString();
+    return canonicalString;
   }
 
   @Override

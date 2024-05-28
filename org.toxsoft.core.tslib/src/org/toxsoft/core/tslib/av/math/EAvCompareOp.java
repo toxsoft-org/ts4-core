@@ -2,20 +2,19 @@ package org.toxsoft.core.tslib.av.math;
 
 import static org.toxsoft.core.tslib.av.math.ITsResources.*;
 
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.std.StridableEnumKeeper;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesListEdit;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.StridablesList;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.std.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
+import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
  * Two atomic value comparison operation.
  * <p>
- * In fact this enum denotes ganaral binary operation with boolean result. In most cases this is comparison of two
+ * Actually this enum denotes general binary operation with boolean result. In most cases this is comparison of two
  * values so <code>enum</code> is named {@link EAvCompareOp}.
  *
  * @author hazard157
@@ -26,15 +25,15 @@ public enum EAvCompareOp
   // TODO TRANSLATE
 
   /**
-   * Сравнение на равенство.
+   * Compares values for equality.
    * <p>
-   * Применимо ли для следующих примитивных типов: <br>
-   * <tt> {@link EAtomicType#NONE}: <b>да</b><br>
-   * {@link EAtomicType#BOOLEAN}: <b>да</b><br>
-   * {@link EAtomicType#INTEGER}: <b>да</b><br>
-   * {@link EAtomicType#FLOATING}: <b>да</b><br>
-   * {@link EAtomicType#STRING}: <b>да</b><br>
-   * {@link EAtomicType#TIMESTAMP}: <b>да</b><br>
+   * Applicability for the types: <br>
+   * <tt> {@link EAtomicType#NONE}: <b>YES</b><br>
+   * {@link EAtomicType#BOOLEAN}: <b>YES</b><br>
+   * {@link EAtomicType#INTEGER}: <b>YES</b><br>
+   * {@link EAtomicType#FLOATING}: <b>YES</b><br>
+   * {@link EAtomicType#STRING}: <b>YES</b><br>
+   * {@link EAtomicType#TIMESTAMP}: <b>YES</b><br>
    */
   EQ( "EQ", "==", STR_D_COMP_EQ ) { //$NON-NLS-1$//$NON-NLS-2$
 
@@ -66,15 +65,15 @@ public enum EAvCompareOp
   },
 
   /**
-   * Сравнение на неравенство.
+   * Compares values for non-equaltiy.
    * <p>
-   * Применимо ли для следующих примитивных типов: <br>
-   * <tt> {@link EAtomicType#NONE}: <b>да</b><br>
-   * {@link EAtomicType#BOOLEAN}: <b>да</b><br>
-   * {@link EAtomicType#INTEGER}: <b>да</b><br>
-   * {@link EAtomicType#FLOATING}: <b>да</b><br>
-   * {@link EAtomicType#STRING}: <b>да</b><br>
-   * {@link EAtomicType#TIMESTAMP}: <b>да</b><br>
+   * Applicability for the types: <br>
+   * <tt> {@link EAtomicType#NONE}: <b>YES</b><br>
+   * {@link EAtomicType#BOOLEAN}: <b>YES</b><br>
+   * {@link EAtomicType#INTEGER}: <b>YES</b><br>
+   * {@link EAtomicType#FLOATING}: <b>YES</b><br>
+   * {@link EAtomicType#STRING}: <b>YES</b><br>
+   * {@link EAtomicType#TIMESTAMP}: <b>YES</b><br>
    */
   NE( "NE", "!=", STR_D_COMP_NE ) { //$NON-NLS-1$//$NON-NLS-2$
 
@@ -106,15 +105,15 @@ public enum EAvCompareOp
   },
 
   /**
-   * Сравнение на больше.
+   * Compares values for greater than.
    * <p>
-   * Применимо ли для следующих примитивных типов: <br>
-   * <tt> {@link EAtomicType#NONE}: <b>нет</b><br>
-   * {@link EAtomicType#BOOLEAN}: <b>нет</b><br>
-   * {@link EAtomicType#INTEGER}: <b>да</b><br>
-   * {@link EAtomicType#FLOATING}: <b>да</b><br>
-   * {@link EAtomicType#STRING}: <b>да</b><br>
-   * {@link EAtomicType#TIMESTAMP}: <b>да</b><br>
+   * Applicability for the types: <br>
+   * <tt> {@link EAtomicType#NONE}: <b>no</b><br>
+   * {@link EAtomicType#BOOLEAN}: <b>no</b><br>
+   * {@link EAtomicType#INTEGER}: <b>YES</b><br>
+   * {@link EAtomicType#FLOATING}: <b>YES</b><br>
+   * {@link EAtomicType#STRING}: <b>YES</b><br>
+   * {@link EAtomicType#TIMESTAMP}: <b>YES</b><br>
    */
   GT( "GT", ">", STR_D_COMP_GT ) { //$NON-NLS-1$//$NON-NLS-2$
 
@@ -146,15 +145,15 @@ public enum EAvCompareOp
   },
 
   /**
-   * Сравнение на больше или равно.
+   * Compares values for greater or equal.
    * <p>
-   * Применимо ли для следующих примитивных типов: <br>
-   * <tt> {@link EAtomicType#NONE}: <b>нет</b><br>
-   * {@link EAtomicType#BOOLEAN}: <b>нет</b><br>
-   * {@link EAtomicType#INTEGER}: <b>да</b><br>
-   * {@link EAtomicType#FLOATING}: <b>да</b><br>
-   * {@link EAtomicType#STRING}: <b>да</b><br>
-   * {@link EAtomicType#TIMESTAMP}: <b>да</b><br>
+   * Applicability for the types: <br>
+   * <tt> {@link EAtomicType#NONE}: <b>no</b><br>
+   * {@link EAtomicType#BOOLEAN}: <b>no</b><br>
+   * {@link EAtomicType#INTEGER}: <b>YES</b><br>
+   * {@link EAtomicType#FLOATING}: <b>YES</b><br>
+   * {@link EAtomicType#STRING}: <b>YES</b><br>
+   * {@link EAtomicType#TIMESTAMP}: <b>YES</b><br>
    */
   GE( "GE", ">=", STR_D_COMP_GE ) { //$NON-NLS-1$//$NON-NLS-2$
 
@@ -186,15 +185,15 @@ public enum EAvCompareOp
   },
 
   /**
-   * Сравнение на меньше.
+   * Compares values for less.
    * <p>
-   * Применимо ли для следующих примитивных типов: <br>
-   * <tt> {@link EAtomicType#NONE}: <b>нет</b><br>
-   * {@link EAtomicType#BOOLEAN}: <b>нет</b><br>
-   * {@link EAtomicType#INTEGER}: <b>да</b><br>
-   * {@link EAtomicType#FLOATING}: <b>да</b><br>
-   * {@link EAtomicType#STRING}: <b>да</b><br>
-   * {@link EAtomicType#TIMESTAMP}: <b>да</b><br>
+   * Applicability for the types: <br>
+   * <tt> {@link EAtomicType#NONE}: <b>no</b><br>
+   * {@link EAtomicType#BOOLEAN}: <b>no</b><br>
+   * {@link EAtomicType#INTEGER}: <b>YES</b><br>
+   * {@link EAtomicType#FLOATING}: <b>YES</b><br>
+   * {@link EAtomicType#STRING}: <b>YES</b><br>
+   * {@link EAtomicType#TIMESTAMP}: <b>YES</b><br>
    */
   LT( "LT", "<", STR_D_COMP_LT ) { //$NON-NLS-1$//$NON-NLS-2$
 
@@ -226,15 +225,15 @@ public enum EAvCompareOp
   },
 
   /**
-   * Сравнение на меньше или равно.
+   * Compares values for less or equal.
    * <p>
-   * Применимо ли для следующих примитивных типов: <br>
-   * <tt> {@link EAtomicType#NONE}: <b>нет</b><br>
-   * {@link EAtomicType#BOOLEAN}: <b>нет</b><br>
-   * {@link EAtomicType#INTEGER}: <b>да</b><br>
-   * {@link EAtomicType#FLOATING}: <b>да</b><br>
-   * {@link EAtomicType#STRING}: <b>да</b><br>
-   * {@link EAtomicType#TIMESTAMP}: <b>да</b><br>
+   * Applicability for the types: <br>
+   * <tt> {@link EAtomicType#NONE}: <b>no</b><br>
+   * {@link EAtomicType#BOOLEAN}: <b>no</b><br>
+   * {@link EAtomicType#INTEGER}: <b>YES</b><br>
+   * {@link EAtomicType#FLOATING}: <b>YES</b><br>
+   * {@link EAtomicType#STRING}: <b>YES</b><br>
+   * {@link EAtomicType#TIMESTAMP}: <b>YES</b><br>
    */
   LE( "LE", "<=", STR_D_COMP_LE ) { //$NON-NLS-1$//$NON-NLS-2$
 
@@ -266,15 +265,15 @@ public enum EAvCompareOp
   },
 
   /**
-   * Проверка строки на совпадение с регулярным выражением.
+   * Check the String against the regular expression.
    * <p>
-   * Применимо ли для следующих примитивных типов: <br>
-   * <tt> {@link EAtomicType#NONE}: <b>нет</b><br>
-   * {@link EAtomicType#BOOLEAN}: <b>нет</b><br>
-   * {@link EAtomicType#INTEGER}: <b>нет</b><br>
-   * {@link EAtomicType#FLOATING}: <b>нет</b><br>
-   * {@link EAtomicType#STRING}: <b>да</b><br>
-   * {@link EAtomicType#TIMESTAMP}: <b>нет</b><br>
+   * Applicability for the types: <br>
+   * <tt> {@link EAtomicType#NONE}: <b>no</b><br>
+   * {@link EAtomicType#BOOLEAN}: <b>no</b><br>
+   * {@link EAtomicType#INTEGER}: <b>no</b><br>
+   * {@link EAtomicType#FLOATING}: <b>no</b><br>
+   * {@link EAtomicType#STRING}: <b>YES</b><br>
+   * {@link EAtomicType#TIMESTAMP}: <b>no</b><br>
    */
   MATCH( "MATCH", "", STR_D_COMP_MATCH ) { //$NON-NLS-1$//$NON-NLS-2$
 
@@ -358,47 +357,47 @@ public enum EAvCompareOp
   //
 
   /**
-   * Сравнивает два int.
+   * Comapres two values of type int.
    *
-   * @param aV1 int - первый аргумент
-   * @param aV2 int - второй аргумент
-   * @return boolean - результат сравнения этой константой
+   * @param aV1 int - first argument
+   * @param aV2 int - second argument
+   * @return boolean - the comparison result
    */
   public abstract boolean compareInt( int aV1, int aV2 );
 
   /**
-   * Сравнивает два long.
+   * Comapres two values of type long.
    *
-   * @param aV1 long - первый аргумент
-   * @param aV2 long - второй аргумент
-   * @return boolean - результат сравнения этой константой
+   * @param aV1 long - first argument
+   * @param aV2 long - second argument
+   * @return boolean - the comparison result
    */
   public abstract boolean compareLong( long aV1, long aV2 );
 
   /**
-   * Сравнивает два float.
+   * Comapres two values of type float.
    *
-   * @param aV1 float - первый аргумент
-   * @param aV2 float - второй аргумент
-   * @return boolean - результат сравнения этой константой
+   * @param aV1 float - first argument
+   * @param aV2 float - second argument
+   * @return boolean - the comparison result
    */
   public abstract boolean compareFloat( float aV1, float aV2 );
 
   /**
-   * Сравнивает два double.
+   * Comapres two values of type double.
    *
-   * @param aV1 double - первый аргумент
-   * @param aV2 double - второй аргумент
-   * @return boolean - результат сравнения этой константой
+   * @param aV1 double - first argument
+   * @param aV2 double - second argument
+   * @return boolean - the comparison result
    */
   public abstract boolean compareDouble( double aV1, double aV2 );
 
   /**
-   * Сравнивает два String.
+   * Comapres two values of type String.
    *
-   * @param aV1 String - первый аргумент
-   * @param aV2 String - второй аргумент
-   * @return boolean - результат сравнения этой константой
+   * @param aV1 String - first argument
+   * @param aV2 String - second argument
+   * @return boolean - the comparison result
    */
   public abstract boolean compareString( String aV1, String aV2 );
 

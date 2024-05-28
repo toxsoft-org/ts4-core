@@ -1,19 +1,15 @@
 package org.toxsoft.core.tslib.coll.primtypes.wrappers;
 
-import java.io.Serializable;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.io.*;
+import java.util.*;
 
-import org.toxsoft.core.tslib.coll.impl.TsCollectionsUtils;
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-
-// TODO TRANSLATE
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Адаптер к массиву строк (String[]), превращающий его в {@link IStringList}.
+ * Wraps string array (String[]), to represent as a {@link IStringList}.
  *
  * @author hazard157
  */
@@ -25,10 +21,10 @@ public class StringListArrayWrapper
   private final String[] srcArray;
 
   /**
-   * Создает неизменяемый список строк как оболочку над массивом.
+   * Constructor.
    *
-   * @param aSrcArray String[] - массив строк
-   * @throws TsNullArgumentRtException - aSrcArray = null
+   * @param aSrcArray String[] - the array to be wrapped
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public StringListArrayWrapper( String[] aSrcArray ) {
     TsNullArgumentRtException.checkNull( aSrcArray );
@@ -134,7 +130,7 @@ public class StringListArrayWrapper
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация методов класса Object
+  // Object
   //
 
   @Override

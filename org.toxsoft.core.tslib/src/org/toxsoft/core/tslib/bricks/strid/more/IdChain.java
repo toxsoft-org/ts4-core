@@ -127,6 +127,9 @@ public final class IdChain
   public static IdChain of( String aCanonicalString ) {
     TsErrorUtils.checkNonEmpty( aCanonicalString );
     int lastIndex = aCanonicalString.length();
+    if( lastIndex == 0 ) { // empty string -> IdChain.NULL
+      return NULL;
+    }
     IStringListEdit sl = new StringArrayList();
     int prevIndex = 0;
     while( true ) {
@@ -164,7 +167,7 @@ public final class IdChain
   }
 
   /**
-   * Methor correctly deserializes {@link #NULL} value.
+   * Method correctly deserializes {@link #NULL} value.
    *
    * @return {@link ObjectStreamException} - {@link #NULL}
    * @throws ObjectStreamException is declared but newer throw by this method
@@ -260,6 +263,51 @@ public final class IdChain
       ss.add( branches.get( i ) );
     }
     return new IdChain( 0, ss );
+  }
+
+  /**
+   * Checks if argument is a valid canoncal string.
+   * <p>
+   * Method {@link #of(String)} will not throw an exception if and only if this method returns true.
+   * <p>
+   * An empty string (string with 0 length) is considered valid as it produces {@link IdChain#NULL}.
+   *
+   * @param aCanonicalString String - the string to test
+   * @return boolean - <code>true</code> if argument is valid canonical string
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static boolean isValidCanonicalString( String aCanonicalString ) {
+    TsNullArgumentRtException.checkNull( aCanonicalString );
+    if( aCanonicalString.isEmpty() ) {
+      return true;
+    }
+    char ch = aCanonicalString.charAt( 0 );
+    if( !StridUtils.isIdStart( ch ) ) {
+      return false;
+    }
+    boolean compFirstChar = true;
+    for( int i = 0, n = aCanonicalString.length(); i < n; i++ ) {
+      ch = aCanonicalString.charAt( n );
+      if( compFirstChar ) { // previous char was '/' or this is the string start
+        if( !StridUtils.isIdStart( ch ) ) { // here may be IDpath starting char
+          return false;
+        }
+      }
+      else {
+        if( ch == CHAR_BRANCH_SEPARATOR ) {
+          compFirstChar = true;
+        }
+        else {
+          if( !StridUtils.isIdPathPart( ch ) ) { // here may be IDpath body char
+            return false;
+          }
+        }
+      }
+    }
+    if( compFirstChar ) { // last char was '/'
+      return false;
+    }
+    return true;
   }
 
   // ------------------------------------------------------------------------------------

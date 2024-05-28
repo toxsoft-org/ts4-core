@@ -122,7 +122,7 @@ public class HmsUtils {
    * Returns the auto-detected string representation of the seconds.
    *
    * @param aSecs int - number of seconds
-   * @return String - string in one of the forma MM:SS or HH:MM:SS ot HHH:MM:SS
+   * @return String - string in one of the form MM:SS or HH:MM:SS or HHH:MM:SS
    * @throws TsIllegalArgumentRtException aSecs < 0
    */
   public static String mmmss( int aSecs ) {
