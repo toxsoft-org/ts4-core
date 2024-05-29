@@ -21,6 +21,7 @@ import org.toxsoft.core.tsgui.valed.impl.*;
 import org.toxsoft.core.tsgui.widgets.mpv.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.math.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
@@ -73,6 +74,7 @@ public class TsGuiUtils {
     TsValobjUtils.registerKeeper( ETsFillKind.KEEPER_ID, ETsFillKind.KEEPER );
     TsValobjUtils.registerKeeper( TsFillInfo.KEEPER_ID, TsFillInfo.KEEPER );
     TsValobjUtils.registerKeeper( ETsBorderKind.KEEPER_ID, ETsBorderKind.KEEPER );
+    TsValobjUtils.registerKeeper( EAvCompareOp.KEEPER_ID, EAvCompareOp.KEEPER );
 
     // following this is some kind of hacking! ---
     DataDef dd = (DataDef)IAvMetaConstants.DDEF_DESCRIPTION;
