@@ -16,7 +16,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * {@link ITsCombiCondInfo} editor implemented as {@link IPanelCombiCondInfo}.
  * <p>
- * Acceps options defined in {@link PanelCombiCondInfo}.
+ * Accepts options defined in {@link PanelCombiCondInfo}.
  *
  * @author hazard157
  */
