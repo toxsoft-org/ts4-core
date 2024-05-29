@@ -2,24 +2,27 @@ package org.toxsoft.core.tslib.utils.plugins.impl;
 
 import static org.toxsoft.core.tslib.utils.plugins.impl.ITsResources.*;
 
-import java.io.*;
-import java.lang.reflect.*;
-import java.net.*;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.*;
 
-import org.toxsoft.core.tslib.coll.*;
-import org.toxsoft.core.tslib.coll.impl.*;
-import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.coll.IList;
+import org.toxsoft.core.tslib.coll.IListEdit;
+import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
+import org.toxsoft.core.tslib.coll.primtypes.IStringMapEdit;
+import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
+import org.toxsoft.core.tslib.utils.TsLibUtils;
+import org.toxsoft.core.tslib.utils.TsVersion;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.files.*;
+import org.toxsoft.core.tslib.utils.files.TsFileUtils;
 import org.toxsoft.core.tslib.utils.plugins.*;
-import org.toxsoft.core.tslib.utils.plugins.IChangedPluginsInfo.*;
-import org.toxsoft.core.tslib.utils.plugins.IPluginInfo.*;
+import org.toxsoft.core.tslib.utils.plugins.IChangedPluginsInfo.IChangedPluginInfo;
+import org.toxsoft.core.tslib.utils.plugins.IPluginInfo.IDependencyInfo;
 import org.toxsoft.core.tslib.utils.plugins.dirscan.*;
 
 /**
- * Реализация интрефейса IPluginManager. <br>
- * Реализация менеджера плагинов.
+ * Реализация {@link IPluginsStorage}.
  *
  * @author Дима
  */
@@ -32,15 +35,20 @@ class PluginStorage
   private ChangedPluginsInfo changedModulesInfo = new ChangedPluginsInfo();
 
   /**
-   * Карта для хранения связок "Строка идентификатора плагина -> Описание плагина"
+   * Карта для хранения описаний плагинов.
+   * <p>
+   * Ключ: идентификатор плагина;<br>
+   * Значение: описание плагина {@link IPluginInfo}.
    */
-  private Map<String, IPluginInfo> id2PluginInfoMap = new TreeMap<>();
+  private IStringMapEdit<IPluginInfo> pluginInfos = new StringMap<>();
 
   /**
-   * Контейнер для хранения списка описаний плагинов. Dima. Сознательно ввожу некоторую избыточность (можно обойтись
-   * id2PluginInfoMap), для того, чтобы иметь возможность отследить порядок регистрации плагинов
+   * Карта загруженных плагинов.
+   * <p>
+   * Ключ: идентификатор плагина;<br>
+   * Значение: список созданных экземпляров.
    */
-  private IListEdit<IPluginInfo> registeredPluginInfoList = new ElemArrayList<>();
+  private IStringMapEdit<IListEdit<Plugin>> plugins = new StringMap<>();
 
   /**
    * Храним тип плагинов.
@@ -108,7 +116,8 @@ class PluginStorage
     // Пробегаемся по всему списку
     for( IPluginInfo pluginInfo : aPluginsInfoList ) {
       // 2021-02-06 mvk
-      if( !plugInType.equals( pluginInfo.pluginType() ) ) {
+      // 2024-05-28 mvk +++ !plugInType.equals( TsLibUtils.EMPTY_STRING ) &&
+      if( !plugInType.equals( TsLibUtils.EMPTY_STRING ) && !plugInType.equals( pluginInfo.pluginType() ) ) {
         // Необрабатываемый тип плагина
         continue;
       }
@@ -119,7 +128,7 @@ class PluginStorage
       }
       else {
         // Плагин уже зарегистрирован, проверяем версии
-        IPluginInfo registeredPlugin = id2PluginInfoMap.get( pluginInfo.pluginId() );
+        IPluginInfo registeredPlugin = pluginInfos.getByKey( pluginInfo.pluginId() );
         if( isNeedToUpdate( registeredPlugin, pluginInfo ) ) {
           updatePluginInfo( registeredPlugin, pluginInfo );
         }
@@ -130,11 +139,18 @@ class PluginStorage
   /**
    * Отменяет регистрацию плагина.
    *
-   * @param aRegisteredPlugin IPluginInfo - ???
+   * @param aPluginInfo {@link IPluginInfo} информация о плагине
    */
-  private void deregisterPluginInfo( IPluginInfo aRegisteredPlugin ) {
-    registeredPluginInfoList.remove( aRegisteredPlugin );
-    id2PluginInfoMap.remove( aRegisteredPlugin.pluginId() );
+  private void deregisterPluginInfo( IPluginInfo aPluginInfo ) {
+    String pluginId = aPluginInfo.pluginId();
+    pluginInfos.removeByKey( pluginId );
+    // Удаление всех созданных экземпляров
+    IList<Plugin> instances = plugins.findByKey( pluginId );
+    if( instances != null ) {
+      for( Plugin instance : new ElemArrayList<>( instances ) ) {
+        instance.close();
+      }
+    }
   }
 
   /**
@@ -143,8 +159,7 @@ class PluginStorage
    * @param pluginInfo объект типа IPluginInfo
    */
   private void registerPluginInfo( IPluginInfo pluginInfo ) {
-    registeredPluginInfoList.add( pluginInfo );
-    id2PluginInfoMap.put( pluginInfo.pluginId(), pluginInfo );
+    pluginInfos.put( pluginInfo.pluginId(), pluginInfo );
   }
 
   /**
@@ -154,7 +169,7 @@ class PluginStorage
    * @return true, если плагин с таким идентификатором уже зарегистрирован, иначе false
    */
   private boolean isPluginRegistered( IPluginInfo aPluginInfo ) {
-    return (id2PluginInfoMap.get( aPluginInfo.pluginId() ) != null);
+    return (pluginInfos.findByKey( aPluginInfo.pluginId() ) != null);
   }
 
   /**
@@ -171,7 +186,11 @@ class PluginStorage
       IDependencyInfo dependencyInfo = iterator.next();
       // Проверяем номер версии
       checkDependenceVersion( dependencyInfo );
-      createPluginInstance( dependencyInfo.pluginId() );
+      // 2024-05-27 mvk --- не нужно создавать, не имеет смысла + создает мусор
+      // createPluginInstance( dependencyInfo.pluginId() );
+      // 2024-05-27 mvk +++ проверка того, что плагин-зависимость зарегистирован
+      // Проверка существования плагина-зависимости
+      TsItemNotFoundRtException.checkFalse( pluginInfos.hasKey( dependencyInfo.pluginId() ) );
     }
   }
 
@@ -185,30 +204,30 @@ class PluginStorage
   private void checkDependenceVersion( IDependencyInfo aPluginInfo )
       throws ClassNotFoundException {
     // Получаем описание зависимого плагина
-    IPluginInfo registeredPluginInfo = id2PluginInfoMap.get( aPluginInfo.pluginId() );
-    if( registeredPluginInfo == null ) {
+    IPluginInfo pluginInfo = pluginInfos.findByKey( aPluginInfo.pluginId() );
+    if( pluginInfo == null ) {
       throw new ClassNotFoundException( MSG_ERR_CANT_RESOLVE_DEPENDENCE_TYPE + aPluginInfo.pluginType() + ",\n "
           + MSG_ERR_CANT_RESOLVE_DEPENDENCE_ID + aPluginInfo.pluginId() );
     }
     TsVersion version = aPluginInfo.pluginVersion();
     if( aPluginInfo.isExactVersionNeeded() ) {
       // Требуется точная версия
-      if( version.compareTo( registeredPluginInfo.pluginVersion() ) == 0 ) {
+      if( version.compareTo( pluginInfo.pluginVersion() ) == 0 ) {
         return;
       }
       throw new ClassNotFoundException( MSG_ERR_FOR_DEPENDENCE + aPluginInfo.pluginType() + ",\n "
           + MSG_ERR_CANT_RESOLVE_DEPENDENCE_ID + aPluginInfo.pluginId() + ",\n " + MSG_ERR_EXACT_VERSION_NUMBER
           + TsVersion.getVersionNumber( aPluginInfo.pluginVersion() ) + ",\n " + MSG_ERR_AVAILABLE_VERSION_NUMBER
-          + TsVersion.getVersionNumber( registeredPluginInfo.pluginVersion() ) );
+          + TsVersion.getVersionNumber( pluginInfo.pluginVersion() ) );
     }
     // Достаточно просто более новой версии
-    if( registeredPluginInfo.pluginVersion().compareTo( version ) >= 0 ) {
+    if( pluginInfo.pluginVersion().compareTo( version ) >= 0 ) {
       return;
     }
     throw new ClassNotFoundException( MSG_ERR_FOR_DEPENDENCE + aPluginInfo.pluginType() + ",\n "
         + MSG_ERR_CANT_RESOLVE_DEPENDENCE_ID + aPluginInfo.pluginId() + ",\n " + MSG_ERR_NEED_NEWER_VERSION_NUMBER
         + TsVersion.getVersionNumber( aPluginInfo.pluginVersion() ) + ",\n " + MSG_ERR_AVAILABLE_VERSION_NUMBER
-        + TsVersion.getVersionNumber( registeredPluginInfo.pluginVersion() ) );
+        + TsVersion.getVersionNumber( pluginInfo.pluginVersion() ) );
   }
 
   /**
@@ -256,7 +275,7 @@ class PluginStorage
   private List<IPluginInfo> getJarPlugins( String aJarFileName ) {
     TsNullArgumentRtException.checkNull( aJarFileName );
     List<IPluginInfo> retValue = new LinkedList<>();
-    for( IPluginInfo pluginInfo : registeredPluginInfoList ) {
+    for( IPluginInfo pluginInfo : pluginInfos ) {
       if( aJarFileName.equals( pluginInfo.pluginJarFileName() ) ) {
         retValue.add( pluginInfo );
       }
@@ -287,7 +306,7 @@ class PluginStorage
       // Получаем список описаний плагинов
       File changedJarFile = new File( createPathStringToJar( aJarDir, scannedFileInfo ) );
       // Получить список всех плагинов бывших в данном jar-файле (контрольный список)
-      List<IPluginInfo> oldRegisteredPluginInfoList = getRegisteredPluginsFromThisJar( changedJarFile );
+      List<IPluginInfo> oldPluginInfoList = getRegisteredPluginsFromThisJar( changedJarFile );
       IList<IPluginInfo> piList = PluginUtils.readPluginInfoesFromJarFile( changedJarFile );
       // Идем по списку плагинов и проверяем их новизну (незарегистрированные плагины
       // и новые версии зарегистрированных)
@@ -301,16 +320,16 @@ class PluginStorage
         }
         else {
           // Есть такой плагин, смотрим его версию и если она свежее, то обновляем
-          IPluginInfo registeredPluginInfo = id2PluginInfoMap.get( addedPluginInfo.pluginId() );
-          updatePluginInfo( registeredPluginInfo, addedPluginInfo );
+          IPluginInfo pluginInfo = pluginInfos.getByKey( addedPluginInfo.pluginId() );
+          updatePluginInfo( pluginInfo, addedPluginInfo );
           // Заносим изменения
           IChangedPluginInfo changedPluginInfo =
-              getChangedModulesInfo().createChangedPluginInfo( addedPluginInfo, registeredPluginInfo.pluginVersion() );
+              getChangedModulesInfo().createChangedPluginInfo( addedPluginInfo, pluginInfo.pluginVersion() );
           getChangedModulesInfo().addChangedPlugin( changedPluginInfo );
           // Удаляем из контрольного списка
-          for( IPluginInfo info : oldRegisteredPluginInfoList ) {
-            if( (info.pluginId().compareTo( registeredPluginInfo.pluginId() ) == 0) ) {
-              oldRegisteredPluginInfoList.remove( info );
+          for( IPluginInfo info : oldPluginInfoList ) {
+            if( (info.pluginId().compareTo( pluginInfo.pluginId() ) == 0) ) {
+              oldPluginInfoList.remove( info );
               break;
             }
           }
@@ -319,7 +338,7 @@ class PluginStorage
       }
       // Оставшиеся в контрольном списке плагины разрегистрируем и добавляем в список
       // удаленных
-      for( IPluginInfo info : oldRegisteredPluginInfoList ) {
+      for( IPluginInfo info : oldPluginInfoList ) {
         deregisterPluginInfo( info );
         getChangedModulesInfo().addRemovedPlugin( info );
         retVal = true;
@@ -343,7 +362,7 @@ class PluginStorage
     catch( IOException ex ) {
       throw new TsIoRtException( ex, aChangedJarFile.getAbsolutePath() );
     }
-    for( IPluginInfo pluginInfo : registeredPluginInfoList ) {
+    for( IPluginInfo pluginInfo : pluginInfos ) {
       if( jarPathString.compareTo( pluginInfo.pluginJarFileName() ) == 0 ) {
         retVal.add( pluginInfo );
       }
@@ -383,7 +402,7 @@ class PluginStorage
         }
         else {
           // Есть такой плагин, смотрим его версию и если она свежее, то обновляем
-          IPluginInfo registeredPluginInfo = id2PluginInfoMap.get( pluginInfo.pluginId() );
+          IPluginInfo registeredPluginInfo = pluginInfos.getByKey( pluginInfo.pluginId() );
           if( isNeedToUpdate( registeredPluginInfo, pluginInfo ) ) {
             updatePluginInfo( registeredPluginInfo, pluginInfo );
             // Заносим изменения
@@ -425,12 +444,12 @@ class PluginStorage
     return false;
   }
 
-  public ChangedPluginsInfo getChangedModulesInfo() {
+  private ChangedPluginsInfo getChangedModulesInfo() {
     return changedModulesInfo;
   }
 
   // --------------------------------------------------------------------------
-  // Реализация интерфейса IPluginManager
+  // IPluginsStorage
   //
 
   @Override
@@ -464,41 +483,49 @@ class PluginStorage
 
   @Override
   public IList<IPluginInfo> listPlugins() {
-    return registeredPluginInfoList;
+    return pluginInfos.values();
+  }
+
+  @Override
+  public IPlugin createPlugin( String aPluginId )
+      throws ClassNotFoundException {
+    TsNullArgumentRtException.checkNull( aPluginId );
+    IPluginInfo pluginInfo = pluginInfos.getByKey( aPluginId );
+    checkDependencies( pluginInfo );
+    File pluginJarFile = new File( pluginInfo.pluginJarFileName() );
+    TsFileUtils.checkFileReadable( pluginJarFile );
+    try {
+      URL[] serverURLs;
+      serverURLs = new URL[] { pluginJarFile.toURI().toURL() };
+      Plugin plugin = new Plugin( serverURLs, pluginInfo, aPlugin -> {
+        // Обработка выгрузки плагина - удаление всех созданных экземпляров
+        IListEdit<Plugin> instances = plugins.findByKey( aPluginId );
+        if( instances != null ) {
+          instances.remove( (Plugin)aPlugin );
+          if( instances.size() == 0 ) {
+            plugins.removeByKey( aPluginId );
+          }
+        }
+      } );
+      IListEdit<Plugin> instances = plugins.findByKey( aPluginId );
+      if( instances == null ) {
+        // aAllowDuplicates = false
+        instances = new ElemArrayList<>( false );
+        plugins.put( aPluginId, instances );
+      }
+      instances.add( plugin );
+      return plugin;
+    }
+    catch( Exception e ) {
+      String msg = String.format( MSG_ERR_CANT_CREATE_PLUGIN_OBJECT, pluginInfo.pluginId(), pluginInfo.pluginType() );
+      throw new ClassNotFoundException( msg, e );
+    }
   }
 
   @Override
   public Object createPluginInstance( String aPluginId )
       throws ClassNotFoundException {
-    TsNullArgumentRtException.checkNull( aPluginId );
-    IPluginInfo pInfo = id2PluginInfoMap.get( aPluginId );
-    TsItemNotFoundRtException.checkNull( pInfo );
-    checkDependencies( pInfo );
-    File pluginJarFile = new File( pInfo.pluginJarFileName() );
-    TsFileUtils.checkFileReadable( pluginJarFile );
-    try {
-      URL[] serverURLs;
-      serverURLs = new URL[] { pluginJarFile.toURI().toURL() };
-      /**
-       * TODO Тут возникает предупреждение о resource leak - и правильно, вопрос надо решить.
-       * <p>
-       * FIXME mvk указал, что при закрытии ClassLoader-а перестает работать плагин - другие классы оттуда не могут быть
-       * загружены. Однако, возникает проблема - при обновлении плагина, старый ClassLoader остается активным! Нужно
-       * отслеживать, чтобы при обновлении или удалении плагина закрывался бы открытый ClassLoader.
-       * <p>
-       * TODO: 2021-01-05 mvk c переходом на jdk11 проблема осталась (проверено)
-       */
-      // try( URLClassLoader classLoader = new URLClassLoader( serverURLs ) ) {
-      URLClassLoader classLoader = new URLClassLoader( serverURLs );
-      Class<?> cls = classLoader.loadClass( pInfo.pluginClassName() );
-      Constructor<?> defaultConstructor = cls.getConstructor();
-      return defaultConstructor.newInstance();
-      // }
-    }
-    catch( Exception e ) {
-      String msg = String.format( MSG_ERR_CANT_CREATE_PLUGIN_OBJECT, pInfo.pluginId(), pInfo.pluginType() );
-      throw new ClassNotFoundException( msg, e );
-    }
+    return createPlugin( aPluginId ).instance( Object.class );
   }
 
   @Override

@@ -1,9 +1,10 @@
 package org.toxsoft.core.tslib.utils.plugins;
 
-import java.io.*;
+import java.io.File;
 
-import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.IList;
 import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.plugins.impl.IPlugin;
 
 /**
  * Управление поключаемыми модулями одного типа.
@@ -44,6 +45,22 @@ public interface IPluginsStorage {
   IList<IPluginInfo> listPlugins();
 
   /**
+   * Создает экземпляр класса подключаемого модуля (смотри {@link IPlugin#instance(Class)}).
+   * <p>
+   * Создает класс вызовом class.forName() и использованием корректного загрузчика классов из JAR-файла модуля.
+   * Производит проверку зависимостей, и если они не разрешимы, выбрасывает исключение.
+   *
+   * @param aPluginId - идентификатор плагина
+   * @return {@link IPlugin} - загруженный плагин.
+   * @throws TsNullArgumentRtException аргумент = null
+   * @throws TsItemNotFoundRtException нет плагина с таким идентификатором
+   * @throws TsIoRtException ошибка работы с файлом плагина
+   * @throws ClassNotFoundException нельзя разрешить зависимости или отсутствет файл класса в JAR-файле модуля
+   */
+  IPlugin createPlugin( String aPluginId )
+      throws ClassNotFoundException;
+
+  /**
    * Создает экземпляр класса подключаемого модуля.
    * <p>
    * Создает класс вызовом class.forName() и использованием корректного загрузчика классов из JAR-файла модуля.
@@ -55,7 +72,9 @@ public interface IPluginsStorage {
    * @throws TsItemNotFoundRtException нет плагина с таким идентификатором
    * @throws TsIoRtException ошибка работы с файлом плагина
    * @throws ClassNotFoundException нельзя разрешить зависимости или отсутствет файл класса в JAR-файле модуля
+   * @deprecated 2024-05-27 mvk испольовать {@link #createPlugin(String)}
    */
+  @Deprecated
   Object createPluginInstance( String aPluginId )
       throws ClassNotFoundException;
 
