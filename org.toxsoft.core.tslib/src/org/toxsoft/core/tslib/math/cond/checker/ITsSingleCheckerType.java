@@ -9,21 +9,21 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Description of the single condition type.
  *
  * @author hazard157
+ * @param <E> - the checker environment class
  */
-public interface ITsSingleCheckerType
+public interface ITsSingleCheckerType<E>
     extends ITsSingleCondType {
 
   /**
    * Creates the single checker instance.
    *
-   * @param <E> - expected environment class
-   * @param aEnviron &lt;E&gt; - the environment
+   * @param aEnviron Object - the environment
    * @param aCombiCondInfo {@link ITsCombiCondInfo} - the checker description
-   * @return {@link AbstractTsSingleChecker} - created instance
+   * @return {@link ITsChecker} - created instance
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException argument is not of this type
    * @throws TsValidationFailedRtException failed {@link #validateParams(IOptionSet)}
    */
-  <E> AbstractTsSingleChecker<E> create( E aEnviron, ITsSingleCondInfo aCombiCondInfo );
+  ITsChecker create( E aEnviron, ITsSingleCondInfo aCombiCondInfo );
 
 }

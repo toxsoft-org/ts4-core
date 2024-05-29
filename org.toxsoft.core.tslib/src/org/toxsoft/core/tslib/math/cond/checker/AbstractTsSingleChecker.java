@@ -6,7 +6,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * {@link ITsChecker} implementation base.
  *
  * @author hazard157
- * @param <E> - the environment class
+ * @param <E> - the checker environment class
  */
 public abstract class AbstractTsSingleChecker<E>
     implements ITsChecker {
@@ -33,7 +33,7 @@ public abstract class AbstractTsSingleChecker<E>
    *
    * @return &lt;E&gt; - the environment of the condition to be checked
    */
-  public E env() {
+  final public E env() {
     return environ;
   }
 
@@ -43,5 +43,8 @@ public abstract class AbstractTsSingleChecker<E>
 
   @Override
   public abstract boolean checkCondition();
+
+  @Override
+  public abstract void close();
 
 }

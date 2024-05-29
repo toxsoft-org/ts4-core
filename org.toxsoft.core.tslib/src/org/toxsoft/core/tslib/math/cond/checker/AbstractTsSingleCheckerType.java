@@ -12,10 +12,11 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * {@link ITsSingleCheckerType} implementation base.
  *
  * @author dima
+ * @param <E> - the checker environment class
  */
-public abstract class AbstractTsSingleCheckerType
+public abstract class AbstractTsSingleCheckerType<E>
     extends TsSingleCondType
-    implements ITsSingleCheckerType {
+    implements ITsSingleCheckerType<E> {
 
   /**
    * Constructor.
@@ -35,7 +36,7 @@ public abstract class AbstractTsSingleCheckerType
   //
 
   @Override
-  public <E> AbstractTsSingleChecker<E> create( E aEnviron, ITsSingleCondInfo aCombiCondInfo ) {
+  final public AbstractTsSingleChecker<E> create( E aEnviron, ITsSingleCondInfo aCombiCondInfo ) {
     TsNullArgumentRtException.checkNull( aEnviron );
     TsNullArgumentRtException.checkNull( aCombiCondInfo );
     TsIllegalArgumentRtException.checkFalse( aCombiCondInfo.typeId().equals( id() ) );
@@ -52,11 +53,10 @@ public abstract class AbstractTsSingleCheckerType
    * <p>
    * Argument is already checked by {@link #validateParams(IOptionSet)}.
    *
-   * @param <E> - expected environment class
    * @param aEnviron - &lt;E&gt; - the environment
    * @param aParams {@link IOptionSet} - the checker options {@link ITsSingleCondInfo#params()}
    * @return {@link AbstractTsSingleChecker} - created checker
    */
-  protected abstract <E> AbstractTsSingleChecker<E> doCreateChecker( E aEnviron, IOptionSet aParams );
+  protected abstract AbstractTsSingleChecker<E> doCreateChecker( E aEnviron, IOptionSet aParams );
 
 }

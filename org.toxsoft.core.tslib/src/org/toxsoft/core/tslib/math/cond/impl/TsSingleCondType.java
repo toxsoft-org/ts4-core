@@ -100,12 +100,12 @@ public class TsSingleCondType
   //
 
   @Override
-  public IStridablesListEdit<IDataDef> paramDefs() {
+  final public IStridablesListEdit<IDataDef> paramDefs() {
     return paramDefs;
   }
 
   @Override
-  public ValidationResult validateParams( IOptionSet aCondParams ) {
+  final public ValidationResult validateParams( IOptionSet aCondParams ) {
     ValidationResult vr = OptionSetUtils.validateOptionSet( aCondParams, paramDefs );
     if( !vr.isError() ) {
       vr = ValidationResult.firstNonOk( vr, doValidateParams( aCondParams ) );

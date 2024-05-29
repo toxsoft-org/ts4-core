@@ -12,10 +12,10 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * {@link ITsCheckerTopicManager} implementation.
  *
  * @author hazard157
- * @param <E> - the environment class
+ * @param <E> - the checker environment class
  */
 public class TsCheckerTopicManager<E>
-    extends TsConditionsTopicManager<ITsSingleCheckerType>
+    extends TsConditionsTopicManager<ITsSingleCheckerType<E>>
     implements ITsCheckerTopicManager<E> {
 
   private final Class<E> checkEnvironmentClass;
@@ -60,7 +60,7 @@ public class TsCheckerTopicManager<E>
     IStringMapEdit<ITsChecker> singleCheckersMap = new StringMap<>();
     for( String sfId : aCombiCondInfo.singleInfos().keys() ) {
       ITsSingleCondInfo scInf = aCombiCondInfo.singleInfos().getByKey( sfId );
-      ITsSingleCheckerType sfType = typesList().getByKey( scInf.typeId() );
+      ITsSingleCheckerType<E> sfType = typesList().getByKey( scInf.typeId() );
       ITsChecker singleChecker = sfType.create( aEnv, scInf );
       singleCheckersMap.put( sfId, singleChecker );
     }
@@ -68,14 +68,14 @@ public class TsCheckerTopicManager<E>
   }
 
   @Override
-  public void registerType( ITsSingleCheckerType aType ) {
+  public void registerType( ITsSingleCheckerType<E> aType ) {
     TsNullArgumentRtException.checkNull( aType );
     TsItemAlreadyExistsRtException.checkTrue( typesList().hasKey( aType.id() ) );
     typesList().add( aType );
   }
 
   @Override
-  public IStridablesList<ITsSingleCheckerType> singleTypes() {
+  public IStridablesList<ITsSingleCheckerType<E>> singleTypes() {
     return typesList();
   }
 
@@ -89,7 +89,7 @@ public class TsCheckerTopicManager<E>
    * @param aType {@link ITsSingleCheckerType} - the type to register
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public void putType( ITsSingleCheckerType aType ) {
+  public void putType( ITsSingleCheckerType<E> aType ) {
     TsNullArgumentRtException.checkNull( aType );
     typesList().put( aType );
   }

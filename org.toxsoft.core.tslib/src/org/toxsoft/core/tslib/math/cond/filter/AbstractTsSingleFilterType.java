@@ -36,7 +36,7 @@ public abstract class AbstractTsSingleFilterType
   //
 
   @Override
-  public <T> ITsFilter<T> create( ITsSingleCondInfo aCombi ) {
+  final public <T> ITsFilter<T> create( ITsSingleCondInfo aCombi ) {
     TsNullArgumentRtException.checkNull( aCombi );
     TsIllegalArgumentRtException.checkFalse( aCombi.typeId().equals( id() ) );
     TsValidationFailedRtException.checkError( validateParams( aCombi.params() ) );

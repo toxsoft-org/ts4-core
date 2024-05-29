@@ -9,7 +9,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Manages checker types of the one topic.
  *
  * @author hazard157
- * @param <E> - the environment class
+ * @param <E> - the checker environment class
  */
 public interface ITsCheckerTopicManager<E>
     extends ITsConditionsTopicManager {
@@ -25,12 +25,12 @@ public interface ITsCheckerTopicManager<E>
    * Creates the combined checker instance.
    *
    * @param aCombiCondInfo {@link ITsCombiCondInfo} - the combined condition description
-   * @param aEnv &lt;E&gt; - the environment
+   * @param aEnviron &lt;E&gt; - the environment
    * @return {@link ITsChecker}&lt;T&gt; - created combined checker
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsValidationFailedRtException failed {@link #checkCombiCondInfo(ITsCombiCondInfo)}
    */
-  ITsChecker createCombiChecker( ITsCombiCondInfo aCombiCondInfo, E aEnv );
+  ITsChecker createCombiChecker( ITsCombiCondInfo aCombiCondInfo, E aEnviron );
 
   /**
    * Registers the checker type.
@@ -39,13 +39,13 @@ public interface ITsCheckerTopicManager<E>
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsItemAlreadyExistsRtException type with the same ID is already registered
    */
-  void registerType( ITsSingleCheckerType aType );
+  void registerType( ITsSingleCheckerType<E> aType );
 
   /**
    * Returns all single checker types of this topic.
    *
    * @return {@link IStridablesList}&lt;{@link ITsSingleCheckerType}&gt; - list of types
    */
-  IStridablesList<ITsSingleCheckerType> singleTypes();
+  IStridablesList<ITsSingleCheckerType<E>> singleTypes();
 
 }

@@ -113,4 +113,21 @@ public class TsCombiChecker
     return b;
   }
 
+  // ------------------------------------------------------------------------------------
+  // ICloseable
+  //
+
+  @Override
+  public void close() {
+    if( singleChecker != null ) {
+      singleChecker.close();
+    }
+    if( left != null ) {
+      left.close();
+    }
+    if( right != null ) {
+      right.close();
+    }
+  }
+
 }
