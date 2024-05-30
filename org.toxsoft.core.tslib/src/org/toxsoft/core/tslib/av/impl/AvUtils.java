@@ -439,7 +439,7 @@ public class AvUtils {
    * <p>
    * If argument is not recognized as stated above or argument is <code>null</code>, <code>null</code> is returned.
    *
-   * @param aObj {@link Object} - object to be recocnized as {@link IAtomicValue}, may be <code>null</code>
+   * @param aObj {@link Object} - object to be recognized as {@link IAtomicValue}, may be <code>null</code>
    * @return {@link IAtomicValue} - recognized atomic value or <code>null</code>
    */
   public static IAtomicValue avFromObj( Object aObj ) {

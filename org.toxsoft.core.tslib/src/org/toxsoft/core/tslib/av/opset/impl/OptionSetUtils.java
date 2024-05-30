@@ -229,17 +229,20 @@ public class OptionSetUtils {
    * <p>
    * If <code>aDefs</code> contains definition for the option specified in the <i>reduced form</i>, than
    * {@link IDataDef#formatString()} will be used for value formatting.
+   * <p>
+   * Note: both {@link IStridablesList}&lt;{@link IDataDef}&gt; and {@link IStringMap}&lt;{@link IDataType}&gt; may be
+   * supplied as <code>aDefs</code> argument.
    *
    * @param aFmtStr String - the format string
    * @param aArgs {@link IOptionSet} - argument options, may be <code>null</code>
-   * @param aDefs {@link IStridablesList}&lt;{@link IDataDef}&gt; - optional argument options definitions
+   * @param aDefs {@link IMap}&lt;String,{@link IDataType}&gt; - optional argument options definitions
    * @return String - formatted string
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException invalid format string
    * @throws TsItemNotFoundRtException argument ID mentioned in <code>aFmtStr</code> not found in <code>aArgs</code>
    * @throws TsIllegalArgumentRtException value type from <code>aArgs</code> does not matches format specifier type
    */
-  public static String format( String aFmtStr, IOptionSet aArgs, IStridablesList<IDataDef> aDefs ) {
+  public static String format( String aFmtStr, IOptionSet aArgs, IMap<String, IDataType> aDefs ) {
     TsNullArgumentRtException.checkNulls( aFmtStr, aDefs );
     IOptionSet args = aArgs != null ? aArgs : IOptionSet.NULL;
     IStrioReader sr = new StrioReader( new CharInputStreamString( aFmtStr ) );
@@ -277,7 +280,7 @@ public class OptionSetUtils {
           }
           // if not specified, try to use value format string from option definition
           else {
-            IDataDef dd = aDefs.findByKey( opId );
+            IDataType dd = aDefs.findByKey( opId );
             if( dd != null ) {
               fmtStr = dd.formatString();
             }
@@ -294,6 +297,8 @@ public class OptionSetUtils {
 
   /**
    * Formats output string with the arguments from an option set.
+   * <p>
+   * The same formatting rules as for {@link #format(String, IOptionSet, IMap)} applies.
    *
    * @param aFmtStr String - the format string
    * @param aArgs {@link IOptionSet} - argument options, may be <code>null</code>
