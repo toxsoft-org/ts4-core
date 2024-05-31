@@ -488,6 +488,20 @@ public class AvUtils {
   }
 
   /**
+   * Determines the data type of the value returned by {@link #avFromObj(Object)}.
+   * <p>
+   * In case when method {@link #avFromObj(Object)} should return <code>null</code>, this method returns
+   * {@link EAtomicType#NONE}.
+   *
+   * @param aObj {@link Object} - object to be recognized as {@link IAtomicValue}, may be <code>null</code>
+   * @return {@link EAtomicType} - atomic type of the recognized atomic value
+   */
+  public static EAtomicType atFromObj( Object aObj ) {
+    IAtomicValue av = avFromObj( aObj );
+    return av != null ? av.atomicType() : EAtomicType.NONE;
+  }
+
+  /**
    * Converts the keeped text representation of the entity to the atomic value of type {@link EAtomicType#STRING}.
    *
    * @param <T> - entity class
