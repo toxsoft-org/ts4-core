@@ -10,10 +10,10 @@ import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Modelled entity field definition.
+ * Modeled entity field definition.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  * @param <V> - field value type
  */
 public interface IM5FieldDef<T, V>

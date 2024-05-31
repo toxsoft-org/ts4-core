@@ -5,14 +5,14 @@ import org.toxsoft.core.tsgui.m5.model.helpers.*;
 import org.toxsoft.core.tslib.coll.*;
 
 /**
- * Описание поля, которое содержит коллекцию встраиваемых объектов.
+ * Description of the field that contains the collection of embeddable (modown) objects.
  * <p>
- * Поле является владельцем объекта, которые сами описаны моделью {@link #itemModel()}. Отсюда и название Modown -
- * MODelled OWNed object.
+ * The field is the owner of the objects that are themselves described by the {@link #itemModel()} model. Hence the name
+ * Modown - MODelled OWNed object.
  *
  * @author hazard157
- * @param <T> - тип моделированного объекта
- * @param <V> - тип элемента списка (а не тип коллекции!)
+ * @param <T> - modeled entity type
+ * @param <V> - list element type (not collection type!)
  */
 public interface IM5MultiModownFieldDef<T, V>
     extends IM5FieldDef<T, IList<V>>, IM5MixinMultiLinkField, IM5MixinModelledField<V> {

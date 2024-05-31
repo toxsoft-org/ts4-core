@@ -6,6 +6,7 @@ import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.*;
@@ -191,6 +192,17 @@ public final class IdChain
    */
   public IStringList branches() {
     return branches;
+  }
+
+  /**
+   * Shorthand for {@link IList#get(int) branches().get( aIndex )}.
+   *
+   * @param aIndex int - the index of the branch
+   * @return String - the branch value
+   * @throws TsIllegalArgumentRtException index is out of range
+   */
+  public String get( int aIndex ) {
+    return branches.get( aIndex );
   }
 
   /**
