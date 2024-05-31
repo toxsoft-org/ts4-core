@@ -2,13 +2,13 @@ package org.toxsoft.core.tslib.bricks.wub;
 
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import org.toxsoft.core.tslib.av.opset.*;
-import org.toxsoft.core.tslib.av.opset.impl.*;
-import org.toxsoft.core.tslib.bricks.ctx.*;
-import org.toxsoft.core.tslib.bricks.strid.impl.*;
-import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.av.opset.IOptionSet;
+import org.toxsoft.core.tslib.av.opset.impl.OptionSet;
+import org.toxsoft.core.tslib.bricks.ctx.ITsContextRo;
+import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
+import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.logs.impl.*;
+import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
 
 /**
  * {@link IWubUnit} implementation base.
@@ -137,11 +137,11 @@ public non-sealed abstract class AbstractWubUnit
       }
       case INITED:
       case STARTED: { // begin stopping process
+        wuState = EWubUnitState.STOP_QUERIED;
         if( doQueryStop() ) {
           wuState = EWubUnitState.STOPPED;
           return true;
         }
-        wuState = EWubUnitState.STOP_QUERIED;
         return false;
       }
       case STOP_QUERIED: { // already queried, do nothing, return false
