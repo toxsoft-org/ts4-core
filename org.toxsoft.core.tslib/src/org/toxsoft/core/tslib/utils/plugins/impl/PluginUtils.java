@@ -15,6 +15,7 @@ import org.toxsoft.core.tslib.coll.primtypes.IStringMapEdit;
 import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
 import org.toxsoft.core.tslib.utils.TsVersion;
 import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
 import org.toxsoft.core.tslib.utils.plugins.*;
 import org.toxsoft.core.tslib.utils.plugins.IPluginInfo.IDependencyInfo;
 
@@ -177,6 +178,32 @@ public class PluginUtils {
       throw new TsIllegalArgumentRtException( e, MSG_ERR_INV_PLUGIN_VERSION, aPluginId, aFileName );
     }
     return new PluginInfo( aFileName, strType, aPluginId, strClassName, ver, deps, extProps );
+  }
+
+  /**
+   * Проверяет, если требуется создает, указанный каталог.
+   * <p>
+   * Если каталог существует, то ничего не делает.
+   *
+   * @param aDir string имя каталога
+   * @throws TsNullArgumentRtException аргумент = null
+   * @throws TsIllegalArgumentRtException существует файл с тем же именем
+   * @throws TsIllegalArgumentRtException неожиданная ошибка создания каталога.
+   */
+  public static void createIfDirNotExist( String aDir ) {
+    TsNullArgumentRtException.checkNull( aDir );
+    File file = new File( aDir );
+    if( file.exists() ) {
+      // Существует ли файл с именем каталога
+      TsIllegalArgumentRtException.checkFalse( file.isDirectory(), MSG_ERR_CANT_CREATE_DIR_NAME_CONFLICT, aDir );
+      return;
+    }
+    if( !file.isDirectory() ) {
+      // Каталог не существует. Создание
+      TsIllegalArgumentRtException.checkFalse( file.mkdir(), MSG_ERR_CANT_CREATE_DIR, aDir );
+      // Запись в журнал
+      LoggerUtils.defaultLogger().warning( MSG_CREATE_DIR, aDir );
+    }
   }
 
   /**

@@ -17,7 +17,7 @@ public class PluginUnit
   private final Plugin plugin;
 
   /**
-   * Конструктор
+   * Конструктор.
    *
    * @param aId String идентификатор компонента
    * @param aParams {@link IOptionSet} параметры компонента

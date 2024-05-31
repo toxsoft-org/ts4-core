@@ -2,12 +2,15 @@ package org.toxsoft.core.tslib.utils.plugins.impl;
 
 import static org.toxsoft.core.tslib.utils.plugins.impl.ITsResources.*;
 
+import java.io.File;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.net.URLClassLoader;
 
 import org.toxsoft.core.tslib.bricks.events.AbstractTsEventer;
 import org.toxsoft.core.tslib.bricks.events.ITsEventer;
+import org.toxsoft.core.tslib.coll.IList;
+import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
 import org.toxsoft.core.tslib.utils.ICloseable;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
@@ -39,7 +42,7 @@ final class Plugin
     TsNullArgumentRtException.checkNulls( aClassPath, aPluginInfo, aListener );
     try {
       info = aPluginInfo;
-      classLoader = new URLClassLoader( aClassPath );
+      classLoader = new URLClassLoader( aPluginInfo.pluginId(), aClassPath, getClass().getClassLoader() );
       Class<?> cls = classLoader.loadClass( aPluginInfo.pluginClassName() );
       Constructor<?> defaultConstructor = cls.getConstructor();
       instance = defaultConstructor.newInstance();
@@ -57,7 +60,15 @@ final class Plugin
   @Override
   public void close() {
     try {
+      // classpath загрузчика классов
+      URL[] classpath = classLoader.getURLs();
+      // Завершение работы загрузчика классов
       classLoader.close();
+      // Удаление временных файлов
+      for( URL fileURL : classpath ) {
+        File file = new File( fileURL.toURI() );
+        file.delete();
+      }
     }
     catch( Throwable e ) {
       LoggerUtils.errorLogger().error( e );
@@ -123,7 +134,11 @@ final class Plugin
         isPending = true;
         return;
       }
-      for( IPluginListener l : listeners() ) {
+      IList<IPluginListener> listeners = new ElemArrayList<>( listeners() );
+      // // Слушатели получают сообщение о выгрузке только один раз
+      // eventer.clearListenersList();
+      // Оповещение
+      for( IPluginListener l : listeners ) {
         try {
           l.onClose( Plugin.this );
         }

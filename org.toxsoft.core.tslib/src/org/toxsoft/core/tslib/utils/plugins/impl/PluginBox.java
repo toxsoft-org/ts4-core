@@ -7,9 +7,9 @@ import java.io.File;
 import org.toxsoft.core.tslib.av.opset.IOptionSet;
 import org.toxsoft.core.tslib.bricks.ctx.ITsContextRo;
 import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.bricks.wub.AbstractWubUnit;
-import org.toxsoft.core.tslib.bricks.wub.WubBox;
+import org.toxsoft.core.tslib.bricks.wub.*;
 import org.toxsoft.core.tslib.coll.IList;
+import org.toxsoft.core.tslib.coll.IListEdit;
 import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
 import org.toxsoft.core.tslib.coll.primtypes.IStringList;
 import org.toxsoft.core.tslib.utils.errors.TsIllegalStateRtException;
@@ -45,6 +45,21 @@ public class PluginBox<T extends PluginUnit>
     super( aId, aParams );
   }
 
+  /**
+   * Возвращает список загруженных плагинов.
+   *
+   * @return {@link IList}&lt;{@link IPlugin}&gt; список загруженных плагинов.
+   * @throws TsIllegalStateRtException контейнер не инициализирован
+   */
+  public synchronized IList<IPlugin> listPlugins() {
+    IListEdit<IPlugin> retValue = new ElemArrayList<>();
+    TsIllegalStateRtException.checkFalse( wubBox != null && !wubBox.isStopped() );
+    for( IWubUnit unit : wubBox.unitsList() ) {
+      retValue.add( ((PluginUnit)unit).plugin() );
+    }
+    return retValue;
+  }
+
   // ------------------------------------------------------------------------------------
   // AbstractWubUnit
   //
@@ -55,11 +70,11 @@ public class PluginBox<T extends PluginUnit>
     wubBox = new WubBox( id(), params );
     // Создание хранилища плагинов
     storage = new PluginStorage( PLUGIN_TYPE_ID.getValue( params ).asString() );
-    for( String path : (IStringList)PLUGIN_JAR_PATHS.getValue( params ).asValobj() ) {
+    for( String path : (IStringList)PLUGINS_DIR.getValue( params ).asValobj() ) {
       storage.addPluginJarPath( new File( path ), false ); // aIncludeSubDirs = false
     }
-    // Загрузка компонентов контейнера
-    loadUnits( storage.listPlugins() );
+    // Конфигурация каталога для хранения временных файлов
+    storage.setTemporaryDir( TMP_DIR.getValue( params ).asString(), CLEAN_TMP_DIR.getValue( params ).asBool() );
     // Инициализация контейнера
     wubBox.init( aEnviron );
 
@@ -69,12 +84,15 @@ public class PluginBox<T extends PluginUnit>
   @Override
   protected synchronized void doStart() {
     wubBox.start();
+    // Загрузка компонентов контейнера
+    loadUnits( storage.listPlugins() );
   }
 
   @Override
   protected synchronized void doDoJob() {
-    IChangedPluginsInfo changes = storage.getChanges();
-    if( changes.isChanges() ) {
+    if( storage.checkChanges() ) {
+      // Изменение состояния хранилища. Запрос изменений
+      IChangedPluginsInfo changes = storage.getChanges();
       // Загрузка компонентов контейнера добавленных плагинов
       loadUnits( changes.listAddedPlugins() );
       // Загрузка компонентов контейнера измененных плагинов
@@ -144,7 +162,7 @@ public class PluginBox<T extends PluginUnit>
       // Идентификатор плагина
       String pluginId = aPluginInfo.pluginId();
       // Загрузка плагина
-      IPlugin plugin = storage.createPlugin( pluginId );
+      IPlugin plugin = storage.loadPlugin( pluginId );
       // Создание компонента контейнера
       T unit = doCreateUnit( pluginId, plugin );
       // "Защита от дурака"

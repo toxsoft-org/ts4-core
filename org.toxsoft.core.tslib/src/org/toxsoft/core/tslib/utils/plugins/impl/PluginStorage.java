@@ -1,12 +1,15 @@
 package org.toxsoft.core.tslib.utils.plugins.impl;
 
 import static org.toxsoft.core.tslib.utils.plugins.impl.ITsResources.*;
+import static org.toxsoft.core.tslib.utils.plugins.impl.PluginUtils.*;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
+import org.toxsoft.core.tslib.bricks.strid.idgen.IStridGenerator;
+import org.toxsoft.core.tslib.bricks.strid.idgen.UuidStridGenerator;
 import org.toxsoft.core.tslib.coll.IList;
 import org.toxsoft.core.tslib.coll.IListEdit;
 import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
@@ -15,6 +18,7 @@ import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
 import org.toxsoft.core.tslib.utils.TsLibUtils;
 import org.toxsoft.core.tslib.utils.TsVersion;
 import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.files.IFileOperationProgressCallback;
 import org.toxsoft.core.tslib.utils.files.TsFileUtils;
 import org.toxsoft.core.tslib.utils.plugins.*;
 import org.toxsoft.core.tslib.utils.plugins.IChangedPluginsInfo.IChangedPluginInfo;
@@ -30,7 +34,12 @@ class PluginStorage
     implements IPluginsStorage {
 
   /**
-   * Хранит и накапливает изменения плагинов между вызовами getChanges()
+   * Каталог размещения временных файлов по умолчанию.
+   */
+  public static final String TEMPORARY_DIR_DEFAULT = "ts_temp"; //$NON-NLS-1$
+
+  /**
+   * Хранит и накапливает изменения плагинов между вызовами getChanges().
    */
   private ChangedPluginsInfo changedModulesInfo = new ChangedPluginsInfo();
 
@@ -51,7 +60,7 @@ class PluginStorage
   private IStringMapEdit<IListEdit<Plugin>> plugins = new StringMap<>();
 
   /**
-   * Храним тип плагинов.
+   * Тип обрабатываемых плагинов. Пустая строка - любой тип.
    */
   private String plugInType;
 
@@ -88,9 +97,29 @@ class PluginStorage
     }
   }
 
+  /**
+   * Каталог временных файлов по умолчанию.
+   */
+  private String temporaryDir = TEMPORARY_DIR_DEFAULT;
+
+  /**
+   * Генератор идентификаторов временных файлов.
+   */
+  private static final IStridGenerator filenameGenerator =
+      new UuidStridGenerator( UuidStridGenerator.createState( "content" ) ); //$NON-NLS-1$
+
+  /**
+   * Конструктор
+   *
+   * @param aPlugInType String тип обрабатываемых плагинов. Пустая строка - любой тип
+   * @throws TsNullArgumentRtException аргумент = null
+   */
   public PluginStorage( String aPlugInType ) {
     TsNullArgumentRtException.checkNull( aPlugInType );
     plugInType = aPlugInType;
+    // Установка каталога для временных файлов по умолчанию. aNeedClean = true.
+    String td = System.getProperty( "java.io.tmpdir" ) + File.separator + TEMPORARY_DIR_DEFAULT; //$NON-NLS-1$
+    setTemporaryDir( td, true );
   }
 
   /**
@@ -482,22 +511,39 @@ class PluginStorage
   }
 
   @Override
+  public void setTemporaryDir( String aDir, boolean aNeedClean ) {
+    TsNullArgumentRtException.checkNull( aDir );
+    File dir = new File( aDir );
+    if( aNeedClean && dir.exists() ) {
+      // Очистка каталога
+      TsFileUtils.deleteDirectory( dir, IFileOperationProgressCallback.NULL );
+    }
+    // Проверка и если треубется создание каталога
+    createIfDirNotExist( aDir );
+    temporaryDir = aDir;
+  }
+
+  @Override
   public IList<IPluginInfo> listPlugins() {
     return pluginInfos.values();
   }
 
   @Override
-  public IPlugin createPlugin( String aPluginId )
+  public IPlugin loadPlugin( String aPluginId )
       throws ClassNotFoundException {
     TsNullArgumentRtException.checkNull( aPluginId );
     IPluginInfo pluginInfo = pluginInfos.getByKey( aPluginId );
     checkDependencies( pluginInfo );
     File pluginJarFile = new File( pluginInfo.pluginJarFileName() );
     TsFileUtils.checkFileReadable( pluginJarFile );
+    // Плагин загружается из его копии во временном каталоге, чтобы его можно
+    File temporaryFile = new File( temporaryDir + File.separator + filenameGenerator.nextId() );
     try {
-      URL[] serverURLs;
-      serverURLs = new URL[] { pluginJarFile.toURI().toURL() };
-      Plugin plugin = new Plugin( serverURLs, pluginInfo, aPlugin -> {
+      // Подготовка временного файла
+      TsFileUtils.copyFile( pluginJarFile, temporaryFile );
+      // classpath для загрузки плагина
+      URL[] classpath = { temporaryFile.toURI().toURL() };
+      Plugin plugin = new Plugin( classpath, pluginInfo, aPlugin -> {
         // Обработка выгрузки плагина - удаление всех созданных экземпляров
         IListEdit<Plugin> instances = plugins.findByKey( aPluginId );
         if( instances != null ) {
@@ -517,15 +563,10 @@ class PluginStorage
       return plugin;
     }
     catch( Exception e ) {
+      temporaryFile.delete();
       String msg = String.format( MSG_ERR_CANT_CREATE_PLUGIN_OBJECT, pluginInfo.pluginId(), pluginInfo.pluginType() );
       throw new ClassNotFoundException( msg, e );
     }
-  }
-
-  @Override
-  public Object createPluginInstance( String aPluginId )
-      throws ClassNotFoundException {
-    return createPlugin( aPluginId ).instance( Object.class );
   }
 
   @Override
@@ -563,5 +604,4 @@ class PluginStorage
     changedModulesInfo = new ChangedPluginsInfo();
     return retVal;
   }
-
 }

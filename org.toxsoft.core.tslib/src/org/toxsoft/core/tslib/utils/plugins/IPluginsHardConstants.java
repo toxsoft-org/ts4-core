@@ -136,14 +136,40 @@ public interface IPluginsHardConstants {
   /**
    * Пути размещения jar-файлов для плагинов.
    * <p>
-   * Тип: {@link EAtomicType#INTEGER}({@link IStringList})<br>
+   * Тип: {@link EAtomicType#VALOBJ}({@link IStringList})<br>
    * Значение по умолчанию: "plugins".
    */
-  IDataDef PLUGIN_JAR_PATHS = DataDef.create( "PluginBox.pluginJarPaths", VALOBJ, //$NON-NLS-1$
-      TSID_NAME, E_N_PLOPS_PLUGIN_JAR_PATHS, //
-      TSID_DESCRIPTION, E_D_PLOPS_PLUGIN_JAR_PATHS, //
+  IDataDef PLUGINS_DIR = DataDef.create( "PluginBox.pluginsDir", VALOBJ, //$NON-NLS-1$
+      TSID_NAME, E_N_PLOPS_PLUGINS_DIR, //
+      TSID_DESCRIPTION, E_D_PLOPS_PLUGINS_DIR, //
       TSID_KEEPER_ID, StringListKeeper.KEEPER_ID, //
       TSID_DEFAULT_VALUE, avValobj( new StringArrayList( "plugins" ) ) // //$NON-NLS-1$
+  );
+
+  /**
+   * Пути размещения каталога временных файлов для работы с плагинами.
+   * <p>
+   * Тип: {@link EAtomicType#STRING}<br>
+   * Значение по умолчанию: "tmp".
+   */
+  IDataDef TMP_DIR = DataDef.create( "PluginBox.tmpDir", STRING, //$NON-NLS-1$
+      TSID_NAME, E_N_PLOPS_TMP_DIR, //
+      TSID_DESCRIPTION, E_D_PLOPS_TMP_DIR, //
+      TSID_IS_MANDATORY, AV_FALSE, //
+      TSID_DEFAULT_VALUE, avStr( "tmp" ) // //$NON-NLS-1$
+  );
+
+  /**
+   * Требование удалять все файлы в каталоге временных файлов #{@link IPluginsHardConstants#TMP_DIR} при запуске.
+   * <p>
+   * Тип: {@link EAtomicType#BOOLEAN}<br>
+   * Значение по умолчанию: true
+   */
+  IDataDef CLEAN_TMP_DIR = DataDef.create( "PluginBox.cleanTmpDir", BOOLEAN, //$NON-NLS-1$
+      TSID_NAME, E_N_PLOPS_CLEAN_TMP_DIR, //
+      TSID_DESCRIPTION, E_D_PLOPS_CLEAN_TMP_DIR, //
+      TSID_IS_MANDATORY, AV_FALSE, //
+      TSID_DEFAULT_VALUE, avBool( true ) //
   );
 
 }

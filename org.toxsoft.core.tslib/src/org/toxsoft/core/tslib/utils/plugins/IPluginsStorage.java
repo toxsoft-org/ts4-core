@@ -35,6 +35,14 @@ public interface IPluginsStorage {
   void addPluginJarPath( File aPath, boolean aIncludeSubDirs );
 
   /**
+   * Установить каталог для временных файлов
+   *
+   * @param aDir String каталог для временных файлов
+   * @param aNeedClean boolean <b>true</b> удалить в каталоге все файлы и директории; <b>false</b> не очищать каталог.
+   */
+  void setTemporaryDir( String aDir, boolean aNeedClean );
+
+  /**
    * Возвращает текущий перечень модулей, находящихся в пути поиска.
    * <p>
    * Внимание! Этот метод НЕ производит повторное сканирование директории, а использует список модулей, сформированный
@@ -45,37 +53,19 @@ public interface IPluginsStorage {
   IList<IPluginInfo> listPlugins();
 
   /**
-   * Создает экземпляр класса подключаемого модуля (смотри {@link IPlugin#instance(Class)}).
+   * Загружает плагин и создает экземпляр класса подключаемого модуля (смотри {@link IPlugin#instance(Class)}).
    * <p>
-   * Создает класс вызовом class.forName() и использованием корректного загрузчика классов из JAR-файла модуля.
-   * Производит проверку зависимостей, и если они не разрешимы, выбрасывает исключение.
+   * Создает класс вызовом {@link ClassLoader#loadClass(String)} и использованием корректного загрузчика классов из
+   * JAR-файла модуля. Производит проверку зависимостей, и если они не разрешимы, выбрасывает исключение.
    *
-   * @param aPluginId - идентификатор плагина
+   * @param aPluginId String - идентификатор плагина
    * @return {@link IPlugin} - загруженный плагин.
    * @throws TsNullArgumentRtException аргумент = null
    * @throws TsItemNotFoundRtException нет плагина с таким идентификатором
    * @throws TsIoRtException ошибка работы с файлом плагина
    * @throws ClassNotFoundException нельзя разрешить зависимости или отсутствет файл класса в JAR-файле модуля
    */
-  IPlugin createPlugin( String aPluginId )
-      throws ClassNotFoundException;
-
-  /**
-   * Создает экземпляр класса подключаемого модуля.
-   * <p>
-   * Создает класс вызовом class.forName() и использованием корректного загрузчика классов из JAR-файла модуля.
-   * Производит проверку зависимостей, и если они не разрешимы, выбрасывает исключение.
-   *
-   * @param aPluginId - идентификатор плагина
-   * @return Object - созданный класс (экземпляр) плагина
-   * @throws TsNullArgumentRtException аргумент = null
-   * @throws TsItemNotFoundRtException нет плагина с таким идентификатором
-   * @throws TsIoRtException ошибка работы с файлом плагина
-   * @throws ClassNotFoundException нельзя разрешить зависимости или отсутствет файл класса в JAR-файле модуля
-   * @deprecated 2024-05-27 mvk испольовать {@link #createPlugin(String)}
-   */
-  @Deprecated
-  Object createPluginInstance( String aPluginId )
+  IPlugin loadPlugin( String aPluginId )
       throws ClassNotFoundException;
 
   /**

@@ -86,7 +86,7 @@ public class PluginManagerComponent
   public Object createPluginInstance( String aPluginId ) {
     TsIllegalStateRtException.checkNull( storage );
     try {
-      return storage.createPlugin( aPluginId ).instance( Object.class );
+      return storage.loadPlugin( aPluginId ).instance( Object.class );
     }
     catch( ClassNotFoundException e ) {
       throw new TsItemNotFoundRtException( e );
