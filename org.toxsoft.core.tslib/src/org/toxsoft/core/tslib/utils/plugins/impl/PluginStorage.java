@@ -519,7 +519,7 @@ class PluginStorage
       TsFileUtils.deleteDirectory( dir, IFileOperationProgressCallback.NULL );
     }
     // Проверка и если треубется создание каталога
-    createIfDirNotExist( aDir );
+    createDirIfNotExist( aDir );
     temporaryDir = aDir;
   }
 

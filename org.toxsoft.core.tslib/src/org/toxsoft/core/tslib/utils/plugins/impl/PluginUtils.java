@@ -190,7 +190,7 @@ public class PluginUtils {
    * @throws TsIllegalArgumentRtException существует файл с тем же именем
    * @throws TsIllegalArgumentRtException неожиданная ошибка создания каталога.
    */
-  public static void createIfDirNotExist( String aDir ) {
+  public static void createDirIfNotExist( String aDir ) {
     TsNullArgumentRtException.checkNull( aDir );
     File file = new File( aDir );
     if( file.exists() ) {
