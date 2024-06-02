@@ -1,11 +1,12 @@
 package org.toxsoft.core.tslib.utils.plugins.impl;
 
-import org.toxsoft.core.tslib.coll.*;
-import org.toxsoft.core.tslib.coll.impl.*;
-import org.toxsoft.core.tslib.coll.primtypes.*;
-import org.toxsoft.core.tslib.utils.*;
-import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.plugins.*;
+import org.toxsoft.core.tslib.coll.IList;
+import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
+import org.toxsoft.core.tslib.coll.primtypes.IStringMap;
+import org.toxsoft.core.tslib.utils.TsVersion;
+import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
+import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.utils.plugins.IPluginInfo;
 
 /**
  * неизменяемый класс - реализация интерфейса IPluginInfo.
@@ -90,7 +91,7 @@ class PluginInfo
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса IPluginInfo
+  // IPluginInfo
   //
 
   @Override

@@ -1,6 +1,6 @@
 package org.toxsoft.core.tslib.utils.plugins.impl;
 
-import org.toxsoft.core.tslib.utils.plugins.*;
+import org.toxsoft.core.tslib.utils.plugins.IPluginsHardConstants;
 
 /**
  * Localizable resources.
@@ -38,14 +38,16 @@ interface ITsResources {
   /**
    * {@link PluginStorage}
    */
+  String MSG_CREATE_DIR                    = "Created dir: %s";                                         //$NON-NLS-1$
   String MSG_ERR_CANT_CREATE_PLUGIN_OBJECT = Messages.getString( "MSG_ERR_CANT_CREATE_PLUGIN_OBJECT" ); //$NON-NLS-1$
 
   String MSG_ERR_CANT_RESOLVE_DEPENDENCE_TYPE = Messages.getString( "MSG_ERR_CANT_RESOLVE_DEPENDENCE_TYPE" ); //$NON-NLS-1$
 
-  String MSG_ERR_FOR_DEPENDENCE             = Messages.getString( "MSG_ERR_FOR_DEPENDENCE" );             //$NON-NLS-1$
-  String MSG_ERR_EXACT_VERSION_NUMBER       = Messages.getString( "MSG_ERR_EXACT_VERSION_NUMBER" );       //$NON-NLS-1$
-  String MSG_ERR_NEED_NEWER_VERSION_NUMBER  = Messages.getString( "MSG_ERR_NEED_NEWER_VERSION_NUMBER" );  //$NON-NLS-1$
-  String MSG_ERR_AVAILABLE_VERSION_NUMBER   = Messages.getString( "MSG_ERR_AVAILABLE_VERSION_NUMBER" );   //$NON-NLS-1$
-  String MSG_ERR_CANT_RESOLVE_DEPENDENCE_ID = Messages.getString( "MSG_ERR_CANT_RESOLVE_DEPENDENCE_ID" ); //$NON-NLS-1$
-
+  String MSG_ERR_FOR_DEPENDENCE                = Messages.getString( "MSG_ERR_FOR_DEPENDENCE" );                   //$NON-NLS-1$
+  String MSG_ERR_EXACT_VERSION_NUMBER          = Messages.getString( "MSG_ERR_EXACT_VERSION_NUMBER" );             //$NON-NLS-1$
+  String MSG_ERR_NEED_NEWER_VERSION_NUMBER     = Messages.getString( "MSG_ERR_NEED_NEWER_VERSION_NUMBER" );        //$NON-NLS-1$
+  String MSG_ERR_AVAILABLE_VERSION_NUMBER      = Messages.getString( "MSG_ERR_AVAILABLE_VERSION_NUMBER" );         //$NON-NLS-1$
+  String MSG_ERR_CANT_RESOLVE_DEPENDENCE_ID    = Messages.getString( "MSG_ERR_CANT_RESOLVE_DEPENDENCE_ID" );       //$NON-NLS-1$
+  String MSG_ERR_CANT_CREATE_DIR               = "Can't create directory %s.";                                     //$NON-NLS-1$
+  String MSG_ERR_CANT_CREATE_DIR_NAME_CONFLICT = "Can't create directory %s. There is a file with the same name!"; //$NON-NLS-1$
 }

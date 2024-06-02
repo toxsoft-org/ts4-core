@@ -2,10 +2,10 @@ package org.toxsoft.core.tslib.utils.plugins.impl;
 
 import static org.toxsoft.core.tslib.utils.plugins.IPluginsHardConstants.*;
 
-import java.io.*;
+import java.io.File;
 
-import org.toxsoft.core.tslib.av.opset.*;
-import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.av.opset.IOptionSet;
+import org.toxsoft.core.tslib.coll.IList;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.plugins.*;
 
@@ -86,7 +86,7 @@ public class PluginManagerComponent
   public Object createPluginInstance( String aPluginId ) {
     TsIllegalStateRtException.checkNull( storage );
     try {
-      return storage.createPluginInstance( aPluginId );
+      return storage.loadPlugin( aPluginId ).instance( Object.class );
     }
     catch( ClassNotFoundException e ) {
       throw new TsItemNotFoundRtException( e );

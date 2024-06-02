@@ -5,12 +5,15 @@ import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import static org.toxsoft.core.tslib.utils.plugins.ITsResources.*;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Constructor;
 
-import org.toxsoft.core.tslib.av.*;
-import org.toxsoft.core.tslib.av.impl.*;
-import org.toxsoft.core.tslib.av.metainfo.*;
-import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.av.EAtomicType;
+import org.toxsoft.core.tslib.av.impl.DataDef;
+import org.toxsoft.core.tslib.av.metainfo.IDataDef;
+import org.toxsoft.core.tslib.bricks.keeper.std.StringListKeeper;
+import org.toxsoft.core.tslib.coll.primtypes.IStringList;
+import org.toxsoft.core.tslib.coll.primtypes.impl.StringArrayList;
+import org.toxsoft.core.tslib.utils.TsVersion;
 
 /**
  * Plugin manager constants.
@@ -105,29 +108,68 @@ public interface IPluginsHardConstants {
   //
 
   /**
-   * Тип плагинов, обрабатываемых компонентой.<br>
-   * Тип данных: примитивный {@link EAtomicType#STRING}<br>
+   * Тип плагинов, обрабатываемых компонентой.
+   * <p>
+   * Тип: {@link EAtomicType#STRING}<br>
    * Формат: ИД-путь или пустая строка (обозначает все типы плагинов)<br>
-   * Значение по умолчанию: "foo"
+   * Значение по умолчанию: пустая строка
    */
   IDataDef PLUGIN_TYPE_ID = DataDef.create( "PluginManager.pluginTypeID", STRING, //$NON-NLS-1$
       TSID_NAME, E_N_PLOPS_PLUGIN_TYPE_ID, //
       TSID_DESCRIPTION, E_D_PLOPS_PLUGIN_TYPE_ID, //
-      TSID_IS_MANDATORY, AV_TRUE, //
-      TSID_DEFAULT_VALUE, avStr( "foo" ) //$NON-NLS-1$
-  );
+      TSID_IS_MANDATORY, AV_FALSE, //
+      TSID_DEFAULT_VALUE, AV_STR_EMPTY );
 
   /**
-   * Интервал времени (мсек) между проверками директория на обновление плагинов.<br>
-   * Тип данных: примитивный {@link EAtomicType#INTEGER}<br>
-   * Формат: положительное целое числе, интервал вв миллисекундах, не менее 10000<br>
-   * Значение по умолчанию: 300_000 (5 минут)
+   * Интервал времени (мсек) между проверками директория на обновление плагинов.
+   * <p>
+   * Тип: {@link EAtomicType#INTEGER}<br>
+   * Значение по умолчанию: 1000 (1 секунда)
    */
   IDataDef DIR_CHECK_INTERVAL = DataDef.create( "PluginManager.dirCheckInterval", INTEGER, //$NON-NLS-1$
       TSID_NAME, E_N_PLOPS_DIR_CHECK_INTERVAL, //
       TSID_DESCRIPTION, E_D_PLOPS_DIR_CHECK_INTERVAL, //
       TSID_IS_MANDATORY, AV_FALSE, //
-      TSID_DEFAULT_VALUE, avInt( 300_000 ) //
+      TSID_DEFAULT_VALUE, avInt( 1000 ) //
+  );
+
+  /**
+   * Пути размещения jar-файлов для плагинов.
+   * <p>
+   * Тип: {@link EAtomicType#VALOBJ}({@link IStringList})<br>
+   * Значение по умолчанию: "plugins".
+   */
+  IDataDef PLUGINS_DIR = DataDef.create( "PluginBox.pluginsDir", VALOBJ, //$NON-NLS-1$
+      TSID_NAME, E_N_PLOPS_PLUGINS_DIR, //
+      TSID_DESCRIPTION, E_D_PLOPS_PLUGINS_DIR, //
+      TSID_KEEPER_ID, StringListKeeper.KEEPER_ID, //
+      TSID_DEFAULT_VALUE, avValobj( new StringArrayList( "plugins" ) ) // //$NON-NLS-1$
+  );
+
+  /**
+   * Пути размещения каталога временных файлов для работы с плагинами.
+   * <p>
+   * Тип: {@link EAtomicType#STRING}<br>
+   * Значение по умолчанию: "tmp".
+   */
+  IDataDef TMP_DIR = DataDef.create( "PluginBox.tmpDir", STRING, //$NON-NLS-1$
+      TSID_NAME, E_N_PLOPS_TMP_DIR, //
+      TSID_DESCRIPTION, E_D_PLOPS_TMP_DIR, //
+      TSID_IS_MANDATORY, AV_FALSE, //
+      TSID_DEFAULT_VALUE, avStr( "tmp" ) // //$NON-NLS-1$
+  );
+
+  /**
+   * Требование удалять все файлы в каталоге временных файлов #{@link IPluginsHardConstants#TMP_DIR} при запуске.
+   * <p>
+   * Тип: {@link EAtomicType#BOOLEAN}<br>
+   * Значение по умолчанию: true
+   */
+  IDataDef CLEAN_TMP_DIR = DataDef.create( "PluginBox.cleanTmpDir", BOOLEAN, //$NON-NLS-1$
+      TSID_NAME, E_N_PLOPS_CLEAN_TMP_DIR, //
+      TSID_DESCRIPTION, E_D_PLOPS_CLEAN_TMP_DIR, //
+      TSID_IS_MANDATORY, AV_FALSE, //
+      TSID_DEFAULT_VALUE, avBool( true ) //
   );
 
 }
