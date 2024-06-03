@@ -70,7 +70,7 @@ public final class Skid
 
   private final String  classId;
   private final String  strid;
-  private String        canonicalString = null; // lasy initialization in #canonicalString()
+  private String        canonicalString = null; // lazy initialization in #canonicalString()
   private transient int hashCode        = 0;
 
   /**
@@ -249,6 +249,24 @@ public final class Skid
    */
   public String strid() {
     return strid;
+  }
+
+  /**
+   * Determines if argument is a valid canonical string.
+   *
+   * @param aCanonicalString String - the canonical textual representation or {@link #CANONICAL_STRING_NONE}
+   * @return boolean - <code>true</code> if argument is syntactic valid canonical string
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static boolean isValidCanonicalString( String aCanonicalString ) {
+    // TODO temporary code, to be rewritten without using exceptions in logic
+    try {
+      of( aCanonicalString );
+      return true;
+    }
+    catch( Exception ex ) {
+      return false;
+    }
   }
 
 }
