@@ -24,6 +24,7 @@ import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.gw.gwid.*;
 import org.toxsoft.core.tslib.gw.skid.*;
+import org.toxsoft.core.tslib.gw.ugwi.*;
 import org.toxsoft.core.tslib.math.*;
 import org.toxsoft.core.tslib.math.cond.impl.*;
 import org.toxsoft.core.tslib.utils.*;
@@ -112,6 +113,7 @@ public class TsValobjUtils {
     registerKeeper( EDiffNature.KEEPER_ID, EDiffNature.KEEPER );
     registerKeeper( TsCombiCondInfo.KEEPER_ID, TsCombiCondInfo.KEEPER );
     registerKeeper( PluginFileRequirement.KEEPER_ID, PluginFileRequirement.KEEPER );
+    registerKeeper( Ugwi.KEEPER_ID, Ugwi.KEEPER );
   }
 
   // ------------------------------------------------------------------------------------
