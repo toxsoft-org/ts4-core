@@ -266,16 +266,15 @@ public class ViselLabel
   }
 
   @Override
-  protected ID2Point getPackedSize( double aWidth, double aHeight ) {
+  public ID2Point getPackedSize( double aWidth, double aHeight ) {
     TsBorderInfo bi = props().getValobj( PROPID_BORDER_INFO );
     if( bi.kind() == ETsBorderKind.NONE ) {
       GC gc = null;
       try {
         gc = new GC( getShell() );
+        gc.setFont( font );
         Point p = gc.textExtent( props().getStr( PROPID_TEXT ) );
-        double w = props().getInt( PROPID_LEFT_INDENT ) + p.x + props().getInt( PROPID_RIGHT_INDENT );
-        double h = props().getInt( PROPID_TOP_INDENT ) + p.y + props().getInt( PROPID_BOTTOM_INDENT );
-        return new D2Point( w, h );
+        return new D2Point( p.x, p.y );
       }
       finally {
         if( gc != null ) {
@@ -285,6 +284,16 @@ public class ViselLabel
 
     }
     return super.getPackedSize( aWidth, aHeight );
+  }
+
+  @Override
+  protected void beforePack() {
+    props().propsEventer().pauseFiring();
+    props().setInt( PROPID_LEFT_INDENT, 0 );
+    props().setInt( PROPID_TOP_INDENT, 0 );
+    props().setInt( PROPID_RIGHT_INDENT, 0 );
+    props().setInt( PROPID_BOTTOM_INDENT, 0 );
+    props().propsEventer().resumeFiring( true );
   }
 
   // ------------------------------------------------------------------------------------

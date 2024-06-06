@@ -286,6 +286,10 @@ public abstract class VedAbstractVisel
     return false;
   }
 
+  protected void beforePack() {
+    // nop
+  }
+
   // ------------------------------------------------------------------------------------
   // API
   //
@@ -314,23 +318,6 @@ public abstract class VedAbstractVisel
     return zoom * (tsf.yPerc() * height) / 100.;
   }
 
-  // ------------------------------------------------------------------------------------
-  // Action handlers
-  //
-
-  /**
-   * Reduces visel size to its minimal meaningful size.<br>
-   * by default - does nothig.
-   */
-  private final void pack() {
-    ID2Point p = getPackedSize( -1., -1. );
-    setSize( p.x(), p.y() );
-  }
-
-  // ------------------------------------------------------------------------------------
-  // Implementation
-  //
-
   /**
    * Возвращает упакованный размер визуального элемента если один из aWidth или aHeight < 0.0, то соответствующее
    * измерение вычисляется (запрос типа "Дай минимальную высоту при заданной ширине"). А если оба меньше нуля, то
@@ -341,9 +328,23 @@ public abstract class VedAbstractVisel
    * @param aHeight double - желаемая высота или -1
    * @return {@link ID2Point} - упакованный размер визуального элемента
    */
-  protected ID2Point getPackedSize( double aWidth, double aHeight ) {
+  public ID2Point getPackedSize( double aWidth, double aHeight ) {
     ID2Rectangle r = bounds();
     return new D2Point( r.width(), r.height() );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Action handlers
+  //
+
+  /**
+   * Reduces visel size to its minimal meaningful size.<br>
+   * by default - does nothig.
+   */
+  private final void pack() {
+    beforePack();
+    ID2Point p = getPackedSize( -1., -1. );
+    setSize( p.x(), p.y() );
   }
 
 }

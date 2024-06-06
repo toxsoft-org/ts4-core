@@ -147,7 +147,7 @@ public class ViselCheckbox
   }
 
   @Override
-  protected ID2Point getPackedSize( double aWidth, double aHeight ) {
+  public ID2Point getPackedSize( double aWidth, double aHeight ) {
     return btnRenderer.getPackedSize( aWidth, aHeight );
   }
 }

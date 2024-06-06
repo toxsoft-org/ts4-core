@@ -52,7 +52,7 @@ public class KeepablesStorageAsKeepable
       return;
     }
     // non-empty map
-    while( aSr.peekChar( EStrioSkipMode.SKIP_COMMENTS ) != CHAR_EOF ) {
+    while( aSr.peekChar( EStrioSkipMode.SKIP_COMMENTS ) != CHAR_SET_END ) {
       String keywrod = aSr.readIdPath();
       aSr.ensureChar( CHAR_EQUAL );
       String content = StrioUtils.readInterbaceContent( aSr );
