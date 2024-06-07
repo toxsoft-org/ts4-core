@@ -3,7 +3,7 @@ package org.toxsoft.core.tsgui.ved.editor;
 /**
  * Localizable resources.
  *
- * @author hazard157
+ * @author hazard157,vs
  */
 interface ITsResources {
 
@@ -40,6 +40,16 @@ interface ITsResources {
   String STR_L_HEIGHT_PIX   = "Высота (пикс): ";
   String STR_G_SIZES        = "Размеры";
   String STR_G_CONVERSIONS  = "Преобразования";
+
+  /**
+   * {@link VedPanelActorsList}
+   */
+  String STR_L_VIEW_ALL       = Messages.getString( "STR_L_VIEW_ALL" );       //$NON-NLS-1$
+  String STR_L_VIEW_ALL_D     = Messages.getString( "STR_L_VIEW_ALL_D" );     //$NON-NLS-1$
+  String STR_L_VIEW_LINKED    = Messages.getString( "STR_L_VIEW_LINKED" );    //$NON-NLS-1$
+  String STR_L_VIEW_LINKED_D  = Messages.getString( "STR_L_VIEW_LINKED_D" );  //$NON-NLS-1$
+  String STR_L_VIEW_UNBOUND   = Messages.getString( "STR_L_VIEW_UNBOUND" );   //$NON-NLS-1$
+  String STR_L_VIEW_UNBOUND_D = Messages.getString( "STR_L_VIEW_UNBOUND_D" ); //$NON-NLS-1$
 
   /**
    * {@link VedViselContextMenuManager}

@@ -41,6 +41,7 @@ public class VedPanelViselsList
     IM5Model<IVedVisel> model = m5().getModel( IVedM5Constants.MID_VED_VISEL, IVedVisel.class );
     IM5LifecycleManager<IVedVisel> lm = model.getLifecycleManager( vedScreen );
     panel = model.panelCreator().createCollEditPanel( tsContext(), lm.itemsProvider(), lm );
+
     panel.createControl( this );
     panel.getControl().setLayoutData( BorderLayout.CENTER );
     panel.addTsSelectionListener( selectionChangeEventHelper );
@@ -52,7 +53,7 @@ public class VedPanelViselsList
   // implementation
   //
 
-  void onVedViselsListChange( IVedItemsManager<?> aSource, ECrudOp aOp, String aId ) {
+  void onVedViselsListChange( @SuppressWarnings( "unused" ) IVedItemsManager<?> aSource, ECrudOp aOp, String aId ) {
     // TODO perform minimal action for not to change selection
     switch( aOp ) {
       case CREATE: {

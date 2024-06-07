@@ -11,6 +11,7 @@ import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.errors.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
@@ -124,6 +125,11 @@ public class VedAbstractActor
   // ------------------------------------------------------------------------------------
   // IVedActor
   //
+
+  @Override
+  public boolean isBoudable() {
+    return props().hasKey( PROPID_VISEL_ID );
+  }
 
   @Override
   final public IStringList listBoundViselIds() {
@@ -261,7 +267,7 @@ public class VedAbstractActor
   protected IStringList doListBoundViselIds() {
     if( props().hasKey( PROPID_VISEL_ID ) ) {
       String viselId = props().getStr( PROPID_VISEL_ID );
-      if( StridUtils.isValidIdPath( viselId ) ) {
+      if( StridUtils.isValidIdPath( viselId ) && !viselId.equals( IStridable.NONE_ID ) ) {
         return new SingleStringList( viselId );
       }
     }

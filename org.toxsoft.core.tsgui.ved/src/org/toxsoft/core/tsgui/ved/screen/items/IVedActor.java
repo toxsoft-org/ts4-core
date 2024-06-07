@@ -13,6 +13,14 @@ public interface IVedActor
     extends IVedItem {
 
   /**
+   * Определяет может ли быть привязан хотя-бы к одному {@link IVedVisel}.
+   *
+   * @return <b>true</b> - актор модет быть привязан<br>
+   *         <b>false</b> - у актора не предполагается привязки а визелю
+   */
+  boolean isBoudable();
+
+  /**
    * Returns list of the VISELs this actor is bound to.
    * <p>
    * If actor is not bound to any VISEL, returns an empty list. In most common case, when actor is bound to VISEL with

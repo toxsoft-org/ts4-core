@@ -102,6 +102,23 @@ public class VedScreenUtils {
   }
 
   /**
+   * Returns list of ACTOR IDs that may be, but not bounded to visel.<br>
+   * <p>
+   *
+   * @param aVedScreen {@link IVedScreen} - the VED screen
+   * @return {@link IStringList} - list of actor ids that not bounded to visel
+   */
+  public static IStringList listUnboundActorIds( IVedScreen aVedScreen ) {
+    IStringListEdit actorIds = new StringArrayList();
+    for( IVedActor actor : aVedScreen.model().actors().list() ) {
+      if( actor.isBoudable() && actor.listBoundViselIds().isEmpty() ) {
+        actorIds.add( actor.id() );
+      }
+    }
+    return actorIds;
+  }
+
+  /**
    * Returns actor ids, associated with this visel.<br>
    *
    * @param aViselId String - visel id
