@@ -86,10 +86,11 @@ public abstract class MwsAbstractPart
 
   @PostConstruct
   final void initPart( Composite aParent ) {
-    EPartService partService = getWindowContext().get( EPartService.class );
+    EPartService partService = partContext().get( EPartService.class );
     partService.addPartListener( partListener );
     winStaff.papiOnPartInit( this );
     try {
+      tsContext = new TsGuiContext( partContext );
       doInit( aParent );
     }
     catch( Exception ex ) {
@@ -100,7 +101,7 @@ public abstract class MwsAbstractPart
   @PreDestroy
   final void destroyPart() {
     try {
-      EPartService partService = getWindowContext().get( EPartService.class );
+      EPartService partService = partContext().get( EPartService.class );
       partService.removePartListener( partListener );
       winStaff.papiOnPartDestroy( this );
       beforeDestroy();
@@ -116,9 +117,6 @@ public abstract class MwsAbstractPart
 
   @Override
   public ITsGuiContext tsContext() {
-    if( tsContext == null ) {
-      tsContext = new TsGuiContext( partContext );
-    }
     return tsContext;
   }
 
@@ -138,19 +136,6 @@ public abstract class MwsAbstractPart
   // ------------------------------------------------------------------------------------
   // API для наследников
   //
-
-  /**
-   * Возвращает контекст приложения уровня окна приложения.
-   * <p>
-   * Внимание: метод {@link #getWindowContext()} возвращает контекст, связанный с окном, но гораздо чаще нужен контекст
-   * уровня вью, который возвращается в {@link #partContext()}. Используйте именно {@link #partContext()}, если не
-   * пишете что-то чрезвичайно системно-уровневое.
-   *
-   * @return {@link IEclipseContext} - контекст приложения уровня окна приложения
-   */
-  public IEclipseContext getWindowContext() {
-    return window.getContext();
-  }
 
   /**
    * Возвращает контекст приложения уровня вью.
