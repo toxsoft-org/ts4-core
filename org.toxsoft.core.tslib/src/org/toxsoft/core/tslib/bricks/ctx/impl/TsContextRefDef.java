@@ -51,7 +51,7 @@ public class TsContextRefDef<T>
   /**
    * Static constructor.
    *
-   * @param <T> - referece type
+   * @param <T> - reference type
    * @param aRefKey String - the key
    * @param aClass {@link Class}&lt;T&gt; - the reference class
    * @param aIdsAndValues Object[] - initial {@link #params()} values as {@link OptionSetUtils#createOpSet(Object...)}

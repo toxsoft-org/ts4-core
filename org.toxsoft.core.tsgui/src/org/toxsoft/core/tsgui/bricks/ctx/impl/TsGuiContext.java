@@ -1,8 +1,8 @@
 package org.toxsoft.core.tsgui.bricks.ctx.impl;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tslib.bricks.ctx.impl.TsContextBase;
+import org.eclipse.e4.core.contexts.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tslib.bricks.ctx.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -57,7 +57,7 @@ public class TsGuiContext
   //
 
   /**
-   * Changes the Eclipse E4 context assosiated to the root context.
+   * Changes the Eclipse E4 context associated to the root context.
    * <p>
    * Notes:
    * <ul>

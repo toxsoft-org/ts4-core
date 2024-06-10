@@ -25,7 +25,7 @@ public final class UIpartInfo {
   /**
    * Constructor.
    *
-   * @param aPartId String - part ID
+   * @param aPartId String - part ID (becomes {@link MPart#getElementId()})
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException argument is a blank string
    */
@@ -56,7 +56,7 @@ public final class UIpartInfo {
   //
 
   /**
-   * returns the part ID used as {@link MPart#getElementId()}.
+   * Returns the part ID used as {@link MPart#getElementId()}.
    *
    * @return String - the part ID
    */
