@@ -29,8 +29,6 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public final class Gwid
     implements Serializable, Comparable<Gwid> {
 
-  // TODO add method to validate creation from canonicalString
-
   private static final long serialVersionUID = 157157L;
 
   /**
@@ -134,6 +132,19 @@ public final class Gwid
   // Static constructors
   //
 
+  /**
+   * Creates GWID specifying all field values.
+   *
+   * @param aClassId String - value for {@link Gwid#classId()}
+   * @param aStrid String - value for {@link Gwid#strid()}, may be <code>null</code>
+   * @param aPropSectId String - value for {@link Gwid#propSectId}, may be <code>null</code>
+   * @param aPropId String - value for {@link Gwid#propId}, may be <code>null</code>
+   * @param aSubPropSectId String - value for {@link Gwid#subPropSectId}, may be <code>null</code>
+   * @param aSubPropId String - value for {@link Gwid#subPropId}, may be <code>null</code>
+   * @return {@link Gwid} - created GWID
+   * @throws TsNullArgumentRtException not allowed argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException invalid combination of argument values
+   */
   public static Gwid create( String aClassId, String aStrid, String aPropSectId, String aPropId, String aSubPropSectId,
       String aSubPropId ) {
     return new Gwid( aClassId, aStrid, aPropSectId, aPropId, aSubPropSectId, aSubPropId );
@@ -423,6 +434,55 @@ public final class Gwid
     return k;
   }
 
+  private static EGwidKind findKind( String aPropSectId, String aSubPropSectId ) {
+    EGwidKind k = GW_CLASS;
+    // property?
+    if( aPropSectId != null ) {
+      k = switch( aPropSectId ) {
+        case GW_KEYWORD_ATTR -> GW_ATTR;
+        case GW_KEYWORD_RTDATA -> GW_RTDATA;
+        case GW_KEYWORD_RIVET -> GW_RIVET;
+        case GW_KEYWORD_LINK -> GW_LINK;
+        case GW_KEYWORD_CMD -> GW_CMD;
+        case GW_KEYWORD_EVENT -> GW_EVENT;
+        case GW_KEYWORD_CLOB -> GW_CLOB;
+        default -> null;
+      };
+      // sub-property?
+      if( k != null && aSubPropSectId != null ) {
+        k = switch( aSubPropSectId ) {
+          case GW_KEYWORD_CMD_ARG -> {
+            yield k == GW_CMD ? GW_CMD_ARG : null;
+          }
+          case GW_KEYWORD_EVENT_PARAM -> {
+            yield k == GW_EVENT ? GW_EVENT_PARAM : null;
+          }
+          default -> null;
+        };
+      }
+    }
+    return k;
+  }
+
+  private static boolean isValidIdPathMulti( String aId, boolean aMustBeNull, boolean aCanBeNull ) {
+    // check for null
+    if( aId == null ) {
+      if( aCanBeNull ) {
+        return true;
+      }
+      return false;
+    }
+    if( aMustBeNull ) {
+      return false;
+    }
+    // check for multi
+    if( aId.equals( STR_MULTI_ID ) ) {
+      return true;
+    }
+    // check is IDpath
+    return StridUtils.isValidIdPath( aId );
+  }
+
   private static String checkValidIdPathMulti( String aId, boolean aMustBeNull, boolean aCanBeNull ) {
     // check for null
     if( aId == null ) {
@@ -455,6 +515,21 @@ public final class Gwid
     }
     // check is IDpath
     return StridUtils.checkValidIdPath( aId );
+  }
+
+  private static boolean isValidIdPath( String aId, boolean aMustBeNull, boolean aCanBeNull ) {
+    // check for null
+    if( aId == null ) {
+      if( aCanBeNull ) {
+        return true;
+      }
+      return false;
+    }
+    if( aMustBeNull ) {
+      return false;
+    }
+    // check is IDpath
+    return StridUtils.isValidIdPath( aId );
   }
 
   private static String readIdPathOrMulti( IStrioReader aSr ) {
@@ -665,6 +740,86 @@ public final class Gwid
       return 2;
     }
     return 1;
+  }
+
+  /**
+   * Determines if argument is a valid canonical string.
+   *
+   * @param aCanonicalString String - the canonical textual representation
+   * @return boolean - <code>true</code> if argument is syntactic valid canonical string
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static boolean isValidCanonicalString( String aCanonicalString ) {
+    // TODO temporary code, to be rewritten without using exceptions in logic
+    try {
+      of( aCanonicalString );
+      return true;
+    }
+    catch( Exception ex ) {
+      return false;
+    }
+  }
+
+  /**
+   * Determines if the GWID can be created with the specified arguments.
+   * <p>
+   * Method {@link #create(String, String, String, String, String, String)} will succeed if and only if this method
+   * returns <code>true</code>.
+   * <p>
+   * Method does not throws any exception.
+   *
+   * @param aClassId String - value for {@link Gwid#classId()}
+   * @param aStrid String - value for {@link Gwid#strid()}
+   * @param aPropSectId String - value for {@link Gwid#propSectId}
+   * @param aPropId String - value for {@link Gwid#propId}
+   * @param aSubPropSectId String - value for {@link Gwid#subPropSectId}
+   * @param aSubPropId String - value for {@link Gwid#subPropId}
+   * @return boolean - <code>true</code> arguments are valid for GWID creation
+   */
+  public static boolean canCreate( String aClassId, String aStrid, String aPropSectId, String aPropId,
+      String aSubPropSectId, String aSubPropId ) {
+    // aClassId
+    if( !StridUtils.isValidIdPath( aClassId ) ) {
+      return false;
+    }
+    // aStrid
+    if( !isValidIdPathMulti( aStrid, false, true ) ) {
+      return false;
+    }
+    // aPropSectId
+    if( !isValidIdPath( aPropSectId, false, true ) ) {
+      return false;
+    }
+    boolean hasProp = aPropSectId != null;
+    if( hasProp ) {
+      // aPropId
+      if( !isValidIdPathMulti( aPropId, !hasProp, !hasProp ) ) {
+        return false;
+      }
+      // aSubPropSectId
+      if( !isValidIdPath( aSubPropSectId, !hasProp, true ) ) {
+        return false;
+      }
+      boolean hasSubProp = aSubPropSectId != null;
+      if( hasSubProp ) {
+        // aSubPropId
+        if( !isValidIdPathMulti( aSubPropId, !hasProp || !hasSubProp, !hasSubProp ) ) {
+          return false;
+        }
+      }
+    }
+    EGwidKind kind = findKind( aPropSectId, aSubPropSectId );
+    if( kind == null ) {
+      return false;
+    }
+    // ensure validity
+    if( !kind.hasProp() && aPropId != null ) {
+      return false;
+    }
+    if( !kind.hasSubProp() && aSubPropId != null ) {
+      return false;
+    }
+    return true;
   }
 
   // ------------------------------------------------------------------------------------

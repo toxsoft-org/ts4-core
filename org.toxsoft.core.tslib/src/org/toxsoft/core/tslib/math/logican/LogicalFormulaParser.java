@@ -2,6 +2,7 @@ package org.toxsoft.core.tslib.math.logican;
 
 import static org.toxsoft.core.tslib.math.lexan.ILexanConstants.*;
 import static org.toxsoft.core.tslib.math.logican.ILogicalFormulaConstants.*;
+import static org.toxsoft.core.tslib.math.logican.ITsResources.*;
 import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
 import org.toxsoft.core.tslib.math.lexan.*;
@@ -20,8 +21,6 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public class LogicalFormulaParser {
-
-  // FIXME L10N
 
   private final LogicalFormulaAnalyzer logicalFormulaAnalyzer;
 
@@ -67,7 +66,7 @@ public class LogicalFormulaParser {
         }
         // expect right round bracket ')'
         if( !currToken().kindId().equals( TKID_BRACKET_ROUND_RIGHT ) ) {
-          yield setCurrError( "Right round bracket ')' was expected" );
+          yield setCurrError( MSG_ERR_RIGHT_ROUBD_BRACKET_EXPECTED );
         }
         nextToken();
         yield lfn;
@@ -97,7 +96,7 @@ public class LogicalFormulaParser {
         yield ILogFoNode.FALSE;
       }
       default -> {
-        yield setCurrError( "Simple combination was expected" );
+        yield setCurrError( MSG_ERR_SIMPLE_COMBINATION_EXPECTED );
       }
     };
   }
@@ -151,7 +150,7 @@ public class LogicalFormulaParser {
     ILogFoNode lfn = readLogicalOpCombination();
     if( lfn != ILogFoNode.NONE ) {
       if( !currToken().kindId().equals( TKID_EOF ) ) {
-        return setCurrError( "End fo formula expected" );
+        return setCurrError( MSG_ERR_END_OF_FORMULA_EXPECTED );
       }
     }
     return lfn;
@@ -169,23 +168,6 @@ public class LogicalFormulaParser {
   public ILogFoNode parse( String aFormulaString ) {
     formulaTokens = logicalFormulaAnalyzer.tokenize( aFormulaString );
     lfnRoot = parseLogically();
-
-    // --- DEBUG
-    // if( formulaTokens.isError() ) {
-    // if( formulaTokens.firstErrorToken() == null ) {
-    // TsTestUtils.pl( "NO errors, WHY ???" );
-    // }
-    // else {
-    // TsTestUtils.pl( "Parse err: %s", formulaTokens.firstErrorToken().str() );
-    // }
-    // }
-    // else {
-    // String fs = LexanUtils.makeFormulaString( formulaTokens.tokens() );
-    // TsTestUtils.pl( "Parse OK: '%s'", fs );
-    // }
-    // TsTestUtils.pl( "Node: '%s'", lfnRoot.toString() );
-    // ---
-
     return lfnRoot;
   }
 

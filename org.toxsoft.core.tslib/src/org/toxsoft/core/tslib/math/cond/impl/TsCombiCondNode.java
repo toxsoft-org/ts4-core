@@ -32,11 +32,6 @@ public abstract class TsCombiCondNode
   private static final long serialVersionUID = 157157L;
 
   /**
-   * The registered keeper ID.
-   */
-  // FIXME public static final String KEEPER_ID = "TsCombiCondNode"; //$NON-NLS-1$
-
-  /**
    * Keeper singleton.
    */
   public static final IEntityKeeper<ITsCombiCondNode> KEEPER =

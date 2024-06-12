@@ -3,6 +3,7 @@ package org.toxsoft.core.tslib.math.logican;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.math.lexan.ILexanConstants.*;
 import static org.toxsoft.core.tslib.math.logican.ILogicalFormulaConstants.*;
+import static org.toxsoft.core.tslib.math.logican.ITsResources.*;
 import static org.toxsoft.core.tslib.math.logicop.ILogicalOpConstants.*;
 
 import org.toxsoft.core.tslib.av.opset.*;
@@ -78,7 +79,8 @@ public class LogicalFormulaAnalyzer {
           case CH_LOGICAL_OR -> TK_LOGICAL_OR;
           case CH_LOGICAL_XOR -> TK_LOGICAL_XOR;
           case CH_LOGICAL_NOT -> TK_LOGICAL_NOT;
-          default -> new TkError( "Unknown single-char token" + tkOrig.ch() );
+          default -> new TkError(
+              String.format( FMT_ERR_UNKNOWN_SINGLE_CHAR_TOKEN, Character.valueOf( tkOrig.ch() ) ) );
         };
         case TKID_KEYWORD -> switch( tkOrig.str().toUpperCase() ) {
           case KW_LOGICAL_AND -> TK_LOGICAL_AND;
@@ -89,7 +91,7 @@ public class LogicalFormulaAnalyzer {
           case KW_FALSE -> TK_LOGICAL_FALSE;
           default -> tkOrig; // other keywords does not need to be substituted
         };
-        default -> new TkError( "Unknown token kind " + tkOrig.kindId() );
+        default -> new TkError( String.format( FMT_ERR_UNKNOWN_TOKEN_KIND, tkOrig.kindId() ) );
       };
       ft.replaceToken( i, tkSubstituted );
     }

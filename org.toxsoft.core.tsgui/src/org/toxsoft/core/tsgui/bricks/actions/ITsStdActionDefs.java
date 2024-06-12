@@ -545,31 +545,31 @@ public interface ITsStdActionDefs {
       STR_T_RESTORE_DEFAULTS, STR_P_RESTORE_DEFAULTS, ICONID_RESTORE_DEFAULTS );
 
   /**
-   * Action: set checkmark on all elements of the collection.
+   * Action: set check mark on all elements of the collection.
    */
   ITsActionDef ACDEF_CHECK_ALL = ofPush2( ACTID_CHECK_ALL, //
       STR_T_CHECK_ALL, STR_P_CHECK_ALL, ICONID_ITEMS_CHECK_ALL );
 
   /**
-   * Action: remove checkmark from all elements of the collection.
+   * Action: remove check mark from all elements of the collection.
    */
   ITsActionDef ACDEF_UNCHECK_ALL = ofPush2( ACTID_UNCHECK_ALL, //
       STR_T_UNCHECK_ALL, STR_P_UNCHECK_ALL, ICONID_ITEMS_UNCHECK_ALL );
 
   /**
-   * Action: set checkmark on the some group of elements of the collection.
+   * Action: set check mark on the some group of elements of the collection.
    */
   ITsActionDef ACDEF_CHECK_GROUP = ofPush2( ACTID_CHECK_GROUP, //
       STR_T_CHECK_GROUP, STR_P_CHECK_GROUP, ICONID_ITEMS_CHECK_GROUP );
 
   /**
-   * Action: remove checkmark from the some group of elements of the collection.
+   * Action: remove check mark from the some group of elements of the collection.
    */
   ITsActionDef ACDEF_UNCHECK_GROUP = ofPush2( ACTID_UNCHECK_GROUP, //
       STR_T_UNCHECK_GROUP, STR_P_UNCHECK_GROUP, ICONID_ITEMS_UNCHECK_GROUP );
 
   /**
-   * Action: invert all checkmarks state of the collection elements.
+   * Action: invert all check marks state of the collection elements.
    */
   ITsActionDef ACDEF_INVERT_CHECK = ofPush2( ACTID_INVERT_CHECK, //
       STR_T_INVERT_CHECK, STR_P_INVERT_CHECK, ICONID_ITEMS_INVERT_CHECK );
@@ -580,40 +580,38 @@ public interface ITsStdActionDefs {
   ITsActionDef ACDEF_ABOUT = ofPush2( ACTID_ABOUT, //
       STR_T_ABOUT, STR_P_ABOUT, null );
 
-  // TODO TANSLATE
-
   /**
-   * Action: zoom FIXME.
+   * Action: zoom to fit best (check button).
    */
   ITsActionDef ACDEF_ZOOM_FIT_BEST = ofCheck2( ACTID_ZOOM_FIT_BEST, //
       STR_T_ZOOM_FIT_BEST, STR_P_ZOOM_FIT_BEST, ICONID_ZOOM_FIT_BEST );
 
   /**
-   * Action: вместить все, действие в виде кнопки, переключателя как {@link #ACTID_ZOOM_FIT_BEST}.
+   * Action: zoom to fit best (push button)
    */
   ITsActionDef ACDEF_ZOOM_FIT_BEST_PUSHBUTTON = ofPush2( ACTID_ZOOM_FIT_BEST, //
       STR_T_ZOOM_FIT_BEST, STR_P_ZOOM_FIT_BEST, ICONID_ZOOM_FIT_BEST );
 
   /**
-   * Action: вместить в ширину.
+   * Action: zoom to fit width (check button).
    */
   ITsActionDef ACDEF_ZOOM_FIT_WIDTH = ofCheck2( ACTID_ZOOM_FIT_WIDTH, //
       STR_T_ZOOM_FIT_WIDTH, STR_P_ZOOM_FIT_WIDTH, ICONID_ZOOM_FIT_WIDTH );
 
   /**
-   * Action: вместить в ширину, действие в виде кнопки, переключателя как {@link #ACTID_ZOOM_FIT_WIDTH}.
+   * Action: zoom to fit width (push button).
    */
   ITsActionDef ACDEF_ZOOM_FIT_WIDTH_PUSHBUTTON = ofPush2( ACTID_ZOOM_FIT_WIDTH, //
       STR_T_ZOOM_FIT_WIDTH, STR_P_ZOOM_FIT_WIDTH, ICONID_ZOOM_FIT_WIDTH );
 
   /**
-   * Action: вместить в высоту.
+   * Action: zoom to fit height (check button).
    */
   ITsActionDef ACDEF_ZOOM_FIT_HEIGHT = ofCheck2( ACTID_ZOOM_FIT_HEIGHT, //
       STR_T_ZOOM_FIT_HEIGHT, STR_P_ZOOM_FIT_HEIGHT, ICONID_ZOOM_FIT_HEIGHT );
 
   /**
-   * Action: вместить в высоту, действие в виде кнопки, переключателя как {@link #ACTID_ZOOM_FIT_HEIGHT}.
+   * Action: zoom to fit height (pushbutton).
    */
   ITsActionDef ACDEF_ZOOM_FIT_HEIGHT_PUSHBUTTON = ofPush2( ACTID_ZOOM_FIT_HEIGHT, //
       STR_T_ZOOM_FIT_HEIGHT, STR_P_ZOOM_FIT_HEIGHT, ICONID_ZOOM_FIT_HEIGHT );
@@ -637,97 +635,97 @@ public interface ITsStdActionDefs {
       STR_ZOOM_EXPAND_TO_FIT, STR_ZOOM_EXPAND_TO_FIT_D, ICONID_VIEW_FULLSCREEN );
 
   /**
-   * Action: Переместить элемент вверх по списку.
+   * Action: move element up in list.
    */
   ITsActionDef ACDEF_LIST_ELEM_MOVE_UP = ofPush2( ACTID_LIST_ELEM_MOVE_UP, //
       STR_T_LIST_ELEM_MOVE_UP, STR_P_LIST_ELEM_MOVE_UP, ICONID_ARROW_UP );
 
   /**
-   * Action: Переместить элемент вниз по списку.
+   * Action: Move selected element down in list.
    */
   ITsActionDef ACDEF_LIST_ELEM_MOVE_DOWN = ofPush2( ACTID_LIST_ELEM_MOVE_DOWN, //
       STR_T_LIST_ELEM_MOVE_DOWN, STR_P_LIST_ELEM_MOVE_DOWN, ICONID_ARROW_DOWN );
 
   /**
-   * Action: Переместить элемент в начало списка.
+   * Action: Move selected element to the list start.
    */
   ITsActionDef ACDEF_LIST_ELEM_MOVE_FIRST = ofPush2( ACTID_LIST_ELEM_MOVE_FIRST, //
       STR_T_LIST_ELEM_MOVE_FIRST, STR_P_LIST_ELEM_MOVE_FIRST, ICONID_ARROW_UP_DOUBLE );
 
   /**
-   * Action: Переместить элемент в конец списка.
+   * Action: Move selected element to the list end.
    */
   ITsActionDef ACDEF_LIST_ELEM_MOVE_LAST = ofPush2( ACTID_LIST_ELEM_MOVE_LAST, //
       STR_T_LIST_ELEM_MOVE_LAST, STR_P_LIST_ELEM_MOVE_LAST, ICONID_ARROW_DOWN_DOUBLE );
 
   /**
-   * Action: изначальный размер (1:1).
+   * Action: original size (1:1) check button.
    */
   ITsActionDef ACDEF_ZOOM_ORIGINAL = ofCheck2( ACTID_ZOOM_ORIGINAL, //
       STR_T_ZOOM_ORIGINAL, STR_P_ZOOM_ORIGINAL, ICONID_ZOOM_ORIGINAL );
 
   /**
-   * Action: изначальный размер (1:1) с выпадающим меню изменения размера.
+   * Action: original size (1:1) drop-down menu..
    */
   ITsActionDef ACDEF_ZOOM_ORIGINAL_MENU = ofMenu2( ACTID_ZOOM_ORIGINAL, //
       STR_T_ZOOM_ORIGINAL, STR_P_ZOOM_ORIGINAL, ICONID_ZOOM_ORIGINAL );
 
   /**
-   * Action: изначальный размер (1:1).
+   * Action: original size (1:1) push button.
    */
   ITsActionDef ACDEF_ZOOM_ORIGINAL_PUSHBUTTON = ofPush2( ACTID_ZOOM_ORIGINAL, //
       STR_T_ZOOM_ORIGINAL, STR_P_ZOOM_ORIGINAL, ICONID_ZOOM_ORIGINAL );
 
   /**
-   * Action: перейти в начало.
+   * Action: Go to first element.
    */
   ITsActionDef ACDEF_GO_FIRST = ofPush2( ACTID_GO_FIRST, //
       STR_T_GO_FIRST, STR_P_GO_FIRST, ICONID_GO_FIRST );
 
   /**
-   * Action: перейти на предыдущий элемент.
+   * Action: Go to previous element.
    */
   ITsActionDef ACDEF_GO_PREV = ofPush2( ACTID_GO_PREV, //
       STR_T_GO_PREV, STR_P_GO_PREV, ICONID_GO_PREVIOUS );
 
   /**
-   * Action: перейти на следующий элемент.
+   * Action: Go to next element.
    */
   ITsActionDef ACDEF_GO_NEXT = ofPush2( ACTID_GO_NEXT, //
       STR_T_GO_NEXT, STR_P_GO_NEXT, ICONID_GO_NEXT );
 
   /**
-   * Action: перейти в конец.
+   * Action: Go to last element.
    */
   ITsActionDef ACDEF_GO_LAST = ofPush2( ACTID_GO_LAST, //
       STR_T_GO_LAST, STR_P_GO_LAST, ICONID_GO_LAST );
 
   /**
-   * Action: просмотр в виде списка.
+   * Action: Show as list of elements.
    */
   ITsActionDef ACDEF_VIEW_AS_LIST = ofCheck2( ACTID_VIEW_AS_LIST, //
       STR_T_VIEW_AS_LIST, STR_P_VIEW_AS_LIST, ICONID_VIEW_AS_LIST );
 
   /**
-   * Action: просмотр в виде дерева.
+   * Action: Show as element tree.
    */
   ITsActionDef ACDEF_VIEW_AS_TREE = ofCheck2( ACTID_VIEW_AS_TREE, //
       STR_T_VIEW_AS_TREE, STR_P_VIEW_AS_TREE, ICONID_VIEW_AS_TREE );
 
   /**
-   * Action: меню просмотра в виде дерева.
+   * Action: Show as element tree drop-down menu.
    */
   ITsActionDef ACDEF_VIEW_AS_TREE_MENU = ofMenu2( ACTID_VIEW_AS_TREE, //
       STR_T_VIEW_AS_TREE, STR_P_VIEW_AS_TREE, ICONID_VIEW_AS_TREE );
 
   /**
-   * Action: Добавить корневой элемент в дерево.
+   * Action: Create new root node in the tree.
    */
   ITsActionDef ACDEF_TREE_ADD_ROOT = ofPush2( ACTID_TREE_ADD_ROOT, //
       STR_T_TREE_ADD_ROOT, STR_P_TREE_ADD_ROOT, ICONID_TREE_ADD_ROOT );
 
   /**
-   * Action: добавить дочерный элемент к текущему узлу дерева.
+   * Action: Create child node of the selected node.
    */
   ITsActionDef ACDEF_TREE_ADD_CHILD = ofPush2( ACTID_TREE_ADD_CHILD, //
       STR_T_TREE_ADD_CHILD, STR_P_TREE_ADD_CHILD, ICONID_TREE_ADD_CHILD );

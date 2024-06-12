@@ -7,7 +7,9 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Manages single condition types associated with one topic.
  * <p>
- * This is a base interface. TODO more about different condition check implementations: filters, checkers, etc
+ * This is a base interface.
+ * <p>
+ * TODO more about different condition check implementations: filters, checkers, etc
  *
  * @author hazard157
  */
