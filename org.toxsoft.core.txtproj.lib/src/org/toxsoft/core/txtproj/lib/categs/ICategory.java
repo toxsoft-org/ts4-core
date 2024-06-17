@@ -5,7 +5,7 @@ import static org.toxsoft.core.txtproj.lib.categs.ICatalogueParamOptions.*;
 import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
-import org.toxsoft.core.tslib.utils.icons.*;
+import org.toxsoft.core.tslib.utils.gui.*;
 
 /**
  * Категория - элемент древовидного каталога.

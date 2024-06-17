@@ -36,14 +36,14 @@ public final class DataDef
 
   /**
    * The validator. <br>
-   * If initialized to non-<code>null</code> value either in appropriate construcor or at first call to
+   * If initialized to non-<code>null</code> value either in appropriate constructor or at first call to
    * {@link #validator()}.
    */
   private transient ITsValidator<IAtomicValue> validator = null;
 
   /**
    * The comparator. <br>
-   * Is initialized to non-<code>null</code> value either in appropriate construcor or at first call to
+   * Is initialized to non-<code>null</code> value either in appropriate constructor or at first call to
    * {@link #comparator()}.
    */
   private transient Comparator<IAtomicValue> comparator = null;

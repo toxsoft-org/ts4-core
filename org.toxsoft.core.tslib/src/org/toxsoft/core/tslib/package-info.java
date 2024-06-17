@@ -34,7 +34,7 @@
  * <li><b>gw</b> - green world concept basics like {@link org.toxsoft.core.tslib.gw.gwid.Gwid Gwid};</li>
  * <li>basic building <b>bricks</b> are some commonly used concepts designed in form of mini-frameworks:</li>
  * <ul>
- * <li><b>strid</b> - string identidfied entities {@link org.toxsoft.core.tslib.bricks.strid.IStridable IStridable}
+ * <li><b>strid</b> - string identified entities {@link org.toxsoft.core.tslib.bricks.strid.IStridable IStridable}
  * framework;</li>
  * <li><b>strio</b> - text-oriented I/O streams like {@link org.toxsoft.core.tslib.bricks.strio.IStrioWriter
  * IStrioWriter};</li>

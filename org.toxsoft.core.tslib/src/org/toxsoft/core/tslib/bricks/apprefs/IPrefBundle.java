@@ -5,7 +5,7 @@ import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.icons.*;
+import org.toxsoft.core.tslib.utils.gui.*;
 
 /**
  * The bundle of related parameters used as application preferences.

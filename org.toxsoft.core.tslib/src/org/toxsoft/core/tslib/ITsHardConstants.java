@@ -20,8 +20,20 @@ public interface ITsHardConstants {
   String TS_FULL_ID = "org.toxsoft"; //$NON-NLS-1$
 
   /**
-   * TS platform version.
+   * Sequential version number of the ToxSoft platform.
+   * <p>
+   * The This constant is defined starting from the version 4 of the platform.
+   *
+   * @since 4
    */
-  TsVersion TS_VERSION = new TsVersion( 4, 0 );
+  int TS_PLATFORM_VERSION = 4;
+
+  /**
+   * TS platform version.
+   * <p>
+   * This version has only one meaningful part - {@link TsVersion#verMajor()}. Other parts are not changed during the
+   * platform lifecycle.
+   */
+  TsVersion TS_VERSION = new TsVersion( TS_PLATFORM_VERSION, 0 );
 
 }

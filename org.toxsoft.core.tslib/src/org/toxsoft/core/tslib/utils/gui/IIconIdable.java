@@ -1,4 +1,4 @@
-package org.toxsoft.core.tslib.utils.icons;
+package org.toxsoft.core.tslib.utils.gui;
 
 /**
  * Mix-in interface of entities that may be visualized with <code>ITsIconManager</code> provided icons.

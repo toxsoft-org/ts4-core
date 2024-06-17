@@ -15,7 +15,7 @@ import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.coll.helpers.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.icons.*;
+import org.toxsoft.core.tslib.utils.gui.*;
 
 /**
  * An {@link IQNode} base implementation.

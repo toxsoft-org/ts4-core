@@ -356,6 +356,33 @@ public class SynchronizedStridablesList<E extends IStridable>
   }
 
   // ------------------------------------------------------------------------------------
+  // API
+  //
+
+  /**
+   * Atomically copies content to the destination list or creates new one if needed.
+   * <p>
+   * If argument is <code>null</code> then new {@link StridablesList} instance is created,
+   *
+   * @param aDest {@link IStridablesListEdit}&ltE&gt; - destination list or <code>null</code>
+   * @return {@link IStridablesListEdit} - the argument or new list if argument was <code>null</code>
+   */
+  public IStridablesListEdit<E> copyTo( IStridablesListEdit<E> aDest ) {
+    IStridablesListEdit<E> dest = aDest;
+    lock.readLock().lock();
+    if( dest == null ) {
+      dest = new StridablesList<>( size() );
+    }
+    try {
+      dest.addAll( this );
+      return dest;
+    }
+    finally {
+      lock.readLock().unlock();
+    }
+  }
+
+  // ------------------------------------------------------------------------------------
   // ITsSynchronizedCollectionWrapper
   //
 

@@ -108,6 +108,7 @@ public interface IAvMetaConstants {
       TSID_ID, TIMESTAMP.id(), //
       TSID_NAME, TIMESTAMP.nmName(), //
       TSID_DESCRIPTION, TIMESTAMP.description(), //
+      TSID_FORMAT_STRING, "%tF %tT", //$NON-NLS-1$
       TSID_DEFAULT_VALUE, TIMESTAMP.defaultValue() //
   );
 

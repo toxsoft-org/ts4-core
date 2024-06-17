@@ -75,6 +75,7 @@ public abstract class AbstractValedTextAndButton<V>
   @Override
   protected void doSetEditable( boolean aEditable ) {
     if( isWidget() && !isCreatedUneditable() ) {
+      text.setEditable( aEditable );
       button.setEnabled( aEditable );
     }
   }
@@ -100,7 +101,7 @@ public abstract class AbstractValedTextAndButton<V>
    *
    * @return {@link Text} - the text control
    */
-  public Text getTextControl() {
+  final public Text getTextControl() {
     return text;
   }
 
@@ -109,7 +110,7 @@ public abstract class AbstractValedTextAndButton<V>
    *
    * @return {@link Button} - the button at right
    */
-  public Button getButtonControl() {
+  final public Button getButtonControl() {
     return button;
   }
 
@@ -162,7 +163,7 @@ public abstract class AbstractValedTextAndButton<V>
   protected abstract boolean doProcessButtonPress();
 
   /**
-   * Subclass must the value to editor widget(s).
+   * Subclass must set the value to editor widget(s).
    * <p>
    * Called from {@link AbstractValedTextAndButton#doSetUnvalidatedValue(Object)}.
    *

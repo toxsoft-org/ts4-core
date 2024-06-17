@@ -1,7 +1,7 @@
 package org.toxsoft.core.tsgui.bricks.tsnodes;
 
 import org.toxsoft.core.tslib.bricks.strid.*;
-import org.toxsoft.core.tslib.utils.icons.*;
+import org.toxsoft.core.tslib.utils.gui.*;
 
 /**
  * Kind definition for the node {@link ITsNode}.

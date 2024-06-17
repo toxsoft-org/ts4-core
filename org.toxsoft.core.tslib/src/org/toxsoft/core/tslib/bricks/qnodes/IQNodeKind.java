@@ -1,7 +1,7 @@
 package org.toxsoft.core.tslib.bricks.qnodes;
 
 import org.toxsoft.core.tslib.bricks.strid.*;
-import org.toxsoft.core.tslib.utils.icons.*;
+import org.toxsoft.core.tslib.utils.gui.*;
 
 /**
  * {@link IQNode} kind meta-information.

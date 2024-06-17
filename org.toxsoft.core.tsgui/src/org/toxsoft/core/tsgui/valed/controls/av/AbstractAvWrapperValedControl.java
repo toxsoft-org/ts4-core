@@ -22,7 +22,7 @@ public abstract class AbstractAvWrapperValedControl<T>
   /**
    * {@link AbstractAvWrapperValedControl#eventer()} implementing class.
    * <p>
-   * Is used as wrepper over underlying valed's {@link IValedControl#eventer()}.
+   * Is used as wrapper over underlying valed's {@link IValedControl#eventer()}.
    *
    * @author hazard157
    */
@@ -152,9 +152,7 @@ public abstract class AbstractAvWrapperValedControl<T>
       return;
     }
     AvTypeCastRtException.checkCanAssign( atomicType, aValue.atomicType() );
-    T tv = av2tv( aValue );
-    // GOGA 2023-05-25 it IS allowed to set null to the wrapped Valed
-    // TsInternalErrorRtException.checkNull( tv );
+    T tv = av2tv( aValue ); // tv = null is allowed
     source.setValue( tv );
   }
 

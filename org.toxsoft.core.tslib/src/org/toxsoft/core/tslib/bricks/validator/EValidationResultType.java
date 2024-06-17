@@ -1,7 +1,6 @@
 package org.toxsoft.core.tslib.bricks.validator;
 
 import static org.toxsoft.core.tslib.bricks.validator.ITsResources.*;
-import static org.toxsoft.core.tslib.utils.icons.ITsLibIconIds.*;
 
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.std.*;
@@ -9,7 +8,7 @@ import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.icons.*;
+import org.toxsoft.core.tslib.utils.gui.*;
 
 /**
  * The type of validaton result: success (ok), warning or error.
@@ -24,17 +23,17 @@ public enum EValidationResultType
    * <p>
    * Please note: {@link ValidationResult#SUCCESS} is the singleton instance of the this type.
    */
-  OK( "Ok", STR_N_OK, STR_D_OK, TSLIB_ICONID_INFO ), //$NON-NLS-1$
+  OK( "Ok", STR_N_OK, STR_D_OK, ITsLibInnerSharedConstants.TSLIB_ICONID_INFO ), //$NON-NLS-1$
 
   /**
    * Validation succeeded but with some warning.
    */
-  WARNING( "Warning", STR_N_WARNING, STR_D_WARNING, TSLIB_ICONID_WARNING ), //$NON-NLS-1$
+  WARNING( "Warning", STR_N_WARNING, STR_D_WARNING, ITsLibInnerSharedConstants.TSLIB_ICONID_WARNING ), //$NON-NLS-1$
 
   /**
    * Validation failure with error.
    */
-  ERROR( "Error", STR_N_ERROR, STR_D_ERROR, TSLIB_ICONID_ERROR ); //$NON-NLS-1$
+  ERROR( "Error", STR_N_ERROR, STR_D_ERROR, ITsLibInnerSharedConstants.TSLIB_ICONID_ERROR ); //$NON-NLS-1$
 
   /**
    * The registered keeper ID.

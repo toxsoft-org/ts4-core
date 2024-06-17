@@ -2,7 +2,7 @@ package org.toxsoft.core.tsgui.ved.incub.undoman.tsgui;
 
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.utils.*;
-import org.toxsoft.core.tslib.utils.icons.*;
+import org.toxsoft.core.tslib.utils.gui.*;
 
 /**
  * The item of the UNDO/REDO operations stack.

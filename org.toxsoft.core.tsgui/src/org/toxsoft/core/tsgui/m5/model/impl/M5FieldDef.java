@@ -96,7 +96,7 @@ public class M5FieldDef<T, V>
     @Override
     public V getValue( T aEntity ) {
       if( aEntity == null ) {
-        return defaultValue;
+        return doGetNullEntityFieldValue();
       }
       if( getter != null ) {
         return getter.getValue( aEntity );
@@ -385,6 +385,21 @@ public class M5FieldDef<T, V>
 
   // ------------------------------------------------------------------------------------
   // defaults for null entity visualization
+
+  /**
+   * Subclass may change the value returned as {@link IM5Getter#getValue(Object)} for <code>null</code> entity.
+   * <p>
+   * In base class returns an {@link #defaultValue()}, there is no need to call superclass method when overriding.
+   * <p>
+   * This method may return <code>null</code> in a case as described in commmens of the method
+   * {@link #doGetFieldValue(Object)},
+   *
+   * @see #doGetFieldValue(Object)
+   * @return &lt;V&gt; - value as field value for <code>null</code> entity, may be <code>null</code>
+   */
+  protected V doGetNullEntityFieldValue() {
+    return defaultValue;
+  }
 
   /**
    * Subclass may change the string returned as {@link IM5Getter#getName(Object)} for <code>null</code> entity.

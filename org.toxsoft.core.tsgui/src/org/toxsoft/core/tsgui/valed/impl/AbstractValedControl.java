@@ -84,7 +84,7 @@ public abstract class AbstractValedControl<V, C extends Control>
   }
 
   // ------------------------------------------------------------------------------------
-  // Поля, доступные для наследников
+  // protected fields accessible for subclasses
   //
 
   /**
@@ -289,6 +289,16 @@ public abstract class AbstractValedControl<V, C extends Control>
   }
 
   @Override
+  // final TODO change so that subclasses override doCanGetValue(), not this method
+  public ValidationResult canGetValue() {
+    if( getControl() == null ) {
+      // TODO what to do when widget is NOT created yet?
+      return ValidationResult.SUCCESS; // anyway, doCanGetValue() must NOT be called if widget does not exists
+    }
+    return doCanGetValue();
+  }
+
+  @Override
   final public V getValue() {
     if( getControl() == null ) {
       TsIllegalStateRtException.checkNull( lastValue, FMT_ERR_CANT_GET_VALUE_BEFORE_ITS_SET,
@@ -488,8 +498,17 @@ public abstract class AbstractValedControl<V, C extends Control>
   // To override
   //
 
-  @Override
-  public ValidationResult canGetValue() {
+  /**
+   * Subclass may perform check if the widgets contain valid value to be returned by {@link #getValue()}.
+   * <p>
+   * Called from {@link #canGetValue()} only when SWT widget exits, that is {@link #getControl()} != <code>null</code>.
+   * <p>
+   * In {@link AbstractValedControl} returns {@link ValidationResult#SUCCESS}, there is no need to call superclass
+   * method when overriding.
+   *
+   * @return {@link ValidationResult} - - the check result
+   */
+  protected ValidationResult doCanGetValue() {
     return ValidationResult.SUCCESS;
   }
 

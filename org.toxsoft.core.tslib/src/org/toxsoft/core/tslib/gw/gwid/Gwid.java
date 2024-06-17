@@ -1,5 +1,6 @@
 package org.toxsoft.core.tslib.gw.gwid;
 
+import static org.toxsoft.core.tslib.bricks.strid.IStridable.*;
 import static org.toxsoft.core.tslib.gw.IGwHardConstants.*;
 import static org.toxsoft.core.tslib.gw.gwid.EGwidKind.*;
 
@@ -171,12 +172,22 @@ public final class Gwid
     return new Gwid( aClassId, aStrid, GW_KEYWORD_ATTR, aAttrId, null, null );
   }
 
+  public static Gwid createAttr( Skid aSkid, String aAttrId ) {
+    TsNullArgumentRtException.checkNull( aSkid );
+    return new Gwid( aSkid.classId(), aSkid.strid(), GW_KEYWORD_ATTR, aAttrId, null, null );
+  }
+
   public static Gwid createRtdata( String aClassId, String aRtdataId ) {
     return new Gwid( aClassId, null, GW_KEYWORD_RTDATA, aRtdataId, null, null );
   }
 
   public static Gwid createRtdata( String aClassId, String aStrid, String aRtdataId ) {
     return new Gwid( aClassId, aStrid, GW_KEYWORD_RTDATA, aRtdataId, null, null );
+  }
+
+  public static Gwid createRtdata( Skid aSkid, String aRtdataId ) {
+    TsNullArgumentRtException.checkNull( aSkid );
+    return new Gwid( aSkid.classId(), aSkid.strid(), GW_KEYWORD_RTDATA, aRtdataId, null, null );
   }
 
   public static Gwid createLink( String aClassId, String aLinkId ) {
@@ -187,12 +198,22 @@ public final class Gwid
     return new Gwid( aClassId, aStrid, GW_KEYWORD_LINK, aLinkId, null, null );
   }
 
+  public static Gwid createLink( Skid aSkid, String aLinkId ) {
+    TsNullArgumentRtException.checkNull( aSkid );
+    return new Gwid( aSkid.classId(), aSkid.strid(), GW_KEYWORD_LINK, aLinkId, null, null );
+  }
+
   public static Gwid createRivet( String aClassId, String aRivetId ) {
     return new Gwid( aClassId, null, GW_KEYWORD_RIVET, aRivetId, null, null );
   }
 
   public static Gwid createRivet( String aClassId, String aStrid, String aRivetId ) {
     return new Gwid( aClassId, aStrid, GW_KEYWORD_RIVET, aRivetId, null, null );
+  }
+
+  public static Gwid createRivet( Skid aSkid, String aRivetId ) {
+    TsNullArgumentRtException.checkNull( aSkid );
+    return new Gwid( aSkid.classId(), aSkid.strid(), GW_KEYWORD_RIVET, aRivetId, null, null );
   }
 
   public static Gwid createCmd( String aClassId, String aCmdId ) {
@@ -203,12 +224,22 @@ public final class Gwid
     return new Gwid( aClassId, aStrid, GW_KEYWORD_CMD, aCmdId, null, null );
   }
 
+  public static Gwid createCmd( Skid aSkid, String aCmdId ) {
+    TsNullArgumentRtException.checkNull( aSkid );
+    return new Gwid( aSkid.classId(), aSkid.strid(), GW_KEYWORD_CMD, aCmdId, null, null );
+  }
+
   public static Gwid createCmdArg( String aClassId, String aCmdId, String aCmdArgId ) {
     return new Gwid( aClassId, null, GW_KEYWORD_CMD, aCmdId, GW_KEYWORD_CMD_ARG, aCmdArgId );
   }
 
   public static Gwid createCmdArg( String aClassId, String aStrid, String aCmdId, String aCmdArgId ) {
     return new Gwid( aClassId, aStrid, GW_KEYWORD_CMD, aCmdId, GW_KEYWORD_CMD_ARG, aCmdArgId );
+  }
+
+  public static Gwid createCmdArg( Skid aSkid, String aCmdId, String aCmdArgId ) {
+    TsNullArgumentRtException.checkNull( aSkid );
+    return new Gwid( aSkid.classId(), aSkid.strid(), GW_KEYWORD_CMD, aCmdId, GW_KEYWORD_CMD_ARG, aCmdArgId );
   }
 
   public static Gwid createEvent( String aClassId, String aEventId ) {
@@ -219,12 +250,23 @@ public final class Gwid
     return new Gwid( aClassId, aStrid, GW_KEYWORD_EVENT, aEventId, null, null );
   }
 
+  public static Gwid createEvent( Skid aSkid, String aEventId ) {
+    TsNullArgumentRtException.checkNull( aSkid );
+    return new Gwid( aSkid.classId(), aSkid.strid(), GW_KEYWORD_EVENT, aEventId, null, null );
+  }
+
   public static Gwid createEventParam( String aClassId, String aEventId, String aEventParamId ) {
     return new Gwid( aClassId, null, GW_KEYWORD_EVENT, aEventId, GW_KEYWORD_EVENT_PARAM, aEventParamId );
   }
 
   public static Gwid createEventParam( String aClassId, String aStrid, String aEventId, String aEventParamId ) {
     return new Gwid( aClassId, aStrid, GW_KEYWORD_EVENT, aEventId, GW_KEYWORD_EVENT_PARAM, aEventParamId );
+  }
+
+  public static Gwid createEventParam( Skid aSkid, String aEventId, String aEventParamId ) {
+    TsNullArgumentRtException.checkNull( aSkid );
+    return new Gwid( aSkid.classId(), aSkid.strid(), GW_KEYWORD_EVENT, aEventId, GW_KEYWORD_EVENT_PARAM,
+        aEventParamId );
   }
 
   public static Gwid createClob( String aClassId, String aClobId ) {
@@ -234,6 +276,32 @@ public final class Gwid
   public static Gwid createClob( String aClassId, String aStrid, String aClobId ) {
     return new Gwid( aClassId, aStrid, GW_KEYWORD_CLOB, aClobId, null, null );
   }
+
+  public static Gwid createClob( Skid aSkid, String aClobId ) {
+    TsNullArgumentRtException.checkNull( aSkid );
+    return new Gwid( aSkid.classId(), aSkid.strid(), GW_KEYWORD_CLOB, aClobId, null, null );
+  }
+
+  public static final Gwid NONE_CLASS             = Gwid.createClass( NONE_ID );
+  public static final Gwid NONE_OBJECT            = Gwid.createObj( Skid.NONE );
+  public static final Gwid NONE_ABSTR_ATTR        = Gwid.createAttr( NONE_ID, NONE_ID );
+  public static final Gwid NONE_CONCR_ATTR        = Gwid.createAttr( Skid.NONE, NONE_ID );
+  public static final Gwid NONE_ABSTR_CLOB        = Gwid.createClob( NONE_ID, NONE_ID );
+  public static final Gwid NONE_CONCR_CLOB        = Gwid.createClob( Skid.NONE, NONE_ID );
+  public static final Gwid NONE_ABSTR_LINK        = Gwid.createLink( NONE_ID, NONE_ID );
+  public static final Gwid NONE_CONCR_LINK        = Gwid.createLink( Skid.NONE, NONE_ID );
+  public static final Gwid NONE_ABSTR_RIVET       = Gwid.createRivet( NONE_ID, NONE_ID );
+  public static final Gwid NONE_CONCR_RIVET       = Gwid.createRivet( Skid.NONE, NONE_ID );
+  public static final Gwid NONE_ABSTR_RTDATA      = Gwid.createRtdata( NONE_ID, NONE_ID );
+  public static final Gwid NONE_CONCR_RTDATA      = Gwid.createRtdata( Skid.NONE, NONE_ID );
+  public static final Gwid NONE_ABSTR_CMD         = Gwid.createCmd( NONE_ID, NONE_ID );
+  public static final Gwid NONE_CONCR_CMD         = Gwid.createCmd( Skid.NONE, NONE_ID );
+  public static final Gwid NONE_ABSTR_CMD_ARG     = Gwid.createCmdArg( NONE_ID, NONE_ID, NONE_ID );
+  public static final Gwid NONE_CONCR_CMD_ARG     = Gwid.createCmdArg( Skid.NONE, NONE_ID, NONE_ID );
+  public static final Gwid NONE_ABSTR_EVENT       = Gwid.createEvent( NONE_ID, NONE_ID );
+  public static final Gwid NONE_CONCR_EVENT       = Gwid.createEvent( Skid.NONE, NONE_ID );
+  public static final Gwid NONE_ABSTR_EVENT_PARAM = Gwid.createEventParam( NONE_ID, NONE_ID, NONE_ID );
+  public static final Gwid NONE_CONCR_EVENT_PARAM = Gwid.createEventParam( Skid.NONE, NONE_ID, NONE_ID );
 
   /**
    * Creates {@link Gwid} instance from the canonical textual representation.

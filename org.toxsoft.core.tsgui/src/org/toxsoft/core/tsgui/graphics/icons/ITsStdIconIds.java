@@ -1,6 +1,6 @@
 package org.toxsoft.core.tsgui.graphics.icons;
 
-import org.toxsoft.core.tslib.utils.icons.*;
+import org.toxsoft.core.tslib.utils.gui.*;
 
 /**
  * Icons built in core TsGUI library.
