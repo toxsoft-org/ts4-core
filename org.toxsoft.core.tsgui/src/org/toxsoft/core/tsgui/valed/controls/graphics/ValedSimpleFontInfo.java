@@ -124,14 +124,12 @@ public class ValedSimpleFontInfo
 
   @Override
   protected void doDoSetUnvalidatedValue( IFontInfo aValue ) {
-    // TODO Auto-generated method stub
-
+    fontInfo = aValue;
   }
 
   @Override
   protected IFontInfo doGetUnvalidatedValue() {
-    // TODO Auto-generated method stub
-    return null;
+    return fontInfo;
   }
 
   // ------------------------------------------------------------------------------------
