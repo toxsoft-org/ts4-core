@@ -289,8 +289,8 @@ public sealed class Ugwi
       if( ch != CHAR_NAMEPSACE_SEPARATOR && !StridUtils.isIdStart( ch ) ) {
         return ValidationResult.error( MSG_ERR_UGWI_NAMESPACE_NOT_IDPATH );
       }
-      while( StridUtils.isIdPathPart( ch = aS.charAt( currIndex++ ) ) ) {
-        // bypass namespace string, may be an empty string
+      while( StridUtils.isIdPathPart( ch ) ) {
+        ch = aS.charAt( currIndex++ );
       }
       // here we had read namespace and ch now must be second CHAR_NAMEPSACE_SEPARATOR, after namepsace
       if( ch != CHAR_NAMEPSACE_SEPARATOR ) {
