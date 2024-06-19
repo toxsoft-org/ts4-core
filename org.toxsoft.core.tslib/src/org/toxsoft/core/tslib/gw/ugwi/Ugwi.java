@@ -286,11 +286,11 @@ public sealed class Ugwi
       }
       // start reading namespace
       ch = aS.charAt( currIndex++ );
-      if( !StridUtils.isIdStart( ch ) ) {
+      if( ch != CHAR_NAMEPSACE_SEPARATOR && !StridUtils.isIdStart( ch ) ) {
         return ValidationResult.error( MSG_ERR_UGWI_NAMESPACE_NOT_IDPATH );
       }
       while( StridUtils.isIdPathPart( ch = aS.charAt( currIndex++ ) ) ) {
-        // bypass namespace string
+        // bypass namespace string, may be an empty string
       }
       // here we had read namespace and ch now must be second CHAR_NAMEPSACE_SEPARATOR, after namepsace
       if( ch != CHAR_NAMEPSACE_SEPARATOR ) {
@@ -340,10 +340,12 @@ public sealed class Ugwi
     TsIllegalArgumentRtException.checkTrue( ch != CHAR_NAMEPSACE_SEPARATOR );
     // start reading namespace
     ch = aS.charAt( currIndex++ );
-    TsIllegalArgumentRtException.checkFalse( StridUtils.isIdStart( ch ) );
-    sb.append( ch );
-    while( StridUtils.isIdPathPart( ch = aS.charAt( currIndex++ ) ) ) {
+    if( ch != CHAR_NAMEPSACE_SEPARATOR ) { // read only non-empty namespace
+      TsIllegalArgumentRtException.checkFalse( StridUtils.isIdStart( ch ) );
       sb.append( ch );
+      while( StridUtils.isIdPathPart( ch = aS.charAt( currIndex++ ) ) ) {
+        sb.append( ch );
+      }
     }
     // here we had read namespace and ch now must be second CHAR_NAMEPSACE_SEPARATOR, after namepsace
     parts[1] = sb.toString();
