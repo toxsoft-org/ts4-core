@@ -7,20 +7,20 @@ Bundle-Activator: org.toxsoft.core.tsgui.mws.Activator
 Bundle-Vendor: toxsoft.org
 Export-Package: org.toxsoft.core.tsgui.mws,
  org.toxsoft.core.tsgui.mws.e4.addons
-Require-Bundle: javax.annotation,
- javax.inject,
+Require-Bundle: jakarta.inject.jakarta.inject-api,
+ jakarta.annotation-api,
  org.eclipse.core.runtime,
  org.eclipse.ui;resolution:=optional,
  org.eclipse.rap.ui;resolution:=optional,
+ org.osgi.service.event,
  org.eclipse.e4.core.contexts,
  org.eclipse.e4.core.di,
  org.eclipse.e4.core.services,
  org.eclipse.e4.ui.model.workbench,
  org.eclipse.e4.ui.workbench,
- org.eclipse.osgi.services,
  org.toxsoft.core.tslib,
  org.toxsoft.core.tsgui
-Bundle-RequiredExecutionEnvironment: JavaSE-17
-Service-Component: OSGI-INF/org.toxsoft.core.tsgui.mws.MwsOsgiService.xml
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: org.toxsoft.core.tsgui.mws
+Service-Component: OSGI-INF/org.toxsoft.core.tsgui.mws.MwsOsgiService.xml

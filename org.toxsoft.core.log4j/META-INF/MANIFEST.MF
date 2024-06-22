@@ -4,7 +4,7 @@ Bundle-Name: log4j support as plugin
 Bundle-SymbolicName: org.toxsoft.core.log4j
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: ToxSoft Ltd.
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: org.toxsoft.core.log4j
 Bundle-ClassPath: .
 Automatic-Module-Name: org.toxsoft.core.log4j

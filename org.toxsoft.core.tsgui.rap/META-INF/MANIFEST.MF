@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: TsGUI RAP specific library
+Bundle-SymbolicName: org.toxsoft.core.tsgui.rap
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.toxsoft.core.tsgui.rap.Activator
+Bundle-Vendor: toxsoft.org
+Require-Bundle: javax.inject,
+ javax.annotation,
+ org.eclipse.core.runtime,
+ org.eclipse.ui,
+ org.eclipse.swt,
+ org.eclipse.equinox.registry,
+ org.eclipse.jface,
+ org.eclipse.e4.core.contexts,
+ org.eclipse.e4.core.di.annotations,
+ org.eclipse.e4.core.services,
+ org.eclipse.e4.ui.workbench,
+ org.eclipse.e4.ui.model.workbench,
+ org.toxsoft.core.tslib,
+ org.toxsoft.core.singlesrc.rap,
+ org.toxsoft.core.tsgui
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Automatic-Module-Name: org.toxsoft.core.tsgui.rap
+Bundle-ActivationPolicy: lazy
+Export-Package: org.toxsoft.core.tsgui.rap

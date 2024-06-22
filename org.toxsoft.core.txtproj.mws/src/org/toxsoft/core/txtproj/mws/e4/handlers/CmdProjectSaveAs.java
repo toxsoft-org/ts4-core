@@ -2,14 +2,14 @@ package org.toxsoft.core.txtproj.mws.e4.handlers;
 
 import java.io.File;
 
-import javax.inject.Inject;
-
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.swt.widgets.Shell;
 import org.toxsoft.core.tsgui.mws.services.e4helper.ITsE4Helper;
 import org.toxsoft.core.tsgui.rcp.utils.TsRcpDialogUtils;
 import org.toxsoft.core.txtproj.lib.bound.ITsProjectFileBound;
+
+import jakarta.inject.Inject;
 
 /**
  * Command "Save project as other file".

@@ -3,28 +3,33 @@ package org.toxsoft.core.tsgui.mws.e4.addons;
 import static org.toxsoft.core.tsgui.mws.e4.addons.ITsResources.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import java.util.*;
+import java.util.Objects;
 
-import javax.annotation.*;
-import javax.inject.*;
-
-import org.eclipse.e4.core.contexts.*;
-import org.eclipse.e4.core.services.events.*;
-import org.eclipse.e4.ui.model.application.*;
-import org.eclipse.e4.ui.model.application.ui.basic.*;
-import org.eclipse.e4.ui.workbench.*;
-import org.osgi.service.event.*;
-import org.toxsoft.core.tsgui.*;
-import org.toxsoft.core.tsgui.bricks.quant.*;
-import org.toxsoft.core.tsgui.m5.*;
-import org.toxsoft.core.tsgui.mws.bases.*;
-import org.toxsoft.core.tsgui.mws.osgi.*;
-import org.toxsoft.core.tsgui.mws.quants.progargs.*;
-import org.toxsoft.core.tslib.av.opset.impl.*;
-import org.toxsoft.core.tslib.bricks.apprefs.*;
+import org.eclipse.e4.core.contexts.IEclipseContext;
+import org.eclipse.e4.core.services.events.IEventBroker;
+import org.eclipse.e4.ui.model.application.MApplication;
+import org.eclipse.e4.ui.model.application.ui.basic.MTrimmedWindow;
+import org.eclipse.e4.ui.workbench.UIEvents;
+import org.osgi.service.event.Event;
+import org.osgi.service.event.EventHandler;
+import org.toxsoft.core.tsgui.QuantTsGui;
+import org.toxsoft.core.tsgui.bricks.quant.QuantBase;
+import org.toxsoft.core.tsgui.m5.QuantM5;
+import org.toxsoft.core.tsgui.mws.bases.IApplicationWideQuantManager;
+import org.toxsoft.core.tsgui.mws.bases.MwsWindowStaff;
+import org.toxsoft.core.tsgui.mws.osgi.IMwsOsgiService;
+import org.toxsoft.core.tsgui.mws.quants.progargs.QuantProgramArgs;
+import org.toxsoft.core.tslib.av.opset.impl.OptionSetUtils;
+import org.toxsoft.core.tslib.bricks.apprefs.IAppPreferences;
+import org.toxsoft.core.tslib.bricks.apprefs.IPrefBundle;
 import org.toxsoft.core.tslib.bricks.apprefs.impl.*;
-import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.logs.impl.*;
+import org.toxsoft.core.tslib.utils.errors.TsInternalErrorRtException;
+import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import jakarta.inject.Inject;
 
 /**
  * Main addon of MWS based application.

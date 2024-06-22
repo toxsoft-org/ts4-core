@@ -1,11 +1,11 @@
 package org.toxsoft.core.txtproj.mws.e4.handlers;
 
-import javax.inject.Inject;
-
 import org.eclipse.e4.core.di.annotations.CanExecute;
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.toxsoft.core.tsgui.mws.services.e4helper.ITsE4Helper;
 import org.toxsoft.core.txtproj.lib.bound.ITsProjectFileBound;
+
+import jakarta.inject.Inject;
 
 /**
  * Command "Save project to the current file".

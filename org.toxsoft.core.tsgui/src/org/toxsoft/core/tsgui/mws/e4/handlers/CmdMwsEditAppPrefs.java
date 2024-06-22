@@ -3,29 +3,35 @@ package org.toxsoft.core.tsgui.mws.e4.handlers;
 import static org.toxsoft.core.tsgui.mws.IMwsCoreConstants.*;
 import static org.toxsoft.core.tsgui.mws.e4.handlers.ITsResources.*;
 
-import javax.inject.*;
-
-import org.eclipse.e4.core.contexts.*;
-import org.eclipse.e4.core.di.annotations.*;
-import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tsgui.bricks.ctx.*;
-import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
-import org.toxsoft.core.tsgui.dialogs.*;
-import org.toxsoft.core.tsgui.dialogs.datarec.*;
-import org.toxsoft.core.tsgui.mws.*;
-import org.toxsoft.core.tsgui.mws.services.e4helper.*;
-import org.toxsoft.core.tsgui.panels.opsedit.*;
-import org.toxsoft.core.tsgui.panels.opsedit.impl.*;
-import org.toxsoft.core.tslib.av.opset.*;
-import org.toxsoft.core.tslib.bricks.apprefs.*;
-import org.toxsoft.core.tslib.bricks.keeper.*;
-import org.toxsoft.core.tslib.bricks.keeper.std.*;
-import org.toxsoft.core.tslib.bricks.strid.coll.*;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.eclipse.e4.core.contexts.IEclipseContext;
+import org.eclipse.e4.core.di.annotations.Execute;
+import org.eclipse.e4.core.di.annotations.Optional;
+import org.eclipse.swt.widgets.Shell;
+import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
+import org.toxsoft.core.tsgui.bricks.ctx.impl.TsGuiContext;
+import org.toxsoft.core.tsgui.dialogs.TsDialogUtils;
+import org.toxsoft.core.tsgui.dialogs.datarec.ITsDialogInfo;
+import org.toxsoft.core.tsgui.dialogs.datarec.TsDialogInfo;
+import org.toxsoft.core.tsgui.mws.IMwsCoreConstants;
+import org.toxsoft.core.tsgui.mws.services.e4helper.ITsE4Helper;
+import org.toxsoft.core.tsgui.panels.opsedit.DialogOptionsEdit;
+import org.toxsoft.core.tsgui.panels.opsedit.IOpsetsKitItemDef;
+import org.toxsoft.core.tsgui.panels.opsedit.impl.OpsetsKitItemDef;
+import org.toxsoft.core.tslib.av.opset.IOptionSet;
+import org.toxsoft.core.tslib.bricks.apprefs.IAppPreferences;
+import org.toxsoft.core.tslib.bricks.apprefs.IPrefBundle;
+import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
+import org.toxsoft.core.tslib.bricks.keeper.std.StringListKeeper;
+import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
+import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesListEdit;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.StridablesList;
 import org.toxsoft.core.tslib.coll.primtypes.*;
-import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.SingleStringList;
+import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.logs.impl.*;
+import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+
+import jakarta.inject.Named;
 
 /**
  * E4 command handler: invoke application preferences edit dialog.

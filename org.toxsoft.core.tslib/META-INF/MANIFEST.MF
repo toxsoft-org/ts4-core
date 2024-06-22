@@ -4,7 +4,7 @@ Bundle-Name: TsLib core
 Bundle-SymbolicName: org.toxsoft.core.tslib
 Bundle-Version: 1.0.0.qualifier
 Automatic-Module-Name: org.toxsoft.core.tslib
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Vendor: toxsoft.org
 Export-Package: org.toxsoft.core.tslib,
  org.toxsoft.core.tslib.av,

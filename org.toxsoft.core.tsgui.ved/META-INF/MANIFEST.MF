@@ -4,8 +4,8 @@ Bundle-Name: TsGUI Visual Editor frameworkVed
 Bundle-SymbolicName: org.toxsoft.core.tsgui.ved
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.toxsoft.core.tsgui.ved.Activator
-Require-Bundle: javax.annotation,
- javax.inject,
+Require-Bundle: jakarta.inject.jakarta.inject-api,
+ jakarta.annotation-api,
  org.eclipse.core.runtime,
  org.eclipse.ui,
  org.eclipse.e4.core.contexts,
@@ -18,7 +18,7 @@ Require-Bundle: javax.annotation,
  org.toxsoft.core.tsgui,
  org.toxsoft.core.tsgui.rcp,
  org.toxsoft.core.tsgui.mws
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: org.toxsoft.core.tsgui.ved
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: toxsoft.org

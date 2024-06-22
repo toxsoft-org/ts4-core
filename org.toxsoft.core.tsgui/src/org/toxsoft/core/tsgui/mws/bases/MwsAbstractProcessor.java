@@ -3,24 +3,27 @@ package org.toxsoft.core.tsgui.mws.bases;
 import static org.toxsoft.core.tsgui.mws.IMwsCoreConstants.*;
 import static org.toxsoft.core.tsgui.mws.bases.ITsResources.*;
 
-import java.util.*;
+import java.util.List;
 
-import javax.annotation.*;
-
-import org.eclipse.e4.core.contexts.*;
-import org.eclipse.e4.ui.model.application.*;
-import org.eclipse.e4.ui.model.application.ui.*;
-import org.eclipse.e4.ui.model.application.ui.basic.*;
-import org.eclipse.e4.ui.model.application.ui.menu.*;
-import org.eclipse.e4.ui.workbench.modeling.*;
-import org.osgi.framework.*;
-import org.toxsoft.core.tsgui.*;
-import org.toxsoft.core.tsgui.graphics.icons.*;
-import org.toxsoft.core.tsgui.graphics.icons.impl.*;
-import org.toxsoft.core.tsgui.mws.*;
-import org.toxsoft.core.tsgui.mws.osgi.*;
+import org.eclipse.e4.core.contexts.IEclipseContext;
+import org.eclipse.e4.ui.model.application.MApplication;
+import org.eclipse.e4.ui.model.application.ui.MElementContainer;
+import org.eclipse.e4.ui.model.application.ui.basic.MTrimmedWindow;
+import org.eclipse.e4.ui.model.application.ui.menu.MHandledMenuItem;
+import org.eclipse.e4.ui.workbench.modeling.EModelService;
+import org.eclipse.e4.ui.workbench.modeling.ElementMatcher;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
+import org.toxsoft.core.tsgui.Activator;
+import org.toxsoft.core.tsgui.graphics.icons.EIconSize;
+import org.toxsoft.core.tsgui.graphics.icons.ITsIconManager;
+import org.toxsoft.core.tsgui.graphics.icons.impl.TsIconManagerUtils;
+import org.toxsoft.core.tsgui.mws.IMwsCoreConstants;
+import org.toxsoft.core.tsgui.mws.osgi.IMwsOsgiService;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.logs.impl.*;
+import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+
+import jakarta.annotation.PostConstruct;
 
 /**
  * Base class for Eclipse e4 processors implementation.

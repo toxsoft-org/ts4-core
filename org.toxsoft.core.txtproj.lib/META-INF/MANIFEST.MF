@@ -4,12 +4,10 @@ Bundle-Name: TS Unit: Txtproj - textual project file core library
 Bundle-SymbolicName: org.toxsoft.core.txtproj.lib
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: toxsoft.org
-Require-Bundle: javax.annotation,
- javax.inject,
- org.eclipse.core.runtime,
+Require-Bundle: org.eclipse.core.runtime,
  org.toxsoft.core.tslib
 Automatic-Module-Name: org.toxsoft.core.txtproj.lib
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: org.toxsoft.core.txtproj.lib,
  org.toxsoft.core.txtproj.lib.bound,
  org.toxsoft.core.txtproj.lib.categs,

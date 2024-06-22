@@ -2,12 +2,12 @@ package org.toxsoft.core.tsgui.mws.bases;
 
 import static org.toxsoft.core.tsgui.mws.bases.ITsResources.*;
 
-import javax.inject.Inject;
-
 import org.osgi.framework.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+
+import jakarta.inject.Inject;
 
 /**
  * Базовый класс активаторов плагинов.

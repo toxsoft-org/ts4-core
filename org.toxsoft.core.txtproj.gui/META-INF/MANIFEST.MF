@@ -4,9 +4,9 @@ Bundle-Name: Gui
 Bundle-SymbolicName: org.toxsoft.core.txtproj.gui
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.toxsoft.core.txtproj.gui.Activator
-Bundle-RequiredExecutionEnvironment: JavaSE-17
-Require-Bundle: javax.inject,
- javax.annotation,
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Require-Bundle: jakarta.inject.jakarta.inject-api,
+ jakarta.annotation-api,
  org.eclipse.core.runtime,
  org.eclipse.ui;resolution:=optional,
  org.eclipse.rap.ui;resolution:=optional,

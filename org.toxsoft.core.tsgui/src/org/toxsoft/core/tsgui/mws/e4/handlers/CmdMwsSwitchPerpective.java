@@ -3,17 +3,17 @@ package org.toxsoft.core.tsgui.mws.e4.handlers;
 import static org.toxsoft.core.tsgui.mws.IMwsCoreConstants.*;
 import static org.toxsoft.core.tsgui.mws.e4.handlers.ITsResources.*;
 
-import java.util.*;
-
-import javax.inject.*;
+import java.util.List;
 
 import org.eclipse.e4.core.di.annotations.*;
-import org.eclipse.e4.core.di.annotations.Optional;
-import org.eclipse.e4.ui.model.application.commands.*;
-import org.eclipse.e4.ui.model.application.ui.menu.*;
-import org.toxsoft.core.tsgui.mws.*;
-import org.toxsoft.core.tsgui.mws.services.e4helper.*;
-import org.toxsoft.core.tslib.utils.logs.impl.*;
+import org.eclipse.e4.ui.model.application.commands.MParameter;
+import org.eclipse.e4.ui.model.application.ui.menu.ItemType;
+import org.eclipse.e4.ui.model.application.ui.menu.MHandledItem;
+import org.toxsoft.core.tsgui.mws.IMwsCoreConstants;
+import org.toxsoft.core.tsgui.mws.services.e4helper.ITsE4Helper;
+import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+
+import jakarta.inject.Named;
 
 /**
  * E4 command handler: switch to specified perspective.

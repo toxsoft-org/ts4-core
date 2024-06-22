@@ -5,8 +5,8 @@ Bundle-SymbolicName: org.toxsoft.core.tsgui
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.toxsoft.core.tsgui.Activator
 Bundle-Vendor: toxsoft.org
-Require-Bundle: javax.inject,
- javax.annotation,
+Require-Bundle: jakarta.inject.jakarta.inject-api,
+ jakarta.annotation-api,
  org.eclipse.core.runtime,
  org.eclipse.ui;resolution:=optional,
  org.eclipse.rap.ui;resolution:=optional,
@@ -20,7 +20,7 @@ Require-Bundle: javax.inject,
  org.toxsoft.core.tslib,
  org.toxsoft.core.singlesrc.rap;resolution:=optional,
  org.toxsoft.core.singlesrc.rcp;resolution:=optional
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: org.toxsoft.core.tsgui
 Bundle-ActivationPolicy: lazy
 DynamicImport-Package: *

@@ -12,7 +12,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.toxsoft.core.tsgui,
  org.toxsoft.core.singlesrc.rap;resolution:=optional,
  org.toxsoft.core.singlesrc.rcp;resolution:=optional
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: org.toxsoft.core.tsgui.chart
 Bundle-ActivationPolicy: lazy
 Export-Package: org.toxsoft.core.tsgui.chart.api,
