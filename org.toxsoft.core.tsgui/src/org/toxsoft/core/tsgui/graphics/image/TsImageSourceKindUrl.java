@@ -77,13 +77,13 @@ public class TsImageSourceKindUrl
   protected TsImage doCreate( TsImageDescriptor aDescriptor, ITsGuiContext aContext ) {
     String urlStr = OPDEF_URL_STRING.getValue( aDescriptor.params() ).asString();
     try {
-      URL url = new URL( urlStr );
+      URL url = new URI( urlStr ).toURL();
       ImageDescriptor imgDescr = ImageDescriptor.createFromURL( url );
       Display display = aContext.get( Display.class );
       Image image = imgDescr.createImage( display );
       return TsImage.create( image );
     }
-    catch( MalformedURLException ex ) {
+    catch( URISyntaxException | MalformedURLException ex ) {
       throw new TsIllegalArgumentRtException( ex );
     }
   }

@@ -3,10 +3,10 @@ package org.toxsoft.core.tslib.bricks.validator.std;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import static org.toxsoft.core.tslib.bricks.validator.std.ITsResources.*;
 
-import org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Check the name {@link String} value.
@@ -62,9 +62,9 @@ public class NameStringValidator
   //
 
   /**
-   * Returns the message for emtry name warning.
+   * Returns the message for empty name warning.
    *
-   * @return String - emtry name warning message
+   * @return String - empty name warning message
    */
   public static String getEmptyNameMessage() {
     return MSG_WARN_EMPTY_NAME;

@@ -28,18 +28,6 @@ public class SynchronizedMap<K, E>
 
   /**
    * Constructor.
-   * <p>
-   * Creates new instance of the lock for synchronization.
-   *
-   * @param aSource {@link IMapEdit} - the wrapped map
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   */
-  public SynchronizedMap( IMapEdit<K, E> aSource ) {
-    this( aSource, new ReentrantReadWriteLock() );
-  }
-
-  /**
-   * Constructor.
    *
    * @param aSource {@link IMapEdit} - the wrapped map
    * @param aLock {@link ReentrantReadWriteLock} - the lock to be used for synchronization
@@ -51,6 +39,18 @@ public class SynchronizedMap<K, E>
     lock = aLock;
     synchKeys = new SynchronizedList<>( source.keys(), lock );
     synchValues = new SynchronizedList<>( source.values(), lock );
+  }
+
+  /**
+   * Constructor.
+   * <p>
+   * Internally creates the new instance of {@link ReentrantReadWriteLock}.
+   *
+   * @param aSource {@link IMapEdit} - the wrapped map
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public SynchronizedMap( IMapEdit<K, E> aSource ) {
+    this( aSource, new ReentrantReadWriteLock() );
   }
 
   // ------------------------------------------------------------------------------------

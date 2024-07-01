@@ -1,33 +1,32 @@
 package org.toxsoft.core.tslib.coll.impl;
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.*;
 
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Immutable implementation of {@link IList} containing one element.
  *
  * @author hazard157
- * @param <T> - the type of elements in this collection
+ * @param <E> - the type of elements in this collection
  */
-public class SingleItemList<T>
-    implements IList<T>, Serializable {
+public class SingleItemList<E>
+    implements IList<E>, Serializable {
 
   private static final long serialVersionUID = 157157L;
 
-  private final T item;
+  private final E item;
 
   /**
    * Constructor from element value.
    *
    * @param aElem &lt;T&gt; - value of the only element
    */
-  public SingleItemList( T aElem ) {
+  public SingleItemList( E aElem ) {
     item = TsNullArgumentRtException.checkNull( aElem );
   }
 
@@ -36,7 +35,7 @@ public class SingleItemList<T>
   //
 
   @Override
-  public Iterator<T> iterator() {
+  public Iterator<E> iterator() {
     return new Iterator<>() {
 
       int index = 0;
@@ -47,7 +46,7 @@ public class SingleItemList<T>
       }
 
       @Override
-      public T next() {
+      public E next() {
         if( hasNext() ) {
           return get( index++ );
         }
@@ -77,13 +76,13 @@ public class SingleItemList<T>
 
   @SuppressWarnings( "unchecked" )
   @Override
-  public T[] toArray( T[] aSrcArray ) {
+  public E[] toArray( E[] aSrcArray ) {
     TsNullArgumentRtException.checkNull( aSrcArray );
     if( aSrcArray.length == 0 ) {
       // Make a new array of a's runtime type, but my contents:
       Object a[] = Arrays.copyOf( aSrcArray, 1, aSrcArray.getClass() );
       a[0] = item;
-      return (T[])a;
+      return (E[])a;
     }
     aSrcArray[0] = item;
     for( int i = 1; i < aSrcArray.length; i++ ) {
@@ -104,7 +103,7 @@ public class SingleItemList<T>
   //
 
   @Override
-  public int indexOf( T aElem ) {
+  public int indexOf( E aElem ) {
     TsNullArgumentRtException.checkNull( aElem );
     if( aElem.equals( item ) ) {
       return 0;
@@ -113,13 +112,13 @@ public class SingleItemList<T>
   }
 
   @Override
-  public T get( int aIndex ) {
+  public E get( int aIndex ) {
     TsIllegalArgumentRtException.checkTrue( aIndex != 0 );
     return item;
   }
 
   @Override
-  public boolean hasElem( T aElem ) {
+  public boolean hasElem( E aElem ) {
     TsNullArgumentRtException.checkNull( aElem );
     return item.equals( aElem );
   }

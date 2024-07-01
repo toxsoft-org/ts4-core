@@ -1,10 +1,9 @@
 package org.toxsoft.core.tslib.bricks.validator.impl;
 
-import org.toxsoft.core.tslib.bricks.validator.ITsValidator;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
+import org.toxsoft.core.tslib.bricks.validator.*;
 
 /**
- * {@link ITsValidator} implemetation always returning success.
+ * {@link ITsValidator} implementation always returning success.
  *
  * @author hazard157
  * @param <V> - checked entity class

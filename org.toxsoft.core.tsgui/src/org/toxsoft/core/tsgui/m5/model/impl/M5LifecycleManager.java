@@ -2,9 +2,9 @@ package org.toxsoft.core.tsgui.m5.model.impl;
 
 import static org.toxsoft.core.tsgui.m5.model.impl.ITsResources.*;
 
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.model.*;
-import org.toxsoft.core.tslib.bricks.ctx.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
@@ -30,7 +30,7 @@ import org.toxsoft.core.tslib.utils.logs.impl.*;
  * @param <M> - master object type
  */
 public class M5LifecycleManager<T, M>
-    implements IM5LifecycleManager<T>, ITsContextable {
+    implements IM5LifecycleManager<T>, ITsGuiContextable {
 
   /**
    * Default items provider.
@@ -105,7 +105,7 @@ public class M5LifecycleManager<T, M>
   //
 
   @Override
-  public ITsContext tsContext() {
+  public ITsGuiContext tsContext() {
     return model.domain().tsContext();
   }
 

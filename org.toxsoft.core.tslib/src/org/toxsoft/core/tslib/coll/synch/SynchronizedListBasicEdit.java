@@ -1,16 +1,15 @@
 package org.toxsoft.core.tslib.coll.synch;
 
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.concurrent.locks.*;
 
-import org.toxsoft.core.tslib.coll.IListBasicEdit;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Потоко-безопасная оболочка над базовым редактируемым списком {@link IListBasicEdit}.
+ * Thread-safe wrapper over a basic editable list.
  *
  * @author hazard157
- * @version $id$
- * @param <E> - тип элементов списка
+ * @param <E> - the type of elements in this collection
  */
 public class SynchronizedListBasicEdit<E>
     extends SynchronizedListBase<E, IListBasicEdit<E>> {
@@ -18,24 +17,26 @@ public class SynchronizedListBasicEdit<E>
   private static final long serialVersionUID = 157157L;
 
   /**
-   * Создает соболочку над aSource с потоко-безопасным доступом.
+   * Constructor.
    *
-   * @param aSource IListBasicEdit&lt;E&gt; - список - источник
-   * @throws TsNullArgumentRtException аргумент = null
-   */
-  public SynchronizedListBasicEdit( IListBasicEdit<E> aSource ) {
-    super( aSource );
-  }
-
-  /**
-   * Создает оболочку над aSource с потоко-безопасным доступом с указанием блокировки.
-   *
-   * @param aSource IListBasicEdit&lt;E&gt; - список - источник
-   * @param aLock {@link ReentrantReadWriteLock} - блокировка списка
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aSource &lt;L&gt; - the source collection
+   * @param aLock {@link ReentrantReadWriteLock} - thread safety lock
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public SynchronizedListBasicEdit( IListBasicEdit<E> aSource, ReentrantReadWriteLock aLock ) {
     super( aSource, aLock );
+  }
+
+  /**
+   * Constructor.
+   * <p>
+   * Internally creates the new instance of {@link ReentrantReadWriteLock}.
+   *
+   * @param aSource &lt;L&gt; - the source collection
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public SynchronizedListBasicEdit( IListBasicEdit<E> aSource ) {
+    super( aSource );
   }
 
 }

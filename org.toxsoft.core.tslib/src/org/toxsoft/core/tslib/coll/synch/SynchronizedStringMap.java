@@ -1,23 +1,21 @@
 package org.toxsoft.core.tslib.coll.synch;
 
-import java.io.Serializable;
-import java.util.Iterator;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.io.*;
+import java.util.*;
+import java.util.concurrent.locks.*;
 
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IMapEdit;
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.coll.basis.ITsSynchronizedCollectionWrapper;
-import org.toxsoft.core.tslib.coll.impl.TsCollectionsUtils;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Потоко-безопасная оболочка над редактируемой картой отображения {@link IMapEdit}.
+ * Thread-safe wrapper over an editable map {@link IStringMapEdit}.
  *
  * @author hazard157
  * @version $id$
- * @param <E> - тип хранимых элементов, значений в карте
+ * @param <E> - the type of mapped values
  */
 public class SynchronizedStringMap<E>
     implements IStringMapEdit<E>, ITsSynchronizedCollectionWrapper<E>, Serializable {
@@ -30,21 +28,11 @@ public class SynchronizedStringMap<E>
   protected final IStringMapEdit<E>      source;
 
   /**
-   * Создает оболочку над aSource с потоко-безопасным доступом.
+   * Constructor.
    *
-   * @param aSource IStringMapEdit&lt;E&gt; - карта - источник
-   * @throws TsNullArgumentRtException аргумент = null
-   */
-  public SynchronizedStringMap( IStringMapEdit<E> aSource ) {
-    this( aSource, new ReentrantReadWriteLock() );
-  }
-
-  /**
-   * Создает оболочку над aSource с потоко-безопасным доступом с указанием блокировки.
-   *
-   * @param aSource IStringMapEdit&lt;E&gt; - карта - источник
-   * @param aLock {@link ReentrantReadWriteLock} - блокировка карты
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aSource {@link IMapEdit} - the wrapped map
+   * @param aLock {@link ReentrantReadWriteLock} - the lock to be used for synchronization
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public SynchronizedStringMap( IStringMapEdit<E> aSource, ReentrantReadWriteLock aLock ) {
     TsNullArgumentRtException.checkNulls( aSource, aLock );
@@ -52,6 +40,18 @@ public class SynchronizedStringMap<E>
     lock = aLock;
     synchKeys = new SynchronizedStringList<>( source.keys(), lock );
     synchValues = new SynchronizedList<>( source.values(), lock );
+  }
+
+  /**
+   * Constructor.
+   * <p>
+   * Internally creates the new instance of {@link ReentrantReadWriteLock}.
+   *
+   * @param aSource {@link IMapEdit} - the wrapped map
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public SynchronizedStringMap( IStringMapEdit<E> aSource ) {
+    this( aSource, new ReentrantReadWriteLock() );
   }
 
   // ------------------------------------------------------------------------------------

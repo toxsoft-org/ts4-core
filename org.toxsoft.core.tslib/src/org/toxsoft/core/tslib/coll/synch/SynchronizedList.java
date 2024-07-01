@@ -10,14 +10,12 @@ import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
-// TODO TRANSLATE
-
 /**
- * Класс потоко-безопасной оболочки над НЕредактируемым списком.
+ * Thread-safe wrapper over <b>un</b>editable list.
  *
  * @author hazard157
- * @param <E> - тип элементов списка
- * @param <L> - тип НЕредактируемого списка-источника
+ * @param <E> - the type of elements in this collection
+ * @param <L> - wrapped list type
  */
 public class SynchronizedList<E, L extends IList<E>>
     implements IList<E>, ITsSynchronizedCollectionWrapper<E>, Serializable {
@@ -28,7 +26,7 @@ public class SynchronizedList<E, L extends IList<E>>
   protected final L                      source;
 
   /**
-   * Constructor with all invariants.
+   * Constructor.
    *
    * @param aSource &lt;L&gt; - the source collection
    * @param aLock {@link ReentrantReadWriteLock} - thread safety lock

@@ -1,19 +1,18 @@
 package org.toxsoft.core.tslib.coll.synch;
 
-import java.util.Collection;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.*;
+import java.util.concurrent.locks.*;
 
-import org.toxsoft.core.tslib.coll.IListBasicEdit;
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.utils.errors.TsErrorUtils;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Служебный базовый класс потоко-безопасной оболочки над редактируемым списком.
+ * Internal thread-safe wrapper over an editable list.
  *
  * @author hazard157
- * @param <E> - тип элементов списка
- * @param <L> - (служебный) тип редактируемого списка-источника
+ * @param <E> - the type of elements in this collection
+ * @param <L> - wrapped list type
  */
 class SynchronizedListBase<E, L extends IListBasicEdit<E>>
     extends SynchronizedList<E, L>
@@ -22,24 +21,26 @@ class SynchronizedListBase<E, L extends IListBasicEdit<E>>
   private static final long serialVersionUID = 157157L;
 
   /**
-   * Создает оболочку над aSource с потоко-безопасным доступом.
+   * Constructor.
    *
-   * @param aSource L - список - источник
-   * @throws TsNullArgumentRtException аргумент = null
-   */
-  protected SynchronizedListBase( L aSource ) {
-    super( aSource );
-  }
-
-  /**
-   * Создает оболочку над aSource с потоко-безопасным доступом с указанием блокировки.
-   *
-   * @param aSource L - список - источник
-   * @param aLock {@link ReentrantReadWriteLock} - блокировка списка
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aSource &lt;L&gt; - the source collection
+   * @param aLock {@link ReentrantReadWriteLock} - thread safety lock
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   protected SynchronizedListBase( L aSource, ReentrantReadWriteLock aLock ) {
     super( aSource, aLock );
+  }
+
+  /**
+   * Constructor.
+   * <p>
+   * Internally creates the new instance of {@link ReentrantReadWriteLock}.
+   *
+   * @param aSource &lt;L&gt; - the source collection
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  protected SynchronizedListBase( L aSource ) {
+    super( aSource );
   }
 
   // ------------------------------------------------------------------------------------

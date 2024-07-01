@@ -24,7 +24,7 @@ abstract class AbstractIntBundledList
   private static final long serialVersionUID = 158158L;
 
   /**
-   * Bundleed array of ints, chained as linked list.
+   * Bundled array of ints, chained as linked list.
    *
    * @author hazard157
    */

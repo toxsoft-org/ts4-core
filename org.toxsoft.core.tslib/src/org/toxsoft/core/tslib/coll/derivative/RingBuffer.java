@@ -2,7 +2,7 @@ package org.toxsoft.core.tslib.coll.derivative;
 
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
-import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.math.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -15,14 +15,9 @@ public class RingBuffer<E>
     implements IRingBuffer<E> {
 
   /**
-   * Minimal allowed capacity of the buffer.
+   * Allowed range of the <code>aCapacity</code> of the constructor.
    */
-  public static final int MIN_CAPACITY = 4;
-
-  /**
-   * Maximal allowed capacity of the buffer.
-   */
-  public static final int MAX_CAPACITY = 16 * 1024 * 14;
+  public static final IntRange CAPACITY_RANGE = new IntRange( 4, 2 * 1024 * 1024 * 1024 ); // 4 byte .. 2 GB
 
   private final Object[] items;
 
@@ -32,12 +27,12 @@ public class RingBuffer<E>
   /**
    * Constructor.
    * <p>
-   * Capacity will be fitted in range {@link #MIN_CAPACITY} .. {@link #MAX_CAPACITY}.
+   * Capacity will be fitted in range {@link #CAPACITY_RANGE}.
    *
    * @param aCapacity int - buffer capacity
    */
   public RingBuffer( int aCapacity ) {
-    int capacity = TsMiscUtils.inRange( aCapacity, MIN_CAPACITY, MAX_CAPACITY );
+    int capacity = CAPACITY_RANGE.inRange( aCapacity );
     items = new Object[capacity];
   }
 

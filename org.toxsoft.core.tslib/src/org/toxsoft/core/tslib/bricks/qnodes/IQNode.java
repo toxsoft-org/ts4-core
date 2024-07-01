@@ -211,7 +211,7 @@ public sealed interface IQNode
    * <li>{@link ECrudOp#CREATE} - new node added with ID <code>aChildNodeId</code>;</li>
    * <li>{@link ECrudOp#REMOVE} - child node with ID <code>aChildNodeId</code> was removed;</li>
    * <li>{@link ECrudOp#EDIT} - properties of node with ID <code>aChildNodeId</code> has been changed without changes in
-   * tree structure. Implementaion must call {@link #refreshEntity()} for the specified child node;</li>
+   * tree structure. Implementation must call {@link #refreshEntity()} for the specified child node;</li>
    * <li>{@link ECrudOp#LIST} - there is changes in subtree structure affecting several nodes at once. Usually all
    * childs need to be recreated. In this case value of argument <code>aChildNodeId</code> is ignored and may be
    * <code>null</code>.</li>

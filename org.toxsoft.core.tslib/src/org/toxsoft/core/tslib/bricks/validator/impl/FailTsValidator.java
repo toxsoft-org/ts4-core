@@ -3,7 +3,7 @@ package org.toxsoft.core.tslib.bricks.validator.impl;
 import org.toxsoft.core.tslib.bricks.validator.*;
 
 /**
- * {@link ITsValidator} implemetation always fails.
+ * {@link ITsValidator} implementation always fails.
  *
  * @author hazard157
  * @param <V> - checked entity class

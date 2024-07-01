@@ -8,11 +8,11 @@ import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Потоко-безопасная оболочка над редактируемым списком {@link IListEdit}.
+ * Thread-safe wrapper over an editable list.
  *
  * @author hazard157
  * @version $id$
- * @param <E> - тип элементов списка
+ * @param <E> - the type of elements in this collection
  */
 public class SynchronizedListEdit<E>
     extends SynchronizedListBase<E, IListEdit<E>>
@@ -21,24 +21,26 @@ public class SynchronizedListEdit<E>
   private static final long serialVersionUID = 157157L;
 
   /**
-   * Создает соболочку над aSource с потоко-безопасным доступом.
+   * Constructor.
    *
-   * @param aSource IListEdit&lt;E&gt; - список - источник
-   * @throws TsNullArgumentRtException аргумент = null
-   */
-  public SynchronizedListEdit( IListEdit<E> aSource ) {
-    super( aSource );
-  }
-
-  /**
-   * Создает оболочку над aSource с потоко-безопасным доступом с указанием блокировки.
-   *
-   * @param aSource IListEdit&lt;E&gt; - список - источник
-   * @param aLock {@link ReentrantReadWriteLock} - блокировка списка
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aSource &lt;L&gt; - the source collection
+   * @param aLock {@link ReentrantReadWriteLock} - thread safety lock
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public SynchronizedListEdit( IListEdit<E> aSource, ReentrantReadWriteLock aLock ) {
     super( aSource, aLock );
+  }
+
+  /**
+   * Constructor.
+   * <p>
+   * Internally creates the new instance of {@link ReentrantReadWriteLock}.
+   *
+   * @param aSource &lt;L&gt; - the source collection
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public SynchronizedListEdit( IListEdit<E> aSource ) {
+    super( aSource );
   }
 
   // ------------------------------------------------------------------------------------
