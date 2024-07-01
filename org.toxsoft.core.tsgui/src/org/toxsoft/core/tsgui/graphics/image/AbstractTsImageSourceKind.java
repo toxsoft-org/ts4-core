@@ -14,6 +14,7 @@ import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.logs.impl.*;
 
@@ -58,6 +59,12 @@ public non-sealed abstract class AbstractTsImageSourceKind
       return vr;
     }
     return doValidateParams( aParams );
+  }
+
+  @Override
+  final public TsImageDescriptor createDescriptor( IOptionSet aParams ) {
+    TsValidationFailedRtException.checkError( validateParams( aParams ) );
+    return new TsImageDescriptor( id(), aParams );
   }
 
   @Override

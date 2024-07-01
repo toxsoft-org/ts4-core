@@ -6,6 +6,7 @@ import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -37,12 +38,24 @@ public sealed interface ITsImageSourceKind
    * <li>mandatory options are present;</li>
    * <li>any additional checks performed by the implementation.</li>
    * </ul>
+   * <p>
+   * Method {@link #createDescriptor(IOptionSet)} succeeds if and only if this method does not returns an error.
    *
    * @param aParams {@link IOptionSet} - the image descriptor parameters
    * @return {@link ValidationResult} - the check result
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   ValidationResult validateParams( IOptionSet aParams );
+
+  /**
+   * Returns new instance of {@link TsImageDescriptor} of this kind.
+   *
+   * @param aParams {@link IOptionSet} - the image descriptor parameters
+   * @return {@link TsImageDescriptor} - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsValidationFailedRtException failed {@link #validateParams(IOptionSet)}
+   */
+  TsImageDescriptor createDescriptor( IOptionSet aParams );
 
   /**
    * Creates the new instance of {@link TsImage} based on the {@link TsImageDescriptor#params()}.
