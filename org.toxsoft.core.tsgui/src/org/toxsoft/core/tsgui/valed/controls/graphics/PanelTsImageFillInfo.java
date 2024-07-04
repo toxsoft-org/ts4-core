@@ -11,6 +11,7 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
+import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tsgui.utils.layout.BorderLayout;
 import org.toxsoft.core.tsgui.valed.controls.enums.*;

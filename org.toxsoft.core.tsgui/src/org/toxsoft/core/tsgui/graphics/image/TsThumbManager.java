@@ -1,11 +1,11 @@
-package org.toxsoft.core.tsgui.graphics.image.impl;
+package org.toxsoft.core.tsgui.graphics.image;
 
-import static org.toxsoft.core.tsgui.graphics.image.impl.TsThumbManagerUtils.*;
+import static org.toxsoft.core.tsgui.graphics.image.TsImageManagementUtils.*;
 
 import java.io.*;
 
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tsgui.graphics.image.*;
+import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -20,10 +20,9 @@ import org.toxsoft.core.tslib.utils.logs.impl.*;
 public class TsThumbManager
     implements ITsThumbManager {
 
-  private static final String DEFAULT_ROOT_PATH        = "/home/zcache"; //$NON-NLS-1$
-  private static final int    MIN_MAX_THUMBS_IN_MEMORY = 16;
-  private static final int    DEF_MAX_THUMBS_IN_MEMORY = 64 * 1024;
-  private static final int    MAX_MAX_THUMBS_IN_MEMORY = 64 * 1024;
+  private static final int MIN_MAX_THUMBS_IN_MEMORY = 16;
+  private static final int DEF_MAX_THUMBS_IN_MEMORY = 64 * 1024;
+  private static final int MAX_MAX_THUMBS_IN_MEMORY = 64 * 1024;
 
   // caches
   /**
@@ -221,7 +220,7 @@ public class TsThumbManager
     // delete all related thumb files
     deleteThumbFiles( aFileOrDir );
     // remove images from cache
-    if( TsThumbManagerUtils.isDir( aFileOrDir ) ) {
+    if( TsImageManagementUtils.isDir( aFileOrDir ) ) {
       removeDirFromCache( aFileOrDir );
     }
     else {

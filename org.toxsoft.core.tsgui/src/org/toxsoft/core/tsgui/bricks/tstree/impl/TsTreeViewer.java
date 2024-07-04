@@ -17,6 +17,7 @@ import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
+import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tsgui.utils.*;
 import org.toxsoft.core.tsgui.utils.jface.*;
 import org.toxsoft.core.tslib.av.*;

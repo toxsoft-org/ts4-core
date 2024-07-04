@@ -3,7 +3,10 @@ package org.toxsoft.core.tsgui.graphics.image;
 import static org.toxsoft.core.tsgui.graphics.image.ITsResources.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
+import java.io.*;
+
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -65,6 +68,21 @@ public class TsImageSourceKindNone
   @Override
   protected IOptionSet doEdit( IOptionSet aParams, ITsGuiContext aContext ) {
     return IOptionSet.NULL;
+  }
+
+  @Override
+  protected File doReturnIfFile( IOptionSet aParams, ITsGuiContext aContext ) {
+    return null;
+  }
+
+  @Override
+  protected String doHumanReadableString( IOptionSet aParams ) {
+    return KIND_ID;
+  }
+
+  @Override
+  public String uniqueImageNameString( IOptionSet aParams ) {
+    return KIND_ID;
   }
 
 }

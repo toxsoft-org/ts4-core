@@ -5,8 +5,8 @@ import java.io.Serializable;
 
 import org.eclipse.swt.graphics.Image;
 import org.toxsoft.core.tsgui.graphics.icons.EIconSize;
-import org.toxsoft.core.tsgui.graphics.image.EThumbSize;
-import org.toxsoft.core.tsgui.graphics.image.TsImage;
+import org.toxsoft.core.tsgui.graphics.image.*;
+import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tslib.utils.ITsNameProvider;
 import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 

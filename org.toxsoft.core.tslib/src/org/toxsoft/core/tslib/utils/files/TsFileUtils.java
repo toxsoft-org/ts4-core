@@ -137,9 +137,9 @@ public class TsFileUtils {
   };
 
   /**
-   * Validator checks if file exists and is writable.
+   * Validator checks if a file can be written.
    * <p>
-   * Checks if existing file is writable or unexisting file may be created.
+   * Checks if existing file is writable or nonexistent file may be created.
    */
   public static final ITsValidator<File> VALIDATOR_FILE_APPENDABLE = aFile -> {
     TsNullArgumentRtException.checkNull( aFile );
@@ -888,12 +888,12 @@ public class TsFileUtils {
   }
 
   /**
-   * Creates the sorted list of the roots directories with subtrees which does not inresects.
+   * Creates the sorted list of the roots directories with subtrees which does not intersects.
    * <p>
-   * Non-directory entries, as well as unexisting directories in argument are ignored.
+   * Non-directory entries, as well as nonexistent directories in argument are ignored.
    *
    * @param aDirs {@link IList}&lt;{@link File}&gt; - list of dirs
-   * @return {@link IList}&lt;File&gt; - list of the exsting dirs
+   * @return {@link IList}&lt;File&gt; - list of the existing dirs
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static IList<File> ensureUniqueDirTrees( IList<File> aDirs ) {
@@ -904,7 +904,7 @@ public class TsFileUtils {
     IListBasicEdit<File> result = new SortedElemLinkedBundleList<>();
     // process all elements of the argument
     for( File d : aDirs ) {
-      // consider only existing readable dircetories
+      // consider only existing readable directories
       if( d.exists() && d.isDirectory() && d.canRead() ) {
         // bypass curr dir if it is child of any resulting dir
         if( internalIsChildOfAnyDir( d, result ) ) {

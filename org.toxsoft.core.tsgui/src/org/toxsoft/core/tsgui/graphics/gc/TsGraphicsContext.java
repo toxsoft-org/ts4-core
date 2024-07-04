@@ -5,6 +5,7 @@ import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
+import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tsgui.graphics.lines.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;

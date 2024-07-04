@@ -5,15 +5,18 @@ import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
+import java.io.*;
 import java.net.*;
 
 import org.eclipse.jface.resource.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -86,6 +89,28 @@ public class TsImageSourceKindUrl
     catch( URISyntaxException | MalformedURLException ex ) {
       throw new TsIllegalArgumentRtException( ex );
     }
+  }
+
+  @Override
+  protected String doHumanReadableString( IOptionSet aParams ) {
+    String urlStr = OPDEF_URL_STRING.getValue( aParams ).asString();
+    return urlStr;
+  }
+
+  @Override
+  public String uniqueImageNameString( IOptionSet aParams ) {
+    String urlStr = OPDEF_URL_STRING.getValue( aParams ).asString();
+    return urlStr.replace( '/', '_' ).replace( '\\', '_' ).replace( ':', '_' ).replace( '?', 'Q' );
+  }
+
+  @Override
+  protected File doReturnIfFile( IOptionSet aParams, ITsGuiContext aContext ) {
+    return null;
+  }
+
+  @Override
+  protected boolean isLoselessPreferred() {
+    return false;
   }
 
 }

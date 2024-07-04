@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.graphics.image.impl;
+package org.toxsoft.core.tsgui.graphics.image;
 
 import java.io.*;
 
@@ -6,7 +6,7 @@ import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
-import org.toxsoft.core.tsgui.graphics.image.*;
+import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.math.*;
@@ -97,7 +97,7 @@ public class TsImageManager
   @Override
   public void refreshCache( File aFileOrDir ) {
     TsNullArgumentRtException.checkNull( aFileOrDir );
-    if( TsThumbManagerUtils.isDir( aFileOrDir ) ) {
+    if( TsImageManagementUtils.isDir( aFileOrDir ) ) {
       IListEdit<File> llToRemove = new ElemArrayList<>();
       for( File f : filesMap.keys() ) {
         if( TsFileUtils.isChild( aFileOrDir, f ) ) {
@@ -111,6 +111,18 @@ public class TsImageManager
     else {
       filesMap.removeByKey( aFileOrDir );
     }
+  }
+
+  @Override
+  public File saveToFile( TsImage aImage, boolean aLoseless, String aFilePath ) {
+    TsNullArgumentRtException.checkNull( aImage );
+    TsErrorUtils.checkNonBlank( aFilePath );
+    ESaveImageFileFormat sf = ESaveImageFileFormat.determineFormat( aImage, aLoseless );
+    File outFile = new File( aFilePath + TsFileUtils.CHAR_EXT_SEPARATOR + sf.getFileExtension() );
+    outFile.getParentFile().mkdirs();
+    TsFileUtils.checkFileAppendable( outFile );
+    sf.save( outFile, aImage );
+    return outFile;
   }
 
   @Override

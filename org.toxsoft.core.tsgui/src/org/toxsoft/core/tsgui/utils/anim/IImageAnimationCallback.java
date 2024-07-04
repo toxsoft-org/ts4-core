@@ -1,6 +1,6 @@
 package org.toxsoft.core.tsgui.utils.anim;
 
-import org.toxsoft.core.tsgui.graphics.image.TsImage;
+import org.toxsoft.core.tsgui.graphics.image.impl.*;
 
 /**
  * Обратный вызов аниматором {@link AnimationSupport} для перерисовки очередного кадра анимации.

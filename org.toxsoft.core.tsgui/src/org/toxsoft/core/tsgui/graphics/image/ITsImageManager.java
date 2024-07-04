@@ -3,6 +3,7 @@ package org.toxsoft.core.tsgui.graphics.image;
 import java.io.*;
 
 import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -106,6 +107,30 @@ public interface ITsImageManager {
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void refreshCache( File aFileOrDir );
+
+  // ------------------------------------------------------------------------------------
+  // save images
+  //
+
+  /**
+   * Saves the image to the file.
+   * <p>
+   * Existing file will be overwritten. Animated images {@link TsImage#isAnimated()} are saved as GIF files. Still
+   * images are saved either as PNG or JPG format, depending on argument <code>aLoseless</code> value. Note that only
+   * PNG format supports transparency.
+   * <p>
+   * The extension will be appended to the specified file name.
+   *
+   * @param aImage {@link TsImage} - the image to save
+   * @param aLoseless boolean - <code>true</code> for PNG format
+   * @param aFilePath String - the file path (without extension) to save the image to
+   * @return {@link File} - absolute path to the created file (including an extension)
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException image is not valid or is disposed
+   * @throws TsIllegalArgumentRtException file path is a blank string
+   * @throws TsIoRtException error while writing file
+   */
+  File saveToFile( TsImage aImage, boolean aLoseless, String aFilePath );
 
   // ------------------------------------------------------------------------------------
   // common API

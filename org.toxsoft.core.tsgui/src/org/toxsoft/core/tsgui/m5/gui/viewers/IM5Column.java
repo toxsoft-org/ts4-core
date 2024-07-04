@@ -4,6 +4,7 @@ import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.tstree.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
+import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tsgui.m5.*;
 
 /**

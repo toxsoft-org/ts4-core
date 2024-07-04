@@ -1,7 +1,10 @@
 package org.toxsoft.core.tsgui.graphics.image;
 
+import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
+
 import java.io.*;
 
+import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.av.utils.*;
@@ -17,6 +20,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * The information how to create the {@link TsImage} from the different sources.
+ * <p>
+ * This is an immutable class.
  *
  * @author hazard157
  */
@@ -70,12 +75,13 @@ public final class TsImageDescriptor
 
   private final String     kindId;
   private final IOptionSet params;
+  private final String     uniqueName;
 
   /**
    * Constructor.
    *
    * @param aKindId String - the image source kind ID (an IDpath)
-   * @param aParams {@link IOptionSet} - image creation parameters, specifi for the kind of source
+   * @param aParams {@link IOptionSet} - image creation parameters, specific for the kind of source
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException ID is not an IDpath
    */
@@ -86,6 +92,13 @@ public final class TsImageDescriptor
   private TsImageDescriptor( String aKindId, IOptionSet aParams, @SuppressWarnings( "unused" ) int aFoo ) {
     kindId = aKindId;
     params = aParams;
+    AbstractTsImageSourceKind k = (AbstractTsImageSourceKind)kindsById.findByKey( aKindId );
+    if( k != null ) {
+      uniqueName = k.uniqueImageNameString( aParams );
+    }
+    else {
+      uniqueName = EMPTY_STRING;
+    }
   }
 
   /**
@@ -124,6 +137,14 @@ public final class TsImageDescriptor
   }
 
   // ------------------------------------------------------------------------------------
+  // package API
+  //
+
+  String uniqueName() {
+    return uniqueName;
+  }
+
+  // ------------------------------------------------------------------------------------
   // Kinds registry static API
   //
 
@@ -137,6 +158,26 @@ public final class TsImageDescriptor
    */
   public static IStringMap<ITsImageSourceKind> getImageSourceKindsMap() {
     return kindsById;
+  }
+
+  /**
+   * Finds source kind of the specified descriptor.
+   * <p>
+   * If <code>aImageDescriptor</code> is <code>null</code> corresponding source kind is not registered method returns
+   * the <code>aDefaultKind</code>.
+   *
+   * @param aImageDescriptor {@link TsImageDescriptor} - the descriptor, may be <code>null</code>
+   * @param aDefaultKind {@link ITsImageSourceKind} - the default kind, may be <code>null</code>
+   * @return {@link ITsImageSourceKind} - the source kind or <code>null</code>
+   */
+  public static ITsImageSourceKind findKind( TsImageDescriptor aImageDescriptor, ITsImageSourceKind aDefaultKind ) {
+    if( aImageDescriptor != null ) {
+      ITsImageSourceKind k = kindsById.findByKey( aImageDescriptor.kindId() );
+      if( k != null ) {
+        return k;
+      }
+    }
+    return aDefaultKind;
   }
 
   /**
@@ -174,7 +215,12 @@ public final class TsImageDescriptor
       return true;
     }
     if( aThat instanceof TsImageDescriptor that ) {
-      return this.kindId.equals( that.kindId ) && this.params.equals( that.params );
+      if( this.kindId.equals( that.kindId ) ) {
+        if( !this.uniqueName.isEmpty() && !that.uniqueName.isEmpty() ) {
+          return this.uniqueName.equals( that.uniqueName );
+        }
+        return this.params.equals( that.params );
+      }
     }
     return false;
   }
@@ -183,7 +229,12 @@ public final class TsImageDescriptor
   public int hashCode() {
     int result = TsLibUtils.INITIAL_HASH_CODE;
     result = TsLibUtils.PRIME * result + kindId.hashCode();
-    result = TsLibUtils.PRIME * result + params.hashCode();
+    if( !this.uniqueName.isEmpty() ) {
+      result = TsLibUtils.PRIME * result + uniqueName.hashCode();
+    }
+    else {
+      result = TsLibUtils.PRIME * result + params.hashCode();
+    }
     return result;
   }
 

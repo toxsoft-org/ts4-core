@@ -8,6 +8,7 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.tsnodes.*;
 import org.toxsoft.core.tsgui.bricks.tstree.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
+import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.gui.viewers.*;
 import org.toxsoft.core.tsgui.utils.jface.*;

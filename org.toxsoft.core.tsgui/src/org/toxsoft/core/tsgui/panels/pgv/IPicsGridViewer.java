@@ -5,6 +5,7 @@ import java.util.ResourceBundle.*;
 import org.toxsoft.core.tsgui.bricks.stdevents.*;
 import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
+import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tsgui.utils.*;
 import org.toxsoft.core.tsgui.utils.margins.*;
 import org.toxsoft.core.tsgui.widgets.*;

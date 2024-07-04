@@ -10,6 +10,7 @@ import java.io.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
+import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tsgui.rcp.valed.*;
 import org.toxsoft.core.tsgui.utils.*;
 import org.toxsoft.core.tsgui.valed.api.*;
@@ -97,11 +98,23 @@ public class TsImageSourceKindFile
   }
 
   @Override
+  public String uniqueImageNameString( IOptionSet aParams ) {
+    String pathStr = OPDEF_FILE_PATH.getValue( aParams ).asString();
+    return new File( pathStr ).getAbsolutePath();
+  }
+
+  @Override
   protected TsImage doCreate( TsImageDescriptor aDescriptor, ITsGuiContext aContext ) {
     String pathStr = OPDEF_FILE_PATH.getValue( aDescriptor.params() ).asString();
     File path = new File( pathStr );
     Display display = aContext.get( Display.class );
     return TsImageUtils.loadTsImage( path, display );
+  }
+
+  @Override
+  protected File doReturnIfFile( IOptionSet aParams, ITsGuiContext aContext ) {
+    String pathStr = OPDEF_FILE_PATH.getValue( aParams ).asString();
+    return new File( pathStr );
   }
 
 }

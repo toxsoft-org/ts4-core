@@ -1,6 +1,9 @@
 package org.toxsoft.core.tsgui.graphics.image;
 
+import java.io.*;
+
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
@@ -66,7 +69,7 @@ public sealed interface ITsImageSourceKind
    * This method may be resource and time consuming and may throw other runtime exceptions, specific to the source kind.
    * <p>
    * Note: in case when image can not be created (for example, when {@link #validateParams(IOptionSet)} fails) method
-   * does not throws an exception, rather logs an error mesage and returns the valid image created with
+   * does not throws an exception, rather logs an error message and returns the valid image created with
    * {@link ITsImageManager#createUnknownImage(int)}. The motivation for this behavior is to avoid the program crashing
    * when a resource is missing or corrupter.
    *
@@ -77,6 +80,28 @@ public sealed interface ITsImageSourceKind
    * @throws TsIllegalArgumentRtException the descriptor has ID different with {@link #id()}
    */
   TsImage createImage( TsImageDescriptor aDescriptor, ITsGuiContext aContext );
+
+  /**
+   * Tries to represent the image as a file if possible.
+   * <p>
+   * The implementation may try to create the file with the image data in the local file system. For the descriptors of
+   * the initially local file resources may return the image file itself. Implementation must be smart enough to create
+   * file once and return existing file in subsequent calls.
+   * <p>
+   * Note that the returned file is guaranteed to exist only while application is running. Returned file may be used
+   * both with {@link ITsImageManager} and {@link ITsThumbManager}.
+   * <p>
+   * File must have the image format, represented by the {@link ITsImageManager}.
+   * <p>
+   * If for any error file can not be created method returns <code>null</code>.
+   *
+   * @param aDescriptor {@link TsImageDescriptor} - the image descriptor
+   * @param aContext {@link ITsGuiContext} - the context
+   * @return {@link File} - the image file in a local file system or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException the descriptor has ID different with {@link #id()}
+   */
+  File asFile( TsImageDescriptor aDescriptor, ITsGuiContext aContext );
 
   /**
    * Invokes GUI dialog to edit {@link TsImageDescriptor#params()}.

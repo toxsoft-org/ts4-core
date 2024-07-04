@@ -16,6 +16,7 @@ import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.gc.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
+import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tsgui.graphics.lines.*;
 import org.toxsoft.core.tsgui.graphics.txtsplit.*;
 import org.toxsoft.core.tsgui.panels.*;

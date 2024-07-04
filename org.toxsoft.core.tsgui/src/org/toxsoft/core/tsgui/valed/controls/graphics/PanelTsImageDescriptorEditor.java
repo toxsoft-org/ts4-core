@@ -10,6 +10,7 @@ import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
+import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tsgui.panels.opsedit.*;
 import org.toxsoft.core.tsgui.panels.opsedit.impl.*;
 import org.toxsoft.core.tsgui.utils.layout.*;

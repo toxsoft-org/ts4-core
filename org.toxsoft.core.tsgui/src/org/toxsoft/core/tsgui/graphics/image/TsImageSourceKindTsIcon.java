@@ -5,14 +5,18 @@ import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
+import java.io.*;
+
 import org.eclipse.jface.resource.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -100,6 +104,23 @@ public class TsImageSourceKindTsIcon
     Display display = aContext.get( Display.class );
     Image image = imgDescr.createImage( display );
     return TsImage.create( image );
+  }
+
+  @Override
+  protected String doHumanReadableString( IOptionSet aParams ) {
+    return OPDEF_ICON_ID.getValue( aParams ).asString();
+  }
+
+  @Override
+  public String uniqueImageNameString( IOptionSet aParams ) {
+    String iconId = OPDEF_ICON_ID.getValue( aParams ).asString();
+    EIconSize iconSize = OPDEF_ICON_SIZE.getValue( aParams ).asValobj();
+    return iconId + "___" + iconSize.id(); //$NON-NLS-1$
+  }
+
+  @Override
+  protected File doReturnIfFile( IOptionSet aParams, ITsGuiContext aContext ) {
+    return null;
   }
 
 }

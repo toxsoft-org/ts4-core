@@ -1,7 +1,7 @@
-package org.toxsoft.core.tsgui.graphics.image.impl;
+package org.toxsoft.core.tsgui.graphics.image;
 
 import static org.toxsoft.core.tsgui.graphics.icons.ITsStdIconIds.*;
-import static org.toxsoft.core.tsgui.graphics.image.impl.ITsResources.*;
+import static org.toxsoft.core.tsgui.graphics.image.ITsResources.*;
 import static org.toxsoft.core.tslib.ITsHardConstants.*;
 
 import java.util.*;
@@ -14,7 +14,6 @@ import org.toxsoft.core.singlesrc.*;
 import org.toxsoft.core.tsgui.bricks.actions.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
-import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.mws.services.hdpi.*;
 import org.toxsoft.core.tsgui.panels.toolbar.*;
 import org.toxsoft.core.tsgui.utils.swt.*;

@@ -11,6 +11,7 @@ import java.net.*;
 import org.eclipse.core.runtime.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
@@ -120,10 +121,10 @@ public class TsImageSourceKindPlugin
     String uriStr = "platform:/plugin/" + pluginId + '/' + resourcePath; //$NON-NLS-1$
     URL platformURL = null;
     try {
-      URL url = new URL( uriStr );
+      URL url = new URI( uriStr ).toURL();
       platformURL = FileLocator.find( url );
     }
-    catch( @SuppressWarnings( "unused" ) MalformedURLException ex ) {
+    catch( @SuppressWarnings( "unused" ) URISyntaxException | MalformedURLException ex ) {
       return ValidationResult.error( FMT_ERR_INV_RESOURCE_URL, uriStr );
     }
     if( platformURL == null ) {
@@ -143,7 +144,7 @@ public class TsImageSourceKindPlugin
     String resourcePath = trimSeparators( OPDEF_RESOURCE_PATH.getValue( aDescriptor.params() ).asString() );
     String uriStr = "platform:/plugin/" + pluginId + '/' + resourcePath; //$NON-NLS-1$
     try {
-      URL url = new URL( uriStr );
+      URL url = new URI( uriStr ).toURL();
       URL platformURL = FileLocator.find( url );
       try( InputStream ins = new BufferedInputStream( platformURL.openStream() ) ) {
         Display display = aContext.get( Display.class );
@@ -153,7 +154,7 @@ public class TsImageSourceKindPlugin
         // TODO this method needs rewrite
       }
     }
-    catch( MalformedURLException ex ) {
+    catch( URISyntaxException | MalformedURLException ex ) {
       throw new TsIllegalArgumentRtException( ex );
     }
     catch( IOException ex ) {
@@ -168,12 +169,23 @@ public class TsImageSourceKindPlugin
   }
 
   @Override
+  public String uniqueImageNameString( IOptionSet aParams ) {
+    String resourcePath = trimSeparators( OPDEF_RESOURCE_PATH.getValue( aParams ).asString() );
+    return resourcePath.replace( '/', '_' ).replace( '\\', '_' ).replace( ':', '_' );
+  }
+
+  @Override
   protected IOptionSet doEdit( IOptionSet aParams, ITsGuiContext aContext ) {
     /**
      * TODO change to the dialog where plugin ID is selected from the list of available plugins at design time and the
      * resource path is selected as a resource from the specified plugin.
      */
     return super.doEdit( aParams, aContext );
+  }
+
+  @Override
+  protected File doReturnIfFile( IOptionSet aParams, ITsGuiContext aContext ) {
+    return null;
   }
 
 }

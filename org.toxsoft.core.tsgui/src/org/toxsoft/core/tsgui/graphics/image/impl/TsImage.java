@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.graphics.image;
+package org.toxsoft.core.tsgui.graphics.image.impl;
 
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;

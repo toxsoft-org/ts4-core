@@ -2,8 +2,11 @@ package org.toxsoft.core.tsgui.graphics.image;
 
 import static org.toxsoft.core.tsgui.graphics.image.ITsResources.*;
 
+import java.io.*;
+
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
+import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tsgui.panels.opsedit.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.errors.*;
@@ -23,7 +26,7 @@ import org.toxsoft.core.tslib.utils.logs.impl.*;
  *
  * @author hazard157
  */
-public non-sealed abstract class AbstractTsImageSourceKind
+public abstract non-sealed class AbstractTsImageSourceKind
     extends StridableParameterized
     implements ITsImageSourceKind {
 
@@ -90,6 +93,38 @@ public non-sealed abstract class AbstractTsImageSourceKind
     }
     ITsImageManager imageManager = aContext.get( ITsImageManager.class );
     return imageManager.createUnknownImage( SIZE_OF_THE_MISSING_FILE_IMAGE );
+  }
+
+  @Override
+  final public File asFile( TsImageDescriptor aDescriptor, ITsGuiContext aContext ) {
+    TsNullArgumentRtException.checkNull( aContext );
+    if( !aDescriptor.kindId().equals( id() ) ) {
+      throw new TsIllegalArgumentRtException( FMT_ERR_INV_KIND, aDescriptor.kindId(), id() );
+    }
+    if( validateParams( aDescriptor.params() ).isError() ) {
+      return null;
+    }
+    // if descriptor denotes a persistent file, return it
+    File f = doReturnIfFile( aDescriptor.params(), aContext );
+    if( f != null ) {
+      return f;
+    }
+    //
+    String filePath = TsImageManagementUtils.makeTsImgDescrTempFileAbsulutePath( this, aDescriptor );
+    // if file already exists, simply return it
+    f = ESaveImageFileFormat.findExistingFileByBarePath( filePath );
+    if( f != null ) {
+      return f;
+    }
+    // now we'll create the image and save it to the disk
+    TsImage image = createImage( aDescriptor, aContext );
+    try {
+      ITsImageManager imageManager = aContext.get( ITsImageManager.class );
+      return imageManager.saveToFile( image, isLoselessPreferred(), filePath );
+    }
+    finally {
+      image.dispose();
+    }
   }
 
   @Override
@@ -186,6 +221,47 @@ public non-sealed abstract class AbstractTsImageSourceKind
    */
   protected String doHumanReadableString( IOptionSet aParams ) {
     return aParams.toString();
+  }
+
+  /**
+   * Implementation must return the {@link File} if this descriptor denotes the file already in the local file system.
+   * <p>
+   * Implementation may also return non-<code>null</code> value if the descriptor denotes image data that may be
+   * persistently (between application runs) represented in the local file system. For such case subclass must ensure
+   * that returned file exists and contains valid image data.
+   * <p>
+   * File must have the image format, recognized by the {@link ITsImageManager}.
+   * <p>
+   * In any other cases (the file is remote, image data is packed in archive or downloaded from server, etc) method must
+   * return <code>null</code>.
+   *
+   * @param aParams {@link IOptionSet} - validated image descriptor values
+   * @param aContext {@link ITsGuiContext} - the context
+   * @return {@link File} - the image file in a local file system or <code>null</code>
+   */
+  protected abstract File doReturnIfFile( IOptionSet aParams, ITsGuiContext aContext );
+
+  /**
+   * The implementation must return a string that uniquely identifies the image.
+   * <p>
+   * Uniqueness should be ensured only within this kind.
+   *
+   * @param aParams {@link IOptionSet} - validated image descriptor values
+   * @return String - kind-unique image non-blank idenftifer string
+   */
+  public abstract String uniqueImageNameString( IOptionSet aParams );
+
+  /**
+   * Implementation may override default preference when saving image.
+   * <p>
+   * Returned value is used by internal call of the method {@link ITsImageManager#saveToFile(TsImage,boolean,String)}.
+   * <p>
+   * By default returns <code>true</code> for PNG format, override it to return <code>false</code>.
+   *
+   * @return boolean - <code>true</code> for PNG format
+   */
+  protected boolean isLoselessPreferred() {
+    return true;
   }
 
 }
