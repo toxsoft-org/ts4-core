@@ -4,6 +4,8 @@ import java.io.*;
 
 import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tsgui.utils.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.files.*;
@@ -29,6 +31,40 @@ class TsImageManagementUtils {
 
   static final String         DEFAULT_ROOT_PATH      = "/home/zcache";                  //$NON-NLS-1$
   private static final String TSIMGSRCKIND_ROOT_OATH = DEFAULT_ROOT_PATH + "/ts_imgsk"; //$NON-NLS-1$
+  private static final String TMP_WORKS_ROOT_OATH    = DEFAULT_ROOT_PATH + "/tmp";      //$NON-NLS-1$
+
+  static class TempFilesSequence
+      implements ICloseable {
+
+    final File        dir;
+    final IList<File> seqFiles;
+
+    @SuppressWarnings( "boxing" )
+    public TempFilesSequence( int aCount, String aExt ) {
+      TsIllegalArgumentRtException.checkTrue( aCount <= 0 );
+      // ensure empty #dir exists
+      File d;
+      do {
+        String dirName = "seq_" + System.nanoTime(); //$NON-NLS-1$
+        d = new File( TMP_WORKS_ROOT_OATH, dirName );
+      } while( d.exists() );
+      d.mkdir();
+      dir = d;
+      // create sequental file names
+      IListEdit<File> ll = new ElemArrayList<>( aCount );
+      for( int i = 0; i < aCount; i++ ) {
+        String fileName = String.format( "f%06d", i ); //$NON-NLS-1$
+        ll.add( new File( dir, fileName + TsFileUtils.CHAR_EXT_SEPARATOR + aExt ) );
+      }
+      seqFiles = ll;
+    }
+
+    @Override
+    public void close() {
+      TsFileUtils.deleteDirectory( dir, IFileOperationProgressCallback.NULL );
+    }
+
+  }
 
   /**
    * Creates unique file name in the {@link #TSIMGSRCKIND_ROOT_OATH} directory.
@@ -112,7 +148,7 @@ class TsImageManagementUtils {
 
     }
     // делаем без coalesce
-    TsMiscUtils.runAndWait( 60, GM_PROGRAM_NAME, "convert", //
+    runGmWait( "convert", //
         "-gravity", "center", //
         "-resize", dimsStr, //
         "-background", "none", //
@@ -138,6 +174,10 @@ class TsImageManagementUtils {
     String absPath = aImageFile.getAbsolutePath();
     TsMiscUtils.runProgram( GM_PROGRAM_NAME, "convert", "-coalesce", absPath, absPath );
     return true;
+  }
+
+  public static void runGmWait( String... aArgs ) {
+    TsMiscUtils.runAndWait( 60, GM_PROGRAM_NAME, aArgs );
   }
 
   static boolean isDir( File aFileOrDir ) {
