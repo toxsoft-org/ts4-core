@@ -468,7 +468,8 @@ public class TsFileUtils {
    * Returns relative path of the child file path in the parent directory path.
    * <p>
    * if <code>aChildFile</code> is not child of <code>aParentDir</code> the returns <code>null</code>. If child is the
-   * same directory as parent then returns an empty string.
+   * same directory as parent then returns an empty string. Returned value does <b>not</b> starts with a
+   * {@link File#separatorChar}.
    *
    * @param aParentDir File - parent directory
    * @param aChildFile File - probable child file or directory

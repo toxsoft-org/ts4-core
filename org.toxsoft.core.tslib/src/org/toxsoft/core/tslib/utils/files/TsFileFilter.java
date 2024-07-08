@@ -4,6 +4,7 @@ import static org.toxsoft.core.tslib.utils.files.EFsObjKind.*;
 
 import java.io.*;
 
+import org.toxsoft.core.tslib.bricks.filter.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -14,7 +15,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public class TsFileFilter
-    implements java.io.FileFilter {
+    implements java.io.FileFilter, ITsFilter<File> {
 
   /**
    * Accept only non-hidden directories.
