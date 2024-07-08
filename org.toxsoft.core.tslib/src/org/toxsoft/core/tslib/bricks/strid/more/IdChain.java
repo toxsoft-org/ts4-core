@@ -299,11 +299,12 @@ public final class IdChain
     }
     boolean compFirstChar = true;
     for( int i = 0, n = aCanonicalString.length(); i < n; i++ ) {
-      ch = aCanonicalString.charAt( n );
+      ch = aCanonicalString.charAt( i );
       if( compFirstChar ) { // previous char was '/' or this is the string start
         if( !StridUtils.isIdStart( ch ) ) { // here may be IDpath starting char
           return false;
         }
+        compFirstChar = false;
       }
       else {
         if( ch == CHAR_BRANCH_SEPARATOR ) {
