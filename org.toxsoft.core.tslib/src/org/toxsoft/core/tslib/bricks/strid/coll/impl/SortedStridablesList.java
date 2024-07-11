@@ -16,7 +16,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @param <E> - concrete type of {@link IStridable} elements
  */
 public class SortedStridablesList<E extends IStridable>
-    extends AbstractStridablesList<E, IStringListBasicEdit> {
+    extends AbstractStridablesList<E, IStringListBasicEdit>
+    implements ITsSortedCollectionTag {
 
   private static final long serialVersionUID = 157157L;
 

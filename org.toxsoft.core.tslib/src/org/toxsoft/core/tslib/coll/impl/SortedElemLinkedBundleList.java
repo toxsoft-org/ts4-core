@@ -17,7 +17,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  * @param <E> - the type of elements in this collection
  */
-public class SortedElemLinkedBundleList<E extends Comparable<E>>
+public class SortedElemLinkedBundleList<E extends Comparable<? super E>>
     implements IListBasicEdit<E>, ITsFastIndexListTag<E>, ITsSortedCollectionTag, Serializable {
 
   // FIXME serialize as array

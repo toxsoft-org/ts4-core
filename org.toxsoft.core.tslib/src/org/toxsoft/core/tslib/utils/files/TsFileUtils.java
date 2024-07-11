@@ -381,7 +381,7 @@ public class TsFileUtils {
    * <p>
    * If argument is considered as directory name (argument ends with {@link File#separatorChar}), returns empty string.
    * <p>
-   * Thgis methods works with strings and does not calls any filesystem access methods.
+   * This methods works with strings and does not calls any filesystem access methods.
    *
    * @param aFileName String - specified file name, may include path
    * @return String - file extension

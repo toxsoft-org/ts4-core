@@ -17,7 +17,7 @@ public class RingBuffer<E>
   /**
    * Allowed range of the <code>aCapacity</code> of the constructor.
    */
-  public static final IntRange CAPACITY_RANGE = new IntRange( 4, 2 * 1024 * 1024 * 1024 ); // 4 byte .. 2 GB
+  public static final IntRange CAPACITY_RANGE = new IntRange( 4, Integer.MAX_VALUE - 1 ); // 4 byte .. 2 GB
 
   private final Object[] items;
 
