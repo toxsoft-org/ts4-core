@@ -41,6 +41,18 @@ public class StridableParameterized
         }
       };
 
+  /**
+   * Keeper singleton.
+   */
+  public static final IEntityKeeper<StridableParameterized> KEEPER_INDENTED =
+      new AbstractStridableParameterizedKeeper<>( StridableParameterized.class, null, true ) {
+
+        @Override
+        protected StridableParameterized doCreate( String aId, IOptionSet aParams ) {
+          return new StridableParameterized( aId, aParams );
+        }
+      };
+
   private final String         id;
   private final IOptionSetEdit params = new OptionSet();
 

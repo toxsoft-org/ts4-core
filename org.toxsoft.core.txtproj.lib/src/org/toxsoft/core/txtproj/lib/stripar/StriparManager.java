@@ -50,7 +50,7 @@ public class StriparManager<E extends IStridable & IParameterized>
   @Override
   public void write( IStrioWriter aDw ) {
     TsNullArgumentRtException.checkNull( aDw );
-    StridableParameterized.KEEPER.writeColl( aDw, (ITsCollection)items, true );
+    StridableParameterized.KEEPER_INDENTED.writeColl( aDw, (ITsCollection)items, true );
   }
 
   @Override

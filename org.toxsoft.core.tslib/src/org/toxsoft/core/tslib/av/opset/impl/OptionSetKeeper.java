@@ -59,7 +59,7 @@ public class OptionSetKeeper
    * Returns {@link #KEEPER_INDENTED} or {@link #KEEPER} depending on argument.
    *
    * @param aIndented boolean - <code>true</code> to choose indenting keeper
-   * @return {@link IEntityKeeper}&lt;{@link IOptionSet}&gt; - the choosen keeper
+   * @return {@link IEntityKeeper}&lt;{@link IOptionSet}&gt; - the chosen keeper
    */
   public static final IEntityKeeper<IOptionSet> getInstance( boolean aIndented ) {
     if( aIndented ) {

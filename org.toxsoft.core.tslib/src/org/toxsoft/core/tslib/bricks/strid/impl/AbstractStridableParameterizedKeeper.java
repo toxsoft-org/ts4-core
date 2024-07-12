@@ -1,37 +1,55 @@
 package org.toxsoft.core.tslib.bricks.strid.impl;
 
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.av.opset.impl.OptionSetKeeper;
-import org.toxsoft.core.tslib.av.utils.IParameterized;
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strio.IStrioReader;
-import org.toxsoft.core.tslib.bricks.strio.IStrioWriter;
-import org.toxsoft.core.tslib.utils.errors.TsInternalErrorRtException;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.av.utils.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Базовый класс хранителей сущностей {@link StridableParameterized}.
+ * {@link StridableParameterized} keeper base implementation.
  *
- * @param <T> - конкретный класс сущности
+ * @param <T> - type of kept elements
  */
 public abstract class AbstractStridableParameterizedKeeper<T extends IStridable & IParameterized>
     extends AbstractEntityKeeper<T> {
 
+  private final boolean indented;
+
   /**
-   * Конструктор для наследников.
+   * Constructor.
    *
-   * @param aEntityClass Class&lt;E&gt; - класс (тип) хранимих сущностей, может быть <code>null</code>
-   * @param aNullObject &lt;E&gt; - "нулевой" объект или <code>null</code> для отмены использования "нулевого" объекта
+   * @param aEntityClass Class&lt;E&gt; - type of kept elements
+   * @param aNoneObject &lt;E&gt; - none object used to read empty parentheses or <code>null</code>
+   * @param aIndented boolean - <code>true</code> to choose indenting keeper
    */
-  protected AbstractStridableParameterizedKeeper( Class<T> aEntityClass, T aNullObject ) {
-    super( aEntityClass, EEncloseMode.ENCLOSES_BASE_CLASS, aNullObject );
+  protected AbstractStridableParameterizedKeeper( Class<T> aEntityClass, T aNoneObject, boolean aIndented ) {
+    super( aEntityClass, EEncloseMode.ENCLOSES_BASE_CLASS, aNoneObject );
+    indented = aIndented;
+  }
+
+  /**
+   * Constructor for not indented keeper.
+   *
+   * @param aEntityClass Class&lt;E&gt; - type of kept elements
+   * @param aNoneObject &lt;E&gt; - none object used to read empty parentheses or <code>null</code>
+   */
+  protected AbstractStridableParameterizedKeeper( Class<T> aEntityClass, T aNoneObject ) {
+    this( aEntityClass, aNoneObject, false );
   }
 
   @Override
   protected void doWrite( IStrioWriter aSw, T aEntity ) {
     aSw.writeAsIs( aEntity.id() );
     aSw.writeSeparatorChar();
-    OptionSetKeeper.KEEPER.write( aSw, aEntity.params() );
+    if( indented ) {
+      OptionSetKeeper.KEEPER_INDENTED.write( aSw, aEntity.params() );
+    }
+    else {
+      OptionSetKeeper.KEEPER.write( aSw, aEntity.params() );
+    }
   }
 
   @Override
@@ -45,15 +63,15 @@ public abstract class AbstractStridableParameterizedKeeper<T extends IStridable 
   }
 
   // ------------------------------------------------------------------------------------
-  // Для переопределения
+  // To override/indent
   //
 
   /**
-   * Наследник должен создать экземпляр класса &lt;T&gt;.
+   * Subclass must create instance of the concrete type &lt;T&gt;.
    *
-   * @param aId String - идентификатор (ИД-путь) типа, всегда ИД-путь
-   * @param aParams {@link IOptionSet} - значения {@link IParameterized#params()}, не бывает <code>null</code>
-   * @return &lt;T&gt; - созданный экземпляр, не должен быть <code>null</code>
+   * @param aId String - the ID (IDpath)
+   * @param aParams {@link IOptionSet} - {@link IStridableParameterized#params()} initial values
+   * @return &lt;T&gt; - created instance
    */
   protected abstract T doCreate( String aId, IOptionSet aParams );
 
