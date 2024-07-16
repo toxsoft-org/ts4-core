@@ -10,6 +10,7 @@ import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.coll.helpers.*;
+import org.toxsoft.core.tslib.coll.notifier.basis.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -85,6 +86,19 @@ public interface IStriparManagerApi<E extends IStridable & IParameterized>
    * @throws TsValidationFailedRtException не прошла {@link IStriparManagerValidator#canRemoveItem(String)}
    */
   void removeItem( String aId );
+
+  /**
+   * Returns the mean to change the order of the elements in {@link #items()}.
+   * <p>
+   * If implementation holds {@link #items()} holds in a sorted oder, reordering is not supported so this method returns
+   * <code>null</code>.
+   * <p>
+   * Order change fires the event {@link ITsCollectionChangeListener#onCollectionChanged(Object, ECrudOp, Object)} with
+   * <code>aOp = </code> {@link ECrudOp#LIST} . *
+   *
+   * @return {@link IListReorderer}&lt;E&gt; - elements reorderer or <code>null</code> for sorted {@link #items()}
+   */
+  IListReorderer<E> reorderer();
 
   /**
    * Returns definitions of the TSRIPAR {@link IParameterized#params()} options.

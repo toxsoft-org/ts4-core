@@ -139,4 +139,6 @@ public interface IListReorderer<E> {
     return move( aElem, ETsCollMove.LAST );
   }
 
+  // TODO add canXxx methods
+
 }

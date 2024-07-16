@@ -4,23 +4,20 @@ import java.util.*;
 
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.basis.*;
-import org.toxsoft.core.tslib.coll.notifier.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * {@link IListReorderer} implementation handles notifier source list.
+ * {@link IListReorderer} implementation calls {@link #doProcessActualChange(IList)}.
  *
  * @author hazard157
  * @param <E> - the type of elements the underlying list
  * @param <L> - the type of the underlying editable list
  */
-public class ListReorderer<E, L extends IListEdit<E>>
+public class ListReorderer2<E, L extends IListEdit<E>>
     implements IListReorderer<E> {
 
-  private final L                list;
-  private final INotifierList<E> nlist;
-
-  private boolean wasBlockedHere = false;
+  private final L list;
 
   /**
    * Creates the reorderer, associated to the list.
@@ -28,36 +25,14 @@ public class ListReorderer<E, L extends IListEdit<E>>
    * @param aSource &lt;L&gt; - the underlying list
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  @SuppressWarnings( "unchecked" )
-  public ListReorderer( L aSource ) {
+  public ListReorderer2( L aSource ) {
     TsNullArgumentRtException.checkNull( aSource );
     list = aSource;
-    if( aSource instanceof INotifierList ) {
-      nlist = (INotifierList<E>)aSource;
-    }
-    else {
-      nlist = null;
-    }
   }
 
   // ------------------------------------------------------------------------------------
   // Implementation
   //
-
-  private final void internalPauseNotification() {
-    TsInternalErrorRtException.checkTrue( wasBlockedHere );
-    if( nlist != null && !nlist.isFiringPaused() ) {
-      nlist.pauseFiring();
-      wasBlockedHere = true;
-    }
-  }
-
-  private final void internalResumeNotification() {
-    if( wasBlockedHere ) {
-      nlist.resumeFiring( true );
-      wasBlockedHere = false;
-    }
-  }
 
   protected int calcJump() {
     int size = list.size();
@@ -68,6 +43,14 @@ public class ListReorderer<E, L extends IListEdit<E>>
       return 2;
     }
     return 1;
+  }
+
+  private IList<E> makeSnapshot() {
+    IListEdit<E> ll = new ElemArrayList<>( list.size() );
+    for( E e : list ) {
+      ll.add( e );
+    }
+    return ll;
   }
 
   // ------------------------------------------------------------------------------------
@@ -87,15 +70,11 @@ public class ListReorderer<E, L extends IListEdit<E>>
     if( aIndex1 == aIndex2 ) {
       return false;
     }
-    internalPauseNotification();
-    try {
-      E tmp = list.get( aIndex1 );
-      list.set( aIndex1, list.get( aIndex2 ) );
-      list.set( aIndex2, tmp );
-    }
-    finally {
-      internalResumeNotification();
-    }
+    IList<E> snaphot = makeSnapshot();
+    E tmp = list.get( aIndex1 );
+    list.set( aIndex1, list.get( aIndex2 ) );
+    list.set( aIndex2, tmp );
+    doProcessActualChange( snaphot );
     return true;
   }
 
@@ -107,14 +86,10 @@ public class ListReorderer<E, L extends IListEdit<E>>
     if( aOldIndex == aNewIndex ) {
       return false;
     }
-    internalPauseNotification();
-    try {
-      E tmp = list.removeByIndex( aOldIndex );
-      list.insert( aNewIndex, tmp );
-    }
-    finally {
-      internalResumeNotification();
-    }
+    IList<E> snaphot = makeSnapshot();
+    E tmp = list.removeByIndex( aOldIndex );
+    list.insert( aNewIndex, tmp );
+    doProcessActualChange( snaphot );
     return true;
   }
 
@@ -201,10 +176,27 @@ public class ListReorderer<E, L extends IListEdit<E>>
   public void sort( Comparator<E> aComparator ) {
     TsNullArgumentRtException.checkNull( aComparator );
     if( list.size() > 1 && !(list instanceof ITsSortedCollectionTag) ) {
+      IList<E> snapshot = makeSnapshot();
       Object[] array = list.toArray();
       Arrays.sort( array, 0, array.length, (Comparator)aComparator );
       list.setAll( (E[])array );
+      doProcessActualChange( snapshot );
     }
+  }
+
+  // ------------------------------------------------------------------------------------
+  // To implement/override
+  //
+
+  /**
+   * Called after list was actually changed.
+   * <p>
+   * Does nothing in the base class, there is no need to call superclass method when overriding.
+   *
+   * @param aOld {@link IList}&lt;E&gt; - the list content order before change
+   */
+  protected void doProcessActualChange( IList<E> aOld ) {
+    // nop
   }
 
 }

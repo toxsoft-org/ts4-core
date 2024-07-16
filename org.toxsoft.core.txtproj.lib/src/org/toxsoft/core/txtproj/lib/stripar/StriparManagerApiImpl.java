@@ -49,6 +49,7 @@ public class StriparManagerApiImpl<E extends IStridable & IParameterized>
     protected void doFirePendingEvents() {
       isPending = false;
       fireChangeEvent( ECrudOp.LIST, null );
+      genericChangeEventer().fireChangeEvent();
     }
 
     @Override
@@ -188,6 +189,7 @@ public class StriparManagerApiImpl<E extends IStridable & IParameterized>
 
   protected final Eventer                     eventer = new Eventer();
   protected final IStridablesListBasicEdit<E> items;
+  protected final IListReorderer<E>           reorderer;
 
   /**
    * Constructor.
@@ -208,9 +210,18 @@ public class StriparManagerApiImpl<E extends IStridable & IParameterized>
     validationSupport.addValidator( builtinValidator );
     if( aSorted ) {
       items = new SortedStridablesList<>();
+      reorderer = null;
     }
     else {
-      items = new StridablesList<>();
+      IStridablesListEdit<E> sl = new StridablesList<>();
+      reorderer = new ListReorderer2<E, IListEdit<E>>( sl ) {
+
+        @Override
+        protected void doProcessActualChange( IList<E> aOld ) {
+          eventer.fireChangeEvent( ECrudOp.LIST, null );
+        }
+      };
+      items = sl;
     }
     paramDefs.add( DDEF_NAME );
     paramDefs.add( DDEF_DESCRIPTION );
@@ -295,6 +306,11 @@ public class StriparManagerApiImpl<E extends IStridable & IParameterized>
     TsValidationFailedRtException.checkError( validationSupport.canRemoveItem( aId ) );
     items.removeById( aId );
     eventer.fireChangeEvent( ECrudOp.REMOVE, aId );
+  }
+
+  @Override
+  public IListReorderer<E> reorderer() {
+    return reorderer;
   }
 
   @Override
