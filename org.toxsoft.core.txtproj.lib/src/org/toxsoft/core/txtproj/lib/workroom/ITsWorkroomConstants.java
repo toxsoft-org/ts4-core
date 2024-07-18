@@ -34,11 +34,11 @@ public interface ITsWorkroomConstants {
   String TS_WORKROOM_APP_PREFS_BUNDLE_ID = "ts.workroom.application"; //$NON-NLS-1$
 
   /**
-   * Extemstion used by {@link ITsWorkroom} to store {@link IKeepablesStorage} format files.
+   * Extension used by {@link ITsWorkroom} to store {@link IKeepablesStorage} format files.
    * <p>
    * Also is recommended extension for application specific files of the same storage format.
    */
-  String TS_WORKROOM_KEEPABLE_STORAGE_FILES_EXT = "ktor";
+  String TS_WORKROOM_KEEPABLE_STORAGE_FILES_EXT = "ktor"; //$NON-NLS-1$
 
   /**
    * {@link IKeepablesStorage} file name in workroom and subsystem directories.
