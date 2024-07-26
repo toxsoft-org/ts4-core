@@ -98,13 +98,13 @@ public abstract class PersistentDataModel<C extends IPdmContent, M extends IPdmM
   }
 
   @Override
-  public boolean isMemetoSupported() {
+  public boolean isMementoSupported() {
     return doIsMementoSupported();
   }
 
   @Override
   public IPdmMemento getMemento() {
-    TsUnsupportedFeatureRtException.checkFalse( isMemetoSupported() );
+    TsUnsupportedFeatureRtException.checkFalse( isMementoSupported() );
     Object memento = doGetPdmMemento();
     TsInternalErrorRtException.checkNull( memento );
     TsInternalErrorRtException.checkFalse( mementoClass.isInstance( memento ) );
@@ -113,7 +113,7 @@ public abstract class PersistentDataModel<C extends IPdmContent, M extends IPdmM
 
   @Override
   public void setMemento( IPdmMemento aMemento ) {
-    TsUnsupportedFeatureRtException.checkFalse( isMemetoSupported() );
+    TsUnsupportedFeatureRtException.checkFalse( isMementoSupported() );
     TsNullArgumentRtException.checkNull( aMemento );
     TsInternalErrorRtException.checkFalse( mementoClass.isInstance( aMemento ) );
     doSetPdmMemento( mementoClass.cast( aMemento ) );

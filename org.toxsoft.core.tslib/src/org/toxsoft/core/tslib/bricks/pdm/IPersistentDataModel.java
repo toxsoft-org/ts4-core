@@ -48,7 +48,7 @@ public interface IPersistentDataModel
    *
    * @return boolean - <code>true</code> memento can be used by caller
    */
-  boolean isMemetoSupported();
+  boolean isMementoSupported();
 
   /**
    * Returns the new instance of the memento - copy of the current content of this data model.

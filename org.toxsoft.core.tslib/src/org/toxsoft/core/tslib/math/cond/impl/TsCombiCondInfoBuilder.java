@@ -129,6 +129,16 @@ class TsCombiCondInfoBuilder
   }
 
   @Override
+  public void putSingles( IStringMap<ITsSingleCondInfo> aSingles ) {
+    TsNullArgumentRtException.checkNull( aSingles );
+    for( String id : aSingles.keys() ) {
+      StridUtils.checkValidIdPath( id );
+      singlesMap.put( id, aSingles.getByKey( id ) );
+    }
+    genericChangeEventer.fireChangeEvent();
+  }
+
+  @Override
   public void removeSingle( String aSingleId ) {
     if( singlesMap.removeByKey( aSingleId ) != null ) {
       genericChangeEventer.fireChangeEvent();

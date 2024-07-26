@@ -176,7 +176,7 @@ public final class StridUtils {
   }
 
   /**
-   * Throws and exception if specified string is not valid IDname.
+   * Throws an exception if specified string is not valid IDname.
    *
    * @param aIdName String - specified string
    * @return String - argument
@@ -189,7 +189,7 @@ public final class StridUtils {
   }
 
   /**
-   * Throws and exception if specified string is not valid IDpath.
+   * Throws an exception if specified string is not valid IDpath.
    *
    * @param aIdPath String - specified string
    * @return String - argument
@@ -199,6 +199,20 @@ public final class StridUtils {
   public static String checkValidIdPath( String aIdPath ) {
     TsValidationFailedRtException.checkError( validateIdPath( aIdPath ) );
     return aIdPath;
+  }
+
+  /**
+   * Throws an exception if any string in argument is not valid IDpath.
+   *
+   * @param aStrings {@link IList}&lt;String&gt; - the list of strings
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsValidationFailedRtException failed validation {@link #validateIdPath(String)}
+   */
+  public static void checkValidIdPaths( IList<String> aStrings ) {
+    TsNullArgumentRtException.checkNull( aStrings );
+    for( String s : aStrings ) {
+      TsValidationFailedRtException.checkError( validateIdPath( s ) );
+    }
   }
 
   /**

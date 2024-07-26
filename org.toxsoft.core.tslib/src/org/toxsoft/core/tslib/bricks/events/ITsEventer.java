@@ -32,7 +32,7 @@ public interface ITsEventer<L>
   void removeListener( L aListener );
 
   /**
-   * Temorary truns off (mutes) notification of the specified listener.
+   * Temporary turns off (mutes) notification of the specified listener.
    * <p>
    * If listener is not registered or is already muted then method does nothing.
    *
@@ -42,7 +42,7 @@ public interface ITsEventer<L>
   void muteListener( L aListener );
 
   /**
-   * Truns off (unmutes) previously muted listener.
+   * Turns off (un-mutes) previously muted listener.
    * <p>
    * If listener is not registered or is not muted then method does nothing.
    *

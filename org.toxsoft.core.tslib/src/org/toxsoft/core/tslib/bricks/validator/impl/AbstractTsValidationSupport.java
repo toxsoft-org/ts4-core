@@ -38,7 +38,7 @@ public abstract class AbstractTsValidationSupport<V>
   }
 
   // ------------------------------------------------------------------------------------
-  // ISkValidationSupport
+  // ITsValidationSupport
   //
 
   @Override

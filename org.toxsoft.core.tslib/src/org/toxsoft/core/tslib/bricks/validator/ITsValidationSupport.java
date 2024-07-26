@@ -2,10 +2,8 @@ package org.toxsoft.core.tslib.bricks.validator;
 
 import org.toxsoft.core.tslib.utils.errors.*;
 
-// TODO TRANSLATE
-
 /**
- * Поддержка валидации (предварительно проверки) редактирования.
+ * Pattern: validate (check possibility) if some changes (edit actions) may be performed..
  *
  * @author hazard157
  * @param <V> - the validator type
@@ -13,12 +11,13 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public interface ITsValidationSupport<V> {
 
   /**
-   * Возвращает валидатор.
+   * Returns the validator.
    * <p>
-   * Валидатор проводит валидацию путем последовательного вызова сначала всех встроенных (неудаляемых) валидаторов, а
-   * потом валидаторов, добавленных методом {@link #addValidator(Object)}, в порядке их добавления. Первая же ошибка
-   * {@link ValidationResult#isError()} = <code>true</code> немедленно возвращается. Предупреждение же возвращается
-   * согласно правилам {@link ValidationResult#firstNonOk(ValidationResult, ValidationResult)}.
+   * The validator performs validation by sequentially calling all registered validators. First built-in (non-removable)
+   * validators are called and then the validators added by the {@link #addValidator(Object)} method are called in the
+   * order they were added. The first error {@link ValidationResult#isError()} = <code>true</code> is returned
+   * immediately. The warning is returned according to the rules of
+   * {@link ValidationResult#firstNonOk(ValidationResult, ValidationResult)}.
    *
    * @return &ltV&gt; - the validator
    */

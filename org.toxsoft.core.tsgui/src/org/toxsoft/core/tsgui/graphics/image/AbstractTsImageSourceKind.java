@@ -185,6 +185,8 @@ public abstract non-sealed class AbstractTsImageSourceKind
    * <p>
    * Arguments are checked for validity: non-<code>null</code>, and parameters contains only options listed in
    * {@link #opDefs} with the values of the compatible type.
+   * <p>
+   * Note <code>aParams</code> may not contain any particular option, even the mandatory one.
    *
    * @param aParams {@link IOptionSet} - initial values of the edited options, may be an empty set
    * @param aContext {@link ITsGuiContext} - the context
