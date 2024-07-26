@@ -103,6 +103,15 @@ public interface ITsCombiCondInfoBuilder
   void putSingle( String aSingleId, ITsSingleCondInfo aSingleInfo );
 
   /**
+   * Add new or replaces existing entries in the map {@link #singlesMap()}.
+   *
+   * @param aSingles {@link IStringMap}&lt;{@link ITsSingleCondInfo}&gt; - map "ID" - "single condition"
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException any ID is not an IDpath
+   */
+  void putSingles( IStringMap<ITsSingleCondInfo> aSingles );
+
+  /**
    * Removes entry from the map {@link #singlesMap()}.
    * <p>
    * Does nothing if map does not contains such key.
@@ -221,6 +230,11 @@ class InternalCombiCondNoneBuilder
 
   @Override
   public void putSingle( String aSingleId, ITsSingleCondInfo aSingleInfo ) {
+    throw new TsNullObjectErrorRtException();
+  }
+
+  @Override
+  public void putSingles( IStringMap<ITsSingleCondInfo> aSingles ) {
     throw new TsNullObjectErrorRtException();
   }
 
