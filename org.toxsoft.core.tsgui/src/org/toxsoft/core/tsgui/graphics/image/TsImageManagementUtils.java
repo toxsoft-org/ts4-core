@@ -48,7 +48,7 @@ class TsImageManagementUtils {
         String dirName = "seq_" + System.nanoTime(); //$NON-NLS-1$
         d = new File( TMP_WORKS_ROOT_OATH, dirName );
       } while( d.exists() );
-      d.mkdir();
+      d.mkdirs();
       dir = d;
       // create sequental file names
       IListEdit<File> ll = new ElemArrayList<>( aCount );
@@ -61,7 +61,9 @@ class TsImageManagementUtils {
 
     @Override
     public void close() {
-      TsFileUtils.deleteDirectory( dir, IFileOperationProgressCallback.NULL );
+      if( TsFileUtils.isDirWriteable( dir ) ) {
+        TsFileUtils.deleteDirectory( dir, IFileOperationProgressCallback.NULL );
+      }
     }
 
   }
