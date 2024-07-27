@@ -46,14 +46,14 @@ interface ITsResources {
   /**
    * {@link EVerAlignment}
    */
-  String STR_VA_TOP      = "Вверх";
-  String STR_VA_TOP_D    = "Вверх";
-  String STR_VA_CENTER   = "По центру";
-  String STR_VA_CENTER_D = "По центру";
-  String STR_VA_BOTTOM   = "Вниз";
-  String STR_VA_BOTTOM_D = "Вниз";
-  String STR_VA_FILL     = "В высоту";
-  String STR_VA_FILL_D   = "В высоту";
+  String STR_VA_TOP      = Messages.getString( "EVerAlignment.STR_VA_TOP" );      //$NON-NLS-1$
+  String STR_VA_TOP_D    = Messages.getString( "EVerAlignment.STR_VA_TOP_D" );    //$NON-NLS-1$
+  String STR_VA_CENTER   = Messages.getString( "EVerAlignment.STR_VA_CENTER" );   //$NON-NLS-1$
+  String STR_VA_CENTER_D = Messages.getString( "EVerAlignment.STR_VA_CENTER_D" ); //$NON-NLS-1$
+  String STR_VA_BOTTOM   = Messages.getString( "EVerAlignment.STR_VA_BOTTOM" );   //$NON-NLS-1$
+  String STR_VA_BOTTOM_D = Messages.getString( "EVerAlignment.STR_VA_BOTTOM_D" ); //$NON-NLS-1$
+  String STR_VA_FILL     = Messages.getString( "EVerAlignment.STR_VA_FILL" );     //$NON-NLS-1$
+  String STR_VA_FILL_D   = Messages.getString( "EVerAlignment.STR_VA_FILL_D" );   //$NON-NLS-1$
 
   /**
    * {@link ETsFulcrum}

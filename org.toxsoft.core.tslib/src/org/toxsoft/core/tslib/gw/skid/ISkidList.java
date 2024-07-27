@@ -8,7 +8,7 @@ import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * List of the {@link Skid}s with som helper API added.
+ * List of the {@link Skid}s with some helper API added.
  * <p>
  * This is "read-only" interface with editable {@link SkidList} implementation.
  *
@@ -29,8 +29,10 @@ public interface ISkidList
    * Creates and returns list of class IDs of SKIDs in this list.
    * <p>
    * Returned list contains no duplicate elements.
+   * <p>
+   * Each time the result is calculated so for big collection it may take a while,
    *
-   * @return {@link IStringList} - list of class IDs of the SKIDs in thie list
+   * @return {@link IStringList} - sorted list of class IDs of the SKIDs in this list
    */
   IStringList classIds();
 
@@ -38,6 +40,8 @@ public interface ISkidList
    * Creates and returns object SKIDs of the specified class.
    * <p>
    * If no SKID in the list is of the specified class, then returns and empty list.
+   * <p>
+   * Each time the result is calculated so for big collection it may take a while,
    *
    * @param aClassId String - the class ID
    * @return {@link IList}&lt;{@link Skid}&gt; - SKIDs of the specified class
@@ -49,6 +53,8 @@ public interface ISkidList
    * Creates and returns object STRIDs of the specified class.
    * <p>
    * If no SKID in the list is of the specified class, then returns and empty list.
+   * <p>
+   * Each time the result is calculated so for big collection it may take a while,
    *
    * @param aClassId String - the class ID
    * @return {@link IStringList} - STRIDs of SKIDs of the specified class
@@ -59,9 +65,11 @@ public interface ISkidList
   /**
    * Finds first duplicate SKID in the list.
    * <p>
-   * If there is multiple duplicate SKIDs in this list method returns firts duplcate SKID.
+   * If there is multiple duplicate SKIDs in this list method returns first duplicate SKID.
+   * <p>
+   * Each time the result is calculated so for big collection it may take a while,
    *
-   * @return {@link Skid} - first of duplicate SKIDs or <code>null</code> if there is no dulicates
+   * @return {@link Skid} - first of duplicate SKIDs or <code>null</code> if there is no duplicates
    */
   Skid findDuplicateSkid();
 

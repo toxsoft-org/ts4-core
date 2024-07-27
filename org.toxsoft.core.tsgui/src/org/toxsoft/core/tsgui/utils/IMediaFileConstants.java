@@ -188,10 +188,10 @@ public interface IMediaFileConstants {
   }
 
   /**
-   * Определяет, есть ли у файла расширение изображения, один из {@link IMediaFileConstants#IMAGE_FILE_EXT_LIST}.
+   * Determines if the file has an image extension, one of {@link IMediaFileConstants#IMAGE_FILE_EXT_LIST}.
    *
-   * @param aFileName String - имя файла
-   * @return boolean - признак расширения файла - изображения
+   * @param aFileName String - the file name
+   * @return boolean - <code>true</code> if file has known extension (case insensitive)
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   static boolean hasImageExtension( String aFileName ) {
@@ -199,11 +199,26 @@ public interface IMediaFileConstants {
     return IMAGE_FILE_EXT_LIST.hasElem( ext );
   }
 
+  /**
+   * Determines if the file has an still image extension, one of {@link IMediaFileConstants#stillImageFileExtList()}.
+   *
+   * @param aFileName String - the file name
+   * @return boolean - <code>true</code> if file has known extension (case insensitive)
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
   static boolean hasStillImageExtension( String aFileName ) {
     String ext = TsFileUtils.extractExtension( aFileName ).toLowerCase();
     return stillImageFileExtList().hasElem( ext );
   }
 
+  /**
+   * Determines if the file has an animated image extension, one of
+   * {@link IMediaFileConstants#animatedImageFileExtList()}.
+   *
+   * @param aFileName String - the file name
+   * @return boolean - <code>true</code> if file has known extension (case insensitive)
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
   static boolean hasAnimatedImageExtension( String aFileName ) {
     String ext = TsFileUtils.extractExtension( aFileName ).toLowerCase();
     return animatedImageFileExtList().hasElem( ext );

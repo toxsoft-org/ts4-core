@@ -12,7 +12,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class TsGeometryUtils {
 
   /**
-   * Creates {@link TsPointEdit} from {@link ID2PointRectangle}.
+   * Creates {@link TsPointEdit} from {@link ID2Point}.
    *
    * @param aSource {@link ID2Point} - the source
    * @return {@link TsPointEdit} - created instance

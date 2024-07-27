@@ -1,11 +1,14 @@
 package org.toxsoft.core.tslib.bricks.d2;
 
+import org.toxsoft.core.tslib.utils.errors.*;
+
 /**
  * The rectangle on a plane with <code>double</code> coordinates.
  *
  * @author hazard157
  */
-public sealed interface ID2Rectangle permits D2Rectangle,D2RectangleEdit {
+public sealed interface ID2Rectangle
+    permits D2Rectangle, D2RectangleEdit {
 
   // TODO ID2RectangleEdit
 
@@ -86,8 +89,23 @@ public sealed interface ID2Rectangle permits D2Rectangle,D2RectangleEdit {
    */
   ID2Size size();
 
+  /**
+   * Determines if the point is inside or on the edges of this rectangle.
+   *
+   * @param aX double - the X coordinate of the point
+   * @param aY double - the Y coordinate of the point
+   * @return boolean - <code>true</code> if this rectangle contains the point
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
   boolean contains( double aX, double aY );
 
+  /**
+   * Determines if the point is inside or on the edges of this rectangle.
+   *
+   * @param aPoint {@link ID2Point} - the point
+   * @return boolean - <code>true</code> if this rectangle contains the point
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
   boolean contains( ID2Point aPoint );
 
 }

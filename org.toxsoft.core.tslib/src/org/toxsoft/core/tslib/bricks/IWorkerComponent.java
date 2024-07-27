@@ -5,7 +5,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 // TODO TRANSLATE
 
 /**
- * Компонента, выполняющая свою работу под управлением контейнера.
+ * A component that performs its work under the control of a container.
  * <p>
  * Этот интерфейс примешивается (mixin interface) к основному, <b><i>рабочему интерфейсу</i></b> бизнес-логики
  * компоненты. Рабочий интерфейс (или класс) является тем, с чем работает пользователь компоненты, а этот интерфейс
@@ -82,14 +82,14 @@ public interface IWorkerComponent {
   boolean isStopped();
 
   /**
-   * Безоговорочно завершает работу и освобождает все ресурсы.
+   * Unconditionally terminates the job and releases all resources.
    * <p>
-   * Должен вызываться после завершения работы компоненты, или в случае слишком долгого ожидания завершения - по
-   * прошествии таймаута. Данный метод обязательно должен быть вызван перед тем, как ссылка на компоненту будет отдана
-   * сборщику мусора.
+   * Must be called after the component has finished working, or if the component has been waiting too long for
+   * completion, after a timeout. This method must be called before the component reference is given to the garbage
+   * collector.
    * <p>
-   * После вызова этого метода ни один другой метод не может и не должен быть вызван и ссылка на модуль должна быть
-   * отдана на съедение сборщику мусора.
+   * Once this method is called, no other method can or should be called and the reference to the component should be
+   * garbage collected.
    */
   void destroy();
 

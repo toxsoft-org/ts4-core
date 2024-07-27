@@ -26,7 +26,7 @@ public class ElemLinkedBundleList<E>
   private static final long serialVersionUID = 157157L;
 
   /**
-   * Bundleed array of elements, chained as linked list.
+   * Bundled array of elements, chained as linked list.
    *
    * @author hazard157
    */

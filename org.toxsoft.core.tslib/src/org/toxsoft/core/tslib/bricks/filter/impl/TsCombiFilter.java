@@ -124,12 +124,6 @@ public class TsCombiFilter<T>
     }
     boolean bRight = right.accept( aElement );
     boolean b = params.op().op( bLeft, bRight );
-    // boolean b = switch( params.op() ) {
-    // case AND -> bLeft && bRight;
-    // case OR -> bLeft || bRight;
-    // case XOR -> bLeft ^ bRight;
-    // default -> throw new TsNotAllEnumsUsedRtException();
-    // };
     if( params.isInverted() ) {
       return !b;
     }

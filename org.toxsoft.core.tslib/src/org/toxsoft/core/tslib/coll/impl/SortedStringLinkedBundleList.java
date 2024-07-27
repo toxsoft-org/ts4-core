@@ -363,7 +363,7 @@ public class SortedStringLinkedBundleList
     }
     Bundle bPrev = null;
     int index = 0;
-    do { // iterate throught chain of bundles until found bundle for element insertion
+    do { // iterate through chain of bundles until found bundle for element insertion
       if( aValue.compareTo( b.lastValue() ) <= 0 ) { // aValue <= b.lastValue()
         int i;
         // bundle is found, searching for index i for insertion

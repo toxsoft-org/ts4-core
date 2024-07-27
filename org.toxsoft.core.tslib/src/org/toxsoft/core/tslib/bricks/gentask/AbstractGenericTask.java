@@ -115,6 +115,7 @@ public abstract class AbstractGenericTask
    * The prepared <code>aOutput</code> instance has available parameters prepared.
    *
    * @param aInput {@link ITsContextRo} - the valid input of the task
+   * @param aOutput {@link ITsContextRo} - the task output
    */
   protected abstract void doRunSync( ITsContextRo aInput, ITsContext aOutput );
 

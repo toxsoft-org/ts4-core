@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.graphics.colors;
 
+import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -80,31 +81,52 @@ public interface ITsColorManager {
   Color getColorByRgbName( String aRgbName );
 
   /**
-   * Возвращает цвет по заданному сочетанию красного, зеленого, синего.
+   * Returns the color by it's components.
    * <p>
-   * Если такой цвет не был создан, создает и кеширует его.
+   * If color was not cached, creates and caches it.
    *
-   * @param aR int - красный вдиапазоне 0.255
-   * @param aG int - зеленый вдиапазоне 0.255
-   * @param aB int - синий вдиапазоне 0.255
-   * @return {@link Color} - кешированный цвет
-   * @throws TsIllegalArgumentRtException - любой цвет выходт за допустимый диапазон
+   * @param aRed int - red component, in the range 0..255
+   * @param aGreen int - green component, in the range 0..255
+   * @param aBlue int - blue component, in the range 0..255
+   * @return {@link Color} - created and cached color
+   * @throws SWTError - any component is out of range
    */
-  Color getColor( int aR, int aG, int aB );
+  Color getColor( int aRed, int aGreen, int aBlue );
 
+  /**
+   * Returns the color by it's components.
+   * <p>
+   * If color was not cached, creates and caches it.
+   *
+   * @param aRed int - red component, in the range 0..255
+   * @param aGreen int - green component, in the range 0..255
+   * @param aBlue int - blue component, in the range 0..255
+   * @param aAlpha int - transparency component, in the range 0..255 (transparent..opaque)
+   * @return {@link Color} - created and cached color
+   * @throws SWTError - any component is out of range
+   */
   Color getColor( int aRed, int aGreen, int aBlue, int aAlpha );
 
   /**
-   * Возвращает цвет по заданному сочетанию красного, зеленого, синего.
+   * Returns the color by it's components.
    * <p>
-   * Если такой цвет не был создан, создает и кеширует его.
+   * If color was not cached, creates and caches it.
    *
-   * @param aRgb {@link RGB} - сочетание красного, зеленого, синего
-   * @return {@link Color} - кешированный цвет
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aRgb {@link RGB} - R/G/B components values
+   * @return {@link Color} - created and cached color
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   Color getColor( RGB aRgb );
 
+  /**
+   * Returns the color by it's components.
+   * <p>
+   * If color was not cached, creates and caches it.
+   *
+   * @param aRgba {@link RGBA} - R/G/B/Alpha components values
+   * @return {@link Color} - created and cached color
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
   Color getColor( RGBA aRgba );
 
   /**

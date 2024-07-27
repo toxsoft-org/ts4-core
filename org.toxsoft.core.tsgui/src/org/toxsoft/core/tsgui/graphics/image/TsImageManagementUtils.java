@@ -62,7 +62,7 @@ class TsImageManagementUtils {
     @Override
     public void close() {
       if( TsFileUtils.isDirWriteable( dir ) ) {
-        TsFileUtils.deleteDirectory( dir, IFileOperationProgressCallback.NULL );
+        TsFileUtils.deleteDirectory( dir, ILongOpProgressCallback.CONSOLE );
       }
     }
 
@@ -71,6 +71,8 @@ class TsImageManagementUtils {
   /**
    * Creates unique file name in the {@link #TSIMGSRCKIND_ROOT_OATH} directory.
    *
+   * @param aKind {@link ITsImageSourceKind} - the image source kind
+   * @param aImgDescr {@link TsImageDescriptor} - the image descriptor
    * @return {@link File} - absolute path (without extension) of the file in the temporary images directory
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
@@ -147,7 +149,7 @@ class TsImageManagementUtils {
     // изображения
     String dimsStr = String.format( "%dx%d", dim, dim ); // "WWWxHHH>", ">" чтобы не увеличивать меленькие изображения
     if( IMediaFileConstants.hasAnimatedExtension( aDest.getName() ) ) {
-
+      // FIXME whant to do here?
     }
     // делаем без coalesce
     runGmWait( "convert", //

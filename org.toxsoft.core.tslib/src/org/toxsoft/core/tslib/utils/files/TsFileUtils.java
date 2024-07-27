@@ -722,7 +722,7 @@ public class TsFileUtils {
   //
 
   /**
-   * Temporary buffer size for {@link #copyFile(File, File, IFileOperationProgressCallback)}.
+   * Temporary buffer size for {@link #copyFile(File, File, ILongOpProgressCallback)}.
    */
   private static final int FILE_BUF_SIZE = 32 * 1024;
 
@@ -733,19 +733,19 @@ public class TsFileUtils {
    *
    * @param aSrc {@link File} - source file
    * @param aDest {@link File} - destination file
-   * @param aProgressCounter {@link IFileOperationProgressCallback} - progress monitoring callback
+   * @param aProgressCounter {@link ILongOpProgressCallback} - progress monitoring callback
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIoRtException error reading from the input file
    * @throws TsIoRtException error writing to the output file
    */
-  public static void copyFile( File aSrc, File aDest, IFileOperationProgressCallback aProgressCounter ) {
+  public static void copyFile( File aSrc, File aDest, ILongOpProgressCallback aProgressCounter ) {
     TsNullArgumentRtException.checkNull( aProgressCounter );
     checkFileReadable( aSrc );
     checkFileAppendable( aDest );
     try {
       long totalSteps = aSrc.length() / FILE_BUF_SIZE + 1;
       long currentStep = 0;
-      if( aProgressCounter.onFileCopyProgress( totalSteps, currentStep ) ) {
+      if( aProgressCounter.startWork( EMPTY_STRING, false ) ) {
         return;
       }
       try( InputStream in = new FileInputStream( aSrc ); OutputStream out = new FileOutputStream( aDest ) ) {
@@ -753,13 +753,15 @@ public class TsFileUtils {
         int len;
         while( (len = in.read( buf )) > 0 ) {
           out.write( buf, 0, len );
-          if( aProgressCounter.onFileCopyProgress( totalSteps, currentStep ) ) {
+          if( aProgressCounter.updateWorkProgress( EMPTY_STRING, 100.0 * currentStep / totalSteps ) ) {
             break;
           }
         }
       }
+      aProgressCounter.finished( ValidationResult.SUCCESS );
     }
     catch( IOException e ) {
+      aProgressCounter.finished( ValidationResult.error( e ) );
       throw new TsIoRtException( e );
     }
   }
@@ -767,7 +769,7 @@ public class TsFileUtils {
   /**
    * Copies the file aSrc to the file aDest.
    * <p>
-   * Simply calls {@link #copyFile(File, File, IFileOperationProgressCallback)
+   * Simply calls {@link #copyFile(File, File, ILongOpProgressCallback)
    * copyFile(aSrc,aDest,IFileCopyProgressCallback.NULL}.
    *
    * @param aSrc {@link File} - source file
@@ -777,7 +779,7 @@ public class TsFileUtils {
    * @throws TsIoRtException error writing to the output file
    */
   public static void copyFile( File aSrc, File aDest ) {
-    copyFile( aSrc, aDest, IFileOperationProgressCallback.NULL );
+    copyFile( aSrc, aDest, ILongOpProgressCallback.NONE );
   }
 
   // ------------------------------------------------------------------------------------
@@ -864,28 +866,30 @@ public class TsFileUtils {
    * Permanently deletes directory and it's content from the file system.
    *
    * @param aDirectory {@link File} - the directory to be deleted
-   * @param aProgressCallback {@link IFileOperationProgressCallback} - progress monitoring callback
-   * @return boolean - <code>true</code> if directory was succesfully deleted
+   * @param aProgressCallback {@link ILongOpProgressCallback} - progress monitoring callback
+   * @return boolean - <code>true</code> if directory was successfully deleted
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIoRtException can not access directory, insufficient rights or any other filesystem error
+   * @throws TsIoRtException can not access directory, insufficient rights or any other file system error
    */
-  public static boolean deleteDirectory( File aDirectory, IFileOperationProgressCallback aProgressCallback ) {
+  public static boolean deleteDirectory( File aDirectory, ILongOpProgressCallback aProgressCallback ) {
     TsFileUtils.checkDirReadable( aDirectory );
     TsNullArgumentRtException.checkNull( aProgressCallback );
     File[] files = aDirectory.listFiles();
-    if( null != files ) {
+    aProgressCallback.startWork( EMPTY_STRING, false );
+    if( null != files && files.length > 0 ) {
       for( int i = 0; i < files.length; i++ ) {
-        aProgressCallback.onFileCopyProgress( files.length, 0 );
         if( files[i].isDirectory() ) {
-          deleteDirectory( files[i], IFileOperationProgressCallback.NULL );
+          deleteDirectory( files[i], ILongOpProgressCallback.NONE );
         }
         else {
           files[i].delete();
         }
+        aProgressCallback.updateWorkProgress( EMPTY_STRING, 100.0 * (i + 1) / files.length );
       }
-      aProgressCallback.onFileCopyProgress( files.length, files.length );
     }
-    return aDirectory.delete();
+    boolean wasDeleted = aDirectory.delete();
+    aProgressCallback.finished( ValidationResult.SUCCESS );
+    return wasDeleted;
   }
 
   /**

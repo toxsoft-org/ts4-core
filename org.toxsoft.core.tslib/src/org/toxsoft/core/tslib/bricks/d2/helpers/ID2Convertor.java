@@ -154,12 +154,4 @@ public interface ID2Convertor {
     return reverseSize( aSize.width(), aSize.height() );
   }
 
-  // ------------------------------------------------------------------------------------
-  // Tmp
-  //
-
-  double reverseItemX( double aX, double aY, double aItemX, double aItemY );
-
-  double reverseItemY( double aX, double aY, double aItemX, double aItemY );
-
 }

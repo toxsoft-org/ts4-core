@@ -3,26 +3,21 @@ package org.toxsoft.core.tslib.utils.plugins.impl;
 import static org.toxsoft.core.tslib.utils.plugins.impl.ITsResources.*;
 import static org.toxsoft.core.tslib.utils.plugins.impl.PluginUtils.*;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
+import java.io.*;
+import java.net.*;
 import java.util.*;
 
-import org.toxsoft.core.tslib.bricks.strid.idgen.IStridGenerator;
-import org.toxsoft.core.tslib.bricks.strid.idgen.UuidStridGenerator;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMapEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.TsVersion;
+import org.toxsoft.core.tslib.bricks.strid.idgen.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.files.IFileOperationProgressCallback;
-import org.toxsoft.core.tslib.utils.files.TsFileUtils;
+import org.toxsoft.core.tslib.utils.files.*;
 import org.toxsoft.core.tslib.utils.plugins.*;
-import org.toxsoft.core.tslib.utils.plugins.IChangedPluginsInfo.IChangedPluginInfo;
-import org.toxsoft.core.tslib.utils.plugins.IPluginInfo.IDependencyInfo;
+import org.toxsoft.core.tslib.utils.plugins.IChangedPluginsInfo.*;
+import org.toxsoft.core.tslib.utils.plugins.IPluginInfo.*;
 import org.toxsoft.core.tslib.utils.plugins.dirscan.*;
 
 /**
@@ -516,7 +511,7 @@ class PluginStorage
     File dir = new File( aDir );
     if( aNeedClean && dir.exists() ) {
       // Очистка каталога
-      TsFileUtils.deleteDirectory( dir, IFileOperationProgressCallback.NULL );
+      TsFileUtils.deleteDirectory( dir, ILongOpProgressCallback.CONSOLE );
     }
     // Проверка и если треубется создание каталога
     createDirIfNotExist( aDir );

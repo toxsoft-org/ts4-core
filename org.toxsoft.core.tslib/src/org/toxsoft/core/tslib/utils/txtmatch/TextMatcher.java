@@ -7,13 +7,11 @@ import org.toxsoft.core.tslib.bricks.filter.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
-// TODO TRANSLATE
-
 /**
- * Вспомогательный класс для реализации алгоритмов сравнения {@link ETextMatchMode}.
+ * Helper class for implementing comparison algorithms of the constants {@link ETextMatchMode}.
  * <p>
- * Созданный конструктором экземпляр готов к сравнению различных строк с заданной константной строкой в указанном
- * режиме. Сравнение производится методом {@link #match(String)}.
+ * The created instance is ready to compare different strings with the given constant string in the specified mode. The
+ * comparison is performed by the {@link #match(String)} method.
  *
  * @author hazard157
  */

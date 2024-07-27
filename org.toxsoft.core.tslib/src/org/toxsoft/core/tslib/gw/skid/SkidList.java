@@ -22,10 +22,6 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class SkidList
     implements ISkidList, IListEdit<Skid>, IKeepableEntity, Serializable {
 
-  /**
-   * FIXME add caching of the generated lists
-   */
-
   private static final long serialVersionUID = 157157L;
 
   private final IListEdit<Skid> list;
@@ -256,7 +252,7 @@ public class SkidList
   public IStringList classIds() {
     IStringListBasicEdit classIds = new SortedStringLinkedBundleList( DEFAULT_BUNDLE_CAPACITY, false );
     for( Skid s : list ) {
-      classIds.add( s.classId() );
+      classIds.add( s.classId() ); // duplicates will not be added as the list not allows duplicates
     }
     return classIds;
   }

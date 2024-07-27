@@ -86,13 +86,13 @@ public final class TsCollectionsUtils {
   }
 
   /**
-   * Возвращает оптимальное количество ячеек карты для порядка величины прогноpируемого количества элементов.
+   * Returns the optimal number of map buckets for an magnitude order of the predicted elements number.
    * <p>
-   * Аргмуент может иметь любое значене, для слишком меленких и больших порядков возвращается минимальное (максимальное)
-   * оптимальое количество ячеек карты.
+   * The argument can have any value; for too small and too large orders, the minimum (maximum) optimal number is
+   * returned.
    *
-   * @param aOrder int - порядок величины прогнозируемого количества элементов коллекции
-   * @return int - оптимальое количество ячеек карты
+   * @param aOrder int - an order of the predicted elements number
+   * @return int - optimal number of map buckets
    */
   public static int getMapBucketsCount( int aOrder ) {
     if( aOrder <= 0 ) {
@@ -105,13 +105,13 @@ public final class TsCollectionsUtils {
   }
 
   /**
-   * Возвращает оптимальную начальную емкость списка для порядка величины прогноpируемого количества элементов.
+   * Returns the optimal initial capacity of the list for an magnitude order of the predicted elements number.
    * <p>
-   * Аргмуент может иметь любое значене, для слишком меленких и больших порядков возвращается минимальная (максимальная)
-   * оптимальая начальная емкость списка.
+   * The argument can have any value; for too small and too large orders, the minimum (maximum) optimal number is
+   * returned.
    *
-   * @param aOrder int - порядок величины прогнозируемого количества элементов коллекции
-   * @return int - оптимальная начальная емкость списка
+   * @param aOrder int - an order of the predicted elements number
+   * @return int - optimal initial capacity of the list
    */
   public static int getListInitialCapacity( int aOrder ) {
     if( aOrder <= 0 ) {
@@ -521,7 +521,7 @@ public final class TsCollectionsUtils {
     TsNullArgumentRtException.checkNulls( aList1, aList2 );
     for( int i = 0, n = aList2.size(); i < n; i++ ) {
       String value = aList2.get( i );
-      // remove all occurences of element from the list
+      // remove all occurrences of element from the list
       while( aList1.remove( value ) >= 0 ) {
         // nop
       }
@@ -534,12 +534,12 @@ public final class TsCollectionsUtils {
   //
 
   /**
-   * Finds element in list te be selected when selected element will be removed.
+   * Finds element in list to be selected when selected element will be removed.
    * <p>
    * Useful for GUI. When selected item is removed from GUI lists, next item must be selected. If last item is removed
    * than previous item must became selected one. If the only item is removed, or if there is no selection (that is
    * <code>aSelToRemove</code> = <code>null</code>), than <code>null</code> will be returned. <code>null</code> means no
-   * selecion in GUI.
+   * selection in GUI.
    * <p>
    * If <code>aSelToRemove</code> is not in list then <code>null</code> will be returned.
    *
@@ -568,8 +568,8 @@ public final class TsCollectionsUtils {
   /**
    * Finds element index in list te be selected when selected element will be removed.
    * <p>
-   * This is the same emthod as {@link #findSelAfterRemove(IList, Object)}, where indexes are used instead of references
-   * to the elemnts. Index -1 is equivalent of the <code>null</code> reference.
+   * This is the same method as {@link #findSelAfterRemove(IList, Object)}, where indexes are used instead of references
+   * to the elements. Index -1 is equivalent of the <code>null</code> reference.
    * <p>
    * Invalid indexes is considered as -1.
    * <p>
@@ -653,7 +653,7 @@ public final class TsCollectionsUtils {
       default:
         int i = (int)Math.ceil( Math.sqrt( aNum ) );
         while( i > 1 ) {
-          if( aNum % i == 0 ) { // aNum > 4 гарантирует, что нет деления сам на себя
+          if( aNum % i == 0 ) { // aNum > 4 ensures that there is no division by itself
             return false;
           }
           --i;
@@ -663,7 +663,7 @@ public final class TsCollectionsUtils {
   }
 
   /**
-   * Finds mimimal prime number greater or equal to the argument.
+   * Finds minimal prime number greater or equal to the argument.
    * <p>
    * If aLimit <= {@link #MINIMUM_BUCKETS_COUNT} then returns {@link #MINIMUM_BUCKETS_COUNT}. If aLimit >=
    * {@link #MINIMUM_BUCKETS_COUNT}then returns {@link #MAXIMUM_BUCKETS_COUNT}.
