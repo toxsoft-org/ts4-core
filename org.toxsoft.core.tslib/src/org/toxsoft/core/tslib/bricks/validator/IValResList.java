@@ -49,4 +49,14 @@ public interface IValResList {
    */
   IList<ValidationResult> results();
 
+  /**
+   * Returns the first worst result from the {@link #results()} list.
+   * <p>
+   * Returns first ERROR from list, if no error, returns first WARNING. Otherwise returns first item in
+   * {@link #results()}. If results is an empty list returns {@link ValidationResult#SUCCESS}.
+   *
+   * @return {@link ValidationResult} - the first occurrence of the worst result
+   */
+  ValidationResult getFirstWorst();
+
 }

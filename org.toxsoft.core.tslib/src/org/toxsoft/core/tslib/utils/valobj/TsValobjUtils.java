@@ -97,6 +97,7 @@ public class TsValobjUtils {
     registerKeeper( IdValue.KEEPER_ID, IdValue.KEEPER );
     registerKeeper( IdChain.KEEPER_ID, IdChain.KEEPER );
     registerKeeper( D2Point.KEEPER_ID, D2Point.KEEPER );
+    registerKeeper( D2Vector.KEEPER_ID, D2Vector.KEEPER );
     registerKeeper( D2Size.KEEPER_ID, D2Size.KEEPER );
     registerKeeper( D2Angle.KEEPER_ID, D2Angle.KEEPER );
     registerKeeper( D2Rotation.KEEPER_ID, D2Rotation.KEEPER );

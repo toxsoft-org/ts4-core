@@ -5,6 +5,9 @@ import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
 import java.io.*;
 
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -16,6 +19,36 @@ public final class D2Vector
     implements ID2Vector, Serializable {
 
   private static final long serialVersionUID = -6227376902258600650L;
+
+  /**
+   * The registered keeper ID.
+   */
+  public static final String KEEPER_ID = "D2Vector"; //$NON-NLS-1$
+
+  /**
+   * The keeper singleton.
+   * <p>
+   * Read {@link ID2Vector} may safely be casted to {@link D2PointEdit}.
+   */
+  public static final IEntityKeeper<ID2Vector> KEEPER =
+      new AbstractEntityKeeper<>( ID2Vector.class, EEncloseMode.ENCLOSES_BASE_CLASS, null ) {
+
+        @Override
+        protected void doWrite( IStrioWriter aSw, ID2Vector aEntity ) {
+          D2Point.KEEPER.write( aSw, aEntity.a() );
+          aSw.writeSeparatorChar();
+          D2Point.KEEPER.write( aSw, aEntity.b() );
+        }
+
+        @Override
+        protected ID2Vector doRead( IStrioReader aSr ) {
+          ID2Point a = D2Point.KEEPER.read( aSr );
+          aSr.ensureSeparatorChar();
+          ID2Point b = D2Point.KEEPER.read( aSr );
+          return new D2VectorEdit( a, b );
+        }
+
+      };
 
   private final ID2Point a;
   private final ID2Point b;

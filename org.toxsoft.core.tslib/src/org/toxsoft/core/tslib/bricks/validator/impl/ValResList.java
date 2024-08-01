@@ -181,6 +181,26 @@ public class ValResList
     add( ValidationResult.error( aError ) );
   }
 
+  @Override
+  public ValidationResult getFirstWorst() {
+    ValidationResult vrWarn = null;
+    for( ValidationResult vr : results ) {
+      if( vr.isError() ) {
+        return vr;
+      }
+      if( vr.isWarning() && vrWarn != null ) {
+        vrWarn = vr;
+      }
+    }
+    if( vrWarn != null ) {
+      return vrWarn;
+    }
+    if( !results.isEmpty() ) {
+      return results.first();
+    }
+    return ValidationResult.SUCCESS;
+  }
+
   // ------------------------------------------------------------------------------------
   // ITSClearable
   //

@@ -24,9 +24,11 @@ public interface ITsValidatable {
    * Default implementation adds single result returned by {@link #validate()}.
    *
    * @param aVrl {@link ValResList} - the list to add the result to
+   * @return {@link ValResList} - the argument
    */
-  default void validateEx( ValResList aVrl ) {
+  default ValResList validateEx( ValResList aVrl ) {
     aVrl.add( validate() );
+    return aVrl;
   }
 
 }
