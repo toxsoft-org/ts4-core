@@ -37,6 +37,10 @@ public interface ITsIconManager {
    */
   String ICON_FILE_EXTENSION = ".png"; //$NON-NLS-1$
 
+  /**
+   * TODO icon decorations support
+   */
+
   // TODO TRANSLATE
 
   /**
