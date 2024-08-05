@@ -1,6 +1,6 @@
 package org.toxsoft.core.tsgui.mws;
 
-import org.toxsoft.core.tsgui.mws.bases.MwsActivator;
+import org.toxsoft.core.tsgui.mws.bases.*;
 
 /**
  * The plugin activator.

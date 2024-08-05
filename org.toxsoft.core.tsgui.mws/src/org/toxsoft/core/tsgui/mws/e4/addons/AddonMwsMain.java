@@ -3,33 +3,24 @@ package org.toxsoft.core.tsgui.mws.e4.addons;
 import static org.toxsoft.core.tsgui.mws.e4.addons.ITsResources.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import java.util.Objects;
+import java.util.*;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.eclipse.e4.core.services.events.IEventBroker;
-import org.eclipse.e4.ui.model.application.MApplication;
-import org.eclipse.e4.ui.model.application.ui.basic.MTrimmedWindow;
-import org.eclipse.e4.ui.workbench.UIEvents;
-import org.osgi.service.event.Event;
-import org.osgi.service.event.EventHandler;
-import org.toxsoft.core.tsgui.QuantTsGui;
-import org.toxsoft.core.tsgui.bricks.quant.QuantBase;
-import org.toxsoft.core.tsgui.m5.QuantM5;
-import org.toxsoft.core.tsgui.mws.bases.IApplicationWideQuantManager;
-import org.toxsoft.core.tsgui.mws.bases.MwsWindowStaff;
-import org.toxsoft.core.tsgui.mws.osgi.IMwsOsgiService;
-import org.toxsoft.core.tsgui.mws.quants.progargs.QuantProgramArgs;
-import org.toxsoft.core.tslib.av.opset.impl.OptionSetUtils;
-import org.toxsoft.core.tslib.bricks.apprefs.IAppPreferences;
-import org.toxsoft.core.tslib.bricks.apprefs.IPrefBundle;
+import org.eclipse.e4.core.contexts.*;
+import org.eclipse.e4.core.services.events.*;
+import org.eclipse.e4.ui.model.application.*;
+import org.eclipse.e4.ui.model.application.ui.basic.*;
+import org.eclipse.e4.ui.workbench.*;
+import org.osgi.service.event.*;
+import org.toxsoft.core.tsgui.mws.bases.*;
+import org.toxsoft.core.tsgui.mws.osgi.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.bricks.apprefs.*;
 import org.toxsoft.core.tslib.bricks.apprefs.impl.*;
-import org.toxsoft.core.tslib.utils.errors.TsInternalErrorRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
-import jakarta.inject.Inject;
+import jakarta.annotation.*;
+import jakarta.inject.*;
 
 /**
  * Main addon of MWS based application.
@@ -55,21 +46,12 @@ import jakarta.inject.Inject;
  */
 public class AddonMwsMain {
 
-  static class ApplicationWideQuantManager
-      extends QuantBase
-      implements IApplicationWideQuantManager {
-
-    public ApplicationWideQuantManager() {
-      super( "ApplicationWideQuantManager" ); //$NON-NLS-1$
-    }
-
-  }
-
   @Inject
   IMwsOsgiService mwsService;
 
-  private final IApplicationWideQuantManager appWideQuantManager = new ApplicationWideQuantManager();
-  private final String                       nameForLog;
+  private final String nameForLog;
+
+  private IApplicationWideQuantManager appWideQuantManager = null;
 
   /**
    * Constructor.
@@ -91,10 +73,9 @@ public class AddonMwsMain {
       // initialize preferences storage
       initAppPrefs( appContext );
       // initialize application-wide quants registry
+      IMwsOsgiService mwsOsgiService = appContext.get( IMwsOsgiService.class );
+      appWideQuantManager = mwsOsgiService.context().get( IApplicationWideQuantManager.class );
       appContext.set( IApplicationWideQuantManager.class, appWideQuantManager );
-      appWideQuantManager.registerQuant( new QuantProgramArgs() );
-      appWideQuantManager.registerQuant( new QuantTsGui() );
-      appWideQuantManager.registerQuant( new QuantM5() );
       appWideQuantManager.initApp( appContext );
       LoggerUtils.defaultLogger().info( FMT_INFO_APP_MAIN_ADDON_INIT_APP, nameForLog );
     }
@@ -105,7 +86,9 @@ public class AddonMwsMain {
 
   @PreDestroy
   final void close() {
-    appWideQuantManager.close();
+    if( appWideQuantManager != null ) {
+      appWideQuantManager.close();
+    }
   }
 
   // ------------------------------------------------------------------------------------

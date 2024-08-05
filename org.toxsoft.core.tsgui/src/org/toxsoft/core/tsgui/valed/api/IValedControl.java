@@ -104,8 +104,8 @@ public interface IValedControl<V>
    * <p>
    * The method is designed to set an element to the "no value" (or <code>null</code>) state. If <code>null</code> is
    * not valid value for control, immediately after this method {@link #canGetValue()} will return an error and
-   * {@link #getValue()} will trow an exception. To get valid value from control either user must input the value to the
-   * widget or non-<code>null</code> value must be set programmatically by {@link #setValue(Object)} method.
+   * {@link #getValue()} will throw an exception. To get valid value from control either user must input the value to
+   * the widget or non-<code>null</code> value must be set programmatically by {@link #setValue(Object)} method.
    */
   void clearValue();
 
