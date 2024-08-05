@@ -3,14 +3,16 @@ package org.toxsoft.core.tsgui.mws.bases;
 import static org.toxsoft.core.tsgui.mws.bases.ITsResources.*;
 
 import org.osgi.framework.*;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
+import org.toxsoft.core.tsgui.bricks.quant.*;
+import org.toxsoft.core.tsgui.mws.osgi.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
-import jakarta.inject.Inject;
+import jakarta.inject.*;
 
 /**
- * Базовый класс активаторов плагинов.
+ * Base class for plugin activators designed for MWS.
  *
  * @author hazard157
  */
@@ -23,20 +25,20 @@ public class MwsActivator
   private BundleContext context = null;
 
   /**
-   * Конструктор для наследников.
+   * Constructor.
    * <p>
-   * Внимание: у наследника должен быть единственный конструктор без аргументов!
+   * Warning: subclass must have only one constructor without arguments.
    *
-   * @param aPluginId String - идентификатор плагина
-   * @throws TsNullArgumentRtException любой аргумент = <code>null</code>
-   * @throws TsIllegalArgumentRtException аргумент - не ИД-путь
+   * @param aPluginId String - the plugin ID
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException argument is not an IDpath
    */
   public MwsActivator( String aPluginId ) {
     pluginId = StridUtils.checkValidIdPath( aPluginId );
   }
 
   // ------------------------------------------------------------------------------------
-  // Методы для наследников
+  // API for subclasses
   //
 
   final protected <T extends MwsActivator> void checkInstance( T aInstance ) {
@@ -48,7 +50,7 @@ public class MwsActivator
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса BundleActivator
+  // BundleActivator
   //
 
   @Override
@@ -56,12 +58,19 @@ public class MwsActivator
       throws Exception {
     LoggerUtils.defaultLogger().info( FMT_INFO_ACTIVATOR_START, pluginId, this.getClass().getSimpleName() );
     context = aBundleContext;
-    // проверка идентификатора
+    // allow to register priority quants
+    IMwsOsgiService mwsOsgiService = findOsgiService( IMwsOsgiService.class );
+    if( mwsOsgiService != null ) { // mwsOsgiService = null only for plugin org.toxsoft.core.tsgui.mws
+      IApplicationWideQuantManager appQMan = mwsOsgiService.context().find( IApplicationWideQuantManager.class );
+      TsInternalErrorRtException.checkNull( appQMan );
+      doRegisterPriorityQuants( appQMan );
+    }
+    // check plugin ID
     String pluginIdFromBundle = context.getBundle().getSymbolicName();
     if( !pluginIdFromBundle.equals( pluginId ) ) {
       throw new TsException( FMT_ERR_NONEQ_PLUGIN_IDS, pluginId, pluginId, pluginIdFromBundle );
     }
-    // вызовем наследника
+    // call subclass
     try {
       doStart();
     }
@@ -75,7 +84,7 @@ public class MwsActivator
   final public void stop( BundleContext aBundleContext )
       throws Exception {
     LoggerUtils.defaultLogger().info( FMT_INFO_ACTIVATOR_STOP, pluginId, this.getClass().getSimpleName() );
-    // вызовем наследника
+    // call subclass
     try {
       doStop();
     }
@@ -87,8 +96,12 @@ public class MwsActivator
   }
 
   // ------------------------------------------------------------------------------------
-  // Методы для переопределения наследниками
+  // To override implement
   //
+
+  protected void doRegisterPriorityQuants( IQuantRegistrator aQuantRegistrator ) {
+    // nop
+  }
 
   protected void doStart() {
     // nop

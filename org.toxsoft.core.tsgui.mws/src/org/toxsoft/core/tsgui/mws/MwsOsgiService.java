@@ -3,8 +3,13 @@ package org.toxsoft.core.tsgui.mws;
 import static org.toxsoft.core.tslib.ITsHardConstants.*;
 
 import org.osgi.service.component.annotations.*;
+import org.toxsoft.core.tsgui.*;
+import org.toxsoft.core.tsgui.bricks.quant.*;
+import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.mws.appinf.*;
+import org.toxsoft.core.tsgui.mws.bases.*;
 import org.toxsoft.core.tsgui.mws.osgi.*;
+import org.toxsoft.core.tsgui.mws.quants.progargs.*;
 import org.toxsoft.core.tslib.bricks.ctx.*;
 import org.toxsoft.core.tslib.bricks.ctx.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -18,6 +23,16 @@ import org.toxsoft.core.tslib.utils.logs.impl.*;
 @Component
 public class MwsOsgiService
     implements IMwsOsgiService {
+
+  static class ApplicationWideQuantManager
+      extends QuantBase
+      implements IApplicationWideQuantManager {
+
+    public ApplicationWideQuantManager() {
+      super( "ApplicationWideQuantManager" ); //$NON-NLS-1$
+    }
+
+  }
 
   private static final String DEFAULT_MWS_APPLICATION_ID = TS_FULL_ID + ".mws.application.default"; //$NON-NLS-1$
 
@@ -33,6 +48,11 @@ public class MwsOsgiService
    */
   public MwsOsgiService() {
     LoggerUtils.defaultLogger().info( "MWS:        %s()", this.getClass().getSimpleName() ); //$NON-NLS-1$
+    IApplicationWideQuantManager appQMan = new ApplicationWideQuantManager();
+    context.put( IApplicationWideQuantManager.class, appQMan );
+    appQMan.registerQuant( new QuantProgramArgs() );
+    appQMan.registerQuant( new QuantTsGui() );
+    appQMan.registerQuant( new QuantM5() );
   }
 
   // ------------------------------------------------------------------------------------

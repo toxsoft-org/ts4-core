@@ -4,13 +4,14 @@ import org.eclipse.e4.core.contexts.*;
 import org.eclipse.e4.ui.model.application.*;
 import org.eclipse.e4.ui.model.application.ui.basic.*;
 import org.toxsoft.core.tsgui.bricks.quant.*;
+import org.toxsoft.core.tsgui.mws.osgi.*;
 
 /**
  * The application-wide quant manager.
  * <p>
- * The only instance of this interface is created and placed in {@link MApplication#getContext()} by the
- * <code>AddonMwsMain</code> from the <code>org.toxsoft.core.tsgui.mws</code> plugin. The singleton instance contains
- * all the quants created and registered in the application.
+ * The only instance of this interface is created and placed in {@link MApplication#getContext()} and
+ * {@link IMwsOsgiService#context()} by the <code>AddonMwsMain</code> from the <code>org.toxsoft.core.tsgui.mws</code>
+ * plugin. The singleton instance contains all the quants created and registered in the application.
  * <p>
  * Application level initialization {@link IQuant#initApp(IEclipseContext)} must be performed by the quant creator
  * <b>before</b> the quant is registered in this manager. However windows level methods
