@@ -421,4 +421,15 @@ final class InternalNoneUgwi
     return Ugwi.NONE;
   }
 
+  // Sol++ иначе создание пустого Ugwi по строке выдает ошибку формата
+  @Override
+  public String canonicalString() {
+    return TsLibUtils.EMPTY_STRING;
+  }
+
+  // Sol++ иначе создание пустого Ugwi по строке выдает ошибку формата
+  @Override
+  public String toString() {
+    return TsLibUtils.EMPTY_STRING;
+  }
 }
