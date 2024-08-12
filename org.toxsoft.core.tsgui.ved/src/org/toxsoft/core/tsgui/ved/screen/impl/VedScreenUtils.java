@@ -9,6 +9,7 @@ import org.toxsoft.core.tsgui.ved.screen.asp.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.helpers.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
+import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
@@ -500,6 +501,52 @@ public class VedScreenUtils {
       visels.add( findVisel( id, aVedScreen ) );
     }
     return visels;
+  }
+
+  /**
+   * Возвращает список "висячих" акторов.<br>
+   * "Висячим" - считается актор, который не привязан ни к одному из существующих визелей.
+   *
+   * @param aVedScreen {@link IVedScreen} - экран мнемосхемы
+   * @return IStridablesList&lt;IVedItem> - список акторов не привязанных к визелям.
+   */
+  public static IStridablesList<IVedItem> listHangedActors( IVedScreen aVedScreen ) {
+    IStridablesListEdit<IVedItem> result = new StridablesList<>();
+    for( IVedActor actor : aVedScreen.model().actors().list() ) {
+      if( actor.props().propDefs().hasElem( PROP_VISEL_ID ) ) {
+        if( !actor.props().hasValue( PROP_VISEL_ID.id() ) ) {
+          result.add( actor );
+          continue;
+        }
+        IAtomicValue av = actor.props().getValue( PROP_VISEL_ID.id() );
+        if( !av.isAssigned() ) {
+          result.add( actor );
+          continue;
+        }
+        IVedVisel visel = findVisel( av.asString(), aVedScreen );
+        if( visel == null ) {
+          result.add( actor );
+          continue;
+        }
+        if( actor.props().propDefs().hasElem( PROP_VISEL_PROP_ID ) ) {
+          if( !actor.props().hasValue( PROP_VISEL_PROP_ID.id() ) ) {
+            result.add( actor );
+            continue;
+          }
+          av = actor.props().getValue( PROP_VISEL_PROP_ID.id() );
+          if( !av.isAssigned() ) {
+            result.add( actor );
+            continue;
+          }
+          if( !visel.props().hasKey( av.asString() ) ) {
+            result.add( actor );
+            continue;
+          }
+        }
+      }
+
+    }
+    return result;
   }
 
   /**
