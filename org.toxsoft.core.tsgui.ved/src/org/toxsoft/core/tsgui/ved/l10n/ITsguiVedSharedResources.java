@@ -74,6 +74,9 @@ public interface ITsguiVedSharedResources {
   String STR_IMAGE_DESCRIPTOR   = Messages.getString( "STR_IMAGE_DESCRIPTOR" );   //$NON-NLS-1$
   String STR_IMAGE_DESCRIPTOR_D = Messages.getString( "STR_IMAGE_DESCRIPTOR_D" ); //$NON-NLS-1$
 
+  String STR_IS_ACTOR_MANDATORY   = Messages.getString( "STR_IS_ACTOR_MANDATORY" );   //$NON-NLS-1$
+  String STR_IS_ACTOR_MANDATORY_D = Messages.getString( "STR_IS_ACTOR_MANDATORY_D" ); //$NON-NLS-1$
+
   String STR_LEFT_INDENT     = Messages.getString( "STR_LEFT_INDENT" );     //$NON-NLS-1$
   String STR_LEFT_INDENT_D   = Messages.getString( "STR_LEFT_INDENT_D" );   //$NON-NLS-1$
   String STR_TOP_INDENT      = Messages.getString( "STR_TOP_INDENT" );      //$NON-NLS-1$

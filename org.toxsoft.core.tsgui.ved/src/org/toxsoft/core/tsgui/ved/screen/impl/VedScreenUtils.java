@@ -550,6 +550,28 @@ public class VedScreenUtils {
   }
 
   /**
+   * Возвращает список визуальных элементов, к которым не привязан ни один актор (а дожен).
+   *
+   * @param aVedScreen {@link IVedScreen} - экран мнемосхемы
+   * @return IStridablesList&lt;IVedItem> - список визуальных элементов, к которым не привязан ни один актор
+   */
+  public static IStridablesList<IVedVisel> listNonlinkedVisels( IVedScreen aVedScreen ) {
+    IStridablesListEdit<IVedVisel> result = new StridablesList<>();
+    for( IVedVisel visel : aVedScreen.model().visels().list() ) {
+      if( visel.props().hasKey( PROPID_IS_ACTOR_MANDATORY ) ) {
+        IAtomicValue av = visel.props().getValue( PROPID_IS_ACTOR_MANDATORY );
+        if( av.isAssigned() && !av.asBool() ) {
+          continue;
+        }
+      }
+      if( VedScreenUtils.viselActorIds( visel.id(), aVedScreen ).size() <= 0 ) {
+        System.out.println( "Висячий визель: " + visel.id() );
+      }
+    }
+    return result;
+  }
+
+  /**
    * No subclasses.
    */
   private VedScreenUtils() {

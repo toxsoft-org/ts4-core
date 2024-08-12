@@ -1,7 +1,9 @@
 package org.toxsoft.core.tsgui.ved.comps;
 
+import static org.toxsoft.core.tsgui.bricks.tin.tti.ITtiConstants.*;
 import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
 import static org.toxsoft.core.tsgui.ved.comps.ITsResources.*;
+import static org.toxsoft.core.tsgui.ved.l10n.ITsguiVedSharedResources.*;
 import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
@@ -16,6 +18,8 @@ import org.toxsoft.core.tsgui.ved.editor.palette.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
@@ -37,6 +41,14 @@ public class ViselGroupbox
    * The VISEL factory ID.
    */
   public static final String FACTORY_ID = VED_ID + ".visel.Groupbox"; //$NON-NLS-1$
+
+  static final IDataDef PROP_IS_ACTOR_MANDATORY = DataDef.create( PROPID_IS_ACTOR_MANDATORY, EAtomicType.BOOLEAN, //
+      TSID_NAME, STR_IS_ACTOR_MANDATORY, //
+      TSID_DESCRIPTION, STR_IS_ACTOR_MANDATORY_D, //
+      TSID_DEFAULT_VALUE, AvUtils.AV_FALSE //
+  );
+
+  static final ITinFieldInfo TFI_IS_ACTOR_NEEDED = new TinFieldInfo( PROP_IS_ACTOR_MANDATORY, TTI_AT_BOOLEAN );
 
   /**
    * The VISEL factory singleton.
@@ -84,6 +96,7 @@ public class ViselGroupbox
       fields.add( TFI_ANGLE );
       fields.add( TFI_IS_ACTIVE );
       fields.add( TinFieldInfo.makeCopy( TFI_TRANSFORM, ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE ) );
+      fields.add( TFI_IS_ACTOR_NEEDED );
       return new PropertableEntitiesTinTypeInfo<>( fields, ViselGroupbox.class );
     }
 
@@ -95,6 +108,7 @@ public class ViselGroupbox
       cfg.propValues().setDouble( PROPID_WIDTH, 200.0 );
       cfg.propValues().setDouble( PROPID_HEIGHT, 150.0 );
       cfg.propValues().setValobj( PROPID_HOR_ALIGNMENT, EHorAlignment.CENTER );
+      cfg.propValues().setBool( PROPID_IS_ACTOR_MANDATORY, false );
       IVedItemsPaletteEntry pent = new VedItemPaletteEntry( id(), params(), cfg );
       return new StridablesList<>( pent );
     }

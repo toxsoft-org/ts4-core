@@ -168,6 +168,14 @@ public interface IVedScreenConstants {
 
   String PROPID_HOVERED = "hovered"; //$NON-NLS-1$
 
+  String PROPID_IS_ACTOR_MANDATORY = "isActorMandatory"; //$NON-NLS-1$
+
+  IDataDef PROP_IS_ACTOR_MANDATORY = DataDef.create( PROPID_IS_ACTOR_MANDATORY, BOOLEAN, //
+      TSID_NAME, STR_IS_ACTOR_MANDATORY, //
+      TSID_DESCRIPTION, STR_IS_ACTOR_MANDATORY_D, //
+      TSID_DEFAULT_VALUE, AV_TRUE //
+  );
+
   IDataDef PROP_TEXT = DataDef.create3( PROPID_TEXT, DDEF_STRING, //
       TSID_NAME, STR_TEXT, //
       TSID_DESCRIPTION, STR_TEXT_D, //

@@ -1,8 +1,10 @@
 package org.toxsoft.core.tsgui.ved.comps;
 
+import static org.toxsoft.core.tsgui.bricks.tin.tti.ITtiConstants.*;
 import static org.toxsoft.core.tsgui.graphics.ITsGraphicsConstants.*;
 import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
 import static org.toxsoft.core.tsgui.ved.comps.ITsResources.*;
+import static org.toxsoft.core.tsgui.ved.l10n.ITsguiVedSharedResources.*;
 import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
@@ -20,6 +22,7 @@ import org.toxsoft.core.tsgui.ved.editor.palette.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
+import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
@@ -79,9 +82,17 @@ public class ViselLabel
       TSID_DEFAULT_VALUE, avValobj( ETsColor.BLUE.rgb() ) //
   );
 
+  static final IDataDef PROP_IS_ACTOR_MANDATORY = DataDef.create( PROPID_IS_ACTOR_MANDATORY, EAtomicType.BOOLEAN, //
+      TSID_NAME, STR_IS_ACTOR_MANDATORY, //
+      TSID_DESCRIPTION, STR_IS_ACTOR_MANDATORY_D, //
+      TSID_DEFAULT_VALUE, AvUtils.AV_FALSE //
+  );
+
   static final ITinFieldInfo TFI_SELECTION_COLOR = new TinFieldInfo( PROP_SELECTION_COLOR, TtiRGB.INSTANCE );
 
   static final ITinFieldInfo TFI_SELECTION_BACKGROUND = new TinFieldInfo( PROP_SELECTION_BACKGROUND, TtiRGB.INSTANCE );
+
+  static final ITinFieldInfo TFI_IS_ACTOR_NEEDED = new TinFieldInfo( PROP_IS_ACTOR_MANDATORY, TTI_AT_BOOLEAN );
 
   /**
    * The VISEL factory singleton.
@@ -103,6 +114,7 @@ public class ViselLabel
     @Override
     protected ITinTypeInfo doCreateTypeInfo() {
       IStridablesListEdit<ITinFieldInfo> fields = new StridablesList<>();
+      fields.add( TFI_IS_ACTOR_NEEDED );
       fields.add( TFI_NAME );
       fields.add( TFI_DESCRIPTION );
       fields.add( TFI_X );
