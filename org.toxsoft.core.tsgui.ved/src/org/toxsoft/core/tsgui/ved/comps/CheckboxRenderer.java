@@ -48,13 +48,19 @@ public class CheckboxRenderer
     if( y < 0 ) {
       y = 0;
     }
-    aPaintContext.gc().setBackground( colorManager().getColor( ETsColor.WHITE ) );
+
+    if( buttonState() == EButtonViselState.PRESSED ) {
+      aPaintContext.gc().setBackground( colorManager().getColor( ETsColor.BLUE ) );
+    }
+    else {
+      aPaintContext.gc().setBackground( colorManager().getColor( ETsColor.WHITE ) );
+    }
     aPaintContext.gc().fillRectangle( x, y, checkSize, checkSize );
     aPaintContext.gc().setForeground( colorManager().getColor( ETsColor.BLACK ) );
     aPaintContext.gc().setLineWidth( 1 );
     aPaintContext.gc().drawRectangle( x, y, checkSize, checkSize );
 
-    if( buttonState() == EButtonViselState.PRESSED ) {
+    if( button.isChecked() ) {
       paintCheck( x, y, aPaintContext.gc() );
     }
   }

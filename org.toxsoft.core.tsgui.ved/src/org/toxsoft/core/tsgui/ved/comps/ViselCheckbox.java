@@ -43,6 +43,12 @@ public class ViselCheckbox
    */
   public static final String PROPID_STATE = "state"; //$NON-NLS-1$ (EButtonViselState)
 
+  private static final ITinTypeInfo  TTI_ON_OFF_STATE = new TinAtomicTypeInfo.TtiBoolean( PROP_ON_OF_STATE );
+  private static final ITinFieldInfo TFI_ON_OFF_STATE = new TinFieldInfo( PROP_ON_OF_STATE, TTI_ON_OFF_STATE );
+
+  private static final ITinFieldInfo TFI_CHECKED = TinFieldInfo.makeCopy( TFI_ON_OFF_STATE, //
+      TSID_NAME, "Значение" );
+
   /**
    * The VISEL factory singleton.
    */
@@ -68,6 +74,7 @@ public class ViselCheckbox
       IStridablesListEdit<ITinFieldInfo> fields = new StridablesList<>();
       fields.add( TFI_NAME );
       fields.add( TFI_DESCRIPTION );
+      fields.add( TFI_CHECKED );
       fields.add( TFI_TEXT );
       fields.add( TFI_FONT );
       fields.add( TFI_X );
@@ -140,6 +147,11 @@ public class ViselCheckbox
   // ------------------------------------------------------------------------------------
   // IViselButton
   //
+
+  @Override
+  public boolean isChecked() {
+    return props().getBool( PROPID_ON_OFF_STATE );
+  }
 
   @Override
   public EButtonViselState buttonState() {

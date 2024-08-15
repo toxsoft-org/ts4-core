@@ -9,4 +9,6 @@ public interface IViselButton
   EButtonViselState buttonState();
 
   ITsGuiContext tsContext();
+
+  boolean isChecked();
 }

@@ -154,4 +154,9 @@ public class ViselButton
     return props().getValobj( PROPID_STATE );
   }
 
+  @Override
+  public boolean isChecked() {
+    return false;
+  }
+
 }
