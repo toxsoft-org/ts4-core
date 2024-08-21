@@ -101,4 +101,9 @@ interface ITsResources {
   String STR_VISEL_SHADOW_DEPTH   = "Глубина тени"; //
   String STR_VISEL_SHADOW_DEPTH_D = "Глубина тени"; //
 
+  /**
+   * Визель {@link ViselCheckbox}
+   */
+  String STR_N_VALUE = "Значение";
+
 }

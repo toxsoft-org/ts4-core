@@ -85,7 +85,7 @@ public class ViselLabel
   static final IDataDef PROP_IS_ACTOR_MANDATORY = DataDef.create( PROPID_IS_ACTOR_MANDATORY, EAtomicType.BOOLEAN, //
       TSID_NAME, STR_IS_ACTOR_MANDATORY, //
       TSID_DESCRIPTION, STR_IS_ACTOR_MANDATORY_D, //
-      TSID_DEFAULT_VALUE, AvUtils.AV_FALSE //
+      TSID_DEFAULT_VALUE, AvUtils.AV_TRUE //
   );
 
   static final ITinFieldInfo TFI_SELECTION_COLOR = new TinFieldInfo( PROP_SELECTION_COLOR, TtiRGB.INSTANCE );

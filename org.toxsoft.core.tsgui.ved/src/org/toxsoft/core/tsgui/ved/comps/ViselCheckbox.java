@@ -47,7 +47,7 @@ public class ViselCheckbox
   private static final ITinFieldInfo TFI_ON_OFF_STATE = new TinFieldInfo( PROP_ON_OF_STATE, TTI_ON_OFF_STATE );
 
   private static final ITinFieldInfo TFI_CHECKED = TinFieldInfo.makeCopy( TFI_ON_OFF_STATE, //
-      TSID_NAME, "Значение" );
+      TSID_NAME, STR_N_VALUE );
 
   /**
    * The VISEL factory singleton.
