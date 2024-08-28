@@ -1,6 +1,7 @@
 package org.toxsoft.core.tslib.bricks.geometry;
 
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -84,11 +85,22 @@ public interface ITsRectangle {
   int height();
 
   /**
-   * Возвращает размеры прямоугольника.
+   * Retruns the dimansions of the rectangle as {@link ITsPoint}.
+   * <p>
+   * For an editable instance returns reference to the editable field.
    *
-   * @return {@link ITsPoint} - размеры прямоугольника
+   * @return {@link ITsPoint} - the dimansions as {@link ITsPoint}
    */
   ITsPoint size();
+
+  /**
+   * Retruns the dimansions of the rectangle.
+   * <p>
+   * For an editable instance returns reference to the editable field.
+   *
+   * @return {@link ITsDims} - the dimansions
+   */
+  ITsDims dims();
 
   /**
    * Определяет, находится ли точка внутри прямоугольника.
@@ -113,6 +125,33 @@ public interface ITsRectangle {
       throw new TsNullArgumentRtException();
     }
     return aPoint.x() >= x1() && aPoint.x() <= x2() && aPoint.y() >= y1() && aPoint.y() <= y2();
+  }
+
+  /**
+   * Determines if the argument rectangle is is inside this rectangle.
+   *
+   * @param aX int - X coordinate of the rectangle top right corner
+   * @param aY int - W coordinate of the rectangle top right corner
+   * @param aWidth int - the width of the rectangle
+   * @param aHeight int - the height of the rectangle
+   * @return boolean - <code>true</code> if the argument is inside this rectangle
+   * @throws TsValidationFailedRtException failed {@link TsRectangle#validateArgs(int, int, int, int)}
+   */
+  default boolean contains( int aX, int aY, int aWidth, int aHeight ) {
+    TsRectangle.checkArgs( aX, aY, aWidth, aHeight );
+    return contains( aX, aY ) && contains( aX + aWidth - 1, aY + aHeight - 1 );
+  }
+
+  /**
+   * Determines if the argument rectangle is is inside this rectangle.
+   *
+   * @param aRect {@link ITsRectangle} - the argument rectangle
+   * @return boolean - <code>true</code> if the argument is inside this rectangle
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  default boolean contains( ITsRectangle aRect ) {
+    TsNullArgumentRtException.checkNulls( aRect );
+    return contains( aRect.a() ) && contains( aRect.b() );
   }
 
 }
@@ -162,6 +201,11 @@ class InternalNoneRctangle
 
   @Override
   public ITsPoint size() {
+    throw new TsNullObjectErrorRtException();
+  }
+
+  @Override
+  public ITsDims dims() {
     throw new TsNullObjectErrorRtException();
   }
 

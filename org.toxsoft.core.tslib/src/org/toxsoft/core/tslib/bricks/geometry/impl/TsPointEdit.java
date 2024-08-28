@@ -6,7 +6,7 @@ import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Редактируемая реализация {@link ITsPoint}.
+ * {@link ITsPoint} editable implementation.
  *
  * @author hazard157
  */
@@ -19,10 +19,10 @@ public final class TsPointEdit
   private int y = 0;
 
   /**
-   * Создает точку со всеми координатами.
+   * Constructor.
    *
-   * @param aX int - x координата
-   * @param aY int - y координата
+   * @param aX int - X coordinate
+   * @param aY int - X coordinate
    */
   public TsPointEdit( int aX, int aY ) {
     x = aX;
@@ -30,10 +30,10 @@ public final class TsPointEdit
   }
 
   /**
-   * Конструктор копирования.
+   * Copy constructor.
    *
-   * @param aSource {@link ITsPoint} - исходня точка
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aSource {@link ITsPoint} - the source
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public TsPointEdit( ITsPoint aSource ) {
     TsNullArgumentRtException.checkNull( aSource );
@@ -58,7 +58,7 @@ public final class TsPointEdit
 
   @Override
   public int hashCode() {
-    // внимание: у неизменяемой точки должен быть такой же алгоритм подсчета!
+    // Note: all impoementaions of ITsPoint must have the same algorithm
     return x ^ y;
   }
 

@@ -15,6 +15,7 @@ public final class TsRectangleEdit
   private final TsPointEdit a    = new TsPointEdit( 0, 0 );
   private final TsPointEdit b    = new TsPointEdit( 0, 0 );
   private final TsPointEdit size = new TsPointEdit( 0, 0 );
+  private final TsDimsEdit  dims = new TsDimsEdit( 0, 0 );
 
   /**
    * Создает прямоугольник с левой верхней точкой в (0,0) и размерами (1,1).
@@ -111,6 +112,11 @@ public final class TsRectangleEdit
     return size;
   }
 
+  @Override
+  public ITsDims dims() {
+    return dims;
+  }
+
   // ------------------------------------------------------------------------------------
   // Реализация методов класса Object
   //
@@ -203,9 +209,10 @@ public final class TsRectangleEdit
     TsIllegalArgumentRtException.checkTrue( aWidth < 1 || aHeight < 1 );
     TsIllegalArgumentRtException.checkTrue( Integer.MAX_VALUE < aWidth + a.x() );
     TsIllegalArgumentRtException.checkTrue( Integer.MAX_VALUE < aHeight + a.y() );
-    size.setPoint( aWidth, aHeight );
     b.setX( a.x() + aWidth - 1 );
     b.setY( a.y() + aHeight - 1 );
+    size.setPoint( aWidth, aHeight );
+    dims.setDims( size.x(), size.y() );
   }
 
   /**
@@ -254,6 +261,7 @@ public final class TsRectangleEdit
     a.setPoint( aX, aY );
     b.setPoint( aX + aWidth - 1, aY + aHeight - 1 );
     size.setPoint( aWidth, aHeight );
+    dims.setDims( size.x(), size.y() );
   }
 
   /**
@@ -276,6 +284,7 @@ public final class TsRectangleEdit
     b.setY( Math.max( aP1.y(), aP2.y() ) );
     size.setX( b.x() - a.x() + 1 );
     size.setY( b.y() - a.y() + 1 );
+    dims.setDims( size.x(), size.y() );
   }
 
   /**
@@ -312,6 +321,7 @@ public final class TsRectangleEdit
     a.setPoint( x1, y1 );
     b.setPoint( x2, y2 );
     size.setPoint( b.x() - a.x() + 1, b.y() - a.y() + 1 );
+    dims.setDims( size.x(), size.y() );
     return true;
   }
 

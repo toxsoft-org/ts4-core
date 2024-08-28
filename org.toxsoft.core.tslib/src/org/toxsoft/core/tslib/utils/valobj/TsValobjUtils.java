@@ -94,6 +94,7 @@ public class TsValobjUtils {
     registerKeeper( ETextMatchMode.KEEPER_ID, ETextMatchMode.KEEPER );
     registerKeeper( TsRectangleKeeper.KEEPER_ID, TsRectangleKeeper.KEEPER );
     registerKeeper( TsPointKeeper.KEEPER_ID, TsPointKeeper.KEEPER );
+    registerKeeper( TsDims.KEEPER_ID, TsDims.KEEPER );
     registerKeeper( IdValue.KEEPER_ID, IdValue.KEEPER );
     registerKeeper( IdChain.KEEPER_ID, IdChain.KEEPER );
     registerKeeper( D2Point.KEEPER_ID, D2Point.KEEPER );

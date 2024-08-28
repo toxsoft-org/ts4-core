@@ -12,6 +12,45 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class TsGeometryUtils {
 
   /**
+   * Determines if <code>aDims1</code> are equal to the <code>aDims2</code>.
+   *
+   * @param aDims1 {@link ITsDims} - the first dimensions
+   * @param aDims2 {@link ITsDims} - the second dimensions
+   * @return boolean - <code>true</code> if both width and height of the arguemnts are the same
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static boolean isEQ( ITsDims aDims1, ITsDims aDims2 ) {
+    TsNullArgumentRtException.checkNulls( aDims1, aDims2 );
+    return aDims1.width() == aDims2.width() && aDims1.height() == aDims2.height();
+  }
+
+  /**
+   * Determines if this dimensions are bigger than the argument.
+   *
+   * @param aDims1 {@link ITsDims} - the first dimensions
+   * @param aDims2 {@link ITsDims} - the argument dimensions
+   * @return boolean - <code>true</code> if both width and height of first argument are greater than second
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static boolean isGT( ITsDims aDims1, ITsDims aDims2 ) {
+    TsNullArgumentRtException.checkNulls( aDims1, aDims2 );
+    return aDims1.width() > aDims2.width() && aDims1.height() > aDims2.height();
+  }
+
+  /**
+   * Determines if this dimensions are bigger or equal than the argument.
+   *
+   * @param aDims1 {@link ITsDims} - the first dimensions
+   * @param aDims2 {@link ITsDims} - the argument dimensions
+   * @return boolean - <code>true</code> if both width and height of first argument are greater or equal than second
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static boolean isGE( ITsDims aDims1, ITsDims aDims2 ) {
+    TsNullArgumentRtException.checkNulls( aDims1, aDims2 );
+    return aDims1.width() >= aDims2.width() && aDims1.height() >= aDims2.height();
+  }
+
+  /**
    * Creates {@link TsPointEdit} from {@link ID2Point}.
    *
    * @param aSource {@link ID2Point} - the source

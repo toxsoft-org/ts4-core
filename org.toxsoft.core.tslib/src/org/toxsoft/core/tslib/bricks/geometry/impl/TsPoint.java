@@ -58,7 +58,7 @@ public final class TsPoint
 
   @Override
   public int hashCode() {
-    // внимание: у редактируемой точки должен быть такой же алгоритм подсчета!
+    // Note: all impoementaions of ITsPoint must have the same algorithm
     return x ^ y;
   }
 
