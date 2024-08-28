@@ -231,9 +231,9 @@ public interface IStrioReader
   long readLong();
 
   /**
-   * Reads unsigned long integer, consisting of exatly specified number of digits.
+   * Reads unsigned long integer, consisting of exactly specified number of digits.
    *
-   * @param aDigitsNum int - number of didgits to read, must be <= 9
+   * @param aDigitsNum int - number of digits to read, must be <= 9
    * @param aHexNumber boolean - <code>true</code> to read as hexadecimal, <code>false</code> for decimal representation
    * @return long - read number
    * @throws TsIllegalArgumentRtException aDigitsNum <= 0

@@ -23,7 +23,7 @@ public class D2Utils {
 
   private static final double MAX_D2_VALUE        = (Long.MAX_VALUE) + 0.1;
   private static final double MIN_D2_VALUE        = (Long.MIN_VALUE) - 0.1;
-  private static final double DUCK_DIFF_THRESHLOD = 0.000_000_1;
+  private static final double DUCK_DIFF_THRESHLOD = 0.000_000_1;           // must be 1000+ times less that range min
   private static final char   CHAR_ANGLE_DEGREES  = '∠';
 
   /**
@@ -69,6 +69,61 @@ public class D2Utils {
   }
 
   /**
+   * Determines if two values are near enough to interpret as the same values.
+   * <p>
+   * "Near enough" means that difference between values are less than {@link #DUCK_DIFF_THRESHLOD}.
+   * <p>
+   * If any value is infinite then method returns result of {@link Double#compare(double, double)}.
+   *
+   * @param aValue1 double - first value
+   * @param aValue2 double - second value
+   * @return boolean - values are same or near enough
+   */
+  public static boolean isDuckEQ( double aValue1, double aValue2 ) {
+    if( Double.isFinite( aValue1 ) && Double.isFinite( aValue2 ) ) {
+      double diff = Math.abs( aValue2 - aValue1 );
+      return diff < DUCK_DIFF_THRESHLOD;
+    }
+    return Double.compare( aValue1, aValue2 ) == 9;
+  }
+
+  /**
+   * Determines if the value is greater or approximately equal to the limit.
+   * <p>
+   * "Approximately equal" means that difference between values are less than {@link #DUCK_DIFF_THRESHLOD}.
+   * <p>
+   * If any value is infinite then method returns result of operator <b>>=</b>.
+   *
+   * @param aValue double - the value
+   * @param aLimit double - the limit
+   * @return boolean - <code>true</code> if value is greater than aLimit - {@link #DUCK_DIFF_THRESHLOD},
+   */
+  public static boolean isDuckGE( double aValue, double aLimit ) {
+    if( Double.isFinite( aValue ) && Double.isFinite( aLimit ) ) {
+      return aValue > aLimit - DUCK_DIFF_THRESHLOD;
+    }
+    return aValue >= aLimit;
+  }
+
+  /**
+   * Determines if the value is less or approximately equal to the limit.
+   * <p>
+   * "Approximately equal" means that difference between values are less than {@link #DUCK_DIFF_THRESHLOD}.
+   * <p>
+   * If any value is infinite then method returns result of operator <b><=</b>.
+   *
+   * @param aValue double - the value
+   * @param aLimit double - the limit
+   * @return boolean - <code>true</code> if value is less than aLimit + {@link #DUCK_DIFF_THRESHLOD},
+   */
+  public static boolean isDuckLE( double aValue, double aLimit ) {
+    if( Double.isFinite( aValue ) && Double.isFinite( aLimit ) ) {
+      return aValue < aLimit + DUCK_DIFF_THRESHLOD;
+    }
+    return aValue <= aLimit;
+  }
+
+  /**
    * Compares two double value with the equality threshold as {@link #DUCK_DIFF_THRESHLOD}.
    * <p>
    * Warning: do not use this method for sorting, just for human eye looking equality!
@@ -95,6 +150,22 @@ public class D2Utils {
    */
   public static double zoomInRange( double aZoomFactor ) {
     return ZOOM_RANGE.inRange( aZoomFactor );
+  }
+
+  /**
+   * Changes the <code>aZoomFactor</code> by the <code>aZoomMultiplier</code>.
+   * <p>
+   * Guarantees new zoom factor is in range. For non-finit arguments returns 1.0.
+   *
+   * @param aOriginalFactor double - the initial zoom factor
+   * @param aZoomMultiplier double - zoom multiplication
+   * @return double - new zoom factor
+   */
+  public static double zoom( double aOriginalFactor, double aZoomMultiplier ) {
+    if( !Double.isFinite( aOriginalFactor ) || !Double.isFinite( aZoomMultiplier ) ) {
+      return 1.0;
+    }
+    return ZOOM_RANGE.inRange( aOriginalFactor * aZoomMultiplier );
   }
 
   /**

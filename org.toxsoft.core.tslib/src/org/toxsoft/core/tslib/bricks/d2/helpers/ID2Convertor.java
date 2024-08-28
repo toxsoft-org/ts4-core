@@ -76,7 +76,7 @@ public interface ID2Convertor {
    *
    * @param aWidth double - width in <b>N</b> space
    * @param aHeight double - height in <b>N</b> space
-   * @return {@link ID2Size} - dimensions in <b>S</b> space
+   * @return {@link ITsDims} - dimensions in <b>S</b> space
    */
   ID2Size convertSize( double aWidth, double aHeight );
 
@@ -85,7 +85,7 @@ public interface ID2Convertor {
    *
    * @param aWidth double - width in <b>S</b> space
    * @param aHeight double - height in <b>S</b> space
-   * @return {@link ID2Size} - dimensions in <b>N</b> space
+   * @return {@link ITsDims} - dimensions in <b>N</b> space
    */
   ID2Size reverseSize( double aWidth, double aHeight );
 

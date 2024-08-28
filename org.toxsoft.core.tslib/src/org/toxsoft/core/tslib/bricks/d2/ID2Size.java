@@ -11,21 +11,26 @@ public sealed interface ID2Size
     permits D2Size, ID2SizeEdit {
 
   /**
-   * Size with (0.0,0.0) coordinates.
+   * Size with (0.0,0.0) dimensions.
    */
   ID2Size ZERO = new D2Size( 0.0, 0.0 );
 
   /**
+   * Size with (1.0,1.0) dimensions.
+   */
+  ID2Size ONE = new D2Size( 1.0, 1.0 );
+
+  /**
    * Returns the width.
    *
-   * @return double - the width, always >= 0
+   * @return double - the width, always >= 0.0
    */
   double width();
 
   /**
    * Returns the height.
    *
-   * @return double - the height, always >= 0
+   * @return double - the height, always >= 0.0
    */
   double height();
 

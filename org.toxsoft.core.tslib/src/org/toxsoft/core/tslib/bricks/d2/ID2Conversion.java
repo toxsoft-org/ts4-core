@@ -50,9 +50,9 @@ public sealed interface ID2Conversion
    * This method simply analyzes parameters of the conversion and returns true if all of the following conditions are
    * met:
    * <ul>
-   * <li>{@link #rotation()} == {@link ID2Rotation#NONE};</li>
+   * <li>{@link #rotation()} equals to {@link ID2Angle#ZERO};</li>
    * <li>{@link #zoomFactor()} == 1.0;</li>
-   * <li>{@link #origin()} == {@link ID2Point#ZERO}.</li>
+   * <li>{@link #origin()} equals to {@link ID2Point#ZERO}.</li>
    * </ul>
    *
    * @return boolean - <code>true</code> if conversion parameters makes any changes
