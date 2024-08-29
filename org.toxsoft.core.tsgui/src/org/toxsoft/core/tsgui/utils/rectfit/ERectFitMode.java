@@ -33,9 +33,15 @@ public enum ERectFitMode
     }
 
     @Override
+    protected double doCalcFitZoom( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
+      return 1.0;
+    }
+
+    @Override
     protected boolean doIsScalingNeeded( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
       return false;
     }
+
   },
 
   /**
@@ -52,6 +58,17 @@ public enum ERectFitMode
       }
       // fit height
       return new TsPoint( (int)(aVpHeight * contentAspect), aVpHeight );
+    }
+
+    @Override
+    protected double doCalcFitZoom( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
+      double vpAspect = ((double)aVpWidth) / ((double)aVpHeight);
+      double contentAspect = ((double)aContentWidth) / ((double)aContentHeight);
+      if( contentAspect > vpAspect ) { // fit width
+        return ((double)aVpWidth) / ((double)aContentWidth);
+      }
+      // fit height
+      return ((double)aVpHeight) / ((double)aContentHeight);
     }
 
     @Override
@@ -72,6 +89,11 @@ public enum ERectFitMode
     }
 
     @Override
+    protected double doCalcFitZoom( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
+      return ((double)aVpWidth) / ((double)aContentWidth);
+    }
+
+    @Override
     protected boolean doIsScalingNeeded( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
       return aVpWidth < aContentWidth;
     }
@@ -86,6 +108,11 @@ public enum ERectFitMode
     public ITsPoint doCalcFitSize( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
       double contentAspect = ((double)aContentWidth) / ((double)aContentHeight);
       return new TsPoint( (int)(aVpHeight * contentAspect), aVpHeight );
+    }
+
+    @Override
+    protected double doCalcFitZoom( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
+      return ((double)aVpHeight) / ((double)aContentHeight);
     }
 
     @Override
@@ -111,6 +138,17 @@ public enum ERectFitMode
     }
 
     @Override
+    protected double doCalcFitZoom( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
+      double vpAspect = ((double)aVpWidth) / ((double)aVpHeight);
+      double contentAspect = ((double)aContentWidth) / ((double)aContentHeight);
+      if( contentAspect > vpAspect ) { // fit width
+        return ((double)aVpHeight) / ((double)aContentHeight);
+      }
+      // fit height
+      return ((double)aVpWidth) / ((double)aContentWidth);
+    }
+
+    @Override
     protected boolean doIsScalingNeeded( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
       return aVpWidth < aContentWidth || aVpHeight < aContentHeight;
     }
@@ -124,6 +162,11 @@ public enum ERectFitMode
     @Override
     public ITsPoint doCalcFitSize( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
       return new TsPoint( aContentWidth, aContentHeight );
+    }
+
+    @Override
+    protected double doCalcFitZoom( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
+      return 1.0; // value not used for this fit mode
     }
 
     @Override
@@ -193,7 +236,7 @@ public enum ERectFitMode
   /**
    * Determines if scaling is needed.
    * <p>
-   * When scaling is needed fitted cantent size may be calculated by <{@link #doCalcFitSize(int, int, int, int)}.
+   * When scaling is needed fitted content size may be calculated by {@link #doCalcFitSize(int, int, int, int)}.
    * Otherwise content size remains unchanged.
    *
    * @param aVpWidth int - viewport width
@@ -202,17 +245,40 @@ public enum ERectFitMode
    * @param aContentHeight int - content height
    * @param aExpandToFit boolean - expand small images in {@link #isAdaptiveScale()} modes
    * @return boolean - <code>true</code> content size changes to fit in viewport
-   * @throws TsIllegalArgumentRtException any argument <= 0
+   * @throws TsIllegalArgumentRtException any argument < 1
    */
   public boolean isScalingNeeded( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight,
       boolean aExpandToFit ) {
     TsIllegalArgumentRtException.checkTrue( aVpWidth < 1 || aVpHeight < 1 );
-    TsIllegalArgumentRtException.checkTrue( D2Utils.compareDoubles( aContentWidth, 0.0 ) <= 0 );
-    TsIllegalArgumentRtException.checkTrue( D2Utils.compareDoubles( aContentHeight, 0.0 ) <= 0 );
+    TsIllegalArgumentRtException.checkTrue( aContentWidth < 1 );
+    TsIllegalArgumentRtException.checkTrue( aContentHeight < 1 );
     if( aExpandToFit ) {
       return true;
     }
     return doIsScalingNeeded( aVpWidth, aVpHeight, aContentWidth, aContentHeight );
+  }
+
+  /**
+   * Determines if scaling is needed.
+   * <p>
+   * Is the same as {@link #isScalingNeeded(int, int, int, int, boolean)} with other argument types.
+   *
+   * @param aVpRect {@link ITsRectangle} - the viewport coordinates
+   * @param aContentSize {@link ID2Size} - the content size
+   * @param aExpandToFit boolean - expand small images in {@link #isAdaptiveScale()} modes
+   * @return boolean - <code>true</code> content size changes to fit in viewport
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException any argument < 1
+   */
+  public boolean isScalingNeeded( ITsRectangle aVpRect, ID2Size aContentSize, boolean aExpandToFit ) {
+    TsNullArgumentRtException.checkNulls( aVpRect, aContentSize );
+    TsIllegalArgumentRtException.checkTrue( aVpRect.width() < 1 || aVpRect.height() < 1 );
+    TsIllegalArgumentRtException.checkTrue( aContentSize.intW() <= 0 );
+    TsIllegalArgumentRtException.checkTrue( aContentSize.intH() <= 0 );
+    if( aExpandToFit ) {
+      return true;
+    }
+    return doIsScalingNeeded( aVpRect.width(), aVpRect.height(), aContentSize.intW(), aContentSize.intH() );
   }
 
   /**
@@ -223,7 +289,7 @@ public enum ERectFitMode
    * @param aContentWidth int - content width
    * @param aContentHeight int - content height
    * @return {@link ITsPoint} - fitted rectangle size
-   * @throws TsIllegalArgumentRtException any argument <= 0
+   * @throws TsIllegalArgumentRtException any argument < 1
    */
   public ITsPoint calcFitSize( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
     TsIllegalArgumentRtException.checkTrue( aVpWidth < 1 || aVpHeight < 1 );
@@ -232,7 +298,47 @@ public enum ERectFitMode
     return doCalcFitSize( aVpWidth, aVpHeight, aContentWidth, aContentHeight );
   }
 
+  /**
+   * Calculates size of the content fitted into the viewport retaining the aspect ratio of the content.
+   * <p>
+   * Is the same as {@link #isScalingNeeded(int, int, int, int, boolean)} with other argument types.
+   *
+   * @param aVpRect {@link ITsRectangle} - the viewport coordinates
+   * @param aContentSize {@link ID2Size} - the content size
+   * @return {@link ITsPoint} - fitted rectangle size
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException any argument < 1
+   */
+  public ITsPoint calcFitSize( ITsRectangle aVpRect, ID2Size aContentSize ) {
+    TsNullArgumentRtException.checkNulls( aVpRect, aContentSize );
+    TsIllegalArgumentRtException.checkTrue( aVpRect.width() < 1 || aVpRect.height() < 1 );
+    TsIllegalArgumentRtException.checkTrue( aContentSize.intW() <= 0 );
+    TsIllegalArgumentRtException.checkTrue( aContentSize.intH() <= 0 );
+    return doCalcFitSize( aVpRect.width(), aVpRect.height(), aContentSize.intW(), aContentSize.intH() );
+  }
+
+  /**
+   * Calculates zoom factor to fit the content into the viewport retaining the aspect ratio of the content.
+   * <p>
+   * Is the same as {@link #isScalingNeeded(int, int, int, int, boolean)} with other argument types.
+   *
+   * @param aVpRect {@link ITsRectangle} - the viewport coordinates
+   * @param aContentSize {@link ID2Size} - the content size
+   * @return {@link ITsPoint} - fitted rectangle size
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException any argument < 1
+   */
+  public double calcFitZoom( ITsRectangle aVpRect, ID2Size aContentSize ) {
+    TsNullArgumentRtException.checkNulls( aVpRect, aContentSize );
+    TsIllegalArgumentRtException.checkTrue( aVpRect.width() < 1 || aVpRect.height() < 1 );
+    TsIllegalArgumentRtException.checkTrue( aContentSize.intW() <= 0 );
+    TsIllegalArgumentRtException.checkTrue( aContentSize.intH() <= 0 );
+    return doCalcFitZoom( aVpRect.width(), aVpRect.height(), aContentSize.intW(), aContentSize.intH() );
+  }
+
   protected abstract ITsPoint doCalcFitSize( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight );
+
+  protected abstract double doCalcFitZoom( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight );
 
   protected abstract boolean doIsScalingNeeded( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight );
 

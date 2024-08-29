@@ -80,7 +80,7 @@ public non-sealed abstract class AbstractTsActionSetProvider
   //
 
   /**
-   * The subclass must perform action.
+   * The subclass must perform the action.
    *
    * @param aActionId String - the action ID, guaranteed to be in the {@link #listHandledActionIds()}
    */
@@ -92,7 +92,7 @@ public non-sealed abstract class AbstractTsActionSetProvider
    * Called only when {@link #isActionSetEnabled()} = <code>true</code> and for actions found in
    * {@link #listHandledActionDefs()}.
    *
-   * @param aActionDef {@link ITsActionDef} - action defintion from the {@link #listHandledActionDefs()}
+   * @param aActionDef {@link ITsActionDef} - action definition from the {@link #listHandledActionDefs()}
    * @return boolean - <code>true</code> if action is enabled
    */
   protected abstract boolean doIsActionEnabled( ITsActionDef aActionDef );

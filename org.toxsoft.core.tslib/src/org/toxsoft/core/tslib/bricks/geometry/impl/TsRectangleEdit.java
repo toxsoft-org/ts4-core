@@ -14,8 +14,8 @@ public final class TsRectangleEdit
 
   private final TsPointEdit a    = new TsPointEdit( 0, 0 );
   private final TsPointEdit b    = new TsPointEdit( 0, 0 );
-  private final TsPointEdit size = new TsPointEdit( 0, 0 );
-  private final TsDimsEdit  dims = new TsDimsEdit( 0, 0 );
+  private final TsPointEdit size = new TsPointEdit( 1, 1 );
+  private final TsDimsEdit  dims = new TsDimsEdit( 1, 1 );
 
   /**
    * Создает прямоугольник с левой верхней точкой в (0,0) и размерами (1,1).
