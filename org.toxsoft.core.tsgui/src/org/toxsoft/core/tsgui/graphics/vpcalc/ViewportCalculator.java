@@ -67,9 +67,20 @@ public class ViewportCalculator
    * @param aSettings {@link CalculationStrategySettings} - the calculation strategy settings
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public ViewportCalculator( CalculationStrategySettings aSettings ) {
+  private ViewportCalculator( CalculationStrategySettings aSettings ) {
     TsNullArgumentRtException.checkNull( aSettings );
     settings = aSettings;
+  }
+
+  /**
+   * Static constructor.
+   *
+   * @param aSettings {@link CalculationStrategySettings} - the calculation strategy settings
+   * @return {@link IViewportCalculator} - created instance of interface
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static IViewportCalculator create( CalculationStrategySettings aSettings ) {
+    return new ViewportCalculator( aSettings );
   }
 
   // ------------------------------------------------------------------------------------
