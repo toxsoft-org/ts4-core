@@ -5,6 +5,8 @@ import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
 import java.io.*;
 
+import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
@@ -52,6 +54,8 @@ public final class D2Size
   private final double width;
   private final double height;
 
+  private transient ITsDims dims = null;
+
   /**
    * Constructor.
    *
@@ -91,6 +95,14 @@ public final class D2Size
   @Override
   public double height() {
     return height;
+  }
+
+  @Override
+  public ITsDims dims() {
+    if( dims == null ) {
+      dims = new TsDims( (int)Math.max( width, 1.0 ), (int)Math.max( height, 1.0 ) );
+    }
+    return dims;
   }
 
   // ------------------------------------------------------------------------------------

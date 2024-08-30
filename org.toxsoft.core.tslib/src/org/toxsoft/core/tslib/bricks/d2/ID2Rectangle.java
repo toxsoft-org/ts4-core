@@ -108,4 +108,34 @@ public sealed interface ID2Rectangle
    */
   boolean contains( ID2Point aPoint );
 
+  @SuppressWarnings( "javadoc" )
+  default int intX1() {
+    return (int)x1();
+  }
+
+  @SuppressWarnings( "javadoc" )
+  default int intY1() {
+    return (int)y1();
+  }
+
+  @SuppressWarnings( "javadoc" )
+  default int intX2() {
+    return (int)x2();
+  }
+
+  @SuppressWarnings( "javadoc" )
+  default int intY2() {
+    return (int)y2();
+  }
+
+  @SuppressWarnings( "javadoc" )
+  default int intW() {
+    return size().intW();
+  }
+
+  @SuppressWarnings( "javadoc" )
+  default int intH() {
+    return size().intH();
+  }
+
 }

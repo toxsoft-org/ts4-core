@@ -2,6 +2,7 @@ package org.toxsoft.core.tsgui.graphics.vpcalc;
 
 import static org.toxsoft.core.tsgui.graphics.vpcalc.ScrollBarSettings.*;
 
+import org.toxsoft.core.tsgui.graphics.vpcalc.impl1.*;
 import org.toxsoft.core.tsgui.utils.rectfit.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.d2.helpers.*;

@@ -1,6 +1,6 @@
-package org.toxsoft.core.tsgui.graphics.vpcalc;
+package org.toxsoft.core.tsgui.graphics.vpcalc2;
 
-import static org.toxsoft.core.tsgui.graphics.vpcalc.ITsResources.*;
+import static org.toxsoft.core.tsgui.graphics.vpcalc2.l10n.IVpCalcSharedResources.*;
 
 import org.toxsoft.core.tsgui.utils.margins.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
@@ -123,33 +123,14 @@ public enum EVpBoundingStrategy
 
     @Override
     protected ITsRectangle doCalcVirtualViewport( ITsRectangle aVpRect, ITsDims aContentSize, ITsMargins aMargins ) {
-      int cW = aContentSize.width();
-      int cH = aContentSize.height();
-      int marginX1 = Math.max( aMargins.left(), aVpRect.width() / 3 );
-      int marginX2 = Math.max( aMargins.right(), aVpRect.width() / 3 );
-      int marginY1 = Math.max( aMargins.top(), aVpRect.height() / 3 );
-      int marginY2 = Math.max( aMargins.bottom(), aVpRect.height() / 3 );
-      int inX = aVpRect.x1() + marginX1;
-      int inY = aVpRect.y1() + marginY1;
-      int inW = aVpRect.width() - marginX1 - marginX2;
-      int inH = aVpRect.height() - marginY1 - marginY2;
-      int x, y, w, h;
-      if( cW > inW ) {
-        x = inX - (cW - inW);
-        w = 2 * cW - inW;
-      }
-      else {
-        x = inX;
-        w = inW;
-      }
-      if( cH > inH ) {
-        y = inY - (cH - inH);
-        h = 2 * cH - inH;
-      }
-      else {
-        y = inY;
-        h = inH;
-      }
+      int margLeft = Math.min( aMargins.left(), aVpRect.width() / 3 );
+      int margRight = Math.min( aMargins.right(), aVpRect.width() / 3 );
+      int margTop = Math.min( aMargins.top(), aVpRect.height() / 3 );
+      int margBottom = Math.min( aMargins.bottom(), aVpRect.height() / 3 );
+      int x = aVpRect.x1() + margLeft;
+      int y = aVpRect.y1() + margTop;
+      int w = aVpRect.width() - margLeft - margRight;
+      int h = aVpRect.height() - margTop - margBottom;
       return new TsRectangle( x, y, w, h );
     }
 
@@ -219,14 +200,31 @@ public enum EVpBoundingStrategy
 
     @Override
     protected ITsRectangle doCalcVirtualViewport( ITsRectangle aVpRect, ITsDims aContentSize, ITsMargins aMargins ) {
-      int marginX1 = Math.max( aMargins.left(), aVpRect.width() / 3 );
-      int marginX2 = Math.max( aMargins.right(), aVpRect.width() / 3 );
-      int marginY1 = Math.max( aMargins.top(), aVpRect.height() / 3 );
-      int marginY2 = Math.max( aMargins.bottom(), aVpRect.height() / 3 );
-      int x = aVpRect.x1() + marginX1 - aContentSize.w();
-      int y = aVpRect.y1() + marginY1 - aContentSize.h();
-      int w = aVpRect.width() - marginX1 - marginX2 + 2 * aContentSize.w();
-      int h = aVpRect.height() - marginY1 - marginY2 + 2 * aContentSize.h();
+      int cW = aContentSize.width();
+      int cH = aContentSize.height();
+      int margLeft = Math.min( aMargins.left(), aVpRect.width() / 3 );
+      int margRight = Math.min( aMargins.right(), aVpRect.width() / 3 );
+      int margTop = Math.min( aMargins.top(), aVpRect.height() / 3 );
+      int margBottom = Math.min( aMargins.bottom(), aVpRect.height() / 3 );
+      int vpW = aVpRect.width() - margLeft - margRight;
+      int vpH = aVpRect.height() - margTop - margBottom;
+      int x, y, w, h;
+      if( cW > vpW ) {
+        x = aVpRect.x2() - margRight - cW;
+        w = 2 * cW - aVpRect.width() + margLeft + margRight;
+      }
+      else {
+        x = aVpRect.x1() + margLeft;
+        w = vpW;
+      }
+      if( cH > vpH ) {
+        y = aVpRect.y2() - margBottom - cH;
+        h = 2 * cH - aVpRect.height() + margTop + margBottom;
+      }
+      else {
+        y = aVpRect.y1() + margTop;
+        h = vpH;
+      }
       return new TsRectangle( x, y, w, h );
     }
 
