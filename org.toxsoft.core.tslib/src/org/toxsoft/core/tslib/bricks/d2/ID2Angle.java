@@ -2,10 +2,13 @@ package org.toxsoft.core.tslib.bricks.d2;
 
 /**
  * The angle in 2D world.
+ * <p>
+ * Angles in D2 increases (as it is in mathematics) ini counter-clockwise direction.
  *
  * @author hazard157
  */
-public sealed interface ID2Angle permits ID2AngleEdit,D2Angle {
+public sealed interface ID2Angle
+    permits ID2AngleEdit, D2Angle {
 
   /**
    * FIXME instead radians/degrees use unit(EAngleUnit)/value pair
