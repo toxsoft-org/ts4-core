@@ -116,6 +116,7 @@ public class TsValobjUtils {
     registerKeeper( TsCombiCondInfo.KEEPER_ID, TsCombiCondInfo.KEEPER );
     registerKeeper( PluginFileRequirement.KEEPER_ID, PluginFileRequirement.KEEPER );
     registerKeeper( Ugwi.KEEPER_ID, Ugwi.KEEPER );
+    registerKeeper( ED2Quadrant.KEEPER_ID, ED2Quadrant.KEEPER );
   }
 
   // ------------------------------------------------------------------------------------
