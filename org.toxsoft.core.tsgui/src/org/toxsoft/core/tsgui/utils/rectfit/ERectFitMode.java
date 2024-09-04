@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.utils.rectfit;
 
-import static org.toxsoft.core.tsgui.utils.rectfit.ITsResources.*;
+import static org.toxsoft.core.tsgui.graphics.icons.ITsStdIconIds.*;
+import static org.toxsoft.core.tsgui.l10n.ITsGuiSharedResources.*;
 
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
@@ -11,6 +12,7 @@ import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.gui.*;
 
 /**
  * Modes to fit an object into the rectangle.
@@ -18,18 +20,16 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public enum ERectFitMode
-    implements IStridable {
-
-  // TODO add the icon ID
+    implements IStridable, IIconIdable {
 
   /**
-   * Original size.
+   * No fitting (no adaptive size), the content size is defined by zoom factor.
    */
-  NONE( "none", STR_N_FM_NONE, STR_D_FM_NONE, false ) { //$NON-NLS-1$
+  FIT_NONE( "none", STR_ZOOM_FIT_NONE, STR_ZOOM_FIT_NONE, ICONID_ZOOM_FIT_NONE, false ) { //$NON-NLS-1$
 
     @Override
-    public ITsPoint doCalcFitSize( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
-      return new TsPoint( aContentWidth, aContentHeight );
+    public ITsDims doCalcFitSize( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
+      return new TsDims( aContentWidth, aContentHeight );
     }
 
     @Override
@@ -45,19 +45,19 @@ public enum ERectFitMode
   },
 
   /**
-   * Fit either width or height.
+   * Best fit - fit either width or height.
    */
-  FIT_BOTH( "both", STR_N_FM_FIT_BOTH, STR_D_FM_FIT_BOTH, true ) { //$NON-NLS-1$
+  FIT_BEST( "best", STR_ZOOM_FIT_BEST, STR_ZOOM_FIT_BEST_D, ICONID_ZOOM_FIT_BEST, true ) { //$NON-NLS-1$
 
     @Override
-    public ITsPoint doCalcFitSize( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
+    public ITsDims doCalcFitSize( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
       double vpAspect = ((double)aVpWidth) / ((double)aVpHeight);
       double contentAspect = ((double)aContentWidth) / ((double)aContentHeight);
       if( contentAspect > vpAspect ) { // fit width
-        return new TsPoint( aVpWidth, (int)(aVpWidth / contentAspect) );
+        return new TsDims( aVpWidth, (int)(aVpWidth / contentAspect) );
       }
       // fit height
-      return new TsPoint( (int)(aVpHeight * contentAspect), aVpHeight );
+      return new TsDims( (int)(aVpHeight * contentAspect), aVpHeight );
     }
 
     @Override
@@ -80,12 +80,12 @@ public enum ERectFitMode
   /**
    * Fit width.
    */
-  FIT_WIDTH( "width", STR_N_FM_FIT_WIDTH, STR_D_FM_FIT_WIDTH, true ) { //$NON-NLS-1$
+  FIT_WIDTH( "width", STR_ZOOM_FIT_WIDTH, STR_ZOOM_FIT_WIDTH_D, ICONID_ZOOM_FIT_WIDTH, true ) { //$NON-NLS-1$
 
     @Override
-    public ITsPoint doCalcFitSize( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
+    public ITsDims doCalcFitSize( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
       double contentAspect = ((double)aContentWidth) / ((double)aContentHeight);
-      return new TsPoint( aVpWidth, (int)(aVpWidth / contentAspect) );
+      return new TsDims( aVpWidth, (int)(aVpWidth / contentAspect) );
     }
 
     @Override
@@ -102,12 +102,12 @@ public enum ERectFitMode
   /**
    * Fit height.
    */
-  FIT_HEIGHT( "height", STR_N_FM_FIT_HEIGHT, STR_D_FM_FIT_HEIGHT, true ) { //$NON-NLS-1$
+  FIT_HEIGHT( "height", STR_ZOOM_FIT_HEIGHT, STR_ZOOM_FIT_HEIGHT_D, ICONID_ZOOM_FIT_HEIGHT, true ) { //$NON-NLS-1$
 
     @Override
-    public ITsPoint doCalcFitSize( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
+    public ITsDims doCalcFitSize( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
       double contentAspect = ((double)aContentWidth) / ((double)aContentHeight);
-      return new TsPoint( (int)(aVpHeight * contentAspect), aVpHeight );
+      return new TsDims( (int)(aVpHeight * contentAspect), aVpHeight );
     }
 
     @Override
@@ -124,17 +124,17 @@ public enum ERectFitMode
   /**
    * Fit to fill.
    */
-  FIT_FILL( "fill", STR_N_FM_FIT_FILL, STR_D_FM_FIT_FILL, true ) {//$NON-NLS-1$
+  FIT_FILL( "fill", STR_ZOOM_FIT_FILL, STR_ZOOM_FIT_FILL_D, ICONID_ZOOM_FIT_FILL, true ) {//$NON-NLS-1$
 
     @Override
-    public ITsPoint doCalcFitSize( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
+    public ITsDims doCalcFitSize( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
       double vpAspect = ((double)aVpWidth) / ((double)aVpHeight);
       double contentAspect = ((double)aContentWidth) / ((double)aContentHeight);
       if( contentAspect > vpAspect ) { // fit height
-        return new TsPoint( (int)(aVpHeight * contentAspect), aVpHeight );
+        return new TsDims( (int)(aVpHeight * contentAspect), aVpHeight );
       }
       // fit width
-      return new TsPoint( aVpWidth, (int)(aVpWidth / contentAspect) );
+      return new TsDims( aVpWidth, (int)(aVpWidth / contentAspect) );
     }
 
     @Override
@@ -152,30 +152,7 @@ public enum ERectFitMode
     protected boolean doIsScalingNeeded( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
       return aVpWidth < aContentWidth || aVpHeight < aContentHeight;
     }
-  },
-
-  /**
-   * Zoom - show with the specified scaling factor.
-   */
-  ZOOMED( "zoomed", STR_N_FM_ZOOMED, STR_D_FM_ZOOMED, false ) { //$NON-NLS-1$
-
-    @Override
-    public ITsPoint doCalcFitSize( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
-      return new TsPoint( aContentWidth, aContentHeight );
-    }
-
-    @Override
-    protected double doCalcFitZoom( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
-      return 1.0; // value not used for this fit mode
-    }
-
-    @Override
-    protected boolean doIsScalingNeeded( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
-      return false;
-    }
-  }
-
-  ;
+  };
 
   /**
    * The keeper ID.
@@ -192,12 +169,14 @@ public enum ERectFitMode
   private final String  id;
   private final String  name;
   private final String  description;
+  private final String  iconId;
   private final boolean vpSizeDependent;
 
-  ERectFitMode( String aId, String aName, String aDescription, boolean aIsVpSizeDependent ) {
+  ERectFitMode( String aId, String aName, String aDescription, String aIconId, boolean aIsVpSizeDependent ) {
     id = aId;
     name = aName;
     description = aDescription;
+    iconId = aIconId;
     vpSizeDependent = aIsVpSizeDependent;
   }
 
@@ -218,6 +197,15 @@ public enum ERectFitMode
   @Override
   public String description() {
     return description;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // IIconIdable
+  //
+
+  @Override
+  public String iconId() {
+    return iconId;
   }
 
   // ----------------------------------------------------------------------------------
@@ -288,10 +276,10 @@ public enum ERectFitMode
    * @param aVpHeight int - viewport height
    * @param aContentWidth int - content width
    * @param aContentHeight int - content height
-   * @return {@link ITsPoint} - fitted rectangle size
+   * @return {@link ITsDims} - fitted rectangle size
    * @throws TsIllegalArgumentRtException any argument < 1
    */
-  public ITsPoint calcFitSize( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
+  public ITsDims calcFitSize( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight ) {
     TsIllegalArgumentRtException.checkTrue( aVpWidth < 1 || aVpHeight < 1 );
     TsIllegalArgumentRtException.checkTrue( D2Utils.compareDoubles( aContentWidth, 0.0 ) <= 0 );
     TsIllegalArgumentRtException.checkTrue( D2Utils.compareDoubles( aContentHeight, 0.0 ) <= 0 );
@@ -301,15 +289,15 @@ public enum ERectFitMode
   /**
    * Calculates size of the content fitted into the viewport retaining the aspect ratio of the content.
    * <p>
-   * Is the same as {@link #isScalingNeeded(int, int, int, int, boolean)} with other argument types.
+   * Is the same as {@link #calcFitSize(int, int, int, int)} with other argument types.
    *
    * @param aVpRect {@link ITsRectangle} - the viewport coordinates
    * @param aContentSize {@link ID2Size} - the content size
-   * @return {@link ITsPoint} - fitted rectangle size
+   * @return {@link ITsDims} - fitted rectangle size
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException any argument < 1
    */
-  public ITsPoint calcFitSize( ITsRectangle aVpRect, ID2Size aContentSize ) {
+  public ITsDims calcFitSize( ITsRectangle aVpRect, ID2Size aContentSize ) {
     TsNullArgumentRtException.checkNulls( aVpRect, aContentSize );
     TsIllegalArgumentRtException.checkTrue( aVpRect.width() < 1 || aVpRect.height() < 1 );
     TsIllegalArgumentRtException.checkTrue( aContentSize.intW() <= 0 );
@@ -319,8 +307,6 @@ public enum ERectFitMode
 
   /**
    * Calculates zoom factor to fit the content into the viewport retaining the aspect ratio of the content.
-   * <p>
-   * Is the same as {@link #isScalingNeeded(int, int, int, int, boolean)} with other argument types.
    *
    * @param aVpRect {@link ITsRectangle} - the viewport coordinates
    * @param aContentSize {@link ID2Size} - the content size
@@ -336,7 +322,7 @@ public enum ERectFitMode
     return doCalcFitZoom( aVpRect.width(), aVpRect.height(), aContentSize.intW(), aContentSize.intH() );
   }
 
-  protected abstract ITsPoint doCalcFitSize( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight );
+  protected abstract ITsDims doCalcFitSize( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight );
 
   protected abstract double doCalcFitZoom( int aVpWidth, int aVpHeight, int aContentWidth, int aContentHeight );
 

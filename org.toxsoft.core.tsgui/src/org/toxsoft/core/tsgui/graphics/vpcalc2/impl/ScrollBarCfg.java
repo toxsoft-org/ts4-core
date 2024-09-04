@@ -119,6 +119,7 @@ public class ScrollBarCfg
   public void applyTo( ScrollBar aScrollBar ) {
     TsNullArgumentRtException.checkNull( aScrollBar );
     aScrollBar.setValues( selection, minimum, maximum, thumb, increment, pageIncrement );
+    aScrollBar.setVisible( visible );
   }
 
   /**
@@ -135,6 +136,7 @@ public class ScrollBarCfg
     thumb = aSource.thumb();
     increment = aSource.increment();
     pageIncrement = aSource.pageIncrement();
+    visible = aSource.isVisible();
   }
 
   @SuppressWarnings( "javadoc" )

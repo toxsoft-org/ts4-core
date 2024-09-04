@@ -4,6 +4,8 @@ import org.toxsoft.core.tsgui.graphics.vpcalc2.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.d2.helpers.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
+import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -17,9 +19,10 @@ public final class VpOutput
   private final GenericChangeEventer eventer;
   private final D2Convertor          convertor = new D2Convertor();
 
-  private ID2Conversion d2Conv         = ID2Conversion.NONE;
-  private ScrollBarCfg  horBarSettings = new ScrollBarCfg();
-  private ScrollBarCfg  verBarSettings = new ScrollBarCfg();
+  private ID2Conversion   d2Conv         = ID2Conversion.NONE;
+  private ScrollBarCfg    horBarSettings = new ScrollBarCfg();
+  private ScrollBarCfg    verBarSettings = new ScrollBarCfg();
+  private TsRectangleEdit contDrawBounds = new TsRectangleEdit();
 
   /**
    * Constructor.
@@ -39,11 +42,12 @@ public final class VpOutput
    * @param aConv {@link ID2Conversion} - transformation to apply to the content before painting
    * @param aHor {@link IScrollBarCfg} - the horizontal scroll bar parameters
    * @param aVer {@link IScrollBarCfg} - the vertical scroll bar parameters
+   * @param aBounds {@link ITsRectangle} - content bounding rectangle
    * @return boolean - <code>true</code> when at least one field actually changed
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public boolean setParams( ID2Conversion aConv, IScrollBarCfg aHor, IScrollBarCfg aVer ) {
-    TsNullArgumentRtException.checkNulls( aConv, aHor, aVer );
+  public boolean setParams( ID2Conversion aConv, IScrollBarCfg aHor, IScrollBarCfg aVer, ITsRectangle aBounds ) {
+    TsNullArgumentRtException.checkNulls( aConv, aHor, aVer, aBounds );
     boolean wasChange = false;
     if( !d2Conv.equals( aConv ) ) {
       d2Conv = new D2Conversion( aConv );
@@ -56,6 +60,10 @@ public final class VpOutput
     }
     if( !verBarSettings.equals( aVer ) ) {
       verBarSettings.copyFrom( aVer );
+      wasChange = true;
+    }
+    if( !contDrawBounds.equals( aBounds ) ) {
+      contDrawBounds.setRect( aBounds );
       wasChange = true;
     }
     if( wasChange ) {
@@ -81,6 +89,11 @@ public final class VpOutput
   @Override
   public IScrollBarCfg verBar() {
     return verBarSettings;
+  }
+
+  @Override
+  public ITsRectangle getContentDrawingBounds() {
+    return new TsRectangle( contDrawBounds );
   }
 
   // ------------------------------------------------------------------------------------

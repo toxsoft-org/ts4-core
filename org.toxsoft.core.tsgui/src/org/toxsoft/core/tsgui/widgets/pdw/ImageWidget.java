@@ -66,13 +66,13 @@ class ImageWidget
       double aspect = ((double)w) / ((double)h);
       ERectFitMode fm = fitInfo.fitMode();
       if( calcW ) { // height is fixed, find width
-        if( fm == ERectFitMode.FIT_BOTH || fm == ERectFitMode.FIT_FILL || fm == ERectFitMode.FIT_HEIGHT ) {
+        if( fm == ERectFitMode.FIT_BEST || fm == ERectFitMode.FIT_FILL || fm == ERectFitMode.FIT_HEIGHT ) {
           w = (int)(aHHint * aspect);
         }
         return new Point( w, aHHint );
       }
       // width is fixed, find height
-      if( fm == ERectFitMode.FIT_BOTH || fm == ERectFitMode.FIT_BOTH || fm == ERectFitMode.FIT_WIDTH ) {
+      if( fm == ERectFitMode.FIT_BEST || fm == ERectFitMode.FIT_BEST || fm == ERectFitMode.FIT_WIDTH ) {
         h = (int)(aWHint / aspect);
       }
       return new Point( aWHint, h );

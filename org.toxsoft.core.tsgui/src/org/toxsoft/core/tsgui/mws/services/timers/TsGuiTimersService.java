@@ -23,7 +23,7 @@ public final class TsGuiTimersService
   private static final String THREAD_NAME_SLOW_TIMER  = "TsGuiTimerService.SlowTimerThread";  //$NON-NLS-1$
 
   private static final IntRange  GRANULARITY_RATIO_RANGE = new IntRange( 2, 100 );
-  private static final LongRange QUICK_PERIOD_RANGE      = new LongRange( 10, 299 );
+  private static final LongRange QUICK_PERIOD_RANGE      = new LongRange( 4, 299 );
   private static final LongRange SLOW_PERIOD_RANGE       = new LongRange( 300, 10_000 );
   private static final LongRange SLEEP_PERIOD_RANGE      = new LongRange( 1, 300 );
 

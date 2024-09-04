@@ -152,6 +152,8 @@ public abstract class AbstractLazyPanel<C extends Control>
 
   /**
    * Subclasses may perform additional operations on SWT control dispose.
+   * <p>
+   * Note: this method is <b>not</b> called if the control was not created by {@link #createControl(Composite)}.
    */
   protected void doDispose() {
     // nop

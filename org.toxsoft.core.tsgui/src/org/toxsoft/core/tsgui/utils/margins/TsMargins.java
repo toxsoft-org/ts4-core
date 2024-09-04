@@ -194,7 +194,7 @@ public sealed class TsMargins
   @SuppressWarnings( "boxing" )
   @Override
   public String toString() {
-    return String.format( "Margins: Top=%d, Bottom=%d, Left=%d, Right=%d, Hor=%d, Ver=%d, Border=%d", //$NON-NLS-1$
+    return String.format( "Margins: Top=%d, Bottom=%d, Left=%d, Right=%d", //$NON-NLS-1$
         top, bottom, left, right );
   }
 

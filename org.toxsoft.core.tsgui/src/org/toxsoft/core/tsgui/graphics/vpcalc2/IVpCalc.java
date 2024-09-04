@@ -1,10 +1,8 @@
 package org.toxsoft.core.tsgui.graphics.vpcalc2;
 
 import org.eclipse.swt.graphics.*;
-import org.toxsoft.core.tsgui.utils.rectfit.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
-import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Calculates content positioning and transformation parameters depending on various parameters.
@@ -20,35 +18,7 @@ public interface IVpCalc {
    *
    * @return {@link IVpCalcCfg} - the calculation strategy parameters
    */
-  IVpCalcCfg getCfg();
-
-  /**
-   * Returns the fit mode.
-   *
-   * @return {@link ERectFitMode} - fit mode
-   */
-  ERectFitMode getFitMode();
-
-  /**
-   * Determines if small objects are expanded to fit viewport.
-   *
-   * @return boolean - <code>true</code> to expand small images in {@link ERectFitMode#isAdaptiveScale()} modes
-   */
-  boolean isExpandToFit();
-
-  /**
-   * Sets the content fitiing parameters.
-   *
-   * @param aFitMode {@link ERectFitMode} - fit mode
-   * @param aExpandToFit boolean - <code>true</code> to expand small images in adaptive scale modes
-   * @return boolean - <code>true</code> if {@link #output()} has been changed
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   */
-  boolean setFitParams( ERectFitMode aFitMode, boolean aExpandToFit );
-
-  ID2Angle getAngle();
-
-  boolean setAngle( ID2Angle aAngle );
+  IVpCalcCfg cfg();
 
   /**
    * Informs calculator about size of the un-transformed content.
@@ -72,13 +42,65 @@ public interface IVpCalc {
    */
   boolean setViewportBounds( ITsRectangle aViewportBounds );
 
-  double getParamZoom();
+  /**
+   * Returns the content rotation angle.
+   * <p>
+   * Content is rotated around the actual origin point.
+   * <p>
+   * This is the same value as an actual angle returned by {@link #output() output().d2Conv().rotation()}.
+   *
+   * @return {@link ID2Angle} - the rotation angle
+   */
+  ID2Angle getAngle();
 
-  boolean setParamZoom( double aZoom );
+  /**
+   * Sets the content rotation angle {@link #getAngle()}.
+   *
+   * @param aAngle {@link ID2Angle} - the rotation angle
+   * @return boolean - <code>true</code> if {@link #output()} has been changed
+   */
+  boolean setAngle( ID2Angle aAngle );
 
-  ITsPoint getParamOrigin();
+  /**
+   * Returns the desired (not actual) zoom factor previously set by {@link #setDesiredZoom(double)}.
+   * <p>
+   * Actual origin value is returned by {@link #output() output().d2Conv().zoomFactor()}.
+   *
+   * @return double - the desired zoom factor (1.0 is the original size)
+   */
+  double getDesiredZoom();
 
-  boolean setParamOrigin( ITsPoint aOrigin );
+  /**
+   * Sets the desired zoom factor {@link #getDesiredZoom()}.
+   * <p>
+   * The real zoom depends on configuration, and may not the same as the desired one. For example, in adaptive fit modes
+   * zoom factor is determined by the viewport size.
+   *
+   * @param aZoom double - the desired zoom factor (1.0 is the original size)
+   * @return boolean - <code>true</code> if {@link #output()} has been changed
+   */
+  boolean setDesiredZoom( double aZoom );
+
+  /**
+   * Returns the desired (not actual) origin coordinates previously set by {@link #setDesiredOrigin(ITsPoint)}.
+   * <p>
+   * Actual origin value is returned by {@link #output() output().d2Conv().origin()}.
+   *
+   * @return {@link ITsPoint} - the desired origin coordinates
+   */
+  ITsPoint getDesiredOrigin();
+
+  /**
+   * Sets the desired origin coordinates {@link #getDesiredOrigin()}.
+   * <p>
+   * The real coordinates of origin depends on configuration, and may not the same as the desired coordinates. For
+   * example, if {@link IVpCalcCfg#fulcrumStartegy()} is {@link EVpFulcrumStartegy#ALWAYS}, desired value is ignored and
+   * read origin is calculated depending on viewport, content size, fulcrum point, margins, etc.
+   *
+   * @param aOrigin {@link ITsPoint} - the desired origin coordinates
+   * @return boolean - <code>true</code> if {@link #output()} has been changed
+   */
+  boolean setDesiredOrigin( ITsPoint aOrigin );
 
   /**
    * Returns the output (calculated) parameters of the content painting.

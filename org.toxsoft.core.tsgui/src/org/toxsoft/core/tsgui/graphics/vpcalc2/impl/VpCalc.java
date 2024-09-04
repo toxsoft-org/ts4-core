@@ -1,7 +1,7 @@
 package org.toxsoft.core.tsgui.graphics.vpcalc2.impl;
 
 import org.toxsoft.core.tsgui.graphics.vpcalc2.*;
-import org.toxsoft.core.tsgui.utils.rectfit.*;
+import org.toxsoft.core.tsgui.utils.margins.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
@@ -17,12 +17,11 @@ public class VpCalc
 
   // ------------------------------------------------------------------------------------
   // Input parameters are set from outside and never changed from inside calculator
-  private final IVpCalcCfg      inCfg;
-  private final TsRectangleEdit inVpRect   = new TsRectangleEdit( 0, 0, 1, 1 );
+  private final VpCalcCfg       inCfg      = new VpCalcCfg();
+  private final TsRectangleEdit inVpBounds = new TsRectangleEdit( 0, 0, 1, 1 ); // the viewport
+  private final TsRectangleEdit inVpRect   = new TsRectangleEdit( 0, 0, 1, 1 ); // viewport with margins applied
   private final ID2SizeEdit     inContSize = new D2SizeEdit( 16.0, 16.0 );
   private final ID2AngleEdit    inAngle    = new D2AngleEdit();
-  private ERectFitMode          inFitMode  = ERectFitMode.NONE;
-  private boolean               inExpand   = false;
 
   // ------------------------------------------------------------------------------------
   // Some setpoint used in non-adaptive modes
@@ -35,13 +34,20 @@ public class VpCalc
 
   /**
    * Constructor.
+   */
+  public VpCalc() {
+    inCfg.genericChangeEventer().addListener( s -> internalRecalc( true ) );
+  }
+
+  /**
+   * Constructor.
    *
    * @param aCfg {@link IVpCalcCfg} - the calculation strategy settings
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public VpCalc( IVpCalcCfg aCfg ) {
-    TsNullArgumentRtException.checkNull( aCfg );
-    inCfg = aCfg;
+    inCfg.copyFrom( aCfg );
+    inCfg.genericChangeEventer().addListener( s -> internalRecalc( true ) );
   }
 
   // ------------------------------------------------------------------------------------
@@ -57,91 +63,101 @@ public class VpCalc
     };
   }
 
-  private static ScrollBarCfg calcHorScrollBarCfg( int aOrigingX, ID2Size aRealSize, ITsRectangle aVirtVp ) {
-    int range = aVirtVp.width() - aRealSize.intW() + 1;
+  private static ScrollBarCfg calcScrollBarCfg( int aBoundOrigin, int aBoundDim, int aVirtDim ) {
+    int range = aVirtDim;
     int min = 0;
     int max = range;
-    int thumb = (int)(range * (aRealSize.width() / aVirtVp.width()));
+    int thumb = aBoundDim;
+    int sel = aBoundOrigin;
     int inc = range / 100 > 1 ? range / 100 : 1;
     int pageInc = range / 10 > inc ? range / 10 : 2 * inc;
-    int sel = aOrigingX;
     return new ScrollBarCfg( sel, min, max, thumb, inc, pageInc );
   }
 
-  private static ScrollBarCfg calcVerScrollBarCfg( int aOrigingY, ID2Size aRealSize, ITsRectangle aVirtVp ) {
-    int range = aVirtVp.height() - aRealSize.intH() + 1;
-    int min = 0;
-    int max = range;
-    int thumb = (int)(range * (aRealSize.height() / aVirtVp.height()));
-    int inc = range / 100 > 1 ? range / 100 : 1;
-    int pageInc = range / 10 > inc ? range / 10 : 2 * inc;
-    int sel = aOrigingY;
-    return new ScrollBarCfg( sel, min, max, thumb, inc, pageInc );
-  }
-
-  private boolean internalRecalcAdaptive() {
-    // content drawing size
-    ID2Size realSize = VpCalcUtils.rotateAndZoomSize( inContSize, inAngle, setpZoom );
-
-    // TODO реализовать VpCalc.internalRecalc()
-    throw new TsUnderDevelopmentRtException( "VpCalc.internalRecalc()" );
-
-  }
-
-  private boolean internalRecalcNonAdaptive() {
-    // content drawing bounding rectangle size
-    ID2Size realSize = VpCalcUtils.rotateAndZoomSize( inContSize, inAngle, setpZoom );
-    // virtual viewport
-    ITsRectangle virtVp = inCfg.boundsStrategy().calcVirtualViewport( inVpRect, realSize.dims(), inCfg.margins() );
-
-    // FIXME
-
-    /**
-     * The anchor point is fixed in Ncs (Normalized coordinates space. and after conversion it must be placed in Scs
-     * (Screen coodinates space) at the fixed position. Accordin to this input the Ncs origin (th point (O,0))
-     * coordinates must be specified as #vpOut.origin().
-     * <p>
-     * Anchor point is determined relatively to the content rectangle. In each axis value achRel = 0.0 means left/top
-     * edge, 1.0 -> bottom/right edge, negative values lefter/upper and values >1.0 righter/lower of the content
-     * rectangle.
-     */
-    // double anchRelX = 0.0;
-    // double anchRelY = 0.0;
-    // ITsPoint anchN = new TsPoint( 0, 0 );
-    // ITsPoint anchS = new TsPoint( 0, 0 );
-
-    // either apply fulcrum or #setpOrigin
+  private ITsRectangle calcDrawingBounds( ID2Size aRealSize, ITsRectangle aVirtVp, boolean aForceFulcrum ) {
     int x, y;
-    if( mustApplyFulcrum( realSize ) ) {
-      x = inCfg.fulcrum().calcTopleftX( virtVp.width(), realSize.intW() );
-      y = inCfg.fulcrum().calcTopleftY( virtVp.height(), realSize.intH() );
+    if( aForceFulcrum || mustApplyFulcrum( aRealSize ) ) {
+      x = aVirtVp.x1() + inCfg.fulcrum().calcTopleftX( aVirtVp.width(), aRealSize.intW() );
+      y = aVirtVp.y1() + inCfg.fulcrum().calcTopleftY( aVirtVp.height(), aRealSize.intH() );
     }
     else { // fit content in virtual viewport
       x = setpOrigin.x(); // real origin X
       y = setpOrigin.y(); // real origin Y
-      if( !virtVp.contains( x, y, realSize.intW(), realSize.intH() ) ) {
-        x = x < virtVp.x1() ? virtVp.x1() : virtVp.x2() - realSize.intW();
-        x = y < virtVp.y1() ? virtVp.y1() : virtVp.y2() - realSize.intH();
+      if( !aVirtVp.contains( x, y, aRealSize.intW(), aRealSize.intH() ) ) {
+        x = x < aVirtVp.x1() ? aVirtVp.x1() : aVirtVp.x2() - aRealSize.intW();
+        x = y < aVirtVp.y1() ? aVirtVp.y1() : aVirtVp.y2() - aRealSize.intH();
       }
     }
-    // now (x,y) is ccordinates of realRect top-left corner, but we need to find drawn content top-left point coors
-    // FIXME recalc x,y with rotation and zoom
-
-    // prepare and apply values to the output
-    ID2Conversion c = new D2Conversion( inAngle, setpZoom, new D2Point( x, y ) );
-    ScrollBarCfg hs = calcHorScrollBarCfg( x, realSize, virtVp );
-    ScrollBarCfg vs = calcVerScrollBarCfg( y, realSize, virtVp );
-
-    // FIXME set scroll bars visibility
-
-    return vpOut.setParams( c, hs, vs );
+    return new TsRectangle( x, y, aRealSize.intW(), aRealSize.intH() );
   }
 
-  private boolean internalRecalc() {
-    if( inFitMode.isAdaptiveScale() ) {
-      return internalRecalcAdaptive();
+  private ITsRectangle calcVirtualViewport( ID2Size aDrawSize ) {
+    return switch( inCfg.boundsStrategy() ) {
+      case NONE -> {
+        /**
+         * Instead of returning very big rectangle (as does EVpBoundingStrategy.NONE) will returns the rectangle few
+         * times bigger than current placement of the viewport and content. This is done for the scroll bars to have
+         * meaningful values.
+         */
+        int maxW = Math.max( aDrawSize.dims().width(), inVpRect.width() );
+        int x1 = Math.min( inVpRect.x1(), inVpRect.x1() ) - maxW;
+        int x2 = Math.max( inVpRect.x2(), inVpRect.x2() ) + maxW;
+        int maxH = Math.max( aDrawSize.dims().height(), inVpRect.height() );
+        int y1 = Math.min( inVpRect.y1(), inVpRect.y1() ) - maxH;
+        int y2 = Math.max( inVpRect.y2(), inVpRect.y2() ) + maxH;
+        yield new TsRectangle( new TsPoint( x1, y1 ), new TsPoint( x2, y2 ) );
+      }
+      case VIEWPORT -> inCfg.boundsStrategy().calcVirtualViewport( inVpRect, aDrawSize.dims() );
+      case CONTENT -> inCfg.boundsStrategy().calcVirtualViewport( inVpRect, aDrawSize.dims() );
+      default -> throw new TsNotAllEnumsUsedRtException();
+    };
+  }
+
+  private boolean prepareAndSetOutput( ID2Size aDrawSize, ITsRectangle aVirtVp, double aZoom, boolean aForceFulcrum ) {
+    // drawing bounds with fulcrum and placement limits applied
+    ITsRectangle drawBounds = calcDrawingBounds( aDrawSize, aVirtVp, aForceFulcrum );
+    // set drawing origin (0,0) to be on one of the edges of the drawing bounds rectangle
+    ED2Quadrant quadrant = ED2Quadrant.findByRadians( inAngle.radians() );
+    double contW = inContSize.width() * aZoom;
+    double x = quadrant.contentRectOriginX( drawBounds, contW, inAngle.radians() );
+    double y = quadrant.contentRectOriginY( drawBounds, contW, inAngle.radians() );
+    ID2Point contDrawOrigin = new D2Point( x, y );
+    // set scroll bars settings and visibility
+    ScrollBarCfg hs = calcScrollBarCfg( drawBounds.x1(), drawBounds.width(), aVirtVp.width() );
+    ScrollBarCfg vs = calcScrollBarCfg( drawBounds.y1(), drawBounds.height(), aVirtVp.height() );
+
+    // TODO scroll bars are visible when ???
+
+    hs.setVisible( ((drawBounds.x1() < inVpRect.x1()) || (drawBounds.x2() > inVpRect.x2())) );
+    vs.setVisible( ((drawBounds.y1() < inVpRect.y1()) || (drawBounds.y2() > inVpRect.y2())) );
+    // apply conversion and scroll bars to the viewport output
+    ID2Conversion c = new D2Conversion( inAngle, aZoom, contDrawOrigin );
+    return vpOut.setParams( c, hs, vs, drawBounds );
+  }
+
+  private boolean internalRecalc( boolean aForceFulcrum ) {
+    ID2Size drawSize;
+    ITsRectangle virtVp;
+    double zoomFactor = setpZoom;
+    ID2Size rotatedSize = VpCalcUtils.rotateAndZoomSize( inContSize, inAngle, setpZoom );
+    if( inCfg.fitMode().isAdaptiveScale() ) {
+      // calculate adapted (fitted) size
+      if( inCfg.fitMode().isScalingNeeded( inVpRect, rotatedSize, inCfg.isExpandToFit() ) ) {
+        drawSize = D2Utils.createSize( inCfg.fitMode().calcFitSize( inVpRect, rotatedSize ) );
+        zoomFactor = inCfg.fitMode().calcFitZoom( inVpRect, rotatedSize );
+      }
+      else {
+        drawSize = rotatedSize;
+      }
+      // in adaptive mode VIWPORT bounding strategy is forced to calculate virtual viewport
+      virtVp = EVpBoundingStrategy.VIEWPORT.calcVirtualViewport( inVpRect, drawSize.dims() );
     }
-    return internalRecalcNonAdaptive();
+    else {
+      drawSize = VpCalcUtils.rotateAndZoomSize( inContSize, inAngle, setpZoom );
+      virtVp = calcVirtualViewport( drawSize );
+    }
+    //
+    return prepareAndSetOutput( drawSize, virtVp, zoomFactor, aForceFulcrum );
   }
 
   // ------------------------------------------------------------------------------------
@@ -149,29 +165,8 @@ public class VpCalc
   //
 
   @Override
-  public IVpCalcCfg getCfg() {
+  public IVpCalcCfg cfg() {
     return inCfg;
-  }
-
-  @Override
-  public ERectFitMode getFitMode() {
-    return inFitMode;
-  }
-
-  @Override
-  public boolean isExpandToFit() {
-    return inExpand;
-  }
-
-  @Override
-  public boolean setFitParams( ERectFitMode aFitMode, boolean aExpandToFit ) {
-    TsNullArgumentRtException.checkNull( aFitMode );
-    if( inFitMode == aFitMode && inExpand == aExpandToFit ) {
-      return false;
-    }
-    inFitMode = aFitMode;
-    inExpand = aExpandToFit;
-    return internalRecalc();
   }
 
   @Override
@@ -186,7 +181,7 @@ public class VpCalc
       return false;
     }
     inAngle.setAngle( aAngle );
-    return internalRecalc();
+    return internalRecalc( false );
   }
 
   @Override
@@ -196,47 +191,48 @@ public class VpCalc
       return false;
     }
     inContSize.setSize( aContentSize );
-    return internalRecalc();
+    return internalRecalc( true );
   }
 
   @Override
   public boolean setViewportBounds( ITsRectangle aViewportBounds ) {
     TsNullArgumentRtException.checkNull( aViewportBounds );
-    if( inVpRect.equals( aViewportBounds ) ) {
+    if( inVpBounds.equals( aViewportBounds ) ) {
       return false;
     }
-    inVpRect.setRect( aViewportBounds );
-    return internalRecalc();
+    inVpBounds.setRect( aViewportBounds );
+    inVpRect.setRect( TsMarginUtils.applyMargins( inVpBounds, inCfg.margins() ) );
+    return internalRecalc( false );
   }
 
   @Override
-  public double getParamZoom() {
+  public double getDesiredZoom() {
     return setpZoom;
   }
 
   @Override
-  public boolean setParamZoom( double aZoom ) {
+  public boolean setDesiredZoom( double aZoom ) {
     D2Utils.checkZoom( aZoom );
     if( D2Utils.isDuckEQ( setpZoom, aZoom ) ) {
       return false;
     }
     setpZoom = aZoom;
-    return internalRecalc();
+    return internalRecalc( false );
   }
 
   @Override
-  public ITsPoint getParamOrigin() {
+  public ITsPoint getDesiredOrigin() {
     return setpOrigin;
   }
 
   @Override
-  public boolean setParamOrigin( ITsPoint aOrigin ) {
+  public boolean setDesiredOrigin( ITsPoint aOrigin ) {
     TsNullArgumentRtException.checkNull( aOrigin );
     if( setpOrigin.equals( aOrigin ) ) {
       return false;
     }
     setpOrigin.setPoint( aOrigin );
-    return internalRecalc();
+    return internalRecalc( false );
   }
 
   @Override

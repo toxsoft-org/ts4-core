@@ -2,7 +2,6 @@ package org.toxsoft.core.tsgui.graphics.vpcalc2;
 
 import static org.toxsoft.core.tsgui.graphics.vpcalc2.l10n.IVpCalcSharedResources.*;
 
-import org.toxsoft.core.tsgui.utils.margins.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
@@ -50,7 +49,7 @@ public enum EVpBoundingStrategy
     }
 
     @Override
-    protected ITsRectangle doCalcVirtualViewport( ITsRectangle aVpRect, ITsDims aContentSize, ITsMargins aMargins ) {
+    protected ITsRectangle doCalcVirtualViewport( ITsRectangle aVpRect, ITsDims aContentSize ) {
       return VIRT_VP_UNBOUND;
     }
 
@@ -122,15 +121,28 @@ public enum EVpBoundingStrategy
     }
 
     @Override
-    protected ITsRectangle doCalcVirtualViewport( ITsRectangle aVpRect, ITsDims aContentSize, ITsMargins aMargins ) {
-      int margLeft = Math.min( aMargins.left(), aVpRect.width() / 3 );
-      int margRight = Math.min( aMargins.right(), aVpRect.width() / 3 );
-      int margTop = Math.min( aMargins.top(), aVpRect.height() / 3 );
-      int margBottom = Math.min( aMargins.bottom(), aVpRect.height() / 3 );
-      int x = aVpRect.x1() + margLeft;
-      int y = aVpRect.y1() + margTop;
-      int w = aVpRect.width() - margLeft - margRight;
-      int h = aVpRect.height() - margTop - margBottom;
+    protected ITsRectangle doCalcVirtualViewport( ITsRectangle aVpRect, ITsDims aContentSize ) {
+      int deltaW = aContentSize.width() - aVpRect.width();
+      int deltaH = aContentSize.height() - aVpRect.height();
+      // if content size is smaller than viewport then return viewport as a virtual one
+      if( deltaW <= 0 && deltaH <= 0 ) {
+        return aVpRect;
+      }
+      // prepare virtual viewport coordinates to enlarge in respective direction
+      int x = aVpRect.x1();
+      int y = aVpRect.y1();
+      int w = aVpRect.width();
+      int h = aVpRect.height();
+      if( deltaW > 0 || deltaH > 0 ) {
+        if( deltaW > 0 ) { // content is wider than viewport, adjust x and w
+          w += 2 * deltaW;
+          x -= deltaW;
+        }
+        if( aContentSize.height() > aVpRect.height() ) { // content is higher than viewport, adjust y and h
+          h += 2 * deltaH;
+          y -= deltaH;
+        }
+      }
       return new TsRectangle( x, y, w, h );
     }
 
@@ -199,30 +211,26 @@ public enum EVpBoundingStrategy
     }
 
     @Override
-    protected ITsRectangle doCalcVirtualViewport( ITsRectangle aVpRect, ITsDims aContentSize, ITsMargins aMargins ) {
+    protected ITsRectangle doCalcVirtualViewport( ITsRectangle aVpRect, ITsDims aContentSize ) {
       int cW = aContentSize.width();
       int cH = aContentSize.height();
-      int margLeft = Math.min( aMargins.left(), aVpRect.width() / 3 );
-      int margRight = Math.min( aMargins.right(), aVpRect.width() / 3 );
-      int margTop = Math.min( aMargins.top(), aVpRect.height() / 3 );
-      int margBottom = Math.min( aMargins.bottom(), aVpRect.height() / 3 );
-      int vpW = aVpRect.width() - margLeft - margRight;
-      int vpH = aVpRect.height() - margTop - margBottom;
+      int vpW = aVpRect.width();
+      int vpH = aVpRect.height();
       int x, y, w, h;
       if( cW > vpW ) {
-        x = aVpRect.x2() - margRight - cW;
-        w = 2 * cW - aVpRect.width() + margLeft + margRight;
+        x = aVpRect.x2() - cW;
+        w = 2 * cW - aVpRect.width();
       }
       else {
-        x = aVpRect.x1() + margLeft;
+        x = aVpRect.x1();
         w = vpW;
       }
       if( cH > vpH ) {
-        y = aVpRect.y2() - margBottom - cH;
-        h = 2 * cH - aVpRect.height() + margTop + margBottom;
+        y = aVpRect.y2() - cH;
+        h = 2 * cH - aVpRect.height();
       }
       else {
-        y = aVpRect.y1() + margTop;
+        y = aVpRect.y1();
         h = vpH;
       }
       return new TsRectangle( x, y, w, h );
@@ -328,17 +336,17 @@ public enum EVpBoundingStrategy
   /**
    * Returns the "virtual" viewport rectangle.
    * <p>
-   * Depending on the strategy and margins the content may be moved inside the virtual viewport.
+   * Virtual viewport is a rectangle limiting (bounding) content placement. Content meets this bounding strategy
+   * requirements if and only if it is contained in the virtual viewport rectangle.
    *
    * @param aVpRect {@link ITsRectangle} - the viewport
    * @param aContentSize {@link ITsDims} - size of the content rectangle
-   * @param aMargins {@link ITsMargins} - the margins
    * @return {@link ITsRectangle} - the virtual viewport
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public ITsRectangle calcVirtualViewport( ITsRectangle aVpRect, ITsDims aContentSize, ITsMargins aMargins ) {
-    TsNullArgumentRtException.checkNulls( aVpRect, aContentSize, aMargins );
-    return doCalcVirtualViewport( aVpRect, aContentSize, aMargins );
+  public ITsRectangle calcVirtualViewport( ITsRectangle aVpRect, ITsDims aContentSize ) {
+    TsNullArgumentRtException.checkNulls( aVpRect, aContentSize );
+    return doCalcVirtualViewport( aVpRect, aContentSize );
   }
 
   protected abstract ID2Point doCalcOrigin( ID2Point aOrigin, ITsRectangle aVpRect, ITsRectangle aContentRect,
@@ -349,8 +357,7 @@ public enum EVpBoundingStrategy
 
   protected abstract ITsPoint doCalcContentShift( ITsRectangle aVpRect, ITsRectangle aContentSize, ITsPoint aMargins );
 
-  protected abstract ITsRectangle doCalcVirtualViewport( ITsRectangle aVpRect, ITsDims aContentSize,
-      ITsMargins aMargins );
+  protected abstract ITsRectangle doCalcVirtualViewport( ITsRectangle aVpRect, ITsDims aContentSize );
 
   /**
    * Returns all constants in single list.

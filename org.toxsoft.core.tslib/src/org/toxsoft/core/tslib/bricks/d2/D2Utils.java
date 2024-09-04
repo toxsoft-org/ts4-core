@@ -3,6 +3,7 @@ package org.toxsoft.core.tslib.bricks.d2;
 import static org.toxsoft.core.tslib.bricks.d2.ITsResources.*;
 import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 
+import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.math.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -25,6 +26,9 @@ public class D2Utils {
   private static final double MIN_D2_VALUE        = (Long.MIN_VALUE) - 0.1;
   private static final double DUCK_DIFF_THRESHLOD = 0.000_000_1;           // must be 1000+ times less that range min
   private static final char   CHAR_ANGLE_DEGREES  = '∠';
+
+  // ------------------------------------------------------------------------------------
+  // Duck methods
 
   /**
    * Returns double exactly equal to the nearest long if aValue is near enough.
@@ -142,6 +146,24 @@ public class D2Utils {
     return +1;
   }
 
+  // ------------------------------------------------------------------------------------
+  // Constructors from other types
+
+  /**
+   * Creates {@link ID2Size} from {@link ITsDims}.
+   *
+   * @param aDims {@link ITsDims} - the source
+   * @return {@link ID2Size} created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static ID2Size createSize( ITsDims aDims ) {
+    TsNullArgumentRtException.checkNull( aDims );
+    return new D2Size( aDims.width(), aDims.height() );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Misc helpers
+
   /**
    * Fits zoom factor in range {@link #ZOOM_RANGE}.
    *
@@ -167,6 +189,9 @@ public class D2Utils {
     }
     return ZOOM_RANGE.inRange( aOriginalFactor * aZoomMultiplier );
   }
+
+  // ------------------------------------------------------------------------------------
+  // Value checks
 
   /**
    * Checks zoom factor in allowed range.

@@ -2,6 +2,7 @@ package org.toxsoft.core.tsgui.graphics.vpcalc2;
 
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
+import org.toxsoft.core.tslib.bricks.geometry.*;
 
 /**
  * Calculated output values.
@@ -31,5 +32,15 @@ public interface IVpOutput
    * @return {@link IScrollBarCfg} - the vertical scroll bar parameters
    */
   IScrollBarCfg verBar();
+
+  /**
+   * Returns the rectangle bounds around content to draw.
+   * <p>
+   * When the rotation angle is zero, bounds rectangle is the same as the content rectangle. This data is not needed for
+   * content drawing, rather may be useful for debug and special drawing modes.
+   *
+   * @return {@link ITsRectangle} - drawn content bounds in screen (viewport) coordinates
+   */
+  ITsRectangle getContentDrawingBounds();
 
 }
