@@ -1,7 +1,5 @@
 package org.toxsoft.core.tsgui.graphics.icons;
 
-import org.toxsoft.core.tslib.utils.gui.*;
-
 /**
  * Icons built in core TsGUI library.
  *
@@ -151,9 +149,24 @@ public interface ITsStdIconIds {
   String ICONID_ZOOM_FIT_BEST        = "zoom-fit-best";
   String ICONID_ZOOM_FIT_HEIGHT      = "zoom-fit-height";
   String ICONID_ZOOM_FIT_WIDTH       = "zoom-fit-width";
+  String ICONID_ZOOM_FIT_FILL        = "zoom-fit-fill";
+  String ICONID_ZOOM_FIT_NONE        = "zoom-fit-none";
   String ICONID_ZOOM_IN              = "zoom-in";
   String ICONID_ZOOM_ORIGINAL        = "zoom-original";
   String ICONID_ZOOM_OUT             = "zoom-out";
+
+  // ------------------------------------------------------------------------------------
+  // Fulcrum
+
+  String ICONID_FULCRUM_LEFT_TOP      = "fulcrum-left-top";
+  String ICONID_FULCRUM_TOP_CENTER    = "fulcrum-top-center";
+  String ICONID_FULCRUM_RIGHT_TOP     = "fulcrum-right-top";
+  String ICONID_FULCRUM_LEFT_CENTER   = "fulcrum-left-center";
+  String ICONID_FULCRUM_CENTER        = "fulcrum-center";
+  String ICONID_FULCRUM_RIGHT_CENTER  = "fulcrum-right-center";
+  String ICONID_FULCRUM_LEFT_BOTTOM   = "fulcrum-left-bottom";
+  String ICONID_FULCRUM_BOTTOM_CENTER = "fulcrum-bottom-center";
+  String ICONID_FULCRUM_RIGHT_BOTTOM  = "fulcrum-right-bottom";
 
   // ------------------------------------------------------------------------------------
   // Content (MIME, file) types
