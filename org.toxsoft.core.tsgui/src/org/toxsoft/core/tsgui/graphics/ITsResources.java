@@ -8,7 +8,7 @@ package org.toxsoft.core.tsgui.graphics;
 interface ITsResources {
 
   /**
-   * {@link EBorderType}Е
+   * {@link EBorderType}
    */
   String STR_N_BT_NONE        = "Без рамки";
   String STR_D_BT_NONE        = "Без рамки";
@@ -54,28 +54,6 @@ interface ITsResources {
   String STR_VA_BOTTOM_D = Messages.getString( "EVerAlignment.STR_VA_BOTTOM_D" ); //$NON-NLS-1$
   String STR_VA_FILL     = Messages.getString( "EVerAlignment.STR_VA_FILL" );     //$NON-NLS-1$
   String STR_VA_FILL_D   = Messages.getString( "EVerAlignment.STR_VA_FILL_D" );   //$NON-NLS-1$
-
-  /**
-   * {@link ETsFulcrum}
-   */
-  String STR_ETF_BOTTOM_CENTER   = Messages.getString( "ETsFulcrum.STR_ETF_BOTTOM_CENTER" );   //$NON-NLS-1$
-  String STR_ETF_BOTTOM_CENTER_D = Messages.getString( "ETsFulcrum.STR_ETF_BOTTOM_CENTER_D" ); //$NON-NLS-1$
-  String STR_ETF_CENTER          = Messages.getString( "ETsFulcrum.STR_ETF_CENTER" );          //$NON-NLS-1$
-  String STR_ETF_CENTER_D        = Messages.getString( "ETsFulcrum.STR_ETF_CENTER_D" );        //$NON-NLS-1$
-  String STR_ETF_LEFT_BOTTOM     = Messages.getString( "ETsFulcrum.STR_ETF_LEFT_BOTTOM" );     //$NON-NLS-1$
-  String STR_ETF_LEFT_BOTTOM_D   = Messages.getString( "ETsFulcrum.STR_ETF_LEFT_BOTTOM_D" );   //$NON-NLS-1$
-  String STR_ETF_LEFT_CENTER     = Messages.getString( "ETsFulcrum.STR_ETF_LEFT_CENTER" );     //$NON-NLS-1$
-  String STR_ETF_LEFT_CENTER_D   = Messages.getString( "ETsFulcrum.STR_ETF_LEFT_CENTER_D" );   //$NON-NLS-1$
-  String STR_ETF_LEFT_TOP        = Messages.getString( "ETsFulcrum.STR_ETF_LEFT_TOP" );        //$NON-NLS-1$
-  String STR_ETF_LEFT_TOP_D      = Messages.getString( "ETsFulcrum.STR_ETF_LEFT_TOP_D" );      //$NON-NLS-1$
-  String STR_ETF_RIGHT_BOTTOM    = Messages.getString( "ETsFulcrum.STR_ETF_RIGHT_BOTTOM" );    //$NON-NLS-1$
-  String STR_ETF_RIGHT_BOTTOM_D  = Messages.getString( "ETsFulcrum.STR_ETF_RIGHT_BOTTOM_D" );  //$NON-NLS-1$
-  String STR_ETF_RIGHT_CENTER    = Messages.getString( "ETsFulcrum.STR_ETF_RIGHT_CENTER" );    //$NON-NLS-1$
-  String STR_ETF_RIGHT_CENTER_D  = Messages.getString( "ETsFulcrum.STR_ETF_RIGHT_CENTER_D" );  //$NON-NLS-1$
-  String STR_ETF_RIGHT_TOP       = Messages.getString( "ETsFulcrum.STR_ETF_RIGHT_TOP" );       //$NON-NLS-1$
-  String STR_ETF_RIGHT_TOP_D     = Messages.getString( "ETsFulcrum.STR_ETF_RIGHT_TOP_D" );     //$NON-NLS-1$
-  String STR_ETF_TOP_CENTER      = Messages.getString( "ETsFulcrum.STR_ETF_TOP_CENTER" );      //$NON-NLS-1$
-  String STR_ETF_TOP_CENTER_D    = Messages.getString( "ETsFulcrum.STR_ETF_TOP_CENTER_D" );    //$NON-NLS-1$
 
   /**
    * {@link ITsGraphicsConstants}
