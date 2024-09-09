@@ -75,6 +75,19 @@ public abstract class AbstractSingleActionSetProvider
   }
 
   // ------------------------------------------------------------------------------------
+  // API
+  //
+
+  /**
+   * Returns the single provided action.
+   *
+   * @return {@link ITsActionDef} - the single provided action
+   */
+  public ITsActionDef getActionDef() {
+    return actionDef;
+  }
+
+  // ------------------------------------------------------------------------------------
   // To override
   //
 

@@ -47,7 +47,10 @@ public class VpCalc
    */
   public VpCalc( IVpCalcCfg aCfg ) {
     inCfg.copyFrom( aCfg );
-    inCfg.genericChangeEventer().addListener( s -> internalRecalc( true ) );
+    inCfg.genericChangeEventer().addListener( s -> {
+      inVpRect.setRect( TsMarginUtils.applyMargins( inVpBounds, inCfg.margins() ) );
+      internalRecalc( true );
+    } );
   }
 
   // ------------------------------------------------------------------------------------

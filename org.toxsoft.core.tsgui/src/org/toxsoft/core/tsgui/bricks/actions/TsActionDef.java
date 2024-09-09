@@ -4,6 +4,7 @@ import static org.toxsoft.core.tsgui.bricks.actions.ITsStdActionDefs.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.eclipse.jface.action.*;
+import org.eclipse.swt.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
@@ -269,6 +270,15 @@ public class TsActionDef
   @Override
   public int actionStyle() {
     return actionStyle;
+  }
+
+  @Override
+  public int swtStyle() {
+    return switch( actionStyle ) {
+      case IAction.AS_CHECK_BOX -> SWT.CHECK;
+      case IAction.AS_RADIO_BUTTON -> SWT.RADIO;
+      default -> SWT.PUSH;
+    };
   }
 
   @Override

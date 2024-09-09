@@ -1,6 +1,5 @@
 package org.toxsoft.core.tsgui.l10n;
 
-import org.toxsoft.core.tsgui.bricks.actions.Messages;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.utils.rectfit.*;
 
