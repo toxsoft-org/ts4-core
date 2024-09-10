@@ -88,7 +88,7 @@ public class VpCalc
       y = setpOrigin.y(); // real origin Y
       if( !aVirtVp.contains( x, y, aRealSize.intW(), aRealSize.intH() ) ) {
         x = x < aVirtVp.x1() ? aVirtVp.x1() : aVirtVp.x2() - aRealSize.intW();
-        x = y < aVirtVp.y1() ? aVirtVp.y1() : aVirtVp.y2() - aRealSize.intH();
+        y = y < aVirtVp.y1() ? aVirtVp.y1() : aVirtVp.y2() - aRealSize.intH();
       }
     }
     return new TsRectangle( x, y, aRealSize.intW(), aRealSize.intH() );
