@@ -8,12 +8,13 @@ import org.toxsoft.core.tslib.bricks.events.*;
  *
  * @author hazard157
  */
-public sealed interface ITsGuiTimersService permits TsGuiTimersService {
+public sealed interface ITsGuiTimersService
+    permits TsGuiTimersService {
 
   /**
    * Returns the period of quick timer invockation.
    * <p>
-   * By default quick timer period is 40 milliseconds.
+   * Default quick timer period is specified in {@link ITsGuiTimersServiceConstants#OPDEF_QUICK_TIMER_PERIOD}.
    *
    * @return long - quick timer period in milliseconds
    */
@@ -22,7 +23,7 @@ public sealed interface ITsGuiTimersService permits TsGuiTimersService {
   /**
    * Returns the period of slow timer invockation.
    * <p>
-   * By default quick timer period is 960 milliseconds.
+   * Default quick timer period is specified in {@link ITsGuiTimersServiceConstants#OPDEF_SLOW_TIMER_PERIOD}.
    *
    * @return long - slowtimer period in milliseconds
    */

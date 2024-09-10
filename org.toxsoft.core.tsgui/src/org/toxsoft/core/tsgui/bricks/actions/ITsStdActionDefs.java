@@ -3,6 +3,7 @@ package org.toxsoft.core.tsgui.bricks.actions;
 import static org.toxsoft.core.tsgui.bricks.actions.ITsResources.*;
 import static org.toxsoft.core.tsgui.bricks.actions.TsActionDef.*;
 import static org.toxsoft.core.tsgui.graphics.icons.ITsStdIconIds.*;
+import static org.toxsoft.core.tsgui.l10n.ITsGuiSharedResources.*;
 import static org.toxsoft.core.tslib.ITsHardConstants.*;
 
 /**
@@ -11,6 +12,9 @@ import static org.toxsoft.core.tslib.ITsHardConstants.*;
  * @author hazard157
  */
 public interface ITsStdActionDefs {
+
+  // ------------------------------------------------------------------------------------
+  // Action IDs
 
   /**
    * Prefix of the standard action IDs.
@@ -214,9 +218,19 @@ public interface ITsStdActionDefs {
   String ACTID_ZOOM_ORIGINAL = STD_ACTION_DEF_PREFIX + ".zoom_orig"; //$NON-NLS-1$
 
   /**
+   * ID of action {@link #ACDEF_ZOOM_FIT_NONE}, {@link #ACDEF_ZOOM_FIT_NONE_PUSHBUTTON}.
+   */
+  String ACTID_ZOOM_FIT_NONE = STD_ACTION_DEF_PREFIX + ".zoom_fit_none"; //$NON-NLS-1$
+
+  /**
    * ID of action {@link #ACDEF_ZOOM_FIT_BEST}, {@link #ACDEF_ZOOM_FIT_BEST_PUSHBUTTON}.
    */
   String ACTID_ZOOM_FIT_BEST = STD_ACTION_DEF_PREFIX + ".zoom_fit_best"; //$NON-NLS-1$
+
+  /**
+   * ID of action {@link #ACDEF_ZOOM_FIT_FILL}, {@link #ACDEF_ZOOM_FIT_FILL_PUSHBUTTON}.
+   */
+  String ACTID_ZOOM_FIT_FILL = STD_ACTION_DEF_PREFIX + ".zoom_fit_fill"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_ZOOM_FIT_HEIGHT}, {@link #ACDEF_ZOOM_FIT_HEIGHT_PUSHBUTTON}.
@@ -334,9 +348,12 @@ public interface ITsStdActionDefs {
   String ACTID_RUN_TEST = STD_ACTION_DEF_PREFIX + ".run_test"; //$NON-NLS-1$
 
   /**
-   * THis is "pseudo" action to insert separators in menus, toolbars, etc.
+   * THis is "pseudo" action to insert separators in menu, toolbar, etc.
    */
   ITsActionDef ACDEF_SEPARATOR = ofUnspec1( ACTID_SEPARATOR );
+
+  // ------------------------------------------------------------------------------------
+  // Action definitions
 
   /**
    * Action: quit the application.
@@ -581,52 +598,76 @@ public interface ITsStdActionDefs {
       STR_T_ABOUT, STR_P_ABOUT, null );
 
   /**
+   * Action: set no adaptive fit mode (check button).
+   */
+  ITsActionDef ACDEF_ZOOM_FIT_NONE = ofCheck2( ACTID_ZOOM_FIT_NONE, //
+      STR_ZOOM_FIT_NONE, STR_ZOOM_FIT_NONE_D, ICONID_ZOOM_FIT_NONE );
+
+  /**
+   * Action: set no adaptive fit mode (push button)
+   */
+  ITsActionDef ACDEF_ZOOM_FIT_NONE_PUSHBUTTON = ofPush2( ACTID_ZOOM_FIT_NONE, //
+      STR_ZOOM_FIT_NONE, STR_ZOOM_FIT_NONE_D, ICONID_ZOOM_FIT_NONE );
+
+  /**
    * Action: zoom to fit best (check button).
    */
   ITsActionDef ACDEF_ZOOM_FIT_BEST = ofCheck2( ACTID_ZOOM_FIT_BEST, //
-      STR_T_ZOOM_FIT_BEST, STR_P_ZOOM_FIT_BEST, ICONID_ZOOM_FIT_BEST );
+      STR_ZOOM_FIT_BEST, STR_ZOOM_FIT_BEST_D, ICONID_ZOOM_FIT_BEST );
 
   /**
    * Action: zoom to fit best (push button)
    */
   ITsActionDef ACDEF_ZOOM_FIT_BEST_PUSHBUTTON = ofPush2( ACTID_ZOOM_FIT_BEST, //
-      STR_T_ZOOM_FIT_BEST, STR_P_ZOOM_FIT_BEST, ICONID_ZOOM_FIT_BEST );
+      STR_ZOOM_FIT_BEST, STR_ZOOM_FIT_BEST_D, ICONID_ZOOM_FIT_BEST );
+
+  /**
+   * Action: zoom to fit fill (check button).
+   */
+  ITsActionDef ACDEF_ZOOM_FIT_FILL = ofCheck2( ACTID_ZOOM_FIT_FILL, //
+      STR_ZOOM_FIT_FILL, STR_ZOOM_FIT_FILL_D, ICONID_ZOOM_FIT_FILL );
+
+  /**
+   * Action: zoom to fit fill (push button)
+   */
+  ITsActionDef ACDEF_ZOOM_FIT_FILL_PUSHBUTTON = ofPush2( ACTID_ZOOM_FIT_FILL, //
+      STR_ZOOM_FIT_FILL, STR_ZOOM_FIT_FILL_D, ICONID_ZOOM_FIT_FILL );
 
   /**
    * Action: zoom to fit width (check button).
    */
   ITsActionDef ACDEF_ZOOM_FIT_WIDTH = ofCheck2( ACTID_ZOOM_FIT_WIDTH, //
-      STR_T_ZOOM_FIT_WIDTH, STR_P_ZOOM_FIT_WIDTH, ICONID_ZOOM_FIT_WIDTH );
+      STR_ZOOM_FIT_WIDTH, STR_ZOOM_FIT_WIDTH_D, ICONID_ZOOM_FIT_WIDTH );
 
   /**
    * Action: zoom to fit width (push button).
    */
   ITsActionDef ACDEF_ZOOM_FIT_WIDTH_PUSHBUTTON = ofPush2( ACTID_ZOOM_FIT_WIDTH, //
-      STR_T_ZOOM_FIT_WIDTH, STR_P_ZOOM_FIT_WIDTH, ICONID_ZOOM_FIT_WIDTH );
+      STR_ZOOM_FIT_WIDTH, STR_ZOOM_FIT_WIDTH_D, ICONID_ZOOM_FIT_WIDTH );
 
   /**
    * Action: zoom to fit height (check button).
    */
   ITsActionDef ACDEF_ZOOM_FIT_HEIGHT = ofCheck2( ACTID_ZOOM_FIT_HEIGHT, //
-      STR_T_ZOOM_FIT_HEIGHT, STR_P_ZOOM_FIT_HEIGHT, ICONID_ZOOM_FIT_HEIGHT );
+      STR_ZOOM_FIT_HEIGHT, STR_ZOOM_FIT_HEIGHT_D, ICONID_ZOOM_FIT_HEIGHT );
 
   /**
    * Action: zoom to fit height (pushbutton).
    */
   ITsActionDef ACDEF_ZOOM_FIT_HEIGHT_PUSHBUTTON = ofPush2( ACTID_ZOOM_FIT_HEIGHT, //
-      STR_T_ZOOM_FIT_HEIGHT, STR_P_ZOOM_FIT_HEIGHT, ICONID_ZOOM_FIT_HEIGHT );
+      STR_ZOOM_FIT_HEIGHT, STR_ZOOM_FIT_HEIGHT_D, ICONID_ZOOM_FIT_HEIGHT );
 
   /**
    * Action: zoom in.
    */
   ITsActionDef ACDEF_ZOOM_IN = ofPush2( ACTID_ZOOM_IN, //
-      STR_T_ZOOM_IN, STR_P_ZOOM_IN, ICONID_ZOOM_IN );
+      STR_ZOOM_IN, STR_ZOOM_IN_D, ICONID_ZOOM_IN );
 
   /**
    * Action: zoom out.
    */
   ITsActionDef ACDEF_ZOOM_OUT = ofPush2( ACTID_ZOOM_OUT, //
-      STR_T_ZOOM_OUT, STR_P_ZOOM_OUT, ICONID_ZOOM_OUT );
+      STR_ZOOM_OUT, STR_ZOOM_OUT_D, ICONID_ZOOM_OUT );
 
   /**
    * Action: toggle "zoom small image to fit" mode.
@@ -662,19 +703,19 @@ public interface ITsStdActionDefs {
    * Action: original size (1:1) check button.
    */
   ITsActionDef ACDEF_ZOOM_ORIGINAL = ofCheck2( ACTID_ZOOM_ORIGINAL, //
-      STR_T_ZOOM_ORIGINAL, STR_P_ZOOM_ORIGINAL, ICONID_ZOOM_ORIGINAL );
+      STR_ZOOM_ORIGINAL, STR_ZOOM_ORIGINAL_D, ICONID_ZOOM_ORIGINAL );
 
   /**
    * Action: original size (1:1) drop-down menu..
    */
   ITsActionDef ACDEF_ZOOM_ORIGINAL_MENU = ofMenu2( ACTID_ZOOM_ORIGINAL, //
-      STR_T_ZOOM_ORIGINAL, STR_P_ZOOM_ORIGINAL, ICONID_ZOOM_ORIGINAL );
+      STR_ZOOM_ORIGINAL, STR_ZOOM_ORIGINAL_D, ICONID_ZOOM_ORIGINAL );
 
   /**
    * Action: original size (1:1) push button.
    */
   ITsActionDef ACDEF_ZOOM_ORIGINAL_PUSHBUTTON = ofPush2( ACTID_ZOOM_ORIGINAL, //
-      STR_T_ZOOM_ORIGINAL, STR_P_ZOOM_ORIGINAL, ICONID_ZOOM_ORIGINAL );
+      STR_ZOOM_ORIGINAL, STR_ZOOM_ORIGINAL_D, ICONID_ZOOM_ORIGINAL );
 
   /**
    * Action: Go to first element.

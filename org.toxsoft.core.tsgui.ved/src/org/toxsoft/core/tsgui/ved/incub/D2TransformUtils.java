@@ -37,7 +37,7 @@ public class D2TransformUtils {
    */
   public static void convertTransfrom( Transform aTransform, ID2Conversion aD2Conv ) {
     aTransform.translate( (float)aD2Conv.origin().x(), (float)aD2Conv.origin().y() );
-    aTransform.rotate( (float)aD2Conv.rotation().degrees() );
+    aTransform.rotate( -(float)aD2Conv.rotation().degrees() );
     aTransform.scale( (float)aD2Conv.zoomFactor(), (float)aD2Conv.zoomFactor() );
     // aTransform.translate( -(float)aD2Conv.origin().x(), -(float)aD2Conv.origin().y() );
   }
@@ -54,7 +54,7 @@ public class D2TransformUtils {
   public static void convertItemTransfrom( Transform aTransform, ID2Conversion aD2Conv, double aRotX, double aRotY ) {
     aTransform.translate( (float)aD2Conv.origin().x(), (float)aD2Conv.origin().y() );
     aTransform.translate( (float)aRotX, (float)aRotY );
-    aTransform.rotate( (float)aD2Conv.rotation().degrees() );
+    aTransform.rotate( -(float)aD2Conv.rotation().degrees() );
     aTransform.translate( -(float)aRotX, -(float)aRotY );
     aTransform.scale( (float)aD2Conv.zoomFactor(), (float)aD2Conv.zoomFactor() );
   }

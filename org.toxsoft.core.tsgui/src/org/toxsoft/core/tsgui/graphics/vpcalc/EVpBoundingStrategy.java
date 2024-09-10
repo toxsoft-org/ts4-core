@@ -2,6 +2,7 @@ package org.toxsoft.core.tsgui.graphics.vpcalc;
 
 import static org.toxsoft.core.tsgui.graphics.vpcalc.ITsResources.*;
 
+import org.toxsoft.core.tsgui.utils.margins.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
@@ -25,6 +26,10 @@ public enum EVpBoundingStrategy
    */
   NONE( "none", STR_BS_NONE, STR_BS_NONE_D, false ) { //$NON-NLS-1$
 
+    private static final int          MAX_VIRT_VP_DIM = 1024 * 1024 * 1024;
+    private static final ITsRectangle VIRT_VP_UNBOUND =
+        new TsRectangle( -MAX_VIRT_VP_DIM / 2, -MAX_VIRT_VP_DIM / 2, MAX_VIRT_VP_DIM, MAX_VIRT_VP_DIM );
+
     @Override
     protected ID2Point doCalcOrigin( ID2Point aOrigin, ITsRectangle aVpRect, ITsRectangle aContentRect,
         ITsPoint aMargins ) {
@@ -43,6 +48,12 @@ public enum EVpBoundingStrategy
       ITsRectangle r = TsGeometryUtils.union( aVpRect, aContentRect );
       return new TsPoint( aContentRect.x1() - r.x1(), aContentRect.y1() - r.y1() );
     }
+
+    @Override
+    protected ITsRectangle doCalcVirtualViewport( ITsRectangle aVpRect, ITsDims aContentSize, ITsMargins aMargins ) {
+      return VIRT_VP_UNBOUND;
+    }
+
   },
 
   /**
@@ -81,12 +92,14 @@ public enum EVpBoundingStrategy
     @Override
     protected ITsPoint doCalcUnderlayingSize( ITsRectangle aVpRect, ITsRectangle aContentRect, ITsPoint aMargins ) {
       int width = aContentRect.width();
-      if( aContentRect.width() < aVpRect.width() ) { // содержимое меньше окна просмотра по ширине
+      // содержимое меньше окна просмотра по ширине
+      if( aContentRect.width() < aVpRect.width() ) {
         int dx = aVpRect.width() - aContentRect.width();
         width = aVpRect.width() + dx;
       }
       int height = aContentRect.height();
-      if( aContentRect.height() < aVpRect.height() ) { // содержимое меньше окна просмотра по высоте
+      // содержимое меньше окна просмотра по высоте
+      if( aContentRect.height() < aVpRect.height() ) {
         int dy = aVpRect.height() - aContentRect.height();
         height = aVpRect.height() + dy;
       }
@@ -97,14 +110,49 @@ public enum EVpBoundingStrategy
     protected ITsPoint doCalcContentShift( ITsRectangle aVpRect, ITsRectangle aContentRect, ITsPoint aMargins ) {
       int dx = 0;
       int dy = 0;
-      if( aContentRect.width() < aVpRect.width() ) { // содержимое меньше окна просмотра по ширине
+      // содержимое меньше окна просмотра по ширине
+      if( aContentRect.width() < aVpRect.width() ) {
         dx = aVpRect.width() - aContentRect.width() - aMargins.x();
       }
-      if( aContentRect.height() < aVpRect.height() ) { // содержимое меньше окна просмотра по высоте
+      // содержимое меньше окна просмотра по высоте
+      if( aContentRect.height() < aVpRect.height() ) {
         dy = aVpRect.height() - aContentRect.height() - aMargins.y();
       }
       return new TsPoint( dx, dy );
     }
+
+    @Override
+    protected ITsRectangle doCalcVirtualViewport( ITsRectangle aVpRect, ITsDims aContentSize, ITsMargins aMargins ) {
+      int cW = aContentSize.width();
+      int cH = aContentSize.height();
+      int marginX1 = Math.max( aMargins.left(), aVpRect.width() / 3 );
+      int marginX2 = Math.max( aMargins.right(), aVpRect.width() / 3 );
+      int marginY1 = Math.max( aMargins.top(), aVpRect.height() / 3 );
+      int marginY2 = Math.max( aMargins.bottom(), aVpRect.height() / 3 );
+      int inX = aVpRect.x1() + marginX1;
+      int inY = aVpRect.y1() + marginY1;
+      int inW = aVpRect.width() - marginX1 - marginX2;
+      int inH = aVpRect.height() - marginY1 - marginY2;
+      int x, y, w, h;
+      if( cW > inW ) {
+        x = inX - (cW - inW);
+        w = 2 * cW - inW;
+      }
+      else {
+        x = inX;
+        w = inW;
+      }
+      if( cH > inH ) {
+        y = inY - (cH - inH);
+        h = 2 * cH - inH;
+      }
+      else {
+        y = inY;
+        h = inH;
+      }
+      return new TsRectangle( x, y, w, h );
+    }
+
   },
 
   /**
@@ -142,11 +190,13 @@ public enum EVpBoundingStrategy
     @Override
     protected ITsPoint doCalcUnderlayingSize( ITsRectangle aVpRect, ITsRectangle aContentRect, ITsPoint aMargins ) {
       int width = aContentRect.width();
-      if( aContentRect.width() < aVpRect.width() ) { // содержимое меньше окна просмотра по ширине
+      // содержимое меньше окна просмотра по ширине
+      if( aContentRect.width() < aVpRect.width() ) {
         width = 2 * aVpRect.width() + aContentRect.width() - 32;
       }
       int height = aContentRect.height();
-      if( aContentRect.height() < aVpRect.height() ) { // содержимое меньше окна просмотра по высоте
+      // содержимое меньше окна просмотра по высоте
+      if( aContentRect.height() < aVpRect.height() ) {
         height = 2 * aVpRect.height() + aContentRect.height() - 32;
       }
       return new TsPoint( width, height );
@@ -155,14 +205,29 @@ public enum EVpBoundingStrategy
     @Override
     protected ITsPoint doCalcContentShift( ITsRectangle aVpRect, ITsRectangle aContentRect, ITsPoint aMargins ) {
       int dx = 0;
-      if( aContentRect.width() < aVpRect.width() ) { // содержимое меньше окна просмотра по ширине
+      // содержимое меньше окна просмотра по ширине
+      if( aContentRect.width() < aVpRect.width() ) {
         dx = aVpRect.width() - aMargins.x() - 16;
       }
       int dy = 0;
-      if( aContentRect.height() < aVpRect.height() ) { // содержимое меньше окна просмотра по высоте
+      // содержимое меньше окна просмотра по высоте
+      if( aContentRect.height() < aVpRect.height() ) {
         dy = aVpRect.height() - aMargins.y() - 16;
       }
       return new TsPoint( dx, dy );
+    }
+
+    @Override
+    protected ITsRectangle doCalcVirtualViewport( ITsRectangle aVpRect, ITsDims aContentSize, ITsMargins aMargins ) {
+      int marginX1 = Math.max( aMargins.left(), aVpRect.width() / 3 );
+      int marginX2 = Math.max( aMargins.right(), aVpRect.width() / 3 );
+      int marginY1 = Math.max( aMargins.top(), aVpRect.height() / 3 );
+      int marginY2 = Math.max( aMargins.bottom(), aVpRect.height() / 3 );
+      int x = aVpRect.x1() + marginX1 - aContentSize.w();
+      int y = aVpRect.y1() + marginY1 - aContentSize.h();
+      int w = aVpRect.width() - marginX1 - marginX2 + 2 * aContentSize.w();
+      int h = aVpRect.height() - marginY1 - marginY2 + 2 * aContentSize.h();
+      return new TsRectangle( x, y, w, h );
     }
 
   };
@@ -262,6 +327,22 @@ public enum EVpBoundingStrategy
     return doCalcContentShift( aVpRect, aContentRect, aMargins );
   }
 
+  /**
+   * Returns the "virtual" viewport rectangle.
+   * <p>
+   * Depending on the strategy and margins the content may be moved inside the virtual viewport.
+   *
+   * @param aVpRect {@link ITsRectangle} - the viewport
+   * @param aContentSize {@link ITsDims} - size of the content rectangle
+   * @param aMargins {@link ITsMargins} - the margins
+   * @return {@link ITsRectangle} - the virtual viewport
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public ITsRectangle calcVirtualViewport( ITsRectangle aVpRect, ITsDims aContentSize, ITsMargins aMargins ) {
+    TsNullArgumentRtException.checkNulls( aVpRect, aContentSize, aMargins );
+    return doCalcVirtualViewport( aVpRect, aContentSize, aMargins );
+  }
+
   protected abstract ID2Point doCalcOrigin( ID2Point aOrigin, ITsRectangle aVpRect, ITsRectangle aContentRect,
       ITsPoint aMargins );
 
@@ -269,6 +350,9 @@ public enum EVpBoundingStrategy
       ITsPoint aMargins );
 
   protected abstract ITsPoint doCalcContentShift( ITsRectangle aVpRect, ITsRectangle aContentSize, ITsPoint aMargins );
+
+  protected abstract ITsRectangle doCalcVirtualViewport( ITsRectangle aVpRect, ITsDims aContentSize,
+      ITsMargins aMargins );
 
   /**
    * Returns all constants in single list.

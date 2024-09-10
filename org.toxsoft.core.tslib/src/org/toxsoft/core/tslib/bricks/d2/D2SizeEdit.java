@@ -5,6 +5,8 @@ import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
 import java.io.*;
 
+import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -19,6 +21,8 @@ public final class D2SizeEdit
 
   private double width  = 0.0;
   private double height = 0.0;
+
+  private transient ITsDims dims = null;
 
   /**
    * Constructor.
@@ -65,6 +69,7 @@ public final class D2SizeEdit
     double w = duck( checkCoor( aWidth ) );
     TsIllegalArgumentRtException.checkTrue( w < 0.0 );
     width = w;
+    dims = null;
   }
 
   @Override
@@ -72,6 +77,7 @@ public final class D2SizeEdit
     double h = duck( checkCoor( aHeight ) );
     TsIllegalArgumentRtException.checkTrue( h < 0.0 );
     height = h;
+    dims = null;
   }
 
   @Override
@@ -81,6 +87,7 @@ public final class D2SizeEdit
     TsIllegalArgumentRtException.checkTrue( w < 0.0 || h < 0.0 );
     width = w;
     height = h;
+    dims = null;
   }
 
   @Override
@@ -88,6 +95,15 @@ public final class D2SizeEdit
     TsNullArgumentRtException.checkNull( aSource );
     width = duck( aSource.width() );
     height = duck( aSource.height() );
+    dims = null;
+  }
+
+  @Override
+  public ITsDims dims() {
+    if( dims == null ) {
+      dims = new TsDims( (int)Math.max( width, 1.0 ), (int)Math.max( height, 1.0 ) );
+    }
+    return dims;
   }
 
   // ------------------------------------------------------------------------------------

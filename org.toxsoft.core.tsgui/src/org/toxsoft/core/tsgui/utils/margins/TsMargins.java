@@ -12,7 +12,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public sealed class TsMargins
-    implements ITsMargins permits TsGridMargins {
+    implements ITsMargins
+    permits TsGridMargins {
 
   /**
    * The registered keeper ID.
@@ -53,7 +54,7 @@ public sealed class TsMargins
       };
 
   private int left;
-  private int righ;
+  private int right;
   private int top;
   private int bottom;
 
@@ -74,7 +75,7 @@ public sealed class TsMargins
   public TsMargins( int aInitVal ) {
     int initVal = ITsMargins.VALUES_RANGE.inRange( aInitVal );
     left = initVal;
-    righ = initVal;
+    right = initVal;
     top = initVal;
     bottom = initVal;
   }
@@ -89,9 +90,23 @@ public sealed class TsMargins
    */
   public TsMargins( int aLeft, int aRight, int aTop, int aBottom ) {
     left = ITsMargins.VALUES_RANGE.inRange( aLeft );
-    righ = ITsMargins.VALUES_RANGE.inRange( aRight );
+    right = ITsMargins.VALUES_RANGE.inRange( aRight );
     top = ITsMargins.VALUES_RANGE.inRange( aTop );
     bottom = ITsMargins.VALUES_RANGE.inRange( aBottom );
+  }
+
+  /**
+   * Copy constructor.
+   *
+   * @param aSource {@link ITsMargins} - the source
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public TsMargins( ITsMargins aSource ) {
+    TsNullArgumentRtException.checkNull( aSource );
+    left = ITsMargins.VALUES_RANGE.inRange( aSource.left() );
+    right = ITsMargins.VALUES_RANGE.inRange( aSource.right() );
+    top = ITsMargins.VALUES_RANGE.inRange( aSource.top() );
+    bottom = ITsMargins.VALUES_RANGE.inRange( aSource.bottom() );
   }
 
   // ------------------------------------------------------------------------------------
@@ -105,7 +120,7 @@ public sealed class TsMargins
 
   @Override
   public int right() {
-    return righ;
+    return right;
   }
 
   @Override
@@ -131,7 +146,7 @@ public sealed class TsMargins
   public void copyFrom( ITsMargins aSource ) {
     TsNullArgumentRtException.checkNull( aSource );
     left = ITsMargins.VALUES_RANGE.inRange( aSource.left() );
-    righ = ITsMargins.VALUES_RANGE.inRange( aSource.right() );
+    right = ITsMargins.VALUES_RANGE.inRange( aSource.right() );
     top = ITsMargins.VALUES_RANGE.inRange( aSource.top() );
     bottom = ITsMargins.VALUES_RANGE.inRange( aSource.bottom() );
   }
@@ -151,7 +166,7 @@ public sealed class TsMargins
    * @param aRight int - the value
    */
   public void setRightMargin( int aRight ) {
-    righ = ITsMargins.VALUES_RANGE.inRange( aRight );
+    right = ITsMargins.VALUES_RANGE.inRange( aRight );
   }
 
   /**
@@ -179,8 +194,8 @@ public sealed class TsMargins
   @SuppressWarnings( "boxing" )
   @Override
   public String toString() {
-    return String.format( "Margins: Top=%d, Bottom=%d, Left=%d, Right=%d, Hor=%d, Ver=%d, Border=%d", //$NON-NLS-1$
-        top, bottom, left, righ );
+    return String.format( "Margins: Top=%d, Bottom=%d, Left=%d, Right=%d", //$NON-NLS-1$
+        top, bottom, left, right );
   }
 
   @Override
@@ -190,7 +205,7 @@ public sealed class TsMargins
     }
     if( aObj instanceof ITsMargins that ) {
       return this.top == that.top() && this.bottom == that.bottom() && this.left == that.left()
-          && this.righ == that.right();
+          && this.right == that.right();
     }
     return false;
   }
@@ -201,7 +216,7 @@ public sealed class TsMargins
     result = TsLibUtils.PRIME * result + top;
     result = TsLibUtils.PRIME * result + bottom;
     result = TsLibUtils.PRIME * result + left;
-    result = TsLibUtils.PRIME * result + righ;
+    result = TsLibUtils.PRIME * result + right;
     return result;
   }
 

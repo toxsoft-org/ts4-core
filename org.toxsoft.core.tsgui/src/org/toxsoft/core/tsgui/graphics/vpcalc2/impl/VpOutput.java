@@ -1,5 +1,6 @@
-package org.toxsoft.core.tsgui.graphics.vpcalc;
+package org.toxsoft.core.tsgui.graphics.vpcalc2.impl;
 
+import org.toxsoft.core.tsgui.graphics.vpcalc2.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.d2.helpers.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
@@ -8,25 +9,25 @@ import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * {@link IViewportOutput} implementation.
+ * {@link IVpOutput} implementation.
  *
  * @author hazard157
  */
-public final class ViewportOutput
-    implements IViewportOutput {
+public final class VpOutput
+    implements IVpOutput {
 
   private final GenericChangeEventer eventer;
   private final D2Convertor          convertor = new D2Convertor();
 
-  private ID2Conversion     d2Conv         = ID2Conversion.NONE;
-  private ITsRectangle      drawArea       = ITsRectangle.MINRECT;
-  private ScrollBarSettings horBarSettings = new ScrollBarSettings();
-  private ScrollBarSettings verBarSettings = new ScrollBarSettings();
+  private ID2Conversion   d2Conv         = ID2Conversion.NONE;
+  private ScrollBarCfg    horBarSettings = new ScrollBarCfg();
+  private ScrollBarCfg    verBarSettings = new ScrollBarCfg();
+  private TsRectangleEdit contDrawBounds = new TsRectangleEdit();
 
   /**
    * Constructor.
    */
-  public ViewportOutput() {
+  public VpOutput() {
     eventer = new GenericChangeEventer( this );
     convertor.setConversion( d2Conv );
   }
@@ -39,23 +40,18 @@ public final class ViewportOutput
    * Sets the values and fires event if something actually changes.
    *
    * @param aConv {@link ID2Conversion} - transformation to apply to the content before painting
-   * @param aDrawRect {@link ITsRectangle} - the drawing area rectangle in pixels
-   * @param aHor {@link ScrollBarSettings} - the horizontal scroll bar parameters
-   * @param aVer {@link ScrollBarSettings} - the vertical scroll bar parameters
+   * @param aHor {@link IScrollBarCfg} - the horizontal scroll bar parameters
+   * @param aVer {@link IScrollBarCfg} - the vertical scroll bar parameters
+   * @param aBounds {@link ITsRectangle} - content bounding rectangle
    * @return boolean - <code>true</code> when at least one field actually changed
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public boolean setParams( ID2Conversion aConv, ITsRectangle aDrawRect, ScrollBarSettings aHor,
-      ScrollBarSettings aVer ) {
-    TsNullArgumentRtException.checkNulls( aConv, aDrawRect, aHor, aVer );
+  public boolean setParams( ID2Conversion aConv, IScrollBarCfg aHor, IScrollBarCfg aVer, ITsRectangle aBounds ) {
+    TsNullArgumentRtException.checkNulls( aConv, aHor, aVer, aBounds );
     boolean wasChange = false;
     if( !d2Conv.equals( aConv ) ) {
       d2Conv = new D2Conversion( aConv );
       convertor.setConversion( d2Conv );
-      wasChange = true;
-    }
-    if( !drawArea.equals( aDrawRect ) ) {
-      drawArea = new TsRectangle( aDrawRect );
       wasChange = true;
     }
     if( !horBarSettings.equals( aHor ) ) {
@@ -66,6 +62,10 @@ public final class ViewportOutput
       verBarSettings.copyFrom( aVer );
       wasChange = true;
     }
+    if( !contDrawBounds.equals( aBounds ) ) {
+      contDrawBounds.setRect( aBounds );
+      wasChange = true;
+    }
     if( wasChange ) {
       eventer.fireChangeEvent();
     }
@@ -73,27 +73,27 @@ public final class ViewportOutput
   }
 
   // ------------------------------------------------------------------------------------
-  // IViewportOutput
+  // IVpOutput
   //
 
   @Override
-  public ID2Conversion conversion() {
+  public ID2Conversion d2Conv() {
     return d2Conv;
   }
 
-  // @Override
-  // public ID2Convertor converter() {
-  // return convertor;
-  // }
-
   @Override
-  public ScrollBarSettings horBarSettings() {
+  public IScrollBarCfg horBar() {
     return horBarSettings;
   }
 
   @Override
-  public ScrollBarSettings verBarSettings() {
+  public IScrollBarCfg verBar() {
     return verBarSettings;
+  }
+
+  @Override
+  public ITsRectangle getContentDrawingBounds() {
+    return new TsRectangle( contDrawBounds );
   }
 
   // ------------------------------------------------------------------------------------

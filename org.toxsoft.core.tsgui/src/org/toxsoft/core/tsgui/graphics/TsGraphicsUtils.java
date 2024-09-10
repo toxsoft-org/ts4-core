@@ -80,6 +80,12 @@ public class TsGraphicsUtils {
     float zf = (float)aD2Conv.zoomFactor();
     t.translate( (float)aD2Conv.origin().x(), (float)aD2Conv.origin().y() );
     t.scale( zf, zf );
+
+    /**
+     * FIXME here is an error!<br>
+     * ID2Angle is compared to ID2Rotation! Maybe angle must be replaced by ID2Rotation in ID2Conversion?
+     */
+
     if( aD2Conv.rotation() != ID2Rotation.NONE ) {
       t.rotate( (float)aD2Conv.rotation().degrees() );
     }

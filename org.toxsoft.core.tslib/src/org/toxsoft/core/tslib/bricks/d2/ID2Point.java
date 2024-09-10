@@ -5,7 +5,8 @@ package org.toxsoft.core.tslib.bricks.d2;
  *
  * @author hazard157
  */
-public sealed interface ID2Point permits D2Point,ID2PointEdit {
+public sealed interface ID2Point
+    permits D2Point, ID2PointEdit {
 
   /**
    * Point with (0.0,0.0) coordinates.
@@ -25,5 +26,15 @@ public sealed interface ID2Point permits D2Point,ID2PointEdit {
    * @return double - the Y coordinate
    */
   double y();
+
+  @SuppressWarnings( "javadoc" )
+  default int intX() {
+    return (int)x();
+  }
+
+  @SuppressWarnings( "javadoc" )
+  default int intY() {
+    return (int)y();
+  }
 
 }

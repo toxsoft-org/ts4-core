@@ -1,5 +1,7 @@
 package org.toxsoft.core.tslib.bricks.d2;
 
+import org.toxsoft.core.tslib.bricks.geometry.*;
+
 /**
  * The dimensions of a something.
  * <p>
@@ -34,14 +36,35 @@ public sealed interface ID2Size
    */
   double height();
 
-  @SuppressWarnings( "javadoc" )
+  /**
+   * Returns the size as a {@link ITsDims}.
+   * <p>
+   * Important note: the integer dimension follows the rules of {@link ITsDims} so returned value never is 0.
+   *
+   * @return {@link ITsDims} - the size as a integer dimensions
+   */
+  ITsDims dims();
+
+  /**
+   * Returns the width as an integer.
+   * <p>
+   * Simply return {@link #dims() dims().width()}.
+   *
+   * @return int - the width as an integer, always >= 1
+   */
   default int intW() {
-    return (int)width();
+    return dims().width();
   }
 
-  @SuppressWarnings( "javadoc" )
+  /**
+   * Returns the height as an integer.
+   * <p>
+   * Simply return {@link #dims() dims().height()}.
+   *
+   * @return int - the height as an integer, always >= 1
+   */
   default int intH() {
-    return (int)height();
+    return dims().height();
   }
 
 }

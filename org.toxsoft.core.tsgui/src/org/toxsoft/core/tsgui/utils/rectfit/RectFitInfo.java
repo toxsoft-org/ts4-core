@@ -2,6 +2,7 @@ package org.toxsoft.core.tsgui.utils.rectfit;
 
 import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 
+import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
@@ -18,16 +19,6 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public final class RectFitInfo {
 
   /**
-   * Min value of {@link #zoomFactor()}.
-   */
-  public static final double MIN_ZOOM_FACTOR = 0.000_001;
-
-  /**
-   * Max value of {@link #zoomFactor()}.
-   */
-  public static final double MAX_ZOOM_FACTOR = 1_000_000.0;
-
-  /**
    * Default zoom factor - original size, means 100%, the <code>double</code> value is <code>1.0</code>.
    */
   public static final double DEFAULT_ZOOM = 1.0;
@@ -40,17 +31,17 @@ public final class RectFitInfo {
   /**
    * Convenience constant of no special fitting - display original object clipped in viewport.
    */
-  public static final RectFitInfo NONE = new RectFitInfo( ERectFitMode.NONE, false, DEFAULT_ZOOM );
+  public static final RectFitInfo NONE = new RectFitInfo( ERectFitMode.FIT_NONE, false, DEFAULT_ZOOM );
 
   /**
    * Convenience constant best fitting - fit original object in viewport but not increase if it's small.
    */
-  public static final RectFitInfo BEST = new RectFitInfo( ERectFitMode.FIT_BOTH, false, DEFAULT_ZOOM );
+  public static final RectFitInfo BEST = new RectFitInfo( ERectFitMode.FIT_BEST, false, DEFAULT_ZOOM );
 
   /**
    * Convenience constant best fitting - fit original object in viewport and increase if it's small.
    */
-  public static final RectFitInfo BEST_FILL = new RectFitInfo( ERectFitMode.FIT_BOTH, true, DEFAULT_ZOOM );
+  public static final RectFitInfo BEST_FILL = new RectFitInfo( ERectFitMode.FIT_BEST, true, DEFAULT_ZOOM );
 
   /**
    * Keeper singleton.
@@ -98,13 +89,13 @@ public final class RectFitInfo {
    *
    * @param aFitMode {@link ERectFitMode} - fit mode
    * @param aIsExpandToFit boolean - specifies to expand small images to fit in viewport
-   * @param aZoomFactor double - zoom factor for {@link ERectFitMode#ZOOMED} mode, 1.0 means original size (100% zoom)
+   * @param aZoomFactor double - zoom factor for {@link ERectFitMode#FIT_NONE} mode, 1.0 means original size (100% zoom)
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException zoom factor is out of range
    */
   public RectFitInfo( ERectFitMode aFitMode, boolean aIsExpandToFit, double aZoomFactor ) {
     TsNullArgumentRtException.checkNull( aFitMode );
-    TsIllegalArgumentRtException.checkTrue( aZoomFactor < MIN_ZOOM_FACTOR || aZoomFactor > MAX_ZOOM_FACTOR );
+    D2Utils.checkZoom( aZoomFactor );
     fitMode = aFitMode;
     expandToFit = aIsExpandToFit;
     zoomFactor = aZoomFactor;
@@ -133,11 +124,11 @@ public final class RectFitInfo {
   }
 
   /**
-   * Returns the zoom factor for {@link ERectFitMode#ZOOMED} mode.
+   * Returns the zoom factor for {@link ERectFitMode#FIT_NONE} mode.
    * <p>
-   * Original size (100%) is represented by value 1.0.
+   * Argument will be forced to "fit" in range {@link D2Utils#ZOOM_RANGE}.
    *
-   * @return double - the zoom factor in range {@link #MIN_ZOOM_FACTOR} .. {@link #MAX_ZOOM_FACTOR}
+   * @return double - the zoom factor in range {@link D2Utils#ZOOM_RANGE}.
    */
   public double zoomFactor() {
     return zoomFactor;
@@ -146,20 +137,14 @@ public final class RectFitInfo {
   /**
    * Returns instance with changed zoom factor.
    * <p>
-   * Argument will be forced to "fit" in range {@link #MIN_ZOOM_FACTOR} .. {@link #MAX_ZOOM_FACTOR}.
+   * Argument will be forced to "fit" in range {@link D2Utils#ZOOM_RANGE}.
    *
    * @param aNewZoom double - new zoom factor
    * @return {@link RectFitInfo} - new instance
    */
   public RectFitInfo changeZoomFactor( double aNewZoom ) {
-    double zoom = aNewZoom;
-    if( zoom < MIN_ZOOM_FACTOR ) {
-      zoom = MIN_ZOOM_FACTOR;
-    }
-    if( zoom > MAX_ZOOM_FACTOR ) {
-      zoom = MAX_ZOOM_FACTOR;
-    }
-    return new RectFitInfo( ERectFitMode.ZOOMED, expandToFit, zoom );
+    double zoom = D2Utils.ZOOM_RANGE.inRange( aNewZoom );
+    return new RectFitInfo( ERectFitMode.FIT_NONE, expandToFit, zoom );
   }
 
   /**
@@ -215,7 +200,7 @@ public final class RectFitInfo {
     double viewAspect = ((double)aViewW) / ((double)aViewH);
     int w, h;
     switch( fitMode ) {
-      case FIT_BOTH:
+      case FIT_BEST:
         if( imgAspect > viewAspect ) { // вместим в ширину
           w = aViewW;
           h = (int)(w / imgAspect);
@@ -243,11 +228,7 @@ public final class RectFitInfo {
         w = aViewW;
         h = (int)(w / imgAspect);
         break;
-      case NONE:
-        w = aImgW;
-        h = aImgH;
-        break;
-      case ZOOMED:
+      case FIT_NONE:
         w = (int)(aImgW * zoomFactor);
         h = (int)(aImgH * zoomFactor);
         if( w == 0 ) {

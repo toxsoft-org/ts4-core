@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.graphics;
 
-import static org.toxsoft.core.tsgui.graphics.ITsResources.*;
+import static org.toxsoft.core.tsgui.graphics.icons.ITsStdIconIds.*;
+import static org.toxsoft.core.tsgui.l10n.ITsGuiSharedResources.*;
 
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
@@ -10,6 +11,7 @@ import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.gui.*;
 
 /**
  * Anchor point (snap point) of the rectangle.
@@ -20,25 +22,34 @@ import org.toxsoft.core.tslib.utils.errors.*;
  */
 @SuppressWarnings( "javadoc" )
 public enum ETsFulcrum
-    implements IStridable {
+    implements IStridable, IIconIdable {
 
-  CENTER( "Center", STR_ETF_CENTER, STR_ETF_CENTER_D, 50.0, 50.0 ), //$NON-NLS-1$
+  LEFT_TOP( "LeftTop", STR_ETF_LEFT_TOP, STR_ETF_LEFT_TOP_D, //$NON-NLS-1$
+      ICONID_FULCRUM_LEFT_TOP, 0.0, 0.0 ),
 
-  LEFT_TOP( "LeftTop", STR_ETF_LEFT_TOP, STR_ETF_LEFT_TOP_D, 0.0, 0.0 ), //$NON-NLS-1$
+  TOP_CENTER( "TopCenter", STR_ETF_TOP_CENTER, STR_ETF_TOP_CENTER_D, //$NON-NLS-1$
+      ICONID_FULCRUM_TOP_CENTER, 50.0, 0.0 ),
 
-  LEFT_BOTTOM( "LeftBottom", STR_ETF_LEFT_BOTTOM, STR_ETF_LEFT_BOTTOM_D, 0.0, 100.0 ), //$NON-NLS-1$
+  RIGHT_TOP( "RightTop", STR_ETF_RIGHT_TOP, STR_ETF_RIGHT_TOP_D, //$NON-NLS-1$
+      ICONID_FULCRUM_RIGHT_TOP, 100.0, 0.0 ),
 
-  LEFT_CENTER( "LeftCenter", STR_ETF_LEFT_CENTER, STR_ETF_LEFT_CENTER_D, 0.0, 50.0 ), //$NON-NLS-1$
+  LEFT_CENTER( "LeftCenter", STR_ETF_LEFT_CENTER, STR_ETF_LEFT_CENTER_D, //$NON-NLS-1$
+      ICONID_FULCRUM_LEFT_CENTER, 0.0, 50.0 ),
 
-  RIGHT_TOP( "RightTop", STR_ETF_RIGHT_TOP, STR_ETF_RIGHT_TOP_D, 100.0, 0.0 ), //$NON-NLS-1$
+  CENTER( "Center", STR_ETF_CENTER, STR_ETF_CENTER_D, //$NON-NLS-1$
+      ICONID_FULCRUM_CENTER, 50.0, 50.0 ),
 
-  RIGHT_BOTTOM( "RightBottom", STR_ETF_RIGHT_BOTTOM, STR_ETF_RIGHT_BOTTOM_D, 100.0, 100.0 ), //$NON-NLS-1$
+  RIGHT_CENTER( "RightCenter", STR_ETF_RIGHT_CENTER, STR_ETF_RIGHT_CENTER_D, //$NON-NLS-1$
+      ICONID_FULCRUM_RIGHT_CENTER, 100.0, 50.0 ),
 
-  RIGHT_CENTER( "RightCenter", STR_ETF_RIGHT_CENTER, STR_ETF_RIGHT_CENTER_D, 100.0, 50.0 ), //$NON-NLS-1$
+  LEFT_BOTTOM( "LeftBottom", STR_ETF_LEFT_BOTTOM, STR_ETF_LEFT_BOTTOM_D, //$NON-NLS-1$
+      ICONID_FULCRUM_LEFT_BOTTOM, 0.0, 100.0 ),
 
-  TOP_CENTER( "TopCenter", STR_ETF_TOP_CENTER, STR_ETF_TOP_CENTER_D, 50.0, 0.0 ), //$NON-NLS-1$
+  BOTTOM_CENTER( "BottomCenter", STR_ETF_BOTTOM_CENTER, STR_ETF_BOTTOM_CENTER_D, //$NON-NLS-1$
+      ICONID_FULCRUM_BOTTOM_CENTER, 50.0, 100.0 ),
 
-  BOTTOM_CENTER( "BottomCenter", STR_ETF_BOTTOM_CENTER, STR_ETF_BOTTOM_CENTER_D, 50.0, 100.0 ); //$NON-NLS-1$
+  RIGHT_BOTTOM( "RightBottom", STR_ETF_RIGHT_BOTTOM, STR_ETF_RIGHT_BOTTOM_D, //$NON-NLS-1$
+      ICONID_FULCRUM_RIGHT_BOTTOM, 100.0, 100.0 );
 
   /**
    * The keeper ID.
@@ -55,15 +66,17 @@ public enum ETsFulcrum
   private final String id;
   private final String name;
   private final String description;
+  private final String iconId;
   private final double xPerc;
   private final double yPerc;
 
-  ETsFulcrum( String aId, String aName, String aDescription, double aXPerc, double aYPerc ) {
+  ETsFulcrum( String aId, String aName, String aDescription, String aIconId, double aXPerc, double aYPerc ) {
     id = aId;
     name = aName;
     description = aDescription;
     xPerc = aXPerc;
     yPerc = aYPerc;
+    iconId = aIconId;
   }
 
   // --------------------------------------------------------------------------
@@ -83,6 +96,15 @@ public enum ETsFulcrum
   @Override
   public String description() {
     return description;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // IIconIdable
+  //
+
+  @Override
+  public String iconId() {
+    return iconId;
   }
 
   // ----------------------------------------------------------------------------------
