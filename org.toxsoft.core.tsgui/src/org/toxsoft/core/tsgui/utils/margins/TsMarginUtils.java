@@ -75,7 +75,7 @@ public class TsMarginUtils {
     int x1 = aSource.x1() + left;
     int y1 = aSource.y1() + top;
     int x2 = aSource.x2() - right;
-    int y2 = aSource.y2() + bottom;
+    int y2 = aSource.y2() - bottom;
     return new TsRectangle( new TsPoint( x1, y1 ), new TsPoint( x2, y2 ) );
   }
 
