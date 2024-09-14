@@ -103,15 +103,19 @@ public class PanelTsImageSourceEditor
 
       @Override
       public void widgetSelected( SelectionEvent aE ) {
-        ISelection sel = kindCombo.getSelection();
-        if( !sel.isEmpty() ) {
-          AbstractTsImageSourceKind kind = (AbstractTsImageSourceKind)((IStructuredSelection)sel).getFirstElement();
-          TsImageDescriptor imd = kind.editDescription( kind.params(), environ() );
-          if( imd != null ) {
-            imageDescriptor = imd;
-            fireContentChangeEvent();
-          }
+        TsImageDescriptor imd = PanelTsImageDescriptorEditor.editImageDescriptor( imageDescriptor, tsContext() );
+        if( imd != null ) {
+          imageDescriptor = imd;
         }
+        // ISelection sel = kindCombo.getSelection();
+        // if( !sel.isEmpty() ) {
+        // AbstractTsImageSourceKind kind = (AbstractTsImageSourceKind)((IStructuredSelection)sel).getFirstElement();
+        // TsImageDescriptor imd = kind.editDescription( kind.params(), environ() );
+        // if( imd != null ) {
+        // imageDescriptor = imd;
+        // fireContentChangeEvent();
+        // }
+        // }
       }
 
     } );
