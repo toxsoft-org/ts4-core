@@ -8,6 +8,7 @@ import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
@@ -183,6 +184,7 @@ public class PanelTsImageFillInfo
     if( aData != null ) {
       imgFillTypeCombo.setValue( aData.kind() );
       TsImageDescriptor imd = aData.imageDescriptor();
+      imdPanel.setDataRecord( imd );
       previewPanel.setImageDescriptor( imd );
       labelSize.setText( previewPanel.imageSizeStr() );
       if( imd != null ) {
@@ -248,12 +250,13 @@ public class PanelTsImageFillInfo
     topPanel.setLayoutData( BorderLayout.NORTH );
 
     // imdPanel = new PanelTsImageDescriptorEditor( topPanel, tsContext(), null, 0 );
-    imdPanel = new PanelTsImageSourceEditor( topPanel, tsContext(), null, 0 );
+    ITsGuiContext ctx = new TsGuiContext( tsContext() );
+    imdPanel = new PanelTsImageSourceEditor( topPanel, ctx, null, 0 );
 
     CLabel l = new CLabel( topPanel, SWT.CENTER );
     l.setText( STR_L_FILL_IMAGE_KIND );
 
-    imgFillTypeCombo = new ValedEnumCombo<>( tsContext(), EImageFillKind.class, IStridable::nmName );
+    imgFillTypeCombo = new ValedEnumCombo<>( ctx, EImageFillKind.class, IStridable::nmName );
     imgFillTypeCombo.createControl( topPanel );
     imgFillTypeCombo.setValue( EImageFillKind.CENTER );
 

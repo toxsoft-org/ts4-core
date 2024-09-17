@@ -3,12 +3,14 @@ package org.toxsoft.core.tsgui.valed.controls.graphics;
 import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
 import static org.toxsoft.core.tsgui.valed.controls.graphics.ITsResources.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
+import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.eclipse.swt.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.utils.*;
 import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tsgui.valed.controls.av.*;
@@ -104,7 +106,8 @@ public class ValedD2Angle
     gd.marginWidth = 0;
     bkPanel.setLayout( gd );
 
-    valueSpinner = new ValedAvFloatSpinner( tsContext() );
+    ITsGuiContext spinCtx = new TsGuiContext( tsContext() );
+    valueSpinner = new ValedAvFloatSpinner( spinCtx );
     Control ctrlSpinner = valueSpinner.createControl( bkPanel );
     ctrlSpinner.setToolTipText( DLG_T_ANGLE_VALUE );
     ctrlSpinner.setLayoutData( new GridData( SWT.FILL, SWT.TOP, true, false ) );
@@ -121,9 +124,13 @@ public class ValedD2Angle
       public void widgetSelected( SelectionEvent aEvent ) {
         IAtomicValue v = valueSpinner.getValue();
         if( unitCombo.selectedItem().equals( STR_DEGREES ) ) {
+          valueSpinner.tsContext().params().setDouble( TSID_MIN_INCLUSIVE, 0.0 );
+          valueSpinner.tsContext().params().setDouble( TSID_MAX_INCLUSIVE, 2.0 * Math.PI );
           angle.setRad( v.asDouble() );
         }
         else {
+          valueSpinner.tsContext().params().setDouble( TSID_MIN_INCLUSIVE, -360.0 );
+          valueSpinner.tsContext().params().setDouble( TSID_MAX_INCLUSIVE, 360 );
           angle.setDeg( v.asDouble() );
         }
         updateValue();
