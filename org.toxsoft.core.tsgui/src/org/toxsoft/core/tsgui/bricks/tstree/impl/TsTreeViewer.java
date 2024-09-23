@@ -4,6 +4,8 @@ import static org.toxsoft.core.tsgui.bricks.tstree.impl.ITsResources.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
+import java.util.*;
+
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.*;
@@ -429,6 +431,16 @@ public class TsTreeViewer
       ITsNode node = root.findByEntity( aEntity, aQuerySubtree );
       if( node != null ) {
         return node;
+      }
+    }
+    return null;
+  }
+
+  @Override
+  public ITsNode findChildByEntity( Object aEntity, boolean aQueryChildren ) {
+    for( ITsNode root : rootNodes ) {
+      if( Objects.equals( root.entity(), aEntity ) ) {
+        return root;
       }
     }
     return null;

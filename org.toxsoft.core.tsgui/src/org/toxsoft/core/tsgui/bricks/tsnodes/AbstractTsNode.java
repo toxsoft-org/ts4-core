@@ -267,12 +267,27 @@ public abstract class AbstractTsNode<T>
       cacheChilds( true );
     }
     for( ITsNode n : childNodes ) {
-      if( aEntity.equals( n.entity() ) ) {
+      if( Objects.equals( aEntity, n.entity() ) ) {
         return n;
       }
       ITsNode found = n.findByEntity( aEntity, aQuerySubtree );
       if( found != null ) {
         return found;
+      }
+    }
+    return null;
+  }
+
+  @Override
+  public ITsNode findChildByEntity( Object aEntity, boolean aQueryChildren ) {
+    // rebuild the cache only when requested
+    if( aQueryChildren ) {
+      cacheChilds( true );
+    }
+    // find child
+    for( ITsNode n : childNodes ) {
+      if( Objects.equals( aEntity, n.entity() ) ) {
+        return n;
       }
     }
     return null;
