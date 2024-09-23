@@ -88,7 +88,7 @@ public class PanelD2ConversionEditor
 
     l = new CLabel( this, SWT.NONE );
     l.setText( "Угол:" );
-    angleEditor = new ValedD2Angle( tsContext() );
+    angleEditor = new ValedD2Angle( new TsGuiContext( tsContext() ) );
     angleEditor.createControl( this );
 
     l = new CLabel( this, SWT.NONE );
@@ -102,7 +102,7 @@ public class PanelD2ConversionEditor
     l = new CLabel( this, SWT.NONE );
     l.setText( "Точка опоры поворота и масштаба:" );
     l.setLayoutData( new GridData( SWT.LEFT, SWT.CENTER, false, false, 2, 1 ) );
-    pointEditor = new ValedD2Point( tsContext() );
+    pointEditor = new ValedD2Point( new TsGuiContext( tsContext() ) );
     pointEditor.createControl( this ).setLayoutData( new GridData( SWT.LEFT, SWT.CENTER, false, false, 2, 1 ) );
   }
 

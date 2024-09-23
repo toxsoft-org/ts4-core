@@ -15,7 +15,7 @@ public class D2MatrixConverterNew {
       double aRotY ) {
     VedAffineTransform at = aTransform;
     at.translate( aD2Conv.origin().x(), aD2Conv.origin().y() );
-    at.rotate( aD2Conv.rotation().radians(), aRotX, aRotY );
+    at.rotate( -aD2Conv.rotation().radians(), aRotX, aRotY ); // Sol+- изменение знака угла поворота
     at.scale( aD2Conv.zoomFactor(), aD2Conv.zoomFactor() );
     return at;
   }
