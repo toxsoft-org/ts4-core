@@ -134,6 +134,21 @@ public interface ITsNode
   ITsNode findByEntity( Object aEntity, boolean aQuerySubtree );
 
   /**
+   * Searches for the child node by {@link ITsNode#entity()} equality to the argument <code>aEntity</code>.
+   * <p>
+   * Method searches in the children, not in the subtree so if argument is entity of this node method returns
+   * <code>null</code>.
+   * <p>
+   * Note: if <code>aQueryChildren</code> is <code>false</code> and {@link #childs()} was never called method will not
+   * find the child as children cache is not yet created.
+   *
+   * @param aEntity Object - the entity checked by {@link Objects#equals(Object, Object)}
+   * @param aQueryChildren boolean - <code>true</code> to create/refresh children's cache
+   * @return {@link ITsNode} - the child node containing the specified entity or <code>null</code>
+   */
+  ITsNode findChildByEntity( Object aEntity, boolean aQueryChildren );
+
+  /**
    * Обеспечивает (пере)создание дочерных узлов.
    * <p>
    * В обычном случае (параметр aRebuild=<code>false</code>), проверяет, что дочерние узлы уже были созданы, и

@@ -9,7 +9,7 @@ import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Miscallenous graphics utility methods.
+ * Miscellaneous graphics utility methods.
  *
  * @author hazard157
  */
@@ -80,7 +80,6 @@ public class TsGraphicsUtils {
     float zf = (float)aD2Conv.zoomFactor();
     t.translate( (float)aD2Conv.origin().x(), (float)aD2Conv.origin().y() );
     t.scale( zf, zf );
-
     if( aD2Conv.rotation() != ID2Angle.ZERO ) {
       t.rotate( (float)aD2Conv.rotation().degrees() );
     }

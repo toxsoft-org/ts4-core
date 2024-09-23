@@ -72,7 +72,7 @@ public final class D2Angle
     degrees = aAngle.degrees();
   }
 
-  D2Angle( double aAngle, boolean aIsRadians ) {
+  public D2Angle( double aAngle, boolean aIsRadians ) {
     if( aIsRadians ) {
       radians = checkAngleRadians( aAngle );
       degrees = duck( rad2deg( radians ) );
