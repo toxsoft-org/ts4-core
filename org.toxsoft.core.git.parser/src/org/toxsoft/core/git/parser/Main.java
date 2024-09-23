@@ -1,8 +1,7 @@
 package org.toxsoft.core.git.parser;
 
 import java.io.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Утилитные методы разбора результатов выполнения git команд.
@@ -59,11 +58,13 @@ public class Main {
             continue;
           }
           String artefactId = t[1].trim();
+
           // 2023-06-03 mvk---: пересобираем при ЛЮБОМ изменении в репозитории
           // if( !isBuildModule( artefactId ) ) {
           // continue;
           // }
           // System.out.println( "append: " + artefactId );
+
           artefacts.add( artefactId );
           Thread.yield();
         }
