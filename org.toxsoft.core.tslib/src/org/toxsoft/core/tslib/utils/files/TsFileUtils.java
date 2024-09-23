@@ -501,9 +501,9 @@ public class TsFileUtils {
    * <p>
    * If arguments points to the same objects then method returns <code>true</code>.
    *
-   * @param aParentDir {@link File} - probably parent fs object
-   * @param aChild {@link File} - probably child fs object
-   * @return boolean - <code>true</code> if aChild is in subdiectory under aParentDir
+   * @param aParentDir {@link File} - probably parent FS object
+   * @param aChild {@link File} - probably child FS object
+   * @return boolean - <code>true</code> if aChild is in subdirectory under aParentDir
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException aParentDir does not passes {@link #checkDirReadable(File)}
    */
