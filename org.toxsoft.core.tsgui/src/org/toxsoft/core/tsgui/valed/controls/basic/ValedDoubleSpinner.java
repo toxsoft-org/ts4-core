@@ -132,6 +132,8 @@ public class ValedDoubleSpinner
    */
   public static final AbstractValedControlFactory FACTORY = new Factory();
 
+  private final int digits;
+
   private Composite backplane = null;
 
   /**
@@ -147,19 +149,20 @@ public class ValedDoubleSpinner
   private Double value = Double.valueOf( 0.0 );
 
   /**
-   * Конструктор.
+   * Constructor.
    *
-   * @param aContext {@link ITsGuiContext} - контекст редактора
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aContext {@link ITsGuiContext} - the VALED context
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public ValedDoubleSpinner( ITsGuiContext aContext ) {
     super( aContext );
     setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
     setParamIfNull( OPDEF_VERTICAL_SPAN, AV_1 );
+    digits = getFloatingDigits();
   }
 
   // ------------------------------------------------------------------------------------
-  // Внутренные методы
+  // implementation
   //
 
   private double getFactor() {
@@ -246,14 +249,13 @@ public class ValedDoubleSpinner
     }
     spinner.setIncrement( step );
     spinner.setPageIncrement( pageStep );
-    spinner.setDigits( getFloatingDigits() );
+    spinner.setDigits( digits );
   }
 
   private void displayValue() {
     if( text != null ) {
       if( value != null ) {
-        int digits = spinner.getDigits();
-        String fmtStr = String.format( "%%0.%df", Integer.valueOf( digits ) );
+        String fmtStr = String.format( "%%.%df", Integer.valueOf( digits ) );
         String s = String.format( fmtStr, value );
         text.setText( s );
       }
@@ -288,12 +290,11 @@ public class ValedDoubleSpinner
       return null;
     }
     int selection = spinner.getSelection();
-    int digits = spinner.getDigits();
     return Double.valueOf( selection / Math.pow( 10, digits ) );
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация методов AbstractDavControl
+  // AbstractValedControl
   //
 
   @Override
