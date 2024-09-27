@@ -47,6 +47,7 @@ public class OpsBatchEdit
     if( changeInterceptor.interceptPropsChange( opset, valuesToSet ) ) {
       TsValidationFailedRtException.checkError( doValidateSetParams( valuesToSet, opset ) );
       opset.addAll( valuesToSet );
+      doAfterOpsChanged();
     }
   }
 
@@ -66,7 +67,10 @@ public class OpsBatchEdit
     }
     if( changeInterceptor.interceptPropsChange( opset, valuesToSet ) ) {
       TsValidationFailedRtException.checkError( doValidateSetParams( valuesToSet, opset ) );
-      return opset.extendSet( valuesToSet );
+      if( opset.extendSet( valuesToSet ) ) {
+        doAfterOpsChanged();
+        return true;
+      }
     }
     return false;
   }
@@ -87,7 +91,10 @@ public class OpsBatchEdit
     }
     if( changeInterceptor.interceptPropsChange( opset, valuesToSet ) ) {
       TsValidationFailedRtException.checkError( doValidateSetParams( valuesToSet, opset ) );
-      return opset.refreshSet( valuesToSet );
+      if( opset.refreshSet( valuesToSet ) ) {
+        doAfterOpsChanged();
+        return true;
+      }
     }
     return false;
   }
@@ -98,6 +105,7 @@ public class OpsBatchEdit
     if( changeInterceptor.interceptPropsChange( null, valuesToSet ) ) {
       TsValidationFailedRtException.checkError( doValidateSetParams( valuesToSet, opset ) );
       opset.setAll( aOps );
+      doAfterOpsChanged();
     }
   }
 
@@ -154,6 +162,15 @@ public class OpsBatchEdit
    */
   protected ValidationResult doValidateSetParams( IOptionSet aNewValues, IOptionSet aOldValues ) {
     return ValidationResult.SUCCESS;
+  }
+
+  /**
+   * Subclass may perform additional actions afetr option values was changed.
+   * <p>
+   * In base class does nothing, there is no need to call superclass method when overriding.
+   */
+  protected void doAfterOpsChanged() {
+    // nop
   }
 
 }

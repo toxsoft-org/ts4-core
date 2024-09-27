@@ -206,11 +206,11 @@ public abstract class AbstractValedControl<V, C extends Control>
   /**
    * Constructor for subclasses.
    *
-   * @param aTsContext {@link ITsGuiContext} - the VALED context
+   * @param aContext {@link ITsGuiContext} - the VALED context
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  protected AbstractValedControl( ITsGuiContext aTsContext ) {
-    tsContext = TsNullArgumentRtException.checkNull( aTsContext );
+  protected AbstractValedControl( ITsGuiContext aContext ) {
+    tsContext = TsNullArgumentRtException.checkNull( aContext );
     tsContext.addContextListener( this );
     createdUneditable = OPDEF_CREATE_UNEDITABLE.getValue( params() ).asBool();
     editable = !createdUneditable;

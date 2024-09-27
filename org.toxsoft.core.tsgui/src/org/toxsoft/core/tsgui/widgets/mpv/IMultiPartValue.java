@@ -1,22 +1,20 @@
 package org.toxsoft.core.tsgui.widgets.mpv;
 
-import java.time.LocalDateTime;
+import java.time.*;
 
-import org.eclipse.swt.widgets.Text;
-import org.toxsoft.core.tslib.bricks.events.change.IGenericChangeEventer;
-import org.toxsoft.core.tslib.bricks.validator.EValidationResultType;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.bricks.validator.impl.TsValidationFailedRtException;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.primtypes.IIntList;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * The value that consists of several <code>int</code> parts with fixed width textual representation.
  * <p>
- * This interface is desgned to visualy represent values such as dates "YYYY-MM-DD", time of day "HH:MM:SS.UUU",
- * duration "HHH:MM:SS", position in video frame "HH:MM:SS.FF" etc.
+ * This interface is designed to visually represent values such as dates "YYYY-MM-DD", time of day "HH:MM:SS.UUU",
+ * duration "HHH:MM:SS", foot-inches value "FF'II\"" etc.
  * <p>
  * Note: multi part value consists of several integers but does <b>not</b> defines the way to calculate summary value.
  * Even more, summary value may be calculated as <code>int</code>, <code>long</code>, {@link LocalDateTime} etc.
