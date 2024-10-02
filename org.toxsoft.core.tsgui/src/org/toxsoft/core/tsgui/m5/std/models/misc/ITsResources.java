@@ -46,6 +46,18 @@ interface ITsResources {
   String STR_D_STRING_STR = Messages.getString( "STR_D_STRING_STR" ); //$NON-NLS-1$
 
   /**
+   * {@link TsMarginsM5Model}
+   */
+  String STR_MERGIN_LEFT     = Messages.getString( "STR_MERGIN_LEFT" );     //$NON-NLS-1$
+  String STR_MERGIN_LEFT_D   = Messages.getString( "STR_MERGIN_LEFT_D" );   //$NON-NLS-1$
+  String STR_MERGIN_RIGHT    = Messages.getString( "STR_MERGIN_RIGHT" );    //$NON-NLS-1$
+  String STR_MERGIN_RIGHT_D  = Messages.getString( "STR_MERGIN_RIGHT_D" );  //$NON-NLS-1$
+  String STR_MERGIN_TOP      = Messages.getString( "STR_MERGIN_TOP" );      //$NON-NLS-1$
+  String STR_MERGIN_TOP_D    = Messages.getString( "STR_MERGIN_TOP_D" );    //$NON-NLS-1$
+  String STR_MERGIN_BOTTOM   = Messages.getString( "STR_MERGIN_BOTTOM" );   //$NON-NLS-1$
+  String STR_MERGIN_BOTTOM_D = Messages.getString( "STR_MERGIN_BOTTOM_D" ); //$NON-NLS-1$
+
+  /**
    * {@link ValidationResultM5Model}
    */
   String STR_N_M5M_VALIDATION_RESULT = Messages.getString( "STR_D_M5M_VALIDATION_RESULT" ); //$NON-NLS-1$

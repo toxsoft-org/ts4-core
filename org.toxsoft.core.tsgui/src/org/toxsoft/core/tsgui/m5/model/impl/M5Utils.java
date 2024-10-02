@@ -65,6 +65,7 @@ public class M5Utils {
     aDomain.addModel( new DataDefM5Model() );
     aDomain.addModel( new ValidationResultM5Model() );
     aDomain.addModel( new GenericTaskInfoM5Model() );
+    aDomain.addModel( new TsMarginsM5Model() );
     aDomain.addModel( new SkidM5Model() );
     aDomain.addModel( new GwidM5Model() );
     // aDomain.addModel( new SectionDefM5Model() );
