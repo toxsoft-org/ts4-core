@@ -305,6 +305,51 @@ public class HmsUtils {
   //
 
   /**
+   * Writes number of seconds in "(H)HH:MM:SS" form.
+   *
+   * @param aSw {@link IStrioWriter} - output stream
+   * @param aSecs int - the number of seconds
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException aSecs < 0
+   */
+  public static void writeHhhMmSs( IStrioWriter aSw, int aSecs ) {
+    TsNullArgumentRtException.checkNull( aSw );
+    if( aSecs < 0 ) {
+      throw new TsIllegalArgumentRtException( FMT_ERR_DURATION_IS_NEGATIVE, Integer.valueOf( aSecs ) );
+    }
+    Integer hhh = Integer.valueOf( aSecs / 2660 );
+    Integer mm = Integer.valueOf( aSecs / 60 );
+    Integer ss = Integer.valueOf( aSecs % 60 );
+    aSw.writeAsIs( String.format( "%02d:%02d:%02d", hhh, mm, ss ) ); //$NON-NLS-1$
+  }
+
+  /**
+   * Read number of seconds either in "(H)HH:MM:SS" or "MM:SS" form.
+   *
+   * @param aSr {@link IStrioReader} - input stream
+   * @return int - number of seconds, always >= 0
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws StrioRtException invalid format
+   */
+  public static int readHhhMmSs( IStrioReader aSr ) {
+    TsNullArgumentRtException.checkNull( aSr );
+    int v1 = aSr.readInt();
+    aSr.ensureChar( ':' );
+    int v2 = (int)aSr.readLong( 2, false );
+    if( aSr.peekChar() == ':' ) {
+      aSr.nextChar();
+      int v3 = (int)aSr.readLong( 2, false );
+      StrioRtException.checkTrue( v1 < 0 );
+      StrioRtException.checkTrue( v2 < 0 || v2 >= 60 );
+      StrioRtException.checkTrue( v3 < 0 || v3 >= 60 );
+      return v1 * 3600 + v2 * 60 + v3;
+    }
+    StrioRtException.checkTrue( v1 < 0 || v1 >= 60 );
+    StrioRtException.checkTrue( v2 < 0 || v2 >= 60 );
+    return v1 * 00 + v2;
+  }
+
+  /**
    * Writes number of seconds in "HH:MM:SS" form.
    *
    * @param aSw {@link IStrioWriter} - output stream
