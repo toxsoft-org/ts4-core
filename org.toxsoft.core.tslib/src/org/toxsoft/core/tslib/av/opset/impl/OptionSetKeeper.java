@@ -11,6 +11,7 @@ import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.valobj.*;
@@ -179,6 +180,50 @@ public class OptionSetKeeper
       }
     }
     write( aSw, aEntity );
+  }
+
+  /**
+   * Read option set replacing absent values by the defaults.
+   *
+   * @param aSr {@link IStrioReader} - input reader
+   * @param aDefaults {@link IMap}&lt;String,{@link IDataDef}&gt; - default values
+   * @return {@link IOptionSetEdit} - read instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIoRtException stream reading error
+   * @throws StrioRtException format violation
+   */
+  public IOptionSetEdit readWithDefaults( IStrioReader aSr, IMap<String, IAtomicValue> aDefaults ) {
+    TsNullArgumentRtException.checkNulls( aSr, aDefaults );
+    IOptionSetEdit ops = (IOptionSetEdit)read( aSr );
+    for( String s : aDefaults.keys() ) {
+      if( !ops.hasKey( s ) ) {
+        IAtomicValue av = aDefaults.getByKey( s );
+        ops.setValue( s, av );
+      }
+    }
+    return ops;
+  }
+
+  /**
+   * Read option set replacing absent values by the defaults.
+   *
+   * @param aSr {@link IStrioReader} - input reader
+   * @param aDefaults {@link IStridablesList}&lt;{@link IDataDef}&gt; - defaults are in {@link IDataDef#defaultValue()}
+   * @return {@link IOptionSetEdit} - read instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIoRtException stream reading error
+   * @throws StrioRtException format violation
+   */
+  public IOptionSetEdit readWithDefaults( IStrioReader aSr, IStridablesList<IDataDef> aDefaults ) {
+    TsNullArgumentRtException.checkNulls( aSr, aDefaults );
+    IOptionSetEdit ops = (IOptionSetEdit)read( aSr );
+    for( String s : aDefaults.keys() ) {
+      if( !ops.hasKey( s ) ) {
+        IAtomicValue av = aDefaults.getByKey( s ).defaultValue();
+        ops.setValue( s, av );
+      }
+    }
+    return ops;
   }
 
 }
