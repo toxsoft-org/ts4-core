@@ -1,7 +1,13 @@
 package org.toxsoft.core.tsgui.mws;
 
+import static org.toxsoft.core.tsgui.mws.l10n.ITsguiMwsSharedResources.*;
 import static org.toxsoft.core.tslib.ITsHardConstants.*;
 
+import java.io.*;
+
+import org.eclipse.osgi.service.environment.*;
+import org.osgi.framework.*;
+import org.osgi.service.component.*;
 import org.osgi.service.component.annotations.*;
 import org.toxsoft.core.tsgui.*;
 import org.toxsoft.core.tsgui.bricks.quant.*;
@@ -14,6 +20,7 @@ import org.toxsoft.core.tslib.bricks.ctx.*;
 import org.toxsoft.core.tslib.bricks.ctx.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.logs.impl.*;
+import org.toxsoft.core.tslib.utils.progargs.*;
 
 /**
  * An OSGi service {@link IMwsOsgiService} implementation.
@@ -23,6 +30,13 @@ import org.toxsoft.core.tslib.utils.logs.impl.*;
 @Component
 public class MwsOsgiService
     implements IMwsOsgiService {
+
+  // FIXME when and how to load TsApplicationInfo from file ?
+
+  /**
+   * Specifies the file (as kept by {@link TsApplicationInfo#KEEPER} to load application info from.
+   */
+  public static final String CMDLINEARG_TS_APP_INFO_FILE = "TsAppInfoFile"; //$NON-NLS-1$
 
   static class ApplicationWideQuantManager
       extends QuantBase
@@ -43,6 +57,8 @@ public class MwsOsgiService
    */
   private ITsApplicationInfo appInfo = new TsApplicationInfo( DEFAULT_MWS_APPLICATION_ID );
 
+  ComponentContext componentContext;
+
   /**
    * Constructor.
    */
@@ -53,6 +69,29 @@ public class MwsOsgiService
     appQMan.registerQuant( new QuantProgramArgs() );
     appQMan.registerQuant( new QuantTsGui() );
     appQMan.registerQuant( new QuantM5() );
+  }
+
+  void onActivate( ComponentContext aComponentContext ) {
+    // load TS application info from the file specified in command line if any
+    componentContext = aComponentContext;
+    BundleContext bc = componentContext.getBundleContext();
+    ServiceReference<EnvironmentInfo> ref = bc.getServiceReference( EnvironmentInfo.class );
+    EnvironmentInfo envInfo = ref != null ? bc.getService( ref ) : null;
+    if( envInfo != null ) {
+      ProgramArgs pa = new ProgramArgs( envInfo.getCommandLineArgs() );
+      String fileName = pa.getArgValue( CMDLINEARG_TS_APP_INFO_FILE, null );
+      if( fileName != null ) {
+        File f = new File( fileName );
+        if( f.exists() ) {
+          try {
+            appInfo = TsApplicationInfo.KEEPER.read( f );
+          }
+          catch( @SuppressWarnings( "unused" ) Exception ex ) {
+            LoggerUtils.errorLogger().warning( FMT_LOG_WARN_INV_APP_INFO_FILE, f.getAbsoluteFile() );
+          }
+        }
+      }
+    }
   }
 
   // ------------------------------------------------------------------------------------

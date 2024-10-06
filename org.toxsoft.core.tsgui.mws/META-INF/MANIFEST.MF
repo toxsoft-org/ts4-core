@@ -6,9 +6,11 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.toxsoft.core.tsgui.mws.Activator
 Bundle-Vendor: toxsoft.org
 Export-Package: org.toxsoft.core.tsgui.mws,
- org.toxsoft.core.tsgui.mws.e4.addons
+ org.toxsoft.core.tsgui.mws.e4.addons,
+ org.toxsoft.core.tsgui.mws.l10n
 Require-Bundle: jakarta.inject.jakarta.inject-api,
  jakarta.annotation-api,
+ org.osgi.service.component,
  org.eclipse.core.runtime,
  org.eclipse.ui;resolution:=optional,
  org.eclipse.rap.ui;resolution:=optional,

@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.mws.e4.addons;
 
-import static org.toxsoft.core.tsgui.mws.e4.addons.ITsResources.*;
+import static org.toxsoft.core.tsgui.graphics.icons.ITsStdIconIds.*;
+import static org.toxsoft.core.tsgui.mws.l10n.ITsguiMwsSharedResources.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import java.util.*;
@@ -62,7 +63,7 @@ public class AddonMwsMain {
 
   @PostConstruct
   final void init( MApplication aApplication ) {
-    LoggerUtils.defaultLogger().info( FMT_INFO_APP_MAIN_ADDON_STARTING, nameForLog );
+    LoggerUtils.defaultLogger().info( FMT_LOG_INFO_APP_MAIN_ADDON_STARTING, nameForLog );
     try {
       TsNullArgumentRtException.checkNull( aApplication );
       IEclipseContext appContext = aApplication.getContext();
@@ -77,7 +78,7 @@ public class AddonMwsMain {
       appWideQuantManager = mwsOsgiService.context().get( IApplicationWideQuantManager.class );
       appContext.set( IApplicationWideQuantManager.class, appWideQuantManager );
       appWideQuantManager.initApp( appContext );
-      LoggerUtils.defaultLogger().info( FMT_INFO_APP_MAIN_ADDON_INIT_APP, nameForLog );
+      LoggerUtils.defaultLogger().info( FMT_LOG_INFO_APP_MAIN_ADDON_INIT_APP, nameForLog );
     }
     catch( Exception ex ) {
       LoggerUtils.errorLogger().error( ex );
@@ -145,10 +146,11 @@ public class AddonMwsMain {
       appPrefs = new AppPreferences( storage );
     }
     aAppContext.set( IAppPreferences.class, appPrefs );
-    // create default prefs bundle
+    // create default preferences bundle
     IPrefBundle defBundle = appPrefs.defineBundle( mwsService.appInfo().id(), OptionSetUtils.createOpSet( //
-        TSID_NAME, STR_N_DEF_APP_PREFS_BUNDLE, //
-        TSID_DESCRIPTION, STR_D_DEF_APP_PREFS_BUNDLE//
+        TSID_NAME, STR_DEF_APP_PREFS_BUNDLE, //
+        TSID_DESCRIPTION, STR_DEF_APP_PREFS_BUNDLE_D, //
+        TSID_ICON_ID, ICONID_TSAPP_WINDOWS_ICON //
     ) );
     aAppContext.set( IPrefBundle.class, defBundle );
   }
