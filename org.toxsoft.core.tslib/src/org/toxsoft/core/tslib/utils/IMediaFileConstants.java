@@ -1,11 +1,9 @@
-package org.toxsoft.core.tsgui.utils;
+package org.toxsoft.core.tslib.utils;
 
 import static org.toxsoft.core.tslib.utils.files.EFsObjKind.*;
 
-import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
-import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.files.*;
 
@@ -283,10 +281,10 @@ public interface IMediaFileConstants {
   }
 
   /**
-   * Prepares string for {@link FileDialog} from base extensions.
+   * Prepares string for <code>FileDialog</code> from base extensions.
    *
    * @param aExtensions {@link IStringList} - file extensions without leading dot
-   * @return String - string for {@link FileDialog}
+   * @return String - string for SWT <code>FileDialog</code>
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   static String prepareForFileDialog( IStringList aExtensions ) {

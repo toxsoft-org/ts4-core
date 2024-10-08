@@ -1,8 +1,8 @@
-package org.toxsoft.core.tsgui.utils;
+package org.toxsoft.core.tslib.utils;
 
-import static org.toxsoft.core.tsgui.utils.ITsResources.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.bricks.strio.impl.StrioUtils.*;
+import static org.toxsoft.core.tslib.utils.ITsResources.*;
 
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 // TODO TRANSLATE
 
 /**
- * Вспомогетельные методы для работы с количеством секунд в виде "ЧЧЧ:ММ:СС"/"МММ:СС".
+ * Helper methods to work with time (number of seconds) representation in forms like "HH:MM:SS".
  * <p>
  * Пояснение насчет обозначении форматов:
  * <ul>
