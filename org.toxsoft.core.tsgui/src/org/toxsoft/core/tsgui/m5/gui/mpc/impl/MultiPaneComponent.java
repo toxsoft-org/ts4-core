@@ -939,7 +939,7 @@ public abstract class MultiPaneComponent<T>
   }
 
   /**
-   * Subclass may create its own implemenation of filter pane {@link IMpcFilterPane}.
+   * Subclass may create its own implementation of filter pane {@link IMpcFilterPane}.
    * <p>
    * In the base class, if at least one M5-field has {@link IM5Constants#M5FF_COLUMN} details hint flag, creates
    * {@link MpcFilterPaneWrapper} instance wrapped over default filter pane created via
