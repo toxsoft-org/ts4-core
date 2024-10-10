@@ -92,7 +92,7 @@ public class VedScreenItemInspector
     btnEdit.setToolTipText( STR_BTN_EDIT_D );
     btnEdit.setImage( iconManager().loadStdIcon( ICONID_DOCUMENT_EDIT, iconSize ) );
     // inspector tree
-    ITsGuiContext ctx = new TsGuiContext( tsContext() );
+    ITsGuiContext ctx = new TsGuiContext( vedScreen.tsContext() );
     ctx.put( IVedScreen.class, vedScreen );
     tinWidget = new TinWidget( ctx );
     tinWidget.createControl( this );
