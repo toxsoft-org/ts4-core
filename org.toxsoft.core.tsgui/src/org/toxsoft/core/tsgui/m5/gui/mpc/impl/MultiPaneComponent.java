@@ -45,7 +45,7 @@ import org.toxsoft.core.tslib.utils.logs.impl.*;
  * @author hazard157
  * @param <T> - displayed M5-modeled entity type
  */
-public class MultiPaneComponent<T>
+public abstract class MultiPaneComponent<T>
     implements IMultiPaneComponent<T> {
 
   /**
@@ -171,6 +171,9 @@ public class MultiPaneComponent<T>
     // CRUD buttons
     if( hasEditActions ) {
       actDefs.add( ACDEF_ADD );
+      if( OPDEF_IS_ADD_COPY_ACTION.getValue( tsContext().params() ).asBool() ) {
+        actDefs.add( ACDEF_ADD_COPY );
+      }
       actDefs.add( ACDEF_EDIT );
       actDefs.add( ACDEF_REMOVE );
     }
@@ -257,6 +260,17 @@ public class MultiPaneComponent<T>
       case ACTID_ADD: {
         if( isEditable() ) {
           T item = doAddItem();
+          if( item != null ) {
+            fillViewer( item );
+            genericChangeEventer.fireChangeEvent();
+          }
+        }
+        break;
+      }
+      case ACTID_ADD_COPY: {
+        if( isEditable() ) {
+          TsInternalErrorRtException.checkNull( sel );
+          T item = doAddCopyItem( sel );
           if( item != null ) {
             fillViewer( item );
             genericChangeEventer.fireChangeEvent();
@@ -417,6 +431,7 @@ public class MultiPaneComponent<T>
       isRemovalAllowed = isRemovalAllowed && doGetIsRemoveAllowed( sel );
     }
     toolbar.setActionEnabled( ACTID_ADD, editable && isCreationAllowed );
+    toolbar.setActionEnabled( ACTID_ADD_COPY, editable && isCreationAllowed && isSel );
     toolbar.setActionEnabled( ACTID_EDIT, editable && isEditingAllowed );
     toolbar.setActionEnabled( ACTID_ADD_COPY, editable && isEditingAllowed );
     toolbar.setActionEnabled( ACTID_REMOVE, editable && isRemovalAllowed );
@@ -1016,6 +1031,22 @@ public class MultiPaneComponent<T>
    */
   protected T doAddItem() {
     throw new TsUnsupportedFeatureRtException( MSG_ERR_NO_ADD_ITEM_CODE );
+  }
+
+  /**
+   * Subclass must (if allowed) implement new template-based item addition to the collection.
+   * <p>
+   * Common usage is to prepare {@link IM5BunchEdit} initial values based on template <code>aSrcItem</code> and then
+   * invoke item creation dialog like in {@link #doAddItem()}.
+   * <p>
+   * Throws exceptions in the base class; when overridden, it is not allowed to call the parent method.
+   *
+   * @param aSrcItem &lt;T&gt; - the item used as template for new item creation
+   * @return &lt;T&gt; - created and/or added item or <code>null</code> if no item was added
+   * @throws TsUnsupportedFeatureRtException in base class
+   */
+  protected T doAddCopyItem( T aSrcItem ) {
+    throw new TsUnsupportedFeatureRtException( MSG_ERR_NO_ADD_COPY_ITEM_CODE );
   }
 
   // TODO TRANSLATE

@@ -60,6 +60,9 @@ public interface IMultiPaneComponentConstants {
   IDataDef OPDEF_IS_ACTIONS_CRUD = bdd( "IsActionsCrud", false, //$NON-NLS-1$
       STR_N_IS_, STR_D_IS_ );
 
+  IDataDef OPDEF_IS_ADD_COPY_ACTION = bdd( "IsAddCopyAction", true, //$NON-NLS-1$
+      STR_N_IS_, STR_D_IS_ );
+
   IDataDef OPDEF_IS_ACTIONS_MAKE_COPY = bdd( "IsActionsMakeCopy", false, //$NON-NLS-1$
       STR_N_IS_, STR_D_IS_ );
 

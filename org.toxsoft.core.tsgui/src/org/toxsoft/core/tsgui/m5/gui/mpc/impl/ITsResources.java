@@ -16,9 +16,10 @@ interface ITsResources {
   /**
    * {@link MultiPaneComponent}
    */
-  String MSG_ERR_NO_ADD_ITEM_CODE    = Messages.getString( "MSG_ERR_NO_ADD_ITEM_CODE" );    //$NON-NLS-1$
-  String MSG_ERR_NO_EDIT_ITEM_CODE   = Messages.getString( "MSG_ERR_NO_EDIT_ITEM_CODE" );   //$NON-NLS-1$
-  String MSG_ERR_NO_REMOVE_ITEM_CODE = Messages.getString( "MSG_ERR_NO_REMOVE_ITEM_CODE" ); //$NON-NLS-1$
+  String MSG_ERR_NO_ADD_ITEM_CODE      = Messages.getString( "MSG_ERR_NO_ADD_ITEM_CODE" );      //$NON-NLS-1$
+  String MSG_ERR_NO_ADD_COPY_ITEM_CODE = Messages.getString( "MSG_ERR_NO_ADD_COPY_ITEM_CODE" ); //$NON-NLS-1$
+  String MSG_ERR_NO_EDIT_ITEM_CODE     = Messages.getString( "MSG_ERR_NO_EDIT_ITEM_CODE" );     //$NON-NLS-1$
+  String MSG_ERR_NO_REMOVE_ITEM_CODE   = Messages.getString( "MSG_ERR_NO_REMOVE_ITEM_CODE" );   //$NON-NLS-1$
 
   /**
    * {@link MpcSummaryPaneMessage}

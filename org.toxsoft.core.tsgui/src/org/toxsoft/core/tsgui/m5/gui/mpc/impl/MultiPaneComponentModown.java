@@ -10,6 +10,7 @@ import org.toxsoft.core.tsgui.m5.gui.mpc.*;
 import org.toxsoft.core.tsgui.m5.gui.viewers.*;
 import org.toxsoft.core.tsgui.m5.gui.viewers.impl.*;
 import org.toxsoft.core.tsgui.m5.model.*;
+import org.toxsoft.core.tsgui.m5.model.impl.*;
 import org.toxsoft.core.tsgui.panels.lazy.*;
 import org.toxsoft.core.tslib.coll.helpers.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -112,6 +113,16 @@ public class MultiPaneComponentModown<T>
   }
 
   @Override
+  protected T doAddCopyItem( T aSrcItem ) {
+    ITsDialogInfo cdi = doCreateDialogInfoToAddItem();
+    IM5LifecycleManager<T> lm = getNonNullLM();
+    IM5BunchEdit<T> initVals = new M5BunchEdit<>( model() );
+    initVals.fillFrom( aSrcItem, false ); // leave originalEntity = null
+    doAdjustEntityCreationInitialValues( initVals );
+    return M5GuiUtils.askCreate( tsContext(), model(), initVals, cdi, lm );
+  }
+
+  @Override
   protected T doEditItem( T aItem ) {
     ITsDialogInfo cdi = doCreateDialogInfoToEditItem( aItem );
     return M5GuiUtils.askEdit( tsContext(), model(), aItem, cdi, getNonNullLM() );
@@ -170,6 +181,20 @@ public class MultiPaneComponentModown<T>
    * @return {@link ITsDialogInfo} - editing dialog window parameters
    */
   protected ITsDialogInfo doCreateDialogInfoToAddItem() {
+    return TsDialogInfo.forCreateEntity( tsContext() );
+  }
+
+  /**
+   * Subclass may set own parameters for adding item copy dialog {@link M5GuiUtils}<code>.askCreate()</code>.
+   * <p>
+   * In base class returns {@link TsDialogInfo#forCreateEntity(ITsGuiContext)}, there is no need to call parent method
+   * when overriding.
+   * <p>
+   * Note: method is called from {@link #doAddCopyItem(Object)}.
+   *
+   * @return {@link ITsDialogInfo} - editing dialog window parameters
+   */
+  protected ITsDialogInfo doCreateDialogInfoToAddCopyItem() {
     return TsDialogInfo.forCreateEntity( tsContext() );
   }
 

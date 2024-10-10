@@ -53,6 +53,7 @@ public class MultiPaneComponentLookup<T>
     ITsGuiContext ctx = new TsGuiContext( aContext );
     OPDEF_IS_ACTIONS_CRUD.setValue( ctx.params(), AvUtils.avBool( aEditor ) );
     OPDEF_IS_FILTER_PANE.setValue( ctx.params(), AvUtils.AV_TRUE );
+    OPDEF_IS_ADD_COPY_ACTION.setValue( ctx.params(), AvUtils.AV_FALSE ); // no ADD_COPY for lookup provider
     return ctx;
   }
 
@@ -85,6 +86,15 @@ public class MultiPaneComponentLookup<T>
       containedItemsProvider.items().add( item );
     }
     return item;
+  }
+
+  @Override
+  protected T doAddCopyItem( T aSrcItem ) {
+    /**
+     * Note: ADD_COPY has no sense for lookup editing, so it is disable above #makeContext().<br>
+     * Normally this method is not called, calling superclass method will throw an exception.
+     */
+    return super.doAddCopyItem( aSrcItem );
   }
 
   @Override
