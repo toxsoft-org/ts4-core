@@ -634,7 +634,7 @@ public class TsFileUtils {
   }
 
   /**
-   * Recursively finds files matching the specified filter.
+   * Recursively finds files (not directories) matching the specified filter.
    * <p>
    * The filter applies only to files.
    * <p>
@@ -653,6 +653,51 @@ public class TsFileUtils {
     try {
       Files.walkFileTree( aDir.toPath(), EnumSet.of( FileVisitOption.FOLLOW_LINKS ), Integer.MAX_VALUE,
           new SimpleFileVisitor<Path>() {
+
+            @Override
+            public FileVisitResult visitFile( Path file, BasicFileAttributes attrs )
+                throws IOException {
+              File f = file.toFile();
+              if( aFileFilter.accept( f ) ) {
+                aList.add( f );
+              }
+              return FileVisitResult.CONTINUE;
+            }
+
+          } );
+    }
+    catch( Exception ex ) {
+      throw new TsIoRtException( ex );
+    }
+  }
+
+  /**
+   * Recursively finds files add directories matching the specified filter.
+   * <p>
+   * The filter applies only to files.
+   * <p>
+   * If specified root is not a readable directory then method does nothing,
+   *
+   * @param aDir {@link File} - the root directory of the subtree to search
+   * @param aFileFilter {@link TsFileFilter} - the files filter
+   * @param aList {@link ITsCollectionEdit}&lt;{@link File}&gt; - the editable list where founds files are added
+   * @throws TsNullArgumentRtException aDir = null
+   */
+  public static void collectAllInSubtree( File aDir, FileFilter aFileFilter, ITsCollectionEdit<File> aList ) {
+    TsNullArgumentRtException.checkNulls( aDir, aFileFilter, aList );
+    if( !TsFileUtils.isDirReadable( aDir ) ) {
+      return;
+    }
+    try {
+      Files.walkFileTree( aDir.toPath(), EnumSet.of( FileVisitOption.FOLLOW_LINKS ), Integer.MAX_VALUE,
+          new SimpleFileVisitor<Path>() {
+
+            @Override
+            public FileVisitResult preVisitDirectory( Path dir, BasicFileAttributes attrs )
+                throws IOException {
+              aList.add( dir.toFile() );
+              return FileVisitResult.CONTINUE;
+            }
 
             @Override
             public FileVisitResult visitFile( Path file, BasicFileAttributes attrs )
