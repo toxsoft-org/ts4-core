@@ -64,6 +64,8 @@ interface ITsResources {
   String STR_BTN_WORKING_D  = "Кнопка ожидает завершения инициированной ей операции";
   String STR_BTN_DISABLED   = "Недоступна";
   String STR_BTN_DISABLED_D = "Функциональность кнопки заблокирована";
+  String STR_BTN_SELECTED   = "Выделена";
+  String STR_BTN_SELECTED_D = "Западающая кнопка выделена - запала";
 
   /**
    * {@link ViselButton}

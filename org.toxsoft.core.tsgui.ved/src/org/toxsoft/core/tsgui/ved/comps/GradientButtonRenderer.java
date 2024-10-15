@@ -22,6 +22,10 @@ public class GradientButtonRenderer
 
   TsFillInfo pressedFillInfo = null;
 
+  TsFillInfo hoveredFillInfo = null;
+
+  TsFillInfo selectedFillInfo = null;
+
   TsFillInfo disableFillInfo = new TsFillInfo( new RGBA( 164, 164, 164, 255 ) );
 
   protected GradientButtonRenderer( ViselButton aButton ) {
@@ -55,9 +59,22 @@ public class GradientButtonRenderer
     fractions = new ElemArrayList<>();
     fractions.add( p1 );
     fractions.add( p2 );
-
     lgi = new LinearGradientInfo( fractions, 90 );
     pressedFillInfo = new TsFillInfo( new TsGradientFillInfo( lgi ) );
+
+    rgb = GradientUtils.tuneBrightness( selRgba.rgb, 0.2 );
+    sc = new RGBA( rgb.red, rgb.green, rgb.blue, 255 );
+    rgb = GradientUtils.tuneBrightness( selRgba.rgb, -0.2 );
+    ec = new RGBA( rgb.red, rgb.green, rgb.blue, 255 );
+    p1 = new Pair<>( Double.valueOf( 0 ), ec );
+    p2 = new Pair<>( Double.valueOf( 100 ), sc );
+    fractions = new ElemArrayList<>();
+    fractions.add( p1 );
+    fractions.add( p2 );
+    lgi = new LinearGradientInfo( fractions, 90 );
+    selectedFillInfo = new TsFillInfo( new TsGradientFillInfo( lgi ) );
+
+    hoveredFillInfo = new TsFillInfo( hvRgba );
   }
 
   @Override
@@ -71,6 +88,12 @@ public class GradientButtonRenderer
       fi = disableFillInfo;
     }
     else {
+      if( hovered ) {
+        fi = hoveredFillInfo;
+      }
+      if( state == EButtonViselState.SELECTED ) {
+        fi = selectedFillInfo;
+      }
       if( state == EButtonViselState.PRESSED ) {
         fi = pressedFillInfo;
       }

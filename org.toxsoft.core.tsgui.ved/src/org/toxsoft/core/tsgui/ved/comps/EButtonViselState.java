@@ -24,7 +24,9 @@ public enum EButtonViselState
 
   WORKING( "working", STR_BTN_WORKING, STR_BTN_WORKING_D ), //$NON-NLS-1$
 
-  DISABLED( "disabled", STR_BTN_DISABLED, STR_BTN_DISABLED_D ); //$NON-NLS-1$
+  DISABLED( "disabled", STR_BTN_DISABLED, STR_BTN_DISABLED_D ), //$NON-NLS-1$
+
+  SELECTED( "selected", STR_BTN_SELECTED, STR_BTN_SELECTED_D ); //$NON-NLS-1$
 
   /**
    * The registered keeper ID.

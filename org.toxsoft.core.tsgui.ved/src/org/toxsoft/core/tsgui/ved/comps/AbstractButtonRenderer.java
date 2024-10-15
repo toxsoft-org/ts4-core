@@ -26,7 +26,13 @@ public abstract class AbstractButtonRenderer
 
   protected RGBA fgRgba = new RGBA( 0, 0, 0, 255 );
 
+  protected RGBA hvRgba = new RGBA( 0, 0, 0, 255 );
+
+  protected RGBA selRgba = new RGBA( 0, 0, 0, 255 );
+
   protected TsLineInfo lineInfo = TsLineInfo.ofWidth( 1 );
+
+  protected boolean hovered = false;
 
   protected AbstractButtonRenderer( IViselButton aButton ) {
     button = aButton;
@@ -56,7 +62,13 @@ public abstract class AbstractButtonRenderer
     font = fontManager().getFont( button.props().getValobj( PROPID_FONT ) );
     bkRgba = button.props().getValobj( PROPID_BK_COLOR );
     fgRgba = button.props().getValobj( PROPID_FG_COLOR );
-
+    if( button.props().hasKey( PROPID_HOVERED_BK_COLOR ) ) {
+      hvRgba = button.props().getValobj( PROPID_HOVERED_BK_COLOR );
+    }
+    if( button.props().hasKey( PROPID_SELECTED_BK_COLOR ) ) {
+      selRgba = button.props().getValobj( PROPID_SELECTED_BK_COLOR );
+    }
+    hovered = button.props().getBool( PROPID_HOVERED );
     updateSwtRect();
     doUpdate();
   }
