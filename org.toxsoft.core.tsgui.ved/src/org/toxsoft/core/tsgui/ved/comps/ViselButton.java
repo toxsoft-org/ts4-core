@@ -87,6 +87,8 @@ public class ViselButton
       VedItemCfg cfg = new VedItemCfg( id(), kind(), id(), IOptionSet.NULL );
       OptionSetUtils.initOptionSet( cfg.propValues(), propDefs() );
       cfg.propValues().setDouble( PROPID_HEIGHT, 32.0 );
+      cfg.propValues().setValobj( PROPID_HOVERED_BK_COLOR, new RGBA( 229, 241, 251, 255 ) );
+      cfg.propValues().setValobj( PROPID_SELECTED_BK_COLOR, new RGBA( 127, 199, 243, 255 ) );
       IVedItemsPaletteEntry pent = new VedItemPaletteEntry( id(), params(), cfg );
       return new StridablesList<>( pent );
     }
@@ -105,6 +107,10 @@ public class ViselButton
       fields.add( TFI_FULCRUM );
       fields.add( TFI_FG_COLOR );
       fields.add( TFI_BK_COLOR );
+      fields.add( new TinFieldInfo( PROPID_HOVERED_BK_COLOR, TFI_BK_COLOR.typeInfo(), //
+          TSID_NAME, "Фон подсветки" ) );
+      fields.add( new TinFieldInfo( PROPID_SELECTED_BK_COLOR, TFI_BK_COLOR.typeInfo(), //
+          TSID_NAME, "Фон выделения" ) );
       fields.add( TFI_STATE );
       fields.add( TFI_HOVERED );
       fields.add( TFI_ZOOM );

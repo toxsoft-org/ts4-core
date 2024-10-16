@@ -144,22 +144,24 @@ public interface IVedScreenConstants {
   // Optional VISEL properties
   //
 
-  String PROPID_TEXT             = "text";            //$NON-NLS-1$
-  String PROPID_FONT             = "font";            //$NON-NLS-1$
-  String PROPID_HOR_ALIGNMENT    = "horAlign";        //$NON-NLS-1$
-  String PROPID_VER_ALIGNMENT    = "verAlign";        //$NON-NLS-1$
-  String PROPID_BK_COLOR         = "bkColor";         //$NON-NLS-1$
-  String PROPID_FG_COLOR         = "fgColor";         //$NON-NLS-1$
-  String PROPID_BK_FILL          = "bkFill";          //$NON-NLS-1$
-  String PROPID_LINE_INFO        = "lineInfo";        //$NON-NLS-1$
-  String PROPID_BORDER_INFO      = "borderInfo";      //$NON-NLS-1$
-  String PROPID_IS_ASPECT_FIXED  = "isAspectFixed";   //$NON-NLS-1$
-  String PROPID_ASPECT_RATIO     = "aspectRatio";     //$NON-NLS-1$
-  String PROPID_RADIUS           = "radius";          //$NON-NLS-1$
-  String PROPID_ON_OFF_STATE     = "onOffState";      //$NON-NLS-1$
-  String PROPID_CARET_POS        = "caretPos";        //$NON-NLS-1$
-  String PROPID_IMAGE_DESCRIPTOR = "imageDescriptor"; //$NON-NLS-1$
-  String PROPID_TRANSFORM        = "transform";       //$NON-NLS-1$
+  String PROPID_TEXT              = "text";            //$NON-NLS-1$
+  String PROPID_FONT              = "font";            //$NON-NLS-1$
+  String PROPID_HOR_ALIGNMENT     = "horAlign";        //$NON-NLS-1$
+  String PROPID_VER_ALIGNMENT     = "verAlign";        //$NON-NLS-1$
+  String PROPID_BK_COLOR          = "bkColor";         //$NON-NLS-1$
+  String PROPID_HOVERED_BK_COLOR  = "hoveredBkColor";  //$NON-NLS-1$
+  String PROPID_SELECTED_BK_COLOR = "delectedBkColor"; //$NON-NLS-1$
+  String PROPID_FG_COLOR          = "fgColor";         //$NON-NLS-1$
+  String PROPID_BK_FILL           = "bkFill";          //$NON-NLS-1$
+  String PROPID_LINE_INFO         = "lineInfo";        //$NON-NLS-1$
+  String PROPID_BORDER_INFO       = "borderInfo";      //$NON-NLS-1$
+  String PROPID_IS_ASPECT_FIXED   = "isAspectFixed";   //$NON-NLS-1$
+  String PROPID_ASPECT_RATIO      = "aspectRatio";     //$NON-NLS-1$
+  String PROPID_RADIUS            = "radius";          //$NON-NLS-1$
+  String PROPID_ON_OFF_STATE      = "onOffState";      //$NON-NLS-1$
+  String PROPID_CARET_POS         = "caretPos";        //$NON-NLS-1$
+  String PROPID_IMAGE_DESCRIPTOR  = "imageDescriptor"; //$NON-NLS-1$
+  String PROPID_TRANSFORM         = "transform";       //$NON-NLS-1$
 
   String PROPID_LEFT_INDENT   = "leftIndent";   //$NON-NLS-1$
   String PROPID_TOP_INDENT    = "topIndent";    //$NON-NLS-1$

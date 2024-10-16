@@ -20,6 +20,8 @@ public class Main {
    * <code>
    * diff --git a/ru.uskat.s5.server.histdata10/src/ru/uskat/s5/server/backend/supports/histdata/sequences/sync/IS5Resources.java b/ru.uskat.s5.server.histdata10/src/ru/uskat/s5/server/backend/supports/histdata/sequences/sync/IS5Resources.java
    * </code>
+   * <p>
+   * 13:00
    */
   private static final String DIFF_AFTER_TOKEN = "diff --git a"; //$NON-NLS-1$
 
