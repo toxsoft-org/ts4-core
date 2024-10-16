@@ -6,6 +6,7 @@ import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
+import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.tin.*;
 import org.toxsoft.core.tsgui.bricks.tin.impl.*;
 import org.toxsoft.core.tsgui.graphics.gc.*;
@@ -75,7 +76,7 @@ public class ViselImage
 
   };
 
-  private TsImage image = null;
+  private final TsImageAnimator iman = new TsImageAnimator();
 
   /**
    * Constructor.
@@ -89,6 +90,7 @@ public class ViselImage
   public ViselImage( IVedItemCfg aConfig, IStridablesList<IDataDef> aPropDefs, VedScreen aVedScreen ) {
     super( aConfig, aPropDefs, aVedScreen );
     addInterceptor( VedViselInterceptorAspectRatio.INSTANCE );
+    iman.setCallback( ( aSource, aFrame ) -> vedScreen().view().redrawVisel( id() ) );
   }
 
   // ------------------------------------------------------------------------------------
@@ -97,9 +99,9 @@ public class ViselImage
 
   @Override
   public void paint( ITsGraphicsContext aPaintContext ) {
-    if( image != null ) {
-      aPaintContext.gc().drawImage( image.image(), //
-          0, 0, image.imageSize().x(), image.imageSize().y(), //
+    if( iman.currentFrame() != null ) {
+      aPaintContext.gc().drawImage( iman.currentFrame(), //
+          0, 0, iman.getImage().imageSize().x(), iman.getImage().imageSize().y(), //
           0, 0, (int)bounds().width(), (int)bounds().height() //
       );
     }
@@ -121,12 +123,18 @@ public class ViselImage
   protected void doUpdateCachesAfterPropsChange( IOptionSet aChangedValue ) {
     super.doUpdateCachesAfterPropsChange( aChangedValue );
     TsImageDescriptor imd = props().getValobj( PROPID_IMAGE_DESCRIPTOR );
-    image = imageManager().getImage( imd );
+    iman.setImage( imageManager().getImage( imd ) );
   }
 
   @Override
   public boolean isYours( double aX, double aY ) {
     return super.isYours( aX, aY );
+  }
+
+  @Override
+  protected boolean doProcessRealTimePassed( long aRtTime ) {
+    iman.whenRealTimePassed( aRtTime );
+    return false; // VISEL will be redrawn by #iman callback
   }
 
 }

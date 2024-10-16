@@ -274,8 +274,8 @@ public abstract class VedAbstractVisel
    * <p>
    * This method is called by the screen at the {@link ITsGuiTimersService#getQuickTimerPeriod()} interval.
    * <p>
-   * VISEL can not and must not redraw itself event for animation needs. Instead VISEL informs container (the VED
-   * screen) it needs to be redrawn by returning <code>true</code>.
+   * VISEL can not and must not redraw itself even for animation needs. Instead VISEL informs container (the VED screen)
+   * it needs to be redrawn by returning <code>true</code>.
    * <p>
    * Method in base class returns <code>false</code>, no need to call parent method when overriding.
    *
