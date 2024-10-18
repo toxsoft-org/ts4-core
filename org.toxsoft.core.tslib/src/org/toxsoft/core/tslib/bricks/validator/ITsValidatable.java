@@ -1,6 +1,6 @@
 package org.toxsoft.core.tslib.bricks.validator;
 
-import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.vrl.*;
 
 /**
  * A mix-in interface of the entity with content that supports validation.
@@ -23,10 +23,10 @@ public interface ITsValidatable {
    * <p>
    * Default implementation adds single result returned by {@link #validate()}.
    *
-   * @param aVrl {@link ValResList} - the list to add the result to
-   * @return {@link ValResList} - the argument
+   * @param aVrl {@link IVrListEdit} - the list to add the result to
+   * @return {@link IVrListEdit} - the argument
    */
-  default ValResList validateEx( ValResList aVrl ) {
+  default IVrListEdit validateEx( IVrListEdit aVrl ) {
     aVrl.add( validate() );
     return aVrl;
   }

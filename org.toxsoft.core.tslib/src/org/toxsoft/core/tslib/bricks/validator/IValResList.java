@@ -1,6 +1,7 @@
 package org.toxsoft.core.tslib.bricks.validator;
 
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.vrl.*;
 import org.toxsoft.core.tslib.coll.*;
 
 /**
@@ -9,7 +10,9 @@ import org.toxsoft.core.tslib.coll.*;
  * This is part of the "read-only-interface/mutable class" pattern part. Class {@link ValResList} has mutation methods.
  *
  * @author hazard157
+ * @deprecated use {@link IVrList} instead
  */
+@Deprecated
 public interface IValResList {
 
   /**

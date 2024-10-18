@@ -3,6 +3,7 @@ package org.toxsoft.core.tslib.bricks.validator.impl;
 import java.io.*;
 
 import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.vrl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.coll.impl.*;
@@ -12,7 +13,9 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * An {@link IValResList} implementation.
  *
  * @author hazard157
+ * @deprecated use {@link IVrListEdit} or {@link VrList} instead
  */
+@Deprecated
 public class ValResList
     implements IValResList, ITsClearable, Serializable {
 

@@ -16,6 +16,7 @@ import org.toxsoft.core.tslib.bricks.strio.chario.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.impl.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.vrl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.*;
@@ -127,6 +128,21 @@ public class OptionSetUtils {
   /**
    * Check option set against list of option definitions.
    * <p>
+   * The checks are performed as in {@link #validateOptionSet(IOptionSet, IStridablesList, IVrListEdit)}.
+   *
+   * @param aOpValues {@link IOptionSet} - option values
+   * @param aOpDefs {@link IStridablesList}&lt;{@link IDataDef}&gt; - options definitions
+   * @return {@link ValidationResult} - the check result
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static ValidationResult validateOptionSet( IOptionSet aOpValues, IStridablesList<IDataDef> aOpDefs ) {
+    TsNullArgumentRtException.checkNulls( aOpValues, aOpDefs );
+    return validateOptionSet( aOpValues, aOpDefs, null ).getFirstWorst().vr();
+  }
+
+  /**
+   * Check option set against list of option definitions and fills <code>aVrl</code> with results.
+   * <p>
    * The check includes the following steps:
    * <ul>
    * <li>check all mandatory {@link IDataDef#isMandatory()} options from <code>aOpDefs</code> has corresponding values
@@ -137,34 +153,32 @@ public class OptionSetUtils {
    * Options in <code>aOpValues</code> without corresponding definitions in <code>aOpDefs</code> are not checked.
    *
    * @param aOpValues {@link IOptionSet} - option values
-   * @param aOpDefs {@link IStridablesList}&lt;{@link IDataDef}&gt; - optiondefinitions
-   * @return {@link ValidationResult} - the check result
+   * @param aOpDefs {@link IStridablesList}&lt;{@link IDataDef}&gt; - options definitions
+   * @param aVrl {@link IVrListEdit} - editable results list or <code>null</code> to create new instance
+   * @return {@link IVrListEdit} - either non-<code>null</code> argument <code>aVrl</code> or new instance
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public static ValidationResult validateOptionSet( IOptionSet aOpValues, IStridablesList<IDataDef> aOpDefs ) {
+  public static IVrListEdit validateOptionSet( IOptionSet aOpValues, IStridablesList<IDataDef> aOpDefs,
+      IVrListEdit aVrl ) {
     TsNullArgumentRtException.checkNulls( aOpValues, aOpDefs );
+    IVrListEdit vrl = aVrl != null ? aVrl : new VrList();
     // first check mandatory option present
     for( IDataDef dd : aOpDefs ) {
       if( dd.isMandatory() && !aOpValues.hasKey( dd.id() ) ) {
-        return ValidationResult.error( FMT_ERR_NO_MANDATORY_OP, dd.id(), dd.nmName() );
+        vrl.error( FMT_ERR_NO_MANDATORY_OP, dd.id(), dd.nmName() );
       }
     }
     // check option values against defined types and with individual validators
-    ValidationResult vr = ValidationResult.SUCCESS;
     for( IDataDef dd : aOpDefs ) {
       if( aOpValues.hasKey( dd.id() ) ) {
         IAtomicValue opVal = aOpValues.getValue( dd.id() );
         if( !AvTypeCastRtException.canAssign( dd.atomicType(), opVal.atomicType() ) ) {
-          return ValidationResult.error( FMT_ERR_OP_TYPE_MISMATCH, dd.id(), dd.atomicType().id(),
-              opVal.atomicType().id() );
+          vrl.error( FMT_ERR_OP_TYPE_MISMATCH, dd.id(), dd.atomicType().id(), opVal.atomicType().id() );
         }
-        vr = ValidationResult.firstNonOk( vr, dd.validator().validate( opVal ) );
-        if( vr.isError() ) {
-          break;
-        }
+        vrl.add( dd.validator().validate( opVal ) );
       }
     }
-    return vr;
+    return vrl;
   }
 
   /**
