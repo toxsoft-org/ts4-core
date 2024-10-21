@@ -8,17 +8,10 @@ package org.toxsoft.core.tslib.bricks.strid.more;
 @SuppressWarnings( "nls" )
 interface ITsResources {
 
-  /**
-   * {@link IdChainUtils}
-   */
-  String FMT_ERR_EMPTY_CANOSTR             = "Canonical string '%s' must have at least on IDpath in chain";
-  String FMT_ERR_INV_NTH_IDPATH_IN_CANOSTR = "Branch No %d of canonical string '%s' is not an IDpath";
-
-  /**
-   * {@link StridablesRegisrty}
-   */
-  String FMT_ERR_ITEM_ID_ALREAY_REGISTERED  = "Item with identifier '%s' is already regitered";
-  String FMT_ERR_CANT_UNREG_BUILTIN_ITEM    = "Builtin item '%s' can not be unregistered";
-  String FMT_ERR_CANT_UNREG_UNEXISTING_ITEM = "Can not unregister item '%s' - it was not registered";
+  String FMT_ERR_EMPTY_CANOSTR              = Messages.getString( "FMT_ERR_EMPTY_CANOSTR" );              //$NON-NLS-1$
+  String FMT_ERR_INV_NTH_IDPATH_IN_CANOSTR  = Messages.getString( "FMT_ERR_INV_NTH_IDPATH_IN_CANOSTR" );  //$NON-NLS-1$
+  String FMT_ERR_ITEM_ID_ALREAY_REGISTERED  = Messages.getString( "FMT_ERR_ITEM_ID_ALREAY_REGISTERED" );  //$NON-NLS-1$
+  String FMT_ERR_CANT_UNREG_BUILTIN_ITEM    = Messages.getString( "FMT_ERR_CANT_UNREG_BUILTIN_ITEM" );    //$NON-NLS-1$
+  String FMT_ERR_CANT_UNREG_UNEXISTING_ITEM = Messages.getString( "FMT_ERR_CANT_UNREG_UNEXISTING_ITEM" ); //$NON-NLS-1$
 
 }

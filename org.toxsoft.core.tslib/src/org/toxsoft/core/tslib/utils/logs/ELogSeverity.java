@@ -22,22 +22,22 @@ public enum ELogSeverity
   /**
    * Debug - Message for developers must not be present in final code.
    */
-  DEBUG( "DEBUG", STR_N_LOG_SEVERITY_DEBUG, STR_D_LOG_SEVERITY_DEBUG ), //$NON-NLS-1$
+  DEBUG( "DEBUG", STR_LOG_SEVERITY_DEBUG, STR_LOG_SEVERITY_DEBUG_D ), //$NON-NLS-1$
 
   /**
    * Info - information about program execution.
    */
-  INFO( "INFO", STR_N_LOG_SEVERITY_INFO, STR_D_LOG_SEVERITY_INFO ), //$NON-NLS-1$
+  INFO( "INFO", STR_LOG_SEVERITY_INFO, STR_LOG_SEVERITY_INFO_D ), //$NON-NLS-1$
 
   /**
    * Warning - A recoverable problem occured, note that it may lead to errors.
    */
-  WARNING( "WARNING", STR_N_LOG_SEVERITY_WARNING, STR_D_LOG_SEVERITY_WARNING ), //$NON-NLS-1$
+  WARNING( "WARNING", STR_LOG_SEVERITY_WARNING, STR_LOG_SEVERITY_WARNING_D ), //$NON-NLS-1$
 
   /**
    * Error - Error occured, program may not work partially or crash completely.
    */
-  ERROR( "ERROR", STR_N_LOG_SEVERITY_ERROR, STR_D_LOG_SEVERITY_ERROR ); //$NON-NLS-1$
+  ERROR( "ERROR", STR_LOG_SEVERITY_ERROR, STR_LOG_SEVERITY_ERROR_D ); //$NON-NLS-1$
 
   /**
    * Registered keepr ID.

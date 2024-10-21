@@ -8,14 +8,7 @@ package org.toxsoft.core.tslib.av.validators;
 @SuppressWarnings( "nls" )
 interface ITsResources {
 
-  /**
-   * {@link AbstractAvValidator}.
-   */
-  String FMT_ERR_VALUE_WRONG_AT = "Вместо %s обнаружен тип %s у значения '%s'";
-
-  /**
-   * {@link NameStringAvValidator}
-   */
-  String MSG_WARN_NULL_AV_NAME = "Имя (название) не задано (имеет значение IAtomicValue.NULL)";
+  String FMT_ERR_VALUE_WRONG_AT = Messages.getString( "FMT_ERR_VALUE_WRONG_AT" ); //$NON-NLS-1$
+  String MSG_WARN_NULL_AV_NAME  = Messages.getString( "MSG_WARN_NULL_AV_NAME" );  //$NON-NLS-1$
 
 }

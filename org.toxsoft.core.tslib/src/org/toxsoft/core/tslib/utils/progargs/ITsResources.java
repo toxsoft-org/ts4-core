@@ -8,9 +8,6 @@ package org.toxsoft.core.tslib.utils.progargs;
 @SuppressWarnings( "nls" )
 interface ITsResources {
 
-  /**
-   * {@link ProgramArgs}.
-   */
-  String MSG_ERR_INVALID_COMMAND_LINE = "Invalid command line";
+  String MSG_ERR_INVALID_COMMAND_LINE = Messages.getString( "MSG_ERR_INVALID_COMMAND_LINE" ); //$NON-NLS-1$
 
 }

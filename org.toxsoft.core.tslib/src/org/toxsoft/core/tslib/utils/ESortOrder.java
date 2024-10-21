@@ -21,17 +21,17 @@ public enum ESortOrder
   /**
    * No sorting.
    */
-  NONE( "None", STR_N_SORT_NONE, STR_D_SORT_NONE ), //$NON-NLS-1$
+  NONE( "None", STR_SORT_NONE, STR_SORT_NONE_D ), //$NON-NLS-1$
 
   /**
    * Ascending.
    */
-  ASCENDING( "Ascending", STR_N_SORT_ASCENDING, STR_D_SORT_ASCENDING ), //$NON-NLS-1$
+  ASCENDING( "Ascending", STR_SORT_ASCENDING, STR_SORT_ASCENDING_D ), //$NON-NLS-1$
 
   /**
    * Descending.
    */
-  DESCENDING( "Descending", STR_N_SORT_DESCENDING, STR_D_SORT_DESCENDING ), //$NON-NLS-1$
+  DESCENDING( "Descending", STR_SORT_DESCENDING, STR_SORT_DESCENDING_D ), //$NON-NLS-1$
 
   ;
 

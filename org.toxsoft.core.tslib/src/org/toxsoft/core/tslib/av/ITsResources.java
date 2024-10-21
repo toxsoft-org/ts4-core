@@ -11,19 +11,19 @@ interface ITsResources {
   /**
    * {@link EAtomicType}
    */
-  String STR_AT_NONE        = "Any";
-  String STR_AT_NONE_D      = "Any, maybe yet unknown type";
-  String STR_AT_BOOL        = "Boolean";
-  String STR_AT_BOOL_D      = "Boolean type";
-  String STR_AT_INTEGER     = "Integer";
-  String STR_AT_INTEGER_D   = "Integer (countable) number";
-  String STR_AT_FLOATING    = "Real";
-  String STR_AT_FLOATING_D  = "A floating point number";
-  String STR_AT_STRING      = "String";
-  String STR_AT_STRING_D    = "textual representation";
-  String STR_AT_TIMESTAMP   = "Time";
-  String STR_AT_TIMESTAMP_D = "Time stamp";
-  String STR_AT_VALOBJ      = "Value-object";
-  String STR_AT_VALOBJ_D    = "Embedded value object";
+  String STR_AT_NONE        = Messages.getString( "STR_AT_NONE" );        //$NON-NLS-1$
+  String STR_AT_NONE_D      = Messages.getString( "STR_AT_NONE_D" );      //$NON-NLS-1$
+  String STR_AT_BOOL        = Messages.getString( "STR_AT_BOOL" );        //$NON-NLS-1$
+  String STR_AT_BOOL_D      = Messages.getString( "STR_AT_BOOL_D" );      //$NON-NLS-1$
+  String STR_AT_INTEGER     = Messages.getString( "STR_AT_INTEGER" );     //$NON-NLS-1$
+  String STR_AT_INTEGER_D   = Messages.getString( "STR_AT_INTEGER_D" );   //$NON-NLS-1$
+  String STR_AT_FLOATING    = Messages.getString( "STR_AT_FLOATING" );    //$NON-NLS-1$
+  String STR_AT_FLOATING_D  = Messages.getString( "STR_AT_FLOATING_D" );  //$NON-NLS-1$
+  String STR_AT_STRING      = Messages.getString( "STR_AT_STRING" );      //$NON-NLS-1$
+  String STR_AT_STRING_D    = Messages.getString( "STR_AT_STRING_D" );    //$NON-NLS-1$
+  String STR_AT_TIMESTAMP   = Messages.getString( "STR_AT_TIMESTAMP" );   //$NON-NLS-1$
+  String STR_AT_TIMESTAMP_D = Messages.getString( "STR_AT_TIMESTAMP_D" ); //$NON-NLS-1$
+  String STR_AT_VALOBJ      = Messages.getString( "STR_AT_VALOBJ" );      //$NON-NLS-1$
+  String STR_AT_VALOBJ_D    = Messages.getString( "STR_AT_VALOBJ_D" );    //$NON-NLS-1$
 
 }

@@ -8,32 +8,17 @@ package org.toxsoft.core.tslib.bricks.validator.std;
 @SuppressWarnings( "nls" )
 interface ITsResources {
 
-  /**
-   * {@link EmptyStringValidator}
-   */
-  String MSG_STRING_VALUE_IS_EMPTY = "Значение - пустая строка";
-
-  /**
-   * {@link FileObjectValidator}
-   */
-  String FMT_ERR_NOT_A_FILE          = "Объект %s не является файлом";
-  String FMT_ERR_NOT_A_DIR           = "Объект %s не является директорией";
-  String FMT_ERR_NON_EXSISTANT_FILE  = "Файл %s не существует";
-  String FMT_WARN_NON_EXSISTANT_FILE = "Должен существовать файл %s";
-  String FMT_ERR_NON_EXSISTANT_DIR   = "Директория %s не существует";
-  String FMT_WARN_NON_EXSISTANT_DIR  = "Должна существовать директория %s";
-
-  /**
-   * {@link IdPathStringValidator}
-   */
-  String FMT_ERR_INV_ID_PATH = "Идентификатор '%s' должен быть ИД-путем";
-  String FMT_ERR_INV_ID_NAME = "Идентификатор '%s' должен быть ИД-именем";
-  String MSG_WARN_NONE_ID    = "Нежелательный идентификатор %s";
-
-  /**
-   * {@link NameStringValidator}
-   */
-  String MSG_WARN_EMPTY_NAME   = "Имя (название) не должно быть пустой строкой";
-  String MSG_WARN_DEFAULT_NAME = "Не следует использовать название умолчанию";
+  String MSG_STRING_VALUE_IS_EMPTY   = Messages.getString( "MSG_STRING_VALUE_IS_EMPTY" );   //$NON-NLS-1$
+  String FMT_ERR_NOT_A_FILE          = Messages.getString( "FMT_ERR_NOT_A_FILE" );          //$NON-NLS-1$
+  String FMT_ERR_NOT_A_DIR           = Messages.getString( "FMT_ERR_NOT_A_DIR" );           //$NON-NLS-1$
+  String FMT_ERR_NON_EXSISTANT_FILE  = Messages.getString( "FMT_ERR_NON_EXSISTANT_FILE" );  //$NON-NLS-1$
+  String FMT_WARN_NON_EXSISTANT_FILE = Messages.getString( "FMT_WARN_NON_EXSISTANT_FILE" ); //$NON-NLS-1$
+  String FMT_ERR_NON_EXSISTANT_DIR   = Messages.getString( "FMT_ERR_NON_EXSISTANT_DIR" );   //$NON-NLS-1$
+  String FMT_WARN_NON_EXSISTANT_DIR  = Messages.getString( "FMT_WARN_NON_EXSISTANT_DIR" );  //$NON-NLS-1$
+  String FMT_ERR_INV_ID_PATH         = Messages.getString( "FMT_ERR_INV_ID_PATH" );         //$NON-NLS-1$
+  String FMT_ERR_INV_ID_NAME         = Messages.getString( "FMT_ERR_INV_ID_NAME" );         //$NON-NLS-1$
+  String MSG_WARN_NONE_ID            = Messages.getString( "MSG_WARN_NONE_ID" );            //$NON-NLS-1$
+  String MSG_WARN_EMPTY_NAME         = Messages.getString( "MSG_WARN_EMPTY_NAME" );         //$NON-NLS-1$
+  String MSG_WARN_DEFAULT_NAME       = Messages.getString( "MSG_WARN_DEFAULT_NAME" );       //$NON-NLS-1$
 
 }

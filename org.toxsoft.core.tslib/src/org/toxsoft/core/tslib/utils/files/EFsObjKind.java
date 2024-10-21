@@ -24,17 +24,17 @@ public enum EFsObjKind
   /**
    * Файл(ы).
    */
-  FILE( "File", STR_D_FOK_FILE, STR_N_FOK_FILE, true, false ),
+  FILE( "File", STR_FOK_FILE_D, STR_FOK_FILE, true, false ),
 
   /**
    * Папка(и).
    */
-  DIR( "Dir", STR_D_FOK_DIR, STR_N_FOK_DIR, false, true ),
+  DIR( "Dir", STR_FOK_DIR_D, STR_FOK_DIR, false, true ),
 
   /**
    * Всё (файлы и папки).
    */
-  BOTH( "Both", STR_D_FOK_BOTH, STR_N_FOK_BOTH, true, true ),
+  BOTH( "Both", STR_FOK_BOTH_D, STR_FOK_BOTH, true, true ),
 
   ;
 

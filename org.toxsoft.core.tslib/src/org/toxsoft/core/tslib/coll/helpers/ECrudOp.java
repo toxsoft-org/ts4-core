@@ -24,22 +24,22 @@ public enum ECrudOp
   /**
    * New element added.
    */
-  CREATE( "Create", STR_N_CREATE, STR_D_CREATE, false ),
+  CREATE( "Create", STR_CREATE, STR_CREATE_D, false ),
 
   /**
    * An existing element changed.
    */
-  EDIT( "Edit", STR_N_EDIT, STR_D_EDIT, false ),
+  EDIT( "Edit", STR_EDIT, STR_EDIT_D, false ),
 
   /**
    * Element removed.
    */
-  REMOVE( "Remove", STR_N_REMOVE, STR_D_REMOVE, false ),
+  REMOVE( "Remove", STR_REMOVE, STR_REMOVE_D, false ),
 
   /**
    * List items, batch changes of two or more elements.
    */
-  LIST( "List", STR_N_LIST, STR_D_LIST, false ),
+  LIST( "List", STR_LIST, STR_LIST_D, false ),
 
   ;
 

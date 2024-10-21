@@ -1,6 +1,6 @@
 package org.toxsoft.core.tslib.coll;
 
-import static org.toxsoft.core.tslib.coll.ITsSharedResources.*;
+import static org.toxsoft.core.tslib.coll.ITsCollSharedResources.*;
 
 import java.io.*;
 

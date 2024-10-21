@@ -8,9 +8,9 @@ package org.toxsoft.core.tslib.utils.valobj;
 @SuppressWarnings( "nls" )
 interface ITsResources {
 
-  String FMT_ERR_NO_KEEPER_FOR_CLASS = "No registered keeper exists for value objects of class '%s'";
-  String FMT_ERR_NO_KEEPER_BY_ID     = "No registered keeper exist for keeper identifier '%s'";
-  String FMT_ERR_NO_KEEPER_BY_CLASS  = "No registered keeper exist for the entity class '%s'";
-  String FMT_ERR_TEXT_START_NOT_AT   = "Fimbed text value must starts by '%c' character instead of '%c'";
+  String FMT_ERR_NO_KEEPER_FOR_CLASS = Messages.getString( "FMT_ERR_NO_KEEPER_FOR_CLASS" ); //$NON-NLS-1$
+  String FMT_ERR_NO_KEEPER_BY_ID     = Messages.getString( "FMT_ERR_NO_KEEPER_BY_ID" );     //$NON-NLS-1$
+  String FMT_ERR_NO_KEEPER_BY_CLASS  = Messages.getString( "FMT_ERR_NO_KEEPER_BY_CLASS" );  //$NON-NLS-1$
+  String FMT_ERR_TEXT_START_NOT_AT   = Messages.getString( "FMT_ERR_TEXT_START_NOT_AT" );   //$NON-NLS-1$
 
 }

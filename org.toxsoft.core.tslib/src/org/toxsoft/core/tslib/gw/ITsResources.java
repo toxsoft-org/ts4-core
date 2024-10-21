@@ -8,11 +8,8 @@ package org.toxsoft.core.tslib.gw;
 @SuppressWarnings( "nls" )
 interface ITsResources {
 
-  /**
-   * {@link GwUtils}.
-   */
-  String MSG_ERR_GWID_STR_EMPTY  = "Gwid не может быть пустой строкой";
-  String MSG_ERR_INV_GWID_FORMAT = "Формат Gwid примерно такой: com.example.classId[obj.strid]$cmd(CmdId)$arg(ArgId)";
-  String MSG_ERR_INV_GWID_AV     = "Строка Gwid должна быть атомарным значением типа STRING";
+  String MSG_ERR_GWID_STR_EMPTY  = Messages.getString( "MSG_ERR_GWID_STR_EMPTY" );  //$NON-NLS-1$
+  String MSG_ERR_INV_GWID_FORMAT = Messages.getString( "MSG_ERR_INV_GWID_FORMAT" ); //$NON-NLS-1$
+  String MSG_ERR_INV_GWID_AV     = Messages.getString( "MSG_ERR_INV_GWID_AV" );     //$NON-NLS-1$
 
 }

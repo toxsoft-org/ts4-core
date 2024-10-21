@@ -5,7 +5,7 @@ package org.toxsoft.core.tslib.utils.plugins.dirwalk;
  *
  * @author hazard157
  */
-interface ITsLibResources {
+interface ITsResources {
 
   /**
    * {@link DirWalker}

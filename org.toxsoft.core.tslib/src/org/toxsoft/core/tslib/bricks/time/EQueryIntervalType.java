@@ -2,9 +2,8 @@ package org.toxsoft.core.tslib.bricks.time;
 
 import static org.toxsoft.core.tslib.bricks.time.ITsResources.*;
 
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Тип интервала запроса {@link IQueryInterval}.
@@ -22,22 +21,22 @@ public enum EQueryIntervalType
   /**
    * .
    */
-  OSOE( "OSOE", STR_D_QIT_OSOE, STR_N_QIT_OSOE, false, false ),
+  OSOE( "OSOE", STR_QIT_OSOE_D, STR_QIT_OSOE, false, false ),
 
   /**
    * Интерал запроса с откритым началом и закрытым окончанием.
    */
-  OSCE( "OSCE", STR_D_QIT_OSCE, STR_N_QIT_OSCE, false, true ),
+  OSCE( "OSCE", STR_QIT_OSCE_D, STR_QIT_OSCE, false, true ),
 
   /**
    * Интерал запроса с закритым началом и открытым окончанием.
    */
-  CSOE( "CSOE", STR_D_QIT_CSOE, STR_N_QIT_CSOE, true, true ),
+  CSOE( "CSOE", STR_QIT_CSOE_D, STR_QIT_CSOE, true, true ),
 
   /**
    * Интерал запроса с закритым началом и окончанием.
    */
-  CSCE( "CSCE", STR_D_QIT_CSCE, STR_N_QIT_CSCE, true, true );
+  CSCE( "CSCE", STR_QIT_CSCE_D, STR_QIT_CSCE, true, true );
 
   private final String  id;
   private final String  description;

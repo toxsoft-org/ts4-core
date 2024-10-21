@@ -1,7 +1,5 @@
 package org.toxsoft.core.tslib.bricks.time;
 
-import org.toxsoft.core.tslib.bricks.time.impl.*;
-
 /**
  * Localizable resources.
  *
@@ -10,23 +8,16 @@ import org.toxsoft.core.tslib.bricks.time.impl.*;
 @SuppressWarnings( "nls" )
 interface ITsResources {
 
-  /**
-   * {@link EQueryIntervalType}
-   */
-  String STR_N_QIT_OSOE = "(интервал)";
-  String STR_D_QIT_OSOE = "Интерал запроса с откритым началом и окончанием";
-  String STR_N_QIT_OSCE = "(интервал]";
-  String STR_D_QIT_OSCE = "Интерал запроса с откритым началом и закрытым окончанием";
-  String STR_N_QIT_CSOE = "[интервал)";
-  String STR_D_QIT_CSOE = "Интерал запроса с закритым началом и открытым окончанием";
-  String STR_N_QIT_CSCE = "[интервал]";
-  String STR_D_QIT_CSCE = "Интерал запроса с закритым началом и окончанием";
-
-  /**
-   * {@link TimeUtils}
-   */
-  String FMT_INTERVAL_TO_STRING        = "startTime = %s, endTime = %s";
-  String MSG_ERR_WRONG_TIMESTAMP       = "Недопустимый формат метки времени";
-  String FMT_ERR_END_TIME_BEFORE_START = "Окончание интервала (%tc) раньше начала (%tc)";
+  String STR_QIT_OSOE                = Messages.getString( "STR_QIT_OSOE" );                //$NON-NLS-1$
+  String STR_QIT_OSOE_D              = Messages.getString( "STR_QIT_OSOE_D" );              //$NON-NLS-1$
+  String STR_QIT_OSCE                = Messages.getString( "STR_QIT_OSCE" );                //$NON-NLS-1$
+  String STR_QIT_OSCE_D              = Messages.getString( "STR_QIT_OSCE_D" );              //$NON-NLS-1$
+  String STR_QIT_CSOE                = Messages.getString( "STR_QIT_CSOE" );                //$NON-NLS-1$
+  String STR_QIT_CSOE_D              = Messages.getString( "STR_QIT_CSOE_D" );              //$NON-NLS-1$
+  String STR_QIT_CSCE                = Messages.getString( "STR_QIT_CSCE" );                //$NON-NLS-1$
+  String STR_QIT_CSCE_D              = Messages.getString( "STR_QIT_CSCE_D" );              //$NON-NLS-1$
+  String FMT_INTERVAL_TO_STRING      = Messages.getString( "FMT_INTERVAL_TO_STRING" );      //$NON-NLS-1$
+  String MSG_ERR_WRONG_TIMESTAMP     = Messages.getString( "MSG_ERR_WRONG_TIMESTAMP" );     //$NON-NLS-1$
+  String FMT_ERR_ENTIME_BEFORE_START = Messages.getString( "FMT_ERR_ENTIME_BEFORE_START" ); //$NON-NLS-1$
 
 }

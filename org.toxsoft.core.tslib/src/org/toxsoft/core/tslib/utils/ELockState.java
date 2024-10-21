@@ -22,17 +22,17 @@ public enum ELockState
   /**
    * Resource is not locked.
    */
-  NONE( "none", STR_N_LOCK_NONE, STR_D_LOCK_NONE ), //$NON-NLS-1$
+  NONE( "none", STR_LOCK_NONE, STR_LOCK_NONE_D ), //$NON-NLS-1$
 
   /**
    * Resource is locked for reading - writing is prohibited.
    */
-  READ( "read", STR_N_LOCK_READ, STR_D_LOCK_READ ), //$NON-NLS-1$
+  READ( "read", STR_LOCK_READ, STR_LOCK_READ_D ), //$NON-NLS-1$
 
   /**
    * Resource is locked for writing and thus is not accessible.
    */
-  WRITE( "write", STR_N_LOCK_WRITE, STR_D_LOCK_WRITE ); //$NON-NLS-1$
+  WRITE( "write", STR_LOCK_WRITE, STR_LOCK_WRITE_D ); //$NON-NLS-1$
 
   /**
    * The keeper ID.

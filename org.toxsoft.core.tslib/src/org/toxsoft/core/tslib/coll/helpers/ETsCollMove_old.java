@@ -21,7 +21,7 @@ public enum ETsCollMove_old
     implements IStridable {
 
   @SuppressWarnings( "javadoc" )
-  NONE("None", STR_N_TCM_NONE, STR_D_TCM_NONE ) { //$NON-NLS-1$
+  NONE("None", STR_TCM_NONE, STR_TCM_NONE_D ) { //$NON-NLS-1$
 
     @Override
     protected int doMoveToIndex( int aStartIndex, int aCollSize, int aJumpDistance ) {
@@ -35,7 +35,7 @@ public enum ETsCollMove_old
   },
 
   @SuppressWarnings( "javadoc" )
-  FIRST("First", STR_N_TCM_FIRST, STR_D_TCM_FIRST ) { //$NON-NLS-1$
+  FIRST("First", STR_TCM_FIRST, STR_TCM_FIRST_D ) { //$NON-NLS-1$
 
     @Override
     protected int doMoveToIndex( int aStartIndex, int aCollSize, int aJumpDistance ) {
@@ -49,7 +49,7 @@ public enum ETsCollMove_old
   },
 
   @SuppressWarnings( "javadoc" )
-  MIDDLE("Middle", STR_N_TCM_MIDDLE, STR_D_TCM_MIDDLE ) { //$NON-NLS-1$
+  MIDDLE("Middle", STR_TCM_MIDDLE, STR_TCM_MIDDLE_D ) { //$NON-NLS-1$
 
     @Override
     protected int doMoveToIndex( int aStartIndex, int aCollSize, int aJumpDistance ) {
@@ -63,7 +63,7 @@ public enum ETsCollMove_old
   },
 
   @SuppressWarnings( "javadoc" )
-  LAST("Last", STR_N_TCM_LAST, STR_D_TCM_LAST ) { //$NON-NLS-1$
+  LAST("Last", STR_TCM_LAST, STR_TCM_LAST_D ) { //$NON-NLS-1$
 
     @Override
     protected int doMoveToIndex( int aStartIndex, int aCollSize, int aJumpDistance ) {
@@ -77,7 +77,7 @@ public enum ETsCollMove_old
   },
 
   @SuppressWarnings( "javadoc" )
-  PREV("Prev", STR_N_TCM_PREV, STR_D_TCM_PREV ) { //$NON-NLS-1$
+  PREV("Prev", STR_TCM_PREV, STR_TCM_PREV_D ) { //$NON-NLS-1$
 
     @Override
     protected int doMoveToIndex( int aStartIndex, int aCollSize, int aJumpDistance ) {
@@ -98,7 +98,7 @@ public enum ETsCollMove_old
   },
 
   @SuppressWarnings( "javadoc" )
-  NEXT("Next", STR_N_TCM_NEXT, STR_D_TCM_NEXT ) { //$NON-NLS-1$
+  NEXT("Next", STR_TCM_NEXT, STR_TCM_NEXT_D ) { //$NON-NLS-1$
 
     @Override
     protected int doMoveToIndex( int aStartIndex, int aCollSize, int aJumpDistance ) {
@@ -119,7 +119,7 @@ public enum ETsCollMove_old
   },
 
   @SuppressWarnings( "javadoc" )
-  JUMP_PREV("JumpPrev", STR_N_TCM_JUMP_PREV, STR_D_TCM_JUMP_PREV ) { //$NON-NLS-1$
+  JUMP_PREV("JumpPrev", STR_TCM_JUMP_PREV, STR_TCM_JUMP_PREV_D ) { //$NON-NLS-1$
 
     @Override
     protected int doMoveToIndex( int aStartIndex, int aCollSize, int aJumpDistance ) {
@@ -140,7 +140,7 @@ public enum ETsCollMove_old
   },
 
   @SuppressWarnings( "javadoc" )
-  JUMP_NEXT("JumpNext", STR_N_TCM_JUMP_NEXT, STR_D_TCM_JUMP_NEXT ) { //$NON-NLS-1$
+  JUMP_NEXT("JumpNext", STR_TCM_JUMP_NEXT, STR_TCM_JUMP_NEXT_D ) { //$NON-NLS-1$
 
     @Override
     protected int doMoveToIndex( int aStartIndex, int aCollSize, int aJumpDistance ) {

@@ -1,6 +1,6 @@
 package org.toxsoft.core.tslib.utils.plugins.dirwalk;
 
-import static org.toxsoft.core.tslib.utils.plugins.dirwalk.ITsLibResources.*;
+import static org.toxsoft.core.tslib.utils.plugins.dirwalk.ITsResources.*;
 
 import java.io.*;
 import java.util.*;

@@ -8,16 +8,9 @@ package org.toxsoft.core.tslib.bricks.ctx.impl;
 @SuppressWarnings( "nls" )
 interface ITsResources {
 
-  /**
-   * {@link TsContextRefDef}
-   */
-  String FMT_ERR_NO_MANDATORY_REF = "В контексте отсутстввует обязательная ссылка с ключом '%s'";
-  String FMT_ERR_INV_CLASS_REF    = "Ссылка '%s' в контексте имеет тип '%s', а ожидался '%s'";
-
-  /**
-   * {@link TsContextBase}
-   */
-  String FMT_ERR_NO_REF_TO_CLASS_IN_CTX = "В контексте нет ссылки на экземпляр типа %s";
-  String FMT_ERR_NO_REF_OF_KEY_IN_CTX   = "В контексте нет ссылки с ключом %s";
+  String FMT_ERR_NO_MANDATORY_REF       = Messages.getString( "FMT_ERR_NO_MANDATORY_REF" );       //$NON-NLS-1$
+  String FMT_ERR_INV_CLASS_REF          = Messages.getString( "FMT_ERR_INV_CLASS_REF" );          //$NON-NLS-1$
+  String FMT_ERR_NO_REF_TO_CLASS_IN_CTX = Messages.getString( "FMT_ERR_NO_REF_TO_CLASS_IN_CTX" ); //$NON-NLS-1$
+  String FMT_ERR_NO_REF_OF_KEY_IN_CTX   = Messages.getString( "FMT_ERR_NO_REF_OF_KEY_IN_CTX" );   //$NON-NLS-1$
 
 }
