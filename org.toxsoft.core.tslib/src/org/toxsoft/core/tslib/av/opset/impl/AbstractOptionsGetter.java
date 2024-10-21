@@ -84,7 +84,7 @@ public abstract class AbstractOptionsGetter
     }
     IAtomicValue av = internalFind( aId );
     if( av != null && av != IAtomicValue.NULL ) {
-      if( av.atomicType() != aAtomicType ) {
+      if( !AvTypeCastRtException.canAssign( aAtomicType, av.atomicType() ) ) {
         throw new AvTypeCastRtException( FMT_ERR_CANT_CAST_OPSET_VALUE, aId, av.atomicType().id(), aAtomicType.id() );
       }
     }
@@ -110,7 +110,7 @@ public abstract class AbstractOptionsGetter
     }
     IAtomicValue av = internalGet( aId );
     if( av != IAtomicValue.NULL ) {
-      if( av.atomicType() != aAtomicType ) {
+      if( !AvTypeCastRtException.canAssign( aAtomicType, av.atomicType() ) ) {
         throw new AvTypeCastRtException( FMT_ERR_CANT_CAST_OPSET_VALUE, aId, av.atomicType().id(), aAtomicType.id() );
       }
     }
