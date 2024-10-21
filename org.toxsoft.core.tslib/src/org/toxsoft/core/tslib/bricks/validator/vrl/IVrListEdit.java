@@ -26,6 +26,43 @@ public interface IVrListEdit
   // inline methods for convenience
   //
 
+  /**
+   * Add non-OK validation result to the list.
+   * <p>
+   * If {@link ValidationResult#type() aVr.type()} = {@link EValidationResultType#OK OK}, then method does nothing and
+   * returns <code>null</code>.
+   *
+   * @param aVr {@link ValidationResult} - the single validation result
+   * @param aInfo {@link IOptionSet} - application specific additional information or <code>null</code>
+   * @return {@link VrlItem} - created item or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  default VrlItem addNonOk( ValidationResult aVr, IOptionSet aInfo ) {
+    TsNullArgumentRtException.checkNull( aVr );
+    if( aVr.isOk() ) {
+      return null;
+    }
+    return add( new VrlItem( aVr, aInfo ) );
+  }
+
+  /**
+   * Add non-OK validation result to the list.
+   * <p>
+   * If {@link ValidationResult#type() aVr.type()} = {@link EValidationResultType#OK OK}, then method does nothing and
+   * returns <code>null</code>.
+   *
+   * @param aVr {@link ValidationResult} - the single validation result
+   * @return {@link VrlItem} - created item or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  default VrlItem addNonOk( ValidationResult aVr ) {
+    TsNullArgumentRtException.checkNull( aVr );
+    if( aVr.isOk() ) {
+      return null;
+    }
+    return add( new VrlItem( aVr ) );
+  }
+
   @SuppressWarnings( "javadoc" )
   default VrlItem add( ValidationResult aVr, IOptionSet aInfo ) {
     return add( new VrlItem( aVr, aInfo ) );
