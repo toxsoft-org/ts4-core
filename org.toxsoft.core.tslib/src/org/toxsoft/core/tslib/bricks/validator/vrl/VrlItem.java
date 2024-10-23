@@ -2,6 +2,7 @@ package org.toxsoft.core.tslib.bricks.validator.vrl;
 
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -34,6 +35,13 @@ public record VrlItem ( ValidationResult vr, IOptionSet info ) {
   public VrlItem( ValidationResult vr, IOptionSet info ) {
     TsNullArgumentRtException.checkNull( vr );
     this.vr = vr;
+
+    // DEBUG ---
+    if( vr.type() == EValidationResultType.OK ) {
+      TsTestUtils.pl( "OK" ); //$NON-NLS-1$
+    }
+    // ---
+
     if( info != null ) {
       this.info = info;
     }

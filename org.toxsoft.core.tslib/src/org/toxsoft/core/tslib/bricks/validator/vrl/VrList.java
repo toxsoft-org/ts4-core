@@ -121,6 +121,12 @@ public class VrList
     return aItem;
   }
 
+  @Override
+  public void addAll( IVrList aVrl ) {
+    TsNullArgumentRtException.checkNull( aVrl );
+    items.addAll( aVrl.items() );
+  }
+
   // ------------------------------------------------------------------------------------
   // ITsClearable
   //

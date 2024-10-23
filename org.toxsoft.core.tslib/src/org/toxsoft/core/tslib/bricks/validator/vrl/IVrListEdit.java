@@ -22,6 +22,14 @@ public interface IVrListEdit
    */
   VrlItem add( VrlItem aItem );
 
+  /**
+   * Adds all items from the argument to this list.
+   *
+   * @param aVrl {@link IVrList} - other list
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  void addAll( IVrList aVrl );
+
   // ------------------------------------------------------------------------------------
   // inline methods for convenience
   //
