@@ -59,8 +59,8 @@ public class ValedAvAnytypeText
    * Default: {@link IAtomicValue#NULL} (is interpreted as {@link AvTextParser#DEFAULT_ALLOWED_TYPES})
    */
   public static final IDataDef OPDEF_ALLOWED_TYPES = DataDef.create( OPID_ALLOWED_TYPES, STRING, //
-      TSID_NAME, STR_N_ANYTYPE_TEXT_ALLOWED_TYPES, //
-      TSID_DESCRIPTION, STR_D_ANYTYPE_TEXT_ALLOWED_TYPES, //
+      TSID_NAME, STR_ANYTYPE_TEXT_ALLOWED_TYPES, //
+      TSID_DESCRIPTION, STR_ANYTYPE_TEXT_ALLOWED_TYPES_D, //
       TSID_KEEPER_ID, StringListKeeper.KEEPER_ID, //
       TSID_DEFAULT_VALUE, avValobj( IStringList.EMPTY ) //
   );
@@ -70,8 +70,8 @@ public class ValedAvAnytypeText
    * Default: {@link AvTextParser#DEFAULT_TRUE_NAMES}
    */
   public static final IDataDef OPDEF_BOOLEAN_TRUE_NAMES = DataDef.create( OPID_BOOLEAN_TRUE_NAMES, VALOBJ, //
-      TSID_NAME, STR_N_ANYTYPE_TEXT_BOOLEAN_TRUE_NAMES, //
-      TSID_DESCRIPTION, STR_D_ANYTYPE_TEXT_BOOLEAN_TRUE_NAMES, //
+      TSID_NAME, STR_ANYTYPE_TEXT_BOOLEAN_TRUE_NAMES, //
+      TSID_DESCRIPTION, STR_ANYTYPE_TEXT_BOOLEAN_TRUE_NAMES_D, //
       TSID_KEEPER_ID, StringListKeeper.KEEPER_ID, //
       TSID_DEFAULT_VALUE, avValobj( AvTextParser.DEFAULT_TRUE_NAMES ) //
   );
@@ -81,8 +81,8 @@ public class ValedAvAnytypeText
    * Default: {@link AvTextParser#DEFAULT_FALSE_NAMES}
    */
   public static final IDataDef OPDEF_BOOLEAN_FALSE_NAMES = DataDef.create( OPID_BOOLEAN_FALSE_NAMES, VALOBJ, //
-      TSID_NAME, STR_N_ANYTYPE_TEXT_BOOLEAN_FALSE_NAMES, //
-      TSID_DESCRIPTION, STR_D_ANYTYPE_TEXT_BOOLEAN_FALSE_NAMES, //
+      TSID_NAME, STR_ANYTYPE_TEXT_BOOLEAN_FALSE_NAMES, //
+      TSID_DESCRIPTION, STR_ANYTYPE_TEXT_BOOLEAN_FALSE_NAMES_D, //
       TSID_KEEPER_ID, StringListKeeper.KEEPER_ID, //
       TSID_DEFAULT_VALUE, avValobj( AvTextParser.DEFAULT_FALSE_NAMES ) //
   );
@@ -92,8 +92,8 @@ public class ValedAvAnytypeText
    * Default: <code>false</code>
    */
   public static final IDataDef OPDEF_IS_BLANK_STRING_NULL = DataDef.create( OPID_IS_BLANK_STRING_NULL, BOOLEAN, //
-      TSID_NAME, STR_N_ANYTYPE_TEXT_IS_EMPTY_STRING_NULL, //
-      TSID_DESCRIPTION, STR_D_ANYTYPE_TEXT_IS_EMPTY_STRING_NULL, //
+      TSID_NAME, STR_ANYTYPE_TEXT_IS_EMPTY_STRING_NULL, //
+      TSID_DESCRIPTION, STR_ANYTYPE_TEXT_IS_EMPTY_STRING_NULL_D, //
       TSID_DEFAULT_VALUE, AV_FALSE //
   );
 

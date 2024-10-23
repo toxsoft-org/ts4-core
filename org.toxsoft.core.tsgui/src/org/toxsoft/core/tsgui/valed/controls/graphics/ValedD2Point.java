@@ -42,8 +42,8 @@ public class ValedD2Point
    * Orientation of controls (place it in row or column).
    */
   public static final IDataDef OPDEF_ORIENTATION = DataDef.create( OPID_ORIENTATION, VALOBJ, //
-      TSID_NAME, STR_N_D2POINT_ORIENTATION, //
-      TSID_DESCRIPTION, STR_D_D2POINT_ORIENTATION, //
+      TSID_NAME, STR_D2POINT_ORIENTATION, //
+      TSID_DESCRIPTION, STR_D2POINT_ORIENTATION_D, //
       TSID_KEEPER_ID, ETsOrientation.KEEPER_ID, //
       TSID_DEFAULT_VALUE, avValobj( ETsOrientation.HORIZONTAL ) //
   );
@@ -52,8 +52,8 @@ public class ValedD2Point
    * Preferred width for spinner width.
    */
   public static final IDataDef OPDEF_WIDTH_HINT = DataDef.create( OPID_WIDTH_HINT, INTEGER, //
-      TSID_NAME, STR_N_WIDTH_HINT, //
-      TSID_DESCRIPTION, STR_D_WIDTH_HINT, //
+      TSID_NAME, STR_WIDTH_HINT, //
+      TSID_DESCRIPTION, STR_WIDTH_HINT_D, //
       TSID_DEFAULT_VALUE, avInt( 60 ) //
   );
 

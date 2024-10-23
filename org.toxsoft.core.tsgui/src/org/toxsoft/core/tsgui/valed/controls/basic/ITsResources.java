@@ -8,47 +8,22 @@ package org.toxsoft.core.tsgui.valed.controls.basic;
 @SuppressWarnings( "nls" )
 interface ITsResources {
 
-  /**
-   * {@link ValedBooleanCheck}
-   */
-  String STR_D_CHECKBOX_TEXT = "Текст";
-  String STR_N_CHECKBOX_TEXT = "Подписаь на флажке";
-
-  /**
-   * {@link ValedComboSelector}
-   */
-  String STR_N_ITEMS_PROVIDER = "Элементы";
-  String STR_D_ITEMS_PROVIDER = "Поставщик элементов для выбора из выпадающего списка";
-
-  /**
-   * {@link ValedDoubleSpinner}
-   */
-  String STR_N_DOUBLE_SPINNER_FLOATING_DIGITS = "После запятой";
-  String STR_D_DOUBLE_SPINNER_FLOATING_DIGITS = "Количество знаков после запятой";
-  String STR_N_DOUBLE_SPINNER_STEP            = "Шаг";
-  String STR_D_DOUBLE_SPINNER_STEP            = "Шаг изменения значения стрелкой";
-  String STR_N_DOUBLE_SPINNER_PAGE_STEP       = "Скачок";
-  String STR_D_DOUBLE_SPINNER_PAGE_STEP       = "Шаг изменения значения клавишами PageUp/PageDown";
-  String FMT_ERR_INV_FLOATING_TEXT            = "Неверный формат представления вещественного числа";
-
-  /**
-   * {@link ValedIntegerSpinner}
-   */
-  String STR_N_INT_SPINNER_STEP      = "Шаг";
-  String STR_D_INT_SPINNER_STEP      = "Шаг изменения значения стрелкой";
-  String STR_N_INT_SPINNER_PAGE_STEP = "Скачок";
-  String STR_D_INT_SPINNER_PAGE_STEP = "Шаг изменения значения клавишами PageUp/PageDown";
-
-  /**
-   * {@link ValedStringText}
-   */
-  String STR_N_IS_MULTI_LINE = "Многострочный?";
-  String STR_D_IS_MULTI_LINE = "Признак редактирования многострочного текста";
-
-  // /**
-  // * {@link ValedTimestampMpv}, {@link ValedLocalTimeMpv}
-  // */
-  // String STR_N_MPV_TIME_LEN = "Точность";
-  // String STR_D_MPV_TIME_LEN = "Вариант редактирования времени с точностью до минут/секунд/миллисекунд";
+  String STR_CHECKBOX_TEXT_D                  = Messages.getString( "STR_CHECKBOX_TEXT_D" );                  //$NON-NLS-1$
+  String STR_CHECKBOX_TEXT                    = Messages.getString( "STR_CHECKBOX_TEXT" );                    //$NON-NLS-1$
+  String STR_ITEMS_PROVIDER                   = Messages.getString( "STR_ITEMS_PROVIDER" );                   //$NON-NLS-1$
+  String STR_ITEMS_PROVIDER_D                 = Messages.getString( "STR_ITEMS_PROVIDER_D" );                 //$NON-NLS-1$
+  String STR_DOUBLE_SPINNER_FLOATING_DIGITS   = Messages.getString( "STR_DOUBLE_SPINNER_FLOATING_DIGITS" );   //$NON-NLS-1$
+  String STR_DOUBLE_SPINNER_FLOATING_DIGITS_D = Messages.getString( "STR_DOUBLE_SPINNER_FLOATING_DIGITS_D" ); //$NON-NLS-1$
+  String STR_DOUBLE_SPINNER_STEP              = Messages.getString( "STR_DOUBLE_SPINNER_STEP" );              //$NON-NLS-1$
+  String STR_DOUBLE_SPINNER_STEP_D            = Messages.getString( "STR_DOUBLE_SPINNER_STEP_D" );            //$NON-NLS-1$
+  String STR_DOUBLE_SPINNER_PAGE_STEP         = Messages.getString( "STR_DOUBLE_SPINNER_PAGE_STEP" );         //$NON-NLS-1$
+  String STR_DOUBLE_SPINNER_PAGE_STEP_D       = Messages.getString( "STR_DOUBLE_SPINNER_PAGE_STEP_D" );       //$NON-NLS-1$
+  String FMT_ERR_INV_FLOATING_TEXT            = Messages.getString( "FMT_ERR_INV_FLOATING_TEXT" );            //$NON-NLS-1$
+  String STR_INT_SPINNER_STEP                 = Messages.getString( "STR_INT_SPINNER_STEP" );                 //$NON-NLS-1$
+  String STR_INT_SPINNER_STEP_D               = Messages.getString( "STR_INT_SPINNER_STEP_D" );               //$NON-NLS-1$
+  String STR_INT_SPINNER_PAGE_STEP            = Messages.getString( "STR_INT_SPINNER_PAGE_STEP" );            //$NON-NLS-1$
+  String STR_INT_SPINNER_PAGE_STEP_D          = Messages.getString( "STR_INT_SPINNER_PAGE_STEP_D" );          //$NON-NLS-1$
+  String STR_IS_MULTI_LINE                    = Messages.getString( "STR_IS_MULTI_LINE" );                    //$NON-NLS-1$
+  String STR_IS_MULTI_LINE_D                  = Messages.getString( "STR_IS_MULTI_LINE_D" );                  //$NON-NLS-1$
 
 }

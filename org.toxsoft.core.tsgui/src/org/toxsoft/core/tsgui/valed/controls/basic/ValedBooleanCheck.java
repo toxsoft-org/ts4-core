@@ -32,8 +32,8 @@ public class ValedBooleanCheck
    * The text to be shown on widget.<br>
    */
   public static final IDataDef OPDEF_TEXT = DataDef.create( OPID_TEXT, STRING, //
-      TSID_NAME, STR_N_CHECKBOX_TEXT, //
-      TSID_DESCRIPTION, STR_D_CHECKBOX_TEXT, //
+      TSID_NAME, STR_CHECKBOX_TEXT, //
+      TSID_DESCRIPTION, STR_CHECKBOX_TEXT_D, //
       TSID_DEFAULT_VALUE, AV_STR_EMPTY //
   );
 

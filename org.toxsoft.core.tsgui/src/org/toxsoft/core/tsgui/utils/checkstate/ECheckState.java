@@ -24,17 +24,17 @@ public enum ECheckState
   /**
    * Элемент никак не помечен.
    */
-  UNCHECKED( "Unchecked", STR_N_UNCHECKED, STR_D_UNCHECKED, false, false ),
+  UNCHECKED( "Unchecked", STR_UNCHECKED, STR_UNCHECKED_D, false, false ),
 
   /**
    * Элемент отмечен квадратом с галочкой.
    */
-  CHECKED( "Checked", STR_N_CHECKED, STR_D_CHECKED, true, false ),
+  CHECKED( "Checked", STR_CHECKED, STR_CHECKED_D, true, false ),
 
   /**
    * Элемент отмечен непоределенным состоянием (серым квадратом).
    */
-  GRAYED( "Grayed", STR_N_GRAYED, STR_D_GRAYED, true, true );
+  GRAYED( "Grayed", STR_GRAYED, STR_GRAYED_D, true, true );
 
   private final String  id;
   private final String  name;

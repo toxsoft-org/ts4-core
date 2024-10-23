@@ -52,8 +52,8 @@ public class TsTreeViewer
    * Creation option: The flag to display the table header with column names.
    */
   public static final IDataDef OPDEF_IS_HEADER_SHOWN = DataDef.create( OPID_IS_HEADER_SHOWN, EAtomicType.BOOLEAN, //
-      TSID_NAME, STR_N_IS_HEADER_SHOWN, //
-      TSID_DESCRIPTION, STR_D_IS_HEADER_SHOWN, //
+      TSID_NAME, STR_IS_HEADER_SHOWN, //
+      TSID_DESCRIPTION, STR_IS_HEADER_SHOWN_D, //
       TSID_DEFAULT_VALUE, AV_TRUE //
   );
 

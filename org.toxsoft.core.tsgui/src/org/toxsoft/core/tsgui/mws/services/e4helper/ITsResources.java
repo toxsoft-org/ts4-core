@@ -8,9 +8,6 @@ package org.toxsoft.core.tsgui.mws.services.e4helper;
 @SuppressWarnings( "nls" )
 interface ITsResources {
 
-  /**
-   * {@link TsE4Helper}
-   */
-  String FMT_ERR_NO_SUCH_ARG_OF_E4_CMD = "У e4-команды '%s' нет аргумента с именем '%s'";
+  String FMT_ERR_NO_SUCH_ARG_OF_E4_CMD = Messages.getString( "FMT_ERR_NO_SUCH_ARG_OF_E4_CMD" ); //$NON-NLS-1$
 
 }

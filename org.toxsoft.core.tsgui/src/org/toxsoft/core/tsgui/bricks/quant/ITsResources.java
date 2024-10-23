@@ -8,13 +8,13 @@ package org.toxsoft.core.tsgui.bricks.quant;
 @SuppressWarnings( "nls" )
 interface ITsResources {
 
-  String FMT_WARN_QUANT_DUP_INIT_APP = "Quant       %s: повторный вызов initApp() игнорирован";
-  String FMT_INFO_QUANT_INIT_APP     = "Quant       %s: initApp()";
-  String FMT_WARN_QUANT_DUP_INIT_WIN = "Quant       %s: повторный вызов initWin() игнорирован";
-  String FMT_INFO_QUANT_INIT_WIN     = "Quant       %s: initWin()";
-  String FMT_INFO_QUANT_CLOSE        = "Quant       %s: close()";
-  String FMT_ERR_APP_INIT_QUANT      = "Quant       %s: При инициализации (на уровне приложения) возникла ошибка";
-  String FMT_ERR_WIN_INIT_QUANT      = "Quant       %s: При инициализации (на уровне окна) возникла ошибка";
-  String FMT_ERR_CLOSING_QUANT       = "Quant       %s: При завершении возникла ошибка";
+  String FMT_WARN_QUANT_DUP_INIT_APP = Messages.getString( "FMT_WARN_QUANT_DUP_INIT_APP" ); //$NON-NLS-1$
+  String FMT_INFO_QUANT_INIT_APP     = Messages.getString( "FMT_INFO_QUANT_INIT_APP" );     //$NON-NLS-1$
+  String FMT_WARN_QUANT_DUP_INIT_WIN = Messages.getString( "FMT_WARN_QUANT_DUP_INIT_WIN" ); //$NON-NLS-1$
+  String FMT_INFO_QUANT_INIT_WIN     = Messages.getString( "FMT_INFO_QUANT_INIT_WIN" );     //$NON-NLS-1$
+  String FMT_INFO_QUANT_CLOSE        = Messages.getString( "FMT_INFO_QUANT_CLOSE" );        //$NON-NLS-1$
+  String FMT_ERR_APP_INIT_QUANT      = Messages.getString( "FMT_ERR_APP_INIT_QUANT" );      //$NON-NLS-1$
+  String FMT_ERR_WIN_INIT_QUANT      = Messages.getString( "FMT_ERR_WIN_INIT_QUANT" );      //$NON-NLS-1$
+  String FMT_ERR_CLOSING_QUANT       = Messages.getString( "FMT_ERR_CLOSING_QUANT" );       //$NON-NLS-1$
 
 }

@@ -8,10 +8,7 @@ package org.toxsoft.core.tsgui.graphics.icons.impl;
 @SuppressWarnings( "nls" )
 interface ITsResources {
 
-  /**
-   * /** {@link TsIconManager}
-   */
   String FMT_ERR_ICON_NAME_FIELD_MUST_BE_STRING_CONST =
-      "Поле %s.%s должно быть объявлением static final String константы";
+      Messages.getString( "FMT_ERR_ICON_NAME_FIELD_MUST_BE_STRING_CONST" ); //$NON-NLS-1$
 
 }

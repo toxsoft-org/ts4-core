@@ -8,18 +8,11 @@ package org.toxsoft.core.tsgui.valed.controls.time;
 @SuppressWarnings( "nls" )
 interface ITsResources {
 
-  /**
-   * {@link ValedTimestampMpv}, {@link ValedLocalTimeMpv}, {@link ValedLocalDateTimeMpv}
-   */
-  String STR_N_MPV_TIME_LEN = "Точность";
-  String STR_D_MPV_TIME_LEN = "Вариант редактирования времени с точностью до минут/секунд/миллисекунд";
-
-  /**
-   * {@link ValedSecsDurationMpv}
-   */
-  String STR_N_IS_HOURS_PART   = "ЧЧ?";
-  String STR_D_IS_HOURS_PART   = "Признак наличия части ЧЧ в редаторе ЧЧ:ММ:СС или ЧЧ:ММ";
-  String STR_N_IS_SECONDS_PART = "СС?";
-  String STR_D_IS_SECONDS_PART = "Признак наличия части СС в редаторе ЧЧ:ММ:СС или ММ:СС";
+  String STR_MPV_TIME_LEN      = Messages.getString( "STR_MPV_TIME_LEN" );      //$NON-NLS-1$
+  String STR_MPV_TIME_LEN_D    = Messages.getString( "STR_MPV_TIME_LEN_D" );    //$NON-NLS-1$
+  String STR_IS_HOURS_PART     = Messages.getString( "STR_IS_HOURS_PART" );     //$NON-NLS-1$
+  String STR_IS_HOURS_PART_D   = Messages.getString( "STR_IS_HOURS_PART_D" );   //$NON-NLS-1$
+  String STR_IS_SECONDS_PART   = Messages.getString( "STR_IS_SECONDS_PART" );   //$NON-NLS-1$
+  String STR_IS_SECONDS_PART_D = Messages.getString( "STR_IS_SECONDS_PART_D" ); //$NON-NLS-1$
 
 }

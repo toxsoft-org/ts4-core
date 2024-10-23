@@ -31,8 +31,8 @@ public class QuantProgramArgs
    * Reference is also accessible simple by class via {@link IEclipseContext#get(Class)}.
    */
   public static final ITsContextRefDef<ProgramArgs> REFDEF_PROGRAM_ARGS = TsContextRefDef.create( ProgramArgs.class, //
-      TSID_NAME, STR_N_CTX_REF_PROGRAM_ARGS, //
-      TSID_DESCRIPTION, STR_D_CTX_REF_PROGRAM_ARGS //
+      TSID_NAME, STR_CTX_REF_PROGRAM_ARGS, //
+      TSID_DESCRIPTION, STR_CTX_REF_PROGRAM_ARGS_D //
   );
 
   /**

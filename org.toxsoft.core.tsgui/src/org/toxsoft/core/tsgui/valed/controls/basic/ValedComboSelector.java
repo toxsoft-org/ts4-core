@@ -40,8 +40,8 @@ public class ValedComboSelector<V>
   @SuppressWarnings( "rawtypes" )
   public static final ITsGuiContextRefDef<ITsItemsProvider> REFDEF_ITEMS_PROVIDER = //
       TsGuiContextRefDef.create( REFID_ITEMS_PROVIDER, ITsItemsProvider.class, //
-          TSID_NAME, STR_N_ITEMS_PROVIDER, //
-          TSID_DESCRIPTION, STR_D_ITEMS_PROVIDER, //
+          TSID_NAME, STR_ITEMS_PROVIDER, //
+          TSID_DESCRIPTION, STR_ITEMS_PROVIDER_D, //
           TSID_IS_MANDATORY, AV_FALSE //
       );
 

@@ -74,8 +74,8 @@ public class ValedDoubleSpinner
    * Number of decimal digits after comma.
    */
   public static final IDataDef OPDEF_FLOATING_DIGITS = DataDef.create( OPID_FLOATING_DIGITS, INTEGER, //
-      TSID_NAME, STR_N_DOUBLE_SPINNER_FLOATING_DIGITS, //
-      TSID_DESCRIPTION, STR_D_DOUBLE_SPINNER_FLOATING_DIGITS, //
+      TSID_NAME, STR_DOUBLE_SPINNER_FLOATING_DIGITS, //
+      TSID_DESCRIPTION, STR_DOUBLE_SPINNER_FLOATING_DIGITS_D, //
       TSID_DEFAULT_VALUE, avInt( 2 ) //
   );
 
@@ -83,8 +83,8 @@ public class ValedDoubleSpinner
    * Value change step by the arrow keys.
    */
   public static final IDataDef OPDEF_STEP = DataDef.create( OPID_STEP, FLOATING, //
-      TSID_NAME, STR_N_DOUBLE_SPINNER_STEP, //
-      TSID_DESCRIPTION, STR_D_DOUBLE_SPINNER_STEP, //
+      TSID_NAME, STR_DOUBLE_SPINNER_STEP, //
+      TSID_DESCRIPTION, STR_DOUBLE_SPINNER_STEP_D, //
       TSID_DEFAULT_VALUE, AV_1 //
   );
 
@@ -92,8 +92,8 @@ public class ValedDoubleSpinner
    * Value change step by the PageUp/PageDown keys.
    */
   public static final IDataDef OPDEF_PAGE_STEP = DataDef.create( OPID_PAGE_STEP, FLOATING, //
-      TSID_NAME, STR_N_DOUBLE_SPINNER_PAGE_STEP, //
-      TSID_DESCRIPTION, STR_D_DOUBLE_SPINNER_PAGE_STEP, //
+      TSID_NAME, STR_DOUBLE_SPINNER_PAGE_STEP, //
+      TSID_DESCRIPTION, STR_DOUBLE_SPINNER_PAGE_STEP_D, //
       TSID_DEFAULT_VALUE, avInt( 10 ) //
   );
 

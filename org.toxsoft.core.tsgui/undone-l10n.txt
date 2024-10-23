@@ -1,0 +1,25 @@
+--- org.toxsoft.core.tsgui.bricks.quant
+++- org.toxsoft.core.tsgui.bricks.tin.tti (нет перевода двух позиций на грузинском)
+--- org.toxsoft.core.tsgui.graphics
+--- org.toxsoft.core.tsgui.graphics.colors.impl
+--- org.toxsoft.core.tsgui.graphics.fonts.impl
+--- org.toxsoft.core.tsgui.graphics.icons.impl
+--- org.toxsoft.core.tsgui.m5.gui.mpc (недописанные константы с пустыми значениями)
++-- org.toxsoft.core.tsgui.m5.model.impl (местами нет перевода)
+--- org.toxsoft.core.tsgui.mws.appinf
+--- org.toxsoft.core.tsgui.mws.bases
+--- org.toxsoft.core.tsgui.mws.quants.progargs
+--- org.toxsoft.core.tsgui.mws.services.e4helper
+--- org.toxsoft.core.tsgui.panels.toolbar
+--- org.toxsoft.core.tsgui.utils.checkstate
+--- org.toxsoft.core.tsgui.utils.layout
+--- org.toxsoft.core.tsgui.valed.api
+--- org.toxsoft.core.tsgui.valed.controls.av
+--- org.toxsoft.core.tsgui.valed.controls.basic (проверить, не перепутаны ли константы со значениеми для STR_CHECKBOX_TEXT)
+--- org.toxsoft.core.tsgui.valed.controls.enums (проверить импорт из другого класса, для FMT_ERR_CLASS_NOT_VIS_PROVIDER)
+--- org.toxsoft.core.tsgui.valed.controls.graphics
+--- org.toxsoft.core.tsgui.valed.controls.time
+--- org.toxsoft.core.tsgui.valed.impl
+--- org.toxsoft.core.tsgui.widgets.mpv
+--- org.toxsoft.core.tsgui.widgets.mpv.impl
+--- 

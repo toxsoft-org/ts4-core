@@ -21,15 +21,15 @@ import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
 public enum EBorderLayoutPlacement
     implements IStridable {
 
-  CENTER( "center", STR_N_CENTER, STR_D_CENTER ), //$NON-NLS-1$
+  CENTER( "center", STR_CENTER, STR_CENTER_D ), //$NON-NLS-1$
 
-  NORTH( "north", STR_N_NORTH, STR_D_NORTH ), //$NON-NLS-1$
+  NORTH( "north", STR_NORTH, STR_NORTH_D ), //$NON-NLS-1$
 
-  SOUTH( "south", STR_N_SOUTH, STR_D_SOUTH ), //$NON-NLS-1$
+  SOUTH( "south", STR_SOUTH, STR_SOUTH_D ), //$NON-NLS-1$
 
-  EAST( "east", STR_N_EAST, STR_D_EAST ), //$NON-NLS-1$
+  EAST( "east", STR_EAST, STR_EAST_D ), //$NON-NLS-1$
 
-  WEST( "west", STR_N_WEST, STR_D_WEST ); //$NON-NLS-1$
+  WEST( "west", STR_WEST, STR_WEST_D ); //$NON-NLS-1$
 
   /**
    * Идентификатор регистрации хранителя {@link #KEEPER} в реестре {@link TsValobjUtils}.

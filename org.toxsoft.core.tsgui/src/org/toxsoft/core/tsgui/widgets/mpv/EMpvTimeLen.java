@@ -22,17 +22,17 @@ public enum EMpvTimeLen
   /**
    * HH:MM:SS.mmm.
    */
-  HH_MM_SS_MMM( "hh_mm_ss_mmm", STR_N_HH_MM_SS_MMM, STR_D_HH_MM_SS_MMM ), //$NON-NLS-1$
+  HH_MM_SS_MMM( "hh_mm_ss_mmm", STR_HH_MM_SS_MMM, STR_HH_MM_SS_MMM_D ), //$NON-NLS-1$
 
   /**
    * HH:MM:SS.
    */
-  HH_MM_SS( "hh_mm_ss", STR_N_HH_MM_SS, STR_D_HH_MM_SS ), //$NON-NLS-1$
+  HH_MM_SS( "hh_mm_ss", STR_HH_MM_SS, STR_HH_MM_SS_D ), //$NON-NLS-1$
 
   /**
    * HH:MM.
    */
-  HH_MM( "hh_mm", STR_N_HH_MM, STR_D_HH_MM ); //$NON-NLS-1$
+  HH_MM( "hh_mm", STR_HH_MM, STR_HH_MM_D ); //$NON-NLS-1$
 
   /**
    * The keeper ID.

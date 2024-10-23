@@ -42,8 +42,8 @@ public class ValedSecsDurationMpv
    * <b>Warning:</b> this option is used only in construictor, changes after will have no effect.
    */
   public static final IDataDef OPDEF_IS_HOURS_PART = DataDef.create( OPID_IS_HOURS_PART, BOOLEAN, //
-      TSID_NAME, STR_N_IS_HOURS_PART, //
-      TSID_DESCRIPTION, STR_D_IS_HOURS_PART, //
+      TSID_NAME, STR_IS_HOURS_PART, //
+      TSID_DESCRIPTION, STR_IS_HOURS_PART_D, //
       TSID_DEFAULT_VALUE, AV_TRUE //
   );
 
@@ -58,8 +58,8 @@ public class ValedSecsDurationMpv
    * <b>Warning:</b> this option is used only in construictor, changes after will have no effect.
    */
   public static final IDataDef OPDEF_IS_SECONDS_PART = DataDef.create( OPID_IS_SECONDS_PART, BOOLEAN, //
-      TSID_NAME, STR_N_IS_SECONDS_PART, //
-      TSID_DESCRIPTION, STR_D_IS_SECONDS_PART, //
+      TSID_NAME, STR_IS_SECONDS_PART, //
+      TSID_DESCRIPTION, STR_IS_SECONDS_PART_D, //
       TSID_DEFAULT_VALUE, AV_TRUE //
   );
 

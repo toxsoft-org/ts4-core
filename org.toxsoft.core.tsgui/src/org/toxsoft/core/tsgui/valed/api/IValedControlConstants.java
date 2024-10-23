@@ -100,8 +100,8 @@ public interface IValedControlConstants {
    * <i>Default value:</i> {@link IAtomicValue#NULL}
    */
   IDataDef OPDEF_EDITOR_FACTORY_NAME = DataDef.create( OPID_EDITOR_FACTORY_NAME, STRING, //
-      TSID_NAME, STR_N_EDITOR_FACTORY_NAME, //
-      TSID_DESCRIPTION, STR_D_EDITOR_FACTORY_NAME, //
+      TSID_NAME, STR_EDITOR_FACTORY_NAME, //
+      TSID_DESCRIPTION, STR_EDITOR_FACTORY_NAME_D, //
       TSID_IS_MANDATORY, AV_FALSE //
   );
 
@@ -113,8 +113,8 @@ public interface IValedControlConstants {
    * <i>Default value:</i> false - можно редактировать
    */
   IDataDef OPDEF_CREATE_UNEDITABLE = DataDef.create( OPID_CREATE_UNEDITABLE, BOOLEAN, //
-      TSID_NAME, STR_N_CREATE_UNEDITABLE, //
-      TSID_DESCRIPTION, STR_D_CREATE_UNEDITABLE, //
+      TSID_NAME, STR_CREATE_UNEDITABLE, //
+      TSID_DESCRIPTION, STR_CREATE_UNEDITABLE_D, //
       TSID_DEFAULT_VALUE, AV_FALSE, //
       TSID_IS_MANDATORY, AV_FALSE //
   );
@@ -127,8 +127,8 @@ public interface IValedControlConstants {
    * <i>Default value:</i> пустая строка
    */
   IDataDef OPDEF_TOOLTIP_TEXT = DataDef.create( OPID_TOOLTIP_TEXT, STRING, //
-      TSID_NAME, STR_N_TOOLTIP_TEXT, //
-      TSID_DESCRIPTION, STR_D_TOOLTIP_TEXT, //
+      TSID_NAME, STR_TOOLTIP_TEXT, //
+      TSID_DESCRIPTION, STR_TOOLTIP_TEXT_D, //
       TSID_DEFAULT_VALUE, AV_STR_EMPTY, //
       TSID_IS_MANDATORY, AV_FALSE //
   );
@@ -141,8 +141,8 @@ public interface IValedControlConstants {
    * <i>Default value:</i> <code>false</code>
    */
   IDataDef OPDEF_IS_WIDTH_FIXED = DataDef.create( OPID_IS_WIDTH_FIXED, BOOLEAN, //
-      TSID_NAME, STR_N_IS_WIDTH_FIXED, //
-      TSID_DESCRIPTION, STR_D_IS_WIDTH_FIXED, //
+      TSID_NAME, STR_IS_WIDTH_FIXED, //
+      TSID_DESCRIPTION, STR_IS_WIDTH_FIXED_D, //
       TSID_DEFAULT_VALUE, AV_FALSE, //
       TSID_IS_MANDATORY, AV_FALSE //
   );
@@ -155,8 +155,8 @@ public interface IValedControlConstants {
    * <i>Default value:</i> true (если иное не задано в самом редакторе)
    */
   IDataDef OPDEF_IS_HEIGHT_FIXED = DataDef.create( OPID_IS_HEIGHT_FIXED, BOOLEAN, //
-      TSID_NAME, STR_N_IS_HEIGHT_FIXED, //
-      TSID_DESCRIPTION, STR_D_IS_HEIGHT_FIXED, //
+      TSID_NAME, STR_IS_HEIGHT_FIXED, //
+      TSID_DESCRIPTION, STR_IS_HEIGHT_FIXED_D, //
       TSID_DEFAULT_VALUE, AV_TRUE, //
       TSID_IS_MANDATORY, AV_FALSE //
   );
@@ -174,8 +174,8 @@ public interface IValedControlConstants {
    * <i>Default value:</i> 1
    */
   IDataDef OPDEF_VERTICAL_SPAN = DataDef.create( OPID_VERTICAL_SPAN, INTEGER, //
-      TSID_NAME, STR_N_VERTICAL_SPAN, //
-      TSID_DESCRIPTION, STR_D_VERTICAL_SPAN, //
+      TSID_NAME, STR_VERTICAL_SPAN, //
+      TSID_DESCRIPTION, STR_VERTICAL_SPAN_D, //
       TSID_DEFAULT_VALUE, avInt( 1 ), //
       TSID_IS_MANDATORY, AV_FALSE //
   );
@@ -189,8 +189,8 @@ public interface IValedControlConstants {
    * <i>Default value:</i> <code>false</code>
    */
   IDataDef OPDEF_NO_FIELD_LABEL = DataDef.create( OPID_NO_FIELD_LABEL, BOOLEAN, //
-      TSID_NAME, STR_N_NO_FIELD_LABEL, //
-      TSID_DESCRIPTION, STR_D_NO_FIELD_LABEL, //
+      TSID_NAME, STR_NO_FIELD_LABEL, //
+      TSID_DESCRIPTION, STR_NO_FIELD_LABEL_D, //
       TSID_DEFAULT_VALUE, AV_FALSE, //
       TSID_IS_MANDATORY, AV_FALSE //
   );
@@ -222,8 +222,8 @@ public interface IValedControlConstants {
    */
   IDataDef OPDEF_VALED_UI_OUTFIT = DataDef.create2( OPID_VALED_UI_OUTFIT, STRING, //
       IdPathStringAvValidator.IDPATH_EMPTY_VALIDATOR, AvUtils.DEFAULT_AV_COMPARATOR, //
-      TSID_NAME, STR_N_NO_FIELD_LABEL, //
-      TSID_DESCRIPTION, STR_D_NO_FIELD_LABEL, //
+      TSID_NAME, STR_NO_FIELD_LABEL, //
+      TSID_DESCRIPTION, STR_NO_FIELD_LABEL_D, //
       TSID_DEFAULT_VALUE, avStr( VALED_UI_OUTFIT_SINGLE_LINE ), //
       TSID_IS_MANDATORY, AV_FALSE //
   );
@@ -238,8 +238,8 @@ public interface IValedControlConstants {
   @SuppressWarnings( "rawtypes" )
   ITsGuiContextRefDef<ITsVisualsProvider> REFDEF_VALUE_VISUALS_PROVIDER = //
       TsGuiContextRefDef.create( REFID_VALUE_VISUALS_PROVIDER, ITsVisualsProvider.class, //
-          TSID_NAME, STR_N_VALUE_VISUALS_PROVIDER, //
-          TSID_DESCRIPTION, STR_D_VALUE_VISUALS_PROVIDER, //
+          TSID_NAME, STR_VALUE_VISUALS_PROVIDER, //
+          TSID_DESCRIPTION, STR_VALUE_VISUALS_PROVIDER_D, //
           TSID_IS_MANDATORY, AV_FALSE //
       );
 

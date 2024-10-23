@@ -11,6 +11,6 @@ interface ITsResources {
   /**
    * {@link TsToolbar}
    */
-  String FMT_ERR_DUP_ACT_ID = "Действие с идентификатором %s уже есть в панели инструментов";
+  String FMT_ERR_DUP_ACT_ID = Messages.getString( "FMT_ERR_DUP_ACT_ID" ); //$NON-NLS-1$
 
 }

@@ -8,11 +8,8 @@ package org.toxsoft.core.tsgui.mws.quants.progargs;
 @SuppressWarnings( "nls" )
 interface ITsResources {
 
-  /**
-   * {@link QuantProgramArgs}
-   */
-  String MSG_ERR_INVALID_COMMAND_LINE = "Неверная командная строка";
-  String STR_N_CTX_REF_PROGRAM_ARGS   = "Аргументы";
-  String STR_D_CTX_REF_PROGRAM_ARGS   = "Аргументы командной строки запуска программы";
+  String MSG_ERR_INVALID_COMMAND_LINE = Messages.getString( "MSG_ERR_INVALID_COMMAND_LINE" ); //$NON-NLS-1$
+  String STR_CTX_REF_PROGRAM_ARGS     = Messages.getString( "STR_CTX_REF_PROGRAM_ARGS" );     //$NON-NLS-1$
+  String STR_CTX_REF_PROGRAM_ARGS_D   = Messages.getString( "STR_CTX_REF_PROGRAM_ARGS_D" );   //$NON-NLS-1$
 
 }

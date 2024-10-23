@@ -21,12 +21,12 @@ public enum ETsOrientation
   /**
    * Расположение по горизонтали.
    */
-  HORIZONTAL( "Horizontal", STR_N_TSO_HORIZONTAL, STR_D_TSO_HORIZONTAL, SWT.HORIZONTAL ), //$NON-NLS-1$
+  HORIZONTAL( "Horizontal", STR_TSO_HORIZONTAL, STR_TSO_HORIZONTAL_D, SWT.HORIZONTAL ), //$NON-NLS-1$
 
   /**
    * Расположение по вертикали.
    */
-  VERTICAL( "Vertical", STR_N_TSO_VERTICAL, STR_D_TSO_VERTICAL, SWT.VERTICAL ); //$NON-NLS-1$
+  VERTICAL( "Vertical", STR_TSO_VERTICAL, STR_TSO_VERTICAL_D, SWT.VERTICAL ); //$NON-NLS-1$
 
   /**
    * Keeper ID for registration in {@link TsValobjUtils}.

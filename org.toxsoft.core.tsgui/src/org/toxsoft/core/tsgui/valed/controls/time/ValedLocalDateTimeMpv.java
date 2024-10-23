@@ -46,8 +46,8 @@ public class ValedLocalDateTimeMpv
    * <b>Warning:</b> this option is used only in construictor, changes after will have no effect.
    */
   public static final IDataDef OPDEF_MPV_TIME_LEN = DataDef.create( OPID_MPV_TIME_LEN, BOOLEAN, //
-      TSID_NAME, STR_N_MPV_TIME_LEN, //
-      TSID_DESCRIPTION, STR_D_MPV_TIME_LEN, //
+      TSID_NAME, STR_MPV_TIME_LEN, //
+      TSID_DESCRIPTION, STR_MPV_TIME_LEN_D, //
       TSID_DEFAULT_VALUE, avValobj( EMpvTimeLen.HH_MM_SS )//
   );
 

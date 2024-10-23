@@ -10,11 +10,11 @@ interface ITsResources {
   /**
    * {@link ECheckState}
    */
-  String STR_N_UNCHECKED = Messages.STR_N_UNCHECKED;
-  String STR_D_UNCHECKED = Messages.STR_D_UNCHECKED;
-  String STR_N_CHECKED   = Messages.STR_N_CHECKED;
-  String STR_D_CHECKED   = Messages.STR_D_CHECKED;
-  String STR_N_GRAYED    = Messages.STR_N_GRAYED;
-  String STR_D_GRAYED    = Messages.STR_D_GRAYED;
+  String STR_UNCHECKED   = Messages.getString( "STR_XXX" ); //$NON-NLS-1$
+  String STR_UNCHECKED_D = Messages.getString( "STR_XXX" ); //$NON-NLS-1$
+  String STR_CHECKED     = Messages.getString( "STR_XXX" ); //$NON-NLS-1$
+  String STR_CHECKED_D   = Messages.getString( "STR_XXX" ); //$NON-NLS-1$
+  String STR_GRAYED      = Messages.getString( "STR_XXX" ); //$NON-NLS-1$
+  String STR_GRAYED_D    = Messages.getString( "STR_XXX" ); //$NON-NLS-1$
 
 }

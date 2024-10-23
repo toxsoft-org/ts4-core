@@ -8,16 +8,13 @@ package org.toxsoft.core.tsgui.valed.controls.av;
 @SuppressWarnings( "nls" )
 interface ITsResources {
 
-  /**
-   * {@link ValedAvAnytypeText}
-   */
-  String STR_N_ANYTYPE_TEXT_ALLOWED_TYPES        = "Разрешенный типы";
-  String STR_D_ANYTYPE_TEXT_ALLOWED_TYPES        = "Упорядоченный список разрешенных ко вводу атомарных типов";
-  String STR_N_ANYTYPE_TEXT_BOOLEAN_TRUE_NAMES   = "Имена true";
-  String STR_D_ANYTYPE_TEXT_BOOLEAN_TRUE_NAMES   = "Список слов, интерпретируемых как булева ИСТИНА";
-  String STR_N_ANYTYPE_TEXT_BOOLEAN_FALSE_NAMES  = "Имена false";
-  String STR_D_ANYTYPE_TEXT_BOOLEAN_FALSE_NAMES  = "Список слов, интерпретируемых как булева ЛОЖЬ";
-  String STR_N_ANYTYPE_TEXT_IS_EMPTY_STRING_NULL = "Пусто=NULL?";
-  String STR_D_ANYTYPE_TEXT_IS_EMPTY_STRING_NULL = "Интерпретировать пустую строку как атомарныый NULL";
+  String STR_ANYTYPE_TEXT_ALLOWED_TYPES          = Messages.getString( "STR_ANYTYPE_TEXT_ALLOWED_TYPES" );          //$NON-NLS-1$
+  String STR_ANYTYPE_TEXT_ALLOWED_TYPES_D        = Messages.getString( "STR_ANYTYPE_TEXT_ALLOWED_TYPES_D" );        //$NON-NLS-1$
+  String STR_ANYTYPE_TEXT_BOOLEAN_TRUE_NAMES     = Messages.getString( "STR_ANYTYPE_TEXT_BOOLEAN_TRUE_NAMES" );     //$NON-NLS-1$
+  String STR_ANYTYPE_TEXT_BOOLEAN_TRUE_NAMES_D   = Messages.getString( "STR_ANYTYPE_TEXT_BOOLEAN_TRUE_NAMES_D" );   //$NON-NLS-1$
+  String STR_ANYTYPE_TEXT_BOOLEAN_FALSE_NAMES    = Messages.getString( "STR_ANYTYPE_TEXT_BOOLEAN_FALSE_NAMES" );    //$NON-NLS-1$
+  String STR_ANYTYPE_TEXT_BOOLEAN_FALSE_NAMES_D  = Messages.getString( "STR_ANYTYPE_TEXT_BOOLEAN_FALSE_NAMES_D" );  //$NON-NLS-1$
+  String STR_ANYTYPE_TEXT_IS_EMPTY_STRING_NULL   = Messages.getString( "STR_ANYTYPE_TEXT_IS_EMPTY_STRING_NULL" );   //$NON-NLS-1$
+  String STR_ANYTYPE_TEXT_IS_EMPTY_STRING_NULL_D = Messages.getString( "STR_ANYTYPE_TEXT_IS_EMPTY_STRING_NULL_D" ); //$NON-NLS-1$
 
 }

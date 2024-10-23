@@ -11,21 +11,21 @@ interface ITsResources {
   /**
    * {@link IValedControlConstants}
    */
-  String STR_N_EDITOR_FACTORY_NAME    = "Имя редактора";
-  String STR_D_EDITOR_FACTORY_NAME    = "Регистрационное имя или имя класса фабрики для использования без регистрации";
-  String STR_N_CREATE_UNEDITABLE      = "Нередактируемый?";
-  String STR_D_CREATE_UNEDITABLE      = "Созданный контроль редактора будет показывать значение без возможности правки";
-  String STR_N_TOOLTIP_TEXT           = "Подсказка";
-  String STR_D_TOOLTIP_TEXT           = "Текст всплывающей подсказки";
-  String STR_N_VALUE_VISUALS_PROVIDER = "Постащик визуала";
-  String STR_D_VALUE_VISUALS_PROVIDER = "Ссылка на поставщик визуальногь предствления: текста, значков и т.п.";
-  String STR_N_IS_WIDTH_FIXED         = "Фикс. ширина";
-  String STR_D_IS_WIDTH_FIXED         = "Признак не желания контроля редактора занимать всю возможную ширину";
-  String STR_N_IS_HEIGHT_FIXED        = "Фикс. высота";
-  String STR_D_IS_HEIGHT_FIXED        = "Признак не желания контроля редактора занимать всю возможную высоту";
-  String STR_N_VERTICAL_SPAN          = "Высота";
-  String STR_D_VERTICAL_SPAN          = "Высота редактора (в единицах высоты однострочного поля ввода текста)";
-  String STR_N_NO_FIELD_LABEL         = "Без метки?";
-  String STR_D_NO_FIELD_LABEL         = "Признак скрытия подписи к редактору";
+  String STR_EDITOR_FACTORY_NAME      = Messages.getString( "STR_EDITOR_FACTORY_NAME" );      //$NON-NLS-1$
+  String STR_EDITOR_FACTORY_NAME_D    = Messages.getString( "STR_EDITOR_FACTORY_NAME_D" );    //$NON-NLS-1$
+  String STR_CREATE_UNEDITABLE        = Messages.getString( "STR_CREATE_UNEDITABLE" );        //$NON-NLS-1$
+  String STR_CREATE_UNEDITABLE_D      = Messages.getString( "STR_CREATE_UNEDITABLE_D" );      //$NON-NLS-1$
+  String STR_TOOLTIP_TEXT             = Messages.getString( "STR_TOOLTIP_TEXT" );             //$NON-NLS-1$
+  String STR_TOOLTIP_TEXT_D           = Messages.getString( "STR_TOOLTIP_TEXT_D" );           //$NON-NLS-1$
+  String STR_VALUE_VISUALS_PROVIDER   = Messages.getString( "STR_VALUE_VISUALS_PROVIDER" );   //$NON-NLS-1$
+  String STR_VALUE_VISUALS_PROVIDER_D = Messages.getString( "STR_VALUE_VISUALS_PROVIDER_D" ); //$NON-NLS-1$
+  String STR_IS_WIDTH_FIXED           = Messages.getString( "STR_IS_WIDTH_FIXED" );           //$NON-NLS-1$
+  String STR_IS_WIDTH_FIXED_D         = Messages.getString( "STR_IS_WIDTH_FIXED_D" );         //$NON-NLS-1$
+  String STR_IS_HEIGHT_FIXED          = Messages.getString( "STR_IS_HEIGHT_FIXED" );          //$NON-NLS-1$
+  String STR_IS_HEIGHT_FIXED_D        = Messages.getString( "STR_IS_HEIGHT_FIXED_D" );        //$NON-NLS-1$
+  String STR_VERTICAL_SPAN            = Messages.getString( "STR_VERTICAL_SPAN" );            //$NON-NLS-1$
+  String STR_VERTICAL_SPAN_D          = Messages.getString( "STR_VERTICAL_SPAN_D" );          //$NON-NLS-1$
+  String STR_NO_FIELD_LABEL           = Messages.getString( "STR_NO_FIELD_LABEL" );           //$NON-NLS-1$
+  String STR_NO_FIELD_LABEL_D         = Messages.getString( "STR_NO_FIELD_LABEL_D" );         //$NON-NLS-1$
 
 }

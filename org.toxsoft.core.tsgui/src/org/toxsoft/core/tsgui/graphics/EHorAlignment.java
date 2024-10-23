@@ -21,22 +21,22 @@ public enum EHorAlignment
   /**
    * Выравнивание по горизонтали влево.
    */
-  LEFT( "Left", STR_N_HA_LEFT, STR_D_HA_LEFT, SWT.LEFT ), //$NON-NLS-1$
+  LEFT( "Left", STR_HA_LEFT, STR_HA_LEFT_D, SWT.LEFT ), //$NON-NLS-1$
 
   /**
    * Выравнивание по горизонтали по центру.
    */
-  CENTER( "Center", STR_N_HA_CENTER, STR_D_HA_CENTER, SWT.CENTER ), //$NON-NLS-1$
+  CENTER( "Center", STR_HA_CENTER, STR_HA_CENTER_D, SWT.CENTER ), //$NON-NLS-1$
 
   /**
    * Выравнивание по горизонтали по центру.
    */
-  RIGHT( "Right", STR_N_HA_RIGHT, STR_D_HA_RIGHT, SWT.RIGHT ), //$NON-NLS-1$
+  RIGHT( "Right", STR_HA_RIGHT, STR_HA_RIGHT_D, SWT.RIGHT ), //$NON-NLS-1$
 
   /**
    * Выравнивание по горизонтали на всю ширину.
    */
-  FILL( "Fill", STR_N_HA_FILL, STR_D_HA_FILL, SWT.FILL ), //$NON-NLS-1$
+  FILL( "Fill", STR_HA_FILL, STR_HA_FILL_D, SWT.FILL ), //$NON-NLS-1$
 
   ;
 

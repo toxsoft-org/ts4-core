@@ -8,6 +8,6 @@ package org.toxsoft.core.tsgui.graphics.fonts.impl;
 @SuppressWarnings( "nls" )
 interface ITsResources {
 
-  String FMT_ERR_INV_FONT_CREATION_ARGS = "Невозможно создать шрифт с параметрами %s";
+  String FMT_ERR_INV_FONT_CREATION_ARGS = Messages.getString( "FMT_ERR_INV_FONT_CREATION_ARGS" ); //$NON-NLS-1$
 
 }

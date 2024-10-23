@@ -8,21 +8,21 @@ package org.toxsoft.core.tsgui.m5.gui.mpc;
 @SuppressWarnings( "nls" )
 interface ITsResources {
 
-  String STR_N_IS_TOOLBAR         = "Toolbar?";
-  String STR_D_IS_TOOLBAR         = "Flags that toobar is shown";
-  String STR_N_IS_                = "";
-  String STR_D_IS_                = "";
-  String STR_N_IS_COLUMN_HEADER   = "Header?";
-  String STR_D_IS_COLUMN_HEADER   = "Flags that table/tree colemns header is shown";
-  String STR_N_                   = "";
-  String STR_D_                   = "";
-  String STR_N_NODE_ICON_SIZE     = "Node icon";
-  String STR_D_NODE_ICON_SIZE     = "Tree nodes icon size";
-  String STR_N_NODE_THUMB_SIZE    = "Node thumb";
-  String STR_D_NODE_THUMB_SIZE    = "Tree nodes thumb size";
-  String STR_N_DBLCLICK_ACTION_ID = "Dblclick ID";
-  String STR_D_DBLCLICK_ACTION_ID = "Mouse double click action ID";
-  String STR_N_DETAILS_PANE_PLACE = "Details place";
-  String STR_D_DETAILS_PANE_PLACE = "Details plane placement relative to items list";
+  String STR_IS_TOOLBAR           = Messages.getString( "STR_IS_TOOLBAR" );           //$NON-NLS-1$
+  String STR_IS_TOOLBAR_D         = Messages.getString( "STR_IS_TOOLBAR_D" );         //$NON-NLS-1$
+  String STR_IS_                  = Messages.getString( "STR_IS_" );                  //$NON-NLS-1$
+  String STR_IS_D                 = Messages.getString( "STR_IS_D" );                 //$NON-NLS-1$
+  String STR_IS_COLUMN_HEADER     = Messages.getString( "STR_IS_COLUMN_HEADER" );     //$NON-NLS-1$
+  String STR_IS_COLUMN_HEADER_D   = Messages.getString( "STR_IS_COLUMN_HEADER_D" );   //$NON-NLS-1$
+  String STR_                     = Messages.getString( "STR_" );                     //$NON-NLS-1$
+  String STR_D                    = Messages.getString( "STR_D" );                    //$NON-NLS-1$
+  String STR_NODE_ICON_SIZE       = Messages.getString( "STR_NODE_ICON_SIZE" );       //$NON-NLS-1$
+  String STR_NODE_ICON_SIZE_D     = Messages.getString( "STR_NODE_ICON_SIZE_D" );     //$NON-NLS-1$
+  String STR_NODE_THUMB_SIZE      = Messages.getString( "STR_NODE_THUMB_SIZE" );      //$NON-NLS-1$
+  String STR_NODE_THUMB_SIZE_D    = Messages.getString( "STR_NODE_THUMB_SIZE_D" );    //$NON-NLS-1$
+  String STR_DBLCLICK_ACTION_ID   = Messages.getString( "STR_DBLCLICK_ACTION_ID" );   //$NON-NLS-1$
+  String STR_DBLCLICK_ACTION_ID_D = Messages.getString( "STR_DBLCLICK_ACTION_ID_D" ); //$NON-NLS-1$
+  String STR_DETAILS_PANE_PLACE   = Messages.getString( "STR_DETAILS_PANE_PLACE" );   //$NON-NLS-1$
+  String STR_DETAILS_PANE_PLACE_D = Messages.getString( "STR_DETAILS_PANE_PLACE_D" ); //$NON-NLS-1$
 
 }

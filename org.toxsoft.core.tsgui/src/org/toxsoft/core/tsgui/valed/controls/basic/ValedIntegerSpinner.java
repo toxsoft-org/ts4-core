@@ -43,8 +43,8 @@ public class ValedIntegerSpinner
    * Value change step by the arrow keys.
    */
   public static final IDataDef OPDEF_STEP = DataDef.create( OPID_STEP, INTEGER, //
-      TSID_NAME, STR_N_INT_SPINNER_STEP, //
-      TSID_DESCRIPTION, STR_D_INT_SPINNER_STEP, //
+      TSID_NAME, STR_INT_SPINNER_STEP, //
+      TSID_DESCRIPTION, STR_INT_SPINNER_STEP_D, //
       TSID_DEFAULT_VALUE, AV_1 //
   );
 
@@ -52,8 +52,8 @@ public class ValedIntegerSpinner
    * Value change step by the PageUp/PageDown keys.
    */
   public static final IDataDef OPDEF_PAGE_STEP = DataDef.create( OPID_PAGE_STEP, INTEGER, //
-      TSID_NAME, STR_N_INT_SPINNER_PAGE_STEP, //
-      TSID_DESCRIPTION, STR_D_INT_SPINNER_PAGE_STEP, //
+      TSID_NAME, STR_INT_SPINNER_PAGE_STEP, //
+      TSID_DESCRIPTION, STR_INT_SPINNER_PAGE_STEP_D, //
       TSID_DEFAULT_VALUE, avInt( 10 ) //
   );
 

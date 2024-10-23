@@ -22,32 +22,32 @@ public enum EBorderType
   /**
    * Тип границы области: нет границы.
    */
-  NONE( "BorderNone", STR_N_BT_NONE, STR_D_BT_NONE, SWT.NONE ),
+  NONE( "BorderNone", STR_BT_NONE, STR_BT_NONE_D, SWT.NONE ),
 
   /**
    * Тип границы области: обведение вдавленной линией.
    */
-  LINE( "BorderLine", STR_N_BT_LINE, STR_D_BT_LINE, SWT.SHADOW_NONE ),
+  LINE( "BorderLine", STR_BT_LINE, STR_BT_LINE_D, SWT.SHADOW_NONE ),
 
   /**
    * Тип границы области: обведение вдавленной линией.
    */
-  ETCHED( "BorderEtched", STR_N_BT_ECTHED, STR_D_BT_ECTHED, SWT.SHADOW_ETCHED_IN ),
+  ETCHED( "BorderEtched", STR_BT_ECTHED, STR_BT_ECTHED_D, SWT.SHADOW_ETCHED_IN ),
 
   /**
    * Тип границы области: обведение выпуклой линией.
    */
-  CONVEX( "BorderConvex", STR_N_BT_CONVEX, STR_D_BT_CONVEX, SWT.SHADOW_ETCHED_OUT ),
+  CONVEX( "BorderConvex", STR_BT_CONVEX, STR_BT_CONVEX_D, SWT.SHADOW_ETCHED_OUT ),
 
   /**
    * Тип границы области: имитация вдавленной облести.
    */
-  BEVEL_INNER( "BorderBevelInner", STR_N_BT_BEVEL_INNER, STR_D_BT_BEVEL_INNER, SWT.SHADOW_IN ),
+  BEVEL_INNER( "BorderBevelInner", STR_BT_BEVEL_INNER, STR_BT_BEVEL_INNER_D, SWT.SHADOW_IN ),
 
   /**
    * Тип границы области: имитация выпуклой области.
    */
-  BEVEL_OUTER( "BorderBevelOuter", STR_N_BT_BEVEL_OUTER, STR_D_BT_BEVEL_OUTER, SWT.SHADOW_OUT );
+  BEVEL_OUTER( "BorderBevelOuter", STR_BT_BEVEL_OUTER, STR_BT_BEVEL_OUTER_D, SWT.SHADOW_OUT );
 
   /**
    * Keeper ID for registration in {@link TsValobjUtils}.

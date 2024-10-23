@@ -36,8 +36,8 @@ public class ValedStringText
    * The flag determines if multi-line text will be edited is widget.
    */
   public static final IDataDef OPDEF_IS_MULTI_LINE = DataDef.create( OPID_IS_MULTI_LINE, BOOLEAN, //
-      TSID_NAME, STR_N_IS_MULTI_LINE, //
-      TSID_DESCRIPTION, STR_D_IS_MULTI_LINE, //
+      TSID_NAME, STR_IS_MULTI_LINE, //
+      TSID_DESCRIPTION, STR_IS_MULTI_LINE_D, //
       TSID_DEFAULT_VALUE, AV_FALSE //
   );
 

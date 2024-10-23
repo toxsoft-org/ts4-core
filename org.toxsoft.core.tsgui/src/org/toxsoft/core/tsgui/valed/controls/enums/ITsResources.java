@@ -10,18 +10,12 @@ import org.toxsoft.core.tsgui.utils.*;
 @SuppressWarnings( "nls" )
 interface ITsResources {
 
-  /**
-   * {@link AbstractValedEnum}
-   */
-  String FMT_ERR_CLASS_NOT_VIS_PROVIDER = "%s: класс %s не является " + ITsVisualsProvider.class.getSimpleName();
-
-  /**
-   * {@link IValedEnumConstants}
-   */
-  String FMT_ERR_CLASS_NOT_ENUM           = "Класс %s не является enum-перечислением";
-  String MSG_ERR_ENUM_CLASS_NOT_SPECIFIED = "Не задан класс enum-константы";
-  String FMT_ERR_ENUM_CLASS_NOT_FOUND     = "Невозможно найти класс enum-константы %s";
-  String FMT_ERR_KEEPER_CLASS_NOT_FOUND   = "Невозможно найти класс по киперу %s";
-  String FMT_ERR_EMPTY_ENUM               = "enum-перечисление %s не содержит ни одной константы";
+  String FMT_ERR_CLASS_NOT_VIS_PROVIDER   =
+      Messages.getString( "FMT_ERR_CLASS_NOT_VIS_PROVIDER" ) + ITsVisualsProvider.class.getSimpleName(); //$NON-NLS-1$
+  String FMT_ERR_CLASS_NOT_ENUM           = Messages.getString( "FMT_ERR_CLASS_NOT_ENUM" );              //$NON-NLS-1$
+  String MSG_ERR_ENUM_CLASS_NOT_SPECIFIED = Messages.getString( "MSG_ERR_ENUM_CLASS_NOT_SPECIFIED" );    //$NON-NLS-1$
+  String FMT_ERR_ENUM_CLASS_NOT_FOUND     = Messages.getString( "FMT_ERR_ENUM_CLASS_NOT_FOUND" );        //$NON-NLS-1$
+  String FMT_ERR_KEEPER_CLASS_NOT_FOUND   = Messages.getString( "FMT_ERR_KEEPER_CLASS_NOT_FOUND" );      //$NON-NLS-1$
+  String FMT_ERR_EMPTY_ENUM               = Messages.getString( "FMT_ERR_EMPTY_ENUM" );                  //$NON-NLS-1$
 
 }
