@@ -5,7 +5,6 @@ package org.toxsoft.core.tslib.av.impl;
  *
  * @author hazard157
  */
-@SuppressWarnings( "nls" )
 interface ITsResources {
 
   String MSG_ERR_INT_VALUE_OVER_MAX_LONG      = Messages.getString( "MSG_ERR_INT_VALUE_OVER_MAX_LONG" );      //$NON-NLS-1$
@@ -19,8 +18,5 @@ interface ITsResources {
   String FMT_ERR_NO_SUITABLE_CONSTRUCTORS     = Messages.getString( "FMT_ERR_NO_SUITABLE_CONSTRUCTORS" );     //$NON-NLS-1$
   String FMT_ERR_INV_EMPTY_CONSTRUCTOR        = Messages.getString( "FMT_ERR_INV_EMPTY_CONSTRUCTOR" );        //$NON-NLS-1$
   String FMT_ERR_NO_MANDATORY_OP              = Messages.getString( "FMT_ERR_NO_MANDATORY_OP" );              //$NON-NLS-1$
-
-  // FIXME String MSG_ERR_INT_VALUE_OVER_MAX_LONG = "Integer value is greater than max allowed value " + Long.MAX_VALUE;
-  // FIXME String FMT_ERR_ENTITY_AV_NOT_STRING_TYPE = "Type must be " + AvUtils.DDID_STRING + " rather than %s";
 
 }
