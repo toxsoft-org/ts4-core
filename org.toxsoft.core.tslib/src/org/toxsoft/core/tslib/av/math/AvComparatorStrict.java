@@ -10,16 +10,16 @@ import org.toxsoft.core.tslib.utils.errors.*;
 // TODO TRANSLATE
 
 /**
- * Строгий сравниватель атомарных значений.
+ * Strict comparator of the atomic values.
  * <p>
- * Строгий означает, что сравниватель:
+ * Strict means that:
  * <ul>
- * <li>использование неприсвоенных значении (в том числе {@link IAtomicValue#NULL}) приводит к исключениям
- * {@link AvUnassignedValueRtException};</li>
- * <li>не производит никакого приведения типов, любое несоответствие атомарных типов операндов приводит к выбрасыванию
- * исключения {@link AvTypeCastRtException}.</li>
+ * <li>using unassigned values ​​(including {@link IAtomicValue#NULL}) results in {@link AvUnassignedValueRtException}
+ * exceptions;</li>
+ * <li>does not perform any type casting, any mismatch of the atomic types of the operands results in throwing an
+ * exception {@link AvTypeCastRtException}.</li>
  * </ul>
- * Все методы класса являются потоко-безопасными.
+ * All methods are thread-safe..
  *
  * @author hazard157
  */
@@ -32,10 +32,10 @@ public class AvComparatorStrict
   public static final IAvComparator INSTANCE = new AvComparatorStrict();
 
   /**
-   * Пустой конструктор.
+   * Constructor.
    */
   private AvComparatorStrict() {
-    // пусто
+    // nop
   }
 
   // ------------------------------------------------------------------------------------
@@ -63,35 +63,19 @@ public class AvComparatorStrict
     // сравним однотипные значение
     switch( aAv1.atomicType() ) {
       case NONE:
-        switch( aOp ) {
-          case EQ:
-          case GE:
-          case LE:
-            return true;
-          case NE:
-          case GT:
-          case LT:
-            return false;
-          case MATCH:
-            throw new TsInternalErrorRtException();
-          default:
-            throw new TsNotAllEnumsUsedRtException();
-        }
+        return switch( aOp ) {
+          case EQ, GE, LE -> true;
+          case NE, GT, LT -> false;
+          case MATCH -> throw new TsInternalErrorRtException();
+          default -> throw new TsNotAllEnumsUsedRtException();
+        };
       case BOOLEAN:
-        switch( aOp ) {
-          case EQ:
-          case GE:
-          case LE:
-            return aAv1.asBool() == aAv2.asBool();
-          case NE:
-          case GT:
-          case LT:
-            return aAv1.asBool() != aAv2.asBool();
-          case MATCH:
-            throw new TsInternalErrorRtException();
-          default:
-            throw new TsNotAllEnumsUsedRtException();
-        }
+        return switch( aOp ) {
+          case EQ, GE, LE -> aAv1.asBool() == aAv2.asBool();
+          case NE, GT, LT -> aAv1.asBool() != aAv2.asBool();
+          case MATCH -> throw new TsInternalErrorRtException();
+          default -> throw new TsNotAllEnumsUsedRtException();
+        };
       case INTEGER:
       case TIMESTAMP:
         if( aAv1.asLong() > aAv2.asLong() ) {
@@ -114,24 +98,16 @@ public class AvComparatorStrict
         throw new TsNotAllEnumsUsedRtException();
     }
     // вернем признак выполнения условия сравнения
-    switch( aOp ) {
-      case EQ:
-        return cmpVal == 0;
-      case NE:
-        return cmpVal != 0;
-      case GE:
-        return cmpVal >= 0;
-      case GT:
-        return cmpVal > 0;
-      case LE:
-        return cmpVal <= 0;
-      case LT:
-        return cmpVal < 0;
-      case MATCH:
-        throw new TsInternalErrorRtException();
-      default:
-        throw new TsNotAllEnumsUsedRtException();
-    }
+    return switch( aOp ) {
+      case EQ -> cmpVal == 0;
+      case NE -> cmpVal != 0;
+      case GE -> cmpVal >= 0;
+      case GT -> cmpVal > 0;
+      case LE -> cmpVal <= 0;
+      case LT -> cmpVal < 0;
+      case MATCH -> throw new TsInternalErrorRtException();
+      default -> throw new TsNotAllEnumsUsedRtException();
+    };
   }
 
   @Override

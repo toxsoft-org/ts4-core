@@ -175,7 +175,7 @@ public class OptionSetUtils {
         if( !AvTypeCastRtException.canAssign( dd.atomicType(), opVal.atomicType() ) ) {
           vrl.error( FMT_ERR_OP_TYPE_MISMATCH, dd.id(), dd.atomicType().id(), opVal.atomicType().id() );
         }
-        vrl.add( dd.validator().validate( opVal ) );
+        vrl.addNonOk( dd.validator().validate( opVal ) );
       }
     }
     return vrl;

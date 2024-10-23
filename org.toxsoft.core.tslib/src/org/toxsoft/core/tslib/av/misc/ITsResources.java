@@ -5,7 +5,6 @@ package org.toxsoft.core.tslib.av.misc;
  *
  * @author hazard157
  */
-@SuppressWarnings( "nls" )
 interface ITsResources {
 
   /**
