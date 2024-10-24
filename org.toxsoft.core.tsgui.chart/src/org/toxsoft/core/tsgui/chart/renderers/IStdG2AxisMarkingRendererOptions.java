@@ -35,8 +35,8 @@ public interface IStdG2AxisMarkingRendererOptions {
    * Значение по умолчанию: 3
    */
   IDataDef INDENT_FROM_EDGE = DataDef.create( "markIndent", INTEGER, // //$NON-NLS-1$
-      TSID_NAME, STR_N_INDENT, //
-      TSID_DESCRIPTION, STR_D_INDENT, //
+      TSID_NAME, STR_INDENT, //
+      TSID_DESCRIPTION, STR_INDENT_D, //
       TSID_DEFAULT_VALUE, AvUtils.avInt( 3 ) //
   );
   // IAtomicOptionInfo INDENT_FROM_EDGE =
@@ -50,8 +50,8 @@ public interface IStdG2AxisMarkingRendererOptions {
    */
   @SuppressWarnings( "javadoc" )
   IDataDef BIG_TICK_LINE_INFO = DataDef.create( "bigTickLineInfo", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_BIG_TICK_LINE_INFO, //
-      TSID_DESCRIPTION, STR_D_BIG_TICK_LINE_INFO, //
+      TSID_NAME, STR_BIG_TICK_LINE_INFO, //
+      TSID_DESCRIPTION, STR_BIG_TICK_LINE_INFO_D, //
       TSID_KEEPER_ID, TsLineInfo.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjTsLineInfo.FACTORY_NAME, //
       TSID_DEFAULT_VALUE, avValobj( TsLineInfo.fromLineAttributes( new LineAttributes( 2 ) ) ) //
@@ -69,8 +69,8 @@ public interface IStdG2AxisMarkingRendererOptions {
    */
   @SuppressWarnings( "javadoc" )
   IDataDef MID_TICK_LINE_INFO = DataDef.create( "midTickLineInfo", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_MID_TICK_LINE_INFO, //
-      TSID_DESCRIPTION, STR_D_MID_TICK_LINE_INFO, //
+      TSID_NAME, STR_MID_TICK_LINE_INFO, //
+      TSID_DESCRIPTION, STR_MID_TICK_LINE_INFO_D, //
       TSID_KEEPER_ID, TsLineInfo.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjTsLineInfo.FACTORY_NAME, //
       TSID_DEFAULT_VALUE, avValobj( TsLineInfo.fromLineAttributes( new LineAttributes( 2 ) ) ) //
@@ -88,8 +88,8 @@ public interface IStdG2AxisMarkingRendererOptions {
    */
   @SuppressWarnings( "javadoc" )
   IDataDef LIT_TICK_LINE_INFO = DataDef.create( "litTickLineInfo", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_LIT_TICK_LINE_INFO, //
-      TSID_DESCRIPTION, STR_D_LIT_TICK_LINE_INFO, //
+      TSID_NAME, STR_LIT_TICK_LINE_INFO, //
+      TSID_DESCRIPTION, STR_LIT_TICK_LINE_INFO_D, //
       TSID_KEEPER_ID, TsLineInfo.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjTsLineInfo.FACTORY_NAME, //
       TSID_DEFAULT_VALUE, avValobj( TsLineInfo.fromLineAttributes( new LineAttributes( 1 ) ) ) //
@@ -104,8 +104,8 @@ public interface IStdG2AxisMarkingRendererOptions {
    * Property: big tick axis color.
    */
   IDataDef BIG_TICK_RGBA = DataDef.create( "bigTickRgba", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_BIG_TICK_COLOR, //
-      TSID_DESCRIPTION, STR_D_BIG_TICK_COLOR, //
+      TSID_NAME, STR_BIG_TICK_COLOR, //
+      TSID_DESCRIPTION, STR_BIG_TICK_COLOR_D, //
       TSID_KEEPER_ID, RGBAKeeper.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, TSID_DEFAULT_VALUE,
       avValobj( new RGBA( 50, 50, 50, 255 ) ) //
@@ -115,8 +115,8 @@ public interface IStdG2AxisMarkingRendererOptions {
    * Property: mid tick axis color.
    */
   IDataDef MID_TICK_RGBA = DataDef.create( "midTickRgba", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_MID_TICK_COLOR, //
-      TSID_DESCRIPTION, STR_D_MID_TICK_COLOR, //
+      TSID_NAME, STR_MID_TICK_COLOR, //
+      TSID_DESCRIPTION, STR_MID_TICK_COLOR_D, //
       TSID_KEEPER_ID, RGBAKeeper.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, TSID_DEFAULT_VALUE,
       avValobj( new RGBA( 50, 50, 50, 255 ) ) //
@@ -126,8 +126,8 @@ public interface IStdG2AxisMarkingRendererOptions {
    * Property: little tick axis color.
    */
   IDataDef LIT_TICK_RGBA = DataDef.create( "litTickRgba", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_LIT_TICK_COLOR, //
-      TSID_DESCRIPTION, STR_D_LIT_TICK_COLOR, //
+      TSID_NAME, STR_LIT_TICK_COLOR, //
+      TSID_DESCRIPTION, STR_LIT_TICK_COLOR_D, //
       TSID_KEEPER_ID, RGBAKeeper.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, TSID_DEFAULT_VALUE,
       avValobj( new RGBA( 50, 50, 50, 255 ) ) //

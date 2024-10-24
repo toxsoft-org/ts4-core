@@ -35,8 +35,8 @@ public interface IStdG2CanvasRendererOptions {
    * Значение по умолчанию: TsColorUtils.rgb2int( new RGB( 0x80, 0x80, 0x80 ))
    */
   IDataDef MARGINS_COLOR = DataDef.create( "marginsColor", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_MARGINS_COLOR, //
-      TSID_DESCRIPTION, STR_D_MARGINS_COLOR, //
+      TSID_NAME, STR_MARGINS_COLOR, //
+      TSID_DESCRIPTION, STR_MARGINS_COLOR_D, //
       TSID_KEEPER_ID, RGBAKeeper.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, //
       TSID_DEFAULT_VALUE, avValobj( new RGBA( 0x80, 0x80, 0x80, 255 ) ) //
@@ -53,8 +53,8 @@ public interface IStdG2CanvasRendererOptions {
    * Значение по умолчанию: TsColorUtils.rgb2int( new RGB( 0xff, 0xff, 0xff ))
    */
   IDataDef BACKGROUND_COLOR = DataDef.create( "marginsColor", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_BACKGROUND_COLOR, //
-      TSID_DESCRIPTION, STR_D_BACKGROUND_COLOR, //
+      TSID_NAME, STR_BACKGROUND_COLOR, //
+      TSID_DESCRIPTION, STR_BACKGROUND_COLOR_D, //
       TSID_KEEPER_ID, RGBAKeeper.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, //
       TSID_DEFAULT_VALUE, avValobj( new RGBA( 0xff, 0xff, 0xff, 255 ) ) //
@@ -70,8 +70,8 @@ public interface IStdG2CanvasRendererOptions {
    * Значение по умолчанию: {@link Margins#Margins(int, int, int, int) Margins(8,8,8,8)}
    */
   IDataDef MARGINS_INFO = DataDef.create( "marginsColor", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_MARGINS_INFO, //
-      TSID_DESCRIPTION, STR_D_MARGINS_INFO, //
+      TSID_NAME, STR_MARGINS_INFO, //
+      TSID_DESCRIPTION, STR_MARGINS_INFO_D, //
       TSID_KEEPER_ID, MarginsKeeper.KEEPER_ID, //
       // OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, //
       TSID_DEFAULT_VALUE, avValobj( new Margins( 8, 8, 8, 8 ) ) //

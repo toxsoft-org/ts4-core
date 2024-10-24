@@ -35,8 +35,8 @@ public interface IStdG2GridRendererOptions {
    */
   @SuppressWarnings( "javadoc" )
   IDataDef HOR_BIG_TICK_LINE_INFO = DataDef.create( "horBigTickLineInfo", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_BIG_TICK_LINE_INFO, //
-      TSID_DESCRIPTION, STR_D_BIG_TICK_LINE_INFO, //
+      TSID_NAME, STR_BIG_TICK_LINE_INFO, //
+      TSID_DESCRIPTION, STR_BIG_TICK_LINE_INFO_D, //
       TSID_KEEPER_ID, TsLineInfo.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjTsLineInfo.FACTORY_NAME, //
       TSID_DEFAULT_VALUE, avValobj( TsLineInfo.fromLineAttributes( new LineAttributes( 1 ) ) ) //
@@ -54,8 +54,8 @@ public interface IStdG2GridRendererOptions {
    */
   @SuppressWarnings( "javadoc" )
   IDataDef HOR_MID_TICK_LINE_INFO = DataDef.create( "horMidTickLineInfo", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_MID_TICK_LINE_INFO, //
-      TSID_DESCRIPTION, STR_D_MID_TICK_LINE_INFO, //
+      TSID_NAME, STR_MID_TICK_LINE_INFO, //
+      TSID_DESCRIPTION, STR_MID_TICK_LINE_INFO_D, //
       TSID_KEEPER_ID, TsLineInfo.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjTsLineInfo.FACTORY_NAME, //
       TSID_DEFAULT_VALUE,
@@ -74,8 +74,8 @@ public interface IStdG2GridRendererOptions {
    */
   @SuppressWarnings( "javadoc" )
   IDataDef VER_BIG_TICK_LINE_INFO = DataDef.create( "verBigTickLineInfo", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_BIG_TICK_LINE_INFO, //
-      TSID_DESCRIPTION, STR_D_BIG_TICK_LINE_INFO, //
+      TSID_NAME, STR_BIG_TICK_LINE_INFO, //
+      TSID_DESCRIPTION, STR_BIG_TICK_LINE_INFO_D, //
       TSID_KEEPER_ID, TsLineInfo.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjTsLineInfo.FACTORY_NAME, //
       TSID_DEFAULT_VALUE, avValobj( TsLineInfo.fromLineAttributes( new LineAttributes( 1 ) ) ) //
@@ -93,8 +93,8 @@ public interface IStdG2GridRendererOptions {
    */
   @SuppressWarnings( "javadoc" )
   IDataDef VER_MID_TICK_LINE_INFO = DataDef.create( "verMidTickLineInfo", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_MID_TICK_LINE_INFO, //
-      TSID_DESCRIPTION, STR_D_MID_TICK_LINE_INFO, //
+      TSID_NAME, STR_MID_TICK_LINE_INFO, //
+      TSID_DESCRIPTION, STR_MID_TICK_LINE_INFO_D, //
       TSID_KEEPER_ID, TsLineInfo.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjTsLineInfo.FACTORY_NAME, //
       TSID_DEFAULT_VALUE,
@@ -112,8 +112,8 @@ public interface IStdG2GridRendererOptions {
    * Значение по умолчанию: Color.BLACK}
    */
   IDataDef HOR_LINE_RGBA = DataDef.create( "horLineRgba", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_HOR_LINE_RGBA, //
-      TSID_DESCRIPTION, STR_D_HOR_LINE_RGBA, //
+      TSID_NAME, STR_HOR_LINE_RGBA, //
+      TSID_DESCRIPTION, STR_HOR_LINE_RGBA_D, //
       TSID_KEEPER_ID, RGBAKeeper.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, TSID_DEFAULT_VALUE,
       avValobj( new RGBA( 0, 0, 0, 255 ) ) //
@@ -125,8 +125,8 @@ public interface IStdG2GridRendererOptions {
    * Значение по умолчанию: Color.BLACK}
    */
   IDataDef VER_LINE_RGBA = DataDef.create( "verLineRgba", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_VER_LINE_RGBA, //
-      TSID_DESCRIPTION, STR_D_VER_LINE_RGBA, //
+      TSID_NAME, STR_VER_LINE_RGBA, //
+      TSID_DESCRIPTION, STR_VER_LINE_RGBA_D, //
       TSID_KEEPER_ID, RGBAKeeper.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, TSID_DEFAULT_VALUE,
       avValobj( new RGBA( 0, 0, 0, 255 ) ) //
