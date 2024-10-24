@@ -56,32 +56,32 @@ interface ITsResources {
   /**
    * {@link EButtonViselState}
    */
-  String STR_BTN_NORMAL     = "Норма";
-  String STR_BTN_NORMAL_D   = "Кнопка в нормальном состоянии";
-  String STR_BTN_PRESSED    = "Нажата";
-  String STR_BTN_PRESSED_D  = "Кнопка в нажатом состоянии";
-  String STR_BTN_WORKING    = "В работе";
-  String STR_BTN_WORKING_D  = "Кнопка ожидает завершения инициированной ей операции";
-  String STR_BTN_DISABLED   = "Недоступна";
-  String STR_BTN_DISABLED_D = "Функциональность кнопки заблокирована";
-  String STR_BTN_SELECTED   = "Выделена";
-  String STR_BTN_SELECTED_D = "Западающая кнопка выделена - запала";
+  String STR_BTN_NORMAL     = Messages.getString( "STR_BTN_NORMAL" );     //$NON-NLS-1$
+  String STR_BTN_NORMAL_D   = Messages.getString( "STR_BTN_NORMAL_D" );   //$NON-NLS-1$
+  String STR_BTN_PRESSED    = Messages.getString( "STR_BTN_PRESSED" );    //$NON-NLS-1$
+  String STR_BTN_PRESSED_D  = Messages.getString( "STR_BTN_PRESSED_D" );  //$NON-NLS-1$
+  String STR_BTN_WORKING    = Messages.getString( "STR_BTN_WORKING" );    //$NON-NLS-1$
+  String STR_BTN_WORKING_D  = Messages.getString( "STR_BTN_WORKING_D" );  //$NON-NLS-1$
+  String STR_BTN_DISABLED   = Messages.getString( "STR_BTN_DISABLED" );   //$NON-NLS-1$
+  String STR_BTN_DISABLED_D = Messages.getString( "STR_BTN_DISABLED_D" ); //$NON-NLS-1$
+  String STR_BTN_SELECTED   = Messages.getString( "STR_BTN_SELECTED" );   //$NON-NLS-1$
+  String STR_BTN_SELECTED_D = Messages.getString( "STR_BTN_SELECTED_D" ); //$NON-NLS-1$
 
   /**
    * {@link ViselButton}
    */
-  String STR_VISEL_BUTTON   = "Кнопка";
-  String STR_VISEL_BUTTON_D = "Обычная нажимающаяся кнопка";
-  String STR_N_BUTTON_STYLE = "Стиль";
-  String STR_D_BUTTON_STYLE = "Стиль кнопки";
-  String STR_N_BUTTON_STATE = "Состояние";
-  String STR_D_BUTTON_STATE = "Состояние кнопки";
+  String STR_VISEL_BUTTON   = Messages.getString( "STR_VISEL_BUTTON" );   //$NON-NLS-1$
+  String STR_VISEL_BUTTON_D = Messages.getString( "STR_VISEL_BUTTON_D" ); //$NON-NLS-1$
+  String STR_BUTTON_STYLE   = Messages.getString( "STR_BUTTON_STYLE" );   //$NON-NLS-1$
+  String STR_BUTTON_STYLE_D = Messages.getString( "STR_BUTTON_STYLE_D" ); //$NON-NLS-1$
+  String STR_BUTTON_STATE   = Messages.getString( "STR_BUTTON_STATE" );   //$NON-NLS-1$
+  String STR_BUTTON_STATE_D = Messages.getString( "STR_BUTTON_STATE_D" ); //$NON-NLS-1$
 
   /**
    * {@link ViselImage}
    */
-  String STR_VISEL_IMAGE_DESCRIPTOR   = "Изображение";
-  String STR_VISEL_IMAGE_DESCRIPTOR_D = "Параметры создания изображения";
+  String STR_VISEL_IMAGE_DESCRIPTOR   = Messages.getString( "STR_VISEL_IMAGE_DESCRIPTOR" );   //$NON-NLS-1$
+  String STR_VISEL_IMAGE_DESCRIPTOR_D = Messages.getString( "STR_VISEL_IMAGE_DESCRIPTOR_D" ); //$NON-NLS-1$
 
   /**
    * {@link ViselBaloon}
@@ -90,22 +90,22 @@ interface ITsResources {
   // String STR_VISEL_ARC_WIDTH_D = "Ширина арки"; //
   // String STR_VISEL_ARC_HEIGHT = "Высота арки"; //
   // String STR_VISEL_ARC_HEIGHT_D = "Высота арки"; //
-  String STR_VISEL_BALOON        = "Балон";
-  String STR_VISEL_BALOON_D      = "Балон";
-  String STR_VISEL_NOSE_LENGTH   = "Длина носика";    //
-  String STR_VISEL_NOSE_LENGTH_D = "Длина носика";    //
-  String STR_VISEL_NOSE_WIDTH    = "Ширина носика";   //
-  String STR_VISEL_NOSE_WIDTH_D  = "Ширина носика";   //
-  String STR_NOSE_FULCRUM        = "Положение носика";
-  String STR_HOR_NOSE_FULCRUM    = "Положение носика";
+  String STR_VISEL_BALOON        = Messages.getString( "STR_VISEL_BALOON" );        //$NON-NLS-1$
+  String STR_VISEL_BALOON_D      = Messages.getString( "STR_VISEL_BALOON_D" );      //$NON-NLS-1$
+  String STR_VISEL_NOSE_LENGTH   = Messages.getString( "STR_VISEL_NOSE_LENGTH" );   //$NON-NLS-1$
+  String STR_VISEL_NOSE_LENGTH_D = Messages.getString( "STR_VISEL_NOSE_LENGTH_D" ); //$NON-NLS-1$
+  String STR_VISEL_NOSE_WIDTH    = Messages.getString( "STR_VISEL_NOSE_WIDTH" );    //$NON-NLS-1$
+  String STR_VISEL_NOSE_WIDTH_D  = Messages.getString( "STR_VISEL_NOSE_WIDTH_D" );  //$NON-NLS-1$
+  String STR_NOSE_FULCRUM        = Messages.getString( "STR_NOSE_FULCRUM" );        //$NON-NLS-1$
+  String STR_HOR_NOSE_FULCRUM    = Messages.getString( "STR_HOR_NOSE_FULCRUM" );    //$NON-NLS-1$
   // String STR_USE_GRADIENT = "Использовать градиент";
   // String STR_USE_GRADIENT_D = "Использовать градиент";
-  String STR_VISEL_SHADOW_DEPTH   = "Глубина тени"; //
-  String STR_VISEL_SHADOW_DEPTH_D = "Глубина тени"; //
+  String STR_VISEL_SHADOW_DEPTH   = Messages.getString( "STR_VISEL_SHADOW_DEPTH" );   //$NON-NLS-1$
+  String STR_VISEL_SHADOW_DEPTH_D = Messages.getString( "STR_VISEL_SHADOW_DEPTH_D" ); //$NON-NLS-1$
 
   /**
    * Визель {@link ViselCheckbox}
    */
-  String STR_N_VALUE = "Значение";
+  String STR_VALUE = Messages.getString( "STR_VALUE" ); //$NON-NLS-1$
 
 }

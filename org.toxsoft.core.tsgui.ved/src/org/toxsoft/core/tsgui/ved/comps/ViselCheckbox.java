@@ -47,7 +47,7 @@ public class ViselCheckbox
   private static final ITinFieldInfo TFI_ON_OFF_STATE = new TinFieldInfo( PROP_ON_OF_STATE, TTI_ON_OFF_STATE );
 
   private static final ITinFieldInfo TFI_CHECKED = TinFieldInfo.makeCopy( TFI_ON_OFF_STATE, //
-      TSID_NAME, STR_N_VALUE );
+      TSID_NAME, STR_VALUE );
 
   /**
    * The VISEL factory singleton.
@@ -59,8 +59,8 @@ public class ViselCheckbox
   ) {
 
     private static final TinFieldInfo TFI_STATE = new TinFieldInfo( PROPID_STATE, TtiAvEnum.INSTANCE, //
-        TSID_NAME, STR_N_BUTTON_STATE, //
-        TSID_DESCRIPTION, STR_D_BUTTON_STATE, //
+        TSID_NAME, STR_BUTTON_STATE, //
+        TSID_DESCRIPTION, STR_BUTTON_STATE_D, //
         TSID_KEEPER_ID, EButtonViselState.KEEPER_ID, //
         TSID_DEFAULT_VALUE, avValobj( EButtonViselState.NORMAL ) );
 

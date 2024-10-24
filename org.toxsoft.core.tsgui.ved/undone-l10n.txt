@@ -1,0 +1,6 @@
+++- org.toxsoft.core.tsgui.ved.l10n (не полный перевод)
++-- org.toxsoft.core.tsgui.ved.comps (посмотреть сам код, в нем много закомментированных строк было, не стал удалять)
++-- org.toxsoft.core.tsgui.ved.editor
+--- org.toxsoft.core.tsgui.ved.incub.tti
+--- org.toxsoft.core.tsgui.ved.screen.asp
+++- org.toxsoft.core.tsgui.ved.screen.impl (отсутствует английский перевод для STR_DRAG_START_D)
