@@ -5,7 +5,6 @@ package org.toxsoft.core.tslib.coll.helpers;
  *
  * @author hazard157
  */
-@SuppressWarnings( "nls" )
 interface ITsResources {
 
   String FMT_MSG_NON_EXACT_SIZE = Messages.getString( "FMT_MSG_NON_EXACT_SIZE" ); //$NON-NLS-1$

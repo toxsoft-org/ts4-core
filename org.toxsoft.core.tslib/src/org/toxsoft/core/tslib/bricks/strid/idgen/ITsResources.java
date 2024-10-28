@@ -5,7 +5,6 @@ package org.toxsoft.core.tslib.bricks.strid.idgen;
  *
  * @author hazard157
  */
-@SuppressWarnings( "nls" )
 interface ITsResources {
 
   String FMT_ERR_SG_NEGATIVE_COUNTER  = Messages.getString( "FMT_ERR_SG_NEGATIVE_COUNTER" );  //$NON-NLS-1$

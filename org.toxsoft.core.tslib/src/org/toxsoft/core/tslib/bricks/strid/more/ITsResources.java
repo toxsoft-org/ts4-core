@@ -5,7 +5,6 @@ package org.toxsoft.core.tslib.bricks.strid.more;
  *
  * @author hazard157
  */
-@SuppressWarnings( "nls" )
 interface ITsResources {
 
   String FMT_ERR_EMPTY_CANOSTR              = Messages.getString( "FMT_ERR_EMPTY_CANOSTR" );              //$NON-NLS-1$

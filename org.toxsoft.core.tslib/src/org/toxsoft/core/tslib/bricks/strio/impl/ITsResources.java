@@ -5,7 +5,6 @@ package org.toxsoft.core.tslib.bricks.strio.impl;
  *
  * @author hazard157
  */
-@SuppressWarnings( "nls" )
 interface ITsResources {
 
   String MSG_ERR_IO_EXCEPTION               = Messages.getString( "MSG_ERR_IO_EXCEPTION" );               //$NON-NLS-1$

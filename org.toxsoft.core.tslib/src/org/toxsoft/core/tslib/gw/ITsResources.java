@@ -5,7 +5,6 @@ package org.toxsoft.core.tslib.gw;
  *
  * @author hazard157
  */
-@SuppressWarnings( "nls" )
 interface ITsResources {
 
   String MSG_ERR_GWID_STR_EMPTY  = Messages.getString( "MSG_ERR_GWID_STR_EMPTY" );  //$NON-NLS-1$

@@ -197,7 +197,8 @@ public class TimeUtils {
    */
   public static String intervalToString( long aStart, long aEnd ) {
     checkIntervalArgs( aStart, aEnd );
-    return String.format( FMT_INTERVAL_TO_STRING, TimeUtils.timestampToString( aStart ),
+    return String.format( "startTime = %s, endTime = %s", //$NON-NLS-1$
+        TimeUtils.timestampToString( aStart ), //
         TimeUtils.timestampToString( aEnd ) );
   }
 

@@ -5,7 +5,6 @@ package org.toxsoft.core.tslib.gw.gwid;
  *
  * @author hazard157
  */
-@SuppressWarnings( "nls" )
 interface ITsResources {
 
   String STR_GK_CLASS         = Messages.getString( "STR_GK_CLASS" );         //$NON-NLS-1$
@@ -28,9 +27,5 @@ interface ITsResources {
   String STR_GK_EVENT_PARAM_D = Messages.getString( "STR_GK_EVENT_PARAM_D" ); //$NON-NLS-1$
   String STR_GK_CLOB          = Messages.getString( "STR_GK_CLOB" );          //$NON-NLS-1$
   String STR_GK_CLOB_D        = Messages.getString( "STR_GK_CLOB_D" );        //$NON-NLS-1$
-  String STR_GK_SECT          = Messages.getString( "STR_GK_SECT" );          //$NON-NLS-1$
-  String STR_GK_SECT_D        = Messages.getString( "STR_GK_SECT_D" );        //$NON-NLS-1$
-  String STR_GK_SECT_SUB      = Messages.getString( "STR_GK_SECT_SUB" );      //$NON-NLS-1$
-  String STR_GK_SECT_SUB_D    = Messages.getString( "STR_GK_SECT_SUB_D" );    //$NON-NLS-1$
 
 }

@@ -5,7 +5,6 @@ package org.toxsoft.core.tslib.bricks.strid.coll.impl;
  *
  * @author hazard157
  */
-@SuppressWarnings( "nls" )
 interface ITsResources {
 
   String FMT_ERR_ITEM_NOT_FOUND_BY_ID = Messages.getString( "FMT_ERR_ITEM_NOT_FOUND_BY_ID" ); //$NON-NLS-1$

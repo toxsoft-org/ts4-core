@@ -72,6 +72,13 @@ public final class D2Angle
     degrees = aAngle.degrees();
   }
 
+  /**
+   * Constructor.
+   *
+   * @param aAngle double - the angle value (either degrees or radians)
+   * @param aIsRadians boolean - <code>true</code>/<code>false</code> to interpret <code>aAngle</code> as
+   *          radians/degrees
+   */
   public D2Angle( double aAngle, boolean aIsRadians ) {
     if( aIsRadians ) {
       radians = checkAngleRadians( aAngle );

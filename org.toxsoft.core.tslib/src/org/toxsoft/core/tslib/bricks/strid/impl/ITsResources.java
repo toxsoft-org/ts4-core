@@ -5,7 +5,6 @@ package org.toxsoft.core.tslib.bricks.strid.impl;
  *
  * @author hazard157
  */
-@SuppressWarnings( "nls" )
 interface ITsResources {
 
   String ERR_MSG_EMPTY_ID_STRING        = Messages.getString( "ERR_MSG_EMPTY_ID_STRING" );        //$NON-NLS-1$
