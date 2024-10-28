@@ -5,7 +5,6 @@ package org.toxsoft.core.tslib.bricks.validator.std;
  *
  * @author hazard157
  */
-@SuppressWarnings( "nls" )
 interface ITsResources {
 
   String MSG_STRING_VALUE_IS_EMPTY   = Messages.getString( "MSG_STRING_VALUE_IS_EMPTY" );   //$NON-NLS-1$

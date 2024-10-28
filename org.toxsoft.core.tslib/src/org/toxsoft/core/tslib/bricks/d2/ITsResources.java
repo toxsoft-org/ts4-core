@@ -5,7 +5,6 @@ package org.toxsoft.core.tslib.bricks.d2;
  *
  * @author hazard157
  */
-@SuppressWarnings( "nls" )
 interface ITsResources {
 
   String FMT_ERR_INV_ZOOM_VALUE    = Messages.getString( "FMT_ERR_INV_ZOOM_VALUE" );    //$NON-NLS-1$ A

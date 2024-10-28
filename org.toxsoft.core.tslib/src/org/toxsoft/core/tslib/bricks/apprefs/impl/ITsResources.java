@@ -5,7 +5,6 @@ package org.toxsoft.core.tslib.bricks.apprefs.impl;
  *
  * @author hazard157
  */
-@SuppressWarnings( "nls" )
 interface ITsResources {
 
   String FMT_ERR_NON_ROOT_PREFS_PATH     = Messages.getString( "FMT_ERR_NON_ROOT_PREFS_PATH" );     //$NON-NLS-1$

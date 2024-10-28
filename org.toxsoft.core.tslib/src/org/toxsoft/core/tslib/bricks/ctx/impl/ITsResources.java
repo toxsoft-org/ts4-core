@@ -5,7 +5,6 @@ package org.toxsoft.core.tslib.bricks.ctx.impl;
  *
  * @author hazard157
  */
-@SuppressWarnings( "nls" )
 interface ITsResources {
 
   String FMT_ERR_NO_MANDATORY_REF       = Messages.getString( "FMT_ERR_NO_MANDATORY_REF" );       //$NON-NLS-1$
