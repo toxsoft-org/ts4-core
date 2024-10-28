@@ -39,8 +39,8 @@ public interface IStdG2AxisAnnotationRendererOptions {
    * Значение по умолчанию: StridUtils.EMPTY_STRING
    */
   IDataDef ANNOTATION_FORMAT = DataDef.create( "annotationFormat", STRING, // //$NON-NLS-1$
-      TSID_NAME, STR_N_ANNOTATION_FORMAT, //
-      TSID_DESCRIPTION, STR_D_ANNOTATION_FORMAT, //
+      TSID_NAME, STR_ANNOTATION_FORMAT, //
+      TSID_DESCRIPTION, STR_ANNOTATION_FORMAT_D, //
       TSID_DEFAULT_VALUE, TsLibUtils.EMPTY_STRING //
   );
   // IAtomicOptionInfo ANNOTATION_FORMAT =
@@ -55,8 +55,8 @@ public interface IStdG2AxisAnnotationRendererOptions {
    * Значение по умолчанию: 2
    */
   IDataDef ANNOTATION_INDENT = DataDef.create( "annotationIndent", INTEGER, // //$NON-NLS-1$
-      TSID_NAME, STR_N_ANNOTATION_INDENT, //
-      TSID_DESCRIPTION, STR_D_ANNOTATION_INDENT, //
+      TSID_NAME, STR_ANNOTATION_INDENT, //
+      TSID_DESCRIPTION, STR_ANNOTATION_INDENT_D, //
       TSID_DEFAULT_VALUE, AvUtils.avInt( 2 ) //
   );
   // IAtomicOptionInfo ANNOTATION_INDENT =
@@ -71,8 +71,8 @@ public interface IStdG2AxisAnnotationRendererOptions {
    * Значение по умолчанию: TsColorUtils.rgb2int( new RGB( 0,0, 0 ))
    */
   IDataDef TEXT_COLOR = DataDef.create( "annotationTextColor", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_TEXT_COLOR, //
-      TSID_DESCRIPTION, STR_D_TEXT_COLOR, //
+      TSID_NAME, STR_TEXT_COLOR, //
+      TSID_DESCRIPTION, STR_TEXT_COLOR_D, //
       TSID_KEEPER_ID, RGBAKeeper.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, //
       TSID_DEFAULT_VALUE, avValobj( new RGBA( 0, 0, 0, 255 ) ) //
@@ -88,8 +88,8 @@ public interface IStdG2AxisAnnotationRendererOptions {
    * Значение по умолчанию: {@link FontInfo#FontInfo(String, int, boolean, boolean) FontInfo("Arial", 10, false,false)}
    */
   IDataDef FONT_INFO = DataDef.create( "annotationFontInfo", VALOBJ, //$NON-NLS-1$
-      TSID_NAME, STR_N_ANNOTATION_FONT_INFO, //
-      TSID_DESCRIPTION, STR_D_ANNOTATION_FONT_INFO, //
+      TSID_NAME, STR_ANNOTATION_FONT_INFO, //
+      TSID_DESCRIPTION, STR_ANNOTATION_FONT_INFO_D, //
       TSID_KEEPER_ID, FontInfo.KEEPER_ID, //
       TSID_DEFAULT_VALUE, avValobj( new FontInfo( "Arial", 10, 0 ) ) // //$NON-NLS-1$
   );
@@ -106,8 +106,8 @@ public interface IStdG2AxisAnnotationRendererOptions {
    * Значение по умолчанию: StridUtils.EMPTY_STRING
    */
   IDataDef TITLE = DataDef.create( "annotationTitle", STRING, // //$NON-NLS-1$
-      TSID_NAME, STR_N_TITLE, //
-      TSID_DESCRIPTION, STR_D_TITLE, //
+      TSID_NAME, STR_TITLE, //
+      TSID_DESCRIPTION, STR_TITLE_D, //
       TSID_DEFAULT_VALUE, TsLibUtils.EMPTY_STRING //
   );
   // IAtomicOptionInfo TITLE = new AtomicOptionInfo( IStdG2AxisAnnotationRendererOptions.class.getSimpleName() +
@@ -121,8 +121,8 @@ public interface IStdG2AxisAnnotationRendererOptions {
    * Значение по умолчанию: TsColorUtils.rgb2int( new RGB( 0,0,0 ))
    */
   IDataDef TITLE_COLOR = DataDef.create( "annotationTitleColor", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_TITLE_COLOR, //
-      TSID_DESCRIPTION, STR_D_TITLE_COLOR, //
+      TSID_NAME, STR_TITLE_COLOR, //
+      TSID_DESCRIPTION, STR_TITLE_COLOR_D, //
       TSID_KEEPER_ID, RGBAKeeper.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, //
       TSID_DEFAULT_VALUE, avValobj( new RGBA( 0, 0, 0, 255 ) ) //
@@ -138,8 +138,8 @@ public interface IStdG2AxisAnnotationRendererOptions {
    * Значение по умолчанию: {@link FontInfo#FontInfo(String, int, boolean, boolean) FontInfo("Arial", 10, false,false)}
    */
   IDataDef TITLE_FONT_INFO = DataDef.create( "titleFontInfo", VALOBJ, //$NON-NLS-1$
-      TSID_NAME, STR_N_TITLE_FONT_INFO, //
-      TSID_DESCRIPTION, STR_D_TITLE_FONT_INFO, //
+      TSID_NAME, STR_TITLE_FONT_INFO, //
+      TSID_DESCRIPTION, STR_TITLE_FONT_INFO_D, //
       TSID_KEEPER_ID, FontInfo.KEEPER_ID, //
       TSID_DEFAULT_VALUE, avValobj( new FontInfo( "Arial", 10, 0 ) ) // //$NON-NLS-1$
   );
@@ -156,8 +156,8 @@ public interface IStdG2AxisAnnotationRendererOptions {
    * Значение по умолчанию: ETsOrientation.VERTICAL.id())
    */
   IDataDef TITLE_ORIENTATION = DataDef.create( "titleOrientation", VALOBJ, //$NON-NLS-1$
-      TSID_NAME, STR_N_TITLE_ORIENTATION, //
-      TSID_DESCRIPTION, STR_D_TITLE_ORIENTATION, //
+      TSID_NAME, STR_TITLE_ORIENTATION, //
+      TSID_DESCRIPTION, STR_TITLE_ORIENTATION_D, //
       TSID_KEEPER_ID, ETsOrientation.KEEPER_ID, //
       TSID_DEFAULT_VALUE, avValobj( ETsOrientation.VERTICAL ) //
   );
@@ -173,8 +173,8 @@ public interface IStdG2AxisAnnotationRendererOptions {
    * Значение по умолчанию: Margins( 2, 2, 2, 2 )
    */
   IDataDef TITLE_MARGINS = DataDef.create( "titleMargins", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_TITLE_MARGINS, //
-      TSID_DESCRIPTION, STR_D_TITLE_MARGINS, //
+      TSID_NAME, STR_TITLE_MARGINS, //
+      TSID_DESCRIPTION, STR_TITLE_MARGINS_D, //
       TSID_KEEPER_ID, MarginsKeeper.KEEPER_ID, //
       // OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, //
       TSID_DEFAULT_VALUE, avValobj( new Margins( 2, 2, 2, 2 ) ) //
@@ -190,8 +190,8 @@ public interface IStdG2AxisAnnotationRendererOptions {
    * Значение по умолчанию: {@link EVerAlignment#CENTER})
    */
   IDataDef TITLE_VER_ALIGNMENT = DataDef.create( "titleVerAlign", VALOBJ, //$NON-NLS-1$
-      TSID_NAME, STR_N_TITLE_VER_ALIGNMENT, //
-      TSID_DESCRIPTION, STR_D_TITLE_VER_ALIGNMENT, //
+      TSID_NAME, STR_TITLE_VER_ALIGNMENT, //
+      TSID_DESCRIPTION, STR_TITLE_VER_ALIGNMENT_D, //
       TSID_KEEPER_ID, EVerAlignment.KEEPER_ID, //
       TSID_DEFAULT_VALUE, avValobj( EVerAlignment.CENTER ) //
   );
@@ -208,8 +208,8 @@ public interface IStdG2AxisAnnotationRendererOptions {
    * Значение по умолчанию: {@link EHorAlignment#CENTER})
    */
   IDataDef TITLE_HOR_ALIGNMENT = DataDef.create( "titleHorAlign", VALOBJ, //$NON-NLS-1$
-      TSID_NAME, STR_N_TITLE_HOR_ALIGNMENT, //
-      TSID_DESCRIPTION, STR_D_TITLE_HOR_ALIGNMENT, //
+      TSID_NAME, STR_TITLE_HOR_ALIGNMENT, //
+      TSID_DESCRIPTION, STR_TITLE_HOR_ALIGNMENT_D, //
       TSID_KEEPER_ID, EHorAlignment.KEEPER_ID, //
       TSID_DEFAULT_VALUE, avValobj( EHorAlignment.CENTER ) //
   );

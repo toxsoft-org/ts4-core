@@ -37,8 +37,8 @@ public interface IStdG2GraphicRendererOptions {
    */
   @SuppressWarnings( "javadoc" )
   IDataDef GRAPHIC_LINE_INFO = DataDef.create( "graphLineInfo", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_GRAPHIC_LINE_INFO, //
-      TSID_DESCRIPTION, STR_D_GRAPHIC_LINE_INFO, //
+      TSID_NAME, STR_GRAPHIC_LINE_INFO, //
+      TSID_DESCRIPTION, STR_GRAPHIC_LINE_INFO_D, //
       TSID_KEEPER_ID, TsLineInfo.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjTsLineInfo.FACTORY_NAME, //
       TSID_DEFAULT_VALUE, avValobj( TsLineInfo.fromLineAttributes( new LineAttributes( 3 ) ) ) //
@@ -55,8 +55,8 @@ public interface IStdG2GraphicRendererOptions {
    * Значение по умолчанию: Color.BLACK}
    */
   IDataDef GRAPHIC_RGBA = DataDef.create( "graphicRgba", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_GRAPHIC_RGBA, //
-      TSID_DESCRIPTION, STR_D_GRAPHIC_RGBA, //
+      TSID_NAME, STR_GRAPHIC_RGBA, //
+      TSID_DESCRIPTION, STR_GRAPHIC_RGBA_D, //
       TSID_KEEPER_ID, RGBAKeeper.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, TSID_DEFAULT_VALUE,
       avValobj( new RGBA( 0, 0, 0, 255 ) ) //
@@ -68,8 +68,8 @@ public interface IStdG2GraphicRendererOptions {
    * Значение по умолчанию: {@link EGraphicRenderingKind#LINE}
    */
   IDataDef RENDERING_KIND = DataDef.create( "rederingKind", VALOBJ, //$NON-NLS-1$
-      TSID_NAME, STR_N_RENDERING_KIND, //
-      TSID_DESCRIPTION, STR_D_RENDERING_KIND, //
+      TSID_NAME, STR_RENDERING_KIND, //
+      TSID_DESCRIPTION, STR_RENDERING_KIND_D, //
       TSID_KEEPER_ID, EGraphicRenderingKind.KEEPER_ID, //
       TSID_DEFAULT_VALUE, avValobj( EGraphicRenderingKind.LINE ) //
   );
@@ -85,8 +85,8 @@ public interface IStdG2GraphicRendererOptions {
    * Значение по умолчанию: {@link EDisplayFormat#TWO_DIGIT}
    */
   IDataDef VALUES_DISPLAY_FORMAT = DataDef.create( "valuesDiplayFormat", VALOBJ, //$NON-NLS-1$
-      TSID_NAME, STR_N_VALUES_DISPLAY_FORMAT, //
-      TSID_DESCRIPTION, STR_D_VALUES_DISPLAY_FORMAT, //
+      TSID_NAME, STR_VALUES_DISPLAY_FORMAT, //
+      TSID_DESCRIPTION, STR_VALUES_DISPLAY_FORMAT_D, //
       TSID_KEEPER_ID, EDisplayFormat.KEEPER_ID, //
       TSID_DEFAULT_VALUE, avValobj( EDisplayFormat.TWO_DIGIT ) //
   );
@@ -96,8 +96,8 @@ public interface IStdG2GraphicRendererOptions {
    * Тип данных: {@link EAtomicType#VALOBJ} <br>
    */
   IDataDef СHART_SET_POINTS = DataDef.create( "setPoints", VALOBJ, //$NON-NLS-1$
-      TSID_NAME, STR_N_SET_POINTS, //
-      TSID_DESCRIPTION, STR_D_SET_POINTS, //
+      TSID_NAME, STR_SET_POINTS, //
+      TSID_DESCRIPTION, STR_SET_POINTS_D, //
       TSID_KEEPER_ID, StringListKeeper.KEEPER_ID, //
       TSID_DEFAULT_VALUE, avValobj( new StringArrayList() ), //
       TSID_IS_MANDATORY, Boolean.FALSE //

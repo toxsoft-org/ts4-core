@@ -44,8 +44,8 @@ public interface IStdG2AxisRendererOptions {
    * Формат: имя класса Значение по умолчанию: {@link IGradientBackgroundRendererOptions}
    */
   IDataDef BACKGROUND_RENDERER_CLASS = DataDef.create( "backgroundClass", STRING, //$NON-NLS-1$
-      TSID_NAME, STR_N_BACKGROUND_RENDERER_CLASS, //
-      TSID_DESCRIPTION, STR_D_BACKGROUND_RENDERER_CLASS, //
+      TSID_NAME, STR_BACKGROUND_RENDERER_CLASS, //
+      TSID_DESCRIPTION, STR_BACKGROUND_RENDERER_CLASS_D, //
       TSID_DEFAULT_VALUE, AvUtils.avStr( IGradientBackgroundRendererOptions.CONSUMER_NAME ) //
   );
   // IAtomicOptionInfo BACKGROUND_RENDERER_CLASS =
@@ -59,8 +59,8 @@ public interface IStdG2AxisRendererOptions {
    * Значение по умолчанию: {@link IOptionSet#NULL}
    */
   IDataDef BACKGROUND_RENDERER_OPS = DataDef.create( "backgroundOps", VALOBJ, //$NON-NLS-1$
-      TSID_NAME, STR_N_BACKGROUND_RENDERER_OPS, //
-      TSID_DESCRIPTION, STR_D_BACKGROUND_RENDERER_OPS, //
+      TSID_NAME, STR_BACKGROUND_RENDERER_OPS, //
+      TSID_DESCRIPTION, STR_BACKGROUND_RENDERER_OPS_D, //
       TSID_KEEPER_ID, OptionSetKeeper.KEEPER_ID, //
       TSID_DEFAULT_VALUE, avValobj( new OptionSet() ) //
   );
@@ -75,8 +75,8 @@ public interface IStdG2AxisRendererOptions {
    * Формат: имя класса Значение по умолчанию: {@link IStdG2AxisMarkingRendererOptions}
    */
   IDataDef MARKING_RENDERER_CLASS = DataDef.create( "markingClass", STRING, //$NON-NLS-1$
-      TSID_NAME, STR_N_MARKING_RENDERER_CLASS, //
-      TSID_DESCRIPTION, STR_D_MARKING_RENDERER_CLASS, //
+      TSID_NAME, STR_MARKING_RENDERER_CLASS, //
+      TSID_DESCRIPTION, STR_MARKING_RENDERER_CLASS_D, //
       TSID_DEFAULT_VALUE, AvUtils.avStr( IStdG2AxisMarkingRendererOptions.CONSUMER_NAME ) //
   );
   // IAtomicOptionInfo MARKING_RENDERER_CLASS =
@@ -90,8 +90,8 @@ public interface IStdG2AxisRendererOptions {
    * Значение по умолчанию: {@link IOptionSet#NULL}
    */
   IDataDef MARKING_RENDERER_OPS = DataDef.create( "markingOps", VALOBJ, //$NON-NLS-1$
-      TSID_NAME, STR_N_MARKING_RENDERER_OPS, //
-      TSID_DESCRIPTION, STR_D_MARKING_RENDERER_OPS, //
+      TSID_NAME, STR_MARKING_RENDERER_OPS, //
+      TSID_DESCRIPTION, STR_MARKING_RENDERER_OPS_D, //
       TSID_KEEPER_ID, OptionSetKeeper.KEEPER_ID, //
       TSID_DEFAULT_VALUE, avValobj( new OptionSet() ) //
   );
@@ -106,8 +106,8 @@ public interface IStdG2AxisRendererOptions {
    * Формат: имя класса Значение по умолчанию: {@link IStdG2AxisAnnotationRendererOptions}
    */
   IDataDef ANNOTATION_RENDERER_CLASS = DataDef.create( "annotationClass", STRING, //$NON-NLS-1$
-      TSID_NAME, STR_N_ANNOTATION_RENDERER_CLASS, //
-      TSID_DESCRIPTION, STR_D_ANNOTATION_RENDERER_CLASS, //
+      TSID_NAME, STR_ANNOTATION_RENDERER_CLASS, //
+      TSID_DESCRIPTION, STR_ANNOTATION_RENDERER_CLASS_D, //
       TSID_DEFAULT_VALUE, AvUtils.avStr( IGradientBackgroundRendererOptions.CONSUMER_NAME ) //
   );
   // IAtomicOptionInfo ANNOTATION_RENDERER_CLASS =
@@ -121,8 +121,8 @@ public interface IStdG2AxisRendererOptions {
    * Значение по умолчанию: {@link IOptionSet#NULL}
    */
   IDataDef ANNOTATION_RENDERER_OPS = DataDef.create( "annotationOps", VALOBJ, //$NON-NLS-1$
-      TSID_NAME, STR_N_ANNOTATION_RENDERER_OPS, //
-      TSID_DESCRIPTION, STR_D_ANNOTATION_RENDERER_OPS, //
+      TSID_NAME, STR_ANNOTATION_RENDERER_OPS, //
+      TSID_DESCRIPTION, STR_ANNOTATION_RENDERER_OPS_D, //
       TSID_KEEPER_ID, OptionSetKeeper.KEEPER_ID, //
       TSID_DEFAULT_VALUE, avValobj( new OptionSet() ) //
   );

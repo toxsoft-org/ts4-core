@@ -35,8 +35,8 @@ public interface IStdG2VisirRendererOptions {
    */
   @SuppressWarnings( "javadoc" )
   IDataDef VISIR_LINE_INFO = DataDef.create( "visirLineInfo", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_VISIR_LINE_INFO, //
-      TSID_DESCRIPTION, STR_D_VISIR_LINE_INFO, //
+      TSID_NAME, STR_VISIR_LINE_INFO, //
+      TSID_DESCRIPTION, STR_VISIR_LINE_INFO_D, //
       TSID_KEEPER_ID, TsLineInfo.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjTsLineInfo.FACTORY_NAME, //
       TSID_DEFAULT_VALUE, avValobj( TsLineInfo.fromLineAttributes( new LineAttributes( 2 ) ) ) //
@@ -53,8 +53,8 @@ public interface IStdG2VisirRendererOptions {
    * Значение по умолчанию: new RGBA( 255, 0, 255, 255 )
    */
   IDataDef VISIR_LINE_RGBA = DataDef.create( "visirLineRgba", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_VISIR_LINE_INFO, //
-      TSID_DESCRIPTION, STR_D_VISIR_LINE_INFO, //
+      TSID_NAME, STR_VISIR_LINE_INFO, //
+      TSID_DESCRIPTION, STR_VISIR_LINE_INFO_D, //
       TSID_KEEPER_ID, RGBAKeeper.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, TSID_DEFAULT_VALUE,
       avValobj( new RGBA( 255, 0, 255, 255 ) ) //
@@ -67,8 +67,8 @@ public interface IStdG2VisirRendererOptions {
    * Значение по умолчанию: <b>true</b>
    */
   IDataDef SHOW_NAMES = DataDef.create( "showNames", BOOLEAN, // //$NON-NLS-1$
-      TSID_NAME, STR_N_SHOW_NAMES, //
-      TSID_DESCRIPTION, STR_D_SHOW_NAMES, //
+      TSID_NAME, STR_SHOW_NAMES, //
+      TSID_DESCRIPTION, STR_SHOW_NAMES_D, //
       TSID_DEFAULT_VALUE, AvUtils.AV_TRUE //
   );
   // IAtomicOptionInfo SHOW_NAMES = new AtomicOptionInfo( IStdG2VisirRendererOptions.class.getSimpleName() +

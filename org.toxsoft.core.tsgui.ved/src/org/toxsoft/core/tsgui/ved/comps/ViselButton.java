@@ -72,8 +72,8 @@ public class ViselButton
     // TSID_DEFAULT_VALUE, avFloat( 16 ) );
 
     private static final TinFieldInfo TFI_STATE = new TinFieldInfo( PROPID_STATE, TtiAvEnum.INSTANCE, //
-        TSID_NAME, STR_N_BUTTON_STATE, //
-        TSID_DESCRIPTION, STR_D_BUTTON_STATE, //
+        TSID_NAME, STR_BUTTON_STATE, //
+        TSID_DESCRIPTION, STR_BUTTON_STATE_D, //
         TSID_KEEPER_ID, EButtonViselState.KEEPER_ID, //
         TSID_DEFAULT_VALUE, avValobj( EButtonViselState.NORMAL ) );
 

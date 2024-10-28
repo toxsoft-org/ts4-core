@@ -43,8 +43,8 @@ public interface IGradientBackgroundRendererOptions {
    * Значение по умолчанию: TsColorUtils.rgb2int( new RGB( 240,240, 240 ))
    */
   IDataDef START_COLOR = DataDef.create( "gradientStartColor", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_START_COLOR, //
-      TSID_DESCRIPTION, STR_D_START_COLOR, //
+      TSID_NAME, STR_START_COLOR, //
+      TSID_DESCRIPTION, STR_START_COLOR_D, //
       TSID_KEEPER_ID, RGBAKeeper.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, TSID_DEFAULT_VALUE,
       avValobj( new RGBA( 240, 240, 240, 255 ) ) //
@@ -61,8 +61,8 @@ public interface IGradientBackgroundRendererOptions {
    * Значение по умолчанию: TsColorUtils.rgb2int( new RGB( 215,215, 215 ))
    */
   IDataDef END_COLOR = DataDef.create( "gradientEndColor", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_END_COLOR, //
-      TSID_DESCRIPTION, STR_D_END_COLOR, //
+      TSID_NAME, STR_END_COLOR, //
+      TSID_DESCRIPTION, STR_END_COLOR_D, //
       TSID_KEEPER_ID, RGBAKeeper.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, TSID_DEFAULT_VALUE,
       avValobj( new RGBA( 215, 215, 215, 255 ) ) //
@@ -79,8 +79,8 @@ public interface IGradientBackgroundRendererOptions {
    * Значение по умолчанию: <b>false</b>
    */
   IDataDef HORIZONTAL = DataDef.create( "gradientHorizontal", BOOLEAN, // //$NON-NLS-1$
-      TSID_NAME, STR_N_HORIZONTAL, //
-      TSID_DESCRIPTION, STR_D_HORIZONTAL, //
+      TSID_NAME, STR_HORIZONTAL, //
+      TSID_DESCRIPTION, STR_HORIZONTAL_D, //
       TSID_DEFAULT_VALUE, AvUtils.AV_FALSE //
   );
   // IAtomicOptionInfo HORIZONTAL =

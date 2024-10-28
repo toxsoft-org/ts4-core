@@ -34,12 +34,12 @@ interface ITsResources {
   /**
    * {@link PanelCanvasConfig}
    */
-  String DLG_T_CANVAS_CFG   = "Конфигурация экрана";
-  String STR_MSG_CANVAS_CFG = "Измените требуемые параметры и нажмите \"OK\"";
-  String STR_L_WIDTH_PIX    = "Ширина (пикс): ";
-  String STR_L_HEIGHT_PIX   = "Высота (пикс): ";
-  String STR_G_SIZES        = "Размеры";
-  String STR_G_CONVERSIONS  = "Преобразования";
+  String DLG_T_CANVAS_CFG   = Messages.getString( "DLG_T_CANVAS_CFG" );   //$NON-NLS-1$
+  String STR_MSG_CANVAS_CFG = Messages.getString( "STR_MSG_CANVAS_CFG" ); //$NON-NLS-1$
+  String STR_L_WIDTH_PIX    = Messages.getString( "STR_L_WIDTH_PIX" );    //$NON-NLS-1$
+  String STR_L_HEIGHT_PIX   = Messages.getString( "STR_L_HEIGHT_PIX" );   //$NON-NLS-1$
+  String STR_G_SIZES        = Messages.getString( "STR_G_SIZES" );        //$NON-NLS-1$
+  String STR_G_CONVERSIONS  = Messages.getString( "STR_G_CONVERSIONS" );  //$NON-NLS-1$
 
   /**
    * {@link VedPanelActorsList}
@@ -54,5 +54,5 @@ interface ITsResources {
   /**
    * {@link VedViselContextMenuManager}
    */
-  String STR_M_ALIGNMENT = "Выравнивание";
+  String STR_M_ALIGNMENT = Messages.getString( "STR_M_ALIGNMENT" ); //$NON-NLS-1$
 }

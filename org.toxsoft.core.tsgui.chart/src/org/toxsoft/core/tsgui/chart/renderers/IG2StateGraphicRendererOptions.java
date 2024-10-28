@@ -37,8 +37,8 @@ public interface IG2StateGraphicRendererOptions {
    * Значение по умолчанию: false
    */
   IDataDef DRAW_LABEL = DataDef.create( ID_PREFIX + ".DrawLabel", BOOLEAN, // //$NON-NLS-1$
-      TSID_NAME, STR_N_DRAW_LABEL, //
-      TSID_DESCRIPTION, STR_D_DRAW_LABEL, //
+      TSID_NAME, STR_DRAW_LABEL, //
+      TSID_DESCRIPTION, STR_DRAW_LABEL_D, //
       TSID_DEFAULT_VALUE, AvUtils.AV_FALSE //
   );
   // IAtomicOptionInfo DRAW_LABEL = new AtomicOptionInfo( //
@@ -52,8 +52,8 @@ public interface IG2StateGraphicRendererOptions {
    * Значение по умолчанию: 8
    */
   IDataDef LINE_THICKNESS = DataDef.create( ID_PREFIX + ".LineThick", INTEGER, // //$NON-NLS-1$
-      TSID_NAME, STR_N_LINE_THICKNESS, //
-      TSID_DESCRIPTION, STR_D_LINE_THICKNESS, //
+      TSID_NAME, STR_LINE_THICKNESS, //
+      TSID_DESCRIPTION, STR_LINE_THICKNESS_D, //
       TSID_DEFAULT_VALUE, AvUtils.avInt( 8 ) //
   );
   // IAtomicOptionInfo LINE_THICKNESS = new AtomicOptionInfo( //
@@ -66,8 +66,8 @@ public interface IG2StateGraphicRendererOptions {
    * Значение по умолчанию: {@link IStringList#EMPTY}
    */
   IDataDef COLORS = DataDef.create( "colors", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_COLORS, //
-      TSID_DESCRIPTION, STR_D_COLORS, //
+      TSID_NAME, STR_COLORS, //
+      TSID_DESCRIPTION, STR_COLORS_D, //
       TSID_KEEPER_ID, StringListKeeper.KEEPER_ID, //
       // OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, //
       TSID_DEFAULT_VALUE, avValobj( IStringList.EMPTY ) //
@@ -84,8 +84,8 @@ public interface IG2StateGraphicRendererOptions {
    * Значение по умолчанию: {@link IStringList#EMPTY}
    */
   IDataDef STATE_NAMES = DataDef.create( "stateNames", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_STATE_NAMES, //
-      TSID_DESCRIPTION, STR_D_STATE_NAMES, //
+      TSID_NAME, STR_STATE_NAMES, //
+      TSID_DESCRIPTION, STR_STATE_NAMES_D, //
       TSID_KEEPER_ID, StringListKeeper.KEEPER_ID, //
       // OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, //
       TSID_DEFAULT_VALUE, avValobj( IStringList.EMPTY ) //

@@ -1,7 +1,5 @@
 package org.toxsoft.core.tsgui.ved.incub.tti;
 
-import org.toxsoft.core.tsgui.bricks.tin.tti.*;
-
 /**
  * Localizable resources.
  *
@@ -9,14 +7,11 @@ import org.toxsoft.core.tsgui.bricks.tin.tti.*;
  */
 interface ITsResources {
 
-  /**
-   * {@link TtiTsFillInfo}
-   */
-  String STR_N_FILL_TYPE  = "Тип";                  // "Тип";
-  String STR_D_FILL_TYPE  = "Тип заливки";          // "Тип заливки";
-  String STR_N_FILL_COLOR = "Цвет";                 // "Цвет";
-  String STR_D_FILL_COLOR = "Цвет заливки";         // "Цвет заливки";
-  String STR_N_IMAGE      = "Изображение";          // "Изображение";
-  String STR_D_IMAGE      = "Заливка изображением"; // "Заливка изображением";
+  String STR_FILL_TYPE    = Messages.getString( "STR_FILL_TYPE" );    //$NON-NLS-1$
+  String STR_FILL_TYPE_D  = Messages.getString( "STR_FILL_TYPE_D" );  //$NON-NLS-1$
+  String STR_FILL_COLOR   = Messages.getString( "STR_FILL_COLOR" );   //$NON-NLS-1$
+  String STR_FILL_COLOR_D = Messages.getString( "STR_FILL_COLOR_D" ); //$NON-NLS-1$
+  String STR_IMAGE        = Messages.getString( "STR_IMAGE" );        //$NON-NLS-1$
+  String STR_IMAGE_D      = Messages.getString( "STR_IMAGE_D" );      //$NON-NLS-1$
 
 }

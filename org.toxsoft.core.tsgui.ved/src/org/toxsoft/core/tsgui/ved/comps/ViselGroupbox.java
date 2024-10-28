@@ -14,6 +14,7 @@ import org.toxsoft.core.tsgui.bricks.tin.impl.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.graphics.fonts.*;
 import org.toxsoft.core.tsgui.graphics.gc.*;
+import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tsgui.ved.editor.palette.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
@@ -119,6 +120,8 @@ public class ViselGroupbox
 
   private D2RectangleEdit textRect = new D2RectangleEdit( 0, 0, 0, 0 );
 
+  private TsFillInfo fillInfo = TsFillInfo.NONE;
+
   /**
    * Constructor.
    *
@@ -155,11 +158,12 @@ public class ViselGroupbox
 
     if( !text.isEmpty() ) {
       text = " " + text + " "; //$NON-NLS-1$ //$NON-NLS-2$
-      aPaintContext.setFillInfo( props().getValobj( PROPID_BK_FILL ) );
+      // aPaintContext.setFillInfo( props().getValobj( PROPID_BK_FILL ) );
+      aPaintContext.setFillInfo( fillInfo );
       aPaintContext.fillRect( (int)textRect.x1(), (int)textRect.y1(), (int)textRect.width(), (int)textRect.height() );
       aPaintContext.gc().setBackgroundPattern( null );
       aPaintContext.setForegroundRgba( props().getValobj( PROPID_FG_COLOR ) );
-      aPaintContext.gc().drawText( text, (int)textRect.x1(), (int)textRect.y1(), true );
+      aPaintContext.gc().drawText( text, (int)textRect.x1(), (int)textRect.y1(), fillInfo == TsFillInfo.NONE );
     }
   }
 
@@ -182,6 +186,10 @@ public class ViselGroupbox
       else {
         height = props().getDouble( PROPID_HEIGHT );
       }
+      if( aValuesToSet.hasKey( PROPID_BK_FILL ) ) {
+        fillInfo = aValuesToSet.getValobj( PROPID_BK_FILL );
+      }
+
       gc = new GC( getShell() );
       IFontInfo fi = props().getValobj( PROPID_FONT );
       if( aValuesToSet.hasKey( PROPID_FONT ) ) {

@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.chart.renderers;
+package org.toxsoft.core.tsgui.ved.incub.tti;
 
 import java.util.*;
 

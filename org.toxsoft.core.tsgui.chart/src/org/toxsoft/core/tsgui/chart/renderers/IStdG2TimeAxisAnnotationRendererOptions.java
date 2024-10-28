@@ -37,8 +37,8 @@ public interface IStdG2TimeAxisAnnotationRendererOptions {
    * Значение по умолчанию: %1$td-%1$tm-%1$tY
    */
   IDataDef DATE_FORMAT = DataDef.create( "dateFormat", STRING, // //$NON-NLS-1$
-      TSID_NAME, STR_N_DATE_FORMAT, //
-      TSID_DESCRIPTION, STR_D_DATE_FORMAT, //
+      TSID_NAME, STR_DATE_FORMAT, //
+      TSID_DESCRIPTION, STR_DATE_FORMAT_D, //
       TSID_DEFAULT_VALUE, AvUtils.avStr( "%1$td-%1$tm-%1$tY" ) // //$NON-NLS-1$
   );
   // IAtomicOptionInfo DATE_FORMAT =
@@ -54,8 +54,8 @@ public interface IStdG2TimeAxisAnnotationRendererOptions {
    * Значение по умолчанию: %1$tH:%1$tM
    */
   IDataDef TIME_FORMAT = DataDef.create( "timeFormat", STRING, // //$NON-NLS-1$
-      TSID_NAME, STR_N_TIME_FORMAT, //
-      TSID_DESCRIPTION, STR_D_TIME_FORMAT, //
+      TSID_NAME, STR_TIME_FORMAT, //
+      TSID_DESCRIPTION, STR_TIME_FORMAT_D, //
       TSID_DEFAULT_VALUE, AvUtils.avStr( "%1$tH:%1$tM" ) // //$NON-NLS-1$
   );
   // IAtomicOptionInfo TIME_FORMAT =
@@ -69,8 +69,8 @@ public interface IStdG2TimeAxisAnnotationRendererOptions {
    * Значение по умолчанию: true
    */
   IDataDef DATE_WRAP = DataDef.create( "dateWrap", BOOLEAN, // //$NON-NLS-1$
-      TSID_NAME, STR_N_DATE_WRAP, //
-      TSID_DESCRIPTION, STR_D_DATE_WRAP, //
+      TSID_NAME, STR_DATE_WRAP, //
+      TSID_DESCRIPTION, STR_DATE_WRAP_D, //
       TSID_DEFAULT_VALUE, AvUtils.AV_TRUE //
   );
   // IAtomicOptionInfo DATE_WRAP =
@@ -84,8 +84,8 @@ public interface IStdG2TimeAxisAnnotationRendererOptions {
    * Значение по умолчанию: 4
    */
   IDataDef ANNOTATION_INDENT = DataDef.create( "annotationIndent", INTEGER, // //$NON-NLS-1$
-      TSID_NAME, STR_N_ANNOTATION_INDENT, //
-      TSID_DESCRIPTION, STR_D_ANNOTATION_INDENT, //
+      TSID_NAME, STR_ANNOTATION_INDENT, //
+      TSID_DESCRIPTION, STR_ANNOTATION_INDENT_D, //
       TSID_DEFAULT_VALUE, AvUtils.avInt( 4 ) //
   );
   // IAtomicOptionInfo ANNOTATION_INDENT =
@@ -100,8 +100,8 @@ public interface IStdG2TimeAxisAnnotationRendererOptions {
    * Значение по умолчанию: TsColorUtils.rgb2int( new RGB( 0,0, 0 ))
    */
   IDataDef TEXT_COLOR = DataDef.create( "annotationTextColor", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_TEXT_COLOR, //
-      TSID_DESCRIPTION, STR_D_TEXT_COLOR, //
+      TSID_NAME, STR_TEXT_COLOR, //
+      TSID_DESCRIPTION, STR_TEXT_COLOR_D, //
       TSID_KEEPER_ID, RGBAKeeper.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, //
       TSID_DEFAULT_VALUE, avValobj( new RGBA( 0, 0, 0, 255 ) ) //
@@ -117,8 +117,8 @@ public interface IStdG2TimeAxisAnnotationRendererOptions {
    * Значение по умолчанию: {@link FontInfo#FontInfo(String, int, boolean, boolean) FontInfo("Arial", 10, false,false)}
    */
   IDataDef FONT_INFO = DataDef.create( "annotationFontInfo", VALOBJ, //$NON-NLS-1$
-      TSID_NAME, STR_N_ANNOTATION_FONT_INFO, //
-      TSID_DESCRIPTION, STR_D_ANNOTATION_FONT_INFO, //
+      TSID_NAME, STR_ANNOTATION_FONT_INFO, //
+      TSID_DESCRIPTION, STR_ANNOTATION_FONT_INFO_D, //
       TSID_KEEPER_ID, FontInfo.KEEPER_ID, //
       TSID_DEFAULT_VALUE, avValobj( new FontInfo( "Arial", 10, 0 ) ) // //$NON-NLS-1$
   );

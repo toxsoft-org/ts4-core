@@ -39,8 +39,8 @@ public interface IG2StateAxisAnnotationRendererOptions {
    * Значение по умолчанию: TsLibUtils.EMPTY_STRING
    */
   IDataDef ANNOTATION_FORMAT = DataDef.create( "annotationFormat", STRING, // //$NON-NLS-1$
-      TSID_NAME, STR_N_ANNOTATION_FORMAT, //
-      TSID_DESCRIPTION, STR_D_ANNOTATION_FORMAT, //
+      TSID_NAME, STR_ANNOTATION_FORMAT, //
+      TSID_DESCRIPTION, STR_ANNOTATION_FORMAT_D, //
       TSID_DEFAULT_VALUE, TsLibUtils.EMPTY_STRING //
   );
   // IAtomicOptionInfo ANNOTATION_FORMAT =
@@ -55,8 +55,8 @@ public interface IG2StateAxisAnnotationRendererOptions {
    * Значение по умолчанию: 2
    */
   IDataDef ANNOTATION_INDENT = DataDef.create( "annotationIndent", INTEGER, // //$NON-NLS-1$
-      TSID_NAME, STR_N_ANNOTATION_INDENT, //
-      TSID_DESCRIPTION, STR_D_ANNOTATION_INDENT, //
+      TSID_NAME, STR_ANNOTATION_INDENT, //
+      TSID_DESCRIPTION, STR_ANNOTATION_INDENT_D, //
       TSID_DEFAULT_VALUE, AvUtils.avInt( 2 ) //
   );
   // IAtomicOptionInfo ANNOTATION_INDENT =
@@ -71,8 +71,8 @@ public interface IG2StateAxisAnnotationRendererOptions {
    * Значение по умолчанию: TsColorUtils.rgb2int( new RGB( 0,0, 0 ))
    */
   IDataDef TEXT_COLOR = DataDef.create( "annotationTextColor", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_TEXT_COLOR, //
-      TSID_DESCRIPTION, STR_D_TEXT_COLOR, //
+      TSID_NAME, STR_TEXT_COLOR, //
+      TSID_DESCRIPTION, STR_TEXT_COLOR_D, //
       TSID_KEEPER_ID, RGBAKeeper.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, //
       TSID_DEFAULT_VALUE, avValobj( new RGBA( 0, 0, 0, 255 ) ) //
@@ -89,8 +89,8 @@ public interface IG2StateAxisAnnotationRendererOptions {
    * Значение по умолчанию: {@link FontInfo#FontInfo(String, int, boolean, boolean) FontInfo("Arial", 10, false,false)}
    */
   IDataDef FONT_INFO = DataDef.create( "annotationFontInfo", VALOBJ, //$NON-NLS-1$
-      TSID_NAME, STR_N_ANNOTATION_FONT_INFO, //
-      TSID_DESCRIPTION, STR_D_ANNOTATION_FONT_INFO, //
+      TSID_NAME, STR_ANNOTATION_FONT_INFO, //
+      TSID_DESCRIPTION, STR_ANNOTATION_FONT_INFO_D, //
       TSID_KEEPER_ID, FontInfo.KEEPER_ID, //
       TSID_DEFAULT_VALUE, avValobj( new FontInfo( "Arial", 10, 0 ) ) // //$NON-NLS-1$
   );
@@ -106,8 +106,8 @@ public interface IG2StateAxisAnnotationRendererOptions {
    * Значение по умолчанию: {@link IStringList#EMPTY}
    */
   IDataDef TICK_NAMES = DataDef.create( "tickNames", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_N_TICK_NAMES, //
-      TSID_DESCRIPTION, STR_D_TICK_NAMES, //
+      TSID_NAME, STR_TICK_NAMES, //
+      TSID_DESCRIPTION, STR_TICK_NAMES_D, //
       TSID_KEEPER_ID, StringListKeeper.KEEPER_ID, //
       // OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, //
       TSID_DEFAULT_VALUE, avValobj( IStringList.EMPTY ) //
