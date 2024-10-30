@@ -5,7 +5,6 @@ package org.toxsoft.core.tslib.utils.files;
  *
  * @author hazard157
  */
-@SuppressWarnings( "nls" )
 interface ITsResources {
 
   String STR_FOK_FILE                  = Messages.getString( "STR_FOK_FILE" );                  //$NON-NLS-1$

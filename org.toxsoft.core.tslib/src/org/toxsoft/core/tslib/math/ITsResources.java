@@ -5,7 +5,6 @@ package org.toxsoft.core.tslib.math;
  *
  * @author hazard157
  */
-@SuppressWarnings( "nls" )
 interface ITsResources {
 
   String FMT_ERR_NOT_EXPECTED_AT   = Messages.getString( "FMT_ERR_NOT_EXPECTED_AT" );   //$NON-NLS-1$

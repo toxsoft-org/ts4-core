@@ -1,11 +1,9 @@
 package org.toxsoft.core.tslib.bricks.validator.impl;
 
-import org.toxsoft.core.tslib.bricks.validator.EValidationResultType;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.vrl.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -18,8 +16,6 @@ public class TsValidationFailedRtException
 
   private static final long serialVersionUID = 157157L;
 
-  private final IList<ValidationResult> validationResults;
-
   /**
    * Constructs exception based on specified result.
    * <p>
@@ -30,7 +26,6 @@ public class TsValidationFailedRtException
    */
   public TsValidationFailedRtException( ValidationResult aValidationResult ) {
     super( aValidationResult.message() );
-    validationResults = new ElemArrayList<>( aValidationResult );
   }
 
   /**
@@ -40,7 +35,6 @@ public class TsValidationFailedRtException
    */
   public TsValidationFailedRtException( ValidationResult... aValidationResults ) {
     super( messageFromArray( aValidationResults ) );
-    validationResults = new ElemArrayList<>( aValidationResults );
   }
 
   /**
@@ -53,7 +47,6 @@ public class TsValidationFailedRtException
    */
   public TsValidationFailedRtException( ITsCollection<ValidationResult> aValidationResults ) {
     super( messageFromColl( aValidationResults ) );
-    validationResults = new ElemArrayList<>( aValidationResults );
   }
 
   private static String messageFromArray( ValidationResult[] aValRes ) {
@@ -144,6 +137,17 @@ public class TsValidationFailedRtException
   }
 
   /**
+   * Throws an exception if any of the specified validation results is of type {@link EValidationResultType#ERROR}.
+   *
+   * @param aValidationResults {@link IVrList} - specified results
+   * @throws TsNullArgumentRtException argument = <code>null</code>
+   */
+  public static void checkError( IVrList aValidationResults ) {
+    TsNullArgumentRtException.checkNull( aValidationResults );
+    checkError( aValidationResults.firstWorstResult() );
+  }
+
+  /**
    * Throws an exception if specified validation result is of type {@link EValidationResultType#ERROR} or
    * {@link EValidationResultType#WARNING}.
    *
@@ -191,12 +195,15 @@ public class TsValidationFailedRtException
   }
 
   /**
-   * Returns validation results causing exception.
+   * Throws an exception if any of the specified validation results is of type {@link EValidationResultType#ERROR} or
+   * {@link EValidationResultType#WARNING}.
    *
-   * @return IList&lt;{@link ValidationResult}&gt; - list of all checked resuls, some with errors/warnings
+   * @param aValidationResults {@link IVrList} - specified results
+   * @throws TsNullArgumentRtException argument = <code>null</code>
    */
-  public IList<ValidationResult> validationResults() {
-    return validationResults;
+  public static void checkWarn( IVrList aValidationResults ) {
+    TsNullArgumentRtException.checkNull( aValidationResults );
+    checkError( aValidationResults.firstWorstResult() );
   }
 
 }

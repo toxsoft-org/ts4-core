@@ -42,12 +42,12 @@ public interface IVrList {
   IStridablesList<IDataDef> listInfoOpDefs();
 
   /**
-   * Returns the first worst result from the {@link #items()} list.
+   * Returns the first worst result item from the {@link #items()} list.
    * <p>
    * Returns first ERROR from list, if no error, returns first WARNING. Otherwise returns first item in
    * {@link #items()}. If results is an empty list returns {@link VrlItem#OK}.
    *
-   * @return {@link VrlItem} - the first occurrence of the worst result
+   * @return {@link VrlItem} - the first occurrence of the worst result, never is <code>null</code>
    */
   VrlItem getFirstWorst();
 
@@ -62,6 +62,11 @@ public interface IVrList {
    */
   default boolean isEmpty() {
     return items().isEmpty();
+  }
+
+  @SuppressWarnings( "javadoc" )
+  default ValidationResult firstWorstResult() {
+    return getFirstWorst().vr();
   }
 
 }

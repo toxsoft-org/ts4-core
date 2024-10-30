@@ -904,7 +904,8 @@ public class TsFileUtils {
         return f;
       }
     }
-    throw new TsIllegalStateRtException( FMT_ERR_CANT_UNIQUE_FILE, aDestFile.getName() );
+    throw new TsIllegalStateRtException( FMT_ERR_CANT_UNIQUE_FILE, aDestFile.getName(),
+        Integer.valueOf( MAX_UNIQUE_FILE_NAME_PREFIXES ) );
   }
 
   /**

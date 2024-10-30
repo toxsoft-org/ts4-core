@@ -1,6 +1,6 @@
 package org.toxsoft.core.tslib.utils.plugins.impl;
 
-import org.toxsoft.core.tslib.utils.plugins.IPluginsHardConstants;
+import org.toxsoft.core.tslib.utils.plugins.*;
 
 /**
  * Localizable resources.

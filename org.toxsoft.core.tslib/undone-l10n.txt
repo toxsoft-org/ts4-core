@@ -1,8 +1,1 @@
---- org.toxsoft.core.tslib.math
---- org.toxsoft.core.tslib.math.mathops
---- org.toxsoft.core.tslib.utils
---- org.toxsoft.core.tslib.utils.files
---- org.toxsoft.core.tslib.utils.logs.impl
---- org.toxsoft.core.tslib.utils.progargs
---- org.toxsoft.core.tslib.utils.valobj
 --- org.toxsoft.core.tslib.utils.plugins.impl
