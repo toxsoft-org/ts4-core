@@ -4,8 +4,11 @@ import org.toxsoft.core.tsgui.bricks.tin.*;
 import org.toxsoft.core.tsgui.bricks.tin.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
+import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -58,6 +61,19 @@ public class TinUtils {
       }
     }
     return result;
+  }
+
+  private static void foo( IStridablesList<ITinFieldInfo> aFields, IStridablesList<IVedItem> aItems ) {
+    IStringMapEdit<IAtomicValue> values = new StringMap<>();
+
+    // for( ITinFieldInfo fi: aFields ) {
+    // for( IVedItem item : aItems ) {
+    // if( !values.hasKey( fi.id() )) {
+    // ITinValue tv = fi.typeInfo().makeValue( values );
+    // values.put( fi.id(), item.props().getByKey( ) )
+    // }
+    // }
+    // }
   }
 
   private TinUtils() {
