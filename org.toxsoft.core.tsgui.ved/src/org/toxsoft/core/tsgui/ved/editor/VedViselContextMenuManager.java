@@ -126,15 +126,23 @@ public class VedViselContextMenuManager
           // cmnMenu.setVisible( true );
           // return true;
         }
+        viselMenuCreator.fillMenu( cmnMenu, visel, aCoors );
+        for( IVedContextMenuCreator creator : customMenuCreators ) {
+          creator.fillMenu( cmnMenu, visel, aCoors );
+        }
       }
       else {
         // cpMenuCreator.fillMenu( cmnMenu );
+        viselMenuCreator.fillMenu( cmnMenu, visel, aCoors );
+        for( IVedContextMenuCreator creator : customMenuCreators ) {
+          creator.fillMenu( cmnMenu, visel, aCoors );
+        }
       }
 
-      viselMenuCreator.fillMenu( cmnMenu, visel, aCoors );
-      for( IVedContextMenuCreator creator : customMenuCreators ) {
-        creator.fillMenu( cmnMenu, visel, aCoors );
-      }
+      // viselMenuCreator.fillMenu( cmnMenu, visel, aCoors );
+      // for( IVedContextMenuCreator creator : customMenuCreators ) {
+      // creator.fillMenu( cmnMenu, visel, aCoors );
+      // }
 
       // Menu cmnMenu = new Menu( vedScreen().view().getControl() );
       // cpMenuCreator.fillMenu( cmnMenu );
