@@ -16,8 +16,7 @@ Require-Bundle: jakarta.inject.jakarta.inject-api,
  org.toxsoft.core.txtproj.lib,
  org.toxsoft.core.singlesrc.rcp,
  org.toxsoft.core.tsgui,
- org.toxsoft.core.tsgui.rcp,
- org.toxsoft.core.tsgui.mws
+ org.toxsoft.core.tsgui.rcp
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: org.toxsoft.core.tsgui.ved
 Bundle-ActivationPolicy: lazy

@@ -6,13 +6,17 @@ import org.toxsoft.core.tslib.bricks.apprefs.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * The workroom is the root directory of the directory-base development tool.
+ * The workroom is the root directory of the directory-base application (mainly - the development tool)s.
  * <p>
  * It is assumed that the workroom provides data and file storage services to subsystems that have unique identifiers.
+ * <p>
+ * Usage: simply open workroom at program startup with {@link TsWorkroom#openWorkroom(File, WorkroomFlavor)} and put
+ * instance of {@link ITsWorkroom} in application context.
  *
  * @author hazard157
  */
-public sealed interface ITsWorkroom permits TsWorkroom {
+public sealed interface ITsWorkroom
+    permits TsWorkroom {
 
   /**
    * Returns the workroom directory.
