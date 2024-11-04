@@ -155,7 +155,7 @@ public class StdG2TimeAxisAnnotationRenderer
         }
         if( !dateStr.isEmpty() ) {
           if( !valueStr.isEmpty() ) {
-            valueStr += " " + dateStr;
+            valueStr += " " + dateStr; //$NON-NLS-1$
           }
           else {
             valueStr = dateStr;

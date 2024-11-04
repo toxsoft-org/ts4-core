@@ -153,7 +153,7 @@ public class G2ChartUtils {
   public static void printTimeInterval( ITimeInterval aInterval, String aPrefix ) {
     Date sd = new Date( aInterval.startTime() );
     Date ed = new Date( aInterval.endTime() );
-    System.out.println( aPrefix + sd.toString() + " - " + ed.toString() );
+    System.out.println( aPrefix + sd.toString() + " - " + ed.toString() ); //$NON-NLS-1$
   }
 
   /**

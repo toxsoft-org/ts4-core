@@ -227,7 +227,7 @@ public class StdG2Graphic
 
   @Override
   public String valueToString( ITemporalAtomicValue aValue ) {
-    String valStr = "null";
+    String valStr = "null"; //$NON-NLS-1$
     if( aValue != ITemporalAtomicValue.NULL ) {
       IAtomicValue value = aValue.value();
       if( value != IAtomicValue.NULL ) {

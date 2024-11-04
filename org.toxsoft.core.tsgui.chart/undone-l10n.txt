@@ -1,1 +1,5 @@
 --- org.toxsoft.core.tsgui.chart.renderers (был переведен под новый формат локализации)
+--- org.toxsoft.core.tsgui.chart.impl.XAxisModel (присутствует вывод надписи в консоль "println")
+--- org.toxsoft.core.tsgui.chart.impl.TimeAxis (возвращаемое значение "February Февраль")
+--- org.toxsoft.core.tsgui.chart.impl.G2Axis 
+--- org.toxsoft.core.tsgui.chart.impl.XAxisView (присутствует вывод надписи в консоль "println")
