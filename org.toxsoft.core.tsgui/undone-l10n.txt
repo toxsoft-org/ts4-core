@@ -1,5 +1,3 @@
---- org.toxsoft.core.tsgui.bricks.quant
-++- org.toxsoft.core.tsgui.bricks.tin.tti (нет перевода двух позиций на грузинском)
 --- org.toxsoft.core.tsgui.graphics
 --- org.toxsoft.core.tsgui.graphics.colors.impl
 --- org.toxsoft.core.tsgui.graphics.fonts.impl

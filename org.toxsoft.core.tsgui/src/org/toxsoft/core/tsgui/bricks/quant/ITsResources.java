@@ -5,7 +5,6 @@ package org.toxsoft.core.tsgui.bricks.quant;
  *
  * @author hazard157
  */
-@SuppressWarnings( "nls" )
 interface ITsResources {
 
   String FMT_WARN_QUANT_DUP_INIT_APP = Messages.getString( "FMT_WARN_QUANT_DUP_INIT_APP" ); //$NON-NLS-1$

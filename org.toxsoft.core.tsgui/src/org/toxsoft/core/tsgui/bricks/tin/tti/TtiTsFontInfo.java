@@ -15,7 +15,7 @@ import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 
 /**
- * Информация о поле инспектора для {@link IFontInfo}.
+ * Inspector field information for {@link IFontInfo}.
  *
  * @author vs
  */
