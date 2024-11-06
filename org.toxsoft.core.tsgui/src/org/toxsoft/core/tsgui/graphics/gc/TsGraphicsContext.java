@@ -95,7 +95,7 @@ public class TsGraphicsContext
   }
 
   private void fillTileImage( TsImage aImage, int aX, int aY, int aWidth, int aHeight ) {
-    gc.setClipping( new Rectangle( aX, aY, aWidth, aHeight ) );
+    // gc.setClipping( new Rectangle( aX, aY, aWidth, aHeight ) );
 
     ImageData imd = aImage.image().getImageData();
     int width = imd.width;
@@ -113,7 +113,7 @@ public class TsGraphicsContext
       x += width;
     }
 
-    gc.setClipping( (Rectangle)null );
+    // gc.setClipping( (Rectangle)null );
   }
 
   private void fillCenterImage( TsImage aImage, int aX, int aY, int aWidth, int aHeight ) {
@@ -121,9 +121,9 @@ public class TsGraphicsContext
     int imgX = aX + (aWidth - imgSize.x()) / 2;
     int imgY = aY + (aHeight - imgSize.y()) / 2;
 
-    gc.setClipping( new Rectangle( aX, aY, aWidth, aHeight ) );
+    // gc.setClipping( new Rectangle( aX, aY, aWidth, aHeight ) );
     gc.drawImage( aImage.image(), imgX, imgY );
-    gc.setClipping( (Rectangle)null );
+    // gc.setClipping( (Rectangle)null );
   }
 
   private void fillFitImage( TsImage aImage, int aX, int aY, int aWidth, int aHeight ) {
@@ -146,9 +146,9 @@ public class TsGraphicsContext
     int imgX = (aWidth - newSize.x()) / 2;
     int imgY = (aHeight - newSize.y()) / 2;
 
-    gc.setClipping( new Rectangle( aX, aY, aWidth, aHeight ) );
+    // gc.setClipping( new Rectangle( aX, aY, aWidth, aHeight ) );
     gc.drawImage( aImage.image(), 0, 0, imgSize.x(), imgSize.y(), imgX, imgY, newSize.x(), newSize.y() );
-    gc.setClipping( (Rectangle)null );
+    // gc.setClipping( (Rectangle)null );
   }
 
   // ------------------------------------------------------------------------------------
@@ -255,12 +255,13 @@ public class TsGraphicsContext
           else {
             bkImage = imageManager().getImage( imgInfo.imageDescriptor() );
           }
-          fillImage( bkImage, aX, aY, aWidth, aHeight, imgInfo.kind() );
-          if( unknownImage != null ) {
-            unknownImage.dispose();
-            unknownImage = null;
-          }
-          return;
+          // fillImage( bkImage, aX, aY, aWidth, aHeight, imgInfo.kind() );
+          // if( unknownImage != null ) {
+          // unknownImage.dispose();
+          // unknownImage = null;
+          // }
+          break;
+        // return;
         default:
           throw new IllegalArgumentException( "Unexpected value: " + fillInfo.kind() ); //$NON-NLS-1$
       }
@@ -272,8 +273,17 @@ public class TsGraphicsContext
     tr.translate( aX, aY );
     gc.setTransform( tr );
     tr.dispose();
-    // gc.fillRectangle( aX, aY, aWidth, aHeight );
-    gc.fillRectangle( 0, 0, aWidth, aHeight );
+    if( fillInfo.kind() == ETsFillKind.IMAGE ) {
+      TsImageFillInfo imgInfo = fillInfo.imageFillInfo();
+      fillImage( bkImage, 0, 0, aWidth, aHeight, imgInfo.kind() );
+      if( unknownImage != null ) {
+        unknownImage.dispose();
+        unknownImage = null;
+      }
+    }
+    else {
+      gc.fillRectangle( 0, 0, aWidth, aHeight );
+    }
     if( pattern != null ) {
       pattern.dispose();
     }

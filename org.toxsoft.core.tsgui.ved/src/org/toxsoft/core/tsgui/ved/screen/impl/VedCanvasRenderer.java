@@ -20,7 +20,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * <li>single VED environment may be drawn on different canvas so several instances of theis class may exist.</li>
  * </ul>
  *
- * @author hazard157
+ * @author hazard157, vs
  */
 class VedCanvasRenderer
     implements PaintListener, ITsGuiContextable {
@@ -97,7 +97,17 @@ class VedCanvasRenderer
 
     TsGraphicsContext tsg = new TsGraphicsContext( aEvent, tsContext() );
     Transform screenTransform = D2TransformUtils.d2ConversionToTransfrom( aEvent.gc, d2Conv );
+
+    float[] koeffs = new float[6];
+    screenTransform.getElements( koeffs );
+    // Rectangle clipRect =
+    // new Rectangle( aEvent.x + (int)koeffs[4], aEvent.y + (int)koeffs[5], aEvent.width, aEvent.height );
+    // System.out.println( "Clip rect: " + clipRect );
+
     aEvent.gc.setTransform( screenTransform );
+
+    aEvent.gc.setClipping( aEvent.x - (int)koeffs[4], aEvent.y - (int)koeffs[5], aEvent.width, aEvent.height );
+
     IVedItemsManager<VedAbstractVisel> visels = screenModel.visels();
 
     // fill canvas - draw canvas background if needed
