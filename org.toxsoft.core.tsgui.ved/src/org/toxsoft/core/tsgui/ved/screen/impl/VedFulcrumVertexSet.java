@@ -120,8 +120,8 @@ public class VedFulcrumVertexSet
         // d2p = deltaSwt2Screen( aSwtDx, aSwtDy );
         viselFulcrum = tsf.fulcrum();
       }
-      double originDx = (width * tsf.xPerc()) / 100.;
-      double originDy = (height * tsf.yPerc()) / 100.;
+      // double originDx = (width * tsf.xPerc()) / 100.;
+      // double originDy = (height * tsf.yPerc()) / 100.;
       switch( fulcrum ) {
         case TOP_CENTER: {
           if( ETsFulcrum.TOP_CENTER != viselFulcrum ) {
@@ -129,13 +129,13 @@ public class VedFulcrumVertexSet
               visel.props().setPropPairs( PROP_HEIGHT, avFloat( height - 2 * d2p.y() ) );
             }
             else {
-              visel.props().setPropPairs( PROP_HEIGHT, avFloat( height - d2pScr.y() ) );
+              visel.props().setPropPairs( PROP_Y, avFloat( visel.originY() + d2pScr.y() ), //
+                  PROP_HEIGHT, avFloat( height - d2pScr.y() ) );
             }
           }
           else {
             visel.props().setPropPairs( //
                 PROP_X, avFloat( visel.originX() - deltaSwt2Visel( 0, aSwtDy ).x() ), //
-                // PROP_Y, avFloat( visel.originY() + d2pScr.y() - deltaSwt2Screen( aSwtDx, 0 ).y() ), //
                 PROP_Y, avFloat( visel.originY() + d2pScr.y() ), //
                 PROP_HEIGHT, avFloat( height - d2pScr.y() + deltaSwt2Visel( aSwtDx, 0 ).y() ) );
           }

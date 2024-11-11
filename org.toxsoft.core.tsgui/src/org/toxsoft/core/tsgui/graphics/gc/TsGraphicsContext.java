@@ -84,7 +84,7 @@ public class TsGraphicsContext
         fillCenterImage( aImage, aX, aY, aWidth, aHeight );
         break;
       case FIT:
-        fillFitImage( aImage, aX, aY, aWidth, aHeight );
+        fillFitImage( aImage, aWidth, aHeight );
         break;
       case TILE:
         fillTileImage( aImage, aX, aY, aWidth, aHeight );
@@ -95,8 +95,6 @@ public class TsGraphicsContext
   }
 
   private void fillTileImage( TsImage aImage, int aX, int aY, int aWidth, int aHeight ) {
-    // gc.setClipping( new Rectangle( aX, aY, aWidth, aHeight ) );
-
     ImageData imd = aImage.image().getImageData();
     int width = imd.width;
     int height = imd.height;
@@ -112,8 +110,6 @@ public class TsGraphicsContext
       }
       x += width;
     }
-
-    // gc.setClipping( (Rectangle)null );
   }
 
   private void fillCenterImage( TsImage aImage, int aX, int aY, int aWidth, int aHeight ) {
@@ -121,12 +117,10 @@ public class TsGraphicsContext
     int imgX = aX + (aWidth - imgSize.x()) / 2;
     int imgY = aY + (aHeight - imgSize.y()) / 2;
 
-    // gc.setClipping( new Rectangle( aX, aY, aWidth, aHeight ) );
     gc.drawImage( aImage.image(), imgX, imgY );
-    // gc.setClipping( (Rectangle)null );
   }
 
-  private void fillFitImage( TsImage aImage, int aX, int aY, int aWidth, int aHeight ) {
+  private void fillFitImage( TsImage aImage, int aWidth, int aHeight ) {
     ITsPoint imgSize = aImage.imageSize();
 
     double kWidth = (double)aWidth / imgSize.x();
@@ -146,9 +140,7 @@ public class TsGraphicsContext
     int imgX = (aWidth - newSize.x()) / 2;
     int imgY = (aHeight - newSize.y()) / 2;
 
-    // gc.setClipping( new Rectangle( aX, aY, aWidth, aHeight ) );
     gc.drawImage( aImage.image(), 0, 0, imgSize.x(), imgSize.y(), imgX, imgY, newSize.x(), newSize.y() );
-    // gc.setClipping( (Rectangle)null );
   }
 
   // ------------------------------------------------------------------------------------
@@ -255,13 +247,7 @@ public class TsGraphicsContext
           else {
             bkImage = imageManager().getImage( imgInfo.imageDescriptor() );
           }
-          // fillImage( bkImage, aX, aY, aWidth, aHeight, imgInfo.kind() );
-          // if( unknownImage != null ) {
-          // unknownImage.dispose();
-          // unknownImage = null;
-          // }
           break;
-        // return;
         default:
           throw new IllegalArgumentException( "Unexpected value: " + fillInfo.kind() ); //$NON-NLS-1$
       }
