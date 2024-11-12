@@ -69,7 +69,7 @@ public class ShadowUtils {
     imd.alpha = -1;
     for( int i = 0; i < imd.width; i++ ) {
       for( int j = 0; j < imd.height; j++ ) {
-        if( (imd.getPixel( i, j ) & 0xff) == 0 ) {
+        if( imd.getPixel( i, j ) == 0 ) {
           imd.setAlpha( i, j, 0 );
         }
         else {
@@ -111,6 +111,7 @@ public class ShadowUtils {
     Image image = createTransparentImage( display, width, height, 255 );
 
     GC gc = createGcForShadow( image, fl, aAlpha, aXfactor, aYFactor );
+    gc.setBackground( new Color( 100, 100, 100 ) );
     gc.fillPath( aPath );
 
     Image newImage = image2shadow( image, fl, aAlpha, aCount );

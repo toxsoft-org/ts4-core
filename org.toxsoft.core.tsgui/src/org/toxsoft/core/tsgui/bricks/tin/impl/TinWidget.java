@@ -55,7 +55,7 @@ public class TinWidget
 
   @Override
   public Object selectedItem() {
-    return tinTree.getSelctedRow();
+    return tinTree.getSelectedRow();
   }
 
   @Override
@@ -71,6 +71,7 @@ public class TinWidget
   @Override
   protected Control doCreateControl( Composite aParent ) {
     tinTree = new TinTree( aParent, this );
+    tinTree.addSelectionChangedListener( aEvent -> fireTsSelectionEvent( tinTree.getSelectedRow() ) );
     return tinTree;
   }
 

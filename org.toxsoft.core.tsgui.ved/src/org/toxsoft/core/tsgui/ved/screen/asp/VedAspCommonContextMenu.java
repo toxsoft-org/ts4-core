@@ -8,11 +8,13 @@ import static org.toxsoft.core.tsgui.ved.screen.asp.ITsResources.*;
 import org.toxsoft.core.tsgui.bricks.actions.*;
 import org.toxsoft.core.tsgui.bricks.actions.asp.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.ved.editor.*;
 import org.toxsoft.core.tsgui.ved.editor.IVedViselSelectionManager.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -37,6 +39,20 @@ public class VedAspCommonContextMenu
   private final IVedViselSelectionManager selectionManager;
 
   private VedAbstractVisel activeVisel = null;
+
+  private final IGenericChangeListener canvasChangeListener = new IGenericChangeListener() {
+
+    @Override
+    public void onGenericChangeEvent( Object aSource ) {
+      if( aSource instanceof PanelCanvasConfig ) {
+        IVedCanvasCfg cfg = ((PanelCanvasConfig)aSource).getDataRecord();
+        vedScreen.view().setCanvasConfig( cfg );
+        vedScreen.view().redraw();
+        vedScreen.view().update();
+      }
+
+    }
+  };
 
   /**
    * Constructor.
@@ -121,7 +137,9 @@ public class VedAspCommonContextMenu
   }
 
   void doConfigurateCanvas() {
-    IVedCanvasCfg canvasConfig = PanelCanvasConfig.editCanvasConfig( vedScreen.view().canvasConfig(), tsContext() );
+    ITsGuiContext ctx = new TsGuiContext( tsContext() );
+    ctx.put( IGenericChangeListener.class, canvasChangeListener );
+    IVedCanvasCfg canvasConfig = PanelCanvasConfig.editCanvasConfig( vedScreen.view().canvasConfig(), ctx );
     if( canvasConfig != null ) {
       vedScreen.view().setCanvasConfig( canvasConfig );
       vedScreen.view().redraw();

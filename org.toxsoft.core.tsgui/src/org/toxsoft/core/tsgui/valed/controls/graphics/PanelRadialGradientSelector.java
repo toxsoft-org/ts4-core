@@ -22,7 +22,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author vs
  */
 public class PanelRadialGradientSelector
-    extends TsPanel {
+    extends AbstractPanelGradientSelector {
 
   ResultPanel resultPanel;
 
@@ -106,15 +106,13 @@ public class PanelRadialGradientSelector
     RadialGradientInfo gi = new RadialGradientInfo( centerX, centerY, fractions );
     pattern = gi.createGradient( tsContext() );
     resultPanel.redraw();
+    genericChangeEventer().fireChangeEvent();
   };
-
-  private final ITsGuiContext tsContext;
 
   IGradient pattern = null;
 
   PanelRadialGradientSelector( Composite aParent, ITsGuiContext aContext ) {
     super( aParent, aContext );
-    tsContext = aContext;
 
     setLayout( new GridLayout( 1, false ) );
 
@@ -139,11 +137,6 @@ public class PanelRadialGradientSelector
     updateGradient( aContext );
   }
 
-  @Override
-  public ITsGuiContext tsContext() {
-    return tsContext;
-  }
-
   // ------------------------------------------------------------------------------------
   // API
   //
@@ -166,7 +159,7 @@ public class PanelRadialGradientSelector
     TsIllegalArgumentRtException.checkFalse( aInfo.gradientType() == EGradientType.RADIAL );
     RadialGradientInfo info = (RadialGradientInfo)aInfo;
     fractionsPanel.setFractions( info.fractions() );
-    updateGradient( tsContext );
+    updateGradient( tsContext() );
   }
 
   // ------------------------------------------------------------------------------------

@@ -4,10 +4,12 @@ import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tsgui.valed.controls.helpers.*;
 import org.toxsoft.core.tsgui.valed.impl.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
 
 /**
  * Редактор параметров заливки.
@@ -81,7 +83,8 @@ public class ValedTsFillInfo
     if( value != TsFillInfo.NONE ) {
       fi = value;
     }
-    fi = PanelTsFillInfoSelector.editPattern( fi, tsContext() );
+    ITsGuiContext ctx = prepareContext();
+    fi = PanelTsFillInfoSelector.editPattern( fi, ctx );
     if( fi == null ) {
       return false;
     }
@@ -102,6 +105,28 @@ public class ValedTsFillInfo
   @Override
   protected void doDoSetUnvalidatedValue( TsFillInfo aValue ) {
     value = aValue;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Implementation
+  //
+
+  ITsGuiContext prepareContext() {
+    ITsGuiContext ctx = new TsGuiContext( tsContext() );
+    if( tsContext().hasKey( IValedControlValueChangeListener.class ) ) {
+      IValedControlValueChangeListener valedListener = tsContext().get( IValedControlValueChangeListener.class );
+
+      IGenericChangeListener changeListener = aSource -> {
+        value = ((PanelTsFillInfoSelector)aSource).getDataRecord();
+        // if( aSource instanceof PanelColorFillInfo ) {
+        // RGBA rgba = ((PanelColorFillInfo)aSource).rgbaSelector.rgba();
+        // value = new TsFillInfo( rgba );
+        // }
+        valedListener.onEditorValueChanged( ValedTsFillInfo.this, true );
+      };
+      ctx.put( IGenericChangeListener.class, changeListener );
+    }
+    return ctx;
   }
 
 }

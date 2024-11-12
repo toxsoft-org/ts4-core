@@ -37,6 +37,7 @@ public class QuantTsGuiVed
     aAppContext.set( IVedViselFactoriesRegistry.class, visFact );
     visFact.register( ViselRectangle.FACTORY );
     visFact.register( ViselLabel.FACTORY );
+    visFact.register( ViselMultiLineLabel.FACTORY );
     visFact.register( ViselRoundRect.FACTORY );
     visFact.register( ViselCircleLamp.FACTORY );
     visFact.register( ViselButton.FACTORY );
@@ -60,6 +61,8 @@ public class QuantTsGuiVed
     IValedControlFactoriesRegistry vcfRegistry = aWinContext.get( IValedControlFactoriesRegistry.class );
     vcfRegistry.registerFactory( ValedVedViselIdSelector.FACTORY );
     vcfRegistry.registerFactory( ValedVedViselAvStringIdSelector.FACTORY );
+    vcfRegistry.registerFactory( ValedMultiLineTextEditor.FACTORY );
+    vcfRegistry.registerFactory( ValedAvMultiLineTextEditor.FACTORY );
     //
     IM5Domain m5 = aWinContext.get( IM5Domain.class );
     m5.addModel( new VedItemM5Model() );

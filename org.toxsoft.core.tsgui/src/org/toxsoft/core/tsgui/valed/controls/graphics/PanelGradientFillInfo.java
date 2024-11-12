@@ -12,6 +12,7 @@ import org.toxsoft.core.tsgui.panels.*;
 import org.toxsoft.core.tsgui.utils.*;
 import org.toxsoft.core.tsgui.utils.layout.BorderLayout;
 import org.toxsoft.core.tsgui.valed.controls.enums.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -22,10 +23,13 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author vs
  */
 public class PanelGradientFillInfo
-    extends TsPanel {
+    extends TsPanel
+    implements IGenericChangeEventCapable {
 
   TsPanel topPanel;
   TsPanel contentHolder;
+
+  private final GenericChangeEventer changeEventer;
 
   /**
    * Конструктор.<br>
@@ -35,7 +39,17 @@ public class PanelGradientFillInfo
    */
   public PanelGradientFillInfo( Composite aParent, ITsGuiContext aContext ) {
     super( aParent, aContext );
+    changeEventer = new GenericChangeEventer( this );
     init();
+  }
+
+  // ------------------------------------------------------------------------------------
+  // IGenericChangeEventCapable
+  //
+
+  @Override
+  public IGenericChangeEventer genericChangeEventer() {
+    return changeEventer;
   }
 
   // ------------------------------------------------------------------------------------
@@ -139,6 +153,7 @@ public class PanelGradientFillInfo
           throw new TsNotAllEnumsUsedRtException();
       }
       contentHolder.layout( true );
+      changeEventer.fireChangeEvent();
     } );
 
     stackLayout = new StackLayout();
@@ -152,6 +167,11 @@ public class PanelGradientFillInfo
 
     stackLayout.topControl = linearGradientSelector;
 
+    IGenericChangeListener changeListener = aSource -> changeEventer.fireChangeEvent();
+
+    linearGradientSelector.genericChangeEventer().addListener( changeListener );
+    radialGradientSelector.genericChangeEventer().addListener( changeListener );
+    cylinderGradientSelector.genericChangeEventer().addListener( changeListener );
   }
 
 }

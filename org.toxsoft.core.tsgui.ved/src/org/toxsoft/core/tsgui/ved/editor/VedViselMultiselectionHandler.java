@@ -99,8 +99,8 @@ public class VedViselMultiselectionHandler
       VedAbstractVisel visel = VedScreenUtils.itemByPoint( aCoors.x(), aCoors.y(), vedScreen(), false );
       if( visel != null ) {
         selectionManager.toggleSelection( visel.id() );
+        return true;
       }
-      return true;
     }
     return false;
   }

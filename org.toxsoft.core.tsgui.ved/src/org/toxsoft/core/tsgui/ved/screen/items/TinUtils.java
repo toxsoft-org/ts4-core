@@ -1,10 +1,10 @@
 package org.toxsoft.core.tsgui.ved.screen.items;
 
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.tin.*;
 import org.toxsoft.core.tsgui.bricks.tin.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
-import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
@@ -36,7 +36,28 @@ public class TinUtils {
     return new PropertableEntitiesTinTypeInfo<>( fields, VedAbstractItem.class );
   }
 
-  public static ITinTypeInfo tinTypeInfo( IVedScreen aVedScreen, IVedItem aItem ) {
+  /**
+   * Возвращает {@link ITinValue}, содержащее общие для всех переданных элементов значенния свойств.
+   *
+   * @param aVedScreen {@link IVedScreen} - экран редактора
+   * @param aItems IStridablesList&lt;IVedItem> - список элементов
+   * @return {@link ITinTypeInfo} - общие для всех переданных элементов значения свойств свойства
+   */
+  public static ITinValue createGroupTinValue( IVedScreen aVedScreen, IStridablesList<IVedItem> aItems ) {
+    TsNullArgumentRtException.checkNulls( aVedScreen, aItems );
+    TsIllegalArgumentRtException.checkTrue( aItems.size() < 0 );
+
+    ITinTypeInfo typeInfo = createGroupTinTypeInfo( aVedScreen, aItems );
+
+    IStringMapEdit<ITinValue> values = new StringMap<>();
+
+    for( ITinFieldInfo fi : typeInfo.fieldInfos() ) {
+      values.put( fi.id(), makeFieldValue( fi, aItems, aVedScreen.tsContext() ) );
+    }
+    return TinValue.ofGroup( values );
+  }
+
+  private static ITinTypeInfo tinTypeInfo( IVedScreen aVedScreen, IVedItem aItem ) {
     TsNullArgumentRtException.checkNulls( aVedScreen, aItem );
     if( aItem instanceof IVedVisel ) {
       IVedViselFactoriesRegistry facReg = aVedScreen.tsContext().get( IVedViselFactoriesRegistry.class );
@@ -63,17 +84,38 @@ public class TinUtils {
     return result;
   }
 
-  private static void foo( IStridablesList<ITinFieldInfo> aFields, IStridablesList<IVedItem> aItems ) {
-    IStringMapEdit<IAtomicValue> values = new StringMap<>();
+  private static ITinValue makeFieldValue( ITinFieldInfo aInfo, IStridablesList<IVedItem> aItems, ITsGuiContext aCtx ) {
+    ITinValue currTv = null;
 
-    // for( ITinFieldInfo fi: aFields ) {
-    // for( IVedItem item : aItems ) {
-    // if( !values.hasKey( fi.id() )) {
-    // ITinValue tv = fi.typeInfo().makeValue( values );
-    // values.put( fi.id(), item.props().getByKey( ) )
-    // }
-    // }
-    // }
+    for( IVedItem item : aItems ) {
+      IVedItemFactoryBase<?> factory = getFactory( item, aCtx );
+      ITinValue tv = factory.typeInfo().makeValue( item );
+
+      tv = tv.childValues().getByKey( aInfo.id() );
+
+      if( currTv == null ) {
+        currTv = tv;
+        continue;
+      }
+      if( !currTv.equals( tv ) ) {
+        return ITinValue.NULL;
+      }
+    }
+    return currTv;
+  }
+
+  private static IVedItemFactoryBase<?> getFactory( IVedItem aVedItem, ITsGuiContext aTsContext ) {
+    return switch( aVedItem.kind() ) {
+      case VISEL -> {
+        IVedViselFactoriesRegistry facReg = aTsContext.get( IVedViselFactoriesRegistry.class );
+        yield facReg.get( aVedItem.factoryId() );
+      }
+      case ACTOR -> {
+        IVedActorFactoriesRegistry facReg = aTsContext.get( IVedActorFactoriesRegistry.class );
+        yield facReg.get( aVedItem.factoryId() );
+      }
+      default -> throw new TsNotAllEnumsUsedRtException( aVedItem.kind().id() );
+    };
   }
 
   private TinUtils() {

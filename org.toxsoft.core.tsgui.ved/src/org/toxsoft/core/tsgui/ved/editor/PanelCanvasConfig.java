@@ -12,6 +12,7 @@ import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tsgui.valed.controls.graphics.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -28,6 +29,8 @@ public class PanelCanvasConfig
 
   private PanelTsFillInfoSelector fis;
   private PanelD2ConversionEditor convEditor;
+
+  IGenericChangeListener changeListener;
 
   protected PanelCanvasConfig( Composite aParent, TsDialog<IVedCanvasCfg, ITsGuiContext> aOwnerDialog ) {
     super( aParent, aOwnerDialog );
@@ -73,6 +76,7 @@ public class PanelCanvasConfig
     spinWidth.setMinimum( 640 );
     spinWidth.setMaximum( 3840 );
     spinWidth.setSelection( 1920 );
+    spinWidth.addSelectionListener( notificationSelectionListener );
 
     l = new CLabel( groupSize, SWT.CENTER );
     l.setText( STR_L_HEIGHT_PIX );
@@ -81,6 +85,7 @@ public class PanelCanvasConfig
     spinHeight.setMinimum( 480 );
     spinHeight.setMaximum( 2160 );
     spinHeight.setSelection( 1080 );
+    spinHeight.addSelectionListener( notificationSelectionListener );
 
     Group groupConversion = new Group( this, SWT.NONE );
     groupConversion.setText( STR_G_CONVERSIONS );
@@ -90,6 +95,12 @@ public class PanelCanvasConfig
 
     fis = new PanelTsFillInfoSelector( this, environ(), null );
     fis.setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true, 2, 1 ) );
+    fis.genericChangeEventer().addListener( notificationGenericChangeListener );
+
+    if( tsContext().hasKey( IGenericChangeListener.class ) ) {
+      changeListener = tsContext().get( IGenericChangeListener.class );
+      genericChangeEventer().addListener( changeListener );
+    }
   }
 
   // ------------------------------------------------------------------------------------

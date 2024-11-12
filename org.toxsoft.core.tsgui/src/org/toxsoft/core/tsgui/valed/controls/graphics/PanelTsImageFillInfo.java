@@ -252,6 +252,7 @@ public class PanelTsImageFillInfo
     // imdPanel = new PanelTsImageDescriptorEditor( topPanel, tsContext(), null, 0 );
     ITsGuiContext ctx = new TsGuiContext( tsContext() );
     imdPanel = new PanelTsImageSourceEditor( topPanel, ctx, null, 0 );
+    imdPanel.genericChangeEventer().addListener( notificationGenericChangeListener );
 
     CLabel l = new CLabel( topPanel, SWT.CENTER );
     l.setText( STR_L_FILL_IMAGE_KIND );

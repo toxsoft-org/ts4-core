@@ -35,6 +35,9 @@ public class TinValueEditingSupport
   protected CellEditor getCellEditor( Object aElement ) {
     ITinRow tinNode = ITinRow.class.cast( aElement );
     IValedControl<IAtomicValue> valed = tinNode.createValed( tsContext );
+    if( tsContext.hasKey( IValedControlValueChangeListener.class ) ) {
+      valed.eventer().addListener( tsContext.get( IValedControlValueChangeListener.class ) );
+    }
     ValedCellEditor<IAtomicValue> cellEditor = new ValedCellEditor<>( valed, viewer );
     return cellEditor;
   }

@@ -10,6 +10,8 @@ import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.panels.*;
 import org.toxsoft.core.tsgui.utils.layout.BorderLayout;
+import org.toxsoft.core.tsgui.valed.api.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
 
 /**
  * Панель выбора цвета для сплошной заливки.
@@ -18,9 +20,14 @@ import org.toxsoft.core.tsgui.utils.layout.BorderLayout;
  * @author vs
  */
 public class PanelColorFillInfo
-    extends TsPanel {
+    extends TsPanel
+    implements IGenericChangeEventCapable {
 
   RgbaSelector rgbaSelector;
+
+  private final GenericChangeEventer changeEventer;
+
+  IValedControlValueChangeListener valedListener = null;
 
   /**
    * Конструктор.
@@ -30,6 +37,8 @@ public class PanelColorFillInfo
    */
   public PanelColorFillInfo( Composite aParent, ITsGuiContext aContext ) {
     super( aParent, aContext );
+
+    changeEventer = new GenericChangeEventer( this );
 
     setLayout( new BorderLayout() );
 
@@ -52,7 +61,20 @@ public class PanelColorFillInfo
     } );
 
     rgbaSelector = new RgbaSelector( this, SWT.BORDER, aContext.eclipseContext() );
+    rgbaSelector.genericChangeEventer().addListener( changeEventer );
     rgbaSelector.setLayoutData( BorderLayout.CENTER );
+    if( tsContext().hasKey( IValedControlValueChangeListener.class ) ) {
+      rgbaSelector.genericChangeEventer().addListener( aSource -> changeEventer.fireChangeEvent() );
+    }
+  }
+
+  // ------------------------------------------------------------------------------------
+  // IGenericChangeEventCapable
+  //
+
+  @Override
+  public IGenericChangeEventer genericChangeEventer() {
+    return changeEventer;
   }
 
   // ------------------------------------------------------------------------------------

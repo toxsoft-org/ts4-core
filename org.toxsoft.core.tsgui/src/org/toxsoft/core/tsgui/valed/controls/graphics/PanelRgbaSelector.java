@@ -8,6 +8,8 @@ import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
+import org.toxsoft.core.tsgui.valed.api.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -21,10 +23,16 @@ public class PanelRgbaSelector
 
   RgbaSelector rgbaSelector;
 
+  IValedControlValueChangeListener valedListener = null;
+
   protected PanelRgbaSelector( Composite aParent, TsDialog<RGBA, ITsGuiContext> aOwnerDialog ) {
     super( aParent, aOwnerDialog );
     this.setLayout( new BorderLayout() );
     rgbaSelector = new RgbaSelector( this, SWT.NONE, eclipseContext() );
+    if( tsContext().hasKey( IGenericChangeListener.class ) ) {
+      IGenericChangeListener cl = tsContext().get( IGenericChangeListener.class );
+      rgbaSelector.genericChangeEventer().addListener( cl );
+    }
   }
 
   // ------------------------------------------------------------------------------------

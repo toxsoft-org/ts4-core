@@ -6,10 +6,13 @@ import static org.toxsoft.core.tsgui.valed.controls.graphics.ITsResources.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
+import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tsgui.valed.controls.helpers.*;
 import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -106,8 +109,11 @@ public abstract class AbstractValedSimpleRgba<V>
 
   @Override
   final protected boolean doProcessButtonPress() {
-    RGBA newVal = PanelRgbaSelector.editRgba( value, tsContext() );
+    ITsGuiContext ctx = prepareContext();
+    RGBA oldValue = new RGBA( value.rgb.red, value.rgb.green, value.rgb.blue, value.alpha );
+    RGBA newVal = PanelRgbaSelector.editRgba( value, ctx );
     if( newVal == null ) {
+      value = oldValue;
       return false;
     }
     value = newVal;
@@ -124,6 +130,19 @@ public abstract class AbstractValedSimpleRgba<V>
   // ------------------------------------------------------------------------------------
   // For subclasses
   //
+
+  ITsGuiContext prepareContext() {
+    ITsGuiContext ctx = new TsGuiContext( tsContext() );
+    if( tsContext().hasKey( IValedControlValueChangeListener.class ) ) {
+      IValedControlValueChangeListener valedListener = tsContext().get( IValedControlValueChangeListener.class );
+      IGenericChangeListener changeListener = aSource -> {
+        value = ((RgbaSelector)aSource).rgba();
+        valedListener.onEditorValueChanged( AbstractValedSimpleRgba.this, true );
+      };
+      ctx.put( IGenericChangeListener.class, changeListener );
+    }
+    return ctx;
+  }
 
   protected RGBA getRgba() {
     return value;

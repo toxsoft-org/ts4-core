@@ -293,6 +293,9 @@ public abstract class AbstractValedControl<V, C extends Control>
   public ValidationResult canGetValue() {
     if( getControl() == null ) {
       // TODO what to do when widget is NOT created yet?
+      if( lastValue == null ) {
+        return ValidationResult.error( FMT_ERR_CANT_GET_VALUE_BEFORE_ITS_SET, this.getClass().getSimpleName() );
+      }
       return ValidationResult.SUCCESS; // anyway, doCanGetValue() must NOT be called if widget does not exists
     }
     return doCanGetValue();

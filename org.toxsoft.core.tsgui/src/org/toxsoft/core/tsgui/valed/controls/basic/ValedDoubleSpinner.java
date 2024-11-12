@@ -325,6 +325,9 @@ public class ValedDoubleSpinner
   @Override
   public ValidationResult canGetValue() {
     try {
+      if( getControl() == null ) {
+        return ValidationResult.error( "Control not exists" );
+      }
       if( readDoubleFromSpinner() != null ) {
         return ValidationResult.SUCCESS;
       }

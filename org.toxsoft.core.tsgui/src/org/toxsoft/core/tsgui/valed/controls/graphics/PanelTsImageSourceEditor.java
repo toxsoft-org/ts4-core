@@ -107,6 +107,7 @@ public class PanelTsImageSourceEditor
         if( imd != null ) {
           imageDescriptor = imd;
         }
+        fireContentChangeEvent();
         // ISelection sel = kindCombo.getSelection();
         // if( !sel.isEmpty() ) {
         // AbstractTsImageSourceKind kind = (AbstractTsImageSourceKind)((IStructuredSelection)sel).getFirstElement();

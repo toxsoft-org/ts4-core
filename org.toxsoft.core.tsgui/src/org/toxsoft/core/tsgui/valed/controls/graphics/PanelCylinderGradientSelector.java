@@ -23,7 +23,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author vs
  */
 public class PanelCylinderGradientSelector
-    extends TsPanel {
+    extends AbstractPanelGradientSelector {
 
   ResultPanel resultPanel;
 
@@ -87,6 +87,7 @@ public class PanelCylinderGradientSelector
     CylinderGradientInfo gi = new CylinderGradientInfo( fractions, angle );
     pattern = gi.createGradient( tsContext() );
     resultPanel.redraw();
+    genericChangeEventer().fireChangeEvent();
   };
 
   private final ITsGuiContext tsContext;

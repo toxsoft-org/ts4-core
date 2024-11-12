@@ -12,6 +12,7 @@ import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tsgui.panels.*;
 import org.toxsoft.core.tsgui.utils.layout.BorderLayout;
 import org.toxsoft.core.tsgui.valed.controls.enums.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -130,6 +131,8 @@ public class PanelTsFillInfoSelector
 
   ValedEnumCombo<ETsFillKind> fillKindCombo;
 
+  IGenericChangeListener changeListener;
+
   void init() {
     topPanel = new TsPanel( this, tsContext() );
     topPanel.setLayoutData( BorderLayout.NORTH );
@@ -149,6 +152,10 @@ public class PanelTsFillInfoSelector
         default -> throw new TsNotAllEnumsUsedRtException();
       };
       contentHolder.layout( true );
+      if( changeListener != null ) {
+        changeListener.onGenericChangeEvent( PanelTsFillInfoSelector.this );
+      }
+      notificationGenericChangeListener.onGenericChangeEvent( PanelTsFillInfoSelector.this );
     } );
 
     stackLayout = new StackLayout();
@@ -157,8 +164,18 @@ public class PanelTsFillInfoSelector
     contentHolder.setLayoutData( BorderLayout.CENTER );
 
     colorPanel = new PanelColorFillInfo( contentHolder, tsContext() );
+    colorPanel.genericChangeEventer().addListener( notificationGenericChangeListener );
     imagePanel = new PanelTsImageFillInfo( contentHolder, tsContext(), null, 0 );
+    imagePanel.genericChangeEventer().addListener( notificationGenericChangeListener );
     gradientPanel = new PanelGradientFillInfo( contentHolder, tsContext() );
+    gradientPanel.genericChangeEventer().addListener( notificationGenericChangeListener );
+
+    if( tsContext().hasKey( IGenericChangeListener.class ) ) {
+      IGenericChangeListener cl = tsContext().get( IGenericChangeListener.class );
+      changeListener = aSource -> cl.onGenericChangeEvent( PanelTsFillInfoSelector.this );
+      colorPanel.genericChangeEventer().addListener( changeListener );
+      gradientPanel.genericChangeEventer().addListener( changeListener );
+    }
 
     stackLayout.topControl = colorPanel;
   }

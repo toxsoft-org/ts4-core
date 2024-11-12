@@ -125,7 +125,7 @@ class TinTree
     treeViewer.refresh();
   }
 
-  ITinRow getSelctedRow() {
+  ITinRow getSelectedRow() {
     IStructuredSelection ss = (IStructuredSelection)treeViewer.getSelection();
     return (ITinRow)ss.getFirstElement();
   }
@@ -136,6 +136,10 @@ class TinTree
       selection = new StructuredSelection( aItem );
     }
     treeViewer.setSelection( selection, true );
+  }
+
+  void addSelectionChangedListener( ISelectionChangedListener aLstener ) {
+    treeViewer.addSelectionChangedListener( aLstener );
   }
 
 }

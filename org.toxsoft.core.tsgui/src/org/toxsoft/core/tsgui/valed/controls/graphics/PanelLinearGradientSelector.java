@@ -23,7 +23,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author vs
  */
 public class PanelLinearGradientSelector
-    extends TsPanel {
+    extends AbstractPanelGradientSelector {
 
   ResultPanel resultPanel;
 
@@ -87,15 +87,13 @@ public class PanelLinearGradientSelector
     LinearGradientInfo gi = new LinearGradientInfo( fractions, angle );
     pattern = gi.createGradient( tsContext() );
     resultPanel.redraw();
+    genericChangeEventer().fireChangeEvent();
   };
-
-  private final ITsGuiContext tsContext;
 
   IGradient pattern = null;
 
   PanelLinearGradientSelector( Composite aParent, ITsGuiContext aContext ) {
     super( aParent, aContext );
-    tsContext = aContext;
 
     setLayout( new GridLayout( 1, false ) );
 
@@ -120,11 +118,6 @@ public class PanelLinearGradientSelector
     rgbaSelector.genericChangeEventer().addListener( changeListener );
 
     updateGradient( aContext );
-  }
-
-  @Override
-  public ITsGuiContext tsContext() {
-    return tsContext;
   }
 
   // ------------------------------------------------------------------------------------
@@ -152,7 +145,7 @@ public class PanelLinearGradientSelector
     angle = (int)info.angle();
     angleSpin.setSelection( angle );
     angleSlide.setSelection( angle );
-    updateGradient( tsContext );
+    updateGradient( tsContext() );
   }
 
   // ------------------------------------------------------------------------------------
@@ -172,7 +165,7 @@ public class PanelLinearGradientSelector
       public void widgetSelected( SelectionEvent aEvent ) {
         angle = angleSlide.getSelection();
         angleSpin.setSelection( angle );
-        updateGradient( tsContext );
+        updateGradient( tsContext() );
       }
     } );
 
@@ -188,7 +181,7 @@ public class PanelLinearGradientSelector
       public void widgetSelected( SelectionEvent e ) {
         angle = angleSpin.getSelection();
         angleSlide.setSelection( angle );
-        updateGradient( tsContext );
+        updateGradient( tsContext() );
       }
     } );
 
