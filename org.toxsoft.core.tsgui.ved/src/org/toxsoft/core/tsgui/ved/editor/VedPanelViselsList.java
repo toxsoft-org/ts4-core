@@ -5,7 +5,6 @@ import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
-import org.toxsoft.core.tsgui.bricks.tstree.tmm.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.gui.mpc.impl.*;
 import org.toxsoft.core.tsgui.m5.gui.panels.*;
@@ -52,8 +51,8 @@ public class VedPanelViselsList
     MultiPaneComponentModown<IVedVisel> mpc = new MultiPaneComponentModown<>( aContext, model, lm.itemsProvider(), lm );
 
     // FIXME temporary code
-    TreeModeInfo<IVedVisel> tmi1 = new TreeModeInfo<>( "by1", "Name", "Descr", null, new By1TreeMaker() );
-    mpc.treeModeManager().addTreeMode( tmi1 );
+    // TreeModeInfo<IVedVisel> tmi1 = new TreeModeInfo<>( "by1", "Name", "Descr", null, new By1TreeMaker() );
+    // mpc.treeModeManager().addTreeMode( tmi1 );
     //
 
     panel = new M5CollectionPanelMpcModownWrapper<>( mpc, false );
