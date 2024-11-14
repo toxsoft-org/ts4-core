@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.ved.valeds;
 
 import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
+import static org.toxsoft.core.tsgui.ved.valeds.ITsResources.*;
 
 import org.eclipse.jface.window.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
@@ -80,7 +81,8 @@ public class ValedMultiLineTextEditor
 
   @Override
   protected boolean doProcessButtonPress() {
-    MultiLineInputDialog dlg = new MultiLineInputDialog( getShell(), "Ввод текста", "Тест: ", text, null );
+    MultiLineInputDialog dlg;
+    dlg = new MultiLineInputDialog( getShell(), DLG_MULTILINE_INPUT_TITLE, DLG_MULTILINE_INPUT_TEXT, text, null );
     if( dlg.open() == Window.OK ) {
       text = dlg.getValue();
       return true;
