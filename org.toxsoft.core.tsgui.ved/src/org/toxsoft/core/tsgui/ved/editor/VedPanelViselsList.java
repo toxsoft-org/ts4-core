@@ -5,6 +5,7 @@ import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.bricks.tstree.tmm.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.gui.mpc.impl.*;
 import org.toxsoft.core.tsgui.m5.gui.panels.*;
@@ -15,6 +16,7 @@ import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tsgui.ved.m5.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.coll.helpers.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -32,14 +34,19 @@ public class VedPanelViselsList
 
   /**
    * Constructor.
+   * <p>
+   * If <code>aTreeModes</code> is not an empty list, this widget will have tree support with specified modes.
    *
    * @param aParent {@link Composite} - parent component
    * @param aContext {@link ITsGuiContext} - the context
    * @param aVedScreen {@link IVedScreen} - the VED screen to display it's model's content
+   * @param aTreeModes {@link IStridablesList}&lt;{@link TreeModeInfo}&gt; - optional tree modes
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public VedPanelViselsList( Composite aParent, ITsGuiContext aContext, IVedScreen aVedScreen ) {
+  public VedPanelViselsList( Composite aParent, ITsGuiContext aContext, IVedScreen aVedScreen,
+      IStridablesList<TreeModeInfo<IVedVisel>> aTreeModes ) {
     super( aParent, aContext );
+    TsNullArgumentRtException.checkNull( aTreeModes );
     vedScreen = TsNullArgumentRtException.checkNull( aVedScreen );
     this.setLayout( new BorderLayout() );
     //
@@ -47,14 +54,11 @@ public class VedPanelViselsList
     IM5LifecycleManager<IVedVisel> lm = model.getLifecycleManager( vedScreen );
 
     OPDEF_IS_ACTIONS_CRUD.setValue( aContext.params(), AV_TRUE );
-    OPDEF_IS_SUPPORTS_TREE.setValue( aContext.params(), AV_TRUE );
+    OPDEF_IS_SUPPORTS_TREE.setValue( aContext.params(), avBool( !aTreeModes.isEmpty() ) );
     MultiPaneComponentModown<IVedVisel> mpc = new MultiPaneComponentModown<>( aContext, model, lm.itemsProvider(), lm );
-
-    // FIXME temporary code
-    // TreeModeInfo<IVedVisel> tmi1 = new TreeModeInfo<>( "by1", "Name", "Descr", null, new By1TreeMaker() );
-    // mpc.treeModeManager().addTreeMode( tmi1 );
-    //
-
+    for( TreeModeInfo<IVedVisel> tm : aTreeModes ) {
+      mpc.treeModeManager().addTreeMode( tm );
+    }
     panel = new M5CollectionPanelMpcModownWrapper<>( mpc, false );
 
     panel.createControl( this );
@@ -62,6 +66,18 @@ public class VedPanelViselsList
     panel.addTsSelectionListener( selectionChangeEventHelper );
     panel.addTsDoubleClickListener( doubleClickEventHelper );
     vedScreen.model().visels().eventer().addListener( this::onVedViselsListChange );
+  }
+
+  /**
+   * Constructor.
+   *
+   * @param aParent {@link Composite} - parent component
+   * @param aContext {@link ITsGuiContext} - the context
+   * @param aVedScreen {@link IVedScreen} - the VED screen to display it's model's content
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public VedPanelViselsList( Composite aParent, ITsGuiContext aContext, IVedScreen aVedScreen ) {
+    this( aParent, aContext, aVedScreen, IStridablesList.EMPTY );
   }
 
   // ------------------------------------------------------------------------------------
