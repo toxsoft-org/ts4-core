@@ -1,9 +1,14 @@
 package org.toxsoft.core.tsgui.ved.editor;
 
+import static org.toxsoft.core.tsgui.m5.gui.mpc.IMultiPaneComponentConstants.*;
+import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
+
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.m5.*;
+import org.toxsoft.core.tsgui.m5.gui.mpc.impl.*;
 import org.toxsoft.core.tsgui.m5.gui.panels.*;
+import org.toxsoft.core.tsgui.m5.gui.panels.impl.*;
 import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.panels.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
@@ -40,7 +45,14 @@ public class VedPanelViselsList
     //
     IM5Model<IVedVisel> model = m5().getModel( IVedM5Constants.MID_VED_VISEL, IVedVisel.class );
     IM5LifecycleManager<IVedVisel> lm = model.getLifecycleManager( vedScreen );
-    panel = model.panelCreator().createCollEditPanel( tsContext(), lm.itemsProvider(), lm );
+
+    // new code
+    OPDEF_IS_ACTIONS_CRUD.setValue( aContext.params(), AV_TRUE );
+    MultiPaneComponentModown<IVedVisel> mpc = new MultiPaneComponentModown<>( aContext, model, lm.itemsProvider(), lm );
+    panel = new M5CollectionPanelMpcModownWrapper<>( mpc, false );
+    // old code
+    // panel = model.panelCreator().createCollEditPanel( tsContext(), lm.itemsProvider(), lm );
+    //
 
     panel.createControl( this );
     panel.getControl().setLayoutData( BorderLayout.CENTER );
