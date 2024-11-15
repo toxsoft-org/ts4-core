@@ -5,6 +5,12 @@ import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 
+/**
+ * "Процессор" осуществляющие дополнительные (если необходимо) действия при перемещении визуальных элементов редактора.
+ * <p>
+ *
+ * @author vs
+ */
 public interface IViselsPositionProcessor
     extends IStridable {
 

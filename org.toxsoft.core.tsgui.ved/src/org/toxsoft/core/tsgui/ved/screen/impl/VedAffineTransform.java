@@ -6,6 +6,12 @@ import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
+/**
+ * Аффинное преобразование координат экрана редактирования.
+ * <p>
+ *
+ * @author vs
+ */
 public class VedAffineTransform
     implements Serializable {
 
@@ -119,42 +125,42 @@ public class VedAffineTransform
    * Instantiates a new affine transform by specifying the values of the 2x3 transformation matrix as floats. The type
    * is set to the default type: <code>TYPE_UNKNOWN</code>
    *
-   * @param m00 the m00 entry in the transformation matrix.
-   * @param m10 the m10 entry in the transformation matrix.
-   * @param m01 the m01 entry in the transformation matrix.
-   * @param m11 the m11 entry in the transformation matrix.
-   * @param m02 the m02 entry in the transformation matrix.
-   * @param m12 the m12 entry in the transformation matrix.
+   * @param aM00 the m00 entry in the transformation matrix.
+   * @param aM10 the m10 entry in the transformation matrix.
+   * @param aM01 the m01 entry in the transformation matrix.
+   * @param aMm11 the m11 entry in the transformation matrix.
+   * @param aM02 the m02 entry in the transformation matrix.
+   * @param aM12 the m12 entry in the transformation matrix.
    */
-  public VedAffineTransform( float m00, float m10, float m01, float m11, float m02, float m12 ) {
+  public VedAffineTransform( float aM00, float aM10, float aM01, float aMm11, float aM02, float aM12 ) {
     this.type = TYPE_UNKNOWN;
-    this.m00 = m00;
-    this.m10 = m10;
-    this.m01 = m01;
-    this.m11 = m11;
-    this.m02 = m02;
-    this.m12 = m12;
+    this.m00 = aM00;
+    this.m10 = aM10;
+    this.m01 = aM01;
+    this.m11 = aMm11;
+    this.m02 = aM02;
+    this.m12 = aM12;
   }
 
   /**
    * Instantiates a new affine transform by specifying the values of the 2x3 transformation matrix as doubles. The type
    * is set to the default type: <code>TYPE_UNKNOWN</code>
    *
-   * @param m00 the m00 entry in the transformation matrix.
-   * @param m10 the m10 entry in the transformation matrix.
-   * @param m01 the m01 entry in the transformation matrix.
-   * @param m11 the m11 entry in the transformation matrix.
-   * @param m02 the m02 entry in the transformation matrix.
-   * @param m12 the m12 entry in the transformation matrix.
+   * @param aM00 the m00 entry in the transformation matrix.
+   * @param aM10 the m10 entry in the transformation matrix.
+   * @param aM01 the m01 entry in the transformation matrix.
+   * @param aM11 the m11 entry in the transformation matrix.
+   * @param aM02 the m02 entry in the transformation matrix.
+   * @param aM12 the m12 entry in the transformation matrix.
    */
-  public VedAffineTransform( double m00, double m10, double m01, double m11, double m02, double m12 ) {
+  public VedAffineTransform( double aM00, double aM10, double aM01, double aM11, double aM02, double aM12 ) {
     this.type = TYPE_UNKNOWN;
-    this.m00 = m00;
-    this.m10 = m10;
-    this.m01 = m01;
-    this.m11 = m11;
-    this.m02 = m02;
-    this.m12 = m12;
+    this.m00 = aM00;
+    this.m10 = aM10;
+    this.m01 = aM01;
+    this.m11 = aM11;
+    this.m02 = aM02;
+    this.m12 = aM12;
   }
 
   /**
@@ -228,39 +234,39 @@ public class VedAffineTransform
     if( type != TYPE_UNKNOWN ) {
       return type;
     }
-    int type = 0;
+    int newType = 0;
     if( m00 * m01 + m10 * m11 != 0.0 ) {
-      type |= TYPE_GENERAL_TRANSFORM;
-      return type;
+      newType |= TYPE_GENERAL_TRANSFORM;
+      return newType;
     }
     if( m02 != 0.0 || m12 != 0.0 ) {
-      type |= TYPE_TRANSLATION;
+      newType |= TYPE_TRANSLATION;
     }
     else
       if( m00 == 1.0 && m11 == 1.0 && m01 == 0.0 && m10 == 0.0 ) {
-        type = TYPE_IDENTITY;
-        return type;
+        newType = TYPE_IDENTITY;
+        return newType;
       }
     if( m00 * m11 - m01 * m10 < 0.0 ) {
-      type |= TYPE_FLIP;
+      newType |= TYPE_FLIP;
     }
     double dx = m00 * m00 + m10 * m10;
     double dy = m01 * m01 + m11 * m11;
     if( dx != dy ) {
-      type |= TYPE_GENERAL_SCALE;
+      newType |= TYPE_GENERAL_SCALE;
     }
     else
       if( dx != 1.0 ) {
-        type |= TYPE_UNIFORM_SCALE;
+        newType |= TYPE_UNIFORM_SCALE;
       }
     if( (m00 == 0.0 && m11 == 0.0) || (m10 == 0.0 && m01 == 0.0 && (m00 < 0.0 || m11 < 0.0)) ) {
-      type |= TYPE_QUADRANT_ROTATION;
+      newType |= TYPE_QUADRANT_ROTATION;
     }
     else
       if( m01 != 0.0 || m10 != 0.0 ) {
-        type |= TYPE_GENERAL_ROTATION;
+        newType |= TYPE_GENERAL_ROTATION;
       }
-    return type;
+    return newType;
   }
 
   /**
@@ -357,21 +363,21 @@ public class VedAffineTransform
   /**
    * Sets the transform in terms of a list of double values.
    *
-   * @param m00 the m00 coordinate of the transformation matrix.
-   * @param m10 the m10 coordinate of the transformation matrix.
-   * @param m01 the m01 coordinate of the transformation matrix.
-   * @param m11 the m11 coordinate of the transformation matrix.
-   * @param m02 the m02 coordinate of the transformation matrix.
-   * @param m12 the m12 coordinate of the transformation matrix.
+   * @param aM0 the m00 coordinate of the transformation matrix.
+   * @param aM10 the m10 coordinate of the transformation matrix.
+   * @param aM01 the m01 coordinate of the transformation matrix.
+   * @param aM11 the m11 coordinate of the transformation matrix.
+   * @param aM02 the m02 coordinate of the transformation matrix.
+   * @param aM12 the m12 coordinate of the transformation matrix.
    */
-  public void setTransform( double m00, double m10, double m01, double m11, double m02, double m12 ) {
+  public void setTransform( double aM0, double aM10, double aM01, double aM11, double aM02, double aM12 ) {
     this.type = TYPE_UNKNOWN;
-    this.m00 = m00;
-    this.m10 = m10;
-    this.m01 = m01;
-    this.m11 = m11;
-    this.m02 = m02;
-    this.m12 = m12;
+    this.m00 = aM0;
+    this.m10 = aM10;
+    this.m01 = aM01;
+    this.m11 = aM11;
+    this.m02 = aM02;
+    this.m12 = aM12;
   }
 
   /**
@@ -722,16 +728,19 @@ public class VedAffineTransform
    * @param dst the point array where the images of the points (after applying the delta transformation) should be
    *          placed.
    * @param dstOff the offset in the destination array where the new values should be written.
-   * @param length the number of points to transform.
+   * @param aLength the number of points to transform.
    * @throws ArrayIndexOutOfBoundsException if <code>srcOff + length*2 > src.length</code> or
    *           <code>dstOff + length*2 > dst.length</code>.
    */
-  public void deltaTransform( double[] src, int srcOff, double[] dst, int dstOff, int length ) {
+  public void deltaTransform( double[] src, int srcOff, double[] dst, int dstOff, int aLength ) {
+    int srcIdx = srcOff;
+    int dstIdx = dstOff;
+    int length = aLength;
     while( --length >= 0 ) {
-      double x = src[srcOff++];
-      double y = src[srcOff++];
-      dst[dstOff++] = x * m00 + y * m01;
-      dst[dstOff++] = x * m10 + y * m11;
+      double x = src[srcIdx++];
+      double y = src[srcIdx++];
+      dst[dstIdx++] = x * m00 + y * m01;
+      dst[dstIdx++] = x * m10 + y * m11;
     }
   }
 

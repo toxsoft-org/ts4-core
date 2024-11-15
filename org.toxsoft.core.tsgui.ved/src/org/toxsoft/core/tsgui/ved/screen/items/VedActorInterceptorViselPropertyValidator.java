@@ -55,7 +55,7 @@ public class VedActorInterceptorViselPropertyValidator
         String propId = aNewValues.getStr( PROPID_VISEL_PROP_ID );
         if( !VedEditorUtils.isViselProperyId( propId, visel, tsContext ) ) {
           valid = false;
-          TsDialogUtils.error( tsContext.get( Shell.class ), "Свойство с идентификатором %s не существует", propId );
+          TsDialogUtils.error( tsContext.get( Shell.class ), "Proprty with ID: %s does not exists", propId ); //$NON-NLS-1$
           return;
         }
         for( Class<?> clazz : classesList ) {
@@ -65,8 +65,7 @@ public class VedActorInterceptorViselPropertyValidator
           }
         }
         valid = false;
-        TsDialogUtils.error( tsContext.get( Shell.class ), "Недопустимый тип свойства.\nДолжен быть %s",
-            classesList.toString() );
+        TsDialogUtils.error( tsContext.get( Shell.class ), "Wrong property type.\nMust be %s", classesList.toString() ); //$NON-NLS-1$
       }
     }
   }

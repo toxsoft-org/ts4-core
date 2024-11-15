@@ -130,7 +130,7 @@ public class VedCoorsConverterOld
     return at.transform( aX, aY );
   }
 
-  public ID2Point screen2ViselOld( double aX, double aY, VedAbstractVisel aVisel ) {
+  ID2Point screen2ViselOld( double aX, double aY, VedAbstractVisel aVisel ) {
     TsNullArgumentRtException.checkNull( aVisel );
     refreshConversions( aVisel );
     ID2Conversion d2conv = aVisel.getConversion();
@@ -139,7 +139,7 @@ public class VedCoorsConverterOld
     return new D2Point( at.calcX( aX, aY ), at.calcY( aX, aY ) );
   }
 
-  public ID2Point visel2ScreenOld( double aX, double aY, VedAbstractVisel aVisel ) {
+  ID2Point visel2ScreenOld( double aX, double aY, VedAbstractVisel aVisel ) {
     TsNullArgumentRtException.checkNull( aVisel );
     refreshConversions( aVisel );
     ID2Conversion d2conv = aVisel.getConversion();

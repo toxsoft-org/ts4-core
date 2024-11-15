@@ -6,8 +6,19 @@ import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.*;
 
+/**
+ * Вспомогательные метода создания градиентов.
+ * <p>
+ *
+ * @author vs
+ */
 public class GradientUtils {
 
+  /**
+   * Кодировка цвета HSV
+   *
+   * @author vs
+   */
   public static class HSV {
 
     double hue;        // цветовой тон (красный, оранжевый, сине-зеленый и т.д.)
@@ -15,6 +26,12 @@ public class GradientUtils {
     double value;      // яркость (освещенность)
   }
 
+  /**
+   * Преобразует компоненты цвета из кодировки RGB в HSV.
+   *
+   * @param aRgb - компоненты цвета в кодировке RGB
+   * @return HSV - компоненты цвета в кодировке HSV
+   */
   public static HSV rgb2Hsv( RGB aRgb ) {
     HSV hsv = new HSV();
 
@@ -54,6 +71,12 @@ public class GradientUtils {
     return hsv;
   }
 
+  /**
+   * Преобразует компоненты цвета из кодировки HSV в RGB.
+   *
+   * @param aHsv - компоненты цвета в кодировке HSV
+   * @return RGB - компоненты цвета в кодировке RGB
+   */
   public static RGB Hsv2Rgb( HSV aHsv ) {
     RGB rgb = new RGB( 0, 0, 0 );
 
@@ -103,6 +126,13 @@ public class GradientUtils {
     return rgb;
   }
 
+  /**
+   * Подстраивает яркость в соответствии с переданным коеффициентом.
+   *
+   * @param aSource RGB - компоненты цвета
+   * @param aFactor double - коэффициент изменения яркости
+   * @return RGB - подстроенные компоненты цвета
+   */
   public static RGB tuneBrightness( RGB aSource, double aFactor ) {
     HSV hsv = rgb2Hsv( aSource );
     hsv.value += aFactor;
@@ -122,6 +152,12 @@ public class GradientUtils {
     return Hsv2Rgb( hsv );
   }
 
+  /**
+   * Возвращает список фракций для градиента popup сообщения.
+   *
+   * @param aRgba GRBA - компонент цвета
+   * @return IList&lt;Pair&lt;Double, RGBA>> - список фракций для градиента имитирующего полусферу
+   */
   public static IList<Pair<Double, RGBA>> baloonFractions( RGBA aRgba ) {
     IListEdit<Pair<Double, RGBA>> fractions = new ElemArrayList<>();
     fractions.add( new Pair<>( Double.valueOf( 0 ), aRgba ) );
@@ -130,10 +166,22 @@ public class GradientUtils {
     return fractions;
   }
 
+  /**
+   * Возвращает параметры заливки для popup сообщения.
+   *
+   * @param aRgba RGBA - кмпоненты цвета
+   * @return {@link TsGradientFillInfo} - параметры заливки
+   */
   public static TsGradientFillInfo baloonFillInfo( RGBA aRgba ) {
     return new TsGradientFillInfo( new RadialGradientInfo( 20, 20, baloonFractions( aRgba ) ) );
   }
 
+  /**
+   * Возвращает список фракций для градиента имитирующего полусферу.
+   *
+   * @param aRgba GRBA - компонент цвета
+   * @return IList&lt;Pair&lt;Double, RGBA>> - список фракций для градиента имитирующего полусферу
+   */
   public static IList<Pair<Double, RGBA>> halfSphereFractions( RGBA aRgba ) {
     IListEdit<Pair<Double, RGBA>> fractions = new ElemArrayList<>();
 
@@ -181,10 +229,22 @@ public class GradientUtils {
     return fractions;
   }
 
+  /**
+   * Возвращает параметры заливки имитирующей полусферу.
+   *
+   * @param aRgba RGBA - кмпоненты цвета
+   * @return {@link TsGradientFillInfo} - параметры заливки
+   */
   public static TsGradientFillInfo halfSphereFillInfo( RGBA aRgba ) {
     return new TsGradientFillInfo( new RadialGradientInfo( 40, 40, halfSphereFractions( aRgba ) ) );
   }
 
+  /**
+   * Преобразует переданный RGB в градации серого.
+   *
+   * @param aRgb RGB - компоненты цвета
+   * @return RGB - градации серого
+   */
   public static RGB rgb2gray( RGB aRgb ) {
     int y = (int)Math.round( 0.2126 * aRgb.red + 0.7152 * aRgb.green + 0.0722 * aRgb.blue );
     return new RGB( y, y, y );

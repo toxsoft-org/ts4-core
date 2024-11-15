@@ -108,9 +108,9 @@ public class ViselButton
       fields.add( TFI_FG_COLOR );
       fields.add( TFI_BK_COLOR );
       fields.add( new TinFieldInfo( PROPID_HOVERED_BK_COLOR, TFI_BK_COLOR.typeInfo(), //
-          TSID_NAME, "Фон подсветки" ) );
+          TSID_NAME, STR_HIGHLIGHT_BKG ) );
       fields.add( new TinFieldInfo( PROPID_SELECTED_BK_COLOR, TFI_BK_COLOR.typeInfo(), //
-          TSID_NAME, "Фон выделения" ) );
+          TSID_NAME, STR_SELECTION_BKG ) );
       fields.add( TFI_STATE );
       fields.add( TFI_HOVERED );
       fields.add( TFI_ZOOM );

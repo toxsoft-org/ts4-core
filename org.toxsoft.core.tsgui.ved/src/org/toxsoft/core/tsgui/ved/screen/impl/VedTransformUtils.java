@@ -63,8 +63,15 @@ public class VedTransformUtils {
     return d2Conversion;
   }
 
+  /**
+   * Преобразует точку в пространстве координат визеля в пространство координат VED экрана.
+   *
+   * @param aX double - x-координата в пространстве координат визеля
+   * @param aY double - y-координата в пространстве координат визеля
+   * @param aViselProps {@link IOptionSet} - свойства визеля
+   * @return {@link ID2Point} - точка в пространстве координат VED экрана
+   */
   public static ID2Point visel2Screen( double aX, double aY, IOptionSet aViselProps ) {
-    // T refreshConversions( aVisel );
     ID2Conversion d2conv = getViselConversion( aViselProps );
     double rotationX = viselRotationX( aViselProps );
     double rotationY = viselRotationY( aViselProps );

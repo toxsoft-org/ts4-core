@@ -3,14 +3,38 @@ package org.toxsoft.core.tsgui.ved.screen.impl;
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 
+/**
+ * Преобразователь координат основанный на матрице коэффициентов аффиннного преобразования.
+ * <p>
+ *
+ * @author vs
+ */
+
 public class D2MatrixConverterNew {
 
+  /**
+   * Преобразует параметры преобразования в трансформацию экрана редактирования.
+   *
+   * @param aD2Conv {@link ID2Conversion}
+   * @param aRotX double - координата x центра поворота
+   * @param aRotY double - координата y центра поворота
+   * @return {@link VedAffineTransform} - трансформацию для экрана редактирования
+   */
   public static VedAffineTransform d2convToTransform( ID2Conversion aD2Conv, double aRotX, double aRotY ) {
     VedAffineTransform at = new VedAffineTransform();
     at = transform( at, aD2Conv, aRotX, aRotY );
     return at;
   }
 
+  /**
+   * Ghtj,hfpetn
+   *
+   * @param aTransform
+   * @param aD2Conv
+   * @param aRotX
+   * @param aRotY
+   * @return
+   */
   public static VedAffineTransform transform( VedAffineTransform aTransform, ID2Conversion aD2Conv, double aRotX,
       double aRotY ) {
     VedAffineTransform at = aTransform;

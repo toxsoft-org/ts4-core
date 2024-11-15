@@ -76,6 +76,8 @@ interface ITsResources {
   String STR_BUTTON_STYLE_D = Messages.getString( "STR_BUTTON_STYLE_D" ); //$NON-NLS-1$
   String STR_BUTTON_STATE   = Messages.getString( "STR_BUTTON_STATE" );   //$NON-NLS-1$
   String STR_BUTTON_STATE_D = Messages.getString( "STR_BUTTON_STATE_D" ); //$NON-NLS-1$
+  String STR_HIGHLIGHT_BKG  = Messages.getString( "STR_HIGHLIGHT_BKG" );  //$NON-NLS-1$
+  String STR_SELECTION_BKG  = Messages.getString( "STR_SELECTION_BKG" );  //$NON-NLS-1$
 
   /**
    * {@link ViselImage}

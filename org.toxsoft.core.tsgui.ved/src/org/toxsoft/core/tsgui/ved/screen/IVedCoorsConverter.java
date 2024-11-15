@@ -29,14 +29,52 @@ import org.toxsoft.core.tslib.utils.errors.*;
  */
 public interface IVedCoorsConverter {
 
+  /**
+   * Converts point from SWT canvas to the VED screen coordinates.
+   *
+   * @param aSwtX int - X coordinate in the SWT canvas coordinates space
+   * @param aSwtY int - Y coordinate in the SWT canvas coordinates space
+   * @return {@link ID2Point} - the point in the the VED screen coordinates space
+   */
   ID2Point swt2Screen( int aSwtX, int aSwtY );
 
+  /**
+   * Converts point from SWT canvas to the VISEL coordinates.
+   *
+   * @param aSwtX int - X coordinate in the SWT canvas coordinates space
+   * @param aSwtY int - Y coordinate in the SWT canvas coordinates space
+   * @param aVisel {@link VedAbstractVisel} - визуальный элемент
+   * @return {@link ID2Point} - the point in the the VISEL coordinates space
+   */
   ID2Point swt2Visel( int aSwtX, int aSwtY, VedAbstractVisel aVisel );
 
+  /**
+   * Converts point from VED screen to SWT canvas coordinates.
+   *
+   * @param aScreenX int - X coordinate in the VED screen coordinates space
+   * @param aScreenY int - Y coordinate in the VED screen coordinates space
+   * @return {@link ID2Point} - the point in the the SWT canvas coordinates space
+   */
   ITsPoint screen2Swt( double aScreenX, double aScreenY );
 
+  /**
+   * Converts point from VED screen to VISEL coordinates.
+   *
+   * @param aScreenX int - X coordinate in the VED screen coordinates space
+   * @param aScreenY int - Y coordinate in the VED screen coordinates space
+   * @param aVisel {@link VedAbstractVisel} - визуальный элемент
+   * @return {@link ID2Point} - the point in the the VISEL coordinates space
+   */
   ID2Point screen2Visel( double aScreenX, double aScreenY, VedAbstractVisel aVisel );
 
+  /**
+   * Converts point from VISEL to SWT canvas coordinates.
+   *
+   * @param aViselX int - X coordinate in the VISEL coordinates space
+   * @param aViselY int - Y coordinate in the VISEL coordinates space
+   * @param aVisel {@link VedAbstractVisel} - визуальный элемент
+   * @return {@link ID2Point} - the point in the the SWT canvas coordinates space
+   */
   ITsPoint visel2Swt( double aViselX, double aViselY, VedAbstractVisel aVisel );
 
   /**

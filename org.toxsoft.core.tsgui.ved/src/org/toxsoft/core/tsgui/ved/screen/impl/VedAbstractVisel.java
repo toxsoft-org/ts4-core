@@ -4,6 +4,7 @@ import static org.toxsoft.core.tsgui.bricks.actions.TsActionDef.*;
 import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
 import static org.toxsoft.core.tsgui.ved.l10n.ITsguiVedSharedResources.*;
 import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
+import static org.toxsoft.core.tsgui.ved.screen.impl.ITsResources.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 
 import org.toxsoft.core.tsgui.bricks.actions.*;
@@ -48,8 +49,11 @@ public abstract class VedAbstractVisel
      * Action: copy selected visels and associated actors to the internal buffer.
      */
     public static final ITsActionDef ACDEF_VED_PACK_VISEL = ofPush2( ACTID_VED_PACK_VISEL, //
-        "Поджать размер", "Убрать все дополнительные внешние отсупы и поля для минимизации размера", ICONID_SHRINK );
+        STR_AN_PACK, STR_AD_PACK, ICONID_SHRINK );
 
+    /**
+     * Constructor.
+     */
     public AspPackVisel() {
       defineAction( ACDEF_VED_PACK_VISEL, () -> pack() );
     }

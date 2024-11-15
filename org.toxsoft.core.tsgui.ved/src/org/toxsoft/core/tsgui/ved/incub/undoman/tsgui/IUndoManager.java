@@ -53,8 +53,18 @@ public sealed interface IUndoManager
    */
   void addUndoredoItem( AbstractUndoRedoItem aItem );
 
+  /**
+   * Determines if right now UNDO or REDO operation is enabled.
+   *
+   * @return boolean - <code>true</code> when UNDO/REDO operation is enabled
+   */
   boolean isEnabled();
 
+  /**
+   * Sets the enablement for UNDO or REDO operation
+   *
+   * @param aEnable - <code>true</code> when UNDO/REDO operation is enabled
+   */
   void setEnabled( boolean aEnable );
 
   /**

@@ -77,12 +77,13 @@ class VedCanvasRenderer
     itemTransform.dispose();
   }
 
-  private Transform viselTransform( ITsGraphicsContext aGc, VedAbstractVisel aVisel ) {
-    ID2Conversion viselConv = aVisel.getConversion();
-    Transform itemTransform = D2TransformUtils.d2ConversionToTransfrom( aGc.gc(), d2Conv );
-    D2TransformUtils.convertItemTransfrom( itemTransform, viselConv, aVisel.rotationX(), aVisel.rotationY() );
-    return itemTransform;
-  }
+  // For DEBUG
+  // private Transform viselTransform( ITsGraphicsContext aGc, VedAbstractVisel aVisel ) {
+  // ID2Conversion viselConv = aVisel.getConversion();
+  // Transform itemTransform = D2TransformUtils.d2ConversionToTransfrom( aGc.gc(), d2Conv );
+  // D2TransformUtils.convertItemTransfrom( itemTransform, viselConv, aVisel.rotationX(), aVisel.rotationY() );
+  // return itemTransform;
+  // }
 
   // ------------------------------------------------------------------------------------
   // PaintListener

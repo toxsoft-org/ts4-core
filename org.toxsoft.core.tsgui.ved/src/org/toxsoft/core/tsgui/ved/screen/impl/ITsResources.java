@@ -19,4 +19,9 @@ interface ITsResources {
   String STR_DRAG_CANCELED   = Messages.getString( "STR_DRAG_CANCELED" );   //$NON-NLS-1$
   String STR_DRAG_CANCELED_D = Messages.getString( "STR_DRAG_CANCELED_D" ); //$NON-NLS-1$
 
+  /**
+   * {@link VedAbstractVisel}
+   */
+  String STR_AN_PACK = "Поджать размер";
+  String STR_AD_PACK = "Убрать все дополнительные внешние отсупы и поля для минимизации размера";
 }

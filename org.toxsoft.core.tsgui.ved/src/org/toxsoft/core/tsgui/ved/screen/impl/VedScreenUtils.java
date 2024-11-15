@@ -317,7 +317,7 @@ public class VedScreenUtils {
    */
   public static ID2Rectangle calcViselScreenRect( IVedItemCfg aViselCfg, IVedScreen aVedScreen ) {
     ID2Rectangle vr = VedTransformUtils.viselBounds( aViselCfg.propValues() );
-    IVedCoorsConverter converter = aVedScreen.view().coorsConverter();
+    // IVedCoorsConverter converter = aVedScreen.view().coorsConverter();
     ID2Point[] points = new ID2Point[4];
     points[0] = VedTransformUtils.visel2Screen( 0, 0, aViselCfg.propValues() );
     points[1] = VedTransformUtils.visel2Screen( vr.width(), 0, aViselCfg.propValues() );
@@ -375,7 +375,7 @@ public class VedScreenUtils {
   /**
    * Вычисляет описывающий группу визелей прямоугольник в экранных координатах.<br>
    *
-   * @param aViselIds {@link IStringList} - список идентификаторов визуальных элементов
+   * @param aViselConfs {@link IStridablesList} - список идентификаторов визуальных элементов
    * @param aVedScreen {@link IVedScreen} - экран редактирования
    * @return {@link ID2Rectangle} - описывающий группу визелей прямоугольник в экранных координатах
    */
@@ -565,7 +565,7 @@ public class VedScreenUtils {
         }
       }
       if( VedScreenUtils.viselActorIds( visel.id(), aVedScreen ).size() <= 0 ) {
-        System.out.println( "Висячий визель: " + visel.id() );
+        System.out.println( "Hanging visel: " + visel.id() ); //$NON-NLS-1$
       }
     }
     return result;

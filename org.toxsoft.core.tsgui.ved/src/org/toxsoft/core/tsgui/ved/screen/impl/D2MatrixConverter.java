@@ -3,6 +3,12 @@ package org.toxsoft.core.tsgui.ved.screen.impl;
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 
+/**
+ * Преобразователь координат основанный на матрице коэффициентов аффиннного преобразования.
+ * <p>
+ *
+ * @author vs
+ */
 public class D2MatrixConverter {
 
   public static AffTransform d2convToTransform( ID2Conversion aD2Conv, double aRotX, double aRotY ) {

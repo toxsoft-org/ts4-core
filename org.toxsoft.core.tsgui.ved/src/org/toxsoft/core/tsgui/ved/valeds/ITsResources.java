@@ -17,7 +17,7 @@ interface ITsResources {
   /**
    * {@link ValedMultiLineTextEditor}
    */
-  String DLG_MULTILINE_INPUT_TITLE = "Ввод текста";
-  String DLG_MULTILINE_INPUT_TEXT  = "Текст: ";
+  String DLG_MULTILINE_INPUT_TITLE = Messages.getString( "DLG_MULTILINE_INPUT_TITLE" ); //$NON-NLS-1$
+  String DLG_MULTILINE_INPUT_TEXT  = Messages.getString( "DLG_MULTILINE_INPUT_TEXT" );  //$NON-NLS-1$
 
 }
