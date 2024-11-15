@@ -33,7 +33,7 @@ abstract class AbstractTsColumn
 
   @Override
   public EHorAlignment alignment() {
-    return EHorAlignment.findBySwtStyle( doGetJfaceColumnAlignment() );
+    return EHorAlignment.getBySwtStyle( doGetJfaceColumnAlignment() );
   }
 
   @Override

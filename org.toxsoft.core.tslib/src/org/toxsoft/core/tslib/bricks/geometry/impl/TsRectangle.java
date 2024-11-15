@@ -26,7 +26,7 @@ public final class TsRectangle
    *
    * @param aP1 {@link ITsPoint} - the first point
    * @param aP2 {@link ITsPoint} - the second point
-   * @author goga
+   * @author hazard157
    */
   public TsRectangle( ITsPoint aP1, ITsPoint aP2 ) {
     TsNullArgumentRtException.checkNulls( aP1, aP2 );

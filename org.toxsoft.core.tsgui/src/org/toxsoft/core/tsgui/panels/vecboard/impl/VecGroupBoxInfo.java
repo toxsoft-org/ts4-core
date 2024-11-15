@@ -1,12 +1,10 @@
 package org.toxsoft.core.tsgui.panels.vecboard.impl;
 
-import org.toxsoft.core.tsgui.graphics.EBorderType;
-import org.toxsoft.core.tsgui.panels.vecboard.IVecGroupBoxInfo;
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.strio.IStrioReader;
-import org.toxsoft.core.tslib.bricks.strio.IStrioWriter;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.graphics.*;
+import org.toxsoft.core.tsgui.panels.vecboard.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Неизменяемая реализация {@link IVecGroupBoxInfo}.
@@ -38,7 +36,7 @@ public class VecGroupBoxInfo
       aSr.ensureSeparatorChar();
       String tooltipText = aSr.readQuotedString();
       aSr.ensureSeparatorChar();
-      EBorderType borderType = EBorderType.findById( aSr.readIdPath() );
+      EBorderType borderType = EBorderType.asList().findByKey( aSr.readIdPath() );
       return new VecGroupBoxInfo( title, tooltipText, borderType );
     }
 

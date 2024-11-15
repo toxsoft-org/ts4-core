@@ -2,34 +2,29 @@ package org.toxsoft.core.tsgui.graphics;
 
 import static org.toxsoft.core.tsgui.graphics.ITsResources.*;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.std.StridableEnumKeeper;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
+import org.eclipse.swt.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.std.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
 
 /**
- * Ориентация визуальных компонент - горизонтаьная или вертикальная.
+ * Orientation of visual components - horizontal or vertical.
  *
  * @author hazard157
  */
+@SuppressWarnings( "javadoc" )
 public enum ETsOrientation
     implements IStridable {
 
-  /**
-   * Расположение по горизонтали.
-   */
   HORIZONTAL( "Horizontal", STR_TSO_HORIZONTAL, STR_TSO_HORIZONTAL_D, SWT.HORIZONTAL ), //$NON-NLS-1$
 
-  /**
-   * Расположение по вертикали.
-   */
   VERTICAL( "Vertical", STR_TSO_VERTICAL, STR_TSO_VERTICAL_D, SWT.VERTICAL ); //$NON-NLS-1$
 
   /**
-   * Keeper ID for registration in {@link TsValobjUtils}.
+   * The registered keeper ID.
    */
   public static final String KEEPER_ID = "TsOrientation"; //$NON-NLS-1$
 
@@ -38,23 +33,17 @@ public enum ETsOrientation
    */
   public static IEntityKeeper<ETsOrientation> KEEPER = new StridableEnumKeeper<>( ETsOrientation.class );
 
+  private static IStridablesListEdit<ETsOrientation> list = null;
+
   private final String id;
+  private final String name;
   private final String description;
-  private final String nmName;
   private final int    swtStyle;
 
-  /**
-   * Создать константу с заданием всех инвариантов.
-   *
-   * @param aId String - идентифицирующее название константы
-   * @param aDescr String - отображаемое описание константы
-   * @param aName String - отображаемое название константы
-   * @param aSwtStyle int - SWT стиль расположения, одна из констант {@link SWT#HORIZONTAL} или {@link SWT#VERTICAL}.
-   */
-  ETsOrientation( String aId, String aDescr, String aName, int aSwtStyle ) {
+  ETsOrientation( String aId, String aName, String aDescr, int aSwtStyle ) {
     id = aId;
+    name = aName;
     description = aDescr;
-    nmName = aName;
     swtStyle = aSwtStyle;
   }
 
@@ -74,17 +63,17 @@ public enum ETsOrientation
 
   @Override
   public String nmName() {
-    return nmName;
+    return name;
   }
 
   // ------------------------------------------------------------------------------------
-  // Публичное API
+  // API
   //
 
   /**
-   * Возвращает другую ориентацию.
+   * Returns other orientation.
    *
-   * @return {@link ETsOrientation} - другая ориентация
+   * @return {@link ETsOrientation} - other orientation
    */
   public ETsOrientation otherOrientation() {
     if( this == HORIZONTAL ) {
@@ -94,207 +83,85 @@ public enum ETsOrientation
   }
 
   /**
-   * Возвращает признак горизонтальной ориентации.
+   * Determines if this is a horizontal orientation.
    *
-   * @return boolean - признак, что это константа {@link #HORIZONTAL}
+   * @return boolean - this is the constant {@link #HORIZONTAL}
    */
   public boolean isHorisontal() {
     return this == HORIZONTAL;
   }
 
   /**
-   * Возвращает признак вертикальной ориентации.
+   * Determines if this is a vertical orientation.
    *
-   * @return boolean - признак, что это константа {@link #VERTICAL}
+   * @return boolean - this is the constant {@link #VERTICAL}
    */
   public boolean isVertical() {
     return this == VERTICAL;
   }
 
   /**
-   * Возвращает SWT-стиль, соответствующий данному расположению.
+   * Returns the {@link SWT} style corresponding to this constant.
    * <p>
-   * Метод возвращает одну из констант {@link SWT#HORIZONTAL} или {@link SWT#VERTICAL}.
+   * Returns one of the values {@link SWT#HORIZONTAL} or {@link SWT#VERTICAL}.
    *
-   * @return int - SWT стиль расположения
+   * @return int - the {@link SWT} orientation style
    */
   public int swtStyle() {
     return swtStyle;
   }
 
-  // ----------------------------------------------------------------------------------
-  // Методы проверки
-  //
-
   /**
-   * Определяет, существует ли константа с заданным идентификатором.
+   * Returns all constants in single list.
    *
-   * @param aId String - идентификатор {@link #id()} константы
-   * @return boolean - <b>true</b> - да, есть константа с таким идентификатором;<br>
-   *         <b>false</b> - нет такой константы.
-   * @throws TsNullArgumentRtException аргумент = null
+   * @return {@link IStridablesList}&lt; {@link ETsOrientation} &gt; - list of constants in order of declaraion
    */
-  public static boolean isItemById( String aId ) {
-    return findByIdOrNull( aId ) != null;
-  }
-
-  /**
-   * Определяет, существует ли константа с заданным описанием.
-   *
-   * @param aDescription String - описание {@link #id()} константы
-   * @return boolean - <b>true</b> - да, есть константа с таким описанием;<br>
-   *         <b>false</b> - нет такой константы.
-   * @throws TsNullArgumentRtException аргумент = null
-   */
-  public static boolean isItemByDescription( String aDescription ) {
-    return findByDescriptionOrNull( aDescription ) != null;
-  }
-
-  /**
-   * Определяет, существует ли константа с заданным именем.
-   *
-   * @param aName String - имя {@link #nmName()} константы
-   * @return boolean - <b>true</b> - да, есть константа с таким именем;<br>
-   *         <b>false</b> - нет такой константы.
-   * @throws TsNullArgumentRtException аргумент = null
-   */
-  public static boolean isItemByName( String aName ) {
-    return findByNameOrNull( aName ) != null;
-  }
-
-  // ----------------------------------------------------------------------------------
-  // Методы поиска
-  //
-
-  /**
-   * Находит константу с заданным идентификатором, а если нет такой константы, возвращает null.
-   *
-   * @param aId String - идентификатор {@link #id()} константы
-   * @return EAnchorVerPosition - найденная константа или null
-   * @throws TsNullArgumentRtException аргумент = null
-   */
-  public static ETsOrientation findByIdOrNull( String aId ) {
-    TsNullArgumentRtException.checkNull( aId );
-    for( ETsOrientation item : values() ) {
-      if( item.id.equals( aId ) ) {
-        return item;
-      }
+  public static IStridablesList<ETsOrientation> asList() {
+    if( list == null ) {
+      list = new StridablesList<>( values() );
     }
-    return null;
+    return list;
   }
 
   /**
-   * Находит константу с заданным идентификатором, а если нет такой константы, выбрасывает исключение.
+   * Returns the constant by the ID.
    *
-   * @param aId String - идентификатор {@link #id()} константы
-   * @return EAnchorVerPosition - найденная константа или null
-   * @throws TsNullArgumentRtException аргумент = null
-   * @throws TsItemNotFoundRtException нет константы с таким идентификатором
+   * @param aId String - the ID
+   * @return {@link ETsOrientation} - found constant
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException no constant found by specified ID
    */
-  public static ETsOrientation findById( String aId ) {
-    return TsItemNotFoundRtException.checkNull( findByIdOrNull( aId ) );
+  public static ETsOrientation getById( String aId ) {
+    return asList().getByKey( aId );
   }
 
   /**
-   * Находит константу с заданным описанием, а если нет такой константы, возвращает null.
+   * Finds the constant by the name.
    *
-   * @param aDescription String - описание {@link #description()} константы
-   * @return EAnchorVerPosition - найденная константа или null
-   * @throws TsNullArgumentRtException аргумент = null
-   */
-  public static ETsOrientation findByDescriptionOrNull( String aDescription ) {
-    TsNullArgumentRtException.checkNull( aDescription );
-    for( ETsOrientation item : values() ) {
-      if( item.description.equals( aDescription ) ) {
-        return item;
-      }
-    }
-    return null;
-  }
-
-  /**
-   * Находит константу с заданным описанием, а если нет такой константы, выбрасывает исключение.
-   *
-   * @param aDescription String - описание {@link #description()} константы
-   * @return EAnchorVerPosition - найденная константа или null
-   * @throws TsNullArgumentRtException аргумент = null
-   * @throws TsItemNotFoundRtException нет константы с таким описанием
-   */
-  public static ETsOrientation findByDescription( String aDescription ) {
-    return TsItemNotFoundRtException.checkNull( findByDescriptionOrNull( aDescription ) );
-  }
-
-  /**
-   * Находит константу с заданным именем, а если нет такой константы, возвращает null.
-   *
-   * @param aName String - имя {@link #nmName()} константы
-   * @return ETsOrientation - найденная константа или null
-   * @throws TsNullArgumentRtException аргумент = null
-   */
-  public static ETsOrientation findByNameOrNull( String aName ) {
-    TsNullArgumentRtException.checkNull( aName );
-    for( ETsOrientation item : values() ) {
-      if( item.nmName.equals( aName ) ) {
-        return item;
-      }
-    }
-    return null;
-  }
-
-  /**
-   * Находит константу с заданным именем, а если нет такой константы, выбрасывает исключение.
-   *
-   * @param aName String - имя {@link #nmName()} константы
-   * @return ETsOrientation - найденная константа или null
-   * @throws TsNullArgumentRtException аргумент = null
-   * @throws TsItemNotFoundRtException нет константы с таким идентификатором
+   * @param aName String - the name
+   * @return {@link ETsOrientation} - found constant or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static ETsOrientation findByName( String aName ) {
-    return TsItemNotFoundRtException.checkNull( findByNameOrNull( aName ) );
-  }
-
-  /**
-   * Находит константу по SWT-стилю выравнивания, а если аргумент неверный, возвращает null.
-   * <p>
-   * Из аргумента все биты кроме {@link SWT#TOP}, {@link SWT#BOTTOM} и {@link SWT#CENTER} игнорируются. То есть, можно
-   * прямо передавать слово SWT-стиля так, как он испольуется например в конструкторе {@link Composite}.
-   * <p>
-   * <b>Внимание:</b>аргумент должен содержать <b>ровно один</b> выставленный бит из {@link SWT#TOP}, {@link SWT#BOTTOM}
-   * или {@link SWT#CENTER}, иначе метод вернет null.
-   *
-   * @param aSwtStyle int - слово с одним высталенным битом из трех {@link SWT#TOP}, {@link SWT#CENTER} или
-   *          {@link SWT#BOTTOM}
-   * @return {@link ETsOrientation} - найденная константа или null
-   */
-  public static final ETsOrientation findBySwtStyleOrNull( int aSwtStyle ) {
-    switch( aSwtStyle & (SWT.HORIZONTAL | SWT.VERTICAL) ) {
-      case SWT.HORIZONTAL:
-        return HORIZONTAL;
-      case SWT.VERTICAL:
-        return VERTICAL;
-      default:
-        return null;
+    TsNullArgumentRtException.checkNull( aName );
+    for( ETsOrientation item : values() ) {
+      if( item.name.equals( aName ) ) {
+        return item;
+      }
     }
+    return null;
   }
 
   /**
-   * Находит константу по SWT-стилю выравнивания, а если аргумент неверный, выбрасывает исключения.
-   * <p>
-   * Из аргумента все биты кроме {@link SWT#TOP}, {@link SWT#BOTTOM} и {@link SWT#CENTER} игнорируются. То есть, можно
-   * прямо передавать слово SWT-стиля так, как он испольуется например в конструкторе {@link Composite}.
-   * <p>
-   * <b>Внимание:</b>аргумент должен содержать <b>ровно один</b> выставленный бит из {@link SWT#TOP}, {@link SWT#BOTTOM}
-   * или {@link SWT#CENTER}, иначе метод вернет null.
+   * Returns the constant by the name.
    *
-   * @param aSwtStyle int - слово с одним высталенным битом из трех {@link SWT#TOP}, {@link SWT#CENTER} или
-   *          {@link SWT#BOTTOM}
-   * @return {@link ETsOrientation} - найденная константа
-   * @throws TsIllegalArgumentRtException аргумент неверный
+   * @param aName String - the name
+   * @return {@link ETsOrientation} - found constant
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException no constant found by specified name
    */
-  public static final ETsOrientation findBySwtStyle( int aSwtStyle ) {
-    ETsOrientation result = findBySwtStyleOrNull( aSwtStyle );
-    TsIllegalArgumentRtException.checkTrue( result == null );
-    return result;
+  public static ETsOrientation getByName( String aName ) {
+    return TsItemNotFoundRtException.checkNull( findByName( aName ) );
   }
 
 }

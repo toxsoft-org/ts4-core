@@ -5,7 +5,6 @@ package org.toxsoft.core.tsgui.graphics.colors.impl;
  *
  * @author hazard157
  */
-@SuppressWarnings( "nls" )
 interface ITsResources {
 
   String FMT_ERR_NO_COLOR_BY_NAME     = Messages.getString( "FMT_ERR_NO_COLOR_BY_NAME" );     //$NON-NLS-1$

@@ -61,7 +61,7 @@ class QTreeColumn
 
   @Override
   public EHorAlignment alignment() {
-    return EHorAlignment.findBySwtStyle( treeColumn.getAlignment() );
+    return EHorAlignment.getBySwtStyle( treeColumn.getAlignment() );
   }
 
   @Override

@@ -1,6 +1,3 @@
---- org.toxsoft.core.tsgui.graphics
---- org.toxsoft.core.tsgui.graphics.colors.impl
---- org.toxsoft.core.tsgui.graphics.fonts.impl
 --- org.toxsoft.core.tsgui.graphics.icons.impl
 --- org.toxsoft.core.tsgui.m5.gui.mpc (недописанные константы с пустыми значениями)
 +-- org.toxsoft.core.tsgui.m5.model.impl (местами нет перевода)

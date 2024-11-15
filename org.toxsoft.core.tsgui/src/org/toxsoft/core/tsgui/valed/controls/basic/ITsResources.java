@@ -8,8 +8,8 @@ package org.toxsoft.core.tsgui.valed.controls.basic;
 @SuppressWarnings( "nls" )
 interface ITsResources {
 
-  String STR_CHECKBOX_TEXT_D                  = Messages.getString( "STR_CHECKBOX_TEXT_D" );                  //$NON-NLS-1$
   String STR_CHECKBOX_TEXT                    = Messages.getString( "STR_CHECKBOX_TEXT" );                    //$NON-NLS-1$
+  String STR_CHECKBOX_TEXT_D                  = Messages.getString( "STR_CHECKBOX_TEXT_D" );                  //$NON-NLS-1$
   String STR_ITEMS_PROVIDER                   = Messages.getString( "STR_ITEMS_PROVIDER" );                   //$NON-NLS-1$
   String STR_ITEMS_PROVIDER_D                 = Messages.getString( "STR_ITEMS_PROVIDER_D" );                 //$NON-NLS-1$
   String STR_DOUBLE_SPINNER_FLOATING_DIGITS   = Messages.getString( "STR_DOUBLE_SPINNER_FLOATING_DIGITS" );   //$NON-NLS-1$
