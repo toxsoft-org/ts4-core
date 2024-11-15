@@ -230,8 +230,8 @@ class PluginStorage
     // Получаем описание зависимого плагина
     IPluginInfo pluginInfo = pluginInfos.findByKey( aPluginInfo.pluginId() );
     if( pluginInfo == null ) {
-      throw new ClassNotFoundException( MSG_ERR_CANT_RESOLVE_DEPENDENCE_TYPE + aPluginInfo.pluginType() + ",\n "
-          + MSG_ERR_CANT_RESOLVE_DEPENDENCE_ID + aPluginInfo.pluginId() );
+      throw new ClassNotFoundException( ERR_CANT_RESOLVE_DEPENDENCE_TYPE + aPluginInfo.pluginType() + ",\n "
+          + ERR_CANT_RESOLVE_DEPENDENCE_ID + aPluginInfo.pluginId() );
     }
     TsVersion version = aPluginInfo.pluginVersion();
     if( aPluginInfo.isExactVersionNeeded() ) {
@@ -239,18 +239,18 @@ class PluginStorage
       if( version.compareTo( pluginInfo.pluginVersion() ) == 0 ) {
         return;
       }
-      throw new ClassNotFoundException( MSG_ERR_FOR_DEPENDENCE + aPluginInfo.pluginType() + ",\n "
-          + MSG_ERR_CANT_RESOLVE_DEPENDENCE_ID + aPluginInfo.pluginId() + ",\n " + MSG_ERR_EXACT_VERSION_NUMBER
-          + TsVersion.getVersionNumber( aPluginInfo.pluginVersion() ) + ",\n " + MSG_ERR_AVAILABLE_VERSION_NUMBER
+      throw new ClassNotFoundException( ERR_FOR_DEPENDENCE + aPluginInfo.pluginType() + ",\n "
+          + ERR_CANT_RESOLVE_DEPENDENCE_ID + aPluginInfo.pluginId() + ",\n " + ERR_EXACT_VERSION_NUMBER
+          + TsVersion.getVersionNumber( aPluginInfo.pluginVersion() ) + ",\n " + ERR_AVAILABLE_VERSION_NUMBER
           + TsVersion.getVersionNumber( pluginInfo.pluginVersion() ) );
     }
     // Достаточно просто более новой версии
     if( pluginInfo.pluginVersion().compareTo( version ) >= 0 ) {
       return;
     }
-    throw new ClassNotFoundException( MSG_ERR_FOR_DEPENDENCE + aPluginInfo.pluginType() + ",\n "
-        + MSG_ERR_CANT_RESOLVE_DEPENDENCE_ID + aPluginInfo.pluginId() + ",\n " + MSG_ERR_NEED_NEWER_VERSION_NUMBER
-        + TsVersion.getVersionNumber( aPluginInfo.pluginVersion() ) + ",\n " + MSG_ERR_AVAILABLE_VERSION_NUMBER
+    throw new ClassNotFoundException( ERR_FOR_DEPENDENCE + aPluginInfo.pluginType() + ",\n "
+        + ERR_CANT_RESOLVE_DEPENDENCE_ID + aPluginInfo.pluginId() + ",\n " + ERR_NEED_NEWER_VERSION_NUMBER
+        + TsVersion.getVersionNumber( aPluginInfo.pluginVersion() ) + ",\n " + ERR_AVAILABLE_VERSION_NUMBER
         + TsVersion.getVersionNumber( pluginInfo.pluginVersion() ) );
   }
 
@@ -559,7 +559,7 @@ class PluginStorage
     }
     catch( Exception e ) {
       temporaryFile.delete();
-      String msg = String.format( MSG_ERR_CANT_CREATE_PLUGIN_OBJECT, pluginInfo.pluginId(), pluginInfo.pluginType() );
+      String msg = String.format( ERR_CANT_CREATE_PLUGIN_OBJECT, pluginInfo.pluginId(), pluginInfo.pluginType() );
       throw new ClassNotFoundException( msg, e );
     }
   }

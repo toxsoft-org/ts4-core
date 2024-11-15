@@ -161,7 +161,7 @@ class ChangedPluginsInfo
         String currState = PLUGIN_CHANGES_STATE_ADDED;
         String oldState = getOldStateDescription( aPluginInfo );
         throw new TsIllegalStateRtException(
-            MSG_ERR_STATE_TABLE_UNSOLVED + ' ' + oldState + STATE_TABLE_GOTO_SIGN + currState );
+            ERR_STATE_TABLE_UNSOLVED + ' ' + oldState + STATE_TABLE_GOTO_SIGN + currState );
       }
     }
   }
@@ -218,7 +218,7 @@ class ChangedPluginsInfo
           String currState = PLUGIN_CHANGES_STATE_REMOVED;
           String oldState = getOldStateDescription( aPluginInfo );
           throw new TsIllegalStateRtException(
-              MSG_ERR_STATE_TABLE_UNSOLVED + ' ' + oldState + STATE_TABLE_GOTO_SIGN + currState );
+              ERR_STATE_TABLE_UNSOLVED + ' ' + oldState + STATE_TABLE_GOTO_SIGN + currState );
         }
     }
   }
@@ -290,7 +290,7 @@ class ChangedPluginsInfo
           String currState = PLUGIN_CHANGES_STATE_CHANGED;
           String oldState = getOldStateDescription( getPreviousInfo( aChangedPluginInfo ) );
           throw new TsIllegalStateRtException(
-              MSG_ERR_STATE_TABLE_UNSOLVED + ' ' + oldState + STATE_TABLE_GOTO_SIGN + currState );
+              ERR_STATE_TABLE_UNSOLVED + ' ' + oldState + STATE_TABLE_GOTO_SIGN + currState );
         }
     }
   }

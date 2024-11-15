@@ -50,14 +50,14 @@ public class PluginUtils {
       throw new TsIoRtException( ex, aJarFile.getAbsolutePath() );
     }
     if( manifest == null ) {
-      throw new TsIllegalArgumentRtException( MSG_ERR_NO_MANIFEST, aJarFile.getAbsolutePath() );
+      throw new TsIllegalArgumentRtException( ERR_NO_MANIFEST, aJarFile.getAbsolutePath() );
     }
     // проверим наличие,ворректность формата и поддерживаемую версию формата контейнера плагинов
     Attributes attrs = manifest.getMainAttributes();
     String containerVersionStr = attrs.getValue( MF_MAIN_ATTR_PLUGIN_CONTAINER_VERSION );
     if( containerVersionStr == null ) {
       // 2020-01-05 mvk в каталоге могут находится обычные jar
-      // throw new TsIllegalArgumentRtException( MSG_ERR_NOT_PLUGIN_CONTAINER, aJarFile.getAbsolutePath() );
+      // throw new TsIllegalArgumentRtException( ERR_NOT_PLUGIN_CONTAINER, aJarFile.getAbsolutePath() );
       return IList.EMPTY;
     }
     int containetrVersion;
@@ -65,10 +65,10 @@ public class PluginUtils {
       containetrVersion = Integer.parseInt( containerVersionStr.trim() );
     }
     catch( NumberFormatException ex ) {
-      throw new TsIllegalArgumentRtException( ex, MSG_ERR_INV_CONTAINER_VERSION_FORMAT, aJarFile.getAbsolutePath() );
+      throw new TsIllegalArgumentRtException( ex, ERR_INV_CONTAINER_VERSION_FORMAT, aJarFile.getAbsolutePath() );
     }
     if( containetrVersion != IPluginsHardConstants.TS_PLUGIN_CONTAINER_MAINFEST_VERSION ) {
-      throw new TsIllegalArgumentRtException( MSG_ERR_INV_CONTAINER_VERSION, aJarFile.getAbsolutePath(),
+      throw new TsIllegalArgumentRtException( ERR_INV_CONTAINER_VERSION, aJarFile.getAbsolutePath(),
           Integer.valueOf( containetrVersion ), Integer.valueOf( TS_PLUGIN_CONTAINER_MAINFEST_VERSION ) );
     }
     return readPluginInfoes( manifest, aJarFile );
@@ -159,14 +159,14 @@ public class PluginUtils {
       return null;
     }
     if( strClassName == null || strType == null || strVersion == null ) {
-      throw new TsIllegalArgumentRtException( MSG_ERR_INCOPLETE_PLUGIN_INFO_SECTION, aPluginId, aFileName );
+      throw new TsIllegalArgumentRtException( ERR_INCOPLETE_PLUGIN_INFO_SECTION, aPluginId, aFileName );
     }
     // проверим значения и инициализируем описание плагина
     if( !StridUtils.isValidIdPath( aPluginId ) ) {
-      throw new TsIllegalArgumentRtException( MSG_ERR_PLUGIN_ID_NOT_ID_PATH, aPluginId, aFileName );
+      throw new TsIllegalArgumentRtException( ERR_PLUGIN_ID_NOT_ID_PATH, aPluginId, aFileName );
     }
     if( !StridUtils.isValidIdPath( strType ) ) {
-      throw new TsIllegalArgumentRtException( MSG_ERR_PLUGIN_TYPE_NOT_ID_PATH, strType, aPluginId, aFileName );
+      throw new TsIllegalArgumentRtException( ERR_PLUGIN_TYPE_NOT_ID_PATH, strType, aPluginId, aFileName );
     }
     TsVersion ver;
     try {
@@ -175,7 +175,7 @@ public class PluginUtils {
       ver = TsVersion.KEEPER.str2ent( strVersion );
     }
     catch( Exception e ) {
-      throw new TsIllegalArgumentRtException( e, MSG_ERR_INV_PLUGIN_VERSION, aPluginId, aFileName );
+      throw new TsIllegalArgumentRtException( e, ERR_INV_PLUGIN_VERSION, aPluginId, aFileName );
     }
     return new PluginInfo( aFileName, strType, aPluginId, strClassName, ver, deps, extProps );
   }
@@ -195,12 +195,12 @@ public class PluginUtils {
     File file = new File( aDir );
     if( file.exists() ) {
       // Существует ли файл с именем каталога
-      TsIllegalArgumentRtException.checkFalse( file.isDirectory(), MSG_ERR_CANT_CREATE_DIR_NAME_CONFLICT, aDir );
+      TsIllegalArgumentRtException.checkFalse( file.isDirectory(), ERR_CANT_CREATE_DIR_NAME_CONFLICT, aDir );
       return;
     }
     if( !file.isDirectory() ) {
       // Каталог не существует. Создание
-      TsIllegalArgumentRtException.checkFalse( file.mkdir(), MSG_ERR_CANT_CREATE_DIR, aDir );
+      TsIllegalArgumentRtException.checkFalse( file.mkdir(), ERR_CANT_CREATE_DIR, aDir );
       // Запись в журнал
       LoggerUtils.defaultLogger().warning( MSG_CREATE_DIR, aDir );
     }

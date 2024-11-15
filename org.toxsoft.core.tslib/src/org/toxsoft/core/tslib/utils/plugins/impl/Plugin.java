@@ -2,20 +2,17 @@ package org.toxsoft.core.tslib.utils.plugins.impl;
 
 import static org.toxsoft.core.tslib.utils.plugins.impl.ITsResources.*;
 
-import java.io.File;
-import java.lang.reflect.Constructor;
-import java.net.URL;
-import java.net.URLClassLoader;
+import java.io.*;
+import java.lang.reflect.*;
+import java.net.*;
 
-import org.toxsoft.core.tslib.bricks.events.AbstractTsEventer;
-import org.toxsoft.core.tslib.bricks.events.ITsEventer;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
-import org.toxsoft.core.tslib.utils.ICloseable;
+import org.toxsoft.core.tslib.bricks.events.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
-import org.toxsoft.core.tslib.utils.plugins.IPluginInfo;
-import org.toxsoft.core.tslib.utils.plugins.IPluginListener;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
+import org.toxsoft.core.tslib.utils.plugins.*;
 
 /**
  * Единственная реализация {@link IPlugin}
@@ -43,13 +40,14 @@ final class Plugin
     try {
       info = aPluginInfo;
       classLoader = new URLClassLoader( aPluginInfo.pluginId(), aClassPath, getClass().getClassLoader() );
+      Thread.currentThread().setContextClassLoader( classLoader );
       Class<?> cls = classLoader.loadClass( aPluginInfo.pluginClassName() );
       Constructor<?> defaultConstructor = cls.getConstructor();
       instance = defaultConstructor.newInstance();
       eventer.addListener( aListener );
     }
     catch( Exception e ) {
-      String msg = String.format( MSG_ERR_CANT_CREATE_PLUGIN_OBJECT, aPluginInfo.pluginId(), aPluginInfo.pluginType() );
+      String msg = String.format( ERR_CANT_CREATE_PLUGIN_OBJECT, aPluginInfo.pluginId(), aPluginInfo.pluginType() );
       throw new TsInternalErrorRtException( msg, e );
     }
   }
@@ -60,6 +58,8 @@ final class Plugin
   @Override
   public void close() {
     try {
+      // TODO: FIXME: 2024-11-15 mvk классы не выгружаются!!! Решение может быть чем-то следующим:
+      // source: https://stackoverflow.com/questions/148681/unloading-classes-in-java
       // classpath загрузчика классов
       URL[] classpath = classLoader.getURLs();
       // Завершение работы загрузчика классов
@@ -67,7 +67,9 @@ final class Plugin
       // Удаление временных файлов
       for( URL fileURL : classpath ) {
         File file = new File( fileURL.toURI() );
-        file.delete();
+        if( !file.delete() ) {
+          LoggerUtils.errorLogger().warning( "Plugin.close(): " + ERR_CANT_REMOVE_TEMPORARY_FILE, file ); //$NON-NLS-1$
+        }
       }
     }
     catch( Throwable e ) {
