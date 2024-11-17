@@ -50,5 +50,6 @@ interface ITsResources {
   String ERR_CANT_RESOLVE_DEPENDENCE_ID    = Messages.getString( "ERR_CANT_RESOLVE_DEPENDENCE_ID" );           //$NON-NLS-1$
   String ERR_CANT_CREATE_DIR               = "Can't create directory %s.";                                     //$NON-NLS-1$
   String ERR_CANT_CREATE_DIR_NAME_CONFLICT = "Can't create directory %s. There is a file with the same name!"; //$NON-NLS-1$
+  String ERR_NOT_FOUND_TEMPORARY_FILE      = "Plugin temporary file is not found: %s.";                        //$NON-NLS-1$
   String ERR_CANT_REMOVE_TEMPORARY_FILE    = "Can't remove plugin temporary file %s.";                         //$NON-NLS-1$
 }

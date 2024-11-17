@@ -61,14 +61,23 @@ final class Plugin
       // TODO: FIXME: 2024-11-15 mvk классы не выгружаются!!! Решение может быть чем-то следующим:
       // source: https://stackoverflow.com/questions/148681/unloading-classes-in-java
       // classpath загрузчика классов
+      // 2024-11-17 mvk update - классы выгружаются! Проверено на скатлетах виртуальных данных. Проблема со скатлетом
+      // с AlarmProcessor в том, что он грузит классы на которые остаются ссылки. Например, для службы ISkAlarmService
+      // необходимо зарегистрировать типы данных, ISkServiceCreator в синглетонах конфигурации соединения uskat и сейчас
+      // нет возможности дерегистрировать все что было зарегистрировано службой. При этом нужно будет решить вопрос, что
+      // делать если несколько скателтов регистрируют одни и те же типы данных/классы.
+      // uskat-соединения
       URL[] classpath = classLoader.getURLs();
       // Завершение работы загрузчика классов
       classLoader.close();
       // Удаление временных файлов
       for( URL fileURL : classpath ) {
         File file = new File( fileURL.toURI() );
-        if( !file.delete() ) {
-          LoggerUtils.errorLogger().warning( "Plugin.close(): " + ERR_CANT_REMOVE_TEMPORARY_FILE, file ); //$NON-NLS-1$
+        if( !file.exists() ) {
+          LoggerUtils.errorLogger().warning( "Plugin.close(): " + ERR_NOT_FOUND_TEMPORARY_FILE, file ); //$NON-NLS-1$
+        }
+        if( file.exists() && !file.delete() ) {
+          LoggerUtils.errorLogger().error( "Plugin.close(): " + ERR_CANT_REMOVE_TEMPORARY_FILE, file ); //$NON-NLS-1$
         }
       }
     }
