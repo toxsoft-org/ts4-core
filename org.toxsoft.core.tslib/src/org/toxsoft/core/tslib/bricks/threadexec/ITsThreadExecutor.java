@@ -4,7 +4,7 @@ import org.toxsoft.core.tslib.bricks.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Еxecutor of API calls in one thread.
+ * API call executor in a single thread.
  *
  * @author mvk
  */
