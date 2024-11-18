@@ -5,7 +5,6 @@ package org.toxsoft.core.tsgui.valed.controls.basic;
  *
  * @author hazard157
  */
-@SuppressWarnings( "nls" )
 interface ITsResources {
 
   String STR_CHECKBOX_TEXT                    = Messages.getString( "STR_CHECKBOX_TEXT" );                    //$NON-NLS-1$

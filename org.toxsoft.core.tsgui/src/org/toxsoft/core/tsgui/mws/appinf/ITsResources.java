@@ -5,7 +5,6 @@ package org.toxsoft.core.tsgui.mws.appinf;
  *
  * @author hazard157
  */
-@SuppressWarnings( "nls" )
 interface ITsResources {
 
   /**

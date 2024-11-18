@@ -5,7 +5,6 @@ package org.toxsoft.core.tsgui.graphics.icons.impl;
  *
  * @author hazard157
  */
-@SuppressWarnings( "nls" )
 interface ITsResources {
 
   String FMT_ERR_ICON_NAME_FIELD_MUST_BE_STRING_CONST =
