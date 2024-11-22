@@ -3,16 +3,13 @@ package org.toxsoft.core.tslib.bricks.wub;
 import static org.toxsoft.core.tslib.bricks.wub.ITsResources.*;
 import static org.toxsoft.core.tslib.bricks.wub.IWubConstants.*;
 
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContextRo;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesListEdit;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.StridablesList;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.coll.primtypes.IStringListEdit;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMapEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringArrayList;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.bricks.ctx.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -86,15 +83,18 @@ public final class WubBox
    * Stopping units with timeout are destroyed and removed.
    */
   private void internalCheckUnitsStopping() {
-    if( unitQueryStopTimeMsecs.isEmpty() ) { // no units are stopping now
-      return;
-    }
+    // 2024-11-23 mvk: --- some units may have already stopped
+    // if( unitQueryStopTimeMsecs.isEmpty() ) { // no units are stopping now
+    // return;
+    // }
     // check stopping and stopped units
     long time = System.currentTimeMillis();
     long timeoutMsecs = OPDEF_UNIT_STOPPING_TIMEOUT_MSECS.getValue( params() ).asLong();
     IStringListEdit toRemove = new StringArrayList();
     for( IWubUnit u : unitsList ) {
       if( u.state() == EWubUnitState.STOPPED ) {
+        // 2024-11-23 mvk: +++ some units may have already stopped
+        u.destroy();
         toRemove.add( u.id() );
         continue;
       }
