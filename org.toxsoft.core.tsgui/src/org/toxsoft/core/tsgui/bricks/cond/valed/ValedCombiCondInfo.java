@@ -76,7 +76,7 @@ public class ValedCombiCondInfo
     super( aTsContext );
     OPDEF_IS_HEIGHT_FIXED.setValue( tsContext().params(), AV_FALSE );
     OPDEF_IS_WIDTH_FIXED.setValue( tsContext().params(), AV_FALSE );
-    OPDEF_VERTICAL_SPAN.setValue( tsContext().params(), avInt( 7 ) );
+    OPDEF_VERTICAL_SPAN.setValue( tsContext().params(), avInt( 12 ) );
     panel = new PanelCombiCondInfo( tsContext(), isCreatedUneditable() );
     ITsConditionsTopicManager tm = REFDEF_TOPIC_MANAGER.getRef( tsContext() );
     panel.setTopicManager( tm );
