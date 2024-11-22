@@ -163,9 +163,11 @@ public final class VedScreenView
 
   @Override
   public void redrawVisel( String aViselId ) {
-    VedAbstractVisel visel = vedScreen.model().visels().list().getByKey( aViselId );
-    ITsRectangle swtRect = coorsConverter.visel2Swt( visel.bounds(), visel );
-    redrawSwtRect( swtRect );
+    VedAbstractVisel visel = vedScreen.model().visels().list().findByKey( aViselId );
+    if( visel != null ) { // visel may be null at initialization time
+      ITsRectangle swtRect = coorsConverter.visel2Swt( visel.bounds(), visel );
+      redrawSwtRect( swtRect );
+    }
   }
 
   @Override
