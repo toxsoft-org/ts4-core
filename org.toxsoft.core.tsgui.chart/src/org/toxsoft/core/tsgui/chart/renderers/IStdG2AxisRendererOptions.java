@@ -46,12 +46,10 @@ public interface IStdG2AxisRendererOptions {
   IDataDef BACKGROUND_RENDERER_CLASS = DataDef.create( "backgroundClass", STRING, //$NON-NLS-1$
       TSID_NAME, STR_BACKGROUND_RENDERER_CLASS, //
       TSID_DESCRIPTION, STR_BACKGROUND_RENDERER_CLASS_D, //
-      TSID_DEFAULT_VALUE, AvUtils.avStr( IGradientBackgroundRendererOptions.CONSUMER_NAME ) //
+      // dima 22.11.24 по умолчанию заливаем фон стандарным цветом
+      // TSID_DEFAULT_VALUE, AvUtils.avStr( IGradientBackgroundRendererOptions.CONSUMER_NAME ) //
+      TSID_DEFAULT_VALUE, AvUtils.avStr( SystemBackgroundRenderer.class.getName() ) //
   );
-  // IAtomicOptionInfo BACKGROUND_RENDERER_CLASS =
-  // new AtomicOptionInfo( IStdG2AxisRendererOptions.class.getSimpleName() + ".BackgroundClass", //$NON-NLS-1$
-  // STR_D_BACKGROUND_RENDERER_CLASS, STR_N_BACKGROUND_RENDERER_CLASS, EAtomicType.STRING,
-  // DvUtils.dvStr( IGradientBackgroundRendererOptions.CONSUMER_NAME ), false );
 
   /**
    * Параметры отрисовщика фона.<br>

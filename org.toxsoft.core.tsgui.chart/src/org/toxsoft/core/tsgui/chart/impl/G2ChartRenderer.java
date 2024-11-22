@@ -1,6 +1,8 @@
 package org.toxsoft.core.tsgui.chart.impl;
 
+import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tslib.coll.*;
@@ -34,7 +36,9 @@ final class G2ChartRenderer {
    * @param aGc
    */
   void draw( GC aGc ) {
-    aGc.setBackground( colorManager.getColor( new RGB( 220, 220, 220 ) ) );
+    // aGc.setBackground( colorManager.getColor( new RGB( 220, 220, 220 ) ) );
+    aGc.setBackground( Display.getDefault().getSystemColor( SWT.COLOR_WIDGET_BACKGROUND ) );
+
     aGc.fillRectangle( layout.bounds() );
 
     // Отрисуем все холсты с графиками
