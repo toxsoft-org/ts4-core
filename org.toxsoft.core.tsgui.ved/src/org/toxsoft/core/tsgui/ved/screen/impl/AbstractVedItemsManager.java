@@ -8,6 +8,7 @@ import org.toxsoft.core.tsgui.ved.screen.items.*;
 import org.toxsoft.core.tslib.bricks.events.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.notifier.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
@@ -129,8 +130,10 @@ abstract class AbstractVedItemsManager<T extends VedAbstractItem>
 
   AbstractVedItemsManager( VedScreen aScreen ) {
     vedScreen = aScreen;
-    reorderer = new ListReorderer<>( itemsList );
     eventer = new Eventer( this );
+    INotifierStridablesListEdit<T> tmpList = new NotifierStridablesListEditWrapper<>( itemsList );
+    tmpList.addCollectionChangeListener( ( sec, op, item ) -> eventer.fireEvent( op, (String)item ) );
+    reorderer = new ListReorderer<>( tmpList );
     svs.addValidator( builtinValidator );
   }
 
