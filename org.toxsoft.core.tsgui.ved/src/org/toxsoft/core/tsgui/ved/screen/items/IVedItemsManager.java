@@ -39,7 +39,7 @@ public interface IVedItemsManager<T extends VedAbstractItem>
    *
    * @return {@link IListReorderer}&ltT&gt; - the {@link #list()} re-orderer
    */
-  IListReorderer<T> reorderer();
+  IStridablesListReorderer<T> reorderer();
 
   /**
    * Prepares the item config from some kind of the template config provided.

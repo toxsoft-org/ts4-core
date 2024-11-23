@@ -121,8 +121,8 @@ abstract class AbstractVedItemsManager<T extends VedAbstractItem>
 
   };
 
-  private final IStridablesListEdit<T> itemsList = new StridablesList<>();
-  private final IListReorderer<T>      reorderer;
+  private final IStridablesListEdit<T>      itemsList = new StridablesList<>();
+  private final IStridablesListReorderer<T> reorderer;
 
   private final Svs       svs = new Svs();
   private final Eventer   eventer;
@@ -133,7 +133,7 @@ abstract class AbstractVedItemsManager<T extends VedAbstractItem>
     eventer = new Eventer( this );
     INotifierStridablesListEdit<T> tmpList = new NotifierStridablesListEditWrapper<>( itemsList );
     tmpList.addCollectionChangeListener( ( sec, op, item ) -> eventer.fireEvent( op, (String)item ) );
-    reorderer = new ListReorderer<>( tmpList );
+    reorderer = new StridablesListReorderer<>( tmpList );
     svs.addValidator( builtinValidator );
   }
 
@@ -188,7 +188,7 @@ abstract class AbstractVedItemsManager<T extends VedAbstractItem>
   }
 
   @Override
-  public IListReorderer<T> reorderer() {
+  public IStridablesListReorderer<T> reorderer() {
     return reorderer;
   }
 
