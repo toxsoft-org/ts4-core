@@ -37,7 +37,7 @@ public interface IVedItemsManager<T extends VedAbstractItem>
   /**
    * Returns the managed items order change means.
    *
-   * @return {@link IListReorderer}&ltT&gt; - the {@link #list()} re-orderer
+   * @return {@link IStridablesListReorderer}&ltT&gt; - the {@link #list()} re-orderer
    */
   IStridablesListReorderer<T> reorderer();
 
@@ -105,5 +105,17 @@ public interface IVedItemsManager<T extends VedAbstractItem>
    * @return {@link ITsEventer}&lt;{@link IVedItemsManagerListener}&gt; - the manager eventer
    */
   ITsEventer<IVedItemsManagerListener<T>> eventer();
+
+  /**
+   * Informs model about items change.
+   * <p>
+   * Only two operations are allowed as the argument <code>aOp</code>: {@link ECrudOp#EDIT} and {@link ECrudOp#LIST}.
+   *
+   * @param aOp {@link ECrudOp} - the change operation
+   * @param aItemId String - the item ID or <code>null</code> for {@link ECrudOp#LIST}
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException invalid <code>aOp</code> value
+   */
+  void informOnModelChange( ECrudOp aOp, String aItemId );
 
 }

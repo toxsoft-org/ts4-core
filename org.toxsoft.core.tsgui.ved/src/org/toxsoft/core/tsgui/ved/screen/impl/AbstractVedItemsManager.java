@@ -252,6 +252,31 @@ abstract class AbstractVedItemsManager<T extends VedAbstractItem>
     return eventer;
   }
 
+  @Override
+  public void informOnModelChange( ECrudOp aOp, String aItemId ) {
+    TsNullArgumentRtException.checkNull( aOp );
+    switch( aOp ) {
+      case EDIT: {
+        TsNullArgumentRtException.checkNull( aItemId );
+        eventer.fireEvent( aOp, aItemId );
+        break;
+      }
+      case LIST: {
+        eventer.fireEvent( aOp, null );
+        break;
+      }
+      case CREATE:
+      case REMOVE: {
+        throw new TsIllegalArgumentRtException();
+      }
+      default:
+        throw new TsNotAllEnumsUsedRtException( aOp.id() );
+    }
+
+    // TODO Auto-generated method stub
+
+  }
+
   // ------------------------------------------------------------------------------------
   // To implement
   //
