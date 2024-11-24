@@ -38,6 +38,17 @@ interface ITsResources {
   String STR_VISEL_RECTANGLE_D = Messages.getString( "STR_VISEL_RECTANGLE_D" ); //$NON-NLS-1$
 
   /**
+   * {@link ViselLinearGauge}
+   */
+  String STR_VISEL_LINEAR_GAUGE   = Messages.getString( "STR_VISEL_LINEAR_GAUGE" );   //$NON-NLS-1$
+  String STR_VISEL_LINEAR_GAUGE_D = Messages.getString( "STR_VISEL_LINEAR_GAUGE_D" ); //$NON-NLS-1$
+  String STR_MIN                  = Messages.getString( "STR_MIN" );                  //$NON-NLS-1$
+  String STR_MAX                  = Messages.getString( "STR_MAX" );                  //$NON-NLS-1$
+  String STR_VALUE_BACKGOUND      = Messages.getString( "STR_VALUE_BACKGOUND" );      //$NON-NLS-1$
+  String STR_ARROW_HEIGHT         = "Высота стрелки";
+  String STR_ARROW_COLOR          = "Цвет стрелки";
+
+  /**
    * {@link ViselRoundRect}
    */
   String STR_VISEL_ROUND_RECT   = Messages.getString( "STR_VISEL_ROUND_RECT" );   //$NON-NLS-1$

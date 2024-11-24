@@ -8,6 +8,7 @@ import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.m5.model.impl.*;
 import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.gui.*;
 
@@ -45,7 +46,8 @@ public class M5StdFieldDefIconId<T extends IIconIdable>
 
   @Override
   protected IAtomicValue doGetFieldValue( T aEntity ) {
-    return avStr( aEntity.iconId() );
+    // return avStr( aEntity.iconId() );
+    return avStr( TsLibUtils.EMPTY_STRING );
   }
 
   @Override

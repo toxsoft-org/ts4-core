@@ -148,6 +148,7 @@ public interface IVedScreenConstants {
   String PROPID_FONT              = "font";            //$NON-NLS-1$
   String PROPID_HOR_ALIGNMENT     = "horAlign";        //$NON-NLS-1$
   String PROPID_VER_ALIGNMENT     = "verAlign";        //$NON-NLS-1$
+  String PROPID_ORIENTATION       = "orientation";     //$NON-NLS-1$
   String PROPID_BK_COLOR          = "bkColor";         //$NON-NLS-1$
   String PROPID_HOVERED_BK_COLOR  = "hoveredBkColor";  //$NON-NLS-1$
   String PROPID_SELECTED_BK_COLOR = "delectedBkColor"; //$NON-NLS-1$
@@ -162,6 +163,7 @@ public interface IVedScreenConstants {
   String PROPID_CARET_POS         = "caretPos";        //$NON-NLS-1$
   String PROPID_IMAGE_DESCRIPTOR  = "imageDescriptor"; //$NON-NLS-1$
   String PROPID_TRANSFORM         = "transform";       //$NON-NLS-1$
+  String PROPID_VALUE             = "value";           //$NON-NLS-1$
 
   String PROPID_LEFT_INDENT   = "leftIndent";   //$NON-NLS-1$
   String PROPID_TOP_INDENT    = "topIndent";    //$NON-NLS-1$
@@ -204,6 +206,13 @@ public interface IVedScreenConstants {
       TSID_DESCRIPTION, STR_VER_ALIGN_D, //
       TSID_KEEPER_ID, EVerAlignment.KEEPER_ID, //
       TSID_DEFAULT_VALUE, avValobj( EVerAlignment.CENTER ) //
+  );
+
+  IDataDef PROP_ORIENTATION = DataDef.create3( PROPID_ORIENTATION, DT_AV_ENUM, //
+      TSID_NAME, STR_ORIENTATION, //
+      TSID_DESCRIPTION, STR_ORIENTATION_D, //
+      TSID_KEEPER_ID, ETsOrientation.KEEPER_ID, //
+      TSID_DEFAULT_VALUE, avValobj( ETsOrientation.VERTICAL ) //
   );
 
   IDataDef PROP_BK_COLOR = DataDef.create3( PROPID_BK_COLOR, DT_COLOR_RGBA, //
@@ -356,6 +365,7 @@ public interface IVedScreenConstants {
   ITinFieldInfo TFI_FONT             = new TinFieldInfo( PROP_FONT, TtiTsFontInfo.INSTANCE );
   ITinFieldInfo TFI_HOR_ALIGNMENT    = new TinFieldInfo( PROP_HOR_ALIGNMENT, TtiAvEnum.INSTANCE );
   ITinFieldInfo TFI_VER_ALIGNMENT    = new TinFieldInfo( PROP_VER_ALIGNMENT, TtiAvEnum.INSTANCE );
+  ITinFieldInfo TFI_ORIENTATION      = new TinFieldInfo( PROP_ORIENTATION, TtiAvEnum.INSTANCE );
   ITinFieldInfo TFI_BK_COLOR         = new TinFieldInfo( PROP_BK_COLOR, TtiRGBA.INSTANCE );
   ITinFieldInfo TFI_FG_COLOR         = new TinFieldInfo( PROP_FG_COLOR, TtiRGBA.INSTANCE );
   ITinFieldInfo TFI_BK_FILL          = new TinFieldInfo( PROP_BK_FILL, TtiTsFillInfo.INSTANCE );

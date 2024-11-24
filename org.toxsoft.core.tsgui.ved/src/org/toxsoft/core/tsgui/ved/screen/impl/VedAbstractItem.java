@@ -108,6 +108,16 @@ public abstract class VedAbstractItem
   }
 
   // ------------------------------------------------------------------------------------
+  // IIconIdable
+  //
+
+  @Override
+  public String iconId() {
+    IVedItemFactoryBase<?> f = tsContext().get( IVedViselFactoriesRegistry.class ).find( initialConfig.factoryId() );
+    return f != null ? f.iconId() : null;
+  }
+
+  // ------------------------------------------------------------------------------------
   // IParameterizedEdit
   //
 
@@ -183,7 +193,9 @@ public abstract class VedAbstractItem
 
   @Override
   public String toString() {
-    return String.format( "%d (%s) - %s", id(), initialConfig.factoryId(), nmName() ); //$NON-NLS-1$
+    // Sol-- почему %d ???
+    // return String.format( "%d (%s) - %s", id(), initialConfig.factoryId(), nmName() ); //$NON-NLS-1$
+    return String.format( "%s (%s) - %s", id(), initialConfig.factoryId(), nmName() ); //$NON-NLS-1$
   }
 
   // ------------------------------------------------------------------------------------

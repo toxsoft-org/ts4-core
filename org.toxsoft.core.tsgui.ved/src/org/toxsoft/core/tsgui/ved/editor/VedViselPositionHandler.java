@@ -127,8 +127,6 @@ public class VedViselPositionHandler
     if( dc == null ) {
       return false;
     }
-    vedScreen().model().visels().eventer().resumeFiring( true );
-    vedScreen().model().actors().eventer().resumeFiring( true );
 
     int dx = aCoors.x() - dc.prevPoint.x();
     int dy = aCoors.y() - dc.prevPoint.y();
@@ -139,6 +137,9 @@ public class VedViselPositionHandler
       v.setLocation( v.originX() + d2p.x() - d2pZero.x(), v.originY() + d2p.y() - d2pZero.y() );
     }
 
+    vedScreen().model().visels().eventer().resumeFiring( true );
+    vedScreen().model().actors().eventer().resumeFiring( true );
+
     dc.prevPoint.setPoint( aCoors.x(), aCoors.y() );
 
     vedScreen().view().redraw();
@@ -148,8 +149,14 @@ public class VedViselPositionHandler
 
   @Override
   public boolean onMouseDragCancel( Object aSource, DragOperationInfo aDragInfo ) {
-    vedScreen().model().visels().eventer().resumeFiring( false );
-    vedScreen().model().actors().eventer().resumeFiring( false );
+    DragCargo dc = aDragInfo.cargo();
+    if( dc == null ) {
+      return false;
+    }
+    if( dc.visels.size() > 0 ) {
+      vedScreen().model().visels().eventer().resumeFiring( false );
+      vedScreen().model().actors().eventer().resumeFiring( false );
+    }
     return true;
   }
 
