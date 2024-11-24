@@ -47,6 +47,8 @@ public interface ITsGraphicsContext
 
   void fillPath( Path aPath, int aX, int aY, int aWidth, int aHeight );
 
+  void fillPolygon( int[] aPoints );
+
   void drawPath( Path aPath, int aX, int aY );
 
   void setBorderInfo( TsBorderInfo aBorderInfo );

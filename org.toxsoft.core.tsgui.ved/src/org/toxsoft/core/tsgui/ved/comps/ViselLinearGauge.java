@@ -184,6 +184,8 @@ public class ViselLinearGauge
 
         aPaintContext.gc().setBackground( new Color( 255, 0, 0 ) );
         aPaintContext.gc().fillPolygon( arrowPoints );
+        aPaintContext.setFillInfo( arrowFill );
+        aPaintContext.fillPolygon( arrowPoints );
       }
 
       return;
@@ -199,8 +201,10 @@ public class ViselLinearGauge
           fillUpArrowPoints( br );
         }
 
-        aPaintContext.gc().setBackground( new Color( 255, 0, 0 ) );
-        aPaintContext.gc().fillPolygon( arrowPoints );
+        // aPaintContext.gc().setBackground( new Color( 255, 0, 0 ) );
+        // aPaintContext.gc().fillPolygon( arrowPoints );
+        aPaintContext.setFillInfo( arrowFill );
+        aPaintContext.fillPolygon( arrowPoints );
       }
       return;
     }

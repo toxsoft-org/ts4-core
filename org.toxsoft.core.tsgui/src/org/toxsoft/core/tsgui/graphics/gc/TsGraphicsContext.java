@@ -442,6 +442,91 @@ public class TsGraphicsContext
   }
 
   @Override
+  public void fillPolygon( int[] aPoints ) {
+    Pattern pattern = null;
+
+    int minX = aPoints[0];
+    int minY = aPoints[1];
+    int maxX = aPoints[0];
+    int maxY = aPoints[1];
+
+    for( int i = 0; i < aPoints.length; i += 2 ) {
+      if( aPoints[i] < minX ) {
+        minX = aPoints[i];
+      }
+      if( aPoints[i] > maxX ) {
+        maxX = aPoints[i];
+      }
+      if( aPoints[i + 1] < minY ) {
+        minY = aPoints[i + 1];
+      }
+      if( aPoints[i + 1] > maxY ) {
+        maxY = aPoints[i + 1];
+      }
+    }
+
+    int width = maxX - minX;
+    int height = maxY - minY;
+
+    int[] points = new int[aPoints.length];
+    for( int i = 0; i < aPoints.length; i += 2 ) {
+      points[i] = aPoints[i] - minX;
+      points[i + 1] = aPoints[i + 1] - minY;
+    }
+
+    if( fillInfo != null ) {
+      switch( fillInfo.kind() ) {
+        case NONE:
+          return;
+        case SOLID:
+          RGBA rgba = fillInfo.fillColor();
+          gc.setBackground( colorManager().getColor( rgba.rgb ) );
+          gc.setAlpha( rgba.alpha );
+          break;
+        case GRADIENT:
+          IGradient grad = fillInfo.gradientFillInfo().createGradient( tsContext );
+          if( grad != null ) {
+            pattern = grad.pattern( gc, width, height );
+            gc.setBackgroundPattern( pattern );
+          }
+          break;
+        case IMAGE:
+          TsImageFillInfo imgInfo = fillInfo.imageFillInfo();
+          if( imgInfo.imageDescriptor() == TsImageDescriptor.NONE ) {
+            unknownImage = imageManager().createUnknownImage( unknownImageSize );
+            bkImage = unknownImage;
+          }
+          else {
+            bkImage = imageManager().getImage( imgInfo.imageDescriptor() );
+          }
+          if( imgInfo.kind() == EImageFillKind.TILE ) {
+            fillTileImage( bkImage, minX, minY, width, height );
+          }
+          if( unknownImage != null ) {
+            unknownImage.dispose();
+            unknownImage = null;
+          }
+          return;
+        default:
+          throw new IllegalArgumentException( "Unexpected value: " + fillInfo.kind() ); //$NON-NLS-1$
+      }
+    }
+    Transform oldTransform = new Transform( gc.getDevice() );
+    gc.getTransform( oldTransform );
+    Transform tr = new Transform( gc.getDevice() );
+    gc.getTransform( tr );
+    tr.translate( minX, minY );
+    gc.setTransform( tr );
+    tr.dispose();
+    gc.fillPolygon( points );
+    if( pattern != null ) {
+      pattern.dispose();
+    }
+    gc.setTransform( oldTransform );
+    oldTransform.dispose();
+  }
+
+  @Override
   public void setBorderInfo( TsBorderInfo aBorderInfo ) {
     borderInfo = aBorderInfo;
   }
