@@ -27,13 +27,13 @@ public abstract class AbstractTsPausabeEventsProducer
   final public void pauseFiring() {
     TsInternalErrorRtException.checkTrue( pauseCounter == Integer.MAX_VALUE );
     if( ++pauseCounter == 1 ) {
-      doStartEventsAccrual();
+      doStartEventsAccural();
     }
   }
 
   @Override
   final public void resumeFiring( boolean aFireDelayed ) {
-    if( pauseCounter < 0 ) {
+    if( pauseCounter == 0 ) { // already fired or not even paused yet
       return;
     }
     --pauseCounter;
@@ -77,7 +77,7 @@ public abstract class AbstractTsPausabeEventsProducer
    * <p>
    * In base class does nothing, there is no need to call superclass method in subclasses.
    */
-  protected void doStartEventsAccrual() {
+  protected void doStartEventsAccural() {
     // nop
   }
 

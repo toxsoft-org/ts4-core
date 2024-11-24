@@ -61,7 +61,7 @@ public class PropertiesSet<S>
     }
 
     @Override
-    protected void doStartEventsAccrual() {
+    protected void doStartEventsAccural() {
       oldValMap.setAll( valuesMap );
     }
 
