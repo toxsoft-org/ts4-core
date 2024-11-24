@@ -172,9 +172,9 @@ public class ViselLinearGauge
   @Override
   public void paint( ITsGraphicsContext aPaintContext ) {
     ID2Rectangle br = borderRect();
+    aPaintContext.setFillInfo( props().getValobj( PROPID_BK_FILL ) );
+    aPaintContext.fillD2Rect( br.x1(), br.y1(), (int)br.width(), (int)br.height() );
     if( value <= minValue ) {
-      aPaintContext.setFillInfo( props().getValobj( PROPID_BK_FILL ) );
-      aPaintContext.fillD2Rect( br.x1(), br.y1(), (int)br.width(), (int)br.height() );
       aPaintContext.setBorderInfo( props().getValobj( PROPID_BORDER_INFO ) );
       aPaintContext.drawD2RectBorder( br.x1(), br.y1(), (int)br.width(), (int)br.height() );
       if( value < minValue ) {
@@ -208,20 +208,15 @@ public class ViselLinearGauge
     ID2Rectangle cr = clientRect();
     if( orientation == ETsOrientation.VERTICAL ) {
       int y;
-      y = (int)(cr.height() * value / (maxValue - minValue));
-      y = (int)(cr.height() - y);
+      y = (int)(br.height() * value / (maxValue - minValue));
 
       aPaintContext.setFillInfo( props().getValobj( TFI_VALUE_FILL.id() ) );
-      aPaintContext.fillD2Rect( cr.x1(), cr.y1() + arrowH, (int)cr.width(), (int)cr.height() - 2 * arrowH );
-      aPaintContext.setFillInfo( props().getValobj( PROPID_BK_FILL ) );
-      aPaintContext.fillD2Rect( cr.x1(), cr.y1() + arrowH, (int)cr.width(), y );
+      aPaintContext.fillD2Rect( br.x1(), (int)(br.y1() + br.height()) - y, (int)br.width(), y );
     }
     else {
       int x;
       x = (int)(br.width() * value / (maxValue - minValue));
 
-      aPaintContext.setFillInfo( props().getValobj( PROPID_BK_FILL ) );
-      aPaintContext.fillD2Rect( x, br.y1(), (int)br.width() - x, (int)br.height() );
       aPaintContext.setFillInfo( props().getValobj( TFI_VALUE_FILL.id() ) );
       aPaintContext.fillD2Rect( br.x1(), br.y1(), x, (int)br.height() );
     }
