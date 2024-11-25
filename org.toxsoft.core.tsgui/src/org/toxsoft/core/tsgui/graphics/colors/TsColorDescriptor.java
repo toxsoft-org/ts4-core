@@ -42,6 +42,7 @@ public class TsColorDescriptor
         protected TsColorDescriptor doRead( IStrioReader aSr ) {
           String kindId = aSr.readIdPath();
           aSr.ensureSeparatorChar();
+            q qw
           IOptionSet params = OptionSetKeeper.KEEPER.read( aSr );
           return new TsColorDescriptor( kindId, params, 0 );
         }
