@@ -190,4 +190,15 @@ public class TsColorManager
     return String.format( "(%d,%d,%d)", aRgb.red, aRgb.green, aRgb.blue ); //$NON-NLS-1$
   }
 
+  @Override
+  public Color getColor( ESwtSysColor aSwtSysColor ) {
+    return display.getSystemColor( aSwtSysColor.swtColorId() );
+  }
+
+  @Override
+  public Color getColor( TsColorDescriptor aDescriptor ) {
+    ITsColorSourceKind sourceKind = TsColorDescriptor.getColorSourceKindsMap().getByKey( aDescriptor.kindId() );
+    return sourceKind.createColor( aDescriptor );
+  }
+
 }

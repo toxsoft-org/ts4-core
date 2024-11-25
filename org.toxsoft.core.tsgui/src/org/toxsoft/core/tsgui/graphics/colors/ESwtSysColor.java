@@ -2,6 +2,7 @@ package org.toxsoft.core.tsgui.graphics.colors;
 
 import static org.toxsoft.core.tsgui.graphics.colors.ITsResources.*;
 
+import org.eclipse.swt.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.std.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
@@ -18,7 +19,31 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public enum ESwtSysColor
     implements IStridable {
 
-  SYSCOL_LINK_FOREGROUND( "syscol_link_foreground", STR_SYSCOL_LINK_FOREGROUND, STR_SYSCOL_LINK_FOREGROUND_D ), //$NON-NLS-1$
+  // SWT.COLOR_WIDGET_DARK_SHADOW
+  // SWT.COLOR_WIDGET_DISABLED_FOREGROUND
+  // SWT.COLOR_WIDGET_NORMAL_SHADOW
+  // SWT.COLOR_WIDGET_LIGHT_SHADOW
+  // SWT.COLOR_WIDGET_HIGHLIGHT_SHADOW
+  // SWT.COLOR_TEXT_DISABLED_BACKGROUND
+  // SWT.COLOR_WIDGET_BACKGROUND
+  // SWT.COLOR_WIDGET_BORDER
+  // SWT.COLOR_WIDGET_FOREGROUND
+  // SWT.COLOR_LIST_FOREGROUND
+  // SWT.COLOR_LIST_BACKGROUND
+  // SWT.COLOR_LIST_SELECTION
+  // SWT.COLOR_LIST_SELECTION_TEXT
+  // SWT.COLOR_LINK_FOREGROUND
+  // SWT.COLOR_INFO_FOREGROUND
+  // SWT.COLOR_INFO_BACKGROUND
+  // SWT.COLOR_TITLE_FOREGROUND
+  // SWT.COLOR_TITLE_BACKGROUND
+  // SWT.COLOR_TITLE_BACKGROUND_GRADIENT
+  // SWT.COLOR_TITLE_INACTIVE_FOREGROUND
+  // SWT.COLOR_TITLE_INACTIVE_BACKGROUND
+  // SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT
+
+  SYSCOL_LINK_FOREGROUND( "syscol_link_foreground", SWT.COLOR_LINK_FOREGROUND, // //$NON-NLS-1$
+      STR_SYSCOL_LINK_FOREGROUND, STR_SYSCOL_LINK_FOREGROUND_D ),
 
   // FIXME add colors
 
@@ -37,11 +62,13 @@ public enum ESwtSysColor
   private static IStridablesListEdit<ESwtSysColor> list = null;
 
   private final String id;
+  private final int    swtColorId;
   private final String name;
   private final String description;
 
-  ESwtSysColor( String aId, String aName, String aDescription ) {
+  ESwtSysColor( String aId, int aSwtColorId, String aName, String aDescription ) {
     id = aId;
+    swtColorId = aSwtColorId;
     name = aName;
     description = aDescription;
   }
@@ -69,11 +96,38 @@ public enum ESwtSysColor
   // API
   //
 
-  public static ESwtSysColor findBySwtColorId( int aSwtColorId ) {
-
+  /**
+   * Returns SWT color id.
+   *
+   * @return int SWT color number
+   */
+  public int swtColorId() {
+    return swtColorId;
   }
 
-  public int getSwtColorId
+  /**
+   * Returns enum element by its SWT color id
+   *
+   * @param aSwtColorId
+   * @return {@link ESwtSysColor} - enum element
+   */
+  public static ESwtSysColor findBySwtColorId( int aSwtColorId ) {
+    for( ESwtSysColor eColor : values() ) {
+      if( eColor.getSwtColorId() == aSwtColorId ) {
+        return eColor;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Returns SWT color id for enum lement
+   *
+   * @return int SWT color id
+   */
+  public int getSwtColorId() {
+    return swtColorId;
+  }
 
   /**
    * Returns all constants in single list.

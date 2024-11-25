@@ -40,9 +40,23 @@ public interface ITsColorManager {
    */
   Color getColor( ETsColor aTsColor );
 
+  /**
+   * Возвращает объект цвета по константе предопределенного системного цвета {@link ESwtSysColor}.
+   *
+   * @param aSwtSysColor {@link ETsColor} - константа предопределенного цвета
+   * @return {@link Color} - цвет
+   * @throws TsNullArgumentRtException аргумент = null
+   */
   Color getColor( ESwtSysColor aSwtSysColor );
 
-  Color getColor( TsColorDescriptor aColorDescriptor );
+  /**
+   * Возвращает объект цвета по его описанию {@link TsColorDescriptor}.
+   *
+   * @param aDescriptor {@link TsColorDescriptor} - описание цвета
+   * @return {@link Color} - цвет
+   * @throws TsNullArgumentRtException аргумент = null
+   */
+  Color getColor( TsColorDescriptor aDescriptor );
 
   /**
    * Возвращает цвет по символическому имени.

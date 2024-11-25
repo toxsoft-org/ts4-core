@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.graphics.colors;
 
+import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
+
 import java.io.*;
 
 import org.eclipse.swt.graphics.*;
@@ -9,6 +11,10 @@ import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.coll.synch.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * The information how to create the {@link Color} from the different sources.
@@ -19,6 +25,9 @@ import org.toxsoft.core.tslib.bricks.strio.*;
  */
 public class TsColorDescriptor
     implements IParameterized, Serializable {
+
+  // TODO какой UID должен быть?
+  private static final long serialVersionUID = 8007296849090328037L;
 
   /**
    * Registered keeper ID.
@@ -42,19 +51,123 @@ public class TsColorDescriptor
         protected TsColorDescriptor doRead( IStrioReader aSr ) {
           String kindId = aSr.readIdPath();
           aSr.ensureSeparatorChar();
-            q qw
           IOptionSet params = OptionSetKeeper.KEEPER.read( aSr );
-          return new TsColorDescriptor( kindId, params, 0 );
+          return new TsColorDescriptor( kindId, params );
         }
       };
+
+  private static final IStringMapEdit<ITsColorSourceKind> kindsById = new SynchronizedStringMap<>( new StringMap<>() );
+
+  {
+    kindsById.put( TsColorSourceKindRgba.KIND_ID, TsColorSourceKindRgba.INSTANCE );
+    kindsById.put( TsColorSourceKindTsColor.KIND_ID, TsColorSourceKindTsColor.INSTANCE );
+  }
+
+  private final String     kindId;
+  private final IOptionSet params;
+  private final String     uniqueName;
+
+  /**
+   * Constructor.
+   *
+   * @param aKindId String - the color source kind ID (an IDpath)
+   * @param aParams {@link IOptionSet} - color creation parameters, specific for the kind of source
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException ID is not an IDpath
+   */
+  public TsColorDescriptor( String aKindId, IOptionSet aParams ) {
+    kindId = aKindId;
+    params = aParams;
+    AbstractTsColorSourceKind k = (AbstractTsColorSourceKind)kindsById.findByKey( aKindId );
+    if( k != null ) {
+      uniqueName = k.uniqueColorNameString( aParams );
+    }
+    else {
+      uniqueName = EMPTY_STRING;
+    }
+  }
 
   // ------------------------------------------------------------------------------------
   // IParameterized
   //
 
+  /**
+   * Parameters contains options specific to each kind.<br>
+   * {@inheritDoc}
+   */
   @Override
   public IOptionSet params() {
     return params;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // API
+  //
+
+  /**
+   * Returns the ID of the image source kind.
+   *
+   * @return String - the kind ID (an IDname)
+   */
+  public String kindId() {
+    return kindId;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // package API
+  //
+
+  String uniqueName() {
+    return uniqueName;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Kinds registry static API
+  //
+
+  /**
+   * Returns all registered color source kinds.
+   * <p>
+   * To be usable, the descriptor kind ID must be the ID of the registered kind
+   * {@link TsColorDescriptor#getColorSourceKindsMap()}.
+   *
+   * @return {@link IStringMap}&lt;{@link ITsColorSourceKind}&gt; - the map "kind ID" - "the color source kind"
+   */
+  public static IStringMap<ITsColorSourceKind> getColorSourceKindsMap() {
+    return kindsById;
+  }
+
+  /**
+   * Finds source kind of the specified descriptor.
+   * <p>
+   * If <code>aColorDescriptor</code> is <code>null</code> corresponding source kind is not registered method returns
+   * the <code>aDefaultKind</code>.
+   *
+   * @param aColorDescriptor {@link TsColorDescriptor} - the descriptor, may be <code>null</code>
+   * @param aDefaultKind {@link ITsColorSourceKind} - the default kind, may be <code>null</code>
+   * @return {@link ITsColorSourceKind} - the source kind or <code>null</code>
+   */
+  public static ITsColorSourceKind findKind( TsColorDescriptor aColorDescriptor, ITsColorSourceKind aDefaultKind ) {
+    if( aColorDescriptor != null ) {
+      ITsColorSourceKind k = kindsById.findByKey( aColorDescriptor.kindId() );
+      if( k != null ) {
+        return k;
+      }
+    }
+    return aDefaultKind;
+  }
+
+  /**
+   * Registers the source kind.
+   * <p>
+   * Replaces previous registration of the same {@link ITsColorSourceKind#id()}.
+   *
+   * @param aColorSourceKind {@link ITsColorSourceKind} - the kind to register
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static void registerColorSourceKind( ITsColorSourceKind aColorSourceKind ) {
+    TsNullArgumentRtException.checkNull( aColorSourceKind );
+    kindsById.put( aColorSourceKind.id(), aColorSourceKind );
   }
 
 }

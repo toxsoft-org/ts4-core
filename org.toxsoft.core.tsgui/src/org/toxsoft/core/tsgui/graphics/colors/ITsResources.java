@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.graphics.colors;
 
+import org.toxsoft.core.tsgui.graphics.image.Messages;
+
 /**
  * Localizable resources.
  *
@@ -48,5 +50,27 @@ interface ITsResources {
    */
   String STR_SYSCOL_LINK_FOREGROUND   = Messages.getString( "STR_SYSCOL_LINK_FOREGROUND" );   //$NON-NLS-1$
   String STR_SYSCOL_LINK_FOREGROUND_D = Messages.getString( "STR_SYSCOL_LINK_FOREGROUND_D" ); //$NON-NLS-1$
+
+  /**
+   * {@link AbstractTsColorSourceKind}
+   */
+  String FMT_DLG_T_COLOR_DESCR_EDIT = Messages.getString( "FMT_DLG_T_COLOR_DESCR_EDIT" ); //$NON-NLS-1$ ;
+  String STR_DLG_C_COLOR_DESCR_EDIT = Messages.getString( "STR_DLG_C_COLOR_DESCR_EDIT" ); //$NON-NLS-1$ ;
+
+  /**
+   * {@link TsColorSourceKindRgba}
+   */
+  String STR_SRCKIND_RGBA   = Messages.getString( "STR_SRCKIND_RGBA" );   //$NON-NLS-1$
+  String STR_SRCKIND_RGBA_D = Messages.getString( "STR_SRCKIND_RGBA_D" ); //$NON-NLS-1$
+  String STR_RGBA_COLOR     = Messages.getString( "STR_RGBA_COLOR" );     //$NON-NLS-1$
+  String STR_RGBA_COLOR_D   = Messages.getString( "STR_RGBA_COLOR_D" );   //$NON-NLS-1$
+
+  /**
+   * {@link TsColorSourceKindTsColor}
+   */
+  String STR_SRCKIND_TSCOLOR   = Messages.getString( "STR_SRCKIND_TSCOLOR" );   //$NON-NLS-1$
+  String STR_SRCKIND_TSCOLOR_D = Messages.getString( "STR_SRCKIND_TSCOLOR_D" ); //$NON-NLS-1$
+  String STR_TSCOLOR           = Messages.getString( "STR_TSCOLOR" );           //$NON-NLS-1$
+  String STR_TSCOLOR_D         = Messages.getString( "STR_TSCOLOR_D" );         //$NON-NLS-1$
 
 }
