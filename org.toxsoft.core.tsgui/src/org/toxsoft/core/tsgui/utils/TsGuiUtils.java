@@ -75,6 +75,8 @@ public class TsGuiUtils {
     TsValobjUtils.registerKeeper( TsFillInfo.KEEPER_ID, TsFillInfo.KEEPER );
     TsValobjUtils.registerKeeper( ETsBorderKind.KEEPER_ID, ETsBorderKind.KEEPER );
     TsValobjUtils.registerKeeper( EAvCompareOp.KEEPER_ID, EAvCompareOp.KEEPER );
+    TsValobjUtils.registerKeeper( ESwtSysColor.KEEPER_ID, ESwtSysColor.KEEPER );
+    TsValobjUtils.registerKeeper( TsColorDescriptor.KEEPER_ID, TsColorDescriptor.KEEPER );
 
     // following this is some kind of hacking! ---
     DataDef dd = (DataDef)IAvMetaConstants.DDEF_DESCRIPTION;

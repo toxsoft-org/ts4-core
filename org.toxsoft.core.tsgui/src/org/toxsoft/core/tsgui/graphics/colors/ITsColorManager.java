@@ -40,6 +40,10 @@ public interface ITsColorManager {
    */
   Color getColor( ETsColor aTsColor );
 
+  Color getColor( ESwtSysColor aSwtSysColor );
+
+  Color getColor( TsColorDescriptor aColorDescriptor );
+
   /**
    * Возвращает цвет по символическому имени.
    * <p>

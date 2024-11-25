@@ -43,4 +43,10 @@ interface ITsResources {
   String STR_DARK_GRAY      = Messages.getString( "STR_DARK_GRAY" );      //$NON-NLS-1$
   String STR_DARK_GRAY_D    = Messages.getString( "STR_DARK_GRAY_D" );    //$NON-NLS-1$
 
+  /**
+   * {@link ESwtSysColor}
+   */
+  String STR_SYSCOL_LINK_FOREGROUND   = Messages.getString( "STR_SYSCOL_LINK_FOREGROUND" );   //$NON-NLS-1$
+  String STR_SYSCOL_LINK_FOREGROUND_D = Messages.getString( "STR_SYSCOL_LINK_FOREGROUND_D" ); //$NON-NLS-1$
+
 }
