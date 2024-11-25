@@ -57,9 +57,9 @@ public class NotifierStridablesListBasicEditWrapper<E extends IStridable>
   private boolean eventsArePending = false;
 
   /**
-   * Flags that event firing is paused.
+   * Counts {@link #pauseFiring()} calls.
    */
-  private boolean firingPaused = false;
+  private int pauseCounter = 0;
 
   /**
    * Flags that there were changes between calls to the methods {@link #pauseFiring()} and
@@ -88,7 +88,7 @@ public class NotifierStridablesListBasicEditWrapper<E extends IStridable>
 
   protected void fireChangedEvent( ECrudOp aOp, Object aItem ) {
     eventsArePending = true;
-    if( firingPaused ) {
+    if( isFiringPaused() ) {
       wasChangesWhilePaused = true;
       return;
     }
@@ -616,15 +616,32 @@ public class NotifierStridablesListBasicEditWrapper<E extends IStridable>
 
   @Override
   public void pauseFiring() {
-    firingPaused = true;
+    TsInternalErrorRtException.checkTrue( pauseCounter == Integer.MAX_VALUE );
+    ++pauseCounter;
   }
 
   @Override
   public void resumeFiring( boolean aFireDelayed ) {
-    if( !firingPaused ) {
+    if( pauseCounter == 0 ) { // already fired or not even paused yet
       return;
     }
-    firingPaused = false;
+    --pauseCounter;
+    if( pauseCounter == 0 ) {
+      if( wasChangesWhilePaused ) {
+        if( aFireDelayed ) {
+          fireChangedEvent( ECrudOp.LIST, null );
+        }
+        wasChangesWhilePaused = false;
+      }
+    }
+  }
+
+  @Override
+  public void resumeFiringWithCounterReset( boolean aFireDelayed ) {
+    if( pauseCounter == 0 ) { // already fired or not even paused yet
+      return;
+    }
+    pauseCounter = 0;
     if( wasChangesWhilePaused ) {
       if( aFireDelayed ) {
         fireChangedEvent( ECrudOp.LIST, null );
@@ -635,7 +652,7 @@ public class NotifierStridablesListBasicEditWrapper<E extends IStridable>
 
   @Override
   public boolean isFiringPaused() {
-    return firingPaused;
+    return pauseCounter > 0;
   }
 
   @Override

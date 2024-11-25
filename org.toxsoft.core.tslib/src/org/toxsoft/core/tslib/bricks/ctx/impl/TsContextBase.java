@@ -16,7 +16,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
- * Реализация {@link ITsContext}.
+ * {@link ITsContext} implementation.
  *
  * @author hazard157
  * @param <P> - the parent context class
@@ -60,7 +60,7 @@ public class TsContextBase<P extends ITsContextRo>
   private final ContextOptions         ops     = new ContextOptions();
   private final IStringMapEdit<Object> refsMap = new StringMap<>();
 
-  private boolean firingPaused  = false;
+  private int     pauseCounter  = 0;
   private boolean refWasChanged = false;
   private boolean opWasChanged  = false;
 
@@ -110,7 +110,7 @@ public class TsContextBase<P extends ITsContextRo>
   //
 
   void fireContextRefChanged( String aName, Object aRef ) {
-    if( firingPaused ) {
+    if( isFiringPaused() ) {
       refWasChanged = true;
       return;
     }
@@ -125,7 +125,7 @@ public class TsContextBase<P extends ITsContextRo>
   }
 
   void fireContextOpChanged( String aId, IAtomicValue aValue ) {
-    if( firingPaused ) {
+    if( isFiringPaused() ) {
       opWasChanged = true;
       return;
     }
@@ -262,12 +262,26 @@ public class TsContextBase<P extends ITsContextRo>
 
   @Override
   final public void pauseFiring() {
-    firingPaused = true;
+    TsInternalErrorRtException.checkTrue( pauseCounter == Integer.MAX_VALUE );
+    ++pauseCounter;
   }
 
   @Override
   final public void resumeFiring( boolean aFireDelayed ) {
-    firingPaused = false;
+    if( pauseCounter == 0 ) { // already fired or not even paused yet
+      return;
+    }
+    --pauseCounter;
+    if( pauseCounter == 0 && aFireDelayed && isPendingEvents() ) {
+      fireContextRefChanged( null, null );
+      fireContextOpChanged( null, null );
+    }
+    resetPendingEvents();
+  }
+
+  @Override
+  public void resumeFiringWithCounterReset( boolean aFireDelayed ) {
+    pauseCounter = 0;
     if( aFireDelayed && isPendingEvents() ) {
       fireContextRefChanged( null, null );
       fireContextOpChanged( null, null );
@@ -277,7 +291,7 @@ public class TsContextBase<P extends ITsContextRo>
 
   @Override
   final public boolean isFiringPaused() {
-    return firingPaused;
+    return pauseCounter > 0;
   }
 
   @Override

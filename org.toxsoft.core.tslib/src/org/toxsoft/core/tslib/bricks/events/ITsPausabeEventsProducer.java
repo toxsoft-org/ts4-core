@@ -18,13 +18,27 @@ public interface ITsPausabeEventsProducer {
   /**
    * Continues the event generation suspended by the {@link #pauseFiring ()} method earlier.
    * <p>
+   * If {@link #isFiringPaused()} = <code>false</code>, method does nothing.
+   * <p>
    * If the event generation is not suspended, method does not changes pause state, however decreases internal counter.
    * The resume event generation, this method must be called at list the same times as {@link #pauseFiring()} was called
-   * subsequenly.
+   * subsequently.
    *
    * @param aFireDelayed boolean - if <code>true</code> the last event will be generated
    */
   void resumeFiring( boolean aFireDelayed );
+
+  /**
+   * Continues the event generation suspended by the {@link #pauseFiring ()} method earlier.
+   * <p>
+   * If {@link #isFiringPaused()} = <code>false</code>, method does nothing. Otherwise method resets internal counter
+   * and resumes firing regardless of how many times the {@link #pauseFiring()} method has been called previously
+   * <p>
+   * Warning: be care using this method!
+   *
+   * @param aFireDelayed boolean - if <code>true</code> the last event will be generated
+   */
+  void resumeFiringWithCounterReset( boolean aFireDelayed );
 
   /**
    * Returns event generation susped state.

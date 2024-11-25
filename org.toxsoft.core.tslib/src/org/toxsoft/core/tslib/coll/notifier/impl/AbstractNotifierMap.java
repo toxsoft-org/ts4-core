@@ -29,11 +29,11 @@ public abstract class AbstractNotifierMap<K, E>
   private final TsMapValidatorsList<K, E>              validatorsList = new TsMapValidatorsList<>();
 
   private boolean validationEnabled = true;
-  private boolean suspended         = false;
+  private int     pauseCounter      = 0;
   private boolean wasBatchChanges   = false;
 
   /**
-   * Constructor for decendants.
+   * Constructor for descendants.
    */
   protected AbstractNotifierMap() {
     // nop
@@ -44,7 +44,7 @@ public abstract class AbstractNotifierMap<K, E>
   //
 
   protected void fireChangedEvent( ECrudOp aOp, Object aItem ) {
-    if( suspended ) {
+    if( isFiringPaused() ) {
       wasBatchChanges = true;
       return;
     }
@@ -99,15 +99,32 @@ public abstract class AbstractNotifierMap<K, E>
 
   @Override
   public void pauseFiring() {
-    suspended = true;
+    TsInternalErrorRtException.checkTrue( pauseCounter == Integer.MAX_VALUE );
+    ++pauseCounter;
   }
 
   @Override
   public void resumeFiring( boolean aFireDelayed ) {
-    if( !suspended ) {
+    if( pauseCounter == 0 ) { // already fired or not even paused yet
       return;
     }
-    suspended = false;
+    --pauseCounter;
+    if( pauseCounter == 0 ) {
+      if( wasBatchChanges ) {
+        if( aFireDelayed ) {
+          fireChangedEvent( ECrudOp.LIST, null );
+        }
+        wasBatchChanges = false;
+      }
+    }
+  }
+
+  @Override
+  public void resumeFiringWithCounterReset( boolean aFireDelayed ) {
+    if( pauseCounter == 0 ) { // already fired or not even paused yet
+      return;
+    }
+    pauseCounter = 0;
     if( wasBatchChanges ) {
       if( aFireDelayed ) {
         fireChangedEvent( ECrudOp.LIST, null );
@@ -118,7 +135,7 @@ public abstract class AbstractNotifierMap<K, E>
 
   @Override
   public boolean isFiringPaused() {
-    return suspended;
+    return pauseCounter > 0;
   }
 
   @Override

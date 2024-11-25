@@ -55,6 +55,11 @@ public class NoneGenericChangeEventer
   }
 
   @Override
+  public void resumeFiringWithCounterReset( boolean aFireDelayed ) {
+    // nop
+  }
+
+  @Override
   public boolean isFiringPaused() {
     return false;
   }

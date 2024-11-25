@@ -52,6 +52,24 @@ public abstract class AbstractTsPausabeEventsProducer
   }
 
   @Override
+  public void resumeFiringWithCounterReset( boolean aFireDelayed ) {
+    if( pauseCounter == 0 ) { // already fired or not even paused yet
+      return;
+    }
+    pauseCounter = 0;
+    if( isPendingEvents() ) {
+      try {
+        if( aFireDelayed ) {
+          doFirePendingEvents();
+        }
+      }
+      finally {
+        doClearPendingEvents();
+      }
+    }
+  }
+
+  @Override
   final public boolean isFiringPaused() {
     return pauseCounter > 0;
   }
