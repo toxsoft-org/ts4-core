@@ -94,6 +94,7 @@ public class ValedControlFactoriesRegistry
     registerFactory( ValedAvValobjTsFillInfo.FACTORY );
     registerFactory( ValedOptionSet.FACTORY );
     registerFactory( ValedAvValobjTsImageDescriptor.FACTORY );
+    registerFactory( ValedAvValobjTsColorDescriptor.FACTORY );
     registerFactory( ValedAvValobjTsGradientFillInfo.FACTORY );
 
     registerFactory( ValedCombiCondInfo.FACTORY );

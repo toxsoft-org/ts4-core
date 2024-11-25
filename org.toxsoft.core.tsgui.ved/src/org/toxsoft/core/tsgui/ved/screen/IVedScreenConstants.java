@@ -153,6 +153,7 @@ public interface IVedScreenConstants {
   String PROPID_HOVERED_BK_COLOR  = "hoveredBkColor";  //$NON-NLS-1$
   String PROPID_SELECTED_BK_COLOR = "delectedBkColor"; //$NON-NLS-1$
   String PROPID_FG_COLOR          = "fgColor";         //$NON-NLS-1$
+  String PROPID_FG_COLOR_RDECR    = "fgColorDescr";    //$NON-NLS-1$
   String PROPID_BK_FILL           = "bkFill";          //$NON-NLS-1$
   String PROPID_LINE_INFO         = "lineInfo";        //$NON-NLS-1$
   String PROPID_BORDER_INFO       = "borderInfo";      //$NON-NLS-1$
@@ -162,6 +163,7 @@ public interface IVedScreenConstants {
   String PROPID_ON_OFF_STATE      = "onOffState";      //$NON-NLS-1$
   String PROPID_CARET_POS         = "caretPos";        //$NON-NLS-1$
   String PROPID_IMAGE_DESCRIPTOR  = "imageDescriptor"; //$NON-NLS-1$
+  String PROPID_COLOR_DESCRIPTOR  = "colorDescriptor"; //$NON-NLS-1$
   String PROPID_TRANSFORM         = "transform";       //$NON-NLS-1$
   String PROPID_VALUE             = "value";           //$NON-NLS-1$
 
@@ -227,6 +229,12 @@ public interface IVedScreenConstants {
       TSID_DEFAULT_VALUE, avValobj( ETsColor.BLACK.rgba() ) //
   );
 
+  IDataDef PROP_FG_COLOR_DESCR = DataDef.create3( PROPID_FG_COLOR, DT_COLOR_RGBA, //
+      TSID_NAME, STR_FG_COLOR, //
+      TSID_DESCRIPTION, STR_FG_COLOR_D, //
+      TSID_DEFAULT_VALUE, avValobj( ETsColor.BLACK.rgba() ) //
+  );
+
   IDataDef PROP_BK_FILL = DataDef.create3( PROPID_BK_FILL, DT_TS_FILL_INFO, //
       TSID_NAME, STR_BK_FILL, //
       TSID_DESCRIPTION, STR_BK_FILL_D //
@@ -278,6 +286,11 @@ public interface IVedScreenConstants {
   IDataDef PROP_IMAGE_DESCRIPTOR = DataDef.create3( PROPID_IMAGE_DESCRIPTOR, DT_TS_IMAGE_DESCRIPTOR, //
       TSID_NAME, STR_IMAGE_DESCRIPTOR, //
       TSID_DESCRIPTION, STR_IMAGE_DESCRIPTOR_D //
+  );
+
+  IDataDef PROP_COLOR_DESCRIPTOR = DataDef.create3( PROPID_COLOR_DESCRIPTOR, DT_TS_COLOR_DESCRIPTOR, //
+      TSID_NAME, STR_COLOR_DESCRIPTOR, //
+      TSID_DESCRIPTION, STR_COLOR_DESCRIPTOR_D //
   );
 
   IDataDef PROP_TRANSFORM = DataDef.create3( PROPID_TRANSFORM, DT_D2CONVERSION, //
@@ -377,6 +390,7 @@ public interface IVedScreenConstants {
   ITinFieldInfo TFI_VISEL_PROP_ID    = new TinFieldInfo( PROP_VISEL_PROP_ID, TTI_IDPATH );
   ITinFieldInfo TFI_RADIUS           = new TinFieldInfo( PROP_RADIUS, TTI_POSITIVE_FLOATING );
   ITinFieldInfo TFI_IMAGE_DESCRIPTOR = new TinFieldInfo( PROP_IMAGE_DESCRIPTOR, TTI_TS_IMAGE_DECRIPTOR );
+  ITinFieldInfo TFI_COLOR_DESCRIPTOR = new TinFieldInfo( PROP_COLOR_DESCRIPTOR, TTI_TS_COLOR_DECRIPTOR );
   ITinFieldInfo TFI_CARET_POS        = new TinFieldInfo( PROP_CARET_POS, TTI_AT_INTEGER );
 
   ITinFieldInfo TFI_LEFT_INDENT   = new TinFieldInfo( PROP_LEFT_INDENT, TTI_AT_INTEGER );

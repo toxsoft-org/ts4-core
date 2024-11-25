@@ -36,7 +36,7 @@ public class TsColorSourceKindRgba
       TSID_NAME, STR_RGBA_COLOR, //
       TSID_DESCRIPTION, STR_RGBA_COLOR_D, //
       IValedControlConstants.OPDEF_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, //
-      TSID_DEFAULT_VALUE, avValobj( new RGBA( 0, 0, 0, 255 ) ) //
+      TSID_DEFAULT_VALUE, avValobj( new RGBA( 0, 0, 0, 0 ) ) //
   );
 
   /**
@@ -49,6 +49,7 @@ public class TsColorSourceKindRgba
         TSID_NAME, STR_SRCKIND_RGBA, //
         TSID_DESCRIPTION, STR_SRCKIND_RGBA_D //
     ) );
+    opDefs().add( OPDEF_RGBA );
   }
 
   // ------------------------------------------------------------------------------------
@@ -75,13 +76,13 @@ public class TsColorSourceKindRgba
 
   @Override
   protected Color doCreate( TsColorDescriptor aDescriptor ) {
-    RGBA rgba = params().getValobj( OPDEF_RGBA );
+    RGBA rgba = aDescriptor.params().getValobj( OPDEF_RGBA );
     return new Color( rgba );
   }
 
   @Override
   public String uniqueColorNameString( IOptionSet aParams ) {
-    RGBA rgba = params().getValobj( OPDEF_RGBA );
+    RGBA rgba = aParams.getValobj( OPDEF_RGBA );
     return rgba.toString();
   }
 

@@ -6,8 +6,6 @@ import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.eclipse.swt.graphics.*;
-import org.toxsoft.core.tsgui.valed.api.*;
-import org.toxsoft.core.tsgui.valed.controls.graphics.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
@@ -35,7 +33,6 @@ public class TsColorSourceKindTsColor
       TSID_NAME, STR_TSCOLOR, //
       TSID_DESCRIPTION, STR_TSCOLOR_D, //
       TSID_KEEPER_ID, ETsColor.KEEPER_ID, //
-      IValedControlConstants.OPDEF_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, //
       TSID_DEFAULT_VALUE, avValobj( ETsColor.BLACK ) //
   );
 
@@ -49,6 +46,7 @@ public class TsColorSourceKindTsColor
         TSID_NAME, STR_SRCKIND_TSCOLOR, //
         TSID_DESCRIPTION, STR_SRCKIND_TSCOLOR_D //
     ) );
+    opDefs().add( OPDEF_TSCOLOR );
   }
 
   // ------------------------------------------------------------------------------------
@@ -63,13 +61,13 @@ public class TsColorSourceKindTsColor
 
   @Override
   protected Color doCreate( TsColorDescriptor aDescriptor ) {
-    ETsColor color = params().getValobj( OPDEF_TSCOLOR );
+    ETsColor color = aDescriptor.params().getValobj( OPDEF_TSCOLOR );
     return new Color( color.rgba() );
   }
 
   @Override
   public String uniqueColorNameString( IOptionSet aParams ) {
-    ETsColor color = params().getValobj( OPDEF_TSCOLOR );
+    ETsColor color = aParams.getValobj( OPDEF_TSCOLOR );
     return color.nmName();
   }
 

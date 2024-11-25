@@ -63,11 +63,15 @@ interface ITsResources {
   String STR_TS_IMAGE_FILL_INFO_D    = Messages.getString( "STR_TS_IMAGE_FILL_INFO_D" );         //$NON-NLS-1$ aAAA
   String STR_TS_IMAGE_DESCRIPTOR     = Messages.getString( "STR_TS_IMAGE_DESCRIPTOR" );          //$NON-NLS-1$ aAAA
   String STR_TS_IMAGE_DESCRIPTOR_D   = Messages.getString( "STR_TS_IMAGE_DESCRIPTOR_D" );        //$NON-NLS-1$ aAAA
-  String STR_TS_BORDER_INFO          = Messages.getString( "STR_TS_BORDER_INFO" );               //$NON-NLS-1$ aAAA
-  String STR_TS_BORDER_INFO_D        = Messages.getString( "STR_TS_BORDER_INFO_D" );             //$NON-NLS-1$ aAAA
-  String STR_TS_LINE_INFO            = Messages.getString( "STR_TS_LINE_INFO" );                 //$NON-NLS-1$ aAAA
-  String STR_TS_LINE_INFO_D          = Messages.getString( "STR_TS_LINE_INFO_D" );               //$NON-NLS-1$ aAAA
-  String STR_TS_FONT_INFO            = Messages.getString( "STR_TS_FONT_INFO" );                 //$NON-NLS-1$ aAAA
-  String STR_TS_FONT_INFO_D          = Messages.getString( "STR_TS_FONT_INFO_D" );               //$NON-NLS-1$ aAAA
+
+  String STR_TS_COLOR_DESCRIPTOR   = Messages.getString( "STR_TS_COLOR_DESCRIPTOR" );   //$NON-NLS-1$ aAAA
+  String STR_TS_COLOR_DESCRIPTOR_D = Messages.getString( "STR_TS_COLOR_DESCRIPTOR_D" ); //$NON-NLS-1$ aAAA
+
+  String STR_TS_BORDER_INFO   = Messages.getString( "STR_TS_BORDER_INFO" );   //$NON-NLS-1$ aAAA
+  String STR_TS_BORDER_INFO_D = Messages.getString( "STR_TS_BORDER_INFO_D" ); //$NON-NLS-1$ aAAA
+  String STR_TS_LINE_INFO     = Messages.getString( "STR_TS_LINE_INFO" );     //$NON-NLS-1$ aAAA
+  String STR_TS_LINE_INFO_D   = Messages.getString( "STR_TS_LINE_INFO_D" );   //$NON-NLS-1$ aAAA
+  String STR_TS_FONT_INFO     = Messages.getString( "STR_TS_FONT_INFO" );     //$NON-NLS-1$ aAAA
+  String STR_TS_FONT_INFO_D   = Messages.getString( "STR_TS_FONT_INFO_D" );   //$NON-NLS-1$ aAAA
 
 }

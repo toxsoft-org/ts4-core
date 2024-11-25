@@ -6,6 +6,7 @@ import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.tin.*;
+import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.graphics.lines.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
@@ -42,6 +43,9 @@ public interface ITtiConstants {
 
   ITinTypeInfo TTI_TS_IMAGE_DECRIPTOR =
       new TinAtomicTypeInfo.TtiValobj<>( DT_TS_IMAGE_DESCRIPTOR, TsImageDescriptor.class );
+
+  ITinTypeInfo TTI_TS_COLOR_DECRIPTOR =
+      new TinAtomicTypeInfo.TtiValobj<>( DT_TS_COLOR_DESCRIPTOR, TsColorDescriptor.class );
 
   ITinTypeInfo TTI_COLOR_COMPONENT = new TinAtomicTypeInfo.TtiInteger( DT_COLOR_COMPONENT );
   ITinTypeInfo TTI_COLOR_RGB       = new TinAtomicTypeInfo.TtiValobj<>( DT_COLOR_RGB, RGB.class );

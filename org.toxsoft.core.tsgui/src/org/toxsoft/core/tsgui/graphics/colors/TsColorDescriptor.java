@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.graphics.colors;
 
+import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
 import java.io.*;
@@ -62,6 +63,14 @@ public class TsColorDescriptor
     kindsById.put( TsColorSourceKindRgba.KIND_ID, TsColorSourceKindRgba.INSTANCE );
     kindsById.put( TsColorSourceKindTsColor.KIND_ID, TsColorSourceKindTsColor.INSTANCE );
   }
+
+  /**
+   * Constant of the absent color.
+   * <p>
+   * In fact transparent color will be used.
+   */
+  public static final TsColorDescriptor NONE = new TsColorDescriptor( TsColorSourceKindRgba.KIND_ID, //
+      OptionSetUtils.createOpSet( TsColorSourceKindRgba.OPDEF_RGBA, avValobj( new RGBA( 0, 0, 0, 0 ) ) ) );
 
   private final String     kindId;
   private final IOptionSet params;

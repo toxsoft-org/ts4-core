@@ -55,6 +55,7 @@ public class ViselRectangle
       fields.add( TFI_ZOOM );
       fields.add( TFI_ANGLE );
       fields.add( TFI_BK_FILL );
+      fields.add( TFI_COLOR_DESCRIPTOR );
       fields.add( TFI_BORDER_INFO );
       fields.add( TFI_IS_ASPECT_FIXED );
       fields.add( TFI_ASPECT_RATIO );

@@ -156,6 +156,17 @@ public interface ITsGraphicsConstants {
   );
 
   /**
+   * Data type: {@link TsImageDescriptor} as {@link EAtomicType#VALOBJ VALOBJ}.
+   */
+  IDataType DT_TS_COLOR_DESCRIPTOR = DataType.create( VALOBJ, //
+      TSID_NAME, STR_TS_COLOR_DESCRIPTOR, //
+      TSID_DESCRIPTION, STR_TS_COLOR_DESCRIPTOR_D, //
+      TSID_KEEPER_ID, TsColorDescriptor.KEEPER_ID, //
+      OPID_EDITOR_FACTORY_NAME, ValedAvValobjTsColorDescriptor.FACTORY.factoryName(), //
+      TSID_DEFAULT_VALUE, avValobj( TsColorDescriptor.NONE ) //
+  );
+
+  /**
    * Data type: {@link TsImageFillInfo} as {@link EAtomicType#VALOBJ VALOBJ}.
    */
   IDataType DT_TS_IMAGE_FILL_INFO = DataType.create( VALOBJ, //

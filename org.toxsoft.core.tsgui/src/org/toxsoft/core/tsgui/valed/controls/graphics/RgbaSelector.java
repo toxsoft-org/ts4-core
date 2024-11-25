@@ -22,64 +22,64 @@ public class RgbaSelector
     extends Canvas
     implements IGenericChangeEventCapable {
 
-  static class ColorBackground
-      extends Canvas {
-
-    int width  = 8;
-    int height = 8;
-
-    private final Color lightColor;
-    private final Color darkColor;
-
-    Color color = null;
-    int   alpha = 255;
-
-    Color colorBlack;
-    Color colorWhite;
-
-    ColorBackground( Composite aParent, Color aLightColor, Color aDarkColor, ITsColorManager aColorManager ) {
-      super( aParent, SWT.NO_BACKGROUND | SWT.DOUBLE_BUFFERED );
-
-      lightColor = aLightColor;
-      darkColor = aDarkColor;
-
-      colorBlack = aColorManager.getColor( ETsColor.BLACK );
-      colorWhite = aColorManager.getColor( ETsColor.WHITE );
-
-      addPaintListener( aEvent -> {
-        Point p = getSize();
-        int rows = p.y / 8 + 1;
-        int columns = p.x / 8 + 1;
-        for( int i = 0; i < columns; i++ ) {
-          for( int j = 0; j < rows; j++ ) {
-            if( (i + j) % 2 == 1 ) {
-              aEvent.gc.setBackground( darkColor );
-            }
-            else {
-              aEvent.gc.setBackground( lightColor );
-            }
-            aEvent.gc.fillRectangle( i * 8, j * 8, width, height );
-          }
-        }
-        if( color != null ) {
-          aEvent.gc.setAlpha( alpha );
-          aEvent.gc.setBackground( color );
-          aEvent.gc.fillRectangle( 0, 0, p.x, p.y );
-        }
-        aEvent.gc.setForeground( colorBlack );
-        aEvent.gc.drawRectangle( 0, 0, p.x - 1, p.y - 1 );
-        aEvent.gc.setForeground( colorWhite );
-        aEvent.gc.drawRectangle( 1, 1, p.x - 3, p.y - 3 );
-      } );
-
-    }
-
-    void setColor( Color aColor, int aAlpha ) {
-      color = aColor;
-      alpha = aAlpha;
-    }
-
-  }
+  // static class ColorBackground
+  // extends Canvas {
+  //
+  // int width = 8;
+  // int height = 8;
+  //
+  // private final Color lightColor;
+  // private final Color darkColor;
+  //
+  // Color color = null;
+  // int alpha = 255;
+  //
+  // Color colorBlack;
+  // Color colorWhite;
+  //
+  // ColorBackground( Composite aParent, Color aLightColor, Color aDarkColor, ITsColorManager aColorManager ) {
+  // super( aParent, SWT.NO_BACKGROUND | SWT.DOUBLE_BUFFERED );
+  //
+  // lightColor = aLightColor;
+  // darkColor = aDarkColor;
+  //
+  // colorBlack = aColorManager.getColor( ETsColor.BLACK );
+  // colorWhite = aColorManager.getColor( ETsColor.WHITE );
+  //
+  // addPaintListener( aEvent -> {
+  // Point p = getSize();
+  // int rows = p.y / 8 + 1;
+  // int columns = p.x / 8 + 1;
+  // for( int i = 0; i < columns; i++ ) {
+  // for( int j = 0; j < rows; j++ ) {
+  // if( (i + j) % 2 == 1 ) {
+  // aEvent.gc.setBackground( darkColor );
+  // }
+  // else {
+  // aEvent.gc.setBackground( lightColor );
+  // }
+  // aEvent.gc.fillRectangle( i * 8, j * 8, width, height );
+  // }
+  // }
+  // if( color != null ) {
+  // aEvent.gc.setAlpha( alpha );
+  // aEvent.gc.setBackground( color );
+  // aEvent.gc.fillRectangle( 0, 0, p.x, p.y );
+  // }
+  // aEvent.gc.setForeground( colorBlack );
+  // aEvent.gc.drawRectangle( 0, 0, p.x - 1, p.y - 1 );
+  // aEvent.gc.setForeground( colorWhite );
+  // aEvent.gc.drawRectangle( 1, 1, p.x - 3, p.y - 3 );
+  // } );
+  //
+  // }
+  //
+  // void setColor( Color aColor, int aAlpha ) {
+  // color = aColor;
+  // alpha = aAlpha;
+  // }
+  //
+  // }
 
   Spinner redSpin;
   Spinner greenSpin;
@@ -93,7 +93,7 @@ public class RgbaSelector
 
   private final ITsColorManager cm;
 
-  private final ColorBackground cb;
+  private final PanelColorPreview previewPanel;
 
   private GenericChangeEventer changeEventer;
 
@@ -140,8 +140,8 @@ public class RgbaSelector
     } );
 
     cm = aAppContext.get( ITsColorManager.class );
-    cb = new ColorBackground( g, cm.getColor( ETsColor.GRAY ), cm.getColor( ETsColor.DARK_GRAY ), cm );
-    cb.setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true, 1, 4 ) );
+    previewPanel = new PanelColorPreview( g, cm.getColor( ETsColor.GRAY ), cm.getColor( ETsColor.DARK_GRAY ), cm );
+    previewPanel.setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true, 1, 4 ) );
 
     greenSlide = new Slider( g, SWT.HORIZONTAL );
     greenSlide.setValues( 0, 0, 256, 1, 1, 10 );
@@ -293,8 +293,8 @@ public class RgbaSelector
     int a = alphaSpin.getSelection();
 
     Color c = cm.getColor( r, g, b );
-    cb.setColor( c, a );
-    cb.redraw();
+    previewPanel.setColor( c, a );
+    previewPanel.redraw();
 
     changeEventer.fireChangeEvent();
   }
