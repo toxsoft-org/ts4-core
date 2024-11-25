@@ -47,8 +47,8 @@ public interface IStdG2AxisRendererOptions {
       TSID_NAME, STR_BACKGROUND_RENDERER_CLASS, //
       TSID_DESCRIPTION, STR_BACKGROUND_RENDERER_CLASS_D, //
       // dima 22.11.24 по умолчанию заливаем фон стандарным цветом
-      // TSID_DEFAULT_VALUE, AvUtils.avStr( IGradientBackgroundRendererOptions.CONSUMER_NAME ) //
-      TSID_DEFAULT_VALUE, AvUtils.avStr( SystemBackgroundRenderer.class.getName() ) //
+      TSID_DEFAULT_VALUE, AvUtils.avStr( IGradientBackgroundRendererOptions.CONSUMER_NAME ) //
+  // TSID_DEFAULT_VALUE, AvUtils.avStr( SystemBackgroundRenderer.class.getName() ) //
   );
 
   /**

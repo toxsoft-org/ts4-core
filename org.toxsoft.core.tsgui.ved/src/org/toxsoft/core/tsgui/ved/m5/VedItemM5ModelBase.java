@@ -40,6 +40,7 @@ public class VedItemM5ModelBase<T extends IVedItem>
       }
       return null;
     }
+
   };
 
   /**

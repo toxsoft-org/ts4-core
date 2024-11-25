@@ -101,13 +101,14 @@ class VedCanvasRenderer
 
     float[] koeffs = new float[6];
     screenTransform.getElements( koeffs );
-    // Rectangle clipRect =
-    // new Rectangle( aEvent.x + (int)koeffs[4], aEvent.y + (int)koeffs[5], aEvent.width, aEvent.height );
-    // System.out.println( "Clip rect: " + clipRect );
 
     aEvent.gc.setTransform( screenTransform );
 
-    aEvent.gc.setClipping( aEvent.x - (int)koeffs[4], aEvent.y - (int)koeffs[5], aEvent.width, aEvent.height );
+    // aEvent.gc.setClipping( aEvent.x - (int)koeffs[4], aEvent.y - (int)koeffs[5], aEvent.width, aEvent.height );
+    double zf = d2Conv.zoomFactor();
+    int clipX = aEvent.x - (int)(koeffs[4] / zf);
+    int clipY = aEvent.y - (int)(koeffs[5] / zf);
+    aEvent.gc.setClipping( clipX, clipY, aEvent.width, aEvent.height );
 
     IVedItemsManager<VedAbstractVisel> visels = screenModel.visels();
 

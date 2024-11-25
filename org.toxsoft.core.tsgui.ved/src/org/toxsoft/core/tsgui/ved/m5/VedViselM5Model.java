@@ -26,6 +26,7 @@ public class VedViselM5Model
    */
   public VedViselM5Model() {
     super( MID_VED_VISEL, IVedVisel.class );
+
     setPanelCreator( new M5DefaultPanelCreator<>() {
 
       protected IM5CollectionPanel<IVedVisel> doCreateCollEditPanel( ITsGuiContext aContext,

@@ -2,9 +2,10 @@ package org.toxsoft.core.tsgui.chart.impl;
 
 import static org.toxsoft.core.tsgui.chart.renderers.IGradientBackgroundRendererOptions.*;
 
+import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
-import org.toxsoft.core.tsgui.chart.renderers.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tslib.av.opset.*;
@@ -33,10 +34,16 @@ public final class GradientBackgroundRenderer
     ITsColorManager colorManager = aContext.get( ITsColorManager.class );
     horizontal = HORIZONTAL.getValue( aOpSet ).asBool();
     RGBA rgba;
-    rgba = IGradientBackgroundRendererOptions.START_COLOR.getValue( aOpSet ).asValobj();
+    // dima, 25.11.24 базовый цвет - цвет фона
+    // rgba = IGradientBackgroundRendererOptions.START_COLOR.getValue( aOpSet ).asValobj();
+    // startColor = colorManager.getColor( rgba.rgb );
+    // rgba = IGradientBackgroundRendererOptions.END_COLOR.getValue( aOpSet ).asValobj();
+    // endColor = colorManager.getColor( rgba.rgb );
+    rgba = Display.getDefault().getSystemColor( SWT.COLOR_WIDGET_BACKGROUND ).getRGBA();
     startColor = colorManager.getColor( rgba.rgb );
-    rgba = IGradientBackgroundRendererOptions.END_COLOR.getValue( aOpSet ).asValobj();
+    rgba = new RGBA( rgba.rgb.red - 20, rgba.rgb.green - 20, rgba.rgb.blue - 20, rgba.alpha );
     endColor = colorManager.getColor( rgba.rgb );
+
   }
 
   // -------------------------------------------------------------------------

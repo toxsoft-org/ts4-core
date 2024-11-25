@@ -43,6 +43,8 @@ public interface ITsguiVedSharedResources {
   String STR_HOR_ALIGN_D        = Messages.getString( "STR_HOR_ALIGN_D" );        //$NON-NLS-1$
   String STR_VER_ALIGN          = Messages.getString( "STR_VER_ALIGN" );          //$NON-NLS-1$
   String STR_VER_ALIGN_D        = Messages.getString( "STR_VER_ALIGN_D" );        //$NON-NLS-1$
+  String STR_ORIENTATION        = Messages.getString( "STR_ORIENTATION" );        //$NON-NLS-1$
+  String STR_ORIENTATION_D      = Messages.getString( "STR_ORIENTATION_D" );      //$NON-NLS-1$
   String STR_BK_COLOR           = Messages.getString( "STR_BK_COLOR" );           //$NON-NLS-1$
   String STR_BK_COLOR_D         = Messages.getString( "STR_BK_COLOR_D" );         //$NON-NLS-1$
   String STR_FG_COLOR           = Messages.getString( "STR_FG_COLOR" );           //$NON-NLS-1$

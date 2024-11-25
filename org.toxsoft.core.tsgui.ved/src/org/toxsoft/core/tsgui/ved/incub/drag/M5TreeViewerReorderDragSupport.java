@@ -85,7 +85,9 @@ public class M5TreeViewerReorderDragSupport<T> {
       // System.out.println( "The drop was done on the element: " + target );
       dragInfo.target = target;
       dragInfo.place = dropPlace;
-      fireReorderEvent();
+      if( dragInfo.target != dragInfo.source ) {
+        fireReorderEvent();
+      }
     }
 
     @Override
@@ -99,7 +101,7 @@ public class M5TreeViewerReorderDragSupport<T> {
     }
 
     @Override
-    public boolean validateDrop( Object target, int operation, TransferData transferType ) {
+    public boolean validateDrop( Object aTarget, int operation, TransferData transferType ) {
       return true;
     }
 

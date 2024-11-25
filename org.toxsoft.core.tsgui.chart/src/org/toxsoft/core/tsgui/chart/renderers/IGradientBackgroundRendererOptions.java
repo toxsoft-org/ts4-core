@@ -34,20 +34,19 @@ public interface IGradientBackgroundRendererOptions {
   /**
    * Название класса потребителя для {@link IG2Params#consumerName()}.
    */
-  String CONSUMER_NAME = GradientBackgroundRenderer.class.getName();
-
+  String   CONSUMER_NAME = GradientBackgroundRenderer.class.getName();
   /**
    * Начальный цвет рисования градиентной заливки.<br>
    * Тип данных: примитивный {@link EAtomicType#INTEGER}<br>
    * Формат: число - первые 2 байта альфа канал, далее по два байта r,g и b составляющие цвета<br>
    * Значение по умолчанию: TsColorUtils.rgb2int( new RGB( 240,240, 240 ))
    */
-  IDataDef START_COLOR = DataDef.create( "gradientStartColor", VALOBJ, // //$NON-NLS-1$
-      TSID_NAME, STR_START_COLOR, //
-      TSID_DESCRIPTION, STR_START_COLOR_D, //
-      TSID_KEEPER_ID, RGBAKeeper.KEEPER_ID, //
-      OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, TSID_DEFAULT_VALUE,
-      avValobj( new RGBA( 240, 240, 240, 255 ) ) //
+  IDataDef START_COLOR   = DataDef.create( "gradientStartColor", VALOBJ,                 // //$NON-NLS-1$
+      TSID_NAME, STR_START_COLOR,                                                        //
+      TSID_DESCRIPTION, STR_START_COLOR_D,                                               //
+      TSID_KEEPER_ID, RGBAKeeper.KEEPER_ID,                                              //
+      OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME,                    //
+      TSID_DEFAULT_VALUE, avValobj( new RGBA( 240, 240, 240, 255 ) )                     //
   );
   // IAtomicOptionInfo START_COLOR =
   // new AtomicOptionInfo( IGradientBackgroundRendererOptions.class.getSimpleName() + ".StartColor", //$NON-NLS-1$
