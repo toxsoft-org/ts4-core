@@ -1,7 +1,13 @@
 package org.toxsoft.core.tsgui.graphics.patterns;
 
+import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
+import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
+
 import org.eclipse.swt.graphics.*;
+import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.utils.swt.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
@@ -38,8 +44,14 @@ public class TsFillInfo {
           switch( kind ) {
             case NONE:
               break;
-            case SOLID:
-              RGBAKeeper.KEEPER.write( aSw, aEntity.fillColor() );
+            case SOLID: // для совместимости со старыми версиями
+              if( aEntity.colorDescr == null ) {
+                RGBAKeeper.KEEPER.write( aSw, aEntity.fillColor() );
+              }
+              else {
+                aSw.writeSeparatorChar(); // если это color descriptor, то добавим паразитную запятую
+                TsColorDescriptor.KEEPER.write( aSw, aEntity.colorDescriptor() );
+              }
               break;
             case IMAGE:
               TsImageFillInfo.KEEPER.write( aSw, aEntity.imageFillInfo() );
@@ -56,27 +68,34 @@ public class TsFillInfo {
         protected TsFillInfo doRead( IStrioReader aSr ) {
           ETsFillKind kind = ETsFillKind.KEEPER.read( aSr );
           aSr.ensureSeparatorChar();
-          switch( kind ) {
-            case NONE:
-              return NONE;
-            case SOLID:
+          return switch( kind ) {
+            case NONE -> NONE;
+            case SOLID -> {
+              if( aSr.peekChar() == CHAR_ITEM_SEPARATOR ) { // это значит что сохранен ColorDescriptor
+                aSr.nextChar();
+                TsColorDescriptor cd = TsColorDescriptor.KEEPER.read( aSr );
+                yield new TsFillInfo( cd );
+              }
               RGBA rgba = RGBAKeeper.KEEPER.read( aSr );
-              return new TsFillInfo( rgba );
-            case IMAGE:
+              yield new TsFillInfo( rgba );
+            }
+            case IMAGE -> {
               TsImageFillInfo imgFillInfo = TsImageFillInfo.KEEPER.read( aSr );
-              return new TsFillInfo( imgFillInfo );
-            case GRADIENT:
+              yield new TsFillInfo( imgFillInfo );
+            }
+            case GRADIENT -> {
               TsGradientFillInfo gradFillInfo = TsGradientFillInfo.KEEPER.read( aSr );
-              return new TsFillInfo( gradFillInfo );
-            default:
-              throw new TsNotAllEnumsUsedRtException();
-          }
+              yield new TsFillInfo( gradFillInfo );
+            }
+            default -> throw new TsNotAllEnumsUsedRtException();
+          };
         }
       };
 
   private final ETsFillKind kind;
 
   private RGBA               fillRgba         = new RGBA( 0, 0, 0, 255 );
+  private TsColorDescriptor  colorDescr       = null;
   private TsImageFillInfo    imageFillInfo    = TsImageFillInfo.DEFAULT;
   private TsGradientFillInfo gradientFillInfo = TsGradientFillInfo.DEFAULT;
 
@@ -92,6 +111,19 @@ public class TsFillInfo {
    */
   public TsFillInfo( RGBA aRgba ) {
     fillRgba = TsNullArgumentRtException.checkNull( aRgba );
+    IOptionSet opSet = OptionSetUtils.createOpSet( TsColorSourceKindRgba.OPDEF_RGBA, avValobj( aRgba ) );
+    colorDescr = new TsColorDescriptor( TsColorSourceKindRgba.KIND_ID, opSet );
+    kind = ETsFillKind.SOLID;
+  }
+
+  /**
+   * Creates instance of kind {@link ETsFillKind#SOLID}.
+   *
+   * @param aColorDescr {@link TsColorDescriptor} - the color descriptor
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public TsFillInfo( TsColorDescriptor aColorDescr ) {
+    colorDescr = TsNullArgumentRtException.checkNull( aColorDescr );
     kind = ETsFillKind.SOLID;
   }
 
@@ -136,7 +168,19 @@ public class TsFillInfo {
    * @return {@link RGB} - solid fill color
    */
   public RGBA fillColor() {
-    return fillRgba;
+    if( colorDescr == null ) {
+      return fillRgba;
+    }
+    return colorDescr.rgba();
+  }
+
+  /**
+   * Returns color descriptor.
+   *
+   * @return {@link TsColorDescriptor} - color descriptor
+   */
+  public TsColorDescriptor colorDescriptor() {
+    return colorDescr;
   }
 
   /**

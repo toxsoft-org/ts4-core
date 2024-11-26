@@ -1,7 +1,5 @@
 package org.toxsoft.core.tsgui.graphics.colors;
 
-import org.toxsoft.core.tsgui.graphics.image.Messages;
-
 /**
  * Localizable resources.
  *

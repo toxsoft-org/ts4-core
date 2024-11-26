@@ -498,7 +498,13 @@ public class VedScreenUtils {
   public static IStridablesList<IVedVisel> listVisels( IStringList aViselIds, IVedScreen aVedScreen ) {
     IStridablesListEdit<IVedVisel> visels = new StridablesList<>();
     for( String id : aViselIds ) {
-      visels.add( findVisel( id, aVedScreen ) );
+      VedAbstractVisel v = findVisel( id, aVedScreen );
+      if( v != null ) {
+        visels.add( findVisel( id, aVedScreen ) );
+      }
+      else {
+        System.out.println( "Visel not found: " + id ); //$NON-NLS-1$
+      }
     }
     return visels;
   }

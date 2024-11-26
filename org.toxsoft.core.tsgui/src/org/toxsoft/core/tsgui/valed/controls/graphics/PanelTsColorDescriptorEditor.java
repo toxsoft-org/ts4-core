@@ -20,7 +20,7 @@ import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Панель редактирования параметров дескриптора изображения.
+ * Панель редактирования параметров дескриптора цвета.
  * <p>
  *
  * @author vs

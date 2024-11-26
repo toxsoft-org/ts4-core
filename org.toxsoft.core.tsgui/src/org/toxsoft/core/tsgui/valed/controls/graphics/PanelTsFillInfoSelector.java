@@ -8,6 +8,7 @@ import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
+import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tsgui.panels.*;
 import org.toxsoft.core.tsgui.utils.layout.BorderLayout;
@@ -67,7 +68,8 @@ public class PanelTsFillInfoSelector
           break;
         case SOLID:
           fillKindCombo.setValue( ETsFillKind.SOLID );
-          colorPanel.setRgba( aData.fillColor() );
+          // colorPanel.setRgba( aData.fillColor() );
+          colorPanel.setDataRecord( aData.colorDescriptor() );
           stackLayout.topControl = colorPanel;
           break;
         case GRADIENT:
@@ -92,7 +94,8 @@ public class PanelTsFillInfoSelector
       case NONE -> TsFillInfo.NONE;
       case GRADIENT -> new TsFillInfo( gradientPanel.fillInfo() );
       case IMAGE -> new TsFillInfo( imagePanel.getDataRecord() );
-      case SOLID -> new TsFillInfo( colorPanel.rgba() );
+      case SOLID -> new TsFillInfo( colorPanel.getDataRecord() );
+      // case SOLID -> new TsFillInfo( colorPanel.rgba() );
       default -> throw new TsNotAllEnumsUsedRtException();
     };
   }
@@ -125,9 +128,10 @@ public class PanelTsFillInfoSelector
 
   StackLayout stackLayout;
 
-  PanelColorFillInfo    colorPanel;
-  PanelTsImageFillInfo  imagePanel;
-  PanelGradientFillInfo gradientPanel;
+  // PanelColorFillInfo colorPanel;
+  PanelTsColorDescriptorEditor colorPanel;
+  PanelTsImageFillInfo         imagePanel;
+  PanelGradientFillInfo        gradientPanel;
 
   ValedEnumCombo<ETsFillKind> fillKindCombo;
 
@@ -163,7 +167,8 @@ public class PanelTsFillInfoSelector
     contentHolder.setLayout( stackLayout );
     contentHolder.setLayoutData( BorderLayout.CENTER );
 
-    colorPanel = new PanelColorFillInfo( contentHolder, tsContext() );
+    // colorPanel = new PanelColorFillInfo( contentHolder, tsContext() );
+    colorPanel = new PanelTsColorDescriptorEditor( contentHolder, tsContext(), TsColorDescriptor.NONE, 0 );
     colorPanel.genericChangeEventer().addListener( notificationGenericChangeListener );
     imagePanel = new PanelTsImageFillInfo( contentHolder, tsContext(), null, 0 );
     imagePanel.genericChangeEventer().addListener( notificationGenericChangeListener );

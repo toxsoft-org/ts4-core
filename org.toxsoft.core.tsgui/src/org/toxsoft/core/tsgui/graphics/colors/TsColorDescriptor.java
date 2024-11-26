@@ -122,6 +122,26 @@ public class TsColorDescriptor
     return kindId;
   }
 
+  /**
+   * Return color.
+   *
+   * @return {@link Color} - color
+   */
+  public Color color() {
+    AbstractTsColorSourceKind k = (AbstractTsColorSourceKind)kindsById.findByKey( kindId );
+    return k.createColor( this );
+  }
+
+  /**
+   * Returns color components.
+   *
+   * @return {@link RGBA} - color componens
+   */
+  public RGBA rgba() {
+    Color c = color();
+    return c.getRGBA();
+  }
+
   // ------------------------------------------------------------------------------------
   // package API
   //
