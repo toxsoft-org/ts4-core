@@ -19,35 +19,35 @@ import org.toxsoft.core.tslib.av.opset.impl.*;
  *
  * @author vs
  */
-public class TsColorSourceKindTsColor
+public class TsColorSourceKindSystemColor
     extends AbstractTsColorSourceKind {
 
   /**
    * The kind ID.
    */
-  public static final String KIND_ID = "tsColor"; //$NON-NLS-1$
+  public static final String KIND_ID = "swtSysColor"; //$NON-NLS-1$
 
   /**
    * Option: color components.
    */
-  public static final IDataDef OPDEF_TSCOLOR = DataDef.create( "tsColor", VALOBJ, //$NON-NLS-1$
-      TSID_NAME, STR_TSCOLOR, //
-      TSID_DESCRIPTION, STR_TSCOLOR_D, //
-      TSID_KEEPER_ID, ETsColor.KEEPER_ID, //
-      TSID_DEFAULT_VALUE, avValobj( ETsColor.BLACK ) //
+  public static final IDataDef OPDEF_SYSCOLOR = DataDef.create( "sysColor", VALOBJ, //$NON-NLS-1$
+      TSID_NAME, STR_SYSCOLOR, //
+      TSID_DESCRIPTION, STR_SYSCOLOR_D, //
+      TSID_KEEPER_ID, ESwtSysColor.KEEPER_ID, //
+      TSID_DEFAULT_VALUE, avValobj( ESwtSysColor.SYSCOL_WIDGET_BACKGROUND ) //
   );
 
   /**
    * The singleton instance.
    */
-  public static final ITsColorSourceKind INSTANCE = new TsColorSourceKindTsColor();
+  public static final ITsColorSourceKind INSTANCE = new TsColorSourceKindSystemColor();
 
-  private TsColorSourceKindTsColor() {
+  private TsColorSourceKindSystemColor() {
     super( KIND_ID, OptionSetUtils.createOpSet( //
-        TSID_NAME, STR_SRCKIND_TSCOLOR, //
-        TSID_DESCRIPTION, STR_SRCKIND_TSCOLOR_D //
+        TSID_NAME, STR_SRCKIND_SYSCOLOR, //
+        TSID_DESCRIPTION, STR_SRCKIND_SYSCOLOR_D //
     ) );
-    opDefs().add( OPDEF_TSCOLOR );
+    opDefs().add( OPDEF_SYSCOLOR );
   }
 
   // ------------------------------------------------------------------------------------
@@ -56,19 +56,19 @@ public class TsColorSourceKindTsColor
 
   @Override
   public String doGetHumanReadableString( IOptionSet aParams ) {
-    ETsColor color = params().getValobj( OPDEF_TSCOLOR );
+    ESwtSysColor color = params().getValobj( OPDEF_SYSCOLOR );
     return color.nmName();
   }
 
   @Override
   protected Color doCreate( TsColorDescriptor aDescriptor, Display aDisplay ) {
-    ETsColor color = aDescriptor.params().getValobj( OPDEF_TSCOLOR );
-    return new Color( color.rgba() );
+    ESwtSysColor swtColor = aDescriptor.params().getValobj( OPDEF_SYSCOLOR );
+    return aDisplay.getSystemColor( swtColor.getSwtColorId() );
   }
 
   @Override
   public String uniqueColorNameString( IOptionSet aParams ) {
-    ETsColor color = aParams.getValobj( OPDEF_TSCOLOR );
+    ESwtSysColor color = aParams.getValobj( OPDEF_SYSCOLOR );
     return color.nmName();
   }
 

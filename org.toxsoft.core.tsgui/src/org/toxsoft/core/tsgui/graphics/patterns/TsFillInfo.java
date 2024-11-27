@@ -4,6 +4,7 @@ import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 
 import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.utils.swt.*;
 import org.toxsoft.core.tslib.av.opset.*;
@@ -171,7 +172,7 @@ public class TsFillInfo {
     if( colorDescr == null ) {
       return fillRgba;
     }
-    return colorDescr.rgba();
+    return colorDescr.rgba( Display.getDefault() );
   }
 
   /**

@@ -198,7 +198,7 @@ public class TsColorManager
   @Override
   public Color getColor( TsColorDescriptor aDescriptor ) {
     ITsColorSourceKind sourceKind = TsColorDescriptor.getColorSourceKindsMap().getByKey( aDescriptor.kindId() );
-    return sourceKind.createColor( aDescriptor );
+    return sourceKind.createColor( aDescriptor, display );
   }
 
 }

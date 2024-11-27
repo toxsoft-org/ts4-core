@@ -195,7 +195,7 @@ public class PanelTsColorDescriptorEditor
 
   private Color currColor() {
     ITsColorSourceKind kind = TsColorDescriptor.getColorSourceKindsMap().getByKey( lastColorDescr.kindId() );
-    Color color = kind.createColor( lastColorDescr );
+    Color color = kind.createColor( lastColorDescr, getDisplay() );
     return color;
   }
 

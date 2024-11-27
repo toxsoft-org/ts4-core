@@ -85,7 +85,7 @@ public class ValedTsColorDescriptor
     String s = TsLibUtils.EMPTY_STRING;
     if( colorDescriptor != null ) {
       ITsColorSourceKind kind = TsColorDescriptor.getColorSourceKindsMap().findByKey( colorDescriptor.kindId() );
-      Color c = kind.createColor( colorDescriptor );
+      Color c = kind.createColor( colorDescriptor, getDisplay() );
       s = c.toString();
     }
     getLabelControl().setText( s );

@@ -46,6 +46,26 @@ interface ITsResources {
   /**
    * {@link ESwtSysColor}
    */
+  String STR_SYSCOL_WIDGET_DARK_SHADOW   = Messages.getString( "STR_SYSCOL_WIDGET_DARK_SHADOW" );   //$NON-NLS-1$
+  String STR_SYSCOL_WIDGET_DARK_SHADOW_D = Messages.getString( "STR_SYSCOL_WIDGET_DARK_SHADOW_D" ); //$NON-NLS-1$
+
+  String STR_SYSCOL_WIDGET_DISABLED_FOREGROUND   = Messages.getString( "STR_SYSCOL_WIDGET_DISABLED_FOREGROUND" );   //$NON-NLS-1$
+  String STR_SYSCOL_WIDGET_DISABLED_FOREGROUND_D = Messages.getString( "STR_SYSCOL_WIDGET_DISABLED_FOREGROUND_D" ); //$NON-NLS-1$
+
+  String STR_SYSCOL_TEXT_DISABLED_BACKGROUND   = Messages.getString( "STR_SYSCOL_TEXT_DISABLED_BACKGROUND" );   //$NON-NLS-1$
+  String STR_SYSCOL_TEXT_DISABLED_BACKGROUND_D = Messages.getString( "STR_SYSCOL_TEXT_DISABLED_BACKGROUND_D" ); //$NON-NLS-1$
+
+  String STR_SYSCOL_WIDGET_NORMAL_SHADOW      = Messages.getString( "STR_SYSCOL_WIDGET_NORMAL_SHADOW" );      //$NON-NLS-1$
+  String STR_SYSCOL_WIDGET_NORMAL_SHADOW_D    = Messages.getString( "STR_SYSCOL_WIDGET_NORMAL_SHADOW_D" );    //$NON-NLS-1$
+  String STR_SYSCOL_WIDGET_LIGHT_SHADOW       = Messages.getString( "STR_SYSCOL_WIDGET_LIGHT_SHADOW" );       //$NON-NLS-1$
+  String STR_SYSCOL_WIDGET_LIGHT_SHADOW_D     = Messages.getString( "STR_SYSCOL_WIDGET_LIGHT_SHADOW_D" );     //$NON-NLS-1$
+  String STR_SYSCOL_WIDGET_HIGHLIGHT_SHADOW   = Messages.getString( "STR_SYSCOL_WIDGET_HIGHLIGHT_SHADOW" );   //$NON-NLS-1$
+  String STR_SYSCOL_WIDGET_HIGHLIGHT_SHADOW_D = Messages.getString( "STR_SYSCOL_WIDGET_HIGHLIGHT_SHADOW_D" ); //$NON-NLS-1$
+  String STR_SYSCOL_WIDGET_BACKGROUND         = Messages.getString( "STR_SYSCOL_WIDGET_BACKGROUND" );         //$NON-NLS-1$
+  String STR_SYSCOL_WIDGET_BACKGROUND_D       = Messages.getString( "STR_SYSCOL_WIDGET_BACKGROUND_D" );       //$NON-NLS-1$
+  String STR_SYSCOL_WIDGET_BORDER             = Messages.getString( "STR_SYSCOL_WIDGET_BORDER" );             //$NON-NLS-1$
+  String STR_SYSCOL_WIDGET_BORDER_D           = Messages.getString( "STR_SYSCOL_WIDGET_BORDER_D" );           //$NON-NLS-1$
+
   String STR_SYSCOL_LINK_FOREGROUND   = Messages.getString( "STR_SYSCOL_LINK_FOREGROUND" );   //$NON-NLS-1$
   String STR_SYSCOL_LINK_FOREGROUND_D = Messages.getString( "STR_SYSCOL_LINK_FOREGROUND_D" ); //$NON-NLS-1$
 
@@ -70,5 +90,13 @@ interface ITsResources {
   String STR_SRCKIND_TSCOLOR_D = Messages.getString( "STR_SRCKIND_TSCOLOR_D" ); //$NON-NLS-1$
   String STR_TSCOLOR           = Messages.getString( "STR_TSCOLOR" );           //$NON-NLS-1$
   String STR_TSCOLOR_D         = Messages.getString( "STR_TSCOLOR_D" );         //$NON-NLS-1$
+
+  /**
+   * {@link TsColorSourceKindSystemColor}
+   */
+  String STR_SRCKIND_SYSCOLOR   = Messages.getString( "STR_SRCKIND_SYSCOLOR" );   //$NON-NLS-1$
+  String STR_SRCKIND_SYSCOLOR_D = Messages.getString( "STR_SRCKIND_SYSCOLOR_D" ); //$NON-NLS-1$
+  String STR_SYSCOLOR           = Messages.getString( "STR_SRCKIND_TSCOLOR" );    //$NON-NLS-1$
+  String STR_SYSCOLOR_D         = Messages.getString( "STR_SRCKIND_TSCOLOR_D" );  //$NON-NLS-1$
 
 }

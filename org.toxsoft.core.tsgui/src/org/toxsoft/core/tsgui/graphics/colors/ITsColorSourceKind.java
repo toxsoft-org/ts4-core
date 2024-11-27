@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.graphics.colors;
 
 import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
@@ -63,11 +64,12 @@ public sealed interface ITsColorSourceKind
    * <p>
    *
    * @param aDescriptor {@link TsColorDescriptor} - the color descriptor
+   * @param aDisplay {@link Display} - the dysplay
    * @return {@link Color} - created color, never is <code>null</code>
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException the descriptor has ID different with {@link #id()}
    */
-  Color createColor( TsColorDescriptor aDescriptor );
+  Color createColor( TsColorDescriptor aDescriptor, Display aDisplay );
 
   /**
    * Invokes GUI dialog to edit {@link TsColorDescriptor#params()}.

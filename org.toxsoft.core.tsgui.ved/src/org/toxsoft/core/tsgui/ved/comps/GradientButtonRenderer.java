@@ -82,6 +82,7 @@ public class GradientButtonRenderer
     TsFillInfo fi = fillInfo;
 
     EButtonViselState state = buttonState();
+    aPaintContext.gc().setForeground( colorManager().getColor( new RGB( 0, 0, 0 ) ) );
     if( state == EButtonViselState.DISABLED ) {
       aPaintContext.gc().setForeground( colorManager().getColor( new RGB( 96, 96, 96 ) ) );
       aPaintContext.gc().setBackground( colorManager().getColor( new RGB( 164, 164, 164 ) ) );

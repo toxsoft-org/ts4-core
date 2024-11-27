@@ -3,6 +3,7 @@ package org.toxsoft.core.tsgui.graphics.colors;
 import static org.toxsoft.core.tsgui.graphics.colors.ITsResources.*;
 
 import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
 import org.toxsoft.core.tsgui.panels.opsedit.*;
@@ -99,8 +100,8 @@ public abstract non-sealed class AbstractTsColorSourceKind
   }
 
   @Override
-  public final Color createColor( TsColorDescriptor aDescriptor ) {
-    return doCreate( aDescriptor );
+  public final Color createColor( TsColorDescriptor aDescriptor, Display aDisplay ) {
+    return doCreate( aDescriptor, aDisplay );
   }
 
   // ------------------------------------------------------------------------------------
@@ -117,7 +118,7 @@ public abstract non-sealed class AbstractTsColorSourceKind
    *
    * @param aDescriptor {@link TsColorDescriptor} - the color descriptor
    */
-  protected abstract Color doCreate( TsColorDescriptor aDescriptor );
+  protected abstract Color doCreate( TsColorDescriptor aDescriptor, Display aDisplay );
 
   /**
    * Subclass may override and create own implementation of the parameters editing dialog.

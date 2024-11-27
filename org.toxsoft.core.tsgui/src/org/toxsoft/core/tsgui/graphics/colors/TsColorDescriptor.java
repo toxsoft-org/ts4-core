@@ -6,6 +6,7 @@ import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 import java.io.*;
 
 import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.av.utils.*;
@@ -62,6 +63,7 @@ public class TsColorDescriptor
   {
     kindsById.put( TsColorSourceKindRgba.KIND_ID, TsColorSourceKindRgba.INSTANCE );
     kindsById.put( TsColorSourceKindTsColor.KIND_ID, TsColorSourceKindTsColor.INSTANCE );
+    kindsById.put( TsColorSourceKindSystemColor.KIND_ID, TsColorSourceKindSystemColor.INSTANCE );
   }
 
   /**
@@ -125,20 +127,22 @@ public class TsColorDescriptor
   /**
    * Return color.
    *
+   * @param aDisplay {@link Display} - the display
    * @return {@link Color} - color
    */
-  public Color color() {
+  public Color color( Display aDisplay ) {
     AbstractTsColorSourceKind k = (AbstractTsColorSourceKind)kindsById.findByKey( kindId );
-    return k.createColor( this );
+    return k.createColor( this, aDisplay );
   }
 
   /**
    * Returns color components.
    *
+   * @param aDisplay {@link Display} - the display
    * @return {@link RGBA} - color componens
    */
-  public RGBA rgba() {
-    Color c = color();
+  public RGBA rgba( Display aDisplay ) {
+    Color c = color( aDisplay );
     return c.getRGBA();
   }
 

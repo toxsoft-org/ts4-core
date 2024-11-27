@@ -6,6 +6,7 @@ import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tsgui.valed.controls.graphics.*;
@@ -75,7 +76,7 @@ public class TsColorSourceKindRgba
   }
 
   @Override
-  protected Color doCreate( TsColorDescriptor aDescriptor ) {
+  protected Color doCreate( TsColorDescriptor aDescriptor, Display aDisplay ) {
     RGBA rgba = aDescriptor.params().getValobj( OPDEF_RGBA );
     return new Color( rgba );
   }
