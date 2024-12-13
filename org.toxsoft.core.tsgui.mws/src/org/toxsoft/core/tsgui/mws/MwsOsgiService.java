@@ -71,6 +71,7 @@ public class MwsOsgiService
     appQMan.registerQuant( new QuantM5() );
   }
 
+  @Activate
   void onActivate( ComponentContext aComponentContext ) {
     // load TS application info from the file specified in command line if any
     componentContext = aComponentContext;
