@@ -1,16 +1,20 @@
 package org.toxsoft.core.tsgui.mws;
 
+import static org.toxsoft.core.tsgui.graphics.icons.ITsStdIconIds.*;
 import static org.toxsoft.core.tsgui.mws.l10n.ITsguiMwsSharedResources.*;
 import static org.toxsoft.core.tslib.ITsHardConstants.*;
 
 import java.io.*;
 
+import org.eclipse.e4.core.contexts.*;
+import org.eclipse.e4.ui.model.application.ui.basic.*;
 import org.eclipse.osgi.service.environment.*;
 import org.osgi.framework.*;
 import org.osgi.service.component.*;
 import org.osgi.service.component.annotations.*;
 import org.toxsoft.core.tsgui.*;
 import org.toxsoft.core.tsgui.bricks.quant.*;
+import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.mws.appinf.*;
 import org.toxsoft.core.tsgui.mws.bases.*;
@@ -44,6 +48,18 @@ public class MwsOsgiService
 
     public ApplicationWideQuantManager() {
       super( "ApplicationWideQuantManager" ); //$NON-NLS-1$
+    }
+
+    /**
+     * This method is called after all quants was processed.
+     */
+    @Override
+    protected void doInitWin( IEclipseContext aWinContext ) {
+      // window and application icon
+      MTrimmedWindow mainWindow = aWinContext.get( MTrimmedWindow.class );
+      ITsIconManager iconMan = aWinContext.get( ITsIconManager.class );
+      String imgUri = iconMan.findStdIconBundleUri( ICONID_TSAPP_WINDOWS_ICON, EIconSize.IS_48X48 );
+      mainWindow.setIconURI( imgUri );
     }
 
   }
