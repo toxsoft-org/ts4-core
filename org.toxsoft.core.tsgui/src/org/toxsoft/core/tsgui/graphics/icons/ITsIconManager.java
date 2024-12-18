@@ -165,7 +165,7 @@ public interface ITsIconManager {
    * методом {@link #loadStdIcon(String, EIconSize)}.
    * <p>
    * Внимание: напомним, что значением констант являются идентификаторы значка, то есть путь значка относительно папки
-   * "icons/isWWxXX" без расширения.
+   * "icons/isWWxHH" без расширения.
    * <p>
    * <h3>Пример</h3>
    * <p>

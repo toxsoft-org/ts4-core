@@ -75,7 +75,7 @@ public final class CollConstraint
    * @param aMaxCount int - maximum allowed number of elements in collection
    * @param aIsExactCount boolean - the flag of the empty collection is prohibited
    * @param aIsEmptyProhibited boolean - the flag of the empty collection is prohibited
-   * @param aIsDuplicatesProhibited boolean - the flag of the dulicates prohibited
+   * @param aIsDuplicatesProhibited boolean - the flag of the duplicates prohibited
    * @throws TsIllegalArgumentRtException aMaxCount < 0
    * @throws TsIllegalArgumentRtException invalid combination of argument values
    */
