@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Code and l10n snippets for copy-patse usage
+Bundle-SymbolicName: zz-templates
+Bundle-Version: 1.0.0.qualifier
+Export-Package: org.toxsoft.templates,
+ org.toxsoft.templates.e4.addons,
+ org.toxsoft.templates.l10n
+Bundle-Vendor: toxsoft.org
+Require-Bundle: jakarta.inject.jakarta.inject-api,
+ jakarta.annotation-api,
+ org.eclipse.core.runtime,
+ org.eclipse.ui,
+ org.eclipse.e4.core.contexts,
+ org.eclipse.e4.core.di,
+ org.eclipse.e4.ui.model.workbench,
+ org.eclipse.e4.ui.workbench,
+ org.toxsoft.core.tslib,
+ org.toxsoft.core.singlesrc.rcp,
+ org.toxsoft.core.tsgui
+Automatic-Module-Name: zz.template
+Bundle-RequiredExecutionEnvironment: JavaSE-21
