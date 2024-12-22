@@ -167,10 +167,10 @@ class PanelCcBuilderSinglesList
     SashForm sfMain = new SashForm( board, SWT.HORIZONTAL );
     sfMain.setLayoutData( BorderLayout.CENTER );
     // SashForm left pane: single filter IDs list
-    scListPanel = new ProvidedItemsCollPanel<>( tsContext(), false );
+    scListPanel = new ProvidedItemsCollPanel<>( tsContext(), true );
     scListPanel.createControl( sfMain );
     // SashForm right pane: selected single condition info editor
-    scInfoPanel = new PanelSingleCondInfo( tsContext(), false );
+    scInfoPanel = new PanelSingleCondInfo( tsContext(), !editable );
     scInfoPanel.createControl( sfMain );
     // setup
     sfMain.setWeights( 2500, 7500 );
@@ -261,6 +261,8 @@ class PanelCcBuilderSinglesList
   void setEditable( boolean aEditable ) {
     if( editable != aEditable ) {
       editable = aEditable;
+      // scListPanel is a viewer, editing list is done via AspLocal
+      scInfoPanel.setEditable( editable );
       updateActionsState();
     }
   }

@@ -198,7 +198,7 @@ public class PanelSingleCondInfo
     l.setToolTipText( STR_SCPP_PARAMS_LABEL_D );
     l.setLayoutData( new GridData( SWT.CENTER, SWT.CENTER, true, false, 2, 1 ) );
     TsGuiContext ctx3 = new TsGuiContext( tsContext() );
-    paramsPanel = new OptionSetPanel( ctx3, false, true );
+    paramsPanel = new OptionSetPanel( ctx3, isViewer(), true );
     paramsPanel.createControl( board );
     paramsPanel.getControl().setLayoutData( new GridData( SWT.FILL, SWT.TOP, true, true, 2, 1 ) );
     // setup
