@@ -71,8 +71,8 @@ public final class TsCollectionsUtils {
    * <li>полученны параметр передать как аргумент конструктора коллекции.</li>
    * </ul>
    *
-   * @param aCount int - количствно элементов
-   * @return int - оценка масштаба в пределах о 1 до максимально допустимого
+   * @param aCount int - expected number of elements
+   * @return int - an order of the predicted elements number (in the range of 1 to the maximum allowed)
    */
   public static int estimateOrder( int aCount ) {
     int cieling = (int)Math.pow( 10, MIN_ORDER );

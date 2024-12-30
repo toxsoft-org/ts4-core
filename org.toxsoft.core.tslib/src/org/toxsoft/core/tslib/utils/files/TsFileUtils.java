@@ -616,7 +616,7 @@ public class TsFileUtils {
    * Lists the content of the directory sorted in ascending order by file name with the directories first.
    *
    * @param aDir {@link File} - the directory
-   * @param aFilter {@link FileFilter} - the filter or <code>null</code> for all childs
+   * @param aFilter {@link FileFilter} - the filter or <code>null</code> for all children
    * @return {@link IListEdit}&lt;{@link File}&gt; - new editable sorted list of the child file objects
    * @throws TsNullArgumentRtException aDir = <code>null</code>
    * @throws TsIoRtException directory access validation failed

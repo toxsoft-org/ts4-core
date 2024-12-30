@@ -76,7 +76,7 @@ public class TsFileFilter
   }
 
   /**
-   * Constricts filter excluding hidden files and case insensitive extensions check.
+   * Constructs filter excluding hidden files and case insensitive extensions check.
    *
    * @param aWhatAccepted {@link EFsObjKind} - what is accepted files, direactories or both
    * @param aExtensions String - included extensions (without dot) or an empty list to include all extensions
