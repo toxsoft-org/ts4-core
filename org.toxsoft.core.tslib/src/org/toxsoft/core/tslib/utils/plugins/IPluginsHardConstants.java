@@ -5,15 +5,15 @@ import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import static org.toxsoft.core.tslib.utils.plugins.ITsResources.*;
 
-import java.lang.reflect.Constructor;
+import java.lang.reflect.*;
 
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.impl.DataDef;
-import org.toxsoft.core.tslib.av.metainfo.IDataDef;
-import org.toxsoft.core.tslib.bricks.keeper.std.StringListKeeper;
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringArrayList;
-import org.toxsoft.core.tslib.utils.TsVersion;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.bricks.keeper.std.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 
 /**
  * Plugin manager constants.
@@ -96,7 +96,7 @@ public interface IPluginsHardConstants {
    * более поздняя (false), ну.</li>
    * </ul>
    */
-  String MF_ATTR_PREFIX_DEPENDENCY = "TsDependency."; //$NON-NLS-1$
+  String MF_ATTR_PREFIX_DEPENDENCY = "TsDependency"; //$NON-NLS-1$
 
   /**
    * Разделитель частей в строке описания зависимости.

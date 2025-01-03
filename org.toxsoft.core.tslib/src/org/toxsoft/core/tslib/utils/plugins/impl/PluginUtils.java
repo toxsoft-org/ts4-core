@@ -3,21 +3,19 @@ package org.toxsoft.core.tslib.utils.plugins.impl;
 import static org.toxsoft.core.tslib.utils.plugins.IPluginsHardConstants.*;
 import static org.toxsoft.core.tslib.utils.plugins.impl.ITsResources.*;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.jar.*;
 
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMapEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
-import org.toxsoft.core.tslib.utils.TsVersion;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 import org.toxsoft.core.tslib.utils.plugins.*;
-import org.toxsoft.core.tslib.utils.plugins.IPluginInfo.IDependencyInfo;
+import org.toxsoft.core.tslib.utils.plugins.IPluginInfo.*;
 
 /**
  * Вспомогательные методы для создания менеджера подключаемых модулей.
@@ -150,7 +148,8 @@ public class PluginUtils {
         continue;
       }
       if( propName.startsWith( MF_ATTR_PREFIX_DEPENDENCY ) ) {
-        deps.add( DepedencyInfo.createFromString( extProps.getByKey( propName ).trim() ) );
+        deps.add( DepedencyInfo.createFromString( aAttrs.getValue( propName ).trim() ) );
+        continue;
       }
       // extProps содержит только неизвестные подсистеме плагинов свойства из этого раздела
       extProps.put( propName.toString().trim(), aAttrs.getValue( propName ).trim() );
@@ -170,8 +169,6 @@ public class PluginUtils {
     }
     TsVersion ver;
     try {
-      // 2022-12-19 mvk
-      // ver = TsVersion.parseVersionString( strVersion );
       ver = TsVersion.KEEPER.str2ent( strVersion );
     }
     catch( Exception e ) {

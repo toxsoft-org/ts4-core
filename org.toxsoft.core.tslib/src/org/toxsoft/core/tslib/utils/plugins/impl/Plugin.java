@@ -30,16 +30,17 @@ final class Plugin
   /**
    * Конструктор
    *
+   * @param aParentClassLoader ClassLoader родительский загрузчик классов
    * @param aClassPath URL[] classpath загружаемого плагина
    * @param aPluginInfo {@link IPluginInfo} информация о плагине
    * @param aListener {@link IPluginListener} слушатель плагина
    * @throws TsNullArgumentRtException аргумент = null
    */
-  Plugin( URL[] aClassPath, IPluginInfo aPluginInfo, IPluginListener aListener ) {
+  Plugin( ClassLoader aParentClassLoader, URL[] aClassPath, IPluginInfo aPluginInfo, IPluginListener aListener ) {
     TsNullArgumentRtException.checkNulls( aClassPath, aPluginInfo, aListener );
     try {
       info = aPluginInfo;
-      classLoader = new URLClassLoader( aPluginInfo.pluginId(), aClassPath, getClass().getClassLoader() );
+      classLoader = new URLClassLoader( aPluginInfo.pluginId(), aClassPath, aParentClassLoader );
       Thread.currentThread().setContextClassLoader( classLoader );
       Class<?> cls = classLoader.loadClass( aPluginInfo.pluginClassName() );
       Constructor<?> defaultConstructor = cls.getConstructor();
@@ -116,6 +117,47 @@ final class Plugin
     return eventer;
   }
 
+  // ------------------------------------------------------------------------------------
+  // Object
+  //
+  @Override
+  public String toString() {
+    return String.format( "%s[%s]", getClass().getSimpleName(), info.pluginId() ); //$NON-NLS-1$
+  }
+
+  @Override
+  public int hashCode() {
+    int result = TsLibUtils.INITIAL_HASH_CODE;
+    result = TsLibUtils.PRIME * result + info.hashCode();
+    result = TsLibUtils.PRIME * result + classLoader.hashCode();
+    result = TsLibUtils.PRIME * result + instance.hashCode();
+    return result;
+  }
+
+  @Override
+  public boolean equals( Object aObject ) {
+    if( this == aObject ) {
+      return true;
+    }
+    if( aObject == null ) {
+      return false;
+    }
+    if( getClass() != aObject.getClass() ) {
+      return false;
+    }
+    Plugin other = (Plugin)aObject;
+    if( !info.equals( other.info ) ) {
+      return false;
+    }
+    if( !classLoader.equals( other.classLoader ) ) {
+      return false;
+    }
+    if( !instance.equals( other.instance ) ) {
+      return false;
+    }
+    return true;
+  }
+
   /**
    * {@link IPlugin#eventer()} implementation.
    */
@@ -158,6 +200,5 @@ final class Plugin
         }
       }
     }
-
   }
 }

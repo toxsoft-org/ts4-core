@@ -1,5 +1,6 @@
 package org.toxsoft.core.tslib.utils.plugins.impl;
 
+import static java.lang.String.*;
 import static org.toxsoft.core.tslib.utils.plugins.impl.ITsResources.*;
 import static org.toxsoft.core.tslib.utils.plugins.impl.PluginUtils.*;
 
@@ -15,6 +16,7 @@ import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.files.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 import org.toxsoft.core.tslib.utils.plugins.*;
 import org.toxsoft.core.tslib.utils.plugins.IChangedPluginsInfo.*;
 import org.toxsoft.core.tslib.utils.plugins.IPluginInfo.*;
@@ -117,6 +119,217 @@ class PluginStorage
     setTemporaryDir( td, true );
   }
 
+  // --------------------------------------------------------------------------
+  // IPluginsStorage
+  //
+
+  @Override
+  public String pluginTypeId() {
+    return plugInType;
+  }
+
+  @Override
+  public void addPluginJarPath( File aPath, boolean aIncludeSubDirs ) {
+    TsFileUtils.checkDirReadable( aPath );
+    PluginDir addedPluginDir = new PluginDir( aPath, aIncludeSubDirs );
+    pluginDirs.add( addedPluginDir );
+    // Сканируем выбранный путь на предмет обнаружения jar-файлов с манифестами
+    // Сделать обработку обратных вызовов сканера (если она нужна в данном контексте)
+    IDirScanResult dirScanResult = addedPluginDir.getJarScanner().scan( null );
+    if( !dirScanResult.isChanged() ) {
+      // Ничего не изменилось, уходим ...
+      return;
+    }
+    // Исследуем новые jar-файлы
+    List<ScannedFileInfo> jarFileList = dirScanResult.getNewFiles();
+    Iterator<ScannedFileInfo> iterator = jarFileList.iterator();
+    while( iterator.hasNext() ) {
+      ScannedFileInfo jarFileInfo = iterator.next();
+      String jarPathString = createPathStringToJar( aPath, jarFileInfo );
+      File jarFile = new File( jarPathString );
+      IList<IPluginInfo> pList = PluginUtils.readPluginInfoesFromJarFile( jarFile );
+      registerPlugins( pList );
+    }
+  }
+
+  @Override
+  public void setTemporaryDir( String aDir, boolean aNeedClean ) {
+    TsNullArgumentRtException.checkNull( aDir );
+    File dir = new File( aDir );
+    if( aNeedClean && dir.exists() ) {
+      // Очистка каталога
+      TsFileUtils.deleteDirectory( dir, ILongOpProgressCallback.CONSOLE );
+    }
+    // Проверка и если треубется создание каталога
+    createDirIfNotExist( aDir );
+    temporaryDir = aDir;
+  }
+
+  @Override
+  public IList<IPluginInfo> listPlugins() {
+    return pluginInfos.values();
+  }
+
+  @Override
+  public IPlugin loadPlugin( String aPluginId )
+      throws ClassNotFoundException {
+    TsNullArgumentRtException.checkNull( aPluginId );
+    // Проверка возможности загрузки плагина
+    checkIfPluginCanBeLoaded( pluginInfos.getByKey( aPluginId ) );
+    // Загрузка плагина
+    return loadPlugin( getClass().getClassLoader(), aPluginId );
+  }
+
+  @Override
+  public boolean checkChanges() {
+    boolean retVal = false;
+    // Сканируем все директории поиска на предмет изменений
+    Iterator<PluginDir> iterator = pluginDirs.iterator();
+    while( iterator.hasNext() ) {
+      PluginDir currPluginDir = iterator.next();
+      //
+      IDirScanResult dirScanResult = currPluginDir.getJarScanner().scan( null );
+      if( dirScanResult.isChanged() ) {
+        // Что-то изменилось, выясняем подробности
+        if( hasAddedPlugins( currPluginDir.getPath(), dirScanResult.getNewFiles() ) ) {
+          // Появились новые подгружаемые модули
+          retVal = true;
+        }
+        if( hasChangedPlugins( currPluginDir.getPath(), dirScanResult.getChangedFiles() ) ) {
+          // Изменились подгружаемые модули
+          retVal = true;
+        }
+        if( hasRemovedPlugins( currPluginDir.getPath(), dirScanResult.getRemovedFiles() ) ) {
+          // удалились подгружаемые модули
+          retVal = true;
+        }
+      }
+    }
+    return retVal;
+  }
+
+  @Override
+  public IChangedPluginsInfo getChanges() {
+    IChangedPluginsInfo retVal = changedModulesInfo;
+    // Сбрасываем накопленные изменения
+    changedModulesInfo = new ChangedPluginsInfo();
+    return retVal;
+  }
+
+  // --------------------------------------------------------------------------
+  // private methods
+  //
+  /**
+   * Загружает плагин и создает экземпляр класса подключаемого модуля (смотри {@link IPlugin#instance(Class)}).
+   * <p>
+   * Создает класс вызовом {@link ClassLoader#loadClass(String)} и использованием корректного загрузчика классов из
+   * JAR-файла модуля. Производит проверку зависимостей, и если они не разрешимы, выбрасывает исключение.
+   *
+   * @param aClassLoader {@link ClassLoader} - используемый загручик классов
+   * @param aPluginId String - идентификатор плагина
+   * @return {@link IPlugin} - загруженный плагин
+   * @throws TsNullArgumentRtException аргумент = null
+   * @throws TsItemNotFoundRtException нет плагина с таким идентификатором
+   * @throws TsIoRtException ошибка работы с файлом плагина
+   * @throws ClassNotFoundException нельзя разрешить зависимости или отсутствет файл класса в JAR-файле модуля
+   */
+  private IPlugin loadPlugin( ClassLoader aClassLoader, String aPluginId )
+      throws ClassNotFoundException {
+    TsNullArgumentRtException.checkNulls( aPluginId, aClassLoader );
+    IPluginInfo pluginInfo = pluginInfos.getByKey( aPluginId );
+    // Загрузка плагинов от которых зависит целевой плагин
+    ClassLoader classLoader = loadDependencies( aClassLoader, pluginInfo );
+    // Файл представляющий плагин
+    File pluginJarFile = new File( pluginInfo.pluginJarFileName() );
+    TsFileUtils.checkFileReadable( pluginJarFile );
+    // Плагин загружается из его копии во временном каталоге, чтобы его можно
+    File temporaryFile = new File( temporaryDir + File.separator + filenameGenerator.nextId() );
+    try {
+      // Подготовка временного файла
+      TsFileUtils.copyFile( pluginJarFile, temporaryFile );
+      // classpath для загрузки плагина
+      URL[] classpath = { temporaryFile.toURI().toURL() };
+      Plugin plugin = new Plugin( classLoader, classpath, pluginInfo, aPlugin -> {
+        // Обработка выгрузки плагина - удаление всех созданных экземпляров
+        IListEdit<Plugin> instances = plugins.findByKey( aPluginId );
+        if( instances != null ) {
+          instances.remove( (Plugin)aPlugin );
+          if( instances.size() == 0 ) {
+            plugins.removeByKey( aPluginId );
+          }
+        }
+      } );
+      IListEdit<Plugin> instances = plugins.findByKey( aPluginId );
+      if( instances == null ) {
+        // aAllowDuplicates = false
+        instances = new ElemArrayList<>( false );
+        plugins.put( aPluginId, instances );
+      }
+      instances.add( plugin );
+      return plugin;
+    }
+    catch( Exception e ) {
+      temporaryFile.delete();
+      String msg = format( ERR_CANT_CREATE_PLUGIN_OBJECT, pluginInfo.pluginId(), pluginInfo.pluginType() );
+      throw new ClassNotFoundException( msg, e );
+    }
+  }
+
+  /**
+   * Проходит по всему списку зависимостей плагина и пытается загрузить
+   *
+   * @param aClassLoader {@link ClassLoader} загрузчик классов для загрузки плагинов
+   * @param aPluginInfo описан плагина
+   * @throws ClassNotFoundException - не найден плагин, от которого зависит aPluginInfo
+   */
+  private ClassLoader loadDependencies( ClassLoader aClassLoader, IPluginInfo aPluginInfo )
+      throws ClassNotFoundException {
+    TsNullArgumentRtException.checkNulls( aClassLoader, aPluginInfo );
+    IList<IDependencyInfo> dependencies = aPluginInfo.listDependencies();
+    if( dependencies.size() == 0 ) {
+      return aClassLoader;
+    }
+    // Создание родительского контекста для загрузки в него классов требуемых целевому плагину
+    MultiClassLoader retValue = new MultiClassLoader( aPluginInfo.pluginId(), aClassLoader );
+    for( int index = 0, n = dependencies.size(); index < n; index++ ) {
+      IDependencyInfo dependencyInfo = dependencies.get( index );
+      String pluginId = dependencyInfo.pluginId();
+      IPlugin plugin = null;
+      IList<Plugin> instances = plugins.findByKey( pluginId );
+      if( instances != null && instances.size() > 0 ) {
+        // Плагин уже был загружен
+        plugin = instances.first();
+      }
+      if( plugin == null ) {
+        // Загрузка плагина
+        plugin = loadPlugin( aClassLoader, pluginId );
+      }
+      retValue.addParent( plugin.classLoader() );
+    }
+    return retValue;
+  }
+
+  /**
+   * Проверяет возмножность загрузки указанного плагина
+   *
+   * @param aPluginInfo {@link IPluginInfo} описание плагина
+   * @throws TsNullArgumentRtException аргумент = null
+   * @throws TsItemNotFoundRtException не найден плагин или одна из его зависемостей
+   * @throws ClassNotFoundException - не найден плагин, от которого зависит aPluginInfo
+   */
+  private void checkIfPluginCanBeLoaded( IPluginInfo aPluginInfo )
+      throws ClassNotFoundException {
+    TsNullArgumentRtException.checkNull( aPluginInfo );
+    TsItemNotFoundRtException.checkFalse( pluginInfos.hasKey( aPluginInfo.pluginId() ) );
+    IList<IDependencyInfo> dependencies = aPluginInfo.listDependencies();
+    for( int index = 0, n = dependencies.size(); index < n; index++ ) {
+      IDependencyInfo dependencyInfo = dependencies.get( index );
+      // Проверяем существование зависимого плагина и его номер версии (сравнение требуемой с имеющейся).
+      checkDependenceVersion( aPluginInfo, dependencyInfo );
+      checkIfPluginCanBeLoaded( pluginInfos.getByKey( dependencyInfo.pluginId() ) );
+    }
+  }
+
   /**
    * Создает строковое предстваление полного пути к jar-файлу
    *
@@ -167,6 +380,17 @@ class PluginStorage
    */
   private void deregisterPluginInfo( IPluginInfo aPluginInfo ) {
     String pluginId = aPluginInfo.pluginId();
+    LoggerUtils.defaultLogger().debug( MSG_DEREGISTER_PLUGIN, pluginId );
+    // Удаление всех зависимостей от целевого плагина
+    for( IPluginInfo pluginInfo : new ElemLinkedList<>( pluginInfos.values() ) ) {
+      for( IDependencyInfo dependencyInfo : pluginInfo.listDependencies() ) {
+        String dependencyPluginId = dependencyInfo.pluginId();
+        if( dependencyPluginId.equals( pluginId ) ) {
+          LoggerUtils.defaultLogger().debug( MSG_DEREGISTER_DEPENDENCY, pluginId, dependencyPluginId );
+          deregisterPluginInfo( pluginInfo );
+        }
+      }
+    }
     pluginInfos.removeByKey( pluginId );
     // Удаление всех созданных экземпляров
     IList<Plugin> instances = plugins.findByKey( pluginId );
@@ -197,61 +421,35 @@ class PluginStorage
   }
 
   /**
-   * Проходит по всему списку зависимостей плагина и пытается загрузить
-   *
-   * @param aPluginInfo описан плагина
-   * @throws ClassNotFoundException - не найден плагин, от которого зависит aPluginInfo
-   */
-  private void checkDependencies( IPluginInfo aPluginInfo )
-      throws ClassNotFoundException {
-    Iterable<IDependencyInfo> dependencyInfoIterable = aPluginInfo.listDependencies();
-    Iterator<IDependencyInfo> iterator = dependencyInfoIterable.iterator();
-    while( iterator.hasNext() ) {
-      IDependencyInfo dependencyInfo = iterator.next();
-      // Проверяем номер версии
-      checkDependenceVersion( dependencyInfo );
-      // 2024-05-27 mvk --- не нужно создавать, не имеет смысла + создает мусор
-      // createPluginInstance( dependencyInfo.pluginId() );
-      // 2024-05-27 mvk +++ проверка того, что плагин-зависимость зарегистирован
-      // Проверка существования плагина-зависимости
-      TsItemNotFoundRtException.checkFalse( pluginInfos.hasKey( dependencyInfo.pluginId() ) );
-    }
-  }
-
-  /**
    * Проверяет пригодность версии зависимого модуля
    *
-   * @param aPluginInfo описание модуля зависимости
-   * @throws ClassNotFoundException - плагин, от которого зависит aPluginInfo, либо не найден, либо версия не та
+   * @param aPluginInfo {@link IPluginInfo} описание модуля
+   * @param aDependPluginInfo {@link IPluginInfo} описание модуля зависимости
+   * @throws TsItemNotFoundRtException плагин, от которого зависит aPluginInfo, либо не найден, либо версия не та
    */
-  @SuppressWarnings( "nls" )
-  private void checkDependenceVersion( IDependencyInfo aPluginInfo )
-      throws ClassNotFoundException {
+  private void checkDependenceVersion( IPluginInfo aPluginInfo, IDependencyInfo aDependPluginInfo ) {
+    TsNullArgumentRtException.checkNulls( aPluginInfo, aDependPluginInfo );
     // Получаем описание зависимого плагина
-    IPluginInfo pluginInfo = pluginInfos.findByKey( aPluginInfo.pluginId() );
+    IPluginInfo pluginInfo = pluginInfos.findByKey( aDependPluginInfo.pluginId() );
     if( pluginInfo == null ) {
-      throw new ClassNotFoundException( ERR_CANT_RESOLVE_DEPENDENCE_TYPE + aPluginInfo.pluginType() + ",\n "
-          + ERR_CANT_RESOLVE_DEPENDENCE_ID + aPluginInfo.pluginId() );
+      // Не найдена зависимость плагина
+      throw new TsItemNotFoundRtException( ERR_DEPENDENCY_CANT_RESOLVE, aPluginInfo, aDependPluginInfo );
     }
-    TsVersion version = aPluginInfo.pluginVersion();
-    if( aPluginInfo.isExactVersionNeeded() ) {
+    TsVersion version = aDependPluginInfo.pluginVersion();
+    if( aDependPluginInfo.isExactVersionNeeded() ) {
       // Требуется точная версия
       if( version.compareTo( pluginInfo.pluginVersion() ) == 0 ) {
         return;
       }
-      throw new ClassNotFoundException( ERR_FOR_DEPENDENCE + aPluginInfo.pluginType() + ",\n "
-          + ERR_CANT_RESOLVE_DEPENDENCE_ID + aPluginInfo.pluginId() + ",\n " + ERR_EXACT_VERSION_NUMBER
-          + TsVersion.getVersionNumber( aPluginInfo.pluginVersion() ) + ",\n " + ERR_AVAILABLE_VERSION_NUMBER
-          + TsVersion.getVersionNumber( pluginInfo.pluginVersion() ) );
+      // Неточное соответствие версии найденной зависимости
+      throw new TsItemNotFoundRtException( ERR_DEPENDENCY_INACCURATE_MATCH, aPluginInfo, aDependPluginInfo );
     }
     // Достаточно просто более новой версии
     if( pluginInfo.pluginVersion().compareTo( version ) >= 0 ) {
       return;
     }
-    throw new ClassNotFoundException( ERR_FOR_DEPENDENCE + aPluginInfo.pluginType() + ",\n "
-        + ERR_CANT_RESOLVE_DEPENDENCE_ID + aPluginInfo.pluginId() + ",\n " + ERR_NEED_NEWER_VERSION_NUMBER
-        + TsVersion.getVersionNumber( aPluginInfo.pluginVersion() ) + ",\n " + ERR_AVAILABLE_VERSION_NUMBER
-        + TsVersion.getVersionNumber( pluginInfo.pluginVersion() ) );
+    // Несоответствие версии найденной зависимости
+    throw new TsItemNotFoundRtException( ERR_DEPENDENCY_VERSION_MISMATCH, aPluginInfo, aDependPluginInfo );
   }
 
   /**
@@ -276,8 +474,7 @@ class PluginStorage
       for( IPluginInfo removedPluginInfo : readedPluginsInfoList ) {
         if( isPluginRegistered( removedPluginInfo ) ) {
           // Зарегистрированный плагин, отменяем регистрацию и заносим в список удаленных
-          // плагинов объекта
-          // хранящего измения плагинов
+          // плагинов объекта хранящего изменения плагинов
           deregisterPluginInfo( removedPluginInfo );
           // Заносим в изменения
           getChangedModulesInfo().addRemovedPlugin( removedPluginInfo );
@@ -288,7 +485,6 @@ class PluginStorage
     return retVal;
   }
 
-  // MVK
   /**
    * Возвращает список плагинов которые определяется в указанном jar-файле
    *
@@ -323,7 +519,6 @@ class PluginStorage
    * @throws TsRuntimeException различные ошибки ???
    */
   private boolean hasChangedPlugins( File aJarDir, List<ScannedFileInfo> aChangedFiles ) {
-
     boolean retVal = false;
     // Проходим по списку всех файлов
     for( ScannedFileInfo scannedFileInfo : aChangedFiles ) {
@@ -472,131 +667,91 @@ class PluginStorage
     return changedModulesInfo;
   }
 
-  // --------------------------------------------------------------------------
-  // IPluginsStorage
-  //
+  /**
+   * Загрузчик классов имеющих несколько родительских контекстов.
+   *
+   * @author mvk
+   */
+  private static class MultiClassLoader
+      extends ClassLoader {
 
-  @Override
-  public String pluginTypeId() {
-    return plugInType;
-  }
+    private final IStringMapEdit<ClassLoader> parents = new StringMap<>();
 
-  @Override
-  public void addPluginJarPath( File aPath, boolean aIncludeSubDirs ) {
-    TsFileUtils.checkDirReadable( aPath );
-    PluginDir addedPluginDir = new PluginDir( aPath, aIncludeSubDirs );
-    pluginDirs.add( addedPluginDir );
-    // Сканируем выбранный путь на предмет обнаружения jar-файлов с манифестами
-    // Сделать обработку обратных вызовов сканера (если она нужна в данном контексте)
-    IDirScanResult dirScanResult = addedPluginDir.getJarScanner().scan( null );
-    if( !dirScanResult.isChanged() ) {
-      // Ничего не изменилось, уходим ...
-      return;
+    MultiClassLoader( String aPluginId, ClassLoader aParent ) {
+      super( format( FMT_PARENT_CLASSLOADER_NAME, aPluginId ), aParent );
     }
-    // Исследуем новые jar-файлы
-    List<ScannedFileInfo> jarFileList = dirScanResult.getNewFiles();
-    Iterator<ScannedFileInfo> iterator = jarFileList.iterator();
-    while( iterator.hasNext() ) {
-      ScannedFileInfo jarFileInfo = iterator.next();
-      String jarPathString = createPathStringToJar( aPath, jarFileInfo );
-      File jarFile = new File( jarPathString );
-      IList<IPluginInfo> pList = PluginUtils.readPluginInfoesFromJarFile( jarFile );
-      registerPlugins( pList );
-    }
-  }
 
-  @Override
-  public void setTemporaryDir( String aDir, boolean aNeedClean ) {
-    TsNullArgumentRtException.checkNull( aDir );
-    File dir = new File( aDir );
-    if( aNeedClean && dir.exists() ) {
-      // Очистка каталога
-      TsFileUtils.deleteDirectory( dir, ILongOpProgressCallback.CONSOLE );
-    }
-    // Проверка и если треубется создание каталога
-    createDirIfNotExist( aDir );
-    temporaryDir = aDir;
-  }
-
-  @Override
-  public IList<IPluginInfo> listPlugins() {
-    return pluginInfos.values();
-  }
-
-  @Override
-  public IPlugin loadPlugin( String aPluginId )
-      throws ClassNotFoundException {
-    TsNullArgumentRtException.checkNull( aPluginId );
-    IPluginInfo pluginInfo = pluginInfos.getByKey( aPluginId );
-    checkDependencies( pluginInfo );
-    File pluginJarFile = new File( pluginInfo.pluginJarFileName() );
-    TsFileUtils.checkFileReadable( pluginJarFile );
-    // Плагин загружается из его копии во временном каталоге, чтобы его можно
-    File temporaryFile = new File( temporaryDir + File.separator + filenameGenerator.nextId() );
-    try {
-      // Подготовка временного файла
-      TsFileUtils.copyFile( pluginJarFile, temporaryFile );
-      // classpath для загрузки плагина
-      URL[] classpath = { temporaryFile.toURI().toURL() };
-      Plugin plugin = new Plugin( classpath, pluginInfo, aPlugin -> {
-        // Обработка выгрузки плагина - удаление всех созданных экземпляров
-        IListEdit<Plugin> instances = plugins.findByKey( aPluginId );
-        if( instances != null ) {
-          instances.remove( (Plugin)aPlugin );
-          if( instances.size() == 0 ) {
-            plugins.removeByKey( aPluginId );
-          }
-        }
-      } );
-      IListEdit<Plugin> instances = plugins.findByKey( aPluginId );
-      if( instances == null ) {
-        // aAllowDuplicates = false
-        instances = new ElemArrayList<>( false );
-        plugins.put( aPluginId, instances );
+    /**
+     * Add parent classloader.
+     *
+     * @param aClassLoader {@link ClassLoader} загрузчик классов {@link TsNullArgumentRtException} аргумент = nuul
+     *          {@link TsNullArgumentRtException} аргумент = null
+     */
+    void addParent( ClassLoader aClassLoader ) {
+      TsNullArgumentRtException.checkNull( aClassLoader );
+      if( this.equals( aClassLoader ) ) {
+        return;
       }
-      instances.add( plugin );
-      return plugin;
+      if( parents.hasKey( aClassLoader.getName() ) ) {
+        return;
+      }
+      parents.put( aClassLoader.getName(), aClassLoader );
     }
-    catch( Exception e ) {
-      temporaryFile.delete();
-      String msg = String.format( ERR_CANT_CREATE_PLUGIN_OBJECT, pluginInfo.pluginId(), pluginInfo.pluginType() );
-      throw new ClassNotFoundException( msg, e );
-    }
-  }
 
-  @Override
-  public boolean checkChanges() {
-    boolean retVal = false;
-    // Сканируем все директории поиска на предмет изменений
-    Iterator<PluginDir> iterator = pluginDirs.iterator();
-    while( iterator.hasNext() ) {
-      PluginDir currPluginDir = iterator.next();
-      //
-      IDirScanResult dirScanResult = currPluginDir.getJarScanner().scan( null );
-      if( dirScanResult.isChanged() ) {
-        // Что-то изменилось, выясняем подробности
-        if( hasAddedPlugins( currPluginDir.getPath(), dirScanResult.getNewFiles() ) ) {
-          // Появились новые подгружаемые модули
-          retVal = true;
+    @Override
+    protected Class<?> findClass( String name )
+        throws ClassNotFoundException {
+      for( ClassLoader classLoader : parents ) {
+        try {
+          Class<?> retValue = classLoader.loadClass( name );
+          return retValue;
         }
-        if( hasChangedPlugins( currPluginDir.getPath(), dirScanResult.getChangedFiles() ) ) {
-          // Изменились подгружаемые модули
-          retVal = true;
-        }
-        if( hasRemovedPlugins( currPluginDir.getPath(), dirScanResult.getRemovedFiles() ) ) {
-          // удалились подгружаемые модули
-          retVal = true;
+        catch( @SuppressWarnings( "unused" ) ClassNotFoundException e ) {
+          // .. try next one
         }
       }
+      // not found in any parent
+      throw new ClassNotFoundException( name );
     }
-    return retVal;
-  }
 
-  @Override
-  public IChangedPluginsInfo getChanges() {
-    IChangedPluginsInfo retVal = changedModulesInfo;
-    // Сбрасываем накопленные изменения
-    changedModulesInfo = new ChangedPluginsInfo();
-    return retVal;
+    // ------------------------------------------------------------------------------------
+    // Object
+    //
+    @Override
+    public String toString() {
+      return String.format( "%s[%s]", getClass().getSimpleName(), getName() ); //$NON-NLS-1$
+    }
+
+    @Override
+    public int hashCode() {
+      int result = TsLibUtils.INITIAL_HASH_CODE;
+      result = TsLibUtils.PRIME * result + super.hashCode();
+      result = TsLibUtils.PRIME * result + parents.hashCode();
+      return result;
+    }
+
+    @Override
+    public boolean equals( Object aObject ) {
+      if( this == aObject ) {
+        return true;
+      }
+      if( aObject == null ) {
+        return false;
+      }
+      if( getClass() != aObject.getClass() ) {
+        return false;
+      }
+      MultiClassLoader other = (MultiClassLoader)aObject;
+      if( !super.equals( other ) ) {
+        return false;
+      }
+      if( !super.equals( other ) ) {
+        return false;
+      }
+      if( !parents.equals( other.parents ) ) {
+        return false;
+      }
+      return true;
+    }
   }
 }

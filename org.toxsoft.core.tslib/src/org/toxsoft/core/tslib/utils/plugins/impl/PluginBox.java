@@ -2,22 +2,19 @@ package org.toxsoft.core.tslib.utils.plugins.impl;
 
 import static org.toxsoft.core.tslib.utils.plugins.IPluginsHardConstants.*;
 
-import java.io.File;
+import java.io.*;
 
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContextRo;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.bricks.ctx.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.wub.*;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalStateRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
-import org.toxsoft.core.tslib.utils.plugins.IChangedPluginsInfo;
-import org.toxsoft.core.tslib.utils.plugins.IChangedPluginsInfo.IChangedPluginInfo;
-import org.toxsoft.core.tslib.utils.plugins.IPluginInfo;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
+import org.toxsoft.core.tslib.utils.plugins.*;
+import org.toxsoft.core.tslib.utils.plugins.IChangedPluginsInfo.*;
 
 /**
  * Контейнер плагинов
@@ -93,12 +90,14 @@ public class PluginBox<T extends PluginUnit>
     if( storage.checkChanges() ) {
       // Изменение состояния хранилища. Запрос изменений
       IChangedPluginsInfo changes = storage.getChanges();
-      // Загрузка компонентов контейнера добавленных плагинов
-      loadUnits( changes.listAddedPlugins() );
+      // Список описаний загружаемых плагинов
+      IListEdit<IPluginInfo> pluginInfos = new ElemArrayList<>( changes.listAddedPlugins() );
       // Загрузка компонентов контейнера измененных плагинов
       for( IChangedPluginInfo changedInfo : changes.listChangedPlugins() ) {
-        loadUnit( changedInfo.pluginInfo() );
+        pluginInfos.add( changedInfo.pluginInfo() );
       }
+      // Загрузка компонентов контейнера добавленных плагинов
+      loadUnits( pluginInfos );
     }
     wubBox.doJob();
   }
@@ -133,6 +132,35 @@ public class PluginBox<T extends PluginUnit>
     return (T)new PluginUnit( aPluginId, IOptionSet.NULL, aPlugin );
   }
 
+  /**
+   * Вызывается перед загрузкой указанных плагинов.
+   *
+   * @param aPluginInfos {@link IList}&lt;{@link IPluginInfo}&gt; список описаний загружаемых плагинов
+   * @return {@link IList}&lt;{@link IPluginInfo} упорядочный список описаний загружаемых плагинов. В начале списка
+   *         плагины загружаемые первыми, в конце - последними.
+   */
+  protected IList<IPluginInfo> doBeforeLoadUnits( IList<IPluginInfo> aPluginInfos ) {
+    return aPluginInfos;
+  }
+
+  /**
+   * Вызывается перед запуском (размещением в контейнере) указанных плагинов.
+   *
+   * @param aPlugins {@link IList}&lt;{@link PluginUnit}&gt; упорядочный список загруженных плагинов.
+   */
+  protected IList<T> doBeforeRunUnits( IList<T> aPlugins ) {
+    return aPlugins;
+  }
+
+  /**
+   * Вызывается после запуска (размещением в контейнере) указанных плагинов.
+   *
+   * @param aPlugins {@link IList}&lt;{@link PluginUnit}&gt; упорядочный список загруженных плагинов.
+   */
+  protected void doAfterRunUnits( IList<T> aPlugins ) {
+    // nop
+  }
+
   // ------------------------------------------------------------------------------------
   // Методы для наследников
   //
@@ -145,8 +173,17 @@ public class PluginBox<T extends PluginUnit>
    */
   private void loadUnits( IList<IPluginInfo> aPluginInfos ) {
     TsNullArgumentRtException.checkNull( aPluginInfos );
-    for( IPluginInfo pluginInfo : new ElemArrayList<>( aPluginInfos ) ) {
-      loadUnit( pluginInfo );
+    // Упорядочный список описаний загружаемых плагинов
+    IList<IPluginInfo> sortedPluginInfos = doBeforeLoadUnits( aPluginInfos );
+    // Список загруженных плагинов
+    IListEdit<T> units = new ElemLinkedList<>();
+    for( IPluginInfo pluginInfo : new ElemArrayList<>( sortedPluginInfos ) ) {
+      units.add( loadUnit( pluginInfo ) );
+    }
+    // Оповещение наследника о готовности разместить плагины в контейнере
+    IList<T> runnableUnits = doBeforeRunUnits( units );
+    for( T unit : runnableUnits ) {
+      runUnit( unit );
     }
   }
 
@@ -156,24 +193,36 @@ public class PluginBox<T extends PluginUnit>
    * @param aPluginInfo {@link IPluginInfo} описание плагина для которого требуется загрузить компоненту контейнера
    * @throws TsNullArgumentRtException аргумент = null
    */
-  private void loadUnit( IPluginInfo aPluginInfo ) {
+  private T loadUnit( IPluginInfo aPluginInfo ) {
     TsNullArgumentRtException.checkNull( aPluginInfo );
+    T unit = null;
     try {
       // Идентификатор плагина
       String pluginId = aPluginInfo.pluginId();
       // Загрузка плагина
       IPlugin plugin = storage.loadPlugin( pluginId );
       // Создание компонента контейнера
-      T unit = doCreateUnit( pluginId, plugin );
+      unit = doCreateUnit( pluginId, plugin );
       // "Защита от дурака"
       TsIllegalStateRtException.checkFalse( pluginId.equals( unit.id() ) );
       // Регистрация слушателя выгрузки плагина
       plugin.eventer().addListener( aPlugin -> wubBox.removeUnit( pluginId ) );
-      // Регистрация в контейнере
-      wubBox.addUnit( unit );
     }
     catch( ClassNotFoundException ex ) {
       LoggerUtils.errorLogger().error( ex );
     }
+    return unit;
   }
+
+  /**
+   * Запуск компонента контейнера
+   *
+   * @param aUnit T компонент контейнера (плагин) {@link TsNullArgumentRtException} аргумент = null
+   */
+  private void runUnit( T aUnit ) {
+    TsNullArgumentRtException.checkNull( aUnit );
+    // Регистрация в контейнере
+    wubBox.addUnit( aUnit );
+  }
+
 }

@@ -1,5 +1,6 @@
 package org.toxsoft.core.tslib.utils.plugins.impl;
 
+import static java.lang.String.*;
 import static org.toxsoft.core.tslib.utils.plugins.IPluginsHardConstants.*;
 
 import org.toxsoft.core.tslib.utils.*;
@@ -65,7 +66,7 @@ class DepedencyInfo
     String[] ss = aDependencyString.split( MF_DEPENDENCY_LINE_PARTS_DELIMITER );
     String pType = ss[0].trim();
     String pId = ss[1].trim();
-    TsVersion pVer = TsVersion.parseVersionString( ss[2].trim() );
+    TsVersion pVer = TsVersion.KEEPER.str2ent( ss[2].trim() );
     boolean needExactVersion = Boolean.parseBoolean( ss[3] );
     return new DepedencyInfo( pType, pId, pVer, needExactVersion );
   }
@@ -98,4 +99,45 @@ class DepedencyInfo
     return exactVersionNeeded;
   }
 
+  // ------------------------------------------------------------------------------------
+  // Object
+  //
+  @Override
+  public String toString() {
+    return format( "%s[%s,%d.%d]", pluginType, pluginId, Integer.valueOf( version.verMajor() ), //$NON-NLS-1$
+        Integer.valueOf( version.verMinor() ) );
+  }
+
+  @Override
+  public int hashCode() {
+    int result = TsLibUtils.INITIAL_HASH_CODE;
+    result = TsLibUtils.PRIME * result + pluginId.hashCode();
+    result = TsLibUtils.PRIME * result + pluginType.hashCode();
+    result = TsLibUtils.PRIME * result + version.hashCode();
+    return result;
+  }
+
+  @Override
+  public boolean equals( Object aObject ) {
+    if( this == aObject ) {
+      return true;
+    }
+    if( aObject == null ) {
+      return false;
+    }
+    if( getClass() != aObject.getClass() ) {
+      return false;
+    }
+    DepedencyInfo other = (DepedencyInfo)aObject;
+    if( !pluginId.equals( other.pluginId ) ) {
+      return false;
+    }
+    if( !pluginType.equals( other.pluginType ) ) {
+      return false;
+    }
+    if( !version.equals( other.version ) ) {
+      return false;
+    }
+    return true;
+  }
 }

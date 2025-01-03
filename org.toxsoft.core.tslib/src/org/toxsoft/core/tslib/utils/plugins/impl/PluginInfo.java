@@ -1,12 +1,13 @@
 package org.toxsoft.core.tslib.utils.plugins.impl;
 
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMap;
-import org.toxsoft.core.tslib.utils.TsVersion;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.plugins.IPluginInfo;
+import static java.lang.String.*;
+
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.plugins.*;
 
 /**
  * неизменяемый класс - реализация интерфейса IPluginInfo.
@@ -127,6 +128,64 @@ class PluginInfo
   @Override
   public IStringMap<String> userProperties() {
     return userProps;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Object
+  //
+  @Override
+  public String toString() {
+    return format( "%s[%s,%d.%d]", type, id, Integer.valueOf( version.verMajor() ), //$NON-NLS-1$
+        Integer.valueOf( version.verMinor() ) );
+  }
+
+  @Override
+  public int hashCode() {
+    int result = TsLibUtils.INITIAL_HASH_CODE;
+    result = TsLibUtils.PRIME * result + id.hashCode();
+    result = TsLibUtils.PRIME * result + type.hashCode();
+    result = TsLibUtils.PRIME * result + version.hashCode();
+    result = TsLibUtils.PRIME * result + className.hashCode();
+    result = TsLibUtils.PRIME * result + jarFileName.hashCode();
+    result = TsLibUtils.PRIME * result + dependencyInfoList.hashCode();
+    result = TsLibUtils.PRIME * result + userProps.hashCode();
+    return result;
+  }
+
+  @Override
+  public boolean equals( Object aObject ) {
+    if( this == aObject ) {
+      return true;
+    }
+    if( aObject == null ) {
+      return false;
+    }
+    if( getClass() != aObject.getClass() ) {
+      return false;
+    }
+    IPluginInfo other = (IPluginInfo)aObject;
+    if( !id.equals( other.pluginId() ) ) {
+      return false;
+    }
+    if( !type.equals( other.pluginType() ) ) {
+      return false;
+    }
+    if( !version.equals( other.pluginVersion() ) ) {
+      return false;
+    }
+    if( !className.equals( other.pluginClassName() ) ) {
+      return false;
+    }
+    if( !jarFileName.equals( other.pluginJarFileName() ) ) {
+      return false;
+    }
+    if( !dependencyInfoList.equals( other.listDependencies() ) ) {
+      return false;
+    }
+    if( !userProps.equals( other.userProperties() ) ) {
+      return false;
+    }
+    return true;
   }
 
 }
