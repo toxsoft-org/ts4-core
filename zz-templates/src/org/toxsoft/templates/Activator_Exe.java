@@ -30,7 +30,7 @@ public class Activator_Exe
   /**
    * Full ID of the application (an IDpath).
    */
-  public static final String APP_ID = "com.hazard157.xxx"; //$NON-NLS-1$
+  public static final String APP_ID = "org.toxsoft.templates"; //$NON-NLS-1$
 
   /**
    * Application alias is an IDname usually matching application *.product file name.
