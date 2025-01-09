@@ -11,31 +11,27 @@ import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Служба, набор методов для облегчения выполнения типичных задач GUI в приложении на базе E4.
+ * Service provides methods to perform common tasks in E4-based GUI.
  * <p>
- * Важно: сслыка на этот объект должен быть создан в контексте окна! То есть, не в адоне, который выполяется до создания
- * главного окна. Кроме того, если у программы несколько окон, в каждом должен быть свой экземпляр этой службы.
- * <p>
- * <b>WARNING</b>: FIXME as of 17/06/2022 eventer {@link #perspectiveEventer()} fire events only when perspectives are
- * changed through {@link #switchToPerspective(String, String)} method (including switching with MWS command
- * {@link IMwsCoreConstants#MWSID_CMD_SWITCH_PERSP}). Switching perspectives via E4 builtin means <b>does not fires</b>
- * {@link ITsE4PerspectiveSwitchListener#onPerspectiveChanged(ITsE4Helper, String)} events!
+ * Reference to the instance of this interface is provided in windows level context.
  *
  * @author hazard157
  */
 public interface ITsE4Helper {
 
   /**
-   * Для всех обработчков вызывает методы, аннотированные как {@link CanExecute}.
+   * Updates all E4 commands enabled state.
+   * <p>
+   * For all E4 command handlers calls method annotated with {@link CanExecute}.
    */
   void updateHandlersCanExecuteState();
 
   /**
-   * Переключается на выбранную перспективу и опционально активирует вью.
+   * Switches active perspective and optionally activates the specified UIpart.
    *
-   * @param aPerspectiveId String - идентификатор перспективы
-   * @param aActivatePartId String - идентификатор вью, может быть null
-   * @return {@link MPart} - активированное вью или null
+   * @param aPerspectiveId String - the perspective ID
+   * @param aActivatePartId String - UIpart ID or <code>null</code> for default
+   * @return {@link MPart} - activated UIpart ID or <code>null</code> if no UIpart was specified
    * @throws TsNullArgumentRtException aPerspectiveId = null
    */
   MPart switchToPerspective( String aPerspectiveId, String aActivatePartId );
@@ -59,21 +55,21 @@ public interface ITsE4Helper {
   MPart findPart( String aPartId );
 
   /**
-   * Возвращает идентификатор активной перспективы.
+   * Returns current perspective ID.
    *
-   * @return String - идентификатор активной перспективы или <code>null</code> если нет активной перспективы
+   * @return String - current perspective ID or <code>null</code> if no perspective is active
    */
   String currentPerspId();
 
   /**
-   * Возвращает идентификатор активного вью.
+   * Returns the ID of the currently active (focused) UIpart.
    *
-   * @return String - идентификатор активного вью или <code>null</code> если нет активного вью
+   * @return String - active UIpart ID or <code>null</code> if no UIpart is active
    */
   String currentPartId();
 
   /**
-   * Завершает работу приложения.
+   * Quits the application.
    */
   void quitApplication();
 
@@ -96,7 +92,7 @@ public interface ITsE4Helper {
   void execCmd( String aCmdId, IStringMap<String> aArgValues );
 
   /**
-   * Finds specified element in e4 model of application.
+   * Searches for the specified element in e4 model of application.
    *
    * @param <T> - the type of element being searched for
    * @param aRoot {@link MElementContainer} - search root in e4 model of application
@@ -109,10 +105,80 @@ public interface ITsE4Helper {
   <T> T findElement( MElementContainer<?> aRoot, String aId, Class<T> aClass, int aFlags );
 
   /**
+   * Sets perspective visibility state.
+   * <p>
+   * Does nothing if no such element exists in application E4 model.
+   *
+   * @param aPerspectiveId String - the perspective ID
+   * @param aVisible boolean - visibility state to set
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  void setPrerspectiveVisible( String aPerspectiveId, boolean aVisible );
+
+  /**
+   * Sets UIpart visibility state.
+   * <p>
+   * Does nothing if no such element exists in application E4 model.
+   *
+   * @param aUipartId String - the UIpart ID
+   * @param aVisible boolean - visibility state to set
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  void setUipartVisible( String aUipartId, boolean aVisible );
+
+  /**
+   * Sets menu element (item or menu) visibility state.
+   * <p>
+   * Does nothing if no such element exists in application E4 model.
+   *
+   * @param aMenuElementId String - the menu element ID
+   * @param aVisible boolean - visibility state to set
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  void setMenuItemVisible( String aMenuElementId, boolean aVisible );
+
+  /**
+   * Sets tool item visibility state.
+   * <p>
+   * Does nothing if no such element exists in application E4 model.
+   *
+   * @param aToolItemId String - the tool item ID
+   * @param aVisible boolean - visibility state to set
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  void setToolItemVisible( String aToolItemId, boolean aVisible );
+
+  /**
    * Perspective change eventer.
+   * <p>
+   * <b>Note:</b>: as of 17/06/2022 eventer {@link #perspectiveEventer()} fire events only when perspectives are changed
+   * through {@link #switchToPerspective(String, String)} method (including switching with MWS command
+   * {@link IMwsCoreConstants#MWSID_CMD_SWITCH_PERSP}). Switching perspectives via E4 builtin means <b>does not
+   * fires</b> {@link ITsE4PerspectiveSwitchListener#onPerspectiveChanged(ITsE4Helper, String)} events!
    *
    * @return {@link ITsE4Helper}&lt;{@link ITsE4PerspectiveSwitchListener}&gt; - the eventer
    */
   ITsEventer<ITsE4PerspectiveSwitchListener> perspectiveEventer();
+
+  // ------------------------------------------------------------------------------------
+  // inline methods for convenience
+
+  /**
+   * Searches for the specified element in e4 model of application.
+   * <p>
+   * Searches everywhere inclusive under the specified root element.
+   *
+   * @param <T> - the type of element being searched for
+   * @param aRoot {@link MElementContainer} - search root in e4 model of application
+   * @param aId String - the ID of element being searched for
+   * @param aClass {@link Class}&lt;T&gt; - the type of element being searched for
+   * @return &lt;T&gt; - found element or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  default <T> T findElement( MElementContainer<?> aRoot, String aId, Class<T> aClass ) {
+    int flags = EModelService.ANYWHERE | EModelService.IN_SHARED_ELEMENTS | EModelService.IN_MAIN_MENU
+        | EModelService.IN_SHARED_ELEMENTS;
+    return findElement( aRoot, aId, aClass, flags );
+  }
 
 }

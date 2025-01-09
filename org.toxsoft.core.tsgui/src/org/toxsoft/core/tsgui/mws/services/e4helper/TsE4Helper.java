@@ -12,6 +12,7 @@ import org.eclipse.e4.core.services.events.*;
 import org.eclipse.e4.ui.model.application.ui.*;
 import org.eclipse.e4.ui.model.application.ui.advanced.*;
 import org.eclipse.e4.ui.model.application.ui.basic.*;
+import org.eclipse.e4.ui.model.application.ui.menu.*;
 import org.eclipse.e4.ui.workbench.*;
 import org.eclipse.e4.ui.workbench.modeling.*;
 import org.toxsoft.core.tsgui.mws.bases.*;
@@ -239,17 +240,6 @@ public class TsE4Helper
     }
   }
 
-  /**
-   * Finds specified element in e4 model of application.
-   *
-   * @param <T> - the type of element being searched for
-   * @param aRoot {@link MElementContainer} - search root in e4 model of application
-   * @param aId String - the ID of element being searched for
-   * @param aClass {@link Class}&lt;T&gt; - the type of element being searched for
-   * @param aFlags int - search flags {@link EModelService}<code>.XXX</code>
-   * @return &lt;T&gt; - found element or <code>null</code>
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   */
   @Override
   public <T> T findElement( MElementContainer<?> aRoot, String aId, Class<T> aClass, int aFlags ) {
     TsNullArgumentRtException.checkNulls( aRoot, aId, aClass );
@@ -265,6 +255,46 @@ public class TsE4Helper
   @Override
   public ITsEventer<ITsE4PerspectiveSwitchListener> perspectiveEventer() {
     return perspectiveEventer;
+  }
+
+  @Override
+  public void setPrerspectiveVisible( String aPerspectiveId, boolean aVisible ) {
+    TsNullArgumentRtException.checkNull( aPerspectiveId );
+    MTrimmedWindow mainWindow = windowContext.get( MTrimmedWindow.class );
+    MPerspective item = findElement( mainWindow, aPerspectiveId, MPerspective.class );
+    if( item != null ) {
+      item.setVisible( aVisible );
+    }
+  }
+
+  @Override
+  public void setUipartVisible( String aUipartId, boolean aVisible ) {
+    TsNullArgumentRtException.checkNull( aUipartId );
+    MTrimmedWindow mainWindow = windowContext.get( MTrimmedWindow.class );
+    MPart item = findElement( mainWindow, aUipartId, MPart.class );
+    if( item != null ) {
+      item.setVisible( aVisible );
+    }
+  }
+
+  @Override
+  public void setMenuItemVisible( String aMenuItemId, boolean aVisible ) {
+    TsNullArgumentRtException.checkNull( aMenuItemId );
+    MTrimmedWindow mainWindow = windowContext.get( MTrimmedWindow.class );
+    MMenuElement item = findElement( mainWindow, aMenuItemId, MMenuElement.class );
+    if( item != null ) {
+      item.setVisible( aVisible );
+    }
+  }
+
+  @Override
+  public void setToolItemVisible( String aToolItemId, boolean aVisible ) {
+    TsNullArgumentRtException.checkNull( aToolItemId );
+    MTrimmedWindow mainWindow = windowContext.get( MTrimmedWindow.class );
+    MToolItem item = findElement( mainWindow, aToolItemId, MToolItem.class );
+    if( item != null ) {
+      item.setVisible( aVisible );
+    }
   }
 
 }
