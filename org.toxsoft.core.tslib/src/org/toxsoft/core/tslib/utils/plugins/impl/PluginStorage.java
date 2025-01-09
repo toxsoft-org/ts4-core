@@ -382,7 +382,7 @@ class PluginStorage
     String pluginId = aPluginInfo.pluginId();
     LoggerUtils.defaultLogger().debug( MSG_DEREGISTER_PLUGIN, pluginId );
     // Удаление всех зависимостей от целевого плагина
-    // TODO: 2025-01-09 mvk: выгрузка зависимостей требует тестирования/отладки!
+    // TODO: 2025-01-09 mvk: выгрузка зависимостей требует тестирования/отладки !
     for( IPluginInfo pluginInfo : new ElemLinkedList<>( pluginInfos.values() ) ) {
       for( IDependencyInfo dependencyInfo : pluginInfo.listDependencies() ) {
         String dependencyPluginId = dependencyInfo.pluginId();
