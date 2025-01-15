@@ -5,6 +5,9 @@ import org.toxsoft.core.tsgui.bricks.tin.*;
 import org.toxsoft.core.tsgui.bricks.tin.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
@@ -56,6 +59,53 @@ public class TinUtils {
     }
     return TinValue.ofGroup( values );
   }
+
+  /**
+   * Создает {@link ITinValue} из набора свойств полей.
+   *
+   * @param aOpSet {@link IOptionSet} - набор свойств полей
+   * @param aTinType {@link ITinTypeInfo} - типы полей
+   * @return {@link ITinValue} - значение для инспектора
+   */
+  public static ITinValue optionSet2TinValue( IOptionSet aOpSet, ITinTypeInfo aTinType ) {
+    IStringMapEdit<ITinValue> values = new StringMap<>();
+    for( ITinFieldInfo fi : aTinType.fieldInfos() ) {
+      ITinValue tv = fi.typeInfo().makeValue( aOpSet.getValue( fi.id() ).asValobj() );
+      values.put( fi.id(), tv );
+    }
+    return TinValue.ofGroup( values );
+  }
+
+  /**
+   * Возвращает значения полей инспектора в виде набора свойств.
+   *
+   * @param aValue {@link TinValue} - значение инспектора свойств
+   * @param aType {@link ITinTypeInfo} - тип значения в инспекторе свойств
+   * @return {@link IOptionSet} - значения полей инспектора в виде набора свойств
+   */
+  public static IOptionSet tinValue2OptionSet( ITinValue aValue, ITinTypeInfo aType ) {
+    IOptionSetEdit opSet = new OptionSet();
+    for( ITinFieldInfo fi : aType.fieldInfos() ) {
+      if( aValue.childValues().hasKey( fi.id() ) ) {
+        ITinValue ftv = aValue.childValues().getByKey( fi.id() );
+        if( ftv.kind() == ETinTypeKind.ATOMIC ) {
+          opSet.setValue( fi.id(), ftv.atomicValue() );
+        }
+        if( ftv.kind() == ETinTypeKind.FULL ) {
+          IAtomicValue av = fi.typeInfo().compose( ftv.childValues() );
+          opSet.setValue( fi.id(), av );
+        }
+      }
+      else {
+        opSet.setValue( fi.id(), IAtomicValue.NULL );
+      }
+    }
+    return opSet;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Implementation
+  //
 
   private static ITinTypeInfo tinTypeInfo( IVedScreen aVedScreen, IVedItem aItem ) {
     TsNullArgumentRtException.checkNulls( aVedScreen, aItem );
