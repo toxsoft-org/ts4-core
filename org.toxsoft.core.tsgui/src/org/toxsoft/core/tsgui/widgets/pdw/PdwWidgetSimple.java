@@ -4,7 +4,6 @@ import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.graphics.*;
-import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tsgui.utils.anim.*;
 import org.toxsoft.core.tsgui.utils.rectfit.*;

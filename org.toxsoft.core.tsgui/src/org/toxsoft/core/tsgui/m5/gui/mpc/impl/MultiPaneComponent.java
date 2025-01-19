@@ -658,6 +658,7 @@ public abstract class MultiPaneComponent<T>
     }
     tree.getControl().setLayoutData( BorderLayout.CENTER );
     tree.setIconSize( OPDEF_NODE_ICON_SIZE.getValue( tsContext().params() ).asValobj() );
+    tree.setColumnHeaderVisible( OPDEF_IS_COLUMN_HEADER.getValue( tsContext().params() ).asBool() );
     tree.setThumbSize( OPDEF_NODE_THUMB_SIZE.getValue( tsContext().params() ).asValobj() );
     tree.addTsSelectionListener( selectionChangeEventHelper );
     tree.addTsDoubleClickListener( doubleClickEventHelper );

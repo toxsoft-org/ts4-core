@@ -209,11 +209,11 @@ public abstract class AbstractOptionsGetter
 
   @Override
   public IAtomicValue getValue( String aId, IAtomicValue aDefaultValue ) {
-    IAtomicValue value = internalFind( aId );
-    if( value == null ) {
-      value = aDefaultValue;
+    IAtomicValue av = internalFind( aId );
+    if( av != null && av != IAtomicValue.NULL ) {
+      return av;
     }
-    return value;
+    return aDefaultValue;
   }
 
   @Override
@@ -239,7 +239,6 @@ public abstract class AbstractOptionsGetter
   @Override
   public boolean getBool( String aId, boolean aDefaultValue ) {
     IAtomicValue av = internalFindAs( aId, EAtomicType.BOOLEAN );
-    // the same check as #isNull(aId)
     if( av == null || av == IAtomicValue.NULL ) {
       return aDefaultValue;
     }
@@ -269,7 +268,7 @@ public abstract class AbstractOptionsGetter
   @Override
   public int getInt( String aId, int aDefaultValue ) {
     IAtomicValue av = internalFindAs( aId, EAtomicType.INTEGER );
-    if( av == null ) {
+    if( av == null || av == IAtomicValue.NULL ) {
       return aDefaultValue;
     }
     return av.asInt();
@@ -298,7 +297,7 @@ public abstract class AbstractOptionsGetter
   @Override
   public long getLong( String aId, long aDefaultValue ) {
     IAtomicValue av = internalFindAs( aId, EAtomicType.INTEGER );
-    if( av == null ) {
+    if( av == null || av == IAtomicValue.NULL ) {
       return aDefaultValue;
     }
     return av.asLong();
@@ -327,7 +326,7 @@ public abstract class AbstractOptionsGetter
   @Override
   public float getFloat( String aId, float aDefaultValue ) {
     IAtomicValue av = internalFindAs( aId, EAtomicType.FLOATING );
-    if( av == null ) {
+    if( av == null || av == IAtomicValue.NULL ) {
       return aDefaultValue;
     }
     return av.asFloat();
@@ -356,7 +355,7 @@ public abstract class AbstractOptionsGetter
   @Override
   public double getDouble( String aId, double aDefaultValue ) {
     IAtomicValue av = internalFindAs( aId, EAtomicType.FLOATING );
-    if( av == null ) {
+    if( av == null || av == IAtomicValue.NULL ) {
       return aDefaultValue;
     }
     return av.asDouble();
@@ -385,7 +384,7 @@ public abstract class AbstractOptionsGetter
   @Override
   public long getTime( String aId, long aDefaultValue ) {
     IAtomicValue av = internalFindAs( aId, EAtomicType.TIMESTAMP );
-    if( av == null ) {
+    if( av == null || av == IAtomicValue.NULL ) {
       return aDefaultValue;
     }
     return av.asLong();
@@ -414,7 +413,7 @@ public abstract class AbstractOptionsGetter
   @Override
   public String getStr( String aId, String aDefaultValue ) {
     IAtomicValue av = internalFindAs( aId, EAtomicType.STRING );
-    if( av == null ) {
+    if( av == null || av == IAtomicValue.NULL ) {
       return aDefaultValue;
     }
     return av.asString();
@@ -443,7 +442,7 @@ public abstract class AbstractOptionsGetter
   @Override
   public <T> T getValobj( String aId, T aDefaultValue ) {
     IAtomicValue av = internalFindAs( aId, EAtomicType.VALOBJ );
-    if( av == null ) {
+    if( av == null || av == IAtomicValue.NULL ) {
       return aDefaultValue;
     }
     return av.asValobj();

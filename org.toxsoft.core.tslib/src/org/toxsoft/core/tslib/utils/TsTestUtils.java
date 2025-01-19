@@ -107,7 +107,7 @@ public class TsTestUtils {
    * @throws TsNullArgumentRtException aMessageFormat = <code>null</code>
    */
   @SuppressWarnings( "nls" )
-  public static boolean askConfirm( String aMessageFormat, Object aMsgArgs ) {
+  public static boolean askConfirm( String aMessageFormat, Object... aMsgArgs ) {
     String s = waitEnter( aMessageFormat + " (y/n): ", aMsgArgs );
     return s.trim().equalsIgnoreCase( "y" );
   }
@@ -115,7 +115,7 @@ public class TsTestUtils {
   /**
    * Outputs message, end with " (y/n): " and returns <code>true</code> if user presses y or Y.
    * <p>
-   * Difference between {@link #askConfirm(String, Object)} and {@link #askConfirm2(String, Object)} is in
+   * Difference between {@link #askConfirm(String, Object...)} and {@link #askConfirm2(String, Object...)} is in
    * interpretation of an empty input (when directly ENTER was pressed). First method returns <code>false</code>, while
    * second returns <code>true</code>.
    *
@@ -125,7 +125,7 @@ public class TsTestUtils {
    * @throws TsNullArgumentRtException aMessageFormat = <code>null</code>
    */
   @SuppressWarnings( "nls" )
-  public static boolean askConfirm2( String aMessageFormat, Object aMsgArgs ) {
+  public static boolean askConfirm2( String aMessageFormat, Object... aMsgArgs ) {
     String s = waitEnter( aMessageFormat + " (y/n): ", aMsgArgs );
     if( s.isEmpty() ) {
       return true;

@@ -3,7 +3,6 @@ package org.toxsoft.core.tsgui.widgets.pdw;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.graphics.*;
-import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tsgui.panels.lazy.*;
 import org.toxsoft.core.tsgui.utils.anim.*;
