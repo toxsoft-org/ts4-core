@@ -183,11 +183,58 @@ public abstract class AbstractEntityKeeper<E>
     aSw.writeChar( CHAR_SET_END );
   }
 
+  private void internalWriteStringMap( IStrioWriter aSw, IStringMap<E> aMap, boolean aIndented ) {
+    if( aMap.isEmpty() ) {
+      aSw.writeChars( CHAR_SET_BEGIN, CHAR_SET_END );
+      return;
+    }
+    aSw.writeChar( CHAR_SET_BEGIN );
+    if( aIndented ) {
+      aSw.incNewLine();
+    }
+    for( int i = 0, n = aMap.size(); i < n; i++ ) {
+      String key = aMap.keys().get( i );
+      E e = aMap.getByKey( key );
+      if( !aIndented ) {
+        aSw.writeSpace();
+      }
+      aSw.writeQuotedString( key );
+      aSw.writeChar( CHAR_EQUAL );
+      internalWriteEntity( aSw, e );
+      if( i != n - 1 ) {
+        aSw.writeChar( CHAR_ITEM_SEPARATOR );
+        if( aIndented ) {
+          aSw.writeEol();
+        }
+      }
+    }
+    if( aIndented ) {
+      aSw.decNewLine();
+    }
+    else {
+      aSw.writeSpace();
+    }
+    aSw.writeChar( CHAR_SET_END );
+  }
+
   private IStringMapEdit<E> internalReadStridMap( IStrioReader aSr ) {
     IStringMapEdit<E> map = new StringMap<>();
     if( aSr.readSetBegin() ) {
       do {
         String key = aSr.readIdPath();
+        aSr.ensureChar( CHAR_EQUAL );
+        E e = internalReadEntity( aSr );
+        map.put( key, e );
+      } while( aSr.readSetNext() );
+    }
+    return map;
+  }
+
+  private IStringMapEdit<E> internalReadStringMap( IStrioReader aSr ) {
+    IStringMapEdit<E> map = new StringMap<>();
+    if( aSr.readSetBegin() ) {
+      do {
+        String key = aSr.readQuotedString();
         aSr.ensureChar( CHAR_EQUAL );
         E e = internalReadEntity( aSr );
         map.put( key, e );
@@ -312,7 +359,7 @@ public abstract class AbstractEntityKeeper<E>
   }
 
   @Override
-  public String smap2str( IStringMap<E> aMap, boolean aIndented ) {
+  public String idmap2str( IStringMap<E> aMap, boolean aIndented ) {
     TsNullArgumentRtException.checkNull( aMap );
     checkIsListOfIdPaths( aMap.keys() );
     StringBuilder sb = new StringBuilder();
@@ -323,10 +370,28 @@ public abstract class AbstractEntityKeeper<E>
   }
 
   @Override
-  public IStringMapEdit<E> str2smap( String aCollAsString ) {
+  public IStringMapEdit<E> str2idmap( String aCollAsString ) {
     ICharInputStream chIn = new CharInputStreamString( aCollAsString );
     IStrioReader sr = new StrioReader( chIn );
-    return readStridMap( sr );
+    return internalReadStridMap( sr );
+  }
+
+  @Override
+  public String strmap2str( IStringMap<E> aMap, boolean aIndented ) {
+    TsNullArgumentRtException.checkNull( aMap );
+    checkIsListOfIdPaths( aMap.keys() );
+    StringBuilder sb = new StringBuilder();
+    ICharOutputStream chOut = new CharOutputStreamAppendable( sb );
+    IStrioWriter sw = new StrioWriter( chOut );
+    internalWriteStringMap( sw, aMap, aIndented );
+    return sb.toString();
+  }
+
+  @Override
+  public IStringMapEdit<E> str2strmap( String aCollAsString ) {
+    ICharInputStream chIn = new CharInputStreamString( aCollAsString );
+    IStrioReader sr = new StrioReader( chIn );
+    return internalReadStringMap( sr );
   }
 
   @Override
@@ -408,6 +473,26 @@ public abstract class AbstractEntityKeeper<E>
   }
 
   @Override
+  public void writeStringMap( IStrioWriter aSw, IStringMap<E> aMap, boolean aIndented ) {
+    TsNullArgumentRtException.checkNulls( aSw, aMap );
+    checkIsListOfIdPaths( aMap.keys() );
+    internalWriteStringMap( aSw, aMap, aIndented );
+  }
+
+  @Override
+  public void writeStringMap( File aFile, IStringMap<E> aMap, boolean aIndented ) {
+    TsNullArgumentRtException.checkNulls( aFile, aMap );
+    checkIsListOfIdPaths( aMap.keys() );
+    try( ICharOutputStreamCloseable chOut = new CharOutputStreamFile( aFile ) ) {
+      IStrioWriter sw = new StrioWriter( chOut );
+      internalWriteStringMap( sw, aMap, aIndented );
+    }
+    catch( Exception ex ) {
+      throw new TsIoRtException( ex );
+    }
+  }
+
+  @Override
   public IStringMapEdit<E> readStridMap( IStrioReader aSr ) {
     TsNullArgumentRtException.checkNull( aSr );
     return internalReadStridMap( aSr );
@@ -419,6 +504,24 @@ public abstract class AbstractEntityKeeper<E>
     try( ICharInputStreamCloseable chIn = new CharInputStreamFile( aFile ) ) {
       IStrioReader sr = new StrioReader( chIn );
       return internalReadStridMap( sr );
+    }
+    catch( Exception ex ) {
+      throw new TsIoRtException( ex );
+    }
+  }
+
+  @Override
+  public IStringMapEdit<E> readStringMap( IStrioReader aSr ) {
+    TsNullArgumentRtException.checkNull( aSr );
+    return internalReadStringMap( aSr );
+  }
+
+  @Override
+  public IStringMapEdit<E> readStringMap( File aFile ) {
+    TsNullArgumentRtException.checkNull( aFile );
+    try( ICharInputStreamCloseable chIn = new CharInputStreamFile( aFile ) ) {
+      IStrioReader sr = new StrioReader( chIn );
+      return internalReadStringMap( sr );
     }
     catch( Exception ex ) {
       throw new TsIoRtException( ex );

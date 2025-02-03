@@ -59,6 +59,21 @@ public interface IKeepablesStorage
   <T> void writeStridMap( String aId, IStringMap<T> aMap, IEntityKeeper<T> aKeeper, boolean aIndented );
 
   /**
+   * Writes map of entities where keys are any String.
+   *
+   * @param <T> - expected type of the entities
+   * @param aId String - unique identifier (any String) of the section within the storage
+   * @param aMap {@link IStringMap}&lt;T&gt; - the map of entities
+   * @param aKeeper {@link IEntityKeeper} - entity keeper
+   * @param aIndented boolean - hint to write collection in indented (human-readable) form
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException identifier is not an IDpath
+   * @throws TsIllegalArgumentRtException any key in the map is not an IDpath
+   * @throws TsIoRtException writing I/O error
+   */
+  <T> void writeStringMap( String aId, IStringMap<T> aMap, IEntityKeeper<T> aKeeper, boolean aIndented );
+
+  /**
    * Writes (creates new or overwrites existing) section.
    *
    * @param aSection {@link TdfSection} - the section to write
@@ -99,6 +114,11 @@ public interface IKeepablesStorage
   @SuppressWarnings( "javadoc" )
   default <T> void writeStridMap( String aId, IStringMap<T> aMap, IEntityKeeper<T> aKeeper ) {
     writeStridMap( aId, aMap, aKeeper, true );
+  }
+
+  @SuppressWarnings( "javadoc" )
+  default <T> void writeStringMap( String aId, IStringMap<T> aMap, IEntityKeeper<T> aKeeper ) {
+    writeStringMap( aId, aMap, aKeeper, true );
   }
 
 }

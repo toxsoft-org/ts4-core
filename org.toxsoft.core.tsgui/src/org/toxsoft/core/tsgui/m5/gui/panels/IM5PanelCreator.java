@@ -10,7 +10,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Creates GUI panels for modeled entities view and editing.
  * <p>
- * THis interface has defalt implementation {@link M5DefaultPanelCreator}. Default implementation is used by the model
+ * THis interface has default implementation {@link M5DefaultPanelCreator}. Default implementation is used by the model
  * until
  *
  * @author hazard157
@@ -129,7 +129,7 @@ public interface IM5PanelCreator<T> {
    *
    * @param aContext {@link ITsGuiContext} - panel creation context and parameters
    * @param aLookupProvider {@link IM5LookupProvider} - the lookup items provider
-   * @return {@link IM5CollectionPanel} - new instance of the panel
+   * @return {@link IM5MultiLookupPanel} - new instance of the panel
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   IM5MultiLookupPanel<T> createMultiLookupPanel( ITsGuiContext aContext, IM5LookupProvider<T> aLookupProvider );

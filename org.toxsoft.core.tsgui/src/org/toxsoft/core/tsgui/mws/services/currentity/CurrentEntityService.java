@@ -93,21 +93,22 @@ public class CurrentEntityService<E>
   //
 
   /**
-   * Subclass may handle current entity change.
+   * Subclass may handle current entity change or even determine which value to set.
    * <p>
    * This method is called after current entity changed but before listeners are informed.
    * <p>
-   * In base class does nothing, there is no need to call superclass method when overriding.
+   * In base class simply returns <code>aNew</code>, there is no need to call superclass method when overriding.
    *
    * @param aOld &lt;E&gt; - old value of {@link #current()} may be <code>null</code>
    * @param aNew &lt;E&gt; - new value of {@link #current()} may be <code>null</code>
+   * @return &lt;E&gt; - the value to be actually set as a new value
    */
-  protected void beforeListenersInformed( E aOld, E aNew ) {
-    // nop
+  protected E beforeListenersInformed( E aOld, E aNew ) {
+    return aNew;
   }
 
   /**
-   * Subclass may prform additional actions after external listeners were called.
+   * Subclass may perform additional actions after external listeners were called.
    * <p>
    * This method is called after current entity changed and after listeners were informed. Also all
    * {@link ICurrentEntityChangeListener#afterListenersInformed()} were called before invoking this method.
@@ -131,8 +132,8 @@ public class CurrentEntityService<E>
   public void setCurrent( E aCurrent ) {
     if( aCurrent != current ) {
       E old = current;
-      current = aCurrent;
-      beforeListenersInformed( old, current );
+      current = aCurrent; // set current to be available in next method
+      current = beforeListenersInformed( old, current );
       fireEntityChangedEvent();
       fireAfterListenersEvent();
       afterListenersInformed();

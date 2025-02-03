@@ -1,119 +1,95 @@
-package org.toxsoft.core.tsgui.m5.model.impl;
+package org.toxsoft.core.tsgui.m5.gui.panels.provreg;
 
 import static org.toxsoft.core.tsgui.m5.gui.mpc.IMultiPaneComponentConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
-import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.gui.mpc.impl.*;
 import org.toxsoft.core.tsgui.m5.gui.panels.*;
 import org.toxsoft.core.tsgui.m5.gui.panels.impl.*;
 import org.toxsoft.core.tsgui.m5.model.*;
+import org.toxsoft.core.tsgui.m5.model.impl.*;
+import org.toxsoft.core.tsgui.utils.checkcoll.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * {@link IM5PanelCreator} implementation creates default panels.
+ * Creates different purpose collection panels {@link IM5CollectionPanel} for the M5-model.
  * <p>
- * Designed also to be subclassed. To create own panels one may override corresponding <code>doCreateXxxPanel()</code>
- * method.
+ * User implementation of this interface may be registered to the registry (TODO which registry?) so then M5 clients may
+ * ask to create and use registered provided panels.
  *
  * @author hazard157
  * @param <T> - modeled entity type
+ * @param <M> - concrete class of the M5-model (may be useful to access field definitions)
  */
-public class M5DefaultPanelCreator<T>
-    implements IM5PanelCreator<T> {
+public class M5CollectionPanelProvider<T, M extends M5Model<T>>
+    extends StridableParameterized {
 
-  private IM5Model<T> model = null;
+  private final M model;
 
   /**
    * Constructor.
+   *
+   * @param aModel &lt;M&gt; - the model
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public M5DefaultPanelCreator() {
-    // nop
-  }
-
-  // ------------------------------------------------------------------------------------
-  // Package API
-  //
-
-  void papiSetOwnerModel( IM5Model<T> aModel ) {
+  public M5CollectionPanelProvider( M aModel ) {
+    TsNullArgumentRtException.checkNull( aModel );
     model = aModel;
   }
 
   // ------------------------------------------------------------------------------------
-  // API fo subclasses
+  // API for subclasses
   //
 
   /**
-   * Returns the entity model.
+   * Returns the M5-model.
    *
-   * @return {@link IM5Model} - the entity model
-   * @throws TsIllegalStateRtException method is called before panel creator was set to model
+   * @return &lt;M&gt; - the M5-model
    */
-  public IM5Model<T> model() {
-    TsIllegalStateRtException.checkNull( model );
+  final protected M model() {
     return model;
   }
 
   // ------------------------------------------------------------------------------------
-  // IM5PanelCreator
+  // API
   //
 
-  @Override
-  public IM5EntityPanel<T> createEntityViewerPanel( ITsGuiContext aContext ) {
-    TsNullArgumentRtException.checkNull( aContext );
-    IM5EntityPanel<T> p = doCreateEntityViewerPanel( aContext );
-    TsInternalErrorRtException.checkNull( p );
-    TsInternalErrorRtException.checkFalse( p.isViewer() );
-    return p;
-  }
-
-  @Override
-  public IM5EntityPanel<T> createEntityEditorPanel( ITsGuiContext aContext, IM5LifecycleManager<T> aLifecycleManager ) {
-    TsNullArgumentRtException.checkNull( aContext );
-    IM5EntityPanel<T> p = doCreateEntityEditorPanel( aContext, aLifecycleManager );
-    TsInternalErrorRtException.checkNull( p );
-    TsInternalErrorRtException.checkTrue( p.isViewer() );
-    return p;
-  }
-
-  @Override
-  public IM5EntityPanel<T> createEntityDetailsPanel( ITsGuiContext aContext ) {
-    TsNullArgumentRtException.checkNull( aContext );
-    IM5EntityPanel<T> p = doCreateEntityDetailsPanel( aContext );
-    TsInternalErrorRtException.checkNull( p );
-    TsInternalErrorRtException.checkFalse( p.isViewer() );
-    return p;
-  }
-
-  @Override
-  public IM5EntityPanel<T> createEntityControlledPanel( ITsGuiContext aContext,
-      IM5LifecycleManager<T> aLifecycleManager, M5EntityPanelWithValedsController<T> aController ) {
-    TsNullArgumentRtException.checkNull( aContext );
-    M5EntityPanelWithValeds<T> p = doCreateEntityControlledPanel( aContext, aLifecycleManager, aController );
-    TsInternalErrorRtException.checkNull( p );
-    TsInternalErrorRtException.checkTrue( p.isViewer() );
-    return p;
-  }
-
-  @Override
-  public IM5FilterPanel<T> createFilterPanel( ITsGuiContext aContext ) {
-    TsNullArgumentRtException.checkNull( aContext );
-    IM5FilterPanel<T> p = doCreateFilterPanel( aContext );
-    TsInternalErrorRtException.checkNull( p );
-    return p;
-  }
-
-  @Override
-  public IM5CollectionPanel<T> createCollViewerPanel( ITsGuiContext aContext, IM5ItemsProvider<T> aItemsProvider ) {
+  /**
+   * Creates panel to view list of entities.
+   * <p>
+   * The create panel can be used to view the list of exsiting entities and to select one of them.
+   * <p>
+   * If specified provider is <code>null</code> it must be set to non-<code>null</code> value by
+   * {@link IM5CollectionPanel#setItemsProvider(IM5ItemsProvider)} before actual use of the panel.
+   *
+   * @param aContext {@link ITsGuiContext} - panel creation context and parameters
+   * @param aItemsProvider {@link IM5ItemsProvider} - the viewed items provider, may be <code>null</code>
+   * @return {@link IM5CollectionPanel} - new instance of the panel
+   * @throws TsNullArgumentRtException aContext = <code>null</code>
+   */
+  final public IM5CollectionPanel<T> createCollViewerPanel( ITsGuiContext aContext,
+      IM5ItemsProvider<T> aItemsProvider ) {
     TsNullArgumentRtException.checkNull( aContext );
     IM5CollectionPanel<T> p = doCreateCollViewerPanel( aContext, aItemsProvider );
     TsInternalErrorRtException.checkNull( p );
     return p;
   }
 
-  @Override
-  public IM5CollectionPanel<T> createCollEditPanel( ITsGuiContext aContext, IM5ItemsProvider<T> aItemsProvider,
+  /**
+   * Creates entities list edit panel: add, remove items to the list.
+   * <p>
+   * If specified <code>null</code> at creation time, both lifecycle manager and items provider must be set to
+   * non-<code>null</code> values before actual use of the panel.
+   *
+   * @param aContext {@link ITsGuiContext} - panel creation context and parameters
+   * @param aItemsProvider {@link IM5ItemsProvider} - the viewed items provider, may be <code>null</code>
+   * @param aLifecycleManager {@link IM5LifecycleManager} - manager to CRUD the entity, may be <code>null</code>
+   * @return {@link IM5CollectionPanel} - new instance of the panel
+   * @throws TsNullArgumentRtException aContext = <code>null</code>
+   */
+  final public IM5CollectionPanel<T> createCollEditPanel( ITsGuiContext aContext, IM5ItemsProvider<T> aItemsProvider,
       IM5LifecycleManager<T> aLifecycleManager ) {
     TsNullArgumentRtException.checkNull( aContext );
     IM5CollectionPanel<T> p = doCreateCollEditPanel( aContext, aItemsProvider, aLifecycleManager );
@@ -121,16 +97,38 @@ public class M5DefaultPanelCreator<T>
     return p;
   }
 
-  @Override
-  public IM5MultiLookupPanel<T> createMultiLookupPanel( ITsGuiContext aContext, IM5LookupProvider<T> aLookupProvider ) {
+  /**
+   * Creates the several lookup items selection panel.
+   *
+   * @param aContext {@link ITsGuiContext} - panel creation context and parameters
+   * @param aLookupProvider {@link IM5LookupProvider} - the lookup items provider
+   * @return {@link IM5CollectionPanel} - new instance of the panel
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  final public IM5MultiLookupPanel<T> createMultiLookupPanel( ITsGuiContext aContext,
+      IM5LookupProvider<T> aLookupProvider ) {
     TsNullArgumentRtException.checkNulls( aContext, aLookupProvider );
     IM5MultiLookupPanel<T> p = doCreateMultiLookupPanel( aContext, aLookupProvider );
     TsInternalErrorRtException.checkNull( p );
     return p;
   }
 
-  @Override
-  public IM5CollectionPanel<T> createCollChecksPanel( ITsGuiContext aContext, IM5ItemsProvider<T> aItemsProvider ) {
+  /**
+   * Creates panel to select several items from the list of entities.
+   * <p>
+   * To get selected items check marks supplier {@link IM5CollectionPanel#checkSupport()}, namely with method
+   * {@link ITsCheckSupport#listCheckedItems(boolean)}.
+   * <p>
+   * If specified provider is <code>null</code> it must be set to non-<code>null</code> value by
+   * {@link IM5CollectionPanel#setItemsProvider(IM5ItemsProvider)} before actual use of the panel.
+   *
+   * @param aContext {@link ITsGuiContext} - panel creation context and parameters
+   * @param aItemsProvider {@link IM5ItemsProvider} - the viewed items provider, may be <code>null</code>
+   * @return {@link IM5CollectionPanel} - new instance of the panel
+   * @throws TsNullArgumentRtException aContext = <code>null</code>
+   */
+  final public IM5CollectionPanel<T> createCollChecksPanel( ITsGuiContext aContext,
+      IM5ItemsProvider<T> aItemsProvider ) {
     TsNullArgumentRtException.checkNull( aContext );
     IM5CollectionPanel<T> p = doCreateCollChecksPanel( aContext, aItemsProvider );
     TsInternalErrorRtException.checkNull( p );

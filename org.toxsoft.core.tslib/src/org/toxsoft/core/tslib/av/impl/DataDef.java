@@ -64,6 +64,21 @@ public final class DataDef
   }
 
   /**
+   * Copy constructor.
+   *
+   * @param aSource {@link IDataDef} - the source
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public DataDef( IDataDef aSource ) {
+    TsNullArgumentRtException.checkNull( aSource );
+    id = aSource.id();
+    atomicType = aSource.atomicType();
+    params = new OptionSet( aSource.params() );
+    validator = aSource.validator();
+    comparator = aSource.comparator();
+  }
+
+  /**
    * Package level constructor, stores <code>aParam</code> reference without creating defensive copy.
    *
    * @param aFoo int - foo argument for unique constructor signature
@@ -156,6 +171,24 @@ public final class DataDef
     TsNullArgumentRtException.checkNulls( aDataType, aOverriddenParams );
     DataDef dd = new DataDef( aId, aDataType.atomicType(), aDataType.params() );
     dd.params().addAll( aOverriddenParams );
+    return dd;
+  }
+
+  /**
+   * Static constructor from {@link IDataDef}.
+   *
+   * @param aDataDef {@link IDataDef} - data definition
+   * @param aIdsAndValues Object[] - overriding and additional parameters as id / value pairs array
+   * @return {@link DataDef} - new instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException number of elements in array is uneven
+   * @see OptionSetUtils#createOpSet(Object...)
+   */
+  public static DataDef create5( IDataDef aDataDef, Object... aIdsAndValues ) {
+    TsNullArgumentRtException.checkNull( aDataDef );
+    DataDef dd = new DataDef( aDataDef );
+    IOptionSetEdit p = OptionSetUtils.createOpSet( aIdsAndValues );
+    dd.params().addAll( p );
     return dd;
   }
 

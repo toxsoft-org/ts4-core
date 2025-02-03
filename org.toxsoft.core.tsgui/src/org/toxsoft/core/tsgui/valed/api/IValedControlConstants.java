@@ -84,7 +84,7 @@ public interface IValedControlConstants {
   /**
    * ID of context reference {@link #REFDEF_VALUE_VISUALS_PROVIDER}.
    */
-  String REFID_VALUE_VISUALS_PROVIDER = VALED_REFID_PREFIX + ".ValueNameProvider"; //$NON-NLS-1$
+  String REFID_VALUE_VISUALS_PROVIDER = VALED_REFID_PREFIX + ".ValueVisualsProvider"; //$NON-NLS-1$
 
   // TODO TRANSLATE
 

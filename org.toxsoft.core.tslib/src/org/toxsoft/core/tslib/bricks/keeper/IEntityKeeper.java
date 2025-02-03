@@ -167,7 +167,7 @@ public interface IEntityKeeper<E> {
    * @throws TsIllegalArgumentRtException any key in the map is not an IDpath
    * @throws TsIoRtException {@link IOException} occurred
    */
-  String smap2str( IStringMap<E> aMap, boolean aIndented );
+  String idmap2str( IStringMap<E> aMap, boolean aIndented );
 
   /**
    * Reads text representation of the (where keys are an IDpaths) from the string.
@@ -178,7 +178,30 @@ public interface IEntityKeeper<E> {
    * @throws TsIoRtException {@link IOException} occurred
    * @throws StrioRtException invalid text representation format
    */
-  IStringMapEdit<E> str2smap( String aMapAsString );
+  IStringMapEdit<E> str2idmap( String aMapAsString );
+
+  /**
+   * Stores text representation of the map (where keys are an IDpaths) to the {@link String}.
+   *
+   * @param aMap {@link IStringMap} - map to be stored
+   * @param aIndented boolean - hint to write collection in indented (human-readable) form
+   * @return String - text representation string
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException any key in the map is not an IDpath
+   * @throws TsIoRtException {@link IOException} occurred
+   */
+  String strmap2str( IStringMap<E> aMap, boolean aIndented );
+
+  /**
+   * Reads text representation of the (where keys are an IDpaths) from the string.
+   *
+   * @param aMapAsString String - text representation string
+   * @return {@link IStringMapEdit} - restored map
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIoRtException {@link IOException} occurred
+   * @throws StrioRtException invalid text representation format
+   */
+  IStringMapEdit<E> str2strmap( String aMapAsString );
 
   /**
    * Stores text representation of the collection.
@@ -227,6 +250,28 @@ public interface IEntityKeeper<E> {
   void writeStridMap( File aFile, IStringMap<E> aMap, boolean aIndented );
 
   /**
+   * Stores text representation of the map (where keys are any String).
+   *
+   * @param aSw {@link IStrioWriter} - text representation writer stream
+   * @param aMap {@link IStringMap} - collection to be stored
+   * @param aIndented boolean - hint to write collection in indented (human-readable) form
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIoRtException {@link IOException} occurred
+   */
+  void writeStringMap( IStrioWriter aSw, IStringMap<E> aMap, boolean aIndented );
+
+  /**
+   * Stores text representation of the map (where keys are any String) to the file.
+   *
+   * @param aFile {@link File} - file to store text representation
+   * @param aMap {@link IStringMap} - collection to be stored
+   * @param aIndented boolean - hint to write collection in indented (human-readable) form
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIoRtException {@link IOException} occurred
+   */
+  void writeStringMap( File aFile, IStringMap<E> aMap, boolean aIndented );
+
+  /**
    * Reads text representation of the collection from the stream.
    *
    * @param aSr {@link IStrioReader} - input stream
@@ -270,6 +315,28 @@ public interface IEntityKeeper<E> {
    * @throws StrioRtException invalid text representation format
    */
   IStringMapEdit<E> readStridMap( File aFile );
+
+  /**
+   * Reads text representation of the map (where keys are any String) from the stream.
+   *
+   * @param aSr {@link IStrioReader} - input stream
+   * @return {@link IStringMapEdit} - restored map
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIoRtException {@link IOException} occurred
+   * @throws StrioRtException invalid text representation format
+   */
+  IStringMapEdit<E> readStringMap( IStrioReader aSr );
+
+  /**
+   * Reads text representation of the map (where keys are any String) from the file.
+   *
+   * @param aFile {@link File} - file to be read
+   * @return {@link IStringMapEdit} - restored map
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIoRtException {@link IOException} occurred
+   * @throws StrioRtException invalid text representation format
+   */
+  IStringMapEdit<E> readStringMap( File aFile );
 
   /**
    * Reads text representation of the collection from the stream.
@@ -326,8 +393,8 @@ public interface IEntityKeeper<E> {
    * @throws TsIllegalArgumentRtException any key in the map is not an IDpath
    * @throws TsIoRtException {@link IOException} occurred
    */
-  default String smap2str( IStringMap<E> aMap ) {
-    return smap2str( aMap, false );
+  default String idmap2str( IStringMap<E> aMap ) {
+    return idmap2str( aMap, false );
   }
 
   /**

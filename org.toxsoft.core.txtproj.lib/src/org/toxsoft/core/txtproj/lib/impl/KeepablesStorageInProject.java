@@ -162,14 +162,34 @@ public class KeepablesStorageInProject
     if( !sectionsMap.hasKey( aId ) ) {
       return IStringMap.EMPTY;
     }
-    return aKeeper.str2smap( sectionsMap.getByKey( aId ) );
+    return aKeeper.str2idmap( sectionsMap.getByKey( aId ) );
+  }
+
+  @Override
+  public <T> IStringMap<T> readStringMap( String aId, IEntityKeeper<T> aKeeper ) {
+    TsNullArgumentRtException.checkNulls( aId, aKeeper );
+    if( !sectionsMap.hasKey( aId ) ) {
+      return IStringMap.EMPTY;
+    }
+    return aKeeper.str2strmap( sectionsMap.getByKey( aId ) );
   }
 
   @Override
   public <T> void writeStridMap( String aId, IStringMap<T> aMap, IEntityKeeper<T> aKeeper, boolean aIndented ) {
     StridUtils.checkValidIdPath( aId );
     TsNullArgumentRtException.checkNulls( aMap, aKeeper );
-    String content = aKeeper.smap2str( aMap, aIndented );
+    String content = aKeeper.idmap2str( aMap, aIndented );
+    if( !Objects.equals( sectionsMap.findByKey( aId ), content ) ) {
+      sectionsMap.put( aId, content );
+      genericChangeEventer().fireChangeEvent();
+    }
+  }
+
+  @Override
+  public <T> void writeStringMap( String aId, IStringMap<T> aMap, IEntityKeeper<T> aKeeper, boolean aIndented ) {
+    StridUtils.checkValidIdPath( aId );
+    TsNullArgumentRtException.checkNulls( aMap, aKeeper );
+    String content = aKeeper.strmap2str( aMap, aIndented );
     if( !Objects.equals( sectionsMap.findByKey( aId ), content ) ) {
       sectionsMap.put( aId, content );
       genericChangeEventer().fireChangeEvent();

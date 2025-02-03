@@ -54,6 +54,15 @@ public final class SeparatorTsActionSetProvider
   }
 
   @Override
+  public ITsActionDef findActionDef( String aActionId ) {
+    TsNullArgumentRtException.checkNull( aActionId );
+    if( aActionId.equals( ACTID_SEPARATOR ) ) {
+      return ACDEF_SEPARATOR;
+    }
+    return null;
+  }
+
+  @Override
   public boolean isActionKnown( String aActionId ) {
     return true;
   }
@@ -85,6 +94,16 @@ public final class SeparatorTsActionSetProvider
   @Override
   public IGenericChangeEventer actionsStateEventer() {
     return NoneGenericChangeEventer.INSTANCE;
+  }
+
+  @Override
+  public void addPostActionListener( ITsActionHandler aListener ) {
+    // nop
+  }
+
+  @Override
+  public void removePostActionListener( ITsActionHandler aListener ) {
+    // nop
   }
 
 }

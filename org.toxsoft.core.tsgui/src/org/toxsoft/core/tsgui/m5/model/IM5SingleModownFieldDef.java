@@ -4,14 +4,14 @@ import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.model.helpers.*;
 
 /**
- * Описание поля, которое содержит один встраиваемый объект.
+ * Defines the field containing single embeddable entity.
  * <p>
- * Поле является владельцем объекта, которые сами описаны моделью {@link #itemModel()}. Отсюда и название Modown -
- * MODelled OWNed object.
+ * The the field of the &lt;T&gt; object ownes (controls lifecycle of) the embeddable entity modeled by M5-model
+ * {@link #itemModel()}. Here Modown - MODelled OWNed object.
  *
  * @author hazard157
- * @param <T> - тип моделированного объекта
- * @param <V> - тип объекта-ссылки
+ * @param <T> - modeled entity type
+ * @param <V> - embeddable entity type
  */
 public interface IM5SingleModownFieldDef<T, V>
     extends IM5FieldDef<T, V>, IM5MixinModelledField<V>, IM5MixinSingleLinkField {

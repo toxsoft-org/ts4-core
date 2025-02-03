@@ -67,8 +67,12 @@ public class AddonUnitTxtprojMws
     TsInternalErrorRtException.checkNull( mws );
     IOptionSet params = mws.context().params();
     TsProjectFileFormatInfo formatInfo = OPDEF_PROJECT_FILE_FORMAT_INFO.getValue( params ).asValobj();
-    // create ITsProject and ITsProjectFileBound instances and set them to the context
-    TsProject proj = new TsProject( formatInfo );
+    // create ITsProject if none and set it to the context
+    TsProject proj = (TsProject)aAppContext.get( ITsProject.class );
+    if( proj == null ) {
+      proj = new TsProject( formatInfo );
+    }
+    // create ITsProjectFileBound instance and set it to the context
     ITsProjectFileBound bound = new TsProjectFileBound( proj, params );
     aAppContext.set( ITsProjectFileBound.class, bound );
     aAppContext.set( TsProject.class, proj );

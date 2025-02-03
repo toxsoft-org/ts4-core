@@ -30,7 +30,7 @@ public class M5AttributeFieldDef<T>
    *
    * @param aId String - the field ID
    * @param aAtomicType {@link EAtomicType} - attribute atomic type
-   * @param aIdsAndValues Object[] - identifier / value pairs
+   * @param aIdsAndValues Object[] - identifier / value pairs of {@link #params()}
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException the ID is not an IDpath
    * @throws TsIllegalArgumentRtException number of elements in array is uneven
@@ -50,7 +50,7 @@ public class M5AttributeFieldDef<T>
    *
    * @param aId String - the field ID
    * @param aDataType {@link IDataDef} - the template for attribute data definition
-   * @param aIdsAndValues Object[] - identifier / value pairs overrides {@link IDataType#params()}
+   * @param aIdsAndValues Object[] - identifier / value pairs of {@link #params()}
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException the ID is not an IDpath
    */

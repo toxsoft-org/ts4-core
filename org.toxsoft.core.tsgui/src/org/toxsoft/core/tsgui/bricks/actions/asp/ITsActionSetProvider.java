@@ -5,6 +5,7 @@ import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Declared actions executor, action set provider (frequently referred as ASP).
@@ -44,6 +45,19 @@ public sealed interface ITsActionSetProvider
    * @return {@link IStridablesList}&lt;{@link ITsActionDef}&gt; - the list of handled actions
    */
   IStridablesList<ITsActionDef> listHandledActionDefs();
+
+  /**
+   * Finds an action definition by the action ID.
+   * <p>
+   * Note: this is <b>not</b> the same as finding an action in any <code>listXxx()</code> lists. This method always
+   * returns the separator action definition {@link ITsStdActionDefs#ACTID_SEPARATOR ACTID_SEPARATOR} for the ID
+   * {@link ITsStdActionDefs#ACTID_SEPARATOR ACTID_SEPARATOR}, event if separator is not in this ASP.
+   *
+   * @param aActionId String - the ID of action to find in ASP
+   * @return {@link ITsActionDef} - found action or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  ITsActionDef findActionDef( String aActionId );
 
   /**
    * Determines if action is known to the provider.
@@ -103,9 +117,33 @@ public sealed interface ITsActionSetProvider
    */
   IGenericChangeEventer actionsStateEventer();
 
+  /**
+   * Adds event listener when any action was successfully handled by ASP.
+   * <p>
+   * The ASP listener has the same signature as a handler, method {@link ITsActionHandler#handleAction(String)
+   * aListener.handleAction(String)} is called <b>after</b> the action was handled by the ASP.
+   *
+   * @param aListener {@link ITsActionHandler} - the listener to add
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  void addPostActionListener( ITsActionHandler aListener );
+
+  /**
+   * Removes listener previously set by {@link #addPostActionListener(ITsActionHandler)}.
+   *
+   * @param aListener {@link ITsActionHandler} - the listener to remove
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  void removePostActionListener( ITsActionHandler aListener );
+
   // ------------------------------------------------------------------------------------
   // Inline methods for convenience
   //
+
+  @SuppressWarnings( "javadoc" )
+  default ITsActionDef getActionDef( String aActionId ) {
+    return TsNullArgumentRtException.checkNull( findActionDef( aActionId ) );
+  }
 
   @SuppressWarnings( "javadoc" )
   default IStringList listHandledActionIds() {

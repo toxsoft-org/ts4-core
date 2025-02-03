@@ -32,7 +32,7 @@ public class M5SingleLinkFieldDefBase<T, V>
   private boolean     userCanSelectNull = false;
 
   /**
-   * Construcor.
+   * Constructor.
    * <p>
    * {@link #canUserSelectNull()} defaults to <code>false</code>.
    *
@@ -47,7 +47,7 @@ public class M5SingleLinkFieldDefBase<T, V>
   }
 
   // ------------------------------------------------------------------------------------
-  // Внутренные методы
+  // implementation
   //
 
   @SuppressWarnings( { "unchecked" } )

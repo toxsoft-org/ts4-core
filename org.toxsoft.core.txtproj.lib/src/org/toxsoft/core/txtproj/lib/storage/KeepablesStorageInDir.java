@@ -157,10 +157,26 @@ public class KeepablesStorageInDir
   }
 
   @Override
+  public <T> IStringMap<T> readStringMap( String aId, IEntityKeeper<T> aKeeper ) {
+    File f = listProbableSectionFiles().findByKey( aId );
+    if( f == null ) {
+      return IStringMap.EMPTY;
+    }
+    return aKeeper.readStringMap( f );
+  }
+
+  @Override
   public <T> void writeStridMap( String aId, IStringMap<T> aMap, IEntityKeeper<T> aKeeper, boolean aIndented ) {
     TsNullArgumentRtException.checkNulls( aMap, aKeeper );
     File f = makeSectionFile( aId );
     aKeeper.writeStridMap( f, aMap, aIndented );
+  }
+
+  @Override
+  public <T> void writeStringMap( String aId, IStringMap<T> aMap, IEntityKeeper<T> aKeeper, boolean aIndented ) {
+    TsNullArgumentRtException.checkNulls( aMap, aKeeper );
+    File f = makeSectionFile( aId );
+    aKeeper.writeStringMap( f, aMap, aIndented );
   }
 
   @Override

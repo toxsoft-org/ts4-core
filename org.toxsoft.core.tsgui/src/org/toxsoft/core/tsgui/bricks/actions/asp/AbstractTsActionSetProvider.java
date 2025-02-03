@@ -1,7 +1,12 @@
 package org.toxsoft.core.tsgui.bricks.actions.asp;
 
+import static org.toxsoft.core.tsgui.bricks.actions.ITsStdActionDefs.*;
+
 import org.toxsoft.core.tsgui.bricks.actions.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link ITsActionSetProvider} base implementation.
@@ -21,7 +26,8 @@ import org.toxsoft.core.tslib.bricks.events.change.*;
 public non-sealed abstract class AbstractTsActionSetProvider
     implements ITsActionSetProvider {
 
-  private final GenericChangeEventer genericChangeEventer;
+  private final GenericChangeEventer        genericChangeEventer;
+  private final IListEdit<ITsActionHandler> postActionListeners = new ElemArrayList<>();
 
   private boolean actSetEnabled = true;
 
@@ -43,6 +49,15 @@ public non-sealed abstract class AbstractTsActionSetProvider
       doAfterActionHandled( aActionId );
       genericChangeEventer.fireChangeEvent();
     }
+  }
+
+  @Override
+  public ITsActionDef findActionDef( String aActionId ) {
+    TsNullArgumentRtException.checkNull( aActionId );
+    if( aActionId.equals( ACTID_SEPARATOR ) ) {
+      return ACDEF_SEPARATOR;
+    }
+    return listHandledActionDefs().findByKey( aActionId );
   }
 
   @Override
@@ -73,6 +88,18 @@ public non-sealed abstract class AbstractTsActionSetProvider
   @Override
   final public GenericChangeEventer actionsStateEventer() {
     return genericChangeEventer;
+  }
+
+  @Override
+  public void addPostActionListener( ITsActionHandler aListener ) {
+    if( !postActionListeners.hasElem( aListener ) ) {
+      postActionListeners.add( aListener );
+    }
+  }
+
+  @Override
+  public void removePostActionListener( ITsActionHandler aListener ) {
+    postActionListeners.remove( aListener );
   }
 
   // ------------------------------------------------------------------------------------

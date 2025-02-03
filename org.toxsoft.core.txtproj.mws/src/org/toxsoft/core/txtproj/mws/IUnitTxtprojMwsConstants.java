@@ -42,7 +42,7 @@ public interface IUnitTxtprojMwsConstants {
   // String ICON_WELCOME_01 = "welcome-01"; //$NON-NLS-1$
 
   // ------------------------------------------------------------------------------------
-  // Command line args
+  // Command line arguments
   // Command line may be specified in application starting script or at manual start
 
   /**
@@ -113,7 +113,7 @@ public interface IUnitTxtprojMwsConstants {
   );
 
   /**
-   * Load project from file (if specified) when plugin intes, not after all plugins initialization. <br>
+   * Load project from file (if specified) when plugin initializes, not after all plugins initialization. <br>
    * Default value: <code>false</code><br>
    * This is option for MWS context {@link IMwsOsgiService#mwsContext()} parameters.
    */
@@ -124,7 +124,7 @@ public interface IUnitTxtprojMwsConstants {
   );
 
   /**
-   * Determines if windows title will containt loaded project file and application names. <br>
+   * Determines if windows title will contains loaded project file and application names. <br>
    * Default value: <code>true</code><br>
    * This is option for MWS context {@link IMwsOsgiService#mwsContext()} parameters.
    */

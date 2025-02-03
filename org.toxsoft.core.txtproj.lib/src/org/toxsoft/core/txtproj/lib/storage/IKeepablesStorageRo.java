@@ -82,4 +82,23 @@ public interface IKeepablesStorageRo
    */
   <T> IStringMap<T> readStridMap( String aId, IEntityKeeper<T> aKeeper );
 
+  /**
+   * Reads the map of the entities where keys are any String.
+   * <p>
+   * If no such section was found then returns an empty map.
+   * <p>
+   * This method reads section written by the method
+   * {@link IKeepablesStorage#writeStringMap(String, IStringMap, IEntityKeeper, boolean)}.
+   *
+   * @param <T> - expected type of the entities
+   * @param aId String - the ID of the section to read
+   * @param aKeeper {@link IEntityKeeper} - entity keeper
+   * @return {@link IStringMap}&lt;T&gt; - the read map
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException identifier is not an IDpath
+   * @throws TsIoRtException read I/O error
+   * @throws StrioRtException invalid storage format
+   */
+  <T> IStringMap<T> readStringMap( String aId, IEntityKeeper<T> aKeeper );
+
 }

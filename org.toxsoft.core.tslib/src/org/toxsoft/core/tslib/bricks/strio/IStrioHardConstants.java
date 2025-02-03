@@ -88,7 +88,7 @@ public interface IStrioHardConstants {
   //
 
   /**
-   * In the timestamp: delemiter char between YYYY-MM-DD parts.
+   * In the timestamp: delimiter char between YYYY-MM-DD parts.
    */
   char CHAR_TIMESTAMP_YMD_SEPARATOR = '-';
 
@@ -98,12 +98,12 @@ public interface IStrioHardConstants {
   char CHAR_TIMESTAMP_DATETIME_SEPARATOR = '_';
 
   /**
-   * In the timestamp: delemiter char between HH:MM:SS parts.
+   * In the timestamp: delimiter char between HH:MM:SS parts.
    */
   char CHAR_TIMESTAMP_HMS_SEPARATOR = ':';
 
   /**
-   * In the timestamp: delemiter char between time and millisonts parts.
+   * In the timestamp: delimiter char between time and millisonts parts.
    */
   char CHAR_TIMESTAMP_MILLISEC_SEPARATOR = '.';
 
