@@ -740,7 +740,7 @@ public class StrioUtils {
   /**
    * Reads input starting from opening bracket to the closing bracket.
    * <p>
-   * Opening and closeing brackets will be included in the resulting string.
+   * Opening and closing brackets will be included in the resulting string.
    * <p>
    * First read character must be {@link IStrioHardConstants#CHAR_SET_BEGIN} or
    * {@link IStrioHardConstants#CHAR_ARRAY_BEGIN}.

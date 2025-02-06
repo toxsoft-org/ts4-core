@@ -13,6 +13,8 @@ import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.basis.*;
 import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -318,6 +320,28 @@ public class TsFileUtils {
   //
 
   /**
+   * Returns list of path components.
+   * <p>
+   * Example: for "/dir1/.../dirN/file.ext" returns ["dir1",...,"dirN","file.ext"]. Returns an empty list for an empty
+   * path or path consisting only from file separators.
+   *
+   * @param aPath String - the path
+   * @return {@link IStringList} - path components
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static IStringList getPathComponents( String aPath ) {
+    TsNullArgumentRtException.checkNull( aPath );
+    String[] ss = aPath.split( File.separator );
+    IStringListEdit ll = new StringArrayList();
+    for( String s : ss ) {
+      if( !s.isEmpty() ) {
+        ll.add( s );
+      }
+    }
+    return ll;
+  }
+
+  /**
    * Extracts file name (without path and extension).
    * <p>
    * If argument is considered as directory name (argument ends with {@link File#separatorChar}), no extension is
@@ -356,7 +380,7 @@ public class TsFileUtils {
    * <p>
    * If argument is considered as directory name (argument ends with {@link File#separatorChar}), returns empty string.
    * <p>
-   * Thgis methods works with strings and does not calls any filesystem access methods.
+   * This methods works with strings and does not calls any filesystem access methods.
    *
    * @param aFileName String - specified file name, may include path
    * @return String - file name (with extension, without path)
@@ -462,6 +486,26 @@ public class TsFileUtils {
       return aPath;
     }
     return aPath + File.separatorChar;
+  }
+
+  /**
+   * Returns an argument with the addition of a {@link File#separatorChar} as the first char, if there is none.
+   * <p>
+   * Empty string is returned as is.
+   *
+   * @param aPath String - source string
+   * @return String - source string with {@link File#separatorChar} at end
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static String ensureStartingSeparator( String aPath ) {
+    TsNullArgumentRtException.checkNull( aPath );
+    if( aPath.isEmpty() ) {
+      return aPath;
+    }
+    if( aPath.charAt( 0 ) == File.separatorChar ) {
+      return aPath;
+    }
+    return File.separatorChar + aPath;
   }
 
   /**
