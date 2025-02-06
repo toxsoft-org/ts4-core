@@ -31,8 +31,8 @@ public class M5SingleModownFieldDef<T, V>
    */
   public M5SingleModownFieldDef( String aId, String aItemModelId, Object... aIdsAndValues ) {
     super( aId, aItemModelId );
+    params().addAll( OptionSetUtils.createOpSet( aIdsAndValues ) );
     setValedEditor( ValedSingleModownEditor.FACTORY_NAME );
-    params().setAll( OptionSetUtils.createOpSet( aIdsAndValues ) );
   }
 
 }
