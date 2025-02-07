@@ -47,11 +47,14 @@ public class AvComparatorStrict
     if( aAv1 == null || aAv2 == null || aOp == null ) {
       throw new TsNullArgumentRtException();
     }
-    if( !aAv1.isAssigned() || !aAv2.isAssigned() ) {
-      throw new AvUnassignedValueRtException();
+    if( !aAv1.isAssigned() ) {
+      throw new AvUnassignedValueRtException( FMT_ERR_OPER_AV_NULL, "1" ); //$NON-NLS-1$
+    }
+    if( !aAv2.isAssigned() ) {
+      throw new AvUnassignedValueRtException( FMT_ERR_OPER_AV_NULL, "2" ); //$NON-NLS-1$
     }
     if( aAv1.atomicType() != aAv2.atomicType() ) {
-      throw new AvTypeCastRtException();
+      throw new AvTypeCastRtException( FMT_ERR_OPER_DIFF_AT, aAv1.atomicType().id(), aAv2.atomicType().id() );
     }
     if( aOp == EAvCompareOp.MATCH ) {
       if( aAv1.atomicType() == EAtomicType.STRING ) {
