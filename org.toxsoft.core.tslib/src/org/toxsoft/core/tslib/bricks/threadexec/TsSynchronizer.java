@@ -1,11 +1,10 @@
 package org.toxsoft.core.tslib.bricks.threadexec;
 
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.Executor;
+import java.util.*;
+import java.util.concurrent.*;
 
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * Source: org.eclipse.swt.widgets.Synchronizer
@@ -14,21 +13,17 @@ import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
  */
 final class TsSynchronizer {
 
-  private Object           startLock   = new Object();
-  private Object           finishLock  = new Object();
-  private Thread           doJobThread;
-  private boolean          isInternalThread;
-  private int              messageCount;
-  private TsRunnableLock[] messages;
-  private Object           messageLock = new Object();
+  private Object                                startLock   = new Object();
+  private Object                                finishLock  = new Object();
+  private Thread                                doJobThread;
+  private boolean                               isInternalThread;
+  private ConcurrentLinkedQueue<TsRunnableLock> messages    = new ConcurrentLinkedQueue<>();
+  private Object                                messageLock = new Object();
 
   // private Thread syncThread; // mvk: not used now
 
   // isDaemon = true
   private static Timer timer = new Timer( "TsSynchronizer", true ); //$NON-NLS-1$
-
-  private static final int GROW_SIZE     = 4;
-  private static final int MESSAGE_LIMIT = 64;
 
   private boolean queryShutdown;
 
@@ -91,30 +86,34 @@ final class TsSynchronizer {
    */
   void setExecutor( Executor aExecutor ) {
     TsNullArgumentRtException.checkNull( aExecutor );
-    if( isInternalThread ) {
-      // we can query shutdown for internal thread only
-      synchronized (finishLock) {
+    synchronized (messageLock) {
+      if( isInternalThread ) {
+        // we can query shutdown for internal thread only
+        synchronized (finishLock) {
+          try {
+            queryShutdown = true;
+            // resume dojob thread
+            messageLock.notifyAll();
+            // doJobThread.interrupt();
+            // Wait thread finish
+            finishLock.wait();
+          }
+          catch( InterruptedException ex ) {
+            LoggerUtils.errorLogger().error( ex );
+          }
+        }
+      }
+      isInternalThread = true;
+      queryShutdown = false;
+      synchronized (startLock) {
+        aExecutor.execute( new InternalDoJobTask() );
         try {
-          queryShutdown = true;
-          doJobThread.interrupt();
-          // Wait thread finish
-          finishLock.wait();
+          // Wait thread start and setup doJobThread
+          startLock.wait();
         }
         catch( InterruptedException ex ) {
           LoggerUtils.errorLogger().error( ex );
         }
-      }
-    }
-    isInternalThread = true;
-    queryShutdown = false;
-    synchronized (startLock) {
-      aExecutor.execute( new InternalDoJobTask() );
-      try {
-        // Wait thread start and setup doJobThread
-        startLock.wait();
-      }
-      catch( InterruptedException ex ) {
-        LoggerUtils.errorLogger().error( ex );
       }
     }
   }
@@ -127,23 +126,27 @@ final class TsSynchronizer {
    */
   void setThread( Thread aThread ) {
     TsNullArgumentRtException.checkNull( aThread );
-    if( isInternalThread ) {
-      // we can query shutdown for internal thread only
-      synchronized (finishLock) {
-        try {
-          queryShutdown = true;
-          doJobThread.interrupt();
-          // Wait thread finish
-          finishLock.wait();
-        }
-        catch( InterruptedException ex ) {
-          LoggerUtils.errorLogger().error( ex );
+    synchronized (messageLock) {
+      if( isInternalThread ) {
+        // we can query shutdown for internal thread only
+        synchronized (finishLock) {
+          try {
+            queryShutdown = true;
+            // resume dojob thread
+            messageLock.notifyAll();
+            // doJobThread.interrupt();
+            // Wait thread finish
+            finishLock.wait();
+          }
+          catch( InterruptedException ex ) {
+            LoggerUtils.errorLogger().error( ex );
+          }
         }
       }
+      isInternalThread = false;
+      queryShutdown = false;
+      doJobThread = aThread;
     }
-    isInternalThread = false;
-    queryShutdown = false;
-    doJobThread = aThread;
   }
 
   /**
@@ -185,25 +188,25 @@ final class TsSynchronizer {
    * @see #asyncExec
    */
   void syncExec( Runnable runnable ) {
-    TsRunnableLock lock = null;
-    if( doJobThread != Thread.currentThread() ) {
-      lock = new TsRunnableLock( runnable, 0 );
-      /*
-       * Only remember the syncThread for syncExec.
-       */
-      lock.thread = Thread.currentThread();
-      addLast( lock );
-    }
-    if( lock == null ) {
-      try {
-        runnable.run();
+    Thread currentThread = Thread.currentThread();
+    synchronized (messageLock) {
+      if( doJobThread == currentThread ) {
+        try {
+          runnable.run();
+        }
+        catch( RuntimeException | Error error ) {
+          LoggerUtils.defaultLogger().error( error );
+        }
+        return;
       }
-      catch( RuntimeException | Error error ) {
-        LoggerUtils.defaultLogger().error( error );
-      }
-      return;
     }
+    TsRunnableLock lock = new TsRunnableLock( runnable, 0 );
+    /*
+     * Only remember the syncThread for syncExec.
+     */
     synchronized (lock) {
+      lock.thread = currentThread;
+      addLast( lock );
       boolean interrupted = false;
       while( !lock.done() ) {
         try {
@@ -266,67 +269,16 @@ final class TsSynchronizer {
   // ------------------------------------------------------------------------------------
   // private methods
   //
-  private void addLast( TsRunnableLock lock ) {
+  private void addLast( TsRunnableLock aLock ) {
     synchronized (messageLock) {
-      if( messages == null ) {
-        messages = new TsRunnableLock[GROW_SIZE];
-      }
-      if( messageCount == messages.length ) {
-        TsRunnableLock[] newMessages = new TsRunnableLock[messageCount + GROW_SIZE];
-        System.arraycopy( messages, 0, newMessages, 0, messageCount );
-        messages = newMessages;
-      }
-      messages[messageCount++] = lock;
-      // boolean wake = messageCount == 1;
-      // if( wake && isInternalThread ) {
-      if( isInternalThread ) {
-        // resume dojob thread
-        messageLock.notifyAll();
-      }
+      messages.add( aLock );
+      // resume dojob thread
+      messageLock.notifyAll();
     }
   }
 
   private TsRunnableLock removeFirst() {
-    long currTime = System.currentTimeMillis();
-
-    // synchronized (messageLock) {
-    // if (messageCount == 0) return null;
-    // TsRunnableLock lock = messages [0];
-    // System.arraycopy (messages, 1, messages, 0, --messageCount);
-    // messages [messageCount] = null;
-    // if (messageCount == 0) {
-    // if (messages.length > MESSAGE_LIMIT) messages = null;
-    // }
-    // return lock;
-    // }
-
-    synchronized (messageLock) {
-      if( messageCount == 0 ) {
-        return null;
-      }
-      for( int index = 0, n = messages.length; index < n; index++ ) {
-        TsRunnableLock lock = messages[index];
-        if( lock == null ) {
-          // lock has been processed already
-          continue;
-        }
-        if( lock.timestamp > currTime ) {
-          // lock is not ready yet
-          continue;
-        }
-        if( index + 1 < n ) {
-          System.arraycopy( messages, index + 1, messages, index, n - index - 1 );
-        }
-        messages[--messageCount] = null;
-        if( messageCount == 0 ) {
-          if( messages.length > MESSAGE_LIMIT ) {
-            messages = null;
-          }
-        }
-        return lock;
-      }
-      return null;
-    }
+    return messages.poll();
   }
 
   // ------------------------------------------------------------------------------------
