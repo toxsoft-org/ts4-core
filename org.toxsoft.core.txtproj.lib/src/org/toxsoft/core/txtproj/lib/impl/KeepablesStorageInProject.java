@@ -18,7 +18,7 @@ import org.toxsoft.core.txtproj.lib.storage.*;
 import org.toxsoft.core.txtproj.lib.tdfile.*;
 
 /**
- * Реализация хранилище {@link IKeepablesStorage} как компоненты проекта {@link IProjDataUnit}.
+ * {@link IKeepablesStorage} implementation as a {@link IProjDataUnit}.
  *
  * @author hazard157
  */

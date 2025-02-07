@@ -1,6 +1,7 @@
 package org.toxsoft.core.tslib.bricks.keeper.std;
 
 import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
@@ -34,12 +35,20 @@ public class StringKeeper
 
   @Override
   protected void doWrite( IStrioWriter aSw, String aEntity ) {
-    aSw.writeQuotedString( aEntity );
+    if( StridUtils.isValidIdPath( aEntity ) ) {
+      aSw.writeAsIs( aEntity );
+    }
+    else {
+      aSw.writeQuotedString( aEntity );
+    }
   }
 
   @Override
   protected String doRead( IStrioReader aSr ) {
-    return aSr.readQuotedString();
+    if( aSr.peekChar() == '"' ) {
+      return aSr.readQuotedString();
+    }
+    return aSr.readIdPath();
   }
 
   // ------------------------------------------------------------------------------------

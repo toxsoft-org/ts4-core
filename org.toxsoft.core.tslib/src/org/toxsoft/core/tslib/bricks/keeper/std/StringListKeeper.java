@@ -81,6 +81,7 @@ public class StringListKeeper
     else {
       aSw.writeChar( CHAR_ARRAY_BEGIN );
     }
+    aSw.incNewLine();
     for( int i = 0, n = aEntity.size(); i < n; i++ ) {
       String s = aEntity.get( i );
       if( StridUtils.isValidIdPath( s ) ) {
@@ -96,6 +97,7 @@ public class StringListKeeper
         aSw.writeEol();
       }
     }
+    aSw.decNewLine();
     if( compatibilityMode ) {
       aSw.writeChar( CHAR_SET_END );
     }
