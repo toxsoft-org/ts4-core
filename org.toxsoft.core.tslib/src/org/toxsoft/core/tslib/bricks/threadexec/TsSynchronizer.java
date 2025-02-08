@@ -132,8 +132,8 @@ final class TsSynchronizer {
           try {
             queryShutdown = true;
             // resume dojob thread
-            messageLock.notifyAll();
-            // doJobThread.interrupt();
+            // messageLock.notifyAll();
+            doJobThread.interrupt();
             // Wait thread finish
             finishLock.wait();
           }
@@ -290,10 +290,8 @@ final class TsSynchronizer {
   }
 
   private void toBack( IList<TsRunnableLock> aLocks ) {
-    synchronized (messageLock) {
-      for( TsRunnableLock lock : aLocks ) {
-        messages.add( lock );
-      }
+    for( TsRunnableLock lock : aLocks ) {
+      messages.add( lock );
     }
   }
 
@@ -317,15 +315,17 @@ final class TsSynchronizer {
       }
       while( !queryShutdown ) {
         runAsyncMessages();
-        synchronized (messageLock) {
-          try {
-            // suspend dojob thread - wait new calls
-            messageLock.wait();
-          }
-          catch( @SuppressWarnings( "unused" ) Throwable e ) {
-            // clear interrupted flag
-            Thread.interrupted();
-            // LoggerUtils.errorLogger().error( e );
+        if( !queryShutdown ) {
+          synchronized (messageLock) {
+            try {
+              // suspend dojob thread - wait new calls
+              messageLock.wait();
+            }
+            catch( @SuppressWarnings( "unused" ) Throwable e ) {
+              // clear interrupted flag
+              Thread.interrupted();
+              // LoggerUtils.errorLogger().error( e );
+            }
           }
         }
       }
