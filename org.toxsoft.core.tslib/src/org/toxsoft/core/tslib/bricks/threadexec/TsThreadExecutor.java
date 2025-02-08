@@ -119,7 +119,7 @@ public final class TsThreadExecutor
   public void doJob() {
     TsIllegalStateRtException.checkFalse( thread().equals( Thread.currentThread() ) );
     // aAll = true
-    synchronizer.runAsyncMessages( true );
+    synchronizer.runAsyncMessages();
   }
 
   // ------------------------------------------------------------------------------------
