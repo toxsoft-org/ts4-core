@@ -212,7 +212,7 @@ public abstract class MultiPaneComponent<T>
       actDefs.add( ACDEF_LIST_ELEM_MOVE_DOWN );
       actDefs.add( ACDEF_LIST_ELEM_MOVE_LAST );
     }
-    // panes hide/show buuttons
+    // panes hide/show buttons
     if( OPDEF_IS_ACTIONS_HIDE_PANES.getValue( tsContext().params() ).asBool() ) {
       boolean isBtnHideFilter = filterPane != null;
       boolean isBtnHideDetails = detailsPane != null;
