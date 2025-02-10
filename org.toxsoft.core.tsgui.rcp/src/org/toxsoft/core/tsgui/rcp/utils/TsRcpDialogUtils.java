@@ -127,7 +127,7 @@ public final class TsRcpDialogUtils {
       }
       File f = new File( fName );
       if( !f.exists() ) {
-        return f; // nos suck file - just return entered file name
+        return f; // no such file - just return entered file name
       }
       // file exists, allow user to cancel, overwrite or specify new name
       switch( TsDialogUtils.askYesNoCancel( aShell, FMT_MSG_OVERWRITE_FILE, f.getAbsoluteFile() ) ) {
@@ -141,7 +141,7 @@ public final class TsRcpDialogUtils {
         case CLOSE:
         case OK:
         default:
-          return null; // cncel operation
+          return null; // cancel operation
       }
     }
   }

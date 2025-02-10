@@ -72,7 +72,7 @@ public interface IMultiPaneComponentConstants {
   IDataDef OPDEF_IS_ACTIONS_HIDE_PANES = bdd( "IsActionsHidePanes", false, //$NON-NLS-1$
       STR_IS_, STR_IS_D );
 
-  IDataDef OPDEF_IS_COLUMN_HEADER = bdd( "IsColumnHeader", false, //$NON-NLS-1$
+  IDataDef OPDEF_IS_COLUMN_HEADER = bdd( "IsColumnHeader", true, //$NON-NLS-1$
       STR_IS_COLUMN_HEADER, STR_IS_COLUMN_HEADER_D );
 
   IDataDef OPDEF_NODE_ICON_SIZE = DataDef.create( MPC_OP_ID + ".NodeIconSize", VALOBJ, //$NON-NLS-1$
