@@ -102,7 +102,10 @@ class VedCanvasRenderer
     float[] koeffs = new float[6];
     screenTransform.getElements( koeffs );
 
-    aEvent.gc.setClipping( 0, 0, aEvent.width, aEvent.height );
+    // aEvent.gc.setClipping( 0, 0, aEvent.width, aEvent.height );
+    int canvasW = (int)(canvasCfg.size().x() * canvasCfg.conversion().zoomFactor());
+    int canvasH = (int)(canvasCfg.size().x() * canvasCfg.conversion().zoomFactor());
+    aEvent.gc.setClipping( 0, 0, canvasW, canvasH );
 
     aEvent.gc.setTransform( screenTransform );
 
