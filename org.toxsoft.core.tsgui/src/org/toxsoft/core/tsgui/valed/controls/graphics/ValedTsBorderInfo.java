@@ -5,6 +5,7 @@ import static org.toxsoft.core.tsgui.valed.controls.graphics.ITsResources.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
 import org.toxsoft.core.tsgui.graphics.lines.*;
 import org.toxsoft.core.tsgui.panels.opsedit.*;
@@ -64,6 +65,8 @@ public class ValedTsBorderInfo
 
   TsBorderInfo value = TsBorderInfo.NONE;
 
+  IValedControlValueChangeListener valedListener = null;
+
   /**
    * Конструктор.
    *
@@ -73,6 +76,12 @@ public class ValedTsBorderInfo
     super( aTsContext );
     setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
     setParamIfNull( OPDEF_VERTICAL_SPAN, AV_1 );
+    if( tsContext().hasKey( IValedControlValueChangeListener.class ) ) {
+      valedListener = tsContext().get( IValedControlValueChangeListener.class );
+    }
+    else {
+      valedListener = null;
+    }
   }
 
   // ------------------------------------------------------------------------------------
@@ -81,12 +90,22 @@ public class ValedTsBorderInfo
 
   @Override
   protected boolean doProcessButtonPress() {
-    TsDialogInfo dlgInfo = new TsDialogInfo( tsContext(), DLG_T_BORDER_INFO, STR_MSG_BORDER_INFO );
+    TsGuiContext ctx = new TsGuiContext( tsContext() );
+    IValedControlValueChangeListener changeListener = ( aSource, aEditFinished ) -> {
+      System.out.println( "Color changed" ); //$NON-NLS-1$
+      if( valedListener != null ) {
+        valedListener.onEditorValueChanged( ValedTsBorderInfo.this, true );
+      }
+      fireModifyEvent( true );
+    };
+    ctx.put( IValedControlValueChangeListener.class, changeListener );
+    TsDialogInfo dlgInfo = new TsDialogInfo( ctx, DLG_T_BORDER_INFO, STR_MSG_BORDER_INFO );
     IOptionSet opSet = DialogOptionsEdit.editOpset( dlgInfo, TsBorderInfo.ALL_DEFS, value.options() );
     if( opSet == null ) {
       return false;
     }
     value = TsBorderInfo.ofOptions( opSet );
+    setValue( value );
     return true;
   }
 
