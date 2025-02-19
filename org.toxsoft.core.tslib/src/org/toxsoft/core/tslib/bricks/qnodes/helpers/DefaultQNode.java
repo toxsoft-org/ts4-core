@@ -52,12 +52,12 @@ public class DefaultQNode<T>
    * Add child node.
    * <p>
    * Note: this method does <b>not</b> informs the tree about node subtree structure change. However method invalidates
-   * childs cache so next call to {@link #childs()} will return refreshed actual list of childs. If needed, method
+   * children cache so next call to {@link #childs()} will return refreshed actual list of children. If needed, method
    * {@link IQNode#informOnChildsChange(ECrudOp, String)} must be called after changes.
    *
    * @param aNode {@link IQNode} - node to add
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsItemAlreadyExistsRtException node with same ID is already c achild
+   * @throws TsItemAlreadyExistsRtException node with same ID is already c a child
    * @throws TsIllegalArgumentRtException {@link IQNode#parent()} is not <code>this</code>
    */
   public void addNode( IQNode aNode ) {
@@ -71,7 +71,7 @@ public class DefaultQNode<T>
    * Replaces existing or adds a child node.
    * <p>
    * Note: this method does <b>not</b> informs the tree about node subtree structure change. However method invalidates
-   * childs cache so next call to {@link #childs()} will return refreshed actual list of childs. If needed, method
+   * children cache so next call to {@link #childs()} will return refreshed actual list of children. If needed, method
    * {@link IQNode#informOnChildsChange(ECrudOp, String)} must be called after changes.
    *
    * @param aNode {@link IQNode} - node to add
@@ -88,7 +88,7 @@ public class DefaultQNode<T>
    * Removes child node if it exists.
    * <p>
    * Note: this method does <b>not</b> informs the tree about node subtree structure change. However method invalidates
-   * childs cache so next call to {@link #childs()} will return refreshed actual list of childs. If needed, method
+   * children cache so next call to {@link #childs()} will return refreshed actual list of children. If needed, method
    * {@link IQNode#informOnChildsChange(ECrudOp, String)} must be called after changes.
    *
    * @param aNodeId String - ID of node to remove
@@ -104,7 +104,7 @@ public class DefaultQNode<T>
    * Replaces existing nodes by the given nodes.
    * <p>
    * Note: this method does <b>not</b> informs the tree about node subtree structure change. However method invalidates
-   * childs cache so next call to {@link #childs()} will return refreshed actual list of childs. If needed, method
+   * children cache so next call to {@link #childs()} will return refreshed actual list of children. If needed, method
    * {@link IQNode#informOnChildsChange(ECrudOp, String)} must be called after changes.
    *
    * @param aNodes {@link IStridablesList}&lt;{@link IQNode}&gt; - new nodes
@@ -124,7 +124,7 @@ public class DefaultQNode<T>
    * Removes all child nodes.
    * <p>
    * Note: this method does <b>not</b> informs the tree about node subtree structure change. However method invalidates
-   * childs cache so next call to {@link #childs()} will return refreshed actual list of childs. If needed, method
+   * children cache so next call to {@link #childs()} will return refreshed actual list of children. If needed, method
    * {@link IQNode#informOnChildsChange(ECrudOp, String)} must be called after changes.
    */
   public void clearNodes() {

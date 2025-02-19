@@ -54,4 +54,13 @@ public record VrlItem ( ValidationResult vr, IOptionSet info ) {
     this( vr, null );
   }
 
+  // ------------------------------------------------------------------------------------
+  // Object
+  //
+
+  @Override
+  public final String toString() {
+    return vr.toString();
+  }
+
 }

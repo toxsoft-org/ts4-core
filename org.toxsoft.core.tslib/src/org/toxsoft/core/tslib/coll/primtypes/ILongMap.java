@@ -1,11 +1,10 @@
 package org.toxsoft.core.tslib.coll.primtypes;
 
-import java.io.ObjectStreamException;
+import java.io.*;
 
-import org.toxsoft.core.tslib.coll.IMap;
-import org.toxsoft.core.tslib.coll.primtypes.impl.ImmutableLongMap;
-import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * A collection that maps <code>long</code> keys to values.
@@ -17,13 +16,13 @@ public interface ILongMap<E>
     extends IMap<Long, E> {
 
   /**
-   * Alway empty immutable instance.
+   * Always empty immutable instance.
    */
   @SuppressWarnings( "rawtypes" )
   ILongMapEdit EMPTY = new InternalNullLongMap();
 
   /**
-   * Detemines if map contains value with specified key.
+   * Determines if map contains value with specified key.
    *
    * @param aKey long - key whose presence in this map is to be tested
    * @return <b>true</b> - да, элемент с таким ключом есть в карте;<br>

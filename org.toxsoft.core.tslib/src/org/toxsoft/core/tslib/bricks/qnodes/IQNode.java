@@ -94,10 +94,11 @@ public sealed interface IQNode
   /**
    * Returns the child nodes.
    * <p>
-   * If childs are not already created, requests node creation and returns created nodes. See note to
+   * If children are not already created, requests node creation and returns created nodes. See note to
    * {@link #listExistingChilds()}.
    * <p>
-   * For nodes that can node have childs {@link IQNodeKind#canHaveChilds()} = <code>false</code> returns an empty list.
+   * For nodes that can node have children {@link IQNodeKind#canHaveChilds()} = <code>false</code> returns an empty
+   * list.
    *
    * @return {@link IStridablesList}&lt;{@link IQNode}&gt; - child nodes list, never is <code>null</code>
    */
@@ -144,7 +145,7 @@ public sealed interface IQNode
   /**
    * Returns existing (cached) child nodes, does not requests creation.
    * <p>
-   * Note: IQNode implemetaion does not requires to create childs at node creation. Usually child nodes are created at
+   * Note: IQNode implemetaion does not requires to create children at node creation. Usually child nodes are created at
    * first request either by {@link #childs()} call or {@link #rebuildSubtree(boolean, boolean)
    * rebuildSubtree(<b>true</b>, boolean)}. However sometimes itis needed to access only child node that are already
    * created, for example, when searching or filtering nodes in GUI tree.
@@ -154,19 +155,19 @@ public sealed interface IQNode
   IStridablesList<IQNode> listExistingChilds();
 
   /**
-   * Creates unexisting nodes and/or creates all nodes from scratch.
+   * Creates non-existing nodes and/or creates all nodes from scratch.
    * <p>
-   * When aRebuild=<code>false</code> creates only unexisting nodes. aRebuild=<code>true</code> will (re)create all
+   * When aRebuild=<code>false</code> creates only non-existing nodes. aRebuild=<code>true</code> will (re)create all
    * nodes.
    * <p>
-   * <code>aQuerySubtree</code> determines if only childs will be rebuild (when <code>false</code>) or whole subtree
+   * <code>aQuerySubtree</code> determines if only children will be rebuild (when <code>false</code>) or whole subtree
    * will be rebuilt (when <code>true</code>).
    * <p>
    * Note: setting <code>aQuerySubtree</code> to <code>true</code> may be heavily resource-consuming - whole subtree
    * will be created. When <code>aQuerySubtree</code> is <code>false</code>, only existing (cached) nodes will be
    * searched.
    *
-   * @param aRebuild boolean - <code>true</code> to recreate existing nodes too, not only unexisting ones
+   * @param aRebuild boolean - <code>true</code> to recreate existing nodes too, not only non-existing ones
    * @param aQuerySubtree boolean - child nodes creation request flag
    */
   void rebuildSubtree( boolean aRebuild, boolean aQuerySubtree );
@@ -175,11 +176,11 @@ public sealed interface IQNode
    * Determines if node has childs.
    * <p>
    * This method is kind of optimization like <code>ITreeContentProvider.hasChildren(Object)</code>. Default
-   * implementation call {@link #childs()} method hence requests creation of unexisting nodes. However, method may be
-   * overrideren to provide information about childs existance if child creation is heavily resource-consuming. This
+   * implementation call {@link #childs()} method hence requests creation of non-existing nodes. However, method may be
+   * overrideren to provide information about children existance if child creation is heavily resource-consuming. This
    * method usually is ised in GUI tree to draw node expansion sign.
    * <p>
-   * For nodes that can node have childs {@link IQNodeKind#canHaveChilds()} = <code>false</code> always returns
+   * For nodes that can node have children {@link IQNodeKind#canHaveChilds()} = <code>false</code> always returns
    * <code>false</code>.
    *
    * @return boolean - <code>true</code> if the given node has children
@@ -204,7 +205,7 @@ public sealed interface IQNode
   void refreshEntity();
 
   /**
-   * Informs this node about changes in child nodes and invalidates childs cache.
+   * Informs this node about changes in child nodes and invalidates children cache.
    * <p>
    * According to <code>aOp</code> value there are different reasons:
    * <ul>
@@ -213,10 +214,10 @@ public sealed interface IQNode
    * <li>{@link ECrudOp#EDIT} - properties of node with ID <code>aChildNodeId</code> has been changed without changes in
    * tree structure. Implementation must call {@link #refreshEntity()} for the specified child node;</li>
    * <li>{@link ECrudOp#LIST} - there is changes in subtree structure affecting several nodes at once. Usually all
-   * childs need to be recreated. In this case value of argument <code>aChildNodeId</code> is ignored and may be
+   * children need to be recreated. In this case value of argument <code>aChildNodeId</code> is ignored and may be
    * <code>null</code>.</li>
    * </ul>
-   * Note: this method has no effect if childs was not created yet.
+   * Note: this method has no effect if children was not created yet.
    *
    * @param aOp {@link ECrudOp} - the reason of change
    * @param aChildNodeId String - affected node ID or <code>null</code>

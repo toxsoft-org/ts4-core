@@ -18,7 +18,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.gui.*;
 
 /**
- * An {@link IQNode} base implementation.
+ * {@link IQNode} base implementation.
  *
  * @author hazard157
  * @param <T> - node content (entity) type

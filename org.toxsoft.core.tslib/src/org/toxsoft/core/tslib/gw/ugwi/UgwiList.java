@@ -109,7 +109,7 @@ public final class UgwiList
   //
 
   @Override
-  public IList<Ugwi> items() {
+  public IListEdit<Ugwi> items() {
     return itemsList;
   }
 

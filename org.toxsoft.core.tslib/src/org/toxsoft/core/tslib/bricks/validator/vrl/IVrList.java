@@ -69,4 +69,31 @@ public interface IVrList {
     return getFirstWorst().vr();
   }
 
+  /**
+   * Determines if list is empty or contains only {@link EValidationResultType#OK} results.
+   *
+   * @return boolean - <code>true</code> if {@link #items()} does not co0ntains any warning or error
+   */
+  default boolean isOk() {
+    return getWorstType() == EValidationResultType.OK;
+  }
+
+  /**
+   * Determines if list does not contains any error but at least one warning.
+   *
+   * @return boolean - <code>true</code> if {@link #items()} contains only OK and WARNING messages
+   */
+  default boolean isWarning() {
+    return getWorstType() == EValidationResultType.WARNING;
+  }
+
+  /**
+   * Determines if list has at least one {@link EValidationResultType#ERROR} result.
+   *
+   * @return boolean - <code>true</code> if any error is in {@link #items()} list
+   */
+  default boolean isError() {
+    return getWorstType() == EValidationResultType.ERROR;
+  }
+
 }
