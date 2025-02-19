@@ -22,6 +22,11 @@ public sealed interface ITsMargins
   IntRange VALUES_RANGE = new IntRange( 0, 10 * 1024 );
 
   /**
+   * Margins where all gaps are 0.
+   */
+  ITsGridMargins ZERO = new TsGridMargins();
+
+  /**
    * Returns the distance between the internals and the left edge of the panel.
    *
    * @return int - distance between the internals and the left edge of the panel in pixels

@@ -1,14 +1,17 @@
 package org.toxsoft.core.tsgui.m5.model.impl;
 
 import static org.toxsoft.core.tsgui.m5.gui.mpc.IMultiPaneComponentConstants.*;
+import static org.toxsoft.core.tsgui.m5.gui.panels.std.IM5StandardPanelConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.bricks.tstree.tmm.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.gui.mpc.impl.*;
 import org.toxsoft.core.tsgui.m5.gui.panels.*;
 import org.toxsoft.core.tsgui.m5.gui.panels.impl.*;
 import org.toxsoft.core.tsgui.m5.model.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -135,6 +138,62 @@ public class M5DefaultPanelCreator<T>
     IM5CollectionPanel<T> p = doCreateCollChecksPanel( aContext, aItemsProvider );
     TsInternalErrorRtException.checkNull( p );
     return p;
+  }
+
+  @Override
+  final public IM5CollectionPanel<T> createStdCollViewerPanel( ITsGuiContext aContext,
+      IM5ItemsProvider<T> aItemsProvider ) {
+    TsNullArgumentRtException.checkNull( aContext );
+    OPDEF_IS_ACTIONS_CRUD.setValue( aContext.params(), AV_FALSE );
+    MultiPaneComponentModown<T> mpc = internalCreateStandardCollPanel( aContext, aItemsProvider, null );
+    IM5CollectionPanel<T> p = new M5CollectionPanelMpcModownWrapper<>( mpc, true );
+    TsInternalErrorRtException.checkNull( p );
+    return p;
+  }
+
+  @Override
+  final public IM5CollectionPanel<T> createStdCollEditPanel( ITsGuiContext aContext, IM5ItemsProvider<T> aItemsProvider,
+      IM5LifecycleManager<T> aLifecycleManager ) {
+    TsNullArgumentRtException.checkNull( aContext );
+    OPDEF_IS_ACTIONS_CRUD.setValue( aContext.params(), AV_TRUE );
+    MultiPaneComponentModown<T> mpc = internalCreateStandardCollPanel( aContext, aItemsProvider, aLifecycleManager );
+    IM5CollectionPanel<T> p = new M5CollectionPanelMpcModownWrapper<>( mpc, false );
+    TsInternalErrorRtException.checkNull( p );
+    return p;
+  }
+
+  @Override
+  final public IM5CollectionPanel<T> createStdCollChecksPanel( ITsGuiContext aContext,
+      IM5ItemsProvider<T> aItemsProvider ) {
+    TsNullArgumentRtException.checkNull( aContext );
+    OPDEF_IS_ACTIONS_CRUD.setValue( aContext.params(), AV_FALSE );
+    OPDEF_IS_SUPPORTS_CHECKS.setValue( aContext.params(), AV_TRUE );
+    MultiPaneComponentModown<T> mpc = internalCreateStandardCollPanel( aContext, aItemsProvider, null );
+    IM5CollectionPanel<T> p = new M5CollectionPanelMpcModownWrapper<>( mpc, false );
+    TsInternalErrorRtException.checkNull( p );
+    return p;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // implementation
+  //
+
+  @SuppressWarnings( { "unchecked", "rawtypes" } )
+  private MultiPaneComponentModown<T> internalCreateStandardCollPanel( ITsGuiContext aContext,
+      IM5ItemsProvider<T> aItemsProvider, IM5LifecycleManager<T> aLifecycleManager ) {
+    MultiPaneComponentModown<T> mpc;
+    mpc = new MultiPaneComponentModown<>( aContext, model, aItemsProvider, aLifecycleManager );
+    // apply tree/list mode settings
+    IStridablesList<TreeModeInfo<T>> llTreeModes =
+        (IStridablesList)REFDEF_M5STD_PANEL_TREE_MODES_LIST.getRef( aContext );
+    if( llTreeModes != null ) {
+      for( TreeModeInfo<T> tmi : llTreeModes ) {
+        mpc.treeModeManager().addTreeMode( tmi );
+      }
+      String initialModeId = OPDEF_M5STD_PANEL_TREE_MODE_INIT_ID.getValue( aContext.params() ).asString();
+      mpc.treeModeManager().setCurrentMode( initialModeId.isEmpty() ? null : initialModeId );
+    }
+    return mpc;
   }
 
   // ------------------------------------------------------------------------------------

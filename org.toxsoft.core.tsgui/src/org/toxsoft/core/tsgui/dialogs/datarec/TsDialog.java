@@ -2,6 +2,7 @@ package org.toxsoft.core.tsgui.dialogs.datarec;
 
 import static org.toxsoft.core.tsgui.dialogs.datarec.ITsDialogConstants.*;
 import static org.toxsoft.core.tsgui.graphics.icons.ITsStdIconIds.*;
+import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
 import org.eclipse.jface.dialogs.*;
 import org.eclipse.jface.util.*;
@@ -536,12 +537,10 @@ public class TsDialog<T, E>
         setErrorMessage( vr.message() );
         break;
       case WARNING:
-        setErrorMessage( null );
         setWarningMessage( vr.message() );
         break;
       case OK:
-        setErrorMessage( null );
-        setWarningMessage( null );
+        setCommonMessage( EMPTY_STRING );
         break;
       default:
         throw new TsNotAllEnumsUsedRtException();
@@ -595,14 +594,15 @@ public class TsDialog<T, E>
   final protected void setErrorMessage( String aMessageFmt, Object... aArgs ) {
     if( aMessageFmt != null ) {
       if( aArgs.length != 0 ) {
-        dialogWindow.setErrorMessage( String.format( aMessageFmt, aArgs ) );
+        dialogWindow.setMessage( String.format( aMessageFmt, aArgs ), IMessageProvider.ERROR );
       }
       else {
-        dialogWindow.setErrorMessage( aMessageFmt );
+        dialogWindow.setMessage( aMessageFmt, IMessageProvider.ERROR );
       }
     }
     else {
       dialogWindow.setErrorMessage( null );
+      dialogWindow.setMessage( null );
     }
   }
 
@@ -619,13 +619,14 @@ public class TsDialog<T, E>
   final protected void setWarningMessage( String aMessageFmt, Object... aArgs ) {
     if( aMessageFmt != null ) {
       if( aArgs.length != 0 ) {
-        dialogWindow.setErrorMessage( String.format( aMessageFmt, aArgs ) );
+        dialogWindow.setMessage( String.format( aMessageFmt, aArgs ), IMessageProvider.WARNING );
       }
       else {
-        dialogWindow.setErrorMessage( aMessageFmt );
+        dialogWindow.setMessage( aMessageFmt, IMessageProvider.WARNING );
       }
     }
     else {
+      dialogWindow.setErrorMessage( null );
       dialogWindow.setMessage( null );
     }
   }
@@ -643,6 +644,7 @@ public class TsDialog<T, E>
   final protected void setCommonMessage( String aMessageFmt, Object... aArgs ) {
     TsNullArgumentRtException.checkNull( aMessageFmt );
     String msg = String.format( aMessageFmt, aArgs );
+    dialogWindow.setErrorMessage( null );
     dialogWindow.setMessage( msg, IMessageProvider.NONE );
   }
 

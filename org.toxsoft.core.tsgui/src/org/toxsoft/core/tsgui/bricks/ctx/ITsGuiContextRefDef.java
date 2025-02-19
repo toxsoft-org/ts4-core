@@ -1,12 +1,11 @@
 package org.toxsoft.core.tsgui.bricks.ctx;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContextRefDef;
-import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.eclipse.e4.core.contexts.*;
+import org.toxsoft.core.tslib.bricks.ctx.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Extends {@link ITsContextRefDef} with methos to access {@link IEclipseContext}.
+ * Extends {@link ITsContextRefDef} with methods to access {@link IEclipseContext}.
  *
  * @author hazard157
  * @param <T> - the reference type

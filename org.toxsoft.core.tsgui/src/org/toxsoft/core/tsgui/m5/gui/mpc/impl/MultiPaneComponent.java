@@ -4,11 +4,13 @@ import static org.toxsoft.core.tsgui.bricks.actions.ITsStdActionDefs.*;
 import static org.toxsoft.core.tsgui.m5.IM5Constants.*;
 import static org.toxsoft.core.tsgui.m5.gui.mpc.IMultiPaneComponentConstants.*;
 import static org.toxsoft.core.tsgui.m5.gui.mpc.impl.ITsResources.*;
+import static org.toxsoft.core.tsgui.m5.gui.panels.std.IM5StandardPanelConstants.*;
 
 import org.eclipse.swt.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.actions.*;
+import org.toxsoft.core.tsgui.bricks.actions.asp.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.bricks.stdevents.*;
@@ -90,9 +92,10 @@ public abstract class MultiPaneComponent<T>
   private final TsKeyInputDelegator             keyInputDelegator;
   private final GenericChangeEventer            genericChangeEventer;
 
-  private final ITsTreeMaker<T>     tableMaker; // default tree maker makes plain list (table mode) of items
-  private final IM5TreeViewer<T>    tree;
-  private final ITreeModeManager<T> tmm;
+  private final ITsTreeMaker<T>      tableMaker; // default tree maker makes plain list (table mode) of items
+  private final IM5TreeViewer<T>     tree;
+  private final ITreeModeManager<T>  tmm;
+  private final ITsActionSetProvider aspLocal;
 
   private IM5ItemsProvider<T> itemsProvider = IM5ItemsProvider.EMPTY;
 
@@ -115,6 +118,8 @@ public abstract class MultiPaneComponent<T>
     tree = TsNullArgumentRtException.checkNull( aViewer );
     genericChangeEventer = new GenericChangeEventer( this );
     TsIllegalArgumentRtException.checkTrue( aViewer.getControl() != null );
+    ITsActionSetProvider asp = REFDEF_M5STD_PANEL_ACTIONS_ASP.getRef( tsContext(), null );
+    aspLocal = asp != null ? asp : ITsActionSetProvider.NONE;
     selectionChangeEventHelper = new TsSelectionChangeEventHelper<>( this ) {
 
       @Override
@@ -177,7 +182,7 @@ public abstract class MultiPaneComponent<T>
       actDefs.add( ACDEF_EDIT );
       actDefs.add( ACDEF_REMOVE );
     }
-    // refresh buttin
+    // refresh button
     if( hasRefreshActions ) {
       actDefs.add( ACDEF_REFRESH );
     }
@@ -228,6 +233,16 @@ public abstract class MultiPaneComponent<T>
         if( isBtnHideSummary ) {
           actDefs.add( ACDEF_HIDE_SUMMARY );
         }
+      }
+    }
+    // TODO now apply ASP settings
+    if( REFDEF_M5STD_PANEL_ACTIONS_ASP.getRef( tsContext(), null ) != null ) {
+      boolean isSubstitute = OPDEF_M5STD_PANEL_IS_ASP_SUBSTITUTE.getValue( tsContext().params() ).asBool();
+      if( isSubstitute ) {
+        actDefs.setAll( aspLocal.listAllActionDefs() );
+      }
+      else {
+        actDefs.addAll( aspLocal.listAllActionDefs() );
       }
     }
     // toolbar name
@@ -392,6 +407,9 @@ public abstract class MultiPaneComponent<T>
         break;
       }
       default:
+        // 1. process aspLocal actions
+        aspLocal.handleAction( aActionId );
+        // 2. process subclass actions
         try {
           doProcessAction( aActionId );
         }
@@ -472,6 +490,12 @@ public abstract class MultiPaneComponent<T>
     if( summaryPane != null && toolbar.listButtonItems().hasElem( ACDEF_HIDE_SUMMARY ) ) {
       toolbar.setActionChecked( ACTID_HIDE_SUMMARY, summaryPane.getControl().getVisible() );
     }
+    // update #aspLocal actions
+    for( ITsActionDef adef : aspLocal.listHandledActionDefs() ) {
+      toolbar.setActionEnabled( adef.id(), aspLocal.isActionEnabled( adef.id() ) );
+      toolbar.setActionChecked( adef.id(), aspLocal.isActionChecked( adef.id() ) );
+    }
+    // update subclass actions state
     doUpdateActionsState( isAlive, isSel, sel );
   }
 
@@ -893,7 +917,7 @@ public abstract class MultiPaneComponent<T>
   /**
    * Subclass may adjust created toolbar.
    * <p>
-   * In base class simply creates toolbar, sets icons size, name labes and actions.
+   * In base class simply creates toolbar, sets icons size, name label and actions.
    *
    * @param aContext {@link ITsGuiContext} - the context
    * @param aName String - name of the toolbar

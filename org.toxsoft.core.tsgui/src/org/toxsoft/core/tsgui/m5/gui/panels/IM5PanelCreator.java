@@ -1,7 +1,9 @@
 package org.toxsoft.core.tsgui.m5.gui.panels;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.m5.gui.mpc.*;
 import org.toxsoft.core.tsgui.m5.gui.panels.impl.*;
+import org.toxsoft.core.tsgui.m5.gui.panels.std.*;
 import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.m5.model.impl.*;
 import org.toxsoft.core.tsgui.utils.checkcoll.*;
@@ -149,5 +151,57 @@ public interface IM5PanelCreator<T> {
    * @throws TsNullArgumentRtException aContext = <code>null</code>
    */
   IM5CollectionPanel<T> createCollChecksPanel( ITsGuiContext aContext, IM5ItemsProvider<T> aItemsProvider );
+
+  // ------------------------------------------------------------------------------------
+  // Standard panels - guaranteed IM5StandardPanelConstants to work with them
+  // Standard panel creation can not be overridden by the M5-model developer
+  //
+
+  /**
+   * Creates standard panel to view list of entities.
+   * <p>
+   * Is the same as {@link #createCollViewerPanel(ITsGuiContext, IM5ItemsProvider)}.
+   * <p>
+   * Creates a collection panel based on {@link IM5PanelCreator}, so both {@link IM5StandardPanelConstants} and
+   * {@link IMultiPaneComponentConstants} may be used for configuration.
+   *
+   * @param aContext {@link ITsGuiContext} - panel creation context and parameters
+   * @param aItemsProvider {@link IM5ItemsProvider} - the viewed items provider, may be <code>null</code>
+   * @return {@link IM5CollectionPanel} - new instance of the panel
+   * @throws TsNullArgumentRtException aContext = <code>null</code>
+   */
+  IM5CollectionPanel<T> createStdCollViewerPanel( ITsGuiContext aContext, IM5ItemsProvider<T> aItemsProvider );
+
+  /**
+   * Creates standard entities list edit panel: add, remove items to the list.
+   * <p>
+   * Is the same as {@link #createCollEditPanel(ITsGuiContext, IM5ItemsProvider, IM5LifecycleManager)}.
+   * <p>
+   * Creates a collection panel based on {@link IM5PanelCreator}, so both {@link IM5StandardPanelConstants} and
+   * {@link IMultiPaneComponentConstants} may be used for configuration.
+   *
+   * @param aContext {@link ITsGuiContext} - panel creation context and parameters
+   * @param aItemsProvider {@link IM5ItemsProvider} - the viewed items provider, may be <code>null</code>
+   * @param aLifecycleManager {@link IM5LifecycleManager} - manager to CRUD the entity, may be <code>null</code>
+   * @return {@link IM5CollectionPanel} - new instance of the panel
+   * @throws TsNullArgumentRtException aContext = <code>null</code>
+   */
+  IM5CollectionPanel<T> createStdCollEditPanel( ITsGuiContext aContext, IM5ItemsProvider<T> aItemsProvider,
+      IM5LifecycleManager<T> aLifecycleManager );
+
+  /**
+   * Creates standard panel to select several items from the list of entities.
+   * <p>
+   * Is the same as {@link #createCollChecksPanel(ITsGuiContext, IM5ItemsProvider)}.
+   * <p>
+   * Creates a collection panel based on {@link IM5PanelCreator}, so both {@link IM5StandardPanelConstants} and
+   * {@link IMultiPaneComponentConstants} may be used for configuration.
+   *
+   * @param aContext {@link ITsGuiContext} - panel creation context and parameters
+   * @param aItemsProvider {@link IM5ItemsProvider} - the viewed items provider, may be <code>null</code>
+   * @return {@link IM5CollectionPanel} - new instance of the panel
+   * @throws TsNullArgumentRtException aContext = <code>null</code>
+   */
+  IM5CollectionPanel<T> createStdCollChecksPanel( ITsGuiContext aContext, IM5ItemsProvider<T> aItemsProvider );
 
 }

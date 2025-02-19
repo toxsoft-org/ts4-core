@@ -47,7 +47,7 @@ public interface IQTreeViewer
   void setRoot( IQRootNode aRootNode );
 
   /**
-   * Returns the colmn manager.
+   * Returns the column manager.
    *
    * @return {@link IQTreeColumnManager} - the colmn manager
    */

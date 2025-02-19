@@ -26,7 +26,7 @@ public final class TsGridMargins
    */
   @SuppressWarnings( "hiding" )
   public static final IEntityKeeper<ITsGridMargins> KEEPER =
-      new AbstractEntityKeeper<>( ITsGridMargins.class, EEncloseMode.ENCLOSES_BASE_CLASS, null ) {
+      new AbstractEntityKeeper<>( ITsGridMargins.class, EEncloseMode.ENCLOSES_BASE_CLASS, ZERO ) {
 
         @Override
         protected void doWrite( IStrioWriter aSw, ITsGridMargins aEntity ) {
@@ -67,9 +67,9 @@ public final class TsGridMargins
 
       };
 
-  private int horGap;
-  private int verGap;
-  private int borderWidth;
+  private int horGap      = 0;
+  private int verGap      = 0;
+  private int borderWidth = 0;
 
   /**
    * Constructor.

@@ -51,9 +51,19 @@ public interface IMultiPaneComponentConstants {
   IDataDef OPDEF_IS_SUPPORTS_CHECKS = bdd( "IsSupportsChecks", false, //$NON-NLS-1$
       STR_IS_, STR_IS_D );
 
+  /**
+   * Determines if MPC has a tree mode support, not only default list mode.
+   * <p>
+   * Option must be defined before calling to constructor.
+   */
   IDataDef OPDEF_IS_SUPPORTS_TREE = bdd( "IsSupportsTree", false, //$NON-NLS-1$
       STR_IS_, STR_IS_D );
 
+  /**
+   * Determines if toolbar contains "tree mode" and "list mode" buttons.
+   * <p>
+   * Has no sense if {@link #OPDEF_IS_SUPPORTS_TREE} is set to <code>false</code>.
+   */
   IDataDef OPDEF_IS_ACTIONS_TREE_MODES = bdd( "IsActionsTreeMODES", true, //$NON-NLS-1$
       STR_IS_, STR_IS_D );
 

@@ -20,7 +20,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public interface IQTreeContributorsManager {
 
   // ------------------------------------------------------------------------------------
-  // node childs contribution
+  // node children contribution
 
   /**
    * Registers node child contributor.

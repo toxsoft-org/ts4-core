@@ -24,7 +24,7 @@ public sealed class TsMargins
    * The keeper singleton.
    */
   public static final IEntityKeeper<ITsMargins> KEEPER =
-      new AbstractEntityKeeper<>( ITsMargins.class, EEncloseMode.ENCLOSES_BASE_CLASS, null ) {
+      new AbstractEntityKeeper<>( ITsMargins.class, EEncloseMode.ENCLOSES_BASE_CLASS, ZERO ) {
 
         @Override
         protected void doWrite( IStrioWriter aSw, ITsMargins aEntity ) {

@@ -12,7 +12,7 @@ import org.toxsoft.core.tslib.utils.logs.impl.*;
  * <p>
  * Usage:
  * <ul>
- * <li>crate instance and set callback or override {@link #doInvokeCallback()}. Either callback or overridden method
+ * <li>create instance and set callback or override {@link #doInvokeCallback()}. Either callback or overridden method
  * must redraw the image;</li>
  * <li>ensure that {@link #whenRealTimePassed(long)} is called from TSGUI quick timer
  * {@link ITsGuiTimersService#quickTimers()};</li>
@@ -170,7 +170,7 @@ public class TsImageAnimator
   //
 
   /**
-   * Implementation mey override default behaviour when image redraw is needed.
+   * Implementation may override default behaviour when image redraw is needed.
    * <p>
    * By default this method invokes callback. It is up to implementation to call superclass method when overriding.
    * <p>

@@ -9,10 +9,10 @@ import org.toxsoft.core.tslib.bricks.ctx.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Реализация {@link ITsContextRefDef}.
+ * {@link ITsContextRefDef} implementation.
  *
  * @author hazard157
- * @param <T> - класс ссылки
+ * @param <T> - the reference type
  */
 public class TsGuiContextRefDef<T>
     extends TsContextRefDef<T>
@@ -55,7 +55,7 @@ public class TsGuiContextRefDef<T>
   /**
    * Static constructor.
    *
-   * @param <T> - referece type
+   * @param <T> - reference type
    * @param aRefKey String - the key
    * @param aClass {@link Class}&lt;T&gt; - the reference class
    * @param aIdsAndValues Object[] - initial {@link #params()} values as {@link OptionSetUtils#createOpSet(Object...)}
@@ -72,7 +72,7 @@ public class TsGuiContextRefDef<T>
   /**
    * Static constructor with class name as the key.
    *
-   * @param <T> - referece type
+   * @param <T> - reference type
    * @param aClass {@link Class}&lt;T&gt; - the reference class
    * @param aIdsAndValues Object[] - initial {@link #params()} values as {@link OptionSetUtils#createOpSet(Object...)}
    * @return {@link TsGuiContextRefDef}&lt;T&gt; - created instance

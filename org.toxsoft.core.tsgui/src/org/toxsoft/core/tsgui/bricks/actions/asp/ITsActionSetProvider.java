@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.bricks.actions.asp;
 
 import org.toxsoft.core.tsgui.bricks.actions.*;
+import org.toxsoft.core.tsgui.bricks.actions.asp.ITsActionSetProvider.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.coll.*;
@@ -25,7 +26,12 @@ import org.toxsoft.core.tslib.utils.errors.*;
  */
 public sealed interface ITsActionSetProvider
     extends ITsActionHandler
-    permits AbstractTsActionSetProvider, SeparatorTsActionSetProvider {
+    permits AbstractTsActionSetProvider, SeparatorTsActionSetProvider, InternalNoneTsActionSetProvider {
+
+  /**
+   * Always empty immutable ASP.
+   */
+  ITsActionSetProvider NONE = new InternalNoneTsActionSetProvider();
 
   @Override
   void handleAction( String aActionId );
@@ -150,4 +156,73 @@ public sealed interface ITsActionSetProvider
     return listHandledActionDefs().ids();
   }
 
+  /**
+   * {@link ITsActionSetProvider#NONE} implementation.
+   *
+   * @author hazard157
+   */
+  final class InternalNoneTsActionSetProvider
+      implements ITsActionSetProvider {
+
+    @Override
+    public void handleAction( String aActionId ) {
+      // nop
+    }
+
+    @Override
+    public IList<ITsActionDef> listAllActionDefs() {
+      return IList.EMPTY;
+    }
+
+    @Override
+    public IStridablesList<ITsActionDef> listHandledActionDefs() {
+      return IStridablesList.EMPTY;
+    }
+
+    @Override
+    public ITsActionDef findActionDef( String aActionId ) {
+      return null;
+    }
+
+    @Override
+    public boolean isActionKnown( String aActionId ) {
+      return false;
+    }
+
+    @Override
+    public boolean isActionEnabled( String aActionId ) {
+      return false;
+    }
+
+    @Override
+    public boolean isActionChecked( String aActionId ) {
+      return false;
+    }
+
+    @Override
+    public boolean isActionSetEnabled() {
+      return false;
+    }
+
+    @Override
+    public void setActionSetEnabled( boolean aEnabled ) {
+      // nop
+    }
+
+    @Override
+    public IGenericChangeEventer actionsStateEventer() {
+      return NoneGenericChangeEventer.INSTANCE;
+    }
+
+    @Override
+    public void addPostActionListener( ITsActionHandler aListener ) {
+      // nop
+    }
+
+    @Override
+    public void removePostActionListener( ITsActionHandler aListener ) {
+      // nop
+    }
+
+  }
 }

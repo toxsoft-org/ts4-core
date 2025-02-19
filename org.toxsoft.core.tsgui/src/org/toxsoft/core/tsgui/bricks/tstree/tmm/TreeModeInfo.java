@@ -2,13 +2,10 @@ package org.toxsoft.core.tsgui.bricks.tstree.tmm;
 
 import java.util.*;
 
-import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.gui.*;
-
-// TODO TRANSLATE
 
 /**
  * Description of the grouping items in tree view bound together with the the {@link ITsTreeMaker} strategy.
@@ -16,7 +13,7 @@ import org.toxsoft.core.tslib.utils.gui.*;
  * This is immutable class.
  *
  * @author hazard157
- * @param <T> - displayed M5-modelled entity type
+ * @param <T> - displayed M5-modeled entity type
  */
 public final class TreeModeInfo<T>
     extends Stridable
@@ -26,18 +23,15 @@ public final class TreeModeInfo<T>
   private final ITsTreeMaker<T> treeMaker;
 
   /**
-   * Конструктор.
-   * <p>
-   * Идентификатор значка используется для загрузки значка методом
-   * {@link ITsIconManager#loadStdIcon(String, EIconSize)}.
+   * Constructor.
    *
-   * @param aId String - идентификатор сущности (ИД-путь)
-   * @param aName String - удобочитаемое имя сущности
-   * @param aDescription String - описание сущности
-   * @param aIconId String - идентификатор значка или <code>null</code>
-   * @param aTreeMaker {@link ITsTreeMaker}&lt;T&gt; - способ группировки коллекции элементов в дерево
-   * @throws TsNullArgumentRtException любой аргумент = null
-   * @throws TsIllegalArgumentRtException aId не ИД-путь
+   * @param aId String - the mode ID (IDpath)
+   * @param aName String - readable mode name
+   * @param aDescription String - mode description (is used as a tooltip)
+   * @param aIconId String - the mode icon ID or <code>null</code>
+   * @param aTreeMaker {@link ITsTreeMaker}&lt;T&gt; - the tree maker
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException aId is not an IDpath
    */
   public TreeModeInfo( String aId, String aName, String aDescription, String aIconId, ITsTreeMaker<T> aTreeMaker ) {
     super( aId, aName, aDescription );
@@ -49,20 +43,15 @@ public final class TreeModeInfo<T>
   // API
   //
 
-  /**
-   * Возвращает идентификатор значка.
-   *
-   * @return String - идентификатор значка или <code>null</code
-   */
   @Override
   public String iconId() {
     return iconId;
   }
 
   /**
-   * Возвращает способ группировки коллекции элементов в дерево.
+   * Returns the way a collection of elements is grouped into a tree.
    *
-   * @return {@link ITsTreeMaker}&lt;T&gt; - способ группировки коллекции элементов в дерево
+   * @return {@link ITsTreeMaker}&lt;T&gt; - the tree maker
    */
   public ITsTreeMaker<T> treeMaker() {
     return treeMaker;
