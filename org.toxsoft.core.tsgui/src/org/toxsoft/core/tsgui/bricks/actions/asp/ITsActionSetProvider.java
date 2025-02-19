@@ -29,7 +29,7 @@ public sealed interface ITsActionSetProvider
     permits AbstractTsActionSetProvider, SeparatorTsActionSetProvider, InternalNoneTsActionSetProvider {
 
   /**
-   * Always empty immutable ASP.
+   * Always empty immutable implementation of {@link ITsActionSetProvider}..
    */
   ITsActionSetProvider NONE = new InternalNoneTsActionSetProvider();
 
