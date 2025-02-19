@@ -19,6 +19,7 @@ import org.toxsoft.core.tsgui.ved.editor.palette.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
+import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
@@ -148,9 +149,7 @@ public class ViselLinearGauge
 
   @Override
   protected void doUpdateCachesAfterPropsChange( IOptionSet aChangedValue ) {
-    if( aChangedValue.hasKey( TFI_VALUE.id() ) ) {
-      value = aChangedValue.getDouble( TFI_VALUE.id() );
-    }
+    super.doUpdateCachesAfterPropsChange( aChangedValue );
     if( aChangedValue.hasKey( TFI_MIN_VALUE.id() ) ) {
       minValue = aChangedValue.getDouble( TFI_MIN_VALUE.id() );
     }
@@ -166,7 +165,12 @@ public class ViselLinearGauge
     if( aChangedValue.hasKey( TFI_ORIENTATION.id() ) ) {
       orientation = aChangedValue.getValobj( TFI_ORIENTATION.id() );
     }
-    super.doUpdateCachesAfterPropsChange( aChangedValue );
+    if( aChangedValue.hasKey( TFI_VALUE.id() ) ) {
+      IAtomicValue v = aChangedValue.getValue( TFI_VALUE.id() );
+      if( v.isAssigned() ) {
+        value = v.asDouble();
+      }
+    }
   }
 
   @Override
