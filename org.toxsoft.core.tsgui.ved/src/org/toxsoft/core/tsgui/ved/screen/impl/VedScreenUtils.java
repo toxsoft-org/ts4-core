@@ -137,6 +137,23 @@ public class VedScreenUtils {
   }
 
   /**
+   * Returns actors ids, associated with this visel.<br>
+   *
+   * @param aViselId String - visel id
+   * @param aVedScreen {@link IVedScreen} - the VED screen
+   * @return IStridablesList&lt;IVedActor> - actors, associated with this visel
+   */
+  public static IStridablesList<IVedActor> viselActors( String aViselId, IVedScreen aVedScreen ) {
+    IStridablesListEdit<IVedActor> result = new StridablesList<>();
+    for( IVedActor actor : aVedScreen.model().actors().list() ) {
+      if( actor.listBoundViselIds().hasElem( aViselId ) ) {
+        result.add( actor );
+      }
+    }
+    return result;
+  }
+
+  /**
    * Returns actor configuration {@link IVedItemCfg}, associated with the specified VISEL.<br>
    * <p>
    * FIXME this method must be redesigned due to the problems noted in {@link VedAspCopyPaste#fooJustForCommant()}.
@@ -183,6 +200,21 @@ public class VedScreenUtils {
     VedAbstractActor actor = aVedScreen.model().actors().list().getByKey( aActorId );
     VedItemCfg cfg = VedItemCfg.ofItem( actor );
     return aVedScreen.model().actors().prepareFromTemplate( cfg );
+  }
+
+  /**
+   * Returns ACTORS list.<br>
+   *
+   * @param aActorIds {@link IStringList} - list of ACTOR IDs
+   * @param aVedScreen {@link IVedScreen} - the VED screen
+   * @return IStridablesList&lt;IVedActor> - list of actors
+   */
+  public static IStridablesList<IVedActor> listActors( IStringList aActorIds, IVedScreen aVedScreen ) {
+    IStridablesListEdit<IVedActor> result = new StridablesList<>();
+    for( String actorId : aActorIds ) {
+      result.add( aVedScreen.model().actors().list().getByKey( actorId ) );
+    }
+    return result;
   }
 
   /**
@@ -575,6 +607,59 @@ public class VedScreenUtils {
       }
     }
     return result;
+  }
+
+  /**
+   * Возвращает ИД фабрики для всех элементов или <code>null</code> если элементы имеют различные фабрики.<br>
+   *
+   * @param aItems IStridablesList&lt;IVedItem> - список элементов
+   * @return String - ИД общей фабрики или <code>null</code> если элементы имеют различные фабрики
+   */
+  public static String getCommonFactoryId( IStridablesList<IVedItem> aItems ) {
+    String factoryId = aItems.first().factoryId();
+    for( IVedItem item : aItems ) {
+      if( !item.factoryId().equals( factoryId ) ) {
+        return null;
+      }
+    }
+    return factoryId;
+  }
+
+  /**
+   * Возвращает список ИДов фабрик акторов, которые ассоциированы с каждым элементом из набора.
+   *
+   * @param aViselIds IStringList - список ИДов визелей
+   * @param aVedScreen {@link IVedScreen} - экран редактирования
+   * @return {@link IStringList} - список ИДов фабрик акторов, которые ассоциированы с каждым элементом из набора
+   */
+  public static IStringList listSimilarActorsFactoryIds( IStringList aViselIds, IVedScreen aVedScreen ) {
+    IStridablesListEdit<IVedActor> result = new StridablesList<>();
+    IStridablesList<IVedActor> actors = viselActors( aViselIds.first(), aVedScreen );
+    result.addAll( actors );
+    for( IVedActor actor : actors ) {
+      for( String viselId : aViselIds ) {
+        IVedVisel visel = aVedScreen.model().visels().list().getByKey( viselId );
+        if( !hasSimilarActor( actor, visel, aVedScreen ) ) {
+          result.remove( actor );
+          break;
+        }
+      }
+    }
+
+    IStringListEdit fIds = new StringArrayList();
+    for( IVedActor a : result ) {
+      fIds.add( a.factoryId() );
+    }
+    return fIds;
+  }
+
+  static boolean hasSimilarActor( IVedActor aActor, IVedVisel aVisel, IVedScreen aVedScreen ) {
+    for( IVedActor actor : viselActors( aVisel.id(), aVedScreen ) ) {
+      if( actor.factoryId().equalsIgnoreCase( aActor.factoryId() ) ) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**

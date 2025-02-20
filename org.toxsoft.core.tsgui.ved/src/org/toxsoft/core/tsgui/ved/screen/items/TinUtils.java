@@ -28,7 +28,8 @@ public class TinUtils {
    * @param aItems IStridablesList&lt;IVedItem> - список элементов
    * @return {@link ITinTypeInfo} - общие для всех переданных элементов свойства
    */
-  public static ITinTypeInfo createGroupTinTypeInfo( IVedScreen aVedScreen, IStridablesList<IVedItem> aItems ) {
+  public static ITinTypeInfo createGroupTinTypeInfo( IVedScreen aVedScreen,
+      IStridablesList<? extends IVedItem> aItems ) {
     TsNullArgumentRtException.checkNulls( aVedScreen, aItems );
     TsIllegalArgumentRtException.checkTrue( aItems.size() < 0 );
     ITinTypeInfo ti = tinTypeInfo( aVedScreen, aItems.first() );
@@ -46,7 +47,7 @@ public class TinUtils {
    * @param aItems IStridablesList&lt;IVedItem> - список элементов
    * @return {@link ITinTypeInfo} - общие для всех переданных элементов значения свойств свойства
    */
-  public static ITinValue createGroupTinValue( IVedScreen aVedScreen, IStridablesList<IVedItem> aItems ) {
+  public static ITinValue createGroupTinValue( IVedScreen aVedScreen, IStridablesList<? extends IVedItem> aItems ) {
     TsNullArgumentRtException.checkNulls( aVedScreen, aItems );
     TsIllegalArgumentRtException.checkTrue( aItems.size() < 0 );
 
@@ -134,7 +135,8 @@ public class TinUtils {
     return result;
   }
 
-  private static ITinValue makeFieldValue( ITinFieldInfo aInfo, IStridablesList<IVedItem> aItems, ITsGuiContext aCtx ) {
+  private static ITinValue makeFieldValue( ITinFieldInfo aInfo, IStridablesList<? extends IVedItem> aItems,
+      ITsGuiContext aCtx ) {
     ITinValue currTv = null;
 
     for( IVedItem item : aItems ) {
