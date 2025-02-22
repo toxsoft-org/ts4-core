@@ -685,7 +685,7 @@ public class TsFileUtils {
    * If specified root is not a readable directory then method does nothing,
    *
    * @param aDir {@link File} - the root directory of the subtree to search
-   * @param aFileFilter {@link TsFileFilter} - the files filter
+   * @param aFileFilter {@link FileFilter} - the files filter
    * @param aList {@link ITsCollectionEdit}&lt;{@link File}&gt; - the editable list where founds files are added
    * @throws TsNullArgumentRtException aDir = null
    */
@@ -697,6 +697,53 @@ public class TsFileUtils {
     try {
       Files.walkFileTree( aDir.toPath(), EnumSet.of( FileVisitOption.FOLLOW_LINKS ), Integer.MAX_VALUE,
           new SimpleFileVisitor<Path>() {
+
+            @Override
+            public FileVisitResult visitFile( Path file, BasicFileAttributes attrs )
+                throws IOException {
+              File f = file.toFile();
+              if( aFileFilter.accept( f ) ) {
+                aList.add( f );
+              }
+              return FileVisitResult.CONTINUE;
+            }
+
+          } );
+    }
+    catch( Exception ex ) {
+      throw new TsIoRtException( ex );
+    }
+  }
+
+  /**
+   * Recursively finds only files matching the specified filters of files and directories.
+   * <p>
+   * If specified root is not a readable directory then method does nothing,
+   *
+   * @param aDir {@link File} - the root directory of the subtree to search
+   * @param aFileFilter {@link FileFilter} - the files filter
+   * @param aDirFilter {@link FileFilter} - the directories filter
+   * @param aList {@link ITsCollectionEdit}&lt;{@link File}&gt; - the editable list where founds files are added
+   * @throws TsNullArgumentRtException aDir = null
+   */
+  public static void collectFilesInSubtree( File aDir, FileFilter aFileFilter, FileFilter aDirFilter,
+      ITsCollectionEdit<File> aList ) {
+    TsNullArgumentRtException.checkNulls( aDir, aFileFilter, aDirFilter, aList );
+    if( !TsFileUtils.isDirReadable( aDir ) ) {
+      return;
+    }
+    try {
+      Files.walkFileTree( aDir.toPath(), EnumSet.of( FileVisitOption.FOLLOW_LINKS ), Integer.MAX_VALUE,
+          new SimpleFileVisitor<Path>() {
+
+            @Override
+            public FileVisitResult preVisitDirectory( Path dir, BasicFileAttributes attrs )
+                throws IOException {
+              if( aDirFilter.accept( dir.toFile() ) ) {
+                return FileVisitResult.CONTINUE;
+              }
+              return FileVisitResult.SKIP_SUBTREE;
+            }
 
             @Override
             public FileVisitResult visitFile( Path file, BasicFileAttributes attrs )
