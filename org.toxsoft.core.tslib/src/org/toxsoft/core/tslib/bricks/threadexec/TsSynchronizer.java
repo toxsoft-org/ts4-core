@@ -17,7 +17,7 @@ final class TsSynchronizer {
 
   private Object                                startLock   = new Object();
   private Object                                finishLock  = new Object();
-  private Thread                                doJobThread;
+  private volatile Thread                       doJobThread;
   private boolean                               isInternalThread;
   private ConcurrentLinkedQueue<TsRunnableLock> messages    = new ConcurrentLinkedQueue<>();
   private Object                                messageLock = new Object();
@@ -87,13 +87,11 @@ final class TsSynchronizer {
     TsNullArgumentRtException.checkNull( aExecutor );
     synchronized (messageLock) {
       if( isInternalThread ) {
+        Thread prevThread = doJobThread;
+        queryShutdown = true;
         // we can query shutdown for internal thread only
-        synchronized (finishLock) {
+        while( doJobThread != null || doJobThread == prevThread ) {
           try {
-            queryShutdown = true;
-            // resume dojob thread
-            messageLock.notifyAll();
-            // doJobThread.interrupt();
             // Wait thread finish
             finishLock.wait();
           }
@@ -127,15 +125,13 @@ final class TsSynchronizer {
     TsNullArgumentRtException.checkNull( aThread );
     synchronized (messageLock) {
       if( isInternalThread ) {
+        Thread prevThread = doJobThread;
+        queryShutdown = true;
         // we can query shutdown for internal thread only
-        synchronized (finishLock) {
+        while( doJobThread != null || doJobThread == prevThread ) {
           try {
-            queryShutdown = true;
-            // resume dojob thread
-            // messageLock.notifyAll();
-            doJobThread.interrupt();
             // Wait thread finish
-            finishLock.wait();
+            messageLock.wait();
           }
           catch( InterruptedException ex ) {
             LoggerUtils.errorLogger().error( ex );
@@ -154,7 +150,10 @@ final class TsSynchronizer {
   void close() {
     if( isInternalThread ) {
       queryShutdown = true;
-      doJobThread.interrupt();
+      Thread t = doJobThread;
+      if( t != null ) {
+        t.interrupt();
+      }
     }
   }
 
@@ -333,6 +332,7 @@ final class TsSynchronizer {
         // Thread finish notification
         finishLock.notifyAll();
       }
+      doJobThread = null;
     }
   }
 
