@@ -85,32 +85,17 @@ final class TsSynchronizer {
    */
   void setExecutor( Executor aExecutor ) {
     TsNullArgumentRtException.checkNull( aExecutor );
-    synchronized (messageLock) {
-      if( isInternalThread ) {
-        Thread prevThread = doJobThread;
-        queryShutdown = true;
-        // we can query shutdown for internal thread only
-        while( doJobThread != null || doJobThread == prevThread ) {
-          try {
-            // Wait thread finish
-            finishLock.wait();
-          }
-          catch( InterruptedException ex ) {
-            LoggerUtils.errorLogger().error( ex );
-          }
-        }
+    shutdownInternalThread();
+    isInternalThread = true;
+    queryShutdown = false;
+    synchronized (startLock) {
+      aExecutor.execute( new InternalDoJobTask() );
+      try {
+        // Wait thread start and setup doJobThread
+        startLock.wait();
       }
-      isInternalThread = true;
-      queryShutdown = false;
-      synchronized (startLock) {
-        aExecutor.execute( new InternalDoJobTask() );
-        try {
-          // Wait thread start and setup doJobThread
-          startLock.wait();
-        }
-        catch( InterruptedException ex ) {
-          LoggerUtils.errorLogger().error( ex );
-        }
+      catch( InterruptedException ex ) {
+        LoggerUtils.errorLogger().error( ex );
       }
     }
   }
@@ -123,24 +108,32 @@ final class TsSynchronizer {
    */
   void setThread( Thread aThread ) {
     TsNullArgumentRtException.checkNull( aThread );
+    shutdownInternalThread();
+    isInternalThread = false;
+    queryShutdown = false;
+    doJobThread = aThread;
+  }
+
+  /**
+   * Shutdown internal thread if exist
+   */
+  private void shutdownInternalThread() {
     synchronized (messageLock) {
-      if( isInternalThread ) {
-        Thread prevThread = doJobThread;
-        queryShutdown = true;
-        // we can query shutdown for internal thread only
-        while( doJobThread != null || doJobThread == prevThread ) {
-          try {
-            // Wait thread finish
-            messageLock.wait();
-          }
-          catch( InterruptedException ex ) {
-            LoggerUtils.errorLogger().error( ex );
-          }
+      if( !isInternalThread ) {
+        return;
+      }
+      queryShutdown = true;
+      messageLock.notifyAll();
+    }
+    synchronized (finishLock) {
+      if( doJobThread != null ) {
+        try {
+          finishLock.wait();
+        }
+        catch( InterruptedException ex ) {
+          LoggerUtils.errorLogger().error( ex );
         }
       }
-      isInternalThread = false;
-      queryShutdown = false;
-      doJobThread = aThread;
     }
   }
 
@@ -314,25 +307,26 @@ final class TsSynchronizer {
       }
       while( !queryShutdown ) {
         runAsyncMessages();
-        if( !queryShutdown ) {
-          synchronized (messageLock) {
-            try {
-              // suspend dojob thread - wait new calls
-              messageLock.wait();
-            }
-            catch( @SuppressWarnings( "unused" ) Throwable e ) {
-              // clear interrupted flag
-              Thread.interrupted();
-              // LoggerUtils.errorLogger().error( e );
-            }
+        synchronized (messageLock) {
+          if( queryShutdown ) {
+            break;
+          }
+          try {
+            // suspend dojob thread - wait new calls
+            messageLock.wait();
+          }
+          catch( @SuppressWarnings( "unused" ) Throwable e ) {
+            // clear interrupted flag
+            Thread.interrupted();
+            // LoggerUtils.errorLogger().error( e );
           }
         }
       }
       synchronized (finishLock) {
+        doJobThread = null;
         // Thread finish notification
         finishLock.notifyAll();
       }
-      doJobThread = null;
     }
   }
 
