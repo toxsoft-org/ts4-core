@@ -3,6 +3,7 @@ package org.toxsoft.core.tslib.bricks.time.impl;
 import static org.toxsoft.core.tslib.bricks.time.impl.ITsResources.*;
 
 import java.util.*;
+import java.util.function.*;
 
 import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.bricks.strio.chario.*;
@@ -490,7 +491,6 @@ public class TimeUtils {
   // ------------------------------------------------------------------------------------
   // Optimized methods for performance
   //
-
   /**
    * Объединяет списки темпоральных значений в один список
    *
@@ -500,6 +500,21 @@ public class TimeUtils {
    * @throws TsNullArgumentRtException аргумент = null
    */
   public static <T extends ITemporal<T>> TimedList<T> uniteTimeporaLists( IList<ITimedList<T>> aInputs ) {
+    return uniteTimeporaLists( aInputs, TimedList::new );
+  }
+
+  /**
+   * Объединяет списки темпоральных значений в один список
+   *
+   * @param aInputs {@link IList}&lt;{@link ITimedList}&gt; входные списки темпоральных значений.
+   * @param <T> тип значений
+   * @param aTimeListCreator {@link Function} ссылка на метод создания результата {@link TimedList}
+   * @return {@link ITimedList} выходной список
+   * @throws TsNullArgumentRtException аргумент = null
+   */
+  @SuppressWarnings( "unchecked" )
+  public static <T extends ITemporal<T>, R extends TimedList<T>> R uniteTimeporaLists( IList<ITimedList<T>> aInputs,
+      Function<Integer, R> aTimeListCreator ) {
     TsNullArgumentRtException.checkNull( aInputs );
     int size = 0;
     ElemArrayList<TemporalListWrapper<T>> wrappers = new ElemArrayList<>();
@@ -507,12 +522,12 @@ public class TimeUtils {
       size += list.size();
       wrappers.add( new TemporalListWrapper<>( list ) );
     }
-    TimedList<T> retValue = new TimedList<>( size );
+    TimedList<T> retValue = aTimeListCreator.apply( Integer.valueOf( size ) );
     // Объединение значений по времени
     for( T value = nextValueOrNull( wrappers ); value != null; value = nextValueOrNull( wrappers ) ) {
       retValue.add( value );
     }
-    return retValue;
+    return (R)retValue;
   }
 
   // ------------------------------------------------------------------------------------
