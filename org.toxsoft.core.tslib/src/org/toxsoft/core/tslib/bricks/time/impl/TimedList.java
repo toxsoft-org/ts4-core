@@ -2,13 +2,13 @@ package org.toxsoft.core.tslib.bricks.time.impl;
 
 import static org.toxsoft.core.tslib.coll.impl.TsCollectionsUtils.*;
 
-import java.io.Serializable;
-import java.util.Comparator;
+import java.io.*;
+import java.util.*;
 
 import org.toxsoft.core.tslib.bricks.time.*;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.coll.impl.SortedElemLinkedBundleListEx;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -125,7 +125,7 @@ public class TimedList<T extends ITimestampable>
    *         <li>найден элемент слева от запрошенного времени, возвращает его индекс.</li>
    *         </ul>
    */
-  int findFirstOrBefore( long aTimestamp ) {
+  protected int findFirstOrBefore( long aTimestamp ) {
     int count = size();
     if( count == 0 ) {
       return -1;
@@ -152,7 +152,7 @@ public class TimedList<T extends ITimestampable>
    *         <li>найден элемент справа от запрошенного времени, возвращает его индекс.</li>
    *         </ul>
    */
-  int findFirstOrAfter( long aTimestamp ) {
+  protected int findFirstOrAfter( long aTimestamp ) {
     int count = size();
     if( count == 0 ) {
       return -1;
@@ -180,7 +180,7 @@ public class TimedList<T extends ITimestampable>
    *         <li>найден элемент слева от запрошенного времени, возвращает его индекс.</li>
    *         </ul>
    */
-  int findLastOrBefore( long aTimestamp ) {
+  protected int findLastOrBefore( long aTimestamp ) {
     int count = size();
     if( count == 0 ) {
       return -1;
@@ -207,7 +207,7 @@ public class TimedList<T extends ITimestampable>
    *         <li>найден элемент справа от запрошенного времени, возвращает его индекс.</li>
    *         </ul>
    */
-  int findLastOrAfter( long aTimestamp ) {
+  protected int findLastOrAfter( long aTimestamp ) {
     int count = size();
     if( count == 0 ) {
       return -1;
