@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.m5.gui.panels.impl;
 
+import static org.toxsoft.core.tsgui.m5.valeds.IM5ValedConstants.*;
+
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.dialogs.*;
@@ -51,13 +53,23 @@ public abstract class M5AbstractEntityPanel<T>
 
   @Override
   public void setValues( IM5Bunch<T> aBunch ) {
+    T theEntity = null;
     if( aBunch != null ) {
       TsIllegalArgumentRtException.checkFalse( model().equals( aBunch.model() ) );
       lastValues.fillFrom( aBunch, true );
+      theEntity = aBunch.originalEntity();
     }
     else {
       lastValues.clear();
     }
+    // GOGA --- 2025-03-03 guessing this entity is a master object for VALEDs in the panel
+    if( theEntity != null ) {
+      M5_VALED_REFDEF_MASTER_OBJ.setRef( tsContext(), theEntity );
+    }
+    else {
+      tsContext().remove( M5_VALED_REFID_MASTER_OBJ );
+    }
+    // ---
     try {
       doSetValues( aBunch );
     }
@@ -74,6 +86,14 @@ public abstract class M5AbstractEntityPanel<T>
       TsIllegalArgumentRtException.checkFalse( model().isModelledObject( aEntity ) );
     }
     setValues( model().valuesOf( aEntity ) ); // null entity is allowed
+    // GOGA --- 2025-03-03 guessing this entity is a master object for VALEDs in the panel
+    if( aEntity != null ) {
+      M5_VALED_REFDEF_MASTER_OBJ.setRef( tsContext(), aEntity );
+    }
+    else {
+      tsContext().remove( M5_VALED_REFID_MASTER_OBJ );
+    }
+    // ---
   }
 
   @Override

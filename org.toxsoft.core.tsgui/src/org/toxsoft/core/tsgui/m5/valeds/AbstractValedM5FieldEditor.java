@@ -45,7 +45,7 @@ public abstract class AbstractValedM5FieldEditor<V>
    */
   protected AbstractValedM5FieldEditor( ITsGuiContext aContext ) {
     super( aContext );
-    fieldDef = IM5ValedConstants.M5_VALED_REFDEF_FIELD_DEF.getRef( aContext );
+    fieldDef = M5_VALED_REFDEF_FIELD_DEF.getRef( aContext );
     lastMasterObject = findMasterObject();
   }
 
@@ -91,10 +91,11 @@ public abstract class AbstractValedM5FieldEditor<V>
 
     /**
      * TODO check and fix if needed<br>
-     * GOGA 2024-02-10 it seems it's an error: the master must be retreived from context, not lastMasterObject returned
+     * GOGA 2024-02-10 it seems it's an error: the master must be retrieved from context, not lastMasterObject returned
      */
 
-    return lastMasterObject;
+    // return lastMasterObject;
+    return M5_VALED_REFDEF_MASTER_OBJ.getRef( tsContext() );
   }
 
   /**
