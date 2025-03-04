@@ -6,7 +6,7 @@ import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Simple integers list used as indexes in map's buckets.
+ * Simple integers list to be used used as indexes in map's buckets.
  * <p>
  * 2019-05-31 The list was introduced to optimize the {@link IMapEdit#removeByKey(Object)} method.
  *
@@ -25,6 +25,10 @@ public class ElemMapInternalIntList
     TsIllegalArgumentRtException.checkTrue( aInitialSize <= 0 );
     items = new int[aInitialSize];
   }
+
+  // ------------------------------------------------------------------------------------
+  // API
+  //
 
   public int size() {
     return size;
@@ -59,9 +63,9 @@ public class ElemMapInternalIntList
   }
 
   /**
-   * Для всех элементов уменьшает значение на 1, если оно больше aThreshold.
+   * For all elements, decreases the value by 1 if value is greater than aThreshold.
    *
-   * @param aThreshold int - порговое значение элементов к уменьшению
+   * @param aThreshold int - threshold value of elements to decrease
    */
   public void decreaseAllAboveThreshold( int aThreshold ) {
     for( int i = 0; i < size; i++ ) {
@@ -71,6 +75,11 @@ public class ElemMapInternalIntList
     }
   }
 
+  /**
+   * For all elements, increases the value by 1 if value is greater than aThreshold.
+   *
+   * @param aThreshold int - threshold value of elements to increase
+   */
   public void increaseAllAboveThreshold( int aThreshold ) {
     for( int i = 0; i < size; i++ ) {
       if( items[i] >= aThreshold ) {

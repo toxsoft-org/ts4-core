@@ -5,7 +5,7 @@ import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Modelled entity field values.
+ * Modeled entity field values.
  * <p>
  * Field falues may be either extracted from existing entity or may be created programmatically. In first case original
  * entity may be stored as {@link #originalEntity()}. Note that if bunch is editable (is instance of
@@ -14,7 +14,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * This bunch always contains all field values as fields are listed in {@link IM5Model#fieldDefs()}.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public interface IM5Bunch<T>
     extends IM5ModelRelated<T> {
@@ -69,6 +69,11 @@ public interface IM5Bunch<T>
   @SuppressWarnings( "javadoc" )
   default IAtomicValue getAsAv( String aFieldId ) {
     return getAs( aFieldId, IAtomicValue.class );
+  }
+
+  @SuppressWarnings( "javadoc" )
+  default boolean hasField( String aFieldId ) {
+    return model().fieldDefs().hasKey( aFieldId );
   }
 
 }

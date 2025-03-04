@@ -18,7 +18,7 @@ public class SortedStringMap<E>
   private static final long serialVersionUID = 157157L;
 
   /**
-   * Construcor.
+   * Constructor.
    *
    * @param aBucketsCount int - number of cells in hash-table (rounded to nearest prime number)
    * @param aBundleCapacity int - number of elements in bundle
@@ -31,7 +31,7 @@ public class SortedStringMap<E>
   }
 
   /**
-   * Construcor.
+   * Constructor.
    *
    * @param aBucketsCount int - number of cells in hash-table (rounded to nearest prime number)
    */

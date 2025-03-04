@@ -13,17 +13,8 @@ import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.files.*;
 
-// TODO TRANSLATE
-
 /**
- * Утилитные методы работы со стандартными диалогами, специфичными для среды RCP.
- * <p>
- * Содержит следующую функциональность:
- * <ul>
- * <li><b>askFileXxx()</b> - запрос имени файла для открытия или сохранения.</li>
- * </ul>
- * Остальные методы являются общими для сред RCP и RAP и находятся в файле TsDialogUtils проекта
- * ru.toxsoft.tsgui.common.
+ * Dialogs to work with files and directories.
  *
  * @author hazard157
  */
@@ -31,24 +22,19 @@ public final class TsRcpDialogUtils {
 
   private static final IStringList ALL_FILE_EXTS_LIST = new SingleStringList( "*.*" ); //$NON-NLS-1$
 
-  // ------------------------------------------------------------------------------------
-  // Диалоги работы с файлами
-  //
-
   /**
-   * Выводит диалог выбора открываемого файла.
+   * Displays file open dialog.
    * <p>
-   * Для того, чтобы в начале диалог показал текущую директриию, следует в качестве aDefaultPath задать пустую строку.
+   * File extensions must be specified as described in {@link FileDialog#setFilterExtensions(String[])}.
    *
-   * @param aShell Shell - родительское окно
-   * @param aDefaultPath String - путь, которую покажет диалог в начале
-   * @param aExtensions {@link IStringList} - расширения файлов в формате
-   *          {@link FileDialog#setFilterExtensions(String[])} или пустой список для всех файлов
-   * @return File - путь к открываемому файлу или null если пользователь отказался
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aShell {@link Shell} - parent window
+   * @param aDefaultPath String - initial directory to open or an empty string for current directory
+   * @param aExtensions {@link IStringList} - file extensions or an empty list for any extension
+   * @return {@link File} - selected file or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static File askFileOpen( Shell aShell, String aDefaultPath, IStringList aExtensions ) {
-    TsNullArgumentRtException.checkNulls( aShell, aDefaultPath );
+    TsNullArgumentRtException.checkNulls( aShell, aDefaultPath, aExtensions );
     FileDialog fd = new FileDialog( aShell, SWT.OPEN );
     fd.setFileName( aDefaultPath );
     fd.setText( STR_C_OPEN_DIALOG );
@@ -63,31 +49,31 @@ public final class TsRcpDialogUtils {
   }
 
   /**
-   * Выводит диалог выбора открываемого файла.
-   * <p>
-   * Для того, чтобы в начале диалог показал текущую директриию, следует в качестве aDefaultPath задать пустую строку.
+   * Displays file open dialog.
    *
-   * @param aShell Shell - родительское окно
-   * @param aDefaultPath String - путь, которую покажет диалог в начале
-   * @return File - путь к открываемому файлу или null если пользователь отказался
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aShell {@link Shell} - parent window
+   * @param aDefaultPath String - initial directory to open or an empty string for current directory
+   * @return {@link File} - selected file or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static File askFileOpen( Shell aShell, String aDefaultPath ) {
     return askFileOpen( aShell, aDefaultPath, IStringList.EMPTY );
   }
 
   /**
-   * Выводит диалог выбора открываемого файла.
+   * Displays file open dialog.
    * <p>
-   * Эквивалентно вызову метода {@link #askFileOpen(Shell, String)} с пустой строкой в качестве aDefaultPath.
+   * Is the same as calling {@link #askFileOpen(Shell, String)} with an empty string as a initial path.
    *
-   * @param aShell Shell - родительское окно
-   * @return File - путь к открываемому файлу или null если пользователь отказался
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aShell {@link Shell} - parent window
+   * @return {@link File} - selected file or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static File askFileOpen( Shell aShell ) {
     return askFileOpen( aShell, TsLibUtils.EMPTY_STRING, IStringList.EMPTY );
   }
+
+  // TODO TRANSLATE
 
   /**
    * Выводит диалог выбора/ввода имени файла для сохранения документа.

@@ -31,7 +31,7 @@ public class AbstractStringMap<E>
   transient int changeCount = 0; // Counter of list editing operations used for concurrent access detection
 
   /**
-   * Construcor for subclasses.
+   * Constructor for subclasses.
    *
    * @param aBucketsCount int - number of cells in hash-table (rounded to nearest prime number)
    * @param aKeysList {@link IStringListBasicEdit}&lt;K:gt; - keys list, may be sorted
@@ -292,7 +292,7 @@ public class AbstractStringMap<E>
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация методов Object
+  // Object
   //
 
   @Override

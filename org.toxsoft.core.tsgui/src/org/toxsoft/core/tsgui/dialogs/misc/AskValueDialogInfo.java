@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.dialogs.misc;
 
+import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
@@ -42,6 +43,7 @@ public class AskValueDialogInfo
     TsNullArgumentRtException.checkNull( aDataType );
     dataType = aDataType;
     params.addAll( aDataType.params() );
+    label = aDataType.params().getStr( TSID_NAME, EMPTY_STRING );
   }
 
   // ------------------------------------------------------------------------------------

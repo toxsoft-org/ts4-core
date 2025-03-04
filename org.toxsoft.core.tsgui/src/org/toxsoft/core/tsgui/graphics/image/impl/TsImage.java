@@ -195,7 +195,7 @@ public final class TsImage {
   }
 
   /**
-   * Creates an unanimated {@link TsImage}.
+   * Creates a still (not animated) {@link TsImage}.
    *
    * @param aImage {@link Image} - the single frame
    * @return {@link TsImage} - created instance

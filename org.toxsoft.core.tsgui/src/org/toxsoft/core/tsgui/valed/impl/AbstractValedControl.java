@@ -638,7 +638,10 @@ public abstract class AbstractValedControl<V, C extends Control>
   /**
    * Subclass must the value to editor widget(s).
    * <p>
-   * This method is called only after the SWT widgets are created.
+   * While <code>aValue</code> never is <code>null</code> it must be checked for some "special case" value like
+   * {@link IAtomicValue#NULL}.
+   * <p>
+   * This method is called after the SWT widgets are created.
    *
    * @param aValue &lt;V&gt; - new value, never is <code>null</code>
    * @throws TsIllegalArgumentRtException value has incompatible type

@@ -116,7 +116,7 @@ public interface IMultiPartValue {
   /**
    * Returns the parts values.
    *
-   * @return {@link IIntList} - the part values with the {@link #parts()} order
+   * @return {@link IIntList} - new instance of the the part values in the {@link #parts()} order
    */
   IIntList getPartsValues();
 

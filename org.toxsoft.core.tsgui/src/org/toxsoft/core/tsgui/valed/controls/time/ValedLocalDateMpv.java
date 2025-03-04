@@ -15,7 +15,6 @@ import org.toxsoft.core.tsgui.widgets.mpv.*;
 import org.toxsoft.core.tsgui.widgets.mpv.impl.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.bricks.ctx.*;
-import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -136,10 +135,6 @@ public class ValedLocalDateMpv
     }
   }
 
-  // ------------------------------------------------------------------------------------
-  // AbstractValedControl
-  //
-
   @Override
   protected MultiPartValueWidget doCreateControl( Composite aParent ) {
     MultiPartValueWidget w = new MultiPartValueWidget( aParent, SWT.NONE, mpv );
@@ -150,11 +145,6 @@ public class ValedLocalDateMpv
   @Override
   protected void doSetEditable( boolean aEditable ) {
     getControl().setEditable( aEditable );
-  }
-
-  @Override
-  public ValidationResult canGetValue() {
-    return ValidationResult.SUCCESS;
   }
 
   @Override
