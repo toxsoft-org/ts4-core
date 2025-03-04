@@ -155,6 +155,7 @@ public class ValedSecsDurationMpv
   protected MultiPartValueWidget doCreateControl( Composite aParent ) {
     MultiPartValueWidget w = new MultiPartValueWidget( aParent, SWT.NONE, mpv );
     w.setEditable( isEditable() );
+    w.genericChangeEventer().addListener( widgetValueChangeListener );
     return w;
   }
 
@@ -165,6 +166,10 @@ public class ValedSecsDurationMpv
 
   @Override
   public ValidationResult canGetValue() {
+    int secs = mpv.getValueSecs();
+    if( !mpv.getRange().isInRange( secs ) ) {
+      return ValidationResult.error( FMT_VALUE_OUT_OF_RANGE, Integer.valueOf( secs ), mpv.getRange().toString() );
+    }
     return ValidationResult.SUCCESS;
   }
 
