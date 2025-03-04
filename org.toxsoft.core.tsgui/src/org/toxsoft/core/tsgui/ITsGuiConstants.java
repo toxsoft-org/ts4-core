@@ -28,4 +28,9 @@ public interface ITsGuiConstants {
    */
   String TSGUI_M5_ID = TSGUI_ID + ".m5"; //$NON-NLS-1$
 
+  /**
+   * TsGUI actions ID prefix.
+   */
+  String TSGUI_ACT_ID = TSGUI_ID + ".m5"; //$NON-NLS-1$
+
 }

@@ -1,10 +1,10 @@
 package org.toxsoft.core.tsgui.bricks.actions;
 
+import static org.toxsoft.core.tsgui.ITsGuiConstants.*;
 import static org.toxsoft.core.tsgui.bricks.actions.ITsResources.*;
 import static org.toxsoft.core.tsgui.bricks.actions.TsActionDef.*;
 import static org.toxsoft.core.tsgui.graphics.icons.ITsStdIconIds.*;
 import static org.toxsoft.core.tsgui.l10n.ITsGuiSharedResources.*;
-import static org.toxsoft.core.tslib.ITsHardConstants.*;
 
 /**
  * Standatrd actions.
@@ -16,336 +16,338 @@ public interface ITsStdActionDefs {
   // ------------------------------------------------------------------------------------
   // Action IDs
 
-  /**
-   * Prefix of the standard action IDs.
-   */
-  String STD_ACTION_DEF_PREFIX = TS_FULL_ID + ".tsgui.stdact"; //$NON-NLS-1$
+  // GOGA --- 2025-02-26 moving to ITsGuiConstants.TSGUI_ACT_ID
+  // /**
+  // * Prefix of the standard action IDs.
+  // */
+  // String TSGUI_ACT_ID = TS_FULL_ID + ".tsgui.stdact"; //$NON-NLS-1$
+  // ---
 
   /**
    * Action ID: the separator in menus, toolbars, etc and this is not an action!
    */
-  String ACTID_SEPARATOR = STD_ACTION_DEF_PREFIX + ".separator"; //$NON-NLS-1$
+  String ACTID_SEPARATOR = TSGUI_ACT_ID + ".separator"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_ADD}.
    */
-  String ACTID_ADD = STD_ACTION_DEF_PREFIX + ".add"; //$NON-NLS-1$
+  String ACTID_ADD = TSGUI_ACT_ID + ".add"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_ADD_ALL}.
    */
-  String ACTID_ADD_ALL = STD_ACTION_DEF_PREFIX + ".add_all"; //$NON-NLS-1$
+  String ACTID_ADD_ALL = TSGUI_ACT_ID + ".add_all"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_EDIT}.
    */
-  String ACTID_EDIT = STD_ACTION_DEF_PREFIX + ".edit"; //$NON-NLS-1$
+  String ACTID_EDIT = TSGUI_ACT_ID + ".edit"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_REMOVE}.
    */
-  String ACTID_REMOVE = STD_ACTION_DEF_PREFIX + ".remove"; //$NON-NLS-1$
+  String ACTID_REMOVE = TSGUI_ACT_ID + ".remove"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_CLEAR}.
    */
-  String ACTID_CLEAR = STD_ACTION_DEF_PREFIX + ".clear"; //$NON-NLS-1$
+  String ACTID_CLEAR = TSGUI_ACT_ID + ".clear"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_INFO}.
    */
-  String ACTID_INFO = STD_ACTION_DEF_PREFIX + ".info"; //$NON-NLS-1$
+  String ACTID_INFO = TSGUI_ACT_ID + ".info"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_FILTER}.
    */
-  String ACTID_HIDE_FILTER = STD_ACTION_DEF_PREFIX + ".hide_filter"; //$NON-NLS-1$
+  String ACTID_HIDE_FILTER = TSGUI_ACT_ID + ".hide_filter"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_HIDE_DETAILS}.
    */
-  String ACTID_HIDE_DETAILS = STD_ACTION_DEF_PREFIX + ".hide_details"; //$NON-NLS-1$
+  String ACTID_HIDE_DETAILS = TSGUI_ACT_ID + ".hide_details"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_HIDE_SUMMARY}.
    */
-  String ACTID_HIDE_SUMMARY = STD_ACTION_DEF_PREFIX + ".hide_summary"; //$NON-NLS-1$
+  String ACTID_HIDE_SUMMARY = TSGUI_ACT_ID + ".hide_summary"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_VALIDATE}.
    */
-  String ACTID_VALIDATE = STD_ACTION_DEF_PREFIX + ".validate"; //$NON-NLS-1$
+  String ACTID_VALIDATE = TSGUI_ACT_ID + ".validate"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_REFRESH}.
    */
-  String ACTID_REFRESH = STD_ACTION_DEF_PREFIX + ".refresh"; //$NON-NLS-1$
+  String ACTID_REFRESH = TSGUI_ACT_ID + ".refresh"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_EXPAND}.
    */
-  String ACTID_EXPAND = STD_ACTION_DEF_PREFIX + ".expand"; //$NON-NLS-1$
+  String ACTID_EXPAND = TSGUI_ACT_ID + ".expand"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_EXPAND_ALL}.
    */
-  String ACTID_EXPAND_ALL = STD_ACTION_DEF_PREFIX + ".expand_all"; //$NON-NLS-1$
+  String ACTID_EXPAND_ALL = TSGUI_ACT_ID + ".expand_all"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_COLLAPSE}.
    */
-  String ACTID_COLLAPSE = STD_ACTION_DEF_PREFIX + ".collapse"; //$NON-NLS-1$
+  String ACTID_COLLAPSE = TSGUI_ACT_ID + ".collapse"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_COLLAPSE_ALL}.
    */
-  String ACTID_COLLAPSE_ALL = STD_ACTION_DEF_PREFIX + ".collapse_all"; //$NON-NLS-1$
+  String ACTID_COLLAPSE_ALL = TSGUI_ACT_ID + ".collapse_all"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_FILTER}.
    */
-  String ACTID_FILTER = STD_ACTION_DEF_PREFIX + ".filter"; //$NON-NLS-1$
+  String ACTID_FILTER = TSGUI_ACT_ID + ".filter"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_SORT}.
    */
-  String ACTID_SORT = STD_ACTION_DEF_PREFIX + ".sort"; //$NON-NLS-1$
+  String ACTID_SORT = TSGUI_ACT_ID + ".sort"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_SORT_ASCENDING}.
    */
-  String ACTID_SORT_ASCENDING = STD_ACTION_DEF_PREFIX + ".sort_asc"; //$NON-NLS-1$
+  String ACTID_SORT_ASCENDING = TSGUI_ACT_ID + ".sort_asc"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_SORT_DESCENDING}.
    */
-  String ACTID_SORT_DESCENDING = STD_ACTION_DEF_PREFIX + ".sort_desc"; //$NON-NLS-1$
+  String ACTID_SORT_DESCENDING = TSGUI_ACT_ID + ".sort_desc"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_REVERT_CHANGES}.
    */
-  String ACTID_REVERT_CHANGES = STD_ACTION_DEF_PREFIX + ".revert_changes"; //$NON-NLS-1$
+  String ACTID_REVERT_CHANGES = TSGUI_ACT_ID + ".revert_changes"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_OK_CHANGES}.
    */
-  String ACTID_OK_CHANGES = STD_ACTION_DEF_PREFIX + ".ok_changes"; //$NON-NLS-1$
+  String ACTID_OK_CHANGES = TSGUI_ACT_ID + ".ok_changes"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_CANCEL_CHANGES}.
    */
-  String ACTID_CANCEL_CHANGES = STD_ACTION_DEF_PREFIX + ".cancel_changes"; //$NON-NLS-1$
+  String ACTID_CANCEL_CHANGES = TSGUI_ACT_ID + ".cancel_changes"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_APPLY_CHANGES}.
    */
-  String ACTID_APPLY_CHANGES = STD_ACTION_DEF_PREFIX + ".apply_changes"; //$NON-NLS-1$
+  String ACTID_APPLY_CHANGES = TSGUI_ACT_ID + ".apply_changes"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_RESTORE_DEFAULTS}.
    */
-  String ACTID_RESTORE_DEFAULTS = STD_ACTION_DEF_PREFIX + ".restore_defaults"; //$NON-NLS-1$
+  String ACTID_RESTORE_DEFAULTS = TSGUI_ACT_ID + ".restore_defaults"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_CHECK_ALL}.
    */
-  String ACTID_CHECK_ALL = STD_ACTION_DEF_PREFIX + ".check_all"; //$NON-NLS-1$
+  String ACTID_CHECK_ALL = TSGUI_ACT_ID + ".check_all"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_UNCHECK_ALL}.
    */
-  String ACTID_UNCHECK_ALL = STD_ACTION_DEF_PREFIX + ".uncheck_all"; //$NON-NLS-1$
+  String ACTID_UNCHECK_ALL = TSGUI_ACT_ID + ".uncheck_all"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_CHECK_GROUP}.
    */
-  String ACTID_CHECK_GROUP = STD_ACTION_DEF_PREFIX + ".check_group"; //$NON-NLS-1$
+  String ACTID_CHECK_GROUP = TSGUI_ACT_ID + ".check_group"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_UNCHECK_GROUP}.
    */
-  String ACTID_UNCHECK_GROUP = STD_ACTION_DEF_PREFIX + ".uncheck_group"; //$NON-NLS-1$
+  String ACTID_UNCHECK_GROUP = TSGUI_ACT_ID + ".uncheck_group"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_INVERT_CHECK}.
    */
-  String ACTID_INVERT_CHECK = STD_ACTION_DEF_PREFIX + ".invert_check"; //$NON-NLS-1$
+  String ACTID_INVERT_CHECK = TSGUI_ACT_ID + ".invert_check"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_CREATE_NEW}.
    */
-  String ACTID_CREATE_NEW = STD_ACTION_DEF_PREFIX + ".create_new"; //$NON-NLS-1$
+  String ACTID_CREATE_NEW = TSGUI_ACT_ID + ".create_new"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_OPEN}.
    */
-  String ACTID_OPEN = STD_ACTION_DEF_PREFIX + ".open"; //$NON-NLS-1$
+  String ACTID_OPEN = TSGUI_ACT_ID + ".open"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_SAVE}.
    */
-  String ACTID_SAVE = STD_ACTION_DEF_PREFIX + ".save"; //$NON-NLS-1$
+  String ACTID_SAVE = TSGUI_ACT_ID + ".save"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_SAVE_AS}.
    */
-  String ACTID_SAVE_AS = STD_ACTION_DEF_PREFIX + ".save_as"; //$NON-NLS-1$
+  String ACTID_SAVE_AS = TSGUI_ACT_ID + ".save_as"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_FILE_EXPORT}.
    */
-  String ACTID_FILE_EXPORT = STD_ACTION_DEF_PREFIX + ".file_export"; //$NON-NLS-1$
+  String ACTID_FILE_EXPORT = TSGUI_ACT_ID + ".file_export"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_FILE_IMPORT}.
    */
-  String ACTID_FILE_IMPORT = STD_ACTION_DEF_PREFIX + ".file_import"; //$NON-NLS-1$
+  String ACTID_FILE_IMPORT = TSGUI_ACT_ID + ".file_import"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_QUIT}.
    */
-  String ACTID_QUIT = STD_ACTION_DEF_PREFIX + ".quit"; //$NON-NLS-1$
+  String ACTID_QUIT = TSGUI_ACT_ID + ".quit"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_ABOUT}.
    */
-  String ACTID_ABOUT = STD_ACTION_DEF_PREFIX + ".about"; //$NON-NLS-1$
+  String ACTID_ABOUT = TSGUI_ACT_ID + ".about"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_ZOOM_ORIGINAL}, {@link #ACDEF_ZOOM_ORIGINAL_MENU},
    * {@link #ACDEF_ZOOM_ORIGINAL_PUSHBUTTON}.
    */
-  String ACTID_ZOOM_ORIGINAL = STD_ACTION_DEF_PREFIX + ".zoom_orig"; //$NON-NLS-1$
+  String ACTID_ZOOM_ORIGINAL = TSGUI_ACT_ID + ".zoom_orig"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_ZOOM_FIT_NONE}, {@link #ACDEF_ZOOM_FIT_NONE_PUSHBUTTON}.
    */
-  String ACTID_ZOOM_FIT_NONE = STD_ACTION_DEF_PREFIX + ".zoom_fit_none"; //$NON-NLS-1$
+  String ACTID_ZOOM_FIT_NONE = TSGUI_ACT_ID + ".zoom_fit_none"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_ZOOM_FIT_BEST}, {@link #ACDEF_ZOOM_FIT_BEST_PUSHBUTTON}.
    */
-  String ACTID_ZOOM_FIT_BEST = STD_ACTION_DEF_PREFIX + ".zoom_fit_best"; //$NON-NLS-1$
+  String ACTID_ZOOM_FIT_BEST = TSGUI_ACT_ID + ".zoom_fit_best"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_ZOOM_FIT_FILL}, {@link #ACDEF_ZOOM_FIT_FILL_PUSHBUTTON}.
    */
-  String ACTID_ZOOM_FIT_FILL = STD_ACTION_DEF_PREFIX + ".zoom_fit_fill"; //$NON-NLS-1$
+  String ACTID_ZOOM_FIT_FILL = TSGUI_ACT_ID + ".zoom_fit_fill"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_ZOOM_FIT_HEIGHT}, {@link #ACDEF_ZOOM_FIT_HEIGHT_PUSHBUTTON}.
    */
-  String ACTID_ZOOM_FIT_HEIGHT = STD_ACTION_DEF_PREFIX + ".zoom_fit_height"; //$NON-NLS-1$
+  String ACTID_ZOOM_FIT_HEIGHT = TSGUI_ACT_ID + ".zoom_fit_height"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_ZOOM_FIT_WIDTH}, {@link #ACDEF_ZOOM_FIT_WIDTH_PUSHBUTTON}.
    */
-  String ACTID_ZOOM_FIT_WIDTH = STD_ACTION_DEF_PREFIX + ".zoom_fit_width"; //$NON-NLS-1$
+  String ACTID_ZOOM_FIT_WIDTH = TSGUI_ACT_ID + ".zoom_fit_width"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_ZOOM_IN}.
    */
-  String ACTID_ZOOM_IN = STD_ACTION_DEF_PREFIX + ".zoom_in"; //$NON-NLS-1$
+  String ACTID_ZOOM_IN = TSGUI_ACT_ID + ".zoom_in"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_ZOOM_OUT}.
    */
-  String ACTID_ZOOM_OUT = STD_ACTION_DEF_PREFIX + ".zoom_out"; //$NON-NLS-1$
+  String ACTID_ZOOM_OUT = TSGUI_ACT_ID + ".zoom_out"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_ZOOM_EXPAND_TO_FIT}.
    */
-  String ACTID_ZOOM_EXPAND_TO_FIT = STD_ACTION_DEF_PREFIX + ".zoom_expand_to_fit"; //$NON-NLS-1$
+  String ACTID_ZOOM_EXPAND_TO_FIT = TSGUI_ACT_ID + ".zoom_expand_to_fit"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_LIST_ELEM_MOVE_UP}.
    */
-  String ACTID_LIST_ELEM_MOVE_UP = STD_ACTION_DEF_PREFIX + ".list_elem_move_up"; //$NON-NLS-1$
+  String ACTID_LIST_ELEM_MOVE_UP = TSGUI_ACT_ID + ".list_elem_move_up"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_LIST_ELEM_MOVE_DOWN}.
    */
-  String ACTID_LIST_ELEM_MOVE_DOWN = STD_ACTION_DEF_PREFIX + ".list_elem_move_down"; //$NON-NLS-1$
+  String ACTID_LIST_ELEM_MOVE_DOWN = TSGUI_ACT_ID + ".list_elem_move_down"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_LIST_ELEM_MOVE_FIRST}.
    */
-  String ACTID_LIST_ELEM_MOVE_FIRST = STD_ACTION_DEF_PREFIX + ".list_elem_move_first"; //$NON-NLS-1$
+  String ACTID_LIST_ELEM_MOVE_FIRST = TSGUI_ACT_ID + ".list_elem_move_first"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_LIST_ELEM_MOVE_LAST}.
    */
-  String ACTID_LIST_ELEM_MOVE_LAST = STD_ACTION_DEF_PREFIX + ".list_elem_move_last"; //$NON-NLS-1$
+  String ACTID_LIST_ELEM_MOVE_LAST = TSGUI_ACT_ID + ".list_elem_move_last"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_GO_FIRST}.
    */
-  String ACTID_GO_FIRST = STD_ACTION_DEF_PREFIX + ".go_first"; //$NON-NLS-1$
+  String ACTID_GO_FIRST = TSGUI_ACT_ID + ".go_first"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_GO_PREV}.
    */
-  String ACTID_GO_PREV = STD_ACTION_DEF_PREFIX + ".go_prev"; //$NON-NLS-1$
+  String ACTID_GO_PREV = TSGUI_ACT_ID + ".go_prev"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_GO_NEXT}.
    */
-  String ACTID_GO_NEXT = STD_ACTION_DEF_PREFIX + ".go_next"; //$NON-NLS-1$
+  String ACTID_GO_NEXT = TSGUI_ACT_ID + ".go_next"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_GO_LAST}.
    */
-  String ACTID_GO_LAST = STD_ACTION_DEF_PREFIX + ".go_last"; //$NON-NLS-1$
+  String ACTID_GO_LAST = TSGUI_ACT_ID + ".go_last"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_VIEW_AS_LIST}.
    */
-  String ACTID_VIEW_AS_LIST = STD_ACTION_DEF_PREFIX + ".view_as_list"; //$NON-NLS-1$
+  String ACTID_VIEW_AS_LIST = TSGUI_ACT_ID + ".view_as_list"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_VIEW_AS_TREE}.
    */
-  String ACTID_VIEW_AS_TREE = STD_ACTION_DEF_PREFIX + ".view_as_tree"; //$NON-NLS-1$
+  String ACTID_VIEW_AS_TREE = TSGUI_ACT_ID + ".view_as_tree"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_TREE_ADD_ROOT}.
    */
-  String ACTID_TREE_ADD_ROOT = STD_ACTION_DEF_PREFIX + ".tree_add_root"; //$NON-NLS-1$
+  String ACTID_TREE_ADD_ROOT = TSGUI_ACT_ID + ".tree_add_root"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_TREE_ADD_CHILD}.
    */
-  String ACTID_TREE_ADD_CHILD = STD_ACTION_DEF_PREFIX + ".tree_add_child"; //$NON-NLS-1$
+  String ACTID_TREE_ADD_CHILD = TSGUI_ACT_ID + ".tree_add_child"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_UNDO}.
    */
-  String ACTID_UNDO = STD_ACTION_DEF_PREFIX + ".undo"; //$NON-NLS-1$
+  String ACTID_UNDO = TSGUI_ACT_ID + ".undo"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_REDO}.
    */
-  String ACTID_REDO = STD_ACTION_DEF_PREFIX + ".redo"; //$NON-NLS-1$
+  String ACTID_REDO = TSGUI_ACT_ID + ".redo"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_PRINT}.
    */
-  String ACTID_PRINT = STD_ACTION_DEF_PREFIX + ".print"; //$NON-NLS-1$
+  String ACTID_PRINT = TSGUI_ACT_ID + ".print"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_PRINT_PREVIEW}.
    */
-  String ACTID_PRINT_PREVIEW = STD_ACTION_DEF_PREFIX + ".print_preview"; //$NON-NLS-1$
+  String ACTID_PRINT_PREVIEW = TSGUI_ACT_ID + ".print_preview"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_ADD_COPY}.
    */
-  String ACTID_ADD_COPY = STD_ACTION_DEF_PREFIX + ".add_copy"; //$NON-NLS-1$
+  String ACTID_ADD_COPY = TSGUI_ACT_ID + ".add_copy"; //$NON-NLS-1$
 
   /**
    * ID of action {@link #ACDEF_RUN_TEST}.
    */
-  String ACTID_RUN_TEST = STD_ACTION_DEF_PREFIX + ".run_test"; //$NON-NLS-1$
+  String ACTID_RUN_TEST = TSGUI_ACT_ID + ".run_test"; //$NON-NLS-1$
 
   /**
    * THis is "pseudo" action to insert separators in menu, toolbar, etc.
