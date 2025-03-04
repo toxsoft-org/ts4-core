@@ -18,6 +18,7 @@ import org.toxsoft.core.tsgui.ved.incub.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
+import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
@@ -179,7 +180,8 @@ public class ViselCircleLamp
   @Override
   public void paint( ITsGraphicsContext aPaintContext ) {
     if( props().getBool( PROPID_USE_GRADIENT ) ) {
-      if( props().getBool( PROPID_ON_OFF_STATE ) ) {
+      IAtomicValue av = props().getValue( PROPID_ON_OFF_STATE );
+      if( av.isAssigned() && av.asBool() ) {
         aPaintContext.setFillInfo( onGradientInfo );
       }
       else {

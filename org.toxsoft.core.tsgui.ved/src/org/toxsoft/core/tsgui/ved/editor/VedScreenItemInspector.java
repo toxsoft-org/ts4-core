@@ -124,7 +124,7 @@ public class VedScreenItemInspector
 
   private void whenViselsChanged( @SuppressWarnings( "unused" ) IVedItemsManager<VedAbstractVisel> aSource, ECrudOp aOp,
       String aId ) {
-    if( selfEditing || vedItem == null || vedItem.kind() != EVedItemKind.VISEL ) {
+    if( selfEditing || vedItem == null || vedItem.kind() != EVedItemKind.VISEL || aOp == null ) {
       return;
     }
     String currItemId = vedItem.id();
