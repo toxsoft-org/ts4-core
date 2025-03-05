@@ -235,7 +235,7 @@ public class OptionSetUtils {
    * Examples:<br>
    * "<code>Count = <b>{cnt}</b></code>" formats as "<code>Count = 157</code>".
    * <p>
-   * "<code>Voltage: raw= <b>{voltage}</b>, pretty= <b>{voltage,0.2f}</b></code>" formats as
+   * "<code>Voltage: raw= <b>{voltage}</b>, pretty= <b>{voltage,1.2f}</b></code>" formats as
    * "<code>Voltage: raw= 234.76294712, pretty= 234.76</code>".
    * <p>
    * "<code>The person is \{ '<b>{firstName}</b>', '<b>{lastName)</b>' \}</code>" formats as
