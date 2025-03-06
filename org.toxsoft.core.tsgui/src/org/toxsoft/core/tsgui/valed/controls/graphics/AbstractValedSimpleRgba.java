@@ -110,7 +110,10 @@ public abstract class AbstractValedSimpleRgba<V>
   @Override
   final protected boolean doProcessButtonPress() {
     ITsGuiContext ctx = prepareContext();
-    RGBA oldValue = new RGBA( value.rgb.red, value.rgb.green, value.rgb.blue, value.alpha );
+    RGBA oldValue = new RGBA( 0, 0, 0, 255 );
+    if( value != null ) {
+      oldValue = new RGBA( value.rgb.red, value.rgb.green, value.rgb.blue, value.alpha );
+    }
     RGBA newVal = PanelRgbaSelector.editRgba( value, ctx );
     if( newVal == null ) {
       value = oldValue;
