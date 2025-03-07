@@ -121,4 +121,12 @@ public class StringM5Model
     return new DefaultLifecyleManager( this );
   }
 
+  @Override
+  protected IM5LifecycleManager<String> doCreateLifecycleManager( Object aMaster ) {
+    /**
+     * If not overridden, use default LM for String.
+     */
+    return new DefaultLifecyleManager( this );
+  }
+
 }
