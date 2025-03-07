@@ -59,7 +59,7 @@ public class ValidationResultPanel
    * icon. If <code>false</code> then no icon will be displayed.<br>
    * Default: <code>false</code> - no icon
    */
-  public static final IDataDef IS_OK_ICON_USED = DataDef.create( TS_ID + ".gui.ValresPanel.IsOkIconUsed", //$NON-NLS-1$
+  public static final IDataDef OPDEF_IS_OK_ICON_USED = DataDef.create( TS_ID + ".gui.ValresPanel.IsOkIconUsed", //$NON-NLS-1$
       BOOLEAN, //
       TSID_DEFAULT_VALUE, AV_FALSE//
   );
@@ -72,7 +72,7 @@ public class ValidationResultPanel
    * Default: "" (an empty string)
    */
   public static final IDataDef OPDEF_SUCCESS_MESSAGE = DataDef.create( TS_ID + ".gui.ValresPanel.SuccessMessage", //$NON-NLS-1$
-      BOOLEAN, //
+      STRING, //
       TSID_DEFAULT_VALUE, AV_STR_EMPTY //
   );
 
@@ -144,7 +144,7 @@ public class ValidationResultPanel
   }
 
   private final boolean isOkIconUsed() {
-    return IS_OK_ICON_USED.getValue( tsContext().params() ).asBool();
+    return OPDEF_IS_OK_ICON_USED.getValue( tsContext().params() ).asBool();
   }
 
   // ------------------------------------------------------------------------------------
