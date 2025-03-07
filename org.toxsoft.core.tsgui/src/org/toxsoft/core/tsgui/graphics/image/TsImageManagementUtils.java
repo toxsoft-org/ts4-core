@@ -3,7 +3,6 @@ package org.toxsoft.core.tsgui.graphics.image;
 import java.io.*;
 
 import org.toxsoft.core.tsgui.graphics.image.impl.*;
-import org.toxsoft.core.tsgui.utils.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.*;
@@ -50,7 +49,7 @@ class TsImageManagementUtils {
       } while( d.exists() );
       d.mkdirs();
       dir = d;
-      // create sequental file names
+      // create sequential file names
       IListEdit<File> ll = new ElemArrayList<>( aCount );
       for( int i = 0; i < aCount; i++ ) {
         String fileName = String.format( "f%06d", i ); //$NON-NLS-1$
@@ -149,7 +148,7 @@ class TsImageManagementUtils {
     // изображения
     String dimsStr = String.format( "%dx%d", dim, dim ); // "WWWxHHH>", ">" чтобы не увеличивать меленькие изображения
     if( IMediaFileConstants.hasAnimatedExtension( aDest.getName() ) ) {
-      // FIXME whant to do here?
+      // FIXME what to do here?
     }
     // делаем без coalesce
     runGmWait( "convert", //

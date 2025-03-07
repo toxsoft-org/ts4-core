@@ -103,7 +103,7 @@ public interface ITsThumbManager {
    * @param aImageFile {@link File} - the image file
    * @param aThumbSize {@link EThumbSize} - requested thumbnail size
    * @param aForceCreate boolean - <code>true</code> = recreate the thumbnail file, regardless of its existence
-   * @return boolean - an indication that the icon file was created or existed previously
+   * @return boolean - an indication that the thumb file was created or existed previously
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   boolean ensureThumb( File aImageFile, EThumbSize aThumbSize, boolean aForceCreate );

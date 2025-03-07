@@ -10,6 +10,7 @@ import org.toxsoft.core.tslib.utils.progargs.*;
 /**
  * Addon to process {@link #CMDLINEARG_INITIAL_PERSP_ID} command line argument.
  * <p>
+ * -InitialUipartId com.hazard157.apic.mws.part.editor
  *
  * @author hazard157
  */
