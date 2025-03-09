@@ -137,7 +137,10 @@ public class ViselRoundRect
     TsLineInfo lineInfo = props().getValobj( PROPID_LINE_INFO );
     aPaintContext.setLineInfo( lineInfo );
     aPaintContext.gc().setForeground( fgColor );
+    int alpha = aPaintContext.gc().getAlpha();
+    aPaintContext.gc().setAlpha( fgColor.getAlpha() );
     aPaintContext.drawRoundRect( 0, 0, swtRect.width, swtRect.height, arcW, arcH );
+    aPaintContext.gc().setAlpha( alpha );
   }
 
   @Override
