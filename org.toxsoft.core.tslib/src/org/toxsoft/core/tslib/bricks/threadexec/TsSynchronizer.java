@@ -19,7 +19,7 @@ final class TsSynchronizer {
   private Object                                finishLock  = new Object();
   private volatile Thread                       doJobThread;
   private boolean                               isInternalThread;
-  private ConcurrentLinkedQueue<TsRunnableLock> messages    = new ConcurrentLinkedQueue<>();
+  private ConcurrentLinkedDeque<TsRunnableLock> messages    = new ConcurrentLinkedDeque<>();
   private Object                                messageLock = new Object();
 
   private static Timer timer = new Timer( "TsSynchronizer", true ); //$NON-NLS-1$
@@ -233,22 +233,10 @@ final class TsSynchronizer {
   }
 
   void runAsyncMessages() {
-    if( messages.size() == 0 ) {
-      return;
-    }
-    IListEdit<TsRunnableLock> notReadyLocks = null;
     do {
-      TsRunnableLock lock = removeFirst();
+      TsRunnableLock lock = findNextLock();
       if( lock == null ) {
         break;
-      }
-      if( lock.timestamp > System.currentTimeMillis() ) {
-        // lock is not ready yet
-        if( notReadyLocks == null ) {
-          notReadyLocks = new ElemLinkedList<>();
-        }
-        notReadyLocks.add( lock );
-        continue;
       }
       synchronized (lock) {
         // syncThread = lock.thread;
@@ -264,10 +252,40 @@ final class TsSynchronizer {
         }
       }
     } while( true );
-    if( notReadyLocks != null ) {
-      toBack( notReadyLocks );
-    }
     return;
+  }
+
+  private TsRunnableLock findNextLock() {
+    synchronized (messageLock) {
+      if( messages.size() == 0 ) {
+        return null;
+      }
+      long currTime = System.currentTimeMillis();
+      IListEdit<TsRunnableLock> notReadyLocks = null;
+      try {
+        do {
+          TsRunnableLock lock = removeFirst();
+          if( lock == null ) {
+            return null;
+          }
+          if( lock.timestamp > currTime ) {
+            // lock is not ready yet
+            if( notReadyLocks == null ) {
+              notReadyLocks = new ElemLinkedList<>();
+            }
+            // first-input-last-output order
+            notReadyLocks.insert( 0, lock );
+            continue;
+          }
+          return lock;
+        } while( true );
+      }
+      finally {
+        if( notReadyLocks != null ) {
+          toBack( notReadyLocks );
+        }
+      }
+    }
   }
 
   // ------------------------------------------------------------------------------------
@@ -283,7 +301,7 @@ final class TsSynchronizer {
 
   private void toBack( IList<TsRunnableLock> aLocks ) {
     for( TsRunnableLock lock : aLocks ) {
-      messages.add( lock );
+      messages.addFirst( lock );
     }
   }
 
@@ -306,9 +324,17 @@ final class TsSynchronizer {
         startLock.notifyAll();
       }
       while( !queryShutdown ) {
+        // processing calls
         runAsyncMessages();
         synchronized (messageLock) {
           if( queryShutdown ) {
+            break;
+          }
+          // check next call existence
+          TsRunnableLock lock = findNextLock();
+          if( lock != null ) {
+            // rollback
+            messages.addFirst( lock );
             break;
           }
           try {
