@@ -15,12 +15,13 @@ import org.toxsoft.core.tslib.utils.logs.impl.*;
  */
 final class TsSynchronizer {
 
-  private Object                                startLock   = new Object();
-  private Object                                finishLock  = new Object();
-  private volatile Thread                       doJobThread;
-  private boolean                               isInternalThread;
-  private ConcurrentLinkedDeque<TsRunnableLock> messages    = new ConcurrentLinkedDeque<>();
-  private Object                                messageLock = new Object();
+  private Object          startLock  = new Object();
+  private Object          finishLock = new Object();
+  private volatile Thread doJobThread;
+  private boolean         isInternalThread;
+  // private ConcurrentLinkedDeque<TsRunnableLock> messages = new ConcurrentLinkedDeque<>();
+  private ElemLinkedList<TsRunnableLock> messages    = new ElemLinkedList<>();
+  private Object                         messageLock = new Object();
 
   private static Timer timer = new Timer( "TsSynchronizer", true ); //$NON-NLS-1$
 
@@ -301,12 +302,17 @@ final class TsSynchronizer {
 
   private void toBack( IList<TsRunnableLock> aLocks ) {
     for( TsRunnableLock lock : aLocks ) {
-      messages.addFirst( lock );
+      // messages.addFirst( lock );
+      messages.insert( 0, lock );
     }
   }
 
   private TsRunnableLock removeFirst() {
-    return messages.poll();
+    // return messages.poll();
+    if( messages.size() == 0 ) {
+      return null;
+    }
+    return messages.removeByIndex( 0 );
   }
 
   // ------------------------------------------------------------------------------------
@@ -334,7 +340,8 @@ final class TsSynchronizer {
           TsRunnableLock lock = findNextLock();
           if( lock != null ) {
             // rollback
-            messages.addFirst( lock );
+            // messages.addFirst( lock );
+            messages.insert( 0, lock );
             break;
           }
           try {
