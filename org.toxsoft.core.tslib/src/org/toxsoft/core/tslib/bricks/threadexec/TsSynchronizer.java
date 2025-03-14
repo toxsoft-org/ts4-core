@@ -11,14 +11,20 @@ import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.logs.*;
 
 /**
- * Source: org.eclipse.swt.widgets.Synchronizer
+ * Developed based on org.eclipse.swt.widgets.Synchronizer
  *
  * @author mvk
  */
 final class TsSynchronizer {
 
+  private static final String METHOD_ASYNC_EXEC         = "asyncExec";        //$NON-NLS-1$
+  private static final String METHOD_SYNC_EXEC          = "syncExec";         //$NON-NLS-1$
+  private static final String METHOD_TIMER_EXEC         = "timerExec";        //$NON-NLS-1$
+  private static final String METHOD_RUN_ASYNC_MESSAGES = "runAsyncMessages"; //$NON-NLS-1$
+
   /**
-   * Время (мсек) ожидания и проверки завершения синхронного запроса.
+   * Время (мсек) ожидания завершения синхронного запроса после которого выдается предупреждение в журнал о длительном
+   * выполнении.
    */
   private static final long LONG_SYNC_WAIT_TIMEOUT = 10000;
 
@@ -34,7 +40,7 @@ final class TsSynchronizer {
   private ElemLinkedList<TsRunnableLock> messages    = new ElemLinkedList<>();
   private Object                         messageLock = new Object();
 
-  private static Timer timer = new Timer( "TsSynchronizer", true ); //$NON-NLS-1$
+  private static final Timer timer = new Timer( "TsSynchronizerTimerSingleton", true ); //$NON-NLS-1$
 
   private boolean       queryShutdown;
   private final ILogger logger;
@@ -200,34 +206,31 @@ final class TsSynchronizer {
    * reasonable opportunity. The caller of this method continues to run in parallel, and is not notified when the
    * runnable has completed.
    *
-   * @param runnable code to run on the user-interface thread.
+   * @param aRunnable code to run on the user-interface thread.
    * @see #syncExec
    */
-  // @SuppressWarnings( "nls" )
-  void asyncExec( Runnable runnable ) {
-    TsRunnableLock lock = new TsRunnableLock( runnable, 0, logger );
+  @SuppressWarnings( "nls" )
+  void asyncExec( Runnable aRunnable ) {
+    TsRunnableLock lock = new TsRunnableLock( aRunnable, 0, logger );
+    debug( logger, lock, METHOD_ASYNC_EXEC, "is created" );
     addLast( lock );
-    // if( logger.isSeverityOn( ELogSeverity.DEBUG ) ) {
-    // String from = Thread.currentThread().getStackTrace()[4].toString();
-    // Long id = Long.valueOf( lock.id );
-    // logger.debug( "asyncExec(...): exec(#%d) is registred from: %s", id, from );
-    // }
+    debug( logger, lock, METHOD_ASYNC_EXEC, "is registered" );
   }
 
   /**
    * Causes the <code>run()</code> method of the runnable to be invoked by the user-interface thread at the next
    * reasonable opportunity. The thread which calls this method is suspended until the runnable completes.
    *
-   * @param runnable code to run on the user-interface thread.
+   * @param aRunnable code to run on the user-interface thread.
    * @see #asyncExec
    */
   @SuppressWarnings( "nls" )
-  void syncExec( Runnable runnable ) {
+  void syncExec( Runnable aRunnable ) {
     Thread currentThread = Thread.currentThread();
     // synchronized (messageLock) {
     if( doJobThread == currentThread ) {
       try {
-        runnable.run();
+        aRunnable.run();
       }
       catch( RuntimeException | Error error ) {
         logger.error( error );
@@ -236,17 +239,13 @@ final class TsSynchronizer {
     }
     // }
 
-    TsRunnableLock lock = new TsRunnableLock( runnable, 0, logger );
+    TsRunnableLock lock = new TsRunnableLock( aRunnable, 0, logger );
     lock.thread = currentThread;
+    debug( logger, lock, METHOD_SYNC_EXEC, "is created" );
 
     synchronized (lock) {
       addLast( lock );
-      if( logger.isSeverityOn( ELogSeverity.DEBUG ) ) {
-        String from = currentThread.getStackTrace()[4].toString();
-        Long id = Long.valueOf( lock.id );
-        logger.debug( "syncExec(...): exec(#%d) is registred from: %s", id, from );
-      }
-
+      debug( logger, lock, METHOD_SYNC_EXEC, "is registered" );
       boolean interrupted = false;
       while( !lock.done() ) {
         try {
@@ -258,19 +257,11 @@ final class TsSynchronizer {
           break;
         }
         if( lock.done() ) {
-          if( logger.isSeverityOn( ELogSeverity.DEBUG ) ) {
-            String from = currentThread.getStackTrace()[3].toString();
-            Long id = Long.valueOf( lock.id );
-            logger.debug( "syncExec(...): exec(#%d) is DONE from: %s", id, from );
-          }
+          debug( logger, lock, METHOD_SYNC_EXEC, "is DONE" );
           break;
         }
         if( !lock.done() ) {
-          if( logger.isSeverityOn( ELogSeverity.DEBUG ) ) {
-            String from = currentThread.getStackTrace()[3].toString();
-            Long id = Long.valueOf( lock.id );
-            logger.debug( "syncExec(...): exec(#%d) IS NOT done from: %s", id, from );
-          }
+          debug( logger, lock, METHOD_SYNC_EXEC, "IS NOT done" );
         }
         if( !lock.done() && System.currentTimeMillis() - lock.timestamp > LONG_SYNC_WAIT_TIMEOUT ) {
           longExecToLog( lock, currentThread, logger );
@@ -298,22 +289,11 @@ final class TsSynchronizer {
       return;
     }
     TsRunnableLock lock = new TsRunnableLock( aRunnable, aMilliseconds, logger );
-
-    if( logger.isSeverityOn( ELogSeverity.DEBUG ) ) {
-      String from = Thread.currentThread().getStackTrace()[4].toString();
-      Long id = Long.valueOf( lock.id );
-      logger.debug( "timerExec(...): timer(#%d) call addLast(...)", id, from );
-    }
-
+    debug( logger, lock, METHOD_TIMER_EXEC, "is created" );
     addLast( lock );
-
-    if( logger.isSeverityOn( ELogSeverity.DEBUG ) ) {
-      String from = Thread.currentThread().getStackTrace()[4].toString();
-      Long id = Long.valueOf( lock.id );
-      logger.debug( "timerExec(...): timer(#%d) call schedule(...)", id, from );
-    }
-
+    debug( logger, lock, METHOD_TIMER_EXEC, "is registered" );
     timer.schedule( new InternalTimerTask(), aMilliseconds );
+    debug( logger, lock, METHOD_TIMER_EXEC, "is scheduled" );
   }
 
   @SuppressWarnings( "nls" )
@@ -323,18 +303,12 @@ final class TsSynchronizer {
       if( lock == null ) {
         break;
       }
-      if( logger.isSeverityOn( ELogSeverity.DEBUG ) ) {
-        Long id = Long.valueOf( lock.id );
-        logger.debug( "runAsyncMessages(...): exec(#%d) is starting.", id );
-      }
+      debug( logger, lock, METHOD_RUN_ASYNC_MESSAGES, "is found" );
       synchronized (lock) {
         try {
           // syncThread = lock.thread;
           try {
-            if( logger.isSeverityOn( ELogSeverity.DEBUG ) ) {
-              Long id = Long.valueOf( lock.id );
-              logger.debug( "runAsyncMessages(...): exec(#%d) before run.", id );
-            }
+            debug( logger, lock, METHOD_RUN_ASYNC_MESSAGES, "run BEFORE" );
             lock.run();
           }
           catch( Throwable t ) {
@@ -342,24 +316,19 @@ final class TsSynchronizer {
           }
         }
         finally {
-          if( logger.isSeverityOn( ELogSeverity.DEBUG ) ) {
-            Long id = Long.valueOf( lock.id );
-            Long time = Long.valueOf( System.currentTimeMillis() - lock.timestamp );
-            logger.debug( "runAsyncMessages(...): exec(#%d) before lock.notify(). time = %d(msec).", id, time );
-          }
+          debug( logger, lock, METHOD_RUN_ASYNC_MESSAGES, "lock.notify() BEFORE" );
           // syncThread = null;
           lock.notify();
-          if( logger.isSeverityOn( ELogSeverity.DEBUG ) ) {
-            Long id = Long.valueOf( lock.id );
-            Long time = Long.valueOf( System.currentTimeMillis() - lock.timestamp );
-            logger.debug( "runAsyncMessages(...): exec(#%d) after lock.notify(). time = %d(msec).", id, time );
-          }
+          debug( logger, lock, METHOD_RUN_ASYNC_MESSAGES, "lock.notify() AFTER" );
         }
       }
     } while( true );
     return;
   }
 
+  // ------------------------------------------------------------------------------------
+  // private methods
+  //
   private TsRunnableLock findNextLock() {
     synchronized (messageLock) {
       if( messages.size() == 0 ) {
@@ -393,9 +362,6 @@ final class TsSynchronizer {
     }
   }
 
-  // ------------------------------------------------------------------------------------
-  // private methods
-  //
   private void addLast( TsRunnableLock aLock ) {
     synchronized (messageLock) {
       messages.add( aLock );
@@ -419,6 +385,34 @@ final class TsSynchronizer {
     return messages.removeByIndex( 0 );
   }
 
+  private static String threadName( TsSynchronizer aSynchronize ) {
+    return TsSynchronizer.class.getSimpleName() + Integer.valueOf( aSynchronize.instanceId ) + '@'
+        + InternalDoJobTask.class.getSimpleName() + '(' + aSynchronize.name + ')';
+  }
+
+  private static void debug( ILogger aLogger, TsRunnableLock aLock, String aMethod, String aText ) {
+    if( !aLogger.isSeverityOn( ELogSeverity.DEBUG ) ) {
+      return;
+    }
+    Long id = Long.valueOf( aLock.id );
+    Long time = Long.valueOf( System.currentTimeMillis() - aLock.timestamp );
+    switch( aMethod ) {
+      case METHOD_ASYNC_EXEC:
+      case METHOD_SYNC_EXEC:
+      case METHOD_TIMER_EXEC: {
+        StackTraceElement[] stack = Thread.currentThread().getStackTrace();
+        StackTraceElement elem = (stack[4].toString().contains( "SkThreadExecutorService" ) ? stack[5] : stack[4]); //$NON-NLS-1$
+        String source = getSource( elem.toString() );
+        aLogger.debug( "%s(...): exec(#%d) %s, source = %s, time = %d(msec)", aMethod, id, aText, source, time ); //$NON-NLS-1$
+        break;
+      }
+      default: {
+        aLogger.debug( "%s(...): exec(#%d) %s, time = %d(msec)", aMethod, id, aText, time ); //$NON-NLS-1$
+        break;
+      }
+    }
+  }
+
   private static void longExecToLog( TsRunnableLock aLock, Thread aThread, ILogger aLogger ) {
     Long id = Long.valueOf( aLock.id );
     Long time = Long.valueOf( System.currentTimeMillis() - aLock.timestamp );
@@ -433,9 +427,17 @@ final class TsSynchronizer {
         id, time, from );
   }
 
-  private static String threadName( TsSynchronizer aSynchronize ) {
-    return TsSynchronizer.class.getSimpleName() + Integer.valueOf( aSynchronize.instanceId ) + '@'
-        + InternalDoJobTask.class.getSimpleName() + '(' + aSynchronize.name + ')';
+  private static String getSource( String aStackItem ) {
+    @SuppressWarnings( "nls" )
+    String items[] = aStackItem.split( "\\." );
+    int length = items.length;
+    return items[length - 3] + '.' + items[length - 2] + '.' + items[length - 1];
+  }
+
+  public static void main( String[] aArgs ) {
+    String t =
+        "deployment.skat-backend-deploy.jar//org.toxsoft.uskat.s5.server.backend.addons.S5AbstractBackend.run(S5AbstractBackend.java:443)"; //$NON-NLS-1$
+    System.out.println( getSource( t ) );
   }
 
   // ------------------------------------------------------------------------------------
@@ -452,7 +454,7 @@ final class TsSynchronizer {
         doJobThread = Thread.currentThread();
         doJobThread.setName( threadName( TsSynchronizer.this ) );
 
-        logger.info( "InternalDoJobTask()run(...): thread %s is started!", Thread.currentThread().getName() );
+        logger.info( "InternalDoJobTask()run(...): thread %s is started!", threadName( TsSynchronizer.this ) );
 
         synchronized (startLock) {
           // Thread start notification
