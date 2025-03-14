@@ -4,6 +4,7 @@ import java.util.concurrent.*;
 
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.*;
 
 /**
  * Implementation {@link ITsThreadExecutor} for server and console applications.
@@ -24,52 +25,56 @@ public final class TsThreadExecutor
 
   /**
    * Default constructor.
+   *
+   * @param aName String synchronizer name
+   * @param aLogger {@link ILogger} logger
+   * @throws TsNullArgumentRtException any argument = <b>null</b>
    */
-  public TsThreadExecutor() {
-    synchronizer = new TsSynchronizer();
+  public TsThreadExecutor( String aName, ILogger aLogger ) {
+    synchronizer = new TsSynchronizer( aName, aLogger );
   }
 
   /**
    * Constructor with specify synchronized doJob thread.
    *
+   * @param aName String synchronizer name
    * @param aDoJobThread {@link Thread} synchronized doJob thread
-   * @throws TsNullArgumentRtException arg = null
+   * @param aLogger {@link ILogger} logger
+   * @throws TsNullArgumentRtException any args = <b>null</b>.
    */
-  public TsThreadExecutor( Thread aDoJobThread ) {
-    TsNullArgumentRtException.checkNull( aDoJobThread );
-    synchronizer = new TsSynchronizer( aDoJobThread );
+  public TsThreadExecutor( String aName, Thread aDoJobThread, ILogger aLogger ) {
+    TsNullArgumentRtException.checkNulls( aDoJobThread, aLogger );
+    synchronizer = new TsSynchronizer( aName, aDoJobThread, aLogger );
   }
 
   /**
    * Constructor with specify synchronized ExecutorService.
    *
+   * @param aName String synchronizer name
    * @param aExecutor {@link Executor} executor of synchronized doJob thread
-   * @throws TsNullArgumentRtException arg = null
+   * @param aLogger {@link ILogger} logger
+   * @throws TsNullArgumentRtException any args = <b>null</b>.
    */
-  public TsThreadExecutor( Executor aExecutor ) {
-    TsNullArgumentRtException.checkNull( aExecutor );
-    synchronizer = new TsSynchronizer( aExecutor );
+  public TsThreadExecutor( String aName, Executor aExecutor, ILogger aLogger ) {
+    TsNullArgumentRtException.checkNulls( aExecutor, aLogger );
+    synchronizer = new TsSynchronizer( aName, aExecutor, aLogger );
   }
 
   /**
    * Set new executor for synchronizer
    *
-   * @param aExecutor {@link Executor} executor
-   * @throws TsNullArgumentRtException arg = null
+   * @param aExecutor {@link Executor} executor. null: set internal thread
    */
   public void setExecutor( Executor aExecutor ) {
-    TsNullArgumentRtException.checkNull( aExecutor );
     synchronizer.setExecutor( aExecutor );
   }
 
   /**
    * Set new thread for synchronizer
    *
-   * @param aThread {@link Thread} thread
-   * @throws TsNullArgumentRtException arg = null
+   * @param aThread {@link Thread} the new doJob thread. null: set internal thread
    */
   public void setThread( Thread aThread ) {
-    TsNullArgumentRtException.checkNull( aThread );
     synchronizer.setThread( aThread );
   }
 
