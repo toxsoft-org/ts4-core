@@ -2,6 +2,7 @@ package org.toxsoft.core.tsgui.ved.screen.impl;
 
 import static org.toxsoft.core.tslib.coll.impl.TsCollectionsUtils.*;
 
+import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
@@ -207,6 +208,19 @@ public class VedScreen
       }
       actorsEnable = aEnable;
     }
+  }
+
+  // ------------------------------------------------------------------------------------
+  // API
+  //
+
+  /**
+   * Рсисует содержимое экрана в переданный графический контекст.
+   *
+   * @param aGc GC - графический контекст
+   */
+  public void paint( GC aGc ) {
+    view.paint( aGc );
   }
 
 }
