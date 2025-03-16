@@ -212,9 +212,9 @@ final class TsSynchronizer {
   @SuppressWarnings( "nls" )
   void asyncExec( Runnable aRunnable ) {
     TsRunnableLock lock = new TsRunnableLock( aRunnable, 0, logger );
-    debug( logger, lock, METHOD_ASYNC_EXEC, "is created" );
+    debug( this, lock, METHOD_ASYNC_EXEC, "is created" );
     addLast( lock );
-    debug( logger, lock, METHOD_ASYNC_EXEC, "is registered" );
+    debug( this, lock, METHOD_ASYNC_EXEC, "is registered" );
   }
 
   /**
@@ -241,11 +241,11 @@ final class TsSynchronizer {
 
     TsRunnableLock lock = new TsRunnableLock( aRunnable, 0, logger );
     lock.thread = currentThread;
-    debug( logger, lock, METHOD_SYNC_EXEC, "is created" );
+    debug( this, lock, METHOD_SYNC_EXEC, "is created" );
 
     synchronized (lock) {
       addLast( lock );
-      debug( logger, lock, METHOD_SYNC_EXEC, "is registered" );
+      debug( this, lock, METHOD_SYNC_EXEC, "is registered" );
       boolean interrupted = false;
       while( !lock.done() ) {
         try {
@@ -257,11 +257,11 @@ final class TsSynchronizer {
           break;
         }
         if( lock.done() ) {
-          debug( logger, lock, METHOD_SYNC_EXEC, "is DONE" );
+          debug( this, lock, METHOD_SYNC_EXEC, "is DONE" );
           break;
         }
         if( !lock.done() ) {
-          debug( logger, lock, METHOD_SYNC_EXEC, "IS NOT done" );
+          debug( this, lock, METHOD_SYNC_EXEC, "IS NOT done" );
         }
         if( !lock.done() && System.currentTimeMillis() - lock.timestamp > LONG_SYNC_WAIT_TIMEOUT ) {
           longExecToLog( lock, currentThread, logger );
@@ -289,11 +289,11 @@ final class TsSynchronizer {
       return;
     }
     TsRunnableLock lock = new TsRunnableLock( aRunnable, aMilliseconds, logger );
-    debug( logger, lock, METHOD_TIMER_EXEC, "is created" );
+    debug( this, lock, METHOD_TIMER_EXEC, "is created" );
     addLast( lock );
-    debug( logger, lock, METHOD_TIMER_EXEC, "is registered" );
+    debug( this, lock, METHOD_TIMER_EXEC, "is registered" );
     timer.schedule( new InternalTimerTask(), aMilliseconds );
-    debug( logger, lock, METHOD_TIMER_EXEC, "is scheduled" );
+    debug( this, lock, METHOD_TIMER_EXEC, "is scheduled" );
   }
 
   @SuppressWarnings( "nls" )
@@ -303,12 +303,12 @@ final class TsSynchronizer {
       if( lock == null ) {
         break;
       }
-      debug( logger, lock, METHOD_RUN_ASYNC_MESSAGES, "is found" );
+      debug( this, lock, METHOD_RUN_ASYNC_MESSAGES, "is found" );
       synchronized (lock) {
         try {
           // syncThread = lock.thread;
           try {
-            debug( logger, lock, METHOD_RUN_ASYNC_MESSAGES, "run BEFORE" );
+            debug( this, lock, METHOD_RUN_ASYNC_MESSAGES, "run BEFORE" );
             lock.run();
           }
           catch( Throwable t ) {
@@ -316,10 +316,10 @@ final class TsSynchronizer {
           }
         }
         finally {
-          debug( logger, lock, METHOD_RUN_ASYNC_MESSAGES, "lock.notify() BEFORE" );
+          debug( this, lock, METHOD_RUN_ASYNC_MESSAGES, "lock.notify() BEFORE" );
           // syncThread = null;
           lock.notify();
-          debug( logger, lock, METHOD_RUN_ASYNC_MESSAGES, "lock.notify() AFTER" );
+          debug( this, lock, METHOD_RUN_ASYNC_MESSAGES, "lock.notify() AFTER" );
         }
       }
     } while( true );
@@ -390,10 +390,13 @@ final class TsSynchronizer {
         + InternalDoJobTask.class.getSimpleName() + '(' + aSynchronize.name + ')';
   }
 
-  private static void debug( ILogger aLogger, TsRunnableLock aLock, String aMethod, String aText ) {
-    if( !aLogger.isSeverityOn( ELogSeverity.DEBUG ) ) {
+  private static void debug( TsSynchronizer aSynchronizer, TsRunnableLock aLock, String aMethod, String aText ) {
+    ILogger logger = aSynchronizer.logger;
+    if( !logger.isSeverityOn( ELogSeverity.DEBUG ) ) {
       return;
     }
+    String threadName = TsSynchronizer.class.getSimpleName() + Integer.valueOf( aSynchronizer.instanceId ) + '('
+        + aSynchronizer.name + ')';
     Long id = Long.valueOf( aLock.id );
     Long time = Long.valueOf( System.currentTimeMillis() - aLock.timestamp );
     switch( aMethod ) {
@@ -403,11 +406,12 @@ final class TsSynchronizer {
         StackTraceElement[] stack = Thread.currentThread().getStackTrace();
         StackTraceElement elem = (stack[4].toString().contains( "SkThreadExecutorService" ) ? stack[5] : stack[4]); //$NON-NLS-1$
         String source = getSource( elem.toString() );
-        aLogger.debug( "%s(...): exec(#%d) %s, source = %s, time = %d(msec)", aMethod, id, aText, source, time ); //$NON-NLS-1$
+        logger.debug( "[%s] %s(...): exec(#%d) %s, source = %s, time = %d(msec)", threadName, aMethod, id, aText, //$NON-NLS-1$
+            source, time );
         break;
       }
       default: {
-        aLogger.debug( "%s(...): exec(#%d) %s, time = %d(msec)", aMethod, id, aText, time ); //$NON-NLS-1$
+        logger.debug( "[%s] %s(...): exec(#%d) %s, time = %d(msec)", threadName, aMethod, id, aText, time ); //$NON-NLS-1$
         break;
       }
     }
