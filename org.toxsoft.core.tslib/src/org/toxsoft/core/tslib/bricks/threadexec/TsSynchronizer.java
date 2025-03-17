@@ -32,8 +32,9 @@ final class TsSynchronizer {
   private static volatile int instanceCounter = 0;
   private final String        name;
 
-  private Object          startLock  = new Object();
-  private Object          finishLock = new Object();
+  private Object          startLock       = new Object();
+  private Object          finishLock      = new Object();
+  private Object          doJobThreadLock = new Object();
   private volatile Thread doJobThread;
   private boolean         isInternalThread;
 
@@ -106,21 +107,23 @@ final class TsSynchronizer {
    */
   void setExecutor( Executor aExecutor ) {
     TsNullArgumentRtException.checkNull( aExecutor );
-    shutdownInternalThread();
-    if( aExecutor == null ) {
-      createInternalThread();
-      return;
-    }
-    isInternalThread = true;
-    queryShutdown = false;
-    synchronized (startLock) {
-      aExecutor.execute( new InternalDoJobTask() );
-      try {
-        // Wait thread start and setup doJobThread
-        startLock.wait();
+    synchronized (doJobThreadLock) {
+      shutdownInternalThread();
+      if( aExecutor == null ) {
+        createInternalThread();
+        return;
       }
-      catch( InterruptedException ex ) {
-        logger.error( ex );
+      isInternalThread = true;
+      queryShutdown = false;
+      synchronized (startLock) {
+        aExecutor.execute( new InternalDoJobTask() );
+        try {
+          // Wait thread start and setup doJobThread
+          startLock.wait();
+        }
+        catch( InterruptedException ex ) {
+          logger.error( ex );
+        }
       }
     }
   }
@@ -131,14 +134,16 @@ final class TsSynchronizer {
    * @param aThread {@link Thread} the new doJob thread. null: set internal thread
    */
   void setThread( Thread aThread ) {
-    shutdownInternalThread();
-    if( aThread == null ) {
-      createInternalThread();
-      return;
+    synchronized (doJobThreadLock) {
+      shutdownInternalThread();
+      if( aThread == null ) {
+        createInternalThread();
+        return;
+      }
+      isInternalThread = false;
+      queryShutdown = false;
+      doJobThread = aThread;
     }
-    isInternalThread = false;
-    queryShutdown = false;
-    doJobThread = aThread;
   }
 
   private void createInternalThread() {
@@ -227,17 +232,17 @@ final class TsSynchronizer {
   @SuppressWarnings( "nls" )
   void syncExec( Runnable aRunnable ) {
     Thread currentThread = Thread.currentThread();
-    // synchronized (messageLock) {
-    if( doJobThread == currentThread ) {
-      try {
-        aRunnable.run();
+    synchronized (doJobThreadLock) {
+      if( doJobThread == currentThread ) {
+        try {
+          aRunnable.run();
+        }
+        catch( RuntimeException | Error error ) {
+          logger.error( error );
+        }
+        return;
       }
-      catch( RuntimeException | Error error ) {
-        logger.error( error );
-      }
-      return;
     }
-    // }
 
     TsRunnableLock lock = new TsRunnableLock( aRunnable, 0, logger );
     lock.thread = currentThread;
