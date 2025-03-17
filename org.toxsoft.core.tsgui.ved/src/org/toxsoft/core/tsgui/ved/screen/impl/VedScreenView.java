@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.ved.screen.impl;
 
+import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.uievents.*;
@@ -61,6 +62,20 @@ public final class VedScreenView
     theCanvas.setBackground( new Color( 96, 96, 96 ) );
     theCanvas.addPaintListener( canvasRenderer );
     userInputBinder.bindToControl( theCanvas, TsUserInputEventsBinder.BIND_ALL_INPUT_EVENTS );
+  }
+
+  void paint( GC aGc ) {
+    Event e = new Event();
+    e.widget = theCanvas;
+    e.display = vedScreen.getDisplay();
+
+    PaintEvent pe = new PaintEvent( e );
+    pe.gc = aGc;
+    pe.x = 0;
+    pe.y = 0;
+    pe.width = canvasConfig().size().intX();
+    pe.height = canvasConfig().size().intX();
+    canvasRenderer.paintControl( pe );
   }
 
   // ------------------------------------------------------------------------------------
