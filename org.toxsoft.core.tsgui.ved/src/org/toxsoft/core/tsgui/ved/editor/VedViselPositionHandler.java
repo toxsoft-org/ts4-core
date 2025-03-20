@@ -100,6 +100,9 @@ public class VedViselPositionHandler
 
   @Override
   public boolean onMouseDragMove( Object aSource, DragOperationInfo aDragInfo, int aState, ITsPoint aCoors ) {
+    if( !(aDragInfo.cargo() instanceof DragCargo) ) {
+      return false;
+    }
     DragCargo dc = aDragInfo.cargo();
     if( dc == null ) {
       return false;
@@ -123,6 +126,9 @@ public class VedViselPositionHandler
 
   @Override
   public boolean onMouseDragFinish( Object aSource, DragOperationInfo aDragInfo, int aState, ITsPoint aCoors ) {
+    if( !(aDragInfo.cargo() instanceof DragCargo) ) {
+      return false;
+    }
     DragCargo dc = aDragInfo.cargo();
     if( dc == null ) {
       return false;
@@ -149,6 +155,9 @@ public class VedViselPositionHandler
 
   @Override
   public boolean onMouseDragCancel( Object aSource, DragOperationInfo aDragInfo ) {
+    if( !(aDragInfo.cargo() instanceof DragCargo) ) {
+      return false;
+    }
     DragCargo dc = aDragInfo.cargo();
     if( dc == null ) {
       return false;

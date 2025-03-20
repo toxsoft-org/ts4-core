@@ -17,7 +17,6 @@ import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
-import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 
@@ -411,7 +410,7 @@ public abstract class VedAbstractVertexSet
   //
 
   @Override
-  public IList<? extends IVedVertex> vertexes() {
+  public IStridablesList<? extends IVedVertex> vertexes() {
     return vertexes;
   }
 

@@ -91,10 +91,14 @@ public abstract class VedAbstractVisel
 
   private void internalUpdateBoundsRect() {
     TsFulcrum tsf = props().getValobj( PROPID_TS_FULCRUM );
-    double x = props().getFloat( PROP_X );
-    double y = props().getFloat( PROP_Y );
-    double w = props().getFloat( PROP_WIDTH );
-    double h = props().getFloat( PROP_HEIGHT );
+    // double x = props().getFloat( PROP_X );
+    // double y = props().getFloat( PROP_Y );
+    double x = originX();
+    double y = originY();
+    // double w = props().getFloat( PROP_WIDTH );
+    // double h = props().getFloat( PROP_HEIGHT );
+    double w = width();
+    double h = height();
 
     double dx = (tsf.xPerc() * w) / 100.;
     double dy = (tsf.yPerc() * h) / 100.;
@@ -107,15 +111,16 @@ public abstract class VedAbstractVisel
   //
 
   @Override
-  public ID2Rectangle bounds() {
+  public final ID2Rectangle bounds() {
     return boundsRect;
   }
 
   @Override
   public boolean isYours( double aX, double aY ) {
-    double width = props().getDouble( PROP_WIDTH );
-    double height = props().getDouble( PROP_HEIGHT );
-    return aX >= 0 && aX <= width && aY >= 0 && aY <= height;
+    // double width = props().getDouble( PROP_WIDTH );
+    // double height = props().getDouble( PROP_HEIGHT );
+    // return aX >= 0 && aX <= width && aY >= 0 && aY <= height;
+    return aX >= 0 && aX <= width() && aY >= 0 && aY <= height();
   }
 
   // ------------------------------------------------------------------------------------
@@ -128,12 +133,19 @@ public abstract class VedAbstractVisel
     ID2Angle angle = props().getValobj( PROP_ANGLE );
     TsFulcrum tsf = props().getValobj( PROP_TS_FULCRUM );
 
-    double x = props().getDouble( PROP_X );
-    double y = props().getDouble( PROP_Y );
-    double width = props().getDouble( PROP_WIDTH );
-    double height = props().getDouble( PROP_HEIGHT );
-    double dx = (tsf.xPerc() * width) / 100.;
-    double dy = (tsf.yPerc() * height) / 100.;
+    // double x = props().getDouble( PROP_X );
+    // double y = props().getDouble( PROP_Y );
+    // double width = props().getDouble( PROP_WIDTH );
+    // double height = props().getDouble( PROP_HEIGHT );
+    // double dx = (tsf.xPerc() * width) / 100.;
+    // double dy = (tsf.yPerc() * height) / 100.;
+
+    double x = originX();
+    double y = originY();
+    double w = width();
+    double h = height();
+    double dx = (tsf.xPerc() * w) / 100.;
+    double dy = (tsf.yPerc() * h) / 100.;
 
     D2ConversionEdit d2Conversion = new D2ConversionEdit( angle, zoom, new D2Point( x - dx * zoom, y - dy * zoom ) );
     // D2ConversionEdit d2Conversion = new D2ConversionEdit( angle, zoom, new D2Point( x - dx, y - dy ) );

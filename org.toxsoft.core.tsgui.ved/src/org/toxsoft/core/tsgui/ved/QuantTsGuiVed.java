@@ -35,6 +35,9 @@ public class QuantTsGuiVed
 
     VedViselFactoriesRegistry visFact = new VedViselFactoriesRegistry();
     aAppContext.set( IVedViselFactoriesRegistry.class, visFact );
+    visFact.register( ViselLine.FACTORY );
+    visFact.register( ViselBezier.FACTORY );
+    visFact.register( ViselCubicSpline.FACTORY );
     visFact.register( ViselRectangle.FACTORY );
     visFact.register( ViselLabel.FACTORY );
     visFact.register( ViselMultiLineLabel.FACTORY );

@@ -32,6 +32,12 @@ interface ITsResources {
   String STR_SELECTION_BACKGROUND_D = Messages.getString( "STR_SELECTION_BACKGROUND_D" ); //$NON-NLS-1$
 
   /**
+   * {@link ViselLine}
+   */
+  String STR_VISEL_LINE   = Messages.getString( "STR_VISEL_LINE" );   //$NON-NLS-1$
+  String STR_VISEL_LINE_D = Messages.getString( "STR_VISEL_LINE_D" ); //$NON-NLS-1$
+
+  /**
    * {@link ViselRectangle}
    */
   String STR_VISEL_RECTANGLE   = Messages.getString( "STR_VISEL_RECTANGLE" );   //$NON-NLS-1$
@@ -45,8 +51,8 @@ interface ITsResources {
   String STR_MIN                  = Messages.getString( "STR_MIN" );                  //$NON-NLS-1$
   String STR_MAX                  = Messages.getString( "STR_MAX" );                  //$NON-NLS-1$
   String STR_VALUE_BACKGOUND      = Messages.getString( "STR_VALUE_BACKGOUND" );      //$NON-NLS-1$
-  String STR_ARROW_HEIGHT         = "Высота стрелки";
-  String STR_ARROW_COLOR          = "Цвет стрелки";
+  String STR_ARROW_HEIGHT         = Messages.getString( "STR_ARROW_HEIGHT" );         //$NON-NLS-1$
+  String STR_ARROW_COLOR          = Messages.getString( "STR_ARROW_COLOR" );          //$NON-NLS-1$
 
   /**
    * {@link ViselRoundRect}

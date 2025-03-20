@@ -66,6 +66,9 @@ public interface ITsguiVedConstants {
   String ICONID_VISEL_LABEL            = "visel-label";            //$NON-NLS-1$
   String ICONID_VISEL_MULTI_LABEL      = "visel-multi-label";      //$NON-NLS-1$
   String ICONID_VISEL_RECTANGLE        = "visel-rectangle";        //$NON-NLS-1$
+  String ICONID_VISEL_LINE             = "visel-line";             //$NON-NLS-1$
+  String ICONID_VISEL_BEZIER           = "visel-bezier";           //$NON-NLS-1$
+  String ICONID_VISEL_SPLINE           = "visel-spline";           //$NON-NLS-1$
   String ICONID_VISEL_ROUND_RECT       = "visel-round-rect";       //$NON-NLS-1$
   String ICONID_VISEL_BUTTON           = "visel-button";           //$NON-NLS-1$
   String ICONID_VISEL_CHECKBOX         = "visel-checkbox";         //$NON-NLS-1$
