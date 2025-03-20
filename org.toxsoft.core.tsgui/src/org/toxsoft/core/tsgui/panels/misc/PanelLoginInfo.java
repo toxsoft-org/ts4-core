@@ -178,7 +178,7 @@ public class PanelLoginInfo
    */
   public static final ILoginInfo edit( ITsGuiContext aContext, ILoginInfo aInitVal,
       ITsValidator<ILoginInfo> aValidator ) {
-    TsNullArgumentRtException.checkNulls( aContext, aInitVal, aValidator );
+    TsNullArgumentRtException.checkNulls( aContext, aValidator );
     IDialogPanelCreator<ILoginInfo, ITsValidator<ILoginInfo>> dpc = PanelLoginInfo::new;
     TsDialogInfo di = new TsDialogInfo( aContext, STR_DLG_EDIT_LOGIN_INFO, STR_DLG_EDIT_LOGIN_INFO_D );
     di.setMinSizeShellRelative( 10, 10 );
