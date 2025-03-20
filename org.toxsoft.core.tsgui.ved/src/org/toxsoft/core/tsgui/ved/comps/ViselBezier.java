@@ -188,9 +188,9 @@ public class ViselBezier
     IStringMapEdit<IAtomicValue> values = new StringMap<>();
     double deltaX = aX - originX();
     double deltaY = aY - originY();
-    startPoint = new D2PointEdit( startPoint.x() + deltaX, startPoint.y() + deltaY );
-    endPoint = new D2PointEdit( endPoint.x() + deltaX, endPoint.y() + deltaY );
-    ctrlPoint = new D2PointEdit( ctrlPoint.x() + deltaX, ctrlPoint.y() + deltaY );
+    startPoint = new D2Point( startPoint.x() + deltaX, startPoint.y() + deltaY );
+    endPoint = new D2Point( endPoint.x() + deltaX, endPoint.y() + deltaY );
+    ctrlPoint = new D2Point( ctrlPoint.x() + deltaX, ctrlPoint.y() + deltaY );
 
     values.put( FID_START, avValobj( startPoint ) );
     values.put( FID_END, avValobj( endPoint ) );
@@ -246,9 +246,9 @@ public class ViselBezier
 
   // D2Rectangle boundsRect;
 
-  D2PointEdit startPoint;
-  D2PointEdit endPoint;
-  D2PointEdit ctrlPoint;
+  ID2Point startPoint;
+  ID2Point endPoint;
+  ID2Point ctrlPoint;
 
   void updatePoints( IOptionSet aOpSet ) {
     if( aOpSet.hasKey( PROPID_X ) ) {

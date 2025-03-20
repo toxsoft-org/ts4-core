@@ -136,9 +136,9 @@ class ViselBezierVertexSet
     double x = curve.originX();
     double y = curve.originY();
 
-    D2Point sp = curve.props().getValobj( ViselBezier.FID_START );
-    D2Point ep = curve.props().getValobj( ViselBezier.FID_END );
-    D2Point cp = curve.props().getValobj( ViselBezier.FID_CTRL );
+    ID2Point sp = curve.props().getValobj( ViselBezier.FID_START );
+    ID2Point ep = curve.props().getValobj( ViselBezier.FID_END );
+    ID2Point cp = curve.props().getValobj( ViselBezier.FID_CTRL );
 
     IVedVertex v = vertexes().getByKey( VID_START );
     v.setLocation( sp.x() - x - v.bounds().width() / 2., sp.y() - y - v.bounds().height() / 2. );
