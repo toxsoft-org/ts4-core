@@ -164,10 +164,10 @@ public class ViselCubicSpline
     IStringMapEdit<IAtomicValue> values = new StringMap<>();
     double deltaX = aX - originX();
     double deltaY = aY - originY();
-    startPoint = new D2Point( startPoint.x() + deltaX, startPoint.y() + deltaY );
-    endPoint = new D2Point( endPoint.x() + deltaX, endPoint.y() + deltaY );
-    ctrlPoint1 = new D2Point( ctrlPoint1.x() + deltaX, ctrlPoint1.y() + deltaY );
-    ctrlPoint2 = new D2Point( ctrlPoint2.x() + deltaX, ctrlPoint2.y() + deltaY );
+    startPoint = new D2PointEdit( startPoint.x() + deltaX, startPoint.y() + deltaY );
+    endPoint = new D2PointEdit( endPoint.x() + deltaX, endPoint.y() + deltaY );
+    ctrlPoint1 = new D2PointEdit( ctrlPoint1.x() + deltaX, ctrlPoint1.y() + deltaY );
+    ctrlPoint2 = new D2PointEdit( ctrlPoint2.x() + deltaX, ctrlPoint2.y() + deltaY );
 
     values.put( FID_START, avValobj( startPoint ) );
     values.put( FID_END, avValobj( endPoint ) );
@@ -214,10 +214,10 @@ public class ViselCubicSpline
 
   Color color = new Color( ETsColor.BLACK.rgba() );
 
-  D2Point startPoint;
-  D2Point endPoint;
-  D2Point ctrlPoint1;
-  D2Point ctrlPoint2;
+  D2PointEdit startPoint;
+  D2PointEdit endPoint;
+  D2PointEdit ctrlPoint1;
+  D2PointEdit ctrlPoint2;
 
   @Override
   protected void doDoInterceptPropsChange( IOptionSet aNewValues, IOptionSetEdit aValuesToSet ) {
