@@ -320,7 +320,7 @@ public class ViselBezier
       aPaintContext.gc().setAlpha( color.getAlpha() );
       aPaintContext.setLineInfo( lineInfo );
 
-      aPaintContext.gc().drawPath( path );
+      aPaintContext.drawPath( path, 0, 0 );
     }
     finally {
       if( path != null && !path.isDisposed() ) {
