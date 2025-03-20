@@ -43,6 +43,8 @@ public class PanelLoginInfo
   public static final IDataDef OPDEF_IS_ROLE_USED = DataDef.create( OPID_IS_ROLE_USED, BOOLEAN, //
       TSID_DEFAULT_VALUE, AV_FALSE );
 
+  private static char CHAR_ECHO = '*';
+
   private Text    textLogin    = null;
   private Text    textPassword = null;
   private Text    textRole     = null;
@@ -104,6 +106,7 @@ public class PanelLoginInfo
     textPassword.setToolTipText( STR_TEXT_PASSWORD_D );
     textPassword.setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, false ) );
     textPassword.addModifyListener( notificationModifyListener );
+    textPassword.setEchoChar( CHAR_ECHO );
     // role
     if( isRoleUsed ) {
       l = new CLabel( this, SWT.CENTER );
