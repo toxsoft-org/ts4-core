@@ -64,7 +64,7 @@ public class TtiD2Point
 
   @Override
   protected void doDecompose( IAtomicValue aValue, IStringMapEdit<ITinValue> aChildValues ) {
-    D2Point d2p = aValue != null ? aValue.asValobj() : dataType().params().getValobj( TSID_DEFAULT_VALUE );
+    ID2Point d2p = aValue != null ? aValue.asValobj() : dataType().params().getValobj( TSID_DEFAULT_VALUE );
     aChildValues.put( FID_X, TinValue.ofAtomic( avFloat( d2p.x() ) ) );
     aChildValues.put( FID_Y, TinValue.ofAtomic( avFloat( d2p.y() ) ) );
   }

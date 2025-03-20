@@ -147,10 +147,10 @@ class ViselCubicSplineVertexSet
     double x = curve.originX();
     double y = curve.originY();
 
-    D2Point sp = curve.props().getValobj( ViselCubicSpline.FID_START );
-    D2Point ep = curve.props().getValobj( ViselCubicSpline.FID_END );
-    D2Point cp1 = curve.props().getValobj( ViselCubicSpline.FID_CTRL1 );
-    D2Point cp2 = curve.props().getValobj( ViselCubicSpline.FID_CTRL2 );
+    ID2Point sp = curve.props().getValobj( ViselCubicSpline.FID_START );
+    ID2Point ep = curve.props().getValobj( ViselCubicSpline.FID_END );
+    ID2Point cp1 = curve.props().getValobj( ViselCubicSpline.FID_CTRL1 );
+    ID2Point cp2 = curve.props().getValobj( ViselCubicSpline.FID_CTRL2 );
 
     IVedVertex v = vertexes().getByKey( VID_START );
     v.setLocation( sp.x() - x - v.bounds().width() / 2., sp.y() - y - v.bounds().height() / 2. );
