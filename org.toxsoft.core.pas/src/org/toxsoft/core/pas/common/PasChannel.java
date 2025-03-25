@@ -12,36 +12,27 @@ import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import java.io.*;
 import java.net.*;
 
-import org.toxsoft.core.pas.client.PasClient;
+import org.toxsoft.core.pas.client.*;
 import org.toxsoft.core.pas.json.*;
-import org.toxsoft.core.pas.server.PasServer;
-import org.toxsoft.core.pas.tj.ITjObject;
-import org.toxsoft.core.pas.tj.ITjValue;
-import org.toxsoft.core.pas.tj.impl.TjUtils;
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.impl.AvUtils;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContext;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContextRo;
-import org.toxsoft.core.tslib.bricks.strio.IStrioReader;
-import org.toxsoft.core.tslib.bricks.strio.IStrioWriter;
-import org.toxsoft.core.tslib.bricks.strio.chario.ICharInputStream;
-import org.toxsoft.core.tslib.bricks.strio.chario.impl.CharInputStreamReader;
-import org.toxsoft.core.tslib.bricks.strio.chario.impl.CharOutputStreamWriter;
-import org.toxsoft.core.tslib.bricks.strio.impl.StrioReader;
-import org.toxsoft.core.tslib.bricks.strio.impl.StrioWriter;
-import org.toxsoft.core.tslib.bricks.time.impl.TimeUtils;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMap;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMapEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
-import org.toxsoft.core.tslib.coll.synch.SynchronizedStringMap;
-import org.toxsoft.core.tslib.utils.ICloseable;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
+import org.toxsoft.core.pas.server.*;
+import org.toxsoft.core.pas.tj.*;
+import org.toxsoft.core.pas.tj.impl.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.bricks.ctx.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.bricks.strio.chario.*;
+import org.toxsoft.core.tslib.bricks.strio.chario.impl.*;
+import org.toxsoft.core.tslib.bricks.strio.impl.*;
+import org.toxsoft.core.tslib.bricks.time.impl.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.coll.synch.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.logs.ELogSeverity;
-import org.toxsoft.core.tslib.utils.logs.ILogger;
+import org.toxsoft.core.tslib.utils.logs.*;
 
 /**
  * Базовый класс двустороннего посимвольного канала связи между клиентом и сервером СПД.
@@ -420,8 +411,10 @@ public class PasChannel
   // Реализация Object
   //
   @Override
+  @SuppressWarnings( "boxing" )
   public String toString() {
-    return socket.toString();
+    return String.format( FMT_CHANNEL, getRemoteAddress().getHostName(), getRemotePort(),
+        getLocalAddress().getHostName(), getLocalPort(), TimeUtils.timestampToString( getCreationTimestamp() ) );
   }
 
   @Override

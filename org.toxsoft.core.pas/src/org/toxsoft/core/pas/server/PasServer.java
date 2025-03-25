@@ -3,21 +3,19 @@ package org.toxsoft.core.pas.server;
 import static org.toxsoft.core.pas.server.IPasServerParams.*;
 import static org.toxsoft.core.pas.server.ITsResources.*;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.*;
 
 import org.toxsoft.core.pas.common.*;
-import org.toxsoft.core.pas.json.IJSONMessage;
-import org.toxsoft.core.tslib.bricks.ICooperativeMultiTaskable;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContextRo;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
-import org.toxsoft.core.tslib.coll.impl.ElemLinkedList;
-import org.toxsoft.core.tslib.coll.synch.SynchronizedListEdit;
-import org.toxsoft.core.tslib.utils.ICloseable;
+import org.toxsoft.core.pas.json.*;
+import org.toxsoft.core.tslib.bricks.*;
+import org.toxsoft.core.tslib.bricks.ctx.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.synch.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.logs.ILogger;
+import org.toxsoft.core.tslib.utils.logs.*;
 
 /**
  * Реализация Сервера Публичного Доступа (СПД).
@@ -333,7 +331,7 @@ public class PasServer<CHANNEL extends PasServerChannel>
   private static <CHANNEL extends PasServerChannel> void stopAndDisposeItemsWithTimeout( IList<CHANNEL> aChannels ) {
     TsNullArgumentRtException.checkNull( aChannels );
     // запросим остановку на добровольной основе
-    for( PasServerChannel channel : aChannels.copyTo( new ElemArrayList<CHANNEL>( aChannels.size() ) ) ) {
+    for( PasServerChannel channel : aChannels.copyTo( new ElemArrayList<>( aChannels.size() ) ) ) {
       channel.close();
     }
   }

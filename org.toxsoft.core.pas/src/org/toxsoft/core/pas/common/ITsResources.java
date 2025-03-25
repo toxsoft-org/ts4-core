@@ -21,6 +21,8 @@ interface ITsResources {
   String STR_D_PAS_WRITE_TIMEOUT =
       "Таймаут (мсек), в течении которого, поток записи должен завершить запись данных в канал. В противном случае, канал будет закрыт";
 
+  String FMT_CHANNEL = "remote(%s:%d), local(%s:%d), time =%s";
+
   String JSON_REQUEST_TOSTRING_FORMAT      = Messages.getString( "ITsResources.JSON_REQUEST_TOSTRING_FORMAT" );      //$NON-NLS-1$
   String JSON_NOTIFICATION_TOSTRING_FORMAT = Messages.getString( "ITsResources.JSON_NOTIFICATION_TOSTRING_FORMAT" ); //$NON-NLS-1$
   String JSON_RESULT_TOSTRING_FORMAT       = Messages.getString( "ITsResources.JSON_RESULT_TOSTRING_FORMAT" );       //$NON-NLS-1$
