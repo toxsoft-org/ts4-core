@@ -199,6 +199,8 @@ public interface IValedControlConstants {
    * Option {@link #OPDEF_VALED_UI_OUTFIT} predefined value: choose single line UI (like SWT {@link Text} control).
    * <p>
    * Usually it means to choose the VALED UI with the smallest possible height.
+   *
+   * @see IValedControlConstants#VALED_UI_OUTFIT_EMBEDDABLE
    */
   String VALED_UI_OUTFIT_SINGLE_LINE = TSLIB_VALED_UI_OUTFIT_SINGLE_LINE;
 
@@ -207,6 +209,8 @@ public interface IValedControlConstants {
    * <p>
    * Usually it means the panel (maybe with multiple controls) allowing to specify all the properties of the edited
    * value, as if the VALED should be directly used as the content of the value edit dialog.
+   *
+   * @see IValedControlConstants#VALED_UI_OUTFIT_SINGLE_LINE
    */
   String VALED_UI_OUTFIT_EMBEDDABLE = TSLIB_VALED_UI_OUTFIT_EMBEDDABLE;
 
@@ -219,6 +223,9 @@ public interface IValedControlConstants {
    * specify which appearance to use when created.<br>
    * Option may have one of the predefined values <code><b>VALED_UI_OUTFIT_</b>XXX</code> or VALED-specific value. <br>
    * <i>Default value:</i> {@link #VALED_UI_OUTFIT_SINGLE_LINE} - VALED of the smallest height
+   *
+   * @see IValedControlConstants#VALED_UI_OUTFIT_SINGLE_LINE
+   * @see IValedControlConstants#VALED_UI_OUTFIT_EMBEDDABLE
    */
   IDataDef OPDEF_VALED_UI_OUTFIT = DataDef.create2( OPID_VALED_UI_OUTFIT, STRING, //
       IdPathStringAvValidator.IDPATH_EMPTY_VALIDATOR, AvUtils.DEFAULT_AV_COMPARATOR, //

@@ -17,23 +17,19 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
+@SuppressWarnings( "javadoc" )
 public enum EWubUnitState
     implements IStridable {
 
-  @SuppressWarnings( "javadoc" )
-  CREATED("created", STR_EWUS_CREATED, STR_EWUS_CREATED_D ), //$NON-NLS-1$
+  CREATED( "created", STR_EWUS_CREATED, STR_EWUS_CREATED_D ), //$NON-NLS-1$
 
-  @SuppressWarnings( "javadoc" )
-  INITED("inited", STR_EWUS_INITED, STR_EWUS_INITED_D ), //$NON-NLS-1$
+  INITED( "inited", STR_EWUS_INITED, STR_EWUS_INITED_D ), //$NON-NLS-1$
 
-  @SuppressWarnings( "javadoc" )
-  STARTED("started", STR_EWUS_STARTED_D, STR_EWUS_STARTED_D ), //$NON-NLS-1$
+  STARTED( "started", STR_EWUS_STARTED_D, STR_EWUS_STARTED_D ), //$NON-NLS-1$
 
-  @SuppressWarnings( "javadoc" )
-  STOP_QUERIED("stopQueried", STR_EWUS_STOP_QUERIED_D, STR_EWUS_STOP_QUERIED_D ), //$NON-NLS-1$
+  STOP_QUERIED( "stopQueried", STR_EWUS_STOP_QUERIED_D, STR_EWUS_STOP_QUERIED_D ), //$NON-NLS-1$
 
-  @SuppressWarnings( "javadoc" )
-  STOPPED("stopped", STR_EWUS_STOPPED_D, STR_EWUS_STOPPED_D ); //$NON-NLS-1$
+  STOPPED( "stopped", STR_EWUS_STOPPED_D, STR_EWUS_STOPPED_D ); //$NON-NLS-1$
 
   /**
    * The keeper ID.

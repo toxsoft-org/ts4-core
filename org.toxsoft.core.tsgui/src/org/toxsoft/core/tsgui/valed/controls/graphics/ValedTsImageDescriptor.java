@@ -29,6 +29,7 @@ public class ValedTsImageDescriptor
    *
    * @author vs
    */
+  @SuppressWarnings( "unchecked" )
   public static class Factory
       extends AbstractValedControlFactory {
 
@@ -39,10 +40,14 @@ public class ValedTsImageDescriptor
       super( FACTORY_NAME );
     }
 
-    @SuppressWarnings( "unchecked" )
     @Override
     protected IValedControl<TsImageDescriptor> doCreateEditor( ITsGuiContext aContext ) {
       return new ValedTsImageDescriptor( aContext );
+    }
+
+    @Override
+    protected IValedControl<TsImageDescriptor> doCreateViewer( ITsGuiContext aContext ) {
+      return new ValedTsImageDescriptorViewer( aContext );
     }
 
     @Override

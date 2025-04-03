@@ -1,13 +1,10 @@
 package org.toxsoft.core.tslib.bricks.time;
 
-import java.io.ObjectStreamException;
-import java.io.Serializable;
-import java.time.Duration;
-import java.time.LocalDateTime;
+import java.io.*;
+import java.time.*;
 
-import org.toxsoft.core.tslib.bricks.time.impl.TimeInterval;
-import org.toxsoft.core.tslib.bricks.time.impl.TimeUtils;
-import org.toxsoft.core.tslib.utils.errors.TsNullObjectErrorRtException;
+import org.toxsoft.core.tslib.bricks.time.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Поянтие "интервал времени" (реализован неизменным классом-значением {@link TimeInterval}).
@@ -22,10 +19,6 @@ import org.toxsoft.core.tslib.utils.errors.TsNullObjectErrorRtException;
  * <p>
  * Реализует интерфейс {@link Comparable}&lt;{@link ITimeInterval}&gt; сортируя по возрастанию сначала
  * {@link #startTime()}, а потом {@link #endTime()}.
- * <p>
- * <b>Внимание:</b> интерфейс не предназначен для раелизации пользователями. Единственная применимая реализация - final
- * класс {@link TimeInterval}. Тем не менее, интерфейс объявлен как для самодокументируемости понятия "интервал
- * времени", так и для использования константы {@link #NULL}, реализованной специальным внутренным классом.
  *
  * @author hazard157
  */

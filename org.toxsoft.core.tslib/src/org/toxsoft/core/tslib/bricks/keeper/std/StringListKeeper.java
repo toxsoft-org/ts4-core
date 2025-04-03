@@ -81,20 +81,22 @@ public class StringListKeeper
     else {
       aSw.writeChar( CHAR_ARRAY_BEGIN );
     }
-    aSw.incNewLine();
-    for( int i = 0, n = aEntity.size(); i < n; i++ ) {
-      String s = aEntity.get( i );
-      if( StridUtils.isValidIdPath( s ) ) {
-        aSw.writeAsIs( s );
-      }
-      else {
-        aSw.writeQuotedString( s );
-      }
-      if( i < n - 1 ) {
-        aSw.writeChar( CHAR_ITEM_SEPARATOR );
-      }
-      if( indent ) {
-        aSw.writeEol();
+    if( !aEntity.isEmpty() ) {
+      aSw.incNewLine();
+      for( int i = 0, n = aEntity.size(); i < n; i++ ) {
+        String s = aEntity.get( i );
+        if( StridUtils.isValidIdPath( s ) ) {
+          aSw.writeAsIs( s );
+        }
+        else {
+          aSw.writeQuotedString( s );
+        }
+        if( i < n - 1 ) {
+          aSw.writeChar( CHAR_ITEM_SEPARATOR );
+        }
+        if( indent ) {
+          aSw.writeEol();
+        }
       }
     }
     aSw.decNewLine();

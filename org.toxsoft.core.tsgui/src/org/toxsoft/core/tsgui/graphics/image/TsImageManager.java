@@ -118,7 +118,14 @@ public class TsImageManager
     TsNullArgumentRtException.checkNull( aImage );
     TsErrorUtils.checkNonBlank( aFilePath );
     ESaveImageFileFormat sf = ESaveImageFileFormat.determineFormat( aImage, aLoseless );
-    File outFile = new File( aFilePath + TsFileUtils.CHAR_EXT_SEPARATOR + sf.getFileExtension() );
+    String ext = TsFileUtils.extractExtension( aFilePath );
+    File outFile;
+    if( ext.equalsIgnoreCase( sf.getFileExtension() ) ) {
+      outFile = new File( aFilePath );
+    }
+    else {
+      outFile = new File( aFilePath + TsFileUtils.CHAR_EXT_SEPARATOR + sf.getFileExtension() );
+    }
     outFile.getParentFile().mkdirs();
     TsFileUtils.checkFileAppendable( outFile );
     sf.save( outFile, aImage );

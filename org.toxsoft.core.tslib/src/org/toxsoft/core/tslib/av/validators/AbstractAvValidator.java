@@ -7,7 +7,7 @@ import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Base class of all {@link ITsValidator} implemenations for values of type {@link IAtomicValue}.
+ * Base class of all {@link ITsValidator} implementations for values of type {@link IAtomicValue}.
  * <p>
  * Checks argument of {@link #validate(IAtomicValue)} against expected atomic type. Also throws an
  * {@link TsNullArgumentRtException} if argument is <code>null</code>.

@@ -100,7 +100,7 @@ public interface IMultiPaneComponent<T>
    * <p>
    * Note: changing items provider does not leads to the tree update - {@link #refresh()} must be called.
    *
-   * @param aItemsProvider {@link IM5ItemsProvider} - the items provider
+   * @param aItemsProvider {@link IM5ItemsProvider} - the items provider or <code>null</code> for empty provider
    */
   void setItemProvider( IM5ItemsProvider<T> aItemsProvider );
 

@@ -2,7 +2,6 @@ package org.toxsoft.core.tsgui.m5.gui.panels;
 
 import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.panels.generic.*;
-import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * The entities list viewer/editor panel.
@@ -27,8 +26,7 @@ public interface IM5CollectionPanel<T>
    * <p>
    * Note: changing items provider does not leads to the tree update - {@link #refresh()} must be called.
    *
-   * @param aItemsProvider {@link IM5ItemsProvider} - the items provider
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @param aItemsProvider {@link IM5ItemsProvider} - the items provider or <code>null</code> for empty provider
    */
   void setItemsProvider( IM5ItemsProvider<T> aItemsProvider );
 

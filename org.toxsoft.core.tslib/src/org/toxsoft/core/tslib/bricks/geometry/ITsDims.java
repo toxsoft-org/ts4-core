@@ -78,4 +78,9 @@ class InternalNoneTsDims
     throw new TsNullObjectErrorRtException();
   }
 
+  @Override
+  public String toString() {
+    return "???x???"; //$NON-NLS-1$
+  }
+
 }

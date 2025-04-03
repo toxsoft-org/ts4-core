@@ -212,7 +212,7 @@ public final class IntRange
   }
 
   /**
-   * Validates the <code>int</code> value is in reange.
+   * Validates the <code>int</code> value is in range.
    *
    * @param aValue int - the value
    * @return {@link ValidationResult} - the validation result
@@ -225,6 +225,57 @@ public final class IntRange
     if( aValue < minValue ) {
       return ValidationResult.error( FMT_ERR_INT_LT_MIN, Integer.valueOf( aValue ), Integer.valueOf( minValue ),
           Integer.valueOf( maxValue ) );
+    }
+    return ValidationResult.SUCCESS;
+  }
+
+  /**
+   * Validates named value against this range.
+   * <p>
+   * Value name is used to create error string like "'aValueName': value %.2f is out of allowed range %s".
+   * <p>
+   * If value is out of range or is not finite then returns {@link EValidationResultType#ERROR ERROR}.
+   *
+   * @param aValue int - the value
+   * @param aValueName String - name of the value used for message formatting
+   * @return {@link ValidationResult} - the validation result
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public ValidationResult validateError( int aValue, String aValueName ) {
+    TsNullArgumentRtException.checkNull( aValueName );
+    if( aValue > maxValue ) {
+      return ValidationResult.error( FMT_INV_NAMED_INT_GT_MAX, aValueName, Integer.valueOf( aValue ),
+          Integer.valueOf( minValue ), Integer.valueOf( maxValue ) );
+    }
+    if( aValue < minValue ) {
+      return ValidationResult.error( FMT_INV_NAMED_INT_LT_MIN, aValueName, Integer.valueOf( aValue ),
+          Integer.valueOf( minValue ), Integer.valueOf( maxValue ) );
+    }
+    return ValidationResult.SUCCESS;
+  }
+
+  /**
+   * Validates named value against this range.
+   * <p>
+   * Value name is used to create error string like "'aValueName': value %.2f is out of allowed range %s".
+   * <p>
+   * If value is out of range returns {@link EValidationResultType#WARNING} and returns
+   * {@link EValidationResultType#WARNING} if value is not finite.
+   *
+   * @param aValue int - the value
+   * @param aValueName String - name of the value used for message formatting
+   * @return {@link ValidationResult} - the validation result
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public ValidationResult validateWarning( int aValue, String aValueName ) {
+    TsNullArgumentRtException.checkNull( aValueName );
+    if( aValue > maxValue ) {
+      return ValidationResult.warn( FMT_INV_NAMED_INT_GT_MAX, aValueName, Integer.valueOf( aValue ),
+          Integer.valueOf( minValue ), Integer.valueOf( maxValue ) );
+    }
+    if( aValue < minValue ) {
+      return ValidationResult.warn( FMT_INV_NAMED_INT_LT_MIN, aValueName, Integer.valueOf( aValue ),
+          Integer.valueOf( minValue ), Integer.valueOf( maxValue ) );
     }
     return ValidationResult.SUCCESS;
   }

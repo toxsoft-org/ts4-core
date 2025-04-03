@@ -18,7 +18,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * {@link IStridGenerator} implementation of IDpathes with postfixed timestamp long number.
  * <p>
  * Creates STRIDs like "<b>prefix_TTTTTT[_NNN]</b>" where TTTTTT is {@link System#currentTimeMillis()} value and NNN is
- * optional counter if call of {@link #nextId()} happtns inside the last call millisecond..
+ * optional counter if call of {@link #nextId()} happens inside the last call millisecond..
  * <p>
  * Class is <b>not</b> thread-safe.
  *

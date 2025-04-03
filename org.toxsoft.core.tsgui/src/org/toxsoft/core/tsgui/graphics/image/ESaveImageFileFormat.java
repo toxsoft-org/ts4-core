@@ -10,16 +10,17 @@ import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.files.*;
 
 /**
- * Internal implementation of {@link TsImage} saving to the disk file.
+ * Implementation of {@link TsImage} saving to the disk file.
  *
  * @author hazard157
  */
-enum ESaveImageFileFormat {
+@SuppressWarnings( "javadoc" )
+public enum ESaveImageFileFormat {
 
   STILL_JPG( "jpg" ) { //$NON-NLS-1$
 
     @Override
-    protected void save( File aFile, TsImage aImage ) {
+    public void save( File aFile, TsImage aImage ) {
       saveStillImage( aFile, aImage, SWT.IMAGE_JPEG );
     }
 
@@ -28,7 +29,7 @@ enum ESaveImageFileFormat {
   STILL_PNG( "png" ) { //$NON-NLS-1$
 
     @Override
-    protected void save( File aFile, TsImage aImage ) {
+    public void save( File aFile, TsImage aImage ) {
       saveStillImage( aFile, aImage, SWT.IMAGE_PNG );
     }
 
@@ -37,7 +38,7 @@ enum ESaveImageFileFormat {
   ANIMATED_GIF( "gif" ) { //$NON-NLS-1$
 
     @Override
-    protected void save( File aFile, TsImage aImage ) {
+    public void save( File aFile, TsImage aImage ) {
       saveAnimatedImage( aFile, aImage );
     }
 
@@ -76,7 +77,13 @@ enum ESaveImageFileFormat {
     return null;
   }
 
-  protected abstract void save( File aFile, TsImage aImage );
+  /**
+   * Stores specified image to the disk file.
+   *
+   * @param aFile {@link File} - the file name
+   * @param aImage {@link TsImage} - the image
+   */
+  public abstract void save( File aFile, TsImage aImage );
 
   private static void saveStillImage( File aFile, TsImage aImage, int aSwtFormat ) {
     saveSwtImage( aFile, aImage.image(), aSwtFormat );
