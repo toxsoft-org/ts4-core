@@ -46,10 +46,10 @@ public class D2Utils {
     if( aValue < MIN_D2_VALUE || aValue > MAX_D2_VALUE ) {
       throw new TsIllegalArgumentRtException();
     }
-    Double d = Double.valueOf( aValue );
-    double diff = aValue - d.longValue();
+    long closestLong = Math.round( aValue );
+    double diff = aValue - closestLong;
     if( Math.abs( diff ) < DUCK_DIFF_THRESHLOD ) {
-      return d.longValue();
+      return closestLong;
     }
     return aValue;
   }
@@ -67,8 +67,8 @@ public class D2Utils {
     if( aValue < MIN_D2_VALUE || aValue > MAX_D2_VALUE ) {
       throw new TsIllegalArgumentRtException();
     }
-    Double d = Double.valueOf( aValue );
-    double diff = aValue - d.longValue();
+    long closestLong = Math.round( aValue );
+    double diff = aValue - closestLong;
     return Math.abs( diff ) < DUCK_DIFF_THRESHLOD;
   }
 
