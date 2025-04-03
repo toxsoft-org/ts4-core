@@ -272,6 +272,29 @@ public class PasServer<CHANNEL extends PasServerChannel>
   }
 
   // ------------------------------------------------------------------------------------
+  // Методы для переопределения
+  //
+  /**
+   * Обработать получение сетевого сообщения.
+   *
+   * @param aSource CHANNEL канал по которому принято сообщение.
+   * @param aMessage {@link IJSONMessage} текст сообщения
+   */
+  protected void doOnReceived( CHANNEL aSource, IJSONMessage aMessage ) {
+    // nop
+  }
+
+  /**
+   * Обработать отправку сетевого сообщения.
+   *
+   * @param aSource CHANNEL канал по которому передано сообщение.
+   * @param aMessage {@link IJSONMessage} текст сообщения
+   */
+  protected void doOnSended( CHANNEL aSource, IJSONMessage aMessage ) {
+    // nop
+  }
+
+  // ------------------------------------------------------------------------------------
   // Внутренние методы
   //
   /**
@@ -348,6 +371,16 @@ public class PasServer<CHANNEL extends PasServerChannel>
     @Override
     public void onStart( CHANNEL aSource ) {
       // nop
+    }
+
+    @Override
+    public void onReceived( CHANNEL aSource, IJSONMessage aMessage ) {
+      doOnReceived( aSource, aMessage );
+    }
+
+    @Override
+    public void onSended( CHANNEL aSource, IJSONMessage aMessage ) {
+      doOnSended( aSource, aMessage );
     }
 
     @Override
