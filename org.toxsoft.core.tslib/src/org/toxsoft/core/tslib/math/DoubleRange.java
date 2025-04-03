@@ -224,6 +224,63 @@ public final class DoubleRange
   }
 
   /**
+   * Validates named value against this range.
+   * <p>
+   * Value name is used to create error string like "'aValueName': value %.2f is out of allowed range %s".
+   * <p>
+   * If value is out of range or is not finite then returns {@link EValidationResultType#ERROR ERROR}.
+   *
+   * @param aValue double - the value
+   * @param aValueName String - name of the value used for message formatting
+   * @return {@link ValidationResult} - the validation result
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public ValidationResult validateError( double aValue, String aValueName ) {
+    TsNullArgumentRtException.checkNull( aValueName );
+    if( !Double.isFinite( aValue ) ) {
+      return ValidationResult.error( FMT_ERR_NAMED_DOUBLE_NOT_FINITE, aValueName, Double.valueOf( aValue ) );
+    }
+    if( aValue > maxValue ) {
+      return ValidationResult.error( FMT_INV_NAMED_DOUBLE_GT_MAX, aValueName, Double.valueOf( aValue ),
+          Double.valueOf( minValue ), Double.valueOf( maxValue ) );
+    }
+    if( aValue < minValue ) {
+      return ValidationResult.error( FMT_INV_NAMED_DOUBLE_LT_MIN, aValueName, Double.valueOf( aValue ),
+          Double.valueOf( minValue ), Double.valueOf( maxValue ) );
+    }
+    return ValidationResult.SUCCESS;
+  }
+
+  /**
+   * Validates named value against this range.
+   * <p>
+   * Value name is used to create error string like "'aValueName': value %.2f is out of allowed range %s".
+   * <p>
+   * If value is out of range returns {@link EValidationResultType#WARNING} and returns
+   * {@link EValidationResultType#WARNING} if value is not finite.
+   *
+   * @param aValue double - the value
+   * @param aValueName String - name of the value used for message formatting
+   * @return {@link ValidationResult} - the validation result
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public ValidationResult validateWarning( double aValue, String aValueName ) {
+    TsNullArgumentRtException.checkNull( aValueName );
+    if( !Double.isFinite( aValue ) ) {
+      return ValidationResult.warn( FMT_ERR_NAMED_DOUBLE_NOT_FINITE, aValueName, Double.valueOf( aValue ) );
+    }
+    if( aValue > maxValue ) {
+      return ValidationResult.warn( FMT_INV_NAMED_DOUBLE_GT_MAX, aValueName, Double.valueOf( aValue ),
+          Double.valueOf( minValue ), Double.valueOf( maxValue ) );
+    }
+    if( aValue < minValue ) {
+      return ValidationResult.warn( FMT_INV_NAMED_DOUBLE_LT_MIN, aValueName, Double.valueOf( aValue ),
+          Double.valueOf( minValue ), Double.valueOf( maxValue ) );
+    }
+    return ValidationResult.SUCCESS;
+  }
+
+  /**
    * Throws an exception if {@link #validate(double)} method fails.
    *
    * @param aValue double - the value
