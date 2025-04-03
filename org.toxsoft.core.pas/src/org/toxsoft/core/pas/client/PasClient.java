@@ -5,21 +5,21 @@ import static org.toxsoft.core.pas.client.ITsResources.*;
 import static org.toxsoft.core.pas.common.PasUtils.*;
 import static org.toxsoft.core.pas.server.IPasServerParams.*;
 
-import java.io.IOException;
-import java.net.Socket;
+import java.io.*;
+import java.net.*;
 
 import org.toxsoft.core.pas.common.*;
-import org.toxsoft.core.pas.json.IJSONMessage;
-import org.toxsoft.core.pas.server.PasServer;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.bricks.ICooperativeMultiTaskable;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContextRo;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemLinkedList;
-import org.toxsoft.core.tslib.coll.synch.SynchronizedListEdit;
-import org.toxsoft.core.tslib.utils.ICloseable;
+import org.toxsoft.core.pas.json.*;
+import org.toxsoft.core.pas.server.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.bricks.*;
+import org.toxsoft.core.tslib.bricks.ctx.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.coll.synch.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.logs.ILogger;
+import org.toxsoft.core.tslib.utils.logs.*;
 
 /**
  * Реализация клиента Сервера Публичного Доступа (СПД) {@link PasServer}.
@@ -299,6 +299,29 @@ public class PasClient<CHANNEL extends PasClientChannel>
   }
 
   // ------------------------------------------------------------------------------------
+  // Методы для переопределения
+  //
+  /**
+   * Обработать получение сетевого сообщения.
+   *
+   * @param aSource CHANNEL канал по которому принято сообщение.
+   * @param aMessage {@link IJSONMessage} текст сообщения
+   */
+  protected void doOnReceived( CHANNEL aSource, IJSONMessage aMessage ) {
+    // nop
+  }
+
+  /**
+   * Обработать отправку сетевого сообщения.
+   *
+   * @param aSource CHANNEL канал по которому передано сообщение.
+   * @param aMessage {@link IJSONMessage} текст сообщения
+   */
+  protected void doOnSended( CHANNEL aSource, IJSONMessage aMessage ) {
+    // nop
+  }
+
+  // ------------------------------------------------------------------------------------
   // Внутренние методы
   //
   /**
@@ -331,6 +354,16 @@ public class PasClient<CHANNEL extends PasClientChannel>
     @Override
     public void onStart( CHANNEL aSource ) {
       // nop
+    }
+
+    @Override
+    public void onReceived( CHANNEL aSource, IJSONMessage aMessage ) {
+      doOnReceived( aSource, aMessage );
+    }
+
+    @Override
+    public void onSended( CHANNEL aSource, IJSONMessage aMessage ) {
+      doOnSended( aSource, aMessage );
     }
 
     @Override
