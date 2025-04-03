@@ -135,9 +135,9 @@ public class M5EntityPanelWithValedsController<T>
   }
 
   /**
-   * Возвращает модель объектов.
+   * Returns M5-model of the edited entity.
    *
-   * @return {@link IM5Model} - модель объектов
+   * @return {@link IM5Model} - entity M5-model
    */
   final public IM5Model<T> model() {
     TsInternalErrorRtException.checkNull( panel );

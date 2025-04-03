@@ -6,6 +6,7 @@ import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.eclipse.swt.*;
+import org.eclipse.swt.custom.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
@@ -82,7 +83,8 @@ public class ValidationResultPanel
   private final IMapEdit<EValidationResultType, TsImage> imgMap = new ElemMap<>();
 
   private final IPdwWidget imageWidget;
-  private final Text       text;
+  // private final Text text;
+  private final CLabel     text;
   private ValidationResult status = ValidationResult.SUCCESS;
 
   /**
@@ -107,9 +109,10 @@ public class ValidationResultPanel
     imageWidget.setFulcrum( ETsFulcrum.CENTER );
     imageWidget.setPreferredSizeFixed( true );
     // text
-    text = new Text( this, SWT.MULTI | SWT.BORDER );
+    // text = new Text( this, SWT.MULTI | SWT.BORDER );
+    text = new CLabel( this, SWT.MULTI | SWT.BORDER );
     text.setBackground( this.getBackground() ); // reset the background color to parent for widget to be invisible
-    text.setEditable( false );
+    // text.setEditable( false );
     text.setLayoutData( BorderLayout.CENTER );
     // init images
     for( EValidationResultType vrt : EValidationResultType.asList() ) {

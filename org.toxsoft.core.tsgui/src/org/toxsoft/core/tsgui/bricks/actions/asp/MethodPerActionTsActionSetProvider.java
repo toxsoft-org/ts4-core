@@ -12,9 +12,9 @@ import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * {@link ITsActionSetProvider} abstract implementation with method per action.
+ * {@link ITsActionSetProvider} base implementation with method per action.
  * <p>
- * To add action user must call on of the <code>defineAction()</code> method. As an argument may be used functional
+ * To add an action user must call on of the <code>defineAction()</code> method. As an argument may be used functional
  * interfaces, for example:
  *
  * <pre>
