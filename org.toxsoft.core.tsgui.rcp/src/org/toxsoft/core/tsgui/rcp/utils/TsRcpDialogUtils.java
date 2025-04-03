@@ -36,7 +36,9 @@ public final class TsRcpDialogUtils {
   public static File askFileOpen( Shell aShell, String aDefaultPath, IStringList aExtensions ) {
     TsNullArgumentRtException.checkNulls( aShell, aDefaultPath, aExtensions );
     FileDialog fd = new FileDialog( aShell, SWT.OPEN );
-    fd.setFileName( aDefaultPath );
+    File initFile = new File( aDefaultPath );
+    fd.setFileName( initFile.getName() );
+    fd.setFilterPath( initFile.getParent() );
     fd.setText( STR_C_OPEN_DIALOG );
     if( !aExtensions.isEmpty() ) {
       fd.setFilterExtensions( aExtensions.toArray() );
@@ -73,42 +75,39 @@ public final class TsRcpDialogUtils {
     return askFileOpen( aShell, TsLibUtils.EMPTY_STRING, IStringList.EMPTY );
   }
 
-  // TODO TRANSLATE
-
   /**
-   * Выводит диалог выбора/ввода имени файла для сохранения документа.
+   * Displays file dialog to specify file to be saved.
    * <p>
-   * Если файл уже существует, то выводит запрос на перезапись. Возвращает имя файла если пользователь не отказался и
-   * задал имя файла, а также, при выборе перезаписи существующего файла. В всех других случаях возвращает null.
+   * If the file already exists, then displays a request to overwrite. Returns the file name if the user has not
+   * canceled and specified the file name, and also when choosing to overwrite an existing file. In all other cases,
+   * returns <code>null</code>.
    * <p>
-   * Для того, чтобы в начале диалог показал текущую директриию, следует в качестве aDefaultPath задать пустую строку.
-   * <p>
-   * Можно указать расширение aDefaultExtension (без начальной точки), которое будет добавляться к указанному в диалоге
-   * имени файла. Расширение добавляется, если указанное в диалоге имя не содержит точки (т.е. нет расширения), или
-   * указано расширение, отличающейся от aDefaultExtension. Если aDefaultExtension пустая строка, имя файла не меняется.
+   * File extension <code>aDefaultExtension</code> will be added to the specified file name if it does not have the
+   * specified extension.
    *
-   * @param aShell Shell - родительское окно
-   * @param aDefaultPath String - путь, которую покажет диалог в начале
-   * @param aDefaultExtension String - добавляемое по умолчанию расширение имеи файла или пустая строка
-   * @return File - путь к файлу для сохранения или null если пользователь отказался
+   * @param aShell Shell - parent window
+   * @param aDefaultPath String - initial path to file or an empty string for current directory
+   * @param aExtension String - file extension or an empty string to use extension specified in the dialog
+   * @return File - the path to file or <code>null</code>
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public static File askFileSave( Shell aShell, String aDefaultPath, String aDefaultExtension ) {
-    TsNullArgumentRtException.checkNulls( aShell, aDefaultPath, aDefaultExtension );
-    String initialPath = aDefaultPath;
+  public static File askFileSave( Shell aShell, String aDefaultPath, String aExtension ) {
+    TsNullArgumentRtException.checkNulls( aShell, aDefaultPath, aExtension );
+    File initFile = new File( aDefaultPath );
     // asking while user selects valid file or cancels operation
     while( true ) {
       FileDialog fd = new FileDialog( aShell, SWT.SAVE );
-      fd.setFileName( initialPath );
+      fd.setFileName( initFile.getName() );
+      fd.setFilterPath( initFile.getParent() );
       fd.setText( STR_C_SAVE_DIALOG );
       String fName = fd.open();
       if( fName == null ) {
         return null; // user cancel
       }
-      if( aDefaultExtension.length() > 0 ) {
+      if( aExtension.length() > 0 ) {
         String extension = TsFileUtils.extractExtension( fName );
-        if( extension.length() == 0 || !extension.equals( aDefaultExtension ) ) {
-          fName += '.' + aDefaultExtension;
+        if( extension.length() == 0 || !extension.equals( aExtension ) ) {
+          fName += '.' + aExtension;
         }
       }
       File f = new File( fName );
@@ -120,7 +119,7 @@ public final class TsRcpDialogUtils {
         case YES:
           return f; // overwrite existing file
         case NO:
-          initialPath = f.getAbsolutePath();
+          initFile = f.getAbsoluteFile();
           break; // return to file selection
         case APPLY:
         case CANCEL:
@@ -131,6 +130,8 @@ public final class TsRcpDialogUtils {
       }
     }
   }
+
+  // TODO TRANSLATE
 
   /**
    * Выводит диалог выбора/ввода имени файла для сохранения документа.
