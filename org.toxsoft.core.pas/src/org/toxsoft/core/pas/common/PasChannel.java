@@ -1164,6 +1164,14 @@ public class PasChannel
       if( logger.isSeverityOn( ELogSeverity.DEBUG ) ) {
         logger.debug( MSG_RECEIVE_MESSAGE, aChannel, retValue );
       }
+      try {
+        if( retValue != null ) {
+          handler.onReceived( aChannel, retValue );
+        }
+      }
+      catch( Throwable e ) {
+        logger.error( e );
+      }
     }
     catch( TsIoRtException e ) {
       // Обнаружен разрыв соединения
@@ -1184,14 +1192,6 @@ public class PasChannel
       }
       // Оповещение наследника об ошибке
       handlerErrorNotify( aChannel, handler, e, logger );
-    }
-    try {
-      if( retValue != null ) {
-        handler.onReceive( aChannel, retValue );
-      }
-    }
-    catch( Throwable e ) {
-      logger.error( e );
     }
     return retValue;
   }
@@ -1216,6 +1216,12 @@ public class PasChannel
       if( logger.isSeverityOn( ELogSeverity.DEBUG ) ) {
         logger.debug( MSG_SEND_MESSAGE, aChannel, aMessage );
       }
+      try {
+        handler.onSended( aChannel, aMessage );
+      }
+      catch( Throwable e ) {
+        logger.error( e );
+      }
     }
     catch( Throwable e ) {
       // Ошибка записи объекта в поток канала
@@ -1226,12 +1232,6 @@ public class PasChannel
       catch( Throwable e2 ) {
         logger.error( e2 );
       }
-    }
-    try {
-      handler.onSend( aChannel, aMessage );
-    }
-    catch( Throwable e ) {
-      logger.error( e );
     }
   }
 

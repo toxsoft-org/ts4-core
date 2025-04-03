@@ -36,7 +36,7 @@ public interface IPasChannelHandler<CHANNEL extends PasChannel> {
    * @param aSource {@link PasChannel} канал по которому получено сообщение
    * @param aMessage {@link IJSONMessage} полученное JSON сообщение
    */
-  default void onReceive( CHANNEL aSource, IJSONMessage aMessage ) {
+  default void onReceived( CHANNEL aSource, IJSONMessage aMessage ) {
     // nop
   }
 
@@ -46,7 +46,7 @@ public interface IPasChannelHandler<CHANNEL extends PasChannel> {
    * @param aSource {@link PasChannel} канал по которому передано сообщение
    * @param aMessage {@link IJSONMessage} отправленное сообщение
    */
-  default void onSend( CHANNEL aSource, IJSONMessage aMessage ) {
+  default void onSended( CHANNEL aSource, IJSONMessage aMessage ) {
     // nop
   }
 

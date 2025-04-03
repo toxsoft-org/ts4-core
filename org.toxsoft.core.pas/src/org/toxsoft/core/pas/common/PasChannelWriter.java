@@ -2,15 +2,13 @@ package org.toxsoft.core.pas.common;
 
 import static org.toxsoft.core.pas.common.ITsResources.*;
 
-import java.io.IOException;
+import java.io.*;
 
-import org.toxsoft.core.pas.tj.ITjObject;
-import org.toxsoft.core.tslib.coll.derivative.IQueue;
-import org.toxsoft.core.tslib.coll.derivative.Queue;
-import org.toxsoft.core.tslib.utils.ICloseable;
-import org.toxsoft.core.tslib.utils.errors.TsInternalErrorRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.logs.ILogger;
+import org.toxsoft.core.pas.tj.*;
+import org.toxsoft.core.tslib.coll.derivative.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.*;
 
 /**
  * Писатель данных в канал
@@ -69,7 +67,7 @@ final class PasChannelWriter
     logger = aLogger;
     Thread thread = new Thread( this );
     thread.start();
-    logger.info( "PasChannelWriter(...): %s", aChannel ); //$NON-NLS-1$
+    logger.debug( "PasChannelWriter(...): %s", aChannel ); //$NON-NLS-1$
   }
 
   // ------------------------------------------------------------------------------------
@@ -86,7 +84,7 @@ final class PasChannelWriter
       throws IOException {
     TsNullArgumentRtException.checkNull( aObj );
     synchronized (calls) {
-      logger.info( "PasChannelWriter.writeJsonObject(...): %s", aObj ); //$NON-NLS-1$
+      logger.debug( "PasChannelWriter.writeJsonObject(...): %s", aObj ); //$NON-NLS-1$
       calls.putTail( new Call( aObj ) );
       calls.notifyAll();
     }
@@ -104,7 +102,7 @@ final class PasChannelWriter
     writerThread = Thread.currentThread();
     writerThread.setName( name );
     // Запуск поставщика событий бекенда
-    logger.info( MSG_START_WRITER, writerThread.getName() );
+    logger.debug( MSG_START_WRITER, writerThread.getName() );
     stopQueried = false;
     try {
       // вступаем в цикл до момента запроса останова методом queryStop()
@@ -121,13 +119,13 @@ final class PasChannelWriter
             // Выход из критической секции
           }
           if( call != null && !stopQueried ) {
-            logger.info( "PasChannelWriter.run(...): %s", call.obj ); //$NON-NLS-1$
+            logger.debug( "PasChannelWriter.run(...): %s", call.obj ); //$NON-NLS-1$
             channel.writeJsonObject( call.obj );
           }
         }
         catch( @SuppressWarnings( "unused" ) InterruptedException e ) {
           // Остановка поставщика событий бекенда (interrupt)
-          logger.info( ERR_INTERRUPT_WRITER, writerThread.getName() );
+          logger.debug( ERR_INTERRUPT_WRITER, writerThread.getName() );
         }
       }
     }
@@ -138,7 +136,7 @@ final class PasChannelWriter
       // Снимаем с потока doJob состояние interrupted возможно установленное при close
       Thread.interrupted();
       // Завершение работы поставщика событий бекенда (finish)
-      logger.info( MSG_FINISH_WRITER, writerThread.getName() );
+      logger.debug( MSG_FINISH_WRITER, writerThread.getName() );
       // Поток завершил работу
       writerThread = null;
     }
