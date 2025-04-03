@@ -23,11 +23,11 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * <ul>
  * <li>mixin interface {@link IKeepableEntity} is designed to store/restore mutable objects contents so that reference
  * to object remains unchanged;</li>
- * <li>{@link IEntityKeeper} implementation is desgned to store/restore immutable entities (value-objects). However it
+ * <li>{@link IEntityKeeper} implementation is designed to store/restore immutable entities (value-objects). However it
  * also may be user for mutable objects. Just keep in mind that restoring using {@link IEntityKeeper} always creates new
  * instances.</li>
  * </ul>
- * This keeper also supports storing "null-objects" "Null" objects must be singletons. Equals operator <code>==</code>
+ * This keeper also supports storing "null-objects". "Null" objects must be singletons. Equals operator <code>==</code>
  * is used for "null-object" detection rather than {@link Object#equals(Object)} method.
  *
  * @author hazard157

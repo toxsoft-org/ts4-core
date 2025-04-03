@@ -1,10 +1,8 @@
 package org.toxsoft.core.tslib.bricks.strid.coll;
 
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.coll.helpers.ETsCollMove;
-import org.toxsoft.core.tslib.coll.helpers.IListReorderer;
-import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.coll.helpers.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * The stridables list items reorderer tied to the editable list.
@@ -52,7 +50,7 @@ public interface IStridablesListReorderer<E extends IStridable>
   boolean move( String aOldId, ETsCollMove aDir );
 
   // ------------------------------------------------------------------------------------
-  // Convinience inline methods
+  // Convenient inline methods
   //
 
   @SuppressWarnings( "javadoc" )

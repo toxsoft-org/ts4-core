@@ -65,9 +65,9 @@ public interface IStridable {
    * <p>
    * Never throws an exception. Never returns <code>null</code>.
    * <p>
-   * The general rule to create human-readable name is to use one to five words (in single line) to describe this
-   * entity. Imagine that this string will be used in GUI list widget - one row per entity. So main purpose of
-   * {@link #nmName()} is to distinguish entities of the same scope between each other.
+   * The general rule creating human-readable name is to use one to five words (in single line) to describe this entity.
+   * Imagine that this string will be used in GUI list widget - one row per entity. So main purpose of {@link #nmName()}
+   * is to distinguish entities of the same scope between each other.
    *
    * @return String - human-readable short name
    */

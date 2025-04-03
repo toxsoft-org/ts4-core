@@ -26,7 +26,7 @@ public interface IStridablesList<E extends IStridable>
   IStridablesListEdit EMPTY = new InternalNullStridablesList();
 
   /**
-   * Retuns the keys {@link #keys()} as {@link IStringList}.
+   * Returns the keys {@link #keys()} as {@link IStringList}.
    *
    * @return IStringList - ordered list of identifiers of {@link IStridable} elements in this collection
    */

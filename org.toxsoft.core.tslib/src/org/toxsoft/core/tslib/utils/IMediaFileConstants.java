@@ -281,6 +281,27 @@ public interface IMediaFileConstants {
   }
 
   /**
+   * Prepares string list of one string like "*&#46;ext1;*&#46;ext2" from bare extensions "ext1", "ext2".
+   * <p>
+   * May be used to set argument of <code>FileDialog.setFilterExtensions(String[])</code>.
+   *
+   * @param aExtensions {@link IStringList} - file extensions without leading dot
+   * @return {@link IStringList} - list with the single multi-extension string
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  static IStringList singleStringWithWildcards( IStringList aExtensions ) {
+    TsNullArgumentRtException.checkNull( aExtensions );
+    StringBuilder sb = new StringBuilder();
+    for( String s : aExtensions ) {
+      sb.append( "*." + s );
+      if( s != aExtensions.last() ) {
+        sb.append( ';' );
+      }
+    }
+    return new SingleStringList( sb.toString() );
+  }
+
+  /**
    * Prepares string for <code>FileDialog</code> from base extensions.
    *
    * @param aExtensions {@link IStringList} - file extensions without leading dot

@@ -321,8 +321,32 @@ public class TsMiscUtils {
     return sb.toString();
   }
 
+  // ------------------------------------------------------------------------------------
+  // Miscallenous
+  //
+
   /**
-   * Returns hexadecimal steing representation of the argument.
+   * Compares two comparable objects even if any of them is <code>null</code>ll.
+   * <p>
+   * <code>null</code> reference is considered "less" than any non-<code>null</code> reference.
+   *
+   * @param <T> - comparable objects type
+   * @param aA &lt;T&gt; - an object
+   * @param aB &lt;T&gt; - an object to be compared with <code>aA</code>
+   * @return int - the comparison result
+   */
+  public static <T extends Comparable<T>> int compare( T aA, T aB ) {
+    if( aA == aB ) {
+      return 0;
+    }
+    if( aA == null || aB == null ) {
+      return aA == null ? -1 : 1;
+    }
+    return aA.compareTo( aB );
+  }
+
+  /**
+   * Returns hexadecimal string representation of the argument.
    * <p>
    * first byte in array will make be two first <b>char</b>s of the resulting string, last byte - last 2
    * <code>char</code>s.

@@ -6,7 +6,7 @@ import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * The concept of editable data model for MVC pattern with external data storage supprt.
+ * The concept of editable data model for MVC pattern with external data storage support.
  * <p>
  * TODO description, what is content, memento, why persistable, etc.
  * <p>

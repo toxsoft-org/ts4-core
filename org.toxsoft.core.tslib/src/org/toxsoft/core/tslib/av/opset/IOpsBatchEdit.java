@@ -12,9 +12,9 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public interface IOpsBatchEdit {
 
   /**
-   * Adds content of the set by the specified set.
+   * Adds content of the set from the specified set.
    * <p>
-   * Existing options will be overwritten, unexisting options will be added to this set.
+   * Existing options will be overwritten, non-existing options will be added to this set.
    *
    * @param aOps {@link IOptionSet} - the options to be added
    * @throws TsNullArgumentRtException argument = <code>null</code>
@@ -22,9 +22,9 @@ public interface IOpsBatchEdit {
   void addAll( IOptionSet aOps );
 
   /**
-   * Adds content of the set by the specified set.
+   * Adds content of the set from the specified set.
    * <p>
-   * Existing options will be overwritten, unexisting options will be added to this set.
+   * Existing options will be overwritten, non-existing options will be added to this set.
    *
    * @param aOps {@link IMap}&lt;String,{@link IAtomicValue}&gt; - the options to be added
    * @throws TsNullArgumentRtException argument = <code>null</code>

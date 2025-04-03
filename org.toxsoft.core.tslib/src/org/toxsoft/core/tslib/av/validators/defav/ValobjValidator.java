@@ -1,10 +1,8 @@
 package org.toxsoft.core.tslib.av.validators.defav;
 
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.bricks.validator.ITsValidator;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
 
 /**
  * Валидатор типа {@link EAtomicType#VALOBJ}.
@@ -23,6 +21,11 @@ class ValobjValidator
 
   @Override
   public ValidationResult validate( IAtomicValue aValue ) {
+
+    /**
+     * TODO if TSID_KEEPER_ID exists WARN check if keeper is not accessible
+     */
+
     return ValidationResult.SUCCESS;
   }
 
