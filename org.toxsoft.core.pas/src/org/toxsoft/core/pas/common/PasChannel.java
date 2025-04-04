@@ -1,5 +1,6 @@
 package org.toxsoft.core.pas.common;
 
+import static java.lang.String.*;
 import static org.toxsoft.core.pas.common.IJSONSpecification.*;
 import static org.toxsoft.core.pas.common.IPasParams.*;
 import static org.toxsoft.core.pas.common.IPasProtocol.*;
@@ -8,6 +9,7 @@ import static org.toxsoft.core.pas.common.JSONError.*;
 import static org.toxsoft.core.pas.common.PasUtils.*;
 import static org.toxsoft.core.pas.tj.impl.TjUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
+import static org.toxsoft.core.tslib.bricks.time.impl.TimeUtils.*;
 
 import java.io.*;
 import java.net.*;
@@ -24,7 +26,6 @@ import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.bricks.strio.chario.*;
 import org.toxsoft.core.tslib.bricks.strio.chario.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.impl.*;
-import org.toxsoft.core.tslib.bricks.time.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
@@ -57,7 +58,7 @@ public class PasChannel
   private final IStrioWriter                 strioWriter;
   private final IStringMapEdit<IJSONRequest> executingRequests    = new SynchronizedStringMap<>( new StringMap<>() );
   private final IListEdit<Thread>            writingThreads       = new ElemArrayList<>();
-  private long                               lastWritingTimestamp = TimeUtils.MIN_TIMESTAMP;
+  private long                               lastWritingTimestamp = MIN_TIMESTAMP;
 
   private final PasChannelWriter channelWriter;
   private volatile Thread        channelThread;
@@ -211,14 +212,14 @@ public class PasChannel
     int wt = writeTimeout.asInt();
     if( wt > 0 ) {
       synchronized (writingThreads) {
-        if( lastWritingTimestamp != TimeUtils.MIN_TIMESTAMP && //
+        if( lastWritingTimestamp != MIN_TIMESTAMP && //
             System.currentTimeMillis() - lastWritingTimestamp > wt ) {
           for( Thread writingThread : writingThreads ) {
             logger().error( ERR_WRITE_TIMEOUT, this, writingThread, Integer.valueOf( wt ) );
             writingThread.interrupt();
           }
           writingThreads.clear();
-          lastWritingTimestamp = TimeUtils.MIN_TIMESTAMP;
+          lastWritingTimestamp = MIN_TIMESTAMP;
         }
       }
     }
@@ -413,8 +414,14 @@ public class PasChannel
   @Override
   @SuppressWarnings( "boxing" )
   public String toString() {
-    return String.format( FMT_CHANNEL, getRemoteAddress().getHostName(), getRemotePort(),
-        getLocalAddress().getHostName(), getLocalPort(), TimeUtils.timestampToString( getCreationTimestamp() ) );
+    InetAddress localAddr = getLocalAddress();
+    InetAddress remoteAddr = getRemoteAddress();
+    String localIp = localAddr.getHostAddress();
+    String remoteIp = remoteAddr.getHostAddress();
+    int localPort = getLocalPort();
+    int remotePort = getRemotePort();
+    String creationTime = timestampToString( getCreationTimestamp() );
+    return format( FMT_CHANNEL, remoteIp, remotePort, localIp, localPort, creationTime );
   }
 
   @Override
@@ -828,7 +835,7 @@ public class PasChannel
       synchronized (writingThreads) {
         writingThreads.remove( writingThread );
         if( writingThreads.size() == 0 ) {
-          lastWritingTimestamp = TimeUtils.MIN_TIMESTAMP;
+          lastWritingTimestamp = MIN_TIMESTAMP;
         }
       }
     }
