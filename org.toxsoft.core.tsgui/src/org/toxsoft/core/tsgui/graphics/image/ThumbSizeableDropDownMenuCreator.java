@@ -27,7 +27,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Usage:
  * <ul>
  * <li>add the action {@link #AI_THUMB_SIZEABLE_ZOOM_MENU} to the toolbar;</li>
- * <li>create instance of thei class
+ * <li>create instance of this class
  * <code>IMenuCreator thumbSizeMenuCreator = new {@link ThumbSizeableDropDownMenuCreator}(...)</code>;</li>
  * <li>add menu to the action by the method {@link TsToolbar#setActionMenu(String, IMenuCreator) toolbar.setActionMenu(
  * AID_THUMB_SIZEABLE_ZOOM_MENU, thumbSizeMenuCreator )};</li>
