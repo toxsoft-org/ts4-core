@@ -1,12 +1,10 @@
 package org.toxsoft.core.tslib.av.impl;
 
-import static org.toxsoft.core.tslib.av.impl.ITsResources.*;
 import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 
 import java.util.*;
 
 import org.toxsoft.core.tslib.av.*;
-import org.toxsoft.core.tslib.av.errors.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
@@ -52,7 +50,7 @@ public class AvUtils {
   public static final IAtomicValue AV_VALOBJ_NULL = AvValobjNullImpl.VALOBJ_NULL;
 
   // ------------------------------------------------------------------------------------
-  // static staff
+  // static stuff
   //
 
   /**
@@ -307,14 +305,14 @@ public class AvUtils {
     if( Float.compare( aValue, 1.0f ) == 0 ) {
       return AV_F_1;
     }
+    if( Float.isNaN( aValue ) ) {
+      return AV_NAN;
+    }
     if( Float.isInfinite( aValue ) ) {
       if( aValue > 0 ) {
         return AV_POS_INF;
       }
       return AV_NEG_INF;
-    }
-    if( Float.isNaN( aValue ) ) {
-      return AV_NAN;
     }
     return new AvFloatingImpl( aValue );
   }
@@ -335,14 +333,14 @@ public class AvUtils {
     if( Double.compare( aValue, 1.0 ) == 0 ) {
       return AV_F_1;
     }
+    if( Double.isNaN( aValue ) ) {
+      return AV_NAN;
+    }
     if( Double.isInfinite( aValue ) ) {
       if( aValue > 0 ) {
         return AV_POS_INF;
       }
       return AV_NEG_INF;
-    }
-    if( Double.isNaN( aValue ) ) {
-      return AV_NAN;
     }
     return new AvFloatingImpl( aValue );
   }
@@ -352,7 +350,7 @@ public class AvUtils {
    * <p>
    * For timestamp 0 returns constant {@link #AV_TIME_0}.
    *
-   * @param aValue long - time in millisecods from epoch start
+   * @param aValue long - time in milliseconds from epoch start
    * @return {@link IAtomicValue} - atomic value holding argument value
    */
   public static final IAtomicValue avTimestamp( long aValue ) {
@@ -399,7 +397,7 @@ public class AvUtils {
   /**
    * Creates {@link IAtomicValue} of {@link EAtomicType#VALOBJ}.
    * <p>
-   * This method may be used when keeper is not registered yet. For example, when initializing defult values of
+   * This method may be used when keeper is not registered yet. For example, when initializing default values of
    * <code>static final</code> constants before keeper registration.
    *
    * @param <T> - type of value-object
@@ -443,48 +441,26 @@ public class AvUtils {
    * @return {@link IAtomicValue} - recognized atomic value or <code>null</code>
    */
   public static IAtomicValue avFromObj( Object aObj ) {
-    if( aObj == null ) {
-      return null;
-    }
-    if( aObj instanceof IAtomicValue ) {
-      return (IAtomicValue)aObj;
-    }
-    Class<? extends Object> clazz = aObj.getClass();
-    if( clazz == String.class ) {
-      return avStr( ((String)aObj) );
-    }
-    if( clazz == Boolean.class ) {
-      return avBool( ((Boolean)aObj).booleanValue() );
-    }
-    if( clazz == Byte.class ) {
-      return avInt( ((Byte)aObj).byteValue() );
-    }
-    if( clazz == Short.class ) {
-      return avInt( ((Short)aObj).shortValue() );
-    }
-    if( clazz == Integer.class ) {
-      return avInt( ((Integer)aObj).intValue() );
-    }
-    if( clazz == Long.class ) {
-      return avInt( ((Long)aObj).longValue() );
-    }
-    if( clazz == Float.class ) {
-      return avFloat( ((Float)aObj).floatValue() );
-    }
-    if( clazz == Double.class ) {
-      return avFloat( ((Double)aObj).doubleValue() );
-    }
-    if( aObj instanceof IAtomicValue ) {
-      return (IAtomicValue)aObj;
-    }
-    if( aObj instanceof Date ) {
-      return avTimestamp( ((Date)aObj).getTime() );
-    }
-    String keeperId = TsValobjUtils.findKeeperIdByClass( clazz );
-    if( keeperId != null ) {
-      return avValobj( aObj );
-    }
-    return null;
+    return switch( aObj ) {
+      case null -> null;
+      case IAtomicValue av -> av;
+      case String s -> avStr( s );
+      case Boolean b -> avBool( b.booleanValue() );
+      case Byte n -> avInt( n.intValue() );
+      case Short n -> avInt( n.intValue() );
+      case Integer n -> avInt( n.intValue() );
+      case Long n -> avInt( n.longValue() );
+      case Float n -> avFloat( n.floatValue() );
+      case Double n -> avFloat( n.doubleValue() );
+      case Date d -> avTimestamp( d.getTime() );
+      default -> {
+        String keeperId = TsValobjUtils.findKeeperIdByClass( aObj.getClass() );
+        if( keeperId != null ) {
+          yield avValobj( aObj );
+        }
+        yield null;
+      }
+    };
   }
 
   /**
@@ -501,56 +477,12 @@ public class AvUtils {
     return av != null ? av.atomicType() : EAtomicType.NONE;
   }
 
-  /**
-   * Converts the keeped text representation of the entity to the atomic value of type {@link EAtomicType#STRING}.
-   *
-   * @param <T> - entity class
-   * @param aEntity &lt;T&gt; - the entity
-   * @param aKeeper {@link IEntityKeeper} - entity keeper
-   * @return {@link IAtomicValue} - atomic value of the type {@link EAtomicType#STRING}
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @deprecated storing atomic value as {@link EAtomicType#STRING} is deprecated, use {@link EAtomicType#VALOBJ}
-   */
-  @Deprecated
-  public static <T> IAtomicValue keepable2av( T aEntity, IEntityKeeper<T> aKeeper ) {
-    if( aEntity == null || aKeeper == null ) {
-      throw new TsNullArgumentRtException();
-    }
-    if( aKeeper.noneObject() != null && aEntity == aKeeper.noneObject() ) {
-      return IAtomicValue.NULL;
-    }
-    return avStr( aKeeper.ent2str( aEntity ) );
-  }
-
-  /**
-   * Restores entity from the atomic value created by {@link #keepable2av(Object, IEntityKeeper)}.
-   *
-   * @param <T> - entity class
-   * @param aValue {@link IAtomicValue} - atomic value that holds keeped entity text representation
-   * @param aKeeper {@link IEntityKeeper} - entity keeper
-   * @return &lt;T&gt; - restored entity
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws AvTypeCastRtException value is not of type {@link EAtomicType#STRING}
-   * @throws StrioRtException text invalid text representation
-   * @deprecated storing atomic value as {@link EAtomicType#STRING} is deprecated, use {@link EAtomicType#VALOBJ}
-   */
-  @Deprecated
-  public static <T> T av2keepable( IAtomicValue aValue, IEntityKeeper<T> aKeeper ) {
-    TsNullArgumentRtException.checkNull( aValue );
-    if( aKeeper.noneObject() != null && aValue == IAtomicValue.NULL ) {
-      return aKeeper.noneObject();
-    }
-    AvTypeCastRtException.checkTrue( aValue.atomicType() != EAtomicType.STRING, FMT_ERR_ENTITY_AV_NOT_STRING_TYPE,
-        aValue.atomicType().id() );
-    return aKeeper.str2ent( aValue.asString() );
-  }
-
   // ------------------------------------------------------------------------------------
   // Private parts
   //
 
   /**
-   * Prohibition of descendants creation.
+   * No subclasses.
    */
   private AvUtils() {
     // nop

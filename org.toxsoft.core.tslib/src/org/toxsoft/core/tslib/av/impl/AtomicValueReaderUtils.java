@@ -46,7 +46,7 @@ public class AtomicValueReaderUtils {
       IAtomicValue.NULL };
 
   /**
-   * No subclassing.
+   * No subclasses.
    */
   private AtomicValueReaderUtils() {
     // nop

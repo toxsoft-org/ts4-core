@@ -9,13 +9,13 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * The value of the specified atomic type.
  * <p>
- * This is lowest level interface, which already represents the realization of an abstraction "data value". The methods
- * asXxx() are way to transfer the values of the real (red) world to the Java programming code (blue world).
+ * This is lowest level interface, which already represents the realization of an abstraction "data value". Any method
+ * asXxx() is a way to transfer the values of the real (red) world to the Java programming code (blue world).
  * <p>
  * Any two values may be compared to each other - this interface extends {@link Comparable}.
  * <p>
  * Note: this interface is not intended to be implemented by users. The only reason it is <b>not</b> declared as
- * <code>sealed interface</code> Java and OSGi implementations does not allow to have <code>sealed</code> interface and
+ * <code>sealed interface</code> is that OSGi implementation does not allow to have <code>sealed</code> interface and
  * <code>permit</code> class in different packages.
  *
  * @author hazard157
@@ -79,7 +79,7 @@ public interface IAtomicValue
   long asLong();
 
   /**
-   * Returns data as 32-bit floating value.
+   * Returns data as 32-bit floating point value.
    *
    * @return float - 32-bit floating value
    * @throws AvTypeCastRtException value is not of requested type
@@ -88,7 +88,7 @@ public interface IAtomicValue
   float asFloat();
 
   /**
-   * Returns data as 64-bit floating value.
+   * Returns data as 64-bit floating point value.
    *
    * @return double - 64-bit floating value
    * @throws AvTypeCastRtException value is not of requested type
@@ -99,7 +99,7 @@ public interface IAtomicValue
   /**
    * Returns string representation of data value.
    *
-   * @return String - string representation of data value, not <code>null</code>
+   * @return String - string representation of data value, never is <code>null</code>
    */
   String asString();
 
@@ -110,7 +110,7 @@ public interface IAtomicValue
    * object (such as {@link IAtomicValue#NULL} for {@link EAtomicType#NONE}, {@link Boolean}, {@link Float},
    * {@link Double}, etc).
    *
-   * @param <T> - requested type value-object
+   * @param <T> - expected type of the value-object
    * @return &lt;T&gt; - value-object, may be <code>null</code>
    * @throws AvTypeCastRtException value is not of requested type
    * @throws TsItemNotFoundRtException no keeper was registered for value-object class
@@ -128,7 +128,7 @@ final class InternalNoneAtomicValue
   /**
    * Method correctly deserializes {@link IAtomicValue#NULL} value.
    *
-   * @return {@link ObjectStreamException} - {@link IAtomicValue#NULL}
+   * @return {@link Object} - {@link IAtomicValue#NULL}
    * @throws ObjectStreamException is declared but newer thrown by this method
    */
   @SuppressWarnings( { "static-method" } )

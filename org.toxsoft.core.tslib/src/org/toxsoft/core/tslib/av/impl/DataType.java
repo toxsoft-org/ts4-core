@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Mutable implemetation of {@link IDataType}.
+ * Mutable implementation of {@link IDataType}.
  *
  * @author hazard157
  */

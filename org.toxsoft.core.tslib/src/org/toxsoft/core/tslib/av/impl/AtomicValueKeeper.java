@@ -26,7 +26,7 @@ import org.toxsoft.core.tslib.utils.valobj.*;
  * in {@link IStrioWriter#writeDateTime(long)};</li>
  * <li>{@link EAtomicType#STRING STRING} - is stored as <code><b>"Quoted string"</b></code>, as declared in
  * {@link IStrioWriter#writeQuotedString(String)};</li>
- * <li>{@link EAtomicType#VALOBJ VALOBJ} - is stored as "<code><b>@keeperId{keeeped_content}</b></code>".</li>
+ * <li>{@link EAtomicType#VALOBJ VALOBJ} - is stored as "<code><b>@keeperId{kept_content}</b></code>".</li>
  * </ul>
  *
  * @author hazard157

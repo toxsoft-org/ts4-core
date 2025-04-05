@@ -3,7 +3,7 @@ package org.toxsoft.core.tslib.av.impl;
 import org.toxsoft.core.tslib.av.*;
 
 /**
- * {@link IAtomicValue} implementationn for {@link EAtomicType#BOOLEAN}.
+ * {@link IAtomicValue} implementation for {@link EAtomicType#BOOLEAN}.
  *
  * @author hazard157
  */

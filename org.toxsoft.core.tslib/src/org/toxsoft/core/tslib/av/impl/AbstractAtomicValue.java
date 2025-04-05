@@ -108,7 +108,6 @@ public abstract class AbstractAtomicValue
     if( atomicType() != aThat.atomicType() ) {
       return atomicType().ordinal() - aThat.atomicType().ordinal();
     }
-    // data type constraints does not affects on comparison!
     return internalCompareValue( aThat );
   }
 
@@ -117,7 +116,7 @@ public abstract class AbstractAtomicValue
   //
 
   /**
-   * Descendant must determine if <code>this</code> and <code>aThat</code> values are equal.
+   * Subclass must determine if <code>this</code> and <code>aThat</code> values are equal.
    *
    * @param aThat {@link IAtomicValue} - the object to be compared, has the same atomic type as this object
    * @return boolean - <code>true</code> if values are equal
@@ -125,7 +124,7 @@ public abstract class AbstractAtomicValue
   protected abstract boolean internalEqualsValue( IAtomicValue aThat );
 
   /**
-   * Descendant must compare this and <code>aThat</code> objects values.
+   * Subclass must compare this and <code>aThat</code> objects values.
    * <p>
    * Argument is never the same as this object so <code>aThat != this</code> condition is always true.
    *
@@ -135,9 +134,9 @@ public abstract class AbstractAtomicValue
   protected abstract int internalCompareValue( IAtomicValue aThat );
 
   /**
-   * Descendant must return hash code oth it's value.
+   * Subclass must return hash code of the value.
    *
-   * @return int - hash code oth the value
+   * @return int - hash code of the value
    */
   protected abstract int internalValueHashCode();
 
