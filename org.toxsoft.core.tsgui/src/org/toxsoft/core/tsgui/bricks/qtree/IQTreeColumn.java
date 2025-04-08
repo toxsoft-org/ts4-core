@@ -58,18 +58,18 @@ public interface IQTreeColumn {
   void setAlignment( EHorAlignment aAlignment );
 
   /**
-   * Returns tooltip text for the colemn header.
+   * Returns tooltip text for the column header.
    *
-   * @return String - tooltip text for the colemn header
+   * @return String - tooltip text for the column header
    */
   String tooltip();
 
   /**
-   * Sets tooltip text for the colemn header.
+   * Sets tooltip text for the column header.
    * <p>
    * Changes are immediately shown in tree viewer.
    *
-   * @param aTooltip String - tooltip text for the colemn header
+   * @param aTooltip String - tooltip text for the column header
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void setTooltip( String aTooltip );
@@ -93,7 +93,7 @@ public interface IQTreeColumn {
   /**
    * Returns the column width in pixels.
    * <p>
-   * For a hidden colemnt ({@link #isHidden()} = <code>true</code>) return width of column before it was hidden, that is
+   * For a hidden columnt ({@link #isHidden()} = <code>true</code>) return width of column before it was hidden, that is
    * the width after column becames visible.
    *
    * @return int - column with in pixels
@@ -133,7 +133,7 @@ public interface IQTreeColumn {
   /**
    * Determines if column is hidden.
    * <p>
-   * Hidden colemn remains in tree viewer but has width of 0.
+   * Hidden column remains in tree viewer but has width of 0.
    *
    * @return boolean - <code>true</code> column is hidden, <code>false</code> - visible
    */

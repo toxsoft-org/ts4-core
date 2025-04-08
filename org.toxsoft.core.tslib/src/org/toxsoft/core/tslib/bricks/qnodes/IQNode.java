@@ -173,12 +173,12 @@ public sealed interface IQNode
   void rebuildSubtree( boolean aRebuild, boolean aQuerySubtree );
 
   /**
-   * Determines if node has childs.
+   * Determines if node has children.
    * <p>
    * This method is kind of optimization like <code>ITreeContentProvider.hasChildren(Object)</code>. Default
    * implementation call {@link #childs()} method hence requests creation of non-existing nodes. However, method may be
-   * overrideren to provide information about children existance if child creation is heavily resource-consuming. This
-   * method usually is ised in GUI tree to draw node expansion sign.
+   * overdrawn to provide information about children existence if child creation is heavily resource-consuming. This
+   * method usually is used in GUI tree to draw node expansion sign.
    * <p>
    * For nodes that can node have children {@link IQNodeKind#canHaveChilds()} = <code>false</code> always returns
    * <code>false</code>.

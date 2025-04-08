@@ -25,8 +25,8 @@ class QTreeColumn
   private final TreeColumn                 treeColumn;
   private final ITsVisualsProvider<IQNode> visProvider;
 
-  private int     lastVisibleWidth = -1;    // width of columnt, saved while it's hidden
-  private boolean hidden           = false; // hidden coleumn flag
+  private int     lastVisibleWidth = -1;    // width of column, saved while it's hidden
+  private boolean hidden           = false; // hidden column flag
   private boolean useThumb         = false; // flags to use visProvider.getThumb() for icons
 
   public QTreeColumn( TreeColumn aTreeColumn, ITsVisualsProvider<IQNode> aVisProvider ) {
