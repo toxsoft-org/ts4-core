@@ -7,6 +7,7 @@ import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.m5.model.impl.*;
 import org.toxsoft.core.tslib.*;
+import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
@@ -82,6 +83,8 @@ public interface IM5Constants {
    * Option to store column alignment hint.
    * <p>
    * This option is to be stored in {@link IM5FieldDef#params()} and then used by GUI framework.
+   * <p>
+   * Type: {@link EHorAlignment}
    */
   IDataDef M5_OPDEF_COLUMN_ALIGN = DataDef.create( M5_OPID_COLUMN_ALIGN, VALOBJ, //
       TSID_KEEPER_ID, EHorAlignment.KEEPER_ID, //
@@ -93,6 +96,8 @@ public interface IM5Constants {
    * Option to store column hint to use thumb instead of icon.
    * <p>
    * This option is to be stored in {@link IM5FieldDef#params()} and then used by GUI framework.
+   * <p>
+   * Type: {@link EAtomicType#BOOLEAN}
    */
   IDataDef M5_OPDEF_COLUMN_USE_THUMB = DataDef.create( M5_OPID_COLUMN_USE_THUMB, BOOLEAN, //
       TSID_IS_MANDATORY, AV_FALSE, //
@@ -104,6 +109,8 @@ public interface IM5Constants {
    * <p>
    * This option is used in framework <b>before</b> {@link M5FieldDef} creation. After creation this option is ignored.
    * This option allows to specify flags value in declarative manner, not by Java coding.
+   * <p>
+   * Type: {@link EAtomicType#INTEGER}
    */
   IDataDef M5_OPDEF_FLAGS = DataDef.create( M5_OPID_FLAGS, INTEGER, //
       TSID_IS_MANDATORY, AV_FALSE, //
