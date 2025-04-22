@@ -202,4 +202,24 @@ public class TsFillInfo {
     return gradientFillInfo;
   }
 
+  // ------------------------------------------------------------------------------------
+  // Overrided
+  //
+
+  @Override
+  public String toString() {
+    switch( kind ) {
+      case NONE:
+        break;
+      case SOLID: // для совместимости со старыми версиями
+        return fillColor().toString();
+      case IMAGE:
+        return imageFillInfo().toString();
+      case GRADIENT:
+        return gradientFillInfo().toString();
+      default:
+        break;
+    }
+    return super.toString();
+  }
 }

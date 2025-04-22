@@ -59,6 +59,9 @@ public class PanelD2ConversionEditor
       scaleEditor.setValue( Double.valueOf( aData.zoomFactor() ) );
       pointEditor.setValue( aData.origin() );
     }
+    else {
+      scaleEditor.setValue( Double.valueOf( 1 ) );
+    }
   }
 
   @Override
@@ -97,6 +100,7 @@ public class PanelD2ConversionEditor
     ValedDoubleSpinner.OPDEF_STEP.setValue( ctx.params(), avFloat( 0.1 ) );
     ValedDoubleSpinner.OPDEF_PAGE_STEP.setValue( ctx.params(), avFloat( 1.0 ) );
     scaleEditor = new ValedDoubleSpinner( ctx );
+    scaleEditor.setValue( Double.valueOf( 1.0 ) );
     scaleEditor.createControl( this );
 
     l = new CLabel( this, SWT.NONE );

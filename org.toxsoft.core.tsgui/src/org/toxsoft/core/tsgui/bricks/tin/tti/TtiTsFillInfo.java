@@ -11,6 +11,7 @@ import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.bricks.tin.*;
 import org.toxsoft.core.tsgui.bricks.tin.impl.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
+import org.toxsoft.core.tsgui.utils.swt.*;
 import org.toxsoft.core.tsgui.valed.controls.graphics.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
@@ -37,7 +38,8 @@ public class TtiTsFillInfo
 
   private static final ITinFieldInfo TFI_FILL_COLOR = new TinFieldInfo( FID_FILL_COLOR, TtiRGBA.INSTANCE, //
       TSID_NAME, STR_FILL_COLOR, //
-      TSID_DESCRIPTION, STR_FILL_COLOR_D //
+      TSID_DESCRIPTION, STR_FILL_COLOR_D, //
+      TSID_KEEPER_ID, RGBAKeeper.KEEPER_ID //
   );
 
   private static final ITinFieldInfo TFI_FILL_GRADIENT = new TinFieldInfo( FID_FILL_GRADIENT, TTI_TS_GRADIENT_FILL_INFO, //
@@ -85,24 +87,22 @@ public class TtiTsFillInfo
   @Override
   protected IAtomicValue doCompose( IStringMap<ITinValue> aChildValues ) {
     ETsFillKind kind = extractChildValobj( TFI_FILL_TYPE, aChildValues );
-    switch( kind ) {
-      case NONE:
-        return avValobj( TsFillInfo.NONE );
-      case SOLID: {
+    return switch( kind ) {
+      case NONE -> avValobj( TsFillInfo.NONE );
+      case SOLID -> {
         RGBA rgba = extractChildValobj( TFI_FILL_COLOR, aChildValues );
-        return avValobj( new TsFillInfo( rgba ) );
+        yield avValobj( new TsFillInfo( rgba ) );
       }
-      case IMAGE: {
+      case IMAGE -> {
         TsImageFillInfo ifi = extractChildValobj( TFI_FILL_IMAGE, aChildValues );
-        return avValobj( new TsFillInfo( ifi ) );
+        yield avValobj( new TsFillInfo( ifi ) );
       }
-      case GRADIENT: {
+      case GRADIENT -> {
         TsGradientFillInfo gfi = extractChildValobj( TFI_FILL_GRADIENT, aChildValues );
-        return avValobj( new TsFillInfo( gfi ) );
+        yield avValobj( new TsFillInfo( gfi ) );
       }
-      default:
-        throw new IllegalArgumentException();
-    }
+      default -> throw new IllegalArgumentException();
+    };
   }
 
   @Override
@@ -140,25 +140,28 @@ public class TtiTsFillInfo
       }
     }
     IStringListEdit result = new StringArrayList();
-    switch( fi.kind() ) {
-      case NONE:
+    return switch( fi.kind() ) {
+      case NONE -> {
         result.add( FID_FILL_TYPE );
-        return result;
-      case SOLID:
+        yield result;
+      }
+      case SOLID -> {
         result.add( FID_FILL_TYPE );
         result.add( FID_FILL_COLOR );
-        return result;
-      case IMAGE:
+        yield result;
+      }
+      case IMAGE -> {
         result.add( FID_FILL_TYPE );
         result.add( FID_FILL_IMAGE );
-        return result;
-      case GRADIENT:
+        yield result;
+      }
+      case GRADIENT -> {
         result.add( FID_FILL_TYPE );
         result.add( FID_FILL_GRADIENT );
-        return result;
-      default:
-        throw new IllegalArgumentException( "Unexpected value: " + fi.kind() ); //$NON-NLS-1$
-    }
+        yield result;
+      }
+      default -> throw new IllegalArgumentException( "Unexpected value: " + fi.kind() ); //$NON-NLS-1$
+    };
   }
 
 }
