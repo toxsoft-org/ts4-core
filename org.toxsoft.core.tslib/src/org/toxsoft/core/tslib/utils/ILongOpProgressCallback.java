@@ -50,19 +50,19 @@ public interface ILongOpProgressCallback {
   /**
    * Updates the status of the work progress.
    * <p>
-   * This method should be called after any part of the implementation's work has been done. The aWorkedPercents
-   * argument specifies how much of the work (as a percentage) has been completed. For example, if one third of the work
-   * is completed, then the value should be set to 33.3333.
+   * This method should be called after any part of the implementation's work has been done. The aDonePercents argument
+   * specifies how much of the work (as a percentage) has been completed. For example, if one third of the work is
+   * completed, then the value should be set to 33.3333.
    * <p>
    * To clarify which jobs are running, you can change the display name of the job in progress. For example, if files A,
    * B, and C are copied, then after copying file A, you can display the message "File B is being copied ...", or "File
    * A has been copied."
    *
    * @param aName String - displayed name of the work in progress
-   * @param aWorkedPercents - what percentage of work has been completed since the last call (0.0 ... 100.0)
+   * @param aDonePercents - what percentage of work has been completed since the last call (0.0 ... 100.0)
    * @return boolean - <code>true</code> to cancel the operation (if possible)
    */
-  boolean updateWorkProgress( String aName, double aWorkedPercents );
+  boolean updateWorkProgress( String aName, double aDonePercents );
 
   /**
    * Called after all work is done.
@@ -84,7 +84,7 @@ class InternalNoneLongOpProgressCallback
   }
 
   @Override
-  public boolean updateWorkProgress( String aName, double aWorkedPercents ) {
+  public boolean updateWorkProgress( String aName, double aDonePercents ) {
     return false;
   }
 
@@ -107,8 +107,8 @@ class InternalConsoleLongOpProgressCallback
   }
 
   @Override
-  public boolean updateWorkProgress( String aName, double aWorkedPercents ) {
-    TsTestUtils.pl( PREFIX + "%5.1f%% %s", Double.valueOf( aWorkedPercents ), aName ); //$NON-NLS-1$
+  public boolean updateWorkProgress( String aName, double aDonePercents ) {
+    TsTestUtils.pl( PREFIX + "%5.1f%% %s", Double.valueOf( aDonePercents ), aName ); //$NON-NLS-1$
     return false;
   }
 

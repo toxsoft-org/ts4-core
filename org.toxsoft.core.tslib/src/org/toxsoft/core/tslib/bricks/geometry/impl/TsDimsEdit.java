@@ -1,5 +1,7 @@
 package org.toxsoft.core.tslib.bricks.geometry.impl;
 
+import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
+
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -125,7 +127,7 @@ public final class TsDimsEdit
 
   @Override
   public String toString() {
-    return getClass().getSimpleName() + '[' + width + ',' + height + ']';
+    return EMPTY_STRING + width + 'x' + height;
   }
 
 }
