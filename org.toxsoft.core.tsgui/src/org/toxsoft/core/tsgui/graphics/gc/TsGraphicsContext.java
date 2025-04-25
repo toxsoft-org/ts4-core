@@ -36,9 +36,9 @@ public class TsGraphicsContext
 
   private final ITsRectangle drawingArea;
 
-  private TsLineInfo lineInfo = null;
+  private TsLineInfo lineInfo = TsLineInfo.DEFAULT;
 
-  private TsFillInfo fillInfo = null;
+  private TsFillInfo fillInfo = TsFillInfo.NONE;
 
   private TsBorderInfo borderInfo = TsBorderInfo.NONE;
 

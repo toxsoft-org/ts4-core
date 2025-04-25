@@ -68,11 +68,12 @@ public class VedPanelViselsList
     OPDEF_IS_DETAILS_PANE.setValue( aContext.params(), AV_TRUE );
     OPDEF_IS_DETAILS_PANE_HIDDEN.setValue( aContext.params(), AV_TRUE );
     mpc = new MultiPaneComponentModown<>( aContext, model, lm.itemsProvider(), lm );
-    for( TreeModeInfo<IVedVisel> tm : aTreeModes ) {
-      mpc.treeModeManager().addTreeMode( tm );
+    if( !aTreeModes.isEmpty() ) {
+      for( TreeModeInfo<IVedVisel> tm : aTreeModes ) {
+        mpc.treeModeManager().addTreeMode( tm );
+      }
+      mpc.treeModeManager().setCurrentMode( aTreeModes.first().id() );
     }
-    mpc.treeModeManager().setCurrentMode( aTreeModes.first().id() );
-
     mpc.createControl( this );
     mpc.getControl().setLayoutData( BorderLayout.CENTER );
     mpc.addTsSelectionListener( selectionChangeEventHelper );
