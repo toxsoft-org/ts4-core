@@ -42,7 +42,7 @@ public class TsDialogInfo
    * @param aShell {@link Shell} - parent window or <code>null</code> for default shell
    * @param aCaption String - window caption
    * @param aTitle String - dialog title area text
-   * @param aFlags int - флаги диалога {@link ITsDialogConstants}<b>.DF_XXX</b>
+   * @param aFlags int - ORed flags {@link ITsDialogConstants}<b>.DF_XXX</b>
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public TsDialogInfo( ITsGuiContext aContext, Shell aShell, String aCaption, String aTitle, int aFlags ) {
@@ -59,6 +59,19 @@ public class TsDialogInfo
     flags = aFlags;
     setMinSizeShellRelative( 20, 20 );
     setMaxSizeShellRelative( 80, 90 );
+  }
+
+  /**
+   * Constructor.
+   *
+   * @param aContext {@link ITsGuiContext} - GUI context
+   * @param aCaption String - window caption
+   * @param aTitle String - dialog title area text
+   * @param aFlags int - ORed flags {@link ITsDialogConstants}<b>.DF_XXX</b>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public TsDialogInfo( ITsGuiContext aContext, String aCaption, String aTitle, int aFlags ) {
+    this( aContext, null, aCaption, aTitle, aFlags );
   }
 
   /**

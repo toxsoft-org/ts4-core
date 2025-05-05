@@ -191,6 +191,17 @@ public class SortedElemLinkedBundleList<E extends Comparable<? super E>>
     this( DEFAULT_BUNDLE_CAPACITY, true );
   }
 
+  /**
+   * Creates sorted list from the source collection.
+   *
+   * @param aSource {@link ITsCollection} - the source
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public SortedElemLinkedBundleList( ITsCollection<E> aSource ) {
+    this( getListInitialCapacity( estimateOrder( TsNullArgumentRtException.checkNull( aSource ).size() ) ), true );
+    setAll( aSource );
+  }
+
   // ------------------------------------------------------------------------------------
   // Iterable
   //
