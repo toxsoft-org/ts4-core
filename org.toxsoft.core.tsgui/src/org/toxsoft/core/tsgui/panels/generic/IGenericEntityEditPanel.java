@@ -7,7 +7,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Generic panel to edit some entity.
  * <p>
- * "Editing" may be either changing properties of the existing entity or selecting entiity from some kind of collection.
+ * "Editing" may be either changing properties of the existing entity or selecting entity from some kind of collection.
  * <p>
  * Extends viewer panel {@link IGenericEntityPanel}.
  *

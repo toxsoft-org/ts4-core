@@ -43,7 +43,7 @@ public class PanelLoginInfo
   public static final IDataDef OPDEF_IS_ROLE_USED = DataDef.create( OPID_IS_ROLE_USED, BOOLEAN, //
       TSID_DEFAULT_VALUE, AV_FALSE );
 
-  private static char CHAR_ECHO = '*';
+  private static final char CHAR_ECHO = '*';
 
   private Text    textLogin    = null;
   private Text    textPassword = null;

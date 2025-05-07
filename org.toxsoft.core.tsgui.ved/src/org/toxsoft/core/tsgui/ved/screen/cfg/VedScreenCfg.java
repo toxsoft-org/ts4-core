@@ -10,6 +10,8 @@ import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.bricks.strio.impl.*;
 import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 import org.toxsoft.core.txtproj.lib.storage.*;
 
 /**
@@ -135,6 +137,44 @@ public final class VedScreenCfg
   @Override
   public KeepablesStorageAsKeepable extraData() {
     return extraData;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // class API
+  //
+
+  /**
+   * Restores {@link IVedScreenCfg} from the string created by {@link #KEEPER}.
+   * <p>
+   * If string has invalid format, method logs an error and returns argument <code>aDefaultCfg</code>.
+   *
+   * @param aString String - string representation created by the {@link VedScreenCfg#KEEPER}
+   * @param aDefaultCfg {@link IVedScreenCfg} - value returned if string can not be parsed, may be <code>null</code>
+   * @return {@link IVedScreenCfg} - parsed string or <code>aDefaultCfg</code>
+   * @throws TsNullArgumentRtException aString == <code>null</code>
+   */
+  public static IVedScreenCfg cfgFromString( String aString, IVedScreenCfg aDefaultCfg ) {
+    TsNullArgumentRtException.checkNull( aString );
+    try {
+      return VedScreenCfg.KEEPER.str2ent( aString );
+    }
+    catch( Exception ex ) {
+      LoggerUtils.errorLogger().error( ex );
+      return aDefaultCfg;
+    }
+  }
+
+  /**
+   * Restores {@link IVedScreenCfg} from the string created by {@link #KEEPER}.
+   * <p>
+   * If string has invalid format, method logs an error and returns {@link IVedScreenCfg#NONE}.
+   *
+   * @param aString String - string representation created by the {@link VedScreenCfg#KEEPER}
+   * @return {@link IVedScreenCfg} - parsed string or <code>aDefaultCfg</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static IVedScreenCfg cfgFromString( String aString ) {
+    return cfgFromString( aString, IVedScreenCfg.NONE );
   }
 
 }
