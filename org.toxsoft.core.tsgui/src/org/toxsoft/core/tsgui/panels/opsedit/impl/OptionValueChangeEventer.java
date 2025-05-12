@@ -74,7 +74,7 @@ public class OptionValueChangeEventer
     StridUtils.checkValidIdPath( aOpId );
     TsNullArgumentRtException.checkNull( aNewValue );
     if( isFiringPaused() ) {
-      // remove() and put() keeps oreder of options editing sequence
+      // sequential remove() and put() calls keeps order of options editing sequence
       changedOpsMap.removeByKey( aOpId );
       changedOpsMap.put( aOpId, aNewValue );
     }

@@ -109,7 +109,8 @@ public class OptionSetPanel
    * <p>
    * Panel generates change events every time when something changes, either by user in widgets or by programmer via
    * panel API. Setting argument <code>aOnlyUserEvents</code> to <code>true</code> will cause only user input to
-   * generate events.
+   * generate both {@link #genericChangeEventer()} events. Note: {@link #optionChangeEventer()} generates <b>only</b>
+   * user input events.
    *
    * @param aContext {@link ITsGuiContext} - the context
    * @param aIsViewer boolean - determines if panel will be created in viewer mode
@@ -122,6 +123,9 @@ public class OptionSetPanel
     optionEventer = new OptionValueChangeEventer( this );
     viewerMode = aIsViewer;
     onlyUserEvents = aOnlyUserEvents;
+    if( viewerMode ) {
+      editable = false;
+    }
   }
 
   /**
