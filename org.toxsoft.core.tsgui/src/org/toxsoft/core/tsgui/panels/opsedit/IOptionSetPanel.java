@@ -72,7 +72,7 @@ public interface IOptionSetPanel
    * Option value change events are fired each time user changes values in option VALEDs. Event is fired only if VALED
    * contains valid value, that is {@link IValedControl#canGetValue()} return not an error.
    * <p>
-   * Note: entity and/or options definion changes does not causes this event to be fired.
+   * Note: any programmatic (entity and/or option definitions) change does not causes this event to be fired.
    *
    * @return {@link ITsEventer}&lt;{@link IOptionValueChangeListener}&gt; - the eventer
    */
