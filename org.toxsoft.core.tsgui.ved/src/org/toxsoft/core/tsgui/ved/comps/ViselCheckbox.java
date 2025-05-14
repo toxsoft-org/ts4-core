@@ -16,6 +16,7 @@ import org.toxsoft.core.tsgui.ved.editor.palette.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
+import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
@@ -150,7 +151,11 @@ public class ViselCheckbox
 
   @Override
   public boolean isChecked() {
-    return props().getBool( PROPID_ON_OFF_STATE );
+    IAtomicValue value = props().getValue( PROPID_ON_OFF_STATE );
+    if( value == null || !value.isAssigned() ) {
+      return false;
+    }
+    return value.asBool();
   }
 
   @Override
