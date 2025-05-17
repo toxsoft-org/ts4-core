@@ -29,6 +29,8 @@ public class InputFieldHandler
 
   private boolean editing = false;
 
+  private boolean paused = false;
+
   private int caretPos = 0;
 
   /**
@@ -49,6 +51,9 @@ public class InputFieldHandler
 
   @Override
   public boolean onMouseDown( Object aSource, ETsMouseButton aButton, int aState, ITsPoint aCoors, Control aWidget ) {
+    if( paused ) {
+      return false;
+    }
     if( aButton == ETsMouseButton.LEFT && aState == 0 ) {
       if( isViselPointed( aCoors ) ) {
         if( editing ) {
@@ -73,6 +78,9 @@ public class InputFieldHandler
   @Override
   public boolean onMouseDoubleClick( Object aSource, ETsMouseButton aButton, int aState, ITsPoint aCoors,
       Control aWidget ) {
+    if( paused ) {
+      return false;
+    }
     if( aButton == ETsMouseButton.LEFT && aState == 0 ) {
       if( isViselPointed( aCoors ) ) {
         String text = visel.props().getStr( PROPID_TEXT );
@@ -106,6 +114,9 @@ public class InputFieldHandler
 
   @Override
   public boolean onMouseDragStart( Object aSource, DragOperationInfo aDragInfo ) {
+    if( paused ) {
+      return false;
+    }
     if( aDragInfo.button() == ETsMouseButton.LEFT ) { // && aDragInfo.startingState() == 0 ) {
       if( isViselPointed( aDragInfo.startingPoint() ) ) {
         ID2Point p = vedScreen.view().coorsConverter().swt2Visel( aDragInfo.startingPoint(), visel );
@@ -121,6 +132,9 @@ public class InputFieldHandler
 
   @Override
   public boolean onMouseDragMove( Object aSource, DragOperationInfo aDragInfo, int aState, ITsPoint aCoors ) {
+    if( paused ) {
+      return false;
+    }
     if( dragging ) {
       ID2Point p = vedScreen.view().coorsConverter().swt2Visel( aCoors, visel );
       caretPos = ((ViselLabel)visel).findCaretPos( (int)p.x() );
@@ -145,6 +159,9 @@ public class InputFieldHandler
 
   @Override
   public boolean onKeyDown( Object aSource, int aCode, char aChar, int aState ) {
+    if( paused ) {
+      return false;
+    }
     if( visel != null ) {
       if( editing ) {
         String text = visel.props().getStr( PROPID_TEXT );
@@ -230,6 +247,20 @@ public class InputFieldHandler
    */
   public int caretPos() {
     return caretPos;
+  }
+
+  /**
+   * Приостанавливает реакцию на пользовательский ввод.
+   */
+  public void pause() {
+    paused = true;
+  }
+
+  /**
+   * Возобновляет реакцию на пользовательский ввод.
+   */
+  public void resume() {
+    paused = false;
   }
 
   /**

@@ -74,7 +74,7 @@ public class PanelCanvasConfig
 
     spinWidth = new Spinner( groupSize, SWT.BORDER );
     spinWidth.setMinimum( 640 );
-    spinWidth.setMaximum( 3840 );
+    spinWidth.setMaximum( 10000 );
     spinWidth.setSelection( 1920 );
     spinWidth.addSelectionListener( notificationSelectionListener );
 

@@ -118,22 +118,22 @@ class ViselCubicSplineVertexSet
     ID2Point d2p = deltaSwt2Visel( aSwtDx, aSwtDy );
     ViselCubicSpline curve = (ViselCubicSpline)visel();
     if( aVertexId.equals( VID_START ) ) {
-      D2Point sp = curve.props().getValobj( ViselCubicSpline.FID_START );
+      ID2Point sp = curve.props().getValobj( ViselCubicSpline.FID_START );
       D2Point newPoint = new D2Point( sp.x() + d2p.x(), sp.y() + d2p.y() );
       curve.props().setValobj( ViselCubicSpline.FID_START, newPoint );
     }
     if( aVertexId.equals( VID_END ) ) {
-      D2Point ep = curve.props().getValobj( ViselCubicSpline.FID_END );
+      ID2Point ep = curve.props().getValobj( ViselCubicSpline.FID_END );
       D2Point newPoint = new D2Point( ep.x() + d2p.x(), ep.y() + d2p.y() );
       curve.props().setValobj( ViselCubicSpline.FID_END, newPoint );
     }
     if( aVertexId.equals( VID_CTRL1 ) ) {
-      D2Point cp = curve.props().getValobj( ViselCubicSpline.FID_CTRL1 );
+      ID2Point cp = curve.props().getValobj( ViselCubicSpline.FID_CTRL1 );
       D2Point newPoint = new D2Point( cp.x() + d2p.x(), cp.y() + d2p.y() );
       curve.props().setValobj( ViselCubicSpline.FID_CTRL1, newPoint );
     }
     if( aVertexId.equals( VID_CTRL2 ) ) {
-      D2Point cp = curve.props().getValobj( ViselCubicSpline.FID_CTRL2 );
+      ID2Point cp = curve.props().getValobj( ViselCubicSpline.FID_CTRL2 );
       D2Point newPoint = new D2Point( cp.x() + d2p.x(), cp.y() + d2p.y() );
       curve.props().setValobj( ViselCubicSpline.FID_CTRL2, newPoint );
     }

@@ -50,7 +50,6 @@ public class ViselRectangle
       fields.add( TFI_WIDTH );
       fields.add( TFI_HEIGHT );
       fields.add( TFI_FULCRUM );
-      // fields.add( TFI_TRANSFORM );
       fields.add( TinFieldInfo.makeCopy( TFI_TRANSFORM, ITinWidgetConstants.PRMID_IS_HIDDEN, AV_TRUE ) );
       fields.add( TFI_ZOOM );
       fields.add( TFI_ANGLE );
