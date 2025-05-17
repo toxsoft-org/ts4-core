@@ -54,6 +54,7 @@ public interface ITsguiVedConstants {
   String ICONID_VED_VISEL              = "ved-visel";              //$NON-NLS-1$
   String ICONID_VED_ACTOR              = "ved-actor";              //$NON-NLS-1$
   String ICONID_VED_COMMAND_ACTOR      = "actors-comanda";         //$NON-NLS-1$
+  String ICONID_VED_CMD_FIELD_ACTOR    = "actors-cmd-field";       //$NON-NLS-1$
   String ICONID_VED_RRI_EDIT_ACTOR     = "actors-nsi";             //$NON-NLS-1$
   String ICONID_VED_RTDATA_IMG_ACTOR   = "actors-image";           //$NON-NLS-1$
   String ICONID_VED_INPUT_FIELD_ACTOR  = "actors-field";           //$NON-NLS-1$
