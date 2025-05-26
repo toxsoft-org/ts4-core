@@ -441,11 +441,11 @@ public enum ETsCollMove
   }
 
   /**
-   * Returns index of item after navigatind at moveing at specified amount.
+   * Returns index of item after navigating at moving at specified amount.
    *
    * @param aStartIndex int - starting index of the movement (in range -1 .. aColSize-1)
    * @param aCollSize int - number of elements in collection (must be >= 0)
-   * @param aJumpDistance int - number of bypassed elements for jummp movements (must be >=1)
+   * @param aJumpDistance int - number of bypassed elements for jump movements (must be >=1)
    * @param aWrap boolean - the flag to wrap around collection
    * @param aNoneItem boolean - the flag for usage of the "NoneItem" at index of -1
    * @return int - index of element after movement in range -1 .. aCollSize-1
@@ -493,8 +493,8 @@ public enum ETsCollMove
   /**
    * Finds element at position after moving as defined by this constant.
    * <p>
-   * During movement this method considers only elements of collection, without "none item" at pindex -1. However, there
-   * is oe exception - if <code>aCurrElem</code> is <code>null</code> or nult in the collection, the starting point is
+   * During movement this method considers only elements of collection, without "none item" at index -1. However, there
+   * is one exception - if <code>aCurrElem</code> is <code>null</code> or not in the collection, the starting point is
    * considered as "none item" at index -1. So moving at {@link #NONE} will return <code>null</code>.
    * <p>
    * With valid argument <code>aCurrElem</code> (that is not <code>null</code> and contained in collection) this method
@@ -503,7 +503,7 @@ public enum ETsCollMove
    * @param <E> - expected element type
    * @param aCurrElem &lt;E&gt; - current element, ie the starting point of movement
    * @param aColl {@link IList}&lt;E&gt; - the linear collection to move over on
-   * @param aJumpDistance int - nuber of elements to for <code>JUMP_XXX</code> movements
+   * @param aJumpDistance int - number of elements to for <code>JUMP_XXX</code> movements
    * @param aWrap boolean - the sign of circular traversal of the collection
    * @return &lt;E&gt; - the element at position after movement or <code>null</code>
    * @throws TsNullArgumentRtException <code>aColl</code> = <code>null</code>
@@ -518,13 +518,13 @@ public enum ETsCollMove
   /**
    * Finds element at position after moving as defined by this constant.
    * <p>
-   * This method considers elements of collection and one moe "none element" at index -1 before the first item in
+   * This method considers elements of collection and one more "none element" at index -1 before the first item in
    * collection. "none item" is referenced as <code>null</code>.
    *
    * @param <E> - expected element type
    * @param aCurrElem &lt;E&gt; - current element, ie the starting point of movement
    * @param aColl {@link IList}&lt;E&gt; - the linear collection to move over on
-   * @param aJumpDistance int - nuber of elements to for <code>JUMP_XXX</code> movements
+   * @param aJumpDistance int - number of elements to for <code>JUMP_XXX</code> movements
    * @param aWrap boolean - the sign of circular traversal of the collection
    * @return &lt;E&gt; - the element at position after movement or <code>null</code> for "none item"
    * @throws TsNullArgumentRtException <code>aColl</code> = <code>null</code>

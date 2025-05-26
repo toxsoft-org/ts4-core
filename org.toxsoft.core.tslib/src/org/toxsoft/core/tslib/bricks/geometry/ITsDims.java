@@ -8,12 +8,13 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * The dimensions of a something in the 2D integer coordinates space.
  * <p>
- * Dize of the rectangle with the same top-left and bottom-right points is (1,1), so {@link #width()} and
+ * Size of the rectangle with the same top-left and bottom-right points is (1,1), so {@link #width()} and
  * {@link #height()} are always >= 1.
  *
  * @author hazard157
  */
-public interface ITsDims {
+public interface ITsDims
+    extends Comparable<ITsDims> {
 
   /**
    * The singleton of the "none" point, all methods throwing an exception {@link TsNullObjectErrorRtException}.
@@ -81,6 +82,14 @@ class InternalNoneTsDims
   @Override
   public String toString() {
     return "???x???"; //$NON-NLS-1$
+  }
+
+  @Override
+  public int compareTo( ITsDims aThat ) {
+    if( aThat == this ) {
+      return 0;
+    }
+    return -1;
   }
 
 }

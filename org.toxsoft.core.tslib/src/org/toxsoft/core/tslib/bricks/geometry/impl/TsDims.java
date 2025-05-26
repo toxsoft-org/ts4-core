@@ -137,4 +137,23 @@ public final class TsDims
     return EMPTY_STRING + width + 'x' + height;
   }
 
+  // ------------------------------------------------------------------------------------
+  // Comparable
+  //
+
+  @Override
+  public int compareTo( ITsDims aThat ) {
+    if( aThat == null ) {
+      throw new NullPointerException();
+    }
+    if( aThat == this ) {
+      return 0;
+    }
+    int c = Integer.compare( width, aThat.width() );
+    if( c == 0 ) {
+      c = Integer.compare( height, aThat.height() );
+    }
+    return c;
+  }
+
 }
