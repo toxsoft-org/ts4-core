@@ -1,19 +1,17 @@
 package org.toxsoft.core.tsgui.mws.services.currentity;
 
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-
-// TODO TRANSLATE
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Introduces concept of something currently selected in application.
+ * Introduces concept of some entity currently selected in application.
  * <p>
  * <p>
- * Использование этой службы:
+ * Usage:
  * <ul>
- * <li>Унаследовать интерфейс ICurrentXxxService от этого интерфейса;</li>
- * <li>Создать пустой класс, наследник {@link CurrentEntityService} и расширяющий интерфейс ICurrentXxxService;</li>
- * <li>Создать и зарегистрировать экземпляр наследника в контексте приложени, после чего это тэкземпляр доступен для
- * инъекции.</li>
+ * <li>Create descendant interface <code>ICurrentXxxService</code>;</li>
+ * <li>Subclass from {@link CurrentEntityService} and new interface <code>ICurrentXxxService</code>;</li>
+ * <li>Create instance and put it to the application context with the key <code>ICurrentXxxService.class</code>, usually
+ * in <code>Quant.initApp()</code> or <code>Addon.initApp()</code>.</li>
  * </ul>
  *
  * @author hazard157
@@ -22,38 +20,39 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 public interface ICurrentEntityService<E> {
 
   /**
-   * Возвращает текущий элемент.
+   * Returns the current entity.
    *
-   * @return <b>E</b> - текущий элемент, может быть null
+   * @return <b>E</b> - the current entity or <code>null</code>
    */
   E current();
 
   /**
-   * Изменяет текущий элемент.
+   * Sets the current entity.
    *
-   * @param aCurrent <b>E</b> - новый текущий элемент или null
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aCurrent &lt;E&gt; - the current entity or <code>null</code>
    */
   void setCurrent( E aCurrent );
 
   /**
-   * Вызывает извещение {@link ICurrentEntityChangeListener#onCurrentContentChanged(Object)}.
+   * Generates an event {@link ICurrentEntityChangeListener#onCurrentContentChanged(Object)}.
+   * <p>
+   * Useful when reference to the current entity does nt changes but entity properties changes.
    */
   void informOnContentChange();
 
   /**
-   * Добавялет слушатель.
+   * Add the current entity change listener if not added before.
    *
-   * @param aListener {@link ICurrentEntityChangeListener} - слушатель
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aListener {@link ICurrentEntityChangeListener} - he listener
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void addCurrentEntityChangeListener( ICurrentEntityChangeListener<E> aListener );
 
   /**
-   * Удаляет слушатель.
+   * Removes the listener if any found
    *
-   * @param aListener {@link ICurrentEntityChangeListener} - слушатель
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aListener {@link ICurrentEntityChangeListener} - the listener
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void removeCurrentEntityChangeListener( ICurrentEntityChangeListener<E> aListener );
 

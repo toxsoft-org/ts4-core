@@ -1,5 +1,9 @@
 package org.toxsoft.core.tsgui.graphics.icons;
 
+import static org.toxsoft.core.tslib.utils.gui.ITsLibInnerSharedConstants.*;
+
+import org.toxsoft.core.tslib.utils.gui.*;
+
 /**
  * Icons built in core TsGUI library.
  *
@@ -84,14 +88,14 @@ public interface ITsStdIconIds {
   String ICONID_DIALOG_PASSWORD = "dialog-password"; // Dialog kind: enter password
 
   /**
-   * Following constants must match IDs from {@link ITsLibIconIds}.
+   * The constants from {@link ITsLibInnerSharedConstants}.
    */
-  String ICONID_DIALOG_INFORMATION = "dialog-information";
-  String ICONID_DIALOG_WARNING     = "dialog-warning";
-  String ICONID_DIALOG_ERROR       = "dialog-error";
+  String ICONID_DIALOG_INFORMATION = TSLIB_ICONID_INFO;
+  String ICONID_DIALOG_WARNING     = TSLIB_ICONID_WARNING;
+  String ICONID_DIALOG_ERROR       = TSLIB_ICONID_ERROR;
 
   // ------------------------------------------------------------------------------------
-  // Arrows and navigation indcators
+  // Arrows and navigation indicators
 
   String ICONID_ARROW_DOWN_DOUBLE     = "arrow-down-double";
   String ICONID_ARROW_DOWN            = "arrow-down";
