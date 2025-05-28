@@ -7,6 +7,7 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.graphics.gc.*;
 import org.toxsoft.core.tsgui.graphics.lines.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
+import org.toxsoft.core.tslib.utils.*;
 
 /**
  * Базовый класс для отрисовщиков визелей типа "Кнопка".
@@ -59,9 +60,15 @@ public abstract class AbstractButtonRenderer
 
   @Override
   public final void update() {
-    font = fontManager().getFont( button.props().getValobj( PROPID_FONT ) );
-    bkRgba = button.props().getValobj( PROPID_BK_COLOR );
-    fgRgba = button.props().getValobj( PROPID_FG_COLOR );
+    if( button.props().hasKey( PROPID_FONT ) ) {
+      font = fontManager().getFont( button.props().getValobj( PROPID_FONT ) );
+    }
+    if( button.props().hasKey( PROPID_BK_COLOR ) ) {
+      bkRgba = button.props().getValobj( PROPID_BK_COLOR );
+    }
+    if( button.props().hasKey( PROPID_FG_COLOR ) ) {
+      fgRgba = button.props().getValobj( PROPID_FG_COLOR );
+    }
     if( button.props().hasKey( PROPID_HOVERED_BK_COLOR ) ) {
       hvRgba = button.props().getValobj( PROPID_HOVERED_BK_COLOR );
     }
@@ -86,17 +93,22 @@ public abstract class AbstractButtonRenderer
   //
 
   void drawText( ITsGraphicsContext aPaintContext ) {
-    Point p = textLocation( aPaintContext );
+    if( !buttonText().isBlank() ) {
+      Point p = textLocation( aPaintContext );
 
-    if( buttonState() == EButtonViselState.PRESSED ) {
-      p.x += 2;
-      p.y += 2;
+      if( buttonState() == EButtonViselState.PRESSED ) {
+        p.x += 2;
+        p.y += 2;
+      }
+
+      aPaintContext.gc().setFont( font );
+      aPaintContext.gc().setBackgroundPattern( null );
+      aPaintContext.gc().setForeground( colorManager().getColor( fgRgba ) );
+      if( !buttonText().isBlank() ) {
+        aPaintContext.gc().drawText( buttonText(), p.x, p.y, true );
+      }
     }
 
-    aPaintContext.gc().setFont( font );
-    aPaintContext.gc().setBackgroundPattern( null );
-    aPaintContext.gc().setForeground( colorManager().getColor( fgRgba ) );
-    aPaintContext.gc().drawText( buttonText(), p.x, p.y, true );
   }
 
   // ------------------------------------------------------------------------------------
@@ -112,7 +124,10 @@ public abstract class AbstractButtonRenderer
   }
 
   protected String buttonText() {
-    return button.props().getStr( PROPID_TEXT );
+    if( button.props().hasKey( PROPID_TEXT ) ) {
+      return button.props().getStr( PROPID_TEXT );
+    }
+    return TsLibUtils.EMPTY_STRING;
   }
 
   protected ID2Rectangle bounds() {
