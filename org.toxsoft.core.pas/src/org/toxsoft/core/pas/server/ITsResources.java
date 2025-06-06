@@ -2,6 +2,7 @@ package org.toxsoft.core.pas.server;
 
 /**
  * Локализуемые ресурсы.
+ * <p>
  *
  * @author hazard157
  */
