@@ -10,7 +10,9 @@ import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.temporal.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
+import org.toxsoft.core.tslib.bricks.time.*;
 import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.helpers.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
@@ -70,8 +72,49 @@ public class StdG2Graphic
   @Override
   public void draw( GC aGc, ITsRectangle aClientRect ) {
     ITsRectangle cr = aClientRect;
-
     IList<ITemporalAtomicValue> values = dataSet.getValues( xAxisView.axisModel().timeInterval() );
+    // TODO need to check
+    // dima 04.06.25 отработаем то что теперь запрос типа OSOE, то есть в ответе может придти левая точка раньше начала
+    // шкалы или правая точка позже окончания видимой части шкалы
+    if( !values.isEmpty() ) {
+      TemporalAtomicValue newFirstValue = null;
+      TemporalAtomicValue newLastValue = null;
+      boolean tunedHead = false;
+      boolean tunedTail = false;
+      if( needTune( xAxisView.axisModel().timeInterval(), values )
+          && values.first().timestamp() < xAxisView.axisModel().timeInterval().startTime() ) {
+        ITemporalAtomicValue nearestFromLeft =
+            getNearestFromLeft( xAxisView.axisModel().timeInterval().startTime(), values );
+        // делаем первую точку в начале видимой части шкалы
+        newFirstValue =
+            new TemporalAtomicValue( xAxisView.axisModel().timeInterval().startTime(), nearestFromLeft.value() );
+        tunedHead = true;
+      }
+      if( needTune( xAxisView.axisModel().timeInterval(), values )
+          && values.last().timestamp() > xAxisView.axisModel().timeInterval().endTime() ) {
+        ITemporalAtomicValue nearestFromRight =
+            getNearestFromRight( xAxisView.axisModel().timeInterval().endTime(), values );
+        // делаем последнюю точку в конце видимой части шкалы
+        newLastValue =
+            new TemporalAtomicValue( xAxisView.axisModel().timeInterval().endTime(), nearestFromRight.value() );
+        tunedTail = true;
+      }
+      if( tunedHead || tunedTail ) {
+        IListEdit<ITemporalAtomicValue> tunedValues = new ElemArrayList<>( values );
+        if( newFirstValue != null ) {
+          tunedValues.add( newFirstValue );
+        }
+
+        if( newLastValue != null ) {
+          tunedValues.add( newLastValue );
+        }
+        // sort by time
+        IListReorderer<ITemporalAtomicValue> reorderer = new ListReorderer<>( tunedValues );
+        reorderer.sort( ( aO1, aO2 ) -> (int)(aO1.timestamp() - aO2.timestamp()) );
+        values = new ElemArrayList<>( reorderer.list() );
+        values = tunedValues;
+      }
+    }
 
     // Sol++ print date
     // G2ChartUtils.printTimeInterval( xAxisView.axisModel().timeInterval(), "Draw graphic: " );
@@ -109,10 +152,6 @@ public class StdG2Graphic
     }
     IListEdit<IList<Pair<Integer, Integer>>> polylines = new ElemArrayList<>();
     IListEdit<Pair<Integer, Integer>> polyline = null;
-
-    if( values == null ) {
-      return;
-    }
 
     double ntMax = Double.NEGATIVE_INFINITY;
     double nvMax = Double.NEGATIVE_INFINITY;
@@ -169,6 +208,39 @@ public class StdG2Graphic
     }
 
     renderer.drawGraphic( aGc, polylines, cr );
+  }
+
+  private static ITemporalAtomicValue getNearestFromRight( long aTime, IList<ITemporalAtomicValue> aValues ) {
+    ITemporalAtomicValue retVal = aValues.last();
+    for( int i = aValues.size() - 1; i >= 0; i-- ) {
+      ITemporalAtomicValue value = aValues.get( i );
+      if( value.timestamp() <= aTime ) {
+        break;
+      }
+      retVal = value;
+    }
+    return retVal;
+  }
+
+  private static ITemporalAtomicValue getNearestFromLeft( long aTime, IList<ITemporalAtomicValue> aValues ) {
+    ITemporalAtomicValue retVal = aValues.first();
+    for( ITemporalAtomicValue value : aValues ) {
+      if( value.timestamp() <= aTime ) {
+        retVal = value;
+      }
+      break;
+    }
+    return retVal;
+  }
+
+  private static boolean needTune( ITimeInterval aTimeInterval, IList<ITemporalAtomicValue> aValues ) {
+    int counter = 0;
+    for( ITemporalAtomicValue value : aValues ) {
+      if( value.timestamp() >= aTimeInterval.startTime() && value.timestamp() <= aTimeInterval.endTime() ) {
+        counter++;
+      }
+    }
+    return counter < 2;
   }
 
   @SuppressWarnings( "nls" )
