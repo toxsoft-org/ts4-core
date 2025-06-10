@@ -73,7 +73,6 @@ public class StdG2Graphic
   public void draw( GC aGc, ITsRectangle aClientRect ) {
     ITsRectangle cr = aClientRect;
     IList<ITemporalAtomicValue> values = dataSet.getValues( xAxisView.axisModel().timeInterval() );
-    // TODO need to check
     // dima 04.06.25 отработаем то что теперь запрос типа OSOE, то есть в ответе может придти левая точка раньше начала
     // шкалы или правая точка позже окончания видимой части шкалы
     if( !values.isEmpty() ) {
@@ -81,22 +80,28 @@ public class StdG2Graphic
       TemporalAtomicValue newLastValue = null;
       boolean tunedHead = false;
       boolean tunedTail = false;
+      ITemporalAtomicValue nearestFromLeft =
+          getNearestFromLeft( xAxisView.axisModel().timeInterval().startTime(), values );
       if( needTune( xAxisView.axisModel().timeInterval(), values )
           && values.first().timestamp() < xAxisView.axisModel().timeInterval().startTime() ) {
-        ITemporalAtomicValue nearestFromLeft =
-            getNearestFromLeft( xAxisView.axisModel().timeInterval().startTime(), values );
         // делаем первую точку в начале видимой части шкалы
         newFirstValue =
             new TemporalAtomicValue( xAxisView.axisModel().timeInterval().startTime(), nearestFromLeft.value() );
         tunedHead = true;
       }
-      if( needTune( xAxisView.axisModel().timeInterval(), values )
-          && values.last().timestamp() > xAxisView.axisModel().timeInterval().endTime() ) {
-        ITemporalAtomicValue nearestFromRight =
-            getNearestFromRight( xAxisView.axisModel().timeInterval().endTime(), values );
+      ITemporalAtomicValue nearestFromRight =
+          getNearestFromRight( xAxisView.axisModel().timeInterval().endTime(), values );
+      if( needTune( xAxisView.axisModel().timeInterval(), values ) ) {
         // делаем последнюю точку в конце видимой части шкалы
-        newLastValue =
-            new TemporalAtomicValue( xAxisView.axisModel().timeInterval().endTime(), nearestFromRight.value() );
+        if( nearestFromRight.timestamp() > xAxisView.axisModel().timeInterval().endTime() ) {
+          // если она правее окончания видимой части, то рисуем прямую линию
+          newLastValue =
+              new TemporalAtomicValue( xAxisView.axisModel().timeInterval().endTime(), nearestFromRight.value() );
+        }
+        else {
+          newLastValue =
+              new TemporalAtomicValue( xAxisView.axisModel().timeInterval().endTime(), nearestFromLeft.value() );
+        }
         tunedTail = true;
       }
       if( tunedHead || tunedTail ) {
@@ -204,6 +209,7 @@ public class StdG2Graphic
         int scrY = cr.y2() - G2ChartUtils.normToScreen( nvMax, cr.height() );
         polyline.add( new Pair<>( Integer.valueOf( scrX ), Integer.valueOf( scrY ) ) );
       }
+
       polylines.add( polyline );
     }
 
@@ -215,6 +221,7 @@ public class StdG2Graphic
     for( int i = aValues.size() - 1; i >= 0; i-- ) {
       ITemporalAtomicValue value = aValues.get( i );
       if( value.timestamp() <= aTime ) {
+        retVal = value;
         break;
       }
       retVal = value;
