@@ -30,4 +30,14 @@ interface ITsResources {
   String MSG_ERROR_MSG_PREFIX              = Messages.getString( "MSG_ERROR_MSG_PREFIX" );              //$NON-NLS-1$
   String ERR_MSG_INV_VERSION_STRING_FORMAT = Messages.getString( "ERR_MSG_INV_VERSION_STRING_FORMAT" ); //$NON-NLS-1$
 
+  /**
+   * {@link EQueryParamUsage}
+   */
+  String STR_EQPU_DONT_CARE   = Messages.getString( "STR_EQPU_DONT_CARE" );   //$NON-NLS-1$
+  String STR_EQPU_DONT_CARE_D = Messages.getString( "STR_EQPU_DONT_CARE_D" ); //$NON-NLS-1$
+  String STR_EQPU_EXCLUDE     = Messages.getString( "STR_EQPU_DONT_CARE" );   //$NON-NLS-1$
+  String STR_EQPU_EXCLUDE_D   = Messages.getString( "STR_EQPU_DONT_CARE_D" ); //$NON-NLS-1$
+  String STR_EQPU_INCLUDE     = Messages.getString( "STR_EQPU_DONT_CARE" );   //$NON-NLS-1$
+  String STR_EQPU_INCLUDE_D   = Messages.getString( "STR_EQPU_DONT_CARE_D" ); //$NON-NLS-1$
+
 }

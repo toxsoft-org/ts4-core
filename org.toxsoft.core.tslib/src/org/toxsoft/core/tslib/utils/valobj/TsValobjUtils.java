@@ -117,6 +117,7 @@ public class TsValobjUtils {
     registerKeeper( PluginFileRequirement.KEEPER_ID, PluginFileRequirement.KEEPER );
     registerKeeper( Ugwi.KEEPER_ID, Ugwi.KEEPER );
     registerKeeper( ED2Quadrant.KEEPER_ID, ED2Quadrant.KEEPER );
+    registerKeeper( EQueryParamUsage.KEEPER_ID, EQueryParamUsage.KEEPER );
   }
 
   // ------------------------------------------------------------------------------------
