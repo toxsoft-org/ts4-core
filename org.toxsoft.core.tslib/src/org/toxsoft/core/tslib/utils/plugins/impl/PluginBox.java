@@ -1,6 +1,7 @@
 package org.toxsoft.core.tslib.utils.plugins.impl;
 
 import static org.toxsoft.core.tslib.utils.plugins.IPluginsHardConstants.*;
+import static org.toxsoft.core.tslib.utils.plugins.impl.ITsResources.*;
 
 import java.io.*;
 
@@ -15,6 +16,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.logs.impl.*;
 import org.toxsoft.core.tslib.utils.plugins.*;
 import org.toxsoft.core.tslib.utils.plugins.IChangedPluginsInfo.*;
+import org.toxsoft.core.tslib.utils.plugins.IPluginInfo.*;
 
 /**
  * Контейнер плагинов
@@ -230,16 +232,34 @@ public class PluginBox<T extends PluginUnit>
   private static IListEdit<IPluginInfo> sortInfoesByDependencies( IList<IPluginInfo> aPluginInfoes,
       IListEdit<IPluginInfo> aSortedInfoes ) {
     TsNullArgumentRtException.checkNulls( aPluginInfoes, aSortedInfoes );
-    IListEdit<IPluginInfo> pluginInfoes = new ElemArrayList<>( aPluginInfoes );
-    while( pluginInfoes.size() > 0 ) {
-      IPluginInfo info = pluginInfoes.removeByIndex( 0 );
+    for( IPluginInfo info : aPluginInfoes ) {
       if( aSortedInfoes.hasElem( info ) ) {
-        // Плагин уже в списке
         continue;
       }
-      aSortedInfoes.addAll( sortInfoesByDependencies( pluginInfoes, aSortedInfoes ) );
-      aSortedInfoes.add( info );
+      sortInfoesByDependencies( getPluginInfoesByDependences( aPluginInfoes, info.listDependencies() ), aSortedInfoes );
+      if( !aSortedInfoes.hasElem( info ) ) {
+        aSortedInfoes.add( info );
+      }
     }
     return aSortedInfoes;
+  }
+
+  private static IList<IPluginInfo> getPluginInfoesByDependences( IList<IPluginInfo> aPluginInfoes,
+      IList<IDependencyInfo> aDependences ) {
+    IListEdit<IPluginInfo> retValue = new ElemArrayList<>();
+    for( IDependencyInfo dependency : aDependences ) {
+      retValue.add( getPluginInfoById( aPluginInfoes, dependency.pluginId() ) );
+    }
+    return retValue;
+  }
+
+  private static IPluginInfo getPluginInfoById( IList<IPluginInfo> aPluginInfoes, String aPluginId ) {
+    TsNullArgumentRtException.checkNulls( aPluginInfoes, aPluginId );
+    for( IPluginInfo info : aPluginInfoes ) {
+      if( info.pluginId().equals( aPluginId ) ) {
+        return info;
+      }
+    }
+    throw new TsItemNotFoundRtException( ERR_PLUGIN_NOT_FOUND, aPluginId );
   }
 }
