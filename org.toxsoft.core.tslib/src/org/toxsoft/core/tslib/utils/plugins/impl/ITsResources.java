@@ -7,6 +7,7 @@ import org.toxsoft.core.tslib.utils.plugins.*;
  *
  * @author hazard157
  */
+@SuppressWarnings( "nls" )
 interface ITsResources {
 
   String FMT_PARENT_CLASSLOADER_NAME = "%s parent";
@@ -50,4 +51,9 @@ interface ITsResources {
   String ERR_NOT_FOUND_TEMPORARY_FILE      = "Plugin temporary file is not found: %s.";
   String ERR_CANT_REMOVE_TEMPORARY_FILE    = "Can't remove plugin temporary file %s.";
   String ERR_PLUGIN_NOT_FOUND              = "plugin %s is not found";
+
+  /**
+   * {@link PluginBox}
+   */
+  String MSG_PLUGIN_LOAD_ORDER = "plugins(%d) will be loaded in the following order:\n%s";
 }

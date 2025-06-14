@@ -7,12 +7,14 @@ import java.io.*;
 
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.ctx.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.wub.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.*;
 import org.toxsoft.core.tslib.utils.logs.impl.*;
 import org.toxsoft.core.tslib.utils.plugins.*;
 import org.toxsoft.core.tslib.utils.plugins.IChangedPluginsInfo.*;
@@ -32,16 +34,19 @@ public class PluginBox<T extends PluginUnit>
 
   private WubBox        wubBox;
   private PluginStorage storage;
+  private ILogger       logger;
 
   /**
    * Конструктор
    *
    * @param aId String идентификатор контейнера
    * @param aParams {@link IOptionSet} параметры контейнера
+   * @param aLogger {@link ILogger} журнал работы
    * @throws TsNullArgumentRtException любой аргумент = null
    */
-  public PluginBox( String aId, IOptionSet aParams ) {
+  public PluginBox( String aId, IOptionSet aParams, ILogger aLogger ) {
     super( aId, aParams );
+    logger = aLogger;
   }
 
   /**
@@ -120,6 +125,18 @@ public class PluginBox<T extends PluginUnit>
   }
 
   // ------------------------------------------------------------------------------------
+  // inheritance API
+  //
+  /**
+   * Возвращает журнал работы.
+   *
+   * @return {@link ILogger} журнал работы.
+   */
+  protected final ILogger logger() {
+    return logger;
+  }
+
+  // ------------------------------------------------------------------------------------
   // methods for inheritance
   //
   /**
@@ -179,6 +196,17 @@ public class PluginBox<T extends PluginUnit>
     IList<IPluginInfo> pluginInfoes = sortInfoesByDependencies( aPluginInfos, new ElemArrayList<>() );
     // Упорядочный список описаний определямый наследниками
     IList<IPluginInfo> sortedPluginInfos = doBeforeLoadUnits( pluginInfoes );
+    // Журнал
+    if( logger.isSeverityOn( ELogSeverity.INFO ) ) {
+      StringBuilder sb = new StringBuilder();
+      for( int index = 0, n = sortedPluginInfos.size(); index < n; index++ ) {
+        sb.append( sortedPluginInfos.get( index ).pluginId() );
+        if( index + 1 < n ) {
+          sb.append( IStrioHardConstants.CHAR_EOL );
+        }
+      }
+      logger.info( MSG_PLUGIN_LOAD_ORDER, Integer.valueOf( sortedPluginInfos.size() ), sb.toString() );
+    }
     // Список загруженных плагинов
     IListEdit<T> units = new ElemLinkedList<>();
     for( IPluginInfo pluginInfo : new ElemArrayList<>( sortedPluginInfos ) ) {
