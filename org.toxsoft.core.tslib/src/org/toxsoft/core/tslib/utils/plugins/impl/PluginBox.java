@@ -118,7 +118,7 @@ public class PluginBox<T extends PluginUnit>
   }
 
   // ------------------------------------------------------------------------------------
-  // Методы для наследников
+  // methods for inheritance
   //
   /**
    * Создает компонент контейнера для загруженного плагина.
@@ -162,7 +162,7 @@ public class PluginBox<T extends PluginUnit>
   }
 
   // ------------------------------------------------------------------------------------
-  // Методы для наследников
+  // private methods
   //
   /**
    * Загрузка компонентов контейнера
@@ -173,8 +173,10 @@ public class PluginBox<T extends PluginUnit>
    */
   private void loadUnits( IList<IPluginInfo> aPluginInfos ) {
     TsNullArgumentRtException.checkNull( aPluginInfos );
-    // Упорядочный список описаний загружаемых плагинов
-    IList<IPluginInfo> sortedPluginInfos = doBeforeLoadUnits( aPluginInfos );
+    // Упорядочный список описаний согласно зависимостей
+    IList<IPluginInfo> pluginInfoes = sortInfoesByDependencies( aPluginInfos, new ElemArrayList<>() );
+    // Упорядочный список описаний определямый наследниками
+    IList<IPluginInfo> sortedPluginInfos = doBeforeLoadUnits( pluginInfoes );
     // Список загруженных плагинов
     IListEdit<T> units = new ElemLinkedList<>();
     for( IPluginInfo pluginInfo : new ElemArrayList<>( sortedPluginInfos ) ) {
@@ -225,4 +227,19 @@ public class PluginBox<T extends PluginUnit>
     wubBox.addUnit( aUnit );
   }
 
+  private static IListEdit<IPluginInfo> sortInfoesByDependencies( IList<IPluginInfo> aPluginInfoes,
+      IListEdit<IPluginInfo> aSortedInfoes ) {
+    TsNullArgumentRtException.checkNulls( aPluginInfoes, aSortedInfoes );
+    IListEdit<IPluginInfo> pluginInfoes = new ElemArrayList<>( aPluginInfoes );
+    while( pluginInfoes.size() > 0 ) {
+      IPluginInfo info = pluginInfoes.removeByIndex( 0 );
+      if( aSortedInfoes.hasElem( info ) ) {
+        // Плагин уже в списке
+        continue;
+      }
+      aSortedInfoes.addAll( sortInfoesByDependencies( pluginInfoes, aSortedInfoes ) );
+      aSortedInfoes.add( info );
+    }
+    return aSortedInfoes;
+  }
 }
