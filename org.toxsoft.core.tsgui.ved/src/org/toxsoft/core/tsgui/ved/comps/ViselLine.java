@@ -42,13 +42,19 @@ public class ViselLine
   static final String PROPID_X2 = "x2"; //$NON-NLS-1$
   static final String PROPID_Y2 = "y2"; //$NON-NLS-1$
 
-  private final static IDataDef PROP_X2 = DataDef.create( PROPID_X2, FLOATING, //
+  /**
+   * X - ккордината второй точки
+   */
+  public final static IDataDef PROP_X2 = DataDef.create( PROPID_X2, FLOATING, //
       TSID_NAME, STR_X, //
       TSID_DESCRIPTION, STR_X_D, //
       TSID_DEFAULT_VALUE, avFloat( 0.0 ) //
   );
 
-  private final static IDataDef PROP_Y2 = DataDef.create( PROPID_Y2, FLOATING, //
+  /**
+   * Y - ккордината второй точки
+   */
+  public final static IDataDef PROP_Y2 = DataDef.create( PROPID_Y2, FLOATING, //
       TSID_NAME, STR_Y, //
       TSID_DESCRIPTION, STR_Y_D, //
       TSID_DEFAULT_VALUE, avFloat( 0.0 ) //
@@ -185,13 +191,13 @@ public class ViselLine
   @Override
   public double width() {
     updatePoints( props() );
-    return Math.abs( x1 - x2 );
+    return Math.abs( x1 - x2 ) + lineInfo.width();
   }
 
   @Override
   public double height() {
     updatePoints( props() );
-    return Math.abs( y1 - y2 );
+    return Math.abs( y1 - y2 ) + lineInfo.width();
   }
 
   @Override
@@ -213,16 +219,11 @@ public class ViselLine
   double x2 = 100.0;
   double y2 = 100.0;
 
-  // double width = 1.0;
-  // double height = 1.0;
-
   TsColorDescriptor colorDescr;
 
   Color color = new Color( ETsColor.BLACK.rgba() );
 
   LineSegment lineSegment = new LineSegment( x1, y1, x2, y2 );
-
-  // D2Rectangle boundsRect;
 
   void updatePoints( IOptionSet aOpSet ) {
     if( aOpSet.hasKey( PROPID_X ) ) {
@@ -256,11 +257,9 @@ public class ViselLine
     double minX = Math.min( x1, x2 );
     double minY = Math.min( y1, y2 );
     lineSegment = new LineSegment( x1 - minX, y1 - minY, x2 - minX, y2 - minY );
-    // Rectangle2D r2d = lineSegment.bounds();
-    // boundsRect = new D2Rectangle( r2d.getX(), r2d.getY(), r2d.getWidth(), r2d.getHeight() );
 
-    aValuesToSet.setDouble( PROPID_WIDTH, Math.abs( x1 - x2 ) );
-    aValuesToSet.setDouble( PROPID_HEIGHT, Math.abs( y1 - y2 ) );
+    aValuesToSet.setDouble( PROPID_WIDTH, Math.abs( x1 - x2 ) + lineInfo.width() );
+    aValuesToSet.setDouble( PROPID_HEIGHT, Math.abs( y1 - y2 ) + lineInfo.width() );
     super.doDoInterceptPropsChange( aNewValues, aValuesToSet );
   }
 
@@ -288,8 +287,4 @@ public class ViselLine
     return false;
   }
 
-  // @Override
-  // public ID2Rectangle bounds() {
-  // return boundsRect;
-  // }
 }

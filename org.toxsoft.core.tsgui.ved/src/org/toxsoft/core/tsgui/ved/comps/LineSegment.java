@@ -2,6 +2,8 @@ package org.toxsoft.core.tsgui.ved.comps;
 
 import java.awt.geom.*;
 
+import org.toxsoft.core.tslib.bricks.d2.*;
+
 /**
  * Отрезок линии.
  * <p>
@@ -86,6 +88,26 @@ public class LineSegment {
     c = x1 * y2 - x2 * y1;
 
     angle = Math.atan( -a / b );
+  }
+
+  /**
+   * Конструктор по точке углу и дине. Constructor.
+   *
+   * @param p1 {@link D2Point} - крайняя точка отрезка
+   * @param aLength double - длина отрезка
+   * @param aAngle double - угол
+   */
+  public LineSegment( Point2D p1, double aLength, double aAngle ) {
+    x1 = p1.getX();
+    y1 = p1.getY();
+    x2 = p1.getX() + aLength * Math.cos( aAngle );
+    y2 = p1.getY() + aLength * Math.sin( aAngle );
+
+    a = y1 - y2;
+    b = x2 - x1;
+    c = x1 * y2 - x2 * y1;
+
+    angle = aAngle;
   }
 
   /**
@@ -175,39 +197,39 @@ public class LineSegment {
   }
 
   /**
-   * Возвращает левую X координату, описывающего прямоугольника.
+   * Возвращает X координату, первой точки отрезка.
    *
-   * @return double - левая X координата, описывающего прямоугольника
+   * @return double - X координата, первой точки отрезка
    */
   public double x1() {
-    return Math.min( x1, x2 );
+    return x1;
   }
 
   /**
-   * Возвращает верхнюю Y координату, описывающего прямоугольника.
+   * Возвращает Y координату, первой точки отрезка.
    *
-   * @return double - верхняя Y координата, описывающего прямоугольника
+   * @return double - Y координата, первой точки отрезка
    */
   public double y1() {
-    return Math.min( y1, y2 );
+    return y1;
   }
 
   /**
-   * Возвращает правую X координату, описывающего прямоугольника.
+   * Возвращает X координату, второй точки отрезка.
    *
-   * @return double - правая X координата, описывающего прямоугольника
+   * @return double - X координата, второй точки отрезка
    */
   public double x2() {
-    return Math.max( x1, x2 );
+    return x2;
   }
 
   /**
-   * Возвращает нижнюю Y координату, описывающего прямоугольника.
+   * Возвращает Y координату, второй точки отрезка.
    *
-   * @return double - нижняя Y координата, описывающего прямоугольника
+   * @return double - Y координата, второй точки отрезка
    */
   public double y2() {
-    return Math.max( y1, y2 );
+    return y2;
   }
 
   /**
