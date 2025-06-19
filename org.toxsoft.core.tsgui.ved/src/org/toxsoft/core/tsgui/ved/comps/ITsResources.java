@@ -65,6 +65,12 @@ interface ITsResources {
   String STR_VISEL_ARC_HEIGHT_D = Messages.getString( "STR_VISEL_ARC_HEIGHT_D" ); //$NON-NLS-1$
 
   /**
+   * {@link ViselEllipse}
+   */
+  String STR_VISEL_ELLIPSE   = Messages.getString( "STR_VISEL_ELLIPSE" );   //$NON-NLS-1$
+  String STR_VISEL_ELLIPSE_D = Messages.getString( "STR_VISEL_ELLIPSE_D" ); //$NON-NLS-1$
+
+  /**
    * {@link ViselGroupbox}
    */
   String STR_VISEL_GROUPBOX   = Messages.getString( "STR_VISEL_GROUPBOX" );   //$NON-NLS-1$

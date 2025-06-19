@@ -39,6 +39,7 @@ public class QuantTsGuiVed
     visFact.register( ViselBezier.FACTORY );
     visFact.register( ViselCubicSpline.FACTORY );
     visFact.register( ViselRectangle.FACTORY );
+    visFact.register( ViselEllipse.FACTORY );
     visFact.register( ViselLabel.FACTORY );
     visFact.register( ViselMultiLineLabel.FACTORY );
     visFact.register( ViselRoundRect.FACTORY );

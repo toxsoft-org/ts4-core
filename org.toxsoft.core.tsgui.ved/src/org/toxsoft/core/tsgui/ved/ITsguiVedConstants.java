@@ -63,6 +63,7 @@ public interface ITsguiVedConstants {
   String ICONID_VED_RT_BOOL_EDIT_ACTOR = "actors-Rt-bool";         //$NON-NLS-1$
   String ICONID_VED_POPUP_DLG_ACTOR    = "actors-dialog";          //$NON-NLS-1$
   String ICONID_SIMPLE_RECT            = "simple-rect";            //$NON-NLS-1$
+  String ICONID_VISEL_ELLIPSE          = "visel-ellipse";          //$NON-NLS-1$
   String ICONID_VISEL_CIRCLE_LAMP      = "visel-circle-lamp";      //$NON-NLS-1$
   String ICONID_VISEL_LABEL            = "visel-label";            //$NON-NLS-1$
   String ICONID_VISEL_MULTI_LABEL      = "visel-multi-label";      //$NON-NLS-1$
