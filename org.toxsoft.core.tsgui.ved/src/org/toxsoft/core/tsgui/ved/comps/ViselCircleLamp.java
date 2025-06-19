@@ -46,9 +46,9 @@ public class ViselCircleLamp
    */
   public static final String FACTORY_ID = VED_ID + ".visel.CirceleLamp"; //$NON-NLS-1$
 
-  private static final String PROPID_EDGING_WIDTH = "edgingWidth"; //$NON-NLS-1$
-  private static final String PROPID_SHOW_EDGING  = "showEdging";  //$NON-NLS-1$
-  private static final String PROPID_USE_GRADIENT = "useGradient"; //$NON-NLS-1$
+  public static final String PROPID_EDGING_WIDTH = "edgingWidth"; //$NON-NLS-1$
+  public static final String PROPID_SHOW_EDGING  = "showEdging";  //$NON-NLS-1$
+  public static final String PROPID_USE_GRADIENT = "useGradient"; //$NON-NLS-1$
 
   /**
    * The VISEL factory singleton.
