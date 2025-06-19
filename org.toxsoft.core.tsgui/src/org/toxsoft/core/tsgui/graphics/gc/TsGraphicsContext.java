@@ -188,6 +188,14 @@ public class TsGraphicsContext
   }
 
   @Override
+  public void drawOval( int aX, int aY, int aWidth, int aHeight ) {
+    if( lineInfo != null ) {
+      lineInfo.setToGc( gc );
+    }
+    gc.drawOval( aX, aY, aWidth, aHeight );
+  }
+
+  @Override
   public void drawRoundRect( int aX, int aY, int aWidth, int aHeight, int aArcWdth, int aArcHeight ) {
     if( lineInfo != null ) {
       lineInfo.setToGc( gc );
