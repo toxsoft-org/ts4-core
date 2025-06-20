@@ -168,6 +168,9 @@ public class ViselButton
       if( av != null && av.isAssigned() ) {
         props().propsEventer().pauseFiring();
         if( av.asBool() ) {
+          if( prevState == EButtonViselState.DISABLED ) {
+            prevState = EButtonViselState.NORMAL;
+          }
           props().setValobj( PROPID_STATE, prevState );
         }
         else {
