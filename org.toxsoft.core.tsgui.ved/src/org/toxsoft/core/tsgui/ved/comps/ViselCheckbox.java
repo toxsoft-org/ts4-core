@@ -73,6 +73,7 @@ public class ViselCheckbox
     @Override
     protected ITinTypeInfo doCreateTypeInfo() {
       IStridablesListEdit<ITinFieldInfo> fields = new StridablesList<>();
+      fields.add( TFI_ENABLED );
       fields.add( TFI_NAME );
       fields.add( TFI_DESCRIPTION );
       fields.add( TFI_CHECKED );
@@ -114,6 +115,8 @@ public class ViselCheckbox
 
   private final IButtonRenderer btnRenderer;
 
+  private EButtonViselState prevState = EButtonViselState.NORMAL;
+
   /**
    * Constructor.
    *
@@ -142,12 +145,35 @@ public class ViselCheckbox
   @Override
   protected void doUpdateCachesAfterPropsChange( IOptionSet aChangedValue ) {
     super.doUpdateCachesAfterPropsChange( aChangedValue );
+    if( aChangedValue.hasKey( PROPID_ENABLED ) ) {
+      IAtomicValue av = aChangedValue.getByKey( PROPID_ENABLED );
+      if( av != null && av.isAssigned() ) {
+        props().propsEventer().pauseFiring();
+        if( av.asBool() ) {
+          props().setValobj( PROPID_STATE, prevState );
+        }
+        else {
+          prevState = props().getValobj( PROPID_STATE );
+          props().setValobj( PROPID_STATE, EButtonViselState.DISABLED );
+        }
+        props().propsEventer().resumeFiring( false );
+      }
+    }
     btnRenderer.update();
   }
 
   // ------------------------------------------------------------------------------------
   // IViselButton
   //
+
+  @Override
+  public boolean isEnabled() {
+    IAtomicValue value = props().getValue( PROPID_ENABLED );
+    if( value == null || !value.isAssigned() ) {
+      return true;
+    }
+    return value.asBool();
+  }
 
   @Override
   public boolean isChecked() {

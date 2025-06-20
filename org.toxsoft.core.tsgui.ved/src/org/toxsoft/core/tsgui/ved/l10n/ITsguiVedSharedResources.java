@@ -93,6 +93,9 @@ public interface ITsguiVedSharedResources {
   String STR_HOVERED   = Messages.getString( "STR_HOVERED" );   //$NON-NLS-1$
   String STR_HOVERED_D = Messages.getString( "STR_HOVERED_D" ); //$NON-NLS-1$
 
+  String STR_ENABLED   = Messages.getString( "STR_ENABLED" );   //$NON-NLS-1$
+  String STR_ENABLED_D = Messages.getString( "STR_ENABLED_D" ); //$NON-NLS-1$
+
   /**
    * {@link VedAbstractActor}
    */

@@ -173,6 +173,7 @@ public interface IVedScreenConstants {
   String PROPID_BOTTOM_INDENT = "bottomIndent"; //$NON-NLS-1$
 
   String PROPID_HOVERED = "hovered"; //$NON-NLS-1$
+  String PROPID_ENABLED = "enabled"; //$NON-NLS-1$
 
   String PROPID_IS_ACTOR_MANDATORY = "isActorMandatory"; //$NON-NLS-1$
 
@@ -329,6 +330,12 @@ public interface IVedScreenConstants {
       TSID_DEFAULT_VALUE, AV_FALSE //
   );
 
+  IDataDef PROP_ENABLED = DataDef.create( PROPID_ENABLED, BOOLEAN, //
+      TSID_NAME, STR_ENABLED, //
+      TSID_DESCRIPTION, STR_ENABLED_D, //
+      TSID_DEFAULT_VALUE, AV_TRUE //
+  );
+
   // ------------------------------------------------------------------------------------
   // Optional actor properties
   //
@@ -362,6 +369,7 @@ public interface IVedScreenConstants {
   //
 
   ITinFieldInfo TFI_IS_ACTIVE   = new TinFieldInfo( PROP_IS_ACTIVE, TTI_AT_BOOLEAN );
+  ITinFieldInfo TFI_ENABLED     = new TinFieldInfo( PROP_ENABLED, TTI_AT_BOOLEAN );
   ITinFieldInfo TFI_NAME        = new TinFieldInfo( PROP_NAME, TTI_AT_STRING );
   ITinFieldInfo TFI_DESCRIPTION = new TinFieldInfo( PROP_DESCRIPTION, TTI_AT_STRING );
   ITinFieldInfo TFI_X           = new TinFieldInfo( PROP_X, TTI_AT_FLOATING );

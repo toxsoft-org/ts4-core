@@ -16,6 +16,7 @@ import org.toxsoft.core.tsgui.ved.editor.palette.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
+import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
@@ -96,6 +97,7 @@ public class ViselButton
     @Override
     protected ITinTypeInfo doCreateTypeInfo() {
       IStridablesListEdit<ITinFieldInfo> fields = new StridablesList<>();
+      fields.add( TFI_ENABLED );
       fields.add( TFI_NAME );
       fields.add( TFI_DESCRIPTION );
       fields.add( TFI_TEXT );
@@ -131,6 +133,8 @@ public class ViselButton
 
   private final IButtonRenderer btnRenderer;
 
+  private EButtonViselState prevState = EButtonViselState.NORMAL;
+
   /**
    * Constructor.
    *
@@ -159,12 +163,34 @@ public class ViselButton
   @Override
   protected void doUpdateCachesAfterPropsChange( IOptionSet aChangedValue ) {
     super.doUpdateCachesAfterPropsChange( aChangedValue );
+    if( aChangedValue.hasKey( PROPID_ENABLED ) ) {
+      IAtomicValue av = aChangedValue.getByKey( PROPID_ENABLED );
+      if( av != null && av.isAssigned() ) {
+        props().propsEventer().pauseFiring();
+        if( av.asBool() ) {
+          props().setValobj( PROPID_STATE, prevState );
+        }
+        else {
+          prevState = props().getValobj( PROPID_STATE );
+          props().setValobj( PROPID_STATE, EButtonViselState.DISABLED );
+        }
+        props().propsEventer().resumeFiring( false );
+      }
+    }
     btnRenderer.update();
   }
 
   // ------------------------------------------------------------------------------------
   // IViselButton
   //
+  @Override
+  public boolean isEnabled() {
+    IAtomicValue value = props().getValue( PROPID_ENABLED );
+    if( value == null || !value.isAssigned() ) {
+      return true;
+    }
+    return value.asBool();
+  }
 
   @Override
   public EButtonViselState buttonState() {

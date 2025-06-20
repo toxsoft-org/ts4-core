@@ -32,4 +32,12 @@ public interface IViselButton
    *         <b>false</b> - кнопка не отмечена
    */
   boolean isChecked();
+
+  /**
+   * Возвращает признак того является ли кнопка доступной для взаимодействия с пользователем.<br>
+   *
+   * @return <b>true</b> - кнопка доступна<br>
+   *         <b>false</b> - кнопка недоступна
+   */
+  boolean isEnabled();
 }
