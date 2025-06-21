@@ -161,57 +161,33 @@ public class ElemArrayList<E>
 
   protected ElemArrayList<E> src2list( E[] aSource ) {
     TsNullArgumentRtException.checkNull( aSource );
-    Iterable<E> src = createDirect( aSource );
-    int count = 0;
-    if( !allowDuplicates ) {
-      Set<E> set = new HashSet<>();
-      for( E e : aSource ) {
-        if( !hasElem( e ) ) {
-          set.add( e );
-          count++;
-        }
+    ElemArrayList<E> result = new ElemArrayList<>( aSource.length, allowDuplicates );
+    for( E e : aSource ) {
+      if( allowDuplicates || !hasElem( e ) ) {
+        result.add( e );
       }
-      src = set;
-    }
-    ElemArrayList<E> result = new ElemArrayList<>( count, true );
-    for( E e : src ) {
-      result.add( e );
     }
     return result;
   }
 
   protected ElemArrayList<E> src2list( ITsCollection<E> aSource ) {
     TsNullArgumentRtException.checkNull( aSource );
-    Iterable<E> src = aSource;
-    int count = 0;
-    if( !allowDuplicates ) {
-      Set<E> set = new HashSet<>();
-      for( E e : aSource ) {
-        if( !hasElem( e ) ) {
-          set.add( e );
-          count++;
-        }
+    ElemArrayList<E> result = new ElemArrayList<>( aSource.size(), allowDuplicates );
+    for( E e : aSource ) {
+      if( allowDuplicates || !hasElem( e ) ) {
+        result.add( e );
       }
-      src = set;
-    }
-    ElemArrayList<E> result = new ElemArrayList<>( count, true );
-    for( E e : src ) {
-      result.add( e );
     }
     return result;
   }
 
   protected ElemArrayList<E> src2list( Collection<E> aSource ) {
     TsNullArgumentRtException.checkNull( aSource );
-    ElemArrayList<E> result = new ElemArrayList<>( aSource.size(), true );
-    Collection<E> src = allowDuplicates ? aSource : new HashSet<>( aSource );
-    for( E e : src ) {
-      if( !allowDuplicates ) {
-        if( hasElem( e ) ) {
-          continue;
-        }
+    ElemArrayList<E> result = new ElemArrayList<>( aSource.size(), allowDuplicates );
+    for( E e : aSource ) {
+      if( allowDuplicates || !hasElem( e ) ) {
+        result.add( e );
       }
-      result.add( e );
     }
     return result;
   }
