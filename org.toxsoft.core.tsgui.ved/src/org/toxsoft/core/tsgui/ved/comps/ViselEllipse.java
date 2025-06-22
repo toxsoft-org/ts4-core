@@ -15,6 +15,7 @@ import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
+import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
@@ -76,6 +77,8 @@ public class ViselEllipse
 
   private Color fgColor;
 
+  private TsLineInfo lineInfo = null;
+
   /**
    * Constructor.
    *
@@ -114,13 +117,14 @@ public class ViselEllipse
     aPaintContext.setFillInfo( props().getValobj( PROPID_BK_FILL ) );
     aPaintContext.fillOval( 0, 0, swtRect.width, swtRect.height );
     aPaintContext.setFillInfo( TsFillInfo.NONE );
-    TsLineInfo lineInfo = props().getValobj( PROPID_LINE_INFO );
-    aPaintContext.setLineInfo( lineInfo );
-    aPaintContext.gc().setForeground( fgColor );
-    int alpha = aPaintContext.gc().getAlpha();
-    aPaintContext.gc().setAlpha( fgColor.getAlpha() );
-    aPaintContext.drawOval( 0, 0, swtRect.width, swtRect.height );
-    aPaintContext.gc().setAlpha( alpha );
+    if( lineInfo != null ) {
+      aPaintContext.setLineInfo( lineInfo );
+      aPaintContext.gc().setForeground( fgColor );
+      int alpha = aPaintContext.gc().getAlpha();
+      aPaintContext.gc().setAlpha( fgColor.getAlpha() );
+      aPaintContext.drawOval( 0, 0, swtRect.width, swtRect.height );
+      aPaintContext.gc().setAlpha( alpha );
+    }
   }
 
   @Override
@@ -128,12 +132,16 @@ public class ViselEllipse
     super.doUpdateCachesAfterPropsChange( aChangedValue );
     RGBA fgRgba = props().getValobj( PROPID_FG_COLOR );
     fgColor = colorManager().getColor( fgRgba );
+    if( aChangedValue.hasKey( PROPID_LINE_INFO ) ) {
+      IAtomicValue av = aChangedValue.getByKey( PROPID_LINE_INFO );
+      if( av.isAssigned() ) {
+        lineInfo = av.asValobj();
+      }
+      else {
+        lineInfo = null;
+      }
+    }
     updateSwtRect();
   }
-
-  // @Override
-  // public VedAbstractVertexSet createVertexSet() {
-  // return ViselRoundRectVertexSet.create( this, vedScreen() );
-  // }
 
 }
