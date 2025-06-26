@@ -175,6 +175,13 @@ public interface IAvMetaConstants {
       TSID_DEFAULT_VALUE, DEFAULT_ID_AV //
   );
 
+  // IDataDef DDEF_SKID = create( TSID_SKID, VALOBJ, //
+  // TSID_NAME, "", ///
+  // TSID_DESCRIPTION, "", ///
+  // TSID_IS_NULL_ALLOWED, AV_TRUE, //
+  // TSID_DEFAULT_VALUE, DEFAULT_ID_AV //
+  // );
+
   IStridablesList<IDataDef> ALL_DDEFS = new StridablesList<>( //
       DDEF_NONE, //
       DDEF_BOOLEAN, //

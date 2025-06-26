@@ -82,6 +82,9 @@ public final class Skid
    * @throws TsIllegalArgumentRtException any argument is not an IDpath
    */
   public Skid( String aClassId, String aStrid ) {
+
+    // FIXME does not allow NONE IDs ???
+
     classId = StridUtils.checkValidIdPath( aClassId );
     strid = StridUtils.checkValidIdPath( aStrid );
   }
