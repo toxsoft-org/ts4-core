@@ -14,6 +14,8 @@ import org.toxsoft.core.tslib.bricks.keeper.std.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.gw.gwid.*;
+import org.toxsoft.core.tslib.gw.skid.*;
 import org.toxsoft.core.tslib.math.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -224,6 +226,34 @@ public interface IAvMetaConstants {
   IDataType DT_AV_ENUM = DataType.create( VALOBJ, //
       TSID_NAME, STR_AV_ENUM, //
       TSID_DESCRIPTION, STR_AV_ENUM_D //
+  );
+
+  IDataType DT_SKID = DataType.create( VALOBJ, //
+      TSID_NAME, STR_DT_SKID, //
+      TSID_DESCRIPTION, STR_DT_SKID_D, //
+      TSID_KEEPER_ID, Skid.KEEPER_ID, //
+      TSID_DEFAULT_VALUE, avValobj( Skid.NONE ) //
+  );
+
+  IDataType DT_SKID_LIST = DataType.create( VALOBJ, //
+      TSID_NAME, STR_DT_SKID_LIST, //
+      TSID_DESCRIPTION, STR_DT_SKID_LIST_D, //
+      TSID_KEEPER_ID, SkidListKeeper.KEEPER_ID, //
+      TSID_DEFAULT_VALUE, avValobj( ISkidList.EMPTY ) //
+  );
+
+  IDataType DT_GWID = DataType.create( VALOBJ, //
+      TSID_NAME, STR_DT_GWID, //
+      TSID_DESCRIPTION, STR_DT_GWID_D, //
+      TSID_KEEPER_ID, Gwid.KEEPER_ID, //
+      TSID_DEFAULT_VALUE, IAtomicValue.NULL //
+  );
+
+  IDataType DT_GWID_LIST = DataType.create( VALOBJ, //
+      TSID_NAME, STR_DT_GWID_LIST, //
+      TSID_DESCRIPTION, STR_DT_GWID_LIST_D, //
+      TSID_KEEPER_ID, GwidList.KEEPER_ID, //
+      TSID_DEFAULT_VALUE, avValobj( IGwidList.EMPTY ) //
   );
 
   // ------------------------------------------------------------------------------------
