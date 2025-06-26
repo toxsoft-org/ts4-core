@@ -80,6 +80,9 @@ public class TtiTsLineInfo
 
   @Override
   protected IAtomicValue doCompose( IStringMap<ITinValue> aChildValues ) {
+    if( aChildValues.size() == 0 ) {
+      return IAtomicValue.NULL;
+    }
     int width = extractChildAtomic( FID_WIDTH, aChildValues, avInt( 1 ) ).asInt();
     ETsLineType lineType = extractChildValobj( FID_LINE_STYLE, aChildValues, avValobj( ETsLineType.SOLID ) ).asValobj();
     ETsLineCapStyle cap =
@@ -91,11 +94,13 @@ public class TtiTsLineInfo
 
   @Override
   protected void doDecompose( IAtomicValue aValue, IStringMapEdit<ITinValue> aChildValues ) {
-    TsLineInfo li = aValue.asValobj();
-    aChildValues.put( FID_WIDTH, TinValue.ofAtomic( avInt( li.width() ) ) );
-    aChildValues.put( FID_LINE_STYLE, TinValue.ofAtomic( avValobj( li.type() ) ) );
-    aChildValues.put( FID_CAP_STYLE, TinValue.ofAtomic( avValobj( li.capStyle() ) ) );
-    aChildValues.put( FID_JOIN_STYLE, TinValue.ofAtomic( avValobj( li.joinStyle() ) ) );
+    if( aValue.isAssigned() ) {
+      TsLineInfo li = aValue.asValobj();
+      aChildValues.put( FID_WIDTH, TinValue.ofAtomic( avInt( li.width() ) ) );
+      aChildValues.put( FID_LINE_STYLE, TinValue.ofAtomic( avValobj( li.type() ) ) );
+      aChildValues.put( FID_CAP_STYLE, TinValue.ofAtomic( avValobj( li.capStyle() ) ) );
+      aChildValues.put( FID_JOIN_STYLE, TinValue.ofAtomic( avValobj( li.joinStyle() ) ) );
+    }
   }
 
 }
