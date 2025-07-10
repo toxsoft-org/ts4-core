@@ -42,6 +42,8 @@ interface ITsResources {
   String STR_DT_GWID_D                     = Messages.getString( "STR_DT_GWID_D" );                     //$NON-NLS-1$
   String STR_DT_GWID_LIST                  = Messages.getString( "STR_DT_GWID_LIST" );                  //$NON-NLS-1$
   String STR_DT_GWID_LIST_D                = Messages.getString( "STR_DT_GWID_LIST_D" );                //$NON-NLS-1$
+  String STR_DT_OPTION_SET                 = Messages.getString( "STR_DT_OPTION_SET" );                 //$NON-NLS-1$
+  String STR_DT_OPTION_SET_D               = Messages.getString( "STR_DT_OPTION_SET_D" );               //$NON-NLS-1$
   String FMT_ERR_NO_MANDATORY_OPTION       = Messages.getString( "FMT_ERR_NO_MANDATORY_OPTION" );       //$NON-NLS-1$
   String FMT_ERR_NO_REGISTERED_DATA_DEF    = Messages.getString( "FMT_ERR_NO_REGISTERED_DATA_DEF" );    //$NON-NLS-1$
   String FMT_ERR_PARENT_DATA_DEF_AT_CHANGE = Messages.getString( "FMT_ERR_PARENT_DATA_DEF_AT_CHANGE" ); //$NON-NLS-1$

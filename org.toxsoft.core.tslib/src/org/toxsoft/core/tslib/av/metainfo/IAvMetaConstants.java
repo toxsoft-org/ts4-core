@@ -9,6 +9,7 @@ import static org.toxsoft.core.tslib.av.metainfo.ITsResources.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.av.validators.*;
 import org.toxsoft.core.tslib.bricks.keeper.std.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
@@ -254,6 +255,13 @@ public interface IAvMetaConstants {
       TSID_DESCRIPTION, STR_DT_GWID_LIST_D, //
       TSID_KEEPER_ID, GwidList.KEEPER_ID, //
       TSID_DEFAULT_VALUE, avValobj( IGwidList.EMPTY ) //
+  );
+
+  IDataType DT_OPTION_SET = DataType.create( VALOBJ, //
+      TSID_NAME, STR_DT_OPTION_SET, //
+      TSID_DESCRIPTION, STR_DT_OPTION_SET_D, //
+      TSID_KEEPER_ID, OptionSetKeeper.KEEPER_ID, //
+      TSID_DEFAULT_VALUE, OptionSetKeeper.AV_EMPTY_OPSET //
   );
 
   // ------------------------------------------------------------------------------------
