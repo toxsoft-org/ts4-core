@@ -205,6 +205,7 @@ public class ViselMultiLineLabel
       if( aChangedValue.hasKey( TFI_TEXT.id() ) ) {
         String str = aChangedValue.getStr( TFI_TEXT.id() );
         str = str.replace( "\r\n", "\n" ); //$NON-NLS-1$//$NON-NLS-2$
+        str = str.replace( "\\n", "\n" ); //$NON-NLS-1$//$NON-NLS-2$
         subStrings = str.split( "\n" ); //$NON-NLS-1$
         recalc = true;
       }
@@ -248,24 +249,27 @@ public class ViselMultiLineLabel
       else {
         height = props().getDouble( PROPID_HEIGHT );
       }
-      gc = new GC( getShell() );
-      IFontInfo fi = props().getValobj( PROPID_FONT );
-      if( aValuesToSet.hasKey( PROPID_FONT ) ) {
-        fi = aValuesToSet.getValobj( PROPID_FONT );
-      }
-      font = fontManager().getFont( fi );
-      gc.setFont( font );
-      String text = props().getStr( PROPID_TEXT );
-      if( aValuesToSet.hasKey( PROPID_TEXT ) ) {
-        text = aValuesToSet.getStr( PROPID_TEXT );
-      }
-      if( text.isEmpty() ) {
-        text = " "; //$NON-NLS-1$
-      }
-      Point p = gc.textExtent( text );
-      int textWidth = p.x;
-      int textHeight = p.y;
+      // gc = new GC( getShell() );
+      // IFontInfo fi = props().getValobj( PROPID_FONT );
+      // if( aValuesToSet.hasKey( PROPID_FONT ) ) {
+      // fi = aValuesToSet.getValobj( PROPID_FONT );
+      // }
+      // font = fontManager().getFont( fi );
+      // gc.setFont( font );
+      // String text = props().getStr( PROPID_TEXT );
+      // if( aValuesToSet.hasKey( PROPID_TEXT ) ) {
+      // text = aValuesToSet.getStr( PROPID_TEXT );
+      // }
+      // if( text.isEmpty() ) {
+      // text = " "; //$NON-NLS-1$
+      // }
+      // Point p = gc.textExtent( text );
+      // int textWidth = p.x;
+      // int textHeight = p.y;
 
+      ID2Point d2p = getPackedSize( width, height );
+      int textWidth = d2p.intX();
+      int textHeight = d2p.intY();
       if( width < textWidth ) {
         width = textWidth;
         aValuesToSet.setDouble( PROPID_WIDTH, textWidth );
@@ -286,19 +290,8 @@ public class ViselMultiLineLabel
   public ID2Point getPackedSize( double aWidth, double aHeight ) {
     TsBorderInfo bi = props().getValobj( PROPID_BORDER_INFO );
     if( bi.kind() == ETsBorderKind.NONE ) {
-      GC gc = null;
-      try {
-        gc = new GC( getShell() );
-        gc.setFont( font );
-        Point p = gc.textExtent( props().getStr( PROPID_TEXT ) );
-        return new D2Point( p.x, p.y );
-      }
-      finally {
-        if( gc != null ) {
-          gc.dispose();
-        }
-      }
-
+      Point p = calcTecxtSize();
+      return new D2Point( p.x, p.y );
     }
     return super.getPackedSize( aWidth, aHeight );
   }
