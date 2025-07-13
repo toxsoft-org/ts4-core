@@ -201,6 +201,7 @@ public abstract class VedAbstractVisel
     values.put( PROPID_WIDTH, avFloat( aWidth ) );
     values.put( PROPID_HEIGHT, avFloat( aHeight ) );
     props().setProps( values );
+    internalUpdateBoundsRect();
   }
 
   // ------------------------------------------------------------------------------------

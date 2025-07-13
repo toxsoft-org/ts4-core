@@ -139,6 +139,8 @@ public class ViselMultiLineLabel
 
   IListEdit<Point> textExtents = new ElemArrayList<>();
 
+  TsBorderInfo borderInfo = TsBorderInfo.NONE;
+
   /**
    * Constructor.
    *
@@ -192,7 +194,7 @@ public class ViselMultiLineLabel
 
     aPaintContext.gc().setAlpha( 255 );
     // paintSelection( x, y, p, aPaintContext );
-    aPaintContext.setBorderInfo( props().getValobj( PROPID_BORDER_INFO ) );
+    aPaintContext.setBorderInfo( borderInfo );
     aPaintContext.drawRectBorder( 0, 0, (int)r.width(), (int)r.height() );
   }
 
@@ -210,9 +212,12 @@ public class ViselMultiLineLabel
         recalc = true;
       }
       if( aChangedValue.hasKey( PROPID_FONT ) ) {
-        IFontInfo fi = props().getValobj( PROPID_FONT );
+        IFontInfo fi = aChangedValue.getValobj( PROPID_FONT );
         font = fontManager().getFont( fi );
         recalc = true;
+      }
+      if( aChangedValue.hasKey( PROPID_BORDER_INFO ) ) {
+        borderInfo = aChangedValue.getValobj( PROPID_BORDER_INFO );
       }
       if( recalc ) {
         gc = new GC( getShell() );
@@ -288,8 +293,7 @@ public class ViselMultiLineLabel
 
   @Override
   public ID2Point getPackedSize( double aWidth, double aHeight ) {
-    TsBorderInfo bi = props().getValobj( PROPID_BORDER_INFO );
-    if( bi.kind() == ETsBorderKind.NONE ) {
+    if( borderInfo == TsBorderInfo.NONE ) {
       Point p = calcTecxtSize();
       return new D2Point( p.x, p.y );
     }
