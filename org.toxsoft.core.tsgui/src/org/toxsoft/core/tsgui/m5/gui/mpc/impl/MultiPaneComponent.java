@@ -92,10 +92,11 @@ public abstract class MultiPaneComponent<T>
   private final TsKeyInputDelegator             keyInputDelegator;
   private final GenericChangeEventer            genericChangeEventer;
 
-  private final ITsTreeMaker<T>      tableMaker; // default tree maker makes plain list (table mode) of items
-  private final IM5TreeViewer<T>     tree;
-  private final ITreeModeManager<T>  tmm;
-  private final ITsActionSetProvider aspLocal;
+  private final ITsTreeMaker<T>     tableMaker; // default tree maker makes plain list (table mode) of items
+  private final IM5TreeViewer<T>    tree;
+  private final ITreeModeManager<T> tmm;
+
+  private final CompoundTsActionSetProvider aspLocal = new CompoundTsActionSetProvider();
 
   private IM5ItemsProvider<T> itemsProvider = IM5ItemsProvider.EMPTY;
 
@@ -119,7 +120,9 @@ public abstract class MultiPaneComponent<T>
     genericChangeEventer = new GenericChangeEventer( this );
     TsIllegalArgumentRtException.checkTrue( aViewer.getControl() != null );
     ITsActionSetProvider asp = REFDEF_M5STD_PANEL_ACTIONS_ASP.getRef( tsContext(), null );
-    aspLocal = asp != null ? asp : ITsActionSetProvider.NONE;
+    if( asp != null ) {
+      aspLocal.addHandler( asp );
+    }
     selectionChangeEventHelper = new TsSelectionChangeEventHelper<>( this ) {
 
       @Override
@@ -235,15 +238,13 @@ public abstract class MultiPaneComponent<T>
         }
       }
     }
-    // TODO now apply ASP settings
-    if( REFDEF_M5STD_PANEL_ACTIONS_ASP.getRef( tsContext(), null ) != null ) {
-      boolean isSubstitute = OPDEF_M5STD_PANEL_IS_ASP_SUBSTITUTE.getValue( tsContext().params() ).asBool();
-      if( isSubstitute ) {
-        actDefs.setAll( aspLocal.listAllActionDefs() );
-      }
-      else {
-        actDefs.addAll( aspLocal.listAllActionDefs() );
-      }
+    // now apply ASP settings
+    boolean isSubstitute = OPDEF_M5STD_PANEL_IS_ASP_SUBSTITUTE.getValue( tsContext().params() ).asBool();
+    if( isSubstitute ) {
+      actDefs.setAll( aspLocal.listAllActionDefs() );
+    }
+    else {
+      actDefs.addAll( aspLocal.listAllActionDefs() );
     }
     // toolbar name
     String name = TsLibUtils.EMPTY_STRING;
@@ -908,6 +909,21 @@ public abstract class MultiPaneComponent<T>
    */
   public ITsToolbar toolbar() {
     return toolbar;
+  }
+
+  /**
+   * Adds actions to the toolbar.
+   * <p>
+   * Method has no effect if called after control creation.
+   *
+   * @param aAsp {@link ITsActionSetProvider} - actions to add
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public void addLocalAsp( ITsActionSetProvider aAsp ) {
+    TsNullArgumentRtException.checkNull( aAsp );
+    if( getControl() == null ) {
+      aspLocal.addHandler( aAsp );
+    }
   }
 
   // ------------------------------------------------------------------------------------
