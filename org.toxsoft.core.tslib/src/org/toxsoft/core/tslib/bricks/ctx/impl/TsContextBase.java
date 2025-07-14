@@ -79,6 +79,7 @@ public class TsContextBase<P extends ITsContextRo>
    * Creates an empty context linked to the parent.
    *
    * @param aParentTsContext &lt;P&gt; - the parent context
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public TsContextBase( P aParentTsContext ) {
     TsNullArgumentRtException.checkNull( aParentTsContext );
@@ -90,6 +91,7 @@ public class TsContextBase<P extends ITsContextRo>
    * For descendants.
    *
    * @param aAskParent {@link IAskParent} - parent ops and refs retreival
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   protected TsContextBase( IAskParent aAskParent ) {
     TsNullArgumentRtException.checkNull( aAskParent );
