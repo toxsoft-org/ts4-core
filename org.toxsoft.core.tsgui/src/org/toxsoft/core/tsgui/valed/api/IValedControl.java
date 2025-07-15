@@ -1,16 +1,12 @@
 package org.toxsoft.core.tsgui.valed.api;
 
-import java.io.*;
-
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.panels.lazy.*;
-import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.utils.*;
 import org.toxsoft.core.tslib.bricks.events.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
-import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -22,67 +18,57 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public interface IValedControl<V>
     extends ILazyControl<Control>, ITsGuiContextable, IParameterizedEdit {
 
-  // TODO TRANSLATE
-
   /**
-   * Возвращает текущее состояние разрешения редактирования значения (признак "редактируемости").
+   * Determines if the VALED allows user to edit the value.
    * <p>
-   * Этот метод по смыслу аналогичен {@link Control#isEnabled()}, точнее, для контролей, поддерживающих понятие
-   * "редактируемость". Например, {@link Text#getEditable()}.
+   * The VALED is designed to allow user edit the value via SWT widget(s). However, sometimes editing may be disabled
+   * (for example, you can't change file name on the read-only filesystem). Editing may be enabled/disabled by the
+   * method {@link #setEditable(boolean)}.
    * <p>
-   * Состояние контроля в момент создания задается параметром {@link IValedControlConstants#OPDEF_CREATE_UNEDITABLE}.
-   * Если при создании контроль является нередактируемым, в дальнейшем его сделать редактируемым невозможно.
+   * However, VALED may be created with {@link IValedControlConstants#OPDEF_CREATE_UNEDITABLE} flag set to disable the
+   * editing during VALED's lifecycle. Example usage is VALED in the entity editor dialog where some ID may be edited
+   * when entity dialog is invoked for entity creation. However, when dialog is invoked for entity editing the ID can
+   * not be changed so corresponding VALED is created with {@link IValedControlConstants#OPDEF_CREATE_UNEDITABLE} flag
+   * set. For such uneditable VALEDs method always returns <code>false</code>.
+   * <p>
+   * Note: the GUI implementation of the VALED in editing enabled/disabled state may be different. For example,
+   * <b>int</b> value VALED may be represented as a {@link Spinner} when editing is enabled and as a {@link Text} when
+   * disabled.
    *
-   * @return booolean - признак разрешения редактирования значения
+   * @return boolean - flag for allowing editing of a value
    */
   boolean isEditable();
 
   /**
-   * Задает признак признак разрешения редакторования.
+   * Enables/disabled VALED editing mode, changes {@link #isEditable()}.
    * <p>
-   * Этот метод по смыслу аналогичен {@link Control#setEnabled(boolean)}, а точнее, {@link Text#setEditable(boolean)}.
-   * Отличие проявлется в том, что реально редактор состоять из нескольких компонент, и в этом случае этот метод
-   * корректно запрещает/разрешает нужные компоненты составного контроля.
-   * <p>
-   * Обратите внимание, что если контроль был создан с заданным в <code>true</code> параметром
-   * {@link IValedControlConstants#OPDEF_CREATE_UNEDITABLE}, то контроль будет нередактиремым, и этот метод молча
-   * игнорируется.
+   * If VALED was created with {@link IValedControlConstants#OPDEF_CREATE_UNEDITABLE} flag set then this method is
+   * ignored and {@link #isEditable()} always returns <code>false</code>.
    *
-   * @param aEditable booolean - разрешение редактирования
+   * @param aEditable boolean - flag for allowing editing of a value
    */
   void setEditable( boolean aEditable );
 
   /**
-   * Определяет, содержиться ли в редакторе значение допустимого типа, которое можно считать.
+   * Checks if widget contains value that may be read by the method {@link #getValue()}.
    * <p>
-   * Другими словами, проверяет, приведет ли вызов {@link #getValue()} к исключению, или вернет значение.
-   * <p>
-   * Проверка допустимости типа должна происходить в следующем порядке:
-   * <ul>
-   * <li>сначала проверяется, что визуальная компонента (виджет) содержит в себе значение типа &lt;V&gt;. Например, если
-   * V это {@link File}, а виджет это {@link Text}, то должно быть проверено, что строка содержит строку в формате пути
-   * к файлу, а не, например, HTTP ссылку;</li>
-   * <li>потом проверяется "уточняющий тип". Имеется в виду следующее: часть редакторов внутри типа &lt;V&gt; вводит еще
-   * уточнение типа, например для {@link IAtomicValue} уточняющим типом является {@link EAtomicType}. Или еще: для типа
-   * {@link IList}, уточняющим типом будет являтся тип элементов списка;</li>
-   * </ul>
+   * Obviously returns an error if widget is not created yet.
    *
-   * @return {@link ValidationResult} - результат проверки допустимости значения в редакторе
+   * @return {@link ValidationResult} - the check result, if error {@link #getValue()} will throw an exception
    */
   ValidationResult canGetValue();
 
   /**
-   * Возвращает редактируемое значение.
+   * Returns the edited value.
    * <p>
-   * Возвращаемое значение гарантированно имеет нужный <b>тип</b>. Допустимость значения <b>не</b> проверятся.
-   * <p>
-   * Внимание: реализация должна гарантировать, что значение будет возвращено вне зависимости от того, существует ли
-   * виджет редактора. В отсутствие виджета редактора должно вернутся значение заданное методом
-   * {@link #setValue(Object)}, или значение по умолчанию.
+   * As a lazy control, VALED is instantiated by the constructor but corresponding SWT widget is create by the method
+   * {@link #createControl(Composite)}. This method throws a {@link TsIllegalStateRtException} if called before widget
+   * is created. This behavior is due to the fact that VALED must return the value entered (or at least viewed) by the
+   * user. Naturally, the user cannot see the value before the widget is created.
    *
-   * @return &lt;V&gt; - редактируемое значение, может быть null (если контроль допускает это)
-   * @throws TsIllegalStateRtException запрошено значение до того, как оно было задано методом {@link #setValue(Object)}
-   * @throws TsValidationFailedRtException не прошла проверка {@link #canGetValue()}
+   * @return &lt;V&gt; - the edited value, may be {@link NullPointerException}
+   * @throws TsIllegalStateRtException SWT widget is not created yet
+   * @throws TsValidationFailedRtException failed {@link #canGetValue()}
    */
   V getValue();
 
