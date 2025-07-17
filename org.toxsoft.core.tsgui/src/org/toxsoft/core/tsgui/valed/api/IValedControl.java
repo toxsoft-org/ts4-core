@@ -51,8 +51,6 @@ public interface IValedControl<V>
 
   /**
    * Checks if widget contains value that may be read by the method {@link #getValue()}.
-   * <p>
-   * Obviously returns an error if widget is not created yet.
    *
    * @return {@link ValidationResult} - the check result, if error {@link #getValue()} will throw an exception
    */
@@ -61,13 +59,13 @@ public interface IValedControl<V>
   /**
    * Returns the edited value.
    * <p>
-   * As a lazy control, VALED is instantiated by the constructor but corresponding SWT widget is create by the method
-   * {@link #createControl(Composite)}. This method throws a {@link TsIllegalStateRtException} if called before widget
-   * is created. This behavior is due to the fact that VALED must return the value entered (or at least viewed) by the
-   * user. Naturally, the user cannot see the value before the widget is created.
+   * As a lazy control, VALED is instantiated by the constructor but corresponding SWT widget is created by the method
+   * {@link #createControl(Composite)}. Some implementations may throws a {@link TsIllegalStateRtException} if called
+   * before widget is created. This behavior is due to the fact that VALED must return the value entered (or at least
+   * viewed) by the user. Naturally, the user cannot see the value before the widget is created.
    *
    * @return &lt;V&gt; - the edited value, may be {@link NullPointerException}
-   * @throws TsIllegalStateRtException SWT widget is not created yet
+   * @throws TsIllegalStateRtException SWT widget is not created yet (some implementations)
    * @throws TsValidationFailedRtException failed {@link #canGetValue()}
    */
   V getValue();
