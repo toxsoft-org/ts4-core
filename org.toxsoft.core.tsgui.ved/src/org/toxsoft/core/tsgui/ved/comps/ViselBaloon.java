@@ -47,13 +47,13 @@ public class ViselBaloon
    */
   public static final String FACTORY_ID = VED_ID + ".baloon"; //$NON-NLS-1$
 
-  static final String PROPID_ARC_WIDTH    = "arcWidth";    //$NON-NLS-1$
-  static final String PROPID_ARC_HEIGHT   = "arcHeight";   //$NON-NLS-1$
-  static final String PROPID_NOSE_LENGTH  = "noseLength";  //$NON-NLS-1$
-  static final String PROPID_NOSE_WIDTH   = "noseWidth";   //$NON-NLS-1$
-  static final String PROPID_NOSE_FULCRUM = "noseFulcrum"; //$NON-NLS-1$
-  static final String PROPID_USE_GRADIENT = "useGradient"; //$NON-NLS-1$
-  static final String PROPID_SHADOW_DEPTH = "shadowDepth"; //$NON-NLS-1$
+  public static final String PROPID_ARC_WIDTH    = "arcWidth";    //$NON-NLS-1$
+  public static final String PROPID_ARC_HEIGHT   = "arcHeight";   //$NON-NLS-1$
+  public static final String PROPID_NOSE_LENGTH  = "noseLength";  //$NON-NLS-1$
+  public static final String PROPID_NOSE_WIDTH   = "noseWidth";   //$NON-NLS-1$
+  public static final String PROPID_NOSE_FULCRUM = "noseFulcrum"; //$NON-NLS-1$
+  public static final String PROPID_USE_GRADIENT = "useGradient"; //$NON-NLS-1$
+  public static final String PROPID_SHADOW_DEPTH = "shadowDepth"; //$NON-NLS-1$
 
   static final IDataDef PROP_ARC_WIDTH = DataDef.create3( PROPID_ARC_WIDTH, DDEF_FLOATING, //
       TSID_NAME, STR_VISEL_ARC_WIDTH, //
@@ -198,7 +198,7 @@ public class ViselBaloon
       pat = grad.pattern( aPaintContext.gc(), swtRect.width, swtRect.height );
       aPaintContext.gc().setForegroundPattern( pat );
     }
-    aPaintContext.drawPath( baloonPath, 0, 0 );
+    // aPaintContext.drawPath( baloonPath, 0, 0 );
     if( pat != null ) {
       pat.dispose();
     }
@@ -258,23 +258,16 @@ public class ViselBaloon
 
   ITsPoint noseTop() {
     double noseLength = props().getDouble( PROPID_NOSE_LENGTH );
-    switch( noseFulcrum() ) {
-      case BOTTOM_CENTER:
-        return new TsPoint( (int)(rectX() + rectWidth() / 2.), (int)(rectY() + rectHeight() + noseLength) );
-      case LEFT_CENTER:
-        return new TsPoint( (int)(rectX() - noseLength), (int)(rectY() + rectHeight() / 2.) );
-      case RIGHT_CENTER:
-        return new TsPoint( (int)(rectX() + rectWidth() + noseLength), (int)(rectY() + rectHeight() / 2.) );
-      case TOP_CENTER:
-        return new TsPoint( (int)(rectX() + rectWidth() / 2.), (int)(rectY() - noseLength) );
-      case LEFT_TOP:
-      case RIGHT_BOTTOM:
-      case RIGHT_TOP:
-      case CENTER:
-      case LEFT_BOTTOM:
-      default:
-        throw new IllegalArgumentException( "Unexpected value: " + noseFulcrum() ); //$NON-NLS-1$
-    }
+    return switch( noseFulcrum() ) {
+      case BOTTOM_CENTER -> new TsPoint( (int)(rectX() + rectWidth() / 2.),
+          (int)(rectY() + rectHeight() + noseLength) );
+      case LEFT_CENTER -> new TsPoint( (int)(rectX() - noseLength), (int)(rectY() + rectHeight() / 2.) );
+      case RIGHT_CENTER -> new TsPoint( (int)(rectX() + rectWidth() + noseLength), (int)(rectY() + rectHeight() / 2.) );
+      case TOP_CENTER -> new TsPoint( (int)(rectX() + rectWidth() / 2.), (int)(rectY() - noseLength) );
+      case LEFT_TOP, RIGHT_BOTTOM, RIGHT_TOP, CENTER, LEFT_BOTTOM -> throw new IllegalArgumentException(
+          "Unexpected value: " + noseFulcrum() ); //$NON-NLS-1$
+      default -> throw new IllegalArgumentException( "Unexpected value: " + noseFulcrum() ); //$NON-NLS-1$
+    };
   }
 
   // ------------------------------------------------------------------------------------
@@ -427,22 +420,12 @@ public class ViselBaloon
    */
   public double rectX() {
     float noseLength = props().getFloat( PROP_NOSE_LENGTH );
-    switch( getFulcrum() ) {
-      case LEFT_CENTER:
-        return (int)(noseLength);
-      case RIGHT_CENTER:
-      case TOP_CENTER:
-      case BOTTOM_CENTER:
-        return 0;
-
-      case CENTER:
-      case LEFT_BOTTOM:
-      case LEFT_TOP:
-      case RIGHT_BOTTOM:
-      case RIGHT_TOP:
-      default:
-        throw new TsNotAllEnumsUsedRtException();
-    }
+    return switch( getFulcrum() ) {
+      case LEFT_CENTER -> (int)(noseLength);
+      case RIGHT_CENTER, TOP_CENTER, BOTTOM_CENTER -> 0;
+      case CENTER, LEFT_BOTTOM, LEFT_TOP, RIGHT_BOTTOM, RIGHT_TOP -> throw new TsNotAllEnumsUsedRtException();
+      default -> throw new TsNotAllEnumsUsedRtException();
+    };
   }
 
   /**
@@ -452,22 +435,12 @@ public class ViselBaloon
    */
   public double rectY() {
     float noseLength = props().getFloat( PROP_NOSE_LENGTH );
-    switch( getFulcrum() ) {
-      case TOP_CENTER:
-        return (int)(noseLength);
-      case LEFT_CENTER:
-      case RIGHT_CENTER:
-      case BOTTOM_CENTER:
-        return 0;
-
-      case CENTER:
-      case LEFT_BOTTOM:
-      case LEFT_TOP:
-      case RIGHT_BOTTOM:
-      case RIGHT_TOP:
-      default:
-        throw new TsNotAllEnumsUsedRtException();
-    }
+    return switch( getFulcrum() ) {
+      case TOP_CENTER -> (int)(noseLength);
+      case LEFT_CENTER, RIGHT_CENTER, BOTTOM_CENTER -> 0;
+      case CENTER, LEFT_BOTTOM, LEFT_TOP, RIGHT_BOTTOM, RIGHT_TOP -> throw new TsNotAllEnumsUsedRtException();
+      default -> throw new TsNotAllEnumsUsedRtException();
+    };
   }
 
   /**
@@ -478,23 +451,13 @@ public class ViselBaloon
   public double rectWidth() {
     float noseLength = props().getFloat( PROP_NOSE_LENGTH );
     ID2Rectangle r = bounds();
-    switch( getFulcrum() ) {
-      case LEFT_CENTER:
-        return (int)(r.width() - noseLength) - shadowShift;
-      case RIGHT_CENTER:
-        return (int)(r.width() - noseLength) + shadowShift;
-      case TOP_CENTER:
-      case BOTTOM_CENTER:
-        return r.width() - shadowShift;
-
-      case CENTER:
-      case LEFT_BOTTOM:
-      case LEFT_TOP:
-      case RIGHT_BOTTOM:
-      case RIGHT_TOP:
-      default:
-        throw new TsNotAllEnumsUsedRtException();
-    }
+    return switch( getFulcrum() ) {
+      case LEFT_CENTER -> (int)(r.width() - noseLength) - shadowShift;
+      case RIGHT_CENTER -> (int)(r.width() - noseLength) + shadowShift;
+      case TOP_CENTER, BOTTOM_CENTER -> r.width() - shadowShift;
+      case CENTER, LEFT_BOTTOM, LEFT_TOP, RIGHT_BOTTOM, RIGHT_TOP -> throw new TsNotAllEnumsUsedRtException();
+      default -> throw new TsNotAllEnumsUsedRtException();
+    };
   }
 
   /**
@@ -505,23 +468,13 @@ public class ViselBaloon
   public double rectHeight() {
     float noseLength = props().getFloat( PROP_NOSE_LENGTH );
     ID2Rectangle r = bounds();
-    switch( getFulcrum() ) {
-      case LEFT_CENTER:
-      case RIGHT_CENTER:
-        return r.height() - shadowShift;
-      case TOP_CENTER:
-        return (int)(r.height() - noseLength) - shadowShift;
-      case BOTTOM_CENTER:
-        return (int)(r.height() - noseLength);
-
-      case CENTER:
-      case LEFT_BOTTOM:
-      case LEFT_TOP:
-      case RIGHT_BOTTOM:
-      case RIGHT_TOP:
-      default:
-        throw new TsNotAllEnumsUsedRtException();
-    }
+    return switch( getFulcrum() ) {
+      case LEFT_CENTER, RIGHT_CENTER -> r.height() - shadowShift;
+      case TOP_CENTER -> (int)(r.height() - noseLength) - shadowShift;
+      case BOTTOM_CENTER -> (int)(r.height() - noseLength);
+      case CENTER, LEFT_BOTTOM, LEFT_TOP, RIGHT_BOTTOM, RIGHT_TOP -> throw new TsNotAllEnumsUsedRtException();
+      default -> throw new TsNotAllEnumsUsedRtException();
+    };
   }
 
   /**
