@@ -118,11 +118,18 @@ public abstract class AbstractQuant
     }
     LoggerUtils.defaultLogger().info( FMT_INFO_QUANT_INIT_APP, name );
     TsNullArgumentRtException.checkNull( aAppContext );
+    // this quant, before children
+    try {
+      doInitAppBeforeChildQuants( aAppContext );
+    }
+    catch( Exception ex ) {
+      LoggerUtils.errorLogger().error( ex, FMT_ERR_APP_INIT_QUANT, name );
+    }
     // child quants
     for( IQuant q : quants ) {
       q.initApp( aAppContext );
     }
-    // this quant
+    // this quant, after children
     try {
       doInitApp( aAppContext );
     }
@@ -141,11 +148,18 @@ public abstract class AbstractQuant
       return;
     }
     LoggerUtils.defaultLogger().info( FMT_INFO_QUANT_INIT_WIN, name );
+    // init this quant, beforechildren
+    try {
+      doInitWinBeforeChildQuants( aWinContext );
+    }
+    catch( Exception ex ) {
+      LoggerUtils.errorLogger().error( ex, FMT_ERR_WIN_INIT_QUANT, name );
+    }
     // init child quants
     for( IQuant q : quants ) {
       q.initWin( aWinContext );
     }
-    // init this quant
+    // init this quant, after children
     try {
       doInitWin( aWinContext );
     }
@@ -203,6 +217,32 @@ public abstract class AbstractQuant
   // ------------------------------------------------------------------------------------
   // Override
   //
+
+  /**
+   * Subclass may perform application level initialization (once when application starts).
+   * <p>
+   * This method is called before child quants {@link IQuant#initApp(IEclipseContext)}.
+   * <p>
+   * Does nothing in the base class. No need to call parent method when overriding.
+   *
+   * @param aAppContext {@link IEclipseContext} - application level context
+   */
+  protected void doInitAppBeforeChildQuants( IEclipseContext aAppContext ) {
+    // nop
+  }
+
+  /**
+   * Subclass may perform window level initialization (once per window).
+   * <p>
+   * This method is called before child quants {@link IQuant#initWin(IEclipseContext)}.
+   * <p>
+   * Does nothing in the base class. No need to call parent method when overriding.
+   *
+   * @param aWinContext {@link IEclipseContext} - window level context
+   */
+  protected void doInitWinBeforeChildQuants( IEclipseContext aWinContext ) {
+    // nop
+  }
 
   /**
    * Subclass may perform application level initialization (once when application starts).

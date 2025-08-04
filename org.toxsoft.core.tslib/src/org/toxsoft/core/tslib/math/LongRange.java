@@ -29,6 +29,11 @@ public final class LongRange
   public static final LongRange FULL = new LongRange( Long.MIN_VALUE, Long.MAX_VALUE );
 
   /**
+   * Full range of <code>int</code> integers, useful to check if <code>long</code> value is in <code>int</code> range.
+   */
+  public static final LongRange FULL_INT = new LongRange( Integer.MIN_VALUE, Integer.MAX_VALUE );
+
+  /**
    * Range (0,0).
    */
   public static final LongRange ZERO = new LongRange( 0L, 0L );
