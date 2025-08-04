@@ -194,6 +194,41 @@ public class TsValobjUtils {
   }
 
   /**
+   * Removes previously registered keeper.
+   * <p>
+   * If keeper with ID <code>aKeeperId</code> is not registered then method does nothing.
+   * <p>
+   * Note: <code>aKeeper</code> must be exactly the same reference (checked by == operator) as registered one, itherwise
+   * method does nothing.
+   *
+   * @param aKeeperId String - the key, IDPath identifier
+   * @param aKeeper {@link IEntityKeeper} - the keeper
+   * @return boolean - determines if keeper was really unregistered<br>
+   *         <b>true</b> - there was registered keeper with the specified ID and is is not registered any more ;<br>
+   *         <b>false</b> - nothing has been changed in registered keepers list.
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static boolean unregisterKeeper( String aKeeperId, IEntityKeeper<?> aKeeper ) {
+    TsNullArgumentRtException.checkNulls( aKeeperId, aKeeper );
+    mainLock.writeLock().lock();
+    try {
+      IEntityKeeper<?> regsiteredKeeper = keepersMap.findByKey( aKeeperId );
+      if( regsiteredKeeper == aKeeper ) {
+        if( aKeeper.entityClass() != null ) {
+          keepersMapByClass.removeByKey( aKeeper.entityClass() );
+          idsMapByClass.removeByKey( aKeeper.entityClass() );
+        }
+        keepersMap.removeByKey( aKeeperId );
+        return true;
+      }
+      return false;
+    }
+    finally {
+      mainLock.writeLock().unlock();
+    }
+  }
+
+  /**
    * Returns the keeper by identifier.
    *
    * @param aKeeperId String - keeper identifier
