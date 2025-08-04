@@ -51,6 +51,8 @@ public interface ITsGraphicsContext
 
   void fillPolygon( int[] aPoints );
 
+  void drawPolygon( int[] aPoints );
+
   void drawPolyline( int[] aPoints );
 
   void drawPath( Path aPath, int aX, int aY );

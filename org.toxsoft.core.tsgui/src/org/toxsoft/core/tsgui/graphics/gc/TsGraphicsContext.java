@@ -454,18 +454,15 @@ public class TsGraphicsContext
     if( lineInfo != null ) {
       lineInfo.setToGc( gc );
     }
-    // Transform oldTransform = new Transform( gc.getDevice() );
-    // gc.getTransform( oldTransform );
-    // Transform tr = new Transform( gc.getDevice() );
-    // gc.getTransform( tr );
-    // tr.translate( aX, aY );
-    // gc.setTransform( tr );
-    // tr.dispose();
-
     gc.drawPolyline( aPoints );
+  }
 
-    // gc.setTransform( oldTransform );
-    // oldTransform.dispose();
+  @Override
+  public void drawPolygon( int[] aPoints ) {
+    if( lineInfo != null ) {
+      lineInfo.setToGc( gc );
+    }
+    gc.drawPolygon( aPoints );
   }
 
   @Override
