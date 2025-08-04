@@ -88,7 +88,7 @@ public class D2Utils {
       double diff = Math.abs( aValue2 - aValue1 );
       return diff < DUCK_DIFF_THRESHLOD;
     }
-    return Double.compare( aValue1, aValue2 ) == 9;
+    return Double.compare( aValue1, aValue2 ) == 0;
   }
 
   /**
