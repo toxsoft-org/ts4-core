@@ -37,11 +37,11 @@ public class ScrollBarCfg
   /**
    * Copy constructor.
    *
-   * @param aSource {@link ScrollBar} - the source
+   * @param aSource {@link IScrollBarCfg} - the source
    */
-  public ScrollBarCfg( ScrollBarCfg aSource ) {
-    this( aSource.selection, aSource.minimum, aSource.maximum, aSource.thumb, aSource.increment,
-        aSource.pageIncrement );
+  public ScrollBarCfg( IScrollBarCfg aSource ) {
+    this( aSource.selection(), aSource.minimum(), aSource.maximum(), aSource.thumb(), aSource.increment(),
+        aSource.pageIncrement() );
   }
 
   /**

@@ -1,7 +1,7 @@
 package org.toxsoft.core.tslib.bricks.validator;
 
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Compound validator calls registered {@link ITsValidator}s in order of registration.
@@ -42,7 +42,7 @@ public interface ITsCompoundValidator<V>
   void removeValidator( ITsValidator<V> aValidator );
 
   /**
-   * Temprary disables the specified validator.
+   * Temporary disables the specified validator.
    * <p>
    * After call of this method the {@link #validate(Object)} will not include disabled validator untill the
    * {@link #unmuteValidator(ITsValidator)} call. However the {@link #listValidators()} will include disabled validator.

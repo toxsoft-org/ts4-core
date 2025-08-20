@@ -17,37 +17,10 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  */
-public class TsVersion
+public final class TsVersion
     implements Serializable, Comparable<TsVersion> {
 
-  private static final long serialVersionUID = 157157L;
-
-  /**
-   * Lowest possible version number, any other version is higher or equal to this constant.
-   */
-  public static final TsVersion LOWEST = new TsVersion( 0, 0, Long.MIN_VALUE ) {
-
-    private static final long serialVersionUID = 3534102891412099016L;
-
-    @Override
-    public String toString() {
-      return "HIGHEST"; //$NON-NLS-1$
-    }
-
-  };
-
-  /**
-   * Highest possible version number, any other version is lower or equal to this constant.
-   */
-  public static final TsVersion HIGHEST = new TsVersion( Short.MAX_VALUE, Short.MAX_VALUE, Long.MAX_VALUE ) {
-
-    private static final long serialVersionUID = -6214870077344196133L;
-
-    @Override
-    public String toString() {
-      return "HIGHEST"; //$NON-NLS-1$
-    }
-  };
+  private static final long serialVersionUID = 157157157L;
 
   /**
    * The registered keeper ID.
@@ -98,8 +71,6 @@ public class TsVersion
     verMinor = aMinor;
     verDate = aVerDate;
   }
-
-  // TODO TRANSLATE
 
   /**
    * Constructor.
@@ -211,7 +182,7 @@ public class TsVersion
   }
 
   // --------------------------------------------------------------------------
-  // Comparable<TsVersion>
+  // Comparable
   //
 
   @Override
@@ -281,7 +252,7 @@ public class TsVersion
   }
 
   /**
-   * Creates {@link TsVersion} instance from the string of format "1.0. 2022-12-31 23:59:59".
+   * Creates {@link TsVersion} instance from the string of format "1.0 2022-12-31 23:59:59".
    *
    * @param aVerString String - formatted version string
    * @return {@link TsVersion} - created instance

@@ -65,6 +65,16 @@ public final class TsFulcrum {
 
   private static final IMap<ETsFulcrum, TsFulcrum> predefinedFulcrums;
 
+  /**
+   * The instance, corresponding to {@link ETsFulcrum#CENTER}.
+   */
+  public static final TsFulcrum CENTER;
+
+  /**
+   * The instance, corresponding to {@link ETsFulcrum#LEFT_TOP}.
+   */
+  public static final TsFulcrum LEFT_TOP;
+
   private final double     xPerc;
   private final double     yPerc;
   private final ETsFulcrum fulcrum;
@@ -76,6 +86,8 @@ public final class TsFulcrum {
       map.put( ef, f );
     }
     predefinedFulcrums = map;
+    CENTER = predefinedFulcrums.getByKey( ETsFulcrum.CENTER );
+    LEFT_TOP = predefinedFulcrums.getByKey( ETsFulcrum.LEFT_TOP );
   }
 
   private TsFulcrum( double aXPerc, double aYPerc, ETsFulcrum aFulcrum ) {

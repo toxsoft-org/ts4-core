@@ -61,8 +61,8 @@ public final class PluginFileRequirement {
    *
    * @param aTypeId String - plugin type ID (an IDpath)
    * @param aPluginId String - returned plugin ID (an IDpath)
-   * @param aMinVersion {@link TsVersion} - minimal allowed version or {@link TsVersion#HIGHEST} for no limit
-   * @param aMaxVersion {@link TsVersion} - maximal allowed version or {@link TsVersion#HIGHEST} for no limit
+   * @param aMinVersion {@link TsVersion} - minimal allowed version
+   * @param aMaxVersion {@link TsVersion} - maximal allowed version
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException any ID is not an IDpath
    * @throws TsIllegalArgumentRtException max version is lower than minimal version
