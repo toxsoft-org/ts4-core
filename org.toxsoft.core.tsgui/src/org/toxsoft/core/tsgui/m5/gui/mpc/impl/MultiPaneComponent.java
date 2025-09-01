@@ -1126,7 +1126,9 @@ public abstract class MultiPaneComponent<T>
    */
   protected void doCheckAll() {
     if( tree.checks().isChecksSupported() ) {
-      tree.checks().setAllItemsCheckState( true );
+      // dima 29.08.25 check visible items only
+      // tree.checks().setAllItemsCheckState( true );
+      tree.checks().setItemsCheckState( tree.filterManager().items(), editable );
     }
   }
 
