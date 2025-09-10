@@ -3,7 +3,6 @@ package org.toxsoft.core.tslib.av.metainfo;
 import static org.toxsoft.core.tslib.ITsHardConstants.*;
 import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
-import static org.toxsoft.core.tslib.av.impl.DataDef.*;
 import static org.toxsoft.core.tslib.av.metainfo.ITsResources.*;
 
 import org.toxsoft.core.tslib.av.*;
@@ -22,7 +21,7 @@ import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Miscallenous meta information constants.
+ * Miscellaneous meta information constants.
  *
  * @author hazard157
  */
@@ -77,37 +76,71 @@ public interface IAvMetaConstants {
   String DDID_TS_BOOL = DDID_PREFIX + ".tsbool";
 
   // ------------------------------------------------------------------------------------
-  // Builtin data definitions
+  // Builtin data types
 
-  IDataDef DDEF_NONE = create( DDID_NONE, NONE, //
+  IDataType DT_NONE = DataType.create( NONE, //
+      TSID_DEFAULT_VALUE, NONE.defaultValue() //
+  );
+
+  @Deprecated( forRemoval = true )
+  IDataDef DDEF_NONE = DataDef.create( DDID_NONE, NONE, //
       TSID_ID, NONE.id(), //
       TSID_NAME, NONE.nmName(), //
       TSID_DESCRIPTION, NONE.description(), //
       TSID_DEFAULT_VALUE, NONE.defaultValue() //
   );
 
-  IDataDef DDEF_BOOLEAN = create( DDID_BOOLEAN, BOOLEAN, //
+  IDataType DT_BOOLEAN = DataType.create( BOOLEAN, //
+      TSID_DEFAULT_VALUE, BOOLEAN.defaultValue() //
+  );
+
+  /**
+   * Same as {@link #DT_BOOLEAN} with default formatting {@link #FMT_BOOL_CHECK}.
+   */
+  IDataType DT_TS_BOOL = DataType.create( BOOLEAN, //
+      TSID_FORMAT_STRING, FMT_BOOL_CHECK, //
+      TSID_DEFAULT_VALUE, AV_FALSE //
+  );
+
+  @Deprecated( forRemoval = true )
+  IDataDef DDEF_BOOLEAN = DataDef.create( DDID_BOOLEAN, BOOLEAN, //
       TSID_ID, BOOLEAN.id(), //
       TSID_NAME, BOOLEAN.nmName(), //
       TSID_DESCRIPTION, BOOLEAN.description(), //
       TSID_DEFAULT_VALUE, BOOLEAN.defaultValue() //
   );
 
-  IDataDef DDEF_INTEGER = create( DDID_INTEGER, INTEGER, //
+  IDataType DT_INTEGER = DataType.create( INTEGER, //
+      TSID_DEFAULT_VALUE, INTEGER.defaultValue() //
+  );
+
+  @Deprecated( forRemoval = true )
+  IDataDef DDEF_INTEGER = DataDef.create( DDID_INTEGER, INTEGER, //
       TSID_ID, INTEGER.id(), //
       TSID_NAME, INTEGER.nmName(), //
       TSID_DESCRIPTION, INTEGER.description(), //
       TSID_DEFAULT_VALUE, INTEGER.defaultValue() //
   );
 
-  IDataDef DDEF_FLOATING = create( DDID_FLOATING, FLOATING, //
+  IDataType DT_FLOATING = DataType.create( FLOATING, //
+      TSID_DEFAULT_VALUE, FLOATING.defaultValue() //
+  );
+
+  @Deprecated( forRemoval = true )
+  IDataDef DDEF_FLOATING = DataDef.create( DDID_FLOATING, FLOATING, //
       TSID_ID, FLOATING.id(), //
       TSID_NAME, FLOATING.nmName(), //
       TSID_DESCRIPTION, FLOATING.description(), //
       TSID_DEFAULT_VALUE, FLOATING.defaultValue() //
   );
 
-  IDataDef DDEF_TIMESTAMP = create( DDID_TIMESTAMP, TIMESTAMP, //
+  IDataType DT_TIMESTAMP = DataType.create( TIMESTAMP, //
+      TSID_FORMAT_STRING, "%tF %tT", //$NON-NLS-1$
+      TSID_DEFAULT_VALUE, TIMESTAMP.defaultValue() //
+  );
+
+  @Deprecated( forRemoval = true )
+  IDataDef DDEF_TIMESTAMP = DataDef.create( DDID_TIMESTAMP, TIMESTAMP, //
       TSID_ID, TIMESTAMP.id(), //
       TSID_NAME, TIMESTAMP.nmName(), //
       TSID_DESCRIPTION, TIMESTAMP.description(), //
@@ -115,63 +148,76 @@ public interface IAvMetaConstants {
       TSID_DEFAULT_VALUE, TIMESTAMP.defaultValue() //
   );
 
-  IDataDef DDEF_STRING = create( DDID_STRING, STRING, //
+  IDataType DT_STRING = DataType.create( STRING, //
+      TSID_DEFAULT_VALUE, STRING.defaultValue() //
+  );
+
+  @Deprecated( forRemoval = true )
+  IDataDef DDEF_STRING = DataDef.create( DDID_STRING, STRING, //
       TSID_ID, STRING.id(), //
       TSID_NAME, STRING.nmName(), //
       TSID_DESCRIPTION, STRING.description(), //
       TSID_DEFAULT_VALUE, STRING.defaultValue() //
   );
 
-  IDataDef DDEF_VALOBJ = create( DDID_VALOBJ, VALOBJ, //
+  IDataType DT_VALOBJ = DataType.create( VALOBJ, //
+      TSID_DEFAULT_VALUE, VALOBJ.defaultValue() //
+  );
+
+  @Deprecated( forRemoval = true )
+  IDataDef DDEF_VALOBJ = DataDef.create( DDID_VALOBJ, VALOBJ, //
       TSID_ID, VALOBJ.id(), //
       TSID_NAME, VALOBJ.nmName(), //
       TSID_DESCRIPTION, VALOBJ.description(), //
       TSID_DEFAULT_VALUE, VALOBJ.defaultValue() //
   );
 
-  IDataDef DDEF_NAME = create2( TSID_NAME, STRING, NameStringAvValidator.VALIDATOR, null, //
+  // ------------------------------------------------------------------------------------
+  // Data definitions for constraints
+
+  IDataDef DDEF_NAME = DataDef.create2( TSID_NAME, STRING, NameStringAvValidator.VALIDATOR, null, //
       TSID_NAME, STR_NAME, //
       TSID_DESCRIPTION, STR_NAME_D, //
       TSID_IS_NULL_ALLOWED, AV_TRUE, //
       TSID_DEFAULT_VALUE, DEFAULT_NAME_AV //
   );
 
-  IDataDef DDEF_DESCRIPTION = create( TSID_DESCRIPTION, STRING, //
+  IDataDef DDEF_DESCRIPTION = DataDef.create( TSID_DESCRIPTION, STRING, //
       TSID_NAME, STR_DESCRIPTION, //
       TSID_DESCRIPTION, STR_DESCRIPTION_D, //
       TSID_IS_NULL_ALLOWED, AV_TRUE, //
       TSID_DEFAULT_VALUE, AV_STR_EMPTY //
   );
 
-  IDataDef DDEF_DEFAULT_VALUE = create( TSID_DEFAULT_VALUE, BOOLEAN, //
+  IDataDef DDEF_DEFAULT_VALUE = DataDef.create( TSID_DEFAULT_VALUE, BOOLEAN, //
       TSID_NAME, STR_DEFAULT_VALUE, //
       TSID_DESCRIPTION, STR_DEFAULT_VALUE_D, //
       TSID_IS_NULL_ALLOWED, AV_TRUE, //
       TSID_DEFAULT_VALUE, IAtomicValue.NULL //
   );
 
-  IDataDef DDEF_IDNAME = create2( DDID_IDNAME, STRING, IdNameStringAvValidator.IDNAME_VALIDATOR, null, //
+  IDataDef DDEF_IDNAME = DataDef.create2( DDID_IDNAME, STRING, IdNameStringAvValidator.IDNAME_VALIDATOR, null, //
       TSID_NAME, STR_IDNAME, //
       TSID_DESCRIPTION, STR_IDNAME_D, //
       TSID_IS_NULL_ALLOWED, AV_FALSE, //
       TSID_DEFAULT_VALUE, DEFAULT_ID_AV //
   );
 
-  IDataDef DDEF_IDPATH = create2( DDID_IDPATH, STRING, IdPathStringAvValidator.IDPATH_VALIDATOR, null, //
+  IDataDef DDEF_IDPATH = DataDef.create2( DDID_IDPATH, STRING, IdPathStringAvValidator.IDPATH_VALIDATOR, null, //
       TSID_NAME, STR_IDPATH, //
       TSID_DESCRIPTION, STR_IDPATH_D, //
       TSID_IS_NULL_ALLOWED, AV_FALSE, //
       TSID_DEFAULT_VALUE, DEFAULT_ID_AV //
   );
 
-  IDataDef DDEF_TS_BOOL = create( DDID_TS_BOOL, BOOLEAN, //
+  IDataDef DDEF_TS_BOOL = DataDef.create( DDID_TS_BOOL, BOOLEAN, //
       TSID_NAME, STR_TS_BOOL, //
       TSID_DESCRIPTION, STR_TS_BOOL_D, //
       TSID_FORMAT_STRING, FMT_BOOL_CHECK, //
       TSID_DEFAULT_VALUE, AV_FALSE //
   );
 
-  IDataDef DDEF_ICON_ID = create( TSID_ICON_ID, STRING, //
+  IDataDef DDEF_ICON_ID = DataDef.create( TSID_ICON_ID, STRING, //
       TSID_NAME, STR_ICON_ID, //
       TSID_DESCRIPTION, STR_ICON_ID_D, //
       TSID_IS_NULL_ALLOWED, AV_TRUE, //
