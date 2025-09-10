@@ -162,7 +162,7 @@ public class D2Utils {
   }
 
   // ------------------------------------------------------------------------------------
-  // Misc helpers
+  // Miscellaneous helpers
 
   /**
    * Fits zoom factor in range {@link #ZOOM_RANGE}.

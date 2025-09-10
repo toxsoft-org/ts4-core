@@ -83,10 +83,18 @@ public abstract class AbstractAvWrapperValedControl<T>
   private final EAtomicType      atomicType;
   private final Eventer          eventer = new Eventer();
 
-  protected AbstractAvWrapperValedControl( ITsGuiContext aTsContext, EAtomicType aAtomicType,
+  /**
+   * Constructor for subclasses.
+   *
+   * @param aContext {@link ITsGuiContext} - the VALED context
+   * @param aAtomicType {@link EAtomicType} - atomic type of the edited value
+   * @param aUnderlyingFactory {@link IValedControlFactory} - wrapped VALED factory
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  protected AbstractAvWrapperValedControl( ITsGuiContext aContext, EAtomicType aAtomicType,
       IValedControlFactory aUnderlyingFactory ) {
     TsNullArgumentRtException.checkNulls( aAtomicType, aUnderlyingFactory );
-    source = aUnderlyingFactory.createEditor( aTsContext );
+    source = aUnderlyingFactory.createEditor( aContext );
     atomicType = aAtomicType;
     source.eventer().addListener( eventer );
   }
