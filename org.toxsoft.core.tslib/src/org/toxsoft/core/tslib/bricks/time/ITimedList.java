@@ -1,13 +1,13 @@
 package org.toxsoft.core.tslib.bricks.time;
 
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Упорядоченный список сущностей с метками времени.
+ * Ordered list of entities with timestamps.
  *
  * @author hazard157
- * @param <T> - конкретный тип сущности с меткой времени
+ * @param <T> - entity type with timestamp
  */
 public interface ITimedList<T extends ITimestampable>
     extends IList<T> {

@@ -9,7 +9,7 @@ import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Неизменяемая реализация интервала времени {@link ITimeInterval}.
+ * Immutable implementation of time interval {@link ITimeInterval}.
  *
  * @author hazard157
  */
@@ -28,8 +28,8 @@ public final class TimeInterval
   /**
    * Constructor.
    *
-   * @param aStart long - starting time in epoch millisecons
-   * @param aEnd long - ending time in epoch millisecons
+   * @param aStart long - starting time in epoch milliseconds
+   * @param aEnd long - ending time in epoch milliseconds
    * @throws TsIllegalArgumentRtException aEnd < aStart
    */
   public TimeInterval( long aStart, long aEnd ) {

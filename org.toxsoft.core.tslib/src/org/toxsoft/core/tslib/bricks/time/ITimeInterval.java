@@ -13,12 +13,13 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * 01.01.1970 до {@link TimeUtils#MAX_TIMESTAMP} миллисекунд (обе границы включены). Поскольку это в точности
  * соответствует интервале чисел {@link Long}, то любая long метка времени всегда находится внутри "нашего времени".
  * <p>
- * Настоящее понятие интервала времени включает в себя метку начала {@link #startTime()} и окончания {@link #endTime()}.
- * Окончание интервала не может быть раньше начала. Метки начала и окончания входят в интервал. Таким образом,
- * минимальная длина интервала равна 1 миллисекунде (когда {@link #startTime()} = {@link #endTime()}).
+ * This notion of a time interval includes a start time marker {@link #startTime()} and an end time marker
+ * {@link #endTime()}. The end of an interval cannot be earlier than the start. The start and end time markers are
+ * included in the interval. Thus, the minimum length of an interval is 1 millisecond (when {@link #startTime()} =
+ * {@link #endTime()}).
  * <p>
- * Реализует интерфейс {@link Comparable}&lt;{@link ITimeInterval}&gt; сортируя по возрастанию сначала
- * {@link #startTime()}, а потом {@link #endTime()}.
+ * Implements interface {@link Comparable}&lt;{@link ITimeInterval}&gt; sorting in ascending order first by
+ * {@link #startTime()}, and then by {@link #endTime()}.
  *
  * @author hazard157
  */
@@ -26,43 +27,43 @@ public interface ITimeInterval
     extends Comparable<ITimeInterval> {
 
   /**
-   * Все время - от начала времен и до его окончания.
+   * All time - from the beginning of time to its end.
    * <p>
-   * Все остальные интервал времени находятся внутри {@link #WHOLE}.
+   * All other time intervals are inside {@link #WHOLE}.
    */
   ITimeInterval WHOLE = new TimeInterval( TimeUtils.MIN_TIMESTAMP, TimeUtils.MAX_TIMESTAMP );
 
   /**
-   * "Нулевой" (остутствующий, не определенный, не заданный) интервал времени.
+   * "Null" (absent, undefined, unspecified) time interval.
    * <p>
-   * Фактически, эта константа может, и должна использоваться вместо null. Все методы интерфейса {@link ITimeInterval}
-   * этого экземпляра выбрасывают исключение {@link TsNullObjectErrorRtException}. Если есть подозрение, что полученная
-   * сыылка на {@link ITimeInterval} может быть не опеределен, то сначала надо проверить ссылку простым сравнением
-   * <code>interval != {@link ITimeInterval#NULL}</code>.
+   * In fact, this constant can and should be used instead of <code>null</code>. All methods of the
+   * {@link ITimeInterval} interface of this instance throw an exception {@link TsNullObjectErrorRtException}. If there
+   * is a suspicion that the received reference to {@link ITimeInterval} may not be defined, then first you should check
+   * the reference by a simple comparison <code>interval != {@link ITimeInterval#NULL}</code>.
    * <p>
-   * Безопсано можно использовать Object-методы этого класса {@link #equals(Object)}, {@link #hashCode()},
-   * {@link #toString()}, а также {@link Comparable#compareTo(Object)}.
+   * You can safely use the Object methods of this class {@link #equals(Object)}, {@link #hashCode()},
+   * {@link #toString()}, and {@link Comparable#compareTo(Object)}.
    */
   ITimeInterval NULL = new InternalNullTimeInterval();
 
   /**
-   * Возвращает метку времени начала интервала.
+   * Returns the interval start timestamp.
    *
-   * @return long - время начала интеравала (в миллисекундах с начала эпохи)
+   * @return long - interval start time (in milliseconds since epoch)
    */
   long startTime();
 
   /**
-   * Возвращает метку времени окончания интервала.
+   * Returns the interval end timestamp.
    *
-   * @return long - время окончания интеравала (в миллисекундах с начала эпохи)
+   * @return long - interval end time (in milliseconds since epoch)
    */
   long endTime();
 
   /**
    * Returns the interval duration as milliseconds.
    *
-   * @return long - milliseconds duration, alwasy >= 1
+   * @return long - milliseconds duration, always >= 1
    */
   long duration();
 
@@ -128,12 +129,14 @@ final class InternalNullTimeInterval
 
   @Override
   public boolean equals( Object aObj ) {
-    if( aObj == this ) { // отсекаем также и NULL
+    if( aObj == this ) { // includes also NULL check
       return true;
     }
-    if( aObj instanceof ITimeInterval that ) {
-      return that.startTime() == this.startTime() && that.endTime() == this.endTime();
-    }
+    // GOGA 2025-0913 TO REMOVE as unneeded code
+    // if( aObj instanceof ITimeInterval that ) {
+    // return that.startTime() == this.startTime() && that.endTime() == this.endTime();
+    // }
+    // ---
     return false;
   }
 

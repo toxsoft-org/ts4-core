@@ -16,21 +16,21 @@ import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Вспомогательные методы работы с метками и интервалами времени.
+ * Helper methods for working with time stamps and time intervals.
  * <p>
- * Все методы являются потоко-безопасными.
+ * All methods are thread-safe.
  *
  * @author hazard157
  */
 public class TimeUtils {
 
   /**
-   * Минимальная метка времени (прошлое, начало времен).
+   * Minimum timestamp (past, beginning of time).
    */
   public static final long MIN_TIMESTAMP = Long.MIN_VALUE;
 
   /**
-   * Максимальная метка времени (будущее, конец времен).
+   * Maximum timestamp (future, end of time).
    */
   public static final long MAX_TIMESTAMP = Long.MAX_VALUE;
 
@@ -45,12 +45,12 @@ public class TimeUtils {
   public static final long MIN_FORMATTABLE_TIMESTAMP = (-1969L) * 365L * 86400000L;
 
   /**
-   * Строквое представление метки времени {@link #MIN_TIMESTAMP}.
+   * Textual representation of the timestamp {@link #MIN_TIMESTAMP}.
    */
   public static final String STR_MIN_TIMESTAMP = "TIMESTAMP_MIN"; //$NON-NLS-1$
 
   /**
-   * Строквое представление метки времени {@link #MAX_TIMESTAMP}.
+   * Textual representation of the timestamp {@link #MAX_TIMESTAMP}.
    */
   public static final String STR_MAX_TIMESTAMP = "TIMESTAMP_MAX"; //$NON-NLS-1$
 
@@ -120,7 +120,7 @@ public class TimeUtils {
    *
    * @param aTimestamp String - часть канонического строкового представления метки времени
    * @return long - метка времени
-   * @throws TsNullArgumentRtException аргумент = null
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException неверный формат метки времени
    */
   public static long readTimestamp( String aTimestamp ) {
@@ -142,18 +142,18 @@ public class TimeUtils {
   }
 
   /**
-   * Возвращает текстовое представление метки врмени.
+   * Returns a textual representation of the timestamp.
    * <p>
-   * Для допустимых значений (в пределах {@link #MIN_FORMATTABLE_TIMESTAMP}..{@value #MAX_FORMATTABLE_TIMESTAMP})
-   * возвращает строку вида вида {@link #FMT_TIMESTAMP}.
+   * For valid values ​​(within {@link #MIN_FORMATTABLE_TIMESTAMP}..{@value #MAX_FORMATTABLE_TIMESTAMP}) returns a
+   * string of the form {@link #FMT_TIMESTAMP}.
    * <p>
-   * Для крайных значений {@link #MIN_TIMESTAMP} и {@link #MAX_TIMESTAMP} возвращает строки {@link #STR_MIN_TIMESTAMP} и
-   * {@link #STR_MAX_TIMESTAMP}, соответственно.
+   * For extreme values ​​{@link #MIN_TIMESTAMP} and {@link #MAX_TIMESTAMP}, returns the strings
+   * {@link #STR_MIN_TIMESTAMP} and {@link #STR_MAX_TIMESTAMP}, respectively.
    * <p>
-   * Для остальных значений возвращает текстовое представление методом {@link Long#toString(long)}.
+   * For other values, returns the text representation using the {@link Long#toString(long)} method.
    *
-   * @param aTimestamp long - метка времени
-   * @return String - текстовое представление метки времени
+   * @param aTimestamp long - milliseconds since epoch
+   * @return String - String representation of the timestamp
    */
   public static String timestampToString( long aTimestamp ) {
     if( aTimestamp > MIN_FORMATTABLE_TIMESTAMP && aTimestamp < MAX_FORMATTABLE_TIMESTAMP ) {
@@ -185,15 +185,15 @@ public class TimeUtils {
   }
 
   // ------------------------------------------------------------------------------------
-  // Работа с интервалами времени
+  // Work with time intervals
   //
 
   /**
-   * Возвращает строковое представление интервала
+   * Returns the textual representation of the time interval.
    *
-   * @param aStart long - время начала интервала времени (в миллисекундах с начала эпохи)
-   * @param aEnd long - время окончания интервала времени (в миллисекундах с начала эпохи)
-   * @return String - строковое представление метки времени
+   * @param aStart long - starting time in epoch milliseconds
+   * @param aEnd long - ending time in epoch milliseconds
+   * @return String - string representation of the time interval
    * @throws TsIllegalArgumentRtException aEndTime < aStartTime
    */
   public static String intervalToString( long aStart, long aEnd ) {
@@ -204,10 +204,10 @@ public class TimeUtils {
   }
 
   /**
-   * Проверяет, что указанные метки времени образуют интервал времени
+   * Checks if the specified time stamps can make time interval.
    *
-   * @param aStart long - время начала интервала времени (в миллисекундах с начала эпохи)
-   * @param aEnd long - время окончания интервала времени (в миллисекундах с начала эпохи)
+   * @param aStart long - starting time in epoch milliseconds
+   * @param aEnd long - ending time in epoch milliseconds
    * @throws TsIllegalArgumentRtException aEndTime < aStartTime
    */
   public static void checkIntervalArgs( long aStart, long aEnd ) {
@@ -240,7 +240,7 @@ public class TimeUtils {
    * @param aStart long - начальная метка времени второго интервала
    * @param aEnd long - конечная метка времени второго интервала
    * @return boolean - признак второго интервала внутри первого
-   * @throws TsNullArgumentRtException аргумент = null
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException aEnd < aStart
    */
   public static boolean contains( ITimeInterval aInterval, long aStart, long aEnd ) {
@@ -257,7 +257,7 @@ public class TimeUtils {
    * @param aInterval1 {@link ITimeInterval} - первый интервал времени
    * @param aInterval2 {@link ITimeInterval} - второй интервал времени
    * @return boolean - признак второго интервала внутри первого
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static boolean contains( ITimeInterval aInterval1, ITimeInterval aInterval2 ) {
     TsNullArgumentRtException.checkNull( aInterval2 );
@@ -272,7 +272,7 @@ public class TimeUtils {
    * @param aInterval1 {@link ITimeInterval} - первый интервал времени
    * @param aInterval2 {@link ITimeInterval} - второй интервал времени
    * @return boolean - признак второго интервала внутри первого
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static boolean containsNeq( ITimeInterval aInterval1, ITimeInterval aInterval2 ) {
     TsNullArgumentRtException.checkNull( aInterval2 );
@@ -283,13 +283,13 @@ public class TimeUtils {
   }
 
   /**
-   * Определяет, пересекаются ли интервалы.
+   * Determines whether intervals intersect.
    *
-   * @param aInterval {@link ITimeInterval} - первый интервал
-   * @param aStart long - начальная метка времени второго интервала
-   * @param aEnd long - конечная метка времени второго интервала
-   * @return boolean - признак нахождения в интервале
-   * @throws TsNullArgumentRtException aInterval = null
+   * @param aInterval {@link ITimeInterval} - the first interval
+   * @param aStart long - the second interval start time
+   * @param aEnd long - the second interval end time
+   * @return boolean - <code>true</code> if intervals intersects
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException aEnd < aStart
    */
   public static boolean intersects( ITimeInterval aInterval, long aStart, long aEnd ) {
@@ -299,12 +299,12 @@ public class TimeUtils {
   }
 
   /**
-   * Определяет, пересекаются ли интервалы времени
+   * Determines whether intervals intersect.
    *
-   * @param aInterval1 {@link ITimeInterval} - первый интервал времени
-   * @param aInterval2 {@link ITimeInterval} - второй интервал времени
-   * @return boolean - признак, что интервалы пересекаются
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aInterval1 {@link ITimeInterval} - the first interval
+   * @param aInterval2 {@link ITimeInterval} - the second interval
+   * @return boolean - <code>true</code> if intervals intersects
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static boolean intersects( ITimeInterval aInterval1, ITimeInterval aInterval2 ) {
     TsNullArgumentRtException.checkNull( aInterval2 );
@@ -321,7 +321,7 @@ public class TimeUtils {
    * @param aStart long - начальная метка времени второго интервала
    * @param aEnd long - конечная метка времени второго интервала
    * @return boolean - признак соприкосновения
-   * @throws TsNullArgumentRtException aInterval = null
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException aEnd < aStart
    */
   public static boolean touches( ITimeInterval aInterval, long aStart, long aEnd ) {
@@ -339,7 +339,7 @@ public class TimeUtils {
    * @param aInterval1 {@link ITimeInterval} - первый интервал времени
    * @param aInterval2 {@link ITimeInterval} - второй интервал времени
    * @return boolean - признак соприкосновения
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static boolean touches( ITimeInterval aInterval1, ITimeInterval aInterval2 ) {
     TsNullArgumentRtException.checkNull( aInterval2 );
@@ -352,7 +352,7 @@ public class TimeUtils {
    * @param aInterval {@link ITimeInterval} - интервал времени
    * @param aTimestamp long - мекта времени
    * @return boolean - признак, что aTimestamp > {@link ITimeInterval#endTime()}
-   * @throws TsNullArgumentRtException aInterval = null
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public boolean isAfter( ITimeInterval aInterval, long aTimestamp ) {
     TsNullArgumentRtException.checkNull( aInterval );
@@ -396,30 +396,32 @@ public class TimeUtils {
   /**
    * Создает интервал, объединяющий интервалы.
    *
-   * @param aIn1 {@link ITimeInterval} - первый инетрвал
-   * @param aIn2 {@link ITimeInterval} - второй инетрвал
+   * @param aInterval1 {@link ITimeInterval} - первый инетрвал
+   * @param aInterval2 {@link ITimeInterval} - второй инетрвал
    * @return {@link ITimeInterval} - объединение интервалов
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public static ITimeInterval union( ITimeInterval aIn1, ITimeInterval aIn2 ) {
-    TsNullArgumentRtException.checkNulls( aIn1, aIn2 );
-    long start = Math.min( aIn1.startTime(), aIn2.startTime() );
-    long end = Math.max( aIn1.endTime(), aIn2.endTime() );
+  public static ITimeInterval union( ITimeInterval aInterval1, ITimeInterval aInterval2 ) {
+    TsNullArgumentRtException.checkNulls( aInterval1, aInterval2 );
+    long start = Math.min( aInterval1.startTime(), aInterval2.startTime() );
+    long end = Math.max( aInterval1.endTime(), aInterval2.endTime() );
     return new TimeInterval( start, end );
   }
 
   /**
-   * Создает интервал, являюшейся пересечением интервалов или возвращает null если аргументы не персекаются.
+   * Creates an interval that is the intersection of intervals.
+   * <p>
+   * Method returns <code>null</code> if the arguments do not intersect.
    *
-   * @param aIn1 {@link ITimeInterval} - первый инетрвал
-   * @param aIn2 {@link ITimeInterval} - второй инетрвал
-   * @return {@link ITimeInterval} - пересечение интервалов или null
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aInterval1 {@link ITimeInterval} - the first interval
+   * @param aInterval2 {@link ITimeInterval} - the second interval
+   * @return {@link ITimeInterval} - the intersection or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public static ITimeInterval intersection( ITimeInterval aIn1, ITimeInterval aIn2 ) {
-    TsNullArgumentRtException.checkNulls( aIn1, aIn2 );
-    long start = Math.max( aIn1.startTime(), aIn2.startTime() );
-    long end = Math.min( aIn1.endTime(), aIn2.endTime() );
+  public static ITimeInterval intersection( ITimeInterval aInterval1, ITimeInterval aInterval2 ) {
+    TsNullArgumentRtException.checkNulls( aInterval1, aInterval2 );
+    long start = Math.max( aInterval1.startTime(), aInterval2.startTime() );
+    long end = Math.min( aInterval1.endTime(), aInterval2.endTime() );
     if( start > end ) {
       return null;
     }
@@ -437,21 +439,21 @@ public class TimeUtils {
    * Если инетрвалы вообще не пересекаются, то в паре возвращается первый интервал: слева, если он раньше воторого
    * интервала, или справа, если первый интиервал позже второго.
    *
-   * @param aIn1 {@link ITimeInterval} - первый инетрвал
-   * @param aIn2 {@link ITimeInterval} - второй инетрвал
+   * @param aInterval1 {@link ITimeInterval} - первый инетрвал
+   * @param aInterval2 {@link ITimeInterval} - второй инетрвал
    * @return {@link Pair}&lt;{@link ITimeInterval},{@link ITimeInterval}&gt; - разница слева и справа
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public static Pair<ITimeInterval, ITimeInterval> subtract( ITimeInterval aIn1, ITimeInterval aIn2 ) {
-    if( aIn1 == null || aIn2 == null ) {
+  public static Pair<ITimeInterval, ITimeInterval> subtract( ITimeInterval aInterval1, ITimeInterval aInterval2 ) {
+    if( aInterval1 == null || aInterval2 == null ) {
       throw new TsNullArgumentRtException();
     }
     ITimeInterval left = null, right = null;
-    if( aIn1.startTime() < aIn2.startTime() ) {
-      left = new TimeInterval( aIn1.startTime(), Math.min( aIn1.endTime(), aIn2.startTime() - 1 ) );
+    if( aInterval1.startTime() < aInterval2.startTime() ) {
+      left = new TimeInterval( aInterval1.startTime(), Math.min( aInterval1.endTime(), aInterval2.startTime() - 1 ) );
     }
-    if( aIn1.endTime() > aIn2.endTime() ) {
-      right = new TimeInterval( Math.max( aIn1.startTime(), aIn2.endTime() + 1 ), aIn1.endTime() );
+    if( aInterval1.endTime() > aInterval2.endTime() ) {
+      right = new TimeInterval( Math.max( aInterval1.startTime(), aInterval2.endTime() + 1 ), aInterval1.endTime() );
     }
     return new Pair<>( left, right );
   }
@@ -459,15 +461,15 @@ public class TimeUtils {
   /**
    * Сравнивает два интервала по возрастанию начала, а потом окончания интервала.
    *
-   * @param aIn1 {@link ITimeInterval} - первый инетрвал
-   * @param aIn2 {@link ITimeInterval} - второй инетрвал
-   * @return <0 - aIn1 раньше aIn2, 0 - aIn1 равно aIn2, >0 aIn1 позже aIn2
+   * @param aInterval1 {@link ITimeInterval} - первый инетрвал
+   * @param aInterval2 {@link ITimeInterval} - второй инетрвал
+   * @return <0 - aInterval1 раньше aInterval2, 0 - aInterval1 равно aInterval2, >0 aInterval1 позже aInterval2
    */
-  public static int compareAsc( ITimeInterval aIn1, ITimeInterval aIn2 ) {
-    TsNullArgumentRtException.checkNulls( aIn1, aIn2 );
-    int c = Long.compare( aIn1.startTime(), aIn2.startTime() );
+  public static int compareAsc( ITimeInterval aInterval1, ITimeInterval aInterval2 ) {
+    TsNullArgumentRtException.checkNulls( aInterval1, aInterval2 );
+    int c = Long.compare( aInterval1.startTime(), aInterval2.startTime() );
     if( c == 0 ) {
-      c = Long.compare( aIn1.endTime(), aIn2.endTime() );
+      c = Long.compare( aInterval1.endTime(), aInterval2.endTime() );
     }
     return c;
   }
@@ -475,15 +477,15 @@ public class TimeUtils {
   /**
    * Сравнивает два интервала по убыванию начала, а потом окончания интервала.
    *
-   * @param aIn1 {@link ITimeInterval} - первый инетрвал
-   * @param aIn2 {@link ITimeInterval} - второй инетрвал
-   * @return <0 - aIn1 позже aIn2, 0 - aIn1 равно aIn2, >0 aIn1 раньше aIn2
+   * @param aInterval1 {@link ITimeInterval} - первый инетрвал
+   * @param aInterval2 {@link ITimeInterval} - второй инетрвал
+   * @return <0 - aInterval1 позже aInterval2, 0 - aInterval1 равно aInterval2, >0 aInterval1 раньше aInterval2
    */
-  public static int compareDesc( ITimeInterval aIn1, ITimeInterval aIn2 ) {
-    TsNullArgumentRtException.checkNulls( aIn1, aIn2 );
-    int c = -Long.compare( aIn1.startTime(), aIn2.startTime() );
+  public static int compareDesc( ITimeInterval aInterval1, ITimeInterval aInterval2 ) {
+    TsNullArgumentRtException.checkNulls( aInterval1, aInterval2 );
+    int c = -Long.compare( aInterval1.startTime(), aInterval2.startTime() );
     if( c == 0 ) {
-      c = -Long.compare( aIn1.endTime(), aIn2.endTime() );
+      c = -Long.compare( aInterval1.endTime(), aInterval2.endTime() );
     }
     return c;
   }
@@ -497,7 +499,7 @@ public class TimeUtils {
    * @param aInputs {@link IList}&lt;{@link ITimedList}&gt; входные списки темпоральных значений.
    * @param <T> тип занчений
    * @return {@link ITimedList} выходной список
-   * @throws TsNullArgumentRtException аргумент = null
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static <T extends ITemporal<T>> TimedList<T> uniteTimeporaLists( IList<ITimedList<T>> aInputs ) {
     return uniteTimeporaLists( aInputs, TimedList::new );
@@ -510,7 +512,7 @@ public class TimeUtils {
    * @param <T> тип значений
    * @param aTimeListCreator {@link Function} ссылка на метод создания результата {@link TimedList}
    * @return {@link ITimedList} выходной список
-   * @throws TsNullArgumentRtException аргумент = null
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   @SuppressWarnings( "unchecked" )
   public static <T extends ITemporal<T>, R extends TimedList<T>> R uniteTimeporaLists( IList<ITimedList<T>> aInputs,
@@ -581,7 +583,7 @@ public class TimeUtils {
   }
 
   /**
-   * Запрет на создание экземпляров.
+   * No subclasses.
    */
   private TimeUtils() {
     // nop
