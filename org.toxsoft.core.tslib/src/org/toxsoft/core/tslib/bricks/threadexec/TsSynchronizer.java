@@ -43,8 +43,8 @@ final class TsSynchronizer {
 
   private static final Timer timer = new Timer( "TsSynchronizerTimerSingleton", true ); //$NON-NLS-1$
 
-  private boolean       queryShutdown;
-  private final ILogger logger;
+  private boolean queryShutdown;
+  private ILogger logger;
 
   /**
    * Constructs a new instance of this class.
@@ -53,9 +53,10 @@ final class TsSynchronizer {
    * @throws TsNullArgumentRtException any argument = <b>null</b>
    */
   TsSynchronizer( String aName, ILogger aLogger ) {
+    TsNullArgumentRtException.checkNulls( aName, aLogger );
     instanceId = ++instanceCounter;
-    name = TsNullArgumentRtException.checkNull( aName );
-    logger = TsNullArgumentRtException.checkNull( aLogger );
+    name = aName;
+    setLogger( aLogger );
     createInternalThread();
   }
 
@@ -67,11 +68,11 @@ final class TsSynchronizer {
    * @throws TsNullArgumentRtException any argument = <b>null</b>
    */
   TsSynchronizer( String aName, Thread aDoJobThread, ILogger aLogger ) {
+    TsNullArgumentRtException.checkNulls( aName, aDoJobThread, aLogger );
     instanceId = ++instanceCounter;
-    name = TsNullArgumentRtException.checkNull( aName );
-    logger = TsNullArgumentRtException.checkNull( aLogger );
+    name = aName;
+    setLogger( aLogger );
     isInternalThread = false;
-    TsNullArgumentRtException.checkNull( aDoJobThread );
     doJobThread = aDoJobThread;
   }
 
@@ -83,10 +84,10 @@ final class TsSynchronizer {
    * @throws TsNullArgumentRtException any argument = <b>null</b>
    */
   TsSynchronizer( String aName, Executor aExecutor, ILogger aLogger ) {
+    TsNullArgumentRtException.checkNulls( aName, aExecutor, aLogger );
     instanceId = ++instanceCounter;
-    name = TsNullArgumentRtException.checkNull( aName );
-    logger = TsNullArgumentRtException.checkNull( aLogger );
-    TsNullArgumentRtException.checkNull( aExecutor );
+    name = aName;
+    setLogger( aLogger );
     isInternalThread = true;
     synchronized (startLock) {
       aExecutor.execute( new InternalDoJobTask() );
@@ -144,6 +145,17 @@ final class TsSynchronizer {
       queryShutdown = false;
       doJobThread = aThread;
     }
+  }
+
+  /**
+   * Set a new logger for synchronizer.
+   *
+   * @param aLogger {@link ILogger} the new logger.
+   * @throws TsNullArgumentRtException arg = null
+   */
+  void setLogger( ILogger aLogger ) {
+    TsNullArgumentRtException.checkNull( aLogger );
+    logger = aLogger;
   }
 
   private void createInternalThread() {

@@ -2,6 +2,7 @@ package org.toxsoft.core.tslib.bricks.threadexec;
 
 import org.toxsoft.core.tslib.bricks.*;
 import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.*;
 
 /**
  * API call executor in a single thread.
@@ -48,4 +49,12 @@ public interface ITsThreadExecutor
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void timerExec( int aMilliseconds, Runnable aRunnable );
+
+  /**
+   * Set a new logger for synchronizer.
+   *
+   * @param aLogger {@link ILogger} the new logger.
+   * @throws TsNullArgumentRtException arg = null
+   */
+  void setLogger( ILogger aLogger );
 }

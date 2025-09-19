@@ -61,7 +61,7 @@ public final class TsThreadExecutor
   }
 
   /**
-   * Set new executor for synchronizer
+   * Set a new executor for synchronizer.
    *
    * @param aExecutor {@link Executor} executor. null: set internal thread
    */
@@ -70,7 +70,7 @@ public final class TsThreadExecutor
   }
 
   /**
-   * Set new thread for synchronizer
+   * Set a new thread for synchronizer.
    *
    * @param aThread {@link Thread} the new doJob thread. null: set internal thread
    */
@@ -115,6 +115,11 @@ public final class TsThreadExecutor
   public void timerExec( int aMilliseconds, Runnable aRunnable ) {
     TsNullArgumentRtException.checkNull( aRunnable );
     synchronizer.timerExec( aMilliseconds, aRunnable );
+  }
+
+  @Override
+  public void setLogger( ILogger aLogger ) {
+    synchronizer.setLogger( aLogger );
   }
 
   // ------------------------------------------------------------------------------------
