@@ -21,7 +21,7 @@ import org.toxsoft.core.tslib.utils.logs.*;
 public final class TsThreadExecutor
     implements ITsThreadExecutor, ICloseable {
 
-  private TsSynchronizer synchronizer;
+  private final TsSynchronizer synchronizer;
 
   /**
    * Default constructor.
