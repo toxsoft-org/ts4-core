@@ -22,6 +22,9 @@ final class TsSynchronizer {
   private static final String METHOD_TIMER_EXEC         = "timerExec";        //$NON-NLS-1$
   private static final String METHOD_RUN_ASYNC_MESSAGES = "runAsyncMessages"; //$NON-NLS-1$
 
+  private static final int WARNING_MESSAGES_MAX = 16;
+  private static final int ERROR_MESSAGES_MAX   = 32;
+
   /**
    * Время (мсек) ожидания завершения синхронного запроса после которого выдается предупреждение в журнал о длительном
    * выполнении.
@@ -153,9 +156,22 @@ final class TsSynchronizer {
    * @param aLogger {@link ILogger} the new logger.
    * @throws TsNullArgumentRtException arg = null
    */
+  @SuppressWarnings( "nls" )
   void setLogger( ILogger aLogger ) {
     TsNullArgumentRtException.checkNull( aLogger );
     logger = aLogger;
+    if( logger.isSeverityOn( ELogSeverity.DEBUG ) ) {
+      logger.info( "TsSynchronizer().setLogger(...): severity = DEBUG" );
+    }
+    if( logger.isSeverityOn( ELogSeverity.INFO ) ) {
+      logger.info( "TsSynchronizer().setLogger(...): severity = INFO" );
+    }
+    if( logger.isSeverityOn( ELogSeverity.WARNING ) ) {
+      logger.info( "TsSynchronizer().setLogger(...): severity = WARNING" );
+    }
+    if( logger.isSeverityOn( ELogSeverity.ERROR ) ) {
+      logger.info( "TsSynchronizer().setLogger(...): severity = ERROR" );
+    }
   }
 
   private void createInternalThread() {
@@ -379,11 +395,22 @@ final class TsSynchronizer {
     }
   }
 
+  @SuppressWarnings( { "nls", "boxing" } )
   private void addLast( TsRunnableLock aLock ) {
+    int size;
     synchronized (messageLock) {
       messages.add( aLock );
+      size = messages.size();
       // resume dojob thread
       messageLock.notify();
+    }
+    if( size > ERROR_MESSAGES_MAX ) {
+      logger.error( "TsSynchronizer().addLast(..): size = %d", size );
+      return;
+    }
+    if( size > WARNING_MESSAGES_MAX ) {
+      logger.warning( "TsSynchronizer().addLast(..): size = %d", size );
+      return;
     }
   }
 
