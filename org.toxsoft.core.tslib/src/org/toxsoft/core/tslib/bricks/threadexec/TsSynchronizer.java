@@ -17,13 +17,13 @@ import org.toxsoft.core.tslib.utils.logs.*;
  */
 final class TsSynchronizer {
 
-  private static final String METHOD_ASYNC_EXEC         = "asyncExec";        //$NON-NLS-1$
-  private static final String METHOD_SYNC_EXEC          = "syncExec";         //$NON-NLS-1$
-  private static final String METHOD_TIMER_EXEC         = "timerExec";        //$NON-NLS-1$
-  private static final String METHOD_RUN_ASYNC_MESSAGES = "runAsyncMessages"; //$NON-NLS-1$
+  private static final String METHOD_ASYNC_EXEC = "asyncExec"; //$NON-NLS-1$
+  private static final String METHOD_SYNC_EXEC  = "syncExec";  //$NON-NLS-1$
+  private static final String METHOD_TIMER_EXEC = "timerExec"; //$NON-NLS-1$
+  private static final String METHOD_RUN_LOCK   = "runLock";   //$NON-NLS-1$
 
-  private static final int WARNING_MESSAGES_MAX = 16;
-  private static final int ERROR_MESSAGES_MAX   = 32;
+  private static final int WARNING_MESSAGES_MAX = 4096;
+  private static final int ERROR_MESSAGES_MAX   = 8192;
 
   /**
    * Время (мсек) ожидания завершения синхронного запроса после которого выдается предупреждение в журнал о длительном
@@ -43,6 +43,7 @@ final class TsSynchronizer {
 
   private ElemLinkedList<TsRunnableLock> messages    = new ElemLinkedList<>();
   private Object                         messageLock = new Object();
+  private volatile int                   messageSize = 0;
 
   private static final Timer timer = new Timer( "TsSynchronizerTimerSingleton", true ); //$NON-NLS-1$
 
@@ -160,17 +161,22 @@ final class TsSynchronizer {
   void setLogger( ILogger aLogger ) {
     TsNullArgumentRtException.checkNull( aLogger );
     logger = aLogger;
+
     if( logger.isSeverityOn( ELogSeverity.DEBUG ) ) {
       logger.info( "TsSynchronizer().setLogger(...): severity = DEBUG" );
+      return;
     }
     if( logger.isSeverityOn( ELogSeverity.INFO ) ) {
       logger.info( "TsSynchronizer().setLogger(...): severity = INFO" );
+      return;
     }
     if( logger.isSeverityOn( ELogSeverity.WARNING ) ) {
       logger.info( "TsSynchronizer().setLogger(...): severity = WARNING" );
+      return;
     }
     if( logger.isSeverityOn( ELogSeverity.ERROR ) ) {
       logger.info( "TsSynchronizer().setLogger(...): severity = ERROR" );
+      return;
     }
   }
 
@@ -329,34 +335,39 @@ final class TsSynchronizer {
     debug( this, lock, METHOD_TIMER_EXEC, "is scheduled" );
   }
 
-  @SuppressWarnings( "nls" )
   void runAsyncMessages() {
     do {
       TsRunnableLock lock = findNextLock();
       if( lock == null ) {
         break;
       }
-      debug( this, lock, METHOD_RUN_ASYNC_MESSAGES, "is found" );
-      synchronized (lock) {
-        try {
-          // syncThread = lock.thread;
-          try {
-            debug( this, lock, METHOD_RUN_ASYNC_MESSAGES, "run BEFORE" );
-            lock.run();
-          }
-          catch( Throwable t ) {
-            lock.throwable = t;
-          }
-        }
-        finally {
-          debug( this, lock, METHOD_RUN_ASYNC_MESSAGES, "lock.notify() BEFORE" );
-          // syncThread = null;
-          lock.notify();
-          debug( this, lock, METHOD_RUN_ASYNC_MESSAGES, "lock.notify() AFTER" );
-        }
-      }
+      runLock( lock );
     } while( true );
     return;
+  }
+
+  @SuppressWarnings( "nls" )
+  private void runLock( TsRunnableLock aLock ) {
+    TsNullArgumentRtException.checkNull( aLock );
+    debug( this, aLock, METHOD_RUN_LOCK, "is found" );
+    synchronized (aLock) {
+      try {
+        // syncThread = lock.thread;
+        try {
+          debug( this, aLock, METHOD_RUN_LOCK, "run BEFORE" );
+          aLock.run();
+        }
+        catch( Throwable t ) {
+          aLock.throwable = t;
+        }
+      }
+      finally {
+        debug( this, aLock, METHOD_RUN_LOCK, "lock.notify() BEFORE" );
+        // syncThread = null;
+        aLock.notify();
+        debug( this, aLock, METHOD_RUN_LOCK, "lock.notify() AFTER" );
+      }
+    }
   }
 
   // ------------------------------------------------------------------------------------
@@ -372,6 +383,7 @@ final class TsSynchronizer {
       try {
         do {
           TsRunnableLock lock = removeFirst();
+          messageSize = messages.size();
           if( lock == null ) {
             return null;
           }
@@ -397,19 +409,18 @@ final class TsSynchronizer {
 
   @SuppressWarnings( { "nls", "boxing" } )
   private void addLast( TsRunnableLock aLock ) {
-    int size;
     synchronized (messageLock) {
       messages.add( aLock );
-      size = messages.size();
+      messageSize = messages.size();
       // resume dojob thread
       messageLock.notify();
     }
-    if( size > ERROR_MESSAGES_MAX ) {
-      logger.error( "TsSynchronizer().addLast(..): size = %d", size );
+    if( messageSize > ERROR_MESSAGES_MAX ) {
+      logger.error( "TsSynchronizer().addLast(..): size = %d", messageSize );
       return;
     }
-    if( size > WARNING_MESSAGES_MAX ) {
-      logger.warning( "TsSynchronizer().addLast(..): size = %d", size );
+    if( messageSize > WARNING_MESSAGES_MAX ) {
+      logger.warning( "TsSynchronizer().addLast(..): size = %d", messageSize );
       return;
     }
   }
@@ -418,6 +429,7 @@ final class TsSynchronizer {
     for( TsRunnableLock lock : aLocks ) {
       // messages.addFirst( lock );
       messages.insert( 0, lock );
+      messageSize = messages.size();
     }
   }
 
@@ -442,6 +454,7 @@ final class TsSynchronizer {
     String threadName = TsSynchronizer.class.getSimpleName() + Integer.valueOf( aSynchronizer.instanceId ) + '('
         + aSynchronizer.name + ')';
     Long id = Long.valueOf( aLock.id );
+    Integer size = Integer.valueOf( aSynchronizer.messageSize );
     Long time = Long.valueOf( System.currentTimeMillis() - aLock.timestamp );
     switch( aMethod ) {
       case METHOD_ASYNC_EXEC:
@@ -450,12 +463,13 @@ final class TsSynchronizer {
         StackTraceElement[] stack = Thread.currentThread().getStackTrace();
         StackTraceElement elem = (stack[4].toString().contains( "SkThreadExecutorService" ) ? stack[5] : stack[4]); //$NON-NLS-1$
         String source = getSource( elem.toString() );
-        logger.debug( "[%s] %s(...): exec(#%d) %s, source = %s, time = %d(msec)", threadName, aMethod, id, aText, //$NON-NLS-1$
-            source, time );
+        logger.debug( "[%s] %s(...): exec(#%d), queue = %d, %s, source = %s, time = %d(msec)", threadName, aMethod, id, //$NON-NLS-1$
+            size, aText, source, time );
         break;
       }
       default: {
-        logger.debug( "[%s] %s(...): exec(#%d) %s, time = %d(msec)", threadName, aMethod, id, aText, time ); //$NON-NLS-1$
+        logger.debug( "[%s] %s(...): exec(#%d), queue = %d, %s, time = %d(msec)", threadName, aMethod, id, size, aText, //$NON-NLS-1$
+            time );
         break;
       }
     }
@@ -504,39 +518,42 @@ final class TsSynchronizer {
 
         logger.info( "InternalDoJobTask()run(...): thread %s is started!", threadName( TsSynchronizer.this ) );
 
+        // thread start notification
         synchronized (startLock) {
-          // Thread start notification
           startLock.notify();
         }
+        // current call
+        TsRunnableLock lock;
+        // handling call's queue
         while( !queryShutdown ) {
-          // processing calls
-          runAsyncMessages();
+          if( queryShutdown ) {
+            break;
+          }
+          // check next call existence
           synchronized (messageLock) {
+            lock = findNextLock();
             if( queryShutdown ) {
               break;
             }
-            // check next call existence
-            TsRunnableLock lock = findNextLock();
-            if( lock != null ) {
-              // rollback
-              // messages.addFirst( lock );
-              messages.insert( 0, lock );
-              continue;
-            }
-            try {
+            if( lock == null ) {
               // suspend dojob thread - wait new calls
-              messageLock.wait();
-            }
-            catch( @SuppressWarnings( "unused" ) Throwable e ) {
-              // clear interrupted flag
-              Thread.interrupted();
-              // logger.error( e );
+              try {
+                messageLock.wait();
+              }
+              catch( @SuppressWarnings( "unused" ) Throwable e ) {
+                // clear interrupted flag
+                Thread.interrupted();
+              }
             }
           }
+          // processing call
+          if( lock != null ) {
+            runLock( lock );
+          }
         }
+        // thread finish notification
         synchronized (finishLock) {
           doJobThread = null;
-          // Thread finish notification
           finishLock.notify();
         }
         logger.info( "InternalDoJobTask()run(...): thread %s is finished!", Thread.currentThread().getName() );
