@@ -39,8 +39,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class ViselLine
     extends VedAbstractVisel {
 
-  static final String PROPID_X2 = "x2"; //$NON-NLS-1$
-  static final String PROPID_Y2 = "y2"; //$NON-NLS-1$
+  public static final String PROPID_X2 = "x2"; //$NON-NLS-1$
+  public static final String PROPID_Y2 = "y2"; //$NON-NLS-1$
 
   /**
    * X - ккордината второй точки
