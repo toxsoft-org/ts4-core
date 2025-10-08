@@ -156,6 +156,17 @@ public enum ED2Quadrant
   }
 
   /**
+   * Returns the quadrant of the specified angle.
+   *
+   * @param aRadians {@link ID2Angle} - the angle
+   * @return {@link ED2Quadrant} - the quadrant
+   */
+  public static ED2Quadrant findByAngle( ID2Angle aAngle ) {
+    TsNullArgumentRtException.checkNull( aAngle );
+    return findByRadians( aAngle.radians() );
+  }
+
+  /**
    * Determines if the angle is on his quadrant.
    *
    * @param aDegrees double - the angle in degrees
@@ -209,20 +220,21 @@ public enum ED2Quadrant
    * Returns rotated content rectangles origin (top-left) corner X coordinate.
    * <p>
    * Method assumes that some rectangular image (called content) has to be drawn rotated. Drawing always starts from
-   * top-left corner (called origin). Method assumes that bounding rectangle coordinates is already calculate. By
-   * definition, corners of the content rectangle are always placed on four different edges (or corners) of the bounding
-   * rectangle. This method calculates X coordinate of the origin (top-left) corner of the content rectangle,
+   * content's top-left corner (called origin). Method assumes that bounding rectangle coordinates are already
+   * calculated. By definition, corners of the content rectangle are always placed on four different edges (or corners)
+   * of the bounding rectangle. This method calculates X coordinate of the origin (top-left) corner of the content
+   * rectangle,
    *
    * @param aBoundRect {@link ITsRectangle} - bounding rectangle coordinates
-   * @param aInnerRectWidth double - the width of the content (rotated) rectangle
+   * @param aContentWidth double - the width of the content (rotated) rectangle
    * @param aRadians double - the rotation angle (positive values are counter-clockwise)
    * @return double - the X coordinate of the content top-left corner
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public double contentRectOriginX( ITsRectangle aBoundRect, double aInnerRectWidth, double aRadians ) {
+  public double contentRectOriginX( ITsRectangle aBoundRect, double aContentWidth, double aRadians ) {
     TsNullArgumentRtException.checkNull( aBoundRect );
     double rads = radIn2Pi( aRadians );
-    return doCalcContentRectOriginX( aBoundRect, aInnerRectWidth, rads );
+    return doCalcContentRectOriginX( aBoundRect, aContentWidth, rads );
   }
 
   /**
@@ -231,20 +243,31 @@ public enum ED2Quadrant
    * This is the same as {@link #contentRectOriginX(ITsRectangle, double, double)} but for Y coordinate.
    *
    * @param aBoundRect {@link ITsRectangle} - bounding rectangle coordinates
-   * @param aInnerRectWidth double - the width of the content (rotated) rectangle
+   * @param aContentWidth double - the width of the content (rotated) rectangle
    * @param aRadians double - the rotation angle (positive values are counter-clockwise)
    * @return double - the Y coordinate of the content top-left corner
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public double contentRectOriginY( ITsRectangle aBoundRect, double aInnerRectWidth, double aRadians ) {
+  public double contentRectOriginY( ITsRectangle aBoundRect, double aContentWidth, double aRadians ) {
     TsNullArgumentRtException.checkNull( aBoundRect );
     double rads = radIn2Pi( aRadians );
-    return doCalcContentRectOriginY( aBoundRect, aInnerRectWidth, rads );
+    return doCalcContentRectOriginY( aBoundRect, aContentWidth, rads );
   }
+
+  // public double boundsRectOriginX( ITsDims aBoundsDims, double aInnerWidth, double aRadsIn2Pi, double aContentX ) {
+  // TsNullArgumentRtException.checkNull( aBoundsDims );
+  //
+  // }
 
   protected abstract double doCalcContentRectOriginX( ITsRectangle aBoundRect, double aInnerWidth, double aRadsIn2Pi );
 
   protected abstract double doCalcContentRectOriginY( ITsRectangle aBoundRect, double aInnerWidth, double aRadsIn2Pi );
+
+  // protected abstract double doCalcBoundsRectOriginX( ITsDims aBoundsDims, double aInnerWidth, double aRadsIn2Pi,
+  // double aContentX );
+  //
+  // protected abstract double doCalcBoundsRectOriginY( ITsDims aBoundsDims, double aInnerWidth, double aRadsIn2Pi,
+  // double aContentX );
 
   // ----------------------------------------------------------------------------------
   // Stridable enum common API

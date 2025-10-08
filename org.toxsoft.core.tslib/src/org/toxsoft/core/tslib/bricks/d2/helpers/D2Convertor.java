@@ -57,10 +57,9 @@ public class D2Convertor
   public double convertX( double aX, double aY ) {
     checkCoor( aX );
     checkCoor( aY );
-
-    // Аналог Transform.translate
-    double x1 = aX - d2Conv.origin().x();// x координата вектора радиуса поворота
-    double y1 = aY - d2Conv.origin().y();// y координата вектора радиуса поворота
+    // translate
+    double x1 = aX - d2Conv.origin().x();
+    double y1 = aY - d2Conv.origin().y();
     // rotate around origin
     double beta = d2Conv.rotation().radians();
     double x2 = x1 * cos( beta ) - y1 * sin( beta );
@@ -150,8 +149,8 @@ public class D2Convertor
     double y1 = aY - d2Conv.origin().y();
     // reverse rotation (just change angle sign)
     double beta = -d2Conv.rotation().radians();
-    double x2 = x1 * cos( beta ) - y1 * sin( beta );
-    double y2 = y1 * cos( beta ) + x1 * sin( beta );
+    double x2 = x1 * cos( beta ) + y1 * sin( beta );
+    double y2 = y1 * cos( beta ) - x1 * sin( beta );
     // reverse zoom (divide rather than multiply on zoom factor)
     double x3 = x2 / d2Conv.zoomFactor();
     double y3 = y2 / d2Conv.zoomFactor();

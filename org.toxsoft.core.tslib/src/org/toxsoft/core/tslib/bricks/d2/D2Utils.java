@@ -190,6 +190,43 @@ public class D2Utils {
     return ZOOM_RANGE.inRange( aOriginalFactor * aZoomMultiplier );
   }
 
+  /**
+   * Returns a point fitted into a rectangle.
+   * <p>
+   * If <code>aPoint</code> is contained by <code>aRactangle</code> the argument is returned. Otherwise returns nearest
+   * point on the rectangle's edge (or corner).
+   *
+   * @param aPoint {@link ID2Point} - the point
+   * @param aRect {@link ID2Rectangle} - the rectangle
+   * @return {@link ID2Point} - fitted point
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static ID2Point fitInRect( ID2Point aPoint, ID2Rectangle aRect ) {
+    TsNullArgumentRtException.checkNulls( aRect, aRect );
+    if( aRect.contains( aPoint ) ) {
+      return aPoint;
+    }
+    double x = aPoint.x();
+    if( x < aRect.x1() ) {
+      x = aRect.x1();
+    }
+    else {
+      if( x > aRect.x2() ) {
+        x = aRect.x2();
+      }
+    }
+    double y = aPoint.y();
+    if( y < aRect.y1() ) {
+      y = aRect.y1();
+    }
+    else {
+      if( y > aRect.y2() ) {
+        y = aRect.y2();
+      }
+    }
+    return new D2Point( x, y );
+  }
+
   // ------------------------------------------------------------------------------------
   // Value checks
 

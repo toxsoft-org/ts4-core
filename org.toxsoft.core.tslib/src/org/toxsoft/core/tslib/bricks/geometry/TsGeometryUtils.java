@@ -97,6 +97,35 @@ public class TsGeometryUtils {
     return new TsRectangle( minX, minY, maxX - minX + 1, maxY - minY + 1 );
   }
 
+  /**
+   * Returns new instance of {@link TsPointEdit} with shifted coordinates.
+   *
+   * @param aPoint {@link ITsPoint} - original point
+   * @param aDeltaX int - horizontal shift (0 means no shift)
+   * @param aDeltaY int - vertical shift (0 means no shift)
+   * @return {@link TsPointEdit} - new instance of shifted point
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static TsPointEdit shiftPoint( ITsPoint aPoint, int aDeltaX, int aDeltaY ) {
+    TsNullArgumentRtException.checkNull( aPoint );
+    return new TsPointEdit( aPoint.x() + aDeltaX, aPoint.y() + aDeltaY );
+  }
+
+  /**
+   * Returns new instance of {@link TsRectangleEdit} with shifted coordinates.
+   *
+   * @param aRectangle {@link ITsRectangle} - original rectangle
+   * @param aDeltaX int - horizontal shift (0 means no shift)
+   * @param aDeltaY int - vertical shift (0 means no shift)
+   * @return {@link TsRectangleEdit} - new instance of shifted rectangle
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static TsRectangleEdit shiftRect( ITsRectangle aRectangle, int aDeltaX, int aDeltaY ) {
+    TsNullArgumentRtException.checkNull( aRectangle );
+    return new TsRectangleEdit( aRectangle.a().x() + aDeltaX, aRectangle.a().y() + aDeltaY, //
+        aRectangle.width(), aRectangle.height() );
+  }
+
   // TODO other methods like union(), contains(), intersects(), etc.
 
   /**
