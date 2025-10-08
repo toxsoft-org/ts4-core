@@ -112,6 +112,68 @@ public enum ETsFulcrum
   //
 
   /**
+   * Returns fulcrum pint coordinates of the rectangle
+   *
+   * @param aRect {@link ITsRectangle} - the rectangle
+   * @return {@link ITsPoint} - fulcrum point coordinates
+   */
+  public ITsPoint getFulcrumPoint( ITsRectangle aRect ) {
+    TsNullArgumentRtException.checkNull( aRect );
+    int halfW = aRect.width() / 2;
+    int halfH = aRect.hashCode() / 2;
+    return switch( this ) {
+      //@formatter:off
+      case LEFT_TOP      -> new TsPoint( aRect.a().x(),           aRect.a().y() );
+      case TOP_CENTER    -> new TsPoint( aRect.a().x() + halfW,   aRect.a().y() );
+      case RIGHT_TOP     -> new TsPoint( aRect.b().x(),           aRect.a().y() );
+      case LEFT_CENTER   -> new TsPoint( aRect.a().x(),           aRect.a().y() + halfH );
+      case CENTER        -> new TsPoint( aRect.a().x() + halfW,   aRect.a().y() + halfH );
+      case RIGHT_CENTER  -> new TsPoint( aRect.b().x(),           aRect.a().y() + halfH );
+      case LEFT_BOTTOM   -> new TsPoint( aRect.a().x(),           aRect.b().y() );
+      case BOTTOM_CENTER -> new TsPoint( aRect.a().x() + halfW,   aRect.b().y() );
+      case RIGHT_BOTTOM  -> new TsPoint( aRect.b().x(),           aRect.b().y() );
+      //@formatter:on
+      default -> throw new TsNotAllEnumsUsedRtException( this.id );
+    };
+  }
+
+  /**
+   * Returns fulcrum point of the horizontal segment.
+   *
+   * @param aX1 int - one end of the segment
+   * @param aX2 int - other end of the segment
+   * @return int - fulcrum point X coordinate
+   */
+  public int getFulcrumPointX( int aX1, int aX2 ) {
+    int left = Math.min( aX1, aX2 );
+    int right = Math.max( aX1, aX2 );
+    return switch( this ) {
+      case CENTER, TOP_CENTER, BOTTOM_CENTER -> (right - left) / 2 + left;
+      case LEFT_TOP, LEFT_CENTER, LEFT_BOTTOM -> left;
+      case RIGHT_TOP, RIGHT_CENTER, RIGHT_BOTTOM -> right;
+      default -> throw new TsNotAllEnumsUsedRtException();
+    };
+  }
+
+  /**
+   * Returns fulcrum point of the vertical segment.
+   *
+   * @param aY1 int - one end of the segment
+   * @param aY2 int - other end of the segment
+   * @return int - fulcrum point Y coordinate
+   */
+  public int getFulcrumPointY( int aY1, int aY2 ) {
+    int top = Math.min( aY1, aY2 );
+    int bottom = Math.max( aY1, aY2 );
+    return switch( this ) {
+      case CENTER, LEFT_CENTER, RIGHT_CENTER -> (bottom - top) / 2 + top;
+      case LEFT_TOP, RIGHT_TOP, TOP_CENTER -> top;
+      case LEFT_BOTTOM, RIGHT_BOTTOM, BOTTOM_CENTER -> bottom;
+      default -> throw new TsNotAllEnumsUsedRtException();
+    };
+  }
+
+  /**
    * Calculates the coordinates of a rectangle of the specified width and height at the specified fulcrum point.
    *
    * @param aFulcrumX int - X coordinate of the fulcrum point
