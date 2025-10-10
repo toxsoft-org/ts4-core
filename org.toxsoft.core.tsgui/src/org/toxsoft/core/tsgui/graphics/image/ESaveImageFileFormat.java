@@ -118,6 +118,35 @@ public enum ESaveImageFileFormat {
     }
   }
 
+  public static void saveAnimatedImageAsJpgs( File aFile, TsImage aImage ) {
+    TempFilesSequence tfs = new TempFilesSequence( aImage.count(), STILL_PNG.ext );
+    try {
+      // create frame files sequence in the temporary directory
+      for( int i = 0; i < aImage.count(); i++ ) {
+        Image image = aImage.frames().get( i );
+        File f = tfs.seqFiles.get( i );
+        saveSwtImage( f, image, SWT.IMAGE_JPEG );
+      }
+      // call GraphicsMagick to create
+      // Example: gm convert -delay 20 *.jpg outfile.gif
+      // TODO process non-even animation when aImage.isEvenAnimation() = false
+      int gmDelay = (int)(aImage.delay() / 10L);
+      if( gmDelay <= 0 ) {
+        gmDelay = 1;
+      }
+      String srcFilesMask = TsFileUtils.ensureEndingSeparator( tfs.dir.getAbsolutePath() ) + "*." + STILL_PNG.ext; //$NON-NLS-1$
+      TsImageManagementUtils.runGmWait( "convert", //$NON-NLS-1$
+          "-delay", Integer.toString( gmDelay ), //$NON-NLS-1$
+          srcFilesMask, //
+          aFile.getAbsolutePath() //
+      );
+    }
+    finally {
+      // clean up temporary files and directory
+      tfs.close();
+    }
+  }
+
   private static void saveSwtImage( File aFile, Image aImage, int aSwtFormat ) {
     ImageLoader saver = new ImageLoader();
     saver.data = new ImageData[] { aImage.getImageData() };

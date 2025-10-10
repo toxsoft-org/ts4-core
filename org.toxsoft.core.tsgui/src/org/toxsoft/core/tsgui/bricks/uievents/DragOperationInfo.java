@@ -8,7 +8,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * Information about dragging used by {@link ITsMouseInputListener}.
  * <p>
- * Instance of theis class is created before event producer calls
+ * Instance of this class is created before event producer calls
  * {@link ITsMouseInputListener#onMouseDragStart(Object, DragOperationInfo)}.
  *
  * @author hazard157
@@ -32,25 +32,25 @@ public final class DragOperationInfo {
   /**
    * Determines which mouse button has started the dragging.
    *
-   * @return {@link ITsPoint} - button that started the draggging
+   * @return {@link ITsPoint} - button that started the dragging
    */
   public ETsMouseButton button() {
     return button;
   }
 
   /**
-   * Returns keyboard and mouse buttons state when the draggging has started.
+   * Returns keyboard and mouse buttons state when the dragging has started.
    * <p>
    * This is the value as specified for {@link MouseEvent#stateMask}.
    *
-   * @return {@link ITsPoint} - state flags when the draggging has started.
+   * @return {@link ITsPoint} - state flags when the dragging has started.
    */
   public int startingState() {
     return state;
   }
 
   /**
-   * Returns coordinates where the draggging has started.
+   * Returns coordinates where the dragging has started.
    * <p>
    * The coordinates are specified to widget as declared in {@link MouseEvent#x} and {@link MouseEvent#y}.
    *
@@ -75,12 +75,31 @@ public final class DragOperationInfo {
    * Event producer {@link TsUserInputEventsBinder} guarantees that the same instance of the {@link DragOperationInfo}
    * will be used during one drag operation.
    *
-   * @param <T> - expected type of the used data
+   * @param <T> - expected type of the user data
    * @return &lt;T&gt; - the user data
    */
   @SuppressWarnings( "unchecked" )
   public <T> T cargo() {
     return (T)cargo;
+  }
+
+  /**
+   * Returns user specified data if it is of expected type.
+   * <p>
+   * Returns <code>null</code> if user data is <code>null</code> or user data is not of type <code>aClass</code>.
+   * <p>
+   * May be used to check if drag event is for the specific handler.
+   *
+   * @param <T> - expected type of the user data
+   * @param aCargoCalss {@link Class}&lt;T&gt; - expected type of the user data
+   * @return &lt;T&gt; - the user data
+   */
+  @SuppressWarnings( "unchecked" )
+  public <T> T cargo( Class<T> aCargoCalss ) {
+    if( aCargoCalss.isInstance( cargo ) ) {
+      return (T)cargo;
+    }
+    return null;
   }
 
   /**

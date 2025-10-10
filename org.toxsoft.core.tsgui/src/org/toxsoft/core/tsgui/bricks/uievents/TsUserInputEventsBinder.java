@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.bricks.uievents;
 
+import static org.toxsoft.core.tslib.utils.TsMiscUtils.*;
+
 import org.eclipse.swt.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.widgets.*;
@@ -132,7 +134,31 @@ public class TsUserInputEventsBinder
       int buttsNewMask = aEvent.stateMask & SWT.BUTTON_MASK;
       // buttons state was change during drag - it means some events were lost, cancel dragging for safety
       if( buttsOldMask != buttsNewMask ) {
-        cancelDragAndFireCancelEvent();
+
+        // --- GOGA 2025-10-06
+        /**
+         * Sometimes, when drag finishes, instead of normal end, this code is executed. <br>
+         * I found that difference between #buttsOldMask and #buttsNewMask shows that dragging button is released.
+         * Normal sequence of mouse events when finishing dragging is: ..., MOVE3, MOVE2, MOVE1, BUTTON_UP. All MOVEx
+         * events <b>must</b> have dragging button pressed state set in #aEvent.stateMask. But sometimes happens that
+         * MOVE1 (last event before BUTTON_UP) event has button state REset. Typical difference between timestamps for
+         * BUTTON_UP and MOVE1 was 47 (aEvent.time = 55278198 and 55278151 respectively).<br>
+         * Maybe this is an SWT error in GTK. I don't know...
+         * <p>
+         * Possible workarounds are:<br>
+         * 1. Ignore drag cancel event in application code (if allowed by the logic);<br>
+         * 2. Change logic here: wait some time for MOUSE_UP event and if it comes ignore this event. <br>
+         * 3. Simply ignore button state change while dragging if this is the drag starter button hoping that BUTTON_UP
+         * event will come soon.
+         * <p>
+         * Here now I implemented workaround #3.
+         */
+        int btnBit = tsmb2swtbit( this.lastMouseDownButton );
+        boolean ignoreEvent = isBitsAll( buttsOldMask, btnBit ) && !isBitsAll( buttsNewMask, btnBit );
+        if( !ignoreEvent ) {
+          cancelDragAndFireCancelEvent();
+        }
+        // ---
       }
       else {
         fireMouseDragMoveEvent( aEvent.stateMask, p );
@@ -236,6 +262,16 @@ public class TsUserInputEventsBinder
       case 2 -> ETsMouseButton.MIDDLE;
       case 3 -> ETsMouseButton.RIGHT;
       default -> ETsMouseButton.OTHER;
+    };
+  }
+
+  private static int tsmb2swtbit( ETsMouseButton aBtn ) {
+    return switch( aBtn ) {
+      case LEFT -> SWT.BUTTON1;
+      case MIDDLE -> SWT.BUTTON2;
+      case RIGHT -> SWT.BUTTON3;
+      case OTHER -> 0;
+      default -> 0;
     };
   }
 

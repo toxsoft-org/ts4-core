@@ -394,11 +394,11 @@ public class TimeUtils {
   }
 
   /**
-   * Создает интервал, объединяющий интервалы.
+   * Creates a union of two intervals.
    *
-   * @param aInterval1 {@link ITimeInterval} - первый инетрвал
-   * @param aInterval2 {@link ITimeInterval} - второй инетрвал
-   * @return {@link ITimeInterval} - объединение интервалов
+   * @param aInterval1 {@link ITimeInterval} - first interval
+   * @param aInterval2 {@link ITimeInterval} - second interval
+   * @return {@link ITimeInterval} - united interval
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static ITimeInterval union( ITimeInterval aInterval1, ITimeInterval aInterval2 ) {
@@ -439,8 +439,8 @@ public class TimeUtils {
    * Если инетрвалы вообще не пересекаются, то в паре возвращается первый интервал: слева, если он раньше воторого
    * интервала, или справа, если первый интиервал позже второго.
    *
-   * @param aInterval1 {@link ITimeInterval} - первый инетрвал
-   * @param aInterval2 {@link ITimeInterval} - второй инетрвал
+   * @param aInterval1 {@link ITimeInterval} - first interval
+   * @param aInterval2 {@link ITimeInterval} - second interval
    * @return {@link Pair}&lt;{@link ITimeInterval},{@link ITimeInterval}&gt; - разница слева и справа
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
@@ -461,8 +461,8 @@ public class TimeUtils {
   /**
    * Сравнивает два интервала по возрастанию начала, а потом окончания интервала.
    *
-   * @param aInterval1 {@link ITimeInterval} - первый инетрвал
-   * @param aInterval2 {@link ITimeInterval} - второй инетрвал
+   * @param aInterval1 {@link ITimeInterval} - first interval
+   * @param aInterval2 {@link ITimeInterval} - second interval
    * @return <0 - aInterval1 раньше aInterval2, 0 - aInterval1 равно aInterval2, >0 aInterval1 позже aInterval2
    */
   public static int compareAsc( ITimeInterval aInterval1, ITimeInterval aInterval2 ) {
@@ -477,8 +477,8 @@ public class TimeUtils {
   /**
    * Сравнивает два интервала по убыванию начала, а потом окончания интервала.
    *
-   * @param aInterval1 {@link ITimeInterval} - первый инетрвал
-   * @param aInterval2 {@link ITimeInterval} - второй инетрвал
+   * @param aInterval1 {@link ITimeInterval} - first interval
+   * @param aInterval2 {@link ITimeInterval} - second interval
    * @return <0 - aInterval1 позже aInterval2, 0 - aInterval1 равно aInterval2, >0 aInterval1 раньше aInterval2
    */
   public static int compareDesc( ITimeInterval aInterval1, ITimeInterval aInterval2 ) {

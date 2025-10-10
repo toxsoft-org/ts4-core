@@ -180,15 +180,15 @@ public class ScrollBarCfg
    * @param aVp1 int - viewport left/top coordinate in {@link GC} coordinates space
    * @param aVp2 int - viewport right/bottom coordinate in {@link GC} coordinates space
    * @param aContentSize int - the content width/height
-   * @param aOrigin int - origin X/Y coordinate
+   * @param aTopelftCoor int - the content rectangle top-left X/Y coordinate
    * @throws TsIllegalArgumentRtException content size < 1
    */
-  public void tuneScrollBar( int aVp1, int aVp2, int aContentSize, int aOrigin ) {
+  public void tuneScrollBar( int aVp1, int aVp2, int aContentSize, int aTopelftCoor ) {
     TsIllegalArgumentRtException.checkTrue( aContentSize < 1 );
-    minimum = Math.min( aOrigin, aVp1 );
+    minimum = Math.min( aTopelftCoor, aVp1 );
     thumb = Math.min( aContentSize, aVp2 - aVp1 + 1 );
-    maximum = Math.max( aOrigin + aContentSize, aVp2 );
-    selection = aOrigin;
+    maximum = Math.max( aTopelftCoor + aContentSize, aVp2 );
+    selection = aTopelftCoor;
     increment = aContentSize / INCR_STEPS_FOR_FULL_RANGE;
     if( increment < 1 ) {
       increment = 1;
