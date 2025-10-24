@@ -6,7 +6,6 @@ import java.util.*;
 
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.*;
-import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
@@ -552,24 +551,20 @@ public class M5TreeViewer<T>
     tree.setHeaderVisible( isColumnHeaderVisible() );
     tree.setLinesVisible( true );
     tree.addMenuDetectListener( menuManager );
-    // dima 24.10.25 auto tune first column width
-    tree.addTreeListener( new TreeListener() {
-
-      @Override
-      public void treeExpanded( TreeEvent aE ) {
-        if( !columnManager().columns().isEmpty() ) {
-          columnManager().columns().values().get( 0 ).pack();
+    // dima 24.10.25 auto tune column width
+    tree.addListener( SWT.Expand, aEvent -> Display.getDefault().asyncExec( () -> {
+      // должно вызываться после окончания расхлопывания любого узла дерева
+      if( !columnManager().columns().isEmpty() ) {
+        for( int i = 0; i < columnManager().columns().size() - 1; i++ ) {
+          IM5Column<T> col = columnManager().columns().values().get( i );
+          col.pack();
         }
       }
-
-      @Override
-      public void treeCollapsed( TreeEvent aE ) {
-        // nop
-      }
-    } );
+    } ) );
 
     console = new TsTreeViewerConsole( treeViewer );
     return treeViewer;
+
   }
 
   @Override
