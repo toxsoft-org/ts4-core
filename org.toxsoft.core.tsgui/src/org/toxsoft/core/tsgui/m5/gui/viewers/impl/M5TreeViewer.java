@@ -6,6 +6,7 @@ import java.util.*;
 
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.*;
+import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
@@ -13,7 +14,6 @@ import org.toxsoft.core.tsgui.bricks.tsnodes.*;
 import org.toxsoft.core.tsgui.bricks.tstree.*;
 import org.toxsoft.core.tsgui.bricks.tstree.impl.*;
 import org.toxsoft.core.tsgui.bricks.tstree.tmm.*;
-import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.gui.viewers.*;
@@ -552,6 +552,22 @@ public class M5TreeViewer<T>
     tree.setHeaderVisible( isColumnHeaderVisible() );
     tree.setLinesVisible( true );
     tree.addMenuDetectListener( menuManager );
+    // dima 24.10.25 auto tune first column width
+    tree.addTreeListener( new TreeListener() {
+
+      @Override
+      public void treeExpanded( TreeEvent aE ) {
+        if( !columnManager().columns().isEmpty() ) {
+          columnManager().columns().values().get( 0 ).pack();
+        }
+      }
+
+      @Override
+      public void treeCollapsed( TreeEvent aE ) {
+        // nop
+      }
+    } );
+
     console = new TsTreeViewerConsole( treeViewer );
     return treeViewer;
   }
