@@ -103,7 +103,7 @@ public final class PluginFileRequirement {
   /**
    * Returns minimal allowed version of the plugin.
    *
-   * @return {@link TsVersion} - minimal allowed version or {@link TsVersion#HIGHEST} for no limit
+   * @return {@link TsVersion} - minimal allowed version
    */
   public TsVersion minVersion() {
     return minVersion;
@@ -112,7 +112,7 @@ public final class PluginFileRequirement {
   /**
    * Returns maximal allowed version of the plugin.
    *
-   * @return {@link TsVersion} - maximal allowed version or {@link TsVersion#HIGHEST} for no limit
+   * @return {@link TsVersion} - maximal allowed version
    */
   public TsVersion maxVersion() {
     return maxVersion;

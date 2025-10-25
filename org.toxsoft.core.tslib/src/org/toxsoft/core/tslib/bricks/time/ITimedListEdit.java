@@ -7,7 +7,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Редатируемое расширение {@link ITimedList}.
  *
  * @author hazard157
- * @param <T> - конкретный тип сущности с меткой времени
+ * @param <T> - the type of elements in this collection
  */
 public interface ITimedListEdit<T extends ITimestampable>
     extends ITimedList<T>, IListBasicEdit<T> {

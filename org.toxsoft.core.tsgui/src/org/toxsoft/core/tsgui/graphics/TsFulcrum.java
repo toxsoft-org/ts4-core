@@ -262,6 +262,17 @@ public final class TsFulcrum {
     return fulcrum != null && fulcrum.isBottom();
   }
 
+  /**
+   * Determines that fulcrum point is inside the rectangle area.
+   * <p>
+   * Simply check that {@link #xPerc()} and {@link #yPerc()} are inside range 0.0 - 100.0 inclusive.
+   *
+   * @return boolean - <code>true</code> if fulcrum is inside rectangle
+   */
+  public boolean isInside() {
+    return xPerc >= 0.0 && yPerc >= 0.0 && xPerc <= 100.0 && yPerc <= 100.0;
+  }
+
   // ------------------------------------------------------------------------------------
   // Object
   //

@@ -6,6 +6,7 @@ import static org.toxsoft.core.tslib.bricks.strio.impl.ITsResources.*;
 import java.io.*;
 
 import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.std.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
@@ -488,7 +489,7 @@ public class StrioUtils {
   public static <E> void writeStringMap( IStrioWriter aSw, String aKeyword, IStringMap<E> aMap,
       IEntityKeeper<E> aKeeper, boolean aIndent ) {
     TsNullArgumentRtException.checkNulls( aSw, aMap, aKeeper );
-    // запись "KEYWORD = "
+    // write keyword header
     writeKeywordHeader( aSw, aKeyword );
     // запись пустой карты
     if( aMap.isEmpty() ) {
@@ -584,6 +585,43 @@ public class StrioUtils {
     IStringMapEdit<E> map = new StringMap<>();
     readStringMap( aSr, aKeyword, aKeeper, map );
     return map;
+  }
+
+  /**
+   * Writes {@link IStringList} with keyword header.
+   * <p>
+   * Uses {@link StringKeeper#KEEPER} for list writing.
+   *
+   * @param aSw {@link IStrioWriter} - output writer
+   * @param aKeyword String - the keyword, an IDPath or an empty string for no keyword
+   * @param aList {@link IStringList} - the list to write
+   * @param aIndent boolean - indent flag, <code>true</code> to write each string on new line
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException non-empty keyword is not an IDpath
+   * @throws StrioRtException error writing to the stream
+   */
+  public static void writeStringList( IStrioWriter aSw, String aKeyword, IStringList aList, boolean aIndent ) {
+    TsNullArgumentRtException.checkNulls( aSw, aKeyword, aList );
+    writeKeywordHeader( aSw, aKeyword );
+    StringKeeper.KEEPER.writeColl( aSw, aList, aIndent );
+  }
+
+  /**
+   * Read string list wrtten by {@link #writeStringList(IStrioWriter, String, IStringList, boolean)}.
+   *
+   * @param aSr {@link IStrioReader} - input reader
+   * @param aKeyword String - the keyword, an IDPath or an empty string for no keyword
+   * @return {@link IStringListEdit} - new instance of editable string list
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException non-empty keyword is not an IDpath
+   * @throws StrioRtException error reading from the stream
+   */
+  public static IStringListEdit readStringList( IStrioReader aSr, String aKeyword ) {
+    TsNullArgumentRtException.checkNulls( aSr, aKeyword );
+    ensureKeywordHeader( aSr, aKeyword );
+    IStringListEdit coll = new StringLinkedBundleList();
+    StringKeeper.KEEPER.readColl( aSr, coll );
+    return coll;
   }
 
   /**

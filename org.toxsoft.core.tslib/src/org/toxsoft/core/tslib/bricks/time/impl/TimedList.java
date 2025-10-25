@@ -12,10 +12,10 @@ import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Реализация {@link ITimedListEdit}.
+ * {@link ITimedListEdit} implementation.
  *
  * @author hazard157
- * @param <T> - конкретный тип сущности с меткой времени
+ * @param <T> - the type of elements in this collection
  */
 public class TimedList<T extends ITimestampable>
     extends SortedElemLinkedBundleListEx<T>
@@ -47,7 +47,7 @@ public class TimedList<T extends ITimestampable>
   private static final Comparator<ITimestampable> COMPARATOR = new TimestampablesComparator();
 
   // --------------------------------------------------------------------------
-  // Конструкторы
+  // Constructors
   //
 
   /**

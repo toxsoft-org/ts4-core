@@ -9,9 +9,9 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * A strategy to build a hierarchical tree structure from a flat list.
  * <p>
- * This interface is not used in this package. Instead it is desgined as hint to the implementers. The meaning of this
+ * This interface is not used in this package. Instead it is designed as a hint to the implementers. The meaning of this
  * interface is that a tree is built from entities of the same type &lt;T&gt; Some {@link IQNode} nodes can be grouping
- * (service) ones, for tree building, and may not contain objects as {@link IQNode#entity()}. Grouping nodes can be
+ * (service) ones for tree building and may not contain objects as {@link IQNode#entity()}. Grouping nodes can be
  * distinguished from entity nodes by the {@link #isItemNode(IQNode)} method.
  * <p>
  * This interface allows to create part of the tree (the subtree) or the whole tree. When creating whole tree
@@ -24,10 +24,10 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public interface IQTreeMaker<T> {
 
   /**
-   * Creates root nodes and subtress from list of modelled entities.
+   * Creates root nodes and sub-trees from list of entities.
    * <p>
    * While returned roots and subtrees must contain all items from the argument <code>aItems</code> some nodes (usually
-   * grouping nodes) may not contain modelled entities as {@link IQNode#entity()}. Implementation must distinguish such
+   * grouping nodes) may not contain modeled entities as {@link IQNode#entity()}. Implementation must distinguish such
    * nodes by the method {@link #isItemNode(IQNode)}.
    * <p>
    * Returned root nodes must be childs of <code>aRootNode</code> argument. Viewer will set returned list as roots by
@@ -41,10 +41,10 @@ public interface IQTreeMaker<T> {
   IList<IQNode> makeRoots( IQNode aRootNode, IList<T> aItems );
 
   /**
-   * Determines if spcified node containes modelled entity.
+   * Determines if specified node contains entity.
    *
    * @param aNode {@link IQNode} - the node to check
-   * @return boolean - <code>true</code> if {@link IQNode#entity()} is modelled item, <code>false</code> - this is
+   * @return boolean - <code>true</code> if {@link IQNode#entity()} is modeled item, <code>false</code> - this is
    *         service (usually grouping) node
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */

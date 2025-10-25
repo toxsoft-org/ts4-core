@@ -1,7 +1,6 @@
 package org.toxsoft.core.tsgui.utils.anim;
 
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;

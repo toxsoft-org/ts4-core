@@ -14,7 +14,6 @@ import org.toxsoft.core.tsgui.graphics.fonts.impl.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.graphics.icons.impl.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
-import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tsgui.mws.services.e4helper.*;
 import org.toxsoft.core.tsgui.mws.services.hdpi.*;
 import org.toxsoft.core.tsgui.mws.services.timers.*;
@@ -71,6 +70,8 @@ public class QuantTsGui
   @Override
   protected void doCloseWin( MWindow aWindow ) {
     IEclipseContext winContext = aWindow.getContext();
+    IAnimationSupport as = winContext.get( IAnimationSupport.class );
+    as.pause();
     ITsImageManager imageManager = winContext.get( ITsImageManager.class );
     if( imageManager != null ) {
       imageManager.clearCache();

@@ -5,7 +5,6 @@ package org.toxsoft.core.tslib.av.validators;
  *
  * @author hazard157
  */
-@SuppressWarnings( "nls" )
 interface ITsResources {
 
   String FMT_ERR_VALUE_WRONG_AT = Messages.getString( "FMT_ERR_VALUE_WRONG_AT" ); //$NON-NLS-1$
