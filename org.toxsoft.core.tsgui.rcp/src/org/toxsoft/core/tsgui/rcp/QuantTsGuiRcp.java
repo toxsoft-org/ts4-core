@@ -32,6 +32,7 @@ public class QuantTsGuiRcp
   protected void doInitWin( IEclipseContext aWinContext ) {
     IValedControlFactoriesRegistry vcfReg = aWinContext.get( IValedControlFactoriesRegistry.class );
     vcfReg.registerFactory( ValedFile.FACTORY );
+    vcfReg.registerFactory( ValedStringFile.FACTORY );
     vcfReg.registerFactory( ValedAvStringFile.FACTORY );
     vcfReg.registerFactory( ValedAvValobjFile.FACTORY );
   }

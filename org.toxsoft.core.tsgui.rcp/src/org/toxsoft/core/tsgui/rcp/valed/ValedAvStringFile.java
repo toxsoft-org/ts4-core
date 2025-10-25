@@ -20,7 +20,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * @author hazard157
  */
 public class ValedAvStringFile
-    extends AbstractAvWrapperValedControl<File> {
+    extends AbstractAvWrapperValedControl<String> {
 
   /**
    * The factory name.
@@ -59,17 +59,17 @@ public class ValedAvStringFile
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public ValedAvStringFile( ITsGuiContext aTsContext ) {
-    super( aTsContext, EAtomicType.STRING, ValedFile.FACTORY );
+    super( aTsContext, EAtomicType.STRING, ValedStringFile.FACTORY );
   }
 
   @Override
-  protected IAtomicValue tv2av( File aTypedValue ) {
-    return avStr( aTypedValue.getPath() );
+  protected IAtomicValue tv2av( String aTypedValue ) {
+    return avStr( aTypedValue );
   }
 
   @Override
-  protected File av2tv( IAtomicValue aAtomicValue ) {
-    return new File( aAtomicValue.asString() );
+  protected String av2tv( IAtomicValue aAtomicValue ) {
+    return aAtomicValue.asString();
   }
 
 }
