@@ -30,8 +30,11 @@ public interface ICurrentEntityService<E> {
    * Sets the current entity.
    *
    * @param aCurrent &lt;E&gt; - the current entity or <code>null</code>
+   * @return boolean - determines if {@link #current()} was actually changed<br>
+   *         <b>true</b> - {@link #current()} was changed;<br>
+   *         <b>false</b> - {@link #current()} was not changed, old and new are equal with <b>==</b> operator check.
    */
-  void setCurrent( E aCurrent );
+  boolean setCurrent( E aCurrent );
 
   /**
    * Generates an event {@link ICurrentEntityChangeListener#onCurrentContentChanged(Object)}.
@@ -55,5 +58,14 @@ public interface ICurrentEntityService<E> {
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void removeCurrentEntityChangeListener( ICurrentEntityChangeListener<E> aListener );
+
+  /**
+   * Sets interceptor of the {@link #setCurrent(Object)} processing.
+   * <p>
+   * Specifing <code>null</code> as an argument will remove interceptor.
+   *
+   * @param aInterceptor {@link ICurrentEntityChangeInterceptor} - the interceptor or <code>null</code>
+   */
+  void setCurrentEntityChangeInterceptor( ICurrentEntityChangeInterceptor<E> aInterceptor );
 
 }

@@ -17,7 +17,9 @@ public class CurrentEntityService<E>
 
   private final IListEdit<ICurrentEntityChangeListener<E>> listeners = new ElemLinkedBundleList<>();
   private final IEclipseContext                            appContext;
-  private E                                                current   = null;
+
+  private ICurrentEntityChangeInterceptor<E> interceptor = null;
+  private E                                  current     = null;
 
   /**
    * Constructor.
@@ -95,13 +97,15 @@ public class CurrentEntityService<E>
   /**
    * Subclass may handle current entity change or even determine which value to set.
    * <p>
-   * This method is called after current entity changed but before listeners are informed.
+   * This methos acts as decribed in {@link ICurrentEntityChangeInterceptor#beforeListenersInformed(Object, Object)}.
    * <p>
-   * In base class simply returns <code>aNew</code>, there is no need to call superclass method when overriding.
+   * Note: this method is <b>not</b> called when non-<code>null</code> interceptor is set by
+   * {@link #setCurrentEntityChangeInterceptor(ICurrentEntityChangeInterceptor)}
    *
    * @param aOld &lt;E&gt; - old value of {@link #current()} may be <code>null</code>
    * @param aNew &lt;E&gt; - new value of {@link #current()} may be <code>null</code>
    * @return &lt;E&gt; - the value to be actually set as a new value
+   * @see ICurrentEntityChangeInterceptor
    */
   protected E beforeListenersInformed( E aOld, E aNew ) {
     return aNew;
@@ -129,15 +133,24 @@ public class CurrentEntityService<E>
   }
 
   @Override
-  public void setCurrent( E aCurrent ) {
+  public boolean setCurrent( E aCurrent ) {
+    E old = current;
     if( aCurrent != current ) {
-      E old = current;
-      current = aCurrent; // set current to be available in next method
-      current = beforeListenersInformed( old, current );
-      fireEntityChangedEvent();
-      fireAfterListenersEvent();
-      afterListenersInformed();
+      E entityToSet;
+      if( interceptor != null ) {
+        entityToSet = interceptor.beforeListenersInformed( old, aCurrent );
+      }
+      else {
+        entityToSet = beforeListenersInformed( old, aCurrent );
+      }
+      if( entityToSet != current ) {
+        current = entityToSet;
+        fireEntityChangedEvent();
+        fireAfterListenersEvent();
+        afterListenersInformed();
+      }
     }
+    return current != old;
   }
 
   @Override
@@ -157,6 +170,11 @@ public class CurrentEntityService<E>
   @Override
   public void removeCurrentEntityChangeListener( ICurrentEntityChangeListener<E> aListener ) {
     listeners.remove( aListener );
+  }
+
+  @Override
+  public void setCurrentEntityChangeInterceptor( ICurrentEntityChangeInterceptor<E> aInterceptor ) {
+    interceptor = aInterceptor;
   }
 
 }
