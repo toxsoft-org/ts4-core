@@ -137,6 +137,7 @@ Export-Package: org.toxsoft.core.tsgui,
  org.toxsoft.core.tsgui.valed.controls.time,
  org.toxsoft.core.tsgui.valed.impl,
  org.toxsoft.core.tsgui.widgets,
+ org.toxsoft.core.tsgui.widgets.contrib,
  org.toxsoft.core.tsgui.widgets.mpv,
  org.toxsoft.core.tsgui.widgets.mpv.impl,
  org.toxsoft.core.tsgui.widgets.pdw
