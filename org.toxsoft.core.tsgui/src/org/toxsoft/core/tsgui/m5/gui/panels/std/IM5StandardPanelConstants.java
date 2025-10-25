@@ -81,7 +81,7 @@ public interface IM5StandardPanelConstants {
    * {@link IMultiPaneComponentConstants#OPDEF_IS_SUPPORTS_TREE OPDEF_IS_SUPPORTS_TREE} set to <code>true</code><br>
    */
   @SuppressWarnings( { "unchecked", "rawtypes" } )
-  ITsGuiContextRefDef<IStridablesList<TreeModeInfo>> REFDEF_M5STD_PANEL_TREE_MODES_LIST = ///
+  ITsGuiContextRefDef<IStridablesList<TreeModeInfo<?>>> REFDEF_M5STD_PANEL_TREE_MODES_LIST = ///
       TsGuiContextRefDef.create( REFID_M5STD_PANEL_TREE_MODES_LIST, (Class)IStridablesList.class, ///
           TSID_IS_MANDATORY, AV_FALSE );
 

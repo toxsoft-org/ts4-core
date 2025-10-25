@@ -14,7 +14,9 @@ public class MpvSecsDurationHhMmSs
     extends MultiPartValueBase
     implements IMpvSecsDuration {
 
-  private static final int IDX_MIN = 0;
+  private static final int IDX_HOUR = 0;
+  private static final int IDX_MIN  = 1;
+  private static final int IDX_SEC  = 2;
 
   private static final IntRange WIDEST_RANGE = new IntRange( 0, 99 * 60 );
 
@@ -24,7 +26,9 @@ public class MpvSecsDurationHhMmSs
    * Constructor.
    */
   public MpvSecsDurationHhMmSs() {
-    addPart( new Part( "MM", 2, new IntRange( 0, 59 ), -1, -1 ) ); //$NON-NLS-1$
+    addPart( new Part( "HH", 2, new IntRange( 0, 99 ), -1, ':' ) ); //$NON-NLS-1$
+    addPart( new Part( "MM", 2, new IntRange( 0, 59 ), -1, ':' ) ); //$NON-NLS-1$
+    addPart( new Part( "SS", 2, new IntRange( 0, 59 ), -1, -1 ) ); //$NON-NLS-1$
   }
 
   // ------------------------------------------------------------------------------------
@@ -57,15 +61,21 @@ public class MpvSecsDurationHhMmSs
 
   @Override
   public int getValueSecs() {
-    return pval( IDX_MIN ) * 60;
+    return pval( IDX_HOUR ) * 3600 + pval( IDX_MIN ) * 60 + pval( IDX_SEC );
   }
 
   @Override
   public void setValueSecs( int aDuration ) {
     int dur = range.inRange( aDuration );
+    int hh = dur / 3600;
+    dur -= hh * 3600;
     int mm = dur / 60;
+    dur -= mm * 60;
+    int ss = dur;
     IIntList oldVals = getPartsValues();
+    sval( IDX_HOUR, hh );
     sval( IDX_MIN, mm );
+    sval( IDX_SEC, ss );
     IIntList newVals = getPartsValues();
     if( !newVals.equals( oldVals ) ) {
       eventer().fireChangeEvent();
