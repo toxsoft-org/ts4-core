@@ -13,7 +13,6 @@ import org.toxsoft.core.tsgui.bricks.tsnodes.*;
 import org.toxsoft.core.tsgui.bricks.tstree.*;
 import org.toxsoft.core.tsgui.bricks.tstree.impl.*;
 import org.toxsoft.core.tsgui.bricks.tstree.tmm.*;
-import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.gui.viewers.*;
@@ -552,8 +551,20 @@ public class M5TreeViewer<T>
     tree.setHeaderVisible( isColumnHeaderVisible() );
     tree.setLinesVisible( true );
     tree.addMenuDetectListener( menuManager );
+    // dima 24.10.25 auto tune column width
+    tree.addListener( SWT.Expand, aEvent -> Display.getDefault().asyncExec( () -> {
+      // должно вызываться после окончания расхлопывания любого узла дерева
+      if( !columnManager().columns().isEmpty() ) {
+        for( int i = 0; i < columnManager().columns().size() - 1; i++ ) {
+          IM5Column<T> col = columnManager().columns().values().get( i );
+          col.pack();
+        }
+      }
+    } ) );
+
     console = new TsTreeViewerConsole( treeViewer );
     return treeViewer;
+
   }
 
   @Override
