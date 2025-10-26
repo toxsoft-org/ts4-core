@@ -5,7 +5,6 @@ import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
 import org.eclipse.jface.action.*;
 import org.eclipse.swt.*;
 import org.eclipse.swt.custom.*;
-import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -73,7 +72,6 @@ public class LabelContribution
   protected Control createControl( Composite aParent ) {
     label = new CLabel( aParent, swtStyle );
     label.setText( initialText );
-    label.setBackground( new Color( new RGB( 255, 255, 255 ) ) );
     label.setSize( SWT.DEFAULT, SWT.DEFAULT );
     return label;
   }
