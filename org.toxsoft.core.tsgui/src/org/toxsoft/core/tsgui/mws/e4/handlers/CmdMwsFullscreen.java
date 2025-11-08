@@ -57,19 +57,19 @@ public class CmdMwsFullscreen {
     // resize shell
     aShell.setFullScreen( fullscreenOn );
     // main menu
-    boolean argHideMainMenu = aHideMenuStr != null && aHideMenuStr.equalsIgnoreCase( Boolean.TRUE.toString() );
+    boolean argHideMainMenu = aHideMenuStr == null || aHideMenuStr.equalsIgnoreCase( Boolean.TRUE.toString() );
     boolean showMainMenu = !fullscreenOn || isMainMenuAlwaysShown( aMwsService ) || !argHideMainMenu;
     MMenu mainMenu = aE4Helper.findElement( aWindow, MWSID_MENU_MAIN, MMenu.class );
     mainMenu.setVisible( showMainMenu );
     mainMenu.setToBeRendered( showMainMenu );
     // top trim bar
-    boolean argHideTopTrimBar = aHideTopStr != null && aHideTopStr.equalsIgnoreCase( Boolean.TRUE.toString() );
+    boolean argHideTopTrimBar = aHideTopStr == null || aHideTopStr.equalsIgnoreCase( Boolean.TRUE.toString() );
     boolean showTopTrimBar = !fullscreenOn || isTopTrimBarAlwaysShown( aMwsService ) || !argHideTopTrimBar;
     MTrimBar trimBarTop = aE4Helper.findElement( aWindow, MWSID_TRIMBAR_TOP, MTrimBar.class );
     trimBarTop.setVisible( showTopTrimBar );
     trimBarTop.setToBeRendered( showTopTrimBar );
     // bottom trim bar
-    boolean argHideBottomTrimBar = aHideBottomStr != null && aHideBottomStr.equalsIgnoreCase( Boolean.TRUE.toString() );
+    boolean argHideBottomTrimBar = aHideBottomStr == null || aHideBottomStr.equalsIgnoreCase( Boolean.TRUE.toString() );
     boolean showBottomTrimBar = !fullscreenOn || isBottomTrimBarAlwaysShown( aMwsService ) || !argHideBottomTrimBar;
     MTrimBar trimBarBottom = aE4Helper.findElement( aWindow, MWSID_TRIMBAR_BOTTOM, MTrimBar.class );
     trimBarBottom.setVisible( showBottomTrimBar );
