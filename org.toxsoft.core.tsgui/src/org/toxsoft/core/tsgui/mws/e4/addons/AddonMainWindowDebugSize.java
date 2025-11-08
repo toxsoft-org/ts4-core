@@ -20,6 +20,8 @@ public class AddonMainWindowDebugSize
 
   /**
    * If this command line argument is specified to true, the main window will have small size for debugging convenience.
+   * <p>
+   * Absence of the option is interpreted as <code>false</code>.
    */
   public static final String CMDLINEARG_MAIN_WINDOW_DEBUG_SIZE = "MainWindowDebugSize"; //$NON-NLS-1$
 

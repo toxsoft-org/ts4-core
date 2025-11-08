@@ -40,9 +40,13 @@ public class M5AttributeFieldDef<T>
     super( aId, IAtomicValue.class, null );
     TsNullArgumentRtException.checkNull( aAtomicType );
     attrType = aAtomicType;
-    params().addAll( OptionSetUtils.createOpSet( aIdsAndValues ) );
     validator().addValidator( new DefaultAvValidator( this ) );
     setComparator( AvUtils.DEFAULT_AV_COMPARATOR );
+    params().addAll( OptionSetUtils.createOpSet( aIdsAndValues ) );
+    // init internals from arguments
+    setFlags( params().getInt( M5_OPID_FLAGS, flags() ) );
+    setName( params().getStr( TSID_NAME, nmName() ) );
+    setDescription( params().getStr( TSID_DESCRIPTION, description() ) );
   }
 
   /**
@@ -60,7 +64,6 @@ public class M5AttributeFieldDef<T>
     attrType = aDataType.atomicType();
     params().addAll( aDataType.params() );
     params().addAll( OptionSetUtils.createOpSet( aIdsAndValues ) );
-    setFlags( M5_OPDEF_FLAGS.getValue( params() ).asInt() );
     if( aDataType instanceof IDataDef ddef ) {
       validator().addValidator( ddef.validator() );
       setComparator( ddef.comparator() );
@@ -69,6 +72,10 @@ public class M5AttributeFieldDef<T>
       validator().addValidator( new DefaultAvValidator( this ) );
       setComparator( AvUtils.DEFAULT_AV_COMPARATOR );
     }
+    // init internals from arguments
+    setFlags( params().getInt( M5_OPID_FLAGS, flags() ) );
+    setName( params().getStr( TSID_NAME, nmName() ) );
+    setDescription( params().getStr( TSID_DESCRIPTION, description() ) );
   }
 
   /**

@@ -13,7 +13,6 @@ import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
 import org.toxsoft.core.tsgui.graphics.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
-import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tsgui.mws.*;
 import org.toxsoft.core.tsgui.mws.appinf.*;

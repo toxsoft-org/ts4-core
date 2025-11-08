@@ -40,8 +40,12 @@
   </children>
   <handlers xmi:id="_d3qtYAG8Eeu_AZkVHSYopg" elementId="org.toxsoft.mws.framework.main.handler.0" contributionURI="bundleclass://org.toxsoft.core.tsgui/org.toxsoft.core.tsgui.mws.e4.handlers.CmdMwsQuit" command="_VM_fQAGbEeuQYZnmcZNTqw"/>
   <handlers xmi:id="_ReqeMKZJEeyxUJTl1Yw9HA" elementId="org.toxsoft.core.tsgui.mws.handler.0" contributionURI="bundleclass://org.toxsoft.core.tsgui/org.toxsoft.core.tsgui.mws.e4.handlers.CmdMwsEditAppPrefs" command="_0l8mcKZIEeyxUJTl1Yw9HA"/>
+  <handlers xmi:id="_zjG10LynEfCtV_nJrdU6xg" elementId="org.toxsoft.core.tsgui.mws.handler.121" contributionURI="bundleclass://org.toxsoft.core.tsgui/org.toxsoft.core.tsgui.mws.e4.handlers.CmdMwsFullscreen" command="_juzPkLynEfCtV_nJrdU6xg"/>
   <bindingTables xmi:id="_BU_wMEN9EeuCHr1GrQO4VA" elementId="org.toxsoft.mws.framework.main.bindingtable.global" bindingContext="_88_OIEN8EeuCHr1GrQO4VA">
     <bindings xmi:id="_Dv8vsEN9EeuCHr1GrQO4VA" elementId="org.toxsoft.mws.framework.main.keybinding.quit" keySequence="CTRL+Q" command="_VM_fQAGbEeuQYZnmcZNTqw">
+      <tags>type:user</tags>
+    </bindings>
+    <bindings xmi:id="_mFwDYLyoEfCtV_nJrdU6xg" elementId="org.toxsoft.core.tsgui.mws.keybinding.0" keySequence="F11" command="_juzPkLynEfCtV_nJrdU6xg">
       <tags>type:user</tags>
     </bindings>
   </bindingTables>
@@ -57,6 +61,12 @@
     <parameters xmi:id="_JtuRcKZJEeyxUJTl1Yw9HA" elementId="org.toxsoft.mws.cmd.edit_app_prefs.hide_sects_list" name="Hide left list of sections, boolean in form of: true or false"/>
   </commands>
   <commands xmi:id="_-nOjoORNEeyhVpJArR8LeA" elementId="org.toxsoft.mws.cmd.about" commandName="%Cmd_About" description="%Cmd_About_D" category="_SFdGkAGbEeuQYZnmcZNTqw"/>
+  <commands xmi:id="_juzPkLynEfCtV_nJrdU6xg" elementId="org.toxsoft.mws.cmd.fullscreen" commandName="%Cmd_FullScreen" description="%Cmd_FullScreen_D" category="_SFdGkAGbEeuQYZnmcZNTqw">
+    <parameters xmi:id="_wypRoLytEfCtV_nJrdU6xg" elementId="org.toxsoft.mws.cmd.fullscreen.arg.on_off" name="If specified forces fullscreen mode, &quot;true&quot; for fulscreen ON, any other value - not fulscreen"/>
+    <parameters xmi:id="_l18iQLynEfCtV_nJrdU6xg" elementId="org.toxsoft.mws.cmd.fullscreen.arg.hide_menu" name="false - show menu in fullscreen mode, false - as defined by application options"/>
+    <parameters xmi:id="_mKU20LynEfCtV_nJrdU6xg" elementId="org.toxsoft.mws.cmd.fullscreen.arg.hide_top" name="false - show top bar in fullscreen mode, false - as defined by application options"/>
+    <parameters xmi:id="_mZ480LynEfCtV_nJrdU6xg" elementId="org.toxsoft.mws.cmd.fullscreen.arg.hide_bottom" name="false - show bottom bar in fullscreen mode, false - as defined by application options"/>
+  </commands>
   <addons xmi:id="_9V_7UbOCEeq_kr1I9pNBSg" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_9V_7UrOCEeq_kr1I9pNBSg" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_9V_7U7OCEeq_kr1I9pNBSg" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

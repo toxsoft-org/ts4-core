@@ -58,7 +58,7 @@ public class TsFileFilter
    *
    * @param aWhatAccepted {@link EFsObjKind} - what is accepted files, directories or both
    * @param aExtensions {@link IStringList} - the extensions (without dot) or an empty list to include all extensions
-   * @param aAcceptHidden boolean - if <code>true</code> hidden files and dirs will be accepted
+   * @param aAcceptHidden boolean - if <code>true</code> hidden files and directories will be accepted
    * @param aCaseSensitive boolean - if <code>true</code> case-sensitive extension check will be performed
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */

@@ -147,6 +147,7 @@ public interface ITsE4Helper {
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void setToolItemVisible( String aToolItemId, boolean aVisible );
+  
 
   /**
    * Perspective change eventer.

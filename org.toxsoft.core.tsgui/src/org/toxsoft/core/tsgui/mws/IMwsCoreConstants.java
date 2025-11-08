@@ -1,5 +1,11 @@
 package org.toxsoft.core.tsgui.mws;
 
+import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
+import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
+
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
+
 /**
  * MWS core constants.
  * <p>
@@ -37,14 +43,39 @@ public interface IMwsCoreConstants {
   String MWSID_TOOLBAR_MAIN                    = "org.toxsoft.mws.toolbar.main";                    //$NON-NLS-1$
   String MWSID_TOOLBAR_PERSPECTIVES            = "org.toxsoft.mws.toolbar.perspectives";            //$NON-NLS-1$
 
-  String MWSID_CMD_QUIT           = "org.toxsoft.mws.cmd.quit";                     //$NON-NLS-1$
-  String MWSID_CMD_SWITCH_PERSP   = "org.toxsoft.mws.cmd.switch_persp";             //$NON-NLS-1$
-  String MWSID_CMDARG_SP_PERSP_ID = "org.toxsoft.mws.cmd.switch_persp.arg.perspId"; //$NON-NLS-1$
-  String MWSID_CMDARG_SP_PART_ID  = "org.toxsoft.mws.cmd.switch_persp.arg.partId";  //$NON-NLS-1$
-  String MWSID_CMD_ABOUT          = "org.toxsoft.mws.cmd.about";                    //$NON-NLS-1$
+  String MWSID_CMD_QUIT              = "org.toxsoft.mws.cmd.quit";                       //$NON-NLS-1$
+  String MWSID_CMD_SWITCH_PERSP      = "org.toxsoft.mws.cmd.switch_persp";               //$NON-NLS-1$
+  String MWSID_CMDARG_SP_PERSP_ID    = "org.toxsoft.mws.cmd.switch_persp.arg.perspId";   //$NON-NLS-1$
+  String MWSID_CMDARG_SP_PART_ID     = "org.toxsoft.mws.cmd.switch_persp.arg.partId";    //$NON-NLS-1$
+  String MWSID_CMD_ABOUT             = "org.toxsoft.mws.cmd.about";                      //$NON-NLS-1$
+  String MWSID_CMD_FULLSCREEN        = "org.toxsoft.mws.cmd.fullscreen";                 //$NON-NLS-1$
+  String MWSID_CMDARG_FS_ONOFF       = "org.toxsoft.mws.cmd.fullscreen.arg.on_off";      //$NON-NLS-1$
+  String MWSID_CMDARG_FS_HIDE_MENU   = "org.toxsoft.mws.cmd.fullscreen.arg.hide_menu";   //$NON-NLS-1$
+  String MWSID_CMDARG_FS_HIDE_TOP    = "org.toxsoft.mws.cmd.fullscreen.arg.hide_top";    //$NON-NLS-1$
+  String MWSID_CMDARG_FS_HIDE_BOTTOM = "org.toxsoft.mws.cmd.fullscreen.arg.hide_bottom"; //$NON-NLS-1$
 
   String MWSID_CMD_EDIT_APP_PREFS     = "org.toxsoft.mws.cmd.edit_app_prefs";              //$NON-NLS-1$
   String MWSID_CMDARG_EAP_INIT_SECTID = "org.toxsoft.mws.cmd.edit_app_prefs.init_sect_id"; //$NON-NLS-1$
   String MWSID_CMDARG_EAP_SECTIDS     = "org.toxsoft.mws.cmd.edit_app_prefs.sect_ids";     //$NON-NLS-1$
+
+  // ------------------------------------------------------------------------------------
+  // Options to be set at application startup
+
+  IDataDef MWSOP_USE_FULLSCREEN_CMD = DataDef.create3( "org.toxsoft.mws.op.use_fullscreen_cmd", //$NON-NLS-1$
+      DT_TS_BOOL, //
+      TSID_DEFAULT_VALUE, AV_TRUE //
+  );
+
+  IDataDef MWSOP_FULLSCREEN_HIDE_MENU = DataDef.create3( MWSID_CMDARG_FS_HIDE_MENU, DT_TS_BOOL, //
+      TSID_DEFAULT_VALUE, AV_TRUE //
+  );
+
+  IDataDef MWSOP_FULLSCREEN_HIDE_TRIMBAR_TOP = DataDef.create3( MWSID_CMDARG_FS_HIDE_TOP, DT_TS_BOOL, //
+      TSID_DEFAULT_VALUE, AV_TRUE //
+  );
+
+  IDataDef MWSOP_FULLSCREEN_HIDE_TRIMBAR_BOTTOM = DataDef.create3( MWSID_CMDARG_FS_HIDE_BOTTOM, DT_TS_BOOL, //
+      TSID_DEFAULT_VALUE, AV_TRUE //
+  );
 
 }

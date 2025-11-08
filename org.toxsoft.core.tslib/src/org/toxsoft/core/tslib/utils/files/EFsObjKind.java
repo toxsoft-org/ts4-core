@@ -2,13 +2,12 @@ package org.toxsoft.core.tslib.utils.files;
 
 import static org.toxsoft.core.tslib.utils.files.ITsResources.*;
 
-import java.io.File;
+import java.io.*;
 
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-
-// TODO TRANSLATE
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * File system object kind.
@@ -22,43 +21,38 @@ public enum EFsObjKind
     implements IStridable {
 
   /**
-   * Файл(ы).
+   * Regular files, when {@link File#isFile()} == <code>true</code>.
    */
-  FILE( "File", STR_FOK_FILE_D, STR_FOK_FILE, true, false ),
+  FILE( "File", STR_FOK_FILE_D, STR_FOK_FILE, true, false, TsFileFilter.FF_FILES_HIDDEN ),
 
   /**
-   * Папка(и).
+   * Directories, when {@link File#isDirectory()} == <code>true</code>.
    */
-  DIR( "Dir", STR_FOK_DIR_D, STR_FOK_DIR, false, true ),
+  DIR( "Dir", STR_FOK_DIR_D, STR_FOK_DIR, false, true, TsFileFilter.FF_DIRS_HIDDEN ),
 
   /**
-   * Всё (файлы и папки).
+   * Regular files and directoires.
    */
-  BOTH( "Both", STR_FOK_BOTH_D, STR_FOK_BOTH, true, true ),
+  BOTH( "Both", STR_FOK_BOTH_D, STR_FOK_BOTH, true, true, TsFileFilter.FF_ALL_HIDDEN ),
 
   ;
 
-  private final String  id;
-  private final String  description;
-  private final String  name;
-  private final boolean file;
-  private final boolean dir;
+  private final String       id;
+  private final String       description;
+  private final String       name;
+  private final boolean      file;
+  private final boolean      dir;
+  private final TsFileFilter fileFilter;
 
-  /**
-   * Создать константу с заданием всех инвариантов.
-   *
-   * @param aId String - идентифицирующее название константы
-   * @param aDescr String - отображаемое описание константы
-   * @param aName String - краткое название константы
-   * @param aIsFile boolean - признак файла
-   * @param aIsDir boolean - признак папки
-   */
-  EFsObjKind( String aId, String aDescr, String aName, boolean aIsFile, boolean aIsDir ) {
+  private static IStridablesListEdit<EFsObjKind> list = null;
+
+  EFsObjKind( String aId, String aDescr, String aName, boolean aIsFile, boolean aIsDir, TsFileFilter aFileFilter ) {
     id = aId;
     description = aDescr;
     name = aName;
     file = aIsFile;
     dir = aIsDir;
+    fileFilter = aFileFilter;
   }
 
   // --------------------------------------------------------------------------
@@ -85,29 +79,32 @@ public enum EFsObjKind
   //
 
   /**
-   * Возвращает признак файла.
+   * Returns if constant includes files.
    *
-   * @return boolean - признак файла
+   * @return boolean - <code>true</code> regular files are included
    */
   public boolean isFile() {
     return file;
   }
 
   /**
-   * Возвращает признак папки.
+   * Returns if constant includes directories.
    *
-   * @return boolean - признак папки
+   * @return boolean - <code>true</code> directories are included
    */
   public boolean isDir() {
     return dir;
   }
 
   /**
-   * Проверяет, соответствует ли файловый объект этому типу.
+   * Checks if existing file system object is accepted by this constant.
+   * <p>
+   * Returns <code>false</code> if argument does not exists or is not neither file
+   * {@link File#isFile()}=<code>true</code> nor directory {@link File#isDirectory()} = <code>false</code>.
    *
-   * @param aFile {@link File} - файловый тип
-   * @return boolean - признак соответствия
-   * @throws TsNullArgumentRtException любой аргумент = <code>null</code>
+   * @param aFile {@link File} - the file system object
+   * @return boolean - <code>true</code> if object is accepted, <code>false</code> - rejected
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public boolean isAccepted( File aFile ) {
     TsNullArgumentRtException.checkNull( aFile );
@@ -120,138 +117,204 @@ public enum EFsObjKind
     return false;
   }
 
-  // ----------------------------------------------------------------------------------
-  // Методы проверки
-  //
-
   /**
-   * Определяет, существует ли константа перечисления с заданным идентификатором.
+   * Returns {@link TsFileFilter} which accepts objects according to {@link #isAccepted(File)}.
    *
-   * @param aId String - идентификатор искомой константы
-   * @return boolean - признак существования константы <br>
-   *         <b>true</b> - константа с заданным идентификатором существует;<br>
-   *         <b>false</b> - неет константы с таким идентификатором.
-   * @throws TsNullArgumentRtException аргумент = null
+   * @return {@link TsFileFilter} - the file filter
    */
-  public static boolean isItemById( String aId ) {
-    return findByIdOrNull( aId ) != null;
-  }
-
-  /**
-   * Определяет, существует ли константа перечисления с заданным описанием.
-   *
-   * @param aDescription String - описание искомой константы
-   * @return boolean - признак существования константы <br>
-   *         <b>true</b> - константа с заданным описанием существует;<br>
-   *         <b>false</b> - неет константы с таким описанием.
-   * @throws TsNullArgumentRtException аргумент = null
-   */
-  public static boolean isItemByDescription( String aDescription ) {
-    return findByDescriptionOrNull( aDescription ) != null;
-  }
-
-  /**
-   * Определяет, существует ли константа перечисления с заданным именем.
-   *
-   * @param aName String - имя (название) искомой константы
-   * @return boolean - признак существования константы <br>
-   *         <b>true</b> - константа с заданным именем существует;<br>
-   *         <b>false</b> - неет константы с таким именем.
-   * @throws TsNullArgumentRtException аргумент = null
-   */
-  public static boolean isItemByName( String aName ) {
-    return findByNameOrNull( aName ) != null;
+  public TsFileFilter fileFilter() {
+    return fileFilter;
   }
 
   // ----------------------------------------------------------------------------------
-  // Методы поиска
+  // Stridable enum common API
   //
 
   /**
-   * Возвращает константу по идентификатору или null.
+   * Returns all constants in single list.
    *
-   * @param aId String - идентификатор искомой константы
-   * @return EFsObjKind - найденная константа, или null если нет константы с таимк идентификатором
-   * @throws TsNullArgumentRtException аргумент = null
+   * @return {@link IStridablesList}&lt; {@link EFsObjKind} &gt; - list of constants in order of declaraion
    */
-  public static EFsObjKind findByIdOrNull( String aId ) {
-    TsNullArgumentRtException.checkNull( aId );
-    for( EFsObjKind item : values() ) {
-      if( item.id.equals( aId ) ) {
-        return item;
-      }
+  public static IStridablesList<EFsObjKind> asList() {
+    if( list == null ) {
+      list = new StridablesList<>( values() );
     }
-    return null;
+    return list;
   }
 
   /**
-   * Возвращает константу по идентификатору или выбрасывает исключение.
+   * Returns the constant by the ID.
    *
-   * @param aId String - идентификатор искомой константы
-   * @return EFsObjKind - найденная константа
-   * @throws TsNullArgumentRtException аргумент = null
-   * @throws TsItemNotFoundRtException нет константы с таким идентификатором
+   * @param aId String - the ID
+   * @return {@link EFsObjKind} - found constant
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException no constant found by specified ID
    */
-  public static EFsObjKind findById( String aId ) {
-    return TsItemNotFoundRtException.checkNull( findByIdOrNull( aId ) );
+  public static EFsObjKind getById( String aId ) {
+    return asList().getByKey( aId );
   }
 
   /**
-   * Возвращает константу по описанию или null.
+   * Finds the constant by the name.
    *
-   * @param aDescription String - описание искомой константы
-   * @return EFsObjKind - найденная константа, или null если нет константы с таким описанием
-   * @throws TsNullArgumentRtException аргумент = null
-   */
-  public static EFsObjKind findByDescriptionOrNull( String aDescription ) {
-    TsNullArgumentRtException.checkNull( aDescription );
-    for( EFsObjKind item : values() ) {
-      if( item.description.equals( aDescription ) ) {
-        return item;
-      }
-    }
-    return null;
-  }
-
-  /**
-   * Возвращает константу по описанию или выбрасывает исключение.
-   *
-   * @param aDescription String - описание искомой константы
-   * @return EFsObjKind - найденная константа
-   * @throws TsNullArgumentRtException аргумент = null
-   * @throws TsItemNotFoundRtException нет константы с таким описанием
-   */
-  public static EFsObjKind findByDescription( String aDescription ) {
-    return TsItemNotFoundRtException.checkNull( findByDescriptionOrNull( aDescription ) );
-  }
-
-  /**
-   * Возвращает константу по имени или null.
-   *
-   * @param aName String - имя искомой константы
-   * @return EFsObjKind - найденная константа, или null если нет константы с таким именем
-   * @throws TsNullArgumentRtException аргумент = null
-   */
-  public static EFsObjKind findByNameOrNull( String aName ) {
-    TsNullArgumentRtException.checkNull( aName );
-    for( EFsObjKind item : values() ) {
-      if( item.name.equals( aName ) ) {
-        return item;
-      }
-    }
-    return null;
-  }
-
-  /**
-   * Возвращает константу по имени или выбрасывает исключение.
-   *
-   * @param aName String - имя искомой константы
-   * @return EFsObjKind - найденная константа
-   * @throws TsNullArgumentRtException аргумент = null
-   * @throws TsItemNotFoundRtException нет константы с таким именем
+   * @param aName String - the name
+   * @return {@link EFsObjKind} - found constant or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static EFsObjKind findByName( String aName ) {
-    return TsItemNotFoundRtException.checkNull( findByNameOrNull( aName ) );
+    TsNullArgumentRtException.checkNull( aName );
+    for( EFsObjKind item : values() ) {
+      if( item.nmName().equals( aName ) ) {
+        return item;
+      }
+    }
+    return null;
   }
+
+  /**
+   * Returns the constant by the name.
+   *
+   * @param aName String - the name
+   * @return {@link EFsObjKind} - found constant
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException no constant found by specified name
+   */
+  public static EFsObjKind getByName( String aName ) {
+    return TsItemNotFoundRtException.checkNull( findByName( aName ) );
+  }
+
+  // // ----------------------------------------------------------------------------------
+  // // Методы проверки
+  // //
+  //
+  // /**
+  // * Определяет, существует ли константа перечисления с заданным идентификатором.
+  // *
+  // * @param aId String - идентификатор искомой константы
+  // * @return boolean - признак существования константы <br>
+  // * <b>true</b> - константа с заданным идентификатором существует;<br>
+  // * <b>false</b> - неет константы с таким идентификатором.
+  // * @throws TsNullArgumentRtException аргумент = null
+  // */
+  // public static boolean isItemById( String aId ) {
+  // return findByIdOrNull( aId ) != null;
+  // }
+  //
+  // /**
+  // * Определяет, существует ли константа перечисления с заданным описанием.
+  // *
+  // * @param aDescription String - описание искомой константы
+  // * @return boolean - признак существования константы <br>
+  // * <b>true</b> - константа с заданным описанием существует;<br>
+  // * <b>false</b> - неет константы с таким описанием.
+  // * @throws TsNullArgumentRtException аргумент = null
+  // */
+  // public static boolean isItemByDescription( String aDescription ) {
+  // return findByDescriptionOrNull( aDescription ) != null;
+  // }
+  //
+  // /**
+  // * Определяет, существует ли константа перечисления с заданным именем.
+  // *
+  // * @param aName String - имя (название) искомой константы
+  // * @return boolean - признак существования константы <br>
+  // * <b>true</b> - константа с заданным именем существует;<br>
+  // * <b>false</b> - неет константы с таким именем.
+  // * @throws TsNullArgumentRtException аргумент = null
+  // */
+  // public static boolean isItemByName( String aName ) {
+  // return findByNameOrNull( aName ) != null;
+  // }
+  //
+  // // ----------------------------------------------------------------------------------
+  // // Методы поиска
+  // //
+  //
+  // /**
+  // * Возвращает константу по идентификатору или null.
+  // *
+  // * @param aId String - идентификатор искомой константы
+  // * @return EFsObjKind - найденная константа, или null если нет константы с таимк идентификатором
+  // * @throws TsNullArgumentRtException аргумент = null
+  // */
+  // public static EFsObjKind findByIdOrNull( String aId ) {
+  // TsNullArgumentRtException.checkNull( aId );
+  // for( EFsObjKind item : values() ) {
+  // if( item.id.equals( aId ) ) {
+  // return item;
+  // }
+  // }
+  // return null;
+  // }
+  //
+  // /**
+  // * Возвращает константу по идентификатору или выбрасывает исключение.
+  // *
+  // * @param aId String - идентификатор искомой константы
+  // * @return EFsObjKind - найденная константа
+  // * @throws TsNullArgumentRtException аргумент = null
+  // * @throws TsItemNotFoundRtException нет константы с таким идентификатором
+  // */
+  // public static EFsObjKind findById( String aId ) {
+  // return TsItemNotFoundRtException.checkNull( findByIdOrNull( aId ) );
+  // }
+  //
+  // /**
+  // * Возвращает константу по описанию или null.
+  // *
+  // * @param aDescription String - описание искомой константы
+  // * @return EFsObjKind - найденная константа, или null если нет константы с таким описанием
+  // * @throws TsNullArgumentRtException аргумент = null
+  // */
+  // public static EFsObjKind findByDescriptionOrNull( String aDescription ) {
+  // TsNullArgumentRtException.checkNull( aDescription );
+  // for( EFsObjKind item : values() ) {
+  // if( item.description.equals( aDescription ) ) {
+  // return item;
+  // }
+  // }
+  // return null;
+  // }
+  //
+  // /**
+  // * Возвращает константу по описанию или выбрасывает исключение.
+  // *
+  // * @param aDescription String - описание искомой константы
+  // * @return EFsObjKind - найденная константа
+  // * @throws TsNullArgumentRtException аргумент = null
+  // * @throws TsItemNotFoundRtException нет константы с таким описанием
+  // */
+  // public static EFsObjKind findByDescription( String aDescription ) {
+  // return TsItemNotFoundRtException.checkNull( findByDescriptionOrNull( aDescription ) );
+  // }
+  //
+  // /**
+  // * Возвращает константу по имени или null.
+  // *
+  // * @param aName String - имя искомой константы
+  // * @return EFsObjKind - найденная константа, или null если нет константы с таким именем
+  // * @throws TsNullArgumentRtException аргумент = null
+  // */
+  // public static EFsObjKind findByNameOrNull( String aName ) {
+  // TsNullArgumentRtException.checkNull( aName );
+  // for( EFsObjKind item : values() ) {
+  // if( item.name.equals( aName ) ) {
+  // return item;
+  // }
+  // }
+  // return null;
+  // }
+  //
+  // /**
+  // * Возвращает константу по имени или выбрасывает исключение.
+  // *
+  // * @param aName String - имя искомой константы
+  // * @return EFsObjKind - найденная константа
+  // * @throws TsNullArgumentRtException аргумент = null
+  // * @throws TsItemNotFoundRtException нет константы с таким именем
+  // */
+  // public static EFsObjKind findByName( String aName ) {
+  // return TsItemNotFoundRtException.checkNull( findByNameOrNull( aName ) );
+  // }
 
 }

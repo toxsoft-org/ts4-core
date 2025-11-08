@@ -59,28 +59,26 @@ public class ThumbSizeableDropDownMenuCreator
    */
   public static final String AID_THUMB_SIZEABLE_ZOOM_OUT = AID_THUMB_SIZEABLE_ZOOM_MENU + ".ZoomOut"; //$NON-NLS-1$
 
-  // TODO TRANSLATE
-
   /**
-   * Действие с выпадающим меню для управления размером значка {@link IThumbSizeable}.
+   * Drop-down action for controlling the icon size {@link IThumbSizeable}.
    * <p>
-   * Кнопка вызывает действие {@link ITsStdActionDefs#ACTID_ZOOM_ORIGINAL}, а два пункта выпадающего меню - действия
-   * {@link ITsStdActionDefs#ACTID_ZOOM_OUT} и {@link ITsStdActionDefs#ACTID_ZOOM_IN}.
+   * The button calls the {@link ITsStdActionDefs#ACTID_ZOOM_ORIGINAL} action, and the two drop-down menu items call the
+   * actions {@link ITsStdActionDefs#ACTID_ZOOM_OUT} and {@link ITsStdActionDefs#ACTID_ZOOM_IN}.
    * <p>
-   * <b>Внимание:</b> этому действию нельзя напрямую задавать {@link IMenuCreator}. Надо задать меню тулбару методом
-   * {@link TsToolbar#setActionMenu(String, IMenuCreator)}.
+   * <b>Warning:</b> This action cannot be set directly to {@link IMenuCreator}. You must set the menu on the toolbar
+   * using the {@link TsToolbar#setActionMenu(String, IMenuCreator)} method.
    */
   public static final ITsActionDef AI_THUMB_SIZEABLE_ZOOM_MENU = TsActionDef.ofMenu2( AID_THUMB_SIZEABLE_ZOOM_MENU, //
       STR_N_THUMB_SIZEABLE_ZOOM_MENU, STR_D_THUMB_SIZEABLE_ZOOM_MENU, ICONID_ZOOM_ORIGINAL );
 
   /**
-   * Действие увеличение размера миниатюры.
+   * Action to increase thumbnail size.
    */
   public static final ITsActionDef AI_THUMB_SIZEABLE_ZOOM_IN = TsActionDef.ofPush2( AID_THUMB_SIZEABLE_ZOOM_IN, //
       STR_N_THUMB_SIZEABLE_ZOOM_IN, STR_D_THUMB_SIZEABLE_ZOOM_IN, ICONID_ZOOM_IN );
 
   /**
-   * Действие уменьшения размера миниатюры.
+   * Action to reduce thumbnail size.
    */
   public static final ITsActionDef AI_THUMB_SIZEABLE_ZOOM_OUT = TsActionDef.ofPush2( AID_THUMB_SIZEABLE_ZOOM_OUT, //
       STR_N_THUMB_SIZEABLE_ZOOM_OUT, STR_D_THUMB_SIZEABLE_ZOOM_OUT, ICONID_ZOOM_OUT );
@@ -93,14 +91,14 @@ public class ThumbSizeableDropDownMenuCreator
   EIconSize                   menuIconSize                = EIconSize.IS_16X16;
 
   /**
-   * Конструктор.
+   * Constructor.
    *
-   * @param aSubject {@link IThumbSizeable} - управляемая сущность
+   * @param aSubject {@link IThumbSizeable} - managed entity
    * @param aContext {@link ITsGuiContext} - the context
    * @param aMenuIconSize {@link EIconSize} - menu icons size or <code>null</code> for ts default size
-   * @param aMinThumbSize {@link EThumbSize} - минимальныо допустимый размер миниатюры
-   * @param aMaxThumbSize {@link EThumbSize} - максимальныо допустимый размер миниатюры
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aMinThumbSize {@link EThumbSize} - minimum acceptable thumbnail size
+   * @param aMaxThumbSize {@link EThumbSize} - minimum acceptable thumbnail size
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public ThumbSizeableDropDownMenuCreator( IThumbSizeable aSubject, ITsGuiContext aContext, EIconSize aMenuIconSize,
       EThumbSize aMinThumbSize, EThumbSize aMaxThumbSize ) {
@@ -118,13 +116,13 @@ public class ThumbSizeableDropDownMenuCreator
   }
 
   /**
-   * Конструктор.
+   * Constructor.
    *
-   * @param aSubject {@link IThumbSizeable} - управляемая сущность
+   * @param aSubject {@link IThumbSizeable} - managed entity
    * @param aContext {@link ITsGuiContext} - the context
-   * @param aMinThumbSize {@link EThumbSize} - минимальныо допустимый размер миниатюры
-   * @param aMaxThumbSize {@link EThumbSize} - максимальныо допустимый размер миниатюры
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aMinThumbSize {@link EThumbSize} - minimum acceptable thumbnail size
+   * @param aMaxThumbSize {@link EThumbSize} - minimum acceptable thumbnail size
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public ThumbSizeableDropDownMenuCreator( IThumbSizeable aSubject, ITsGuiContext aContext, EThumbSize aMinThumbSize,
       EThumbSize aMaxThumbSize ) {
@@ -132,18 +130,18 @@ public class ThumbSizeableDropDownMenuCreator
   }
 
   /**
-   * Конструктор с размеров значков в выпадающем меню {@link EIconSize#IS_16X16}.
+   * Constructor with icon sizes in the drop-down menu {@link EIconSize#IS_16X16}.
    *
-   * @param aSubject {@link IThumbSizeable} - управляемая сущность
+   * @param aSubject {@link IThumbSizeable} - managed entity
    * @param aContext {@link ITsGuiContext} - the context
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public ThumbSizeableDropDownMenuCreator( IThumbSizeable aSubject, ITsGuiContext aContext ) {
     this( aSubject, aContext, null, EThumbSize.minSize(), EThumbSize.maxSize() );
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация методов базового класска
+  // AbstractMenuCreator
   //
 
   @SuppressWarnings( "unused" )
@@ -219,7 +217,7 @@ public class ThumbSizeableDropDownMenuCreator
   //
 
   /**
-   * Возвращает размер значков в созданном меню.
+   * Returns the size of the icons in the created menu.
    *
    * @return {@link EIconSize} - размер значков в меню
    */
@@ -228,9 +226,9 @@ public class ThumbSizeableDropDownMenuCreator
   }
 
   /**
-   * Задает размер значков в созданном меню.
+   * Sets the size of icons in the created menu.
    *
-   * @param aMenuIconSize {@link EIconSize} - размер значков в меню
+   * @param aMenuIconSize {@link EIconSize} - size of icons in the menu
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public void setMenuIconSize( EIconSize aMenuIconSize ) {
@@ -238,46 +236,44 @@ public class ThumbSizeableDropDownMenuCreator
   }
 
   /**
-   * Определяет, будет ли в меню пункт индивидуальные пункты задания размера для каждого из
-   * {@link #getAvailableThumbSizes()}.
+   * Determines if the menu item will have individual size settings for each of the {@link #getAvailableThumbSizes()}.
    *
-   * @return boolean - признак наличия индивидуальных пунктов меню допустимых размеров
+   * @return boolean - an indication of the presence of individual menu items of acceptable sizes
    */
   public boolean isThumbSizesMenuItems() {
     return hasIndividualSizesMenuItems;
   }
 
   /**
-   * Задает, будет ли в меню пункт индивидуальные пункты задания размера для каждого из
-   * {@link #getAvailableThumbSizes()}.
+   * Specifies if the menu item will have individual size settings for each of the {@link #getAvailableThumbSizes()}.
    *
-   * @param aValue boolean - признак наличия индивидуальных пунктов меню допустимых размеров
+   * @param aValue boolean - an indication of the presence of individual menu items of acceptable sizes
    */
   public void setThumbSizesMenuItems( boolean aValue ) {
     hasIndividualSizesMenuItems = aValue;
   }
 
   /**
-   * Возвращает раземры миниатюр, которые будут использоваться для изменения размеров.
+   * Returns the thumbnail dimensions that will be used for resizing.
    * <p>
-   * Возвращаемый список всегда содержит хотя бы один элемент и всегда отсортирован по учеличениу размеров.
+   * The returned list always contains at least one element and is always sorted by size. *
    *
-   * @return {@link IList}&lt;{@link EThumbSize}&gt; - список допустимых размеров
+   * @return {@link IList}&lt;{@link EThumbSize}&gt; - list of acceptable sizes
    */
   public IList<EThumbSize> getAvailableThumbSizes() {
     return availableThumbSizes;
   }
 
   /**
-   * Задает размеры миниатюр, которые будут использоваться для изменения размеров.
+   * Sets the list {@link #getAvailableThumbSizes()}.
    * <p>
-   * Можно указывать люые размеры, диапазон будет свормирован автоматически, даже если aMinSize < aMaxSize. Можно
-   * указывать однаковый минимум и максимум - но это не имеет смысла.
+   * You can specify any dimensions; the range will be generated automatically, even if aMinSize < aMaxSize. You can
+   * specify the same minimum and maximum, but this doesn't make sense.
    * <p>
-   * Внимание: среди задаваемых размеров должен быть размер по умолчанию {@link IThumbSizeable#defaultThumbSize()}.
+   * Note: The default size {@link IThumbSizeable#defaultThumbSize()} must be among the sizes specified.
    *
-   * @param aMinSize {@link EThumbSize} - нижняя граница диапазона
-   * @param aMaxSize {@link EThumbSize} - верхняя граница диапазона
+   * @param aMinSize {@link EThumbSize} - lower limit of the range
+   * @param aMaxSize {@link EThumbSize} - upper limit of the range
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public void setAvalaiableThumbSizesRange( EThumbSize aMinSize, EThumbSize aMaxSize ) {
@@ -300,15 +296,15 @@ public class ThumbSizeableDropDownMenuCreator
   }
 
   /**
-   * Задает размеры миниатюр, которые будут использоваться для изменения размеров.
+   * Sets the list {@link #getAvailableThumbSizes()}.
    * <p>
-   * Надо задать хотя бы один размер. Размеры можно указывать в произвольном порядке, они буду отсортированы.
+   * At least one size must be specified. Sizes can be specified in any order; they will be sorted.
    * <p>
-   * Внимание: среди задаваемых размеров должен быть размер по умолчанию {@link IThumbSizeable#defaultThumbSize()}.
+   * Note: Among the specified sizes, there must be a default size {@link IThumbSizeable#defaultThumbSize()}. *
    *
-   * @param aSizes {@link EThumbSize}[] - массив размеров
+   * @param aSizes {@link EThumbSize}[] - array of sizes
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIllegalArgumentRtException аргумент пусто массив
+   * @throws TsIllegalArgumentRtException argument is empty array
    */
   public void setAvalaiableThumbSizes( EThumbSize... aSizes ) {
     TsErrorUtils.checkArrayArg( aSizes, 1 );
@@ -317,16 +313,16 @@ public class ThumbSizeableDropDownMenuCreator
   }
 
   /**
-   * Возвращает следующий (больший) допустимый размер миниатюры.
+   * Returns the next (bigger) valid thumbnail size.
    * <p>
-   * Смысл метода в том, что он возвращает размеры только из допустимых {@link #getAvailableThumbSizes()}. Если аргумент
-   * и так наибольший допустимый, то возвращает аргумент.
+   * The point of this method is that it returns only sizes from the valid {@link #getAvailableThumbSizes()}. If the
+   * argument is already the largest valid size, it returns the argument.
    * <p>
-   * Если аргумент - больше наибольшего допустимого, то возвращает наибольший допустимый размер, который <b>меньше</b>
-   * аргумента!
+   * If the argument is larger than the largest valid size, it returns the largest valid size that is <b>smaller</b>
+   * than the argument! *
    *
-   * @param aThumbSize {@link EThumbSize} - исходный размер
-   * @return {@link EThumbSize} - больший допустимый размер, может быть <b>меньше</b> аргумента!
+   * @param aThumbSize {@link EThumbSize} - the thumbnail size
+   * @return {@link EThumbSize} - bigger allowed size, may be <b>smaller</b> than the argument!
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public EThumbSize getNextThumbSize( EThumbSize aThumbSize ) {
@@ -349,16 +345,16 @@ public class ThumbSizeableDropDownMenuCreator
   }
 
   /**
-   * Возвращает предыдущий (меньший) допустимый размер миниатюры.
+   * Returns the previous (smaller) acceptable thumbnail size.
    * <p>
-   * Смысл метода в том, что он возвращает размеры только из допустимых {@link #getAvailableThumbSizes()}. Если аргумент
-   * и так наименьший допустимый, то возвращает аргумент.
+   * The point of this method is that it returns only sizes from the allowed {@link #getAvailableThumbSizes()}. If the
+   * argument is already the smallest acceptable size, it returns the argument.
    * <p>
-   * Если аргумент - меньше наименьшего допустимого, то возвращает наименьший допустимый размер, который <b>больше</b>
-   * аргумента!
+   * If the argument is less than the smallest acceptable size, it returns the smallest acceptable size that is
+   * <b>greater</b> than the argument! *
    *
-   * @param aThumbSize {@link EThumbSize} - исходный размер
-   * @return {@link EThumbSize} - меньший допустимый размер, может быть <b>больше</b> аргумента!
+   * @param aThumbSize {@link EThumbSize} - the thumbnail size
+   * @return {@link EThumbSize} - smaller allowed size, may be <b>larger</b> than the argument!
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public EThumbSize getPrevThumbSize( EThumbSize aThumbSize ) {
@@ -381,68 +377,68 @@ public class ThumbSizeableDropDownMenuCreator
   }
 
   // ------------------------------------------------------------------------------------
-  // May be overriden
+  // May be overridden
   //
 
   /**
-   * Осуществляет сброс масштаба в {@link IThumbSizeable#defaultThumbSize()}.
+   * Resets the size to {@link IThumbSizeable#defaultThumbSize()}.
    * <p>
-   * Метод не вызывается, если текущий размер {@link IThumbSizeable#thumbSize()} равен
+   * The method is not called if the current size {@link IThumbSizeable#thumbSize()} is
    * {@link IThumbSizeable#defaultThumbSize()}.
    * <p>
-   * В базовом классе устанавливает начальный размер {@link IThumbSizeable#defaultThumbSize()} управляемой сущности.
-   * Вызывать ли ролительский метод при переопределении - зависит от логики использования.
+   * In the base class, sets the initial size {@link IThumbSizeable#defaultThumbSize()} of the managed entity. Whether
+   * to call the superclass method when overriding depends on the usage logic.
    * <p>
-   * Внимание: для фактического изменения размера вызывает метод {@link #doSetThumbSize(IThumbSizeable, EThumbSize)}.
+   * Note: to actually change the size, call the {@link #doSetThumbSize(IThumbSizeable, EThumbSize)} method. *
    *
-   * @param aSubject {@link IThumbSizeable} - управляемая сущность, не бывает <code>null</code>
+   * @param aSubject {@link IThumbSizeable} - managed entity, never is <code>null</code>
    */
   public void doSetOriginalSize( IThumbSizeable aSubject ) {
     doSetThumbSize( aSubject, aSubject.defaultThumbSize() );
   }
 
   /**
-   * Осуществляет уменьшение масштаба.
+   * Performs zoom-out - implementation may override default behaviour.
    * <p>
-   * Метод не вызывается, если текущий размер {@link IThumbSizeable#thumbSize()} равен {@link EThumbSize#minSize()}.
+   * The method is not called if the current size {@link IThumbSizeable#thumbSize()} is {@link EThumbSize#maxSize()}.
    * <p>
-   * В базовом классе устанавливает предыдущий размер {@link #getPrevThumbSize(EThumbSize)}. Вызывать ли родительский
-   * метод при переопределении - зависит от логики использования.
+   * In the base class, sets the next size {@link #getNextThumbSize(EThumbSize)}. Whether to call the superclass method
+   * when overriding depends on the usage logic.
    * <p>
-   * Внимание: для фактического изменения размера вызывает метод {@link #doSetThumbSize(IThumbSizeable, EThumbSize)}.
+   * Note: to actually change the size, call the {@link #doSetThumbSize(IThumbSizeable, EThumbSize)} method.
    *
-   * @param aSubject {@link IThumbSizeable} - управляемая сущность, не бывает <code>null</code>
+   * @param aSubject {@link IThumbSizeable} - managed entity, never is <code>null</code>
    */
   public void doZoomOut( IThumbSizeable aSubject ) {
     doSetThumbSize( aSubject, getPrevThumbSize( subject.thumbSize() ) );
   }
 
   /**
-   * Осуществляет увеличение масштаба.
+   * Performs zoom-in - implementation may override default behaviour.
    * <p>
-   * Метод не вызывается, если текущий размер {@link IThumbSizeable#thumbSize()} равен {@link EThumbSize#maxSize()}.
+   * The method is not called if the current size {@link IThumbSizeable#thumbSize()} is {@link EThumbSize#maxSize()}.
    * <p>
-   * В базовом классе устанавливает следующий размер {@link #getNextThumbSize(EThumbSize)}. Вызывать ли родительский
-   * метод при переопределении - зависит от логики использования.
+   * In the base class, sets the next size {@link #getNextThumbSize(EThumbSize)}. Whether to call the superclass method
+   * when overriding depends on the usage logic.
    * <p>
-   * Внимание: для фактического изменения размера вызывает метод {@link #doSetThumbSize(IThumbSizeable, EThumbSize)}.
+   * Note: to actually change the size, call the {@link #doSetThumbSize(IThumbSizeable, EThumbSize)} method.
    *
-   * @param aSubject {@link IThumbSizeable} - управляемая сущность, не бывает <code>null</code>
+   * @param aSubject {@link IThumbSizeable} - managed entity, never is <code>null</code>
    */
   public void doZoomIn( IThumbSizeable aSubject ) {
     doSetThumbSize( aSubject, getNextThumbSize( subject.thumbSize() ) );
   }
 
   /**
-   * Изменяет размер минатюр на заданный.
+   * Implementation must change the thumbnail size to the specified size.
    * <p>
-   * В базовом классе просто устанавливает заданный размер aThumbSize. Вызывать ли родительский метод при
-   * переопределении - зависит от логики использования.
+   * In the base class, this simply sets the aThumbSize to the specified size. Whether to call the parent method when
+   * overriding it depends on the usage logic.
    * <p>
-   * Внимание: этот метод нея/вно вызывается всеми остальными <code>doXxx()</code> методами изменения размеров.
+   * Note: This method is implicitly/explicitly called by all other <code>doXxx()</code> resizing methods. *
    *
-   * @param aSubject {@link IThumbSizeable} - управляемая сущность, не бывает <code>null</code>
-   * @param aSize {@link EThumbSize} - новый размер, не бывает <code>null</code>
+   * @param aSubject {@link IThumbSizeable} - managed entity, never is <code>null</code>
+   * @param aSize {@link EThumbSize} - new size, never is <code>null</code>
    */
   public void doSetThumbSize( IThumbSizeable aSubject, EThumbSize aSize ) {
     aSubject.setThumbSize( aSize );
