@@ -342,6 +342,36 @@ public class TsFileUtils {
   }
 
   /**
+   * Creates a path from the components previously obtained by method {@link #getPathComponents(String)}.
+   * <p>
+   * Constructed path does not starts but end with separator with single exception - if path has no components it is an
+   * empty string.
+   *
+   * @param aComps {@link IStringList} - path components
+   * @param aBeginIndex int - first component index to be included in path
+   * @param aEndIndex int - last component index to be included in path
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException illegal index
+   * @return String - constructed path
+   */
+  public static String makePathFromComponents( IStringList aComps, int aBeginIndex, int aEndIndex ) {
+    TsNullArgumentRtException.checkNull( aComps );
+    TsIllegalArgumentRtException.checkTrue( aBeginIndex < 0 || aEndIndex < 0 );
+    TsIllegalArgumentRtException.checkTrue( aBeginIndex >= aComps.size() || aEndIndex >= aComps.size() );
+    TsIllegalArgumentRtException.checkTrue( aBeginIndex > aEndIndex );
+    StringBuilder sb = new StringBuilder();
+    sb.append( aComps.get( aBeginIndex ) );
+    for( int i = aBeginIndex + 1; i <= aEndIndex; i++ ) {
+      sb.append( File.separatorChar );
+      sb.append( aComps.get( i ) );
+    }
+    if( !sb.isEmpty() ) {
+      sb.append( File.separatorChar );
+    }
+    return sb.toString();
+  }
+
+  /**
    * Extracts file name (without path and extension).
    * <p>
    * If argument is considered as directory name (argument ends with {@link File#separatorChar}), no extension is
