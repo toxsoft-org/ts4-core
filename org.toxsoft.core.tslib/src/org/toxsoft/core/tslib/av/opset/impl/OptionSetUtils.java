@@ -96,7 +96,7 @@ public class OptionSetUtils {
     sb.append( "{" );
     IStringList keys = aOpSet.keys();
     if( !keys.isEmpty() ) {
-      TsTestUtils.nl();
+      sb.append( '\n' );
       for( int i = 0, n = keys.size(); i < n; i++ ) {
         String s = keys.get( i );
         IAtomicValue val = aOpSet.getValue( s );
