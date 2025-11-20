@@ -100,10 +100,10 @@ public class YAxisModel
     if( startMarkingValue.asDouble() > startValue.asDouble() ) {
       startMarkingValue = AvUtils.avFloat( startMarkingValue.asDouble() - unitValue.asDouble() );
     }
-    System.out.println( "shift = " + aShift ); //$NON-NLS-1$
-    System.out.println( "shiftValue = " + shiftValue ); //$NON-NLS-1$
-    System.out.println( "StartValue = " + startValue.asFloat() ); //$NON-NLS-1$
-    System.out.println( "StartMarkingValue = " + startMarkingValue.asFloat() ); //$NON-NLS-1$
+    // System.out.println( "shift = " + aShift ); //$NON-NLS-1$
+    // System.out.println( "shiftValue = " + shiftValue ); //$NON-NLS-1$
+    // System.out.println( "StartValue = " + startValue.asFloat() ); //$NON-NLS-1$
+    // System.out.println( "StartMarkingValue = " + startMarkingValue.asFloat() ); //$NON-NLS-1$
   }
 
   @Override
@@ -116,14 +116,4 @@ public class YAxisModel
     }
     return null;
   }
-
-  // // ------------------------------------------------------------------------------------
-  // // Внутренняя реализация
-  // //
-  //
-  // IAtomicValue normalValueToValue(double aNormalValue) {
-  // double sVal = startValue.asDouble();
-  // double eVal = endValue.asDouble();
-  // return AvUtils.avFloat( aNormalValue );
-  // }
 }
