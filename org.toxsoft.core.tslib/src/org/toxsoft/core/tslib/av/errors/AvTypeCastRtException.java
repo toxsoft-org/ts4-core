@@ -213,7 +213,7 @@ public class AvTypeCastRtException
   public static void checkCanAssign( EAtomicType aLvalType, EAtomicType aRvalType )
       throws AvTypeCastRtException {
     if( !canAssign( aLvalType, aRvalType ) ) {
-      throw new AvTypeCastRtException( LOG_FMT_ERR_CANT_ASSIGN, aLvalType.id(), aRvalType.id() );
+      throw new AvTypeCastRtException( LOG_FMT_ERR_CANT_ASSIGN, aRvalType.id(), aLvalType.id() );
     }
   }
 
