@@ -1,6 +1,6 @@
 package org.toxsoft.core.tslib.bricks.strio.chario;
 
-import org.toxsoft.core.tslib.utils.errors.TsIoRtException;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Callback methods when {@link ICharInputStream} encounters end of file.
@@ -10,7 +10,7 @@ import org.toxsoft.core.tslib.utils.errors.TsIoRtException;
 public interface ICharInputEofCallback {
 
   /**
-   * "None" special case impementation, alwayes returns -1.
+   * "None" special case implementation, always returns -1.
    */
   ICharInputEofCallback NONE = new InternalNullCharInputEofCallback();
 

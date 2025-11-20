@@ -1,12 +1,12 @@
 package org.toxsoft.core.tsgui.m5;
 
-import org.toxsoft.core.tsgui.utils.ITsVisualsProvider;
+import org.toxsoft.core.tsgui.utils.*;
 
 /**
  * How to extract value from entity and display it.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  * @param <V> - field value type
  */
 public interface IM5Getter<T, V>

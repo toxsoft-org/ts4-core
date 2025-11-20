@@ -12,7 +12,7 @@ public sealed interface ITsGuiTimersService
     permits TsGuiTimersService {
 
   /**
-   * Returns the period of quick timer invockation.
+   * Returns the period of quick timer invocation.
    * <p>
    * Default quick timer period is specified in {@link ITsGuiTimersServiceConstants#OPDEF_QUICK_TIMER_PERIOD}.
    *
@@ -21,25 +21,25 @@ public sealed interface ITsGuiTimersService
   long getQuickTimerPeriod();
 
   /**
-   * Returns the period of slow timer invockation.
+   * Returns the period of slow timer invocation.
    * <p>
    * Default quick timer period is specified in {@link ITsGuiTimersServiceConstants#OPDEF_SLOW_TIMER_PERIOD}.
    *
-   * @return long - slowtimer period in milliseconds
+   * @return long - slow timer period in milliseconds
    */
   long getSlowTimerPeriod();
 
   /**
    * Returns the quick timer eventer.
    *
-   * @return {@link ITsEventer}&lt;{@link IRealTimeSensitive}&lgt - the quick timer eventer
+   * @return {@link ITsEventer}&lt;{@link IRealTimeSensitive}&lt; - the quick timer eventer
    */
   ITsEventer<IRealTimeSensitive> quickTimers();
 
   /**
    * Returns the slow timer eventer.
    *
-   * @return {@link ITsEventer}&lt;{@link IRealTimeSensitive}&lgt - the slow timer eventer
+   * @return {@link ITsEventer}&lt;{@link IRealTimeSensitive}&lt; - the slow timer eventer
    */
   ITsEventer<IRealTimeSensitive> slowTimers();
 
