@@ -27,7 +27,7 @@ public interface IM5MixinSingleLinkField {
    * <p>
    * Таким образом, этот признак является только подстакзой для построения GUI редактора.
    *
-   * @return boolean - признак выбираемости отсутствия объекта (допустимости выбора значения <code>null</code>)
+   * @return boolean - signs that user can specify the absence of an object, that is to specify <code>null</code>
    */
   boolean canUserSelectNull();
 

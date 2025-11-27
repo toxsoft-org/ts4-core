@@ -38,6 +38,10 @@ public interface IM5LifecycleManager<T>
 
   /**
    * Determines if specified operation is allowed by lifecycle manager.
+   * <p>
+   * Note: for this method, CDUD operation {@link ECrudOp#LIST} means that client asks if LM supports entities listing
+   * (enumeration) via {@link #itemsProvider()}. Other CRUD operations means if methods {@link #create(IM5Bunch)},
+   * {@link #edit(IM5Bunch)} and {@link #remove(Object)}.
    *
    * @param aOp {@link ECrudOp} - the requested operation
    * @return boolean - operation allowance flag

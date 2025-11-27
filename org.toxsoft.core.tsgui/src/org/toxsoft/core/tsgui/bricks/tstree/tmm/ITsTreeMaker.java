@@ -9,7 +9,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * A strategy to build a hierarchical tree structure from a flat list.
  * <p>
- * This interface is not used in this package. Instead it is desgined as hint to the implementers. The meaning of this
+ * This interface is not used in this package. Instead it is designed as hint to the implementers. The meaning of this
  * interface is that a tree is built from entities of the same type &lt;T&gt; Some {@link ITsNode} nodes can be grouping
  * (service) ones, for tree building, and may not contain objects as {@link ITsNode#entity()}. Grouping nodes can be
  * distinguished from entity nodes by the {@link #isItemNode(ITsNode)} method.
@@ -24,27 +24,27 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public interface ITsTreeMaker<T> {
 
   /**
-   * Creates root nodes and subtress from list of modelled entities.
+   * Creates root nodes and sub-trees from list of modeled entities.
    * <p>
    * While returned roots and subtrees must contain all items from the argument <code>aItems</code> some nodes (usually
-   * grouping nodes) may not contain modelled entities as {@link ITsNode#entity()}. Implementation must distinguish such
+   * grouping nodes) may not contain modeled entities as {@link ITsNode#entity()}. Implementation must distinguish such
    * nodes by the method {@link #isItemNode(ITsNode)}.
    * <p>
-   * Returned root nodes must be childs of <code>aRootNode</code> argument. M5-viewer will set returned list as roots by
-   * the method {@link ITsTreeViewer#setRootNodes(ITsCollection)}.
+   * Returned root nodes must be children of <code>aRootNode</code> argument. M5-viewer will set returned list as roots
+   * by the method {@link ITsTreeViewer#setRootNodes(ITsCollection)}.
    *
    * @param aRootNode {@link ITsNode} - the invisible root of the tree
    * @param aItems {@link ITsCollection}&lt;T&gt; - list of items to be shown in viewer
-   * @return IList&lt;T&gt; - created root nodes with childs
+   * @return IList&lt;T&gt; - created root nodes with children
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   IList<ITsNode> makeRoots( ITsNode aRootNode, IList<T> aItems );
 
   /**
-   * Determines if spcified node containes modelled entity.
+   * Determines if specified node contains modeled entity.
    *
    * @param aNode {@link ITsNode} - the node to check
-   * @return boolean - <code>true</code> if {@link ITsNode#entity()} is modelled item, <code>false</code> - this is
+   * @return boolean - <code>true</code> if {@link ITsNode#entity()} is modeled item, <code>false</code> - this is
    *         service (usually grouping) node
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */

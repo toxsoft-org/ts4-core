@@ -10,6 +10,7 @@ import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.model.helpers.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -20,7 +21,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * class from lookup items M5-model.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  * @param <V> - field value type
  */
 public class M5SingleLinkFieldDefBase<T, V>
@@ -38,11 +39,13 @@ public class M5SingleLinkFieldDefBase<T, V>
    *
    * @param aId String - field ID
    * @param aItemModelId String - ID of lookup items model {@link #itemModel()}
+   * @param aIdsAndValues Object[] - identifier / value pairs of {@link #params()}
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException any argument is not an IDpath
    */
-  public M5SingleLinkFieldDefBase( String aId, String aItemModelId ) {
+  public M5SingleLinkFieldDefBase( String aId, String aItemModelId, Object... aIdsAndValues ) {
     super( aId );
+    params().addAll( OptionSetUtils.createOpSet( aIdsAndValues ) );
     itemModelId = StridUtils.checkValidIdPath( aItemModelId );
   }
 
@@ -61,7 +64,7 @@ public class M5SingleLinkFieldDefBase<T, V>
   }
 
   // ------------------------------------------------------------------------------------
-  // Методы базового класса
+  // M5FieldDef
   //
 
   @Override
@@ -83,54 +86,6 @@ public class M5SingleLinkFieldDefBase<T, V>
   protected Image doGetFieldValueIcon( T aEntity, EIconSize aIconSize ) {
     return itemModel().visualsProvider().getIcon( getFieldValue( aEntity ), aIconSize );
   }
-
-  // ------------------------------------------------------------------------------------
-  // Для переопределения
-  //
-
-  /**
-   * Дает возможность уточнить идентификатор модели связуемых объектов {@link #itemModel()}.
-   * <p>
-   * Вызывается один раз, при первом обращении к методу {@link #itemModel()}, который и находит модель по уточненному
-   * этим методом идентификатору.
-   * <p>
-   * В базовом классе возворащает идентификатор, зданный в конструкторе
-   * {@link M5SingleLinkFieldDefBase#M5SingleLinkFieldDefBase(String, String)}, при переопределении вызвывать метод
-   * родительского класса не обязательно.
-   *
-   * @return String - уточненный идентификатор модели {@link #itemModel()}
-   */
-  protected String specifyItemModelId() {
-    return itemModelId;
-  }
-
-  // ------------------------------------------------------------------------------------
-  // API редактирования
-  //
-
-  /**
-   * Задает признак {@link #canUserSelectNull()}.
-   *
-   * @param aFlag boolean - признак выбираемости отсутствия объекта (допустимости выбора значения <code>null</code>)
-   */
-  public void setCanUserSelectNull( boolean aFlag ) {
-    userCanSelectNull = aFlag;
-  }
-
-  /**
-   * Задает идентификатор модели {@link #itemModel()}.
-   *
-   * @param aItemModelId String - идентификатор модели {@link #itemModel()}
-   * @throws TsNullArgumentRtException любой аргумент = null
-   * @throws TsIllegalArgumentRtException аргумент не ИД-путь
-   */
-  public void setItemModelId( String aItemModelId ) {
-    itemModelId = StridUtils.checkValidIdPath( aItemModelId );
-  }
-
-  // ------------------------------------------------------------------------------------
-  // IM5FieldDef
-  //
 
   @Override
   public Class<V> valueClass() {
@@ -160,6 +115,52 @@ public class M5SingleLinkFieldDefBase<T, V>
   @Override
   public boolean canUserSelectNull() {
     return userCanSelectNull;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // To override
+  //
+
+  // TODO TRANSLATE
+
+  /**
+   * Дает возможность уточнить идентификатор модели связуемых объектов {@link #itemModel()}.
+   * <p>
+   * Вызывается один раз, при первом обращении к методу {@link #itemModel()}, который и находит модель по уточненному
+   * этим методом идентификатору.
+   * <p>
+   * В базовом классе возворащает идентификатор, зданный в конструкторе
+   * {@link M5SingleLinkFieldDefBase#M5SingleLinkFieldDefBase(String, String, Object...)}, при переопределении вызвывать
+   * метод родительского класса не обязательно.
+   *
+   * @return String - уточненный идентификатор модели {@link #itemModel()}
+   */
+  protected String specifyItemModelId() {
+    return itemModelId;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // API
+  //
+
+  /**
+   * Sets the value of {@link #canUserSelectNull()}.
+   *
+   * @param aFlag boolean - signs that user can specify the absence of an object, that is to specify <code>null</code>
+   */
+  public void setCanUserSelectNull( boolean aFlag ) {
+    userCanSelectNull = aFlag;
+  }
+
+  /**
+   * Sets the ID of lookup items model {@link #itemModel()}
+   *
+   * @param aItemModelId String - {@link #itemModel()} nodel ID
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException argument is not an ID-path
+   */
+  public void setItemModelId( String aItemModelId ) {
+    itemModelId = StridUtils.checkValidIdPath( aItemModelId );
   }
 
 }

@@ -4,18 +4,19 @@ import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Смешиваемый интерфейс полей, содержащие ключи или сами справочные элементы.
+ * Mix-in interface of fields containing either keys or lookup elements themselves.
  *
  * @author hazard157
- * @param <V> - тип моделированной сущности, содержащейся в поле
+ * @param <V> - the type of modeled entity references by or contained in the field
  */
 public interface IM5MixinLookupField<V> {
 
   /**
-   * Возвращает поставщик списка-справочника.
+   * Returns provider of the lookup items.
+   * <p>
+   * Some implementations may throw {@link TsIllegalStateRtException} if the lookup provider was not set yet.
    *
-   * @return {@link IM5LookupProvider} - поставщик списка-справочника, не бывает <code>null</code>
-   * @throws TsIllegalStateRtException не был задан поставщик списка-справочника
+   * @return {@link IM5LookupProvider} - lookup items provider, never is <code>null</code>
    */
   IM5LookupProvider<V> lookupProvider();
 
