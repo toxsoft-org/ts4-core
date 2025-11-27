@@ -19,7 +19,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * {@link TreeColumn} does not have common base class.
  *
  * @author hazard157
- * @param <T> - displayed M5-modelled entity type
+ * @param <T> - displayed M5-modeled entity type
  */
 abstract class M5AbstractColumn<T>
     implements IM5Column<T> {

@@ -12,7 +12,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * The {@link IM5MultiLookupPanel} implementation that wraps ove {@link MultiPaneComponentLookup}.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public class M5MultiLookupPanelMpcLookupWrapper<T>
     extends M5AbstractCollectionPanel<T>

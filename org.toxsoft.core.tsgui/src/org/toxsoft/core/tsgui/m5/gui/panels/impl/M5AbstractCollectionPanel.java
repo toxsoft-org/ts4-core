@@ -17,7 +17,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * Base implementation on {@link IM5CollectionPanel}.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public abstract class M5AbstractCollectionPanel<T>
     extends M5PanelBase<T>

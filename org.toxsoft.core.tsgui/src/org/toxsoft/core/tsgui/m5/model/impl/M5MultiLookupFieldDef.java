@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * {@link IM5MultiLookupFieldDef} implementation.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  * @param <V> - field value type
  */
 public class M5MultiLookupFieldDef<T, V>

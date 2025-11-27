@@ -14,7 +14,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Attribute {@link IStridable#id()}.
  *
  * @author hazard157
- * @param <T> - modelled {@link IStridable} entity type
+ * @param <T> - modeled {@link IStridable} entity type
  */
 public class M5StdFieldDefName<T extends IStridable>
     extends M5AttributeFieldDef<T> {

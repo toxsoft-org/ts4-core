@@ -15,7 +15,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * user.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public interface IM5EntityPanel<T>
     extends IM5PanelBase<T>, IGenericEntityPanel<T> {
@@ -51,14 +51,14 @@ public interface IM5EntityPanel<T>
   ValidationResult canGetValues();
 
   /**
-   * Returns the current values of the modelled entity fields from the panel.
+   * Returns the current values of the modeled entity fields from the panel.
    * <p>
    * For the firlds represented by widgets values are retrieved from widgets, for invisible fields values are retrieved
    * from {@link #lastValues()}.
    * <p>
    * Method nay return <code>null</code> that means there is no entity displayed in panel.
    *
-   * @return {@link IM5Bunch} - modelled entity fields values, may be <code>null</code>
+   * @return {@link IM5Bunch} - modeled entity fields values, may be <code>null</code>
    * @throws TsValidationFailedRtException failed {@link #canGetValues()}
    */
   IM5Bunch<T> getValues();

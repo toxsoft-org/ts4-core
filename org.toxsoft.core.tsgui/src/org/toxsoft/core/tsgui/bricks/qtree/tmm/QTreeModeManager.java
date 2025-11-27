@@ -11,7 +11,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * {@link IQTreeModeManager} base implementation.
  *
  * @author hazard157
- * @param <T> - displayed M5-modelled entity type
+ * @param <T> - displayed M5-modeled entity type
  */
 public class QTreeModeManager<T>
     implements IQTreeModeManager<T> {

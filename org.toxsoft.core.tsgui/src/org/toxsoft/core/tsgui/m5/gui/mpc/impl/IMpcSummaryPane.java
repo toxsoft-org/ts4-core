@@ -7,7 +7,7 @@ import org.toxsoft.core.tslib.coll.*;
  * Summary pane.
  *
  * @author hazard157
- * @param <T> - displayed M5-modelled entity type
+ * @param <T> - displayed M5-modeled entity type
  */
 public interface IMpcSummaryPane<T>
     extends IMpcPaneBase<T> {

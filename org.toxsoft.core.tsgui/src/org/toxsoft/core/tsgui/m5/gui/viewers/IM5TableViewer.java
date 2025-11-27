@@ -8,7 +8,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * M5 table viewer.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public interface IM5TableViewer<T>
     extends IM5CollectionViewer<T> {

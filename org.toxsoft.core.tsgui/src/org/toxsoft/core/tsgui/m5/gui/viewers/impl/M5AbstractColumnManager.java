@@ -16,7 +16,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * {@link IM5ColumnManager} base implementation.
  *
  * @author hazard157
- * @param <T> - displayed M5-modelled entity type
+ * @param <T> - displayed M5-modeled entity type
  */
 abstract class M5AbstractColumnManager<T>
     implements IM5ColumnManager<T> {

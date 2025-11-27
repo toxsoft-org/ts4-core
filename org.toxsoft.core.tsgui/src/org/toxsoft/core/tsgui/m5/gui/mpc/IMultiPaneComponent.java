@@ -12,7 +12,7 @@ import org.toxsoft.core.tsgui.widgets.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 
 /**
- * Multi-pane composite (MPC) - displays M5-modelled items with supplementary information and actions.
+ * Multi-pane composite (MPC) - displays M5-modeled items with supplementary information and actions.
  * <p>
  * MPC consists of following panes:
  * <ul>
@@ -30,7 +30,7 @@ import org.toxsoft.core.tslib.bricks.events.change.*;
  * state changes has separate eventer {@link ITsCheckSupport#checksChangeEventer()}.
  *
  * @author hazard157
- * @param <T> - displayed M5-modelled entity type
+ * @param <T> - displayed M5-modeled entity type
  */
 public interface IMultiPaneComponent<T>
     extends //

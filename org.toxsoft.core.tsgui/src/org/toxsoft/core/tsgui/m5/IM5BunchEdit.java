@@ -7,7 +7,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Editable extension of {@link IM5Bunch}.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public interface IM5BunchEdit<T>
     extends IM5Bunch<T>, ITsClearable {

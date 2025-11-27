@@ -12,12 +12,12 @@ import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Фильтр сравнения одного из опции {@link IParameterized#params()} с константой.
+ * Filter for comparing one of the {@link IParameterized#params()} options with a constant.
  * <p>
- * Метод проверки {@link #accept(IParameterized)} не выбрасывает исключений - если аргумент на самом деле не
- * {@link IParameterized}, просто возвращает <code>false</code>.
+ * The {@link #accept(IParameterized)} method does not throw exceptions - if the argument is not actually
+ * {@link IParameterized}, it simply returns <code>false</code>.
  * <p>
- * Отсутствие в {@link IParameterized#params()} опции {@link #optionId()} рассматривается как значение
+ * The absence of an {@link IParameterized#params()} option {@link #optionId()} is treated as the value
  * {@link IAtomicValue#NULL}.
  *
  * @author hazard157
@@ -96,27 +96,27 @@ public final class StdFilterOptionVsConst
   //
 
   /**
-   * Возвращает идентификатор проверяемой опции.
+   * Returns the identifier of the option being checked.
    *
-   * @return String - идентификатор (ИД-путь) проверяемой опции
+   * @return String - identifier of the option in {@link IParameterized#params()}
    */
   public String optionId() {
     return optionId;
   }
 
   /**
-   * Возвращает способ сравнения.
+   * Returns the comparison method.
    *
-   * @return {@link EAvCompareOp} - способ сравнения
+   * @return {@link EAvCompareOp} - the comparison method
    */
   public EAvCompareOp op() {
     return op;
   }
 
   /**
-   * Возвращает константа для сравнения.
+   * Returns the value of the constant for comparison.
    *
-   * @return {@link IAtomicValue} - константа для сравнения
+   * @return {@link IAtomicValue} - the constant value
    */
   public IAtomicValue constant() {
     return constant;

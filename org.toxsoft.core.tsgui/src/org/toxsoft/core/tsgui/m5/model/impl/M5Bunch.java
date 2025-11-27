@@ -7,7 +7,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * {@link IM5Bunch} implementation.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public class M5Bunch<T>
     extends M5AbstractBunch<T> {
@@ -21,9 +21,9 @@ public class M5Bunch<T>
    * is <code>public</code> just to be used in {@link IM5ValuesCache} implementation.
    *
    * @param aModel {@link IM5Model}&lt;T&gt; - entity model
-   * @param aOriginalEntity &lt;T&gt; - modelled entity or <code>null</code> for field default field values
+   * @param aOriginalEntity &lt;T&gt; - modeled entity or <code>null</code> for field default field values
    * @throws TsNullArgumentRtException aModel = null
-   * @throws TsIllegalArgumentRtException aObject is modelled by aModel
+   * @throws TsIllegalArgumentRtException aObject is modeled by aModel
    */
   public M5Bunch( IM5Model<T> aModel, T aOriginalEntity ) {
     super( aModel );

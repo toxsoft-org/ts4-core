@@ -11,7 +11,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * {@link IM5PanelBase} base implementation.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public abstract class M5PanelBase<T>
     implements IM5PanelBase<T>, ITsGuiContextable {

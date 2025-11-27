@@ -7,7 +7,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Base class {@link IMpcPaneBase} implementation.
  *
  * @author hazard157
- * @param <T> - displayed M5-modelled entity type
+ * @param <T> - displayed M5-modeled entity type
  * @param <C> - SWT-widget type
  */
 public abstract class MpcAbstractPane<T, C extends Control>

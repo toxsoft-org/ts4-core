@@ -15,7 +15,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * This panel contains editors for fields with flag {@link IM5Constants#M5FF_DETAIL}.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public class M5DefaultEntityDetailsPanel<T>
     extends M5EntityPanelWithValeds<T> {

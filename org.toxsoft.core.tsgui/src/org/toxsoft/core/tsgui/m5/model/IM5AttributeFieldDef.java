@@ -10,7 +10,7 @@ import org.toxsoft.core.tslib.av.metainfo.*;
  * Attribute is simply a field with value type {@link IAtomicValue}.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public interface IM5AttributeFieldDef<T>
     extends IM5FieldDef<T, IAtomicValue>, IDataType {

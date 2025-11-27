@@ -16,7 +16,7 @@ import org.toxsoft.core.tslib.utils.gui.*;
  * This is immutable class.
  *
  * @author hazard157
- * @param <T> - displayed M5-modelled entity type
+ * @param <T> - displayed M5-modeled entity type
  */
 public final class QTreeModeInfo<T>
     extends Stridable

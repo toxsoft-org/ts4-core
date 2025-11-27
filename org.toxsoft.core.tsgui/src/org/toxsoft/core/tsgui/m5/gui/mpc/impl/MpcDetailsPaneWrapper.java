@@ -11,7 +11,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * {@link IMpcDetailsPane} implementation that wraps over {@link IM5EntityPanel}.
  *
  * @author hazard157
- * @param <T> - displayed M5-modelled entity type
+ * @param <T> - displayed M5-modeled entity type
  */
 public class MpcDetailsPaneWrapper<T>
     extends MpcAbstractPane<T, Control>

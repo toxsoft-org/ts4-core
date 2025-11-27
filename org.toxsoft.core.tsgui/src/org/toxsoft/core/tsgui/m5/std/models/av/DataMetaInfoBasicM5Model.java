@@ -16,7 +16,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Basic M5-model of {@link IDataType} and {@link IDataDef}.
  *
  * @author hazard157
- * @param <T> - concrete type of modelled entity
+ * @param <T> - concrete type of modeled entity
  */
 public class DataMetaInfoBasicM5Model<T extends IDataType>
     extends M5Model<T> {
@@ -73,7 +73,7 @@ public class DataMetaInfoBasicM5Model<T extends IDataType>
    * Constructor.
    *
    * @param aId String - model ID
-   * @param aEntityClass {@link Class}&lt;T&gt; - modelled entity type
+   * @param aEntityClass {@link Class}&lt;T&gt; - modeled entity type
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException identifier is not an IDpath
    * @throws TsItemAlreadyExistsRtException model with specified ID already exists in domain

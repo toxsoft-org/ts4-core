@@ -12,7 +12,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * {@link IM5CollectionPanel} implementation that wraps over {@link MultiPaneComponentModown}.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public class M5CollectionPanelMpcModownWrapper<T>
     extends M5AbstractCollectionPanel<T> {

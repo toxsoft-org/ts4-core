@@ -16,7 +16,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Drop down menu creator for menu button of action {@link ITsStdActionDefs#ACDEF_VIEW_AS_TREE_MENU}.
  *
  * @author hazard157
- * @param <T> - displayed M5-modelled entity type
+ * @param <T> - displayed M5-modeled entity type
  */
 public class TreeModeDropDownMenuCreator<T>
     extends AbstractMenuCreator

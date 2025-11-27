@@ -20,7 +20,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * </ul>
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public interface IM5SingleLookupPanel<T>
     extends IGenericCollPanel<T>, IM5PanelBase<T> {

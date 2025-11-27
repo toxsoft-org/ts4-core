@@ -12,7 +12,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * {@link ITreeModeManager} base implementation.
  *
  * @author hazard157
- * @param <T> - displayed M5-modelled entity type
+ * @param <T> - displayed M5-modeled entity type
  */
 public class TreeModeManager<T>
     implements ITreeModeManager<T> {

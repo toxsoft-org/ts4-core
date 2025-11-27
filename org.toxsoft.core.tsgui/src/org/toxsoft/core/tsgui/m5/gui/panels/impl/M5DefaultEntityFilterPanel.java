@@ -29,7 +29,7 @@ import org.toxsoft.core.tslib.utils.txtmatch.TextMatcher;
  * Empty content of the {@link Text} control causes <code>null</code> to be returned as the filter {@link #getFilter()}.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public class M5DefaultEntityFilterPanel<T>
     extends AbstractLazyPanel<Control>

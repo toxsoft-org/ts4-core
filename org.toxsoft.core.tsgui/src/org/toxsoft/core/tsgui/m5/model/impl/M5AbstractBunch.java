@@ -12,7 +12,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Base class for {@link IM5Bunch} and {@link IM5BunchEdit} implementations.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 abstract class M5AbstractBunch<T>
     implements IM5Bunch<T> {
@@ -21,7 +21,7 @@ abstract class M5AbstractBunch<T>
    * Map "Field ID" - "Field Value" stores <code>null</code> as {@link #NULL_VAL}.
    *
    * @author hazard157
-   * @param <T> - modelled entity type
+   * @param <T> - modeled entity type
    */
   static class ValuesMap<T> {
 

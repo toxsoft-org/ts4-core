@@ -8,7 +8,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * {@link IM5CollectionViewer} columns manager.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public interface IM5ColumnManager<T> {
 

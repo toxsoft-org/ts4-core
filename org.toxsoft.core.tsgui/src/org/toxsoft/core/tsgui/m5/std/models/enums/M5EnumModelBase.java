@@ -20,7 +20,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * For enums implementing {@link IStridable} the base class {@link M5StridableEnumModelBase} should be used.
  *
  * @author hazard157
- * @param <T> - modelled <code>enum</code> class
+ * @param <T> - modeled <code>enum</code> class
  */
 public class M5EnumModelBase<T extends Enum<T>>
     extends M5Model<T> {
@@ -75,10 +75,10 @@ public class M5EnumModelBase<T extends Enum<T>>
    * Constructor.
    *
    * @param aId String - model ID
-   * @param aEntityClass {@link Class}&lt;T&gt; - modelled enum class
+   * @param aEntityClass {@link Class}&lt;T&gt; - modeled enum class
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException identifier is not an IDpath
-   * @throws TsIllegalArgumentRtException modelled entity is not Java <code>enum</code>
+   * @throws TsIllegalArgumentRtException modeled entity is not Java <code>enum</code>
    */
   public M5EnumModelBase( String aId, Class<T> aEntityClass ) {
     super( aId, aEntityClass );

@@ -12,7 +12,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Manager only allows to list entities.
  *
  * @author hazard157
- * @param <T> - modelled <code>enum</code> class
+ * @param <T> - modeled <code>enum</code> class
  */
 public class M5EnumLifecycleManager<T extends Enum<T>>
     extends M5LifecycleManager<T, Object> {
@@ -24,7 +24,7 @@ public class M5EnumLifecycleManager<T extends Enum<T>>
    *
    * @param aModel {@link IM5Model} - the model
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIllegalArgumentRtException modelled entity is not Java <code>enum</code>
+   * @throws TsIllegalArgumentRtException modeled entity is not Java <code>enum</code>
    */
   public M5EnumLifecycleManager( IM5Model<T> aModel ) {
     super( aModel, false, false, false, true, null );

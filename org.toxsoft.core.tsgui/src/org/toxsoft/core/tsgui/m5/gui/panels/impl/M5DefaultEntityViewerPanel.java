@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * THis panel contains editors for fields without flag {@link IM5Constants#M5FF_HIDDEN}.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public class M5DefaultEntityViewerPanel<T>
     extends M5EntityPanelWithValeds<T> {

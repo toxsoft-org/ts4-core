@@ -8,7 +8,7 @@ import org.toxsoft.core.tsgui.panels.lazy.*;
  * Base intreface of data display panes of {@link IMultiPaneComponent}.
  *
  * @author hazard157
- * @param <T> - displayed M5-modelled entity type
+ * @param <T> - displayed M5-modeled entity type
  */
 public interface IMpcPaneBase<T>
     extends ILazyControl<Control> {

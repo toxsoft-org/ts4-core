@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Default implementation of {@link ITsTreeMaker} creates the flat list of root nodes.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public class M5DefaultTreeMaker<T>
     implements ITsTreeMaker<T> {
@@ -30,7 +30,7 @@ public class M5DefaultTreeMaker<T>
   /**
    * Constructor.
    *
-   * @param aItemClass {@link Class}&lt;T&gt; - modelled entity type
+   * @param aItemClass {@link Class}&lt;T&gt; - modeled entity type
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public M5DefaultTreeMaker( Class<T> aItemClass ) {

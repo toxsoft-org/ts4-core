@@ -12,7 +12,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Attribute field definition for {@link IParameterized} entities based on {@link IDataDef} information.
  *
  * @author hazard157
- * @param <T> - modelled {@link IParameterized} entity type
+ * @param <T> - modeled {@link IParameterized} entity type
  */
 public class M5StdFieldDefDataDef<T extends IParameterized>
     extends M5AttributeFieldDef<T> {

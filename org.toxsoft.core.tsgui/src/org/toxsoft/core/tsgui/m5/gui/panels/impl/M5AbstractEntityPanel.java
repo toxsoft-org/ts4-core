@@ -18,7 +18,7 @@ import org.toxsoft.core.tslib.utils.logs.impl.*;
  * {@link IM5EntityPanel} base implementation.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public abstract class M5AbstractEntityPanel<T>
     extends M5PanelBase<T>

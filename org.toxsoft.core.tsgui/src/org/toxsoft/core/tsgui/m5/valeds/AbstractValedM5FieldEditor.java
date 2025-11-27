@@ -153,7 +153,7 @@ public abstract class AbstractValedM5FieldEditor<V>
   }
 
   /**
-   * Checks if M5-modelled reference {@link IM5ValedConstants#M5_VALED_REFDEF_FIELD_DEF} exists and is of expected type.
+   * Checks if M5-modeled reference {@link IM5ValedConstants#M5_VALED_REFDEF_FIELD_DEF} exists and is of expected type.
    *
    * @param <T> - expected class of field definition
    * @param aContext {@link ITsGuiContext} - the context

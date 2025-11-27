@@ -14,7 +14,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * сообщение {@link IGenericChangeListener}.
  *
  * @author hazard157
- * @param <T> - displayed M5-modelled entity type
+ * @param <T> - displayed M5-modeled entity type
  */
 public interface IQTreeModeManager<T>
     extends IGenericChangeEventCapable {

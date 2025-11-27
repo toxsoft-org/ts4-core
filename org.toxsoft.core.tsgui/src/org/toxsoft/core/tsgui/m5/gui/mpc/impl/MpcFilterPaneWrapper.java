@@ -20,7 +20,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * {@link IMpcFilterPane} implementation that wraps over {@link IM5FilterPanel}.
  *
  * @author hazard157
- * @param <T> - displayed M5-modelled entity type
+ * @param <T> - displayed M5-modeled entity type
  */
 public class MpcFilterPaneWrapper<T>
     extends MpcAbstractPane<T, Control>
@@ -59,7 +59,7 @@ public class MpcFilterPaneWrapper<T>
     gridLayout.horizontalSpacing = 1;
     c.setLayout( gridLayout );
     // btnFilter
-    btnFilter = new Button( c, SWT.CHECK );
+    btnFilter = new Button( c, SWT.TOGGLE );
     btnFilter.setLayoutData( new GridData( SWT.LEFT, SWT.CENTER, false, false ) );
     btnFilter.setToolTipText( BTN_P_FILTER );
     ITsIconManager iconManager = owner().tsContext().get( ITsIconManager.class );

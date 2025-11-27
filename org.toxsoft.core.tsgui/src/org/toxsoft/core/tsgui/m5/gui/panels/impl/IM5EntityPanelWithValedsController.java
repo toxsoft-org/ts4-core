@@ -20,7 +20,7 @@ import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
  * Реализация контроллера обязана наследоваться от {@link M5EntityPanelWithValedsController}.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 public interface IM5EntityPanelWithValedsController<T>
     extends ITsGuiContextable {

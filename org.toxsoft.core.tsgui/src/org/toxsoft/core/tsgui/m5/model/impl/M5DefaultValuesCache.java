@@ -7,7 +7,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * {@link IM5ValuesCache} default implementation caches only {@link IM5Bunch} for <code>null</code> entity.
  *
  * @author hazard157
- * @param <T> - modelled entity type
+ * @param <T> - modeled entity type
  */
 class M5DefaultValuesCache<T>
     implements IM5ValuesCache<T> {
