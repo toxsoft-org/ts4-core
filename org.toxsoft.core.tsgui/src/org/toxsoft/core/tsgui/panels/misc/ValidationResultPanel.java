@@ -126,13 +126,15 @@ public class ValidationResultPanel
     setShownValidationResult( ValidationResult.SUCCESS );
   }
 
-  @Override
-  protected void doDispose() {
-    while( !imgMap.isEmpty() ) {
-      TsImage img = imgMap.removeByKey( imgMap.keys().first() );
-      img.dispose();
-    }
-  }
+  // GOGA 2025-11-27 --- SWT Images are created by icon manager, do NOT dispose TsImages based on it!
+  // @Override
+  // protected void doDispose() {
+  // while( !imgMap.isEmpty() ) {
+  // TsImage img = imgMap.removeByKey( imgMap.keys().first() );
+  // img.dispose();
+  // }
+  // }
+  // ---
 
   // ------------------------------------------------------------------------------------
   // implementation
