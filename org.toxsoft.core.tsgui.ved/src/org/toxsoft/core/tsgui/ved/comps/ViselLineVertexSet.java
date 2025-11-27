@@ -95,6 +95,8 @@ class ViselLineVertexSet
         v.paint( aGc );
       }
     }
+    // ID2Rectangle r = bounds();
+    // aGc.drawRect( (int)r.x1(), (int)r.x2(), (int)r.width(), (int)r.height() );
   }
 
   // @Override
