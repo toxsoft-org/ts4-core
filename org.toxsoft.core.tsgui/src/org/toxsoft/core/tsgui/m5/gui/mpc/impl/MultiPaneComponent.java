@@ -76,17 +76,6 @@ public abstract class MultiPaneComponent<T>
 
   private final IGenericChangeListener itemsChangeListener = aSource -> refresh();
 
-  @SuppressWarnings( "unchecked" )
-  private final IGenericChangeListener filterPaneChangeListener = aSource -> {
-    if( filterPane().isFilterOn() ) {
-      tree().filterManager().setFilter( filterPane().getFilter() );
-    }
-    else {
-      tree().filterManager().setFilter( ITsFilter.ALL );
-    }
-    updateSummaryPane();
-  };
-
   private final TsSelectionChangeEventHelper<T> selectionChangeEventHelper;
   private final TsDoubleClickEventHelper<T>     doubleClickEventHelper;
   private final TsKeyInputDelegator             keyInputDelegator;
@@ -597,7 +586,7 @@ public abstract class MultiPaneComponent<T>
     return null;
   }
 
-  void updateDetailsPane() {
+  private void updateDetailsPane() {
     if( detailsPane != null ) {
       T selItem = tree.selectedItem();
       ITsNode selNode = (ITsNode)tree.console().selectedNode();
@@ -606,11 +595,21 @@ public abstract class MultiPaneComponent<T>
     }
   }
 
-  void updateSummaryPane() {
+  private void updateSummaryPane() {
     if( summaryPane != null ) {
       ITsNode selNode = (ITsNode)tree.console().selectedNode();
       summaryPane.updateSummary( selNode, selectedItem(), tree.items(), tree.filterManager().items() );
     }
+  }
+
+  private void applyFilter() {
+    if( this.filterPane.isFilterOn() ) {
+      tree().filterManager().setFilter( this.filterPane.getFilter() );
+    }
+    else {
+      tree().filterManager().setFilter( ITsFilter.ALL );
+    }
+    updateSummaryPane();
   }
 
   // ------------------------------------------------------------------------------------
@@ -694,7 +693,7 @@ public abstract class MultiPaneComponent<T>
     tree.getControl().addDisposeListener( aEvent -> internalDispose() );
     internalSetTreeGroupingMode( treeModeManager().currModeId() );
     if( filterPane != null ) {
-      filterPane.genericChangeEventer().addListener( filterPaneChangeListener );
+      filterPane.genericChangeEventer().addListener( s -> applyFilter() );
     }
     // set panels hide/show initial state
     if( detailsPane != null ) {
@@ -702,6 +701,7 @@ public abstract class MultiPaneComponent<T>
     }
     if( filterPane != null ) {
       filterPane.getControl().setVisible( !OPDEF_IS_FILTER_PANE_HIDDEN.getValue( tsContext().params() ).asBool() );
+      applyFilter();
     }
     if( summaryPane != null ) {
       summaryPane.getControl().setVisible( !OPDEF_IS_SUMMARY_PANE_HIDDEN.getValue( tsContext().params() ).asBool() );
@@ -710,6 +710,7 @@ public abstract class MultiPaneComponent<T>
     doAfterCreateControls();
     board.getParent().layout( true, true );
     refresh();
+    doTuneBeforeDisplay();
     return board;
   }
 
@@ -1051,11 +1052,22 @@ public abstract class MultiPaneComponent<T>
   }
 
   /**
-   * Subclass may perform additional setup immediately afetr controls creation in {@link #createControl(Composite)}.
+   * Subclass may perform additional setup immediately after controls creation in {@link #createControl(Composite)}.
+   * <p>
+   * Note: after this method control will be layouted and tree filled with items.
    * <p>
    * Does nothing in base class, there is no need to call superclass method when overriding.
    */
   protected void doAfterCreateControls() {
+    // nop
+  }
+
+  /**
+   * Like {@link #doAfterCreateControls()} but called after tree is filled with items.
+   * <p>
+   * Does nothing in base class, there is no need to call superclass method when overriding.
+   */
+  protected void doTuneBeforeDisplay() {
     // nop
   }
 
