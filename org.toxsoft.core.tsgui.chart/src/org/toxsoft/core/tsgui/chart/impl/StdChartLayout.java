@@ -203,6 +203,9 @@ class StdChartLayout
     }
     YAxisView axis = new FloatingAxisView( aAxisDef.id(), aAxisDef.description(), axisModel );
     yAxisViews.add( axis );
+    // dima 01.12.25 подключаем горизонтальную сетку к крайней шкале
+    chartCanvas.setYAxis( yAxisViews.get( 0 ) );
+
     boolean left = true;
     if( left ) {
       left = false;

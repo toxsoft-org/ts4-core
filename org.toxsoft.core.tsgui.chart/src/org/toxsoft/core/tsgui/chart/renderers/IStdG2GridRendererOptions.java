@@ -116,7 +116,7 @@ public interface IStdG2GridRendererOptions {
       TSID_DESCRIPTION, STR_HOR_LINE_RGBA_D, //
       TSID_KEEPER_ID, RGBAKeeper.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, TSID_DEFAULT_VALUE,
-      avValobj( new RGBA( 0, 0, 0, 255 ) ) //
+      avValobj( new RGBA( 200, 200, 200, 255 ) ) //
   );
 
   /**
@@ -129,7 +129,7 @@ public interface IStdG2GridRendererOptions {
       TSID_DESCRIPTION, STR_VER_LINE_RGBA_D, //
       TSID_KEEPER_ID, RGBAKeeper.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleRgba.FACTORY_NAME, TSID_DEFAULT_VALUE,
-      avValobj( new RGBA( 0, 0, 0, 255 ) ) //
+      avValobj( new RGBA( 200, 200, 200, 255 ) ) //
   );
 
 }

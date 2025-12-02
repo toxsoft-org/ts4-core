@@ -2,7 +2,9 @@ package org.toxsoft.core.tsgui.chart.impl;
 
 import static org.toxsoft.core.tsgui.chart.renderers.IStdG2GridRendererOptions.*;
 
+import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.lines.*;
@@ -57,6 +59,9 @@ public class StdG2GridRenderer
     TsNullArgumentRtException.checkNulls( aGc, aBounds, aHorBigTickPos, aHorMidTickPos, aVerBigTickPos,
         aVerMidTickPos );
 
+    // dima 01.12.25 сетку рисуем пунктиром
+    aGc.setLineDash( new int[] { 10, 2 } );
+
     aGc.setForeground( horLineColor );
     aGc.setLineWidth( horBigTickLine.width() );
     for( int i = 0; i < aHorBigTickPos.size(); i++ ) {
@@ -70,6 +75,8 @@ public class StdG2GridRenderer
       aGc.drawLine( aBounds.x1(), aVerBigTickPos.get( i ).intValue(), aBounds.x2(),
           aVerBigTickPos.get( i ).intValue() );
     }
+    // dima 01.12.25 сбросим пунктир
+    aGc.setLineDash( null );
   }
 
 }
