@@ -154,6 +154,23 @@ public interface ITsRectangle {
     return contains( aRect.a() ) && contains( aRect.b() );
   }
 
+  /**
+   * Determines if this rectangle intersects with the argument rectangle
+   *
+   * @param aRect {@link ITsRectangle} - the rectangle
+   * @return boolean - <code>true</code> rectangles has at least one common point
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  default boolean intersects( ITsRectangle aRect ) {
+    if( this.x1() > aRect.x2() || this.x2() < aRect.x1() ) {
+      return false;
+    }
+    if( this.y1() > aRect.y2() || this.y2() < aRect.y1() ) {
+      return false;
+    }
+    return true;
+  }
+
 }
 
 class InternalNoneRctangle
