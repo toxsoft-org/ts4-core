@@ -131,9 +131,12 @@ public class VedScreen
   // IRealTimeSensitive
   //
 
+  // IStringMapEdit<Long> times = new StringMap<>();
+
   @Override
   public void whenRealTimePassed( long aRtTime ) {
     // process VISELs animated drawing even if snippets and actors are paused
+    long startTime = System.currentTimeMillis();
     internalCallViselsAnimation( aRtTime );
     //
     if( isPaused ) {
@@ -147,7 +150,13 @@ public class VedScreen
     if( actorsEnable ) {
       for( VedAbstractActor a : model.actors().list() ) {
         if( a.isActive() ) {
+          // long sTime = System.currentTimeMillis();
           a.whenRealTimePassed( aRtTime );
+          // long eTime = System.currentTimeMillis();
+          // if( !times.hasKey( a.factoryId() ) ) {
+          // times.put( a.factoryId(), 0L );
+          // }
+          // times.put( a.factoryId(), times.getByKey( a.factoryId() ) + eTime - sTime );
         }
       }
     }
@@ -156,6 +165,8 @@ public class VedScreen
         h.whenRealTimePassed( aRtTime );
       }
     }
+    long currTime = System.currentTimeMillis();
+    System.out.println( " VedScreen1 time listsners: " + (currTime - startTime) );
   }
 
   // ------------------------------------------------------------------------------------
