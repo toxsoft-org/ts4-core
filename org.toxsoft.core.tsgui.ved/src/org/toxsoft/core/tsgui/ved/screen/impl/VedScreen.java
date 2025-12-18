@@ -136,7 +136,7 @@ public class VedScreen
   @Override
   public void whenRealTimePassed( long aRtTime ) {
     // process VISELs animated drawing even if snippets and actors are paused
-    long startTime = System.currentTimeMillis();
+    // long startTime = System.currentTimeMillis();
     internalCallViselsAnimation( aRtTime );
     //
     if( isPaused ) {
@@ -165,8 +165,8 @@ public class VedScreen
         h.whenRealTimePassed( aRtTime );
       }
     }
-    long currTime = System.currentTimeMillis();
-    System.out.println( " VedScreen1 time listsners: " + (currTime - startTime) );
+    // long currTime = System.currentTimeMillis();
+    // System.out.println( " VedScreen1 time listsners: " + (currTime - startTime) );
   }
 
   // ------------------------------------------------------------------------------------
