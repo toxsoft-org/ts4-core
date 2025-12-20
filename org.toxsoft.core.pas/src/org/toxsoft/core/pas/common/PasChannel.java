@@ -20,7 +20,7 @@ import org.toxsoft.core.pas.server.*;
 import org.toxsoft.core.pas.tj.*;
 import org.toxsoft.core.pas.tj.impl.*;
 import org.toxsoft.core.tslib.av.*;
-import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.ctx.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.bricks.strio.chario.*;
@@ -62,13 +62,13 @@ public class PasChannel
 
   private final PasChannelWriter channelWriter;
   private volatile Thread        channelThread;
-  private volatile boolean       stopQueried       = false;
+  private volatile boolean       stopQueried        = false;
   private volatile int           requestCount;
-  private final long             creationTimestamp = System.currentTimeMillis();
-  private volatile long          aliveTimestamp    = System.currentTimeMillis();
-  private volatile IAtomicValue  failureTimeout    = OP_PAS_FAILURE_TIMEOUT.defaultValue();
-  private volatile boolean       sendPing          = OP_PAS_SEND_PING.defaultValue().asBool();
-  private volatile IAtomicValue  writeTimeout      = OP_PAS_WRITE_TIMEOUT.defaultValue();
+  private final long             creationTimestamp  = System.currentTimeMillis();
+  private volatile long          lastReadTimestamp  = System.currentTimeMillis();
+  private volatile long          lastWriteTimestamp = System.currentTimeMillis();
+  private volatile int           failureTimeout     = OP_PAS_FAILURE_TIMEOUT.defaultValue().asInt();
+  private volatile int           writeTimeout       = OP_PAS_WRITE_TIMEOUT.defaultValue().asInt();
 
   private final ILogger logger;
 
@@ -119,22 +119,13 @@ public class PasChannel
       throw new TsIoRtException( ERR_SELF_ADDR_CONNECTION, aSocket.getLocalAddress(),
           Integer.valueOf( aSocket.getLocalPort() ) );
     }
-    if( context.params().hasValue( OP_PAS_FAILURE_TIMEOUT ) ) {
-      IAtomicValue value = OP_PAS_FAILURE_TIMEOUT.getValue( context.params() );
-      if( value.isAssigned() ) {
-        setFailureTimeout( value );
-      }
-    }
-    if( context.params().hasValue( OP_PAS_SEND_PING ) ) {
-      IAtomicValue value = OP_PAS_SEND_PING.getValue( context.params() );
-      if( value.isAssigned() ) {
-        setSendPing( value.asBool() );
-      }
-    }
-    if( context.params().hasValue( OP_PAS_WRITE_TIMEOUT ) ) {
-      IAtomicValue value = OP_PAS_WRITE_TIMEOUT.getValue( context.params() );
-      setWriteTimeout( value );
-    }
+
+    // Конфигурация
+    IOptionSet config = context.params();
+    // Установка таймаута отказа связи
+    setFailureTimeout( OP_PAS_FAILURE_TIMEOUT.getValue( config ).asInt() );
+    // Установка таймаута ошибки записи в сокет
+    setWriteTimeout( OP_PAS_WRITE_TIMEOUT.getValue( config ).asInt() );
   }
 
   // ------------------------------------------------------------------------------------
@@ -203,19 +194,13 @@ public class PasChannel
    * @return boolean <b>true</b> сообщение отправлено; <b>false</b> сообщение не отправлено
    */
   public final boolean checkAlive() {
-    // TODO: mvkd 2021-06-12---
-    // if( true ) {
-    // return false;
-    // }
-
     // Проверка таймаута у выполняемых потоков записи
-    int wt = writeTimeout.asInt();
-    if( wt > 0 ) {
+    if( writeTimeout > 0 ) {
       synchronized (writingThreads) {
         if( lastWritingTimestamp != MIN_TIMESTAMP && //
-            System.currentTimeMillis() - lastWritingTimestamp > wt ) {
+            System.currentTimeMillis() - lastWritingTimestamp > writeTimeout ) {
           for( Thread writingThread : writingThreads ) {
-            logger().error( ERR_WRITE_TIMEOUT, this, writingThread, Integer.valueOf( wt ) );
+            logger().error( ERR_WRITE_TIMEOUT, this, writingThread, Integer.valueOf( writeTimeout ) );
             writingThread.interrupt();
           }
           writingThreads.clear();
@@ -223,34 +208,32 @@ public class PasChannel
         }
       }
     }
-    if( !failureTimeout.isAssigned() ) {
+    if( failureTimeout <= 0 ) {
       // Не установлен таймаут отказа канала (failureTimeout)
       logger().error( ERR_UNDEF_FAILURE_TIMEOUT, this );
       return false;
     }
-    if( failureTimeout.asLong() <= 0 ) {
-      // Проверка работоспособности канала отключена
-      return false;
-    }
     // Текущее время
     long currTime = System.currentTimeMillis();
-    if( currTime - aliveTimestamp > failureTimeout.asLong() ) {
+    // Время (мсек) с последнего получения данных
+    long fromReadTime = Math.abs( currTime - lastReadTimestamp );
+    // Время (мсек) с последней передачи данных
+    long fromWriteTime = Math.abs( currTime - lastWriteTimestamp );
+
+    if( fromReadTime > failureTimeout ) {
       // Завершение работы канала по обнаруженному отказу работы (isFailure = true)
-      Long time = Long.valueOf( currTime - aliveTimestamp );
-      logger.error( ERR_CLOSE_CHANNEL_BY_FAILURE_TIMEOUT, this, failureTimeout, time );
+      Long time = Long.valueOf( fromReadTime );
+      logger.error( ERR_CLOSE_CHANNEL_BY_FAILURE_TIMEOUT, this, Integer.valueOf( failureTimeout ), time );
+      // 2025-12-20 TODO: mvkd ---
       close();
       return false;
     }
-    if( !sendPing ) {
-      // Передача пинг-запросов отключена
-      return false;
-    }
-    if( currTime - aliveTimestamp < ((2 * failureTimeout.asLong()) / 3) ) {
+    if( fromWriteTime < ((2 * failureTimeout) / 3) ) {
       // Активность канала позволяет не посылать тестовое сообщение
       return false;
     }
     // Отправка сообщения проверки канала
-    return sendPing( this, failureTimeout.asLong() );
+    return sendPing( this, failureTimeout );
   }
 
   /**
@@ -472,74 +455,40 @@ public class PasChannel
   }
 
   /**
-   * Возвращает текущий таймаута отказа работоспособности канала
+   * Возвращает текущий таймаута отказа работоспособности канала.
    *
-   * @return aTimeout {@link IAtomicValue} значение таймаута
-   *         <ul>
-   *         <li>> 0: Значение таймаута (мсек).</li>
-   *         <li><= 0: Отключение механизма проверки работоспособности канала.</li>
-   *         <li>{@link IAtomicValue#NULL}: используется таймаут принятый от удаленной стороны.</li>
-   *         </ul>
+   * @return aTimeout int значение таймаута. <= 0: отключение механизма проверки работоспособности канала.
    */
-  protected final IAtomicValue failureTimeout() {
+  protected final int failureTimeout() {
     return failureTimeout;
   }
 
   /**
-   * Установка таймаута отказа работоспособности канала
-   * <p>
-   * <= 0: Отключение механизма проверки работоспособности канала
-   * <p>
-   * {@link IAtomicValue#NULL}: используется таймаут принятый от удаленной стороны
+   * Установка таймаута отказа работоспособности канала.
    *
-   * @param aTimeout {@link IAtomicValue} таймаут (мсек).
-   *          <ul>
-   *          <li>> 0: Значение таймаута (мсек).</li>
-   *          <li><= 0: Отключение механизма проверки работоспособности канала.</li>
-   *          <li>{@link IAtomicValue#NULL}: используется таймаут принятый от удаленной стороны.</li>
-   *          </ul>
-   * @throws TsNullArgumentRtException аргумент = null
-   * @throws TsIllegalArgumentRtException таймаут должен иметь тип {@link EAtomicType#INTEGER}
+   * @param aTimeout значение таймаута. <= 0: отключить проверку работоспособности канала
    */
-  protected final void setFailureTimeout( IAtomicValue aTimeout ) {
-    TsNullArgumentRtException.checkNull( aTimeout );
-    if( failureTimeout == aTimeout ) {
-      return;
-    }
+  protected final void setFailureTimeout( int aTimeout ) {
     // Установка таймаута отказа работоспособности канала
-    logger.debug( MSG_SET_FAILURE_TIMEOUT, this, failureTimeout, aTimeout );
+    logger.debug( MSG_SET_FAILURE_TIMEOUT, this, Integer.valueOf( failureTimeout ), Integer.valueOf( aTimeout ) );
     failureTimeout = aTimeout;
-    if( failureTimeout.isAssigned() && failureTimeout.asLong() > 0 ) {
+    if( failureTimeout > 0 ) {
+      try {
+        socket.setSoTimeout( failureTimeout );
+      }
+      catch( SocketException ex ) {
+        logger().error( ex );
+      }
       // Отправка сообщения проверки канала - передача клиенту нового значения failureTimeout
-      sendPing( this, failureTimeout.asLong() );
-    }
-  }
-
-  /**
-   * Возвращает значение требования отправлять пинг-запросы
-   * <p>
-   * Частота отправки ping-сообщений = ( 2 * failureTimeout ) / 3. Если failureTimeout <= 0, то пинг не передается
-   *
-   * @return boolean <b>true</b> отправлять пинг-запросы;<b>false</b> не отправлять пинг-запросы
-   */
-  protected final boolean isSendPing() {
-    return sendPing;
-  }
-
-  /**
-   * Установка требования отправлять пинг-запросы
-   * <p>
-   * Частота отправки ping-сообщений = ( 2 * failureTimeout ) / 3. Если failureTimeout <= 0, то пинг не передается
-   *
-   * @param aSendPing boolean <b>true</b> отправлять пинг-запросы;<b>false</b> не отправлять пинг-запросы
-   */
-  protected final void setSendPing( boolean aSendPing ) {
-    if( sendPing == aSendPing ) {
+      sendPing( this, failureTimeout );
       return;
     }
-    // Установка значения требования отправлять пинг запросы
-    logger.debug( MSG_SET_SEND_PING, this, Boolean.valueOf( aSendPing ) );
-    sendPing = aSendPing;
+    try {
+      socket.setSoTimeout( 0 );
+    }
+    catch( SocketException ex ) {
+      logger().error( ex );
+    }
   }
 
   /**
@@ -548,39 +497,23 @@ public class PasChannel
    * Необходимость таймаута определена в источнике:
    * https://stackoverflow.com/questions/1338885/java-socket-output-stream-writes-do-they-block
    *
-   * @return aTimeout {@link IAtomicValue} значение таймаута
-   *         <ul>
-   *         <li>> 0: Значение таймаута (мсек).</li>
-   *         <li><= 0: Отключение механизма.</li>
-   *         </ul>
+   * @return aTimeout {@link IAtomicValue} значение таймаута (мсек). <= 0: Отключение механизма.
    */
-  protected final IAtomicValue writeTimeout() {
+  protected final int writeTimeout() {
     return writeTimeout;
   }
 
   /**
    * Установка таймаута записи данных в канал
    * <p>
-   * <= 0: Отключение механизма
-   * <p>
    * Необходимость таймаута определена в источнике:
    * https://stackoverflow.com/questions/1338885/java-socket-output-stream-writes-do-they-block
    *
-   * @param aTimeout {@link IAtomicValue} таймаут (мсек).
-   *          <ul>
-   *          <li>> 0: Значение таймаута (мсек).</li>
-   *          <li><= 0: Отключение механизма .</li>
-   *          </ul>
-   * @throws TsNullArgumentRtException аргумент = null
-   * @throws TsIllegalArgumentRtException таймаут должен иметь тип {@link EAtomicType#INTEGER}
+   * @param aTimeout Значение таймаута (мсек). <= 0: Отключение механизма.
    */
-  protected final void setWriteTimeout( IAtomicValue aTimeout ) {
-    TsNullArgumentRtException.checkNull( aTimeout );
-    if( writeTimeout.equals( aTimeout ) ) {
-      return;
-    }
+  protected final void setWriteTimeout( int aTimeout ) {
     // Установка таймаута отказа работоспособности канала
-    logger.debug( MSG_SET_WRITE_TIMEOUT, this, writeTimeout, aTimeout );
+    logger.debug( MSG_SET_WRITE_TIMEOUT, this, Integer.valueOf( writeTimeout ), Integer.valueOf( aTimeout ) );
     writeTimeout = aTimeout;
   }
 
@@ -840,14 +773,7 @@ public class PasChannel
       }
     }
     // Обновление времени активности на канале
-    updateAliveTimestamp();
-  }
-
-  /**
-   * Обновляет время последней отправки/приема сообщения
-   */
-  final void updateAliveTimestamp() {
-    aliveTimestamp = System.currentTimeMillis();
+    lastWriteTimestamp = System.currentTimeMillis();
   }
 
   // ------------------------------------------------------------------------------------
@@ -894,15 +820,15 @@ public class PasChannel
     try {
       if( aNotification.method().equals( JSON_NOTIFY_ALIVE ) ) {
         // Уведомление проверки работоспособности канала.
-        long failureTimeout = aNotification.params().getByKey( JSON_PARAM_FAILURE_TIMEOUT ).asNumber().longValue();
+        int failureTimeout = aNotification.params().getByKey( JSON_PARAM_FAILURE_TIMEOUT ).asNumber().intValue();
         // Имя канала
         ITjValue name = aNotification.params().findByKey( JSON_PARAM_NAME );
         // Описание канала
         ITjValue description = aNotification.params().findByKey( JSON_PARAM_DESCRIPTION );
         // Установка таймаута отказа
-        if( !aChannel.failureTimeout().isAssigned() ) {
+        if( aChannel.failureTimeout() <= 0 ) {
           // Установка таймаута удаленного клиента
-          aChannel.setFailureTimeout( AvUtils.avInt( failureTimeout ) );
+          aChannel.setFailureTimeout( failureTimeout );
         }
         // Запись в журнал
         String n = (name != null ? name.asString() : MSG_UNDEF);
@@ -1137,10 +1063,9 @@ public class PasChannel
    *
    * @param aChannel {@link PasChannel} канал из которого производится чтение сообщения
    * @return {@link IJSONMessage} прочитанное JSON сообщение. null: ошибка чтения сообщения (уже обработана)
-   * @param <CHANNEL> тип двунаправленного канала обмена между клиентом и сервером
    * @throws TsNullArgumentRtException аргумент = null
    */
-  private static <CHANNEL extends PasChannel> IJSONMessage readFromChannel( CHANNEL aChannel ) {
+  private static IJSONMessage readFromChannel( PasChannel aChannel ) {
     TsNullArgumentRtException.checkNull( aChannel );
     ILogger logger = aChannel.logger();
     IPasChannelHandler<PasChannel> handler = aChannel.channelHandler();
@@ -1149,7 +1074,7 @@ public class PasChannel
       // Чтение сообщения из канала
       ITjObject jsonObj = TjUtils.loadObject( aChannel.inputStreamReader() );
       // Обновление времени активности на канале
-      aChannel.updateAliveTimestamp();
+      aChannel.lastReadTimestamp = System.currentTimeMillis();
       // Типизация сообщения
       if( jsonObj.fields().hasKey( IJSONSpecification.SPEC_FIELD_METHOD ) ) {
         if( jsonObj.fields().hasKey( IJSONSpecification.SPEC_FIELD_ID ) ) {
