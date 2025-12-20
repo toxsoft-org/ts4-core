@@ -224,7 +224,6 @@ public class PasChannel
       // Завершение работы канала по обнаруженному отказу работы (isFailure = true)
       Long time = Long.valueOf( fromReadTime );
       logger.error( ERR_CLOSE_CHANNEL_BY_FAILURE_TIMEOUT, this, Integer.valueOf( failureTimeout ), time );
-      // 2025-12-20 TODO: mvkd ---
       close();
       return false;
     }
