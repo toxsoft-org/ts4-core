@@ -25,9 +25,9 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * Common dialog with OK/Cancel or Close buttons that has a {@link AbstractTsDialogPanel} as its content.
  * <p>
  * <h3>Motivation</h3> Main goal of {@link TsDialog} framework is to make dialog creation easy and straightforward for
- * developers. Created dialogs have yhe same look and behave the same way.
+ * developers. Created dialogs have the same look and behave the same way.
  * <h3>Concept</h3> Dialog is considered as means to view and/or edit some <b>data record</b> in specified optional
- * <b>environment</b>. Date record has type <b>&lt;T&gt;</b> and environmant has type <b>&lt;E&gt;</b>. There is few
+ * <b>environment</b>. Data record has type <b>&lt;T&gt;</b> and environment has type <b>&lt;E&gt;</b>. There is few
  * main use cases of dialog usage:
  * <ul>
  * <li>informational - modal dialog just displays the data record and has one button "Close". This mode is specified by
@@ -46,7 +46,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * </ul>
  *
  * @author hazard157
- * @param <T> - data transfet object type passed to/from dialog
+ * @param <T> - data transfer object type passed to/from dialog
  * @param <E> - client specified optional environment type
  */
 public class TsDialog<T, E>
@@ -533,18 +533,12 @@ public class TsDialog<T, E>
     ValidationResult vr = contentPanel.validateData();
     dialogWindow.updateButtonsOfValidationResult( vr );
     switch( vr.type() ) {
-      case ERROR:
-        setErrorMessage( vr.message() );
-        break;
-      case WARNING:
-        setWarningMessage( vr.message() );
-        break;
-      case OK:
-        setCommonMessage( EMPTY_STRING );
-        break;
-      default:
-        throw new TsNotAllEnumsUsedRtException();
+      case ERROR -> setErrorMessage( vr.message() );
+      case WARNING -> setWarningMessage( vr.message() );
+      case OK -> setCommonMessage( EMPTY_STRING );
+      default -> throw new TsNotAllEnumsUsedRtException();
     }
+
     return vr;
   }
 

@@ -7,27 +7,23 @@ import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Реализация {@link IM5MultiModownFieldDef}.
+ * {@link IM5MultiModownFieldDef} implementation.
  *
  * @author hazard157
- * @param <T> - тип моделированного объекта
- * @param <V> - тип объекта-ссылки
+ * @param <T> - modeled entity type
+ * @param <V> - list element type (not collection type!)
  */
 public class M5MultiModownFieldDef<T, V>
     extends M5MultiLinkFieldDefBase<T, V>
     implements IM5MultiModownFieldDef<T, V> {
 
   /**
-   * Конструктор.
-   * <p>
-   * По умолчанию количество связанных объекто не ограничено, то есть {@link #maxCount()} = 0 и {@link #isExactCount()}
-   * = <code>false</code>.
+   * Constructor.
    *
-   * @param aId String - идентификатор поля (ИД-путь)
-   * @param aItemModelId String - идентификатор модели {@link #itemModel()}
-   * @throws TsNullArgumentRtException любой аргумент = null
-   * @throws TsIllegalArgumentRtException aId не ИД-пут
-   * @throws TsIllegalArgumentRtException aItemModelId не ИД-путь
+   * @param aId String - field ID (IDpath)
+   * @param aItemModelId String - M5-model ID of the {@link #itemModel()}
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException any ID is not an IDpath
    */
   public M5MultiModownFieldDef( String aId, String aItemModelId ) {
     super( aId, aItemModelId );

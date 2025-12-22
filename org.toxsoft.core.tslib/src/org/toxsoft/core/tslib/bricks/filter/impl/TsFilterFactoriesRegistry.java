@@ -76,4 +76,9 @@ public final class TsFilterFactoriesRegistry<T>
     super.unregister( aFactory.id() );
   }
 
+  @Override
+  public ITsFilter<T> createFilter( ITsCombiFilterParams aParams, boolean aCompleteEvaluation ) {
+    return TsCombiFilter.create( aParams, this, aCompleteEvaluation );
+  }
+
 }

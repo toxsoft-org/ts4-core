@@ -41,4 +41,33 @@ public interface ITsFilterFactoriesRegistry<T>
    */
   void unregister( ITsSingleFilterFactory<T> aFactory );
 
+  /**
+   * Creates filter for the specified parameters assuming all single filter factories are already registered..
+   *
+   * @param aParams {@link ITsCombiFilterParams} - the filter parameters
+   * @param aCompleteEvaluation boolean - indicates if created filter must always evaluate whole expression
+   * @return {@link ITsFilter}&lt;T&gt; - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException parameters contains unregistered single filter
+   */
+  ITsFilter<T> createFilter( ITsCombiFilterParams aParams, boolean aCompleteEvaluation );
+
+  // ------------------------------------------------------------------------------------
+  // inline methods
+
+  /**
+   * Creates filter for the specified parameters assuming all single filter factories are already registered..
+   * <p>
+   * Calls {@link #createFilter(ITsCombiFilterParams, boolean)} with argument <code>aCompleteEvaluation</code> =
+   * <code>false</code>.
+   *
+   * @param aParams {@link ITsCombiFilterParams} - the filter parameters
+   * @return {@link ITsFilter}&lt;T&gt; - created instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException parameters contains unregistered single filter
+   */
+  default ITsFilter<T> createFilter( ITsCombiFilterParams aParams ) {
+    return createFilter( aParams, false );
+  }
+
 }

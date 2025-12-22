@@ -9,11 +9,11 @@ import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Базовая реализация мульти-поля, содержащего моделированные сущности.
+ * Basic implementation of a multi-field containing other modeled entities.
  *
  * @author hazard157
- * @param <T> - тип моделированной сущности
- * @param <V> - тип значения поля
+ * @param <T> - modeled entity type
+ * @param <V> -
  */
 public class M5MultiLinkFieldDefBase<T, V>
     extends M5FieldDef<T, IList<V>>
@@ -25,14 +25,13 @@ public class M5MultiLinkFieldDefBase<T, V>
   private IM5Model<V> itemModel  = null;
 
   /**
-   * Конструктор.
+   * Constructor.
    *
-   * @param aId String - идентификатор поля (ИД-путь)
-   * @param aItemModelId String - идентификатор модели {@link #itemModel()}
+   * @param aId String - field ID (IDpath)
+   * @param aItemModelId String - M5-model ID of the {@link #itemModel()}
    * @param aGetter {@link IM5Getter} - field value getter and visualizer or <code>null</code> for default behaviour
-   * @throws TsNullArgumentRtException любой аргумент = null
-   * @throws TsIllegalArgumentRtException aId не ИД-пут
-   * @throws TsIllegalArgumentRtException aItemModelId не ИД-путь
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException any ID is not an IDpath
    */
   @SuppressWarnings( { "unchecked", "rawtypes" } )
   public M5MultiLinkFieldDefBase( String aId, String aItemModelId, IM5Getter<T, IList<V>> aGetter ) {
@@ -41,20 +40,19 @@ public class M5MultiLinkFieldDefBase<T, V>
   }
 
   /**
-   * Конструктор.
+   * Constructor.
    *
-   * @param aId String - идентификатор поля (ИД-путь)
-   * @param aItemModelId String - идентификатор модели {@link #itemModel()}
-   * @throws TsNullArgumentRtException любой аргумент = null
-   * @throws TsIllegalArgumentRtException aId не ИД-пут
-   * @throws TsIllegalArgumentRtException aItemModelId не ИД-путь
+   * @param aId String - field ID (IDpath)
+   * @param aItemModelId String - M5-model ID of the {@link #itemModel()}
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException any ID is not an IDpath
    */
   public M5MultiLinkFieldDefBase( String aId, String aItemModelId ) {
     this( aId, aItemModelId, null );
   }
 
   // ------------------------------------------------------------------------------------
-  // Внутренные методы
+  // implementation
   //
 
   @SuppressWarnings( { "unchecked" } )
@@ -67,32 +65,32 @@ public class M5MultiLinkFieldDefBase<T, V>
   }
 
   // ------------------------------------------------------------------------------------
-  // Для переопределения
+  // to override
   //
 
   /**
-   * Дает возможность уточнить идентификатор модели связуемых объектов {@link #itemModel()}.
+   * Allows to redefine the model identifier of linked objects {@link #itemModel()}.
    * <p>
-   * Вызывается один раз, при первом обращении к методу {@link #itemModel()}, который и находит модель по уточненному
-   * этим методом идентификатору.
+   * Called once, the first time the {@link #itemModel()} method is called, which finds the model using the identifier
+   * specified by this method.
    * <p>
-   * В базовом классе возворащает идентификатор, зданный в конструкторе.
+   * In the base class, returns the identifier specified in the constructor.
    *
-   * @return String - уточненный идентификатор модели {@link #itemModel()}
+   * @return String - M5-model ID of the {@link #itemModel()}
    */
   protected String specifyItemModelId() {
     return itemModelId;
   }
 
   // ------------------------------------------------------------------------------------
-  // API редактирования
+  // API
   //
 
   /**
-   * Задает параметры количества связанных объектов.
+   * Sets limits on the number of linked objects.
    *
-   * @param aMaxCount int - максимально допустимое количество связанных объектов 0 (нет ограничения)
-   * @param aIsExactCount boolean - признак указания точного количества объектов
+   * @param aMaxCount int - maximum number of linked objects, or 0 for no limit
+   * @param aIsExactCount boolean - a sign for specifying the exact number of objects
    * @throws TsIllegalArgumentRtException aMaxCount < 0
    */
   public void setCountProps( int aMaxCount, boolean aIsExactCount ) {

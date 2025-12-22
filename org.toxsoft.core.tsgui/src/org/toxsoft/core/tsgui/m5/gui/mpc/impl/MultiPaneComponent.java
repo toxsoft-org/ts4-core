@@ -108,10 +108,6 @@ public abstract class MultiPaneComponent<T>
     tree = TsNullArgumentRtException.checkNull( aViewer );
     genericChangeEventer = new GenericChangeEventer( this );
     TsIllegalArgumentRtException.checkTrue( aViewer.getControl() != null );
-    ITsActionSetProvider asp = REFDEF_M5STD_PANEL_ACTIONS_ASP.getRef( tsContext(), null );
-    if( asp != null ) {
-      aspLocal.addHandler( asp );
-    }
     selectionChangeEventHelper = new TsSelectionChangeEventHelper<>( this ) {
 
       @Override
@@ -228,6 +224,13 @@ public abstract class MultiPaneComponent<T>
       }
     }
     // now apply ASP settings
+    ITsActionSetProvider asp = null;
+    if( tsContext().isSelfRef( REFDEF_M5STD_PANEL_ACTIONS_ASP.refKey() ) ) {
+      asp = REFDEF_M5STD_PANEL_ACTIONS_ASP.getRef( tsContext(), null );
+    }
+    if( asp != null ) {
+      aspLocal.addHandler( asp );
+    }
     boolean isSubstitute = OPDEF_M5STD_PANEL_IS_ASP_SUBSTITUTE.getValue( tsContext().params() ).asBool();
     if( isSubstitute ) {
       actDefs.setAll( aspLocal.listAllActionDefs() );

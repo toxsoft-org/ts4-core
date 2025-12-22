@@ -8,7 +8,7 @@ import org.toxsoft.core.tslib.coll.*;
  * Description of the field that contains the collection of embeddable (modown) objects.
  * <p>
  * The field is the owner of the objects that are themselves described by the {@link #itemModel()} model. Hence the name
- * Modown - MODelled OWNed object.
+ * Modown - MODeled and OWNed objects.
  *
  * @author hazard157
  * @param <T> - modeled entity type

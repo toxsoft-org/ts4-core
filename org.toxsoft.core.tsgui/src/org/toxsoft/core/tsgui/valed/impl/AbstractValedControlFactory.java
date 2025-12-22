@@ -22,7 +22,7 @@ public abstract class AbstractValedControlFactory
   /**
    * Constructor for subclasses.
    *
-   * @param aFactoryName Striung - the factory name
+   * @param aFactoryName String - the factory name
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException argument is a blank string
    */

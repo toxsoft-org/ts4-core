@@ -10,7 +10,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * {@link IStridable} items registry.
  * <p>
- * Basicallу registry is key-value map with following additions:
+ * Basically registry is key-value map with following additions:
  * <ul>
  * <li>obviously keys in map are item identifiers {@link IStridable#id()};</li>
  * <li>putting items to map is called <b>registration</b> and removing - <b>unregistration</b>;</li>
@@ -80,7 +80,7 @@ public interface IStridablesRegisrty<T extends IStridable>
   boolean isBuiltin( String aId );
 
   /**
-   * Regiters the item.
+   * Registers the item.
    * <p>
    * Validators may or may not allow to register new item with the exising key.
    *

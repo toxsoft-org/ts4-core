@@ -2,11 +2,10 @@ package org.toxsoft.core.tslib.av.validators;
 
 import static org.toxsoft.core.tslib.av.validators.ITsResources.*;
 
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
+import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
-import org.toxsoft.core.tslib.bricks.validator.std.NameStringValidator;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.bricks.validator.std.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Check the name {@link EAtomicType#STRING} value.
@@ -17,7 +16,7 @@ import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
  * <ul>
  * <li>an {@link TsNullArgumentRtException} exception is thrown if {@link ITsValidator#validate(Object)} argument is
  * <code>null</code>;</li>
- * <li>if argument does nat has atomic type {@link EAtomicType#STRING}, validation returns
+ * <li>if argument does not has atomic type {@link EAtomicType#STRING}, validation returns
  * {@link EValidationResultType#ERROR};</li>
  * <li>for {@link IAtomicValue#NULL} value either common empty name warning or special NULL-value warning is returned.
  * Warning type depends on constructor {@link NameStringAvValidator#NameStringAvValidator(boolean)} argument.</li>

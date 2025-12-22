@@ -6,7 +6,7 @@ import org.toxsoft.core.tsgui.m5.*;
  * Смешиваемый инетрфейс полей, содержащие моделированные сущности.у
  *
  * @author hazard157
- * @param <V> - тип моделированной сущности, содержащейся в поле
+ * @param <V> - the type of modeled entities contained in the field
  */
 public interface IM5MixinModelledField<V> {
 

@@ -70,8 +70,8 @@ public class ValedLocalDateMpv
   /**
    * Constructor.
    *
-   * @param aTsContext {@link ITsGuiContext} - the valed context
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aTsContext {@link ITsGuiContext} - the context
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public ValedLocalDateMpv( ITsGuiContext aTsContext ) {
     super( aTsContext );

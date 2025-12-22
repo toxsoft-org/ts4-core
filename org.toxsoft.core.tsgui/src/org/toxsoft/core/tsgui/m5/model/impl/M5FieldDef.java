@@ -28,7 +28,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  * @param <T> - modeled entity type
- * @param <V> - field value type
+ * @param <V> - the type of modeled entities contained in the field
  */
 public class M5FieldDef<T, V>
     extends StridableParameterized

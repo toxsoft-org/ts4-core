@@ -189,7 +189,7 @@ public class M5Model<T>
   }
 
   /**
-   * Returns the means to change fields oreder.
+   * Returns the means to change fields order.
    *
    * @return {@link IListReorderer}&lt;{@link IM5FieldDef}&gt; - the fields reorderer
    */

@@ -5,7 +5,7 @@ package org.toxsoft.core.tslib.utils.gui;
  * <p>
  * TSLIB itself is not a GUI library. However some entities from library are assumed to have GUI representation when
  * used in GUI environment. This interface lists icon and other graphical entity IDs for such entities. TSLIB does
- * <b>not</b> contains icons/entities themself, just IDs.
+ * <b>not</b> contains icons/entities itself, just IDs.
  *
  * @author hazard157
  */
