@@ -25,9 +25,14 @@ public interface ITsHdpiServiceConstants {
   String ICON_CATEG_ID_JFACE_CELL = TS_ID + ".IconSize.JFaceCell"; //$NON-NLS-1$
 
   /**
-   * Uipart (view) tab icons size.
+   * UIpart (view) tab icons size.
    */
   String ICON_CATEG_ID_UIPART_TAB = TS_ID + ".IconSize.UipartTab"; //$NON-NLS-1$
+
+  /**
+   * Tab folder tab icons size.
+   */
+  String ICON_CATEG_ID_TABFOLDER_TAB = TS_ID + ".IconSize.TabFolderTab"; //$NON-NLS-1$
 
   /**
    * Preferences kit item icons size in left pane.

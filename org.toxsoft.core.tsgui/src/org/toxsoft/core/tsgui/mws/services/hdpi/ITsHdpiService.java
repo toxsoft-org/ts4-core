@@ -81,4 +81,9 @@ public interface ITsHdpiService {
     return getIconsSize( ICON_CATEG_ID_UIPART_TAB );
   }
 
+  @SuppressWarnings( "javadoc" )
+  default EIconSize getTabFolderTabIconsSize() {
+    return getIconsSize( ICON_CATEG_ID_TABFOLDER_TAB );
+  }
+
 }

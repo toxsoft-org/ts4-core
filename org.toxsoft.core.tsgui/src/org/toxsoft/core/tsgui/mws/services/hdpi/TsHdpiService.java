@@ -103,6 +103,7 @@ public final class TsHdpiService
     defineIconCategory( ICON_CATEG_ID_MENU, 0 );
     defineIconCategory( ICON_CATEG_ID_JFACE_CELL, 0 );
     defineIconCategory( ICON_CATEG_ID_UIPART_TAB, 1 );
+    defineIconCategory( ICON_CATEG_ID_TABFOLDER_TAB, -1 );
     defineIconCategory( ICON_CATEG_PREFS_KIT_ITEM, 2 );
     // calc initial icon sizes
     recalcIconSizesAfterDefaultSizeDetermined();
