@@ -53,7 +53,7 @@ public class FilterTextField
     gl.marginWidth = 5;
     this.setLayout( gl );
     // btnOnOff
-    btnOnOff = new Button( this, SWT.CHECK );
+    btnOnOff = new Button( this, SWT.TOGGLE );
     btnOnOff.setLayoutData( new GridData( SWT.LEFT, SWT.CENTER, false, false ) );
     btnOnOff.setToolTipText( BTN_P_FILTER );
     Image icon = iconManager().loadStdIcon( ICONID_VIEW_FILTER, EIconSize.IS_16X16 ); // TODO what icon size to use?
