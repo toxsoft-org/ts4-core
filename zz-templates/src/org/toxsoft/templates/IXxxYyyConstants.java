@@ -36,6 +36,7 @@ public interface IXxxYyyConstants {
 
   String PREFIX_OF_ICON_FIELD_NAME = "ICONID_";  //$NON-NLS-1$
   String ICONID_APP_ICON           = "app-icon"; //$NON-NLS-1$ "app-icon" replaces default application windows icon
+  String ICONID_FOO                = "foo";      //$NON-NLS-1$
 
   // ------------------------------------------------------------------------------------
   // Actions
@@ -43,7 +44,7 @@ public interface IXxxYyyConstants {
   String ACTID_DO_IT = XXX_ACT_ID + ".do_it"; //$NON-NLS-1$
 
   ITsActionDef ACDEF_DO_IT = TsActionDef.ofPush2( ACTID_DO_IT, //
-      STR_DO_IT, STR_DO_IT_D, ICONID_APP_ICON );
+      STR_DO_IT, STR_DO_IT_D, ICONID_FOO );
 
   // ------------------------------------------------------------------------------------
   // Application preferences
@@ -66,7 +67,7 @@ public interface IXxxYyyConstants {
   );
 
   IStridablesList<IDataDef> SHOWN_APPREFS_LIST = new StridablesList<>( ///
-      // APPREF_FOO_1, /// option Foo1 will be present in perferences but NOT shown in the user dialog
+      // APPREF_FOO_1, /// option Foo1 will be present in preferences but NOT shown in the user dialog
       APPREF_FOO_2 ///
   );
 

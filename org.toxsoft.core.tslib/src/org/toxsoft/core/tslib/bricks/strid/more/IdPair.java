@@ -1,21 +1,18 @@
 package org.toxsoft.core.tslib.bricks.strid.more;
 
-import java.io.ObjectStreamException;
-import java.io.Serializable;
+import java.io.*;
 
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper;
-import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.EEncloseMode;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.keeper.AbstractEntityKeeper.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
-import org.toxsoft.core.tslib.utils.errors.TsIllegalArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Парный идентификатор, состоящий из левой и правой ИД-путь идентификаторов.
+ * A paired identifier consisting of a left and a right ID-path identifier.
  * <p>
  * Парный идентификатор имеет текстовое представление {@link #pairId()}, которое <b>не является</b> ИД-путем, но
  * гарантированно не содержит в себе пробели.
@@ -134,7 +131,7 @@ public final class IdPair
   }
 
   // ------------------------------------------------------------------------------------
-  // Статическое API
+  // static API
   //
 
   /**
