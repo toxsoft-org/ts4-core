@@ -298,21 +298,15 @@ public class TsMiscUtils {
         TsIllegalArgumentRtException.checkTrue( i == argLen - 1 );
         ch = aLine.charAt( i++ );
         switch( ch ) {
-          case CHAR_ESCAPE:
-          case CHAR_QUOTE:
-            sb.append( ch );
-            break;
-          case 'n':
-            sb.append( '\n' );
-            break;
-          case 'r':
-            sb.append( '\r' );
-            break;
-          default:
+          case CHAR_ESCAPE, CHAR_QUOTE -> sb.append( ch );
+          case 'n' -> sb.append( '\n' );
+          case 'r' -> sb.append( '\r' );
+          default -> {
             sb.append( CHAR_ESCAPE );
             sb.append( ch );
-            break;
+          }
         }
+
       }
       else {
         sb.append( ch );
@@ -368,6 +362,54 @@ public class TsMiscUtils {
       sb.append( String.format( "%02x", Byte.valueOf( b ) ) ); //$NON-NLS-1$
     }
     return sb.toString();
+  }
+
+  /**
+   * Calculates the similarity (a number within 0.0 and 1.0) between two strings.
+   *
+   * @param aStr1 String - first string
+   * @param aStr2 String - first string
+   * @return double - string similarity measure (in range 0.0 ... 1.0)
+   */
+  public static double stringSimilarity( String aStr1, String aStr2 ) {
+    String longer = aStr1, shorter = aStr2;
+    if( aStr1.length() < aStr2.length() ) { // longer should always have greater length
+      longer = aStr2;
+      shorter = aStr1;
+    }
+    int longerLength = longer.length();
+    if( longerLength == 0 ) { // both strings are zero length
+      return 1.0;
+    }
+    longer = longer.toLowerCase();
+    shorter = shorter.toLowerCase();
+    // Example implementation of the Levenshtein Edit Distance
+    // See http://rosettacode.org/wiki/Levenshtein_distance#Java
+    int[] costs = new int[shorter.length() + 1];
+    for( int i = 0; i <= longer.length(); i++ ) {
+      int lastValue = i;
+      for( int j = 0; j <= shorter.length(); j++ ) {
+        if( i == 0 ) {
+          costs[j] = j;
+        }
+        else {
+          if( j > 0 ) {
+            int newValue = costs[j - 1];
+            if( longer.charAt( i - 1 ) != shorter.charAt( j - 1 ) ) {
+              newValue = Math.min( Math.min( newValue, lastValue ), costs[j] ) + 1;
+            }
+            costs[j - 1] = lastValue;
+            lastValue = newValue;
+          }
+        }
+      }
+      if( i > 0 ) {
+        costs[shorter.length()] = lastValue;
+      }
+    }
+    //
+    int editDistance = costs[shorter.length()];
+    return (longerLength - editDistance) / (double)longerLength;
   }
 
   /**
