@@ -46,7 +46,7 @@ public class LocaleKeeper
     String country = aSr.readQuotedString();
     aSr.ensureSeparatorChar();
     String variant = aSr.readQuotedString();
-    return new Locale( language, country, variant );
+    return Locale.of( language, country, variant );
   }
 
 }

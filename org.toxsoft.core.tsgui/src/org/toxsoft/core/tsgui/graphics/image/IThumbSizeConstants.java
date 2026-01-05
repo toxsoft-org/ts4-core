@@ -1,7 +1,7 @@
 package org.toxsoft.core.tsgui.graphics.image;
 
 /**
- * Константы {@link EThumbSize}.
+ * Constants of the enum {@link EThumbSize}.
  *
  * @author hazard157
  */
