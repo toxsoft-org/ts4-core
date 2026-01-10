@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Methods to work with strids (IPnames and IDpaths).
+ * Methods to work with STRIDs (IPnames and IDpaths).
  * <p>
  * IDname and IDpath concepts are introduced:
  * <ul>
@@ -36,6 +36,20 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * <li><b>suffix</b> - an IDpath consisting from any number of components starting from somewhere in the ID path and
  * ending with last one. Suffix is IDpath for multi-component IDpaths and empty string for IDname (IDpath with one
  * component).</li>
+ * </ul>
+ * <p>
+ * Whole underscore char (<code><b>_</b></code>) is allowed as part of the STRID, several recommendations should be
+ * applied:
+ * <ul>
+ * <li>two or more underscores at the start or end of IDpath components (or IDnames) are reserved for internal use by
+ * <code><b>tslib</b></code> or and some other platform libraries. Do not ever use or if necessary use it with great
+ * caution in applications: be sure it's usage does not conflicts with any other, including platform libraries. Examples
+ * of such STRIDs are {@link IStridable#NONE_ID} or {@link StridUtils#ID_COPY_POSTFIX};</li>
+ * <li>by convention, single underscore at the start or end of IDpath components (or IDnames) denotes some special case
+ * of STRID identifier. Fore example, STRIDs of any record in database are common IDnames, while absent of record may me
+ * identified by "_NoRecord" identifier in source code.</li>
+ * <li>any number of consecutive underscores in the middle of IDpath component (or IDname) is common practice like
+ * "<code>some_id</code>", or "<code>CLASS__PERSON____FIELD__NAME</code>".</li>
  * </ul>
  *
  * @author hazard157
@@ -303,11 +317,12 @@ public final class StridUtils {
   // ------------------------------------------------------------------------------------
   // Content investigation
   //
+
   /**
-   * Determines if argument IDpath containing of two or more compnents (ie is not an IDname).
+   * Determines if argument IDpath containing of two or more components (ie is not an IDname).
    *
    * @param aId String - an IDpath to be checked
-   * @return <code>true</code> if argument is valid IDpath containig two or more comonents
+   * @return <code>true</code> if argument is valid IDpath containing two or more components
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException argument is not valid IDpath
    */
@@ -693,29 +708,32 @@ public final class StridUtils {
   // Converting any string <-> IDpath
   //
 
-  // TODO translate
-
   /**
-   * Префикс к ИД-имени, сформированной из произвольных строк, не являющейся ИД-путем.
+   * Prefix for IDpath created by the method {@link #str2id(String)}.i
    */
   private static final String ANY_STR_TO_ID_NAME_PREFIX = "___"; //$NON-NLS-1$
 
   /**
-   * Преобразует произвольную строку в ИД-путь.
+   * Converts arbitrary String to the IDpath.
    * <p>
-   * Преобразование двустороннее - из полученного идентификатора однозначно восстанавливаетс строка методом
-   * {@link #id2str(String)}.
+   * The conversion is two-way - the original string can be uniquely restored from the generated identifier using the
+   * {@link #id2str(String)} method..
    * <p>
-   * Метод гарантирует, что:
+   * The method guarantees that:
    * <ul>
-   * <li>одинаковые аргументы дают одинаковый результат;</li>
-   * <li>разные аргументы дают разный результат;</li>
-   * <li>null остаеться null-ом;</li>
-   * <li>ИД-путь остается без изменении.</li>
+   * *
+   * <li>identical arguments produce the same result;</li>
+   * <li>different arguments produce different results;</li>
+   * <li><code>null</code> remains null;</li>
+   * <li>the valid STRID (either IDpath or IDname) remains unchanged.</li>
    * </ul>
+   * <p>
+   * Note: there is a small historical difference between {@link #str2id(String)} and {@link #id2str(String)} behaviour.
+   * The first method allows <code>null</code> argument and returns <code>null</code> output. While
+   * {@link #id2str(String)} throws an exception on <code>null</code> argument.
    *
-   * @param aStr String - произвольная строка
-   * @return String - ИД-путь, соответствующий строке
+   * @param aStr String - arbitrary string, may be <code>null</code>
+   * @return String - created IDpath or <code>null</code> for <code>null</code> argument
    */
   public static String str2id( String aStr ) {
     if( aStr == null ) {
@@ -743,31 +761,36 @@ public final class StridUtils {
   }
 
   /**
-   * Восстанавливает текстовую строку из ИД-пути, созданной методом {@link #str2id(String)}.
+   * Restores initial string from STRID identifier created by {@link #str2id(String)}.
+   * <p>
+   * Note: there is a small historical difference between {@link #str2id(String)} and {@link #id2str(String)} behaviour.
+   * The first method allows <code>null</code> argument and returns <code>null</code> output. While
+   * {@link #id2str(String)} throws an exception on <code>null</code> argument.
    *
-   * @param aId String - ИД-путь, созданной методом {@link #str2id(String)}
-   * @return String - текстовая строка
-   * @throws TsNullArgumentRtException аргумент = null
-   * @throws TsIllegalArgumentRtException аргумент не ИД-путь
-   * @throws TsIllegalArgumentRtException аргумент не был создан методом {@link #str2id(String)}
+   * @param aId String - the IDpath created by the method {@link #str2id(String)}
+   * @return String - initial string
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException argument is not a valid IDpath
+   * @throws TsIllegalArgumentRtException argument was not created by the method {@link #str2id(String)}
    */
   public static String id2str( String aId ) {
-    IStringList comps = getComponents( aId );
-    // для ИД-пути (не ИД-имени) вовзращаем аргумент
+    IStringList comps = getComponentsOrEmpty( aId );
+    // for IDpath (not for IDname!) immediately returns the argument - there was no conversion
     if( comps.size() > 1 ) {
       return aId;
     }
-    // если аргумент совпадает с ANY_STR_TO_ID_NAME_PREFIX, то возвращаем пустую строку
+    // if argument is ANY_STR_TO_ID_NAME_PREFIX, then return an empty string
     String s = comps.get( 0 );
     TsIllegalArgumentRtException.checkFalse( s.startsWith( ANY_STR_TO_ID_NAME_PREFIX ),
         MSG_ERR_INVALID_ARG_FOR_ID2STR );
     if( s.length() == ANY_STR_TO_ID_NAME_PREFIX.length() ) {
       return TsLibUtils.EMPTY_STRING;
     }
-    // если отбросить префикс, то должна получитсья двоичная строка
+    // without a prefix the STRID must me a string of HEX chars
     s = s.substring( ANY_STR_TO_ID_NAME_PREFIX.length() );
     int count = s.length();
-    TsIllegalArgumentRtException.checkTrue( count % 4 != 0, MSG_ERR_INVALID_ARG_FOR_ID2STR ); // длина всегда кратно 4-м
+    // additional check: the length must be a multiple of 4
+    TsIllegalArgumentRtException.checkTrue( count % 4 != 0, MSG_ERR_INVALID_ARG_FOR_ID2STR );
     StringBuilder sb = new StringBuilder();
     for( int i = 0; i < count; i += 4 ) {
       int tetr4 = hexChar2Int( s.charAt( i + 0 ) );
@@ -846,6 +869,109 @@ public final class StridUtils {
   public static String printf( String aFmtString, IStridable aEntity ) {
     TsNullArgumentRtException.checkNulls( aFmtString, aEntity );
     return String.format( aFmtString, aEntity.id(), aEntity.nmName(), aEntity.description() );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Miscellaneous helpers
+  //
+
+  /**
+   * The postfix added to IDpath to create the copy with method FIXME ???.
+   */
+  public static final String ID_COPY_POSTFIX = "__copy"; //$NON-NLS-1$
+
+  private static final String IDPATH_COPY_POSTFIX = CHAR_ID_PATH_DELIMITER + ID_COPY_POSTFIX;
+
+  /**
+   * Converts STRID the to IDpath indicating it is a "Copy STRID".
+   * <p>
+   * "Copy STRID" or "STRID of copy object" is used when creating copy or cloning some STRIDabel object. The new object
+   * usually is in the same namespace (see {@link IStridable}) so the ID must be unique. This method creates such a
+   * possibly unique STRID with the ability to detect that STRID was generated as a copy of an existing STRID. Please,
+   * note that if copy of the source object already exists then this method will create the non-unique ID.
+   * <p>
+   * The convention of creating copy STRID (in this implementation) is to add {@link #ID_COPY_POSTFIX} to the end of
+   * STRID. Thus the STRID Making easier for humans to distinguish between common STRIDs and @COpy STRIDs". Note that
+   * How copy STRIDs are created is not a part of this API, only methods listed below allow to manage @CopySTRIDs"
+   * programmatically.
+   * <p>
+   * The set of methods {@link #createIdPathCopy(String)}, {@link #createIdNameCopy(String)}, {@link #isIdCopy(String)}
+   * and #{@link #resoreFomrCopyStrid(String)} allows to manage STRID copies created by convention above.
+   *
+   * @param aStrid String - the original STRID
+   * @return String - created "Copy STRID", always an IDpath
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException the argument is not a valid IDpath
+   * @see IStridable
+   */
+  public static String createIdPathCopy( String aStrid ) {
+    checkValidIdPath( aStrid );
+    return aStrid + IDPATH_COPY_POSTFIX;
+  }
+
+  /**
+   * Converts IDname to a copy STRID preserving the kind - return value is also an IDname.
+   * <P>
+   * The concept "STRID of copy object" is defined in comments of the method {@link #createIdPathCopy(String)}.
+   *
+   * @param aIdName String - the IDname
+   * @return String - IDname as aSTRID copy
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException argument is not a valid IDname
+   * @see #createIdPathCopy(String)
+   */
+  public static String createIdNameCopy( String aIdName ) {
+    TsIllegalArgumentRtException.checkTrue( isIdAPath( aIdName ) );
+    return aIdName + ID_COPY_POSTFIX;
+  }
+
+  /**
+   * Determines if the argument as a STRID matches the pattern of copy creation.
+   * <p>
+   * ID copy creation may be performed either by {@link #createIdPathCopy(String)} or {@link #createIdNameCopy(String)}.
+   * Obviously STRID that matches copy pattern may be created by
+   * <P>
+   * The concept "STRID of copy object" is defined in comments of the method {@link #createIdPathCopy(String)}.
+   *
+   * @param aStrid String - the STRID to check
+   * @return boolean - <code>true</code> if argument matches the copy creation pattern
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException argument is not a valid IDpath
+   * @see #createIdPathCopy(String)
+   * @see #createIdNameCopy(String)
+   */
+  public static boolean isIdCopy( String aStrid ) {
+    if( isIdAPath( aStrid ) ) {
+      return aStrid.endsWith( IDPATH_COPY_POSTFIX );
+    }
+    // the IDname matching ID_COPY_POSTFIX can't be copy of invalid IDname of empty string
+    if( aStrid.length() == ID_COPY_POSTFIX.length() ) {
+      return false;
+    }
+    return aStrid.endsWith( ID_COPY_POSTFIX );
+  }
+
+  /**
+   * Removes (if any) the copy postfix from the argument STRID.
+   * <p>
+   * If argument is not created with {@link #createIdNameCopy(String)} or {@link #createIdPathCopy(String)} then returns
+   * argument unchanged.
+   * <P>
+   * The concept "STRID of copy object" is defined in comments of the method {@link #createIdPathCopy(String)}.
+   *
+   * @param aStrid String - the STRID to remove copied postfix
+   * @return String - original STRID before copy was created
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException argument is not a valid IDpath
+   */
+  public static String resoreFomrCopyStrid( String aStrid ) {
+    if( !isIdCopy( aStrid ) ) {
+      return aStrid;
+    }
+    if( isIdAPath( aStrid ) ) {
+      return removeTailingIdNames( aStrid, 1 );
+    }
+    return aStrid.substring( 0, aStrid.length() - ID_COPY_POSTFIX.length() );
   }
 
   /**
