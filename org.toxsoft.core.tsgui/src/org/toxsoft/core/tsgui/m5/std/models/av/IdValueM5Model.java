@@ -54,7 +54,7 @@ public class IdValueM5Model
   /**
    * Attribute {@link IdValue#value()}
    */
-  public final M5AttributeFieldDef<IdValue> VALUE = new M5AttributeFieldDef<>( FID_VALUE, DDEF_NONE ) {
+  public final M5AttributeFieldDef<IdValue> VALUE = new M5AttributeFieldDef<>( FID_VALUE, DT_NONE ) {
 
     @Override
     protected void doInit() {

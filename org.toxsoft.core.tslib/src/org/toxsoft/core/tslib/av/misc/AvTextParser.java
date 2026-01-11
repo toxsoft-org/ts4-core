@@ -6,26 +6,23 @@ import static org.toxsoft.core.tslib.av.misc.ITsResources.*;
 import static org.toxsoft.core.tslib.bricks.strio.IStrioHardConstants.*;
 import static org.toxsoft.core.tslib.bricks.strio.impl.StrioUtils.*;
 
-import java.util.Calendar;
+import java.util.*;
 
-import org.toxsoft.core.tslib.av.EAtomicType;
-import org.toxsoft.core.tslib.av.IAtomicValue;
-import org.toxsoft.core.tslib.bricks.keeper.IEntityKeeper;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesList;
-import org.toxsoft.core.tslib.bricks.strid.coll.IStridablesListEdit;
-import org.toxsoft.core.tslib.bricks.strid.coll.impl.StridablesList;
-import org.toxsoft.core.tslib.bricks.strio.IStrioReader;
-import org.toxsoft.core.tslib.bricks.strio.chario.impl.CharInputStreamString;
-import org.toxsoft.core.tslib.bricks.strio.impl.StrioReader;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.bricks.validator.impl.TsValidationFailedRtException;
-import org.toxsoft.core.tslib.coll.basis.ITsCollection;
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
-import org.toxsoft.core.tslib.coll.primtypes.IStringListEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringArrayList;
-import org.toxsoft.core.tslib.utils.TsLibUtils;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
+import org.toxsoft.core.tslib.bricks.strio.*;
+import org.toxsoft.core.tslib.bricks.strio.chario.impl.*;
+import org.toxsoft.core.tslib.bricks.strio.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.coll.basis.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
+import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
  * Parses human readable text as {@link IAtomicValue}.
@@ -37,7 +34,9 @@ import org.toxsoft.core.tslib.utils.valobj.TsValobjUtils;
 public class AvTextParser {
 
   /**
-   * Список разрешенных по умолчанию типов.
+   * List of types allowed by default.
+   * <p>
+   * Current implementation includes all {@link EAtomicType} constants except {@link EAtomicType#VALOBJ}.
    */
   public static final IStridablesList<EAtomicType> DEFAULT_ALLOWED_TYPES = new StridablesList<>( EAtomicType.INTEGER,
       EAtomicType.BOOLEAN, EAtomicType.FLOATING, EAtomicType.TIMESTAMP, EAtomicType.STRING );
@@ -53,7 +52,7 @@ public class AvTextParser {
   public static final IStringList DEFAULT_FALSE_NAMES = new StringArrayList( "false", "no", "0" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
   /**
-   * Календарь для манипуляции с метками времени.
+   * {@link Calendar} to manipulate timestamps.
    */
   private final Calendar calendar = Calendar.getInstance();
 
@@ -64,6 +63,8 @@ public class AvTextParser {
 
   private boolean interpretBlankTextAsNull = true;
   private boolean interpretErrorAsNull     = false;
+
+  // TODO TRANSLATE
 
   /**
    * Образенный текст, который был передан в качестве аргумента методу {@link #validate(String)}.

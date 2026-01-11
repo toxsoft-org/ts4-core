@@ -204,7 +204,7 @@ public abstract class AbstractValedControl<V, C extends Control>
   private final Eventer eventer = new Eventer();
 
   /**
-   * Constructor for subclasses.
+   * Constructor.
    *
    * @param aContext {@link ITsGuiContext} - the VALED context
    * @throws TsNullArgumentRtException any argument = <code>null</code>

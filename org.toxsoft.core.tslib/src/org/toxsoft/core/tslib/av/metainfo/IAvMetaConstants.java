@@ -83,11 +83,10 @@ public interface IAvMetaConstants {
   );
 
   @Deprecated( forRemoval = true )
-  IDataDef DDEF_NONE = DataDef.create( DDID_NONE, NONE, //
+  IDataDef DDEF_NONE = DataDef.create3( DDID_NONE, DT_NONE, //
       TSID_ID, NONE.id(), //
       TSID_NAME, NONE.nmName(), //
-      TSID_DESCRIPTION, NONE.description(), //
-      TSID_DEFAULT_VALUE, NONE.defaultValue() //
+      TSID_DESCRIPTION, NONE.description() //
   );
 
   IDataType DT_BOOLEAN = DataType.create( BOOLEAN, //
