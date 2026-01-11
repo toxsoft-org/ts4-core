@@ -68,7 +68,7 @@ public class ConstraintUtils {
    *
    * @return {@link IStridablesListEdit}&lt;{@link IConstraintInfo}&gt; - lsit of all {@link IConstraintInfo}
    */
-  public static IStridablesList<IConstraintInfo> knownConstraintInfoes() {
+  public static IStridablesList<IConstraintInfo> linkConstraints() {
     return knownConstraintInfos;
   }
 
