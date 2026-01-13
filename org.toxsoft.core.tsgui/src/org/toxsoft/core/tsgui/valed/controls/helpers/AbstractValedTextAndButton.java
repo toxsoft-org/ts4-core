@@ -22,6 +22,8 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public abstract class AbstractValedTextAndButton<V>
     extends AbstractValedControl<V, Composite> {
 
+  private final boolean uneditableText;
+
   private Composite board;
   private Text      text;
   private Button    button;
@@ -30,11 +32,23 @@ public abstract class AbstractValedTextAndButton<V>
    * Constructor for subclasses.
    *
    * @param aContext {@link ITsGuiContext} - the VALED context
+   * @param aUneditableText boolean - <code>true</code> to leave {@link #text} always uneditable
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  protected AbstractValedTextAndButton( ITsGuiContext aContext, boolean aUneditableText ) {
+    super( aContext );
+    setParamIfNull( OPDEF_IS_WIDTH_FIXED, AV_FALSE );
+    uneditableText = aUneditableText;
+  }
+
+  /**
+   * Constructor for subclasses.
+   *
+   * @param aContext {@link ITsGuiContext} - the VALED context
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   protected AbstractValedTextAndButton( ITsGuiContext aContext ) {
-    super( aContext );
-    setParamIfNull( OPDEF_IS_WIDTH_FIXED, AV_FALSE );
+    this( aContext, false );
   }
 
   // ------------------------------------------------------------------------------------
@@ -47,7 +61,8 @@ public abstract class AbstractValedTextAndButton<V>
     board.setLayout( new BorderLayout() );
     setControl( board );
     // text
-    text = new Text( board, SWT.BORDER );
+    int readonlyBit = uneditableText ? SWT.READ_ONLY : 0;
+    text = new Text( board, SWT.BORDER | readonlyBit );
     text.setLayoutData( BorderLayout.CENTER );
     text.addModifyListener( notificationModifyListener );
     // button
