@@ -1,27 +1,33 @@
 package org.toxsoft.core.tsgui.valed.controls.metainf;
 
 import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
+import static org.toxsoft.core.tsgui.valed.controls.metainf.ITsResources.*;
 
+import org.eclipse.swt.*;
+import org.eclipse.swt.custom.*;
+import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.valed.api.*;
+import org.toxsoft.core.tsgui.valed.controls.enums.*;
 import org.toxsoft.core.tsgui.valed.impl.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * VALED edits {@link IDataType} as a whole.
  * <p>
- * Supports following UI outfits:
- * <ul>
- * <li>{@link IValedControlConstants#VALED_UI_OUTFIT_SINGLE_LINE} - the default outfit;</li>
- * <li>{@link IValedControlConstants#VALED_UI_OUTFIT_EMBEDDABLE} - contains atomic type drop-down combo and constraints
- * table to edit {@link IDataType#params()};</li>
- * </ul>
+ * Contains {@link IDataType#atomicType()} selection combo box and table of the constraints {@link IDataType#params()}.
  *
  * @author hazard157
  */
-public abstract class ValedDataType
+public class ValedDataType
     extends AbstractValedControl<IDataType, Control> {
 
   /**
@@ -68,8 +74,75 @@ public abstract class ValedDataType
 
   }
 
+  private EAtomicType    atomicType  = EAtomicType.NONE;
+  private IOptionSetEdit constraints = new OptionSet();
+
+  private final ValedEnumCombo<EAtomicType> valedAtomicType;
+
   protected ValedDataType( ITsGuiContext aContext ) {
     super( aContext );
+    valedAtomicType = new ValedEnumCombo<>( aContext, EAtomicType.class,
+        item -> StridUtils.printf( StridUtils.FORMAT_NAME_ID, item ) );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // implementation
+  //
+
+  // ------------------------------------------------------------------------------------
+  // AbstractValedControl
+  //
+
+  @Override
+  protected Control doCreateControl( Composite aParent ) {
+    Composite backplane = new Composite( aParent, SWT.NONE );
+    backplane.setLayout( new GridLayout( 2, false ) );
+    // valedAtomicType
+    CLabel label = new CLabel( backplane, SWT.CENTER );
+    label.setLayoutData( new GridData( SWT.FILL, SWT.CENTER, false, false ) );
+    label.setText( STR_LBL_ATOMIC_TYPE );
+    label.setToolTipText( STR_LBL_ATOMIC_TYPE_D );
+    valedAtomicType.createControl( backplane );
+    valedAtomicType.getControl().setLayoutData( new GridData( SWT.FILL, SWT.CENTER, true, false ) );
+
+    // TODO Auto-generated method stub
+
+    // setup
+    valedAtomicType.eventer().addListener( childValedsListener );
+
+    return backplane;
+  }
+
+  @Override
+  protected void doSetEditable( boolean aEditable ) {
+    valedAtomicType.setEditable( aEditable );
+
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  protected ValidationResult doCanGetValue() {
+    // TODO check constraints is valid for selected atomic type
+    return super.doCanGetValue();
+  }
+
+  @Override
+  protected IDataType doGetUnvalidatedValue() {
+    IDataType dt = new DataType( atomicType, constraints );
+    return dt;
+  }
+
+  @Override
+  protected void doSetUnvalidatedValue( IDataType aValue ) {
+    atomicType = aValue.atomicType();
+    constraints.setAll( aValue.params() );
+  }
+
+  @Override
+  protected void doClearValue() {
+    atomicType = EAtomicType.NONE;
+    constraints.clear();
   }
 
 }

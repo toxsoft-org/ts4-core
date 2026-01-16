@@ -1,18 +1,15 @@
 package org.toxsoft.core.tsgui.valed.controls.enums;
 
-import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
 import static org.toxsoft.core.tsgui.valed.controls.enums.ITsResources.*;
 import static org.toxsoft.core.tsgui.valed.controls.enums.IValedEnumConstants.*;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.utils.ITsVisualsProvider;
-import org.toxsoft.core.tsgui.valed.api.IValedControlConstants;
-import org.toxsoft.core.tsgui.valed.impl.AbstractValedControl;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.utils.*;
+import org.toxsoft.core.tsgui.valed.api.*;
+import org.toxsoft.core.tsgui.valed.impl.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 // TODO TRANSLATE
@@ -43,8 +40,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public abstract class AbstractValedEnum<V extends Enum<V>, C extends Control>
     extends AbstractValedControl<V, C> {
 
-  private ITsVisualsProvider<V> visualsProvider = ITsVisualsProvider.DEFAULT;
-  private final IListEdit<V>    items           = new ElemArrayList<>();
+  private final IListEdit<V> items = new ElemArrayList<>();
 
   private Class<V> enumClass;
 
@@ -61,7 +57,7 @@ public abstract class AbstractValedEnum<V extends Enum<V>, C extends Control>
     super( aTsContext );
     TsNullArgumentRtException.checkNulls( aEnumClass, aVisualsProvider );
     enumClass = aEnumClass;
-    visualsProvider = aVisualsProvider;
+    setVisualsProvider( aVisualsProvider );
     internalUpdateItems();
   }
 
@@ -77,19 +73,10 @@ public abstract class AbstractValedEnum<V extends Enum<V>, C extends Control>
    * @throws TsItemNotFoundRtException context does not contains mandatory information
    * @throws TsIllegalArgumentRtException <code>enum</code> does not contains any constant
    */
-  @SuppressWarnings( "unchecked" )
   public AbstractValedEnum( ITsGuiContext aTsContext ) {
     super( aTsContext );
-    // ищем класс перечисления по ссылке
     enumClass = getEnumClassFromContext( aTsContext );
     internalUpdateItems();
-    // используем (если задан) поставщик имен
-    Object np = REFDEF_VALUE_VISUALS_PROVIDER.getRef( tsContext(), ITsVisualsProvider.DEFAULT );
-    if( !(np instanceof ITsVisualsProvider) ) {
-      throw new TsIllegalArgumentRtException( FMT_ERR_CLASS_NOT_VIS_PROVIDER, getClass().getSimpleName(),
-          enumClass.getSimpleName() );
-    }
-    visualsProvider = (ITsVisualsProvider<V>)np;
   }
 
   private final void internalUpdateItems() {
@@ -121,15 +108,6 @@ public abstract class AbstractValedEnum<V extends Enum<V>, C extends Control>
    */
   final public Class<V> enumClass() {
     return enumClass;
-  }
-
-  /**
-   * Возвращает поставщик имен констант для отображения в выпадающем списке.
-   *
-   * @return {@link ITsVisualsProvider} - поставщик имен, не бывает <code>null</code>
-   */
-  public ITsVisualsProvider<V> visualsProvider() {
-    return visualsProvider;
   }
 
   /**

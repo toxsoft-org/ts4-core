@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.m5.gui.mpc;
+package org.toxsoft.core.tsgui.m5.std.models.av_old;
 
 import java.util.*;
 
