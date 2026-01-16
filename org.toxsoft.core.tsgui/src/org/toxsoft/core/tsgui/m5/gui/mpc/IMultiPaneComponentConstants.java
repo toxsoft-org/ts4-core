@@ -119,7 +119,7 @@ public interface IMultiPaneComponentConstants {
   IDataDef OPDEF_IS_ACTIONS_HIDE_PANES = bdd( "IsActionsHidePanes", false ); //$NON-NLS-1$
 
   /**
-   * Specifies column headrs are present in the table tree.
+   * Specifies column headers are present in the table tree.
    */
   IDataDef OPDEF_IS_COLUMN_HEADER = bdd( "IsColumnHeader", true ); //$NON-NLS-1$
 
