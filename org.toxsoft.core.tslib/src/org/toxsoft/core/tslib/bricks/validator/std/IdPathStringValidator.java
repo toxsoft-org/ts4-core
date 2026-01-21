@@ -2,24 +2,24 @@ package org.toxsoft.core.tslib.bricks.validator.std;
 
 import static org.toxsoft.core.tslib.bricks.validator.std.ITsResources.*;
 
-import org.toxsoft.core.tslib.bricks.strid.IStridable;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
-import org.toxsoft.core.tslib.bricks.validator.ITsValidator;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Валидатор, проверяющий, что строка является ИД-путем (или ИД-именем).
+ * Validates String is an IDpath.
  * <p>
- * Проветяет значения типа {@link String}.
+ * Checks values of type }link String}.
  * <p>
- * Можно унаследоваться от этого валидатора и осуществлять дополнительные проверки в методе
- * {@link #doAdditionalCheck(String)}.
+ * Class may subclassed to add checks in the {@link #doAdditionalCheck(String)}.
  *
  * @author hazard157
  */
 public class IdPathStringValidator
     implements ITsValidator<String> {
+
+  // TODO TRANSLATE
 
   /**
    * Синглтон валидатора ИД-пути с сообщением по умолчанию.
@@ -47,12 +47,12 @@ public class IdPathStringValidator
   private final String  noneMsg;
 
   /**
-   * Конструктор со всеми инвариантами.
+   * Constructor.
    *
-   * @param aOnlyIdName boolean - признак, что допускается только ИД-имя (а не ИД-путь)
-   * @param aAllowEmpty boolean - признак, что допускается пустая строка
-   * @param aInvMsgFmtStr String - форматная строка сообщения об ошибке при недопустимом формате
-   * @param aNoneMsgStr String - строка сообщения о предупреждении при {@link IStridable#NONE_ID}
+   * @param aOnlyIdName boolean - <code>true</code> if only IDnames (not IDpaths) are allowed
+   * @param aAllowEmpty boolean - <code>true</code> if empty string is also allowed
+   * @param aInvMsgFmtStr String - format string for error message with a single argument - the checked string
+   * @param aNoneMsgStr String - the warning message when checked string is {@link IStridable#NONE_ID}
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException any string in a blank string
    */
@@ -64,10 +64,10 @@ public class IdPathStringValidator
   }
 
   /**
-   * Конструктор с сообщениями по умолчанию.
+   * Construct an instance using default messages.
    *
-   * @param aOnlyIdName boolean - признак, что допускается только ИД-имя (а не ИД-путь)
-   * @param aAllowEmpty boolean - признак, что допускается пустая строка
+   * @param aOnlyIdName boolean - <code>true</code> if only IDnames (not IDpaths) are allowed
+   * @param aAllowEmpty boolean - <code>true</code> if empty string is also allowed
    */
   public IdPathStringValidator( boolean aOnlyIdName, boolean aAllowEmpty ) {
     this( aOnlyIdName, aAllowEmpty, aOnlyIdName ? FMT_ERR_INV_ID_NAME : FMT_ERR_INV_ID_PATH, MSG_WARN_NONE_ID );
@@ -103,7 +103,7 @@ public class IdPathStringValidator
   }
 
   // ------------------------------------------------------------------------------------
-  // Методы для наследников
+  // To override/implement
   //
 
   /**
