@@ -648,20 +648,17 @@ public abstract class AbstractValedControl<V, C extends Control>
   abstract protected void doSetEditable( boolean aEditable );
 
   /**
-   * Реализация должна вернуть значение, находящейся в контроле.
+   * Implementation must return value from the widgets of the VALED.
    * <p>
-   * Этот метод вызывается только когда существует виджет, то есть, когда {@link #getControl()} != null.
-   * <p>
-   * При существующем виджете этот метод вызывается, только если предварительный вызов {@link #canGetValue()} не верент
-   * ошибку {@link EValidationResultType#ERROR}.
+   * This method is called only when SWT widgets exists, that is when {@link #getControl()} != <code>null</code> and
+   * {@link #canGetValue()} did <b>not</b> returned {@link EValidationResultType#ERROR}.
    *
-   * @return &lt;V&gt; - значение, находящейся в редакторе, может быть <code>null</code>
-   * @throws TsValidationFailedRtException {@link #canGetValue()} вернул ошибку
+   * @return &lt;V&gt; - user edited value, may be <code>null</code>
    */
   abstract protected V doGetUnvalidatedValue();
 
   /**
-   * Subclass must the value to editor widget(s).
+   * Subclass must set the value to editor widget(s).
    * <p>
    * While <code>aValue</code> never is <code>null</code> it must be checked for some "special case" value like
    * {@link IAtomicValue#NULL}.

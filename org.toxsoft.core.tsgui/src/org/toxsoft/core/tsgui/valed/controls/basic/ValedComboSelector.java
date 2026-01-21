@@ -77,8 +77,6 @@ public class ValedComboSelector<V>
 
   private final IListEdit<V> items = new ElemArrayList<>();
 
-  private ITsVisualsProvider<V> visualsProvider = ITsVisualsProvider.DEFAULT;
-
   private Combo combo;
 
   /**
@@ -92,7 +90,6 @@ public class ValedComboSelector<V>
     setParamIfNull( OPDEF_IS_WIDTH_FIXED, AV_FALSE );
     setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
     setParamIfNull( OPDEF_VERTICAL_SPAN, AV_1 );
-    visualsProvider = REFDEF_VALUE_VISUALS_PROVIDER.getRef( aContext, ITsVisualsProvider.DEFAULT );
     ITsItemsProvider<V> itemsProvider = REFDEF_ITEMS_PROVIDER.getRef( aContext, ITsItemsProvider.EMPTY );
     items.setAll( itemsProvider.listItems() );
   }
@@ -111,7 +108,7 @@ public class ValedComboSelector<V>
     setParamIfNull( OPDEF_IS_WIDTH_FIXED, AV_FALSE );
     setParamIfNull( OPDEF_IS_HEIGHT_FIXED, AV_TRUE );
     setParamIfNull( OPDEF_VERTICAL_SPAN, AV_1 );
-    visualsProvider = aNameProvider;
+    setVisualsProvider( aNameProvider );
     items.setAll( aItems );
   }
 
@@ -123,7 +120,7 @@ public class ValedComboSelector<V>
     if( combo != null ) {
       combo.removeAll();
       for( V v : items ) {
-        String s = visualsProvider.getName( v );
+        String s = visualsProvider().getName( v );
         combo.add( s );
       }
       combo.select( items.isEmpty() ? -1 : 0 );
@@ -230,30 +227,6 @@ public class ValedComboSelector<V>
   public void setItems( IList<V> aItems ) {
     items.setAll( aItems );
     initComboItems();
-  }
-
-  /**
-   * Returns the visuals provider {@link #items()}.
-   *
-   * @return {@link ITsVisualsProvider}&lt;V&gt; - visuals provider
-   */
-  public ITsVisualsProvider<V> visualsProvider() {
-    return visualsProvider;
-  }
-
-  /**
-   * Sets the visuals provider {@link #items()}.
-   *
-   * @param aVisualsProvider {@link ITsVisualsProvider}&lt;V&gt; - visuals provider
-   */
-  public void setVisualsProvider( ITsVisualsProvider<V> aVisualsProvider ) {
-    TsNullArgumentRtException.checkNull( aVisualsProvider );
-    visualsProvider = aVisualsProvider;
-    if( combo != null ) {
-      int selIndex = combo.getSelectionIndex();
-      initComboItems();
-      combo.select( selIndex );
-    }
   }
 
 }

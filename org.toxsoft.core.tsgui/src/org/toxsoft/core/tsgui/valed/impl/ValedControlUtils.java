@@ -25,7 +25,26 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class ValedControlUtils {
 
   /**
-   * Helper method to crate atomic value VALED.
+   * Helper method to create atomic value VALED.
+   * <p>
+   * <b>Important:</b> argument <code>aContext</code> must be the new instance created for the VALED. Content of the
+   * context may be changed by the method.
+   *
+   * @param aAtomicType {@link EAtomicType} - the data atomic type to edit
+   * @param aContext {@link ITsGuiContext} - the editor context
+   * @return {@link IValedControl} - atomic value editor
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsRuntimeException VALED can not be created
+   */
+  public static IValedControl<IAtomicValue> createAvValedControl( EAtomicType aAtomicType, ITsGuiContext aContext ) {
+    TsNullArgumentRtException.checkNulls( aAtomicType, aContext );
+    IValedControlFactoriesRegistry vcfReg = aContext.get( IValedControlFactoriesRegistry.class );
+    IValedControlFactory f = vcfReg.getSuitableAvEditor( aAtomicType, aContext );
+    return f.createEditor( aContext );
+  }
+
+  /**
+   * Helper method to create atomic value VALED.
    * <p>
    * <b>Important:</b> argument <code>aContext</code> must be the new instance created for the VALED. Content of the
    * context may be changed by the method.
@@ -34,7 +53,7 @@ public class ValedControlUtils {
    * @param aContext {@link ITsGuiContext} - the editor context
    * @return {@link IValedControl} - atomic value editor
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsRuntimeException VALED can ot be created
+   * @throws TsRuntimeException VALED can not be created
    */
   public static IValedControl<IAtomicValue> createAvValedControl( IDataType aDataType, ITsGuiContext aContext ) {
     TsNullArgumentRtException.checkNulls( aDataType, aContext );
