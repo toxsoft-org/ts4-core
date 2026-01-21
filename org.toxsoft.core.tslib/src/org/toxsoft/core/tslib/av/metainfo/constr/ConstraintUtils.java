@@ -68,8 +68,19 @@ public class ConstraintUtils {
    *
    * @return {@link IStridablesListEdit}&lt;{@link IConstraintInfo}&gt; - lsit of all {@link IConstraintInfo}
    */
-  public static IStridablesList<IConstraintInfo> linkConstraints() {
+  public static IStridablesList<IConstraintInfo> listConstraints() {
     return knownConstraintInfos;
+  }
+
+  /**
+   * Finds the constraint info by constraint ID.
+   *
+   * @param aConstraintId String - the constraint ID
+   * @return {@link IConstraintInfo} - found info or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static IConstraintInfo findConstraintInfo( String aConstraintId ) {
+    return knownConstraintInfos.findByKey( aConstraintId );
   }
 
   /**

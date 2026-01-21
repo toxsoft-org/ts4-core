@@ -5,6 +5,7 @@ import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.utils.*;
 
 /**
  * Meta-information used to edit single data type constraint, on of the {@link IDataType#params()}.
@@ -72,6 +73,22 @@ public interface IConstraintInfo
    * @return {@link IList}&gt;{@link IAtomicValue}&gt; - lookup values to be set as a constraint value
    */
   IList<IAtomicValue> listLookupValues();
+
+  /**
+   * Returns name provider for lookup values {@link #listLookupValues()}.
+   *
+   * @return {@link ITsNameProvider}&lt;{@link IAtomicValue}&gt; - lookup values name provider
+   */
+  ITsNameProvider<IAtomicValue> lookupValuesNameProvider();
+
+  /**
+   * Returns the keeper ID if the constraint value atomic type is {@link EAtomicType#VALOBJ}.
+   * <p>
+   * The keeper ID is user to initialize correctly VALED.
+   *
+   * @return String - constraint value keeper ID or an empty string if not applicable
+   */
+  String valobjValueKeeperId();
 
   /**
    * Returns atomic type of the {@link IDataType} this constraint is applicable for.

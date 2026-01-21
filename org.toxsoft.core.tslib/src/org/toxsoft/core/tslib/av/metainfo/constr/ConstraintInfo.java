@@ -7,6 +7,7 @@ import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -18,13 +19,15 @@ public final class ConstraintInfo
     extends Stridable
     implements IConstraintInfo {
 
-  private final String                       categoryId;
-  private final boolean                      isNullAllowed;
-  private final EAtomicType                  constraintType;
-  private final boolean                      isSameType;
-  private final boolean                      isOnlyLookup;
-  private final IList<IAtomicValue>          lookupValues;
-  private final IStridablesList<EAtomicType> applicableTypes;
+  private final String                        categoryId;
+  private final boolean                       isNullAllowed;
+  private final EAtomicType                   constraintType;
+  private final boolean                       isSameType;
+  private final boolean                       isOnlyLookup;
+  private final IList<IAtomicValue>           lookupValues;
+  private final ITsNameProvider<IAtomicValue> lookupValuesNameProvider;
+  private final String                        valobjValueKeeperId;
+  private final IStridablesList<EAtomicType>  applicableTypes;
 
   /**
    * Constructor.
@@ -38,6 +41,8 @@ public final class ConstraintInfo
    * @param aConstraintType {@link EAtomicType} - atomic type of the constraint value
    * @param aIsOnlyLookup boolean - determines if only lookup values are allowed
    * @param aLookupValues {@link IList}&gt;{@link IAtomicValue}&gt; - lookup values to be set as a constraint value
+   * @param aLookupNameProvider {@link ITsNameProvider}&lt;{@link IAtomicValue}&gt; - lookup values name provider
+   * @param aValobjValueKeeperId String - constraint value keeper ID or an empty string if not applicable
    * @param aApplicableTypes {@link IStridablesList}&gt;{@link EAtomicType}&lt; - applicable types
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException any ID is not an IDpath
@@ -46,10 +51,12 @@ public final class ConstraintInfo
    */
   public ConstraintInfo( String aId, String aName, String aDescription, String aCategoryId, boolean aIsNullAllowed,
       boolean aIsSameType, EAtomicType aConstraintType, boolean aIsOnlyLookup, IList<IAtomicValue> aLookupValues,
+      ITsNameProvider<IAtomicValue> aLookupNameProvider, String aValobjValueKeeperId,
       IStridablesList<EAtomicType> aApplicableTypes ) {
     super( aId, aName, aDescription );
     // check preconditions
-    TsNullArgumentRtException.checkNulls( aCategoryId, aConstraintType, aLookupValues, aApplicableTypes );
+    TsNullArgumentRtException.checkNulls( aCategoryId, aConstraintType, aLookupValues, aLookupNameProvider,
+        aValobjValueKeeperId, aApplicableTypes );
     StridUtils.checkValidIdPath( aCategoryId );
     TsIllegalArgumentRtException.checkTrue( aApplicableTypes.isEmpty() );
     if( aIsOnlyLookup && !aIsNullAllowed && aLookupValues.isEmpty() ) {
@@ -62,6 +69,8 @@ public final class ConstraintInfo
     constraintType = aConstraintType;
     isOnlyLookup = aIsOnlyLookup;
     lookupValues = new ElemArrayList<>( aLookupValues );
+    lookupValuesNameProvider = aLookupNameProvider;
+    valobjValueKeeperId = aValobjValueKeeperId;
     applicableTypes = new StridablesList<>( aApplicableTypes );
   }
 
@@ -97,6 +106,16 @@ public final class ConstraintInfo
   @Override
   public IList<IAtomicValue> listLookupValues() {
     return lookupValues;
+  }
+
+  @Override
+  public ITsNameProvider<IAtomicValue> lookupValuesNameProvider() {
+    return lookupValuesNameProvider;
+  }
+
+  @Override
+  public String valobjValueKeeperId() {
+    return valobjValueKeeperId;
   }
 
   @Override

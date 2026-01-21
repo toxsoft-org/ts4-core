@@ -8,8 +8,11 @@ import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.std.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -21,15 +24,17 @@ public class ConstraintInfoBuilder {
 
   private final String constraintId;
 
-  private String                       name            = DEFAULT_NAME;
-  private String                       description     = EMPTY_STRING;
-  private String                       categoryId      = ConstraintUtils.CATEGID_UNCATEGORIZED;
-  private boolean                      isNullAllowed   = true;
-  private boolean                      isSameType      = false;
-  private EAtomicType                  constraintType  = EAtomicType.NONE;
-  private boolean                      isOnlyLookup    = false;
-  private IList<IAtomicValue>          lookupValues    = IList.EMPTY;
-  private IStridablesList<EAtomicType> applicableTypes = EAtomicType.asList();
+  private String                        name                     = DEFAULT_NAME;
+  private String                        description              = EMPTY_STRING;
+  private String                        categoryId               = ConstraintUtils.CATEGID_UNCATEGORIZED;
+  private boolean                       isNullAllowed            = true;
+  private boolean                       isSameType               = false;
+  private EAtomicType                   constraintType           = EAtomicType.NONE;
+  private boolean                       isOnlyLookup             = false;
+  private IList<IAtomicValue>           lookupValues             = IList.EMPTY;
+  private ITsNameProvider<IAtomicValue> lookupValuesNameProvider = ITsNameProvider.DEFAULT;
+  private String                        valobjValueKeeperId      = EMPTY_STRING;
+  private IStridablesList<EAtomicType>  applicableTypes          = EAtomicType.asList();
 
   /**
    * Constructor.
@@ -44,6 +49,8 @@ public class ConstraintInfoBuilder {
    * <li>{@link IConstraintInfo#constraintType()} = {@link EAtomicType#NONE};</li>
    * <li>{@link IConstraintInfo#isOnlyLookupValuesAllowed()} = <code>false</code>;</li>
    * <li>{@link IConstraintInfo#listLookupValues()} = empty list;</li>
+   * <li>{@link IConstraintInfo#lookupValuesNameProvider()} = {@link ITsNameProvider#DEFAULT};</li>
+   * <li>{@link IConstraintInfo#valobjValueKeeperId()} = empty string;</li>
    * <li>{@link IConstraintInfo#listApplicableDataTypes()} = all atomic types, {@link EAtomicType#asList()}.</li>
    * </ul>
    *
@@ -140,6 +147,36 @@ public class ConstraintInfoBuilder {
   }
 
   /**
+   * Sets lookup values settings.
+   *
+   * @param aIsOnlyLookup boolean - determines if only lookup values are allowed
+   * @param aLookupValues {@link IList}&gt;{@link IAtomicValue}&gt; - lookup values to be set as a constraint value
+   * @param aLookupNameProvider {@link ITsNameProvider}&lt;{@link IAtomicValue}&gt; - lookup values name provider
+   * @return {@link ConstraintInfoBuilder} - this builder to continue build process
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public ConstraintInfoBuilder setLookupValues( boolean aIsOnlyLookup, IList<IAtomicValue> aLookupValues,
+      ITsNameProvider<IAtomicValue> aLookupNameProvider ) {
+    TsNullArgumentRtException.checkNulls( aLookupValues, aLookupNameProvider );
+    isOnlyLookup = aIsOnlyLookup;
+    lookupValues = new ElemArrayList<>( aLookupValues );
+    lookupValuesNameProvider = aLookupNameProvider;
+    return this;
+  }
+
+  /**
+   * @param aValobjValueKeeperId String - constraint value keeper ID or an empty string if not applicable
+   * @return {@link ConstraintInfoBuilder} - this builder to continue build process
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsValidationFailedRtException argument is no an IDpath and not an empty string
+   */
+  public ConstraintInfoBuilder setValobjValueKeeperId( String aValobjValueKeeperId ) {
+    IdPathStringValidator.IDPATH_EMPTY_VALIDATOR.checkValid( aValobjValueKeeperId );
+    valobjValueKeeperId = aValobjValueKeeperId;
+    return this;
+  }
+
+  /**
    * Sets {@link IConstraintInfo#listApplicableDataTypes()}.
    *
    * @param aApplicableTypes {@link IStridablesList}&gt;{@link EAtomicType}&lt; - applicable types
@@ -164,7 +201,7 @@ public class ConstraintInfoBuilder {
    */
   public IConstraintInfo build() {
     return new ConstraintInfo( constraintId, name, description, categoryId, isNullAllowed, isSameType, constraintType,
-        isOnlyLookup, lookupValues, applicableTypes );
+        isOnlyLookup, lookupValues, lookupValuesNameProvider, valobjValueKeeperId, applicableTypes );
   }
 
   // TODO ValidationResult canBuild();
