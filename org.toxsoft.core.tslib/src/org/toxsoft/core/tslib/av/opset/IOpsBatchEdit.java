@@ -35,7 +35,7 @@ public interface IOpsBatchEdit {
   /**
    * Extends content of the set with options from the specified set.
    * <p>
-   * Existing options will remain unchanged, unexisting options will be added to this set.
+   * Existing options will remain unchanged, non-existing options will be added to this set.
    *
    * @param aOps {@link IOptionSet} - the options to be added
    * @return boolean - <code>true</code> if there were any changes
@@ -46,7 +46,7 @@ public interface IOpsBatchEdit {
   /**
    * Extends content of the set with options from the specified set.
    * <p>
-   * Existing options will remain unchanged, unexisting options will be added to this set.
+   * Existing options will remain unchanged, non-existing options will be added to this set.
    *
    * @param aOps {@link IMap}&lt;String,{@link IAtomicValue}&gt; - the options to be added
    * @return boolean - <code>true</code> if there were any changes
@@ -58,7 +58,7 @@ public interface IOpsBatchEdit {
   /**
    * Refreshes content of the set with options from the specified set.
    * <p>
-   * Existing options will be updated, unexisting options will be ignored.
+   * Existing options will be updated, non-existing options will be ignored.
    *
    * @param aOps {@link IOptionSet} - the options to refresh existing ones
    * @return boolean - <code>true</code> if there were any changes
@@ -69,7 +69,7 @@ public interface IOpsBatchEdit {
   /**
    * Refreshes content of the set with options from the specified set.
    * <p>
-   * Existing options will be updated, unexisting options will be ignored.
+   * Existing options will be updated, non-existing options will be ignored.
    *
    * @param aOps {@link IMap}&lt;String,{@link IAtomicValue}&gt; - the options to refresh existing ones
    * @return boolean - <code>true</code> if there were any changes

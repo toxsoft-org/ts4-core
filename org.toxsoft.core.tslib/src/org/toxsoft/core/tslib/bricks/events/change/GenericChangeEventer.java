@@ -108,7 +108,7 @@ public class GenericChangeEventer
   //
 
   /**
-   * Called from {@link #fireChangeEvent()}.
+   * Called from {@link #fireChangeEvent()} before firing events.
    * <p>
    * Subclass may perform addition actions when {@link #fireChangeEvent()} is called but before events are actually
    * fired.

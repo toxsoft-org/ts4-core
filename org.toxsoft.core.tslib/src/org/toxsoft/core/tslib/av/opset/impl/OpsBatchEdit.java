@@ -15,7 +15,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * All methods of interface {@link IOpsBatchEdit} additionally may throw {@link TsValidationFailedRtException} error if
  * {@link #doValidateSetParams(IOptionSet, IOptionSet)} validation fails.
  * <p>
- * Note: interceptor is called before the validator. Еherefore I
+ * Note: interceptor is called before the validator. FIXME ??? Therefore I
  *
  * @author hazard157
  */
@@ -165,7 +165,7 @@ public class OpsBatchEdit
   }
 
   /**
-   * Subclass may perform additional actions afetr option values was changed.
+   * Subclass may perform additional actions after option values was changed.
    * <p>
    * In base class does nothing, there is no need to call superclass method when overriding.
    */

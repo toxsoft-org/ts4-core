@@ -507,12 +507,12 @@ public class M5FieldDef<T, V>
   /**
    * Subclass must return the field value if no getter is specified by user.
    * <p>
-   * This method is called if non-<code>null</code> getter was not specified is specified by user in
+   * This method is called if non-<code>null</code> getter was not specified by user in
    * {@link M5FieldDef#M5FieldDef(String, Class, IM5Getter)} or {@link #setUserGetter(IM5Getter)}.
    * <p>
    * In base class throws an exception, never call superclass method when overriding.
    * <p>
-   * As defined by M5 modeling specification <code>null</code> may be returned only for simple single reference fields
+   * As defined by M5 modeling specification <code>null</code> may be returne@d only for simple single reference fields
    * with no value specified. For collection/array fields must return an empty collection/array. For any value types
    * &lt;V&gt; with special-case objects defined must return non-<code>null</code> special-case NULL singleton. Most
    * significant case is atomic value fields - this method must return {@link IAtomicValue#NULL} instead of

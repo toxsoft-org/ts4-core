@@ -1,11 +1,10 @@
 package org.toxsoft.core.tslib.coll.primtypes;
 
-import java.io.ObjectStreamException;
+import java.io.*;
 
-import org.toxsoft.core.tslib.coll.IMap;
-import org.toxsoft.core.tslib.coll.primtypes.impl.ImmutableIntMap;
-import org.toxsoft.core.tslib.utils.errors.TsItemNotFoundRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * A collection that maps <code>int</code> keys to values.
@@ -17,17 +16,17 @@ public interface IIntMap<E>
     extends IMap<Integer, E> {
 
   /**
-   * Alway empty immutable instance.
+   * Always empty immutable instance.
    */
   @SuppressWarnings( "rawtypes" )
   IIntMapEdit EMPTY = new InternalNullIntMap();
 
   /**
-   * Detemines if map contains value with specified key.
+   * Determines if map contains value with specified key.
    *
    * @param aKey int - key whose presence in this map is to be tested
-   * @return <b>true</b> - да, элемент с таким ключом есть в карте;<br>
-   *         <b>false</b> - нет такого ключа.
+   * @return <b>true</b> - yes, the map has entry with specified key;<br>
+   *         <b>false</b> - no such key in the map.
    */
   boolean hasKey( int aKey );
 
