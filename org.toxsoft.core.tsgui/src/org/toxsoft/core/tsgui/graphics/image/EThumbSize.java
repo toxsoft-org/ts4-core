@@ -99,21 +99,19 @@ public enum EThumbSize
     return size;
   }
 
-  // TODO TRANSLATE
-
   /**
-   * Возвращает размер миниатюры в виде {@link ITsPoint}.
+   * Returns thumbnail size as {@link ITsPoint}.
    *
-   * @return int - размер миниатюры в виде {@link ITsPoint}
+   * @return int - thumbnail size as {@link ITsPoint}
    */
   public ITsPoint pointSize() {
     return pointSize;
   }
 
   /**
-   * Возвращает следующий (больший) размер, вплоть до максимального.
+   * Returns next (bigger) thumbnail size, up to maximal possible size.
    *
-   * @return {@link EThumbSize} - следующий (больший) размер
+   * @return {@link EThumbSize} - next (bigger) size
    */
   public EThumbSize nextSize() {
     if( isMaxSize() ) {
@@ -123,9 +121,9 @@ public enum EThumbSize
   }
 
   /**
-   * Возвращает следующий (больший) размер, с переходом на наименьший после наибольшего.
+   * Returns next (bigger) thumbnail size, wrapping to the minimal size after maximal one..
    *
-   * @return {@link EThumbSize} - следующий (больший) размер
+   * @return {@link EThumbSize} - next (bigger) size
    */
   public EThumbSize nextSizeW() {
     if( isMaxSize() ) {
@@ -135,9 +133,9 @@ public enum EThumbSize
   }
 
   /**
-   * Возвращает предыдущий (меньший) размер, вплоть до минимаьного.
+   * Returns previous (smaller) size down to the minimal size.
    *
-   * @return {@link EThumbSize} - предыдущий (меньший) размер
+   * @return {@link EThumbSize} - previous (smaller) size
    */
   public EThumbSize prevSize() {
     if( isMinSize() ) {
@@ -147,9 +145,9 @@ public enum EThumbSize
   }
 
   /**
-   * Возвращает предыдущий (меньший) размер, с переходом на максимальный после минимального.
+   * Returns previous (smaller) size, wrapping to the maximal size after minimal one.
    *
-   * @return {@link EThumbSize} - предыдущий (меньший) размер
+   * @return {@link EThumbSize} - previous (smaller) size
    */
   public EThumbSize prevSizeW() {
     if( isMinSize() ) {
@@ -159,50 +157,50 @@ public enum EThumbSize
   }
 
   /**
-   * Определяет, является ли этот размер минимальным.
+   * Determines if this is the minimal thumbnail size.
    *
-   * @return boolean - признак минимального размера
+   * @return boolean - <code>true</code> only for {@link #minSize()}
    */
   public boolean isMinSize() {
     return ordinal() == 0;
   }
 
   /**
-   * Определяет, является ли этот размер максимальным.
+   * Determines if this is the maximal thumbnail size.
    *
-   * @return boolean - признак максимальным размера
+   * @return boolean - <code>true</code> only for {@link #maxSize()}
    */
   public boolean isMaxSize() {
     return ordinal() == values().length - 1;
   }
 
   /**
-   * Возвращает минимальный размер.
+   * Returns minimal thumbnail size constant.
    *
-   * @return {@link EThumbSize} - минимальный размер
+   * @return {@link EThumbSize} - minimal size
    */
   public static EThumbSize minSize() {
     return values()[0];
   }
 
   /**
-   * Возвращает максмальный размер.
+   * Returns maximal thumbnail size constant.
    *
-   * @return {@link EThumbSize} - максмальный размер
+   * @return {@link EThumbSize} - maximal size
    */
   public static EThumbSize maxSize() {
     return values()[values().length - 1];
   }
 
   /**
-   * Находит наименший размер, обрамляющий прямоугольник указанного размера.
+   * Finds the smallest size that encloses a rectangle of the specified size.
    * <p>
-   * Если размеры больше {@link #maxSize()}, возвращает {@link #maxSize()}.
+   * If the dimensions are greater than {@link #maxSize()}, returns {@link #maxSize()}.
    *
-   * @param aWidth int - ширина в пикселях
-   * @param aHeight int - высота в пикселях
-   * @return {@link EThumbSize} - наименший размер, обрамляющий прямоугольник указанного размера
-   * @throws TsIllegalArgumentRtException любой размер < 0
+   * @param aWidth int - width in pizels
+   * @param aHeight int - height in pixels
+   * @return {@link EThumbSize} - minimal size that encloses the rectangle of size <code>aWidth x aHeight</code>
+   * @throws TsIllegalArgumentRtException any argument < 0
    */
   public static EThumbSize findIncluding( int aWidth, int aHeight ) {
     TsIllegalArgumentRtException.checkTrue( aWidth < 0 || aHeight < 0 );
@@ -216,21 +214,25 @@ public enum EThumbSize
   }
 
   /**
-   * Находит наименший размер, обрамляющий квадрат размера миниатюры.
+   * Finds the smallest size that encloses an icon of the specified size.
    *
-   * @param aIconSize {@link EIconSize} - размер миниатюры
-   * @return {@link EThumbSize} - наименший размер, обрамляющий значок указаного размера
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aIconSize {@link EIconSize} - the icon size
+   * @return {@link EThumbSize} - minimal size that encloses the icon size
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static EThumbSize findIncluding( EIconSize aIconSize ) {
     TsNullArgumentRtException.checkNull( aIconSize );
     return findIncluding( aIconSize.size(), aIconSize.size() );
   }
 
+  // ----------------------------------------------------------------------------------
+  // Stridable enum common API
+  //
+
   /**
-   * Возвращает все константы в виде списка.
+   * Returns all constants in single list.
    *
-   * @return {@link IStridablesList}&lt; {@link EThumbSize} &gt; - список всех констант
+   * @return {@link IStridablesList}&lt; {@link EThumbSize} &gt; - list of constants in order of declaration
    */
   public static IStridablesList<EThumbSize> asList() {
     if( list == null ) {
@@ -240,60 +242,23 @@ public enum EThumbSize
   }
 
   /**
-   * Определяет, существует ли константа перечисления с заданным идентификатором.
+   * Returns the constant by the ID.
    *
-   * @param aId String - идентификатор искомой константы
-   * @return boolean - признак существования константы <br>
-   *         <b>true</b> - константа с заданным идентификатором существует;<br>
-   *         <b>false</b> - нет константы с таким идентификатором.
-   * @throws TsNullArgumentRtException аргумент = <code>null</code>
-   */
-  public static boolean isItemById( String aId ) {
-    return findById( aId ) != null;
-  }
-
-  /**
-   * Находит константу по идентификатору.
-   *
-   * @param aId String - идентификатор искомой константы
-   * @return EThumbSize - найденная константа, или <code>null</code> если нет константы с таимк идентификатором
-   * @throws TsNullArgumentRtException аргумент = <code>null</code>
-   */
-  public static EThumbSize findById( String aId ) {
-    return asList().findByKey( aId );
-  }
-
-  /**
-   * Возвращает константу по идентификатору.
-   *
-   * @param aId String - идентификатор искомой константы
-   * @return EThumbSize - найденная константа
-   * @throws TsNullArgumentRtException аргумент = <code>null</code>
-   * @throws TsItemNotFoundRtException нет константы с таким идентификатором
+   * @param aId String - the ID
+   * @return {@link EThumbSize} - found constant
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException no constant found by specified ID
    */
   public static EThumbSize getById( String aId ) {
     return asList().getByKey( aId );
   }
 
   /**
-   * Определяет, существует ли константа перечисления с заданным именем.
+   * Finds the constant by the name.
    *
-   * @param aName String - имя (название) искомой константы
-   * @return boolean - признак существования константы <br>
-   *         <b>true</b> - константа с заданным именем существует;<br>
-   *         <b>false</b> - нет константы с таким именем.
-   * @throws TsNullArgumentRtException аргумент = <code>null</code>
-   */
-  public static boolean isItemByName( String aName ) {
-    return findByName( aName ) != null;
-  }
-
-  /**
-   * Находит константу по имени.
-   *
-   * @param aName String - имя искомой константы
-   * @return EThumbSize - найденная константа, или <code>null</code> если нет константы с таким именем
-   * @throws TsNullArgumentRtException аргумент = <code>null</code>
+   * @param aName String - the name
+   * @return {@link EThumbSize} - found constant or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static EThumbSize findByName( String aName ) {
     TsNullArgumentRtException.checkNull( aName );
@@ -306,12 +271,12 @@ public enum EThumbSize
   }
 
   /**
-   * Возвращает константу по имени.
+   * Returns the constant by the name.
    *
-   * @param aName String - имя искомой константы
-   * @return EThumbSize - найденная константа
-   * @throws TsNullArgumentRtException аргумент = <code>null</code>
-   * @throws TsItemNotFoundRtException нет константы с таким именем
+   * @param aName String - the name
+   * @return {@link EThumbSize} - found constant
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException no constant found by specified name
    */
   public static EThumbSize getByName( String aName ) {
     return TsItemNotFoundRtException.checkNull( findByName( aName ) );

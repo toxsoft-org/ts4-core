@@ -510,6 +510,7 @@ public class TimeUtils {
    *
    * @param aInputs {@link IList}&lt;{@link ITimedList}&gt; входные списки темпоральных значений.
    * @param <T> тип значений
+   * @param <R> - concrete type of the returned timed list
    * @param aTimeListCreator {@link Function} ссылка на метод создания результата {@link TimedList}
    * @return {@link ITimedList} выходной список
    * @throws TsNullArgumentRtException any argument = <code>null</code>

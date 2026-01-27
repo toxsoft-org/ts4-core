@@ -13,6 +13,7 @@ import org.toxsoft.core.tsgui.graphics.patterns.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tsgui.utils.margins.*;
 import org.toxsoft.core.tsgui.utils.rectfit.*;
+import org.toxsoft.core.tsgui.utils.scimpgui.*;
 import org.toxsoft.core.tsgui.utils.swt.*;
 import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tsgui.valed.controls.av.*;
@@ -77,6 +78,7 @@ public class TsGuiUtils {
     TsValobjUtils.registerKeeper( EAvCompareOp.KEEPER_ID, EAvCompareOp.KEEPER );
     TsValobjUtils.registerKeeper( ESwtSysColor.KEEPER_ID, ESwtSysColor.KEEPER );
     TsValobjUtils.registerKeeper( TsColorDescriptor.KEEPER_ID, TsColorDescriptor.KEEPER );
+    TsValobjUtils.registerKeeper( EResolveStrategy.KEEPER_ID, EResolveStrategy.KEEPER );
 
     // following this is some kind of hacking! ---
     DataDef dd = (DataDef)IAvMetaConstants.DDEF_DESCRIPTION;

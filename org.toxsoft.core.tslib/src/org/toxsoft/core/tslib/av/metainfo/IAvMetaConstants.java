@@ -4,9 +4,11 @@ import static org.toxsoft.core.tslib.ITsHardConstants.*;
 import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.ITsResources.*;
+import static org.toxsoft.core.tslib.av.metainfo.constr.ConstraintUtils.*;
 
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.metainfo.constr.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.av.validators.*;
@@ -83,11 +85,10 @@ public interface IAvMetaConstants {
   );
 
   @Deprecated( forRemoval = true )
-  IDataDef DDEF_NONE = DataDef.create( DDID_NONE, NONE, //
+  IDataDef DDEF_NONE = DataDef.create3( DDID_NONE, DT_NONE, //
       TSID_ID, NONE.id(), //
       TSID_NAME, NONE.nmName(), //
-      TSID_DESCRIPTION, NONE.description(), //
-      TSID_DEFAULT_VALUE, NONE.defaultValue() //
+      TSID_DESCRIPTION, NONE.description() //
   );
 
   IDataType DT_BOOLEAN = DataType.create( BOOLEAN, //
@@ -309,6 +310,61 @@ public interface IAvMetaConstants {
       TSID_KEEPER_ID, OptionSetKeeper.KEEPER_ID, //
       TSID_DEFAULT_VALUE, OptionSetKeeper.AV_EMPTY_OPSET //
   );
+
+  // ------------------------------------------------------------------------------------
+  // Constraint information definitions
+  //
+
+  /**
+   * @numerical@ atomic types, to which MIN/MAX constraints are applicable.
+   */
+  IStridablesList<EAtomicType> ALL_NUMERICAL_ATOMIC_TYPES = new StridablesList<>( //
+      INTEGER, //
+      FLOATING, //
+      TIMESTAMP //
+  );
+
+  IConstraintInfo CONTRINF_DEFAULT_VALUE = new ConstraintInfoBuilder( TSID_DEFAULT_VALUE ). //
+      setNameAndDescription( STR_DEFAULT_VALUE, STR_DEFAULT_VALUE_D ). //
+      setCategoryId( CATEGID_TSLIB_BUILTIN ). //
+      setConstraintTypeToDataType(). //
+      build();
+
+  IConstraintInfo CONTRINF_FORMAT_STRING = new ConstraintInfoBuilder( TSID_FORMAT_STRING ). //
+      setNameAndDescription( STR_FORMAT_STRING, STR_FORMAT_STRING_D ). //
+      setCategoryId( CATEGID_TSLIB_BUILTIN ). //
+      setConstraintType( false, STRING ). //
+      build();
+
+  IConstraintInfo CONTRINF_MIN_INCLUSIVE = new ConstraintInfoBuilder( TSID_MIN_INCLUSIVE ). //
+      setNameAndDescription( STR_MIN_INCLUSIVE, STR_MIN_INCLUSIVE_D ). //
+      setCategoryId( CATEGID_TSLIB_BUILTIN ). //
+      setConstraintTypeToDataType(). //
+      setApplicableDataTypes( ALL_NUMERICAL_ATOMIC_TYPES ). //
+      build();
+
+  IConstraintInfo CONTRINF_MIN_EXCLUSIVE = new ConstraintInfoBuilder( TSID_MIN_EXCLUSIVE ). //
+      setNameAndDescription( STR_MIN_EXCLUSIVE, STR_MIN_EXCLUSIVE_D ). //
+      setCategoryId( CATEGID_TSLIB_BUILTIN ). //
+      setConstraintTypeToDataType(). //
+      setApplicableDataTypes( ALL_NUMERICAL_ATOMIC_TYPES ). //
+      build();
+
+  IConstraintInfo CONTRINF_MAX_INCLUSIVE = new ConstraintInfoBuilder( TSID_MAX_INCLUSIVE ). //
+      setNameAndDescription( STR_MAX_INCLUSIVE, STR_MAX_INCLUSIVE_D ). //
+      setCategoryId( CATEGID_TSLIB_BUILTIN ). //
+      setConstraintTypeToDataType(). //
+      setApplicableDataTypes( ALL_NUMERICAL_ATOMIC_TYPES ). //
+      build();
+
+  IConstraintInfo CONTRINF_MAX_EXCLUSIVE = new ConstraintInfoBuilder( TSID_MAX_EXCLUSIVE ). //
+      setNameAndDescription( STR_MAX_EXCLUSIVE, STR_MAX_EXCLUSIVE_D ). //
+      setCategoryId( CATEGID_TSLIB_BUILTIN ). //
+      setConstraintTypeToDataType(). //
+      setApplicableDataTypes( ALL_NUMERICAL_ATOMIC_TYPES ). //
+      build();
+
+  // TODO add more constraint infos
 
   // ------------------------------------------------------------------------------------
   // helper methods

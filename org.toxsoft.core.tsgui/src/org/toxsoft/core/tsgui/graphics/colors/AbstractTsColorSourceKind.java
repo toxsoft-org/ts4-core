@@ -117,6 +117,8 @@ public abstract non-sealed class AbstractTsColorSourceKind
    * If Color can not be created the method must throw an exception and never return <code>null</code>.
    *
    * @param aDescriptor {@link TsColorDescriptor} - the color descriptor
+   * @param aDisplay {@link Display} - the device to create color for
+   * @return {@link Color} - created instance
    */
   protected abstract Color doCreate( TsColorDescriptor aDescriptor, Display aDisplay );
 

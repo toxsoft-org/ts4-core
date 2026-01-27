@@ -366,6 +366,8 @@ public class TsMiscUtils {
 
   /**
    * Calculates the similarity (a number within 0.0 and 1.0) between two strings.
+   * <p>
+   * Return value 0.0 means totally different string, 1.0 - string math each other, may be only case insensitive.
    *
    * @param aStr1 String - first string
    * @param aStr2 String - first string
@@ -373,14 +375,21 @@ public class TsMiscUtils {
    */
   public static double stringSimilarity( String aStr1, String aStr2 ) {
     String longer = aStr1, shorter = aStr2;
-    if( aStr1.length() < aStr2.length() ) { // longer should always have greater length
+    int len1 = aStr1.length();
+    int len2 = aStr2.length();
+    int longerLength = len1;
+    if( len1 < len2 ) { // longer should always have greater length
       longer = aStr2;
       shorter = aStr1;
+      longerLength = len2;
     }
-    int longerLength = longer.length();
     if( longerLength == 0 ) { // both strings are zero length
       return 1.0;
     }
+    if( len1 == len2 && aStr1.equals( aStr2 ) ) { // strings are same
+      return 1.0;
+    }
+    // further checks are case insensitive
     longer = longer.toLowerCase();
     shorter = shorter.toLowerCase();
     // Example implementation of the Levenshtein Edit Distance

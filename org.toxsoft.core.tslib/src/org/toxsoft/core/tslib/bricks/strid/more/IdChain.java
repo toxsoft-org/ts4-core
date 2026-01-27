@@ -17,7 +17,10 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * <p>
  * This is an immutable class.
  * <p>
- * {@link IdChain} instances are compared case-insensitive.
+ * {@link IdChain} instances are compared case-insensitive so comparison can not be used to determine equality.
+ * <p>
+ * If only and exactly 2 IDpars is to be bound together, then use IdPair. {@link IdPair} is a special case of a more
+ * general {@link IdChain} introduced for convenience when exactly 2 IDpaths are bound together.
  *
  * @author hazard157
  */

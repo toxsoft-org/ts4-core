@@ -793,9 +793,9 @@ public class TsFileUtils {
   }
 
   /**
-   * Recursively finds files add directories matching the specified filter.
+   * Recursively finds files and directories matching the specified filter.
    * <p>
-   * The filter applies only to files.
+   * The filter <code>aFileFilter</code> applies only to files. All directories, including hidden ones, are included.
    * <p>
    * If specified root is not a readable directory then method does nothing,
    *

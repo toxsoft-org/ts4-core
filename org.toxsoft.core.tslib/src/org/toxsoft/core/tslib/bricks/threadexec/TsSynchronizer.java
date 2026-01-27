@@ -54,6 +54,7 @@ final class TsSynchronizer {
    * Constructs a new instance of this class.
    *
    * @param aName String synchronizer name
+   * @param aLogger {@link ILogger} - the unit logger
    * @throws TsNullArgumentRtException any argument = <b>null</b>
    */
   TsSynchronizer( String aName, ILogger aLogger ) {
@@ -69,6 +70,7 @@ final class TsSynchronizer {
    *
    * @param aName String synchronizer name
    * @param aDoJobThread {@link Thread} synchronized doJob thread
+   * @param aLogger {@link ILogger} - the unit logger
    * @throws TsNullArgumentRtException any argument = <b>null</b>
    */
   TsSynchronizer( String aName, Thread aDoJobThread, ILogger aLogger ) {
@@ -85,6 +87,7 @@ final class TsSynchronizer {
    *
    * @param aName String synchronizer name
    * @param aExecutor {@link Executor} executor of synchronized doJob thread
+   * @param aLogger {@link ILogger} - the unit logger
    * @throws TsNullArgumentRtException any argument = <b>null</b>
    */
   TsSynchronizer( String aName, Executor aExecutor, ILogger aLogger ) {

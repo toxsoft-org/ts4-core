@@ -13,29 +13,17 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public interface ICooperativeWorkerComponent
     extends ICooperativeMultiTaskable, IWorkerComponent {
 
-  // TODO TRANSLATE
-
   /**
-   * Метод из родительского интерфейса {@link ICooperativeMultiTaskable}.
+   * Method from the parent interface {@link ICooperativeMultiTaskable}.
    * <p>
-   * Дополнительные особенности метода при работе в контейнере:
-   * <p>
-   * Предполагается, что для контейнера существует основной поток выпонения. Основной поток в в цикле вызывает этот
-   * метод всех компонент контейнера.
-   * <p>
-   * Вместо этого метода, запуск нового потока выпонения для длительной задачи хотя и разрешается в общем случае, но
-   * весьма не рекомендуется, лучше использовать сторонный пул потоков выполненения (есть такой шабон программирования -
-   * как называется? не помню).
-   * <p>
-   * Наличие такого механизма как {@link ICooperativeMultiTaskable#doJob()}, позволяет не создавать отдельные потоки в
-   * компонентах, которые периодически делают небольшую работу (например, проверяют, истек ли таймер и генерируют какое
-   * либо сообщение).
+   * It is assumed that the container has a main thread of execution. The main thread calls this method in a loop on all
+   * container components. Having a mechanism such as {@link ICooperativeMultiTaskable#doJob()} allows you to avoid
+   * creating separate threads in components that periodically do small work (for example, checking whether a timer has
+   * expired and generating a message).
    *
-   * @throws TsIllegalStateRtException работа компоненты была завершена
+   * @throws TsIllegalStateRtException component has already stopped working
    */
   @Override
   void doJob();
-
-  // Не имеет собственных методов, только родительские
 
 }

@@ -10,12 +10,13 @@ import static org.toxsoft.core.tslib.utils.gui.ITsLibInnerSharedConstants.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.ctx.impl.*;
+import org.toxsoft.core.tsgui.m5.gui.panels.*;
 import org.toxsoft.core.tsgui.panels.vecboard.*;
 import org.toxsoft.core.tsgui.utils.*;
+import org.toxsoft.core.tsgui.valed.controls.helpers.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
-import org.toxsoft.core.tslib.av.validators.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 
@@ -79,7 +80,12 @@ public interface IValedControlConstants {
   /**
    * ID of option {@link #OPDEF_VALED_UI_OUTFIT}.
    */
-  String OPID_VALED_UI_OUTFIT = TSLIB_OPID_VALED_UI_OUTFIT;
+  // String OPID_VALED_UI_OUTFIT = TSLIB_OPID_VALED_UI_OUTFIT;
+
+  /**
+   * ID of option {@link #OPDEF_IS_SINGLE_LINE_UI}.
+   */
+  String OPID_IS_SINGLE_LINE_UI = TSLIB_OPID_IS_SINGLE_LINE_UI;
 
   /**
    * ID of context reference {@link #REFDEF_VALUE_VISUALS_PROVIDER}.
@@ -202,7 +208,7 @@ public interface IValedControlConstants {
    *
    * @see IValedControlConstants#VALED_UI_OUTFIT_EMBEDDABLE
    */
-  String VALED_UI_OUTFIT_SINGLE_LINE = TSLIB_VALED_UI_OUTFIT_SINGLE_LINE;
+  // String VALED_UI_OUTFIT_SINGLE_LINE = TSLIB_VALED_UI_OUTFIT_SINGLE_LINE;
 
   /**
    * Option {@link #OPDEF_VALED_UI_OUTFIT} predefined value: choose full size panel (like to embed in dialog window).
@@ -212,7 +218,28 @@ public interface IValedControlConstants {
    *
    * @see IValedControlConstants#VALED_UI_OUTFIT_SINGLE_LINE
    */
-  String VALED_UI_OUTFIT_EMBEDDABLE = TSLIB_VALED_UI_OUTFIT_EMBEDDABLE;
+  // String VALED_UI_OUTFIT_EMBEDDABLE = TSLIB_VALED_UI_OUTFIT_EMBEDDABLE;
+
+  /**
+   * Specifies the appearance of the VALED to be either single line text-and-button or common editor panel.<br>
+   * <i>Type:</i> {@link EAtomicType#STRING}<br>
+   * <i>Usage:</i> simplest VALEDs are made of single control like {@link Spinner} or {@link Text} naturally having
+   * height of single "unit", determined by default font size. However nearly all VALEDs for {@link EAtomicType#VALOBJ
+   * VALOBJ} are an editing panel with several controls being high enough. Such a high control makes difficult to
+   * generate complex editor panels like {@link IM5EntityPanel}; Moreover it is impossible to use high VALEDs as an
+   * inplace table cell editors.<br>
+   * When this option is <code>false</code> the factory creates VALED control as a panel it was designed (including
+   * cases of simple 1-unit-height controls). But when specified to <code>true</code> created VALED is always 1-unit
+   * height. Default VALED factory creates implementation based on {@link AbstractValedTextAndButton} where the button
+   * invokes modal dialog with panel-height same VALED.<br>
+   * <i>Default value:</i> <code>false</code> - create VALED as common editor panel
+   */
+  IDataDef OPDEF_IS_SINGLE_LINE_UI = DataDef.create( OPID_IS_SINGLE_LINE_UI, BOOLEAN, //
+      TSID_NAME, STR_NO_FIELD_LABEL, //
+      TSID_DESCRIPTION, STR_NO_FIELD_LABEL_D, //
+      TSID_DEFAULT_VALUE, AV_FALSE, //
+      TSID_IS_MANDATORY, AV_FALSE //
+  );
 
   /**
    * Specifies the appearance of the VALED UI if it has multiple user interfaces to choose from..<br>
@@ -227,13 +254,13 @@ public interface IValedControlConstants {
    * @see IValedControlConstants#VALED_UI_OUTFIT_SINGLE_LINE
    * @see IValedControlConstants#VALED_UI_OUTFIT_EMBEDDABLE
    */
-  IDataDef OPDEF_VALED_UI_OUTFIT = DataDef.create2( OPID_VALED_UI_OUTFIT, STRING, //
-      IdPathStringAvValidator.IDPATH_EMPTY_VALIDATOR, AvUtils.DEFAULT_AV_COMPARATOR, //
-      TSID_NAME, STR_NO_FIELD_LABEL, //
-      TSID_DESCRIPTION, STR_NO_FIELD_LABEL_D, //
-      TSID_DEFAULT_VALUE, avStr( VALED_UI_OUTFIT_SINGLE_LINE ), //
-      TSID_IS_MANDATORY, AV_FALSE //
-  );
+  // IDataDef OPDEF_VALED_UI_OUTFIT = DataDef.create2( OPID_VALED_UI_OUTFIT, STRING, //
+  // IdPathStringAvValidator.IDPATH_EMPTY_VALIDATOR, AvUtils.DEFAULT_AV_COMPARATOR, //
+  // TSID_NAME, STR_NO_FIELD_LABEL, //
+  // TSID_DESCRIPTION, STR_NO_FIELD_LABEL_D, //
+  // TSID_DEFAULT_VALUE, avStr( VALED_UI_OUTFIT_SINGLE_LINE ), //
+  // TSID_IS_MANDATORY, AV_FALSE //
+  // );
 
   /**
    * The context reference to the {@link ITsVisualsProvider}.<br>

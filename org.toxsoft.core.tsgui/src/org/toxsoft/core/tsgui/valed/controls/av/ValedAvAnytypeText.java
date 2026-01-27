@@ -132,13 +132,13 @@ public class ValedAvAnytypeText
    */
   public static final AbstractValedControlFactory FACTORY = new Factory();
 
-  AvTextParser textParser = new AvTextParser();
+  private AvTextParser textParser = new AvTextParser();
 
   /**
-   * Конструктор.
+   * Constructor.
    *
-   * @param aContext {@link ITsGuiContext} - контекст редактора
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aContext {@link ITsGuiContext} - the VALED context
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public ValedAvAnytypeText( ITsGuiContext aContext ) {
     super( aContext );
@@ -148,11 +148,11 @@ public class ValedAvAnytypeText
   }
 
   // ------------------------------------------------------------------------------------
-  // Внутренные методы
+  // implementation
   //
 
   /**
-   * Обновляет настройки {@link #textParser} из параметров {@link #params()}.
+   * Updates settings of the parser {@link #textParser} from the {@link #params()}.
    */
   private void updateTextParser() {
     textParser.setAllowedTypes( getAllowedTypes() );
@@ -162,7 +162,7 @@ public class ValedAvAnytypeText
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация методов базового класса
+  // AbstractValedControl
   //
 
   @Override
@@ -202,8 +202,10 @@ public class ValedAvAnytypeText
   }
 
   // ------------------------------------------------------------------------------------
-  // API класса
+  // API
   //
+
+  // TODO TRANSLATE
 
   /**
    * Возвращает значение параметра {@link #OPDEF_ALLOWED_TYPES}.

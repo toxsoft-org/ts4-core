@@ -8,78 +8,75 @@ import org.toxsoft.core.tsgui.widgets.*;
 import org.toxsoft.core.tslib.bricks.ctx.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 
-// TODO TRANSLATE
-
 /**
- * Набор параметров для создания диалогового окна, в который встраивается {@link AbstractTsDialogPanel}.
+ * Encapsulates the settings common for any dialog window {@link TsDialog}.
  * <p>
- * Эти параметры являются собранным в один класс аргументами, используемые при создании экземпляров класса
- * {@link TitleAreaDialog}, в частности, диалога {@link TsDialog}.
+ * These settings apply to all dialog boxes based on {@link TitleAreaDialog} and {@link TsDialog} in particular.
  *
  * @author hazard157
  */
 public interface ITsDialogInfo {
 
   /**
-   * Возвращает заголовок далогового окна.
+   * Returns the dialog window caption displayed in the OS window caption line.
    *
-   * @return String - заголовок далогового окна
+   * @return String - single line text of the dialog caption
    */
   String caption();
 
   /**
-   * Возвращает текст сообщения далогового окна.
+   * Returns the text used to set {@link TitleAreaDialog#setTitle(String)}.
+   * <p>
+   * Argument may be multi line with new line characters in it, usually up to 3 lines of text.
    *
-   * @return String - текст сообщения далогового окна
+   * @return String - dialog title text
    */
   String title();
 
   /**
-   * Возвращает флаги диалогового окна.
-   * <p>
-   * Флагами диалогового окна являются собранные по ИЛИ биты {@link ITsDialogConstants}<b>.DF_XXX</b>.
+   * Returns the dialog box flags - ORed bits Returns the dialog box flags..
    *
-   * @return int - флаги диалогового окна собранные по ИЛИ
+   * @return int - the dialog box flags
    */
   int flags();
 
   /**
-   * Возвращает родительское окно.
+   * Returned shell will be used as dialog window parent.
    *
-   * @return {@link Shell} - родительское окно
+   * @return {@link Shell} - parent shell or <code>null</code>
    */
   Shell shell();
 
   /**
-   * Возвращает минимальный размер панели содержимого диалога.
+   * Returns the minimum size of the dialog content pane.
    * <p>
-   * Положительные значения интерпретируются как размеры в пикселях для {@link TsComposite#setMinimumWidth(int)} и
-   * {@link TsComposite#setMinimumHeight(int)}. Отрицательные - как проценты (с измененным знаком) от соответствующего
-   * размера дисплея для {@link TsComposite#setMinWidthDisplayRelative(int)} и
+   * Positive values ​​are interpreted as pixel dimensions for {@link TsComposite#setMinimumWidth(int)} and
+   * {@link TsComposite#setMinimumHeight(int)}. Negative values ​​are interpreted as percentages (with a different sign)
+   * of the corresponding display size for {@link TsComposite#setMinWidthDisplayRelative(int)} and
    * {@link TsComposite#setMinHeightDisplayRelative(int)}.
    * <p>
-   * Значения 0 и {@link SWT#DEFAULT} указвывают, что размер не задан.
+   * Values ​​of 0 and {@link SWT#DEFAULT} indicate that the size is not specified.
    *
-   * @return {@link ITsPoint} - минимальный размер панели содержимого диалога
+   * @return {@link ITsPoint} - the minimum size of the dialog content pane
    */
   ITsPoint minSize();
 
   /**
-   * Возвращает максимальный размер панели содержимого диалога.
+   * Returns the maximum size of the dialog content pane.
    * <p>
-   * Положительные значения интерпретируются как размеры в пикселях для {@link TsComposite#setMaximumWidth(int)} и
-   * {@link TsComposite#setMaximumHeight(int)}. Отрицательные - как проценты (с измененным знаком) от соответствующего
-   * размера дисплея для {@link TsComposite#setMaxWidthDisplayRelative(int)} и
-   * {@link TsComposite#setMaxHeightDisplayRelative(int)}.
+   * Positive values ​​are interpreted as pixel dimensions for {@link TsComposite#setMaximumWidth(int)} and
+   * {@link TsComposite#setMaximumHeight(int)}. Negative values ​​are interpreted as percentages (with a different sign)
+   * of the corresponding display size for {@link TsComposite#setMaxWidthDisplayRelative(int)} and
+   * {@link TsComposite#setMaxHeightDisplayRelative(int)}. *
    * <p>
-   * Значения 0 и {@link SWT#DEFAULT} указвывают, что размер не задан.
+   * Values ​​of 0 and {@link SWT#DEFAULT} indicate that the size is not specified.
    *
-   * @return {@link ITsPoint} - максимальный размер панели содержимого диалога
+   * @return {@link ITsPoint} - the maximum size of the dialog content pane.
    */
   ITsPoint maxSize();
 
   /**
-   * Returns the GUI context.
+   * Returns the GUI context set as {@link ITsGuiContextable#tsContext()} of the dialog content.
    *
    * @return {@link ITsContext} - the context
    */

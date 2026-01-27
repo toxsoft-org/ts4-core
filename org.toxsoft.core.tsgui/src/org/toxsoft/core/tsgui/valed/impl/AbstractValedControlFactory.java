@@ -36,13 +36,19 @@ public abstract class AbstractValedControlFactory
   //
 
   @Override
-  public String factoryName() {
+  final public String factoryName() {
     return factoryName;
   }
 
   @Override
-  public <V> IValedControl<V> createEditor( ITsGuiContext aContext ) {
+  final public <V> IValedControl<V> createEditor( ITsGuiContext aContext ) {
     TsNullArgumentRtException.checkNull( aContext );
+
+    // TODO AbstractValedControlFactory.createEditor()
+    if( OPDEF_IS_SINGLE_LINE_UI.getValue( aContext.params() ).asBool() ) {
+      return doCreateSingleLine( aContext );
+    }
+
     if( OPDEF_CREATE_UNEDITABLE.getValue( aContext.params() ).asBool() ) {
       return doCreateViewer( aContext );
     }
@@ -65,14 +71,14 @@ public abstract class AbstractValedControlFactory
   /**
    * Subclass may create the viewer instance.
    * <p>
-   * Viewer is the {@link IValedControl}, created only to view the value, without editing capability. In many caeses
+   * Viewer is the {@link IValedControl}, created only to view the value, without editing capability. In many cases
    * viewer uses other SWT widget than editor. For example, a {@link Spinner} may be used to edit integer value, while
    * uneditable {@link Text} (that is {@link Text#getEditable()} = <code>false</code>) may be used to view value.
    * <p>
    * This method is called from {@link #createEditor(ITsGuiContext)} when flag
    * {@link IValedControlConstants#OPID_CREATE_UNEDITABLE} is set to <code>true</code>.
    * <p>
-   * By default simply calls {@link #doCreateEditor(ITsGuiContext)}, when overriding, no need to call the parent method.
+   * In the base class calls {@link #doCreateEditor(ITsGuiContext)}, when overriding, no need to call the parent method.
    *
    * @param <V> - the edited value type
    * @param aContext {@link ITsGuiContext} - editor context, never is <code>null</code>
@@ -80,6 +86,25 @@ public abstract class AbstractValedControlFactory
    */
   protected <V> IValedControl<V> doCreateViewer( ITsGuiContext aContext ) {
     return doCreateEditor( aContext );
+  }
+
+  /**
+   * Subclass may override default single-line-height version of CALED.
+   * <p>
+   * This method is called from {@link #createEditor(ITsGuiContext)} when flag
+   * {@link IValedControlConstants#OPID_IS_SINGLE_LINE_UI} is set to <code>true</code>. See the comments of the constant
+   * {@link IValedControlConstants#OPID_IS_SINGLE_LINE_UI OPID_IS_SINGLE_LINE_UI} for details.
+   * <p>
+   * In the base class creates instance of the class {@link ValedControlSingleLineWrapper}, when overriding, no need to
+   * call the parent method.
+   *
+   * @param <V> - the edited value type
+   * @param aContext {@link ITsGuiContext} - editor context, never is <code>null</code>
+   * @return {@link IValedControl} - created single-line-height instance, must not be <code>null</code>
+   * @see IValedControlConstants#OPDEF_IS_SINGLE_LINE_UI
+   */
+  protected <V> IValedControl<V> doCreateSingleLine( ITsGuiContext aContext ) {
+    return new ValedControlSingleLineWrapper<>( aContext, this );
   }
 
   /**

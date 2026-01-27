@@ -14,12 +14,14 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * A paired identifier consisting of a left and a right ID-path identifier.
  * <p>
- * Парный идентификатор имеет текстовое представление {@link #pairId()}, которое <b>не является</b> ИД-путем, но
- * гарантированно не содержит в себе пробели.
+ * An {@link IdPair} has a text representation {@link #pairId()}, which is <b>not</b> an IDpath, but is guaranteed not
+ * to contain spaces.
  * <p>
- * Парный идентификатор {@link #pairId()} состоит из левого {@link #leftId()} и правого {@link #rightId()} ИД-путь
- * идентификаторов, соединенных методом {@link #makePairId(String, String)}. Отстувие левой или правой чати не
- * допускается.
+ * A pair identifier {@link #pairId()} consists of a left {@link #leftId()} and a right {@link #rightId()} ID path,
+ * joined using the {@link #makePairId(String, String)} method. Missing left or right parts are not allowed.
+ * <p>
+ * {@link IdPair} is a special case of a more general {@link IdChain} introduced for convenience when exactly 2 IDpaths
+ * are bound together.
  *
  * @author hazard157
  */
@@ -29,27 +31,29 @@ public final class IdPair
   private static final long serialVersionUID = 157157L;
 
   /**
-   * Идентификатор, обозначающий отсутствие вью или использование вью общего назначения.
+   * A singleton of an identifier indicating the absence of something.
+   * <p>
+   * This constant has the same usage as {@link IStridable#NONE_ID} for IDpaths/IDnames.
    */
   public static final IdPair NONE = new IdPair( IStridable.NONE_ID, IStridable.NONE_ID );
 
   /**
-   * Идентификатор регистрации хранителя.
-   */
-  public static final String KEEPER_ID = "IdPair"; //$NON-NLS-1$
-
-  /**
-   * Символ-разделитель между идентификаторами группы и вью.
+   * Separator between left and right IDs when creating {@link #pairId()}.
    */
   public static final char CHAR_SEPARATOR = '$';
 
   /**
-   * Разделитель для создания ИД-пути в методе {@link #asNonUniqueIdPath(IdPair)}.
+   * Separator to create the return value of {@link #asNonUniqueIdPath(IdPair)}.
    */
-  private static final String IDPATH_SEPARATOR = "___"; //$NON-NLS-1$
+  private static final String IDPATH_SEPARATOR = "_____"; //$NON-NLS-1$
 
   /**
-   * Синглтон хранителя.
+   * The registered keeper ID.
+   */
+  public static final String KEEPER_ID = "IdPair"; //$NON-NLS-1$
+
+  /**
+   * * The keeper singleton.
    */
   public static final IEntityKeeper<IdPair> KEEPER =
       new AbstractEntityKeeper<>( IdPair.class, EEncloseMode.NOT_IN_PARENTHESES, NONE ) {
@@ -80,12 +84,12 @@ public final class IdPair
   private final String     pairId;
 
   /**
-   * Создает экземпляр из левой и правой частей.
+   * Constructor.
    *
-   * @param aLeftId String - левый идентификатор
-   * @param aRightId String - правый идентификатор
-   * @throws TsNullArgumentRtException любой аргумент = <code>null</code>
-   * @throws TsIllegalArgumentRtException любой идентификатор не ИД-путь
+   * @param aLeftId String - left IDpath
+   * @param aRightId String - right IDpath
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException any ID is not an IDpath
    */
   public IdPair( String aLeftId, String aRightId ) {
     pairId = makePairId( aLeftId, aRightId );
@@ -94,11 +98,11 @@ public final class IdPair
   }
 
   /**
-   * Создает экземпляр из текстового прдставления парного идентификатор.
+   * Constructor from the pair ID created by {@link #pairId()}.
    *
-   * @param aPairId String - текст парного идентификатор
-   * @throws TsNullArgumentRtException любой аргумент = <code>null</code>
-   * @throws TsIllegalArgumentRtException неверный формат текстового представления
+   * @param aPairId String - the pair ID
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException argument is not a pair ID
    */
   public IdPair( String aPairId ) {
     TsIllegalArgumentRtException.checkFalse( isValidPairId( aPairId ) );
@@ -106,7 +110,7 @@ public final class IdPair
     initParts();
   }
 
-  // метод выделен отдельно для восстановления после десерализаци
+  // the method for recovery after de-serialization
   private void initParts() {
     if( leftId == null || rightId == null ) {
       int index = pairId.indexOf( CHAR_SEPARATOR );
@@ -116,10 +120,10 @@ public final class IdPair
   }
 
   /**
-   * Метод инициализирует transient поля и корректно восстанавливает сериализированный {@link #NONE}.
+   * Method correctly deserializes {@link IAtomicValue#NULL} value and initializes transient fields.
    *
-   * @return Object объект {@link IAtomicValue#NULL}
-   * @throws ObjectStreamException это обявление, оно тут не выбрасывается
+   * @return {@link Object} - an {@link IdPair} instance (including {@link IdPair#NONE})
+   * @throws ObjectStreamException is declared but newer thrown by this method
    */
   private Object readResolve()
       throws ObjectStreamException {
@@ -133,6 +137,8 @@ public final class IdPair
   // ------------------------------------------------------------------------------------
   // static API
   //
+
+  // TODO TRANSLATE
 
   /**
    * Создает текстовое представление парного идентификатора.
@@ -179,15 +185,52 @@ public final class IdPair
   }
 
   /**
-   * Возвращает потенциально не уникальное представление в виде ИД-пути.
+   * Creates probably non-restorable IDPath from an {@link IdPair}.
+   * <p>
+   * If arguments does <b>not</b> contains string {@link #IDPATH_SEPARATOR} then {@link IdPair} may be restored from the
+   * resulting IDpath.
    *
-   * @param aIdPair {@link IdPair} - парный идентификатор
-   * @return String - ИД-путь
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aIdPair {@link IdPair} - the pair
+   * @return String - created IDpath
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static String asNonUniqueIdPath( IdPair aIdPair ) {
     TsNullArgumentRtException.checkNull( aIdPair );
     return aIdPair.leftId + IDPATH_SEPARATOR + aIdPair.rightId;
+  }
+
+  /**
+   * Argument is converted to an IDpath allowing to restore {@link IdPair} from it.
+   * <p>
+   * If any part of the argument contains string {@link #IDPATH_SEPARATOR} then exception is thrown because result can
+   * not guarantee {@link IdPair} restoration.
+   * <p>
+   * {@link IdPair} may be restored by the method {@link #fromUniqueIdPath(String)}.
+   *
+   * @param aIdPair {@link IdPair} - the pair
+   * @return String - created IDpath
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException any part of the argument contains {@link #IDPATH_SEPARATOR}
+   */
+  public static String toUniqueIdPath( IdPair aIdPair ) {
+    TsNullArgumentRtException.checkNull( aIdPair );
+    TsIllegalArgumentRtException.checkTrue( aIdPair.pairId().contains( IDPATH_SEPARATOR ) );
+    return aIdPair.leftId + IDPATH_SEPARATOR + aIdPair.rightId;
+  }
+
+  /**
+   * Restores an {@link IdPair} from from the string created by {@link #toUniqueIdPath(IdPair)}.
+   *
+   * @param aIdPath String - result of {@link #asNonUniqueIdPath(IdPair)}
+   * @return {@link IdPair} - restored instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException argument was not created by {@link #toString()}
+   */
+  public static IdPair fromUniqueIdPath( String aIdPath ) {
+    StridUtils.checkValidIdPath( aIdPath );
+    String[] rrPair = aIdPath.split( IDPATH_SEPARATOR );
+    TsIllegalArgumentRtException.checkTrue( rrPair.length != 2 );
+    return new IdPair( rrPair[0], rrPair[1] );
   }
 
   // ------------------------------------------------------------------------------------
@@ -231,7 +274,7 @@ public final class IdPair
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация методов класса Object
+  // Object
   //
 
   @Override
@@ -258,7 +301,7 @@ public final class IdPair
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация интерфейса Comparable
+  // Comparable
   //
 
   @Override

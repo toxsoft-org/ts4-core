@@ -3,11 +3,11 @@ package org.toxsoft.core.tsgui.valed.impl;
 import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
 import static org.toxsoft.core.tsgui.valed.impl.ITsResources.*;
 
-import org.eclipse.e4.core.contexts.*;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.utils.*;
 import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.opset.*;
@@ -15,6 +15,7 @@ import org.toxsoft.core.tslib.bricks.ctx.*;
 import org.toxsoft.core.tslib.bricks.events.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -88,10 +89,7 @@ public abstract class AbstractValedControl<V, C extends Control>
   //
 
   /**
-   * Слушатель изменений в виджетах, извещающий диалог о правках пользовтеля.
-   * <p>
-   * Этот слушатель типа {@link SelectionListener} нужно ставить тем виджетам в панели, с которыми работает пользователь
-   * для внесения изменений в отображаемой структуре данных T.
+   * Listener for user-accessible child controls to fire this VALED change event.
    */
   protected SelectionListener notificationSelectionListener = new SelectionListener() {
 
@@ -107,7 +105,7 @@ public abstract class AbstractValedControl<V, C extends Control>
   };
 
   /**
-   * Слушатель изменения фокуса контролем, который генерирует сообщение об окончании редактирования при потере фокуса.
+   * A control focus change listener that generates an edit-finished message when focus is lost.
    */
   protected FocusListener notifyEditFinishedOnFocusLostListener = new FocusListener() {
 
@@ -123,70 +121,69 @@ public abstract class AbstractValedControl<V, C extends Control>
   };
 
   /**
-   * Слушатель изменений в просмотрщиках (XxxViewer), извещающий диалог о правках пользовтеля.
-   * <p>
-   * Этот слушатель типа {@link ISelectionChangedListener} нужно ставить тем просмотрщикам в панели, с которыми работает
-   * пользователь для внесения изменений в отображаемой структуре данных T.
+   * Listener for user-accessible child controls to fire this VALED change event.
    */
   protected ISelectionChangedListener notificationSelectionChangedListener = event -> fireModifyEvent( true );
 
   /**
-   * Слушатель изменений в виджетах, извещающий диалог о правках пользовтеля.
-   * <p>
-   * Этот слушатель типа {@link ModifyListener} нужно ставить тем виджетам в панели, с которыми работает пользователь
-   * для внесения изменений в отображаемой структуре данных T.
+   * Listener for user-accessible child controls to fire this VALED change event.
    */
   protected ModifyListener notificationModifyListener = e -> fireModifyEvent( true );
 
   /**
-   * Слушатель изменений в виджетах, извещающий диалог о правках пользовтеля.
-   * <p>
-   * Этот слушатель типа {@link IGenericChangeListener} нужно ставить тем виджетам в панели, с которыми работает
-   * пользователь для внесения изменений в отображаемой структуре данных T.
+   * Listener for user-accessible child widgets to fire this VALED change event.
    */
   protected IGenericChangeListener widgetValueChangeListener = aSource -> fireModifyEvent( true );
 
+  /**
+   * Listener for user-accessible child VALEDs to fire this VALED change event.
+   */
+  protected IValedControlValueChangeListener childValedsListener = ( src, finished ) -> fireModifyEvent( finished );
+
   // ------------------------------------------------------------------------------------
-  // Другие поля экземпляра класса
+  // other fields
   //
 
   /**
-   * SWT-контроль реализующий {@link IValedControl}, создается на втором этапе инифиализации редактора, методом
-   * {@link #doCreateControl(Composite)}.
+   * SWT-control returned by {@link #getControl()} - the implementation of this VALED.
+   * <p>
+   * For complex VALEDs usually it is some {@link Composite} containing other widgets.
    */
   private C control = null;
 
-  /**
-   * Контекст.
-   */
   private final ITsGuiContext tsContext;
 
   /**
-   * Значение параметра {@link IValedControlConstants#OPDEF_CREATE_UNEDITABLE} в момент вызова конструктора.
+   * The value of the {@link IValedControlConstants#OPDEF_CREATE_UNEDITABLE} parameter when the constructor is called.
    */
   private final boolean createdUneditable;
 
   /**
-   * Признак изменения значения в контроле программным путем.
+   * A flag determining that a value is being changed in a programmatic way.
    *
    * @see AbstractValedControl#isSelfEditing()
    * @see AbstractValedControl#setSelfEditing(boolean)
    */
   private boolean isSelfEditing = false;
 
+  // TODO TRANSLATE
+
   /**
-   * Признак разрешения редакторования.
+   * A flag determining if editing is enabled in VALED.
    * <p>
-   * Изменяется методом {@link #setEditable(boolean)}, что приводит к изменению состояния SWT-контроля методом
-   * {@link #doSetEditable(boolean)}.
+   * Changed by the {@link #setEditable(boolean)} method, which causes the SWT control's state to be changed by the
+   * {@link #doSetEditable(boolean)} method.
    * <p>
-   * Если контроль создан с признаком {@link IValedControlConstants#OPDEF_CREATE_UNEDITABLE}, то равен
-   * <code>false</code> и метод {@link #setEditable(boolean)} не меняет его (соответственно, не вызывается
-   * {@link #doSetEditable(boolean)}).
+   * If the control is created with the {@link IValedControlConstants#OPDEF_CREATE_UNEDITABLE} flag set to
+   * <code>true</code>, then it is set to <code>false</code> and the {@link #setEditable(boolean)} method can not change
+   * it (and therefore, {@link #doSetEditable(boolean)} is not called).
    */
   private boolean editable;
 
   /**
+   * Value set by {@link #setValue(Object)}.
+   * <p>
+   * <p>
    * Последнее заданное значение методом {@link #setValue(Object)} (или <code>null</code> после вызова
    * {@link #clearValue()}) или возвращенное методом {@link #doGetUnvalidatedValue()}.
    * <p>
@@ -199,21 +196,33 @@ public abstract class AbstractValedControl<V, C extends Control>
   private V lastValue = null;
 
   /**
-   * Реализация для {@link #eventer()}.
+   * Optional visualsProvider initialized from {@link IValedControlConstants#REFDEF_VALUE_VISUALS_PROVIDER}.
+   */
+  private ITsVisualsProvider<V> visualsProvider = ITsVisualsProvider.DEFAULT;
+
+  /**
+   * {@link #eventer()} implementation.
    */
   private final Eventer eventer = new Eventer();
 
   /**
-   * Constructor for subclasses.
+   * Constructor.
    *
    * @param aContext {@link ITsGuiContext} - the VALED context
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
+  @SuppressWarnings( "unchecked" )
   protected AbstractValedControl( ITsGuiContext aContext ) {
     tsContext = TsNullArgumentRtException.checkNull( aContext );
     tsContext.addContextListener( this );
     createdUneditable = OPDEF_CREATE_UNEDITABLE.getValue( params() ).asBool();
     editable = !createdUneditable;
+    // visualsProvider
+    Object rawVp = REFDEF_VALUE_VISUALS_PROVIDER.getRef( tsContext(), ITsVisualsProvider.DEFAULT );
+    if( !(rawVp instanceof ITsVisualsProvider) ) {
+      throw new TsInternalErrorRtException();
+    }
+    visualsProvider = (ITsVisualsProvider<V>)rawVp;
   }
 
   // ------------------------------------------------------------------------------------
@@ -261,15 +270,6 @@ public abstract class AbstractValedControl<V, C extends Control>
   }
 
   // ------------------------------------------------------------------------------------
-  // ITsGuiStdContextReferences
-  //
-
-  @Override
-  public IEclipseContext eclipseContext() {
-    return tsContext.eclipseContext();
-  }
-
-  // ------------------------------------------------------------------------------------
   // IValedControl
   //
 
@@ -289,10 +289,8 @@ public abstract class AbstractValedControl<V, C extends Control>
   }
 
   @Override
-  // final TODO change so that subclasses override doCanGetValue(), not this method
   public ValidationResult canGetValue() {
     if( getControl() == null ) {
-      // TODO what to do when widget is NOT created yet?
       if( lastValue == null ) {
         return ValidationResult.error( FMT_ERR_CANT_GET_VALUE_BEFORE_ITS_SET, this.getClass().getSimpleName() );
       }
@@ -304,8 +302,9 @@ public abstract class AbstractValedControl<V, C extends Control>
   @Override
   final public V getValue() {
     if( getControl() == null ) {
-      TsIllegalStateRtException.checkNull( lastValue, FMT_ERR_CANT_GET_VALUE_BEFORE_ITS_SET,
-          this.getClass().getSimpleName() );
+      if( lastValue == null ) {
+        throw new TsIllegalStateRtException( FMT_ERR_CANT_GET_VALUE_BEFORE_ITS_SET, this.getClass().getSimpleName() );
+      }
       return lastValue;
     }
     TsValidationFailedRtException.checkError( canGetValue() );
@@ -368,37 +367,51 @@ public abstract class AbstractValedControl<V, C extends Control>
   }
 
   // ------------------------------------------------------------------------------------
-  // API класса
+  // API
   //
 
   /**
-   * Задает значение в {@link #params()}, если его там нет, или оно равно {@link IAtomicValue#NULL}.
+   * Sets value in {@link #params()} if option is not present or has value {@link IAtomicValue#NULL}.
    *
-   * @param aParamId String - идентификатор параметра
-   * @param aValue {@link IAtomicValue} - новое значнеие параметра
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aParamId String - option ID
+   * @param aValue {@link IAtomicValue} - the option value to set
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException the ID is not an IDpath
    */
   public final void setParamIfNull( String aParamId, IAtomicValue aValue ) {
-    TsNullArgumentRtException.checkNulls( aParamId, aValue );
+    StridUtils.checkValidIdPath( aParamId );
+    TsNullArgumentRtException.checkNull( aValue );
     if( !tsContext().isSelfOption( aParamId ) || tsContext.params().isNull( aParamId ) ) {
       params().setValue( aParamId, aValue );
     }
   }
 
   /**
-   * Задает значение в {@link #params()}, если его там нет, или оно равно {@link IAtomicValue#NULL}.
+   * Sets value in {@link #params()} if option is not present or has value {@link IAtomicValue#NULL}.
    *
-   * @param aParamId {@link IStridable} - идентификатор параметра
-   * @param aValue {@link IAtomicValue} - новое значнеие параметра
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aParamId {@link IStridable} - option ID
+   * @param aValue {@link IAtomicValue} - the option value to set
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public final void setParamIfNull( IStridable aParamId, IAtomicValue aValue ) {
     TsNullArgumentRtException.checkNulls( aParamId, aValue );
     setParamIfNull( aParamId.id(), aValue );
   }
 
+  /**
+   * Sets the value visuals provider.
+   *
+   * @param aVisualsProvider {@link ITsVisualsProvider}&lt;V&gt; - the value visuals provider
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public void setVisualsProvider( ITsVisualsProvider<V> aVisualsProvider ) {
+    TsNullArgumentRtException.checkNull( aVisualsProvider );
+    visualsProvider = aVisualsProvider;
+
+  }
+
   // ------------------------------------------------------------------------------------
-  // API для наследников
+  // API for subclasses
   //
 
   /**
@@ -497,6 +510,42 @@ public abstract class AbstractValedControl<V, C extends Control>
     eventer.fireEvent( aEditFinished );
   }
 
+  /**
+   * Returns the visuals provider specified by {@link IValedControlConstants#REFDEF_VALUE_VISUALS_PROVIDER}.
+   * <p>
+   * If reference {@link IValedControlConstants#REFDEF_VALUE_VISUALS_PROVIDER} is not found in the VALED creation
+   * context, default provider {@link ITsVisualsProvider#DEFAULT} is returned.
+   *
+   * @return {@link ITsVisualsProvider}&lt;V&gt; - edited value visuals provider
+   */
+  public ITsVisualsProvider<V> visualsProvider() {
+    return visualsProvider;
+  }
+
+  // ------------------------------------------------------------------------------------
+  // ITsContextListener
+  //
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * In {@link AbstractValedControl} does nothing, there is no need to call superclass method when overriding.
+   */
+  @Override
+  public <X extends ITsContextRo> void onContextOpChanged( X aSource, String aId, IAtomicValue aValue ) {
+    // nop
+  }
+
+  /**
+   * {@inheritDoc}
+   * <p>
+   * In {@link AbstractValedControl} does nothing, there is no need to call superclass method when overriding.
+   */
+  @Override
+  public <X extends ITsContextRo> void onContextRefChanged( X aSource, String aName, Object aRef ) {
+    // nop
+  }
+
   // ------------------------------------------------------------------------------------
   // To override
   //
@@ -570,31 +619,7 @@ public abstract class AbstractValedControl<V, C extends Control>
   }
 
   // ------------------------------------------------------------------------------------
-  // ITsContextListener
-  //
-
-  /**
-   * {@inheritDoc}
-   * <p>
-   * In {@link AbstractValedControl} does nothing, there is no need to call superclass method when overriding.
-   */
-  @Override
-  public <X extends ITsContextRo> void onContextOpChanged( X aSource, String aId, IAtomicValue aValue ) {
-    // nop
-  }
-
-  /**
-   * {@inheritDoc}
-   * <p>
-   * In {@link AbstractValedControl} does nothing, there is no need to call superclass method when overriding.
-   */
-  @Override
-  public <X extends ITsContextRo> void onContextRefChanged( X aSource, String aName, Object aRef ) {
-    // nop
-  }
-
-  // ------------------------------------------------------------------------------------
-  // Методы, обязательные для реализации наследниками
+  // To implements
   //
 
   /**
@@ -623,20 +648,17 @@ public abstract class AbstractValedControl<V, C extends Control>
   abstract protected void doSetEditable( boolean aEditable );
 
   /**
-   * Реализация должна вернуть значение, находящейся в контроле.
+   * Implementation must return value from the widgets of the VALED.
    * <p>
-   * Этот метод вызывается только когда существует виджет, то есть, когда {@link #getControl()} != null.
-   * <p>
-   * При существующем виджете этот метод вызывается, только если предварительный вызов {@link #canGetValue()} не верент
-   * ошибку {@link EValidationResultType#ERROR}.
+   * This method is called only when SWT widgets exists, that is when {@link #getControl()} != <code>null</code> and
+   * {@link #canGetValue()} did <b>not</b> returned {@link EValidationResultType#ERROR}.
    *
-   * @return &lt;V&gt; - значение, находящейся в редакторе, может быть <code>null</code>
-   * @throws TsValidationFailedRtException {@link #canGetValue()} вернул ошибку
+   * @return &lt;V&gt; - user edited value, may be <code>null</code>
    */
   abstract protected V doGetUnvalidatedValue();
 
   /**
-   * Subclass must the value to editor widget(s).
+   * Subclass must set the value to editor widget(s).
    * <p>
    * While <code>aValue</code> never is <code>null</code> it must be checked for some "special case" value like
    * {@link IAtomicValue#NULL}.

@@ -4,8 +4,8 @@ package org.toxsoft.core.tslib.utils;
  * Interface of entities that require the release of OS and other resources.
  * <p>
  * This interface refers to the objects created in GUI environment. Mostly this interface has same meaning as
- * {@link org.eclipse.ui.services.IDisposable org.eclipse.ui.services.IDisposable} adding {@link #isDisposed()} method.
- * Both interfaces may be implemented by one type.
+ * <code>org.eclipse.ui.services.IDisposable</code> adding {@link #isDisposed()} method. Both interfaces may be
+ * implemented by one type.
  *
  * @author hazard157
  */

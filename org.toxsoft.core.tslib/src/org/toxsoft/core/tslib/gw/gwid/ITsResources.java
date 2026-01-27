@@ -28,4 +28,14 @@ interface ITsResources {
   String STR_GK_CLOB          = Messages.getString( "STR_GK_CLOB" );          //$NON-NLS-1$
   String STR_GK_CLOB_D        = Messages.getString( "STR_GK_CLOB_D" );        //$NON-NLS-1$
 
+  /**
+   * {@link EGwidSelectionOption}
+   */
+  String STR_GST_CONCRETE   = Messages.getString( "STR_GST_CONCRETE" );   //$NON-NLS-1$
+  String STR_GST_CONCRETE_D = Messages.getString( "STR_GST_CONCRETE_D" ); //$NON-NLS-1$
+  String STR_GST_ABSTRACT   = Messages.getString( "STR_GST_ABSTRACT" );   //$NON-NLS-1$
+  String STR_GST_ABSTRACT_D = Messages.getString( "STR_GST_ABSTRACT_D" ); //$NON-NLS-1$
+  String STR_GST_BOTH       = Messages.getString( "STR_GST_BOTH" );       //$NON-NLS-1$
+  String STR_GST_BOTH_D     = Messages.getString( "STR_GST_BOTH_D" );     //$NON-NLS-1$
+
 }

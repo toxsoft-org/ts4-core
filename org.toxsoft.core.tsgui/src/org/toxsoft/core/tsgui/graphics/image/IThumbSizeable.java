@@ -3,9 +3,8 @@ package org.toxsoft.core.tsgui.graphics.image;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Примешиваемый интерфейс визуальных элементов, имеющих понятие "размер миниатюры".
+ * Mixin interface for entities having concept of "variable size ofdisplayed thumbnails".
  * <p>
- * FIXME TRANSLATE<br>
  * FIXME ThumbSizeableZoomDropDownMenuCreator
  *
  * @author hazard157
@@ -13,24 +12,27 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public interface IThumbSizeable {
 
   /**
-   * Возвращает размер миниатюр.
+   * Returns current thumbnails size.
    *
-   * @return {@link EThumbSize} - размер миниатюр
+   * @return {@link EThumbSize} - current thumbnails size
    */
   EThumbSize thumbSize();
 
   /**
-   * Задает размер миниатюр.
+   * Sets the current thumbnails size.
    *
-   * @param aThumbSize {@link EThumbSize} - размер миниатюр
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aThumbSize {@link EThumbSize} - new size
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void setThumbSize( EThumbSize aThumbSize );
 
   /**
-   * Возвращает размер миниатюр, считающейся размером по умолчанию.
+   * Returns default size of the thumbnails.
+   * <p>
+   * Method assumes that each entity has concept of @default" size. This may be a initial size, or best size or
+   * whatever. Anyway, reseting current thumbnails size to default will set this size.
    *
-   * @return {@link EThumbSize} - размер миниатюр по умолчанию
+   * @return {@link EThumbSize} - default size of thumbnails
    */
   EThumbSize defaultThumbSize();
 

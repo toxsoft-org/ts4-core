@@ -83,8 +83,8 @@ public interface IXxxYyyConstants {
     // register application preference option available for user to edit via preferences GUI dialog
     IAppPreferences aprefs = aWinContext.get( IAppPreferences.class );
     IPrefBundle pb = aprefs.defineBundle( PREFBUNDLEID_XXX, OptionSetUtils.createOpSet( //
-        TSID_NAME, STR_PREF_BINDLE_XXX, //
-        TSID_DESCRIPTION, STR_PREF_BINDLE_XXX_D, //
+        TSID_NAME, STR_PREF_BUNDLE_XXX, //
+        TSID_DESCRIPTION, STR_PREF_BUNDLE_XXX_D, //
         TSID_ICON_ID, ICONID_APP_ICON //
     ) );
     for( IDataDef dd : SHOWN_APPREFS_LIST ) {

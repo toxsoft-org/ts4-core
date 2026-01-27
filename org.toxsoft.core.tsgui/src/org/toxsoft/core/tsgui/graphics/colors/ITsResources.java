@@ -68,10 +68,10 @@ interface ITsResources {
   String STR_SYSCOL_LIST_FOREGROUND_D            = Messages.getString( "STR_SYSCOL_LIST_FOREGROUND_D" );            //$NON-NLS-1$
   String STR_SYSCOL_LIST_BACKGROUND              = Messages.getString( "STR_SYSCOL_LIST_BACKGROUND" );              //$NON-NLS-1$
   String STR_SYSCOL_LIST_BACKGROUND_D            = Messages.getString( "STR_SYSCOL_LIST_BACKGROUND_D" );            //$NON-NLS-1$
-  String STR_SYSCOL_LIST_SELECTION               = Messages.getString( "STR_SYSCOL_LIST_SELECTION" );
-  String STR_SYSCOL_LIST_SELECTION_D             = Messages.getString( "STR_SYSCOL_LIST_SELECTION_D" );
-  String STR_SYSCOL_LIST_SELECTION_TEXT          = Messages.getString( "STR_SYSCOL_LIST_SELECTION_TEXT" );
-  String STR_SYSCOL_LIST_SELECTION_TEXT_D        = Messages.getString( "STR_SYSCOL_LIST_SELECTION_TEXT_D" );
+  String STR_SYSCOL_LIST_SELECTION               = Messages.getString( "STR_SYSCOL_LIST_SELECTION" );               //$NON-NLS-1$
+  String STR_SYSCOL_LIST_SELECTION_D             = Messages.getString( "STR_SYSCOL_LIST_SELECTION_D" );             //$NON-NLS-1$
+  String STR_SYSCOL_LIST_SELECTION_TEXT          = Messages.getString( "STR_SYSCOL_LIST_SELECTION_TEXT" );          //$NON-NLS-1$
+  String STR_SYSCOL_LIST_SELECTION_TEXT_D        = Messages.getString( "STR_SYSCOL_LIST_SELECTION_TEXT_D" );        //$NON-NLS-1$
   String STR_SYSCOL_LINK_FOREGROUND              = Messages.getString( "STR_SYSCOL_LINK_FOREGROUND" );              //$NON-NLS-1$
   String STR_SYSCOL_LINK_FOREGROUND_D            = Messages.getString( "STR_SYSCOL_LINK_FOREGROUND_D" );            //$NON-NLS-1$
   String STR_SYSCOL_INFO_FOREGROUND              = Messages.getString( "STR_SYSCOL_INFO_FOREGROUND" );              //$NON-NLS-1$

@@ -164,8 +164,13 @@ public class PluginBox<T extends PluginUnit>
 
   /**
    * Вызывается перед запуском (размещением в контейнере) указанных плагинов.
+   * <p>
+   * Method may exclude som units from the argument so they will not be run
+   * <p>
+   * In the base class simply returns argument, there is no need to call superclass method when overriding.
    *
-   * @param aPlugins {@link IList}&lt;{@link PluginUnit}&gt; упорядочный список загруженных плагинов.
+   * @param aPlugins {@link IList}&lt;{@link PluginUnit}&gt; - ordered list of units prepared to run
+   * @return {@link IList}&gt;T&gt; - ordered list of units actually to be run in container, subset of argument
    */
   protected IList<T> doBeforeRunUnits( IList<T> aPlugins ) {
     return aPlugins;
@@ -214,6 +219,14 @@ public class PluginBox<T extends PluginUnit>
     }
     // Оповещение наследника о готовности разместить плагины в контейнере
     IList<T> runnableUnits = doBeforeRunUnits( units );
+
+    /**
+     * FIXME GOGA 2026-01-05 Вопросы:<br>
+     * если метод doBeforeRunUnits() вернул НЕ ВСЕ плагины, может исключенные плагины надо destroy?<br>
+     * если метод doBeforeRunUnits() ДОБАВИЛ новые модули, что делать?<br>
+     * надо ли проверять, что в runnableUnits нет повторяющихся модулей?
+     */
+
     for( T unit : runnableUnits ) {
       runUnit( unit );
     }
@@ -223,7 +236,8 @@ public class PluginBox<T extends PluginUnit>
    * Загрузка компонента контейнера
    *
    * @param aPluginInfo {@link IPluginInfo} описание плагина для которого требуется загрузить компоненту контейнера
-   * @throws TsNullArgumentRtException аргумент = null
+   * @return &gt;T&lt; - the loaded module
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   private T loadUnit( IPluginInfo aPluginInfo ) {
     TsNullArgumentRtException.checkNull( aPluginInfo );

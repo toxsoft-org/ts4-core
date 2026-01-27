@@ -26,6 +26,7 @@ public class ValResList
   /**
    * Constructor.
    */
+  @Deprecated
   public ValResList() {
     // nop
   }
@@ -36,6 +37,7 @@ public class ValResList
    * @param aResList {@link IList}&lt;{@link ValidationResult}&gt; - the list to add
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
+  @Deprecated
   public ValResList( IList<ValidationResult> aResList ) {
     results.addAll( aResList );
   }
@@ -44,6 +46,7 @@ public class ValResList
   // IValResList
   //
 
+  @Deprecated
   @Override
   public boolean isOk() {
     for( int i = 0, count = results.size(); i < count; i++ ) {
@@ -55,6 +58,7 @@ public class ValResList
     return true;
   }
 
+  @Deprecated
   @Override
   public boolean isWarning() {
     boolean hasWarn = false;
@@ -71,6 +75,7 @@ public class ValResList
 
   }
 
+  @Deprecated
   @Override
   public boolean isError() {
     for( int i = 0, count = results.size(); i < count; i++ ) {
@@ -82,6 +87,7 @@ public class ValResList
     return false;
   }
 
+  @Deprecated
   @Override
   public IList<ValidationResult> results() {
     return results;
@@ -100,6 +106,7 @@ public class ValResList
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @see #addNonSuccess(ValidationResult)
    */
+  @Deprecated
   public void add( ValidationResult aResult ) {
     results.add( aResult );
   }
@@ -110,6 +117,7 @@ public class ValResList
    * @param aValResList {@link IValResList} - the list to add
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
+  @Deprecated
   public void addValResList( IValResList aValResList ) {
     TsNullArgumentRtException.checkNull( aValResList );
     results.addAll( aValResList.results() );
@@ -121,6 +129,7 @@ public class ValResList
    * @param aResList {@link IList}&lt;{@link ValidationResult}&gt; - the list to add
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
+  @Deprecated
   public void addResList( IList<ValidationResult> aResList ) {
     TsNullArgumentRtException.checkNull( aResList );
     results.addAll( aResList );
@@ -135,6 +144,7 @@ public class ValResList
    * @param aResult {@link ValidationResult} - the validation result to add
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
+  @Deprecated
   public void addNonSuccess( ValidationResult aResult ) {
     TsNullArgumentRtException.checkNull( aResult );
     if( aResult != ValidationResult.SUCCESS ) {
@@ -149,6 +159,7 @@ public class ValResList
    * @param aMsgArgs Object[] - optional arguments for message string
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
+  @Deprecated
   public void info( String aMessageFormat, Object... aMsgArgs ) {
     add( ValidationResult.info( aMessageFormat, aMsgArgs ) );
   }
@@ -160,6 +171,7 @@ public class ValResList
    * @param aMsgArgs Object[] - optional arguments for message string
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
+  @Deprecated
   public void warn( String aMessageFormat, Object... aMsgArgs ) {
     add( ValidationResult.warn( aMessageFormat, aMsgArgs ) );
   }
@@ -171,6 +183,7 @@ public class ValResList
    * @param aMsgArgs Object[] - optional arguments for message string
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
+  @Deprecated
   public void error( String aMessageFormat, Object... aMsgArgs ) {
     add( ValidationResult.error( aMessageFormat, aMsgArgs ) );
   }
@@ -180,10 +193,12 @@ public class ValResList
    *
    * @param aError {@link Throwable} - exception
    */
+  @Deprecated
   public void error( Throwable aError ) {
     add( ValidationResult.error( aError ) );
   }
 
+  @Deprecated
   @Override
   public ValidationResult getFirstWorst() {
     ValidationResult vrWarn = null;
@@ -208,6 +223,7 @@ public class ValResList
   // ITSClearable
   //
 
+  @Deprecated
   @Override
   public void clear() {
     results.clear();
