@@ -26,6 +26,27 @@ public class TtiTsLineInfo
   private final static String FID_CAP_STYLE  = "capStyle";  //$NON-NLS-1$
   private final static String FID_JOIN_STYLE = "joinStyle"; //$NON-NLS-1$
 
+  private static final ITinFieldInfo TFI_LINE_STYLE = new TinFieldInfo( FID_LINE_STYLE, TtiAvEnum.INSTANCE, //
+      TSID_NAME, STR_LINE_STYLE, //
+      TSID_DESCRIPTION, STR_LINE_STYLE_D, //
+      TSID_KEEPER_ID, ETsLineType.KEEPER_ID, //
+      TSID_DEFAULT_VALUE, avValobj( ETsLineType.SOLID ) //
+  );
+
+  private static final ITinFieldInfo TFI_CAP_STYLE = new TinFieldInfo( FID_CAP_STYLE, TtiAvEnum.INSTANCE, //
+      TSID_NAME, STR_LINE_CAP_STYLE, //
+      TSID_DESCRIPTION, STR_LINE_CAP_STYLE_D, //
+      TSID_KEEPER_ID, ETsLineCapStyle.KEEPER_ID, //
+      TSID_DEFAULT_VALUE, avValobj( ETsLineCapStyle.ROUND ) //
+  );
+
+  private static final ITinFieldInfo TFI_JOIN_STYLE = new TinFieldInfo( FID_JOIN_STYLE, TtiAvEnum.INSTANCE, //
+      TSID_NAME, STR_LINE_JOIN_STYLE, //
+      TSID_DESCRIPTION, STR_LINE_JOIN_STYLE_D, //
+      TSID_KEEPER_ID, ETsLineJoinStyle.KEEPER_ID, //
+      TSID_DEFAULT_VALUE, avValobj( ETsLineJoinStyle.ROUND ) //
+  );
+
   /**
    * The type information singleton.
    */
@@ -39,24 +60,9 @@ public class TtiTsLineInfo
         TSID_DESCRIPTION, STR_LINE_THICK_D //
     ) );
 
-    fieldInfos().add( new TinFieldInfo( FID_LINE_STYLE, TtiAvEnum.INSTANCE, //
-        TSID_NAME, STR_LINE_STYLE, //
-        TSID_DESCRIPTION, STR_LINE_STYLE_D, //
-        TSID_KEEPER_ID, ETsLineType.KEEPER_ID //
-    ) );
-
-    fieldInfos().add( new TinFieldInfo( FID_CAP_STYLE, TtiAvEnum.INSTANCE, //
-        TSID_NAME, STR_LINE_CAP_STYLE, //
-        TSID_DESCRIPTION, STR_LINE_CAP_STYLE_D, //
-        TSID_KEEPER_ID, ETsLineCapStyle.KEEPER_ID //
-    ) );
-
-    fieldInfos().add( new TinFieldInfo( FID_JOIN_STYLE, TtiAvEnum.INSTANCE, //
-        TSID_NAME, STR_LINE_JOIN_STYLE, //
-        TSID_DESCRIPTION, STR_LINE_JOIN_STYLE_D, //
-        TSID_KEEPER_ID, ETsLineJoinStyle.KEEPER_ID //
-    ) );
-
+    fieldInfos().add( TFI_LINE_STYLE );
+    fieldInfos().add( TFI_CAP_STYLE );
+    fieldInfos().add( TFI_JOIN_STYLE );
   }
 
   // ------------------------------------------------------------------------------------
@@ -84,11 +90,9 @@ public class TtiTsLineInfo
       return IAtomicValue.NULL;
     }
     int width = extractChildAtomic( FID_WIDTH, aChildValues, avInt( 1 ) ).asInt();
-    ETsLineType lineType = extractChildValobj( FID_LINE_STYLE, aChildValues, avValobj( ETsLineType.SOLID ) ).asValobj();
-    ETsLineCapStyle cap =
-        extractChildValobj( FID_CAP_STYLE, aChildValues, avValobj( ETsLineCapStyle.ROUND ) ).asValobj();
-    ETsLineJoinStyle join =
-        extractChildValobj( FID_JOIN_STYLE, aChildValues, avValobj( ETsLineJoinStyle.ROUND ) ).asValobj();
+    ETsLineType lineType = extractChildValobj( TFI_LINE_STYLE, aChildValues );
+    ETsLineCapStyle cap = extractChildValobj( TFI_CAP_STYLE, aChildValues );
+    ETsLineJoinStyle join = extractChildValobj( TFI_JOIN_STYLE, aChildValues );
     return avValobj( new TsLineInfo( width, lineType, cap, join, IIntList.EMPTY ) );
   }
 
