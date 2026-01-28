@@ -41,16 +41,16 @@ public class ViselLinearGauge
    */
   public static final String FACTORY_ID = VED_ID + ".visel.LinearGauge"; //$NON-NLS-1$
 
-  private static final ITinFieldInfo TFI_VALUE_FILL = new TinFieldInfo( "valueFill", TtiTsFillInfo.INSTANCE, // //$NON-NLS-1$
+  public static final ITinFieldInfo TFI_VALUE_FILL = new TinFieldInfo( "valueFill", TtiTsFillInfo.INSTANCE, // //$NON-NLS-1$
       TSID_NAME, STR_VALUE_BACKGOUND );
 
-  private static final ITinFieldInfo TFI_VALUE = new TinFieldInfo( PROPID_VALUE, TTI_AT_FLOATING, //
+  public static final ITinFieldInfo TFI_VALUE = new TinFieldInfo( PROPID_VALUE, TTI_AT_FLOATING, //
       TSID_NAME, STR_VALUE );
 
-  private static final ITinFieldInfo TFI_MIN_VALUE = new TinFieldInfo( "minValue", TTI_AT_FLOATING, // //$NON-NLS-1$
+  public static final ITinFieldInfo TFI_MIN_VALUE = new TinFieldInfo( "minValue", TTI_AT_FLOATING, // //$NON-NLS-1$
       TSID_NAME, STR_MIN );
 
-  private static final ITinFieldInfo TFI_MAX_VALUE = new TinFieldInfo( "maxValue", TTI_AT_FLOATING, // //$NON-NLS-1$
+  public static final ITinFieldInfo TFI_MAX_VALUE = new TinFieldInfo( "maxValue", TTI_AT_FLOATING, // //$NON-NLS-1$
       TSID_NAME, STR_MAX );
 
   private static final ITinFieldInfo TFI_ARROW_HEIGHT = new TinFieldInfo( "arrowHeight", TTI_AT_INTEGER, // //$NON-NLS-1$
@@ -146,6 +146,17 @@ public class ViselLinearGauge
   // ------------------------------------------------------------------------------------
   // VedAbstractVisel
   //
+
+  // @Override
+  // protected void doDoInterceptPropsChange( IOptionSet aNewValues, IOptionSetEdit aValuesToSet ) {
+  // if( aNewValues.hasKey( TFI_ORIENTATION.id() ) ) {
+  // if( orientation != aNewValues.getValobj( TFI_ORIENTATION.id() ) ) {
+  // ID2Rectangle r = bounds();
+  // aValuesToSet.setDouble( PROPID_WIDTH, r.height() );
+  // aValuesToSet.setDouble( PROPID_HEIGHT, r.width() );
+  // }
+  // }
+  // }
 
   @Override
   protected void doUpdateCachesAfterPropsChange( IOptionSet aChangedValue ) {
@@ -243,6 +254,8 @@ public class ViselLinearGauge
       return new D2Rectangle( 0, 0 + arrowH, r.width(), r.height() - 2 * arrowH );
     }
     return new D2Rectangle( 0 + arrowH, 0, r.width() - 2 * arrowH, r.height() );
+    // setSize( r.height(), r.width() );
+    // return new D2Rectangle( 0 + arrowH, 0, r.width() - 2 * arrowH, r.height() );
   }
 
   ID2Rectangle clientRect() {
