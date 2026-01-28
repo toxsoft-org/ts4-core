@@ -126,11 +126,11 @@ public interface IValedControlConstants {
   );
 
   /**
-   * Текст всплывающей подсказки.<br>
+   * Pop-up tooltip text.<br>
    * <i>Type:</i> {@link EAtomicType#STRING}<br>
-   * <i>Usage:</i> удобочитаемый текст, который показывается во всплывающей подсказке. Пустая строка или
-   * {@link IAtomicValue#NULL} для отсутствия подсказки;<br>
-   * <i>Default value:</i> пустая строка
+   * <i>Usage:</i> Human-readable text displayed in pop-up tooltip window. An empty string or {@link IAtomicValue#NULL}
+   * turns off tooltip;<br>
+   * <i>Default value:</i> an empty string
    */
   IDataDef OPDEF_TOOLTIP_TEXT = DataDef.create( OPID_TOOLTIP_TEXT, STRING, //
       TSID_NAME, STR_TOOLTIP_TEXT, //
@@ -140,10 +140,10 @@ public interface IValedControlConstants {
   );
 
   /**
-   * Признак не желания контроля редактора занимать всю возможную ширину.<br>
+   * Determines if the control will grab all available horizontal space.<br>
    * <i>Type:</i> {@link EAtomicType#BOOLEAN}<br>
-   * <i>Usage:</i> true - контроль говорит, что предпочтительно оставить его ширину так, как он посчитал, false - по
-   * возможности занять всю возможную ширину в родительской панели<br>
+   * <i>Usage:</i> <code>true</code> - контроль говорит, что предпочтительно оставить его ширину так, как он посчитал,
+   * false - по возможности занять всю возможную ширину в родительской панели<br>
    * <i>Default value:</i> <code>false</code>
    */
   IDataDef OPDEF_IS_WIDTH_FIXED = DataDef.create( OPID_IS_WIDTH_FIXED, BOOLEAN, //
