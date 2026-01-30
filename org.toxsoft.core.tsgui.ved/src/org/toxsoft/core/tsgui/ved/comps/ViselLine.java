@@ -39,7 +39,14 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public class ViselLine
     extends VedAbstractVisel {
 
+  /**
+   * ИД свойства, содержащего координату X второй точки
+   */
   public static final String PROPID_X2 = "x2"; //$NON-NLS-1$
+
+  /**
+   * ИД свойства, содержащего координату X второй точки
+   */
   public static final String PROPID_Y2 = "y2"; //$NON-NLS-1$
 
   /**
@@ -60,8 +67,15 @@ public class ViselLine
       TSID_DEFAULT_VALUE, avFloat( 0.0 ) //
   );
 
-  private final static ITinFieldInfo TFI_X2 = new TinFieldInfo( PROP_X2, TTI_AT_FLOATING );
-  private final static ITinFieldInfo TFI_Y2 = new TinFieldInfo( PROP_Y2, TTI_AT_FLOATING );
+  /**
+   * Информация о поле, содержащем координату X второй точки
+   */
+  public final static ITinFieldInfo TFI_X2 = new TinFieldInfo( PROP_X2, TTI_AT_FLOATING );
+
+  /**
+   * Информация о поле, содержащем координату Y второй точки
+   */
+  public final static ITinFieldInfo TFI_Y2 = new TinFieldInfo( PROP_Y2, TTI_AT_FLOATING );
 
   /**
    * The VISEL factor ID.
