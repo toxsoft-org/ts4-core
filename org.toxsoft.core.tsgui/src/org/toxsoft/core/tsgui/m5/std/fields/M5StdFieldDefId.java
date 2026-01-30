@@ -38,7 +38,7 @@ public class M5StdFieldDefId<T extends IStridable>
    */
   public M5StdFieldDefId( Object... aIdsAndValues ) {
     super( FID_ID, DDEF_IDPATH, aIdsAndValues );
-    addFlags( M5FF_INVARIANT );
+    addFlags( M5FF_COLUMN | M5FF_INVARIANT );
   }
 
   // ------------------------------------------------------------------------------------

@@ -1066,6 +1066,8 @@ public abstract class MultiPaneComponent<T>
   }
 
   /**
+   * Subclass may perform additional UI tuning before panel is displayed to the user.
+   * <p>
    * Like {@link #doAfterCreateControls()} but called after tree is filled with items.
    * <p>
    * Does nothing in base class, there is no need to call superclass method when overriding.
