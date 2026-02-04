@@ -50,6 +50,36 @@ public class ViselCircleLamp
   public static final String PROPID_SHOW_EDGING  = "showEdging";  //$NON-NLS-1$
   public static final String PROPID_USE_GRADIENT = "useGradient"; //$NON-NLS-1$
 
+  private static final IDataDef PROP_EDGING_WIDTH = create3( PROPID_EDGING_WIDTH, DDEF_FLOATING, //
+      TSID_NAME, STR_EDGING_WIDTH, //
+      TSID_DESCRIPTION, STR_EDGING_WIDTH_D, //
+      TSID_DEFAULT_VALUE, AvUtils.avFloat( 4 ) //
+  );
+
+  private static final IDataDef PROP_SHOW_EDGING = create3( PROPID_SHOW_EDGING, DDEF_BOOLEAN, //
+      TSID_NAME, STR_SHOW_EDGING, //
+      TSID_DESCRIPTION, STR_SHOW_EDGING_D, //
+      TSID_DEFAULT_VALUE, AV_TRUE //
+  );
+
+  private static final IDataDef PROP_USE_GRADIENT = create3( PROPID_USE_GRADIENT, DDEF_BOOLEAN, //
+      TSID_NAME, STR_USE_GRADIENT, //
+      TSID_DESCRIPTION, STR_USE_GRADIENT_D, //
+      TSID_DEFAULT_VALUE, AV_TRUE //
+  );
+
+  private static final ITinTypeInfo TTI_ON_OFF_STATE = new TinAtomicTypeInfo.TtiBoolean( PROP_ON_OF_STATE );
+  public static final ITinFieldInfo TFI_ON_OFF_STATE = new TinFieldInfo( PROP_ON_OF_STATE, TTI_ON_OFF_STATE );
+
+  private static final ITinTypeInfo TTI_EDGING_WIDTH = new TinAtomicTypeInfo.TtiDouble( PROP_EDGING_WIDTH );
+  public static final ITinFieldInfo TFI_EDGING_WIDTH = new TinFieldInfo( PROP_EDGING_WIDTH, TTI_EDGING_WIDTH );
+
+  private static final ITinTypeInfo TTI_SHOW_EDGING = new TinAtomicTypeInfo.TtiBoolean( PROP_SHOW_EDGING );
+  public static final ITinFieldInfo TFI_SHOW_EDGING = new TinFieldInfo( PROP_SHOW_EDGING, TTI_SHOW_EDGING );
+
+  private static final ITinTypeInfo TTI_USE_GRADIENT = new TinAtomicTypeInfo.TtiBoolean( PROP_USE_GRADIENT );
+  public static final ITinFieldInfo TFI_USE_GRADIENT = new TinFieldInfo( PROP_USE_GRADIENT, TTI_USE_GRADIENT );
+
   /**
    * The VISEL factory singleton.
    */
@@ -58,36 +88,6 @@ public class ViselCircleLamp
       TSID_DESCRIPTION, STR_VISEL_CIRCLE_LAMP_D, //
       TSID_ICON_ID, ICONID_VISEL_CIRCLE_LAMP //
   ) {
-
-    private static final IDataDef PROP_EDGING_WIDTH = create3( PROPID_EDGING_WIDTH, DDEF_FLOATING, //
-        TSID_NAME, STR_EDGING_WIDTH, //
-        TSID_DESCRIPTION, STR_EDGING_WIDTH_D, //
-        TSID_DEFAULT_VALUE, AvUtils.avFloat( 4 ) //
-    );
-
-    private static final IDataDef PROP_SHOW_EDGING = create3( PROPID_SHOW_EDGING, DDEF_BOOLEAN, //
-        TSID_NAME, STR_SHOW_EDGING, //
-        TSID_DESCRIPTION, STR_SHOW_EDGING_D, //
-        TSID_DEFAULT_VALUE, AV_TRUE //
-    );
-
-    private static final IDataDef PROP_USE_GRADIENT = create3( PROPID_USE_GRADIENT, DDEF_BOOLEAN, //
-        TSID_NAME, STR_USE_GRADIENT, //
-        TSID_DESCRIPTION, STR_USE_GRADIENT_D, //
-        TSID_DEFAULT_VALUE, AV_TRUE //
-    );
-
-    private static final ITinTypeInfo  TTI_ON_OFF_STATE = new TinAtomicTypeInfo.TtiBoolean( PROP_ON_OF_STATE );
-    private static final ITinFieldInfo TFI_ON_OFF_STATE = new TinFieldInfo( PROP_ON_OF_STATE, TTI_ON_OFF_STATE );
-
-    private static final ITinTypeInfo  TTI_EDGING_WIDTH = new TinAtomicTypeInfo.TtiDouble( PROP_EDGING_WIDTH );
-    private static final ITinFieldInfo TFI_EDGING_WIDTH = new TinFieldInfo( PROP_EDGING_WIDTH, TTI_EDGING_WIDTH );
-
-    private static final ITinTypeInfo  TTI_SHOW_EDGING = new TinAtomicTypeInfo.TtiBoolean( PROP_SHOW_EDGING );
-    private static final ITinFieldInfo TFI_SHOW_EDGING = new TinFieldInfo( PROP_SHOW_EDGING, TTI_SHOW_EDGING );
-
-    private static final ITinTypeInfo  TTI_USE_GRADIENT = new TinAtomicTypeInfo.TtiBoolean( PROP_USE_GRADIENT );
-    private static final ITinFieldInfo TFI_USE_GRADIENT = new TinFieldInfo( PROP_USE_GRADIENT, TTI_USE_GRADIENT );
 
     @Override
     protected ITinTypeInfo doCreateTypeInfo() {
