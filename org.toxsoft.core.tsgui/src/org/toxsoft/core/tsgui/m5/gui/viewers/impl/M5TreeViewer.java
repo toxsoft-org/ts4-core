@@ -554,7 +554,7 @@ public class M5TreeViewer<T>
     // dima 24.10.25 auto tune column width
     tree.addListener( SWT.Expand, aEvent -> Display.getDefault().asyncExec( () -> {
       // должно вызываться после окончания расхлопывания любого узла дерева
-      if( !columnManager().columns().isEmpty() ) {
+      if( !tree.isDisposed() && !columnManager().columns().isEmpty() ) {
         for( int i = 0; i < columnManager().columns().size() - 1; i++ ) {
           IM5Column<T> col = columnManager().columns().values().get( i );
           col.pack();
