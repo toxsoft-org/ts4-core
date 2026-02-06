@@ -78,6 +78,24 @@ public final class TsThreadExecutor
     synchronizer.setThread( aThread );
   }
 
+  /**
+   * Set the maximum message queue size at which a warning is generated in the log.
+   *
+   * @param aQueueMax int queue size
+   */
+  public void setLoggerWarningQueueMax( int aQueueMax ) {
+    synchronizer.setLoggerWarningQueueMax( aQueueMax );
+  }
+
+  /**
+   * Set the maximum message queue size at which a error is generated in the log.
+   *
+   * @param aQueueMax int queue size
+   */
+  public void setLoggerErrorQueueMax( int aQueueMax ) {
+    synchronizer.setLoggerErrorQueueMax( aQueueMax );
+  }
+
   // ------------------------------------------------------------------------------------
   // ICloseable
   //

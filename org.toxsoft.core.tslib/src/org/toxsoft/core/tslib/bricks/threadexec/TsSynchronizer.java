@@ -22,8 +22,8 @@ final class TsSynchronizer {
   private static final String METHOD_TIMER_EXEC = "timerExec"; //$NON-NLS-1$
   private static final String METHOD_RUN_LOCK   = "runLock";   //$NON-NLS-1$
 
-  private static final int WARNING_MESSAGES_MAX = 4096;
-  private static final int ERROR_MESSAGES_MAX   = 8192;
+  private int warningQueueMax = 4096;
+  private int errorQueueMax   = 8192;
 
   /**
    * Время (мсек) ожидания завершения синхронного запроса после которого выдается предупреждение в журнал о длительном
@@ -152,6 +152,24 @@ final class TsSynchronizer {
       queryShutdown = false;
       doJobThread = aThread;
     }
+  }
+
+  /**
+   * Set the maximum message queue size at which a warning is generated in the log.
+   *
+   * @param aQueueMax int queue size
+   */
+  void setLoggerWarningQueueMax( int aQueueMax ) {
+    warningQueueMax = aQueueMax;
+  }
+
+  /**
+   * Set the maximum message queue size at which a error is generated in the log.
+   *
+   * @param aQueueMax int queue size
+   */
+  void setLoggerErrorQueueMax( int aQueueMax ) {
+    errorQueueMax = aQueueMax;
   }
 
   /**
@@ -418,11 +436,11 @@ final class TsSynchronizer {
       // resume dojob thread
       messageLock.notify();
     }
-    if( messageSize > ERROR_MESSAGES_MAX ) {
+    if( messageSize > errorQueueMax ) {
       logger.error( "TsSynchronizer().addLast(..): size = %d", messageSize );
       return;
     }
-    if( messageSize > WARNING_MESSAGES_MAX ) {
+    if( messageSize > warningQueueMax ) {
       logger.warning( "TsSynchronizer().addLast(..): size = %d", messageSize );
       return;
     }
