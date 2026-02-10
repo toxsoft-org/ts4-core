@@ -4,8 +4,10 @@ import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Meta-information used to edit single data type constraint, on of the {@link IDataType#params()}.
@@ -23,7 +25,7 @@ public interface IConstraintInfo
    * <li>group constraints into the tree nodes for easier visual management;</li>
    * <li>to restrict categories to be used in any particular case.</li>
    * </ul>
-   * Note: right now only categories management is not implemented it is a TODO to implement categories
+   * Note: right now categories management is not implemented it is a TODO to implement categories
    *
    * @return String category ID, a valid IDpath
    */
@@ -38,9 +40,11 @@ public interface IConstraintInfo
 
   /**
    * Determines if constraint must have value of type {@link #constraintType()} or same as data type.
+   * <p>
+   * When {@link IDataType#atomicType()} is {@link EAtomicType#NONE} then values of any type is allowed.
    *
    * @return boolean - the sign that constraint must have the same type as {@link IDataType#atomicType()}<br>
-   *         <b>true</b> - constraint must have value of {@link IDataType#atomicType()};<br>
+   *         <b>true</b> - constraint must have value of {@link IDataType#atomicType()} or assignable;<br>
    *         <b>false</b> - constraint must have value of {@link #constraintType()};.
    */
   boolean isConstraintTypeSameAsDataType();
@@ -48,7 +52,7 @@ public interface IConstraintInfo
   /**
    * Returns atomic type of the constraint value if {@link #isConstraintTypeSameAsDataType()} = <code>false</code>.
    * <p>
-   * Note: method may return {@link EAtomicType#NONE} indicating thet constraint may have value of any type.
+   * Note: method may return {@link EAtomicType#NONE} indicating that constraint may have value of any type.
    *
    * @return {@link EAtomicType} - atomic type of the constraint value
    */
@@ -96,5 +100,24 @@ public interface IConstraintInfo
    * @return {@link IStridablesList}&gt;{@link EAtomicType}&lt; - list of applicable {@link IDataType#atomicType()}
    */
   IStridablesList<EAtomicType> listApplicableDataTypes();
+
+  /**
+   * Checks that the specified value of this constraint is acceptable for the specified data type.
+   * <p>
+   * Reforms at least following checks:
+   * <ul>
+   * <li>this constraint is applicable for data type;</li>
+   * <li>if value is {@link IAtomicValue#NULL NULL} check it is allowed;</li>
+   * <li>value has same type as data if requested so;</li>
+   * <li>value has type assignable to the constraint type {@link #constraintType()};</li>
+   * <li>value is from lookup list if requested so.</li>
+   * </ul>
+   *
+   * @param aDataAtomicType {@link EAtomicType} - type of data this constraint is applied to
+   * @param aConstraintValue {@link IAtomicValue} - the constraint value to be checked
+   * @return {@link ValidationResult} - the check result
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  ValidationResult validateConstraint( EAtomicType aDataAtomicType, IAtomicValue aConstraintValue );
 
 }

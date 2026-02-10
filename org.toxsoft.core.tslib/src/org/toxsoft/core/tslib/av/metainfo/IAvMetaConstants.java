@@ -324,6 +324,13 @@ public interface IAvMetaConstants {
       TIMESTAMP //
   );
 
+  IConstraintInfo CONTRINF_KEEPER_ID = new ConstraintInfoBuilder( TSID_KEEPER_ID ). //
+      setNameAndDescription( STR_KEEPER_ID, STR_KEEPER_ID_D ). //
+      setCategoryId( CATEGID_TSLIB_BUILTIN ). //
+      setConstraintTypeToDataType(). //
+      setApplicableDataTypes( new StridablesList<>( EAtomicType.VALOBJ ) ). //
+      build();
+
   IConstraintInfo CONTRINF_DEFAULT_VALUE = new ConstraintInfoBuilder( TSID_DEFAULT_VALUE ). //
       setNameAndDescription( STR_DEFAULT_VALUE, STR_DEFAULT_VALUE_D ). //
       setCategoryId( CATEGID_TSLIB_BUILTIN ). //
@@ -364,7 +371,18 @@ public interface IAvMetaConstants {
       setApplicableDataTypes( ALL_NUMERICAL_ATOMIC_TYPES ). //
       build();
 
-  // TODO add more constraint infos
+  IStridablesList<IConstraintInfo> BUILTIN_CONSTRAINT_INFOS = new StridablesList<>( //
+      CONTRINF_KEEPER_ID, //
+      CONTRINF_DEFAULT_VALUE, //
+      CONTRINF_FORMAT_STRING, //
+      CONTRINF_MIN_INCLUSIVE, //
+      CONTRINF_MIN_EXCLUSIVE, //
+      CONTRINF_MAX_INCLUSIVE, //
+      CONTRINF_MAX_EXCLUSIVE //
+
+  // TODO add more constraints here
+
+  );
 
   // ------------------------------------------------------------------------------------
   // helper methods
