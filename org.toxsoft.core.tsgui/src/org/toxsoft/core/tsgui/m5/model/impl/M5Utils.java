@@ -61,6 +61,7 @@ public class M5Utils {
     aDomain.addModel( new CollConstraintM5Model() );
     aDomain.addModel( new AtomicTypeM5Model() );
     aDomain.addModel( new IdValueM5Model() );
+    aDomain.addModel( new IdValueConstraintM5Model() );
     aDomain.addModel( new DataTypeM5Model() );
     aDomain.addModel( new DataDefM5Model() );
     aDomain.addModel( new ValidationResultM5Model() );
