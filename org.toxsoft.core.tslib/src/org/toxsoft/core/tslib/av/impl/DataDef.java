@@ -482,7 +482,7 @@ public final class DataDef
 
   @Override
   public String toString() {
-    return id() + '(' + atomicType.id() + ')';
+    return this.getClass().getSimpleName() + ':' + ' ' + id() + ' ' + '(' + atomicType.id() + ')';
   }
 
   @Override
