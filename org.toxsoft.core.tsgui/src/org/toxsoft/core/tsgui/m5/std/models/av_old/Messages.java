@@ -1,13 +1,9 @@
-package org.toxsoft.core.tsgui.m5.std.models.av;
+package org.toxsoft.core.tsgui.m5.std.models.av_old;
 
 import java.util.*;
 
-/**
- * Constants from <code>IXxxResources</code> to resources in <code>messages_xx_YY.properties</code> dispatcher.
- *
- * @author hazard157
- */
-class Messages {
+@SuppressWarnings( "javadoc" )
+public class Messages {
 
   private static final String BUNDLE_NAME = Messages.class.getName().toLowerCase();
 
@@ -16,12 +12,6 @@ class Messages {
   private Messages() {
   }
 
-  /**
-   * Returns the localized text for the constant from <code>IXxxResources</code>.
-   *
-   * @param aKey String - the constant from the <code>IXxxResources</code>
-   * @return String - localized text
-   */
   public static String getString( String aKey ) {
     try {
       return RESOURCE_BUNDLE.getString( aKey );

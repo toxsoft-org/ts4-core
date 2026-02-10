@@ -1,8 +1,8 @@
-package org.toxsoft.core.tsgui.m5.std.models.av;
+package org.toxsoft.core.tsgui.m5.std.models.av_old;
 
-import static org.toxsoft.core.tsgui.ITsGuiConstants.*;
 import static org.toxsoft.core.tsgui.m5.IM5Constants.*;
-import static org.toxsoft.core.tsgui.m5.std.models.av.ITsResources.*;
+import static org.toxsoft.core.tsgui.m5.std.models.av_old.ITsResources.*;
+import static org.toxsoft.core.tslib.ITsHardConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
@@ -10,13 +10,12 @@ import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.m5.model.impl.*;
 import org.toxsoft.core.tslib.av.*;
-import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.misc.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 
 /**
- * M5-model of {@link IdValue} used to view/edit constraints of the data type {@link IDataType#params()}.
+ * Модель объектов типа {@link IdValue}.
  *
  * @author hazard157
  */
@@ -26,7 +25,7 @@ public class IdValueM5Model
   /**
    * The model ID.
    */
-  public static final String MODEL_ID = TSGUI_M5_ID + ".IdValue"; //$NON-NLS-1$
+  public static final String MODEL_ID = TS_ID + ".IdValue"; //$NON-NLS-1$
 
   /**
    * ID of the field {@link #VALUE}.
@@ -40,7 +39,7 @@ public class IdValueM5Model
 
     @Override
     protected void doInit() {
-      setNameAndDescription( STR_IDVAL_ID, STR_IDVAL_ID_D );
+      setNameAndDescription( STR_N_IDVAL_ID, STR_D_IDVAL_ID );
       setDefaultValue( DEFAULT_ID_AV );
       setFlags( M5FF_COLUMN );
     }
@@ -59,7 +58,7 @@ public class IdValueM5Model
 
     @Override
     protected void doInit() {
-      setNameAndDescription( STR_IDVAL_VALUE, STR_IDVAL_VALUE_D );
+      setNameAndDescription( STR_N_IDVAL_VALUE, STR_D_IDVAL_VALUE );
       setDefaultValue( IAtomicValue.NULL );
       setFlags( M5FF_COLUMN );
     }
@@ -71,11 +70,6 @@ public class IdValueM5Model
 
   };
 
-  /**
-   * Li=LM for this model.
-   *
-   * @author hazard157
-   */
   class LifecycleManager
       extends M5LifecycleManager<IdValue, Object> {
 
@@ -119,7 +113,7 @@ public class IdValueM5Model
    */
   public IdValueM5Model() {
     super( MODEL_ID, IdValue.class );
-    setNameAndDescription( STR_M5M_IDVAL, STR_M5M_IDVAL_D );
+    setNameAndDescription( STR_N_M5M_IDVAL, STR_D_M5M_IDVAL );
     addFieldDefs( ID, VALUE );
   }
 

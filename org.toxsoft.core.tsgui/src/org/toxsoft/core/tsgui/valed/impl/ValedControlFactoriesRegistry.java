@@ -13,6 +13,7 @@ import org.toxsoft.core.tsgui.valed.controls.av.*;
 import org.toxsoft.core.tsgui.valed.controls.basic.*;
 import org.toxsoft.core.tsgui.valed.controls.enums.*;
 import org.toxsoft.core.tsgui.valed.controls.graphics.*;
+import org.toxsoft.core.tsgui.valed.controls.metainf.*;
 import org.toxsoft.core.tsgui.valed.controls.time.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
@@ -99,6 +100,9 @@ public class ValedControlFactoriesRegistry
 
     registerFactory( ValedCombiCondInfo.FACTORY );
     registerFactory( ValedAvValobjCombiCondInfo.FACTORY );
+
+    registerFactory( ValedDataType.FACTORY );
+    registerFactory( ValedIdValueConstraint.FACTORY );
 
   }
 
