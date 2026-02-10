@@ -460,7 +460,7 @@ public class M5FieldDef<T, V>
    * In base class throws an exception, never to call superclass method when overriding.
    *
    * @param aEntity &lt;T&gt; - the entity, never is <code>null</code>
-   * @return String - text to display as field value
+   * @return String - text to display as field value, must not be <code>null</code>
    */
   protected String doGetFieldValueName( T aEntity ) {
     throw new TsInternalErrorRtException( FMT_ERR_NO_TEXT_GETTER_CODE, ownerModel.id(), id() );
@@ -472,7 +472,7 @@ public class M5FieldDef<T, V>
    * In base class returns an empty string, there is no need to call superclass method when overriding.
    *
    * @param aEntity &lt;T&gt; - the entity, never is <code>null</code>
-   * @return String - text to display as description to the field value
+   * @return String - text to display as description to the field value, must not be <code>null</code>
    */
   protected String doGetFieldValueDescription( T aEntity ) {
     return TsLibUtils.EMPTY_STRING;
