@@ -10,6 +10,15 @@ interface ITsResources {
   /**
    * {@link DataTypeM5Model}
    */
+  String STR_M5M_DATA_DEF       = Messages.getString( "DataDef.STR_M5M_DATA_DEF" );       //$NON-NLS-1$
+  String STR_M5M_DATA_DEF_D     = Messages.getString( "DataDef.STR_M5M_DATA_DEF_D" );     //$NON-NLS-1$
+  String STR_DATADEF_ID         = Messages.getString( "DataDef.STR_DATADEF_ID" );         //$NON-NLS-1$
+  String STR_DATADEF_ID_D       = Messages.getString( "DataDef.STR_DATADEF_ID_D" );       //$NON-NLS-1$
+  String FMT_ERR_INV_DATADEF_ID = Messages.getString( "DataDef.FMT_ERR_INV_DATADEF_ID" ); //$NON-NLS-1$
+
+  /**
+   * {@link DataTypeM5Model}
+   */
   String STR_M5M_DATA_TYPE     = Messages.getString( "DataType.STR_M5M_DATA_TYPE" );     //$NON-NLS-1$
   String STR_M5M_DATA_TYPE_D   = Messages.getString( "DataType.STR_M5M_DATA_TYPE_D" );   //$NON-NLS-1$
   String STR_ATOMIC_TYPE       = Messages.getString( "DataType.STR_ATOMIC_TYPE" );       //$NON-NLS-1$

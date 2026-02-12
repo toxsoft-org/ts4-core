@@ -25,6 +25,7 @@ public class M5StdFieldDefId<T extends IStridable>
   public M5StdFieldDefId() {
     super( FID_ID, DDEF_IDPATH );
     setNameAndDescription( STR_N_ID, STR_D_ID );
+    setDefaultValue( DEFAULT_ID_AV );
     setFlags( M5FF_COLUMN | M5FF_INVARIANT );
   }
 

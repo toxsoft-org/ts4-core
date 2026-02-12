@@ -6,9 +6,6 @@ import static org.toxsoft.core.tsgui.m5.std.models.av.ITsResources.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.m5.model.impl.*;
-import org.toxsoft.core.tsgui.valed.api.*;
-import org.toxsoft.core.tsgui.valed.controls.metainf.*;
-import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 
 /**
@@ -20,63 +17,12 @@ import org.toxsoft.core.tslib.av.metainfo.*;
  * @author hazard157
  */
 public class DataTypeM5Model
-    extends M5Model<IDataType> {
+    extends DataTypeM5ModelBase<IDataType> {
 
   /**
    * The model ID.
    */
   public static final String MODEL_ID = TSGUI_M5_ID + ".DataType"; //$NON-NLS-1$
-
-  /**
-   * ID of field {@link #DATA_TYPE}.
-   */
-  public static final String FID_DATA_TYPE = "dataType"; //$NON-NLS-1$
-
-  /**
-   * ID of field {@link #ATOMIC_TYPE}.
-   */
-  public static final String FID_ATOMIC_TYPE = "atomicType"; //$NON-NLS-1$
-
-  /**
-   * Field returns modeled entity as is to be edited with {@link ValedDataType}.
-   */
-  public final IM5FieldDef<IDataType, IDataType> DATA_TYPE = new M5FieldDef<>( FID_DATA_TYPE, IDataType.class ) {
-
-    @Override
-    protected void doInit() {
-      setNameAndDescription( STR_FIELD_DATA_TYPE, STR_FIELD_DATA_TYPE_D );
-      params().setBool( IValedControlConstants.OPDEF_NO_FIELD_LABEL, true );
-      params().setInt( IValedControlConstants.OPDEF_VERTICAL_SPAN, 10 );
-      params().setBool( IValedControlConstants.OPDEF_IS_HEIGHT_FIXED, false );
-      setValedEditor( ValedDataType.FACTORY_NAME );
-    }
-
-    protected IDataType doGetFieldValue( IDataType aEntity ) {
-      return aEntity;
-    }
-
-    protected String doGetFieldValueName( IDataType aEntity ) {
-      return aEntity.toString();
-    }
-
-  };
-
-  /**
-   * Field {@link IDataType#atomicType()}
-   */
-  public final IM5SingleLookupFieldDef<IDataType, EAtomicType> ATOMIC_TYPE =
-      new M5SingleLookupFieldDef<>( FID_ATOMIC_TYPE, AtomicTypeM5Model.MODEL_ID ) {
-
-        @Override
-        protected void doInit() {
-          setNameAndDescription( STR_ATOMIC_TYPE, STR_ATOMIC_TYPE_D );
-        }
-
-        protected EAtomicType doGetFieldValue( IDataType aEntity ) {
-          return aEntity.atomicType();
-        }
-
-      };
 
   /**
    * LM for this model.
@@ -102,7 +48,8 @@ public class DataTypeM5Model
 
     @Override
     protected void doRemove( IDataType aEntity ) {
-      // nop
+      // nop addFlags( M5FF_COLUMN | M5FF_INVARIANT );
+
     }
 
   }
