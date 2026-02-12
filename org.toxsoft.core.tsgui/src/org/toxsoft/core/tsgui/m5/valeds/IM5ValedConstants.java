@@ -62,13 +62,13 @@ public interface IM5ValedConstants {
    * The radio buttons to select one value for from lookup ones. <br>
    * This is widget type ID to be specified in {@link #M5_VALED_OPDEF_WIDGET_TYPE_ID}.
    */
-  String M5VWTID_RADIO = "Radio"; //$NON-NLS-1$
+  // String M5VWTID_RADIO = "Radio"; //$NON-NLS-1$
 
   /**
    * The check buttons to select set of value from few lookup ones. <br>
    * This is widget type ID to be specified in {@link #M5_VALED_OPDEF_WIDGET_TYPE_ID}.
    */
-  String M5VWTID_CHECK_BOX = "CheckBox"; //$NON-NLS-1$
+  // String M5VWTID_CHECK_BOX = "CheckBox"; //$NON-NLS-1$
 
   /**
    * Combo box with drop-down list to select one value for few lookup ones. <br>

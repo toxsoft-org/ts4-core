@@ -1,10 +1,12 @@
 package org.toxsoft.core.tslib.av.metainfo.constr;
 
 import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.errors.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.*;
@@ -121,6 +123,40 @@ public final class ConstraintInfo
   @Override
   public IStridablesList<EAtomicType> listApplicableDataTypes() {
     return applicableTypes;
+  }
+
+  @Override
+  public ValidationResult validateConstraint( EAtomicType aDataAtomicType, IAtomicValue aConstraintValue ) {
+    TsNullArgumentRtException.checkNulls( aDataAtomicType, aConstraintValue );
+    // check atomic type is applicable
+    if( !applicableTypes.hasElem( aDataAtomicType ) ) {
+      return ValidationResult.error( "Constraint '%s' is not applicable to the data type '%d'", id(),
+          aDataAtomicType.id() );
+    }
+    // check if NULL it is allowed
+    if( aConstraintValue == IAtomicValue.NULL && !isNullAllowed ) {
+      return ValidationResult.error( "Constraint '%s' does not allows NULL value", id() );
+    }
+    // check value has same type as data if requested so
+    if( isConstraintTypeSameAsDataType() ) {
+      if( !AvTypeCastRtException.canAssign( aDataAtomicType, aConstraintValue.atomicType() ) ) {
+        return ValidationResult.error( "Constraint '%s': value type '%s' must be the same as data type '%s'", id(),
+            aConstraintValue.atomicType().id(), aDataAtomicType.id() );
+      }
+    }
+    // check value has type assignable to constraintType()
+    if( !AvTypeCastRtException.canAssign( constraintType, aConstraintValue.atomicType() ) ) {
+      return ValidationResult.error( "Constraint '%s': value type '%s' must be of requested type '%s'", id(),
+          aConstraintValue.atomicType().id(), constraintType().id() );
+    }
+    // check value is from lookup list if requested so
+    if( isOnlyLookupValuesAllowed() ) {
+      if( !lookupValues.hasElem( aConstraintValue ) ) {
+        return ValidationResult.error( "Constraint '%s': value '%s' is not in allowed lookup values list", id(),
+            aConstraintValue.toString() );
+      }
+    }
+    return ValidationResult.SUCCESS;
   }
 
 }

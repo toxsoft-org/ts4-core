@@ -1,6 +1,10 @@
 package org.toxsoft.core.tsgui.m5.gui.mpc.impl;
 
+import static org.toxsoft.core.tsgui.m5.IM5Constants.*;
 import static org.toxsoft.core.tsgui.m5.gui.mpc.IMultiPaneComponentConstants.*;
+import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
+
+import java.util.*;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
@@ -12,6 +16,9 @@ import org.toxsoft.core.tsgui.m5.gui.viewers.impl.*;
 import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.m5.model.impl.*;
 import org.toxsoft.core.tsgui.panels.lazy.*;
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.bricks.strid.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.coll.helpers.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -114,11 +121,11 @@ public class MultiPaneComponentModown<T>
 
   @Override
   protected T doAddCopyItem( T aSrcItem ) {
-    ITsDialogInfo cdi = doCreateDialogInfoToAddItem();
+    ITsDialogInfo cdi = doCreateDialogInfoToAddCopyItem( aSrcItem );
     IM5LifecycleManager<T> lm = getNonNullLM();
     IM5BunchEdit<T> initVals = new M5BunchEdit<>( model() );
     initVals.fillFrom( aSrcItem, false ); // leave originalEntity = null
-    doAdjustEntityCreationInitialValues( initVals );
+    doAdjustEntityTemplateCreationInitialValues( initVals, aSrcItem );
     return M5GuiUtils.askCreate( tsContext(), model(), initVals, cdi, lm );
   }
 
@@ -163,11 +170,60 @@ public class MultiPaneComponentModown<T>
    * Subclass may adjust initial values for entity creation.
    * <p>
    * Argument is new instance of an editable bunch returned by {@link IM5LifecycleManager#createNewItemValues()}.
+   * <p>
+   * In the base class does nothing.
    *
    * @param aValues {@link IM5BunchEdit}&lt;T&gt; - initial values to adjust
    */
   protected void doAdjustEntityCreationInitialValues( IM5BunchEdit<T> aValues ) {
     // nop
+  }
+
+  /**
+   * Subclass may adjust initial values for template-based entity creation.
+   * <p>
+   * Argument is new instance of an editable bunch returned by {@link IM5LifecycleManager#createNewItemValues()}.
+   * <p>
+   * Default implemetaion calls {@link #doAdjustEntityCreationInitialValues(IM5BunchEdit)} and for {@link IStridable}
+   * items adjusts ID field if it the same as source item's ID.
+   *
+   * @param aValues {@link IM5BunchEdit}&lt;T&gt; - initial values to adjust
+   * @param aSrcItem &lt;T&gt; - source item used as a template for new item creation
+   */
+  protected void doAdjustEntityTemplateCreationInitialValues( IM5BunchEdit<T> aValues, T aSrcItem ) {
+    doAdjustEntityCreationInitialValues( aValues );
+    // for IStridable items guess and prepare ID field
+    IM5FieldDef<T, ?> fdef = model().fieldDefs().findByKey( FID_ID );
+    if( fdef == null || !IStridable.class.isAssignableFrom( model().entityClass() ) ) {
+      return;
+    }
+    // get new and source ID values as a raw objects
+    IM5BunchEdit<T> srcBunch = new M5BunchEdit<>( model() );
+    srcBunch.fillFrom( aSrcItem, true );
+    Object rawNewId = aValues.get( FID_ID );
+    Object rawSrcId = srcBunch.get( FID_ID );
+    // if new and source are same, adjust new ID
+    if( Objects.equals( rawSrcId, rawNewId ) ) {
+      String newId = null;
+      boolean isAtomicValue = false;
+      if( fdef.valueClass().equals( String.class ) ) {
+        newId = (String)rawNewId;
+      }
+      else {
+        if( fdef.valueClass().equals( IAtomicValue.class ) ) {
+          IAtomicValue av = (IAtomicValue)rawNewId;
+          if( av.atomicType() == EAtomicType.STRING ) {
+            isAtomicValue = true;
+            newId = av.asString();
+          }
+        }
+      }
+      if( newId != null ) { // known field type class detected, process new ID change
+        newId = StridUtils.createIdPathCopy( newId );
+        rawNewId = isAtomicValue ? avStr( newId ) : newId;
+        aValues.set( FID_ID, rawNewId );
+      }
+    }
   }
 
   /**
@@ -192,9 +248,10 @@ public class MultiPaneComponentModown<T>
    * <p>
    * Note: method is called from {@link #doAddCopyItem(Object)}.
    *
+   * @param aSrcItem &lt;T&gt; - source item used as a template for new item creation
    * @return {@link ITsDialogInfo} - editing dialog window parameters
    */
-  protected ITsDialogInfo doCreateDialogInfoToAddCopyItem() {
+  protected ITsDialogInfo doCreateDialogInfoToAddCopyItem( T aSrcItem ) {
     return TsDialogInfo.forCreateEntity( tsContext() );
   }
 

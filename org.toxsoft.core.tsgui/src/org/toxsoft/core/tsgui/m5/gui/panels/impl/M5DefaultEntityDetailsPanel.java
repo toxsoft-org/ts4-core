@@ -2,10 +2,10 @@ package org.toxsoft.core.tsgui.m5.gui.panels.impl;
 
 import static org.toxsoft.core.tsgui.m5.IM5Constants.*;
 
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.m5.*;
-import org.toxsoft.core.tsgui.m5.gui.panels.IM5EntityPanel;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.m5.gui.panels.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link IM5EntityPanel} default implementation to show datail about specified entity.
@@ -39,6 +39,12 @@ public class M5DefaultEntityDetailsPanel<T>
         addField( fDef.id() );
       }
     }
+  }
+
+  @Override
+  protected void doInitLayout() {
+    // TODO Auto-generated method stub
+    super.doInitLayout();
   }
 
 }

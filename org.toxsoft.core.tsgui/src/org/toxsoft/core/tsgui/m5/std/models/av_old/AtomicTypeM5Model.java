@@ -1,6 +1,6 @@
-package org.toxsoft.core.tsgui.m5.std.models.av;
+package org.toxsoft.core.tsgui.m5.std.models.av_old;
 
-import static org.toxsoft.core.tsgui.ITsGuiConstants.*;
+import static org.toxsoft.core.tslib.ITsHardConstants.*;
 
 import org.toxsoft.core.tsgui.m5.std.models.enums.*;
 import org.toxsoft.core.tslib.av.*;
@@ -16,7 +16,7 @@ public class AtomicTypeM5Model
   /**
    * The model ID.
    */
-  public static final String MODEL_ID = TSGUI_M5_ID + ".AtomicType"; //$NON-NLS-1$
+  public static final String MODEL_ID = TS_ID + "EAtomicType"; //$NON-NLS-1$
 
   /**
    * Constructor.

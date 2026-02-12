@@ -876,11 +876,9 @@ public final class StridUtils {
   //
 
   /**
-   * The postfix added to IDpath to create the copy with method FIXME ???.
+   * The postfix added to IDpath to create the copy with method {@link #createIdPathCopy(String)}.
    */
   public static final String ID_COPY_POSTFIX = "__copy"; //$NON-NLS-1$
-
-  private static final String IDPATH_COPY_POSTFIX = CHAR_ID_PATH_DELIMITER + ID_COPY_POSTFIX;
 
   /**
    * Converts STRID the to IDpath indicating it is a "Copy STRID".
@@ -891,12 +889,14 @@ public final class StridUtils {
    * note that if copy of the source object already exists then this method will create the non-unique ID.
    * <p>
    * The convention of creating copy STRID (in this implementation) is to add {@link #ID_COPY_POSTFIX} to the end of
-   * STRID. Thus the STRID Making easier for humans to distinguish between common STRIDs and @COpy STRIDs". Note that
-   * How copy STRIDs are created is not a part of this API, only methods listed below allow to manage @CopySTRIDs"
+   * STRID. Thus the STRID Making easier for humans to distinguish between common STRIDs and "Copy STRIDs". Note that
+   * how copy STRIDs are created is not a part of this API, only methods listed below allow to manage "CopySTRIDs"
    * programmatically.
    * <p>
-   * The set of methods {@link #createIdPathCopy(String)}, {@link #createIdNameCopy(String)}, {@link #isIdCopy(String)}
-   * and #{@link #resoreFomrCopyStrid(String)} allows to manage STRID copies created by convention above.
+   * The set of methods {@link #createIdPathCopy(String)} {@link #isIdCopy(String)} and
+   * #{@link #resoreFomrCopyStrid(String)} allows to manage STRID copies created by convention above.
+   * <p>
+   * Number of IDpath components of the returned value is the same as for argument. So, IDname remains an IDname.
    *
    * @param aStrid String - the original STRID
    * @return String - created "Copy STRID", always an IDpath
@@ -906,30 +906,13 @@ public final class StridUtils {
    */
   public static String createIdPathCopy( String aStrid ) {
     checkValidIdPath( aStrid );
-    return aStrid + IDPATH_COPY_POSTFIX;
-  }
-
-  /**
-   * Converts IDname to a copy STRID preserving the kind - return value is also an IDname.
-   * <P>
-   * The concept "STRID of copy object" is defined in comments of the method {@link #createIdPathCopy(String)}.
-   *
-   * @param aIdName String - the IDname
-   * @return String - IDname as aSTRID copy
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIllegalArgumentRtException argument is not a valid IDname
-   * @see #createIdPathCopy(String)
-   */
-  public static String createIdNameCopy( String aIdName ) {
-    TsIllegalArgumentRtException.checkTrue( isIdAPath( aIdName ) );
-    return aIdName + ID_COPY_POSTFIX;
+    return aStrid + ID_COPY_POSTFIX;
   }
 
   /**
    * Determines if the argument as a STRID matches the pattern of copy creation.
    * <p>
-   * ID copy creation may be performed either by {@link #createIdPathCopy(String)} or {@link #createIdNameCopy(String)}.
-   * Obviously STRID that matches copy pattern may be created by
+   * ID copy creation may be performed by {@link #createIdPathCopy(String)}.
    * <P>
    * The concept "STRID of copy object" is defined in comments of the method {@link #createIdPathCopy(String)}.
    *
@@ -938,14 +921,11 @@ public final class StridUtils {
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException argument is not a valid IDpath
    * @see #createIdPathCopy(String)
-   * @see #createIdNameCopy(String)
    */
   public static boolean isIdCopy( String aStrid ) {
-    if( isIdAPath( aStrid ) ) {
-      return aStrid.endsWith( IDPATH_COPY_POSTFIX );
-    }
-    // the IDname matching ID_COPY_POSTFIX can't be copy of invalid IDname of empty string
-    if( aStrid.length() == ID_COPY_POSTFIX.length() ) {
+    StridUtils.checkValidIdPath( aStrid );
+    // the IDname less or matching ID_COPY_POSTFIX can't be copy of invalid IDname of empty string
+    if( aStrid.length() <= ID_COPY_POSTFIX.length() ) {
       return false;
     }
     return aStrid.endsWith( ID_COPY_POSTFIX );
@@ -954,8 +934,7 @@ public final class StridUtils {
   /**
    * Removes (if any) the copy postfix from the argument STRID.
    * <p>
-   * If argument is not created with {@link #createIdNameCopy(String)} or {@link #createIdPathCopy(String)} then returns
-   * argument unchanged.
+   * If argument is not created with {@link #createIdPathCopy(String)} then returns argument unchanged.
    * <P>
    * The concept "STRID of copy object" is defined in comments of the method {@link #createIdPathCopy(String)}.
    *

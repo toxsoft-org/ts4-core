@@ -1,7 +1,7 @@
-package org.toxsoft.core.tsgui.m5.std.models.av;
+package org.toxsoft.core.tsgui.m5.std.models.av_old;
 
 import static org.toxsoft.core.tsgui.m5.IM5Constants.*;
-import static org.toxsoft.core.tsgui.m5.std.models.av.ITsResources.*;
+import static org.toxsoft.core.tsgui.m5.std.models.av_old.ITsResources.*;
 
 import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.m5.model.impl.*;

@@ -1,63 +1,55 @@
 package org.toxsoft.core.tsgui.m5.std.models.av;
 
+import static org.toxsoft.core.tsgui.ITsGuiConstants.*;
 import static org.toxsoft.core.tsgui.m5.std.models.av.ITsResources.*;
-import static org.toxsoft.core.tslib.ITsHardConstants.*;
 
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.m5.model.impl.*;
-import org.toxsoft.core.tslib.av.*;
-import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
-import org.toxsoft.core.tslib.av.misc.*;
-import org.toxsoft.core.tslib.coll.*;
 
 /**
- * M5-model of {@link IDataType}.
+ * M5-model of {@link IDataType} with support of constraints editing.
+ * <p>
+ * Model is designed with one editable field - the {@link #DATA_TYPE}. Other fields are read-only to be displayed in
+ * columns, details, etc.
  *
  * @author hazard157
  */
 public class DataTypeM5Model
-    extends DataMetaInfoBasicM5Model<IDataType> {
+    extends DataTypeM5ModelBase<IDataType> {
 
   /**
    * The model ID.
    */
-  public static final String MODEL_ID = TS_ID + "DataType"; //$NON-NLS-1$
+  public static final String MODEL_ID = TSGUI_M5_ID + ".DataType"; //$NON-NLS-1$
 
   /**
    * LM for this model.
    *
    * @author hazard157
    */
-  class LifecycleManager
+  private class LifecycleManager
       extends M5LifecycleManager<IDataType, Object> {
 
-    public LifecycleManager( IM5Model<IDataType> aModel ) {
-      super( aModel, true, true, true, false, null );
+    public LifecycleManager() {
+      super( DataTypeM5Model.this, true, true, true, false, null );
     }
 
     @Override
     protected IDataType doCreate( IM5Bunch<IDataType> aValues ) {
-      EAtomicType atomicType = aValues.getAs( FID_ATOMIC_TYPE, EAtomicType.class );
-      IList<IdValue> idvals = aValues.getAs( FID_CONSTRAINTS, IList.class );
-      DataType dt = new DataType( atomicType );
-      IdValue.fillOptionSetFromIdValuesColl( idvals, dt.params() );
-      return dt;
+      return aValues.getAs( FID_DATA_TYPE, IDataType.class );
     }
 
     @Override
     protected IDataType doEdit( IM5Bunch<IDataType> aValues ) {
-      EAtomicType atomicType = aValues.getAs( FID_ATOMIC_TYPE, EAtomicType.class );
-      IList<IdValue> idvals = aValues.getAs( FID_CONSTRAINTS, IList.class );
-      DataType dt = new DataType( atomicType );
-      IdValue.fillOptionSetFromIdValuesColl( idvals, dt.params() );
-      return dt;
+      return aValues.getAs( FID_DATA_TYPE, IDataType.class );
     }
 
     @Override
     protected void doRemove( IDataType aEntity ) {
-      // nop
+      // nop addFlags( M5FF_COLUMN | M5FF_INVARIANT );
+
     }
 
   }
@@ -67,25 +59,18 @@ public class DataTypeM5Model
    */
   public DataTypeM5Model() {
     super( MODEL_ID, IDataType.class );
-    setNameAndDescription( STR_N_M5M_DATA_TYPE, STR_D_M5M_DATA_TYPE );
-    addFieldDefs( ATOMIC_TYPE, CONSTRAINTS );
-    setVisualsProvider( aItem -> {
-      StringBuilder s = new StringBuilder().append( aItem.atomicType().nmName() );
-      if( !aItem.params().isEmpty() ) {
-        s.append( '[' ).append( aItem.params().size() ).append( ']' );
-      }
-      return s.toString();
-    } );
+    setNameAndDescription( STR_M5M_DATA_TYPE, STR_M5M_DATA_TYPE_D );
+    addFieldDefs( DATA_TYPE );
   }
 
   @Override
   protected IM5LifecycleManager<IDataType> doCreateDefaultLifecycleManager() {
-    return new LifecycleManager( this );
+    return new LifecycleManager();
   }
 
   @Override
   protected IM5LifecycleManager<IDataType> doCreateLifecycleManager( Object aMaster ) {
-    return getLifecycleManager( null );
+    return new LifecycleManager();
   }
 
 }

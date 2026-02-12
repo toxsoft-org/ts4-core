@@ -175,6 +175,7 @@ public class ValedAvAnytypeText
     Text text = new Text( aParent, SWT.BORDER );
     setControl( text );
     updateTextParser();
+    text.addModifyListener( notificationModifyListener );
     return text;
   }
 

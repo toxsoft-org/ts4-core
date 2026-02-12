@@ -240,10 +240,25 @@ class AvValobjImpl
   // Object
   //
 
+  @SuppressWarnings( { "rawtypes" } )
   @Override
   public String asString() {
     if( ktor != null ) {
-      return ktor;
+      // try to get value-object
+      // remove initial "@keeperId" from ktor and we get valobj string, maybe enclosed in braces
+      String s = ktor.substring( keeperId.length() + 1 );
+      IEntityKeeper keeper = TsValobjUtils.findKeeperById( keeperId );
+      if( keeper != null ) {
+        // get keeper generated string without braces
+        if( !keeper.isEnclosed() ) {
+          s = s.substring( 1, s.length() - 1 );
+        }
+        // get valobj
+        valobj = keeper.str2ent( s );
+      }
+      else {
+        return ktor;
+      }
     }
     return "@ " + valobj.toString(); //$NON-NLS-1$
   }

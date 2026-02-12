@@ -167,8 +167,6 @@ public class M5EntityPanelWithValeds<T>
     throw new TsItemNotFoundRtException( FMT_ERR_NO_FACTORY_IN_PARAMS, aFieldDef.id() );
   }
 
-  // TODO TRANSLATE
-
   /**
    * Method tries to collect values from VALEDs in the argument bunch.
    * <p>
@@ -181,10 +179,10 @@ public class M5EntityPanelWithValeds<T>
   @SuppressWarnings( { "rawtypes", "unchecked" } )
   private ValidationResult internalCollectValues( IM5BunchEdit<T> aValues ) {
     ValidationResult valResult = ValidationResult.SUCCESS;
-    // соберем значения с всех виджетов, пропустив виджеты с ошибками
+    // check we can collect values from all VALED editors
     for( int i = 0, count = editors.size(); i < count; i++ ) {
       IM5FieldDef fieldDef = model().fieldDefs().getByKey( editors.keys().get( i ) );
-      // сначала проверим что можно считать значение из редактора и считаем его
+      // check each VALED can be read
       IValedControl e = editors.values().get( i );
       ValidationResult vr = e.canGetValue();
       switch( vr.type() ) {
@@ -201,16 +199,16 @@ public class M5EntityPanelWithValeds<T>
         default:
           throw new TsNotAllEnumsUsedRtException();
       }
-      // виджет с ошибкой пропускаем, не пытаемся считать его значение
+      // bypass VALED if it's value can't be read
       if( !valResult.isError() ) {
         aValues.set( fieldDef.id(), e.getValue() );
       }
     }
-    // не со всех полей были собраны данные, выходим
+    // at least one VALED can't be read, return with error
     if( valResult.isError() ) {
       return valResult;
     }
-    // проверим значение каждого поля валидатором поля
+    // now check values from VALEDs with M5-field validators
     for( IM5FieldDef fieldDef : model().fieldDefs() ) {
       Object fieldVal = aValues.get( fieldDef );
       ValidationResult vr = fieldDef.validator().validate( fieldVal );
@@ -234,6 +232,8 @@ public class M5EntityPanelWithValeds<T>
   // ------------------------------------------------------------------------------------
   // API for subclasses
   //
+
+  // TODO TRANSLATE
 
   /**
    * Возвращает описание поля, редактиромое запрошенным редактором.
@@ -289,9 +289,9 @@ public class M5EntityPanelWithValeds<T>
   }
 
   /**
-   * Возвращает оснву, содержащий виджеты панели.
+   * Returns the lowest board containing all widgets on panel.
    *
-   * @return {@link IVecBoard} 0 основа для виджетов панели
+   * @return {@link IVecBoard} - backplane for all widgets
    */
   public IVecBoard board() {
     return board;
@@ -307,7 +307,7 @@ public class M5EntityPanelWithValeds<T>
   }
 
   // ------------------------------------------------------------------------------------
-  // Переопределение методов
+  // M5PanelBase
   //
 
   @Override
@@ -462,15 +462,15 @@ public class M5EntityPanelWithValeds<T>
   }
 
   // ------------------------------------------------------------------------------------
-  // API класса
+  // API
   //
 
   /**
-   * Создает лестничную раскладлку указанных редакторов.
+   * Creates a ladder structure of VALED elements, respecting hints from {@link IValedControlConstants}.
    *
-   * @param aModel {@link IM5Model} - модель
-   * @param aEditors {@link IStringMap}&lt;{@link IValedControl}&gt; - карта "ИД поля" - "редактор" (части) полей моедли
-   * @return {@link IVecLadderLayout} - созданная раскладка
+   * @param aModel {@link IM5Model} - the model
+   * @param aEditors {@link IStringMap}&lt;{@link IValedControl}&gt; - map "field ID" - "field editor"
+   * @return {@link IVecLadderLayout} - created layout
    */
   public static IVecLadderLayout makeLadderLayout( IM5Model<?> aModel, IStringMap<IValedControl<?>> aEditors ) {
     IVecLadderLayout ll = new VecLadderLayout( true );
@@ -492,30 +492,6 @@ public class M5EntityPanelWithValeds<T>
       ll.addControl( varEditor, layoutData );
     }
     return ll;
-    // GOGA 2023-10-06 remove the influence of parent context parameters
-    // IVecLadderLayout ll = new VecLadderLayout( true );
-    // for( String fieldId : aEditors.keys() ) {
-    // IValedControl<?> varEditor = aEditors.getByKey( fieldId );
-    // int verSpan = varEditor.params().getInt( OPDEF_VERTICAL_SPAN );
-    // boolean isPrefWidthFixed = varEditor.params().getBool( OPDEF_IS_WIDTH_FIXED );
-    // boolean isPrefHeighFixed = varEditor.params().getBool( OPDEF_IS_HEIGHT_FIXED );
-    // boolean useLabel = !varEditor.params().getBool( OPDEF_NO_FIELD_LABEL );
-    // EHorAlignment ha = isPrefWidthFixed ? EHorAlignment.LEFT : EHorAlignment.FILL;
-    // EVerAlignment va = isPrefHeighFixed ? EVerAlignment.TOP : EVerAlignment.FILL;
-    // IM5FieldDef<?, ?> fd = aModel.fieldDefs().getByKey( fieldId );
-    // String label = TsLibUtils.EMPTY_STRING;
-    // if( !fd.nmName().isEmpty() ) {
-    // label = fd.nmName() + ": "; //$NON-NLS-1$
-    // }
-    // String tooltip = fd.description();
-    //
-    // // TODO need option OPDEF_FULL_WIDTH_CONTROL ???
-    //
-    // IVecLadderLayoutData layoutData = new VecLadderLayoutData( useLabel, !useLabel, verSpan, label, tooltip, ha, va
-    // );
-    // ll.addControl( varEditor, layoutData );
-    // }
-    // return ll;
   }
 
 }

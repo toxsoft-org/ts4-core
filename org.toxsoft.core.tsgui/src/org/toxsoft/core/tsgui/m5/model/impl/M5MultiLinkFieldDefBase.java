@@ -13,7 +13,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  *
  * @author hazard157
  * @param <T> - modeled entity type
- * @param <V> -
+ * @param <V> - list element type (not collection type!)
  */
 public class M5MultiLinkFieldDefBase<T, V>
     extends M5FieldDef<T, IList<V>>

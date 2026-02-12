@@ -14,6 +14,8 @@ interface ITsResources {
   String STR_NAME_D                        = Messages.getString( "STR_NAME_D" );                        //$NON-NLS-1$
   String STR_DESCRIPTION                   = Messages.getString( "STR_DESCRIPTION" );                   //$NON-NLS-1$
   String STR_DESCRIPTION_D                 = Messages.getString( "STR_DESCRIPTION_D" );                 //$NON-NLS-1$
+  String STR_KEEPER_ID                     = Messages.getString( "STR_KEEPER_ID" );                     //$NON-NLS-1$
+  String STR_KEEPER_ID_D                   = Messages.getString( "STR_KEEPER_ID_D" );                   //$NON-NLS-1$
   String STR_DEFAULT_VALUE                 = Messages.getString( "STR_DEFAULT_VALUE" );                 //$NON-NLS-1$
   String STR_DEFAULT_VALUE_D               = Messages.getString( "STR_DEFAULT_VALUE_D" );               //$NON-NLS-1$
   String STR_FORMAT_STRING                 = Messages.getString( "STR_FORMAT_STRING" );                 //$NON-NLS-1$
@@ -24,8 +26,8 @@ interface ITsResources {
   String STR_MIN_EXCLUSIVE_D               = Messages.getString( "STR_MIN_EXCLUSIVE_D" );               //$NON-NLS-1$
   String STR_MAX_INCLUSIVE                 = Messages.getString( "STR_MAX_INCLUSIVE" );                 //$NON-NLS-1$
   String STR_MAX_INCLUSIVE_D               = Messages.getString( "STR_MAX_INCLUSIVE_D" );               //$NON-NLS-1$
-  String STR_MAX_EXCLUSIVE                 = Messages.getString( "STR_FORMAT_STRING" );                 //$NON-NLS-1$
-  String STR_MAX_EXCLUSIVE_D               = Messages.getString( "STR_FORMAT_STRING_D" );               //$NON-NLS-1$
+  String STR_MAX_EXCLUSIVE                 = Messages.getString( "STR_MAX_EXCLUSIVE" );                 //$NON-NLS-1$
+  String STR_MAX_EXCLUSIVE_D               = Messages.getString( "STR_MAX_EXCLUSIVE_D" );               //$NON-NLS-1$
   String STR_IS_MANDATORY                  = Messages.getString( "STR_IS_MANDATORY" );                  //$NON-NLS-1$
   String STR_IS_MANDATORY_D                = Messages.getString( "STR_IS_MANDATORY_D" );                //$NON-NLS-1$
   String STR_IDNAME                        = Messages.getString( "STR_IDNAME" );                        //$NON-NLS-1$

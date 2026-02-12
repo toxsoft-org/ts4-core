@@ -1,5 +1,6 @@
 package org.toxsoft.core.tsgui.valed.controls.metainf;
 
+import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import static org.toxsoft.core.tslib.bricks.strid.impl.StridUtils.*;
 import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
@@ -21,6 +22,8 @@ import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.metainfo.constr.*;
 import org.toxsoft.core.tslib.av.misc.*;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
@@ -33,9 +36,9 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * VALED to edit {@link IdValue} as the single {@link IDataType#params()} known constraint.
  * <p>
  * "<i>Known</i>" constraint means one of the constraints from {@link ConstraintUtils#listConstraints()}. The VALED does
- * <b>not</b> allows to select any other constrain ID.
+ * <b>not</b> allows to select any other constraint ID.
  * <p>
- * Contains following controls:
+ * FIXME Contains following controls:
  * <ul>
  * <li>constraint ID selector as a text line with button at right. Text line allows to enter arbitrary ID path as a
  * constraint ID, button allows to select constraint from {@link ConstraintUtils#listConstraints()}. Note: we do not use
@@ -50,6 +53,24 @@ import org.toxsoft.core.tslib.utils.errors.*;
  */
 public class ValedIdValueConstraint
     extends AbstractValedControl<IdValue, Control> {
+
+  /**
+   * The registered factory name.
+   */
+  public static final String FACTORY_NAME = VALED_EDNAME_PREFIX + ".ValedIdValueConstraint"; //$NON-NLS-1$
+
+  /**
+   * The factory singleton.
+   */
+  public static final AbstractValedControlFactory FACTORY = new AbstractValedControlFactory( FACTORY_NAME ) {
+
+    @SuppressWarnings( "unchecked" )
+    @Override
+    protected IValedControl<IdValue> doCreateEditor( ITsGuiContext aContext ) {
+      return new ValedIdValueConstraint( aContext );
+    }
+
+  };
 
   /**
    * Constraint ID selector.
@@ -91,7 +112,6 @@ public class ValedIdValueConstraint
       String constrId = DialogItemsList.select( di, items, sel, itemNameProvider );
       if( constrId != null && !constrId.equals( sel ) ) {
         getTextControl().setText( constrId );
-        // TODO refresh for correct value editing
         return true;
       }
       return false;
@@ -111,10 +131,12 @@ public class ValedIdValueConstraint
 
   private final ValedConstraintId                valedConstrId;
   private final IValedControlValueChangeListener childValedListener = ( src, finished ) -> fireModifyEvent( finished );
+  private final IStringListEdit                  usedConstrIds      = new StringArrayList();
 
-  private EAtomicType                 dataAtomicType   = EAtomicType.NONE;
-  private IStringListEdit             usedConstrIds    = new StringArrayList();
-  private IValedControl<IAtomicValue> valedConstrValue = null;
+  private EAtomicType dataAtomicType = EAtomicType.NONE;
+// TODO  private IOptionSetEdit constraintsList = new OptionSet();
+
+  private IValedControl<IAtomicValue> valedConstrValue = null; // FIXME null
 
   /**
    * {@link Composite} holds VALED to edit constraint value, recreated each time when atomic type changes.
@@ -245,7 +267,7 @@ public class ValedIdValueConstraint
 
   @Override
   protected void doClearValue() {
-    valedConstrId.setValue( TSID_DEFAULT_VALUE );
+    valedConstrId.setValue( EMPTY_STRING );
     if( valedConstrValue != null ) {
       valedConstrValue.setValue( IAtomicValue.NULL );
     }

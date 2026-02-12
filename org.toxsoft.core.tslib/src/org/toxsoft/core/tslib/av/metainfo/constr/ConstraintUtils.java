@@ -28,13 +28,9 @@ public class ConstraintUtils {
   private static final IStridablesListEdit<IConstraintInfo> knownConstraintInfos = new StridablesList<>();
 
   static {
-    knownConstraintInfos.add( CONTRINF_DEFAULT_VALUE );
-    knownConstraintInfos.add( CONTRINF_FORMAT_STRING );
-    knownConstraintInfos.add( CONTRINF_MIN_EXCLUSIVE );
-    knownConstraintInfos.add( CONTRINF_MIN_INCLUSIVE );
-    knownConstraintInfos.add( CONTRINF_MAX_INCLUSIVE );
-    knownConstraintInfos.add( CONTRINF_MAX_EXCLUSIVE );
-    // TODO add more built-ins constraint info
+    for( IConstraintInfo cinf : BUILTIN_CONSTRAINT_INFOS ) {
+      knownConstraintInfos.add( cinf );
+    }
   }
 
   /**
