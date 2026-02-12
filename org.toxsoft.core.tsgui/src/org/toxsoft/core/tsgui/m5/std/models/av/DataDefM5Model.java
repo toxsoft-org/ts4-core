@@ -30,7 +30,7 @@ public class DataDefM5Model
   /**
    * Attribute {@link IDataDef#id()}.
    */
-  public final IM5AttributeFieldDef<IDataDef> ID = new M5StdFieldDefId<>( FID_ID, //
+  public final IM5AttributeFieldDef<IDataDef> ID = new M5StdFieldDefId<>( //
       TSID_NAME, STR_DATADEF_ID, //
       TSID_DESCRIPTION, STR_DATADEF_ID_D, //
       TSID_DEFAULT_VALUE, DEFAULT_ID_AV //
