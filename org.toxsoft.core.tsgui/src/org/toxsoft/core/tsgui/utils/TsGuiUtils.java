@@ -15,9 +15,6 @@ import org.toxsoft.core.tsgui.utils.margins.*;
 import org.toxsoft.core.tsgui.utils.rectfit.*;
 import org.toxsoft.core.tsgui.utils.scimpgui.*;
 import org.toxsoft.core.tsgui.utils.swt.*;
-import org.toxsoft.core.tsgui.valed.api.*;
-import org.toxsoft.core.tsgui.valed.controls.av.*;
-import org.toxsoft.core.tsgui.valed.controls.basic.*;
 import org.toxsoft.core.tsgui.valed.impl.*;
 import org.toxsoft.core.tsgui.widgets.mpv.*;
 import org.toxsoft.core.tslib.av.*;
@@ -79,15 +76,6 @@ public class TsGuiUtils {
     TsValobjUtils.registerKeeper( ESwtSysColor.KEEPER_ID, ESwtSysColor.KEEPER );
     TsValobjUtils.registerKeeper( TsColorDescriptor.KEEPER_ID, TsColorDescriptor.KEEPER );
     TsValobjUtils.registerKeeper( EResolveStrategy.KEEPER_ID, EResolveStrategy.KEEPER );
-
-    // following this is some kind of hacking! ---
-    DataDef dd = (DataDef)IAvMetaConstants.DDEF_DESCRIPTION;
-    dd.params().setInt( IValedControlConstants.OPDEF_VERTICAL_SPAN, 3 );
-    dd.params().setStr( IValedControlConstants.OPDEF_EDITOR_FACTORY_NAME, ValedAvStringText.FACTORY_NAME );
-    dd.params().setBool( ValedStringText.OPDEF_IS_MULTI_LINE, true );
-    DataType dt = (DataType)IAvMetaConstants.DT_AV_ENUM;
-    dt.params().setStr( IValedControlConstants.OPDEF_EDITOR_FACTORY_NAME, ValedAvValobjEnumCombo.FACTORY_NAME );
-    // ---
   }
 
   /**

@@ -5,6 +5,7 @@ import static org.toxsoft.core.tsgui.valed.controls.basic.ITsResources.*;
 import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
+import static org.toxsoft.core.tslib.utils.gui.ITsLibInnerSharedConstants.*;
 
 import org.eclipse.swt.*;
 import org.eclipse.swt.layout.*;
@@ -30,7 +31,7 @@ public class ValedStringText
   /**
    * ID of the {@link #OPDEF_IS_MULTI_LINE}.
    */
-  public static final String OPID_IS_MULTI_LINE = VALED_OPID_PREFIX + ".ValedStringText.IsMultiLine"; //$NON-NLS-1$
+  public static final String OPID_IS_MULTI_LINE = TSLIB_VALED_STRING_TEXT_OPID_IS_MULTI_LINE;
 
   /**
    * The flag determines if multi-line text will be edited is widget.

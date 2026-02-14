@@ -2,6 +2,7 @@ package org.toxsoft.core.tsgui.valed.controls.av;
 
 import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
+import static org.toxsoft.core.tslib.utils.gui.ITsLibInnerSharedConstants.*;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.valed.api.*;
@@ -22,7 +23,7 @@ public class ValedAvStringText
   /**
    * The factory name.
    */
-  public static final String FACTORY_NAME = VALED_EDNAME_PREFIX + ".AvStringText"; //$NON-NLS-1$
+  public static final String FACTORY_NAME = TSLIB_VALED_AV_STRING_TEXT;
 
   /**
    * The factory class.

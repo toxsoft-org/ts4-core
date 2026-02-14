@@ -12,7 +12,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * панели.
  *
  * @author hazard157
- * @param <D> - конкретный тип параметров раскладки (layout Data)
+ * @param <D> - layout data type
  */
 public interface IVecLayout<D> {
 

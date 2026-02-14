@@ -5,6 +5,7 @@ import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.ITsResources.*;
 import static org.toxsoft.core.tslib.av.metainfo.constr.ConstraintUtils.*;
+import static org.toxsoft.core.tslib.utils.gui.ITsLibInnerSharedConstants.*;
 
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
@@ -187,7 +188,10 @@ public interface IAvMetaConstants {
       TSID_NAME, STR_DESCRIPTION, //
       TSID_DESCRIPTION, STR_DESCRIPTION_D, //
       TSID_IS_NULL_ALLOWED, AV_TRUE, //
-      TSID_DEFAULT_VALUE, AV_STR_EMPTY //
+      TSID_DEFAULT_VALUE, AV_STR_EMPTY, //
+      TSLIB_VCC_OPID_EDITOR_FACTORY_NAME, TSLIB_VALED_AV_STRING_TEXT, //
+      TSLIB_VCC_OPID_VERTICAL_SPAN, avInt( 3 ), //
+      TSLIB_VALED_STRING_TEXT_OPID_IS_MULTI_LINE, AV_TRUE //
   );
 
   IDataDef DDEF_DEFAULT_VALUE = DataDef.create( TSID_DEFAULT_VALUE, BOOLEAN, //
@@ -273,7 +277,8 @@ public interface IAvMetaConstants {
 
   IDataType DT_AV_ENUM = DataType.create( VALOBJ, //
       TSID_NAME, STR_AV_ENUM, //
-      TSID_DESCRIPTION, STR_AV_ENUM_D //
+      TSID_DESCRIPTION, STR_AV_ENUM_D, //
+      TSLIB_VCC_OPID_EDITOR_FACTORY_NAME, TSLIB_VALED_AV_VALOBJ_ENUM_COMBO //
   );
 
   IDataType DT_SKID = DataType.create( VALOBJ, //

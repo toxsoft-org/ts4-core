@@ -45,7 +45,7 @@ public interface IValedControlConstants {
   /**
    * ID of option {@link #OPDEF_EDITOR_FACTORY_NAME}.
    */
-  String OPID_EDITOR_FACTORY_NAME = TSLIB_VCC_EDITOR_FACTORY_NAME;
+  String OPID_EDITOR_FACTORY_NAME = TSLIB_VCC_OPID_EDITOR_FACTORY_NAME;
 
   /**
    * ID of option {@link #OPDEF_CREATE_UNEDITABLE}.
@@ -85,7 +85,7 @@ public interface IValedControlConstants {
   /**
    * ID of option {@link #OPDEF_IS_SINGLE_LINE_UI}.
    */
-  String OPID_IS_SINGLE_LINE_UI = TSLIB_OPID_IS_SINGLE_LINE_UI;
+  String OPID_IS_SINGLE_LINE_UI = TSLIB_VCC_OPID_IS_SINGLE_LINE_UI;
 
   /**
    * ID of context reference {@link #REFDEF_VALUE_VISUALS_PROVIDER}.

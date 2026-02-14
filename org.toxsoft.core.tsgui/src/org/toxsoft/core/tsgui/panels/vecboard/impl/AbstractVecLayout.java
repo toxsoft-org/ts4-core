@@ -1,22 +1,18 @@
 package org.toxsoft.core.tsgui.panels.vecboard.impl;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.*;
 import org.eclipse.swt.widgets.*;
-import org.toxsoft.core.tsgui.panels.lazy.ILazyControl;
-import org.toxsoft.core.tsgui.panels.vecboard.EVecLayoutKind;
-import org.toxsoft.core.tsgui.panels.vecboard.IVecLayout;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemLinkedBundleList;
+import org.toxsoft.core.tsgui.panels.lazy.*;
+import org.toxsoft.core.tsgui.panels.vecboard.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Базовый класс всех раскладок, реализующих {@link IVecLayout}.
+ * {@link IVecLayout} implementation base.
  *
  * @author hazard157
- * @param <D> - конкретный тип параметров
+ * @param <D> - layout data type
  */
 abstract class AbstractVecLayout<D>
     implements IVecLayout<D> {
@@ -44,19 +40,13 @@ abstract class AbstractVecLayout<D>
   private final IListEdit<Item<D>> items = new ElemLinkedBundleList<>();
 
   // ------------------------------------------------------------------------------------
-  // API пакета
+  // package API
   //
 
   final Composite createWidget( Composite aParent ) {
     Composite c = doCreateComposite( aParent );
     fillComposite( c );
-    c.addDisposeListener( new DisposeListener() {
-
-      @Override
-      public void widgetDisposed( DisposeEvent e ) {
-        onDispose();
-      }
-    } );
+    c.addDisposeListener( e -> onDispose() );
     return c;
   }
 
@@ -65,7 +55,7 @@ abstract class AbstractVecLayout<D>
   }
 
   // ------------------------------------------------------------------------------------
-  // API для наследников
+  // API for subclasses
   //
 
   protected void addItem( ILazyControl<?> aControlBuilder, D aLayoutData ) {
@@ -88,46 +78,48 @@ abstract class AbstractVecLayout<D>
   }
 
   // ------------------------------------------------------------------------------------
-  // Методы для реализации наследниками
+  // To override/implements
   //
 
   /**
-   * Наследник может создать спеуиальную компоненту вместо стандартной {@link Composite}.
+   * Subclass may create own SWT control instead of default {@link Composite}..
    * <p>
-   * Например, {@link EVecLayoutKind#SASH} создает {@link Sash}, а {@link EVecLayoutKind#TABS} компонент
+   * For example, {@link EVecLayoutKind#SASH} create {@link Sash}, а {@link EVecLayoutKind#TABS} creates
    * {@link TabFolder}.
    *
-   * @param aParent {@link Composite} - родительская панель
-   * @return {@link Composite} - созданный композит
+   * @param aParent {@link Composite} - parent composite
+   * @return {@link Composite} - created composite
    */
   protected Composite doCreateComposite( Composite aParent ) {
     return new Composite( aParent, SWT.NONE );
   }
 
   /**
-   * Вызывается, когда уничтожается виджет этой раскладки.
+   * Implementation may release resources allocated on SWT control creation.
    * <p>
-   * В базовом класссе ничего не делает, не нужно вызывать из наследника.
+   * In the base class does nothing.
    */
   protected void onDispose() {
     // nop
   }
 
   /**
-   * Наследник в этом методе должен создать дочерные контроли.
+   * Implementation must create child controls and initialize SWT layout.
    *
-   * @param aParent {@link Composite} - родительская панель
+   * @param aParent {@link Composite} - parent composite created with {@link #createWidget(Composite)}
    */
   protected abstract void fillComposite( Composite aParent );
 
   /**
-   * Наследник должен проверить возможность добавления контроля с указнными аргументами.
+   * Implementation can check whether adding a control with the specified data is allowed.
    * <p>
-   * В базовом класссе ничего не делает, не нужно вызывать из наследника.
+   * If control can't be added to layout method must throw any exception based on {@link TsRuntimeException}.
+   * <p>
+   * In the base class does nothing.
    *
-   * @param aControlBuilder {@link ILazyControl} - создатель контроля, не бывает null
-   * @param aLayoutData D - параметры раскладки, не бывает null
-   * @throws TsRuntimeException при навозможности добавить контроль
+   * @param aControlBuilder {@link ILazyControl} - control creator, never is <code>null</code>
+   * @param aLayoutData D - the layout data, never is <code>null</code>
+   * @throws TsRuntimeException control can't be added to this layout
    */
   protected void doCheckAddControl( ILazyControl<?> aControlBuilder, D aLayoutData ) {
     // nop

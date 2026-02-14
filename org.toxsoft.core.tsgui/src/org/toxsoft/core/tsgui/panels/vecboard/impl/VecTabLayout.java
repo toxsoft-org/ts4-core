@@ -25,7 +25,7 @@ public class VecTabLayout
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация мтодов класса AopLayoutBase
+  // AbstractVecLayout
   //
 
   @Override
@@ -59,7 +59,7 @@ public class VecTabLayout
   }
 
   // ------------------------------------------------------------------------------------
-  // IAopTabLayout
+  // IVecTabLayout
   //
 
   @Override

@@ -2,18 +2,14 @@ package org.toxsoft.core.tsgui.panels.vecboard.impl;
 
 import static org.toxsoft.core.tsgui.panels.vecboard.impl.ITsResources.*;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.toxsoft.core.tsgui.panels.lazy.ILazyControl;
-import org.toxsoft.core.tsgui.panels.vecboard.EVecLayoutKind;
-import org.toxsoft.core.tsgui.panels.vecboard.IVecBorderLayout;
-import org.toxsoft.core.tsgui.utils.layout.BorderLayout;
-import org.toxsoft.core.tsgui.utils.layout.EBorderLayoutPlacement;
-import org.toxsoft.core.tslib.utils.errors.TsItemAlreadyExistsRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.eclipse.swt.widgets.*;
+import org.toxsoft.core.tsgui.panels.lazy.*;
+import org.toxsoft.core.tsgui.panels.vecboard.*;
+import org.toxsoft.core.tsgui.utils.layout.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Реализация раскладки {@link IVecBorderLayout}.
+ * {@link IVecBorderLayout} implementation.
  *
  * @author hazard157
  */
@@ -22,14 +18,14 @@ public class VecBorderLayout
     implements IVecBorderLayout {
 
   /**
-   * Создает пустую раскладку.
+   * Constructor.
    */
   public VecBorderLayout() {
     // nop
   }
 
   // ------------------------------------------------------------------------------------
-  // Реализация методов AbstractLayout
+  // AbstractLayout
   //
 
   @Override
@@ -46,6 +42,15 @@ public class VecBorderLayout
     }
   }
 
+  @Override
+  protected void doCheckAddControl( ILazyControl<?> aControlBuilder, EBorderLayoutPlacement aLayoutData ) {
+    for( Item<EBorderLayoutPlacement> item : items() ) {
+      if( item.layoutData() == aLayoutData ) {
+        throw new TsItemAlreadyExistsRtException( FMT_ERR_CONTROL_ALREADY_EXIST_AT_BORDER_PLACEMENT, aLayoutData.id() );
+      }
+    }
+  }
+
   // ------------------------------------------------------------------------------------
   // IVecBorderLayout
   //
@@ -59,19 +64,6 @@ public class VecBorderLayout
       }
     }
     return null;
-  }
-
-  // ------------------------------------------------------------------------------------
-  // Реализация методов класса AbstractVecLayout
-  //
-
-  @Override
-  protected void doCheckAddControl( ILazyControl<?> aControlBuilder, EBorderLayoutPlacement aLayoutData ) {
-    for( Item<EBorderLayoutPlacement> item : items() ) {
-      if( item.layoutData() == aLayoutData ) {
-        throw new TsItemAlreadyExistsRtException( FMT_ERR_CONTROL_ALREADY_EXIST_AT_BORDER_PLACEMENT, aLayoutData.id() );
-      }
-    }
   }
 
 }
