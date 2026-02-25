@@ -53,6 +53,11 @@ public class TsValobjUtils {
   private static final IStringMapEdit<IEntityKeeper<?>> keepersMap = new StringMap<>();
 
   /**
+   * Optional value-object information.
+   */
+  private static final IStringMapEdit<ValobjInfo> infoMap = new StringMap<>();
+
+  /**
    * The same keepers by class keys.
    */
   private static final IMapEdit<Class<?>, IEntityKeeper<?>> keepersMapByClass = new ElemMap<>();
@@ -65,7 +70,7 @@ public class TsValobjUtils {
   static {
     registerKeeper( EAtomicType.KEEPER_ID, EAtomicType.KEEPER );
     registerKeeper( OptionSetKeeper.KEEPER_ID, OptionSetKeeper.KEEPER );
-    registerKeeper( FileKeeper.KEEPER_ID, FileKeeper.KEEPER );
+    registerKeeper( FileKeeper.KEEPER_ID, FileKeeper.KEEPER, FileKeeper.INFO );
     registerKeeper( StringKeeper.KEEPER_ID, StringKeeper.KEEPER );
     registerKeeper( IntegerKeeper.KEEPER_ID, IntegerKeeper.KEEPER );
     // registerKeeper( LegacyStringListKeeper.KEEPER_ID, LegacyStringListKeeper.KEEPER );
@@ -143,6 +148,54 @@ public class TsValobjUtils {
   }
 
   /**
+   * Return the copy of the registered {@link ValobjInfo} descriptions.
+   *
+   * @return {@link IStringMap}&lt;{@link ValobjInfo}&gt; - the map "keeper ID" - "the info"
+   */
+  public static IStringMap<ValobjInfo> getRegisteredInfos() {
+    IStringMapEdit<ValobjInfo> map = new StringMap<>();
+    mainLock.readLock().lock();
+    try {
+      map.putAll( infoMap );
+    }
+    finally {
+      mainLock.readLock().unlock();
+    }
+    return map;
+  }
+
+  /**
+   * Registers the keeper.
+   *
+   * @param aKeeperId String - the key, IDPath identifier
+   * @param aKeeper {@link IEntityKeeper} - the keeper to be registered
+   * @param aInfo {@link ValobjInfo} - optional information, may be <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemAlreadyExistsRtException keeper with specified key was already registered
+   * @throws TsItemAlreadyExistsRtException keeper for class was already registered
+   * @throws TsIllegalArgumentRtException identifier is not an IDPath
+   */
+  public static void registerKeeper( String aKeeperId, IEntityKeeper<?> aKeeper, ValobjInfo aInfo ) {
+    TsNullArgumentRtException.checkNulls( aKeeperId, aKeeper );
+    mainLock.writeLock().lock();
+    try {
+      TsItemAlreadyExistsRtException.checkTrue( keepersMap.hasKey( aKeeperId ) );
+      if( aKeeper.entityClass() != null ) {
+        TsItemAlreadyExistsRtException.checkTrue( keepersMapByClass.hasKey( aKeeper.entityClass() ) );
+        keepersMapByClass.put( aKeeper.entityClass(), aKeeper );
+        idsMapByClass.put( aKeeper.entityClass(), aKeeperId );
+        if( aInfo != null ) {
+          infoMap.put( aKeeperId, aInfo );
+        }
+      }
+      keepersMap.put( aKeeperId, aKeeper );
+    }
+    finally {
+      mainLock.writeLock().unlock();
+    }
+  }
+
+  /**
    * Registers the keeper.
    *
    * @param aKeeperId String - the key, IDPath identifier
@@ -153,16 +206,32 @@ public class TsValobjUtils {
    * @throws TsIllegalArgumentRtException identifier is not an IDPath
    */
   public static void registerKeeper( String aKeeperId, IEntityKeeper<?> aKeeper ) {
+    registerKeeper( aKeeperId, aKeeper, null );
+  }
+
+  /**
+   * Registers the keeper if keeper with such ID is not registered already.
+   *
+   * @param aKeeperId String - the key, IDPath identifier
+   * @param aKeeper {@link IEntityKeeper} - the keeper to be registered
+   * @param aInfo {@link ValobjInfo} - optional information, may be <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException identifier is not an IDPath
+   */
+  public static void registerKeeperIfNone( String aKeeperId, IEntityKeeper<?> aKeeper, ValobjInfo aInfo ) {
     TsNullArgumentRtException.checkNulls( aKeeperId, aKeeper );
     mainLock.writeLock().lock();
     try {
-      TsItemAlreadyExistsRtException.checkTrue( keepersMap.hasKey( aKeeperId ) );
-      if( aKeeper.entityClass() != null ) {
-        TsItemAlreadyExistsRtException.checkTrue( keepersMapByClass.hasKey( aKeeper.entityClass() ) );
-        keepersMapByClass.put( aKeeper.entityClass(), aKeeper );
-        idsMapByClass.put( aKeeper.entityClass(), aKeeperId );
+      if( !keepersMap.hasKey( aKeeperId ) ) {
+        if( aKeeper.entityClass() != null ) {
+          keepersMapByClass.put( aKeeper.entityClass(), aKeeper );
+          idsMapByClass.put( aKeeper.entityClass(), aKeeperId );
+          if( aInfo != null ) {
+            infoMap.put( aKeeperId, aInfo );
+          }
+        }
+        keepersMap.put( aKeeperId, aKeeper );
       }
-      keepersMap.put( aKeeperId, aKeeper );
     }
     finally {
       mainLock.writeLock().unlock();
@@ -178,20 +247,7 @@ public class TsValobjUtils {
    * @throws TsIllegalArgumentRtException identifier is not an IDPath
    */
   public static void registerKeeperIfNone( String aKeeperId, IEntityKeeper<?> aKeeper ) {
-    TsNullArgumentRtException.checkNulls( aKeeperId, aKeeper );
-    mainLock.writeLock().lock();
-    try {
-      if( !keepersMap.hasKey( aKeeperId ) ) {
-        if( aKeeper.entityClass() != null ) {
-          keepersMapByClass.put( aKeeper.entityClass(), aKeeper );
-          idsMapByClass.put( aKeeper.entityClass(), aKeeperId );
-        }
-        keepersMap.put( aKeeperId, aKeeper );
-      }
-    }
-    finally {
-      mainLock.writeLock().unlock();
-    }
+    registerKeeperIfNone( aKeeperId, aKeeper, null );
   }
 
   /**
@@ -252,7 +308,7 @@ public class TsValobjUtils {
   }
 
   /**
-   * Returns the registered keepers identifier or <code>null</code> if keeper is not registered.
+   * Finds registered keeper identifier by reference to the keeper.
    *
    * @param aKeeper {@link IEntityKeeper} - specified keeper
    * @return String - keeper identifier (also it is registration key) or <code>null</code>
@@ -380,6 +436,45 @@ public class TsValobjUtils {
     mainLock.readLock().lock();
     try {
       return keepersMapByClass.findByKey( aEntityClass );
+    }
+    finally {
+      mainLock.readLock().unlock();
+    }
+  }
+
+  /**
+   * Finds the {@link ValobjInfo} by keeper identifier.
+   *
+   * @param aKeeperId String - keeper identifier
+   * @return {@link ValobjInfo} - found info or <code>null</code>
+   * @throws TsNullArgumentRtException argument = <code>null</code>
+   */
+  public static ValobjInfo findInfoById( String aKeeperId ) {
+    TsNullArgumentRtException.checkNull( aKeeperId );
+    mainLock.readLock().lock();
+    try {
+      return infoMap.findByKey( aKeeperId );
+    }
+    finally {
+      mainLock.readLock().unlock();
+    }
+  }
+
+  /**
+   * Returns the {@link ValobjInfo} by keeper identifier or {@link ValobjInfo#EMPTY} if not found
+   * <p>
+   * Note the difference getwee
+   *
+   * @param aKeeperId String - keeper identifier
+   * @return {@link ValobjInfo} - found info or <code>null</code>
+   * @throws TsNullArgumentRtException argument = <code>null</code>
+   */
+  public static ValobjInfo getInfoById( String aKeeperId ) {
+    TsNullArgumentRtException.checkNull( aKeeperId );
+    mainLock.readLock().lock();
+    try {
+      ValobjInfo found = infoMap.findByKey( aKeeperId );
+      return found != null ? found : ValobjInfo.EMPTY;
     }
     finally {
       mainLock.readLock().unlock();

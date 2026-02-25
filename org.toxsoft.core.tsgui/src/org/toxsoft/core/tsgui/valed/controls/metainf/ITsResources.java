@@ -10,4 +10,6 @@ interface ITsResources {
   String STR_LBL_ATOMIC_TYPE   = Messages.getString( "STR_LBL_ATOMIC_TYPE" );   //$NON-NLS-1$
   String STR_LBL_ATOMIC_TYPE_D = Messages.getString( "STR_LBL_ATOMIC_TYPE_D" ); //$NON-NLS-1$
 
+  String FMT_UNREGISTERED_KEEPER_ID = Messages.getString( "FMT_UNREGISTERED_KEEPER_ID" ); //$NON-NLS-1$
+
 }

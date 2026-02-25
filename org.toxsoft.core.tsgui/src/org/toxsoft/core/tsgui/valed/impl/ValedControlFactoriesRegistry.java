@@ -103,6 +103,8 @@ public class ValedControlFactoriesRegistry
 
     registerFactory( ValedDataType.FACTORY );
     registerFactory( ValedIdValueConstraint.FACTORY );
+    registerFactory( ValedKeeperIdSelector.FACTORY );
+    registerFactory( ValedAvStringKeeperIdSelector.FACTORY );
 
   }
 

@@ -1,10 +1,13 @@
 package org.toxsoft.core.tslib.bricks.keeper.std;
 
+import static org.toxsoft.core.tslib.bricks.keeper.std.ITsResources.*;
+
 import java.io.*;
 
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.valobj.*;
 
 /**
  * {@link File} keeper.
@@ -28,6 +31,11 @@ public class FileKeeper
    * The keeper singleton.
    */
   public static final IEntityKeeper<File> KEEPER = new FileKeeper();
+
+  /**
+   * Registered value-object info.
+   */
+  public static final ValobjInfo INFO = new ValobjInfo( STR_VALOBJ_FILE, STR_VALOBJ_FILE_D );
 
   private FileKeeper() {
     super( File.class, EEncloseMode.NOT_IN_PARENTHESES, NULL );

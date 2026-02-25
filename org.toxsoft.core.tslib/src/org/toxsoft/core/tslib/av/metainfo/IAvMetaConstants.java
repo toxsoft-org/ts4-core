@@ -332,7 +332,7 @@ public interface IAvMetaConstants {
   IConstraintInfo CONTRINF_KEEPER_ID = new ConstraintInfoBuilder( TSID_KEEPER_ID ). //
       setNameAndDescription( STR_KEEPER_ID, STR_KEEPER_ID_D ). //
       setCategoryId( CATEGID_TSLIB_BUILTIN ). //
-      setConstraintTypeToDataType(). //
+      setConstraintType( false, EAtomicType.STRING ). //
       setApplicableDataTypes( new StridablesList<>( EAtomicType.VALOBJ ) ). //
       build();
 

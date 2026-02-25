@@ -24,6 +24,7 @@ import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tsgui.valed.controls.av.*;
 import org.toxsoft.core.tsgui.valed.controls.helpers.*;
+import org.toxsoft.core.tsgui.valed.controls.metainf.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.metainfo.constr.*;
 import org.toxsoft.core.tslib.av.misc.*;
@@ -37,6 +38,13 @@ import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * {@link IM5EntityPanel} returned by model {@link IdValueConstraintM5Model#panelCreator()}.
+ * <p>
+ * Contains following controls (from top to bottom):
+ * <ul>
+ * <li>{@link #valedId} - constraint ID selector;</li>
+ * <li>{@link #holdValedValue} - composite holds dynamically created VALED to edit constraint value;</li>
+ * <li>{@link #textKnownConstrInfo} - uneditable text field displays known constraint description.</li>
+ * </ul>
  *
  * @author hazard157
  */
@@ -51,7 +59,7 @@ class IdValueConstraintM5EntityPanel
   private class ValedConstraintId
       extends AbstractValedTextAndButton<String> {
 
-    private ITsNameProvider<String> itemNameProvider = aItem -> {
+    private final ITsNameProvider<String> itemNameProvider = aItem -> {
       IConstraintInfo cinf = ConstraintUtils.listConstraints().findByKey( aItem );
       return cinf != null ? printf( FORMAT_NAME_ID, cinf ) : aItem;
     };
@@ -107,14 +115,15 @@ class IdValueConstraintM5EntityPanel
 
   private final IValedControlValueChangeListener valedChangeListener = ( aSource, aEditFinished ) -> fireChangeEvent();
 
+  // constraint ID selector
   private final ValedConstraintId valedId;
-
-  private Composite            backplane             = null;
-  private Text                 textKnownConstrInfo   = null;
-  private IValedControlFactory lastValueValedFactory = null;
-
-  private IValedControl<IAtomicValue> valedValue;     // value VALED recreated when constraint ID changes
-  private Composite                   holdValedValue; // placeholder for #valedValue in the grid layout
+  // constraint value editor
+  private Composite                   holdValedValue;              // placeholder for #valedValue in the grid layout
+  private IValedControl<IAtomicValue> valedValue;                  // value VALED recreated when constraint ID changes
+  private IValedControlFactory        lastValueValedFactory = null;
+  // known constraint description display area
+  private Composite backplane           = null;
+  private Text      textKnownConstrInfo = null;
 
   public IdValueConstraintM5EntityPanel( ITsGuiContext aContext, IM5Model<IdValue> aModel, boolean aViewer ) {
     super( aContext, aModel, aViewer );
@@ -165,7 +174,7 @@ class IdValueConstraintM5EntityPanel
     if( aInfo.isConstraintTypeSameAsDataType() ) {
       atomicType = lmMaster().atomicType().get();
       if( atomicType == EAtomicType.VALOBJ ) {
-        // TOSO set keeper ID from data type
+        // TODO set keeper ID from data type
         String keeperId = EMPTY_STRING;
         if( lmMaster().constraints().hasKey( TSID_KEEPER_ID ) ) {
           keeperId = lmMaster().constraints().getStr( TSID_KEEPER_ID );
@@ -180,6 +189,10 @@ class IdValueConstraintM5EntityPanel
           aValedContext.params().setStr( TSID_KEEPER_ID, aInfo.valobjValueKeeperId() );
         }
       }
+    }
+    // when editing constraint TSID_KEEPER_ID use specific VALED
+    if( aInfo.id().equals( TSID_KEEPER_ID ) ) {
+      return ValedAvStringKeeperIdSelector.FACTORY;
     }
 
     // TODO IdValueConstraintM5EntityPanel.chooseValueValedFactory() - add more logic:

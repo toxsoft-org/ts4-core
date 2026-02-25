@@ -15,12 +15,13 @@ import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * An editable implementaion of {@link IMappedSkids}.
+ * An editable implementation of {@link IMappedSkids}.
  *
  * @author hazard157
  */
 public sealed class MappedSkids
-    implements IMappedSkids, Serializable permits InternalEmptyMappedSkids {
+    implements IMappedSkids, Serializable
+    permits InternalEmptyMappedSkids {
 
   private static final long serialVersionUID = 157157L;
 

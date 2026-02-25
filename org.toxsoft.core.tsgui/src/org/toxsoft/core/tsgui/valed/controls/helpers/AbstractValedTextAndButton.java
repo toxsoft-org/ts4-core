@@ -97,8 +97,10 @@ public abstract class AbstractValedTextAndButton<V>
 
   @Override
   protected void doClearValue() {
-    text.setText( TsLibUtils.EMPTY_STRING );
-    doUpdateTextControl();
+    if( !text.getText().isEmpty() ) {
+      text.setText( TsLibUtils.EMPTY_STRING );
+      doUpdateTextControl();
+    }
   }
 
   @Override
@@ -147,7 +149,7 @@ public abstract class AbstractValedTextAndButton<V>
   }
 
   /**
-   * Subclass must update {@link #getTextControl()}.
+   * Subclass may update {@link #getTextControl()} overriding default behaviour.
    * <p>
    * Called after value was changed not by user in text field, but by button-invoked dialog or by VALED API.
    * <p>
@@ -159,10 +161,10 @@ public abstract class AbstractValedTextAndButton<V>
    * {@link #doSetUnvalidatedValue(Object)} does not updates text field correctly.;</li>
    * </ul>
    * <p>
-   * In other words, this method should be overridden when subclass stores non-String edited value in it's fiedl, so
+   * In other words, this method should be overridden when subclass stores non-String edited value in it's field, so
    * this method writes in text field correctly formatted text representation of the edited value.
    * <p>
-   * Does nothing in the base class, there is no need to call the parent medthod when overriding.
+   * Does nothing in the base class, there is no need to call the parent method when overriding.
    */
   protected void doUpdateTextControl() {
     // nop

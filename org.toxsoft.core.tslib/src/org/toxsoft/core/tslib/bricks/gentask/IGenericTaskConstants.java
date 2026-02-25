@@ -54,7 +54,7 @@ public interface IGenericTaskConstants {
    * Task output: {@link IGenericTaskInfo} of the task is passed to the output.
    */
   ITsContextRefDef<IGenericTaskInfo> REFDEF_OUT_TASK_INFO = //
-      TsContextRefDef.create( REFID_OUT_TASK_RESULT, IGenericTaskInfo.class, //
+      TsContextRefDef.create( REFID_OUT_TASK_INFO, IGenericTaskInfo.class, //
           TSID_IS_MANDATORY, AV_TRUE //
       );
 
@@ -62,7 +62,7 @@ public interface IGenericTaskConstants {
    * Task output: {@link ITsContextRo} specified as an input is passed to the output.
    */
   ITsContextRefDef<ITsContextRo> REFDEF_OUT_INPUT = //
-      TsContextRefDef.create( REFID_OUT_TASK_RESULT, ITsContextRo.class, //
+      TsContextRefDef.create( REFID_OUT_INPUT, ITsContextRo.class, //
           TSID_IS_MANDATORY, AV_TRUE //
       );
 

@@ -155,7 +155,6 @@ public class IdValueConstraintM5Model
   protected IM5LifecycleManager<IdValue> doCreateLifecycleManager( Object aMaster ) {
     return new IdValueConstraintM5LifecycleManager( this,
         IdValueConstraintM5LifecycleManager.Master.class.cast( aMaster ) );
-
   }
 
 }
