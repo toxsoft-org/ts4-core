@@ -26,6 +26,7 @@ interface ITsResources {
    */
   String FMT_MSG_ITEMS_COUNT          = Messages.getString( "FMT_MSG_ITEMS_COUNT" );          //$NON-NLS-1$
   String FMT_MSG_ITEMS_FILTERED_COUNT = Messages.getString( "FMT_MSG_ITEMS_FILTERED_COUNT" ); //$NON-NLS-1$
+  String FMT_MSG_ITEMS_CHECKED_COUNT  = Messages.getString( "FMT_MSG_ITEMS_CHECKED_COUNT" );  //$NON-NLS-1$
 
   /**
    * MultiPaneComponentLookup

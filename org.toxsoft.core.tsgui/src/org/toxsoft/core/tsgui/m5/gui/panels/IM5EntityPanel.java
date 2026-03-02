@@ -38,7 +38,7 @@ public interface IM5EntityPanel<T>
   void setEntity( T aEntity );
 
   /**
-   * Checks if values may be obtaied from all widgets in panel.
+   * Checks if values may be obtained from all widgets in panel.
    * <p>
    * If this method returns {@link EValidationResultType#ERROR} then calling {@link #getValues()} will throw an
    * exception.

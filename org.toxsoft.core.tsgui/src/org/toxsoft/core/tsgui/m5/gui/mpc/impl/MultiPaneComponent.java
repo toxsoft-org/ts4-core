@@ -129,6 +129,9 @@ public abstract class MultiPaneComponent<T>
         return false;
       }
     };
+    if( tree.checks().isChecksSupported() ) {
+      tree.checks().checksChangeEventer().addListener( s -> updateSummaryPane() );
+    }
     // first run user handler and then code in this class
     keyInputDelegator = new TsKeyInputDelegator( this, tree ) {
 
@@ -1011,11 +1014,10 @@ public abstract class MultiPaneComponent<T>
   }
 
   /**
-   * Subclass may create its own implemenation of summary pane {@link IMpcSummaryPane}.
+   * Subclass may create its own implementation of summary pane {@link IMpcSummaryPane}.
    * <p>
    * <p>
-   * In the base class creates {@link MpcSummaryPaneMessage} instance with message provider
-   * {@link MpcSummaryPaneMessage#DEFAULT_MESSAGE_RPOVIDER}.
+   * In the base class creates {@link MpcSummaryPaneMessage} instance with default message provider.
    * <p>
    * Method is called from {@link #createControl(Composite)}, and only if
    * {@link IMultiPaneComponentConstants#OPDEF_IS_SUMMARY_PANE} option is set.
@@ -1023,7 +1025,7 @@ public abstract class MultiPaneComponent<T>
    * @return {@link IMpcSummaryPane} - summary pane or <code>null</code> if no summary is needed
    */
   protected IMpcSummaryPane<T> doCreateSummaryPane() {
-    return new MpcSummaryPaneMessage<T>( this, MpcSummaryPaneMessage.DEFAULT_MESSAGE_RPOVIDER );
+    return new MpcSummaryPaneMessage<>( this, null );
   }
 
   /**
