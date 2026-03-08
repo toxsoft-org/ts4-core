@@ -1,6 +1,5 @@
 package org.toxsoft.core.tsgui.rcp.valed;
 
-import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 
 import java.io.*;
@@ -11,6 +10,7 @@ import org.toxsoft.core.tsgui.valed.controls.av.*;
 import org.toxsoft.core.tsgui.valed.impl.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.gui.*;
 
 /**
  * {@link EAtomicType#STRING} of type {@link File#getPath()} editor.
@@ -25,7 +25,7 @@ public class ValedAvStringFile
   /**
    * The factory name.
    */
-  public static final String FACTORY_NAME = VALED_EDNAME_PREFIX + ".AvStringFile"; //$NON-NLS-1$
+  public static final String FACTORY_NAME = ITsLibInnerSharedConstants.TSLIB_VALED_AV_STRING_FILE;
 
   /**
    * The factory class.

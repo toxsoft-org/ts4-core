@@ -31,6 +31,18 @@ public interface ITsLibInnerSharedConstants {
   String TSLIB_VALED_STRING_TEXT_OPID_IS_MULTI_LINE = "org.toxsoft.valed.option.ValedStringText.IsMultiLine"; //$NON-NLS-1$
 
   /**
+   * org.toxsoft.core.tsgui.rcp.valed.*
+   */
+  String TSLIB_VALED_FILE                      = "ts.valed.File";                                //$NON-NLS-1$
+  String TSLIB_VALED_STRING_FILE               = "ts.valed.StringFile";                          //$NON-NLS-1$
+  String TSLIB_VALED_AV_STRING_FILE            = "ts.valed.AvStringFile";                        //$NON-NLS-1$
+  String TSLIB_VALED_AV_VALOBJ_FILE            = "ts.valed.AvValobjFile";                        //$NON-NLS-1$
+  String TSLIB_VALED_FILE_OPID_IS_DIRECTORY    = "org.toxsoft.valed.option.File.Directory";      //$NON-NLS-1$
+  String TSLIB_VALED_FILE_OPID_MUST_EXIST      = "org.toxsoft.valed.option.File.MustExist";      //$NON-NLS-1$
+  String TSLIB_VALED_FILE_OPID_IS_OPEN_DIALOG  = "org.toxsoft.valed.option.File.IsOpenDialog";   //$NON-NLS-1$
+  String TSLIB_VALED_FILE_OPID_FILE_EXTENSIONS = "org.toxsoft.valed.option.File.FileExtensions"; //$NON-NLS-1$
+
+  /**
    * org.toxsoft.core.tsgui.graphics.icons.ITsStdIconIds
    */
   String TSLIB_ICONID_INFO    = "dialog-information"; //$NON-NLS-1$

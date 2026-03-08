@@ -1,7 +1,5 @@
 package org.toxsoft.core.tsgui.rcp.valed;
 
-import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
-
 import java.io.*;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
@@ -11,6 +9,7 @@ import org.toxsoft.core.tsgui.valed.impl.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.bricks.keeper.std.*;
 import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.gui.*;
 
 /**
  * {@link EAtomicType#VALOBJ} of type {@link File} editor.
@@ -25,7 +24,7 @@ public class ValedAvValobjFile
   /**
    * The factory name.
    */
-  public static final String FACTORY_NAME = VALED_EDNAME_PREFIX + ".AvValobjFile"; //$NON-NLS-1$
+  public static final String FACTORY_NAME = ITsLibInnerSharedConstants.TSLIB_VALED_AV_VALOBJ_FILE;
 
   /**
    * The factory class.

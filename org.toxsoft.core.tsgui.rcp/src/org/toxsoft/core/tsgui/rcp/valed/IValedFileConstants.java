@@ -6,6 +6,7 @@ import static org.toxsoft.core.tslib.av.EAtomicType.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
+import static org.toxsoft.core.tslib.utils.gui.ITsLibInnerSharedConstants.*;
 
 import java.io.*;
 
@@ -31,22 +32,22 @@ public interface IValedFileConstants {
   /**
    * ID of option {@link #OPDEF_IS_DIRECTORY}.
    */
-  String OPID_IS_DIRECTORY = OP_PREFIX_ID + ".Directory"; //$NON-NLS-1$
+  String OPID_IS_DIRECTORY = TSLIB_VALED_FILE_OPID_IS_DIRECTORY;
 
   /**
    * ID of option {@link #OPDEF_MUST_EXIST}.
    */
-  String OPID_MUST_EXIST = OP_PREFIX_ID + ".MustExist"; //$NON-NLS-1$
+  String OPID_MUST_EXIST = TSLIB_VALED_FILE_OPID_MUST_EXIST;
 
   /**
    * ID of option {@link #OPDEF_IS_OPEN_DIALOG}.
    */
-  String OPID_IS_OPEN_DIALOG = OP_PREFIX_ID + ".IsOpenDialog"; //$NON-NLS-1$
+  String OPID_IS_OPEN_DIALOG = TSLIB_VALED_FILE_OPID_IS_OPEN_DIALOG;
 
   /**
    * ID of option {@link #OPDEF_FILE_EXTENSIONS}.
    */
-  String OPID_FILE_EXTENSIONS = OP_PREFIX_ID + ".FileExtensions"; //$NON-NLS-1$
+  String OPID_FILE_EXTENSIONS = TSLIB_VALED_FILE_OPID_FILE_EXTENSIONS;
 
   /**
    * Признак выбора директория, не файла.<br>

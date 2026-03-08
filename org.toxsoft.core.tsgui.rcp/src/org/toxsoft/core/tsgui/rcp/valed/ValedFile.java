@@ -24,6 +24,7 @@ import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.files.*;
+import org.toxsoft.core.tslib.utils.gui.*;
 
 /**
  * File/directory chooser edits values of type {@link File}.
@@ -36,7 +37,7 @@ public class ValedFile
   /**
    * The factory name.
    */
-  public static final String FACTORY_NAME = VALED_EDNAME_PREFIX + ".File"; //$NON-NLS-1$
+  public static final String FACTORY_NAME = ITsLibInnerSharedConstants.TSLIB_VALED_FILE;
 
   /**
    * Factory singleton.
