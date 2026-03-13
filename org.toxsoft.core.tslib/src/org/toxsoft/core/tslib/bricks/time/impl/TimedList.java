@@ -399,10 +399,18 @@ public class TimedList<T extends ITimestampable>
       int mid = low + ((high - low) / 2);
       long t = aList.get( mid ).timestamp();
       if( t < aTimestamp ) {
+        // 2026-03-13 +++ mvk, dima
+        if( mid + 1 > high ) {
+          break;
+        }
         low = mid + 1;
       }
       else
         if( t > aTimestamp ) {
+          // 2026-03-13 +++ mvk, dima
+          if( mid - 1 < low ) {
+            break;
+          }
           high = mid - 1;
         }
         else
