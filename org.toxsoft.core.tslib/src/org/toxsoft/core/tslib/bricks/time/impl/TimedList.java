@@ -392,81 +392,142 @@ public class TimedList<T extends ITimestampable>
    */
   private static <T extends ITimestampable> int binarySearch( IList<T> aList, long aTimestamp, boolean aFirst,
       boolean aBefore ) {
-    int foundIndex = -1;
+    // 2023-03-13 mvk ---+++ deepseek
+    // int foundIndex = -1;
+    // int low = 0;
+    // int high = aList.size() - 1;
+    // while( low <= high ) {
+    // int mid = low + ((high - low) / 2);
+    // long t = aList.get( mid ).timestamp();
+    // if( t < aTimestamp ) {
+    // // 2026-03-13 +++ mvk, dima
+    // if( mid + 1 > high ) {
+    // break;
+    // }
+    // low = mid + 1;
+    // }
+    // else
+    // if( t > aTimestamp ) {
+    // // 2026-03-13 +++ mvk, dima
+    // if( mid - 1 < low ) {
+    // break;
+    // }
+    // high = mid - 1;
+    // }
+    // else
+    // if( t == aTimestamp ) {
+    // foundIndex = mid;
+    // break;
+    // }
+    // }
+    // // Признак того, что найден элемент с указанной меткой
+    // boolean wasFound = (foundIndex >= 0);
+    //
+    // // aFirst = true, aBefore = true: если есть элемент(ы) с заданным временем, то возвращает индекс последнего из
+    // таких
+    // // элементов, иначе возвращает индекс элемента слева от запрошенного времени.
+    // if( aFirst && aBefore ) {
+    // for( int i = (wasFound ? foundIndex + 1 : low); i <= high; i++ ) {
+    // if( aTimestamp < aList.get( i ).timestamp() ) {
+    // return (wasFound ? i - 1 : i);
+    // }
+    // }
+    // }
+    //
+    // // aFirst = true, aBefore = false: если есть элемент(ы) с заданным временем, то возвращает индекс первого из
+    // таких
+    // // элементов, иначе возвращает индекс элемента справа от запрошенного времени.
+    // if( aFirst && !aBefore ) {
+    // for( int i = (wasFound ? foundIndex - 1 : high); i >= low; i-- ) {
+    // if( aList.get( i ).timestamp() < aTimestamp ) {
+    // return (i + 1);
+    // }
+    // }
+    // }
+    //
+    // // aFirst = false, aBefore = true: если есть элемент(ы) с заданным временем, то возвращает индекс первого из
+    // таких
+    // // элементов, иначе возвращает индекс элемента слева от запрошенного времени.
+    // if( !aFirst && aBefore ) {
+    // for( int i = (wasFound ? foundIndex - 1 : high); i >= low; i-- ) {
+    // if( aList.get( i ).timestamp() < aTimestamp ) {
+    // return (wasFound ? i + 1 : i);
+    // }
+    // }
+    // }
+    //
+    // // aFirst = false, aBefore = false: если есть элемент(ы) с заданным временем, то возвращает индекс последнего из
+    // // таких элементов, иначе возвращает индекс элемента справа от запрошенного времени.
+    // if( !aFirst && !aBefore ) {
+    // for( int i = (wasFound ? foundIndex + 1 : low); i <= high; i++ ) {
+    // if( aTimestamp < aList.get( i ).timestamp() ) {
+    // return (wasFound ? i - 1 : i);
+    // }
+    // }
+    // }
+    //
+    // if( wasFound ) {
+    // return foundIndex;
+    // }
+    //
+    // // Недопустимая логика
+    // throw new TsInternalErrorRtException();
+    int size = aList.size();
+
+    // Особый случай: пустой список
+    if( size == 0 ) {
+      // Левого соседа нет → -1, правый сосед — позиция 0 (место вставки)
+      return aBefore ? -1 : 0;
+    }
+
+    // ---------- lowerBound: первый индекс, где timestamp >= aTimestamp ----------
     int low = 0;
-    int high = aList.size() - 1;
-    while( low <= high ) {
-      int mid = low + ((high - low) / 2);
+    int high = size;
+    while( low < high ) {
+      int mid = low + (high - low) / 2;
       long t = aList.get( mid ).timestamp();
       if( t < aTimestamp ) {
-        // 2026-03-13 +++ mvk, dima
-        if( mid + 1 > high ) {
-          break;
-        }
         low = mid + 1;
       }
-      else
-        if( t > aTimestamp ) {
-          // 2026-03-13 +++ mvk, dima
-          if( mid - 1 < low ) {
-            break;
-          }
-          high = mid - 1;
-        }
-        else
-          if( t == aTimestamp ) {
-            foundIndex = mid;
-            break;
-          }
-    }
-    // Признак того, что найден элемент с указанной меткой
-    boolean wasFound = (foundIndex >= 0);
-
-    // aFirst = true, aBefore = true: если есть элемент(ы) с заданным временем, то возвращает индекс последнего из таких
-    // элементов, иначе возвращает индекс элемента слева от запрошенного времени.
-    if( aFirst && aBefore ) {
-      for( int i = (wasFound ? foundIndex + 1 : low); i <= high; i++ ) {
-        if( aTimestamp < aList.get( i ).timestamp() ) {
-          return (wasFound ? i - 1 : i);
-        }
+      else {
+        high = mid;
       }
     }
+    int lower = low; // результат lowerBound
 
-    // aFirst = true, aBefore = false: если есть элемент(ы) с заданным временем, то возвращает индекс первого из таких
-    // элементов, иначе возвращает индекс элемента справа от запрошенного времени.
-    if( aFirst && !aBefore ) {
-      for( int i = (wasFound ? foundIndex - 1 : high); i >= low; i-- ) {
-        if( aList.get( i ).timestamp() < aTimestamp ) {
-          return (i + 1);
+    boolean hasEqual = (lower < size && aList.get( lower ).timestamp() == aTimestamp);
+
+    if( hasEqual ) {
+      // ---------- upperBound: первый индекс, где timestamp > aTimestamp ----------
+      low = 0;
+      high = size;
+      while( low < high ) {
+        int mid = low + (high - low) / 2;
+        long t = aList.get( mid ).timestamp();
+        if( t <= aTimestamp ) {
+          low = mid + 1;
+        }
+        else {
+          high = mid;
         }
       }
-    }
+      int upper = low; // результат upperBound
 
-    // aFirst = false, aBefore = true: если есть элемент(ы) с заданным временем, то возвращает индекс первого из таких
-    // элементов, иначе возвращает индекс элемента слева от запрошенного времени.
-    if( !aFirst && aBefore ) {
-      for( int i = (wasFound ? foundIndex - 1 : high); i >= low; i-- ) {
-        if( aList.get( i ).timestamp() < aTimestamp ) {
-          return (wasFound ? i + 1 : i);
-        }
+      // Выбор между первым и последним равным согласно комментариям:
+      // - aFirst == aBefore → последний равный
+      // - aFirst != aBefore → первый равный
+      if( aFirst == aBefore ) {
+        return upper - 1; // последний равный
       }
     }
-
-    // aFirst = false, aBefore = false: если есть элемент(ы) с заданным временем, то возвращает индекс последнего из
-    // таких элементов, иначе возвращает индекс элемента справа от запрошенного времени.
-    if( !aFirst && !aBefore ) {
-      for( int i = (wasFound ? foundIndex + 1 : low); i <= high; i++ ) {
-        if( aTimestamp < aList.get( i ).timestamp() ) {
-          return (wasFound ? i - 1 : i);
-        }
+    else {
+      // Равных нет. Возвращаем соседа:
+      // - aBefore == true → левый сосед (последний меньший) = lower - 1
+      // - aBefore == false → правый сосед (первый больший) = lower
+      if( aBefore ) {
+        return lower - 1; // может быть -1 (нет левого соседа)
       }
     }
-
-    if( wasFound ) {
-      return foundIndex;
-    }
-
-    // Недопустимая логика
-    throw new TsInternalErrorRtException();
+    return lower; // первый равный
   }
 }
