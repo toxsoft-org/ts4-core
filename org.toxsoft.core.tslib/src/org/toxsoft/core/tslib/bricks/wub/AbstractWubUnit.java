@@ -2,13 +2,13 @@ package org.toxsoft.core.tslib.bricks.wub;
 
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.av.opset.impl.OptionSet;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContextRo;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.bricks.ctx.*;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * {@link IWubUnit} implementation base.
@@ -35,7 +35,7 @@ import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
  *
  * @author hazard157
  */
-public non-sealed abstract class AbstractWubUnit
+public abstract class AbstractWubUnit
     implements IWubUnit {
 
   private final WubUnitDiagnostics diagnosticsInfo = new WubUnitDiagnostics();
@@ -180,8 +180,14 @@ public non-sealed abstract class AbstractWubUnit
     TsNullArgumentRtException.checkNull( aEnviron );
     TsIllegalStateRtException.checkTrue( wuState != EWubUnitState.CREATED );
     environ = aEnviron; // temporary set environment
-    ValidationResult vr = doInit( aEnviron );
-    TsInternalErrorRtException.checkNull( vr );
+    ValidationResult vr;
+    try {
+      vr = doInit( aEnviron );
+      TsInternalErrorRtException.checkNull( vr );
+    }
+    catch( Exception ex ) {
+      vr = ValidationResult.error( ex );
+    }
     if( !vr.isError() ) {
       environ = aEnviron;
       wuState = EWubUnitState.INITED;
@@ -233,7 +239,7 @@ public non-sealed abstract class AbstractWubUnit
   protected abstract ValidationResult doInit( ITsContextRo aEnviron );
 
   /**
-   * Subclass may perform additional actions after initializing but before for call of {@link #doJob()}.
+   * Subclass may perform additional actions after initializing but before first call of {@link #doJob()}.
    * <p>
    * Does nothing in base class, there is no need to call parent method when overriding.
    */
