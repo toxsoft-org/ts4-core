@@ -110,4 +110,20 @@ public class ProgramArgs {
     return aDefaultValue;
   }
 
+  /**
+   * Removes the argument from the internal map returning it's value.
+   *
+   * @param aArgName String - command line argument
+   * @param aDefaultValue String - returned value in absence of the argument, may be <code>null</code>
+   * @return String - argument value or aDefaultValue
+   * @throws TsNullArgumentRtException aArgName = null
+   */
+  public String removeArg( String aArgName, String aDefaultValue ) {
+    String s = argVals.removeByKey( aArgName );
+    if( s != null ) {
+      return s;
+    }
+    return aDefaultValue;
+  }
+
 }

@@ -50,8 +50,7 @@ public interface IWorkerComponent {
    * <p>
    * Если компонента уже работает (то есть, {@link #start()} уже был вызван, то повторный вызов ничего не делает.
    *
-   * @throws TsRuntimeException (или наследники TsRuntimeException) - по разным причинам, специфичным для компоненты,
-   *           невозможно начать работу
+   * @throws TsRuntimeException - the exception based on {@link TsRemoteIoRtException} may be thrown for many reasons
    */
   void start();
 
@@ -67,7 +66,7 @@ public interface IWorkerComponent {
   boolean queryStop();
 
   /**
-   * Определяет, остановлена ли работа компоненты.
+   * Determines if component is stopped.
    * <p>
    * Контейнер гарантирует, что этот метод вызывается только после {@link #queryStop()}, и только если компонента не
    * остановилсяь. Как только компонента остановилась (то есть, {@link #isStopped()}=true), этот метожд перестает
@@ -90,6 +89,8 @@ public interface IWorkerComponent {
    * <p>
    * Once this method is called, no other method can or should be called and the reference to the component should be
    * garbage collected.
+   * <p>
+   * Implementation does not throws any exception.
    */
   void destroy();
 

@@ -8,6 +8,7 @@ import org.apache.log4j.*;
 import org.apache.log4j.xml.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.vrl.*;
+import org.toxsoft.core.tslib.math.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.logs.*;
@@ -193,17 +194,32 @@ public class LoggerWrapper
 
   }
 
+  // ------------------------------------------------------------------------------------
+  // Class API
+  //
+
+  /**
+   * Allowed range of logger properties configuration file rescan intervals.
+   * <p>
+   * If out of range, method {@link #setScanPropertiesTimeout(long)} does NOT initializes properties rescan watching.
+   */
+  public static LongRange RESCAN_INTERVAL_MSECS_RANGE = new LongRange( 1000, 366 * 86_400_000L );
+
   /**
    * Sets the logging properties configuration file rescan intervals.
    * <p>
-   * Every <code>aIntervalMsecs</code> milliseconds application checks logger configuration file and applies changes.
+   * Every <code>aIntervalMsecs</code> milliseconds application checks logger configuration file and applies changes. If
+   * value is out of range {@link #RESCAN_INTERVAL_MSECS_RANGE} then no rescan will be performed.
    * <p>
    * Log4j library expects in this system property the configuration XML file name. This method requires
    * {@link #SYSPROP_LOG4J_CONFIG_FILE_NAME} to contain valid file name with extension from
    * {@link #LOG4J_CONFIG_FILE_EXTS} to be specified. Otherwise method write warning in {@link System#err} and does
    * nothing.
+   * <p>
+   * Note: log4j creates separate thread to periodically scan for changes in file system. Turn off log configuration
+   * settings rescan in production environment.
    *
-   * @param aIntervalMsecs long - rescan interval in milliseconds
+   * @param aIntervalMsecs long - rescan interval in milliseconds or 0 for no rescan
    */
   public static void setScanPropertiesTimeout( long aIntervalMsecs ) {
     String log4jfilename = System.getProperty( "log4j.configuration" ); //$NON-NLS-1$
@@ -211,14 +227,25 @@ public class LoggerWrapper
       System.err.println( LOG_NO_LOG4J_CFG_FILE_IN_SYS_PROPS );
       return;
     }
+    long msecs = RESCAN_INTERVAL_MSECS_RANGE.isInRange( aIntervalMsecs ) ? aIntervalMsecs : 0;
     log4jfilename = log4jfilename.substring( 5 );
     if( new File( log4jfilename ).exists() ) {
       if( log4jfilename.endsWith( ".properties" ) ) { //$NON-NLS-1$
-        PropertyConfigurator.configureAndWatch( log4jfilename, aIntervalMsecs );
+        if( msecs != 0 ) {
+          PropertyConfigurator.configureAndWatch( log4jfilename, msecs );
+        }
+        else {
+          PropertyConfigurator.configure( log4jfilename );
+        }
         return;
       }
       if( log4jfilename.endsWith( ".xml" ) ) { //$NON-NLS-1$
-        DOMConfigurator.configureAndWatch( log4jfilename, aIntervalMsecs );
+        if( msecs != 0 ) {
+          DOMConfigurator.configureAndWatch( log4jfilename, msecs );
+        }
+        else {
+          DOMConfigurator.configure( log4jfilename );
+        }
         return;
       }
       System.err.println( LOG_NO_LOG4J_CFG_FILE_FOUND + log4jfilename );

@@ -64,7 +64,7 @@ public class AtomicValueReaderUtils {
       aSr.ensureChar( CHAR_SET_END );
       return AV_VALOBJ_NULL;
     }
-    // "keeperId{...}"
+    // "@keeperId{...}"
     String keeperId = aSr.readIdPath();
     String textInBraces = StrioUtils.readInterbaceContent( aSr );
     return new AvValobjImpl( keeperId, textInBraces );

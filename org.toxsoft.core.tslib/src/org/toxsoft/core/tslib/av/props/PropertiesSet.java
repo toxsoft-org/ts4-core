@@ -304,6 +304,10 @@ public class PropertiesSet<S>
    * and infinite loops.
    * <p>
    * Note: old values are are lost at this time and can <b>not</b> be accessed.
+   * <p>
+   * This method is called <b>before</b> change event generation.
+   * <p>
+   * In the base class does nothing there is no need to call superclass method when overriding.
    *
    * @param aChangedValues {@link IOptionSet} - really changed values
    */
