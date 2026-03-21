@@ -112,5 +112,6 @@ Export-Package: org.toxsoft.core.tslib,
  org.toxsoft.core.tslib.utils.plugins.dirwalk,
  org.toxsoft.core.tslib.utils.plugins.impl,
  org.toxsoft.core.tslib.utils.progargs,
+ org.toxsoft.core.tslib.utils.rwkind,
  org.toxsoft.core.tslib.utils.txtmatch,
  org.toxsoft.core.tslib.utils.valobj
