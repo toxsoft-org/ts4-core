@@ -5,7 +5,6 @@ import org.toxsoft.core.tslib.bricks.*;
 import org.toxsoft.core.tslib.bricks.ctx.*;
 import org.toxsoft.core.tslib.bricks.strid.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
-import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * The worker unit is an identifiable piece of code managed by the container (the box).
@@ -18,8 +17,9 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * <p>
  * Note:
  * <ul>
- * <li>WUB unit does <b>not</b> allows {@link #start()} to be called after stop is requested. Such call will cause
- * {@link #start()} to throw {@link TsIllegalStateRtException};</li>
+ * <li>WUB unit may be started again after it was stopped, however after {@link #destroy()} unit becomes unusable;</li>
+ * <li>unit may be initialized via {@link #init(ITsContextRo)} after is was stopped, otherwise next start will be
+ * performed with last initialization parameters;</li>
  * <li>All implementation of this interface must be based on {@link AbstractWubUnit}.</li>
  * </ul>
  *
@@ -31,12 +31,12 @@ public interface IWubUnit
   /**
    * Initializes the unit to work in the environment specified as an argument.
    * <p>
-   * Once successfully initialized (that is, put in execution environment) the unit can not be initialized again. It may
-   * be started/stopped but not initialized.
+   * Method must be called at least once before first {@link #start()}. After stop (when {@link #isStopped()} =
+   * <code>true</code> method may be called again.
    * <p>
    * Method does not throws an exception rather returns the error in {@link ValidationResult}.
    *
-   * @param aEnviron {@link ITsContextRo} - the execution environment
+   * @param aEnviron {@link ITsContextRo} - the execution environment with initialization parameters
    * @return {@link ValidationResult} - initialization success result
    */
   ValidationResult init( ITsContextRo aEnviron );
