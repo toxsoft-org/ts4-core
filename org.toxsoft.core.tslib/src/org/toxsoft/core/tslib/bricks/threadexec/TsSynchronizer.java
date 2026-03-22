@@ -294,6 +294,7 @@ final class TsSynchronizer {
         }
         catch( RuntimeException | Error error ) {
           logger.error( error );
+          throw error;
         }
         return;
       }
@@ -330,8 +331,9 @@ final class TsSynchronizer {
       if( interrupted ) {
         currentThread.interrupt();
       }
-      if( lock.throwable != null ) {
-        logger.error( lock.throwable );
+      if( lock.error != null ) {
+        logger.error( lock.error );
+        throw lock.error;
       }
     }
   }
@@ -378,8 +380,8 @@ final class TsSynchronizer {
           debug( this, aLock, METHOD_RUN_LOCK, "run BEFORE" );
           aLock.run();
         }
-        catch( Throwable t ) {
-          aLock.throwable = t;
+        catch( Error e ) {
+          aLock.error = e;
         }
       }
       finally {

@@ -37,6 +37,7 @@ public interface ITsThreadExecutor
    *
    * @param aRunnable code to run on the uskat thread
    * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws Error any runtime application exception throwed by {@link Runnable}
    */
   void syncExec( Runnable aRunnable );
 
