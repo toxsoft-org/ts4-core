@@ -43,40 +43,42 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public interface IWorkerComponent {
 
   /**
-   * Запуск компоненты - после этого компонента начинает работу.
+   * The component start - after this method comonent is in working state.
    * <p>
-   * Только после выполнения этого метода можно вызывать методы бизнес-логики компоненты, а так же и
-   * {@link ICooperativeMultiTaskable#doJob()}, если класс реализует еще и {@link ICooperativeMultiTaskable}.
+   * Only after executing this method can you call the component's business logic methods, as well as
+   * {@link ICooperativeMultiTaskable#doJob()}, if the class also implements {@link ICooperativeMultiTaskable}.
    * <p>
-   * Если компонента уже работает (то есть, {@link #start()} уже был вызван, то повторный вызов ничего не делает.
+   * Calling this method on started component does nothing.
    *
    * @throws TsRuntimeException - the exception based on {@link TsRemoteIoRtException} may be thrown for many reasons
    */
   void start();
 
   /**
-   * Запрос остановки работы компоненты.
+   * Initializes component stopping process.
    * <p>
-   * Метод возвращает управление немедленно, даже если работа модуля не может быть завершена. В таком случае, следует
-   * опрашивать состояние модуля методом {@link #isStopped()}.
+   * The method returns immediately, even if the unit is not stopped. In this case, the stopping state should be queried
+   * using the {@link #isStopped()} method.
+   * <p>
+   * Calling this method on stopped or stopping component does nothing.
    *
-   * @return <b>true</b> - работа компоненты завершена;<br>
-   *         <b>false</b> - модуль еще не завершил работу, спрашиваийте у {@link #isStopped()}.
+   * @return <b>true</b> - the component has stopped working, {@link #isStopped()} = <code>true</code>;<br>
+   *         <b>false</b> - component is still working, continue with {@link #isStopped()} calls until stop.
    */
   boolean queryStop();
 
   /**
    * Determines if component is stopped.
    * <p>
-   * Контейнер гарантирует, что этот метод вызывается только после {@link #queryStop()}, и только если компонента не
-   * остановилсяь. Как только компонента остановилась (то есть, {@link #isStopped()}=true), этот метожд перестает
-   * вызываться.
+   * The container guarantees that this method is called only after {@link #queryStop()}, and only if the component is
+   * not stopped. Once the component is stopped (that is, {@link #isStopped()} = <code>true</code>), this method is no
+   * longer called.
    * <p>
-   * Если слишком долго компонента не останавливает работу добровольно, следует насильно вызывать {@link #destroy()} для
-   * завершения работы (может быть, не очень корректной) и освобождения ресурсов.
+   * If a component takes too long to stop voluntarily, the container should forcefully call {@link #destroy()} to
+   * terminate the work (maybe not very correctly) and free up resources.
    *
-   * @return <b>true</b> - работа компоненты завершена;<br>
-   *         <b>false</b> - модуль еще не завершил работу.
+   * @return <b>true</b> - the component has stopped working, {@link #isStopped()} = <code>true</code>;<br>
+   *         <b>false</b> - component is still working, continue with {@link #isStopped()} calls until stop.
    */
   boolean isStopped();
 
