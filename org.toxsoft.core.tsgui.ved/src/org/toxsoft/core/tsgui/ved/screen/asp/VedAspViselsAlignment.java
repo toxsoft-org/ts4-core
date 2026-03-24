@@ -19,6 +19,7 @@ import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -192,26 +193,44 @@ public class VedAspViselsAlignment
   }
 
   void doAlignLeft() {
+    if( anchorVisel == null ) {
+      anchorVisel = getLeftAnchor();
+    }
     doAlign( ETsFulcrum.LEFT_TOP, null );
   }
 
   void doAlignRight() {
+    if( anchorVisel == null ) {
+      anchorVisel = getRightAnchor();
+    }
     doAlign( ETsFulcrum.RIGHT_BOTTOM, null );
   }
 
   void doAlignTop() {
+    if( anchorVisel == null ) {
+      anchorVisel = getTopAnchor();
+    }
     doAlign( null, ETsFulcrum.RIGHT_TOP );
   }
 
   void doAlignBottom() {
+    if( anchorVisel == null ) {
+      anchorVisel = getBottomAnchor();
+    }
     doAlign( null, ETsFulcrum.RIGHT_BOTTOM );
   }
 
   void doAlignHorCenter() {
+    if( anchorVisel == null ) {
+      anchorVisel = getTopAnchor();
+    }
     doAlign( ETsFulcrum.TOP_CENTER, null );
   }
 
   void doAlignVerCenter() {
+    if( anchorVisel == null ) {
+      anchorVisel = getLeftAnchor();
+    }
     doAlign( null, ETsFulcrum.LEFT_CENTER );
   }
 
@@ -227,6 +246,68 @@ public class VedAspViselsAlignment
 
   void onSelectionChanged( @SuppressWarnings( "unused" ) Object aSource ) {
     actionsStateEventer().fireChangeEvent();
+  }
+
+  VedAbstractVisel getLeftAnchor() {
+    Pair<VedAbstractVisel, VedAbstractVisel> p = getLeftRightVisels();
+    return p.left();
+  }
+
+  VedAbstractVisel getRightAnchor() {
+    Pair<VedAbstractVisel, VedAbstractVisel> p = getLeftRightVisels();
+    return p.right();
+  }
+
+  VedAbstractVisel getTopAnchor() {
+    Pair<VedAbstractVisel, VedAbstractVisel> p = getTopBottomVisels();
+    return p.left();
+  }
+
+  VedAbstractVisel getBottomAnchor() {
+    Pair<VedAbstractVisel, VedAbstractVisel> p = getTopBottomVisels();
+    return p.right();
+  }
+
+  Pair<VedAbstractVisel, VedAbstractVisel> getLeftRightVisels() {
+    IStridablesList<VedAbstractVisel> visels = listSelectedVisels();
+    VedAbstractVisel minVisel = visels.first();
+    VedAbstractVisel maxVisel = visels.first();
+    double minX = minVisel.props().getDouble( PROPID_X );
+    double maxX = maxVisel.props().getDouble( PROPID_X ) + maxVisel.props().getDouble( PROPID_WIDTH );
+    for( VedAbstractVisel visel : visels ) {
+      double x = visel.props().getDouble( PROPID_X );
+      double w = visel.props().getDouble( PROPID_WIDTH );
+      if( x < minX ) {
+        minX = x;
+        minVisel = visel;
+      }
+      if( x + w > maxX ) {
+        maxX = x + w;
+        maxVisel = visel;
+      }
+    }
+    return new Pair<>( minVisel, maxVisel );
+  }
+
+  Pair<VedAbstractVisel, VedAbstractVisel> getTopBottomVisels() {
+    IStridablesList<VedAbstractVisel> visels = listSelectedVisels();
+    VedAbstractVisel topVisel = visels.first();
+    VedAbstractVisel bottomVisel = visels.first();
+    double minY = topVisel.props().getDouble( PROPID_Y );
+    double maxY = bottomVisel.props().getDouble( PROPID_Y ) + topVisel.props().getDouble( PROPID_HEIGHT );
+    for( VedAbstractVisel visel : visels ) {
+      double y = visel.props().getDouble( PROPID_Y );
+      double h = visel.props().getDouble( PROPID_HEIGHT );
+      if( y < minY ) {
+        minY = y;
+        topVisel = visel;
+      }
+      if( y + h > maxY ) {
+        maxY = y + h;
+        bottomVisel = visel;
+      }
+    }
+    return new Pair<>( topVisel, bottomVisel );
   }
 
 }

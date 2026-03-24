@@ -56,7 +56,7 @@ public class ViselLinearGauge
   private static final ITinFieldInfo TFI_ARROW_HEIGHT = new TinFieldInfo( "arrowHeight", TTI_AT_INTEGER, // //$NON-NLS-1$
       TSID_NAME, STR_ARROW_HEIGHT );
 
-  private static final ITinFieldInfo TFI_ARROW_COLOR = new TinFieldInfo( "arrowFill", TtiTsFillInfo.INSTANCE, // //$NON-NLS-1$
+  public static final ITinFieldInfo TFI_ARROW_COLOR = new TinFieldInfo( "arrowFill", TtiTsFillInfo.INSTANCE, // //$NON-NLS-1$
       TSID_NAME, STR_ARROW_COLOR );
 
   /**
@@ -139,7 +139,7 @@ public class ViselLinearGauge
   private int        arrowH    = 16;
   private TsFillInfo arrowFill = new TsFillInfo( new RGBA( 255, 0, 0, 255 ) );
 
-  private ETsOrientation orientation = ETsOrientation.VERTICAL;
+  private ETsOrientation orientation = null; // ETsOrientation.VERTICAL;
 
   private final int[] arrowPoints = new int[6];
 
@@ -147,16 +147,39 @@ public class ViselLinearGauge
   // VedAbstractVisel
   //
 
-  // @Override
-  // protected void doDoInterceptPropsChange( IOptionSet aNewValues, IOptionSetEdit aValuesToSet ) {
-  // if( aNewValues.hasKey( TFI_ORIENTATION.id() ) ) {
-  // if( orientation != aNewValues.getValobj( TFI_ORIENTATION.id() ) ) {
-  // ID2Rectangle r = bounds();
-  // aValuesToSet.setDouble( PROPID_WIDTH, r.height() );
-  // aValuesToSet.setDouble( PROPID_HEIGHT, r.width() );
-  // }
-  // }
-  // }
+  @Override
+  protected void doDoInterceptPropsChange( IOptionSet aNewValues, IOptionSetEdit aValuesToSet ) {
+    if( aNewValues.hasKey( TFI_ORIENTATION.id() ) ) {
+      if( orientation != null && orientation != aNewValues.getValobj( TFI_ORIENTATION.id() ) ) {
+        double w = props().getDouble( PROPID_WIDTH );
+        double h = props().getDouble( PROPID_HEIGHT );
+        aValuesToSet.setDouble( PROPID_WIDTH, h );
+        aValuesToSet.setDouble( PROPID_HEIGHT, w );
+        // System.out.println( "Orientation changed. The new one is: " + aNewValues.getValobj( TFI_ORIENTATION.id() ) );
+      }
+    }
+
+    if( aNewValues.hasKey( PROPID_HEIGHT ) ) {
+      double h = aNewValues.getDouble( PROPID_HEIGHT );
+      if( orientation == ETsOrientation.VERTICAL ) {
+        if( h <= 2 * arrowH ) {
+          h = 2 * arrowH + 1;
+          aValuesToSet.setDouble( PROPID_HEIGHT, h );
+        }
+      }
+    }
+
+    if( aNewValues.hasKey( PROPID_WIDTH ) ) {
+      double w = aNewValues.getDouble( PROPID_WIDTH );
+      if( orientation == ETsOrientation.HORIZONTAL ) {
+        if( w <= 2 * arrowH ) {
+          w = 2 * arrowH + 1;
+          aValuesToSet.setDouble( PROPID_WIDTH, w );
+        }
+      }
+    }
+
+  }
 
   @Override
   protected void doUpdateCachesAfterPropsChange( IOptionSet aChangedValue ) {
