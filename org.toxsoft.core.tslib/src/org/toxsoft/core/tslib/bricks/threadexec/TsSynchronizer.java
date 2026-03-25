@@ -537,7 +537,7 @@ final class TsSynchronizer {
         doJobThread = Thread.currentThread();
         doJobThread.setName( threadName( TsSynchronizer.this ) );
 
-        logger.info( "InternalDoJobTask()run(...): thread %s is started!", threadName( TsSynchronizer.this ) );
+        logger.info( "InternalDoJobTask().run(...): thread %s is started!", threadName( TsSynchronizer.this ) );
 
         // thread start notification
         synchronized (startLock) {

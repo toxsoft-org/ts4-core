@@ -5,8 +5,7 @@ package org.toxsoft.core.tslib.utils.rwkind;
  *
  * @author hazard157
  */
-@SuppressWarnings( "javadoc" )
-public interface ISkResources {
+interface ISkResources {
 
   /**
    * {@link ERwKind}

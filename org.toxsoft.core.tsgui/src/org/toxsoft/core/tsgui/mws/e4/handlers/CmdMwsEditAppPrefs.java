@@ -33,13 +33,14 @@ import jakarta.inject.*;
  * Command ID: {@link IMwsCoreConstants#MWSID_CMD_EDIT_APP_PREFS}.<br>
  * Arguments (E4 command parameters):<br>
  * <ul>
- * <li>{@link IMwsCoreConstants#MWSID_CMDARG_EAP_INIT_SECTID} - (optional arg) ID of the section selected initially
- * (must be an IDpath). If this arguement is not set current perspective ID is used;</li>
- * <li>{@link IMwsCoreConstants#MWSID_CMDARG_EAP_SECTIDS} - (optional arg) IDs list of sections to show. <b>Warning:</b>
- * must be a string created by {@link IEntityKeeper#ent2str(Object) StringListKeeper.KEEPER.ent2str(IStringList)}</li>
+ * <li>{@link IMwsCoreConstants#MWSID_CMDARG_EAP_INIT_SECTID} - (optional argument) ID of the section selected initially
+ * (must be an IDpath). If this argument is not set current perspective ID is used;</li>
+ * <li>{@link IMwsCoreConstants#MWSID_CMDARG_EAP_SECTIDS} - (optional argument) IDs list of sections to show.
+ * <b>Warning:</b> must be a string created by {@link IEntityKeeper#ent2str(Object)
+ * StringListKeeper.KEEPER.ent2str(IStringList)}</li>
  * </ul>
  * <p>
- * Command with no argumenmts (as it is called from application main menu "File" -"Preferences") displays
+ * Command with no arguments (as it is called from application main menu "File" -"Preferences") displays
  * {@link DialogOptionsEdit#editKit(ITsDialogInfo, IStridablesList, IStringMap, String)} with sections, corresponding to
  * preference bundles {@link IAppPreferences#listPrefBundleIds()}. Bundles with no known params, that is with an empty
  * list {@link IPrefBundle#listKnownOptions()}, are not shown.
@@ -81,11 +82,11 @@ public class CmdMwsEditAppPrefs {
     ITsGuiContext ctx = new TsGuiContext( aEclipseContext );
     ITsDialogInfo dlgInfo = new TsDialogInfo( ctx, shell, DLG_C_APP_PREFS, DLG_T_APP_PREFS, 0 );
     IStringMap<IOptionSet> vals = DialogOptionsEdit.editKit( dlgInfo, sectDefs, initVals, initSectId );
-    // update changed prefs bundles
+    // update changed preference bundles
     if( vals != null ) {
       for( String id : aAprefs.listPrefBundleIds() ) {
         IOptionSet newOpset = vals.findByKey( id );
-        // consider only bundlesthat were displayed
+        // consider only bundles that were displayed
         if( newOpset != null ) {
           IPrefBundle pb = aAprefs.getBundle( id );
           IOptionSet oldOpset = pb.prefs();
@@ -115,12 +116,12 @@ public class CmdMwsEditAppPrefs {
 
   private static IStridablesList<IOpsetsKitItemDef> prepareSectionDefs( IAppPreferences aAprefs,
       IStringList aShownSectIds ) {
-    IStridablesListEdit<IOpsetsKitItemDef> ll = new StridablesList<>();
+    IStridablesListBasicEdit<IOpsetsKitItemDef> ll = new SortedStridablesList<>();
     for( String pbId : aAprefs.listPrefBundleIds() ) {
       // include only allowed sections (or all sections)
       if( aShownSectIds.isEmpty() || aShownSectIds.hasElem( pbId ) ) {
         IPrefBundle pb = aAprefs.getBundle( pbId );
-        // dont show bundles with no known options to display
+        // don't show bundles with no known options to display
         if( !pb.listKnownOptions().isEmpty() ) {
           OpsetsKitItemDef sdef = OpsetsKitItemDef.create( pbId, pb.nmName(), pb.description(), pb.iconId() );
           sdef.optionDefs().addAll( pb.listKnownOptions() );
