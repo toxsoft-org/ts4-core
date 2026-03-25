@@ -1,7 +1,11 @@
 package org.toxsoft.core.tsgui.valed.controls.graphics;
 
 import static org.toxsoft.core.tsgui.graphics.icons.ITsStdIconIds.*;
+import static org.toxsoft.core.tsgui.valed.api.IValedControlConstants.*;
 import static org.toxsoft.core.tsgui.valed.controls.graphics.ITsResources.*;
+import static org.toxsoft.core.tslib.av.EAtomicType.*;
+import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
+import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
@@ -12,6 +16,8 @@ import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tsgui.valed.controls.helpers.*;
 import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.impl.*;
+import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
@@ -27,6 +33,20 @@ import org.toxsoft.core.tslib.utils.errors.*;
  */
 public abstract class AbstractValedSimpleRgba<V>
     extends AbstractValedLabelAndButton<V> {
+
+  /**
+   * ID of the {@link #OPDEF_USE_SWT_COLOR_DIALOG}.
+   */
+  public static final String OPID_USE_SWT_COLOR_DIALOG = VALED_OPID_PREFIX + ".AbstractValedSimpleRgba.SwtColorDialog"; //$NON-NLS-1$
+
+  /**
+   * Should SWT ColorDialog be used.
+   */
+  public static final IDataDef OPDEF_USE_SWT_COLOR_DIALOG = DataDef.create( OPID_USE_SWT_COLOR_DIALOG, BOOLEAN, //
+      TSID_NAME, STR_D2POINT_ORIENTATION, //
+      TSID_DESCRIPTION, STR_D2POINT_ORIENTATION_D, //
+      TSID_DEFAULT_VALUE, AV_FALSE //
+  );
 
   private static final int IMAGE_WIDTH  = 20;
   private static final int IMAGE_HEIGHT = 20;
@@ -114,13 +134,27 @@ public abstract class AbstractValedSimpleRgba<V>
     if( value != null ) {
       oldValue = new RGBA( value.rgb.red, value.rgb.green, value.rgb.blue, value.alpha );
     }
-    RGBA newVal = PanelRgbaSelector.editRgba( value, ctx );
-    if( newVal == null ) {
-      value = oldValue;
-      return false;
+
+    if( !params().getBool( OPDEF_USE_SWT_COLOR_DIALOG ) ) {
+      RGBA newVal = PanelRgbaSelector.editRgba( value, ctx );
+      if( newVal == null ) {
+        value = oldValue;
+        return false;
+      }
+      value = newVal;
+      return true;
     }
-    value = newVal;
-    return true;
+
+    ColorDialog dlg = new ColorDialog( getShell() );
+    dlg.setRGB( value.rgb );
+
+    RGB rgb = dlg.open();
+    if( rgb != null ) {
+      value = new RGBA( rgb.red, rgb.green, rgb.blue, 255 );
+      return true;
+    }
+    value = oldValue;
+    return false;
   }
 
   @Override

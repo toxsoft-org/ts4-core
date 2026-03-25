@@ -61,8 +61,12 @@ public class XAxisModel
     }
     timeUnit = aTimeUnit;
     // long duration = Math.round( timeInterval.duration() * koeff );
+    // dima 17.03.26 позиционируем так, чтобы оставалась середина шкалы на месте
+    long centerOfAxis = timeInterval.startTime() + (timeInterval.duration() / 2);
     long duration = Math.round( 10 * timeUnit.timeInMills() );
-    timeInterval = new TimeInterval( timeInterval.startTime(), timeInterval.startTime() + duration );
+    // timeInterval = new TimeInterval( timeInterval.startTime(), timeInterval.startTime() + duration );
+    timeInterval = new TimeInterval( centerOfAxis - duration / 2, centerOfAxis + duration / 2 );
+
     startMarkingValue = computeStartMarkingValue();
     markingDef = new AxisMarkingDef( markingDef, timeUnit.midTicksQtty(), timeUnit.littTicksQtty() );
     fireChangeEvent();

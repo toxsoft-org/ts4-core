@@ -14,7 +14,7 @@ class TsRunnableLock {
   final long            timestamp;
   volatile Runnable     runnable;
   volatile Thread       thread;
-  volatile Throwable    throwable;
+  volatile Error        error;
   private final ILogger logger;
 
   TsRunnableLock( Runnable aRunnable, int aDelay, ILogger aLogger ) {
@@ -27,7 +27,7 @@ class TsRunnableLock {
   }
 
   boolean done() {
-    return runnable == null || throwable != null;
+    return runnable == null || error != null;
   }
 
   void run() {
@@ -35,9 +35,9 @@ class TsRunnableLock {
       try {
         runnable.run();
       }
-      catch( Throwable t ) {
-        throwable = t;
-        logger.error( t );
+      catch( Error e ) {
+        error = e;
+        logger.error( e );
       }
     }
     runnable = null;

@@ -74,6 +74,8 @@ class TinTree
     treeViewer.getTree().setLinesVisible( true );
     treeViewer.getTree().addListener( SWT.MeasureItem, event -> event.height = TREE_ROW_HEIGHT );
 
+    ColumnViewerToolTipSupport.enableFor( treeViewer );
+
     TreeViewerColumn columnName = new TreeViewerColumn( treeViewer, SWT.LEFT );
     columnName.getColumn().setText( STR_COLUMN_NAME );
     columnName.getColumn().setWidth( 200 );
@@ -87,6 +89,14 @@ class TinTree
          */
         aCell.setText( node.nmName() );
       }
+
+      @Override
+      public String getToolTipText( Object aElement ) {
+        ITinRow node = (ITinRow)aElement;
+        ITinFieldInfo fi = node.fieldInfo();
+        return fi.description();
+      }
+
     } );
 
     TreeViewerColumn columnValue = new TreeViewerColumn( treeViewer, SWT.LEFT );
