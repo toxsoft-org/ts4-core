@@ -1,5 +1,6 @@
 package org.toxsoft.core.tslib.bricks;
 
+import org.toxsoft.core.tslib.bricks.coopcomp.*;
 import org.toxsoft.core.tslib.utils.*;
 
 /**
@@ -21,7 +22,9 @@ import org.toxsoft.core.tslib.utils.*;
  * Often {@link ICloseable} interface is used together with this interface.
  *
  * @author hazard157
+ * @deprecated use {@link ITsInitializable} instead, consider to use {@link ITsCooperativeComponent}
  */
+@Deprecated
 public interface IInitializable {
 
   /**
@@ -29,6 +32,7 @@ public interface IInitializable {
    * <p>
    * Called once after constructor but before any other method of the implementing class.
    */
+  @Deprecated
   void initialize();
 
 }
