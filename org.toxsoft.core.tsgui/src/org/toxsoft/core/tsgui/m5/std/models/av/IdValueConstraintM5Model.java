@@ -6,6 +6,7 @@ import static org.toxsoft.core.tsgui.m5.std.models.av.ITsResources.*;
 import static org.toxsoft.core.tslib.av.impl.AvUtils.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 import static org.toxsoft.core.tslib.utils.TsLibUtils.*;
+import static org.toxsoft.core.tslib.utils.gui.ITsLibInnerSharedConstants.*;
 
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.m5.gui.panels.*;
@@ -96,6 +97,8 @@ public class IdValueConstraintM5Model
           setNameAndDescription( STR_IDVAL_CONSTR_DESCRIPTION, STR_IDVAL_CONSTR_DESCRIPTION_D );
           setDefaultValue( AV_STR_EMPTY );
           setFlags( M5FF_DETAIL | M5FF_READ_ONLY | M5FF_HIDDEN );
+          params().setInt( TSLIB_VCC_OPID_VERTICAL_SPAN, 3 );
+          params().setBool( TSLIB_VALED_STRING_TEXT_OPID_IS_MULTI_LINE, true );
         }
 
         @Override
