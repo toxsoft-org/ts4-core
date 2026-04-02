@@ -37,15 +37,28 @@ public class ViselRoundRect
    */
   public static final String FACTORY_ID = VED_ID + ".roundRectViselFactory"; //$NON-NLS-1$
 
-  static final String PROPID_ARC_WIDTH  = "arcWidth";  //$NON-NLS-1$
-  static final String PROPID_ARC_HEIGHT = "arcHeight"; //$NON-NLS-1$
+  /**
+   * Field ID for arc width
+   */
+  public static final String PROPID_ARC_WIDTH = "arcWidth"; //$NON-NLS-1$
 
-  static final IDataDef PROP_ARC_WIDTH = DataDef.create3( PROPID_ARC_WIDTH, DDEF_FLOATING, //
+  /**
+   * Field ID for arc height
+   */
+  public static final String PROPID_ARC_HEIGHT = "arcHeight"; //$NON-NLS-1$
+
+  /**
+   * Arc width
+   */
+  public static final IDataDef PROP_ARC_WIDTH = DataDef.create3( PROPID_ARC_WIDTH, DT_FLOATING, //
       TSID_NAME, STR_VISEL_ARC_WIDTH, //
       TSID_DESCRIPTION, STR_VISEL_ARC_WIDTH_D, //
       TSID_DEFAULT_VALUE, avFloat( 16 ) );
 
-  static final IDataDef PROP_ARC_HEIGHT = DataDef.create3( PROPID_ARC_HEIGHT, DDEF_FLOATING, //
+  /**
+   * Arc height
+   */
+  public static final IDataDef PROP_ARC_HEIGHT = DataDef.create3( PROPID_ARC_HEIGHT, DT_FLOATING, //
       TSID_NAME, STR_VISEL_ARC_HEIGHT, //
       TSID_DESCRIPTION, STR_VISEL_ARC_HEIGHT_D, //
       TSID_DEFAULT_VALUE, avFloat( 16 ) );
