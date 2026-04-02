@@ -16,6 +16,7 @@ import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.coll.synch.*;
+import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -201,6 +202,48 @@ public class TsColorDescriptor
   public static void registerColorSourceKind( ITsColorSourceKind aColorSourceKind ) {
     TsNullArgumentRtException.checkNull( aColorSourceKind );
     kindsById.put( aColorSourceKind.id(), aColorSourceKind );
+  }
+
+  // ------------------------------------------------------------------------------------
+  // Object
+  //
+
+  @Override
+  public String toString() {
+    ITsColorSourceKind kind = getColorSourceKindsMap().findByKey( kindId );
+    if( kind != null ) {
+      return kind.humanReadableString( params );
+    }
+    return kindId + ": " + params.toString(); //$NON-NLS-1$
+  }
+
+  @Override
+  public boolean equals( Object aThat ) {
+    if( aThat == this ) {
+      return true;
+    }
+    if( aThat instanceof TsColorDescriptor that ) {
+      if( this.kindId.equals( that.kindId ) ) {
+        if( !this.uniqueName.isEmpty() && !that.uniqueName.isEmpty() ) {
+          return this.uniqueName.equals( that.uniqueName );
+        }
+        return this.params.equals( that.params );
+      }
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = TsLibUtils.INITIAL_HASH_CODE;
+    result = TsLibUtils.PRIME * result + kindId.hashCode();
+    if( !this.uniqueName.isEmpty() ) {
+      result = TsLibUtils.PRIME * result + uniqueName.hashCode();
+    }
+    else {
+      result = TsLibUtils.PRIME * result + params.hashCode();
+    }
+    return result;
   }
 
 }
