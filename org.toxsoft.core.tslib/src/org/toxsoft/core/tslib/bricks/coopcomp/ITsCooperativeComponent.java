@@ -10,9 +10,8 @@ import org.toxsoft.core.tslib.bricks.ctx.*;
  *
  * @author hazard157
  */
-public sealed interface ITsCooperativeComponent
-    extends ITsInitializable, IWorkerComponent, ICooperativeMultiTaskable
-    permits AbstractTsCooperativeComponent {
+public interface ITsCooperativeComponent
+    extends ITsInitializable, IWorkerComponent, ICooperativeMultiTaskable {
 
   /**
    * Returns the current state of the component.

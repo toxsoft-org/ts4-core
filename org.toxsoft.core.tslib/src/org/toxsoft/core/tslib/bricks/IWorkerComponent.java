@@ -43,13 +43,14 @@ import org.toxsoft.core.tslib.utils.errors.*;
 public interface IWorkerComponent {
 
   /**
-   * The component start - after this method comonent is in working state.
+   * The component start - after this method component is in working state.
    * <p>
    * Only after executing this method can you call the component's business logic methods, as well as
    * {@link ICooperativeMultiTaskable#doJob()}, if the class also implements {@link ICooperativeMultiTaskable}.
    * <p>
    * Calling this method on started component does nothing.
    *
+   * @throws TsIllegalStateRtException component is in illegal state (eg. already destroyed)
    * @throws TsRuntimeException - the exception based on {@link TsRemoteIoRtException} may be thrown for many reasons
    */
   void start();
@@ -61,9 +62,12 @@ public interface IWorkerComponent {
    * using the {@link #isStopped()} method.
    * <p>
    * Calling this method on stopped or stopping component does nothing.
+   * <p>
+   * Implementation must <b>not</b> throw any exception except listed below..
    *
    * @return <b>true</b> - the component has stopped working, {@link #isStopped()} = <code>true</code>;<br>
    *         <b>false</b> - component is still working, continue with {@link #isStopped()} calls until stop.
+   * @throws TsIllegalStateRtException component is in illegal state (eg. already destroyed)
    */
   boolean queryStop();
 
@@ -76,9 +80,12 @@ public interface IWorkerComponent {
    * <p>
    * If a component takes too long to stop voluntarily, the container should forcefully call {@link #destroy()} to
    * terminate the work (maybe not very correctly) and free up resources.
+   * <p>
+   * Implementation must <b>not</b> throw any exception except listed below..
    *
    * @return <b>true</b> - the component has stopped working, {@link #isStopped()} = <code>true</code>;<br>
    *         <b>false</b> - component is still working, continue with {@link #isStopped()} calls until stop.
+   * @throws TsIllegalStateRtException component is in illegal state (eg. already destroyed)
    */
   boolean isStopped();
 
@@ -92,7 +99,7 @@ public interface IWorkerComponent {
    * Once this method is called, no other method can or should be called and the reference to the component should be
    * garbage collected.
    * <p>
-   * Implementation does not throws any exception.
+   * Implementation must <b>not</b> throw any exception.
    */
   void destroy();
 

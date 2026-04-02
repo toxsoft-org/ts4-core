@@ -12,9 +12,8 @@ import org.toxsoft.core.tslib.utils.logs.impl.*;
  *
  * @author hazard157
  */
-sealed abstract class AbstractTsCooperativeComponent
-    implements ITsCooperativeComponent
-    permits AbstractTsCoopCompSingleUse, AbstractTsCoopCompMultiUse {
+abstract class AbstractTsCooperativeComponent
+    implements ITsCooperativeComponent {
 
   private ITsContextRo initArgs = null;
 
@@ -87,7 +86,7 @@ sealed abstract class AbstractTsCooperativeComponent
   }
 
   @Override
-  public boolean queryStop() {
+  final public boolean queryStop() {
     ensureComponentState( INITIALIZED, WORKING );
     compState = STOPPING;
     if( doQueryStop() ) {
@@ -98,7 +97,7 @@ sealed abstract class AbstractTsCooperativeComponent
   }
 
   @Override
-  public boolean isStopped() {
+  final public boolean isStopped() {
     return switch( compState ) {
       case CREATED, WORKING -> throw new TsIllegalStateRtException();
       case DESTROYED, INITIALIZED -> true;
@@ -108,7 +107,7 @@ sealed abstract class AbstractTsCooperativeComponent
   }
 
   @Override
-  public void destroy() {
+  final public void destroy() {
     if( compState == DESTROYED ) {
       return;
     }
@@ -126,7 +125,7 @@ sealed abstract class AbstractTsCooperativeComponent
   //
 
   @Override
-  public void doJob() {
+  final public void doJob() {
     ensureComponentState( WORKING, STOPPING );
     if( compState == WORKING ) {
       doDoJob();
@@ -201,6 +200,8 @@ sealed abstract class AbstractTsCooperativeComponent
    * <p>
    * If immediate stopping is not possible method must return <code>false</code> and component should continue stopping
    * process in {@link #doStopping()}.
+   * <p>
+   * Implementation must <b>not</b> throw any exception.
    *
    * @return boolean - <code>true</code> if component has stopped
    */
@@ -214,7 +215,7 @@ sealed abstract class AbstractTsCooperativeComponent
    * Subclass must override if {@link #doQueryStop()} may return <code>false</code>.
    * <p>
    * Implementation must check or perform stopping process and return <code>true</code> when component stops
-   * successfully.
+   * successfully. Implementation must <b>not</b> throw any exception.
    * <p>
    * Returns <code>false</code> in base class, there is no need to call parent method when overriding.
    *

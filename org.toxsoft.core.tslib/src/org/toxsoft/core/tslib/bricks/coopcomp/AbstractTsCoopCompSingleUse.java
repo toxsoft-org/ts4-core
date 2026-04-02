@@ -5,7 +5,7 @@ package org.toxsoft.core.tslib.bricks.coopcomp;
  *
  * @author hazard157
  */
-public abstract non-sealed class AbstractTsCoopCompSingleUse
+public abstract class AbstractTsCoopCompSingleUse
     extends AbstractTsCooperativeComponent {
 
   /**
