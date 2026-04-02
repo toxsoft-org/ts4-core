@@ -175,7 +175,7 @@ public abstract non-sealed class AbstractTsColorSourceKind
    * Uniqueness should be ensured only within this kind.
    *
    * @param aParams {@link IOptionSet} - validated color descriptor values
-   * @return String - kind-unique color non-blank idenftifer string
+   * @return String - kind-unique color non-blank identifier string
    */
   public abstract String uniqueColorNameString( IOptionSet aParams );
 

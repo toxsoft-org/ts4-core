@@ -3,7 +3,6 @@ package org.toxsoft.core.tsgui.m5.model;
 import java.io.*;
 
 import org.toxsoft.core.tsgui.m5.*;
-import org.toxsoft.core.tsgui.m5.model.impl.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.impl.*;
 import org.toxsoft.core.tslib.coll.helpers.*;
