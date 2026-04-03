@@ -239,7 +239,7 @@ public class OptionSet
       return true;
     }
     if( aThat instanceof OptionSet that ) {
-      return map.equals( that.map );
+      return equalsIgnoreOrder( map, that.map );
     }
     return false;
   }
@@ -249,4 +249,29 @@ public class OptionSet
     return map.hashCode();
   }
 
+  // 2026-03-28 mvk+++
+  // ------------------------------------------------------------------------------------
+  // private methods
+  //
+  /**
+   * Compares two value maps without regard to the order of the value placement.
+   *
+   * @param aMap1 {@link IStringMap} map 1
+   * @param aMap2 {@link IStringMap} map 2
+   * @return boolean <b>true</b> the maps are equals; <b>false</b> the map are not equals.
+   */
+  private static final boolean equalsIgnoreOrder( IStringMap<?> aMap1, IStringMap<?> aMap2 ) {
+    TsNullArgumentRtException.checkNulls( aMap1, aMap2 );
+    if( aMap1.size() != aMap2.size() ) {
+      return false;
+    }
+    for( String key : aMap1.keys() ) {
+      Object value1 = aMap2.getByKey( key );
+      Object value2 = aMap2.findByKey( key );
+      if( value2 == null || !value1.equals( value2 ) ) {
+        return false;
+      }
+    }
+    return true;
+  }
 }
