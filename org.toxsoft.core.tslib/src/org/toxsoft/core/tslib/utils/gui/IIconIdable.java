@@ -14,4 +14,15 @@ public interface IIconIdable {
    */
   String iconId();
 
+  /**
+   * Returns the dimmed icon identifier if any provided.
+   * <p>
+   * By default returns the same value as {@link #iconId()}.
+   *
+   * @return String - icon identifier or <code>null</code> if no icon specified
+   */
+  default String iconDimmedId() {
+    return iconId();
+  }
+
 }

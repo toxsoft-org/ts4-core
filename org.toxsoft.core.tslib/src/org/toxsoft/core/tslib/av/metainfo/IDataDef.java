@@ -105,7 +105,7 @@ public interface IDataDef
    * {@link #defaultValue()} is also returned when set contains {@link IAtomicValue#NULL} value.
    *
    * @param aOps {@link IOptionSet} - option set
-   * @return {@link IAtomicValue} - the value of the option
+   * @return {@link IAtomicValue} - the value of the option, never is <code>null</code>
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsItemNotFoundRtException for mandatory option there is no entry in option set under key {@link #id()}
    */

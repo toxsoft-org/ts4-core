@@ -35,4 +35,10 @@ public interface IStridableParameterized
     return params().getStr( TSID_ICON_ID, null );
   }
 
+  @Override
+  default String iconDimmedId() {
+    String iid = params().getStr( TSID_ICON_DIMMED_ID, null );
+    return iid != null ? iid : iconId();
+  }
+
 }
