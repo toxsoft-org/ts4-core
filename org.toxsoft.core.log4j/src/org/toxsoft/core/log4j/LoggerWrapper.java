@@ -1,11 +1,8 @@
 package org.toxsoft.core.log4j;
 
-import static org.toxsoft.core.log4j.ITsResources.*;
-
-import java.io.*;
-
-import org.apache.log4j.*;
-import org.apache.log4j.xml.*;
+import org.apache.logging.log4j.*;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.vrl.*;
 import org.toxsoft.core.tslib.math.*;
@@ -15,7 +12,7 @@ import org.toxsoft.core.tslib.utils.logs.*;
 import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
- * Wraps over Log4j {@link Logger} to implementa tslib interface {@link ILogger}.
+ * Wraps over Log4j {@link org.apache.logging.log4j.core.Logger} to implementa tslib interface {@link ILogger}.
  *
  * @author mvk
  */
@@ -36,16 +33,18 @@ public class LoggerWrapper
    */
   public static final String[] LOG4J_CONFIG_FILE_EXTS = { "properties", "xml" }; //$NON-NLS-1$//$NON-NLS-2$
 
+  private LoggerContext context = new LoggerContext( "root" ); //$NON-NLS-1$
+
   private final Logger source;
 
   /**
    * Creates wrapper over the specified Log4j logger.
    *
-   * @param aSource {@link org.apache.log4j.Logger} - Log4j-logger
+   * @param aSource {@link org.apache.logging.log4j.Logger} - Log4j-logger
    * @return ILogger {@link ILogger} - created instance
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public static ILogger getLogger( org.apache.log4j.Logger aSource ) {
+  public static ILogger getLogger( org.apache.logging.log4j.Logger aSource ) {
     return new LoggerWrapper( aSource );
   }
 
@@ -133,16 +132,16 @@ public class LoggerWrapper
   // Private constructors
   //
 
-  private LoggerWrapper( org.apache.log4j.Logger aSource ) {
+  private LoggerWrapper( org.apache.logging.log4j.Logger aSource ) {
     source = TsNullArgumentRtException.checkNull( aSource );
   }
 
   private LoggerWrapper( String aName ) {
-    source = org.apache.log4j.Logger.getLogger( TsNullArgumentRtException.checkNull( aName ) );
+    source = context.getLogger( TsNullArgumentRtException.checkNull( aName ) );
   }
 
   private LoggerWrapper( Class<?> aClass ) {
-    source = org.apache.log4j.Logger.getLogger( TsNullArgumentRtException.checkNull( aClass ) );
+    source = context.getLogger( TsNullArgumentRtException.checkNull( aClass ).getName() );
   }
 
   // ------------------------------------------------------------------------------------
@@ -152,7 +151,7 @@ public class LoggerWrapper
   @Override
   public boolean isSeverityOn( ELogSeverity aSeverity ) {
     TsNullArgumentRtException.checkNull( aSeverity );
-    return source.isEnabledFor( ts2j( aSeverity ) );
+    return source.isEnabled( ts2j( aSeverity ) );
   }
 
   // ------------------------------------------------------------------------------------
@@ -222,35 +221,37 @@ public class LoggerWrapper
    * @param aIntervalMsecs long - rescan interval in milliseconds or 0 for no rescan
    */
   public static void setScanPropertiesTimeout( long aIntervalMsecs ) {
-    String log4jfilename = System.getProperty( "log4j.configuration" ); //$NON-NLS-1$
-    if( log4jfilename == null ) {
-      System.err.println( LOG_NO_LOG4J_CFG_FILE_IN_SYS_PROPS );
-      return;
-    }
-    long msecs = RESCAN_INTERVAL_MSECS_RANGE.isInRange( aIntervalMsecs ) ? aIntervalMsecs : 0;
-    log4jfilename = log4jfilename.substring( 5 );
-    if( new File( log4jfilename ).exists() ) {
-      if( log4jfilename.endsWith( ".properties" ) ) { //$NON-NLS-1$
-        if( msecs != 0 ) {
-          PropertyConfigurator.configureAndWatch( log4jfilename, msecs );
-        }
-        else {
-          PropertyConfigurator.configure( log4jfilename );
-        }
-        return;
-      }
-      if( log4jfilename.endsWith( ".xml" ) ) { //$NON-NLS-1$
-        if( msecs != 0 ) {
-          DOMConfigurator.configureAndWatch( log4jfilename, msecs );
-        }
-        else {
-          DOMConfigurator.configure( log4jfilename );
-        }
-        return;
-      }
-      System.err.println( LOG_NO_LOG4J_CFG_FILE_FOUND + log4jfilename );
-    }
-    System.err.println( LOG_LOG4J_CFG_FILE_INV_EXT + log4jfilename );
+    // 2026-03-21 mvk---+++ wildfly 39
+    // throw new TsUnderDevelopmentRtException();
+    // String log4jfilename = System.getProperty( "log4j.configuration" ); //$NON-NLS-1$
+    // if( log4jfilename == null ) {
+    // System.err.println( LOG_NO_LOG4J_CFG_FILE_IN_SYS_PROPS );
+    // return;
+    // }
+    // long msecs = RESCAN_INTERVAL_MSECS_RANGE.isInRange( aIntervalMsecs ) ? aIntervalMsecs : 0;
+    // log4jfilename = log4jfilename.substring( 5 );
+    // if( new File( log4jfilename ).exists() ) {
+    // if( log4jfilename.endsWith( ".properties" ) ) { //$NON-NLS-1$
+    // if( msecs != 0 ) {
+    // PropertyConfigurator.configureAndWatch( log4jfilename, msecs );
+    // }
+    // else {
+    // PropertyConfigurator.configure( log4jfilename );
+    // }
+    // return;
+    // }
+    // if( log4jfilename.endsWith( ".xml" ) ) { //$NON-NLS-1$
+    // if( msecs != 0 ) {
+    // DOMConfigurator.configureAndWatch( log4jfilename, msecs );
+    // }
+    // else {
+    // DOMConfigurator.configure( log4jfilename );
+    // }
+    // return;
+    // }
+    // System.err.println( LOG_NO_LOG4J_CFG_FILE_FOUND + log4jfilename );
+    // }
+    // System.err.println( LOG_LOG4J_CFG_FILE_INV_EXT + log4jfilename );
   }
 
 }
