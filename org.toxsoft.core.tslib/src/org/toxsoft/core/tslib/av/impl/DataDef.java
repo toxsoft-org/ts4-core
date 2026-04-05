@@ -341,12 +341,12 @@ public final class DataDef
       rawClass = Class.forName( className );
     }
     catch( ClassNotFoundException ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
       return null;
     }
     // check class type
     if( !aClass.isAssignableFrom( rawClass ) ) {
-      LoggerUtils.errorLogger().error( FMT_ERR_INV_DATA_DEF_HELPER_CLASS, className, aClass.getSimpleName() );
+      LoggerUtils.error( FMT_ERR_INV_DATA_DEF_HELPER_CLASS, className, aClass.getSimpleName() );
       return null;
     }
     @SuppressWarnings( "unchecked" )
@@ -359,7 +359,7 @@ public final class DataDef
       }
       catch( InstantiationException | IllegalAccessException | IllegalArgumentException
           | InvocationTargetException ex ) {
-        LoggerUtils.errorLogger().error( ex, FMT_ERR_INV_DATADEF_CONSTRUCTOR, className );
+        LoggerUtils.error( ex, FMT_ERR_INV_DATADEF_CONSTRUCTOR, className );
         // try next way - for some reasons this constructor is invalid
       }
     }
@@ -374,7 +374,7 @@ public final class DataDef
       }
       catch( InstantiationException | IllegalAccessException | IllegalArgumentException
           | InvocationTargetException ex ) {
-        LoggerUtils.errorLogger().error( ex, FMT_ERR_INV_DATATYPE_CONSTRUCTOR, className );
+        LoggerUtils.error( ex, FMT_ERR_INV_DATATYPE_CONSTRUCTOR, className );
         // try next way - for some reasons this constructor is invalid
       }
     }
@@ -389,12 +389,12 @@ public final class DataDef
       }
       catch( InstantiationException | IllegalAccessException | IllegalArgumentException
           | InvocationTargetException ex ) {
-        LoggerUtils.errorLogger().error( ex, FMT_ERR_INV_EMPTY_CONSTRUCTOR, className );
+        LoggerUtils.error( ex, FMT_ERR_INV_EMPTY_CONSTRUCTOR, className );
         // try next way - for some reasons this constructor is invalid
       }
     }
     catch( NoSuchMethodException | SecurityException ex ) {
-      LoggerUtils.errorLogger().error( ex, FMT_ERR_NO_SUITABLE_CONSTRUCTORS, className );
+      LoggerUtils.error( ex, FMT_ERR_NO_SUITABLE_CONSTRUCTORS, className );
     }
     return null;
   }

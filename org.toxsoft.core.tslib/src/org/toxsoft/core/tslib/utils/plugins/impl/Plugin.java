@@ -75,15 +75,15 @@ final class Plugin
       for( URL fileURL : classpath ) {
         File file = new File( fileURL.toURI() );
         if( !file.exists() ) {
-          LoggerUtils.errorLogger().warning( "Plugin.close(): " + ERR_NOT_FOUND_TEMPORARY_FILE, file ); //$NON-NLS-1$
+          LoggerUtils.warning( "Plugin.close(): " + ERR_NOT_FOUND_TEMPORARY_FILE, file ); //$NON-NLS-1$
         }
         if( file.exists() && !file.delete() ) {
-          LoggerUtils.errorLogger().error( "Plugin.close(): " + ERR_CANT_REMOVE_TEMPORARY_FILE, file ); //$NON-NLS-1$
+          LoggerUtils.error( "Plugin.close(): " + ERR_CANT_REMOVE_TEMPORARY_FILE, file ); //$NON-NLS-1$
         }
       }
     }
     catch( Throwable e ) {
-      LoggerUtils.errorLogger().error( e );
+      LoggerUtils.error( e );
     }
     eventer.fireClosed();
   }
@@ -196,7 +196,7 @@ final class Plugin
           l.onClose( Plugin.this );
         }
         catch( Exception ex ) {
-          LoggerUtils.errorLogger().error( ex );
+          LoggerUtils.error( ex );
         }
       }
     }

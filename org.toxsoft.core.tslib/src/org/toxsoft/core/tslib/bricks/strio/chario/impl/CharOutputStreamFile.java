@@ -69,7 +69,7 @@ public class CharOutputStreamFile
       }
       catch( IOException ex ) {
         // don't throw silly exception
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
       }
     }
   }

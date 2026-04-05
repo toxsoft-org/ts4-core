@@ -58,7 +58,7 @@ public class BasicPrintingVisitor
       sw = new StrioWriter( chOut );
     }
     catch( IOException ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
       fw = null;
     }
     return false;
@@ -88,7 +88,7 @@ public class BasicPrintingVisitor
         fw.close();
       }
       catch( IOException ex ) {
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
       }
       fw = null;
     }

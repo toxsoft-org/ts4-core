@@ -26,7 +26,7 @@ public interface ILogger {
    */
   ILogger NULL = new InternalNullLogger();
 
-  // TODO TRANSLATE
+  // TODO TRANSLATE!
 
   /**
    * Определяет, физически логируются ли сообщаения запрошенной важности.

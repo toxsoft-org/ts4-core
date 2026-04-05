@@ -199,7 +199,7 @@ public class PluginUtils {
       // Каталог не существует. Создание
       TsIllegalArgumentRtException.checkFalse( file.mkdir(), ERR_CANT_CREATE_DIR, aDir );
       // Запись в журнал
-      LoggerUtils.defaultLogger().warning( MSG_CREATE_DIR, aDir );
+      LoggerUtils.warning( MSG_CREATE_DIR, aDir );
     }
   }
 

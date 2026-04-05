@@ -119,7 +119,7 @@ public class AppPreferencesConfigIniStorage
       prefsMap.setAll( tmpMap );
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
       throw ex;
     }
   }
@@ -155,11 +155,11 @@ public class AppPreferencesConfigIniStorage
       }
     }
     catch( IOException ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
       throw new TsIoRtException( ex );
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
       throw ex;
     }
   }

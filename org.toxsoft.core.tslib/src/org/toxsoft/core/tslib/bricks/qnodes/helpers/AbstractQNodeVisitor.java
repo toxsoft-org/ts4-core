@@ -53,7 +53,7 @@ public abstract non-sealed class AbstractQNodeVisitor
     catch( Exception ex ) {
       exception = ex;
       retval = true;
-      LoggerUtils.errorLogger().error( exception );
+      LoggerUtils.error( exception );
     }
     afterEndSubtree( aNode, retval, exception, stopperNode );
     return retval;

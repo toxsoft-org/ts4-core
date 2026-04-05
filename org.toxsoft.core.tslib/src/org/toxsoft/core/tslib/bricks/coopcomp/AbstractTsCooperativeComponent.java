@@ -115,7 +115,7 @@ abstract class AbstractTsCooperativeComponent
       doDestroy();
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
     }
     compState = DESTROYED;
   }

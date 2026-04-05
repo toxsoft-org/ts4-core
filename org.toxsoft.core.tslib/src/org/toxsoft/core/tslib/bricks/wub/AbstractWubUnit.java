@@ -166,7 +166,7 @@ public abstract class AbstractWubUnit
       doDestroy();
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
     }
     wuState = EWubUnitState.STOPPED;
   }

@@ -1,10 +1,10 @@
 package org.toxsoft.core.tslib.utils.logs.impl;
 
-import java.io.PrintStream;
+import java.io.*;
 
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tslib.utils.errors.*;
 
-// TRANSLATE
+// TODO: TRANSLATE
 
 /**
  * Legger with output to the {@link PrintStream}.

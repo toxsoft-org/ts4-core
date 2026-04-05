@@ -45,7 +45,7 @@ public class GenericChangeEventer
         l.onGenericChangeEvent( source );
       }
       catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
       }
     }
   }

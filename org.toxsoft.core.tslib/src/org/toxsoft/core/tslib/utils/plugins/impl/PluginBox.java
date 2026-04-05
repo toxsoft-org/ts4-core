@@ -255,7 +255,7 @@ public class PluginBox<T extends PluginUnit>
       plugin.eventer().addListener( aPlugin -> wubBox.removeUnit( pluginId ) );
     }
     catch( ClassNotFoundException ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
     }
     return unit;
   }

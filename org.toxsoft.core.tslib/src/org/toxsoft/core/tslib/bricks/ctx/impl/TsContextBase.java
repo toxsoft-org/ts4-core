@@ -121,7 +121,7 @@ public class TsContextBase<P extends ITsContextRo>
         l.onContextRefChanged( TsContextBase.this, aName, aRef );
       }
       catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
       }
     }
   }
@@ -136,7 +136,7 @@ public class TsContextBase<P extends ITsContextRo>
         l.onContextOpChanged( TsContextBase.this, aId, aValue );
       }
       catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
       }
     }
   }

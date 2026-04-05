@@ -68,7 +68,7 @@ public final class CharInputStreamFile
       }
       catch( IOException ex ) {
         // ignore silly exception-on-close
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
       }
       reader = null; // done
     }

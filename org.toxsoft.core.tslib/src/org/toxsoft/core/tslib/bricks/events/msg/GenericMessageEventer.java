@@ -1,10 +1,10 @@
 package org.toxsoft.core.tslib.bricks.events.msg;
 
-import org.toxsoft.core.tslib.bricks.events.AbstractTsEventer;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.derivative.IQueue;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.toxsoft.core.tslib.bricks.events.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.derivative.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * An {@link IGenericMessageEventer} impementation.
@@ -38,7 +38,7 @@ public class GenericMessageEventer
         l.onGenericMessage( aMessage );
       }
       catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
       }
     }
   }

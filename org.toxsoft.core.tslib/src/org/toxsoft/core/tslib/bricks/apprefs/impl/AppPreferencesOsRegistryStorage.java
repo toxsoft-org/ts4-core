@@ -2,15 +2,14 @@ package org.toxsoft.core.tslib.bricks.apprefs.impl;
 
 import static org.toxsoft.core.tslib.bricks.apprefs.impl.ITsResources.*;
 
-import java.util.prefs.BackingStoreException;
-import java.util.prefs.Preferences;
+import java.util.prefs.*;
 
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.av.opset.impl.OptionSetKeeper;
-import org.toxsoft.core.tslib.coll.primtypes.IStringList;
-import org.toxsoft.core.tslib.coll.primtypes.wrappers.StringListArrayWrapper;
+import org.toxsoft.core.tslib.av.opset.*;
+import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.wrappers.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * App preferences storage to OS registry using {@link Preferences}.
@@ -50,7 +49,7 @@ public class AppPreferencesOsRegistryStorage
       return new StringListArrayWrapper( prefsNode.keys() );
     }
     catch( BackingStoreException ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
       throw new TsIllegalStateRtException( ex );
     }
   }
