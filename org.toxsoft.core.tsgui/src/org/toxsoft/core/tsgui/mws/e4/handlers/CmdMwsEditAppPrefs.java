@@ -108,7 +108,7 @@ public class CmdMwsEditAppPrefs {
         return StringListKeeper.KEEPER.str2ent( aStrEntSectIds );
       }
       catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
       }
     }
     return IStringList.EMPTY;

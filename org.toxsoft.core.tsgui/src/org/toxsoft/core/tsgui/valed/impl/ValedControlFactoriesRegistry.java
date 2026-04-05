@@ -148,12 +148,12 @@ public class ValedControlFactoriesRegistry
     }
     catch( InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
         | NoSuchMethodException | SecurityException ex ) {
-      LoggerUtils.errorLogger().warning( ex, FMT_WARN_CANT_CREATE_CLASS_INSTANCE, aName );
+      LoggerUtils.warning( ex, FMT_WARN_CANT_CREATE_CLASS_INSTANCE, aName );
       return null;
     }
     // check if instance is a factory
     if( !(rawFactoryInstance instanceof IValedControlFactory) ) {
-      LoggerUtils.errorLogger().warning( FMT_WARN_INSTANCE_NOT_FACTORY, aName );
+      LoggerUtils.warning( FMT_WARN_INSTANCE_NOT_FACTORY, aName );
       return null;
     }
     f = (AbstractValedControlFactory)rawFactoryInstance;

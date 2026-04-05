@@ -162,7 +162,7 @@ public class M5LifecycleManager<T, M>
       return doBeforeCreate( aValues );
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
       throw ex;
     }
   }
@@ -192,7 +192,7 @@ public class M5LifecycleManager<T, M>
       return doEdit( aValues );
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
       throw ex;
     }
   }
@@ -216,7 +216,7 @@ public class M5LifecycleManager<T, M>
       doRemove( aEntity );
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
       throw ex;
     }
   }

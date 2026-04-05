@@ -85,11 +85,11 @@ public abstract non-sealed class AbstractTsImageSourceKind
         }
       }
       catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
       }
     }
     else {
-      LoggerUtils.errorLogger().warning( vr.message() );
+      LoggerUtils.warning( vr.message() );
     }
     ITsImageManager imageManager = aContext.get( ITsImageManager.class );
     return imageManager.createUnknownImage( SIZE_OF_THE_MISSING_FILE_IMAGE );

@@ -154,7 +154,7 @@ public class TsThumbManager
         createThumbFile( aImageFile, thumbFile, aThumbSize );
       }
       catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
         return null;
       }
     }
@@ -166,7 +166,7 @@ public class TsThumbManager
       }
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
     }
     return mi;
   }
@@ -193,7 +193,7 @@ public class TsThumbManager
       return true;
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
       return false;
     }
   }

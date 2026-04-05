@@ -116,7 +116,7 @@ public class CompoundTsActionSetProvider
       }
       // ignore action and generate warning message if action ID already exists
       if( providersByActIdMap.hasKey( adef.id() ) ) {
-        LoggerUtils.errorLogger().warning( LOG_FMT_WARN_ACTION_ID_ALREADY_EXISTS, adef.id() );
+        LoggerUtils.warning( LOG_FMT_WARN_ACTION_ID_ALREADY_EXISTS, adef.id() );
         continue;
       }
       allActionDefs.add( adef );

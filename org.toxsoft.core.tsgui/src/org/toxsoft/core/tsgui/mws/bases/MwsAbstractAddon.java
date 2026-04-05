@@ -2,19 +2,18 @@ package org.toxsoft.core.tsgui.mws.bases;
 
 import static org.toxsoft.core.tsgui.mws.bases.ITsResources.*;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.eclipse.e4.ui.model.application.MApplication;
-import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
-import org.toxsoft.core.tsgui.Activator;
+import org.eclipse.e4.core.contexts.*;
+import org.eclipse.e4.ui.model.application.*;
+import org.eclipse.e4.ui.model.application.ui.basic.*;
+import org.osgi.framework.*;
+import org.toxsoft.core.tsgui.*;
 import org.toxsoft.core.tsgui.bricks.quant.*;
-import org.toxsoft.core.tslib.bricks.strid.impl.StridUtils;
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.inject.Inject;
+import jakarta.annotation.*;
+import jakarta.inject.*;
 
 /**
  * MWS plugin addon base class.
@@ -42,7 +41,7 @@ public abstract class MwsAbstractAddon {
 
     @Override
     protected void doInitWin( IEclipseContext aWinContext ) {
-      LoggerUtils.defaultLogger().info( FMT_INFO_ADDON_INIT_WIN, nameForLog );
+      LoggerUtils.info( FMT_INFO_ADDON_INIT_WIN, nameForLog );
       MwsAbstractAddon.this.initWin( aWinContext );
     }
 
@@ -53,7 +52,7 @@ public abstract class MwsAbstractAddon {
 
     @Override
     protected void doCloseWin( MWindow aWindow ) {
-      LoggerUtils.defaultLogger().info( FMT_INFO_ADDON_CLOSE_WIN, nameForLog );
+      LoggerUtils.info( FMT_INFO_ADDON_CLOSE_WIN, nameForLog );
       MwsAbstractAddon.this.doBeforeMainWindowClose( aWindow.getContext(), aWindow );
     }
 
@@ -86,7 +85,7 @@ public abstract class MwsAbstractAddon {
 
   @PostConstruct
   final void init( IEclipseContext aAppContext ) {
-    LoggerUtils.defaultLogger().info( FMT_INFO_ADDON_STARTING, nameForLog );
+    LoggerUtils.info( FMT_INFO_ADDON_STARTING, nameForLog );
     try {
       /**
        * FIXME I'don't know if is it a feature or a bug?...<br>
@@ -108,10 +107,10 @@ public abstract class MwsAbstractAddon {
       // now move quants to the application-wide quant manager - windows lifecycle methods will be called on them
       IApplicationWideQuantManager appQM = e4Application.getContext().get( IApplicationWideQuantManager.class );
       appQM.registerQuant( tmpQuantManager );
-      LoggerUtils.defaultLogger().info( FMT_INFO_ADDON_INIT_APP, nameForLog );
+      LoggerUtils.info( FMT_INFO_ADDON_INIT_APP, nameForLog );
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
       throw ex;
     }
   }

@@ -59,7 +59,7 @@ public class AnimationSupport
         }
         catch( Exception e ) {
           e.printStackTrace();
-          LoggerUtils.errorLogger().error( e );
+          LoggerUtils.error( e );
         }
         item.setLastDrawTimespamp( currTimestamp );
       }
@@ -72,7 +72,7 @@ public class AnimationSupport
           }
           catch( Exception e ) {
             e.printStackTrace();
-            LoggerUtils.errorLogger().error( e );
+            LoggerUtils.error( e );
           }
           item.setLastDrawTimespamp( currTimestamp );
         }
@@ -87,7 +87,7 @@ public class AnimationSupport
         }
         catch( Exception e ) {
           e.printStackTrace();
-          LoggerUtils.errorLogger().error( e );
+          LoggerUtils.error( e );
         }
         item.setLastCallTimestamp( currTimestamp );
       }
@@ -101,7 +101,7 @@ public class AnimationSupport
         }
         catch( Exception e ) {
           e.printStackTrace();
-          LoggerUtils.errorLogger().error( e );
+          LoggerUtils.error( e );
         }
         item.setLastCallTimestamp( currTimestamp );
       }
@@ -410,7 +410,7 @@ public class AnimationSupport
         Thread.sleep( PAUSE_WAITING_CYCLE_SLEEP_MSEC );
       }
       catch( InterruptedException ex ) {
-        LoggerUtils.errorLogger().warning( ex, TsLibUtils.EMPTY_STRING );
+        LoggerUtils.warning( ex, TsLibUtils.EMPTY_STRING );
         break; // сразу выходим
       }
       if( ++count > pauseWaitingCyclesCount ) {

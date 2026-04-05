@@ -410,7 +410,7 @@ public abstract class MultiPaneComponent<T>
           doProcessAction( aActionId );
         }
         catch( Exception ex ) {
-          LoggerUtils.errorLogger().error( ex );
+          LoggerUtils.error( ex );
           TsDialogUtils.error( getShell(), ex );
         }
         break;
@@ -419,7 +419,7 @@ public abstract class MultiPaneComponent<T>
       doAfterActionProcessed( aActionId );
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
       TsDialogUtils.error( getShell(), ex );
     }
     updateActionsState();

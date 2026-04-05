@@ -74,7 +74,7 @@ public abstract class M5AbstractEntityPanel<T>
       doSetValues( aBunch );
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
       TsDialogUtils.error( getShell(), ex );
     }
     doEditableStateChanged();
@@ -102,7 +102,7 @@ public abstract class M5AbstractEntityPanel<T>
       return doCollectValues( lastValues );
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
       return ValidationResult.error( ex );
     }
   }

@@ -88,7 +88,7 @@ public class MwsWindowStaff {
     window.getContext().set( MwsWindowStaff.class, this );
     appWideQuantManager = winCtx.get( IApplicationWideQuantManager.class );
     TsInternalErrorRtException.checkNull( appWideQuantManager );
-    LoggerUtils.defaultLogger().info( FMT_INFO_WIN_STAFF_INIT, aWindow.getElementId() );
+    LoggerUtils.info( FMT_INFO_WIN_STAFF_INIT, aWindow.getElementId() );
   }
 
   // ------------------------------------------------------------------------------------
@@ -186,7 +186,7 @@ public class MwsWindowStaff {
         l.beforeMainWindowOpen( window.getContext(), window );
       }
       catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
       }
     }
   }
@@ -195,7 +195,7 @@ public class MwsWindowStaff {
    * Fires an event {@link IMainWindowLifeCylceListener#beforeMainWindowClose(IEclipseContext, MWindow)}.
    */
   public void fireBeforeWindowCloseEvent() {
-    LoggerUtils.defaultLogger().info( FMT_INFO_WIN_STAFF_CLOSING, window.getElementId() );
+    LoggerUtils.info( FMT_INFO_WIN_STAFF_CLOSING, window.getElementId() );
     IListEdit<IMainWindowLifeCylceListener> ll = new ElemArrayList<>();
     windowInterceptors.copyTo( ll );
     for( IMainWindowLifeCylceListener l : ll ) {
@@ -203,7 +203,7 @@ public class MwsWindowStaff {
         l.beforeMainWindowClose( window.getContext(), window );
       }
       catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
       }
     }
   }
@@ -230,7 +230,7 @@ public class MwsWindowStaff {
         }
       }
       catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
       }
     }
     if( canClose ) {

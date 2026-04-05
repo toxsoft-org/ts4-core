@@ -35,7 +35,7 @@ public class CmdMwsSwitchPerpective {
       aHelper.updateHandlersCanExecuteState();
     }
     else {
-      LoggerUtils.errorLogger().error( MSG_LOG_ERR_NO_E4_HELPER );
+      LoggerUtils.error( MSG_LOG_ERR_NO_E4_HELPER );
     }
   }
 

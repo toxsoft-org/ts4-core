@@ -337,7 +337,7 @@ public final class TsImage {
           img.dispose();
         }
         catch( Exception ex ) {
-          LoggerUtils.errorLogger().error( ex );
+          LoggerUtils.error( ex );
         }
       }
       disposed = true;

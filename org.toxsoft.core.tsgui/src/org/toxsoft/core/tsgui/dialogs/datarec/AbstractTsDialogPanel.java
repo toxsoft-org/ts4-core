@@ -270,7 +270,7 @@ abstract public class AbstractTsDialogPanel<T, E>
       doSetDataRecord( aData );
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
     }
     if( ownerDialog != null ) {
       ownerDialog.validateDialogData();

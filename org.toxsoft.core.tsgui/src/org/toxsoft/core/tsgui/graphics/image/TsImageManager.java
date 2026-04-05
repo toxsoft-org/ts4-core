@@ -151,7 +151,7 @@ public class TsImageManager
       }
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().warning( ex.getMessage() );
+      LoggerUtils.warning( ex.getMessage() );
     }
     return mi;
   }

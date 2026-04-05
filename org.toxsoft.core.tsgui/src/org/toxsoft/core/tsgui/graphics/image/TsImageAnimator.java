@@ -182,7 +182,7 @@ public class TsImageAnimator
         callback.onNextFrame( this, currentFrame() );
       }
       catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
       }
     }
   }

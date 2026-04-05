@@ -292,7 +292,7 @@ public class TsUserInputEventsBinder
         }
       }
       catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
       }
     }
   }
@@ -306,7 +306,7 @@ public class TsUserInputEventsBinder
         }
       }
       catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
       }
     }
   }
@@ -320,7 +320,7 @@ public class TsUserInputEventsBinder
         }
       }
       catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
       }
     }
   }
@@ -333,7 +333,7 @@ public class TsUserInputEventsBinder
         }
       }
       catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
       }
     }
   }
@@ -346,7 +346,7 @@ public class TsUserInputEventsBinder
         }
       }
       catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
       }
     }
   }
@@ -359,7 +359,7 @@ public class TsUserInputEventsBinder
         }
       }
       catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
       }
     }
   }
@@ -372,7 +372,7 @@ public class TsUserInputEventsBinder
         }
       }
       catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
       }
     }
   }
@@ -385,7 +385,7 @@ public class TsUserInputEventsBinder
         }
       }
       catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
       }
     }
   }
@@ -398,7 +398,7 @@ public class TsUserInputEventsBinder
         }
       }
       catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
       }
     }
     resetDragSupport();
@@ -412,7 +412,7 @@ public class TsUserInputEventsBinder
         }
       }
       catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
       }
     }
     resetDragSupport();

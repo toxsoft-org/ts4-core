@@ -91,12 +91,12 @@ public abstract class AbstractQuant
       q.close();
     }
     // finalizing this quant
-    LoggerUtils.defaultLogger().info( FMT_INFO_QUANT_CLOSE, name );
+    LoggerUtils.info( FMT_INFO_QUANT_CLOSE, name );
     try {
       doClose();
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex, FMT_ERR_CLOSING_QUANT, name );
+      LoggerUtils.error( ex, FMT_ERR_CLOSING_QUANT, name );
     }
   }
 
@@ -113,17 +113,17 @@ public abstract class AbstractQuant
   final public void initApp( IEclipseContext aAppContext ) {
     // check context initialization state
     if( getInitFlag( aAppContext, CTX_REF_NAME_APP_INIT_CONTEXT_FLAG ) ) {
-      LoggerUtils.errorLogger().warning( FMT_WARN_QUANT_DUP_INIT_APP, name );
+      LoggerUtils.warning( FMT_WARN_QUANT_DUP_INIT_APP, name );
       return;
     }
-    LoggerUtils.defaultLogger().info( FMT_INFO_QUANT_INIT_APP, name );
+    LoggerUtils.info( FMT_INFO_QUANT_INIT_APP, name );
     TsNullArgumentRtException.checkNull( aAppContext );
     // this quant, before children
     try {
       doInitAppBeforeChildQuants( aAppContext );
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex, FMT_ERR_APP_INIT_QUANT, name );
+      LoggerUtils.error( ex, FMT_ERR_APP_INIT_QUANT, name );
     }
     // child quants
     for( IQuant q : quants ) {
@@ -134,7 +134,7 @@ public abstract class AbstractQuant
       doInitApp( aAppContext );
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex, FMT_ERR_APP_INIT_QUANT, name );
+      LoggerUtils.error( ex, FMT_ERR_APP_INIT_QUANT, name );
     }
     setInitFlag( aAppContext, CTX_REF_NAME_APP_INIT_CONTEXT_FLAG, true );
   }
@@ -144,16 +144,16 @@ public abstract class AbstractQuant
     TsNullArgumentRtException.checkNull( aWinContext );
     // check init state
     if( getInitFlag( aWinContext, CTX_REF_NAME_WIN_INIT_CONTEXT_FLAG ) ) {
-      LoggerUtils.errorLogger().warning( FMT_WARN_QUANT_DUP_INIT_WIN, name );
+      LoggerUtils.warning( FMT_WARN_QUANT_DUP_INIT_WIN, name );
       return;
     }
-    LoggerUtils.defaultLogger().info( FMT_INFO_QUANT_INIT_WIN, name );
+    LoggerUtils.info( FMT_INFO_QUANT_INIT_WIN, name );
     // init this quant, beforechildren
     try {
       doInitWinBeforeChildQuants( aWinContext );
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex, FMT_ERR_WIN_INIT_QUANT, name );
+      LoggerUtils.error( ex, FMT_ERR_WIN_INIT_QUANT, name );
     }
     // init child quants
     for( IQuant q : quants ) {
@@ -164,7 +164,7 @@ public abstract class AbstractQuant
       doInitWin( aWinContext );
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex, FMT_ERR_WIN_INIT_QUANT, name );
+      LoggerUtils.error( ex, FMT_ERR_WIN_INIT_QUANT, name );
     }
     setInitFlag( aWinContext, CTX_REF_NAME_WIN_INIT_CONTEXT_FLAG, true );
   }
@@ -178,7 +178,7 @@ public abstract class AbstractQuant
         }
       }
       catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
       }
     }
     return doCanCloseMainWindow( aWinContext, aWindow );
@@ -191,14 +191,14 @@ public abstract class AbstractQuant
         q.whenCloseMainWindow( aWinContext, aWindow );
       }
       catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
       }
     }
     try {
       doCloseWin( aWindow );
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
     }
     setInitFlag( aWinContext, CTX_REF_NAME_WIN_INIT_CONTEXT_FLAG, false );
   }

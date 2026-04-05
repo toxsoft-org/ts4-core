@@ -51,7 +51,7 @@ public class CurrentEntityService<E>
           l.onCurrentEntityChanged( current );
         }
         catch( Exception ex ) {
-          LoggerUtils.errorLogger().error( ex );
+          LoggerUtils.error( ex );
         }
       }
     }

@@ -51,7 +51,7 @@ public class TsE4Helper
           l.onPerspectiveChanged( TsE4Helper.this, aPerspectiveId );
         }
         catch( Exception ex ) {
-          LoggerUtils.errorLogger().error( ex );
+          LoggerUtils.error( ex );
         }
       }
     }

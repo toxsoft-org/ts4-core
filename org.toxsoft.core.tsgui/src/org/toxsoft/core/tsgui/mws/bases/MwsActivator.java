@@ -44,7 +44,7 @@ public class MwsActivator
   final protected <T extends MwsActivator> void checkInstance( T aInstance ) {
     if( aInstance != null ) {
       TsInternalErrorRtException ex = new TsInternalErrorRtException( FMT_ERR_NON_SINGLETON, pluginId );
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
       throw ex;
     }
   }
@@ -56,7 +56,7 @@ public class MwsActivator
   @Override
   final public void start( BundleContext aBundleContext )
       throws Exception {
-    LoggerUtils.defaultLogger().info( FMT_INFO_ACTIVATOR_START, pluginId, this.getClass().getSimpleName() );
+    LoggerUtils.info( FMT_INFO_ACTIVATOR_START, pluginId, this.getClass().getSimpleName() );
     context = aBundleContext;
     // allow to register priority quants
     IMwsOsgiService mwsOsgiService = findOsgiService( IMwsOsgiService.class );
@@ -75,7 +75,7 @@ public class MwsActivator
       doStart();
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
       throw ex;
     }
   }
@@ -83,13 +83,13 @@ public class MwsActivator
   @Override
   final public void stop( BundleContext aBundleContext )
       throws Exception {
-    LoggerUtils.defaultLogger().info( FMT_INFO_ACTIVATOR_STOP, pluginId, this.getClass().getSimpleName() );
+    LoggerUtils.info( FMT_INFO_ACTIVATOR_STOP, pluginId, this.getClass().getSimpleName() );
     // call subclass
     try {
       doStop();
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
       throw ex;
     }
     context = null;

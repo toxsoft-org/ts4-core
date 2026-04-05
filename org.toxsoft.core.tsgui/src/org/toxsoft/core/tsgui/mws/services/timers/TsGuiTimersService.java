@@ -102,14 +102,14 @@ public final class TsGuiTimersService
             display.syncExec( runnable );
           }
           catch( Exception ex ) {
-            LoggerUtils.errorLogger().error( ex );
+            LoggerUtils.error( ex );
           }
           lastRunFinishedAtTime = System.currentTimeMillis();
         }
       }
       catch( InterruptedException ex ) {
         if( !closeQueried ) {
-          LoggerUtils.errorLogger().error( ex );
+          LoggerUtils.error( ex );
         }
       }
     }
