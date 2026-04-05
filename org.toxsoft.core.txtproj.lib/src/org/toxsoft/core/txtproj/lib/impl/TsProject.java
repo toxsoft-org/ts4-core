@@ -163,7 +163,7 @@ public class TsProject
         u.clear();
       }
       catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
       }
     }
     genericChangeEventer.resumeFiring( true );
@@ -217,7 +217,7 @@ public class TsProject
           sect.readEntity( aUnit );
         }
         catch( Exception ex ) {
-          LoggerUtils.errorLogger().error( ex );
+          LoggerUtils.error( ex );
           return ValidationResult.error( ex );
         }
         finally {

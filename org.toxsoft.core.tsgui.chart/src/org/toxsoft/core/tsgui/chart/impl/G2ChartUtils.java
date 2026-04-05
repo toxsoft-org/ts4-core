@@ -66,7 +66,7 @@ public class G2ChartUtils {
         return constructor.newInstance( aParams.params() );
       }
       catch( Throwable ex2 ) {
-        LoggerUtils.errorLogger().error( ex2 );
+        LoggerUtils.error( ex2 );
       }
     }
     return null;

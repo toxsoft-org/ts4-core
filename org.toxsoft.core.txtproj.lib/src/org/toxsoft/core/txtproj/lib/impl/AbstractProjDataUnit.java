@@ -53,7 +53,7 @@ public abstract class AbstractProjDataUnit
       doRead( aDr );
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
     }
   }
 
@@ -67,7 +67,7 @@ public abstract class AbstractProjDataUnit
       doClear();
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
     }
   }
 

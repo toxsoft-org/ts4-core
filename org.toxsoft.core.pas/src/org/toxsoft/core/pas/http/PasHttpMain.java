@@ -2,17 +2,17 @@ package org.toxsoft.core.pas.http;
 
 import static org.toxsoft.core.pas.http.ITsResources.*;
 
-import java.io.File;
+import java.io.*;
 
-import org.toxsoft.core.log4j.LoggerWrapper;
-import org.toxsoft.core.pas.http.server.PasHttpServer;
-import org.toxsoft.core.tslib.bricks.apprefs.IAppPreferences;
+import org.toxsoft.core.log4j.*;
+import org.toxsoft.core.pas.http.server.*;
+import org.toxsoft.core.tslib.bricks.apprefs.*;
 import org.toxsoft.core.tslib.bricks.apprefs.impl.*;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
-import org.toxsoft.core.tslib.utils.files.TsFileUtils;
-import org.toxsoft.core.tslib.utils.logs.ILogger;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
-import org.toxsoft.core.tslib.utils.progargs.ProgramArgs;
+import org.toxsoft.core.tslib.bricks.validator.*;
+import org.toxsoft.core.tslib.utils.files.*;
+import org.toxsoft.core.tslib.utils.logs.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
+import org.toxsoft.core.tslib.utils.progargs.*;
 
 /**
  * Запуск моста - реализацующий публичное API АС ФГДП.
@@ -54,7 +54,7 @@ public class PasHttpMain {
       }
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
       logger.error( FMT_FAILED, ex.getClass().getSimpleName(), ex.getMessage() );
       System.exit( RETCODE_RUNTIME_ERROR );
     }

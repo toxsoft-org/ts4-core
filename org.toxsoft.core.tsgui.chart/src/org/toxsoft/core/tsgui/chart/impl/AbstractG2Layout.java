@@ -77,7 +77,7 @@ public abstract class AbstractG2Layout
       doLayout();
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
     }
   }
 

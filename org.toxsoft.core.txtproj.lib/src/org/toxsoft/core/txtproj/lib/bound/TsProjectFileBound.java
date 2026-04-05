@@ -151,7 +151,7 @@ public class TsProjectFileBound
           vr = ValidationResult.firstNonOk( vr, l.beforeOpen( this, aFile ) );
         }
         catch( Exception ex ) {
-          LoggerUtils.errorLogger().error( ex );
+          LoggerUtils.error( ex );
           if( isListenerErrorsThrown() ) {
             throw ex;
           }
@@ -172,7 +172,7 @@ public class TsProjectFileBound
           l.afterOpen( this );
         }
         catch( Exception ex ) {
-          LoggerUtils.errorLogger().error( ex );
+          LoggerUtils.error( ex );
           if( isListenerErrorsThrown() ) {
             throw ex;
           }
@@ -190,7 +190,7 @@ public class TsProjectFileBound
           vr = ValidationResult.firstNonOk( vr, l.beforeSave( this ) );
         }
         catch( Exception ex ) {
-          LoggerUtils.errorLogger().error( ex );
+          LoggerUtils.error( ex );
           if( isListenerErrorsThrown() ) {
             throw ex;
           }
@@ -211,7 +211,7 @@ public class TsProjectFileBound
           l.afterSave( this );
         }
         catch( Exception ex ) {
-          LoggerUtils.errorLogger().error( ex );
+          LoggerUtils.error( ex );
           if( isListenerErrorsThrown() ) {
             throw ex;
           }
@@ -229,7 +229,7 @@ public class TsProjectFileBound
           vr = ValidationResult.firstNonOk( vr, l.beforeSaveAs( this, aFile ) );
         }
         catch( Exception ex ) {
-          LoggerUtils.errorLogger().error( ex );
+          LoggerUtils.error( ex );
           if( isListenerErrorsThrown() ) {
             throw ex;
           }
@@ -250,7 +250,7 @@ public class TsProjectFileBound
           l.afterSaveAs( this );
         }
         catch( Exception ex ) {
-          LoggerUtils.errorLogger().error( ex );
+          LoggerUtils.error( ex );
           if( isListenerErrorsThrown() ) {
             throw ex;
           }
@@ -268,7 +268,7 @@ public class TsProjectFileBound
           vr = ValidationResult.firstNonOk( vr, l.beforeClear( this ) );
         }
         catch( Exception ex ) {
-          LoggerUtils.errorLogger().error( ex );
+          LoggerUtils.error( ex );
           if( isListenerErrorsThrown() ) {
             throw ex;
           }
@@ -289,7 +289,7 @@ public class TsProjectFileBound
           l.afterClear( this );
         }
         catch( Exception ex ) {
-          LoggerUtils.errorLogger().error( ex );
+          LoggerUtils.error( ex );
           if( isListenerErrorsThrown() ) {
             throw ex;
           }
@@ -306,7 +306,7 @@ public class TsProjectFileBound
           l.onAlteredStateChanged( this );
         }
         catch( Exception ex ) {
-          LoggerUtils.errorLogger().error( ex );
+          LoggerUtils.error( ex );
           if( isListenerErrorsThrown() ) {
             throw ex;
           }
@@ -323,7 +323,7 @@ public class TsProjectFileBound
           l.onFileBindingChanged( this );
         }
         catch( Exception ex ) {
-          LoggerUtils.errorLogger().error( ex );
+          LoggerUtils.error( ex );
           if( isListenerErrorsThrown() ) {
             throw ex;
           }

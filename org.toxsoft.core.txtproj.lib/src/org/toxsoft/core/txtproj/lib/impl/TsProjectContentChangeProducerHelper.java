@@ -1,11 +1,9 @@
 package org.toxsoft.core.txtproj.lib.impl;
 
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.coll.IListEdit;
-import org.toxsoft.core.tslib.coll.impl.ElemArrayList;
-import org.toxsoft.core.tslib.coll.impl.ElemLinkedBundleList;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 import org.toxsoft.core.txtproj.lib.*;
 
 /**
@@ -48,7 +46,7 @@ public class TsProjectContentChangeProducerHelper
         l.beforeSave( source );
       }
       catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
       }
     }
   }
@@ -67,7 +65,7 @@ public class TsProjectContentChangeProducerHelper
         l.afterSave( source );
       }
       catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
       }
     }
   }
@@ -88,7 +86,7 @@ public class TsProjectContentChangeProducerHelper
         l.onContentChanged( source, aCleared );
       }
       catch( Exception ex ) {
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
       }
     }
   }

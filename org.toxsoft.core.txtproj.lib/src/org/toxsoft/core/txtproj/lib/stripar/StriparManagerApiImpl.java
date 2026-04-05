@@ -67,7 +67,7 @@ public class StriparManagerApiImpl<E extends IStridable & IParameterized>
           l.onChanged( StriparManagerApiImpl.this, aOp, aItemId );
         }
         catch( Exception ex ) {
-          LoggerUtils.errorLogger().error( ex );
+          LoggerUtils.error( ex );
         }
       }
       genericChangeEventer().fireChangeEvent();

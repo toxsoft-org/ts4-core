@@ -159,7 +159,7 @@ public final class VedScreenCfg
       return VedScreenCfg.KEEPER.str2ent( aString );
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
       return aDefaultCfg;
     }
   }

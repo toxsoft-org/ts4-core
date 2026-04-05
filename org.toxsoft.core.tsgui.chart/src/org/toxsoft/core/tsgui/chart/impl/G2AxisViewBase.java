@@ -158,7 +158,7 @@ abstract class G2AxisViewBase
           bounds.height() - markingMargins.top() - markingMargins.bottom() );
     }
     catch( Throwable ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
       return new TsRectangle( 0, 0, 1, 1 );
     }
   }

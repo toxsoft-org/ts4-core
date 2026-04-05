@@ -68,7 +68,7 @@ public class Catalogue<T extends ICategory<T>>
           l.onCatalogueChanged( Catalogue.this, aOp, aCategoryId );
         }
         catch( Exception ex ) {
-          LoggerUtils.errorLogger().error( ex );
+          LoggerUtils.error( ex );
         }
       }
     }

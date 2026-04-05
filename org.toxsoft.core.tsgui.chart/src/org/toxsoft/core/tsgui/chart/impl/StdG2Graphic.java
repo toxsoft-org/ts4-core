@@ -146,7 +146,7 @@ public class StdG2Graphic
           aGc.drawLine( cr.x1(), spY, cr.x2(), spY );
         }
         catch( Exception ex ) {
-          LoggerUtils.errorLogger().error( ex );
+          LoggerUtils.error( ex );
         }
       }
       // восстанавливаем текущие настройки
@@ -259,7 +259,7 @@ public class StdG2Graphic
       retVal = Float.parseFloat( spValStr );
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
     }
     return retVal;
   }

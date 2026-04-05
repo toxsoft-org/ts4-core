@@ -146,7 +146,7 @@ public class AddonUnitTxtprojMws
         }
       }
       else {
-        LoggerUtils.errorLogger().warning( vr.message() );
+        LoggerUtils.warning( vr.message() );
       }
     }
   }
@@ -160,10 +160,10 @@ public class AddonUnitTxtprojMws
   void loadProject( ITsProjectFileBound aProjHolder, File aFile ) {
     try {
       aProjHolder.open( aFile );
-      LoggerUtils.defaultLogger().info( "Loaded project file %s", aProjHolder.getFile().getAbsolutePath() ); //$NON-NLS-1$
+      LoggerUtils.info( "Loaded project file %s", aProjHolder.getFile().getAbsolutePath() ); //$NON-NLS-1$
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex.getMessage() );
+      LoggerUtils.error( ex.getMessage() );
       aProjHolder.project().clear();
     }
   }
@@ -212,7 +212,7 @@ public class AddonUnitTxtprojMws
       aProjHolder.saveAs( saveFile );
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
       TsDialogUtils.error( aShell, ex );
       return false; // changes can't be saved, behave like action was cancelled
     }

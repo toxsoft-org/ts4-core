@@ -5,7 +5,6 @@ import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
 
 import org.toxsoft.core.tsgui.bricks.actions.asp.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
-import org.toxsoft.core.tsgui.ved.incub.*;
 import org.toxsoft.core.tsgui.ved.screen.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.helpers.*;
@@ -152,7 +151,7 @@ public abstract class VedAbstractItem
       disposed = true;
     }
     else {
-      LoggerUtils.errorLogger().warning( STR_WARN_DUPLICATE_DIPOSAL, toString() );
+      LoggerUtils.warning( STR_WARN_DUPLICATE_DIPOSAL, toString() );
     }
   }
 

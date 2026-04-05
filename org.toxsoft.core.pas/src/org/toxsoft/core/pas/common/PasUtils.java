@@ -81,7 +81,7 @@ public class PasUtils {
     for( String argId : aArgs.argValues().keys() ) {
       // допускаются только аргументы - ИД-пути
       if( !StridUtils.isValidIdPath( argId ) ) {
-        LoggerUtils.errorLogger().warning( ERR_IGNORED_INV_ARG_ID, argId );
+        LoggerUtils.warning( ERR_IGNORED_INV_ARG_ID, argId );
         continue;
       }
       String valStr = aArgs.getArgValue( argId );
@@ -91,7 +91,7 @@ public class PasUtils {
         av = AtomicValueKeeper.KEEPER.str2ent( valStr );
       }
       catch( @SuppressWarnings( "unused" ) Exception ex ) {
-        LoggerUtils.errorLogger().warning( ERR_ARG_VAL_AS_STRING, argId );
+        LoggerUtils.warning( ERR_ARG_VAL_AS_STRING, argId );
       }
       av = AvUtils.avStr( valStr );
       aContext.params().setValue( argId, av );

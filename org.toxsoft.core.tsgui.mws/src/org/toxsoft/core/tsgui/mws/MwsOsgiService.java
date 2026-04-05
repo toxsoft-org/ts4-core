@@ -79,7 +79,7 @@ public class MwsOsgiService
    * Constructor.
    */
   public MwsOsgiService() {
-    LoggerUtils.defaultLogger().info( "MWS:        %s()", this.getClass().getSimpleName() ); //$NON-NLS-1$
+    LoggerUtils.info( "MWS:        %s()", this.getClass().getSimpleName() ); //$NON-NLS-1$
     IApplicationWideQuantManager appQMan = new ApplicationWideQuantManager();
     context.put( IApplicationWideQuantManager.class, appQMan );
     appQMan.registerQuant( new QuantProgramArgs() );
@@ -104,7 +104,7 @@ public class MwsOsgiService
             appInfo = TsApplicationInfo.KEEPER.read( f );
           }
           catch( @SuppressWarnings( "unused" ) Exception ex ) {
-            LoggerUtils.errorLogger().warning( FMT_LOG_WARN_INV_APP_INFO_FILE, f.getAbsoluteFile() );
+            LoggerUtils.warning( FMT_LOG_WARN_INV_APP_INFO_FILE, f.getAbsoluteFile() );
           }
         }
       }

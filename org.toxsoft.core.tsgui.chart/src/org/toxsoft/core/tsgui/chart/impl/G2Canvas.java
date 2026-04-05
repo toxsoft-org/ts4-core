@@ -109,7 +109,7 @@ public class G2Canvas
           bounds.height() - margins.top() - margins.bottom() );
     }
     catch( Throwable ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
       clientRect = new TsRectangle( 0, 0, 1, 1 );
     }
   }

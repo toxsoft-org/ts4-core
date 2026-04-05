@@ -3,14 +3,13 @@ package org.toxsoft.core.pas.common;
 import static org.toxsoft.core.pas.common.ITsResources.*;
 
 import org.toxsoft.core.pas.json.*;
-import org.toxsoft.core.tslib.bricks.ctx.ITsContextRo;
-import org.toxsoft.core.tslib.coll.primtypes.IStringMapEdit;
-import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
-import org.toxsoft.core.tslib.coll.synch.SynchronizedStringMap;
-import org.toxsoft.core.tslib.utils.errors.TsItemAlreadyExistsRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.logs.ILogger;
-import org.toxsoft.core.tslib.utils.logs.impl.LoggerUtils;
+import org.toxsoft.core.tslib.bricks.ctx.*;
+import org.toxsoft.core.tslib.coll.primtypes.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.*;
+import org.toxsoft.core.tslib.coll.synch.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * Хранитель обработчиков событий JSON передаваемых по каналам {@link PasChannel}.
@@ -77,7 +76,7 @@ public class PasHandlerHolder<CHANNEL extends PasChannel> {
    */
   protected PasHandlerHolder( ITsContextRo aContext ) {
     context = TsNullArgumentRtException.checkNull( aContext );
-    logger = LoggerUtils.defaultLogger();
+    logger = LoggerUtils.getLogger( getClass() );
   }
 
   /**

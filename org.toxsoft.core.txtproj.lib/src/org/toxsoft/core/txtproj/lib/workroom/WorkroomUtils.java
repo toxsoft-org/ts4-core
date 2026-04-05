@@ -88,7 +88,7 @@ public class WorkroomUtils {
       }
       catch( Exception ex ) {
         // error reading workroom-specific files - assume corrupted workroom
-        LoggerUtils.errorLogger().error( ex );
+        LoggerUtils.error( ex );
         return EWorkroomDirectoryCheckStatus.CORRUPTED;
       }
     }
@@ -102,7 +102,7 @@ public class WorkroomUtils {
       s = sr.readUntilChar( IStrioHardConstants.CHAR_EOF );
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
     }
     return s;
   }

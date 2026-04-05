@@ -1,8 +1,6 @@
 package org.toxsoft.core.log4j;
 
 import org.apache.logging.log4j.*;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.vrl.*;
 import org.toxsoft.core.tslib.math.*;
@@ -24,7 +22,7 @@ public class LoggerWrapper
    * <p>
    * Used in static method {@link #setScanPropertiesTimeout(long)}.
    */
-  public static final String SYSPROP_LOG4J_CONFIG_FILE_NAME = "-Dlog4j.configuratio"; //$NON-NLS-1$
+  public static final String SYSPROP_LOG4J_CONFIG_FILE_NAME = "-Dlog4j2.configuration"; //$NON-NLS-1$
 
   /**
    * Valid extensions (without dot) and hence the formats of the Log4j configuration file.
@@ -33,9 +31,9 @@ public class LoggerWrapper
    */
   public static final String[] LOG4J_CONFIG_FILE_EXTS = { "properties", "xml" }; //$NON-NLS-1$//$NON-NLS-2$
 
-  private LoggerContext context = new LoggerContext( "root" ); //$NON-NLS-1$
-
   private final Logger source;
+
+  private static final ILoggerFactory factory = LoggerWrapper::getLogger;
 
   /**
    * Creates wrapper over the specified Log4j logger.
@@ -68,6 +66,15 @@ public class LoggerWrapper
    */
   public static ILogger getLogger( Class<?> aClass ) {
     return new LoggerWrapper( aClass );
+  }
+
+  /**
+   * Returns logger factory.
+   *
+   * @return {@link ILoggerFactory} logger factory
+   */
+  public static ILoggerFactory getFactory() {
+    return factory;
   }
 
   // GOGA 2025-10-27: as i found, this method is not used, anyway, it is deprecated!
@@ -137,11 +144,11 @@ public class LoggerWrapper
   }
 
   private LoggerWrapper( String aName ) {
-    source = context.getLogger( TsNullArgumentRtException.checkNull( aName ) );
+    source = LogManager.getLogger( TsNullArgumentRtException.checkNull( aName ) );
   }
 
   private LoggerWrapper( Class<?> aClass ) {
-    source = context.getLogger( TsNullArgumentRtException.checkNull( aClass ).getName() );
+    source = LogManager.getLogger( TsNullArgumentRtException.checkNull( aClass ).getName() );
   }
 
   // ------------------------------------------------------------------------------------

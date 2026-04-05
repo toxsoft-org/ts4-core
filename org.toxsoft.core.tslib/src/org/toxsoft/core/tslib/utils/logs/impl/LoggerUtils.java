@@ -1,7 +1,10 @@
 package org.toxsoft.core.tslib.utils.logs.impl;
 
+import static org.toxsoft.core.tslib.utils.logs.impl.ITsResources.*;
+
 import java.util.*;
 
+import org.toxsoft.core.tslib.bricks.strid.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.logs.*;
 
@@ -25,9 +28,14 @@ public final class LoggerUtils {
   private static ILoggerFactory factory = aName -> new PrintStreamLogger( System.out );
 
   /**
+   * Собственный журнал.
+   */
+  private static ILogger logger = getLogger( LoggerUtils.class );
+
+  /**
    * Журнал по умолчанию.
    */
-  private static ILogger defaultLogger = getLogger( DEFAULT_LOGGER_ID );
+  private static ILogger defaultLogger = factory.getLogger( DEFAULT_LOGGER_ID );
 
   // ------------------------------------------------------------------------------------
   // public API
@@ -36,41 +44,72 @@ public final class LoggerUtils {
   /**
    * Установить фабрику журналов компонентов системы.
    *
-   * @param aLoggerFactory {@link ILoggerFactory} фабрика журналов компонетов системы.
+   * @param aFactory {@link ILoggerFactory} фабрика журналов компонетов системы.
    * @return {@link ILoggerFactory} фабрика которая была установлена до вызова
    *         {@link #setLoggerFactory(ILoggerFactory)}.
    * @throws TsNullArgumentRtException аргумент = null
    */
-  public static ILoggerFactory setLoggerFactory( ILoggerFactory aLoggerFactory ) {
-    TsNullArgumentRtException.checkNull( aLoggerFactory );
+  public static ILoggerFactory setLoggerFactory( ILoggerFactory aFactory ) {
+    TsNullArgumentRtException.checkNull( aFactory );
     ILoggerFactory retValue = factory;
-    factory = aLoggerFactory;
-    defaultLogger = getLogger( DEFAULT_LOGGER_ID );
+    if( aFactory.equals( factory ) ) {
+      return retValue;
+    }
+    factory = aFactory;
+    defaultLogger = factory.getLogger( DEFAULT_LOGGER_ID );
+    logger = getLogger( LoggerUtils.class );
+    logger.info( FMT_MSG_LOGGER_FACTORY_INSTALLED, aFactory );
     return retValue;
   }
 
   /**
    * Возвращает журнал компонента.
    *
-   * @param aName String имя компонента
+   * @param aClass Class&lt;?&gt; класс компонента
    * @return {@link ILogger} журнал
-   * @throws TsNullArgumentRtException аргумент = null
+   * @throws TsNullArgumentRtException любой аргумент = null
    */
-  public static ILogger getLogger( String aName ) {
-    TsNullArgumentRtException.checkNull( aName );
-    return factory.getLogger( aName );
+  public static ILogger getLogger( Class<?> aClass ) {
+    return getLogger( aClass, new String[] {} );
   }
 
   /**
    * Возвращает журнал компонента.
    *
-   * @param aClass Class<?> класс компонента
+   * @param aClass Class&lt;?&gt; класс компонента
+   * @param aSubsysIds String... ID-путь в контексте компонента
    * @return {@link ILogger} журнал
-   * @throws TsNullArgumentRtException аргумент = null
+   * @throws TsNullArgumentRtException любой аргумент = null
    */
-  public static ILogger getLogger( Class<?> aClass ) {
-    TsNullArgumentRtException.checkNull( aClass );
-    return factory.getLogger( aClass.getName() );
+  public static ILogger getLogger( Class<?> aClass, String... aSubsysIds ) {
+    TsNullArgumentRtException.checkNulls( aClass, aSubsysIds );
+    if( aSubsysIds.length == 0 ) {
+      return factory.getLogger( aClass.getName() );
+    }
+    StringBuilder sb = new StringBuilder();
+    for( int index = 0, n = aSubsysIds.length; index < n; index++ ) {
+      sb.append( StridUtils.checkValidIdName( aSubsysIds[index] ) );
+      if( index + 1 < n ) {
+        sb.append( '_' );
+      }
+    }
+    return factory.getLogger( aClass.getName() + '_' + sb.toString() );
+  }
+
+  /**
+   * Возвращает журнал компонента.
+   *
+   * @param aClass Class&lt;?&gt; класс компонента
+   * @param aName String произвольное имя в контексте компонента
+   * @return {@link ILogger} журнал
+   * @throws TsNullArgumentRtException любой аргумент = null
+   */
+  public static ILogger getLoggerWithName( Class<?> aClass, String aName ) {
+    TsNullArgumentRtException.checkNulls( aClass, aName );
+    if( aName.length() == 0 ) {
+      return factory.getLogger( aClass.getName() );
+    }
+    return factory.getLogger( aClass.getName() + '_' + aName );
   }
 
   /**

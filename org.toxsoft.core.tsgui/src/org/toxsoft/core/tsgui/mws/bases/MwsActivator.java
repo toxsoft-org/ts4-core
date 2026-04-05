@@ -35,6 +35,7 @@ public class MwsActivator
    */
   public MwsActivator( String aPluginId ) {
     pluginId = StridUtils.checkValidIdPath( aPluginId );
+    LoggerUtils.setLoggerFactory( org.toxsoft.core.log4j.LoggerWrapper.getFactory() );
   }
 
   // ------------------------------------------------------------------------------------
@@ -99,6 +100,7 @@ public class MwsActivator
   // To override implement
   //
 
+  @SuppressWarnings( "unused" )
   protected void doRegisterPriorityQuants( IQuantRegistrator aQuantRegistrator ) {
     // nop
   }

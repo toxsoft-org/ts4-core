@@ -63,7 +63,7 @@ public class AddonMwsMain {
 
   @PostConstruct
   final void init( MApplication aApplication ) {
-    LoggerUtils.defaultLogger().info( FMT_LOG_INFO_APP_MAIN_ADDON_STARTING, nameForLog );
+    LoggerUtils.info( FMT_LOG_INFO_APP_MAIN_ADDON_STARTING, nameForLog );
     try {
       TsNullArgumentRtException.checkNull( aApplication );
       IEclipseContext appContext = aApplication.getContext();
@@ -78,10 +78,10 @@ public class AddonMwsMain {
       appWideQuantManager = mwsOsgiService.context().get( IApplicationWideQuantManager.class );
       appContext.set( IApplicationWideQuantManager.class, appWideQuantManager );
       appWideQuantManager.initApp( appContext );
-      LoggerUtils.defaultLogger().info( FMT_LOG_INFO_APP_MAIN_ADDON_INIT_APP, nameForLog );
+      LoggerUtils.info( FMT_LOG_INFO_APP_MAIN_ADDON_INIT_APP, nameForLog );
     }
     catch( Exception ex ) {
-      LoggerUtils.errorLogger().error( ex );
+      LoggerUtils.error( ex );
     }
   }
 

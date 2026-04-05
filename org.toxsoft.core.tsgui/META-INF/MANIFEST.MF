@@ -17,6 +17,8 @@ Require-Bundle: jakarta.inject.jakarta.inject-api,
  org.eclipse.e4.core.services,
  org.eclipse.e4.ui.workbench,
  org.eclipse.e4.ui.model.workbench,
+ org.toxsoft.extlibs.log4j,
+ org.toxsoft.core.log4j,
  org.toxsoft.core.tslib,
  org.toxsoft.core.singlesrc.rap;resolution:=optional,
  org.toxsoft.core.singlesrc.rcp;resolution:=optional
