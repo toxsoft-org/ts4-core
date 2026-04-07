@@ -65,7 +65,6 @@ public class TsTreeViewer
   class Column
       extends AbstractTsTreeColumn {
 
-    // private static final int MAX_RC = 100;
     private final TreeViewerColumn            tvColumn;
     private final int                         columnIndex;
     private final ITsVisualsProvider<ITsNode> nameProvider;

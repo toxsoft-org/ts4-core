@@ -30,7 +30,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
  * rri:/com.example.uskat.server/sectionID/classId[objSTRID]$attr(attrID)<br>
  * url://http://example.com/cgi-bin/book.php?id="ISBN 0-486-27557-4"<br>
  * uri://ssh:admin@127.0.0.1:25252/home/user/.bashrc<br>
- * gwid:/ru.rusal.saz/pot[no243]$cmd(anode_up).arg(duration_secs)<br>
+ * gwid:/com.acme.alfactory/pot[no243]$cmd(anode_up).arg(duration_secs)<br>
  * </code>
  * <p>
  * Ugwi consist of three main parts:

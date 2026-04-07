@@ -238,7 +238,7 @@ public class OptionSetUtils {
    * "<code>Voltage: raw= <b>{voltage}</b>, pretty= <b>{voltage,1.2f}</b></code>" formats as
    * "<code>Voltage: raw= 234.76294712, pretty= 234.76</code>".
    * <p>
-   * "<code>The person is \{ '<b>{firstName}</b>', '<b>{lastName)</b>' \}</code>" formats as
+   * "<code>The person is \{ '<b>{firstName}</b>', '<b>{lastName}</b>' \}</code>" formats as
    * "<code>The person is { 'John', 'Smith' }</code>".
    * <p>
    * If <code>aDefs</code> contains definition for the option specified in the <i>reduced form</i>, than
