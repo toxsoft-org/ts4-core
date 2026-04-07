@@ -266,7 +266,7 @@ public class OptionSet
       return false;
     }
     for( String key : aMap1.keys() ) {
-      Object value1 = aMap2.getByKey( key );
+      Object value1 = aMap1.getByKey( key );
       Object value2 = aMap2.findByKey( key );
       if( value2 == null || !value1.equals( value2 ) ) {
         return false;
