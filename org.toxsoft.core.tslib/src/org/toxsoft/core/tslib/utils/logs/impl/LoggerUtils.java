@@ -88,7 +88,7 @@ public final class LoggerUtils {
     }
     StringBuilder sb = new StringBuilder();
     for( int index = 0, n = aSubsysIds.length; index < n; index++ ) {
-      sb.append( StridUtils.checkValidIdName( aSubsysIds[index] ) );
+      sb.append( StridUtils.checkValidIdPath( aSubsysIds[index] ) );
       if( index + 1 < n ) {
         sb.append( '_' );
       }
