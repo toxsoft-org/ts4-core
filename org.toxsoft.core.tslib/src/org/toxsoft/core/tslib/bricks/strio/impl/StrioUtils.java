@@ -468,66 +468,76 @@ public class StrioUtils {
   }
 
   /**
-   * Записывает карту "строка" - "сущность" в текстовое представление.
+   * Writes map "String" - "Entity" to the textual representation.
    * <p>
-   * Запись проиходит в виде <code>KEYWORD = { "key1"=ENTITY, "key2"=ENTITY, ... "keyM"=ENTITY }</code>, где keyN - ключ
-   * в карте, а ENTITY - записанная с помощью <code>aKeeper</code> сущность. Если aKeyword пустая строка, то часть
-   * записы "KEYWORD = " отсуствет.
+   * Writes map in a form <code>KEYWORD = { "key1"=ENTITY, "key2"=ENTITY, ... "keyM"=ENTITY }</code>, where the keyN -
+   * is a value of the key, and ENTITY - the entity representation written with <code>aKeeper</code>. If
+   * <code>aKeyword</code> is an empty string the "KEYWORD = " prefix will not be written.
    *
-   * @param <E> - тип хранимых сущностей
-   * @param aSw {@link IStrioWriter} - писатель к текстовое прдставление
-   * @param aKeyword String - ключевое слово (ИД-путь), предваряющее коллекцию или пустая строка
-   * @param aMap {@link IStringMap} - записываемая карта "строка" - "сущность"
-   * @param aKeeper {@link IEntityKeeper} - хранитель элемсентов коллекции
-   * @param aIndent boolean - признак переноса строк<br>
-   *          <b>true</b> - каждая пана "keyN"=ENTITY записывается на отдельной строке;<br>
-   *          <b>false</b> - вся карта записывается в одну строку, без переноса.
-   * @throws TsNullArgumentRtException любой аргумент = null
-   * @throws TsIllegalArgumentRtException aKeyword не ИД-путь
-   * @throws TsIoRtException ошибка чтения из входного потока
+   * @param <E> - the entity type
+   * @param aSw {@link IStrioWriter} - output stream
+   * @param aKeyword String - the prefix keyword IDpath or an empty string for no prefix
+   * @param aMap {@link IStringMap} - the map to be written
+   * @param aKeeper {@link IEntityKeeper} - map values keeper
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException aKeyword is not an empty string and not an IDpath
+   * @throws TsIoRtException the stream writing error
    */
   public static <E> void writeStringMap( IStrioWriter aSw, String aKeyword, IStringMap<E> aMap,
-      IEntityKeeper<E> aKeeper, boolean aIndent ) {
+      IEntityKeeper<E> aKeeper ) {
     TsNullArgumentRtException.checkNulls( aSw, aMap, aKeeper );
     // write keyword header
     writeKeywordHeader( aSw, aKeyword );
-    // запись пустой карты
+    // writes an empty map
     if( aMap.isEmpty() ) {
       aSw.writeChars( CHAR_SET_BEGIN, CHAR_SET_END );
       return;
     }
+    // iterates and writes a map
     aSw.writeChar( CHAR_SET_BEGIN );
-    if( aIndent ) {
-      aSw.incNewLine();
-    }
+    aSw.indIncLine();
     for( int i = 0, n = aMap.size(); i < n; i++ ) {
+      // write key: IDpaths are written as-is, other strings in quoted form
       String key = aMap.keys().get( i );
       E e = aMap.getByKey( key );
-      if( !aIndent ) {
-        aSw.writeSpace();
-      }
+      aSw.indSpace();
       if( StridUtils.isValidIdPath( key ) ) {
         aSw.writeAsIs( key );
       }
       else {
         aSw.writeQuotedString( key );
       }
+      // =
       aSw.writeChar( CHAR_EQUAL );
+      // write value
       aKeeper.write( aSw, e );
       if( i != n - 1 ) {
         aSw.writeChar( CHAR_ITEM_SEPARATOR );
-        if( aIndent ) {
-          aSw.writeEol();
-        }
+        aSw.indEol();
       }
     }
+    aSw.indDecLine();
+    aSw.writeChar( CHAR_SET_END );
+  }
+
+  /**
+   * @deprecated use {@link #writeStringMap(IStrioWriter, String, IStringMap, IEntityKeeper)} with
+   *             {@link IStrioWriter#isIndented()} set to <code>true</code> instead
+   */
+  @Deprecated
+  @SuppressWarnings( "javadoc" )
+  public static <E> void writeStringMap( IStrioWriter aSw, String aKeyword, IStringMap<E> aMap,
+      IEntityKeeper<E> aKeeper, boolean aIndent ) {
+    TsNullArgumentRtException.checkNulls( aMap, aKeeper );
     if( aIndent ) {
-      aSw.decNewLine();
+      boolean saved = aSw.isIndented();
+      aSw.setIndented( true );
+      writeStringMap( aSw, aKeyword, aMap, aKeeper );
+      aSw.setIndented( saved );
     }
     else {
-      aSw.writeSpace();
+      writeStringMap( aSw, aKeyword, aMap, aKeeper );
     }
-    aSw.writeChar( CHAR_SET_END );
   }
 
   /**
@@ -876,14 +886,11 @@ public class StrioUtils {
     char chStart = ch;
     char chEnd;
     switch( ch ) {
-      case CHAR_ARRAY_BEGIN:
-        chEnd = CHAR_ARRAY_END;
-        break;
-      case CHAR_SET_BEGIN:
-        chEnd = CHAR_SET_END;
-        break;
-      default:
+      case CHAR_ARRAY_BEGIN -> chEnd = CHAR_ARRAY_END;
+      case CHAR_SET_BEGIN -> chEnd = CHAR_SET_END;
+      default -> {
         return ValidationResult.error( FMT_ERR_LEFT_BRACKET_EXPECTED, Character.valueOf( ch ) );
+      }
     }
     sr.nextChar(); // skipping left (first) bracket already read
     int bracketsLevel = 1;

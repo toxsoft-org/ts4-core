@@ -19,6 +19,33 @@ public interface IStrioWriter
   // Write with indent
 
   /**
+   * Indicates that it is desirable to indent the writing.
+   * <p>
+   * Until set with {@link #setIndented(boolean)} indentation is turned off and method returns <code>false</code>.
+   * <p>
+   * Note: indentation flag is the hint for the {@link IStrioWriter} users, changing flag does not changes writer
+   * behaviour.
+   *
+   * @return boolean - indentation flag<br>
+   *         <b>true</b> - the output should be indented;<br>
+   *         <b>false</b> - write as densely as possible.
+   */
+  boolean isIndented();
+
+  /**
+   * Sets indentation flag {@link #isIndented()}.
+   * <p>
+   * Note: indentation flag is the hint for the {@link IStrioWriter} users, changing flag does not changes writer
+   * behaviour.
+   *
+   * @param aIndent boolean - indentation sign<br>
+   *          <b>true</b> - the output should be indented;<br>
+   *          <b>false</b> - write as densely as possible.
+   * @return boolean - previous state of the indentation flag
+   */
+  boolean setIndented( boolean aIndent );
+
+  /**
    * Возвращает количество пробелов в одном отступе, заданный методом {@link #setIndentSpaces(int)}.
    * <p>
    * Отступы - это пробелы, вставляемые в начале строки вызовом метода {@link #writeEol()}. Данный метод задает
@@ -255,6 +282,10 @@ public interface IStrioWriter
    */
   void writeQuotedString( String aString );
 
+  // ------------------------------------------------------------------------------------
+  // formatted output
+  //
+
   /**
    * Writes formated string to the output.
    * <p>
@@ -278,5 +309,37 @@ public interface IStrioWriter
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   void pl( String aFormatString, Object... aArgs );
+
+  // ------------------------------------------------------------------------------------
+  // inline methods for convenience
+  //
+
+  @SuppressWarnings( "javadoc" )
+  default void indIncLine() {
+    if( isIndented() ) {
+      incNewLine();
+    }
+  }
+
+  @SuppressWarnings( "javadoc" )
+  default void indDecLine() {
+    if( isIndented() ) {
+      decNewLine();
+    }
+  }
+
+  @SuppressWarnings( "javadoc" )
+  default void indEol() {
+    if( isIndented() ) {
+      writeEol();
+    }
+  }
+
+  @SuppressWarnings( "javadoc" )
+  default void indSpace() {
+    if( isIndented() ) {
+      writeSpace();
+    }
+  }
 
 }

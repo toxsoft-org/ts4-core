@@ -43,7 +43,10 @@ public class OptionSetKeeper
    * Indented keeper singleton.
    * <p>
    * Values returned by <code>read()</code> methods may be safely casted to the {@link IOptionSetEdit}.
+   *
+   * @deprecated use {@link #KEEPER} with {@link IStrioWriter#isIndented()} set to <code>true</code> instead
    */
+  @Deprecated
   public static final OptionSetKeeper KEEPER_INDENTED = new OptionSetKeeper( true );
 
   /**
@@ -61,7 +64,9 @@ public class OptionSetKeeper
    *
    * @param aIndented boolean - <code>true</code> to choose indenting keeper
    * @return {@link IEntityKeeper}&lt;{@link IOptionSet}&gt; - the chosen keeper
+   * @deprecated use {@link #KEEPER} with {@link IStrioWriter#isIndented()} set to <code>true</code> instead
    */
+  @Deprecated
   public static final IEntityKeeper<IOptionSet> getInstance( boolean aIndented ) {
     if( aIndented ) {
       return KEEPER_INDENTED;
@@ -69,11 +74,15 @@ public class OptionSetKeeper
     return KEEPER;
   }
 
-  private final boolean indented;
+  private final boolean indented1;
 
   private OptionSetKeeper( boolean aIndented ) {
     super( IOptionSet.class, EEncloseMode.ENCLOSES_KEEPER_IMPLEMENTATION, null );
-    indented = aIndented;
+    indented1 = aIndented;
+  }
+
+  private boolean needIndent( IStrioWriter aSw ) {
+    return indented1 || aSw.isIndented();
   }
 
   @Override
@@ -84,7 +93,7 @@ public class OptionSetKeeper
       aSw.writeChar( CHAR_SET_END );
       return;
     }
-    if( indented ) {
+    if( needIndent( aSw ) ) {
       aSw.incNewLine();
     }
     // write values in form "id = value"
@@ -99,12 +108,12 @@ public class OptionSetKeeper
       AtomicValueKeeper.KEEPER.write( aSw, value );
       if( i < n - 1 ) {
         aSw.writeChar( CHAR_ITEM_SEPARATOR );
-        if( indented ) {
+        if( needIndent( aSw ) ) {
           aSw.writeEol();
         }
       }
     }
-    if( indented ) {
+    if( needIndent( aSw ) ) {
       aSw.decNewLine();
     }
     aSw.writeChar( CHAR_SET_END );

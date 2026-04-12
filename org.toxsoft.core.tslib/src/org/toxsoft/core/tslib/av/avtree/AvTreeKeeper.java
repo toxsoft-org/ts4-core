@@ -30,13 +30,16 @@ import org.toxsoft.core.tslib.coll.primtypes.impl.*;
  * возвращаемое значение можно сразу приводить к {@link IAvTreeEdit}.
  *
  * @author hazard157
+ * @deprecated Use {@link AvTreeKeeperCompact} instead (note: storage formats are NOT compatible)
  */
+@Deprecated
 public class AvTreeKeeper
     extends AbstractEntityKeeper<IAvTree> {
 
   /**
    * Синглтон класса.
    */
+  @Deprecated
   public static final AvTreeKeeper KEEPER = new AvTreeKeeper();
 
   private AvTreeKeeper() {
@@ -113,6 +116,7 @@ public class AvTreeKeeper
   // Реализация методов класса AbstractEntityKeeper
   //
 
+  @Deprecated
   @Override
   protected void doWrite( IStrioWriter aSw, IAvTree aAvTree ) {
     aSw.writeChar( CHAR_SET_BEGIN );
@@ -127,6 +131,7 @@ public class AvTreeKeeper
     aSw.writeChar( CHAR_SET_END );
   }
 
+  @Deprecated
   @Override
   protected IAvTree doRead( IStrioReader aSr ) {
     aSr.ensureChar( CHAR_SET_BEGIN );

@@ -9,20 +9,19 @@ import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Дерево (структура) переменных {@link IAtomicValue}.
+ * Tree-like data structure containing {@link IAtomicValue} leafs.
  * <p>
- * Это рекурсивная структура данных (композит) является узлом дерева. Узел сам же и содержит другие узлы. Каждый узел
- * может быть корнем дерева. В каждом узле {@link IAvTree} кроме дочерных узлов {@link #nodes()}, находятся и поля
- * данных {@link #fields()}, оформленные в виде {@link IOptionSet}.
+ * This is a node containing other {@link #nodes()} and leafs fields as an option set {@link #fields()}.
+ * <p>
+ * TODO describe node as array<br>
+ * TODO describe what is structure of a node
  *
  * @author hazard157
  */
 public interface IAvTree {
 
   /**
-   * "Нулевое" дерево значений, не содержит в себе ничего, и его нельзя редактировать.
-   * <p>
-   * Все методы редактирования выбрасывают исключение {@link TsNullObjectErrorRtException}.
+   * Singleton of uneditable empty node throwing {@link TsNullObjectErrorRtException} in mutator methods.
    */
   IAvTreeEdit NULL = new InternalNullAvTreeEdit();
 

@@ -69,6 +69,11 @@ public class StrioWriter
   private char[] numBuf = new char[32];
 
   /**
+   * Value of {@link #isIndented()} flag.
+   */
+  private boolean indented = false;
+
+  /**
    * The number of spaces in the indent.
    */
   private int indentSpaces = 2;
@@ -159,6 +164,18 @@ public class StrioWriter
   // ------------------------------------------------------------------------------------
   // IStridWriter
   //
+
+  @Override
+  public boolean isIndented() {
+    return indented;
+  }
+
+  @Override
+  public boolean setIndented( boolean aIndent ) {
+    boolean saved = indented;
+    indented = aIndent;
+    return saved;
+  }
 
   @Override
   public void setIndentSpaces( int aSpacesCount ) {
