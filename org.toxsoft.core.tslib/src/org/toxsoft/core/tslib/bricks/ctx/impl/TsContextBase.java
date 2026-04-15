@@ -245,14 +245,14 @@ public class TsContextBase<P extends ITsContextRo>
   }
 
   @Override
-  public <T> void putFixed( Class<T> aClass, T aRef ) {
+  final public <T> void putFixed( Class<T> aClass, T aRef ) {
     TsNullArgumentRtException.checkNull( aClass );
     String name = aClass.getName();
     putFixed( name, aRef );
   }
 
   @Override
-  public void putFixed( String aName, Object aRef ) {
+  final public void putFixed( String aName, Object aRef ) {
     TsNullArgumentRtException.checkNulls( aName, aRef );
     TsItemAlreadyExistsRtException.checkFalse( refsMap.hasKey( aName ) );
     refsMap.put( aName, aRef );
