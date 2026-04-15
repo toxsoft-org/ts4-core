@@ -36,6 +36,7 @@ public interface ITsContext
    * @param aClass {@link Class} - the key is the type of the reference
    * @param aRef Object - the reference
    * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalStateRtException attempt to change existing fixed reference
    */
   <T> void put( Class<T> aClass, T aRef );
 
@@ -47,8 +48,34 @@ public interface ITsContext
    * @param aName String - the String key
    * @param aRef Object - the reference
    * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalStateRtException attempt to change existing fixed reference
    */
   void put( String aName, Object aRef );
+
+  /**
+   * Puts non-existing reference to the map so it can not be edited or removed.
+   * <p>
+   * The reference is placed in this context, becoming available to child contexts, but not to the parent.
+   *
+   * @param <T> - the reference type
+   * @param aClass {@link Class} - the key is the type of the reference
+   * @param aRef Object - the reference
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemAlreadyExistsRtException the reference with the same name already exists
+   */
+  <T> void putFixed( Class<T> aClass, T aRef );
+
+  /**
+   * Puts non-existing reference to the map so it can not be edited or removed.
+   * <p>
+   * The reference is placed in this context, becoming available to child contexts, but not to the parent.
+   *
+   * @param aName String - the String key
+   * @param aRef Object - the reference
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemAlreadyExistsRtException the reference with the same name already exists
+   */
+  void putFixed( String aName, Object aRef );
 
   /**
    * Removes the reference from this context.
@@ -57,6 +84,7 @@ public interface ITsContext
    *
    * @param aClass {@link Class} - the key
    * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalStateRtException attempt to remove existing fixed reference
    */
   void remove( Class<?> aClass );
 
@@ -67,6 +95,7 @@ public interface ITsContext
    *
    * @param aName String - the String key
    * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalStateRtException attempt to remove existing fixed reference
    */
   void remove( String aName );
 

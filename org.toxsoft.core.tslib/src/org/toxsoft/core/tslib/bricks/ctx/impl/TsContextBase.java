@@ -57,8 +57,9 @@ public class TsContextBase<P extends ITsContextRo>
 
   private final WeakRefListenersList<ITsContextListener> listeners = new WeakRefListenersList<>();
 
-  private final ContextOptions         ops     = new ContextOptions();
-  private final IStringMapEdit<Object> refsMap = new StringMap<>();
+  private final ContextOptions         ops         = new ContextOptions();
+  private final IStringMapEdit<Object> refsMap     = new StringMap<>();
+  private final IStringListEdit        fixedRefIds = new StringArrayList();
 
   private int     pauseCounter  = 0;
   private boolean refWasChanged = false;
@@ -232,13 +233,30 @@ public class TsContextBase<P extends ITsContextRo>
   final public <T> void put( Class<T> aClass, T aRef ) {
     TsNullArgumentRtException.checkNull( aClass );
     String name = aClass.getName();
-    refsMap.put( name, aRef );
-    fireContextRefChanged( name, aRef );
+    put( name, aRef );
   }
 
   @Override
   final public void put( String aName, Object aRef ) {
+    TsNullArgumentRtException.checkNulls( aName, aRef );
+    TsIllegalStateRtException.checkTrue( fixedRefIds.hasElem( aName ) );
     refsMap.put( aName, aRef );
+    fireContextRefChanged( aName, aRef );
+  }
+
+  @Override
+  public <T> void putFixed( Class<T> aClass, T aRef ) {
+    TsNullArgumentRtException.checkNull( aClass );
+    String name = aClass.getName();
+    putFixed( name, aRef );
+  }
+
+  @Override
+  public void putFixed( String aName, Object aRef ) {
+    TsNullArgumentRtException.checkNulls( aName, aRef );
+    TsItemAlreadyExistsRtException.checkFalse( refsMap.hasKey( aName ) );
+    refsMap.put( aName, aRef );
+    fixedRefIds.add( aName );
     fireContextRefChanged( aName, aRef );
   }
 
@@ -246,13 +264,12 @@ public class TsContextBase<P extends ITsContextRo>
   final public void remove( Class<?> aClass ) {
     TsNullArgumentRtException.checkNull( aClass );
     String name = aClass.getName();
-    if( refsMap.removeByKey( name ) != null ) {
-      fireContextRefChanged( name, null );
-    }
+    remove( name );
   }
 
   @Override
   final public void remove( String aName ) {
+    TsIllegalStateRtException.checkTrue( fixedRefIds.hasElem( aName ) );
     if( refsMap.removeByKey( aName ) != null ) {
       fireContextRefChanged( aName, null );
     }
