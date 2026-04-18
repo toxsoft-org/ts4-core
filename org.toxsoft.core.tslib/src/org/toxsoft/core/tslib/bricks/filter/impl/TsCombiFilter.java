@@ -26,18 +26,16 @@ public class TsCombiFilter<T>
   // Instance creation
   //
 
-  // TODO TRANSLATE
-
   /**
-   * Создает фильтра с указанием всех параметров и настроек.
+   * Creates filter specifying all necessary information.
    *
    * @param <T> - type of filtered objects
-   * @param aParams {@link ITsCombiFilterParams} - параметры создаваемого фильтра
-   * @param aFacReg ITsFilterFactoriesRegistry&lt;T&gt; - реестр фабрик единичных фильтров
-   * @param aCompleteEvaluation boolean - признак режима полных вычислении
-   * @return {@link ITsFilter}&lt;T&gt; - созданный фильтр
-   * @throws TsNullArgumentRtException любой аргумент = null
-   * @throws TsItemNotFoundRtException фабрика единичного фильтра не зарегистрирована
+   * @param aParams {@link ITsCombiFilterParams} - parameter of the filter to be created
+   * @param aFacReg ITsFilterFactoriesRegistry&lt;T&gt; - single filter factories registry to use
+   * @param aCompleteEvaluation boolean - the full calculation flag
+   * @return {@link ITsFilter}&lt;T&gt; - created filter instance
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsItemNotFoundRtException parameters references to the filter ID not registered in the supplied registry
    */
   public static <T> ITsFilter<T> create( ITsCombiFilterParams aParams, ITsFilterFactoriesRegistry<T> aFacReg,
       boolean aCompleteEvaluation ) {
@@ -51,21 +49,21 @@ public class TsCombiFilter<T>
   }
 
   /**
-   * Создает фильтр с указанием фабрик в режиме неполных вычислении.
+   * Creates filter in the incomplete calculation mode.
    *
    * @param <T> - type of filtered objects
-   * @param aParams {@link ITsCombiFilterParams} - параметры создаваемого фильтра
-   * @param aFacReg ITsFilterFactoriesRegistry&lt;T&gt; - реестр фабрик единичных фильтров
-   * @return {@link ITsFilter}&lt;T&gt; - созданный фильтр
+   * @param aParams {@link ITsCombiFilterParams} - parameter of the filter to be created
+   * @param aFacReg ITsFilterFactoriesRegistry&lt;T&gt; - single filter factories registry to use
+   * @return {@link ITsFilter}&lt;T&gt; - created filter instance
    * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsItemNotFoundRtException фабрика единичного фильтра не зарегистрирована
+   * @throws TsItemNotFoundRtException parameters references to the filter ID not registered in the supplied registry
    */
   public static <T> ITsFilter<T> create( ITsCombiFilterParams aParams, ITsFilterFactoriesRegistry<T> aFacReg ) {
     return create( aParams, aFacReg, false );
   }
 
   /**
-   * Hidden constructor correctl initializes all fields.
+   * Hidden constructor correctly initializes all fields.
    *
    * @param aParams {@link ITsCombiFilterParams} - parameters of filter creation
    * @param aFacReg ITsFilterFactoriesRegistry&lt;T&gt; - the factory used for each single filter creation
@@ -77,15 +75,14 @@ public class TsCombiFilter<T>
     TsNullArgumentRtException.checkNulls( aParams, aFacReg );
     completeEvaluation = aCompleteEvaluation;
     params = aParams;
-    // создание фильтров
-    if( aParams.isSingle() ) { // создание единичного фильтра
-      // если
+    // create filter
+    if( aParams.isSingle() ) { // single filter
       ITsSingleFilterFactory<T> f = aFacReg.get( aParams.single().typeId() );
       singleFilter = f.create( aParams.single() );
       left = null;
       right = null;
     }
-    else { // создание поли-фильтра
+    else { // combi filter
       singleFilter = null;
       left = new TsCombiFilter<>( aParams.left(), aFacReg, aCompleteEvaluation );
       right = new TsCombiFilter<>( aParams.right(), aFacReg, aCompleteEvaluation );

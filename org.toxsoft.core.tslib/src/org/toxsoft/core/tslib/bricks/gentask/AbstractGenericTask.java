@@ -1,6 +1,7 @@
 package org.toxsoft.core.tslib.bricks.gentask;
 
 import static org.toxsoft.core.tslib.bricks.gentask.IGenericTaskConstants.*;
+import static org.toxsoft.core.tslib.bricks.gentask.ITsResources.*;
 
 import java.util.concurrent.*;
 
@@ -37,10 +38,13 @@ public abstract class AbstractGenericTask
   // implementation
   //
 
-  private ITsContext prepareOutput( ITsContextRo aIn ) {
+  private ITsContext prepareOutput( ITsContextRo aIn, boolean aIsSync ) {
     ITsContext out = new TsContext();
     REFDEF_OUT_INPUT.setRef( out, aIn );
     REFDEF_OUT_TASK_INFO.setRef( out, taskInfo );
+    String msgFmt = aIsSync ? FMT_WARN_NO_SYNC_TASK_VR : FMT_WARN_NO_ASYNC_TASK_VR;
+    ValidationResult vr = ValidationResult.warn( msgFmt, taskInfo.id() );
+    REFDEF_OUT_TASK_RESULT.setRef( out, vr );
     return out;
   }
 
@@ -74,7 +78,7 @@ public abstract class AbstractGenericTask
   final public Future<ITsContextRo> runAsync( ITsContextRo aIn ) {
     TsValidationFailedRtException.checkError( canRun( aIn ) );
     TsIllegalArgumentRtException.checkTrue( isRunning() );
-    ITsContext out = prepareOutput( aIn );
+    ITsContext out = prepareOutput( aIn, false );
     Future<ITsContextRo> future = doRunAsync( aIn, out );
     asyncRunning = future;
     return future;
@@ -85,7 +89,7 @@ public abstract class AbstractGenericTask
     TsValidationFailedRtException.checkError( canRun( aIn ) );
     TsIllegalStateRtException.checkTrue( isSyncRun ); // no recursive calls allowed!
     TsIllegalArgumentRtException.checkTrue( isRunning() );
-    ITsContext out = prepareOutput( aIn );
+    ITsContext out = prepareOutput( aIn, true );
     isSyncRun = true;
     try {
       doRunSync( aIn, out );

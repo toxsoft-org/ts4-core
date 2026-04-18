@@ -1,20 +1,15 @@
 package org.toxsoft.core.tslib.bricks.filter.impl;
 
-import java.io.Serializable;
+import java.io.*;
 
-import org.toxsoft.core.tslib.av.opset.IOptionSet;
-import org.toxsoft.core.tslib.bricks.filter.ITsCombiFilterParams;
-import org.toxsoft.core.tslib.bricks.filter.ITsSingleFilterParams;
+import org.toxsoft.core.tslib.bricks.filter.*;
 import org.toxsoft.core.tslib.math.logicop.*;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.errors.TsUnsupportedFeatureRtException;
-
-// TRANSLATE
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Реализация параметров составного фильтра {@link ITsCombiFilterParams}.
+ * {@link ITsCombiFilterParams} implementation.
  * <p>
- * Экземпляры класса (точнее, скрытых наследников) создаются статическими конструкторами <code>createXxx()</code>.
+ * Instances of the class (actually, hidden descendants) are created by static constructors <code>createXxx()</code>.
  *
  * @author hazard157
  */
@@ -30,7 +25,19 @@ public abstract class TsCombiFilterParams
 
     private final ITsSingleFilterParams params;
 
-    FilterParamsSingle( ITsSingleFilterParams aParams, boolean aIsInverted ) {
+    static ITsCombiFilterParams create( ITsSingleFilterParams aParams, boolean aIsInverted ) {
+      if( !aIsInverted ) {
+        if( aParams == ITsSingleFilterParams.ALL ) {
+          return ITsCombiFilterParams.ALL;
+        }
+        if( aParams == ITsSingleFilterParams.NONE ) {
+          return ITsCombiFilterParams.NONE;
+        }
+      }
+      return new FilterParamsSingle( aParams, aIsInverted );
+    }
+
+    private FilterParamsSingle( ITsSingleFilterParams aParams, boolean aIsInverted ) {
       super( aIsInverted );
       params = TsNullArgumentRtException.checkNull( aParams );
     }
@@ -112,34 +119,38 @@ public abstract class TsCombiFilterParams
   }
 
   // ------------------------------------------------------------------------------------
-  // Создание экземпляров класса
+  // Instance creation
   //
 
   /**
-   * Создает параметры поли-фильтра, состоящего из одного единичного фильтра.
+   * Creates {@link ITsCombiFilterParams} instance as a single filter.
+   * <p>
+   * In the corresponding case, returns one of two constants {@link ITsCombiFilterParams#NONE} or
+   * {@link ITsCombiFilterParams#ALL}.
    *
-   * @param aParams {@link ITsSingleFilterParams} - параметры единичного фильтра
-   * @param aIsResultInverted boolean - признак инвертирования результата
-   * @return {@link ITsCombiFilterParams} - созданные параметры поли-фильтра
+   * @param aParams {@link ITsSingleFilterParams} - single filter parameters
+   * @param aIsResultInverted boolean - the flag of the NOT unary operation
+   * @return {@link ITsCombiFilterParams} - created instance or constant ALL or NONE
    */
   public static ITsCombiFilterParams createSingle( ITsSingleFilterParams aParams, boolean aIsResultInverted ) {
     TsNullArgumentRtException.checkNull( aParams );
-    return new FilterParamsSingle( aParams, aIsResultInverted );
+    return FilterParamsSingle.create( aParams, aIsResultInverted );
   }
 
   /**
-   * Создает параметры поли-фильтра, состоящего из одного единичного фильтра.
+   * Creates {@link ITsCombiFilterParams} instance as a single filter.
    * <p>
-   * Равнозначно вызову метода {@link #createSingle(ITsSingleFilterParams, boolean) createSingle(aParams,
-   * <b>false</b>)}.
+   * Is the same as call to {@link #createSingle(ITsSingleFilterParams, boolean) createSingle(aParams, <b>false</b>)}.
    *
-   * @param aParams {@link IOptionSet} - параметры единичного фильтра
-   * @return {@link ITsCombiFilterParams} - созданные параметры поли-фильтра
+   * @param aParams {@link ITsSingleFilterParams} - single filter parameters
+   * @return {@link ITsCombiFilterParams} - created instance or constant ALL or NONE
    */
   public static ITsCombiFilterParams createSingle( ITsSingleFilterParams aParams ) {
     TsNullArgumentRtException.checkNull( aParams );
-    return new FilterParamsSingle( aParams, false );
+    return FilterParamsSingle.create( aParams, false );
   }
+
+  // TODO TRANSLATE
 
   /**
    * Создает параметры поли-фильтра из двух поли-фильтров и логической операции.
@@ -187,8 +198,8 @@ public abstract class TsCombiFilterParams
   public static ITsCombiFilterParams createCombi( ITsSingleFilterParams aLeft, ELogicalOp aOp,
       ITsSingleFilterParams aRight, boolean aIsResultInverted ) {
     TsNullArgumentRtException.checkNulls( aLeft, aOp, aRight );
-    ITsCombiFilterParams sf1 = new FilterParamsSingle( aLeft, false );
-    ITsCombiFilterParams sf2 = new FilterParamsSingle( aRight, false );
+    ITsCombiFilterParams sf1 = FilterParamsSingle.create( aLeft, false );
+    ITsCombiFilterParams sf2 = FilterParamsSingle.create( aRight, false );
     return new FilterParamsCombi( sf1, aOp, sf2, aIsResultInverted );
   }
 
@@ -204,8 +215,8 @@ public abstract class TsCombiFilterParams
   public static ITsCombiFilterParams createCombi( ITsSingleFilterParams aLeft, ELogicalOp aOp,
       ITsSingleFilterParams aRight ) {
     TsNullArgumentRtException.checkNulls( aLeft, aOp, aRight );
-    ITsCombiFilterParams sf1 = new FilterParamsSingle( aLeft, false );
-    ITsCombiFilterParams sf2 = new FilterParamsSingle( aRight, false );
+    ITsCombiFilterParams sf1 = FilterParamsSingle.create( aLeft, false );
+    ITsCombiFilterParams sf2 = FilterParamsSingle.create( aRight, false );
     return new FilterParamsCombi( sf1, aOp, sf2, false );
   }
 
@@ -222,7 +233,7 @@ public abstract class TsCombiFilterParams
   public static ITsCombiFilterParams createCombi( ITsSingleFilterParams aLeft, ELogicalOp aOp,
       ITsCombiFilterParams aRight, boolean aIsResultInverted ) {
     TsNullArgumentRtException.checkNulls( aLeft, aOp, aRight );
-    ITsCombiFilterParams sf = new FilterParamsSingle( aLeft, false );
+    ITsCombiFilterParams sf = FilterParamsSingle.create( aLeft, false );
     return new FilterParamsCombi( sf, aOp, aRight, aIsResultInverted );
   }
 
@@ -256,7 +267,7 @@ public abstract class TsCombiFilterParams
   public static ITsCombiFilterParams createCombi( ITsCombiFilterParams aLeft, ELogicalOp aOp,
       ITsSingleFilterParams aRight, boolean aIsResultInverted ) {
     TsNullArgumentRtException.checkNulls( aLeft, aOp, aRight );
-    ITsCombiFilterParams sf = new FilterParamsSingle( aRight, false );
+    ITsCombiFilterParams sf = FilterParamsSingle.create( aRight, false );
     return new FilterParamsCombi( aLeft, aOp, sf, aIsResultInverted );
   }
 

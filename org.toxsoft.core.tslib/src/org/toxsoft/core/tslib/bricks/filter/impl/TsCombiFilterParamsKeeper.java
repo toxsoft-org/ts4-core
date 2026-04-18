@@ -1,12 +1,14 @@
 package org.toxsoft.core.tslib.bricks.filter.impl;
 
+import org.toxsoft.core.tslib.av.*;
+import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.bricks.filter.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.math.logicop.*;
 
 /**
- * Хранитель объектов типа {@link ITsCombiFilterParams}.
+ * Keeper of {@link ITsCombiFilterParams}.
  *
  * @author hazard157
  */
@@ -14,9 +16,24 @@ public class TsCombiFilterParamsKeeper
     extends AbstractEntityKeeper<ITsCombiFilterParams> {
 
   /**
+   * Registsred keeper ID.
+   */
+  public static final String KEEPER_ID = "TsCombiFilterParams"; //$NON-NLS-1$
+
+  /**
    * Keeper singleton.
    */
   public static final IEntityKeeper<ITsCombiFilterParams> KEEPER = new TsCombiFilterParamsKeeper();
+
+  /**
+   * Kept value of the constant {@link ITsCombiFilterParams#NONE}.
+   */
+  public static final IAtomicValue AV_NONE = AvUtils.avValobj( ITsCombiFilterParams.NONE, KEEPER, KEEPER_ID );
+
+  /**
+   * Kept value of the constant {@link ITsCombiFilterParams#ALL}.
+   */
+  public static final IAtomicValue AV_ALL = AvUtils.avValobj( ITsCombiFilterParams.ALL, KEEPER, KEEPER_ID );
 
   private TsCombiFilterParamsKeeper() {
     super( ITsCombiFilterParams.class, EEncloseMode.ENCLOSES_BASE_CLASS, null );

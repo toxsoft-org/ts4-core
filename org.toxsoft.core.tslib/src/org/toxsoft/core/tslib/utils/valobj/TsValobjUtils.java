@@ -12,6 +12,7 @@ import org.toxsoft.core.tslib.av.opset.impl.*;
 import org.toxsoft.core.tslib.av.temporal.*;
 import org.toxsoft.core.tslib.bricks.d2.*;
 import org.toxsoft.core.tslib.bricks.d2.helpers.*;
+import org.toxsoft.core.tslib.bricks.filter.impl.*;
 import org.toxsoft.core.tslib.bricks.geometry.impl.*;
 import org.toxsoft.core.tslib.bricks.keeper.*;
 import org.toxsoft.core.tslib.bricks.keeper.std.*;
@@ -124,6 +125,7 @@ public class TsValobjUtils {
     registerKeeper( ED2Quadrant.KEEPER_ID, ED2Quadrant.KEEPER );
     registerKeeper( EQueryParamUsage.KEEPER_ID, EQueryParamUsage.KEEPER );
     registerKeeper( EGwidSelectionOption.KEEPER_ID, EGwidSelectionOption.KEEPER );
+    registerKeeper( TsCombiFilterParamsKeeper.KEEPER_ID, TsCombiFilterParamsKeeper.KEEPER );
   }
 
   // ------------------------------------------------------------------------------------
