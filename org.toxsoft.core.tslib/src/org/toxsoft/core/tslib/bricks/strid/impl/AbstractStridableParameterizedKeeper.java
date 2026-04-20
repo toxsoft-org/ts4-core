@@ -44,12 +44,10 @@ public abstract class AbstractStridableParameterizedKeeper<T extends IStridable 
   protected void doWrite( IStrioWriter aSw, T aEntity ) {
     aSw.writeAsIs( aEntity.id() );
     aSw.writeSeparatorChar();
-    if( indented ) {
-      OptionSetKeeper.KEEPER_INDENTED.write( aSw, aEntity.params() );
-    }
-    else {
-      OptionSetKeeper.KEEPER.write( aSw, aEntity.params() );
-    }
+    boolean saved = aSw.isIndented();
+    aSw.setIndented( indented );
+    OptionSetKeeper.KEEPER.write( aSw, aEntity.params() );
+    aSw.setIndented( saved );
   }
 
   @Override

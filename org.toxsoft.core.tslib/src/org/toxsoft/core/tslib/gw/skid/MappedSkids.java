@@ -40,7 +40,7 @@ public sealed class MappedSkids
 
         @Override
         protected void doWrite( IStrioWriter aSw, IMappedSkids aEntity ) {
-          StrioUtils.writeStringMap( aSw, EMPTY_STRING, aEntity.map(), SkidListKeeper.KEEPER, false );
+          StrioUtils.writeStringMap( aSw, EMPTY_STRING, aEntity.map(), SkidListKeeper.KEEPER );
         }
 
         @Override

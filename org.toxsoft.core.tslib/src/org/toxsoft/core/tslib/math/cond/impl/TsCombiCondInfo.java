@@ -41,7 +41,7 @@ public class TsCombiCondInfo
           StrioUtils.writeKeywordHeader( aSw, KW_ROOT_NODE );
           TsCombiCondNode.KEEPER.write( aSw, aEntity.rootNode() );
           aSw.writeSeparatorChar();
-          StrioUtils.writeStringMap( aSw, KW_SINGLES, aEntity.singleInfos(), TsSingleCondInfo.KEEPER, true );
+          StrioUtils.writeStringMap( aSw, KW_SINGLES, aEntity.singleInfos(), TsSingleCondInfo.KEEPER );
         }
 
         @Override

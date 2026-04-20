@@ -4,11 +4,6 @@ import java.util.*;
 
 /**
  * Constants from <code>IXxxResources</code> to resources in <code>messages_xx_YY.properties</code> dispatcher.
- * <p>
- * This version of <code>Messages</code> class is to be used when localized texts are needed.
- * <p>
- * Note: while {@link Messages_Sk} may always be used instead of this file as a template, using this file is kind of
- * optimization because this class does not creates one more {@link ResourceBundle} instance.
  *
  * @author hazard157
  */

@@ -57,7 +57,7 @@ public class AppPreferencesOsRegistryStorage
   @Override
   protected void saveBundle( String aBundleId, IOptionSet aParams ) {
     Preferences prefsNode = Preferences.userRoot().node( rootNodePath );
-    String s = OptionSetKeeper.KEEPER_INDENTED.ent2str( aParams );
+    String s = OptionSetKeeper.KEEPER.ent2str( aParams );
     prefsNode.put( aBundleId, s );
   }
 
