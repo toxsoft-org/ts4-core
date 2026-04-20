@@ -16,7 +16,7 @@ public class TsCombiFilterParamsKeeper
     extends AbstractEntityKeeper<ITsCombiFilterParams> {
 
   /**
-   * Registsred keeper ID.
+   * Registered keeper ID.
    */
   public static final String KEEPER_ID = "TsCombiFilterParams"; //$NON-NLS-1$
 
