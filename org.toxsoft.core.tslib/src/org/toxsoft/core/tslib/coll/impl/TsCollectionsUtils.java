@@ -489,11 +489,68 @@ public final class TsCollectionsUtils {
   }
 
   /**
-   * Subtracts the values of aList2 from aList1,
+   * Intersects the values of aList2 from aList1,
    *
    * @param <T> - type of elements in lists
    * @param aList1 {@link IListEdit} - list to be edited
-   * @param aList2 {@link IList} - elements to be subtracted
+   * @param aList2 {@link IList} - elements to be intersected
+   * @return {@link IListEdit} - always aList1
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static <T> IListEdit<T> intersection( IListEdit<T> aList1, IList<T> aList2 ) {
+    TsNullArgumentRtException.checkNulls( aList1, aList2 );
+    // set l1 smaller, l2 - larger list
+    IList<T> l1 = aList1, l2 = aList2;
+    if( aList2.size() < aList1.size() ) {
+      l1 = aList2;
+      l2 = aList1;
+    }
+    // create intersection
+    IListEdit<T> llResult = new ElemLinkedBundleList<>();
+    for( T e : l1 ) {
+      if( !llResult.hasElem( e ) ) {
+        if( l2.hasElem( e ) ) {
+          llResult.add( e );
+        }
+      }
+    }
+    return llResult;
+  }
+
+  /**
+   * Returns the new list as a result of intersection of the values of aList2 from aList1,
+   *
+   * @param aList1 {@link IStringList} - first list
+   * @param aList2 {@link IStringList} - second list
+   * @return {@link IStringListEdit} - always aList1
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static IStringListEdit intersection( IStringList aList1, IStringList aList2 ) {
+    TsNullArgumentRtException.checkNulls( aList1, aList2 );
+    // set l1 smaller, l2 - larger list
+    IStringList l1 = aList1, l2 = aList2;
+    if( aList2.size() < aList1.size() ) {
+      l1 = aList2;
+      l2 = aList1;
+    }
+    // create intersection
+    IStringListEdit llResult = new StringLinkedBundleList();
+    for( String e : l1 ) {
+      if( !llResult.hasElem( e ) ) {
+        if( l2.hasElem( e ) ) {
+          llResult.add( e );
+        }
+      }
+    }
+    return llResult;
+  }
+
+  /**
+   * Returns the new list as a result of intersection of the values of aList2 from aList1,
+   *
+   * @param <T> - type of elements in lists
+   * @param aList1 {@link IStringList} - first list
+   * @param aList2 {@link IStringList} - second list
    * @return {@link IListEdit} - always aList1
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
@@ -501,7 +558,7 @@ public final class TsCollectionsUtils {
     TsNullArgumentRtException.checkNulls( aList1, aList2 );
     for( int i = 0, n = aList2.size(); i < n; i++ ) {
       T value = aList2.get( i );
-      // remove all occurences of element from the list
+      // remove all occurrences of element from the list
       while( aList1.remove( value ) >= 0 ) {
         // nop
       }
