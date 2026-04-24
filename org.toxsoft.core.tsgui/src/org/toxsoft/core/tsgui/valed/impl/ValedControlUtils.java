@@ -109,7 +109,7 @@ public class ValedControlUtils {
    * user closes dialog box with OK button. When dialog was cancelled {@link Pair#left()} contains the initial
    * <code>aValue</code>.
    * <p>
-   * As a VALED creation context {@link ITsDialogInfo#tsContext()} is used.
+   * {@link ITsDialogInfo#tsContext()} is used as a VALED creation context.
    *
    * @param <V> - the edited value type
    * @param aValue &lt;V&gt; - initial value, may be <code>null</code>

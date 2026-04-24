@@ -1,7 +1,6 @@
 package org.toxsoft.core.tsgui.dialogs.datarec;
 
-import org.eclipse.swt.widgets.DateTime;
-import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.*;
 
 /**
  * {@link TsDialog} framework constants.
@@ -21,9 +20,9 @@ public interface ITsDialogConstants {
   int DF_H_SCROLLER = 0x00000002;
 
   /**
-   * Dialog flag: make dialog non-modal (by default dialogs ar modal).
+   * Dialog flag: make dialog non-modal (by default dialogs are modal).
    * <p>
-   * Note: methods <code>{@link TsDialog},execXxx()</code> return immediately leaving open dialog window.
+   * Note: methods <code>{@link TsDialog},execXxx()</code> return immediately leaving dialog window open.
    */
   int DF_NONMODAL = 0x00000004;
 

@@ -137,13 +137,11 @@ public class TsDialogInfo
   // Class API
   //
 
-  // TODO TRANSLATE
-
   /**
-   * Задает минимальный размер панели содержимого диалога.
+   * Sits minimal size of the dialog content area.
    *
-   * @param aSize {@link ITsPoint} - минимальный размер панели содержимого диалога
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aSize {@link ITsPoint} - content area minimal size
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public void setMinSize( ITsPoint aSize ) {
     TsNullArgumentRtException.checkNull( aSize );
@@ -151,15 +149,17 @@ public class TsDialogInfo
   }
 
   /**
-   * Задает максимальный размер панели содержимого диалога.
+   * Sits maximal size of the dialog content area.
    *
-   * @param aSize {@link ITsPoint} - максимальный размер панели содержимого диалога
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aSize {@link ITsPoint} - content area maximal size
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public void setMaxSize( ITsPoint aSize ) {
     TsNullArgumentRtException.checkNull( aSize );
     maxSize = aSize;
   }
+
+  // TODO TRANSLATE
 
   /**
    * Задает минимальный размер панели диалога относительно родительского окна.
@@ -173,8 +173,10 @@ public class TsDialogInfo
    *
    * @param aWidthPercent int - ширина панели диалога в процентах от ширины родительского окна
    * @param aHeightPercent - высота панели диалога в процентах от высоты родительского окна
+   * @throws TsIllegalStateRtException {@link #shell()} is <code>null</code>, as not set explicitly
    */
   public void setMinSizeShellRelative( int aWidthPercent, int aHeightPercent ) {
+    TsIllegalStateRtException.checkNull( shell );
     int shellW, shellH;
     shellW = shell.getBounds().width;
     shellH = shell.getBounds().height;
@@ -195,8 +197,10 @@ public class TsDialogInfo
    *
    * @param aWidthPercent int - ширина панели диалога в процентах от ширины родительского окна
    * @param aHeightPercent - высота панели диалога в процентах от высоты родительского окна
+   * @throws TsIllegalStateRtException {@link #shell()} is <code>null</code>, as not set explicitly
    */
   public void setMaxSizeShellRelative( int aWidthPercent, int aHeightPercent ) {
+    TsIllegalStateRtException.checkNull( shell );
     int shellW, shellH;
     shellW = shell.getBounds().width;
     shellH = shell.getBounds().height;

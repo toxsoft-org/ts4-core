@@ -198,7 +198,9 @@ public abstract class AbstractAvWrapperValedControl<T>
   /**
    * Implementation must resolve value from underline VALED to atomic value.
    * <p>
-   * This is the value returned by underlying {@link IValedControl#getValue()}.
+   * The argument is the non-<code>null</code> value returned by underlying {@link IValedControl#getValue()}. If wrapped
+   * VALED returns <code>null</code>, this method is not called, rather {@link IAtomicValue#NULL} is returned by the
+   * {@link #getValue()} method.
    * <p>
    * Note that method must return either {@link IAtomicValue#NULL} or value of {@link #atomicType}.
    *
@@ -208,7 +210,7 @@ public abstract class AbstractAvWrapperValedControl<T>
   protected abstract IAtomicValue tv2av( T aTypedValue );
 
   /**
-   * Implementation must convert atomic value to underlying valed value.
+   * Implementation must convert atomic value to underlying VALED value.
    * <p>
    * Note that argument is always of {@link #atomicType}.
    *
