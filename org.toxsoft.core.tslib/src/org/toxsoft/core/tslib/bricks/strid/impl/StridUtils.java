@@ -499,11 +499,11 @@ public final class StridUtils {
    * second one accepts an empty string.
    *
    * @param aIdPath String - an IDpath
-   * @return {@link IStringList} - components (IDnames) of the argument
+   * @return {@link IStringListEdit} - editable list of components (IDnames) of the argument
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException aIdPath is not an IDpath
    */
-  public static IStringList getComponents( String aIdPath ) {
+  public static IStringListEdit getComponents( String aIdPath ) {
     IStringListEdit result = new StringArrayList();
     if( isIdAPath( aIdPath ) ) {
       int ind1 = -1, ind2 = 0;

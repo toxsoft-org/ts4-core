@@ -28,7 +28,7 @@ public interface IM5PanelCreator<T> {
    * Default implementation creates {@link M5DefaultEntityViewerPanel}.
    *
    * @param aContext {@link ITsGuiContext} - panel creation context and parameters
-   * @return {@link IM5EntityPanel} - new instantce of viewer panel
+   * @return {@link IM5EntityPanel} - new instance of viewer panel
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   IM5EntityPanel<T> createEntityViewerPanel( ITsGuiContext aContext );
@@ -45,7 +45,7 @@ public interface IM5PanelCreator<T> {
    *
    * @param aContext {@link ITsGuiContext} - panel creation context and parameters
    * @param aLifecycleManager {@link IM5LifecycleManager} - manager to create/edit the entity, may be <code>null</code>
-   * @return {@link IM5EntityPanel} - new instantce of editor panel
+   * @return {@link IM5EntityPanel} - new instance of editor panel
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   IM5EntityPanel<T> createEntityEditorPanel( ITsGuiContext aContext, IM5LifecycleManager<T> aLifecycleManager );
@@ -58,7 +58,7 @@ public interface IM5PanelCreator<T> {
    * Default implementation creates {@link M5DefaultEntityViewerPanel}.
    *
    * @param aContext {@link ITsGuiContext} - panel creation context and parameters
-   * @return {@link IM5EntityPanel} - new instantce of details panel
+   * @return {@link IM5EntityPanel} - new instance of details panel
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   IM5EntityPanel<T> createEntityDetailsPanel( ITsGuiContext aContext );
@@ -70,7 +70,7 @@ public interface IM5PanelCreator<T> {
    * <p>
    * Default implementation creates {@link M5DefaultEntityControlledPanel}.
    * <p>
-   * If lefecyle manager is specified as <code>null</code>, it must be set to non-<code>null</code> value by
+   * If lifecycle manager is specified as <code>null</code>, it must be set to non-<code>null</code> value by
    * {@link IM5EntityPanel#setLifecycleManager(IM5LifecycleManager)} before actual use of created panel.
    * <p>
    * This method creates {@link M5EntityPanelWithValeds} editor with the specified controller. If controller is
@@ -79,7 +79,7 @@ public interface IM5PanelCreator<T> {
    * @param aContext {@link ITsGuiContext} - panel creation context and parameters
    * @param aLifecycleManager {@link IM5LifecycleManager} - manager to create/edit the entity, may be <code>null</code>
    * @param aController {@link M5EntityPanelWithValedsController} - the controller or <code>null</code> for default
-   * @return {@link IM5EntityPanel} - new instantce of controlled editor panel
+   * @return {@link IM5EntityPanel} - new instance of controlled editor panel
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   IM5EntityPanel<T> createEntityControlledPanel( ITsGuiContext aContext, IM5LifecycleManager<T> aLifecycleManager,
@@ -99,7 +99,7 @@ public interface IM5PanelCreator<T> {
   /**
    * Creates panel to view list of entities.
    * <p>
-   * The create panel can be used to view the list of exsiting entities and to select one of them.
+   * The create panel can be used to view the list of existing entities and to select one of them.
    * <p>
    * If specified provider is <code>null</code> it must be set to non-<code>null</code> value by
    * {@link IM5CollectionPanel#setItemsProvider(IM5ItemsProvider)} before actual use of the panel.
@@ -139,18 +139,22 @@ public interface IM5PanelCreator<T> {
   /**
    * Creates panel to select several items from the list of entities.
    * <p>
-   * To get selected items check marks supplier {@link IM5CollectionPanel#checkSupport()}, namely with method
-   * {@link ITsCheckSupport#listCheckedItems(boolean)}.
+   * To get selected items check marks use supplier {@link IM5CollectionPanel#checkSupport()}, namely with method
+   * {@link ITsCheckSupport#listCheckedItems(boolean) listCheckedItems(true)}.
    * <p>
    * If specified provider is <code>null</code> it must be set to non-<code>null</code> value by
    * {@link IM5CollectionPanel#setItemsProvider(IM5ItemsProvider)} before actual use of the panel.
+   * <p>
+   * If lifecycle manager is not <code>null</code> created panel has editing capability.
    *
    * @param aContext {@link ITsGuiContext} - panel creation context and parameters
    * @param aItemsProvider {@link IM5ItemsProvider} - the viewed items provider, may be <code>null</code>
+   * @param aLifecycleManager {@link IM5LifecycleManager} - manager to CRUD the entity, may be <code>null</code>
    * @return {@link IM5CollectionPanel} - new instance of the panel
    * @throws TsNullArgumentRtException aContext = <code>null</code>
    */
-  IM5CollectionPanel<T> createCollChecksPanel( ITsGuiContext aContext, IM5ItemsProvider<T> aItemsProvider );
+  IM5CollectionPanel<T> createCollChecksPanel( ITsGuiContext aContext, IM5ItemsProvider<T> aItemsProvider,
+      IM5LifecycleManager<T> aLifecycleManager );
 
   // ------------------------------------------------------------------------------------
   // Standard panels - guaranteed IM5StandardPanelConstants to work with them
@@ -203,5 +207,13 @@ public interface IM5PanelCreator<T> {
    * @throws TsNullArgumentRtException aContext = <code>null</code>
    */
   IM5CollectionPanel<T> createStdCollChecksPanel( ITsGuiContext aContext, IM5ItemsProvider<T> aItemsProvider );
+
+  // ------------------------------------------------------------------------------------
+  // inline methods
+
+  @SuppressWarnings( "javadoc" )
+  default IM5CollectionPanel<T> createCollChecksPanel( ITsGuiContext aContext, IM5ItemsProvider<T> aItemsProvider ) {
+    return createCollChecksPanel( aContext, aItemsProvider, null );
+  }
 
 }

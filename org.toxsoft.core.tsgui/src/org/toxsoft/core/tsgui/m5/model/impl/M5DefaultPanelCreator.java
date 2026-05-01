@@ -133,9 +133,16 @@ public class M5DefaultPanelCreator<T>
   }
 
   @Override
-  public IM5CollectionPanel<T> createCollChecksPanel( ITsGuiContext aContext, IM5ItemsProvider<T> aItemsProvider ) {
+  public IM5CollectionPanel<T> createCollChecksPanel( ITsGuiContext aContext, IM5ItemsProvider<T> aItemsProvider,
+      IM5LifecycleManager<T> aLifecycleManager ) {
     TsNullArgumentRtException.checkNull( aContext );
-    IM5CollectionPanel<T> p = doCreateCollChecksPanel( aContext, aItemsProvider );
+    IM5CollectionPanel<T> p;
+    if( aLifecycleManager == null ) {
+      p = doCreateCollChecksPanel( aContext, aItemsProvider );
+    }
+    else {
+      p = doCreateCollChecksPanel( aContext, aItemsProvider, aLifecycleManager );
+    }
     TsInternalErrorRtException.checkNull( p );
     return p;
   }
@@ -214,7 +221,7 @@ public class M5DefaultPanelCreator<T>
   }
 
   /**
-   * Subclass may create any implementation of {@link IM5EntityPanel} in editormode.
+   * Subclass may create any implementation of {@link IM5EntityPanel} in editor mode.
    * <p>
    * However the panel must allow edit all neccessary fields to correctly create and end entities.
    * <p>
@@ -240,7 +247,7 @@ public class M5DefaultPanelCreator<T>
    * @return {@link IM5EntityPanel} - created instance
    */
   protected IM5EntityPanel<T> doCreateEntityDetailsPanel( ITsGuiContext aContext ) {
-    OPDEF_IS_DETAILS_PANE.setValue( aContext.params(), AV_FALSE ); // to avoid infinite recusion
+    OPDEF_IS_DETAILS_PANE.setValue( aContext.params(), AV_FALSE ); // to avoid infinite recursion
     return new M5DefaultEntityDetailsPanel<>( aContext, model );
   }
 
@@ -333,14 +340,34 @@ public class M5DefaultPanelCreator<T>
    *
    * @param aContext {@link ITsGuiContext} - the context
    * @param aItemsProvider {@link IM5ItemsProvider} - the items provider or <code>null</code>
+   * @param aLifecycleManager {@link IM5LifecycleManager} - manager to CRUD the entity, never is <code>null</code>
+   * @return {@link IM5CollectionPanel} - created panel
+   */
+  protected IM5CollectionPanel<T> doCreateCollChecksPanel( ITsGuiContext aContext, IM5ItemsProvider<T> aItemsProvider,
+      IM5LifecycleManager<T> aLifecycleManager ) {
+    OPDEF_IS_ACTIONS_CRUD.setValue( aContext.params(), AV_TRUE );
+    OPDEF_IS_SUPPORTS_CHECKS.setValue( aContext.params(), AV_TRUE );
+    MultiPaneComponentModown<T> mpc =
+        new MultiPaneComponentModown<>( aContext, model, aItemsProvider, aLifecycleManager );
+    return new M5CollectionPanelMpcModownWrapper<>( mpc, false );
+  }
+
+  /**
+   * Subclass may create own implementation of {@link IM5CollectionPanel} in viewer mode with check support enabled.
+   * <p>
+   * In the base class returns new instance of {@link M5CollectionPanelMpcModownWrapper}, no need to call superclass
+   * method when overriding.
+   *
+   * @param aContext {@link ITsGuiContext} - the context
+   * @param aItemsProvider {@link IM5ItemsProvider} - the items provider or <code>null</code>
    * @return {@link IM5CollectionPanel} - created panel
    */
   protected IM5CollectionPanel<T> doCreateCollChecksPanel( ITsGuiContext aContext,
       IM5ItemsProvider<T> aItemsProvider ) {
-    OPDEF_IS_ACTIONS_CRUD.setValue( aContext.params(), AV_FALSE );
+    OPDEF_IS_ACTIONS_CRUD.setValue( aContext.params(), AV_TRUE );
     OPDEF_IS_SUPPORTS_CHECKS.setValue( aContext.params(), AV_TRUE );
     MultiPaneComponentModown<T> mpc = new MultiPaneComponentModown<>( aContext, model, aItemsProvider );
-    return new M5CollectionPanelMpcModownWrapper<>( mpc, false );
+    return new M5CollectionPanelMpcModownWrapper<>( mpc, true );
   }
 
 }

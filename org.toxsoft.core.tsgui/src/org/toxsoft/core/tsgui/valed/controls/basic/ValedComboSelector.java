@@ -18,10 +18,10 @@ import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Выпадающий список (ComboBox) выбора эелемента из заданного списка.
+ * Drop-down combo box for the specified items selection.
  *
  * @author hazard157
- * @param <V> - конкретный тип (класс) элементов списка выбора
+ * @param <V> - the edited value type
  */
 public class ValedComboSelector<V>
     extends AbstractValedControl<V, Combo> {
@@ -80,10 +80,10 @@ public class ValedComboSelector<V>
   private Combo combo;
 
   /**
-   * Конструктор.
+   * Constructor.
    *
-   * @param aContext {@link ITsGuiContext} - контекст редактора
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aContext {@link ITsGuiContext} - the VALED context
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public ValedComboSelector( ITsGuiContext aContext ) {
     super( aContext );
@@ -95,12 +95,12 @@ public class ValedComboSelector<V>
   }
 
   /**
-   * Конструктор.
+   * Constructor.
    *
-   * @param aContext {@link ITsGuiContext} - контекст редактора
-   * @param aItems {@link IList}&lt;V&gt; - элементы списка выбора
-   * @param aNameProvider {@link ITsVisualsProvider} - поставщик названий элементов списка выбора
-   * @throws TsNullArgumentRtException любой аргумент = null
+   * @param aContext {@link ITsGuiContext} - the VALED context
+   * @param aItems {@link IList}&lt;V&gt; - selection items list
+   * @param aNameProvider {@link ITsVisualsProvider} - the items visuals provider
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public ValedComboSelector( ITsGuiContext aContext, IList<V> aItems, ITsVisualsProvider<V> aNameProvider ) {
     super( aContext );

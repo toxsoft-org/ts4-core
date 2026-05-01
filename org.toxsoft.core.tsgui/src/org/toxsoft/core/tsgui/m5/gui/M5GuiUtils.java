@@ -475,23 +475,45 @@ public class M5GuiUtils {
   /**
    * Shows provided items list and allows to select any number of them.
    * <p>
-   * Dialog will contain editable panel creted by
+   * Dialog will contain editable panel created by
    * {@link IM5PanelCreator#createCollChecksPanel(ITsGuiContext, IM5ItemsProvider)}.
    *
    * @param <T> - provided items class
    * @param aDialogInfo {@link ITsDialogInfo} - dialog window parameters
    * @param aModel {@link IM5Model} - lookup items model
-   * @param aInitialChecked {@link IList}&lt;T&gt; - inititlly selected items
+   * @param aInitialChecked {@link IList}&lt;T&gt; - initially selected items
    * @param aItemsProvider {@link IM5ItemsProvider} - items provider
    * @return {@link IList}&lt;T&gt; - checked items list or <code>null</code>
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   public static <T> IList<T> askSelectItemsList( ITsDialogInfo aDialogInfo, IM5Model<T> aModel,
       IList<T> aInitialChecked, IM5ItemsProvider<T> aItemsProvider ) {
+    return askSelectItemsList( aDialogInfo, aModel, aInitialChecked, aItemsProvider, null );
+  }
+
+  /**
+   * Shows provided items list and allows to select any number of them.
+   * <p>
+   * Dialog will contain editable panel created by
+   * {@link IM5PanelCreator#createCollChecksPanel(ITsGuiContext, IM5ItemsProvider)}.
+   * <p>
+   * If lifecycle manager is not <code>null</code> panel in dialog allows to edit items.
+   *
+   * @param <T> - provided items class
+   * @param aDialogInfo {@link ITsDialogInfo} - dialog window parameters
+   * @param aModel {@link IM5Model} - lookup items model
+   * @param aInitialChecked {@link IList}&lt;T&gt; - initially selected items
+   * @param aItemsProvider {@link IM5ItemsProvider} - items provider
+   * @param aLifecycleManager {@link IM5LifecycleManager} - the lifecycle manager, may be <code>null</code>
+   * @return {@link IList}&lt;T&gt; - checked items list or <code>null</code>
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static <T> IList<T> askSelectItemsList( ITsDialogInfo aDialogInfo, IM5Model<T> aModel,
+      IList<T> aInitialChecked, IM5ItemsProvider<T> aItemsProvider, IM5LifecycleManager<T> aLifecycleManager ) {
     TsNullArgumentRtException.checkNulls( aDialogInfo, aModel, aItemsProvider );
     IDialogPanelCreator<IList<T>, Object> creator = ( aParent, aOwnerDlg ) -> {
       IM5CollectionPanel<T> panel =
-          aModel.panelCreator().createCollChecksPanel( aOwnerDlg.tsContext(), aItemsProvider );
+          aModel.panelCreator().createCollChecksPanel( aOwnerDlg.tsContext(), aItemsProvider, aLifecycleManager );
       return new SelectItemsListDialogContentPanel<>( aParent, aOwnerDlg, panel );
     };
     TsDialog<IList<T>, Object> d = new TsDialog<>( aDialogInfo, aInitialChecked, null, creator );
