@@ -16,6 +16,7 @@ public interface ITsLibInnerSharedConstants {
    * org.toxsoft.core.tsgui.valed.api.IValedControlConstants
    */
   String TSLIB_VCC_OPID_EDITOR_FACTORY_NAME = "org.toxsoft.valed.option.EditorFactoryName"; //$NON-NLS-1$
+  String TSLIB_VCC_OPID_VALED_UI_OUTFIT     = "org.toxsoft.valed.op.Outfit";                //$NON-NLS-1$
   String TSLIB_VCC_OPID_IS_SINGLE_LINE_UI   = "org.toxsoft.valed.op.isSingleLineUI";        //$NON-NLS-1$
   String TSLIB_VCC_OPID_VERTICAL_SPAN       = "org.toxsoft.valed.option.VerticalSpan";      //$NON-NLS-1$
 

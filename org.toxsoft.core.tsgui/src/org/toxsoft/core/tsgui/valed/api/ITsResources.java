@@ -27,5 +27,9 @@ interface ITsResources {
   String STR_VERTICAL_SPAN_D          = Messages.getString( "STR_VERTICAL_SPAN_D" );          //$NON-NLS-1$
   String STR_NO_FIELD_LABEL           = Messages.getString( "STR_NO_FIELD_LABEL" );           //$NON-NLS-1$
   String STR_NO_FIELD_LABEL_D         = Messages.getString( "STR_NO_FIELD_LABEL_D" );         //$NON-NLS-1$
+  String STR_IS_SINGLE_LINE_UI        = Messages.getString( "STR_IS_SINGLE_LINE_UI" );        //$NON-NLS-1$
+  String STR_IS_SINGLE_LINE_UI_D      = Messages.getString( "STR_IS_SINGLE_LINE_UI_D" );      //$NON-NLS-1$
+  String STR_UI_OUTFIT_ID             = Messages.getString( "STR_UI_OUTFIT_ID" );             //$NON-NLS-1$
+  String STR_UI_OUTFIT_ID_D           = Messages.getString( "STR_UI_OUTFIT_ID_D" );           //$NON-NLS-1$
 
 }

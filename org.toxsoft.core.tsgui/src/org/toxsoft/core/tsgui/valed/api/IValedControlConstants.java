@@ -78,9 +78,9 @@ public interface IValedControlConstants {
   String OPID_NO_FIELD_LABEL = "org.toxsoft.valed.option.NoFieldLabel"; //$NON-NLS-1$
 
   /**
-   * ID of option {@link #OPDEF_VALED_UI_OUTFIT}.
+   * ID of option {@link #OPDEF_VALED_UI_OUTFIT_ID}.
    */
-  // String OPID_VALED_UI_OUTFIT = TSLIB_OPID_VALED_UI_OUTFIT;
+  String OPID_VALED_UI_OUTFIT_ID = TSLIB_VCC_OPID_VALED_UI_OUTFIT;
 
   /**
    * ID of option {@link #OPDEF_IS_SINGLE_LINE_UI}.
@@ -202,27 +202,8 @@ public interface IValedControlConstants {
   );
 
   /**
-   * Option {@link #OPDEF_VALED_UI_OUTFIT} predefined value: choose single line UI (like SWT {@link Text} control).
-   * <p>
-   * Usually it means to choose the VALED UI with the smallest possible height.
-   *
-   * @see IValedControlConstants#VALED_UI_OUTFIT_EMBEDDABLE
-   */
-  // String VALED_UI_OUTFIT_SINGLE_LINE = TSLIB_VALED_UI_OUTFIT_SINGLE_LINE;
-
-  /**
-   * Option {@link #OPDEF_VALED_UI_OUTFIT} predefined value: choose full size panel (like to embed in dialog window).
-   * <p>
-   * Usually it means the panel (maybe with multiple controls) allowing to specify all the properties of the edited
-   * value, as if the VALED should be directly used as the content of the value edit dialog.
-   *
-   * @see IValedControlConstants#VALED_UI_OUTFIT_SINGLE_LINE
-   */
-  // String VALED_UI_OUTFIT_EMBEDDABLE = TSLIB_VALED_UI_OUTFIT_EMBEDDABLE;
-
-  /**
    * Specifies the appearance of the VALED to be either single line text-and-button or common editor panel.<br>
-   * <i>Type:</i> {@link EAtomicType#STRING}<br>
+   * <i>Type:</i> {@link EAtomicType#BOOLEAN}<br>
    * <i>Usage:</i> simplest VALEDs are made of single control like {@link Spinner} or {@link Text} naturally having
    * height of single "unit", determined by default font size. However nearly all VALEDs for {@link EAtomicType#VALOBJ
    * VALOBJ} are an editing panel with several controls being high enough. Such a high control makes difficult to
@@ -235,32 +216,27 @@ public interface IValedControlConstants {
    * <i>Default value:</i> <code>false</code> - create VALED as common editor panel
    */
   IDataDef OPDEF_IS_SINGLE_LINE_UI = DataDef.create( OPID_IS_SINGLE_LINE_UI, BOOLEAN, //
-      TSID_NAME, STR_NO_FIELD_LABEL, //
-      TSID_DESCRIPTION, STR_NO_FIELD_LABEL_D, //
+      TSID_NAME, STR_IS_SINGLE_LINE_UI, //
+      TSID_DESCRIPTION, STR_IS_SINGLE_LINE_UI_D, //
       TSID_DEFAULT_VALUE, AV_FALSE, //
       TSID_IS_MANDATORY, AV_FALSE //
   );
 
   /**
-   * Specifies the appearance of the VALED UI if it has multiple user interfaces to choose from..<br>
+   * Specifies the appearance of the VALED UI if it has multiple user interfaces to choose from.<br>
    * <i>Type:</i> {@link EAtomicType#STRING}<br>
-   * <i>Usage:</i> some factories may produce different VALEDs with different appearance. For example, the person editor
-   * may have two UIs: as a text line with edit button (invoking the edit dialog) and the full size panel with "First
-   * name", "Second name", "Family name" and "Birth date" editors. This option is designed for such multi-UI editors to
-   * specify which appearance to use when created.<br>
-   * Option may have one of the predefined values <code><b>VALED_UI_OUTFIT_</b>XXX</code> or VALED-specific value. <br>
-   * <i>Default value:</i> {@link #VALED_UI_OUTFIT_SINGLE_LINE} - VALED of the smallest height
-   *
-   * @see IValedControlConstants#VALED_UI_OUTFIT_SINGLE_LINE
-   * @see IValedControlConstants#VALED_UI_OUTFIT_EMBEDDABLE
+   * <i>Usage:</i> some factories may produce different VALEDs with different appearance. For example, the image
+   * selector may have two UIs: the list of file names and the grid of the image thumbnails. Such VALED uses this option
+   * and declares to constants with values "list" and "grid", depending on the option value the respewctive UI will be
+   * used. Value must be an IDpath or an empty string for default outfit.<br>
+   * <i>Default value:</i> "" - an empty string
    */
-  // IDataDef OPDEF_VALED_UI_OUTFIT = DataDef.create2( OPID_VALED_UI_OUTFIT, STRING, //
-  // IdPathStringAvValidator.IDPATH_EMPTY_VALIDATOR, AvUtils.DEFAULT_AV_COMPARATOR, //
-  // TSID_NAME, STR_NO_FIELD_LABEL, //
-  // TSID_DESCRIPTION, STR_NO_FIELD_LABEL_D, //
-  // TSID_DEFAULT_VALUE, avStr( VALED_UI_OUTFIT_SINGLE_LINE ), //
-  // TSID_IS_MANDATORY, AV_FALSE //
-  // );
+  IDataDef OPDEF_VALED_UI_OUTFIT_ID = DataDef.create( OPID_VALED_UI_OUTFIT_ID, STRING, //
+      TSID_NAME, STR_UI_OUTFIT_ID, //
+      TSID_DESCRIPTION, STR_UI_OUTFIT_ID_D, //
+      TSID_DEFAULT_VALUE, AV_STR_EMPTY, //
+      TSID_IS_MANDATORY, AV_FALSE //
+  );
 
   /**
    * The context reference to the {@link ITsVisualsProvider}.<br>
