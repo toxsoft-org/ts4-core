@@ -7,9 +7,9 @@ import org.toxsoft.core.tsgui.bricks.uievents.*;
 import org.toxsoft.core.tsgui.m5.gui.viewers.*;
 import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.panels.lazy.*;
-import org.toxsoft.core.tsgui.utils.checkcoll.*;
 import org.toxsoft.core.tsgui.widgets.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
+import org.toxsoft.core.tslib.utils.checks.*;
 
 /**
  * Multi-pane composite (MPC) - displays M5-modeled items with supplementary information and actions.

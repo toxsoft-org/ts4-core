@@ -17,7 +17,6 @@ import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.m5.gui.viewers.*;
-import org.toxsoft.core.tsgui.utils.checkcoll.*;
 import org.toxsoft.core.tsgui.utils.jface.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.filter.*;
@@ -27,6 +26,7 @@ import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.notifier.*;
 import org.toxsoft.core.tslib.coll.notifier.basis.*;
 import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.checks.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**

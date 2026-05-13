@@ -9,8 +9,8 @@ import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.m5.model.*;
 import org.toxsoft.core.tsgui.panels.lazy.*;
-import org.toxsoft.core.tsgui.utils.checkcoll.*;
 import org.toxsoft.core.tslib.coll.notifier.*;
+import org.toxsoft.core.tslib.utils.checks.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**

@@ -1,8 +1,8 @@
 package org.toxsoft.core.tsgui.panels.generic;
 
 import org.toxsoft.core.tsgui.bricks.stdevents.*;
-import org.toxsoft.core.tsgui.utils.checkcoll.*;
 import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.utils.checks.*;
 
 /**
  * Generic items collection viewer / editor panel.

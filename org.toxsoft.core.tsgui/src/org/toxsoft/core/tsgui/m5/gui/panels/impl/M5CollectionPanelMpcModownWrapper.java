@@ -4,8 +4,8 @@ import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.m5.gui.mpc.impl.*;
 import org.toxsoft.core.tsgui.m5.gui.panels.*;
 import org.toxsoft.core.tsgui.m5.model.*;
-import org.toxsoft.core.tsgui.utils.checkcoll.*;
 import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.utils.checks.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**

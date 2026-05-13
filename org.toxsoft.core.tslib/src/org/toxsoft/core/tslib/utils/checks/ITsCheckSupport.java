@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.utils.checkcoll;
+package org.toxsoft.core.tslib.utils.checks;
 
 import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.coll.*;

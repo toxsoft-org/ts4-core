@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.utils.checkstate;
+package org.toxsoft.core.tslib.utils.checks;
 
 import java.util.*;
 

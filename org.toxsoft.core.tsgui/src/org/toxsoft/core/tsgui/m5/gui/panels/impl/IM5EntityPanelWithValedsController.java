@@ -1,14 +1,11 @@
 package org.toxsoft.core.tsgui.m5.gui.panels.impl;
 
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContextable;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.m5.*;
-import org.toxsoft.core.tsgui.m5.gui.panels.IM5EntityPanel;
-import org.toxsoft.core.tsgui.valed.api.IValedControl;
-import org.toxsoft.core.tsgui.valed.api.IValedControlFactory;
-import org.toxsoft.core.tslib.bricks.events.change.IGenericChangeListener;
-import org.toxsoft.core.tslib.bricks.validator.EValidationResultType;
-import org.toxsoft.core.tslib.bricks.validator.ValidationResult;
+import org.toxsoft.core.tsgui.m5.gui.panels.*;
+import org.toxsoft.core.tsgui.valed.api.*;
+import org.toxsoft.core.tslib.bricks.events.change.*;
+import org.toxsoft.core.tslib.bricks.validator.*;
 
 // TODO TRANSLATE
 

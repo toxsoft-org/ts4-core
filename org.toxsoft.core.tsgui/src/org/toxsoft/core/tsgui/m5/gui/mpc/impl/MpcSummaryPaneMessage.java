@@ -6,10 +6,10 @@ import org.eclipse.swt.*;
 import org.eclipse.swt.widgets.*;
 import org.toxsoft.core.tsgui.bricks.tsnodes.*;
 import org.toxsoft.core.tsgui.m5.gui.mpc.*;
-import org.toxsoft.core.tsgui.utils.checkcoll.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tsgui.widgets.*;
 import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.utils.checks.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**

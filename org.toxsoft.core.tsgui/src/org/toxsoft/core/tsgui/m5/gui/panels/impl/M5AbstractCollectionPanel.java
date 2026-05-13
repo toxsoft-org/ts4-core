@@ -1,17 +1,14 @@
 package org.toxsoft.core.tsgui.m5.gui.panels.impl;
 
-import org.toxsoft.core.tsgui.bricks.ctx.ITsGuiContext;
-import org.toxsoft.core.tsgui.bricks.stdevents.ITsDoubleClickListener;
-import org.toxsoft.core.tsgui.bricks.stdevents.ITsSelectionChangeListener;
-import org.toxsoft.core.tsgui.bricks.stdevents.impl.TsDoubleClickEventHelper;
-import org.toxsoft.core.tsgui.bricks.stdevents.impl.TsSelectionChangeEventHelper;
-import org.toxsoft.core.tsgui.m5.IM5Model;
-import org.toxsoft.core.tsgui.m5.gui.panels.IM5CollectionPanel;
-import org.toxsoft.core.tsgui.m5.model.IM5ItemsProvider;
-import org.toxsoft.core.tsgui.m5.model.IM5LifecycleManager;
-import org.toxsoft.core.tsgui.utils.checkcoll.ITsCheckSupport;
-import org.toxsoft.core.tslib.coll.IList;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
+import org.toxsoft.core.tsgui.bricks.ctx.*;
+import org.toxsoft.core.tsgui.bricks.stdevents.*;
+import org.toxsoft.core.tsgui.bricks.stdevents.impl.*;
+import org.toxsoft.core.tsgui.m5.*;
+import org.toxsoft.core.tsgui.m5.gui.panels.*;
+import org.toxsoft.core.tsgui.m5.model.*;
+import org.toxsoft.core.tslib.coll.*;
+import org.toxsoft.core.tslib.utils.checks.*;
+import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
  * Base implementation on {@link IM5CollectionPanel}.

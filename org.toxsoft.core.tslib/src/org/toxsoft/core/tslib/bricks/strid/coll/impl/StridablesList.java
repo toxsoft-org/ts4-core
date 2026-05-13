@@ -23,6 +23,10 @@ public class StridablesList<E extends IStridable>
 
   private static final long serialVersionUID = 157157L;
 
+  // ------------------------------------------------------------------------------------
+  // Creation methods
+  //
+
   /**
    * Constructor.
    *
@@ -61,6 +65,32 @@ public class StridablesList<E extends IStridable>
   public StridablesList( E... aElems ) {
     this( getListInitialCapacity( estimateOrder( TsErrorUtils.checkArrayArg( aElems ).length ) ) );
     addAll( aElems );
+  }
+
+  /**
+   * The same as method {@link #addAll(ITsCollection)} returning <code>this</code> object.
+   *
+   * @param aColl {@link ITsCollection}&lt;E&gt; - collection containing elements to be added to this collection
+   * @return {@link StridablesList} - this object
+   * @throws TsNullArgumentRtException argument = <code>null</code>
+   */
+  public StridablesList<E> selfAdd( ITsCollection<E> aColl ) {
+    this.addAll( aColl );
+    return this;
+  }
+
+  /**
+   * The same as method {@link #addAll(Object...)} returning <code>this</code> object.
+   *
+   * @param aArray E[] - array containing elements to be added to this collection
+   * @return {@link StridablesList} - this object
+   * @throws TsNullArgumentRtException argument = <code>null</code>
+   * @throws TsNullArgumentRtException any element of specified array is <code>null</code>
+   */
+  @SuppressWarnings( "unchecked" )
+  public StridablesList<E> selfAdd( E... aArray ) {
+    this.addAll( aArray );
+    return this;
   }
 
   // --------------------------------------------------------------------------

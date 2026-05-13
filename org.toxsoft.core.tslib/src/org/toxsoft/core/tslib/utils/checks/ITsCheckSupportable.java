@@ -1,4 +1,4 @@
-package org.toxsoft.core.tsgui.utils.checkcoll;
+package org.toxsoft.core.tslib.utils.checks;
 
 /**
  * Mixin interface aggregating {@link ITsCheckSupport} to the collection viewer.
