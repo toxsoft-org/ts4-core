@@ -721,7 +721,6 @@ public final class StridUtils {
    * <p>
    * The method guarantees that:
    * <ul>
-   * *
    * <li>identical arguments produce the same result;</li>
    * <li>different arguments produce different results;</li>
    * <li><code>null</code> remains null;</li>
@@ -799,6 +798,58 @@ public final class StridUtils {
       int tetr1 = hexChar2Int( s.charAt( i + 3 ) );
       int c = (tetr1 & 0x000F) + ((tetr2 << 4) & 0x00F0) + ((tetr3 << 8) & 0x0F00) + ((tetr4 << 12) & 0xF000);
       sb.append( (char)c );
+    }
+    return sb.toString();
+  }
+
+  /**
+   * Converts arbitrary String to the IDpath.
+   * <p>
+   * The conversion is one-way - the original string can not be restored from the generated identifier.Othe difference
+   * between {@link #makeIdFromString(String)} and {@link #str2id(String)} is the form of the generated string. Thid
+   * method generates ID path much like the original string so it is more @human-friendly".
+   * <p>
+   * The method guarantees that:
+   * <ul>
+   * *
+   * <li>identical arguments produce the same result;</li>
+   * <li>different arguments produce different results;</li>
+   * <li><code>null</code> remains null;</li>
+   * <li>the valid STRID (either IDpath or IDname) remains unchanged.</li>
+   * </ul>
+   *
+   * @param aStr String - arbitrary string, may be <code>null</code>
+   * @return String - created IDpath or <code>null</code> for <code>null</code> argument
+   */
+  public static String makeIdFromString( String aStr ) {
+    if( aStr == null ) {
+      return null;
+    }
+    if( aStr.isEmpty() ) {
+      return ANY_STR_TO_ID_NAME_PREFIX;
+    }
+    if( isValidIdPath( aStr ) ) {
+      return aStr;
+    }
+    StringBuilder sb = new StringBuilder( ANY_STR_TO_ID_NAME_PREFIX );
+    for( int i = 0, count = aStr.length(); i < count; i++ ) {
+      char ch = aStr.charAt( i );
+      if( StridUtils.isIdNamePart( ch ) ) {
+        sb.append( ch );
+        continue;
+      }
+      if( ch == CHAR_ID_PATH_DELIMITER ) {
+        sb.append( '_' );
+        continue;
+      }
+      int tetr1 = (ch & 0x0000000F) >> 0;
+      int tetr2 = (ch & 0x000000F0) >> 4;
+      int tetr3 = (ch & 0x00000F00) >> 8;
+      int tetr4 = (ch & 0x0000F000) >> 12;
+      sb.append( int2HexChar( tetr4 ) );
+      sb.append( int2HexChar( tetr3 ) );
+      sb.append( int2HexChar( tetr2 ) );
+      sb.append( int2HexChar( tetr1 ) );
     }
     return sb.toString();
   }
