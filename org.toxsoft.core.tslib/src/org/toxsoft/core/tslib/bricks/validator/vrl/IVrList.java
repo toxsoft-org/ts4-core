@@ -64,7 +64,13 @@ public interface IVrList {
     return items().isEmpty();
   }
 
-  @SuppressWarnings( "javadoc" )
+  /**
+   * Returns the first worst result from the {@link #items()} list.
+   * <p>
+   * Returns the result of item found by {@link #getFirstWorst()}.
+   *
+   * @return {@link ValidationResult} - the first occurrence of the worst result, never is <code>null</code>
+   */
   default ValidationResult firstWorstResult() {
     return getFirstWorst().vr();
   }
