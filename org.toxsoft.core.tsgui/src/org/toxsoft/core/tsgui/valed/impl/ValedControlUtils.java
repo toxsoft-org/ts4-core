@@ -138,7 +138,7 @@ public class ValedControlUtils {
         super( aParent, aOwnerDialog );
         this.setLayout( new BorderLayout() );
         ITsGuiContext ctx = new TsGuiContext( aDialogInfo.tsContext() );
-        OPDEF_IS_SINGLE_LINE_UI.setValue( ctx.params(), AV_TRUE );
+        OPDEF_IS_SINGLE_LINE_UI.setValue( ctx.params(), AV_FALSE );
         valed = aVcFactory.createEditor( ctx );
         valed.createControl( this );
         valed.getControl().setLayoutData( new BorderData( SWT.CENTER ) );
