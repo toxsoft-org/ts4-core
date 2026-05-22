@@ -472,22 +472,24 @@ public class PasChannel
     logger.info( MSG_SET_FAILURE_TIMEOUT, this, Integer.valueOf( failureTimeout ), Integer.valueOf( aTimeout ) );
     failureTimeout = aTimeout;
     if( failureTimeout > 0 ) {
-      try {
-        socket.setSoTimeout( failureTimeout );
-      }
-      catch( SocketException ex ) {
-        logger().error( ex );
-      }
+      // 2026-05-22 mvkd ---
+      // try {
+      // socket.setSoTimeout( failureTimeout );
+      // }
+      // catch( SocketException ex ) {
+      // logger().error( ex );
+      // }
       // Отправка сообщения проверки канала - передача клиенту нового значения failureTimeout
       sendPing( this, failureTimeout );
       return;
     }
-    try {
-      socket.setSoTimeout( 0 );
-    }
-    catch( SocketException ex ) {
-      logger().error( ex );
-    }
+    // 2026-05-22 mvkd ---
+    // try {
+    // socket.setSoTimeout( 0 );
+    // }
+    // catch( SocketException ex ) {
+    // logger().error( ex );
+    // }
   }
 
   /**
