@@ -2,11 +2,11 @@ package org.toxsoft.core.pas.common;
 
 import static org.toxsoft.core.pas.common.ITsResources.*;
 
-import org.toxsoft.core.tslib.bricks.ICooperativeMultiTaskable;
-import org.toxsoft.core.tslib.utils.ICloseable;
-import org.toxsoft.core.tslib.utils.errors.TsInternalErrorRtException;
-import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
-import org.toxsoft.core.tslib.utils.logs.ILogger;
+import org.toxsoft.core.tslib.bricks.*;
+import org.toxsoft.core.tslib.utils.*;
+import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * Фоновая задача подсистемы pas
@@ -49,21 +49,19 @@ public class PasDoJob
   /**
    * Журнал работы
    */
-  private final ILogger logger;
+  private final ILogger logger = LoggerUtils.getLogger( getClass() );
 
   /**
    * Конструктор
    *
    * @param aName String имя задачи
    * @param aPasTask {@link ICooperativeMultiTaskable} фоновая задача pas
-   * @param aLogger {@link ILogger} журнал работы
    * @throws TsNullArgumentRtException любой аргумент = null
    */
-  public PasDoJob( String aName, ICooperativeMultiTaskable aPasTask, ILogger aLogger ) {
+  public PasDoJob( String aName, ICooperativeMultiTaskable aPasTask ) {
     name = TsNullArgumentRtException.checkNull( aName );
     pasTask = TsNullArgumentRtException.checkNull( aPasTask );
     doJobTimeout = DOJOB_TIMEOUT_DEFAULT;
-    logger = TsNullArgumentRtException.checkNull( aLogger );
   }
 
   /**
@@ -72,14 +70,12 @@ public class PasDoJob
    * @param aName String имя задачи
    * @param aPasTask {@link ICooperativeMultiTaskable} фоновая задача pas
    * @param aDojobTimeout long таймаут выполнения задачи doJob
-   * @param aLogger {@link ILogger} журнал работы
    * @throws TsNullArgumentRtException любой аргумент = null
    */
-  public PasDoJob( String aName, ICooperativeMultiTaskable aPasTask, long aDojobTimeout, ILogger aLogger ) {
+  public PasDoJob( String aName, ICooperativeMultiTaskable aPasTask, long aDojobTimeout ) {
     name = TsNullArgumentRtException.checkNull( aName );
     pasTask = TsNullArgumentRtException.checkNull( aPasTask );
     doJobTimeout = (aDojobTimeout > 0 ? aDojobTimeout : DOJOB_TIMEOUT_DEFAULT);
-    logger = TsNullArgumentRtException.checkNull( aLogger );
   }
 
   // ------------------------------------------------------------------------------------

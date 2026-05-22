@@ -178,7 +178,7 @@ public class PasClient<CHANNEL extends PasClientChannel>
       // Запуск фоновой задачи
       PasDoJob doJob = null;
       if( !externalDoJobCall ) {
-        doJob = new PasDoJob( "PasClient doJob", this, logger() ); //$NON-NLS-1$
+        doJob = new PasDoJob( "PasClient doJob", this ); //$NON-NLS-1$
         Thread thread = new Thread( doJob );
         thread.start();
       }
