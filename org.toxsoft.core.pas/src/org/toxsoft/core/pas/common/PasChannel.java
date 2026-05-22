@@ -469,7 +469,7 @@ public class PasChannel
    */
   protected final void setFailureTimeout( int aTimeout ) {
     // Установка таймаута отказа работоспособности канала
-    logger.debug( MSG_SET_FAILURE_TIMEOUT, this, Integer.valueOf( failureTimeout ), Integer.valueOf( aTimeout ) );
+    logger.info( MSG_SET_FAILURE_TIMEOUT, this, Integer.valueOf( failureTimeout ), Integer.valueOf( aTimeout ) );
     failureTimeout = aTimeout;
     if( failureTimeout > 0 ) {
       try {
@@ -826,6 +826,9 @@ public class PasChannel
         ITjValue description = aNotification.params().findByKey( JSON_PARAM_DESCRIPTION );
         // Установка таймаута отказа
         if( aChannel.failureTimeout() <= 0 ) {
+          aChannel.logger().info(
+              "handleNotification(...): call setFailureTimeout(...). aChannel = %s, failureTimeout = %d", aChannel, //$NON-NLS-1$
+              Long.valueOf( failureTimeout ) );
           // Установка таймаута удаленного клиента
           aChannel.setFailureTimeout( failureTimeout );
         }
