@@ -469,25 +469,27 @@ public class PasChannel
    */
   protected final void setFailureTimeout( int aTimeout ) {
     // Установка таймаута отказа работоспособности канала
-    logger.debug( MSG_SET_FAILURE_TIMEOUT, this, Integer.valueOf( failureTimeout ), Integer.valueOf( aTimeout ) );
+    logger.info( MSG_SET_FAILURE_TIMEOUT, this, Integer.valueOf( failureTimeout ), Integer.valueOf( aTimeout ) );
     failureTimeout = aTimeout;
     if( failureTimeout > 0 ) {
-      try {
-        socket.setSoTimeout( failureTimeout );
-      }
-      catch( SocketException ex ) {
-        logger().error( ex );
-      }
+      // 2026-05-22 mvkd ---
+      // try {
+      // socket.setSoTimeout( failureTimeout );
+      // }
+      // catch( SocketException ex ) {
+      // logger().error( ex );
+      // }
       // Отправка сообщения проверки канала - передача клиенту нового значения failureTimeout
       sendPing( this, failureTimeout );
       return;
     }
-    try {
-      socket.setSoTimeout( 0 );
-    }
-    catch( SocketException ex ) {
-      logger().error( ex );
-    }
+    // 2026-05-22 mvkd ---
+    // try {
+    // socket.setSoTimeout( 0 );
+    // }
+    // catch( SocketException ex ) {
+    // logger().error( ex );
+    // }
   }
 
   /**
@@ -826,6 +828,9 @@ public class PasChannel
         ITjValue description = aNotification.params().findByKey( JSON_PARAM_DESCRIPTION );
         // Установка таймаута отказа
         if( aChannel.failureTimeout() <= 0 ) {
+          aChannel.logger().info(
+              "handleNotification(...): call setFailureTimeout(...). aChannel = %s, failureTimeout = %d", aChannel, //$NON-NLS-1$
+              Long.valueOf( failureTimeout ) );
           // Установка таймаута удаленного клиента
           aChannel.setFailureTimeout( failureTimeout );
         }

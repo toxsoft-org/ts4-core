@@ -98,7 +98,7 @@ public class PasHttpServer
    */
   public PasHttpServer( IAppPreferences aAppPrefs ) {
     appPrefs = TsNullArgumentRtException.checkNull( aAppPrefs );
-    doJobThread = new PasDoJob( "server doJob thread", this, DOJOB_TIMEOUT, logger ); //$NON-NLS-1$
+    doJobThread = new PasDoJob( "server doJob thread", this, DOJOB_TIMEOUT ); //$NON-NLS-1$
   }
 
   // ------------------------------------------------------------------------------------

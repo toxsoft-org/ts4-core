@@ -18,6 +18,8 @@ import org.toxsoft.core.tslib.coll.primtypes.*;
 import org.toxsoft.core.tslib.coll.primtypes.impl.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.utils.logs.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.*;
@@ -212,6 +214,11 @@ public class ReportGenerator {
    * Формат текста выражения, задающегося функцией.
    */
   private static final String FUNC_EXPR_FORMAT = "($F{%s})";
+
+  /**
+   * Журнал работы.
+   */
+  private static final ILogger logger = LoggerUtils.getLogger( ReportGenerator.class );
 
   /**
    * Создает шрифт стиля "курсив"
@@ -483,8 +490,15 @@ public class ReportGenerator {
     // Сразу запомним кол-во параметров
     int paramQtty = aModel.fieldDefs().size();
     // Настройки отчета в целом
-    JasperDesign jasperDesign = new JasperDesign();
-    jasperDesign.setPrintOrder( PrintOrderEnum.VERTICAL );
+    JasperDesign jasperDesign;
+    try {
+      jasperDesign = new JasperDesign();
+      jasperDesign.setPrintOrder( PrintOrderEnum.VERTICAL );
+    }
+    catch( Throwable e ) {
+      logger.error( e );
+      throw e;
+    }
 
     IIntList integerColumnsWeigths = aContext.params().getValobj( IJasperReportConstants.COLUMNS_WEIGTHS );
     // В случае если массив пустой, то просто все колонки делаем одинаковой ширины
