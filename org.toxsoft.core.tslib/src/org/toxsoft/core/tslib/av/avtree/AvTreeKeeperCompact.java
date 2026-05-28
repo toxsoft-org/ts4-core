@@ -66,7 +66,7 @@ public class AvTreeKeeperCompact
   // implementation
   //
 
-  private IAvTree readSingle( IStrioReader aSr ) {
+  private IAvTree readArray( IStrioReader aSr ) {
     IAvTreeEdit t = AvTree.createArrayAvTree();
     if( aSr.readArrayBegin() ) {
       do {
@@ -77,7 +77,7 @@ public class AvTreeKeeperCompact
     return t;
   }
 
-  private IAvTree readArray( IStrioReader aSr ) {
+  private IAvTree readSingle( IStrioReader aSr ) {
     aSr.ensureChar( CHAR_SET_BEGIN );
     // optional structId
     String structId = EMPTY_STRING;
