@@ -14,7 +14,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * The set of the identified (named) values.
  * <p>
- * Names are IDpaths. Values generally are {@link IAtomicValue} and may be accesses as diferent types using
+ * Names are IDpaths. Values generally are {@link IAtomicValue} and may be accesses as different types using
  * {@link IOpsGetter} interface.
  *
  * @author hazard157

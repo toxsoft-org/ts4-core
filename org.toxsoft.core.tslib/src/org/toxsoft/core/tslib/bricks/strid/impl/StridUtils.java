@@ -688,7 +688,7 @@ public final class StridUtils {
    *
    * @param aIdPath String - an IDpath
    * @param aCount int - number of components to remove
-   * @return String - remianing IDpath or an empty string
+   * @return String - remaining IDpath or an empty string
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException aCount < 0
    * @throws TsIllegalArgumentRtException aIdPath is not an IDpath

@@ -11,8 +11,6 @@ import org.toxsoft.core.tslib.bricks.ctx.*;
 import org.toxsoft.core.tslib.bricks.geometry.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
-// TRANSLATE
-
 /**
  * {@link IPdwWidget} simple implementation.
  *

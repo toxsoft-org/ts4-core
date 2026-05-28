@@ -5,12 +5,9 @@ import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * Раскладка контролей по четырем сторонам и центру панели.
+ * The layout places up to five controls at rectangle eges and in the center.
  * <p>
- * В данной раскладке можно добавлять только другие панели IBoard и SWT-контроли.
- * <p>
- * Раскладка может иметь до пяти элементов, расположенных вдоль границ или по центру (согласно перечислению
- * {@link EBorderLayoutPlacement}).
+ * Layout may have up to five controls, one per constant of enum {@link EBorderLayoutPlacement}).
  *
  * @author hazard157
  */
@@ -18,11 +15,11 @@ public interface IVecBorderLayout
     extends IVecLayout<EBorderLayoutPlacement> {
 
   /**
-   * Возвращает элемент в указанном месте раскладки.
+   * Returns an item at the specified location if any.
    *
-   * @param aPlacement {@link EBorderLayoutPlacement} - место в раскладке
-   * @return {@link ILazyControl} - элемент раскладки или null, если нет элемента в этом месте
-   * @throws TsNullArgumentRtException аргумент = null
+   * @param aPlacement {@link EBorderLayoutPlacement} - requested location
+   * @return {@link ILazyControl} - an item or <code>null</code> if none
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
   ILazyControl<?> findItem( EBorderLayoutPlacement aPlacement );
 

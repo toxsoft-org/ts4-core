@@ -115,7 +115,7 @@ class ImageWidget
   boolean     isSizeFixed       = false;
   ITsPoint    defaultSize       = new TsPoint( 256, 256 );
   ITsPoint    imageSize         = defaultSize;             // for image = null is equal to defaultSize
-  ETsFulcrum  fulcrum           = ETsFulcrum.LEFT_TOP;
+  ETsFulcrum  fulcrum           = ETsFulcrum.CENTER;
   RectFitInfo fitInfo           = RectFitInfo.BEST;
   ImageCanvas canvas            = null;
   boolean     needRelayout      = false;

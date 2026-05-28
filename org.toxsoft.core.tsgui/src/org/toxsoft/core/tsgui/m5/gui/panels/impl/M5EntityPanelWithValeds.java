@@ -470,10 +470,12 @@ public class M5EntityPanelWithValeds<T>
    *
    * @param aModel {@link IM5Model} - the model
    * @param aEditors {@link IStringMap}&lt;{@link IValedControl}&gt; - map "field ID" - "field editor"
+   * @param aIsLabelsShown - <code>true</code> to display labels, <code>false</code> - no labels at all
    * @return {@link IVecLadderLayout} - created layout
    */
-  public static IVecLadderLayout makeLadderLayout( IM5Model<?> aModel, IStringMap<IValedControl<?>> aEditors ) {
-    IVecLadderLayout ll = new VecLadderLayout( true );
+  public static IVecLadderLayout makeLadderLayout( IM5Model<?> aModel, IStringMap<IValedControl<?>> aEditors,
+      boolean aIsLabelsShown ) {
+    IVecLadderLayout ll = new VecLadderLayout( aIsLabelsShown );
     for( String fieldId : aEditors.keys() ) {
       IValedControl<?> varEditor = aEditors.getByKey( fieldId );
       int verSpan = varEditor.tsContext().getSelfOption( OPDEF_VERTICAL_SPAN ).asInt();
@@ -492,6 +494,17 @@ public class M5EntityPanelWithValeds<T>
       ll.addControl( varEditor, layoutData );
     }
     return ll;
+  }
+
+  /**
+   * Creates a ladder structure of VALED elements, respecting hints from {@link IValedControlConstants}.
+   *
+   * @param aModel {@link IM5Model} - the model
+   * @param aEditors {@link IStringMap}&lt;{@link IValedControl}&gt; - map "field ID" - "field editor"
+   * @return {@link IVecLadderLayout} - created layout
+   */
+  public static IVecLadderLayout makeLadderLayout( IM5Model<?> aModel, IStringMap<IValedControl<?>> aEditors ) {
+    return makeLadderLayout( aModel, aEditors, true );
   }
 
 }

@@ -8,7 +8,7 @@ import org.toxsoft.core.tsgui.m5.gui.panels.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
- * {@link IM5EntityPanel} default implementation to show datail about specified entity.
+ * {@link IM5EntityPanel} default implementation to show details about specified entity.
  * <p>
  * This panel is the viewer so {@link #isViewer()} = <code>true</code>.
  * <p>
@@ -33,18 +33,12 @@ public class M5DefaultEntityDetailsPanel<T>
 
   @Override
   protected void doInitEditors() {
-    // cretae editors for M5FF_DETAIL fields
+    // Create editors for M5FF_DETAIL fields
     for( IM5FieldDef<T, ?> fDef : model().fieldDefs() ) {
       if( fDef.hasFlag( M5FF_DETAIL ) ) {
         addField( fDef.id() );
       }
     }
-  }
-
-  @Override
-  protected void doInitLayout() {
-    // TODO Auto-generated method stub
-    super.doInitLayout();
   }
 
 }
