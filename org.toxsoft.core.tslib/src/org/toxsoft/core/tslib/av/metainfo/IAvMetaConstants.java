@@ -178,7 +178,9 @@ public interface IAvMetaConstants {
   // ------------------------------------------------------------------------------------
   // Data definitions for constraints
 
-  IDataDef DDEF_NAME = DataDef.create2( TSID_NAME, STRING, NameStringAvValidator.VALIDATOR, null, //
+  IDataDef DDEF_NAME = DataDef.create2( TSID_NAME, STRING, //
+      NameStringAvValidator.VALIDATOR, //
+      null, // comparator
       TSID_NAME, STR_NAME, //
       TSID_DESCRIPTION, STR_NAME_D, //
       TSID_IS_NULL_ALLOWED, AV_TRUE, //
