@@ -9,6 +9,7 @@ import org.toxsoft.core.tslib.coll.derivative.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.logs.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * Писатель данных в канал
@@ -51,20 +52,18 @@ final class PasChannelWriter
   /**
    * Журнал работы
    */
-  private final ILogger logger;
+  private final ILogger logger = LoggerUtils.getLogger( getClass() );
 
   /**
    * Конструктор
    *
    * @param aChannel {@link PasChannel} канал по которому проводится передача данных
-   * @param aLogger {@link ILogger} журнал работы класса канала
    * @throws TsNullArgumentRtException любой аргумент = null
    */
-  PasChannelWriter( PasChannel aChannel, ILogger aLogger ) {
-    TsNullArgumentRtException.checkNulls( aChannel, aLogger );
+  PasChannelWriter( PasChannel aChannel ) {
+    TsNullArgumentRtException.checkNulls( aChannel );
     name = String.format( NAME_FORMAT, aChannel.toString() );
     channel = aChannel;
-    logger = aLogger;
     Thread thread = new Thread( this );
     thread.start();
     logger.debug( "PasChannelWriter(...): %s", aChannel ); //$NON-NLS-1$

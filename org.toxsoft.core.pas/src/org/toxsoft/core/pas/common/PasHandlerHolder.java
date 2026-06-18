@@ -66,7 +66,7 @@ public class PasHandlerHolder<CHANNEL extends PasChannel> {
   /**
    * Журнал работы класса
    */
-  private final ILogger logger;
+  private final ILogger logger = LoggerUtils.getLogger( getClass() );
 
   /**
    * Конструктор.
@@ -76,19 +76,6 @@ public class PasHandlerHolder<CHANNEL extends PasChannel> {
    */
   protected PasHandlerHolder( ITsContextRo aContext ) {
     context = TsNullArgumentRtException.checkNull( aContext );
-    logger = LoggerUtils.getLogger( getClass() );
-  }
-
-  /**
-   * Конструктор.
-   *
-   * @param aContext {@link ITsContextRo} - контекст приложения, использующего (запускающего) мост
-   * @param aLogger {@link ILogger} реализация журнала работы класса
-   * @throws TsNullArgumentRtException любой аргумент = null
-   */
-  protected PasHandlerHolder( ITsContextRo aContext, ILogger aLogger ) {
-    context = TsNullArgumentRtException.checkNull( aContext );
-    logger = TsNullArgumentRtException.checkNull( aLogger );
   }
 
   // ------------------------------------------------------------------------------------

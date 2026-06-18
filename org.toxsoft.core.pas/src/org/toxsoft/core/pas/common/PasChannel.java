@@ -34,6 +34,7 @@ import org.toxsoft.core.tslib.coll.synch.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 import org.toxsoft.core.tslib.utils.logs.*;
+import org.toxsoft.core.tslib.utils.logs.impl.*;
 
 /**
  * Базовый класс двустороннего посимвольного канала связи между клиентом и сервером СПД.
@@ -70,7 +71,7 @@ public class PasChannel
   private volatile int           failureTimeout     = OP_PAS_FAILURE_TIMEOUT.defaultValue().asInt();
   private volatile int           writeTimeout       = OP_PAS_WRITE_TIMEOUT.defaultValue().asInt();
 
-  private final ILogger logger;
+  private final ILogger logger = LoggerUtils.getLogger( getClass() );
 
   /**
    * Конструктор.
@@ -78,14 +79,12 @@ public class PasChannel
    * @param aContext {@link ITsContext} - контекст выполнения, общий для всех каналов и сервера
    * @param aSocket {@link Socket} сокет соединения
    * @param aHandlerHolder {@link PasHandlerHolder} родительский контейнер обработчиков канала
-   * @param aLogger {@link ILogger} журнал работы класса канала
    * @throws TsNullArgumentRtException любой аргумент = <code>null</code>
    * @throws TsIllegalArgumentRtException ошибка создания читателя канала
    * @throws TsIllegalArgumentRtException ошибка создания писателя канала
    */
   @SuppressWarnings( { "unchecked", "resource" } )
-  protected PasChannel( ITsContextRo aContext, Socket aSocket, PasHandlerHolder<? extends PasChannel> aHandlerHolder,
-      ILogger aLogger ) {
+  protected PasChannel( ITsContextRo aContext, Socket aSocket, PasHandlerHolder<? extends PasChannel> aHandlerHolder ) {
     context = TsNullArgumentRtException.checkNull( aContext );
     socket = TsNullArgumentRtException.checkNull( aSocket );
     parentHandlerHolder = (PasHandlerHolder<PasChannel>)TsNullArgumentRtException.checkNull( aHandlerHolder );
@@ -109,9 +108,7 @@ public class PasChannel
       throw new TsIllegalArgumentRtException( e, ERR_CREATE_WRITER, cause( e ) );
     }
     // Писатель данных в канал
-    channelWriter = new PasChannelWriter( this, aLogger );
-    // Журнал
-    logger = TsNullArgumentRtException.checkNull( aLogger );
+    channelWriter = new PasChannelWriter( this );
 
     if( aSocket.getLocalAddress().equals( aSocket.getInetAddress() ) && //
         aSocket.getLocalPort() == aSocket.getPort() ) {

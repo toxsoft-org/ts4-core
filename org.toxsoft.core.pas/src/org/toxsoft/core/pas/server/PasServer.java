@@ -82,24 +82,6 @@ public class PasServer<CHANNEL extends PasServerChannel>
     setChannelHandler( new InternalPasChannelHandler() );
   }
 
-  /**
-   * Конструктор.
-   *
-   * @param aContext {@link ITsContextRo} - контекст приложения, использующего (запускающего) мост
-   * @param aChannelCreator {@link IPasServerChannelCreator} - создатель канала
-   * @param aExternalDoJobCall boolean <b>true</b> {@link #doJob()} вызывается клиентом;<b>false</b> для вызова
-   *          {@link #doJob()} создается внутрениий поток
-   * @param aLogger {@link ILogger} реализация журнала работы класса
-   * @throws TsNullArgumentRtException любой аргумент = null
-   */
-  public PasServer( ITsContextRo aContext, IPasServerChannelCreator<CHANNEL> aChannelCreator,
-      boolean aExternalDoJobCall, ILogger aLogger ) {
-    super( aContext, aLogger );
-    creator = TsNullArgumentRtException.checkNull( aChannelCreator );
-    externalDoJobCall = aExternalDoJobCall;
-    setChannelHandler( new InternalPasChannelHandler() );
-  }
-
   // ------------------------------------------------------------------------------------
   // Реализация интерфейса Runnable
   //
@@ -133,7 +115,7 @@ public class PasServer<CHANNEL extends PasServerChannel>
                 prevChannel.close();
               }
               // Открытие канала связи при поступлении запроса
-              CHANNEL channel = creator.createChannel( context(), socket, this, logger() );
+              CHANNEL channel = creator.createChannel( context(), socket, this );
               // Сохранение созданного канала
               channels.add( channel );
               // Запуск потока канала

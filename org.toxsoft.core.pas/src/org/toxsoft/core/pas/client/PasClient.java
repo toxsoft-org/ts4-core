@@ -19,7 +19,6 @@ import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.synch.*;
 import org.toxsoft.core.tslib.utils.*;
 import org.toxsoft.core.tslib.utils.errors.*;
-import org.toxsoft.core.tslib.utils.logs.*;
 
 /**
  * Реализация клиента Сервера Публичного Доступа (СПД) {@link PasServer}.
@@ -69,24 +68,6 @@ public class PasClient<CHANNEL extends PasClientChannel>
   public PasClient( ITsContextRo aContext, IPasClientChannelCreator<CHANNEL> aChannelCreator,
       boolean aExternalDoJobCall ) {
     super( aContext );
-    creator = TsNullArgumentRtException.checkNull( aChannelCreator );
-    externalDoJobCall = aExternalDoJobCall;
-    setChannelHandler( new InternalPasChannelHandler() );
-  }
-
-  /**
-   * Конструктор.
-   *
-   * @param aContext {@link ITsContextRo} - контекст приложения, использующего (запускающего) мост.
-   * @param aChannelCreator {@link IPasClientChannelCreator} - создатель канала
-   * @param aExternalDoJobCall boolean <b>true</b> {@link #doJob()} вызывается клиентом;<b>false</b> для вызова
-   *          {@link #doJob()} создается внутрениий поток
-   * @param aLogger {@link ILogger} реализация журнала работы класса
-   * @throws TsNullArgumentRtException любой аргумент = null
-   */
-  public PasClient( ITsContextRo aContext, IPasClientChannelCreator<CHANNEL> aChannelCreator,
-      boolean aExternalDoJobCall, ILogger aLogger ) {
-    super( aContext, aLogger );
     creator = TsNullArgumentRtException.checkNull( aChannelCreator );
     externalDoJobCall = aExternalDoJobCall;
     setChannelHandler( new InternalPasChannelHandler() );
@@ -196,7 +177,7 @@ public class PasClient<CHANNEL extends PasClientChannel>
             // Открытие канала связи при поступлении запроса
             CHANNEL channel = null;
             try {
-              channel = creator.createChannel( context, socket, this, logger() );
+              channel = creator.createChannel( context, socket, this );
             }
             catch( Throwable e ) {
               socket.close();
