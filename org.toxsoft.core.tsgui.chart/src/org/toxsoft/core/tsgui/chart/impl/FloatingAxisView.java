@@ -63,7 +63,13 @@ public class FloatingAxisView
 
   @Override
   double normalizeValue( IAtomicValue aValue ) {
-    double value = aValue.asFloat();
+    double value = 0.0;
+    if( !aValue.atomicType().equals( EAtomicType.BOOLEAN ) ) {
+      value = aValue.asFloat();
+    }
+    else {
+      value = !aValue.asBool() ? 0 : 1;
+    }
     // double v1 = value - startValue;
     // double v2 = endValue - startValue;
     return ((value - startValue) / (endValue - startValue)) * 100;
