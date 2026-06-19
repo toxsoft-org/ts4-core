@@ -26,6 +26,7 @@ import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.bricks.strio.chario.*;
 import org.toxsoft.core.tslib.bricks.strio.chario.impl.*;
 import org.toxsoft.core.tslib.bricks.strio.impl.*;
+import org.toxsoft.core.tslib.bricks.time.impl.*;
 import org.toxsoft.core.tslib.coll.*;
 import org.toxsoft.core.tslib.coll.impl.*;
 import org.toxsoft.core.tslib.coll.primtypes.*;
@@ -219,8 +220,9 @@ public class PasChannel
 
     if( fromReadTime > failureTimeout ) {
       // Завершение работы канала по обнаруженному отказу работы (isFailure = true)
+      String lastTime = TimeUtils.timestampToString( lastReadTimestamp );
       Long time = Long.valueOf( fromReadTime );
-      logger.error( ERR_CLOSE_CHANNEL_BY_FAILURE_TIMEOUT, this, Integer.valueOf( failureTimeout ), time );
+      logger.error( ERR_CLOSE_CHANNEL_BY_FAILURE_TIMEOUT, this, Integer.valueOf( failureTimeout ), time, lastTime );
       close();
       return false;
     }
@@ -513,6 +515,17 @@ public class PasChannel
     // Установка таймаута отказа работоспособности канала
     logger.debug( MSG_SET_WRITE_TIMEOUT, this, Integer.valueOf( writeTimeout ), Integer.valueOf( aTimeout ) );
     writeTimeout = aTimeout;
+  }
+
+  /**
+   * Возвращает признак того используются значения таймаутов устанавливаемые удаленной стороной канала (обычно которая
+   * представляет клиента).
+   *
+   * @return boolean <b>true</b> используются таймауты удаленной стороны. <b>false</b> используются собственные
+   *         таймауты.
+   */
+  protected boolean doUsingRemoteTimeouts() {
+    return false;
   }
 
   /**
@@ -816,25 +829,28 @@ public class PasChannel
     TsNullArgumentRtException.checkNull( aChannel );
     TsNullArgumentRtException.checkNull( aNotification );
     try {
+      // Уведомление проверки работоспособности канала.
       if( aNotification.method().equals( JSON_NOTIFY_ALIVE ) ) {
-        // Уведомление проверки работоспособности канала.
-        int failureTimeout = aNotification.params().getByKey( JSON_PARAM_FAILURE_TIMEOUT ).asNumber().intValue();
+        // Текущий таймаут отказа работы
+        int failureTimeout = aChannel.failureTimeout();
+        // Таймаут отказа работы удаленной точки канала
+        int remoteFailureTimeout = aNotification.params().getByKey( JSON_PARAM_FAILURE_TIMEOUT ).asNumber().intValue();
         // Имя канала
         ITjValue name = aNotification.params().findByKey( JSON_PARAM_NAME );
         // Описание канала
         ITjValue description = aNotification.params().findByKey( JSON_PARAM_DESCRIPTION );
         // Установка таймаута отказа
-        if( aChannel.failureTimeout() <= 0 ) {
+        if( failureTimeout <= 0 || aChannel.doUsingRemoteTimeouts() && remoteFailureTimeout != failureTimeout ) {
           aChannel.logger().info(
-              "handleNotification(...): call setFailureTimeout(...). aChannel = %s, failureTimeout = %d", aChannel, //$NON-NLS-1$
-              Long.valueOf( failureTimeout ) );
+              "handleNotification(...): call setFailureTimeout(...). aChannel = %s, remoteFailureTimeout = %d", //$NON-NLS-1$
+              aChannel, Long.valueOf( remoteFailureTimeout ) );
           // Установка таймаута удаленного клиента
-          aChannel.setFailureTimeout( failureTimeout );
+          aChannel.setFailureTimeout( remoteFailureTimeout );
         }
         // Запись в журнал
         String n = (name != null ? name.asString() : MSG_UNDEF);
         String d = (name != null ? description.asString() : MSG_UNDEF);
-        aChannel.logger().debug( MSG_RECEIVE_ALIVE, aChannel, n, d, Long.valueOf( failureTimeout ) );
+        aChannel.logger().debug( MSG_RECEIVE_ALIVE, aChannel, n, d, Long.valueOf( remoteFailureTimeout ) );
         return true;
       }
       // Попытка обработки запроса наследником
@@ -1095,7 +1111,8 @@ public class PasChannel
       }
       // По каналу получено сообщение
       if( logger.isSeverityOn( ELogSeverity.DEBUG ) ) {
-        logger.debug( MSG_RECEIVE_MESSAGE, aChannel, retValue );
+        logger.debug( MSG_RECEIVE_MESSAGE, aChannel, retValue,
+            TimeUtils.timestampToString( aChannel.lastReadTimestamp ) );
       }
       try {
         if( retValue != null ) {

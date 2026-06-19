@@ -33,4 +33,11 @@ public class PasServerChannel
       PasHandlerHolder<? extends PasServerChannel> aHandlerHolder ) {
     super( aContext, aSocket, aHandlerHolder );
   }
+
+  @Override
+  protected final boolean doUsingRemoteTimeouts() {
+    // Используются таймауты клиента
+    return true;
+  }
+
 }
