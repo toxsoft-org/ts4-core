@@ -354,29 +354,43 @@ public class ViselLabel
   private void paintSelection( int aTextX, int aTextY, Point aFullExtent, ITsGraphicsContext aPaintContext ) {
     ITsPoint sel = props().getValobj( PROPID_SELECTION );
     if( sel != ITsPoint.ZERO ) {
-      ID2Rectangle r = bounds();
+      try {
+        ID2Rectangle r = bounds();
 
-      int startIdx = Math.min( sel.x(), sel.y() );
-      int endIdx = Math.max( sel.x(), sel.y() );
+        int startIdx = Math.min( sel.x(), sel.y() );
+        int endIdx = Math.max( sel.x(), sel.y() );
 
-      String text = props().getStr( PROPID_TEXT );
+        String text = props().getStr( PROPID_TEXT );
 
-      String subStr = text.substring( startIdx );
-      Point subExt = aPaintContext.gc().textExtent( subStr );
-      int startX = aTextX + aFullExtent.x - subExt.x;
+        if( endIdx > text.length() ) { // часть текста была удалена
+          endIdx = text.length();
+          props().setValobj( PROPID_SELECTION, ITsPoint.ZERO );
+          paint( aPaintContext );
+          return;
+        }
 
-      subStr = text.substring( endIdx );
-      subExt = aPaintContext.gc().textExtent( subStr );
-      int endX = aTextX + aFullExtent.x - subExt.x;
+        String subStr = text.substring( startIdx );
+        Point subExt = aPaintContext.gc().textExtent( subStr );
+        int startX = aTextX + aFullExtent.x - subExt.x;
 
-      subStr = text.substring( startIdx, endIdx );
-      RGB selFgRgb = props().getValobj( PROPID_SELECTION_COLOR );
-      RGB selBkRgb = props().getValobj( PROPID_SELECTION_BACKGROUND );
-      aPaintContext.gc().setForeground( colorManager().getColor( selFgRgb ) );
-      aPaintContext.gc().setBackground( colorManager().getColor( selBkRgb ) );
-      aPaintContext.gc().fillRectangle( startX, 2, endX - startX, (int)r.height() - 4 );
+        subStr = text.substring( endIdx );
+        subExt = aPaintContext.gc().textExtent( subStr );
+        int endX = aTextX + aFullExtent.x - subExt.x;
 
-      aPaintContext.gc().drawText( subStr, startX, aTextY, true );
+        subStr = text.substring( startIdx, endIdx );
+        RGB selFgRgb = props().getValobj( PROPID_SELECTION_COLOR );
+        RGB selBkRgb = props().getValobj( PROPID_SELECTION_BACKGROUND );
+        aPaintContext.gc().setForeground( colorManager().getColor( selFgRgb ) );
+        aPaintContext.gc().setBackground( colorManager().getColor( selBkRgb ) );
+        aPaintContext.gc().fillRectangle( startX, 2, endX - startX, (int)r.height() - 4 );
+
+        aPaintContext.gc().drawText( subStr, startX, aTextY, true );
+      }
+      catch( Throwable e ) {
+        e.printStackTrace();
+        props().setValobj( PROPID_SELECTION, ITsPoint.ZERO );
+        paint( aPaintContext );
+      }
     }
   }
 
