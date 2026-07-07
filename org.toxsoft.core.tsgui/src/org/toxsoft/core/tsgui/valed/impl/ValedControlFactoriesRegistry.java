@@ -67,6 +67,8 @@ public class ValedControlFactoriesRegistry
     registerFactory( ValedD2Point.FACTORY );
     registerFactory( ValedD2Conversion.FACTORY );
     registerFactory( ValedTsFulcrum.FACTORY );
+    registerFactory( ValedTsPathData.FACTORY );
+    registerFactory( ValedTsShadowInfo.FACTORY );
     // av
     registerFactory( ValedAvBooleanCheck.FACTORY );
     registerFactory( ValedAvIntegerSpinner.FACTORY );
@@ -105,6 +107,8 @@ public class ValedControlFactoriesRegistry
     registerFactory( ValedIdValueConstraint.FACTORY );
     registerFactory( ValedKeeperIdSelector.FACTORY );
     registerFactory( ValedAvStringKeeperIdSelector.FACTORY );
+    registerFactory( ValedAvValobjTsPathData.FACTORY );
+    registerFactory( ValedAvValobjTsShadowInfo.FACTORY );
 
   }
 

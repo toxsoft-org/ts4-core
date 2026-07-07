@@ -49,6 +49,9 @@ public class TsGradientFillInfo
             case RADIAL:
               RadialGradientInfo.keeper().write( aSw, aEntity.radialGradientInfo() );
               break;
+            case CONICAL:
+              ConicalGradientInfo.keeper().write( aSw, aEntity.conicalGradientInfo() );
+              break;
             default:
               throw new TsNotAllEnumsUsedRtException();
           }
@@ -67,6 +70,8 @@ public class TsGradientFillInfo
               return new TsGradientFillInfo( LinearGradientInfo.keeper().read( aSr ) );
             case RADIAL:
               return new TsGradientFillInfo( RadialGradientInfo.keeper().read( aSr ) );
+            case CONICAL:
+              return new TsGradientFillInfo( ConicalGradientInfo.keeper().read( aSr ) );
             default:
               throw new TsNotAllEnumsUsedRtException();
           }
@@ -76,9 +81,10 @@ public class TsGradientFillInfo
 
   private final EGradientType type;
 
-  private LinearGradientInfo linearGradientInfo;
+  private LinearGradientInfo   linearGradientInfo;
   private CylinderGradientInfo cylinderGradientInfo;
   private RadialGradientInfo   radialGradientInfo;
+  private ConicalGradientInfo  conicalGradientInfo;
 
   TsGradientFillInfo( EGradientType aType ) {
     type = aType;
@@ -102,6 +108,9 @@ public class TsGradientFillInfo
         break;
       case RADIAL:
         radialGradientInfo = (RadialGradientInfo)aInfo;
+        break;
+      case CONICAL:
+        conicalGradientInfo = (ConicalGradientInfo)aInfo;
         break;
       default:
         throw new TsNotAllEnumsUsedRtException();
@@ -128,6 +137,8 @@ public class TsGradientFillInfo
         return linearGradientInfo.createGradient( aContext );
       case RADIAL:
         return radialGradientInfo.createGradient( aContext );
+      case CONICAL:
+        return conicalGradientInfo.createGradient( aContext );
       default:
         throw new TsNotAllEnumsUsedRtException();
     }
@@ -165,4 +176,12 @@ public class TsGradientFillInfo
     return cylinderGradientInfo;
   }
 
+  /**
+   * Возвращает параметры конического градиента.
+   *
+   * @return ConicalGradientInfo - параметры конического градиента
+   */
+  public ConicalGradientInfo conicalGradientInfo() {
+    return conicalGradientInfo;
+  }
 }

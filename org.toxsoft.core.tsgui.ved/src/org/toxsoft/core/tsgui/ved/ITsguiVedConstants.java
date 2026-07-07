@@ -64,6 +64,9 @@ public interface ITsguiVedConstants {
   String ICONID_VED_POPUP_DLG_ACTOR    = "actors-dialog";          //$NON-NLS-1$
   String ICONID_SIMPLE_RECT            = "simple-rect";            //$NON-NLS-1$
   String ICONID_VISEL_ELLIPSE          = "visel-ellipse";          //$NON-NLS-1$
+  String ICONID_VISEL_ARC              = "visel-arc";              //$NON-NLS-1$
+  String ICONID_VISEL_ROUND_AXIS       = "visel-round-axis";       //$NON-NLS-1$
+  String ICONID_VISEL_HOR_LINEAR_AXIS  = "visel-hor-linear-axis";  //$NON-NLS-1$
   String ICONID_VISEL_CIRCLE_LAMP      = "visel-circle-lamp";      //$NON-NLS-1$
   String ICONID_VISEL_LABEL            = "visel-label";            //$NON-NLS-1$
   String ICONID_VISEL_MULTI_LABEL      = "visel-multi-label";      //$NON-NLS-1$
@@ -72,12 +75,14 @@ public interface ITsguiVedConstants {
   String ICONID_VISEL_BEZIER           = "visel-bezier";           //$NON-NLS-1$
   String ICONID_VISEL_SPLINE           = "visel-spline";           //$NON-NLS-1$
   String ICONID_VISEL_ROUND_RECT       = "visel-round-rect";       //$NON-NLS-1$
+  String ICONID_VISEL_ROUND_RECT_EX    = "visel-round-rect-ex";    //$NON-NLS-1$
   String ICONID_VISEL_BUTTON           = "visel-button";           //$NON-NLS-1$
   String ICONID_VISEL_CHECKBOX         = "visel-checkbox";         //$NON-NLS-1$
   String ICONID_VISEL_GROUPBOX         = "visel-groupbox";         //$NON-NLS-1$
   String ICONID_VISEL_IMAGE            = "visel-image";            //$NON-NLS-1$
   String ICONID_VISEL_BALOON           = "visel-baloon";           //$NON-NLS-1$
   String ICONID_VISEL_LINEAR_GAUGE     = "visel-linear-gauge";     //$NON-NLS-1$
+  String ICONID_VISEL_CIRCULAR_GAUGE   = "visel-circular-gauge";   //$NON-NLS-1$
   String ICONID_VED_ACTORS_ENABLED_ON  = "ved-actors-enabled-on";  //$NON-NLS-1$
   String ICONID_VED_ACTORS_ENABLED_OFF = "ved-actors-enabled-off"; //$NON-NLS-1$
   String ICONID_OBJECT_ROTATE_LEFT     = "object-rotate-left";     //$NON-NLS-1$

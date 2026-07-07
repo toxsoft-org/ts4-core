@@ -18,6 +18,8 @@ interface ITsResources {
   String STR_D_GRADIENT_RADIAL   = Messages.getString( "STR_D_GRADIENT_RADIAL" );   //$NON-NLS-1$
   String STR_N_GRADIENT_CYLINDER = Messages.getString( "STR_N_GRADIENT_CYLINDER" ); //$NON-NLS-1$
   String STR_D_GRADIENT_CYLINDER = Messages.getString( "STR_D_GRADIENT_CYLINDER" ); //$NON-NLS-1$
+  String STR_N_GRADIENT_CONICAL  = Messages.getString( "STR_N_GRADIENT_CONICAL" );  //$NON-NLS-1$
+  String STR_D_GRADIENT_CONICAL  = Messages.getString( "STR_D_GRADIENT_CONICAL" );  //$NON-NLS-1$
 
   /**
    * {@link EImageFillKind}

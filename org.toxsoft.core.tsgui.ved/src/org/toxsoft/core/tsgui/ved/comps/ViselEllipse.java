@@ -59,9 +59,11 @@ public class ViselEllipse
       fields.add( TFI_WIDTH );
       fields.add( TFI_HEIGHT );
       fields.add( TFI_FULCRUM );
-      fields.add( TFI_BK_FILL );
+
       fields.add( TFI_FG_COLOR );
+      fields.add( TFI_BK_FILL );
       fields.add( TFI_LINE_INFO );
+
       fields.add( TFI_IS_ASPECT_FIXED );
       fields.add( TFI_ASPECT_RATIO );
       fields.add( TFI_ZOOM );
@@ -142,6 +144,17 @@ public class ViselEllipse
       }
     }
     updateSwtRect();
+  }
+
+  @Override
+  public boolean isYours( double aX, double aY ) {
+    if( super.isYours( aX, aY ) ) {
+      double w = props().getDouble( PROPID_WIDTH ) / 2.;
+      double h = props().getDouble( PROPID_HEIGHT ) / 2.;
+
+      return ((aX - w) * (aX - w)) / (w * w) + ((aY - h) * (aY - h)) / (h * h) <= 1;
+    }
+    return false;
   }
 
 }

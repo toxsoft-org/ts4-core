@@ -9,7 +9,9 @@ import org.toxsoft.core.tsgui.graphics.fonts.impl.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.graphics.lines.*;
+import org.toxsoft.core.tsgui.graphics.path.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
+import org.toxsoft.core.tsgui.graphics.shadow.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tsgui.utils.margins.*;
 import org.toxsoft.core.tsgui.utils.rectfit.*;
@@ -72,6 +74,8 @@ public class TsGuiUtils {
     TsValobjUtils.registerKeeper( ETsFillKind.KEEPER_ID, ETsFillKind.KEEPER );
     TsValobjUtils.registerKeeper( TsFillInfo.KEEPER_ID, TsFillInfo.KEEPER );
     TsValobjUtils.registerKeeper( ETsBorderKind.KEEPER_ID, ETsBorderKind.KEEPER );
+    TsValobjUtils.registerKeeper( TsPathData.KEEPER_ID, TsPathData.KEEPER );
+    TsValobjUtils.registerKeeper( TsShadowInfo.KEEPER_ID, TsShadowInfo.KEEPER );
     TsValobjUtils.registerKeeper( EAvCompareOp.KEEPER_ID, EAvCompareOp.KEEPER );
     TsValobjUtils.registerKeeper( ESwtSysColor.KEEPER_ID, ESwtSysColor.KEEPER );
     TsValobjUtils.registerKeeper( TsColorDescriptor.KEEPER_ID, TsColorDescriptor.KEEPER );

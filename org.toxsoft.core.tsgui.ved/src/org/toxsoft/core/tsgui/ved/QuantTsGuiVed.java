@@ -8,6 +8,8 @@ import org.toxsoft.core.tsgui.m5.*;
 import org.toxsoft.core.tsgui.mws.services.hdpi.*;
 import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tsgui.ved.comps.*;
+import org.toxsoft.core.tsgui.ved.comps.axis.*;
+import org.toxsoft.core.tsgui.ved.comps.render.*;
 import org.toxsoft.core.tsgui.ved.m5.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
@@ -32,6 +34,8 @@ public class QuantTsGuiVed
   @Override
   protected void doInitApp( IEclipseContext aAppContext ) {
     TsValobjUtils.registerKeeper( EButtonViselState.KEEPER_ID, EButtonViselState.KEEPER );
+    TsValobjUtils.registerKeeper( ViselRendererCfg.KEEPER_ID, ViselRendererCfg.KEEPER );
+    TsValobjUtils.registerKeeper( AxisMarking.KEEPER_ID, AxisMarking.KEEPER );
 
     VedViselFactoriesRegistry visFact = new VedViselFactoriesRegistry();
     aAppContext.set( IVedViselFactoriesRegistry.class, visFact );
@@ -40,20 +44,39 @@ public class QuantTsGuiVed
     visFact.register( ViselCubicSpline.FACTORY );
     visFact.register( ViselRectangle.FACTORY );
     visFact.register( ViselEllipse.FACTORY );
+    visFact.register( ViselArc.FACTORY );
+    visFact.register( ViselRoundAxis.FACTORY );
+    visFact.register( ViselHorLinearAxis.FACTORY );
     visFact.register( ViselLabel.FACTORY );
     visFact.register( ViselMultiLineLabel.FACTORY );
     visFact.register( ViselRoundRect.FACTORY );
+    visFact.register( ViselRoundRectEx.FACTORY );
     visFact.register( ViselCircleLamp.FACTORY );
     visFact.register( ViselButton.FACTORY );
+    visFact.register( ViselFancyButton.FACTORY );
     visFact.register( ViselCheckbox.FACTORY );
     visFact.register( ViselLinearGauge.FACTORY );
     visFact.register( ViselImage.FACTORY );
     visFact.register( ViselBaloon.FACTORY );
     visFact.register( ViselGroupbox.FACTORY );
+    visFact.register( ViselRoundGauge.FACTORY );
+    visFact.register( ViselTechGauge.FACTORY );
     //
     VedActorFactoriesRegistry actFact = new VedActorFactoriesRegistry();
     aAppContext.set( IVedActorFactoriesRegistry.class, actFact );
 
+    VedRendererFactoriesRegistry rendFact = new VedRendererFactoriesRegistry();
+    aAppContext.set( VedRendererFactoriesRegistry.class, rendFact );
+    rendFact.register( DefaultViselRenderer.FACTORY );
+    rendFact.register( StdHorAxisRenderer.FACTORY );
+    rendFact.register( StdRoundAxisRenderer.FACTORY );
+    rendFact.register( ThickenedTicksRoundAxisRenderer.FACTORY );
+    rendFact.register( StdRoundGaugeRenderer.FACTORY );
+    rendFact.register( StdGaugeArrowRenderer.FACTORY );
+    rendFact.register( StdGaugeBkgRenderer.FACTORY );
+    rendFact.register( StdGaugeKnobRenderer.FACTORY );
+    rendFact.register( StdGaugeFrameRenderer.FACTORY );
+    rendFact.register( RoundButtonRenderer.FACTORY );
   }
 
   @Override
@@ -68,6 +91,7 @@ public class QuantTsGuiVed
     vcfRegistry.registerFactory( ValedVedViselAvStringIdSelector.FACTORY );
     vcfRegistry.registerFactory( ValedMultiLineTextEditor.FACTORY );
     vcfRegistry.registerFactory( ValedAvMultiLineTextEditor.FACTORY );
+    vcfRegistry.registerFactory( ValedAvValobjViselRendererCfg.FACTORY );
     //
     IM5Domain m5 = aWinContext.get( IM5Domain.class );
     m5.addModel( new VedItemM5Model() );

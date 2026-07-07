@@ -11,7 +11,9 @@ import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.fonts.impl.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.graphics.lines.*;
+import org.toxsoft.core.tsgui.graphics.path.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
+import org.toxsoft.core.tsgui.graphics.shadow.*;
 import org.toxsoft.core.tsgui.utils.swt.*;
 import org.toxsoft.core.tsgui.valed.controls.graphics.*;
 import org.toxsoft.core.tslib.av.*;
@@ -197,6 +199,28 @@ public interface ITsGraphicsConstants {
       TSID_KEEPER_ID, FontInfo.KEEPER_ID, //
       OPID_EDITOR_FACTORY_NAME, ValedAvValobjSimpleFontInfo.FACTORY.factoryName(), //
       TSID_DEFAULT_VALUE, avValobj( new FontInfo( "Arial", 14, 0 ) ) // //$NON-NLS-1$
+  );
+
+  /**
+   * Data type: {@link TsPathData} as {@link EAtomicType#VALOBJ VALOBJ}.
+   */
+  IDataType DT_TS_PATH_DATA = DataType.create( VALOBJ, //
+      TSID_NAME, STR_TS_PATH_DATA, //
+      TSID_DESCRIPTION, STR_TS_PATH_DATA_D, //
+      TSID_KEEPER_ID, TsPathData.KEEPER_ID, //
+      OPID_EDITOR_FACTORY_NAME, ValedAvValobjTsPathData.FACTORY.factoryName(), //
+      TSID_DEFAULT_VALUE, avValobj( TsPathData.NONE ) //
+  );
+
+  /**
+   * Data type: {@link TsShadowInfo} as {@link EAtomicType#VALOBJ VALOBJ}.
+   */
+  IDataType DT_TS_SHADOW_INFO = DataType.create( VALOBJ, //
+      TSID_NAME, STR_TS_SHADOW_INFO, //
+      TSID_DESCRIPTION, STR_TS_SHADOW_INFO_D, //
+      TSID_KEEPER_ID, TsShadowInfo.KEEPER_ID, //
+      OPID_EDITOR_FACTORY_NAME, ValedAvValobjTsShadowInfo.FACTORY.factoryName(), //
+      TSID_DEFAULT_VALUE, avValobj( TsShadowInfo.NONE ) //
   );
 
 }

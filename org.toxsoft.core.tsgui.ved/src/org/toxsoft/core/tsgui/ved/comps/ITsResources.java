@@ -65,6 +65,22 @@ interface ITsResources {
   String STR_VISEL_ARC_HEIGHT_D = Messages.getString( "STR_VISEL_ARC_HEIGHT_D" ); //$NON-NLS-1$
 
   /**
+   * ViselArcRenderer
+   */
+  String STR_VISEL_ARC_START_ANGLE   = Messages.getString( "STR_VISEL_ARC_START_ANGLE" );   //$NON-NLS-1$
+  String STR_VISEL_ARC_START_ANGLE_D = Messages.getString( "STR_VISEL_ARC_START_ANGLE_D" ); //$NON-NLS-1$
+  String STR_VISEL_ARC_DELTA_ANGLE   = Messages.getString( "STR_VISEL_ARC_DELTA_ANGLE" );   //$NON-NLS-1$
+  String STR_VISEL_ARC_DELTA_ANGLE_D = Messages.getString( "STR_VISEL_ARC_DELTA_ANGLE_D" ); //$NON-NLS-1$
+  String STR_VISEL_ARC_THICKNESS     = Messages.getString( "STR_VISEL_ARC_THICKNESS" );     //$NON-NLS-1$
+  String STR_VISEL_ARC_THICKNESS_D   = Messages.getString( "STR_VISEL_ARC_THICKNESS_D" );   //$NON-NLS-1$
+
+  /**
+   * {@link ViselArc}
+   */
+  String STR_VISEL_ARC   = Messages.getString( "STR_VISEL_ARC" );   //$NON-NLS-1$
+  String STR_VISEL_ARC_D = Messages.getString( "STR_VISEL_ARC_D" ); //$NON-NLS-1$
+
+  /**
    * {@link ViselEllipse}
    */
   String STR_VISEL_ELLIPSE   = Messages.getString( "STR_VISEL_ELLIPSE" );   //$NON-NLS-1$
@@ -111,20 +127,14 @@ interface ITsResources {
   /**
    * {@link ViselBaloon}
    */
-  // String STR_VISEL_ARC_WIDTH = "Ширина арки"; //
-  // String STR_VISEL_ARC_WIDTH_D = "Ширина арки"; //
-  // String STR_VISEL_ARC_HEIGHT = "Высота арки"; //
-  // String STR_VISEL_ARC_HEIGHT_D = "Высота арки"; //
-  String STR_VISEL_BALOON        = Messages.getString( "STR_VISEL_BALOON" );        //$NON-NLS-1$
-  String STR_VISEL_BALOON_D      = Messages.getString( "STR_VISEL_BALOON_D" );      //$NON-NLS-1$
-  String STR_VISEL_NOSE_LENGTH   = Messages.getString( "STR_VISEL_NOSE_LENGTH" );   //$NON-NLS-1$
-  String STR_VISEL_NOSE_LENGTH_D = Messages.getString( "STR_VISEL_NOSE_LENGTH_D" ); //$NON-NLS-1$
-  String STR_VISEL_NOSE_WIDTH    = Messages.getString( "STR_VISEL_NOSE_WIDTH" );    //$NON-NLS-1$
-  String STR_VISEL_NOSE_WIDTH_D  = Messages.getString( "STR_VISEL_NOSE_WIDTH_D" );  //$NON-NLS-1$
-  String STR_NOSE_FULCRUM        = Messages.getString( "STR_NOSE_FULCRUM" );        //$NON-NLS-1$
-  String STR_HOR_NOSE_FULCRUM    = Messages.getString( "STR_HOR_NOSE_FULCRUM" );    //$NON-NLS-1$
-  // String STR_USE_GRADIENT = "Использовать градиент";
-  // String STR_USE_GRADIENT_D = "Использовать градиент";
+  String STR_VISEL_BALOON         = Messages.getString( "STR_VISEL_BALOON" );         //$NON-NLS-1$
+  String STR_VISEL_BALOON_D       = Messages.getString( "STR_VISEL_BALOON_D" );       //$NON-NLS-1$
+  String STR_VISEL_NOSE_LENGTH    = Messages.getString( "STR_VISEL_NOSE_LENGTH" );    //$NON-NLS-1$
+  String STR_VISEL_NOSE_LENGTH_D  = Messages.getString( "STR_VISEL_NOSE_LENGTH_D" );  //$NON-NLS-1$
+  String STR_VISEL_NOSE_WIDTH     = Messages.getString( "STR_VISEL_NOSE_WIDTH" );     //$NON-NLS-1$
+  String STR_VISEL_NOSE_WIDTH_D   = Messages.getString( "STR_VISEL_NOSE_WIDTH_D" );   //$NON-NLS-1$
+  String STR_NOSE_FULCRUM         = Messages.getString( "STR_NOSE_FULCRUM" );         //$NON-NLS-1$
+  String STR_HOR_NOSE_FULCRUM     = Messages.getString( "STR_HOR_NOSE_FULCRUM" );     //$NON-NLS-1$
   String STR_VISEL_SHADOW_DEPTH   = Messages.getString( "STR_VISEL_SHADOW_DEPTH" );   //$NON-NLS-1$
   String STR_VISEL_SHADOW_DEPTH_D = Messages.getString( "STR_VISEL_SHADOW_DEPTH_D" ); //$NON-NLS-1$
 
@@ -132,5 +142,33 @@ interface ITsResources {
    * Визель {@link ViselCheckbox}
    */
   String STR_VALUE = Messages.getString( "STR_VALUE" ); //$NON-NLS-1$
+
+  /**
+   * {@link ViselRoundAxis}
+   */
+  String STR_VISEL_ROUND_AXIS   = Messages.getString( "STR_VISEL_ROUND_AXIS" );   //$NON-NLS-1$
+  String STR_VISEL_ROUND_AXIS_D = Messages.getString( "STR_VISEL_ROUND_AXIS_D" ); //$NON-NLS-1$
+
+  /**
+   * {@link ViselHorLinearAxis}
+   */
+  String STR_VISEL_HOR_LINEAR_AXIS   = Messages.getString( "STR_VISEL_HOR_LINEAR_AXIS" );   //$NON-NLS-1$
+  String STR_VISEL_HOR_LINEAR_AXIS_D = Messages.getString( "STR_VISEL_HOR_LINEAR_AXIS_D" ); //$NON-NLS-1$
+
+  /**
+   * {@link ViselRoundAxisRenderer}
+   */
+  String STR_ROUND_AXIS_BIG_TICK_QTTY   = Messages.getString( "STR_ROUND_AXIS_BIG_TICK_QTTY" );   //$NON-NLS-1$
+  String STR_ROUND_AXIS_BIG_TICK_QTTY_D = Messages.getString( "STR_ROUND_AXIS_BIG_TICK_QTTY_D" ); //$NON-NLS-1$
+  String STR_ROUND_AXIS_LIT_TICK_QTTY   = Messages.getString( "STR_ROUND_AXIS_LIT_TICK_QTTY" );   //$NON-NLS-1$
+  String STR_ROUND_AXIS_LIT_TICK_QTTY_D = Messages.getString( "STR_ROUND_AXIS_LIT_TICK_QTTY_D" ); //$NON-NLS-1$
+  String STR_ROUND_AXIS_ANNOTATIONS     = Messages.getString( "STR_ROUND_AXIS_ANNOTATIONS" );     //$NON-NLS-1$
+  String STR_ROUND_AXIS_ANNOTATIONS_D   = Messages.getString( "STR_ROUND_AXIS_ANNOTATIONS_D" );   //$NON-NLS-1$
+  String STR_ROUND_AXIS_TEXT_ROTATION   = Messages.getString( "STR_ROUND_AXIS_TEXT_ROTATION" );   //$NON-NLS-1$
+  String STR_ROUND_AXIS_TEXT_ROTATION_D = Messages.getString( "STR_ROUND_AXIS_TEXT_ROTATION_D" ); //$NON-NLS-1$
+  String STR_ROUND_AXIS_TICKS_OUT       = Messages.getString( "STR_ROUND_AXIS_TICKS_OUT" );       //$NON-NLS-1$
+  String STR_ROUND_AXIS_TICKS_OUT_D     = Messages.getString( "STR_ROUND_AXIS_TICKS_OUT_D" );     //$NON-NLS-1$
+  String STR_ROUND_AXIS_DRAW_ARC        = Messages.getString( "STR_ROUND_AXIS_DRAW_ARC" );        //$NON-NLS-1$
+  String STR_ROUND_AXIS_DRAW_ARC_D      = Messages.getString( "STR_ROUND_AXIS_DRAW_ARC_D" );      //$NON-NLS-1$
 
 }

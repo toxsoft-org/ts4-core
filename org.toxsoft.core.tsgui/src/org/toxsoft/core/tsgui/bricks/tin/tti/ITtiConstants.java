@@ -9,7 +9,9 @@ import org.toxsoft.core.tsgui.bricks.tin.*;
 import org.toxsoft.core.tsgui.graphics.colors.*;
 import org.toxsoft.core.tsgui.graphics.image.*;
 import org.toxsoft.core.tsgui.graphics.lines.*;
+import org.toxsoft.core.tsgui.graphics.path.*;
 import org.toxsoft.core.tsgui.graphics.patterns.*;
+import org.toxsoft.core.tsgui.graphics.shadow.*;
 
 /**
  * Object inspector helper constants.
@@ -52,5 +54,7 @@ public interface ITtiConstants {
   ITinTypeInfo TTI_COLOR_RGBA      = new TinAtomicTypeInfo.TtiValobj<>( DT_COLOR_RGBA, RGBA.class );
   // ITinTypeInfo TTI_TS_FILL_INFO = new TinAtomicTypeInfo.TtiValobj<>( DT_TS_FILL_INFO, TsFillInfo.class );
   ITinTypeInfo TTI_TS_BORDER_INFO = new TinAtomicTypeInfo.TtiValobj<>( DT_TS_BORDER_INFO, TsBorderInfo.class );
+  ITinTypeInfo TTI_TS_PATH_DATA   = new TinAtomicTypeInfo.TtiValobj<>( DT_TS_PATH_DATA, TsPathData.class );
+  ITinTypeInfo TTI_TS_SHADOW_INFO = new TinAtomicTypeInfo.TtiValobj<>( DT_TS_SHADOW_INFO, TsShadowInfo.class );
 
 }

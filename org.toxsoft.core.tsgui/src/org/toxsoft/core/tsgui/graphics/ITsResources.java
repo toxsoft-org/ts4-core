@@ -74,4 +74,9 @@ interface ITsResources {
   String STR_TS_FONT_INFO     = Messages.getString( "STR_TS_FONT_INFO" );     //$NON-NLS-1$ aAAA
   String STR_TS_FONT_INFO_D   = Messages.getString( "STR_TS_FONT_INFO_D" );   //$NON-NLS-1$ aAAA
 
+  String STR_TS_PATH_DATA   = Messages.getString( "STR_TS_PATH_DATA" );   //$NON-NLS-1$ aAAA
+  String STR_TS_PATH_DATA_D = Messages.getString( "STR_TS_PATH_DATA_D" ); //$NON-NLS-1$ aAAA
+
+  String STR_TS_SHADOW_INFO   = Messages.getString( "STR_TS_SHADOW_INFO" );   //$NON-NLS-1$ aAAA
+  String STR_TS_SHADOW_INFO_D = Messages.getString( "STR_TS_SHADOW_INFO_D" ); //$NON-NLS-1$ aAAA
 }

@@ -81,6 +81,11 @@ public class PanelGradientFillInfo
           cylinderGradientSelector.setGradientInfo( aData.cylinderGradientInfo() );
           stackLayout.topControl = cylinderGradientSelector;
           break;
+        case CONICAL:
+          fillKindCombo.setValue( EGradientType.CONICAL );
+          conicalGradientSelector.setGradientInfo( aData.conicalGradientInfo() );
+          stackLayout.topControl = conicalGradientSelector;
+          break;
         default:
           throw new TsNotAllEnumsUsedRtException();
       }
@@ -103,6 +108,8 @@ public class PanelGradientFillInfo
         return new TsGradientFillInfo( linearGradientSelector.gradientInfo() );
       case RADIAL:
         return new TsGradientFillInfo( radialGradientSelector.gradientInfo() );
+      case CONICAL:
+        return new TsGradientFillInfo( conicalGradientSelector.gradientInfo() );
       default:
         throw new TsNotAllEnumsUsedRtException();
     }
@@ -118,6 +125,7 @@ public class PanelGradientFillInfo
   PanelLinearGradientSelector   linearGradientSelector;
   PanelRadialGradientSelector   radialGradientSelector;
   PanelCylinderGradientSelector cylinderGradientSelector;
+  PanelConicalGradientSelector  conicalGradientSelector;
 
   ITsVisualsProvider<EGradientType> visualsProvider = IStridable::nmName;
 
@@ -149,6 +157,9 @@ public class PanelGradientFillInfo
         case RADIAL:
           stackLayout.topControl = radialGradientSelector;
           break;
+        case CONICAL:
+          stackLayout.topControl = conicalGradientSelector;
+          break;
         default:
           throw new TsNotAllEnumsUsedRtException();
       }
@@ -164,6 +175,7 @@ public class PanelGradientFillInfo
     linearGradientSelector = new PanelLinearGradientSelector( contentHolder, tsContext() );
     radialGradientSelector = new PanelRadialGradientSelector( contentHolder, tsContext() );
     cylinderGradientSelector = new PanelCylinderGradientSelector( contentHolder, tsContext() );
+    conicalGradientSelector = new PanelConicalGradientSelector( contentHolder, tsContext() );
 
     stackLayout.topControl = linearGradientSelector;
 
@@ -172,6 +184,7 @@ public class PanelGradientFillInfo
     linearGradientSelector.genericChangeEventer().addListener( changeListener );
     radialGradientSelector.genericChangeEventer().addListener( changeListener );
     cylinderGradientSelector.genericChangeEventer().addListener( changeListener );
+    conicalGradientSelector.genericChangeEventer().addListener( changeListener );
   }
 
 }

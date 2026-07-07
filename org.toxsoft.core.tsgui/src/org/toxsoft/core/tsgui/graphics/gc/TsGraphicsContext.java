@@ -80,17 +80,10 @@ public class TsGraphicsContext
 
   private void fillImage( TsImage aImage, int aX, int aY, int aWidth, int aHeight, EImageFillKind aFillKind ) {
     switch( aFillKind ) {
-      case CENTER:
-        fillCenterImage( aImage, aX, aY, aWidth, aHeight );
-        break;
-      case FIT:
-        fillFitImage( aImage, aWidth, aHeight );
-        break;
-      case TILE:
-        fillTileImage( aImage, aX, aY, aWidth, aHeight );
-        break;
-      default:
-        throw new IllegalArgumentException( "Unexpected value: " + aFillKind ); //$NON-NLS-1$
+      case CENTER -> fillCenterImage( aImage, aX, aY, aWidth, aHeight );
+      case FIT -> fillFitImage( aImage, aWidth, aHeight );
+      case TILE -> fillTileImage( aImage, aX, aY, aWidth, aHeight );
+      default -> throw new IllegalArgumentException( "Unexpected value: " + aFillKind ); //$NON-NLS-1$
     }
   }
 
@@ -193,6 +186,14 @@ public class TsGraphicsContext
       lineInfo.setToGc( gc );
     }
     gc.drawOval( aX, aY, aWidth, aHeight );
+  }
+
+  @Override
+  public void drawArc( int aX, int aY, int aWidth, int aHeight, int aStartAngleGrad, int aArcAngleGrad ) {
+    if( lineInfo != null ) {
+      lineInfo.setToGc( gc );
+    }
+    gc.drawArc( aX, aY, aWidth, aHeight, aStartAngleGrad, aArcAngleGrad );
   }
 
   @Override
@@ -397,43 +398,45 @@ public class TsGraphicsContext
   public void fillPath( Path aPath, int aX, int aY, int aWidth, int aHeight ) {
     Pattern pattern = null;
 
-    if( fillInfo != null ) {
-      switch( fillInfo.kind() ) {
-        case NONE:
-          return;
-        case SOLID:
-          RGBA rgba = fillInfo.fillColor();
-          gc.setBackground( colorManager().getColor( rgba.rgb ) );
-          gc.setAlpha( rgba.alpha );
-          break;
-        case GRADIENT:
-          IGradient grad = fillInfo.gradientFillInfo().createGradient( tsContext );
-          if( grad != null ) {
-            pattern = grad.pattern( gc, aWidth, aHeight );
-            gc.setBackgroundPattern( pattern );
-          }
-          break;
-        case IMAGE:
-          TsImageFillInfo imgInfo = fillInfo.imageFillInfo();
-          if( imgInfo.imageDescriptor() == TsImageDescriptor.NONE ) {
-            unknownImage = imageManager().createUnknownImage( unknownImageSize );
-            bkImage = unknownImage;
-          }
-          else {
-            bkImage = imageManager().getImage( imgInfo.imageDescriptor() );
-          }
-          if( imgInfo.kind() == EImageFillKind.TILE ) {
-            fillTileImage( bkImage, aX, aY, aWidth, aHeight );
-          }
-          if( unknownImage != null ) {
-            unknownImage.dispose();
-            unknownImage = null;
-          }
-          return;
-        default:
-          throw new IllegalArgumentException( "Unexpected value: " + fillInfo.kind() ); //$NON-NLS-1$
-      }
+    if( fillInfo == null ) {
+      return;
     }
+    switch( fillInfo.kind() ) {
+      case NONE:
+        return;
+      case SOLID:
+        RGBA rgba = fillInfo.fillColor();
+        gc.setBackground( colorManager().getColor( rgba.rgb ) );
+        gc.setAlpha( rgba.alpha );
+        break;
+      case GRADIENT:
+        IGradient grad = fillInfo.gradientFillInfo().createGradient( tsContext );
+        if( grad != null ) {
+          pattern = grad.pattern( gc, aWidth, aHeight );
+          gc.setBackgroundPattern( pattern );
+        }
+        break;
+      case IMAGE:
+        TsImageFillInfo imgInfo = fillInfo.imageFillInfo();
+        if( imgInfo.imageDescriptor() == TsImageDescriptor.NONE ) {
+          unknownImage = imageManager().createUnknownImage( unknownImageSize );
+          bkImage = unknownImage;
+        }
+        else {
+          bkImage = imageManager().getImage( imgInfo.imageDescriptor() );
+        }
+        if( imgInfo.kind() == EImageFillKind.TILE ) {
+          fillTileImage( bkImage, aX, aY, aWidth, aHeight );
+        }
+        if( unknownImage != null ) {
+          unknownImage.dispose();
+          unknownImage = null;
+        }
+        return;
+      default:
+        throw new IllegalArgumentException( "Unexpected value: " + fillInfo.kind() ); //$NON-NLS-1$
+    }
+
     Transform oldTransform = new Transform( gc.getDevice() );
     gc.getTransform( oldTransform );
     Transform tr = new Transform( gc.getDevice() );
