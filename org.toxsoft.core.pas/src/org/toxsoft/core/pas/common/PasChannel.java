@@ -513,7 +513,7 @@ public class PasChannel
    */
   protected final void setWriteTimeout( int aTimeout ) {
     // Установка таймаута отказа работоспособности канала
-    logger.debug( MSG_SET_WRITE_TIMEOUT, this, Integer.valueOf( writeTimeout ), Integer.valueOf( aTimeout ) );
+    logger.info( MSG_SET_WRITE_TIMEOUT, this, Integer.valueOf( writeTimeout ), Integer.valueOf( aTimeout ) );
     writeTimeout = aTimeout;
   }
 
@@ -811,7 +811,7 @@ public class PasChannel
     params.put( JSON_PARAM_FAILURE_TIMEOUT, createNumber( aFailureTimeout ) );
     aChannel.sendNotification( JSON_NOTIFY_ALIVE, params );
     // Запись в журнал
-    aChannel.logger.debug( MSG_SEND_ALIVE, aChannel, Long.valueOf( aFailureTimeout ) );
+    aChannel.logger.info( MSG_SEND_ALIVE, aChannel, Long.valueOf( aFailureTimeout ) );
     return true;
   }
 
@@ -850,7 +850,7 @@ public class PasChannel
         // Запись в журнал
         String n = (name != null ? name.asString() : MSG_UNDEF);
         String d = (name != null ? description.asString() : MSG_UNDEF);
-        aChannel.logger().debug( MSG_RECEIVE_ALIVE, aChannel, n, d, Long.valueOf( remoteFailureTimeout ) );
+        aChannel.logger().info( MSG_RECEIVE_ALIVE, aChannel, n, d, Long.valueOf( remoteFailureTimeout ) );
         return true;
       }
       // Попытка обработки запроса наследником
@@ -960,7 +960,7 @@ public class PasChannel
     IJSONResultHandler<PasChannel> resultHandler = aChannel.findResultHandler( request.method() );
     if( resultHandler == null ) {
       // Не найден обработчик результатов запроса
-      aChannel.logger().debug( ERR_RESULT_HANDLER_NOT_FOUND, request );
+      aChannel.logger().warning( ERR_RESULT_HANDLER_NOT_FOUND, request );
       return false;
     }
     // Обработка результатов
@@ -1008,7 +1008,7 @@ public class PasChannel
     IJSONErrorHandler<PasChannel> errorHandler = aChannel.findErrorHandler( request.method() );
     if( errorHandler == null ) {
       // Не найден обработчик результатов запроса
-      aChannel.logger().debug( ERR_RESULT_HANDLER_NOT_FOUND, request );
+      aChannel.logger().warning( ERR_RESULT_HANDLER_NOT_FOUND, request );
       return false;
     }
     // Обработка ошибки
@@ -1111,7 +1111,7 @@ public class PasChannel
       }
       // По каналу получено сообщение
       if( logger.isSeverityOn( ELogSeverity.DEBUG ) ) {
-        logger.debug( MSG_RECEIVE_MESSAGE, aChannel, retValue,
+        logger.info( MSG_RECEIVE_MESSAGE, aChannel, retValue,
             TimeUtils.timestampToString( aChannel.lastReadTimestamp ) );
       }
       try {
@@ -1164,7 +1164,7 @@ public class PasChannel
       aChannel.channelWriter().writeJsonObject( aMessage.value() );
       // По каналу передано сообщение
       if( logger.isSeverityOn( ELogSeverity.DEBUG ) ) {
-        logger.debug( MSG_SEND_MESSAGE, aChannel, aMessage );
+        logger.info( MSG_SEND_MESSAGE, aChannel, aMessage );
       }
       try {
         handler.onSended( aChannel, aMessage );
