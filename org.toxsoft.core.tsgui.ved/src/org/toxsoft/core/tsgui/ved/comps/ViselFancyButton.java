@@ -13,6 +13,7 @@ import org.toxsoft.core.tsgui.ved.incub.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
+import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
@@ -54,6 +55,9 @@ public class ViselFancyButton
       fields.add( TFI_FULCRUM );
 
       fields.add( TFI_RENDERER_CFG );
+      fields.add( ViselButton.TFI_STATE );
+      fields.add( TFI_ENABLED );
+      fields.add( TFI_HOVERED );
 
       fields.add( TFI_IS_ASPECT_FIXED );
       fields.add( TFI_ASPECT_RATIO );
@@ -73,6 +77,8 @@ public class ViselFancyButton
   };
 
   AbstractViselRenderer renderer;
+
+  private EButtonViselState prevState = EButtonViselState.NORMAL;
 
   /**
    * Constructor.
@@ -96,21 +102,47 @@ public class ViselFancyButton
       IViselRendererFactory factory = reg.find( cfg.factoryId() );
       if( factory != null ) {
         renderer = factory.create( cfg, this, vedScreen() );
-        double width = aChangedValue.getDouble( PROPID_WIDTH );
-        double height = aChangedValue.getDouble( PROPID_HEIGHT );
-        renderer.props().setDouble( PROPID_WIDTH, width );
-        renderer.props().setDouble( PROPID_HEIGHT, height );
+        if( aChangedValue.hasKey( PROPID_WIDTH ) ) {
+          double width = aChangedValue.getDouble( PROPID_WIDTH );
+          renderer.props().setDouble( PROPID_WIDTH, width );
+        }
+        if( aChangedValue.hasKey( PROPID_HEIGHT ) ) {
+          double height = aChangedValue.getDouble( PROPID_HEIGHT );
+          renderer.props().setDouble( PROPID_HEIGHT, height );
+        }
       }
     }
 
     if( aChangedValue.keys().hasElem( PROPID_WIDTH ) ) {
       double width = aChangedValue.getDouble( PROPID_WIDTH );
-      renderer.props().setDouble( PROPID_WIDTH, width );
+      if( renderer != null ) {
+        renderer.props().setDouble( PROPID_WIDTH, width );
+      }
     }
 
     if( aChangedValue.keys().hasElem( PROPID_HEIGHT ) ) {
       double height = aChangedValue.getDouble( PROPID_HEIGHT );
-      renderer.props().setDouble( PROPID_WIDTH, height );
+      if( renderer != null ) {
+        renderer.props().setDouble( PROPID_HEIGHT, height );
+      }
+    }
+
+    if( aChangedValue.hasKey( PROPID_ENABLED ) ) {
+      IAtomicValue av = aChangedValue.getByKey( PROPID_ENABLED );
+      if( av != null && av.isAssigned() ) {
+        props().propsEventer().pauseFiring();
+        if( av.asBool() ) {
+          if( prevState == EButtonViselState.DISABLED ) {
+            prevState = EButtonViselState.NORMAL;
+          }
+          props().setValobj( ViselButton.PROPID_STATE, prevState );
+        }
+        else {
+          prevState = props().getValobj( ViselButton.PROPID_STATE );
+          props().setValobj( ViselButton.PROPID_STATE, EButtonViselState.DISABLED );
+        }
+        props().propsEventer().resumeFiring( false );
+      }
     }
   }
 

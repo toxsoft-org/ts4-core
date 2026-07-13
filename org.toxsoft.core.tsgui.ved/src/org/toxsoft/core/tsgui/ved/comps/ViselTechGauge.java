@@ -218,15 +218,21 @@ public class ViselTechGauge
 
     if( aChangedValue.hasKey( PROPID_MIN_VALUE ) ) {
       minValue = aChangedValue.getDouble( PROPID_MIN_VALUE );
-      arrowRenderer.props().setDouble( PROPID_ARROW_ANGLE, calcArrowAngle() );
+      if( arrowRenderer != null ) {
+        arrowRenderer.props().setDouble( PROPID_ARROW_ANGLE, calcArrowAngle() );
+      }
     }
     if( aChangedValue.hasKey( PROPID_MAX_VALUE ) ) {
       maxValue = aChangedValue.getDouble( PROPID_MAX_VALUE );
-      arrowRenderer.props().setDouble( PROPID_ARROW_ANGLE, calcArrowAngle() );
+      if( arrowRenderer != null ) {
+        arrowRenderer.props().setDouble( PROPID_ARROW_ANGLE, calcArrowAngle() );
+      }
     }
     if( aChangedValue.hasKey( PROPID_VALUE ) ) {
       value = aChangedValue.getDouble( PROPID_VALUE );
-      arrowRenderer.props().setDouble( PROPID_ARROW_ANGLE, calcArrowAngle() );
+      if( arrowRenderer != null ) {
+        arrowRenderer.props().setDouble( PROPID_ARROW_ANGLE, calcArrowAngle() );
+      }
     }
 
     if( aChangedValue.hasKey( PROPID_BKG_RENDERER_CFG ) ) { // обновим отрисовщик
