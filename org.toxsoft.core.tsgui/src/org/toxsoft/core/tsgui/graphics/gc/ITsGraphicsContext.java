@@ -47,6 +47,8 @@ public interface ITsGraphicsContext
 
   void drawOval( int aX, int aY, int aWidth, int aHeight );
 
+  void drawArc( int aX, int aY, int aWidth, int aHeight, int aStartAngleGrad, int aArcAngleGrad );
+
   void fillPath( Path aPath, int aX, int aY, int aWidth, int aHeight );
 
   void fillPolygon( int[] aPoints );

@@ -145,6 +145,7 @@ public interface IVedScreenConstants {
   //
 
   String PROPID_TEXT              = "text";            //$NON-NLS-1$
+  String PROPID_TEXT_COLOR        = "textColor";       //$NON-NLS-1$
   String PROPID_FONT              = "font";            //$NON-NLS-1$
   String PROPID_HOR_ALIGNMENT     = "horAlign";        //$NON-NLS-1$
   String PROPID_VER_ALIGNMENT     = "verAlign";        //$NON-NLS-1$
@@ -175,6 +176,9 @@ public interface IVedScreenConstants {
   String PROPID_HOVERED = "hovered"; //$NON-NLS-1$
   String PROPID_ENABLED = "enabled"; //$NON-NLS-1$
 
+  String PROPID_PATH_DATA   = "pathData";   //$NON-NLS-1$
+  String PROPID_SHADOW_INFO = "shadowInfo"; //$NON-NLS-1$
+
   String PROPID_IS_ACTOR_MANDATORY = "isActorMandatory"; //$NON-NLS-1$
 
   IDataDef PROP_IS_ACTOR_MANDATORY = DataDef.create( PROPID_IS_ACTOR_MANDATORY, BOOLEAN, //
@@ -187,6 +191,11 @@ public interface IVedScreenConstants {
       TSID_NAME, STR_TEXT, //
       TSID_DESCRIPTION, STR_TEXT_D, //
       TSID_DEFAULT_VALUE, avStr( "Abc123" ) // //$NON-NLS-1$
+  );
+
+  IDataDef PROP_TEXT_COLOR = DataDef.create3( PROPID_TEXT_COLOR, DT_TS_COLOR_DESCRIPTOR, //
+      TSID_NAME, STR_TEXT_COLOR, //
+      TSID_DESCRIPTION, STR_TEXT_COLOR_D //
   );
 
   IDataDef PROP_FONT = DataDef.create3( PROPID_FONT, DDEF_STRING, //
@@ -336,6 +345,16 @@ public interface IVedScreenConstants {
       TSID_DEFAULT_VALUE, AV_TRUE //
   );
 
+  IDataDef PROP_PATH_DATA = DataDef.create3( PROPID_PATH_DATA, DT_TS_PATH_DATA, //
+      TSID_NAME, STR_PATH_DATA, //
+      TSID_DESCRIPTION, STR_PATH_DATA_D //
+  );
+
+  IDataDef PROP_SHADOW_INFO = DataDef.create3( PROPID_SHADOW_INFO, DT_TS_SHADOW_INFO, //
+      TSID_NAME, STR_SHADOW_INFO, //
+      TSID_DESCRIPTION, STR_SHADOW_INFO_D //
+  );
+
   // ------------------------------------------------------------------------------------
   // Optional actor properties
   //
@@ -383,6 +402,7 @@ public interface IVedScreenConstants {
   ITinFieldInfo TFI_ANGLE            = new TinFieldInfo( PROP_ANGLE, TtiD2Angle.INSTANCE );
   ITinFieldInfo TFI_TRANSFORM        = new TinFieldInfo( PROP_TRANSFORM, TtiD2Conversion.INSTANCE );
   ITinFieldInfo TFI_TEXT             = new TinFieldInfo( PROP_TEXT, TTI_AT_STRING );
+  ITinFieldInfo TFI_TEXT_COLOR       = new TinFieldInfo( PROP_TEXT_COLOR, TTI_TS_COLOR_DECRIPTOR );
   ITinFieldInfo TFI_FONT             = new TinFieldInfo( PROP_FONT, TtiTsFontInfo.INSTANCE );
   ITinFieldInfo TFI_HOR_ALIGNMENT    = new TinFieldInfo( PROP_HOR_ALIGNMENT, TtiAvEnum.INSTANCE );
   ITinFieldInfo TFI_VER_ALIGNMENT    = new TinFieldInfo( PROP_VER_ALIGNMENT, TtiAvEnum.INSTANCE );
@@ -406,7 +426,9 @@ public interface IVedScreenConstants {
   ITinFieldInfo TFI_RIGHT_INDENT  = new TinFieldInfo( PROP_RIGHT_INDENT, TTI_AT_INTEGER );
   ITinFieldInfo TFI_BOTTOM_INDENT = new TinFieldInfo( PROP_BOTTOM_INDENT, TTI_AT_INTEGER );
 
-  ITinFieldInfo TFI_HOVERED = new TinFieldInfo( PROP_HOVERED, TTI_AT_BOOLEAN );
+  ITinFieldInfo TFI_HOVERED     = new TinFieldInfo( PROP_HOVERED, TTI_AT_BOOLEAN );
+  ITinFieldInfo TFI_PATH_DATA   = new TinFieldInfo( PROP_PATH_DATA, TTI_TS_PATH_DATA );
+  ITinFieldInfo TFI_SHADOW_INFO = new TinFieldInfo( PROP_SHADOW_INFO, TTI_TS_SHADOW_INFO );
 
   // ------------------------------------------------------------------------------------
   // same fields as above but hidden one

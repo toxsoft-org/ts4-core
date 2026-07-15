@@ -247,6 +247,15 @@ public class ViselBaloon
     return ViselBaloonVertexSet.create( this, vedScreen() );
   }
 
+  @Override
+  protected void doDispose() {
+    super.doDispose();
+    if( image != null ) {
+      image.dispose();
+    }
+    disposePaths();
+  }
+
   // ------------------------------------------------------------------------------------
   // API пакета
   //

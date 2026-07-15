@@ -43,6 +43,9 @@ public abstract class AbstractGradientInfo
             case RADIAL:
               RadialGradientInfo.keeper().write( aSw, (RadialGradientInfo)aEntity );
               break;
+            case CONICAL:
+              ConicalGradientInfo.keeper().write( aSw, (ConicalGradientInfo)aEntity );
+              break;
             default:
               throw new TsNotAllEnumsUsedRtException();
           }
@@ -61,6 +64,8 @@ public abstract class AbstractGradientInfo
               return LinearGradientInfo.keeper().read( aSr );
             case RADIAL:
               return RadialGradientInfo.keeper().read( aSr );
+            case CONICAL:
+              return ConicalGradientInfo.keeper().read( aSr );
             default:
               throw new TsNotAllEnumsUsedRtException();
           }

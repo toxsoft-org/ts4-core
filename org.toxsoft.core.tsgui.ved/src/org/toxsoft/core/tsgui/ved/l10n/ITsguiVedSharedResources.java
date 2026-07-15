@@ -40,6 +40,8 @@ public interface ITsguiVedSharedResources {
   String STR_TEXT               = Messages.getString( "STR_TEXT" );               //$NON-NLS-1$
   String STR_TEXT_D             = Messages.getString( "STR_TEXT_D" );             //$NON-NLS-1$
   String STR_HOR_ALIGN          = Messages.getString( "STR_HOR_ALIGN" );          //$NON-NLS-1$
+  String STR_TEXT_COLOR         = Messages.getString( "STR_TEXT_COLOR" );         //$NON-NLS-1$
+  String STR_TEXT_COLOR_D       = Messages.getString( "STR_TEXT_COLOR_D" );       //$NON-NLS-1$
   String STR_HOR_ALIGN_D        = Messages.getString( "STR_HOR_ALIGN_D" );        //$NON-NLS-1$
   String STR_VER_ALIGN          = Messages.getString( "STR_VER_ALIGN" );          //$NON-NLS-1$
   String STR_VER_ALIGN_D        = Messages.getString( "STR_VER_ALIGN_D" );        //$NON-NLS-1$
@@ -95,6 +97,12 @@ public interface ITsguiVedSharedResources {
 
   String STR_ENABLED   = Messages.getString( "STR_ENABLED" );   //$NON-NLS-1$
   String STR_ENABLED_D = Messages.getString( "STR_ENABLED_D" ); //$NON-NLS-1$
+
+  String STR_PATH_DATA   = Messages.getString( "STR_PATH_DATA" );   //$NON-NLS-1$
+  String STR_PATH_DATA_D = Messages.getString( "STR_PATH_DATA_D" ); //$NON-NLS-1$
+
+  String STR_SHADOW_INFO   = Messages.getString( "STR_SHADOW_INFO" );   //$NON-NLS-1$
+  String STR_SHADOW_INFO_D = Messages.getString( "STR_SHADOW_INFO_D" ); //$NON-NLS-1$
 
   /**
    * {@link VedAbstractActor}

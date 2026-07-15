@@ -91,6 +91,26 @@ public class LineSegment {
   }
 
   /**
+   * Конструктор по двум точкам.
+   * <p>
+   *
+   * @param p1 Point2D - первая точка отрезка
+   * @param p2 Point2D - вторая точка отрезка
+   */
+  public LineSegment( D2Point p1, D2Point p2 ) {
+    x1 = p1.x();
+    y1 = p1.y();
+    x2 = p2.x();
+    y2 = p2.y();
+
+    a = y1 - y2;
+    b = x2 - x1;
+    c = x1 * y2 - x2 * y1;
+
+    angle = Math.atan( -a / b );
+  }
+
+  /**
    * Конструктор по точке углу и дине. Constructor.
    *
    * @param p1 {@link D2Point} - крайняя точка отрезка

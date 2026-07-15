@@ -72,7 +72,7 @@ public abstract class AbstractGradientFraction
   // Методы для использования в наследниках
   //
 
-  protected double startValue() {
+  public double startValue() {
     return fi.startValue();
   }
 
@@ -80,7 +80,7 @@ public abstract class AbstractGradientFraction
     return fi.startRGBA();
   }
 
-  protected double endValue() {
+  public double endValue() {
     return fi.endValue();
   }
 

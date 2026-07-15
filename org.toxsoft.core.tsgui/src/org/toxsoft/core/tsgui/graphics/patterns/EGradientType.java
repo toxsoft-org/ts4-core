@@ -26,6 +26,8 @@ public enum EGradientType
 
   CYLINDER( "cylinder", STR_N_GRADIENT_CYLINDER, STR_D_GRADIENT_CYLINDER ), //$NON-NLS-1$
 
+  CONICAL( "conical", STR_N_GRADIENT_CONICAL, STR_D_GRADIENT_CONICAL ), //$NON-NLS-1$
+
   ;
 
   /**

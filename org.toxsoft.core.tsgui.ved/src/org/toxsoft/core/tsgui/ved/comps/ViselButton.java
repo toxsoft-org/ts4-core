@@ -54,6 +54,15 @@ public class ViselButton
   public static final String PROPID_HOVERED = "hovered"; //$NON-NLS-1$ находится под курсором
 
   /**
+   * Информация о поле содержащем состояние кнопки
+   */
+  public static final TinFieldInfo TFI_STATE = new TinFieldInfo( PROPID_STATE, TtiAvEnum.INSTANCE, //
+      TSID_NAME, STR_BUTTON_STATE, //
+      TSID_DESCRIPTION, STR_BUTTON_STATE_D, //
+      TSID_KEEPER_ID, EButtonViselState.KEEPER_ID, //
+      TSID_DEFAULT_VALUE, avValobj( EButtonViselState.NORMAL ) );
+
+  /**
    * The VISEL factory singleton.
    */
   public static final IVedViselFactory FACTORY = new VedAbstractViselFactory( FACTORY_ID, //
@@ -71,12 +80,6 @@ public class ViselButton
     // TSID_NAME, STR_VISEL_ARC_HEIGHT, //
     // TSID_DESCRIPTION, STR_VISEL_ARC_HEIGHT_D, //
     // TSID_DEFAULT_VALUE, avFloat( 16 ) );
-
-    private static final TinFieldInfo TFI_STATE = new TinFieldInfo( PROPID_STATE, TtiAvEnum.INSTANCE, //
-        TSID_NAME, STR_BUTTON_STATE, //
-        TSID_DESCRIPTION, STR_BUTTON_STATE_D, //
-        TSID_KEEPER_ID, EButtonViselState.KEEPER_ID, //
-        TSID_DEFAULT_VALUE, avValobj( EButtonViselState.NORMAL ) );
 
     @Override
     protected VedAbstractVisel doCreate( IVedItemCfg aCfg, VedScreen aVedScreen ) {
