@@ -18,6 +18,7 @@ import org.toxsoft.core.tsgui.ved.incub.*;
 import org.toxsoft.core.tsgui.ved.screen.cfg.*;
 import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tsgui.ved.screen.items.*;
+import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.impl.*;
 import org.toxsoft.core.tslib.av.metainfo.*;
 import org.toxsoft.core.tslib.av.opset.*;
@@ -229,7 +230,10 @@ public class ViselTechGauge
       }
     }
     if( aChangedValue.hasKey( PROPID_VALUE ) ) {
-      value = aChangedValue.getDouble( PROPID_VALUE );
+      IAtomicValue av = aChangedValue.getValue( PROPID_VALUE );
+      if( av.isAssigned() ) {
+        value = av.asDouble();
+      }
       if( arrowRenderer != null ) {
         arrowRenderer.props().setDouble( PROPID_ARROW_ANGLE, calcArrowAngle() );
       }
