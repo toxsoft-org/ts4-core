@@ -87,6 +87,7 @@ public class MpcFilterPaneWrapper<T>
       @Override
       public void widgetSelected( SelectionEvent aEvent ) {
         panel.reset();
+        panel.getControl().setFocus();
       }
     } );
     return c;
