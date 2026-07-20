@@ -11,7 +11,7 @@ import org.toxsoft.core.tslib.utils.checks.*;
  * @param <T> - the entity type
  */
 public interface IGenericCollPanel<T>
-    extends IGenericSelectorPanel<T>, ITsDoubleClickEventProducer<T> {
+    extends IGenericSelectorPanel<T>, ITsDoubleClickEventProducer<T>, ITsCheckSupportable<T> {
 
   /**
    * Returns the list of items to display.
@@ -30,5 +30,15 @@ public interface IGenericCollPanel<T>
    * @return {@link ITsCheckSupport} - items checking helper
    */
   ITsCheckSupport<T> checkSupport();
+
+  /**
+   * The same as {@link #checkSupport()}, for compatibility.
+   * <p>
+   * {@inheritDoc}
+   */
+  @Override
+  default ITsCheckSupport<T> checks() {
+    return checkSupport();
+  }
 
 }
