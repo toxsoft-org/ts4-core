@@ -9,6 +9,8 @@ import java.util.*;
 
 import org.toxsoft.core.tslib.bricks.strio.*;
 import org.toxsoft.core.tslib.bricks.strio.chario.*;
+import org.toxsoft.core.tslib.coll.derivative.*;
+import org.toxsoft.core.tslib.coll.derivative.Stack;
 import org.toxsoft.core.tslib.utils.errors.*;
 
 /**
@@ -82,6 +84,11 @@ public class StrioWriter
    * Number of indents at the beginning of a line.
    */
   private int indentLevel = 0;
+
+  /**
+   * Stack for {@link #saveAndIndent(boolean)} and {@link #restoreIndent()} methods.
+   */
+  private IStack<Boolean> indentStateStack = new Stack<>();
 
   /**
    * Constructor.
@@ -175,6 +182,18 @@ public class StrioWriter
     boolean saved = indented;
     indented = aIndent;
     return saved;
+  }
+
+  @Override
+  public boolean saveAndIndent( boolean aIndent ) {
+    indentStateStack.push( Boolean.valueOf( isIndented() ) );
+    return setIndented( aIndent );
+  }
+
+  @Override
+  public boolean restoreIndent() {
+    boolean b = indentStateStack.pop().booleanValue();
+    return setIndented( b );
   }
 
   @Override

@@ -33,7 +33,7 @@ public interface IStrioWriter
   boolean isIndented();
 
   /**
-   * Sets indentation flag {@link #isIndented()}.
+   * Sets indentation mode flag {@link #isIndented()}.
    * <p>
    * Note: indentation flag is the hint for the {@link IStrioWriter} users, changing flag does not changes writer
    * behaviour.
@@ -41,9 +41,27 @@ public interface IStrioWriter
    * @param aIndent boolean - indentation sign<br>
    *          <b>true</b> - the output should be indented;<br>
    *          <b>false</b> - write as densely as possible.
-   * @return boolean - previous state of the indentation flag
+   * @return boolean - previous value of the indentation flag
    */
   boolean setIndented( boolean aIndent );
+
+  /**
+   * Sets indentation mode and save previous value to restore by {@link #restoreIndent()}.
+   * <p>
+   * Multiple saves requires the same number of {@link #restoreIndent()} calls.
+   *
+   * @param aIndent boolean - new value of indentation mode
+   * @return boolean - previous value of the indentation flag
+   */
+  boolean saveAndIndent( boolean aIndent );
+
+  /**
+   * Restores indentation mode saved by {@link #saveAndIndent(boolean)}.
+   *
+   * @return boolean - previous (before restoration) value of the indentation flag
+   * @throws TsIllegalStateRtException where is no more saved values
+   */
+  boolean restoreIndent();
 
   /**
    * Возвращает количество пробелов в одном отступе, заданный методом {@link #setIndentSpaces(int)}.
@@ -235,9 +253,9 @@ public interface IStrioWriter
   void writeDateTime( long aTimestamp );
 
   /**
-   * Записывает метку времени в виде {@link IStrioHardConstants#TIMESTAMP_FMT}.
+   * Writes the timestamp as described in {@link IStrioHardConstants#TIMESTAMP_FMT}.
    *
-   * @param aTimestamp long - метка времени (миллисекунды с начала эпохи)
+   * @param aTimestamp long - the timestamp (milliseconds from the epoch)
    * @throws TsIoRtException I/O error
    */
   void writeTimestamp( long aTimestamp );
@@ -248,6 +266,8 @@ public interface IStrioWriter
    * Writes the timestamp representation in the same format as the method {@link #writeDate(long)}.
    *
    * @param aTime {@link LocalDate} - the date timestamp
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIoRtException I/O error
    */
   void writeTime( LocalDate aTime );
 
@@ -259,24 +279,24 @@ public interface IStrioWriter
    * Note: nanoseconds accuracy of {@link LocalDateTime} is truncated to milliseconds.
    *
    * @param aTime {@link LocalDateTime} - the timestamp
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIoRtException I/O error
    */
   void writeTime( LocalDateTime aTime );
 
   /**
-   * Записывает переданную строку "как есть", без дополнительной обработки.
+   * Writes the argument "as is", without any additional processing.
    *
-   * @param aString String - записываемая строка
+   * @param aString String - the string to write
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIoRtException I/O error
    */
   void writeAsIs( String aString );
 
   /**
-   * Записывает переданную строку с обрамлением кавчками (quoted string).
-   * <p>
-   * The quoted string format is described in {@link TsMiscUtils#toQuotedLine(String)}.
+   * Writes the argument as a "quoted string" as described in {@link TsMiscUtils#toQuotedLine(String)}.
    *
-   * @param aString String - записываемая строка
+   * @param aString String - the string to write
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIoRtException I/O error
    */
