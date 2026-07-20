@@ -537,6 +537,7 @@ public final class StridUtils {
    * @param aIdPath String - an IDpath
    * @return {@link IStringList} - components (IDnames) of the argument
    * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalArgumentRtException argument is not neither an empty string nor a valid IDpath
    */
   public static IStringList getComponentsOrEmpty( String aIdPath ) {
     TsNullArgumentRtException.checkNull( aIdPath );
@@ -805,13 +806,12 @@ public final class StridUtils {
   /**
    * Converts arbitrary String to the IDpath.
    * <p>
-   * The conversion is one-way - the original string can not be restored from the generated identifier.Othe difference
-   * between {@link #makeIdFromString(String)} and {@link #str2id(String)} is the form of the generated string. Thid
-   * method generates ID path much like the original string so it is more @human-friendly".
+   * The conversion is one-way - the original string can not be restored from the generated identifier. The difference
+   * between {@link #makeIdFromString(String)} and {@link #str2id(String)} is the form of the generated string. This
+   * method generates ID path much like the original string so it is more "human-friendly".
    * <p>
    * The method guarantees that:
    * <ul>
-   * *
    * <li>identical arguments produce the same result;</li>
    * <li>different arguments produce different results;</li>
    * <li><code>null</code> remains null;</li>

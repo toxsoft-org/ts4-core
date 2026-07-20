@@ -70,8 +70,10 @@ public interface ITsCheckSupport<T> {
   /**
    * Sets the check state for the specified elements.
    * <p>
-   * Check state will be set for elements listed in argument <code>aItems</code>. Elements of <code>aItems</code> that
-   * are not present in displayed collection are ignored.
+   * After this method listed elements will have state <code>aCheckState</code>, all other elements will have NOT
+   * <code>aCheckState</code>.
+   * <p>
+   * Elements of <code>aItems</code> that are not present in displayed collection are ignored.
    *
    * @param aItems IList&lt;T&gt; - list of elements to change the check state
    * @param aCheckState boolean - the check state to be set
@@ -93,7 +95,8 @@ public interface ITsCheckSupport<T> {
    * <p>
    * Note: check state change events are generated both for programmatic and GUI user changes.
    * <p>
-   * This method does not throws any exception.
+   * Source in the generated events {@link IGenericChangeListener#onGenericChangeEvent(Object)} may be owner of this
+   * interface, not <code>this</code>.
    *
    * @return {@link IGenericChangeEventer} - the eventer
    */

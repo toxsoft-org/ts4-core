@@ -13,8 +13,8 @@ import org.toxsoft.core.tslib.bricks.strid.impl.*;
  * <p>
  * Strid (STRID - STRing IDentifier) is string associated with entity and assumes following:
  * <ul>
- * <li><b>uniquity</b> - correspondence is set unambiguously between strid and entity in the scope of some context (eg.
- * employees in company, cards in deck, etc.);</li>
+ * <li><b>uniquity</b> - correspondence is set unambiguously between strid and entity in the scope of some context,
+ * namespace (eg. employees in company, cards in deck, etc.);</li>
  * <li><b>completeness</b> - any entity in context has strid. If any entity in scope can be accessed using strid then
  * any other entity in the same scope is accessible with corresponding and different strid;</li>
  * <li><b>persistence</b> - correspondence between an entity and strid remains unchanged between program launches, file
@@ -26,6 +26,14 @@ import org.toxsoft.core.tslib.bricks.strid.impl.*;
  * specifies syntax of STRIDs. Strid must be IDname or IDpath, see {@link StridUtils}. The {@link #id()} method returns
  * strid identifier generally not suitable for human reading. Human readable (and possibly localizable) strings are
  * returned by {@link #description()} and {@link #nmName()} methods.
+ * <p>
+ * <b>Special cases</b>
+ * <ul>
+ * <li>The identifier {@link #NONE_ID} is reserved for special case of non-existing entity. There may be only the one
+ * instance of the stridable item with {@link #NONE_ID} in the context (namespace);</li>
+ * <li>There may be an item with an empty ID for a programmers convenience. Such items does not denotes an item at all
+ * but may be useful for Java implementation.</li>
+ * </ul>
  * <p>
  * Note: method {@link #nmName()} is <b>not</b> named as <code>name()</code> to avoid name clash with
  * {@link Enum#name()} when some <b><code>enum</code></b> extends this interface. This is two different methods:
