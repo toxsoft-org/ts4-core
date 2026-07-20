@@ -28,13 +28,13 @@ public class ValedControlSingleLineWrapper<V>
   private V value = null;
 
   /**
-   * Constructor for subclasses.
+   * Constructor.
    *
    * @param aContext {@link ITsGuiContext} - the VALED context
    * @param aVcFactory {@link IValedControlFactory} - factory of VALED to be used in dialog
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  protected ValedControlSingleLineWrapper( ITsGuiContext aContext, IValedControlFactory aVcFactory ) {
+  public ValedControlSingleLineWrapper( ITsGuiContext aContext, IValedControlFactory aVcFactory ) {
     super( aContext, true );
     TsNullArgumentRtException.checkNull( aVcFactory );
     vcFactory = aVcFactory;

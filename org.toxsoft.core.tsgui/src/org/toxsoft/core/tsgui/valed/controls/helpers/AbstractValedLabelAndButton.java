@@ -68,6 +68,16 @@ public abstract class AbstractValedLabelAndButton<V>
     // label
     label = new CLabel( board, SWT.BORDER | SWT.LEFT );
     label.setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, false, 1, 1 ) );
+    label.addMouseListener( new MouseAdapter() {
+
+      @Override
+      public void mouseDown( MouseEvent aE ) {
+        if( aE.button == 1 ) { // left button
+          processButtonPress();
+        }
+      }
+
+    } );
     // button
     button = new Button( board, SWT.PUSH | SWT.FLAT );
     button.setLayoutData( new GridData( SWT.FILL, SWT.FILL, false, false, 1, 1 ) );
@@ -75,10 +85,7 @@ public abstract class AbstractValedLabelAndButton<V>
 
       @Override
       public void widgetSelected( SelectionEvent e ) {
-        if( doProcessButtonPress() ) {
-          doUpdateLabelControl();
-          fireModifyEvent( true );
-        }
+        processButtonPress();
       }
     } );
     // setup
@@ -128,6 +135,16 @@ public abstract class AbstractValedLabelAndButton<V>
    */
   public Button getButtonControl() {
     return button;
+  }
+
+  /**
+   * Invokes edit dialog exactly as if button was pressed.
+   */
+  public void processButtonPress() {
+    if( doProcessButtonPress() ) {
+      doUpdateLabelControl();
+      fireModifyEvent( true );
+    }
   }
 
   // ------------------------------------------------------------------------------------
