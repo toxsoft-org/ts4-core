@@ -147,7 +147,7 @@ public class PanelTsShadowInfoEditor
       TsShadowInfo shadowInfo = new TsShadowInfo( blur, dx, dy, rgba );
       ImageData shadowData;
       if( isDropShadow ) {
-        shadowData = TsShadowUtils.buildDropShadowData( path, shadowInfo, getDisplay() );
+        shadowData = TsShadowUtils.buildDropShadowData( path, shadowInfo, getDisplay(), true );
       }
       else {
         shadowData = TsShadowUtils.buildInnerShadowData( path, shadowInfo, getDisplay() );

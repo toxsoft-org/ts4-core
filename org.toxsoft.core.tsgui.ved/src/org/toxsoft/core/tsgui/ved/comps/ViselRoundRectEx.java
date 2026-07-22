@@ -190,7 +190,7 @@ public class ViselRoundRectEx
     if( shadowInfo != TsShadowInfo.NONE && isDropShadow ) {
       Path boundPath = new Path( d );
       PathDataUtils.addRoundedRect( boundPath, 0, 0, swtRect.width, swtRect.height, arcW, arcH );
-      ImageData imd = TsShadowUtils.buildDropShadowData( boundPath, shadowInfo, aPaintContext.gc().getDevice() );
+      ImageData imd = TsShadowUtils.buildDropShadowData( boundPath, shadowInfo, aPaintContext.gc().getDevice(), true );
       float[] bounds = new float[4];
       boundPath.getBounds( bounds );
       Image img = new Image( aPaintContext.gc().getDevice(), imd );

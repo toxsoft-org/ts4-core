@@ -254,27 +254,13 @@ public class ViselMultiLineLabel
       else {
         height = props().getDouble( PROPID_HEIGHT );
       }
-      // gc = new GC( getShell() );
-      // IFontInfo fi = props().getValobj( PROPID_FONT );
-      // if( aValuesToSet.hasKey( PROPID_FONT ) ) {
-      // fi = aValuesToSet.getValobj( PROPID_FONT );
-      // }
-      // font = fontManager().getFont( fi );
-      // gc.setFont( font );
-      // String text = props().getStr( PROPID_TEXT );
-      // if( aValuesToSet.hasKey( PROPID_TEXT ) ) {
-      // text = aValuesToSet.getStr( PROPID_TEXT );
-      // }
-      // if( text.isEmpty() ) {
-      // text = " "; //$NON-NLS-1$
-      // }
-      // Point p = gc.textExtent( text );
-      // int textWidth = p.x;
-      // int textHeight = p.y;
 
-      ID2Point d2p = getPackedSize( width, height );
-      int textWidth = d2p.intX();
-      int textHeight = d2p.intY();
+      // ID2Point d2p = getPackedSize( width, height );
+      // int textWidth = d2p.intX();
+      // int textHeight = d2p.intY();
+      Point textSize = calcTecxtSize();
+      int textWidth = textSize.x;
+      int textHeight = textSize.y;
       if( width < textWidth ) {
         width = textWidth;
         aValuesToSet.setDouble( PROPID_WIDTH, textWidth );

@@ -20,9 +20,14 @@ public class TsShadowUtils {
    * @param aPath {@link Path} - контур
    * @param aShadowInfo {@link TsShadowInfo} - параметры тени
    * @param aDevice {@link Device} - устройство
+   * @param aEmulation <b>true</b> - если вместо честного "Гаусса" применить эмуляцию
    * @return {@link ImageData} - данные изображения
    */
-  public static ImageData buildDropShadowData( Path aPath, TsShadowInfo aShadowInfo, Device aDevice ) {
+  public static ImageData buildDropShadowData( Path aPath, TsShadowInfo aShadowInfo, Device aDevice,
+      boolean aEmulation ) {
+    if( aEmulation ) {
+      return buildDropShadowDataEmul( aPath, aShadowInfo, aDevice );
+    }
     // ── 1. Bounding box Path ─────────────────────────────────────────────
     float[] pb = new float[4];
     aPath.getBounds( pb );
@@ -119,6 +124,120 @@ public class TsShadowUtils {
       imgData.setAlphas( 0, y, imgW, alphaRow, 0 );
     }
     return imgData;
+  }
+
+  public static ImageData buildDropShadowDataEmul( Path aPath, TsShadowInfo aShadowInfo, Device aDevice ) {
+
+    // ── 1. Bounding box ──────────────────────────────────────────────────
+    float[] pb = new float[4];
+    aPath.getBounds( pb );
+
+    int bx = (int)Math.floor( pb[0] );
+    int by = (int)Math.floor( pb[1] );
+    int bw = (int)Math.ceil( pb[2] ) + 1;
+    int bh = (int)Math.ceil( pb[3] ) + 1;
+
+    int pad = aShadowInfo.blur();
+    int imgW = bw + 2 * pad;
+    int imgH = bh + 2 * pad;
+
+    int localOffX = -bx + pad;
+    int localOffY = -by + pad;
+
+    // ── 2. Растеризация Path в 8-bit grayscale off-screen Image ──────────
+    //
+    // 8-bit палитра: 256 оттенков серого.
+    // Читать маску из неё значительно быстрее, чем из 24-bit через getPixel(),
+    // потому что ImageData.data хранит уже готовые байты индексов (0–255).
+    //
+    PaletteData grayPalette = buildGrayPalette();
+    ImageData maskData = new ImageData( imgW, imgH, 8, grayPalette );
+    // По умолчанию все байты = 0 (чёрный)
+
+    Image maskImage = new Image( aDevice, maskData );
+    GC maskGC = new GC( maskImage );
+    maskGC.setAdvanced( true );
+    maskGC.setAntialias( SWT.ON );
+
+    maskGC.setBackground( aDevice.getSystemColor( SWT.COLOR_BLACK ) );
+    maskGC.fillRectangle( 0, 0, imgW, imgH );
+
+    // Path localPath = buildDemoPath( device, canvasW, canvasH );
+    Transform t = new Transform( aDevice );
+    t.translate( localOffX, localOffY );
+    maskGC.setTransform( t );
+    t.dispose();
+
+    maskGC.setBackground( aDevice.getSystemColor( SWT.COLOR_WHITE ) );
+    maskGC.fillPath( aPath );
+    // localPath.dispose();
+
+    maskGC.setTransform( null );
+    maskGC.dispose();
+
+    // ── 3. Читаем маску как сырые байты ──────────────────────────────────
+    //
+    // ImageData.data — это byte[] сырых пикселей. Для 8-bit каждый пиксель
+    // занимает ровно один байт. Чтение через data[i] в ~10 раз быстрее
+    // поштучного getPixel(x, y), который делает много дополнительной работы.
+    //
+    ImageData md = maskImage.getImageData();
+    maskImage.dispose();
+
+    // Переносим в int[] (0–255) для целочисленной арифметики
+    int[] mask = new int[imgW * imgH];
+    byte[] raw = md.data;
+    // bytesPerLine может быть больше imgW из-за выравнивания строк
+    int bpl = md.bytesPerLine;
+    for( int y = 0; y < imgH; y++ ) {
+      int srcBase = y * bpl;
+      int dstBase = y * imgW;
+      for( int x = 0; x < imgW; x++ ) {
+        mask[dstBase + x] = raw[srcBase + x] & 0xFF; // знаковый byte → беззнаковый int
+      }
+    }
+
+    // ── 4. Box blur × 3 прохода ──────────────────────────────────────────
+    //
+    // Три прохода box blur с одинаковым радиусом аппроксимируют гаусс
+    // со среднеквадратичным отклонением σ ≈ radius * sqrt(1/3).
+    // Сложность каждого прохода: O(W·H) — скользящая сумма,
+    // не зависит от radius (в отличие от свёртки O(W·H·r)).
+    //
+    int boxR = Math.max( 1, aShadowInfo.blur() / 2 ); // радиус каждого из трёх box blur
+    int[] blurred = mask;
+    for( int pass = 0; pass < 3; pass++ ) {
+      blurred = boxBlur( blurred, imgW, imgH, boxR );
+    }
+
+    // ── 5. Сборка итогового 32-bit ARGB ImageData ────────────────────────
+    ImageData imgData = new ImageData( imgW, imgH, 32, new PaletteData( 0xFF0000, 0x00FF00, 0x0000FF ) );
+
+    // Цвет тени — упакован один раз
+    RGB shadowColor = aShadowInfo.rgba().rgb;
+    int rgbPixel = (shadowColor.red << 16) | (shadowColor.green << 8) | shadowColor.blue;
+    // Предвычисляем цвет для всех строк (одно значение)
+    int[] rgbRow = new int[imgW];
+    java.util.Arrays.fill( rgbRow, rgbPixel );
+
+    byte[] alphaRow = new byte[imgW];
+
+    int shadowAlpha = aShadowInfo.rgba().alpha;
+    for( int y = 0; y < imgH; y++ ) {
+      int base = y * imgW;
+      for( int x = 0; x < imgW; x++ ) {
+        // Целочисленная операция: v * shadowAlpha / 255
+        // Всё в int, без float
+        int a = blurred[base + x] * shadowAlpha / 255;
+        alphaRow[x] = (byte)(a > 255 ? 255 : a);
+      }
+      imgData.setPixels( 0, y, imgW, rgbRow, 0 );
+      imgData.setAlphas( 0, y, imgW, alphaRow, 0 );
+    }
+
+    return imgData;
+    // Image shadowImage = new Image( device, imgData );
+    // return new ShadowCache( shadowImage, bx - pad, by - pad );
   }
 
   // public static ImageData buildInnerShadowData( Path aPath, TsShadowInfo aShadowInfo, Device device ) {
@@ -447,6 +566,87 @@ public class TsShadowUtils {
       }
     }
     return mask;
+  }
+
+  // ════════════════════════════════════════════════════════════════════════
+  // Box blur — скользящая сумма, O(W·H) независимо от радиуса
+  // ════════════════════════════════════════════════════════════════════════
+
+  /**
+   * Разделимый box blur: горизонтальный проход → вертикальный. Каждый проход использует скользящую сумму: при сдвиге
+   * окна на 1 пиксель добавляем новый край и убираем старый. Граничные пиксели — clamp (крайнее значение повторяется).
+   */
+  private static int[] boxBlur( int[] src, int W, int H, int r ) {
+    int[] tmp = new int[W * H];
+    int[] dst = new int[W * H];
+    int diam = 2 * r + 1;
+
+    // Горизонтальный проход
+    for( int y = 0; y < H; y++ ) {
+      int rowBase = y * W;
+
+      // Начальная скользящая сумма для x=0: окно [-r..r] с clamp
+      int sum = 0;
+      for( int k = -r; k <= r; k++ ) {
+        int sx = k < 0 ? 0 : (k >= W ? W - 1 : k);
+        sum += src[rowBase + sx];
+      }
+      tmp[rowBase] = sum / diam;
+
+      // Сдвигаем окно вправо
+      for( int x = 1; x < W; x++ ) {
+        // Убираем левый край (x-1-r), добавляем правый (x+r)
+        int removeX = x - 1 - r;
+        if( removeX < 0 ) {
+          removeX = 0;
+        }
+        int addX = x + r;
+        if( addX >= W ) {
+          addX = W - 1;
+        }
+        sum += src[rowBase + addX] - src[rowBase + removeX];
+        tmp[rowBase + x] = sum / diam;
+      }
+    }
+
+    // Вертикальный проход
+    for( int x = 0; x < W; x++ ) {
+      // Начальная сумма для y=0
+      int sum = 0;
+      for( int k = -r; k <= r; k++ ) {
+        int sy = k < 0 ? 0 : (k >= H ? H - 1 : k);
+        sum += tmp[sy * W + x];
+      }
+      dst[x] = sum / diam;
+
+      for( int y = 1; y < H; y++ ) {
+        int removeY = y - 1 - r;
+        if( removeY < 0 ) {
+          removeY = 0;
+        }
+        int addY = y + r;
+        if( addY >= H ) {
+          addY = H - 1;
+        }
+        sum += tmp[addY * W + x] - tmp[removeY * W + x];
+        dst[y * W + x] = sum / diam;
+      }
+    }
+
+    return dst;
+  }
+
+  // ════════════════════════════════════════════════════════════════════════
+  // Вспомогательное
+  // ════════════════════════════════════════════════════════════════════════
+
+  /** 256-цветная палитра оттенков серого для 8-bit маски. */
+  private static PaletteData buildGrayPalette() {
+    RGB[] colors = new RGB[256];
+    for( int i = 0; i < 256; i++ ) {
+      colors[i] = new RGB( i, i, i );
+    }
+    return new PaletteData( colors );
   }
 
   /**

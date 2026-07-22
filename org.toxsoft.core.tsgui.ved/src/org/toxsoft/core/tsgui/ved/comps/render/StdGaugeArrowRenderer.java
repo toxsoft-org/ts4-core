@@ -288,7 +288,7 @@ public class StdGaugeArrowRenderer
     aPaintContext.gc().setAntialias( SWT.ON );
 
     if( shadowInfo != TsShadowInfo.NONE ) {
-      ImageData imd = TsShadowUtils.buildDropShadowData( path, shadowInfo, aPaintContext.gc().getDevice() );
+      ImageData imd = TsShadowUtils.buildDropShadowData( path, shadowInfo, aPaintContext.gc().getDevice(), false );
       Image img = new Image( aPaintContext.gc().getDevice(), imd );
       int shadowX = Math.round( bounds[0] + x - shadowInfo.blur() + 4 );
       int shadowY = Math.round( bounds[1] + y - shadowInfo.blur() + 4 );
