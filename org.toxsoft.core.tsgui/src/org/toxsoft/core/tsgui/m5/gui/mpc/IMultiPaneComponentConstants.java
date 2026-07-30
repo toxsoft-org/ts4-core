@@ -124,6 +124,14 @@ public interface IMultiPaneComponentConstants {
   IDataDef OPDEF_IS_COLUMN_HEADER = bdd( "IsColumnHeader", true ); //$NON-NLS-1$
 
   /**
+   * Specifies the toolbar name string or {@link IAtomicValue#NULL} to use M5-model {@link IM5Model#nmName()}.<br>
+   * Type: {@link EAtomicType#VALOBJ} - {@link EIconSize}
+   */
+  IDataDef OPDEF_TOOLBAR_NAME_STR = DataDef.create( MPC_OP_ID + ".ToolbarNameStr", STRING, //$NON-NLS-1$
+      TSID_DEFAULT_VALUE, IAtomicValue.NULL //
+  );
+
+  /**
    * Specifies the size of the icons used in the tree nodes.<br>
    * Type: {@link EAtomicType#VALOBJ} - {@link EIconSize}
    */

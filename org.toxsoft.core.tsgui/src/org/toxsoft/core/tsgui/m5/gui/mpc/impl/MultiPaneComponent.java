@@ -30,6 +30,7 @@ import org.toxsoft.core.tsgui.panels.lazy.*;
 import org.toxsoft.core.tsgui.panels.toolbar.*;
 import org.toxsoft.core.tsgui.utils.layout.*;
 import org.toxsoft.core.tsgui.widgets.*;
+import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.bricks.events.change.*;
 import org.toxsoft.core.tslib.bricks.filter.*;
 import org.toxsoft.core.tslib.bricks.strid.impl.*;
@@ -243,8 +244,14 @@ public abstract class MultiPaneComponent<T>
     }
     // toolbar name
     String name = TsLibUtils.EMPTY_STRING;
-    if( !model().nmName().isEmpty() ) {
-      name = model().nmName() + ": "; //$NON-NLS-1$
+    IAtomicValue nameFromOp = OPDEF_TOOLBAR_NAME_STR.getValue( tsContext().params() );
+    if( nameFromOp.isAssigned() ) {
+      name = nameFromOp.asString();
+    }
+    else {
+      if( !model().nmName().isEmpty() ) {
+        name = model().nmName() + ": "; //$NON-NLS-1$
+      }
     }
     // icon size
     EIconSize iconSize = hdpiService().getToolbarIconsSize();
@@ -317,6 +324,10 @@ public abstract class MultiPaneComponent<T>
       }
       case ACTID_EXPAND_ALL: {
         tree.console().expandAll();
+        // update width of the first column
+        if( tree.columnManager().columns().size() > 1 ) {
+          tree.columnManager().columns().values().first().pack();
+        }
         break;
       }
       case ACTID_COLLAPSE_ALL: {
@@ -1141,13 +1152,11 @@ public abstract class MultiPaneComponent<T>
    * Subclass may override "check all items" action.
    * <p>
    * In base class sets all items to checked state via method {@link ITsCheckSupport#setAllItemsCheckState(boolean)
-   * tree().checks().setAllItemsCheckState( <b>true</b> )}.
+   * tree().checks().setItemsCheckState( filteredItems, <b>true</b> )}.
    */
   protected void doCheckAll() {
     if( tree.checks().isChecksSupported() ) {
-      // dima 29.08.25 check visible items only
-      // tree.checks().setAllItemsCheckState( true );
-      tree.checks().setItemsCheckState( tree.filterManager().items(), editable );
+      tree.checks().setItemsCheckState( tree.filterManager().items(), true );
     }
   }
 
