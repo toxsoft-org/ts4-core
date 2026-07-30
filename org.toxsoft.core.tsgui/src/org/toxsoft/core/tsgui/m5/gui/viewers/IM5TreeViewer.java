@@ -11,7 +11,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * M5 tree viewer.
  * <p>
- * Tree viewer unlike {@link IM5TableViewer} contains not entities &lt;T&gt; but nodes {@link ITsNode} which themself
+ * Tree viewer unlike {@link IM5TableViewer} contains not entities &lt;T&gt; but nodes {@link ITsNode} which itself
  * contains either modeled entities as described in comments to the method
  * {@link ITsTreeMaker#makeRoots(ITsNode, IList)}.
  *
