@@ -364,7 +364,11 @@ public class M5DefaultPanelCreator<T>
    */
   protected IM5CollectionPanel<T> doCreateCollChecksPanel( ITsGuiContext aContext,
       IM5ItemsProvider<T> aItemsProvider ) {
-    OPDEF_IS_ACTIONS_CRUD.setValue( aContext.params(), AV_TRUE );
+
+    // GOGA 2026-07-28
+    // add CRUD operation manually as we need only check support
+    // OPDEF_IS_ACTIONS_CRUD.setValue( aContext.params(), AV_TRUE );
+
     OPDEF_IS_SUPPORTS_CHECKS.setValue( aContext.params(), AV_TRUE );
     MultiPaneComponentModown<T> mpc = new MultiPaneComponentModown<>( aContext, model, aItemsProvider );
     return new M5CollectionPanelMpcModownWrapper<>( mpc, true );
