@@ -11,8 +11,6 @@ import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.tin.*;
 import org.toxsoft.core.tsgui.bricks.tin.impl.*;
 import org.toxsoft.core.tsgui.dialogs.datarec.*;
-import org.toxsoft.core.tsgui.ved.screen.*;
-import org.toxsoft.core.tsgui.ved.screen.impl.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
@@ -51,12 +49,14 @@ public class PanelRendererProps
           IStructuredSelection sel = (IStructuredSelection)aEvent.getSelection();
           if( !sel.isEmpty() ) {
             IViselRendererFactory f = (IViselRendererFactory)sel.getFirstElement();
-            VedScreen screen = (VedScreen)environ().get( IVedScreen.class );
-            String viselId = cfg.viselId();
-            VedAbstractVisel visel = screen.model().visels().list().getByKey( viselId );
-            // AbstractViselRenderer r = f.create( (ViselRendererCfg)null, visel, screen );
-            // ViselRendererCfg newCfg = new ViselRendererCfg( cfg.id(), cfg.kindId(), f.id(), r.props(), visel.id() );
-            ViselRendererCfg newCfg = f.createConfig( cfg.id(), visel.id() );
+            // VedScreen screen = (VedScreen)environ().get( IVedScreen.class );
+            // String viselId = cfg.viselId();
+            // VedAbstractVisel visel = screen.model().visels().list().getByKey( viselId );
+            // // AbstractViselRenderer r = f.create( (ViselRendererCfg)null, visel, screen );
+            // // ViselRendererCfg newCfg = new ViselRendererCfg( cfg.id(), cfg.kindId(), f.id(), r.props(), visel.id()
+            // );
+            // ViselRendererCfg newCfg = f.createConfig( cfg.id(), visel.id() );
+            ViselRendererCfg newCfg = f.createConfig( cfg.id(), cfg.viselId() );
             ITinTypeInfo typeInfo = f.typeInfo();
             ITinValue tv = getTinValue( newCfg, typeInfo );
             tinWidget.setEntityInfo( typeInfo );

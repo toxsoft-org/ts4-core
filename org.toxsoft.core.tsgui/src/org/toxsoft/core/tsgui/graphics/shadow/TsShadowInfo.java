@@ -14,7 +14,7 @@ import org.toxsoft.core.tslib.bricks.strio.*;
 public class TsShadowInfo {
 
   /**
-   * Параметры "тени" по-умолчанию
+   * Параметры отсутствующей "тени"
    */
   public static final TsShadowInfo NONE = new TsShadowInfo( 0, 0, 0, new RGBA( 0, 0, 0, 0 ) );
 
@@ -111,4 +111,16 @@ public class TsShadowInfo {
     return rgba;
   }
 
+  // ------------------------------------------------------------------------------------
+  // Object
+  //
+
+  @Override
+  public String toString() {
+    if( this == NONE ) {
+      return "none"; //$NON-NLS-1$
+    }
+    return String.format( "dx = %d; dy = %d; r = %d", Integer.valueOf( xOffset ), Integer.valueOf( yOffset ), //$NON-NLS-1$
+        Integer.valueOf( blur ) );
+  }
 }

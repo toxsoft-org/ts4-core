@@ -98,6 +98,15 @@ public abstract class VedAbstractRendererFactory
   public AbstractViselRenderer create( ViselRendererCfg aCfg, IVedVisel aVisel, VedScreen aVedScreen ) {
     TsNullArgumentRtException.checkNulls( aCfg, aVedScreen );
     TsIllegalArgumentRtException.checkFalse( aCfg.factoryId().equals( id() ) );
+    if( aCfg.propValues().hasKey( PROPID_IS_ACTIVE ) ) {
+      IAtomicValue av = aCfg.propValues().getValue( PROPID_IS_ACTIVE );
+      if( !av.isAssigned() ) {
+        aCfg.propValues().setBool( PROPID_IS_ACTIVE, true );
+      }
+    }
+    else {
+      aCfg.propValues().setBool( PROPID_IS_ACTIVE, true );
+    }
     OptionSetUtils.checkOptionSet( aCfg.propValues(), propDefs() );
     AbstractViselRenderer item = doCreate( aCfg, aVisel, aVedScreen );
     TsInternalErrorRtException.checkNull( item );
@@ -109,6 +118,7 @@ public abstract class VedAbstractRendererFactory
 
   protected final ITinTypeInfo doCreateTypeInfo() {
     IStridablesListEdit<ITinFieldInfo> fields = new StridablesList<>();
+    fields.add( TFI_IS_ACTIVE );
 
     addTinTypeInfoes( fields );
 

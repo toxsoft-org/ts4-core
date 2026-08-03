@@ -23,6 +23,8 @@ Bundle-ActivationPolicy: lazy
 Bundle-Vendor: toxsoft.org
 Export-Package: org.toxsoft.core.tsgui.ved,
  org.toxsoft.core.tsgui.ved.comps,
+ org.toxsoft.core.tsgui.ved.comps.axis,
+ org.toxsoft.core.tsgui.ved.comps.render,
  org.toxsoft.core.tsgui.ved.editor,
  org.toxsoft.core.tsgui.ved.editor.palette,
  org.toxsoft.core.tsgui.ved.incub,

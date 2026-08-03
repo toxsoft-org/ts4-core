@@ -1,5 +1,7 @@
 package org.toxsoft.core.tsgui.ved.comps.render;
 
+import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
+
 import org.eclipse.swt.*;
 import org.toxsoft.core.tsgui.bricks.ctx.*;
 import org.toxsoft.core.tsgui.bricks.tin.*;
@@ -114,6 +116,9 @@ public abstract class AbstractViselRenderer
 
   @Override
   public final void paint( ITsGraphicsContext aPaintContext ) {
+    if( props().hasKey( PROPID_IS_ACTIVE ) && !props().getBool( PROPID_IS_ACTIVE ) ) {
+      return;
+    }
     aPaintContext.gc().setAntialias( SWT.ON );
     aPaintContext.gc().setTextAntialias( SWT.ON );
     doPaint( aPaintContext );

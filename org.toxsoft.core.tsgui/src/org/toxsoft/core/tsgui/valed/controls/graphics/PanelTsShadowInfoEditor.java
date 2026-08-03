@@ -70,6 +70,9 @@ public class PanelTsShadowInfoEditor
 
   @Override
   protected TsShadowInfo doGetDataRecord() {
+    if( btnNoneShadow.getSelection() ) {
+      return TsShadowInfo.NONE;
+    }
     int blur = spinnerBlur.getSelection();
     int dx = spinnerXshift.getSelection();
     int dy = spinnerYshift.getSelection();
@@ -82,6 +85,7 @@ public class PanelTsShadowInfoEditor
   // implementation
   //
 
+  Button       btnNoneShadow;
   Spinner      spinnerBlur;
   Slider       sliderBlur;
   Spinner      spinnerXshift;
@@ -90,9 +94,13 @@ public class PanelTsShadowInfoEditor
   Slider       sliderYshift;
   RgbaSelector rgbaPanel;
   boolean      isDropShadow = true;
+  boolean      noneShadow   = true;
 
   void init() {
     setLayout( new GridLayout( 1, false ) );
+
+    btnNoneShadow = new Button( this, SWT.CHECK );
+    btnNoneShadow.setText( "Вернуть конфигурацию для отсутствия тени" );
 
     Canvas previewPanel = new Canvas( this, SWT.BORDER | SWT.DOUBLE_BUFFERED );
     GridData gd = new GridData( SWT.FILL, SWT.FILL, true, true );
