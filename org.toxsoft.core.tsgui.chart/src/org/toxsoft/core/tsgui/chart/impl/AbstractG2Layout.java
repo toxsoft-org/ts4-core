@@ -86,9 +86,11 @@ public abstract class AbstractG2Layout
   }
 
   public final void addYAxisDef( IYAxisDef aYAxisDef ) {
-    yAxisDefs.add( aYAxisDef );
-    yAxisModels.put( aYAxisDef.id(), new YAxisModel( aYAxisDef ) );
-    onYAxisDefAdded( aYAxisDef );
+    if( !yAxisDefs.hasKey( aYAxisDef.id() ) ) {
+      yAxisDefs.add( aYAxisDef );
+      yAxisModels.put( aYAxisDef.id(), new YAxisModel( aYAxisDef ) );
+      onYAxisDefAdded( aYAxisDef );
+    }
   }
 
   public final void removeYAxisDef( String aAxisId ) {
