@@ -218,6 +218,23 @@ public class VedScreenUtils {
   }
 
   /**
+   * Returns ACTORS list by actor factory id.<br>
+   *
+   * @param aFactoryId StringList - actor factory id
+   * @param aVedScreen {@link IVedScreen} - the VED screen
+   * @return IStridablesList&lt;IVedActor> - list of actors
+   */
+  public static IStridablesList<IVedActor> listActorsByFactoryId( String aFactoryId, IVedScreen aVedScreen ) {
+    IStridablesListEdit<IVedActor> result = new StridablesList<>();
+    for( IVedActor actor : aVedScreen.model().actors().list() ) {
+      if( actor.factoryId().equals( aFactoryId ) ) {
+        result.add( actor );
+      }
+    }
+    return result;
+  }
+
+  /**
    * Returns VISEL configuration list.<br>
    *
    * @param aViselIds {@link IStringList} - list of VISEL IDs
