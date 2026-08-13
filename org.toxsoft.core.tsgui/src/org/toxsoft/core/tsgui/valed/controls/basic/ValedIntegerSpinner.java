@@ -310,7 +310,7 @@ public class ValedIntegerSpinner
    */
   public int getMinValue() {
     int minValue = Integer.MIN_VALUE;
-    if( params().hasValue( TSID_MIN_EXCLUSIVE ) ) {
+    if( params().hasValue( TSID_MIN_INCLUSIVE ) ) {
       minValue = params().getInt( TSID_MIN_INCLUSIVE );
     }
     else {
