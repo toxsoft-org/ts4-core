@@ -380,7 +380,7 @@ final class TsSynchronizer {
           debug( this, aLock, METHOD_RUN_LOCK, "run BEFORE" );
           aLock.run();
         }
-        catch( Error e ) {
+        catch( RuntimeException e ) {
           aLock.error = e;
         }
       }

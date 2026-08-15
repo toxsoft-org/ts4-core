@@ -9,13 +9,13 @@ import org.toxsoft.core.tslib.utils.logs.*;
  */
 class TsRunnableLock {
 
-  static long           getId = 0;
-  final long            id;
-  final long            timestamp;
-  volatile Runnable     runnable;
-  volatile Thread       thread;
-  volatile Error        error;
-  private final ILogger logger;
+  static long               getId = 0;
+  final long                id;
+  final long                timestamp;
+  volatile Runnable         runnable;
+  volatile Thread           thread;
+  volatile RuntimeException error;
+  private final ILogger     logger;
 
   TsRunnableLock( Runnable aRunnable, int aDelay, ILogger aLogger ) {
     synchronized (TsRunnableLock.class) {
@@ -35,7 +35,7 @@ class TsRunnableLock {
       try {
         runnable.run();
       }
-      catch( Error e ) {
+      catch( RuntimeException e ) {
         error = e;
         logger.error( e );
       }
