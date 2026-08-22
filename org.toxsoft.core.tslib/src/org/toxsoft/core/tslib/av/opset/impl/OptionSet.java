@@ -1,16 +1,18 @@
 package org.toxsoft.core.tslib.av.opset.impl;
 
-import java.io.*;
-import java.util.*;
+import java.io.Serializable;
+import java.util.Iterator;
 
-import org.toxsoft.core.tslib.av.*;
-import org.toxsoft.core.tslib.av.metainfo.*;
-import org.toxsoft.core.tslib.av.opset.*;
-import org.toxsoft.core.tslib.coll.*;
-import org.toxsoft.core.tslib.coll.impl.*;
+import org.toxsoft.core.tslib.av.IAtomicValue;
+import org.toxsoft.core.tslib.av.metainfo.IDataDef;
+import org.toxsoft.core.tslib.av.opset.IOptionSet;
+import org.toxsoft.core.tslib.av.opset.IOptionSetEdit;
+import org.toxsoft.core.tslib.coll.IList;
+import org.toxsoft.core.tslib.coll.IMap;
+import org.toxsoft.core.tslib.coll.impl.TsCollectionsUtils;
 import org.toxsoft.core.tslib.coll.primtypes.*;
-import org.toxsoft.core.tslib.coll.primtypes.impl.*;
-import org.toxsoft.core.tslib.utils.errors.*;
+import org.toxsoft.core.tslib.coll.primtypes.impl.StringMap;
+import org.toxsoft.core.tslib.utils.errors.TsNullArgumentRtException;
 
 /**
  * Implementation of {@link IOptionSetEdit}.
@@ -238,8 +240,8 @@ public class OptionSet
     if( aThat == this ) {
       return true;
     }
-    if( aThat instanceof IStringMap ) {
-      return map.equals( aThat );
+    if( aThat instanceof OptionSet that ) {
+      return equalsIgnoreOrder( map, that.map );
     }
     return false;
   }
@@ -249,4 +251,29 @@ public class OptionSet
     return map.hashCode();
   }
 
+  // 2026-03-28 mvk+++
+  // ------------------------------------------------------------------------------------
+  // private methods
+  //
+  /**
+   * Compares two value maps without regard to the order of the value placement.
+   *
+   * @param aMap1 {@link IStringMap} map 1
+   * @param aMap2 {@link IStringMap} map 2
+   * @return boolean <b>true</b> the maps are equals; <b>false</b> the map are not equals.
+   */
+  private static final boolean equalsIgnoreOrder( IStringMap<?> aMap1, IStringMap<?> aMap2 ) {
+    TsNullArgumentRtException.checkNulls( aMap1, aMap2 );
+    if( aMap1.size() != aMap2.size() ) {
+      return false;
+    }
+    for( String key : aMap1.keys() ) {
+      Object value1 = aMap1.getByKey( key );
+      Object value2 = aMap2.findByKey( key );
+      if( value2 == null || !value1.equals( value2 ) ) {
+        return false;
+      }
+    }
+    return true;
+  }
 }
