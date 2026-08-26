@@ -111,4 +111,17 @@ public interface ITsGraphicsContext
     drawRectBorder( (int)aX, (int)aY, (int)aWidth, (int)aHeight );
   }
 
+  default void setClipping( ITsRectangle aRect ) {
+    if( aRect != null ) {
+      gc().setClipping( aRect.x1(), aRect.y1(), aRect.width() + 1, aRect.height() + 1 );
+    }
+    else {
+      gc().setClipping( (Rectangle)null );
+    }
+  }
+
+  default void resetClipping() {
+    gc().setClipping( (Rectangle)null );
+  }
+
 }

@@ -85,7 +85,7 @@ public final class TsLineInfo {
    * <p>
    * Line width will be adjusted to be 1 or greater.
    *
-   * @param aWidth int - line thikness
+   * @param aWidth int - line thickness
    * @param aType {@link ETsLineType} - line type
    * @param aCapStyle {@link ETsLineCapStyle} - cap style
    * @param aJoinStyle {@link ETsLineJoinStyle} - join style
