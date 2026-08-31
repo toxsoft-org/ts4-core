@@ -53,7 +53,7 @@ public interface ITsToolbar
   String getNameLabelText();
 
   /**
-   * Sets the name lebel text {@link #getNameLabelText()}.
+   * Sets the name label text {@link #getNameLabelText()}.
    * <p>
    * Name label text can be changed at any time.
    *
@@ -84,8 +84,8 @@ public interface ITsToolbar
   /**
    * Add an action to the end of the toolbar items.
    * <p>
-   * Please note that for actions added with this method no {@link ITsActionHandler#handleAction(String)} is
-   * called. Action must have implrmrnted method {@link Action#run()} or {@link Action#runWithEvent(Event)}.
+   * Please note that for actions added with this method no {@link ITsActionHandler#handleAction(String)} is called.
+   * Action must have implrmrnted method {@link Action#run()} or {@link Action#runWithEvent(Event)}.
    *
    * @param aAction {@link TsAction} - the action
    * @throws TsNullArgumentRtException any argument = <code>null</code>

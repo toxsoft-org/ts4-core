@@ -7,7 +7,7 @@ import org.toxsoft.core.tslib.utils.errors.*;
 /**
  * One action handler {@link ITsActionSetProvider} implementation.
  * <p>
- * All information are suuplied in constructor.
+ * All information are supplied in constructor.
  *
  * @author hazard157
  */
@@ -27,8 +27,7 @@ public class AspSingle
    * @param aCheckState {@link IBooleanState} - determines if action is checked
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    */
-  public AspSingle( ITsActionDef aActionDef, Runnable aRunner, IBooleanState aEnaState,
-      IBooleanState aCheckState ) {
+  public AspSingle( ITsActionDef aActionDef, Runnable aRunner, IBooleanState aEnaState, IBooleanState aCheckState ) {
     super( aActionDef );
     TsNullArgumentRtException.checkNulls( aRunner, aEnaState, aCheckState );
     runner = aRunner;
