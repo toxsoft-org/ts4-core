@@ -214,7 +214,12 @@ public class VedScreen
       else {
         IVedScreenCfg curr = VedScreenUtils.getVedScreenConfig( this );
         if( !curr.equals( savedConfigOfActorsEnabled ) ) {
-          VedScreenUtils.setVedScreenConfig( this, savedConfigOfActorsEnabled );
+          /**
+           * GOGA: temporary
+           * <p>
+           * FIXME need to restore with API change
+           */
+          // VedScreenUtils.setVedScreenConfig( this, savedConfigOfActorsEnabled );
         }
       }
       actorsEnable = aEnable;
