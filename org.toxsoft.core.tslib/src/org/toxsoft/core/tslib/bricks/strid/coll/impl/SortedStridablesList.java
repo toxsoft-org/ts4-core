@@ -88,8 +88,8 @@ public class SortedStridablesList<E extends IStridable>
     int index = ids.indexOf( aId );
     if( index < 0 ) {
       TsItemAlreadyExistsRtException.checkTrue( ids.hasElem( aItem.id() ) );
-      ids.add( aItem.id() );
-      values.add( aItem );
+      index = ids.add( aItem.id() );
+      values.insert( index, aItem );
       return null;
     }
     E oldItem = values.removeByIndex( index );
