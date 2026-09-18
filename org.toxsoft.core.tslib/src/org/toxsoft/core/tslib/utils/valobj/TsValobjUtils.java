@@ -51,12 +51,12 @@ public class TsValobjUtils {
   /**
    * Registered value-oebjcts.
    */
-  private static final IStridablesListBasicEdit<TsValobjRegData> dataMap = new SortedStridablesList<>();
+  private static final IStridablesListBasicEdit<TsValobjInfo> dataMap = new SortedStridablesList<>();
 
   static {
     registerKeeper( EAtomicType.KEEPER_ID, EAtomicType.KEEPER );
     registerKeeper( OptionSetKeeper.KEEPER_ID, OptionSetKeeper.KEEPER );
-    registerKeeper( FileKeeper.KEEPER_ID, FileKeeper.KEEPER, FileKeeper.INFO );
+    registerValobj( FileKeeper.INFO );
     registerKeeper( StringKeeper.KEEPER_ID, StringKeeper.KEEPER );
     registerKeeper( IntegerKeeper.KEEPER_ID, IntegerKeeper.KEEPER );
     // registerKeeper( LegacyStringListKeeper.KEEPER_ID, LegacyStringListKeeper.KEEPER );
@@ -111,21 +111,6 @@ public class TsValobjUtils {
     registerKeeper( EQueryParamUsage.KEEPER_ID, EQueryParamUsage.KEEPER );
     registerKeeper( EGwidSelectionOption.KEEPER_ID, EGwidSelectionOption.KEEPER );
     registerKeeper( TsCombiFilterParamsKeeper.KEEPER_ID, TsCombiFilterParamsKeeper.KEEPER );
-
-    print();
-
-  }
-
-  private static final void print() {
-    TsTestUtils.pl( "Data map content:" );
-    for( int i = 0; i < dataMap.size(); i++ ) {
-      String key = dataMap.keys().get( i );
-      TsValobjRegData value = dataMap.values().get( i );
-      TsTestUtils.pl( "  %20s = %s", key, value.id() );
-    }
-    TsTestUtils.nl();
-    TsTestUtils.nl();
-    TsTestUtils.nl();
   }
 
   // ------------------------------------------------------------------------------------
@@ -133,11 +118,11 @@ public class TsValobjUtils {
   //
 
   /**
-   * Return the copy of the registered {@link TsValobjRegData} descriptions.
+   * Return the copy of the registered {@link TsValobjInfo} descriptions.
    *
-   * @return {@link IStringMap}&lt;{@link TsValobjRegData}&gt; - the map "keeper ID" - "the info"
+   * @return {@link IStringMap}&lt;{@link TsValobjInfo}&gt; - the map "keeper ID" - "the info"
    */
-  public static IStridablesList<TsValobjRegData> listRegistered() {
+  public static IStridablesList<TsValobjInfo> listRegistered() {
     mainLock.readLock().lock();
     try {
       return new StridablesList<>( dataMap );
@@ -150,13 +135,13 @@ public class TsValobjUtils {
   /**
    * Registers the the value-object with full meta information.
    *
-   * @param aRegData {@link TsValobjRegData} - registration information
-   * @return {@link TsValobjRegData} - the argument is returned
+   * @param aRegData {@link TsValobjInfo} - registration information
+   * @return {@link TsValobjInfo} - the argument is returned
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsItemAlreadyExistsRtException keeper with specified key was already registered
    * @throws TsItemAlreadyExistsRtException keeper for class was already registered
    */
-  public static TsValobjRegData registerValobj( TsValobjRegData aRegData ) {
+  public static TsValobjInfo registerValobj( TsValobjInfo aRegData ) {
     TsNullArgumentRtException.checkNulls( aRegData );
     mainLock.writeLock().lock();
     try {
@@ -172,12 +157,12 @@ public class TsValobjUtils {
   /**
    * Registers the value-object if was not registered already.
    *
-   * @param aRegData {@link TsValobjRegData} - registration information
-   * @return {@link TsValobjRegData} - registration data existing or an argument
+   * @param aRegData {@link TsValobjInfo} - registration information
+   * @return {@link TsValobjInfo} - registration data existing or an argument
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException identifier is not an IDPath
    */
-  public static TsValobjRegData registerValobjIfNone( TsValobjRegData aRegData ) {
+  public static TsValobjInfo registerValobjIfNone( TsValobjInfo aRegData ) {
     TsNullArgumentRtException.checkNull( aRegData );
     mainLock.writeLock().lock();
     try {
@@ -195,52 +180,59 @@ public class TsValobjUtils {
   /**
    * Registers the value-object with minimum mandatory data.
    * <p>
-   * Creates the registration data with {@link TsValobjRegData#nmName()} = <code>aValobjId</code>, no description and no
+   * Creates the registration data with {@link TsValobjInfo#nmName()} = <code>aValobjId</code>, no description and no
    * iconID.
    *
    * @param aValobjId String - the key, IDPath identifier
    * @param aKeeper {@link IEntityKeeper} - the keeper to be registered
-   * @return {@link TsValobjRegData} - created registration data
+   * @return {@link TsValobjInfo} - created registration data
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsItemAlreadyExistsRtException keeper with specified key was already registered
    * @throws TsItemAlreadyExistsRtException keeper for class was already registered
    * @throws TsIllegalArgumentRtException identifier is not an IDPath
    */
-  public static TsValobjRegData registerValobj( String aValobjId, IEntityKeeper<?> aKeeper ) {
-    TsValobjRegData regData = new TsValobjRegData( aValobjId, aKeeper, aValobjId, EMPTY_STRING );
+  public static TsValobjInfo registerValobj( String aValobjId, IEntityKeeper<?> aKeeper ) {
+    TsValobjInfo regData = new TsValobjInfo( aValobjId, aKeeper, aValobjId, EMPTY_STRING );
     return registerValobj( regData );
   }
 
   /**
    * Registers the value-object if was not registered already.
    * <p>
-   * Creates the registration data with {@link TsValobjRegData#nmName()} = <code>aValobjId</code>, no description and no
+   * Creates the registration data with {@link TsValobjInfo#nmName()} = <code>aValobjId</code>, no description and no
    * iconID.
    *
    * @param aValobjId String - the key, IDPath identifier
    * @param aKeeper {@link IEntityKeeper} - the keeper to be registered
-   * @return {@link TsValobjRegData} - created registration data
+   * @return {@link TsValobjInfo} - created registration data
    * @throws TsNullArgumentRtException any argument = <code>null</code>
    * @throws TsIllegalArgumentRtException identifier is not an IDPath
    */
-  public static TsValobjRegData registerValobjIfNone( String aValobjId, IEntityKeeper<?> aKeeper ) {
-    TsValobjRegData regData = new TsValobjRegData( aValobjId, aKeeper, aValobjId, EMPTY_STRING );
+  public static TsValobjInfo registerValobjIfNone( String aValobjId, IEntityKeeper<?> aKeeper ) {
+    TsValobjInfo regData = new TsValobjInfo( aValobjId, aKeeper, aValobjId, EMPTY_STRING );
     return registerValobjIfNone( regData );
   }
 
   /**
-   * Finds the {@link TsValobjRegData} by entity class.
+   * Finds the {@link TsValobjInfo} by entity class.
    *
    * @param aEntityClass {@link Class} - the specified class
-   * @return {@link TsValobjRegData} - found info or <code>null</code>
+   * @return {@link TsValobjInfo} - found info or <code>null</code>
    * @throws TsNullArgumentRtException argument = <code>null</code>
    */
-  public static TsValobjRegData findValobjByClass( Class<?> aEntityClass ) {
+  public static TsValobjInfo findValobjByClass( Class<?> aEntityClass ) {
     TsNullArgumentRtException.checkNull( aEntityClass );
     mainLock.readLock().lock();
     try {
-      for( TsValobjRegData d : dataMap ) {
+      // search for exact match
+      for( TsValobjInfo d : dataMap ) {
         if( d.keeper().entityClass().equals( aEntityClass ) ) {
+          return d;
+        }
+      }
+      // search for subclasses
+      for( TsValobjInfo d : dataMap ) {
+        if( d.keeper().entityClass().isAssignableFrom( aEntityClass ) ) {
           return d;
         }
       }
@@ -252,24 +244,24 @@ public class TsValobjUtils {
   }
 
   /**
-   * Returns the {@link TsValobjRegData} by entity class or throws an exception.
+   * Returns the {@link TsValobjInfo} by entity class or throws an exception.
    *
    * @param aEntityClass {@link Class} - the specified class
-   * @return {@link TsValobjRegData} - found info or <code>null</code>
+   * @return {@link TsValobjInfo} - found info or <code>null</code>
    * @throws TsNullArgumentRtException argument = <code>null</code>
    */
-  public static TsValobjRegData getValobjByClass( Class<?> aEntityClass ) {
+  public static TsValobjInfo getValobjByClass( Class<?> aEntityClass ) {
     return TsItemNotFoundRtException.checkNull( findValobjByClass( aEntityClass ) );
   }
 
   /**
-   * Finds the {@link TsValobjRegData} by keeper identifier.
+   * Finds the {@link TsValobjInfo} by keeper identifier.
    *
    * @param aValobjId String - valobj identifier
-   * @return {@link TsValobjRegData} - found info or <code>null</code>
+   * @return {@link TsValobjInfo} - found info or <code>null</code>
    * @throws TsNullArgumentRtException argument = <code>null</code>
    */
-  public static TsValobjRegData findValobjById( String aValobjId ) {
+  public static TsValobjInfo findValobjById( String aValobjId ) {
     TsNullArgumentRtException.checkNull( aValobjId );
     mainLock.readLock().lock();
     try {
@@ -281,14 +273,14 @@ public class TsValobjUtils {
   }
 
   /**
-   * Returns the {@link TsValobjRegData} by identifier or throws an exception.
+   * Returns the {@link TsValobjInfo} by identifier or throws an exception.
    *
    * @param aValobjId String - valobj identifier
-   * @return {@link TsValobjRegData} - found info or <code>null</code>
+   * @return {@link TsValobjInfo} - found info or <code>null</code>
    * @throws TsNullArgumentRtException argument = <code>null</code>
    * @throws TsItemNotFoundRtException valobj data not found
    */
-  public static TsValobjRegData getValobjById( String aValobjId ) {
+  public static TsValobjInfo getValobjById( String aValobjId ) {
     return TsItemNotFoundRtException.checkNull( findValobjById( aValobjId ) );
   }
 
@@ -324,60 +316,59 @@ public class TsValobjUtils {
    * @return {@link IStringMap}&lt;{@link IEntityKeeper}&gt; - the map "keeper ID" - "the keeper"
    */
   public static IStringMap<IEntityKeeper<?>> getRegisteredKeepers() {
-    IStringMapEdit<IEntityKeeper<?>> map = new StringMap<>();
     mainLock.readLock().lock();
     try {
       IStringMapEdit<IEntityKeeper<?>> mmKeepers = new StringMap<>();
-      for( TsValobjRegData d : dataMap ) {
+      for( TsValobjInfo d : dataMap ) {
         mmKeepers.put( d.id(), d.keeper() );
       }
+      return mmKeepers;
     }
     finally {
       mainLock.readLock().unlock();
     }
-    return map;
   }
 
-  /**
-   * Return the copy of the registered {@link ValobjInfo} descriptions.
-   *
-   * @return {@link IStringMap}&lt;{@link ValobjInfo}&gt; - the map "keeper ID" - "the info"
-   */
-  public static IStringMap<ValobjInfo> getRegisteredInfos() {
-    IStringMapEdit<ValobjInfo> map = new StringMap<>();
-    mainLock.readLock().lock();
-    try {
-      for( TsValobjRegData d : dataMap ) {
-        map.put( d.id(), new ValobjInfo( d.nmName(), d.description() ) );
-      }
-    }
-    finally {
-      mainLock.readLock().unlock();
-    }
-    return map;
-  }
+  // /**
+  // * Return the copy of the registered {@link ValobjInfo} descriptions.
+  // *
+  // * @return {@link IStringMap}&lt;{@link ValobjInfo}&gt; - the map "keeper ID" - "the info"
+  // */
+  // public static IStringMap<ValobjInfo> getRegisteredInfos() {
+  // IStringMapEdit<ValobjInfo> map = new StringMap<>();
+  // mainLock.readLock().lock();
+  // try {
+  // for( TsValobjRegData d : dataMap ) {
+  // map.put( d.id(), new ValobjInfo( d.nmName(), d.description() ) );
+  // }
+  // }
+  // finally {
+  // mainLock.readLock().unlock();
+  // }
+  // return map;
+  // }
 
-  /**
-   * Registers the keeper.
-   *
-   * @param aKeeperId String - the key, IDPath identifier
-   * @param aKeeper {@link IEntityKeeper} - the keeper to be registered
-   * @param aInfo {@link ValobjInfo} - optional information, may be <code>null</code>
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsItemAlreadyExistsRtException keeper with specified key was already registered
-   * @throws TsItemAlreadyExistsRtException keeper for class was already registered
-   * @throws TsIllegalArgumentRtException identifier is not an IDPath
-   */
-  public static void registerKeeper( String aKeeperId, IEntityKeeper<?> aKeeper, ValobjInfo aInfo ) {
-    String name = aKeeperId;
-    String description = EMPTY_STRING;
-    if( aInfo != null ) {
-      name = aInfo.name();
-      description = aInfo.description();
-    }
-    TsValobjRegData regData = new TsValobjRegData( aKeeperId, aKeeper, name, description );
-    registerValobj( regData );
-  }
+  // /**
+  // * Registers the keeper.
+  // *
+  // * @param aKeeperId String - the key, IDPath identifier
+  // * @param aKeeper {@link IEntityKeeper} - the keeper to be registered
+  // * @param aInfo {@link ValobjInfo} - optional information, may be <code>null</code>
+  // * @throws TsNullArgumentRtException any argument = <code>null</code>
+  // * @throws TsItemAlreadyExistsRtException keeper with specified key was already registered
+  // * @throws TsItemAlreadyExistsRtException keeper for class was already registered
+  // * @throws TsIllegalArgumentRtException identifier is not an IDPath
+  // */
+  // public static void registerKeeper( String aKeeperId, IEntityKeeper<?> aKeeper, ValobjInfo aInfo ) {
+  // String name = aKeeperId;
+  // String description = EMPTY_STRING;
+  // if( aInfo != null ) {
+  // name = aInfo.name();
+  // description = aInfo.description();
+  // }
+  // TsValobjRegData regData = new TsValobjRegData( aKeeperId, aKeeper, name, description );
+  // registerValobj( regData );
+  // }
 
   /**
    * Registers the keeper.
@@ -390,28 +381,29 @@ public class TsValobjUtils {
    * @throws TsIllegalArgumentRtException identifier is not an IDPath
    */
   public static void registerKeeper( String aKeeperId, IEntityKeeper<?> aKeeper ) {
-    registerKeeper( aKeeperId, aKeeper, null );
+    TsValobjInfo regData = new TsValobjInfo( aKeeperId, aKeeper, aKeeperId, EMPTY_STRING );
+    registerValobj( regData );
   }
 
-  /**
-   * Registers the keeper if keeper with such ID is not registered already.
-   *
-   * @param aKeeperId String - the key, IDPath identifier
-   * @param aKeeper {@link IEntityKeeper} - the keeper to be registered
-   * @param aInfo {@link ValobjInfo} - optional information, may be <code>null</code>
-   * @throws TsNullArgumentRtException any argument = <code>null</code>
-   * @throws TsIllegalArgumentRtException identifier is not an IDPath
-   */
-  public static void registerKeeperIfNone( String aKeeperId, IEntityKeeper<?> aKeeper, ValobjInfo aInfo ) {
-    String name = aKeeperId;
-    String description = EMPTY_STRING;
-    if( aInfo != null ) {
-      name = aInfo.name();
-      description = aInfo.description();
-    }
-    TsValobjRegData regData = new TsValobjRegData( aKeeperId, aKeeper, name, description );
-    registerValobjIfNone( regData );
-  }
+  // /**
+  // * Registers the keeper if keeper with such ID is not registered already.
+  // *
+  // * @param aKeeperId String - the key, IDPath identifier
+  // * @param aKeeper {@link IEntityKeeper} - the keeper to be registered
+  // * @param aInfo {@link ValobjInfo} - optional information, may be <code>null</code>
+  // * @throws TsNullArgumentRtException any argument = <code>null</code>
+  // * @throws TsIllegalArgumentRtException identifier is not an IDPath
+  // */
+  // public static void registerKeeperIfNone( String aKeeperId, IEntityKeeper<?> aKeeper, ValobjInfo aInfo ) {
+  // String name = aKeeperId;
+  // String description = EMPTY_STRING;
+  // if( aInfo != null ) {
+  // name = aInfo.name();
+  // description = aInfo.description();
+  // }
+  // TsValobjRegData regData = new TsValobjRegData( aKeeperId, aKeeper, name, description );
+  // registerValobjIfNone( regData );
+  // }
 
   /**
    * Registers the keeper if keeper with such ID is not registered already.
@@ -422,7 +414,8 @@ public class TsValobjUtils {
    * @throws TsIllegalArgumentRtException identifier is not an IDPath
    */
   public static void registerKeeperIfNone( String aKeeperId, IEntityKeeper<?> aKeeper ) {
-    registerKeeperIfNone( aKeeperId, aKeeper, null );
+    TsValobjInfo regData = new TsValobjInfo( aKeeperId, aKeeper, aKeeperId, EMPTY_STRING );
+    registerValobjIfNone( regData );
   }
 
   /**
@@ -444,7 +437,7 @@ public class TsValobjUtils {
     TsNullArgumentRtException.checkNulls( aKeeperId, aKeeper );
     mainLock.writeLock().lock();
     try {
-      TsValobjRegData found = dataMap.findByKey( aKeeperId );
+      TsValobjInfo found = dataMap.findByKey( aKeeperId );
       if( found != null && found.keeper() == aKeeper ) {
         dataMap.removeByKey( aKeeperId );
         return true;
@@ -478,7 +471,7 @@ public class TsValobjUtils {
     TsNullArgumentRtException.checkNull( aKeeper );
     mainLock.readLock().lock();
     try {
-      for( TsValobjRegData d : dataMap ) {
+      for( TsValobjInfo d : dataMap ) {
         if( d.keeper().equals( aKeeper ) ) {
           return d.id();
         }
@@ -498,7 +491,7 @@ public class TsValobjUtils {
    * @throws TsNullArgumentRtException argument = <code>null</code>
    */
   public static IEntityKeeper<?> findKeeperById( String aKeeperId ) {
-    TsValobjRegData d = findValobjById( aKeeperId );
+    TsValobjInfo d = findValobjById( aKeeperId );
     return d != null ? d.keeper() : null;
   }
 
@@ -522,7 +515,7 @@ public class TsValobjUtils {
    * @throws TsNullArgumentRtException argument = <code>null</code>
    */
   public static String findKeeperIdByClass( Class<?> aEntityClass ) {
-    TsValobjRegData d = findValobjByClass( aEntityClass );
+    TsValobjInfo d = findValobjByClass( aEntityClass );
     return d != null ? d.id() : null;
   }
 
@@ -546,35 +539,35 @@ public class TsValobjUtils {
    * @throws TsNullArgumentRtException argument = <code>null</code>
    */
   public static IEntityKeeper<?> findKeeperByClass( Class<?> aEntityClass ) {
-    TsValobjRegData d = findValobjByClass( aEntityClass );
+    TsValobjInfo d = findValobjByClass( aEntityClass );
     return d != null ? d.keeper() : null;
   }
 
-  /**
-   * Finds the {@link ValobjInfo} by keeper identifier.
-   *
-   * @param aKeeperId String - keeper identifier
-   * @return {@link ValobjInfo} - found info or <code>null</code>
-   * @throws TsNullArgumentRtException argument = <code>null</code>
-   */
-  public static ValobjInfo findInfoById( String aKeeperId ) {
-    TsValobjRegData d = findValobjById( aKeeperId );
-    if( d == null ) {
-      return null;
-    }
-    return new ValobjInfo( d.nmName(), d.description() );
-  }
+  // /**
+  // * Finds the {@link ValobjInfo} by keeper identifier.
+  // *
+  // * @param aKeeperId String - keeper identifier
+  // * @return {@link ValobjInfo} - found info or <code>null</code>
+  // * @throws TsNullArgumentRtException argument = <code>null</code>
+  // */
+  // public static ValobjInfo findInfoById( String aKeeperId ) {
+  // TsValobjRegData d = findValobjById( aKeeperId );
+  // if( d == null ) {
+  // return null;
+  // }
+  // return new ValobjInfo( d.nmName(), d.description() );
+  // }
 
-  /**
-   * Returns the {@link ValobjInfo} by keeper identifier or {@link ValobjInfo#EMPTY} if not found
-   *
-   * @param aKeeperId String - keeper identifier
-   * @return {@link ValobjInfo} - found info or <code>null</code>
-   * @throws TsNullArgumentRtException argument = <code>null</code>
-   */
-  public static ValobjInfo getInfoById( String aKeeperId ) {
-    return TsItemNotFoundRtException.checkNull( findInfoById( aKeeperId ) );
-  }
+  // /**
+  // * Returns the {@link ValobjInfo} by keeper identifier or {@link ValobjInfo#EMPTY} if not found
+  // *
+  // * @param aKeeperId String - keeper identifier
+  // * @return {@link ValobjInfo} - found info or <code>null</code>
+  // * @throws TsNullArgumentRtException argument = <code>null</code>
+  // */
+  // public static ValobjInfo getInfoById( String aKeeperId ) {
+  // return TsItemNotFoundRtException.checkNull( findInfoById( aKeeperId ) );
+  // }
 
   private TsValobjUtils() {
     // nop

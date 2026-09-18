@@ -9,7 +9,7 @@ import org.toxsoft.core.tsgui.dialogs.datarec.*;
 import org.toxsoft.core.tsgui.valed.api.*;
 import org.toxsoft.core.tsgui.valed.controls.helpers.*;
 import org.toxsoft.core.tsgui.valed.impl.*;
-import org.toxsoft.core.tslib.bricks.keeper.*;
+import org.toxsoft.core.tslib.bricks.strid.coll.*;
 import org.toxsoft.core.tslib.bricks.validator.*;
 import org.toxsoft.core.tslib.bricks.validator.std.*;
 import org.toxsoft.core.tslib.coll.impl.*;
@@ -82,14 +82,13 @@ public class ValedKeeperIdSelector
   protected boolean doProcessButtonPress() {
     ITsDialogInfo di = TsDialogInfo.forSelectEntity( tsContext() );
     IStringListBasicEdit items = new SortedStringLinkedBundleList();
-    IStringMap<IEntityKeeper<?>> kmap = TsValobjUtils.getRegisteredKeepers();
-    IStringMap<ValobjInfo> vimap = TsValobjUtils.getRegisteredInfos();
-    items.addAll( kmap.keys() );
+    IStridablesList<TsValobjInfo> vimap = TsValobjUtils.listRegistered();
+    items.addAll( vimap.keys() );
     String sel = getTextControl().getText();
     ITsNameProvider<String> nameProvider = aItem -> {
-      ValobjInfo vi = vimap.findByKey( aItem );
+      TsValobjInfo vi = vimap.findByKey( aItem );
       if( vi != null ) {
-        return aItem + " - " + vi.name(); //$NON-NLS-1$
+        return aItem + " - " + vi.nmName(); //$NON-NLS-1$
       }
       return aItem;
     };

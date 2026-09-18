@@ -35,7 +35,8 @@ public class FileKeeper
   /**
    * Registered value-object info.
    */
-  public static final ValobjInfo INFO = new ValobjInfo( STR_VALOBJ_FILE, STR_VALOBJ_FILE_D );
+  public static final TsValobjInfo INFO =
+      new TsValobjInfo( KEEPER_ID, KEEPER, STR_VALOBJ_FILE, STR_VALOBJ_FILE_D );
 
   private FileKeeper() {
     super( File.class, EEncloseMode.NOT_IN_PARENTHESES, NULL );
