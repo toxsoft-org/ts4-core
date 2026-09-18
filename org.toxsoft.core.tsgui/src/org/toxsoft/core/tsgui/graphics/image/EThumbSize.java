@@ -225,6 +225,40 @@ public enum EThumbSize
     return findIncluding( aIconSize.size(), aIconSize.size() );
   }
 
+  /**
+   * Finds the biggest size that fits a rectangle of the specified size.
+   * <p>
+   * If the dimensions are smaller than {@link #minSize()}, returns {@link #minSize()}.
+   *
+   * @param aWidth int - width in pixels
+   * @param aHeight int - height in pixels
+   * @return {@link EThumbSize} - maximal size that fits the rectangle of size <code>aWidth x aHeight</code>
+   * @throws TsIllegalArgumentRtException any argument < 0
+   */
+  public static EThumbSize findIncluded( int aWidth, int aHeight ) {
+    TsIllegalArgumentRtException.checkTrue( aWidth < 0 || aHeight < 0 );
+    int dim = Math.min( aWidth, aHeight );
+    for( int i = EThumbSize.asList().size() - 1; i >= 0; i-- ) {
+      EThumbSize sz = EThumbSize.asList().get( i );
+      if( sz.size <= dim ) {
+        return sz;
+      }
+    }
+    return minSize();
+  }
+
+  /**
+   * Finds the biggest size that fits in an icon of the specified size.
+   *
+   * @param aIconSize {@link EIconSize} - the icon size
+   * @return {@link EThumbSize} - maximal size that fits the icon size
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   */
+  public static EThumbSize findIncluded( EIconSize aIconSize ) {
+    TsNullArgumentRtException.checkNull( aIconSize );
+    return findIncluded( aIconSize.size(), aIconSize.size() );
+  }
+
   // ----------------------------------------------------------------------------------
   // Stridable enum common API
   //
