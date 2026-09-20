@@ -144,8 +144,44 @@ public abstract class AbstractViselRenderer
 
   protected abstract void doPaint( ITsGraphicsContext aPaintContext );
 
+  private double width  = 1;
+  private double height = 1;
+  private double x      = 0;
+  private double y      = 0;
+
   protected void doUpdateCachesAfterPropsChange( @SuppressWarnings( "unused" ) IOptionSet aChangedValues ) {
-    // nop
+    if( aChangedValues.hasKey( PROPID_X ) ) {
+      x = aChangedValues.getDouble( PROPID_X );
+    }
+    if( aChangedValues.hasKey( PROPID_Y ) ) {
+      y = aChangedValues.getDouble( PROPID_Y );
+    }
+    if( aChangedValues.hasKey( PROPID_WIDTH ) ) {
+      width = aChangedValues.getDouble( PROPID_WIDTH );
+    }
+    if( aChangedValues.hasKey( PROPID_HEIGHT ) ) {
+      height = aChangedValues.getDouble( PROPID_HEIGHT );
+    }
+  }
+
+  // ------------------------------------------------------------------------------------
+  // To use
+  //
+
+  protected double viselX() {
+    return x;
+  }
+
+  protected double viselY() {
+    return y;
+  }
+
+  protected double viselWidth() {
+    return width;
+  }
+
+  protected double viselHeight() {
+    return height;
   }
 
 }

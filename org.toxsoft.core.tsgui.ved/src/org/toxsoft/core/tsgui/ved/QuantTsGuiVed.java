@@ -77,6 +77,7 @@ public class QuantTsGuiVed
     rendFact.register( StdGaugeKnobRenderer.FACTORY );
     rendFact.register( StdGaugeFrameRenderer.FACTORY );
     rendFact.register( RoundButtonRenderer.FACTORY );
+    rendFact.register( StdButtonRenderer.FACTORY );
   }
 
   @Override

@@ -7,15 +7,20 @@ import org.toxsoft.core.tsgui.ved.incub.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 
 /**
- * Класс, от которго должны наследоваться фабрики отрисовщиков круговых элементов.
+ * Класс, от которго должны наследоваться фабрики отрисовщиков кнопок.
  * <p>
  *
  * @author vs
  */
-public abstract class AbstractCircularRendererFactory
+public abstract class AbstractButtonRendererFactory
     extends VedAbstractRendererFactory {
 
-  protected AbstractCircularRendererFactory( String aId, Object... aIdsAndValues ) {
+  /**
+   * Renderer kind id
+   */
+  protected static final String KIND_ID = "buttonRenderer"; //$NON-NLS-1$
+
+  protected AbstractButtonRendererFactory( String aId, Object... aIdsAndValues ) {
     super( aId, aIdsAndValues );
   }
 
@@ -26,12 +31,8 @@ public abstract class AbstractCircularRendererFactory
     // ----------------------------------------------------------------------------
     // Скрытые поля, значения которых устанавливаются извне
     //
-    aFields.add( TtiUtils.createHidden( TFI_OWNER_RADIUS ) );
-    aFields.add( TtiUtils.createHidden( TFI_OWNER_ANCHOR_X ) );
-    aFields.add( TtiUtils.createHidden( TFI_OWNER_ANCHOR_Y ) );
-    aFields.add( TtiUtils.createHidden( TFI_OWNER_START_ANGLE ) );
-    aFields.add( TtiUtils.createHidden( TFI_OWNER_DELTA_ANGLE ) );
-    aFields.add( TtiUtils.createHidden( TFI_ARROW_ANGLE ) );
+    aFields.add( TtiUtils.createHidden( TFI_BUTTON_HOVERED ) );
+    aFields.add( TtiUtils.createHidden( TFI_BUTTON_STATE ) );
   }
 
   // ------------------------------------------------------------------------------------

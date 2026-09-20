@@ -27,7 +27,7 @@ public class TtiAvEnum
 
   @Override
   protected ITinValue doGetNullTinValue() {
-    return null;
+    return TinValue.ofAtomic( dataType().defaultValue() );
   }
 
   @Override
@@ -35,4 +35,8 @@ public class TtiAvEnum
     return TinValue.ofAtomic( avValobj( aEntity ) );
   }
 
+  @Override
+  public ITinValue defaultValue() {
+    return TinValue.ofAtomic( avValobj( dataType().defaultValue() ) );
+  }
 }
