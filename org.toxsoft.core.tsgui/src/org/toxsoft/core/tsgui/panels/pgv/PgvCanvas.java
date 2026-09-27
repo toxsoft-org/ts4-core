@@ -624,6 +624,12 @@ class PgvCanvas<V>
     }
   }
 
+  public void pgvMakeVisisble( int aIndex ) {
+    if( aIndex >= -1 && aIndex < items.size() ) {
+      revealItem( aIndex );
+    }
+  }
+
   /**
    * Sets the entities to by displayed.
    *
