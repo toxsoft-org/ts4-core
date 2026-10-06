@@ -27,7 +27,7 @@ public abstract class AbstractButtonRenderer
 
   protected RGBA fgRgba = new RGBA( 0, 0, 0, 255 );
 
-  protected RGBA hvRgba = new RGBA( 0, 0, 0, 255 );
+  protected RGBA hvRgba = new RGBA( 229, 241, 251, 255 );
 
   protected RGBA selRgba = new RGBA( 0, 0, 0, 255 );
 

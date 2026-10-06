@@ -1,6 +1,7 @@
 package org.toxsoft.core.tsgui.ved.comps.render;
 
 import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
+import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.*;
@@ -156,6 +157,14 @@ public class PanelRendererProps
     for( ITinFieldInfo fi : aTinType.fieldInfos() ) {
       if( !opSet.hasKey( fi.id() ) ) {
         System.out.println( fi.id() );
+        ITinValue tv;
+        if( fi.params().hasKey( TSID_DEFAULT_VALUE ) && fi.typeInfo().kind() == ETinTypeKind.ATOMIC ) {
+          tv = TinValue.ofAtomic( fi.params().getValue( TSID_DEFAULT_VALUE ) );
+        }
+        else {
+          tv = fi.defaultValue();
+        }
+        values.put( fi.id(), tv );
         continue;
       }
       IAtomicValue av = opSet.getValue( fi.id() );

@@ -7,7 +7,7 @@ import org.toxsoft.core.tsgui.ved.incub.*;
 import org.toxsoft.core.tslib.bricks.strid.coll.*;
 
 /**
- * Класс, от которго должны наследоваться отрисовщики круговых элементов.
+ * Класс, от которго должны наследоваться фабрики отрисовщиков круговых элементов.
  * <p>
  *
  * @author vs

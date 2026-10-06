@@ -1,6 +1,9 @@
 package org.toxsoft.core.tsgui.ved.comps.render;
 
+import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
+
 import org.toxsoft.core.tsgui.bricks.tin.*;
+import org.toxsoft.core.tsgui.ved.comps.*;
 import org.toxsoft.core.tsgui.ved.incub.*;
 
 /**
@@ -39,5 +42,18 @@ public interface IRendererConstants {
 
   ITinFieldInfo TFI_ARROW_ANGLE = TtiUtils.doubleFieldInfo( PROPID_ARROW_ANGLE, //
       "Угол стрелки", "Угол стрелки в градусах", 50 );
+
+  // ------------------------------------------------------------------------------------
+  // Button constants
+  //
+
+  String PROPID_BUTTON_HOVERED = "buttonHovered"; //$NON-NLS-1$
+  String PROPID_BUTTON_STATE   = "buttonState";   //$NON-NLS-1$
+
+  ITinFieldInfo TFI_BUTTON_HOVERED = TtiUtils.fieldInfo( PROPID_BUTTON_HOVERED, //
+      TFI_HOVERED, "Под курсором", "Признак того, что курсор находится над кнопкой" );
+
+  ITinFieldInfo TFI_BUTTON_STATE = TtiUtils.fieldInfo( PROPID_BUTTON_STATE, //
+      ViselButton.TFI_STATE, "Состояние", "Состояние кнопки" );
 
 }

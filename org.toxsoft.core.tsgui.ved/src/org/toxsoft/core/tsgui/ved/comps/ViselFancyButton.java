@@ -2,6 +2,7 @@ package org.toxsoft.core.tsgui.ved.comps;
 
 import static org.toxsoft.core.tsgui.ved.ITsguiVedConstants.*;
 import static org.toxsoft.core.tsgui.ved.comps.ITsResources.*;
+import static org.toxsoft.core.tsgui.ved.comps.render.IRendererConstants.*;
 import static org.toxsoft.core.tsgui.ved.screen.IVedScreenConstants.*;
 import static org.toxsoft.core.tslib.av.metainfo.IAvMetaConstants.*;
 
@@ -102,14 +103,29 @@ public class ViselFancyButton
       IViselRendererFactory factory = reg.find( cfg.factoryId() );
       if( factory != null ) {
         renderer = factory.create( cfg, this, vedScreen() );
-        if( aChangedValue.hasKey( PROPID_WIDTH ) ) {
-          double width = aChangedValue.getDouble( PROPID_WIDTH );
-          renderer.props().setDouble( PROPID_WIDTH, width );
-        }
-        if( aChangedValue.hasKey( PROPID_HEIGHT ) ) {
-          double height = aChangedValue.getDouble( PROPID_HEIGHT );
-          renderer.props().setDouble( PROPID_HEIGHT, height );
-        }
+        renderer.props().setBool( PROPID_IS_ACTIVE, isActive() );
+        renderer.props().setDouble( PROPID_X, props().getDouble( PROPID_X ) );
+        renderer.props().setDouble( PROPID_Y, props().getDouble( PROPID_Y ) );
+        renderer.props().setDouble( PROPID_WIDTH, props().getDouble( PROPID_WIDTH ) );
+        renderer.props().setDouble( PROPID_HEIGHT, props().getDouble( PROPID_HEIGHT ) );
+      }
+    }
+
+    if( aChangedValue.keys().hasElem( PROPID_IS_ACTIVE ) ) {
+      renderer.props().setBool( PROPID_IS_ACTIVE, aChangedValue.getBool( PROPID_IS_ACTIVE ) );
+    }
+
+    if( aChangedValue.keys().hasElem( PROPID_X ) ) {
+      double x = aChangedValue.getDouble( PROPID_X );
+      if( renderer != null ) {
+        renderer.props().setDouble( PROPID_X, x );
+      }
+    }
+
+    if( aChangedValue.keys().hasElem( PROPID_Y ) ) {
+      double y = aChangedValue.getDouble( PROPID_Y );
+      if( renderer != null ) {
+        renderer.props().setDouble( PROPID_Y, y );
       }
     }
 
@@ -124,6 +140,15 @@ public class ViselFancyButton
       double height = aChangedValue.getDouble( PROPID_HEIGHT );
       if( renderer != null ) {
         renderer.props().setDouble( PROPID_HEIGHT, height );
+      }
+    }
+
+    if( aChangedValue.hasKey( PROPID_HOVERED ) ) {
+      boolean hovered = aChangedValue.getBool( PROPID_HOVERED );
+      if( renderer != null ) {
+        if( renderer.props().hasKey( PROPID_BUTTON_HOVERED ) ) {
+          renderer.props().setBool( PROPID_BUTTON_HOVERED, hovered );
+        }
       }
     }
 
@@ -144,6 +169,16 @@ public class ViselFancyButton
         props().propsEventer().resumeFiring( false );
       }
     }
+
+    if( aChangedValue.hasKey( ViselButton.PROPID_STATE ) ) {
+      EButtonViselState state = aChangedValue.getValobj( ViselButton.PROPID_STATE );
+      if( renderer != null ) {
+        if( renderer.props().hasKey( PROPID_BUTTON_STATE ) ) {
+          renderer.props().setValobj( PROPID_BUTTON_STATE, state );
+        }
+      }
+    }
+
   }
 
   @Override

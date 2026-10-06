@@ -151,8 +151,12 @@ public interface IVedScreenConstants {
   String PROPID_VER_ALIGNMENT     = "verAlign";        //$NON-NLS-1$
   String PROPID_ORIENTATION       = "orientation";     //$NON-NLS-1$
   String PROPID_BK_COLOR          = "bkColor";         //$NON-NLS-1$
+  String PROPID_HOVERED_FG_COLOR  = "hoveredFgColor";  //$NON-NLS-1$
   String PROPID_HOVERED_BK_COLOR  = "hoveredBkColor";  //$NON-NLS-1$
+  String PROPID_SELECTED_FG_COLOR = "selectedFgColor"; //$NON-NLS-1$
   String PROPID_SELECTED_BK_COLOR = "delectedBkColor"; //$NON-NLS-1$
+  String PROPID_DISABLED_FG_COLOR = "disabledFgColor"; //$NON-NLS-1$
+  String PROPID_DISABLED_BK_COLOR = "disabledBkColor"; //$NON-NLS-1$
   String PROPID_FG_COLOR          = "fgColor";         //$NON-NLS-1$
   String PROPID_FG_COLOR_RDECR    = "fgColorDescr";    //$NON-NLS-1$
   String PROPID_BK_FILL           = "bkFill";          //$NON-NLS-1$

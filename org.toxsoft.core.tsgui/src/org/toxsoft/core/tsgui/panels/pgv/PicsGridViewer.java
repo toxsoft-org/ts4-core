@@ -134,6 +134,17 @@ public class PicsGridViewer<V>
   }
 
   @Override
+  public void makeVisible( V aItem ) {
+    if( aItem == null ) {
+      return;
+    }
+    int index = items.indexOf( aItem );
+    if( index >= 0 ) {
+      canvas.pgvMakeVisisble( index );
+    }
+  }
+
+  @Override
   public ITsGridMargins getMargins() {
     return canvas.pgvGetMargins();
   }

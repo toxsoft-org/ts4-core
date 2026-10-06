@@ -9,6 +9,7 @@ import org.toxsoft.core.tsgui.bricks.tin.impl.*;
 import org.toxsoft.core.tslib.av.*;
 import org.toxsoft.core.tslib.av.opset.*;
 import org.toxsoft.core.tslib.av.opset.impl.*;
+import org.toxsoft.core.tslib.utils.*;
 
 /**
  * Вспомогательные методы создания {@link ITinFieldInfo}.
@@ -158,11 +159,12 @@ public class TtiUtils {
    * @return {@link ITinFieldInfo} - описание поля
    */
   public static ITinFieldInfo strFieldInfo( String aId, String aName, String aDescription ) {
-    return new TinFieldInfo( aId, TTI_AT_STRING, TSID_NAME, aName, TSID_DESCRIPTION, aDescription );
+    return new TinFieldInfo( aId, TTI_AT_STRING, TSID_NAME, aName, TSID_DESCRIPTION, aDescription, //
+        TSID_DEFAULT_VALUE, avStr( TsLibUtils.EMPTY_STRING ) );
   }
 
   /**
-   * Создает описание поля для значения типа {@link EAtomicType#INTEGER}.
+   * Создает описание поля для значения указанного типа {@link ITinTypeInfo}.
    *
    * @param aId String - ИД поля
    * @param aTypeInfo {@link ITinTypeInfo} - тип поля для инспектора свойств
@@ -172,6 +174,22 @@ public class TtiUtils {
    */
   public static ITinFieldInfo typedFieldInfo( String aId, ITinTypeInfo aTypeInfo, String aName, String aDescription ) {
     return new TinFieldInfo( aId, aTypeInfo, TSID_NAME, aName, TSID_DESCRIPTION, aDescription );
+  }
+
+  /**
+   * Создает описание поля для значения указанного типа {@link ITinTypeInfo} со значением по умолчанию.
+   *
+   * @param aId String - ИД поля
+   * @param aTypeInfo {@link ITinTypeInfo} - тип поля для инспектора свойств
+   * @param aName String - имя поля
+   * @param aDescription String - описание поля
+   * @param aDeafultValue Object - значение по умолчанию, соотвествующеей типу
+   * @return {@link ITinFieldInfo} - описание поля
+   */
+  public static ITinFieldInfo typedFieldInfo( String aId, ITinTypeInfo aTypeInfo, String aName, String aDescription,
+      Object aDeafultValue ) {
+    ITinValue defaultValue = aTypeInfo.makeValue( aDeafultValue );
+    return new TinFieldInfo( aId, aTypeInfo, TSID_NAME, aName, TSID_DESCRIPTION, aDescription, defaultValue );
   }
 
   /**

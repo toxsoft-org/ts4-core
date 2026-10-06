@@ -44,6 +44,15 @@ public interface IPicsGridViewer<V>
   void setItems( IList<V> aItems );
 
   /**
+   * Makes the specified item visible if possible.
+   * <p>
+   * Does nothing if argument si not in {@link #items()} or is <code>null</code>.
+   *
+   * @param aItem &lt;V&gt; - the item, may be <code>null</code>
+   */
+  void makeVisible( V aItem );
+
+  /**
    * Returns the thumbnail grid geometric parameters.
    *
    * @return {@link ITsGridMargins} - grid parameters
