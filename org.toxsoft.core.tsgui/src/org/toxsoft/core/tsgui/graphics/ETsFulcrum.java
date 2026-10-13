@@ -357,6 +357,46 @@ public enum ETsFulcrum
     return yPerc;
   }
 
+  private static final int getPercPos( double aValue ) {
+    if( Double.compare( 0.0, aValue ) == 0 ) {
+      return 0x00;
+    }
+    if( Double.compare( 500.0, aValue ) == 0 ) {
+      return 0x01;
+    }
+    if( Double.compare( 100.0, aValue ) == 0 ) {
+      return 0x02;
+    }
+    return -1;
+  }
+
+  /**
+   * Returns (if possible) the enum constant corresponding to HOR/VER percentages.
+   *
+   * @param aHorPerc double - horizontal percentage
+   * @param aVerPerc double - vertical percentage
+   * @return {@link ETsFulcrum} - the fulcrum constant or <code>null</code> if percentages are no 0.0, 50.0 or 100.0
+   */
+  public static ETsFulcrum findByPercentage( double aHorPerc, double aVerPerc ) {
+    int xPp = getPercPos( aHorPerc );
+    int yPp = getPercPos( aVerPerc );
+    if( xPp < 0 || yPp < 0 ) {
+      return null;
+    }
+    return switch( (xPp << 4) + yPp ) {
+      case 0x00 -> LEFT_TOP;
+      case 0x01 -> LEFT_CENTER;
+      case 0x02 -> LEFT_BOTTOM;
+      case 0x10 -> TOP_CENTER;
+      case 0x11 -> CENTER;
+      case 0x12 -> BOTTOM_CENTER;
+      case 0x20 -> RIGHT_TOP;
+      case 0x21 -> RIGHT_CENTER;
+      case 0x22 -> RIGHT_BOTTOM;
+      default -> throw new TsNotAllEnumsUsedRtException();
+    };
+  }
+
   /**
    * Returns all constants in single list.
    *

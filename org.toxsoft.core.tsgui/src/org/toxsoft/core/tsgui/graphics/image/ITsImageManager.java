@@ -2,6 +2,8 @@ package org.toxsoft.core.tsgui.graphics.image;
 
 import java.io.*;
 
+import org.eclipse.swt.*;
+import org.eclipse.swt.graphics.*;
 import org.toxsoft.core.tsgui.graphics.icons.*;
 import org.toxsoft.core.tsgui.graphics.image.impl.*;
 import org.toxsoft.core.tslib.utils.errors.*;
@@ -165,5 +167,20 @@ public interface ITsImageManager {
    * @return {@link TsImage} - new instance of the "unknown" image
    */
   TsImage createUnknownImage( int aImageSize );
+
+  /**
+   * Create the new instance of the {@link TsImage} from the file without caching.
+   * <p>
+   * <b>Important:</b> Caller is responsible for returned image disposal.
+   * <p>
+   * Uses {@link TsImageUtils#loadTsImage(File, Device)} to load image.
+   *
+   * @param aImageFile {@link File} - the image file
+   * @return {@link TsImage} - created image
+   * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIoRtException no such file or inaccessible file
+   * @throws SWTException unknown or corrupted image file format
+   */
+  TsImage createImage( File aImageFile );
 
 }

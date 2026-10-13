@@ -187,4 +187,10 @@ public class TsImageManager
     return TsImage.create( image );
   }
 
+  @Override
+  public TsImage createImage( File aImageFile ) {
+    TsFileUtils.checkFileReadable( aImageFile );
+    return TsImageUtils.loadTsImage( aImageFile, display );
+  }
+
 }

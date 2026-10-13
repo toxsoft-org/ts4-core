@@ -51,7 +51,7 @@ public class Activator_Exe
   /**
    * The plugin ID (for Java static imports).
    */
-  public static final String PLUGIN_ID = "com.hazard157.psx33.exe"; //$NON-NLS-1$
+  public static final String PLUGIN_ID = "org.toxsoft.templates"; //$NON-NLS-1$
 
   /**
    * Command line argument with configuration file name.
