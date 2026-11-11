@@ -156,6 +156,16 @@ public enum ETsCoopCompState
   // ----------------------------------------------------------------------------------
   // Stridable enum common API
   //
+  /**
+   * Determines if this state is greater or equal then <code>aState</code>.
+   *
+   * @param aState {@link ETsCoopCompState} - asked state
+   * @return boolean - <code>true</code> if this state is the same or after the <code>aState</code>
+   */
+  public boolean isSameOrAfter( ETsCoopCompState aState ) {
+    TsNullArgumentRtException.checkNull( aState );
+    return this.ordinal() >= aState.ordinal();
+  }
 
   /**
    * Returns all constants in single list.
