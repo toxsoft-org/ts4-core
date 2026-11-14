@@ -92,7 +92,7 @@ public abstract class AbstractSingleActionSetProvider
   //
 
   /**
-   * The subclass must implementa action processing.
+   * The subclass must implement action processing.
    */
   @Override
   public abstract void run();

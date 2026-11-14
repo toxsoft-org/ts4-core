@@ -377,6 +377,7 @@ public class TsTreeViewer
   public ITsViewerColumn addColumn( String aTitle, EHorAlignment aAlignment,
       ITsVisualsProvider<ITsNode> aNameProvider ) {
     TsNullArgumentRtException.checkNulls( aTitle, aAlignment, aNameProvider );
+    TsIllegalStateRtException.checkNull( treeViewer );
     int colIndex = columns.size();
     TreeViewerColumn tvCol = new TreeViewerColumn( treeViewer, aAlignment.swtStyle(), colIndex );
     treeViewer.setLabelProvider( labelProvider ); // refresh column cells label provider
@@ -396,6 +397,7 @@ public class TsTreeViewer
 
   @Override
   public void removeColumns() {
+    TsIllegalStateRtException.checkNull( treeViewer );
     while( !columns.isEmpty() ) {
       Column c = (Column)columns.removeByIndex( 0 );
       c.getTreeViewerColumn().getColumn().dispose();

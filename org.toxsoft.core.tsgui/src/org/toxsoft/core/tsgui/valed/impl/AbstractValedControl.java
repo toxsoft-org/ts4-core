@@ -449,9 +449,9 @@ public abstract class AbstractValedControl<V, C extends Control>
   }
 
   /**
-   * Возвращает значение параметра {@link IValedControlConstants#OPDEF_CREATE_UNEDITABLE} при создании редактора.
+   * Returns the value of the option {@link IValedControlConstants#OPDEF_CREATE_UNEDITABLE} at creation time.
    *
-   * @return boolean - значение параметра {@link IValedControlConstants#OPDEF_CREATE_UNEDITABLE}
+   * @return boolean - <code>true</code> VALED can't be set in editable mode, it is created uneditable
    */
   public final boolean isCreatedUneditable() {
     return createdUneditable;

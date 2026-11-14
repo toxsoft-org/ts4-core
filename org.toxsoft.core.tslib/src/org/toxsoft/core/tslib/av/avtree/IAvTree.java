@@ -49,7 +49,7 @@ public interface IAvTree {
    * идентификатор члена сеймества, данные о котором содержатся в этом узле.
    *
    * @return String - идентификатор (ИД-путь) структуры или пустая строка
-   * @throws TsUnsupportedFeatureRtException дерево является массивом (то есть {@link #isArray()} = true)
+   * @throws TsUnsupportedFeatureRtException node is an array (i.e. {@link #isArray()} = true)
    */
   String structId();
 
@@ -65,7 +65,7 @@ public interface IAvTree {
    * Возвращает именованные дочерные узлы дерева.
    *
    * @return IStringMap&lt;{@link IAvTree}&gt; - карта "имя (идентификатор) узла" - "дочерный узел"
-   * @throws TsUnsupportedFeatureRtException дерево является массивом (то есть {@link #isArray()} = true)
+   * @throws TsUnsupportedFeatureRtException node is an array (i.e. {@link #isArray()} = true)
    */
   IStringMap<IAvTree> nodes();
 

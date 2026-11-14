@@ -71,6 +71,9 @@ public class TsThumbManager
 
   private void deleteThumbFiles( File aFileOrDir ) {
     String absString = aFileOrDir.getAbsolutePath();
+
+    // FIXME 2026-10-24 here is an error - absPath is a pth to IMAGE files, not THUMBs, need rewrite!
+
     // TODO check if line below works for Windows file system with drive letters
     File absPath = new File( thumbsRoot, TsFileUtils.removeStartingSeparator( absString ) );
     if( !absPath.exists() ) {

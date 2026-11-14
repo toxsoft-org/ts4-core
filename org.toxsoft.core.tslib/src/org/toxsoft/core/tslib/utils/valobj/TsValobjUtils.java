@@ -43,6 +43,8 @@ import org.toxsoft.core.tslib.utils.txtmatch.*;
  */
 public class TsValobjUtils {
 
+  // TODO add ability to register Valobj editing VALED ???
+
   /**
    * Lock object to synchronize access to keepers registry {@link #dataMap}.
    */

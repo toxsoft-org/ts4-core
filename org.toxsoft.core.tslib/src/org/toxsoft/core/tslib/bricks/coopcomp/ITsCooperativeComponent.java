@@ -24,6 +24,8 @@ public interface ITsCooperativeComponent
    * Returns the arguments of the {@link #init(ITsContextRo)} call.
    * <p>
    * Calling this method before successful initialization returns <code>null</code>.
+   * <p>
+   * Note: method returns the same reference passed to {@link #init(ITsContextRo)} method.
    *
    * @return {@link ITsContextRo} - the initialization arguments or <code>null</code> if not initialized yet
    */

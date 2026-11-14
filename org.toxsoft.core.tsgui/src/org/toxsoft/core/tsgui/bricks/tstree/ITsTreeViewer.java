@@ -49,11 +49,14 @@ public interface ITsTreeViewer
    * @param aNameProvider {@link ITsVisualsProvider}&lt;{@link ITsNode}&gt; - cell text and image provider
    * @return {@link ITsViewerColumn} - created column
    * @throws TsNullArgumentRtException any argument = <code>null</code>
+   * @throws TsIllegalStateRtException SWT control was not created yet
    */
   ITsViewerColumn addColumn( String aTitle, EHorAlignment aAlignment, ITsVisualsProvider<ITsNode> aNameProvider );
 
   /**
    * Removes all columns.
+   *
+   * @throws TsIllegalStateRtException SWT control was not created yet
    */
   void removeColumns();
 

@@ -1,42 +1,36 @@
 package org.toxsoft.core.tslib.bricks;
 
+import org.toxsoft.core.tslib.bricks.coopcomp.*;
+import org.toxsoft.core.tslib.gw.time.*;
 import org.toxsoft.core.tslib.utils.errors.*;
 
-// TODO TRANSLATE
-
 /**
- * A component that performs its work under the control of a container.
+ * Mix-in interface of a component that performs its work under the control of a container.
  * <p>
- * Этот интерфейс примешивается (mixin interface) к основному, <b><i>рабочему интерфейсу</i></b> бизнес-логики
- * компоненты. Рабочий интерфейс (или класс) является тем, с чем работает пользователь компоненты, а этот интерфейс
- * всего лишь является особенностью реализации.
+ * This interface declares component must be started (method {@link #start()}) to work and stopped after work. Stopping
+ * the component may take a long time. To avoid wasting time of other parts of the program, container requests stop
+ * {@link #queryStop()} and periodically asks component if it is stopped via {@link #isStopped()}. When component stops
+ * (or stopping takes too much time) the container calls {@link #destroy()}. Destroyed component is not usable any more.
  * <p>
- * Любая компонента (модуль, класс), который должен инициализироваться, работать и завершать работу в контексте своего
- * контейнера, может расширять данный интерфейс.
- * <p>
- * Жизненный цикл модуля (компоненты) состоит из:
+ * Several aspects of the component's operation is out of the scope of this interface:
  * <ul>
- * <li>начало работы - метод {@link #start()};</li>
- * <li>обработка запросов - любые методы рабочего интерфейса, реализованные в наследниках;</li>
- * <li>(опционально) периодическая работа - метод {@link ICooperativeMultiTaskable#doJob()}, вызывается контейнером во
- * время бездействия системы (состояние idle). Этот метод реализует кооперативную многозадачность компонент в
- * контейнере;</li>
- * <li>завершение работы - запрос на завершение {@link #queryStop()}, ожидание завершения {@link #isStopped()},
- * принудительное окончание работы и освобождение всех ресурсов {@link #destroy()}.</li>
+ * <li>The component may support <b>reuse</b> after stopping. This interface does not specifies if stop may be called
+ * after {@link #isStopped()} returns <code>true</code>. However it is specified that after {@link #destroy()} the
+ * component is unusable. Implementation must cleary define if component supports reuse after stopping;</li>
+ * <li>The component <b>initialization</b> is out of scope of this interface. COmmon constructor or
+ * {@link ITsInitializable} pattern may be used to make component ready to start;</li>
+ * <li>How the component implements business logic depends on implementation. Component may have main API for users
+ * (note that {@link IWorkerComponent} is a mix-in interface). Other way is to start internal execution thread for
+ * business logic purposes. Another option is to implement pattern {@link ICooperativeMultiTaskable} for cooperative
+ * multi-tasking or {@link IRealTimeSensitive} / {@link IGwTimeFleetable} for time-sensitive applications;</li>
+ * <li>Multiple instances of the component may be allowed or denies;</li>
+ * <li>There are different ways of component identification. Simples one is to hold a reference to a created instance
+ * and call it's methods directly. Other way is to use an identifier and find instance by ID in the container. The ID
+ * may be assigned or be built in the component.</li>
+ * <li></li>
  * </ul>
- * Остальные аспекты работы компоненты определяется конкретным типом компоненты контейнера. В частности, наследники
- * определяют поведение компоненты:
- * <ul>
- * <li>разрешен ли повторный запуск компоненты после окончания работы (когда {@link #isStopped()}=true) (после вызова
- * {@link #destroy()} работа компоненты запрещена);</li>
- * <li>разрешено ли создание нескольких экземпляров одного класса компоненты;</li>
- * <li>способ идентификации компонент в контейнере (только ссылки на java-объекты, уникальные идентификаторы и
- * т.п.);</li>
- * <li>может ли компонента запускать свои потоки исполнения. Не рекомендованная практика, предпочитительно осуществить
- * кооперативную (добровольную) многозадачность методом {@link ICooperativeMultiTaskable#doJob()}. При этом, контейнер
- * может создавать свой поток выполнения, и оттуда вызывать {@link ICooperativeMultiTaskable#doJob()} компоненты;</li>
- * <li>а также любые другие аспекты работы контейнера/компоненты.</li>
- * </ul>
+ * <p>
+ * Anyway, how the component realizes listed aspects must be declared in concrete implementation.
  *
  * @author hazard157
  */

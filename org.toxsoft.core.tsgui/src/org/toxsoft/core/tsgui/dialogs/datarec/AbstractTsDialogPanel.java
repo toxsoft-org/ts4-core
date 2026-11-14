@@ -314,13 +314,13 @@ abstract public class AbstractTsDialogPanel<T, E>
   //
 
   /**
-   * Реализация в наследниках должна заполнить контроли данными из aData.
+   * Implementation must fill widgets with the data from the argument.
    * <p>
-   * При вызове этого метода аргумент aData уже запомнен и доступен методом {@link #dataRecordInput()}.
+   * Before the call to this method the argument is also available via {@link #dataRecordInput()}.
    * <p>
-   * Допускается задавать значение null, например, в качестве признака, что отображать нечего.
+   * The <code>null</code> argument is allowed and means nothing to display (clear the widgets).
    *
-   * @param aData T - данные для отображения в контролях диалога
+   * @param aData T - the data to display in widgets or <code>null</code>
    */
   abstract protected void doSetDataRecord( T aData );
 

@@ -6,7 +6,7 @@ package org.toxsoft.core.tslib.bricks;
  * This interface should be implemented by objects that work with similar ones. Cooperative multitasking is an
  * alternative to multiple threads of execution.
  * <p>
- * Be careful when implemention cooperative multitasking. Objects performing {@link #doJob()} task for a long time may
+ * Be careful when implementing cooperative multitasking. Objects performing {@link #doJob()} task for a long time may
  * "hang" other objects.
  *
  * @author hazard157

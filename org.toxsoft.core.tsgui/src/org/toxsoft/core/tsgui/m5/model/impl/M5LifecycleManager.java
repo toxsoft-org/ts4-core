@@ -83,13 +83,30 @@ public class M5LifecycleManager<T, M>
    * @param aModel {@link IM5Model}&lt;T&gt; - the model
    * @param aCanCreate boolean - entity creation support flags
    * @param aCanEdit boolean - entity editing support flags
-   * @param aCanRemove boolean - entity removingsupport flags
+   * @param aCanRemove boolean - entity removing support flags
    * @param aEnumeratable boolean - entity listing support flags
    * @param aMaster &lt;M&gt; - master object, may be <code>null</code>
    * @throws TsNullArgumentRtException model is <code>null</code>
    */
   public M5LifecycleManager( IM5Model<T> aModel, boolean aCanCreate, boolean aCanEdit, boolean aCanRemove,
       boolean aEnumeratable, M aMaster ) {
+    this( aModel, aCanCreate, aCanEdit, aCanRemove, aEnumeratable, aMaster, null );
+  }
+
+  /**
+   * Constructor.
+   *
+   * @param aModel {@link IM5Model}&lt;T&gt; - the model
+   * @param aCanCreate boolean - entity creation support flags
+   * @param aCanEdit boolean - entity editing support flags
+   * @param aCanRemove boolean - entity removing support flags
+   * @param aEnumeratable boolean - entity listing support flags
+   * @param aMaster &lt;M&gt; - master object, may be <code>null</code>
+   * @param aItemsProvider {@link IM5ItemsProvider}&lt;T&gt; - external items provider or null
+   * @throws TsNullArgumentRtException model is <code>null</code>
+   */
+  public M5LifecycleManager( IM5Model<T> aModel, boolean aCanCreate, boolean aCanEdit, boolean aCanRemove,
+      boolean aEnumeratable, M aMaster, IM5ItemsProvider<T> aItemsProvider ) {
     TsNullArgumentRtException.checkNull( aModel );
     model = aModel;
     isCreationSupported = aCanCreate;
@@ -97,7 +114,7 @@ public class M5LifecycleManager<T, M>
     isRemoveSupported = aCanRemove;
     isListingSupported = aEnumeratable;
     master = aMaster;
-    itemsProvider = new InternalItemsProvider();
+    itemsProvider = aItemsProvider != null ? aItemsProvider : new InternalItemsProvider();
   }
 
   // ------------------------------------------------------------------------------------

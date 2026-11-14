@@ -702,19 +702,16 @@ public abstract class M5AbstractCollectionViewer<T>
     T selItem1 = selectedItem();
     filterManager.refreshFilteredItems();
     switch( aOp ) {
-      case EDIT:
+      case EDIT -> {
         doRefreshItem( aItem );
         setSelectedItem( aItem );
-        break;
-      case CREATE:
-      case REMOVE:
-      case LIST:
+      }
+      case CREATE, REMOVE, LIST -> {
         doRefreshAll();
         // try to hold selection
         setSelectedItem( selItem1 );
-        break;
-      default:
-        throw new TsNotAllEnumsUsedRtException();
+      }
+      default -> throw new TsNotAllEnumsUsedRtException();
     }
     // inform InternalChecksImplementation about changes in items to remove stale checked items
     checks.processItemsChanged();
@@ -829,7 +826,10 @@ public abstract class M5AbstractCollectionViewer<T>
       keyDownEventBinder.unbind();
       items().removeCollectionChangeListener( itemsChangeListener );
     } );
-    items.addCollectionChangeListener( itemsChangeListener );
+
+    // FIXME 2026-10-23 GOGA I think this id duplicate if line 687
+    // items.addCollectionChangeListener( itemsChangeListener );
+    //
     doProcessAfterControlsCreated();
     doRefreshAll();
     return columnViewer.getControl();
