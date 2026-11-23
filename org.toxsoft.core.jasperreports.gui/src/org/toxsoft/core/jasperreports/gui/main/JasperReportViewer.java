@@ -83,6 +83,23 @@ public class JasperReportViewer
    * отчёта jasper.
    *
    * @param aContext ITsGuiContext - контекст
+   * @param aJasperReport JasperReport - готовая форма отчёта
+   * @param aDataSource JRDataSource - источник данных jasper
+   * @param aReportParameters Map - набор параметров отчёта jasper
+   */
+  public void setJasperReportPrint( ITsGuiContext aContext, JasperReport aJasperReport, JRDataSource aDataSource,
+      Map<String, Object> aReportParameters ) {
+
+    runInWaitingDialog( STR_REPORT_FORMING,
+        aMonitor -> formAndShowJasperReport( aContext, aMonitor, aJasperReport, aDataSource, aReportParameters ) );
+
+  }
+
+  /**
+   * Устанавливает отчёт в виде указания пути к нескомпилированному jasper отчёту, источника данных и набора параметров
+   * отчёта jasper.
+   *
+   * @param aContext ITsGuiContext - контекст
    * @param aJasperReportPath String - путь к нескомпилированному jasper отчёту
    * @param aDataSource JRDataSource - источник данных jasper
    * @param aReportParameters Map - набор параметров отчёта jasper
@@ -169,6 +186,33 @@ public class JasperReportViewer
 
       aMonitor.subTask( STR_REPORT_VIEW_OPEN );
 
+      displeyJasperReportPrint( aContext, jasperPrint );
+    }
+    catch( Exception ee ) {
+      throw new InvocationTargetException( ee );
+    }
+    finally {
+      aMonitor.done();
+    }
+  }
+
+  /**
+   * Формирует отчёт по статическому отчёту и данным для него.
+   *
+   * @param aContext ITsGuiContext - контекст
+   * @param aMonitor IProgressMonitor - монитор диалога длительного процесса.
+   * @param aJasperReport JasperReport - готовая форма отчёта
+   * @param aDataSource JRDataSource - источник данных jasper
+   * @param aReportParameters Map - набор параметров отчёта jasper
+   * @throws InvocationTargetException - в случае ошибки формирования диалога.
+   */
+  private void formAndShowJasperReport( ITsGuiContext aContext, IProgressMonitor aMonitor, JasperReport aJasperReport,
+      JRDataSource aDataSource, Map<String, Object> aReportParameters )
+      throws InvocationTargetException {
+    aMonitor.subTask( STR_REPORT_FORMING_STATE_STR );
+
+    try {
+      final JasperPrint jasperPrint = JasperFillManager.fillReport( aJasperReport, aReportParameters, aDataSource );
       displeyJasperReportPrint( aContext, jasperPrint );
     }
     catch( Exception ee ) {
